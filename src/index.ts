@@ -22,13 +22,18 @@ export interface ViewConfig {
     styleSheet__unstable?: string;
 }
 
-export type MessagePayload = { data: any };
-export type MessageCallback = (event: MessagePayload) => void;
+export type MessagePayload = { type: string; data: any };
+export type MessageCallback = (payload: MessagePayload) => void;
 
 export type QueryObject = any;
 
 const DEFAULT_EMBED_WIDTH = 500;
 const DEFAULT_EMBED_HEIGHT = 500;
+
+export enum MessageType {
+    Init = 'init',
+    Load = 'load',
+}
 
 /**
  * A simple ID generator that meets the following goals:
@@ -52,30 +57,43 @@ const getThoughtSpotHost = () => {
 };
 
 class TsEmbed {
+    private id: string;
     private el: Element;
     private iFrame: HTMLIFrameElement;
+    private eventHandlerMap: Map<String, MessageCallback[]>;
 
     private thoughtSpotHost: string;
 
     constructor(domSelector: string) {
         this.el = document.querySelector(domSelector);
+        this.id = id();
         this.thoughtSpotHost = getThoughtSpotHost();
+        this.eventHandlerMap = new Map();
     }
 
-    private showLoadingIndicator() {
-        console.log('iFrame loading...');
-    }
-
-    private hideLoadingIndicator() {
-        console.log('iFrame contents loaded');
+    private executeCallbacks(messageType: MessageType, data: any) {
+        const callbacks = this.eventHandlerMap.get(messageType) || [];
+        callbacks.forEach((callback) => {
+            setTimeout(() => callback(data));
+        });
     }
 
     private throwInitError() {
         throw new Error('You need to init the ThoughtSpot SDK module first');
     }
 
+    private subscribeToEvents() {
+        window.addEventListener('message', (event) => {
+            const messageType = event.data?.type;
+            const embedId = event.data?.embedId;
+            if (embedId === this.getId()) {
+                this.executeCallbacks(messageType, event.data);
+            }
+        });
+    }
+
     protected getEmbedBasePath() {
-        return `${this.thoughtSpotHost}/#/embed`;
+        return `${this.thoughtSpotHost}/#/embed/${this.getId()}`;
     }
 
     protected renderIFrame(url: string, frameOptions: FrameParams) {
@@ -83,15 +101,23 @@ class TsEmbed {
             this.throwInitError();
         }
 
-        this.showLoadingIndicator();
+        this.executeCallbacks(MessageType.Init, {});
         this.iFrame = document.createElement('iframe');
         this.iFrame.src = url;
         this.iFrame.width = `${frameOptions.width || DEFAULT_EMBED_WIDTH}`;
         this.iFrame.height = `${frameOptions.height || DEFAULT_EMBED_HEIGHT}`;
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
-        this.iFrame.addEventListener('load', () => this.hideLoadingIndicator());
+        this.iFrame.addEventListener('load', () =>
+            this.executeCallbacks(MessageType.Load, {}),
+        );
         this.el.appendChild(this.iFrame);
+
+        this.subscribeToEvents();
+    }
+
+    public getId() {
+        return this.id;
     }
 
     public getThoughtSpotHost() {
@@ -99,11 +125,14 @@ class TsEmbed {
     }
 
     public on(messageType: string, callback: MessageCallback) {
-        // TODO: implement
+        const callbacks = this.eventHandlerMap.get(messageType) || [];
+        callbacks.push(callback);
+        this.eventHandlerMap.set(messageType, callbacks);
+
         return this;
     }
 
-    public trigger(messageType: string, data: MessagePayload) {
+    public trigger(messageType: string, data: any) {
         this.iFrame.contentWindow.postMessage(
             {
                 type: messageType,
@@ -118,12 +147,10 @@ class TsEmbed {
 
 class SearchEmbed extends TsEmbed {
     private viewConfig: ViewConfig;
-    private id: string;
 
     constructor(domSelector: string, viewConfig: ViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
-        this.id = id();
     }
 
     private getIFrameSrc(answerId?: string) {
@@ -131,13 +158,10 @@ class SearchEmbed extends TsEmbed {
         return `${this.getEmbedBasePath()}/${answerPath}`;
     }
 
-    public getId() {
-        return this.id;
-    }
-
     public render(dataSources: string[], query: QueryObject, answerId: string) {
         const src = this.getIFrameSrc(answerId);
         this.renderIFrame(src, this.viewConfig.frameParams);
+
         return this;
     }
 }
