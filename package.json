@@ -5,24 +5,15 @@
     "main": "",
     "types": "",
     "scripts": {
-        "tsc": "tsc -p . --incremental false"
+        "tsc": "tsc -p . --incremental false",
+        "build": "webpack -c webpack.config.js"
     },
     "dependencies": {},
     "devDependencies": {
-        "@babel/core": "^7.8.3",
-        "@typescript-eslint/eslint-plugin": "^2.15.0",
-        "@typescript-eslint/parser": "^2.15.0",
-        "eslint": "^6.8.0",
-        "eslint-config-airbnb": "^18.0.1",
-        "eslint-config-prettier": "^6.9.0",
-        "eslint-import-resolver-typescript": "^2.0.0",
-        "eslint-plugin-import": "^2.20.0",
-        "eslint-plugin-prettier": "^3.1.2",
-        "prettier": "^1.19.1",
-        "purgecss": "^2.0.5",
-        "rimraf": "^3.0.0",
-        "ttypescript": "^1.5.10",
-        "typescript": "3.8.3"
+        "ts-loader": "8.0.4",
+        "typescript": "3.8.3",
+        "webpack": "4.44.2",
+        "webpack-cli": "3.3.12"
     },
     "author": "Ayon Ghosh",
     "email": "ayon.ghosh@thoughtspot.com",
