@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2020
+ *
+ * ESLint configuration for linting ThoughtSpot Embed UI SDK
+ * source code.
+ *
+ * @summary ESLint config
+ * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
+ */
+
 module.exports = {
     env: {
         browser: true,
