@@ -33,7 +33,3 @@ jobs:
       # Runs TypeScript compiler
       - name: Run TypeScript compiler
         run: npm run tsc
-
-      # Publish to npm
-      - name: Publish to NPM
-        run: npm publish --access public
