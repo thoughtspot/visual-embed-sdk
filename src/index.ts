@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-shadow
 export enum AuthType {
     SSO = 'SSO',
     AuthServer = 'AuthServer',
@@ -9,6 +10,7 @@ export interface EmbedConfig {
     authEndpoint?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LayoutConfig {}
 export interface FrameParams {
     width?: number;
@@ -19,6 +21,7 @@ export interface ViewConfig {
     layoutConfig?: LayoutConfig;
     frameParams?: FrameParams;
     theme?: string;
+    // eslint-disable-next-line camelcase
     styleSheet__unstable?: string;
 }
 
@@ -27,13 +30,14 @@ export type MessageCallback = (payload: MessagePayload) => void;
 
 export type QueryObject = any;
 
-const DEFAULT_EMBED_WIDTH = 500;
-const DEFAULT_EMBED_HEIGHT = 500;
-
-export enum MessageType {
+// eslint-disable-next-line no-shadow
+export enum EventType {
     Init = 'init',
     Load = 'load',
 }
+
+const DEFAULT_EMBED_WIDTH = 500;
+const DEFAULT_EMBED_HEIGHT = 500;
 
 /**
  * A simple ID generator that meets the following goals:
@@ -48,7 +52,7 @@ const id = () => Math.random().toString(36).substr(2, 9);
 
 let config = {} as EmbedConfig;
 
-const init = (embedConfig: EmbedConfig) => {
+const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
 };
 
@@ -58,9 +62,12 @@ const getThoughtSpotHost = () => {
 
 class TsEmbed {
     private id: string;
+
     private el: Element;
+
     private iFrame: HTMLIFrameElement;
-    private eventHandlerMap: Map<String, MessageCallback[]>;
+
+    private eventHandlerMap: Map<string, MessageCallback[]>;
 
     private thoughtSpotHost: string;
 
@@ -71,8 +78,8 @@ class TsEmbed {
         this.eventHandlerMap = new Map();
     }
 
-    private executeCallbacks(messageType: MessageType, data: any) {
-        const callbacks = this.eventHandlerMap.get(messageType) || [];
+    private executeCallbacks(eventType: EventType, data: any) {
+        const callbacks = this.eventHandlerMap.get(eventType) || [];
         callbacks.forEach((callback) => {
             setTimeout(() => callback(data));
         });
@@ -84,10 +91,10 @@ class TsEmbed {
 
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
-            const messageType = event.data?.type;
+            const eventType = event.data?.type;
             const embedId = event.data?.embedId;
             if (embedId === this.getId()) {
-                this.executeCallbacks(messageType, event.data);
+                this.executeCallbacks(eventType, event.data);
             }
         });
     }
@@ -101,7 +108,11 @@ class TsEmbed {
             this.throwInitError();
         }
 
-        this.executeCallbacks(MessageType.Init, {});
+        this.executeCallbacks(EventType.Init, {
+            data: {
+                timestamp: Date.now(),
+            },
+        });
         this.iFrame = document.createElement('iframe');
         this.iFrame.src = url;
         this.iFrame.width = `${frameOptions.width || DEFAULT_EMBED_WIDTH}`;
@@ -109,7 +120,11 @@ class TsEmbed {
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
         this.iFrame.addEventListener('load', () =>
-            this.executeCallbacks(MessageType.Load, {}),
+            this.executeCallbacks(EventType.Load, {
+                data: {
+                    timestamp: Date.now(),
+                },
+            }),
         );
         this.el.appendChild(this.iFrame);
 
@@ -158,7 +173,11 @@ class SearchEmbed extends TsEmbed {
         return `${this.getEmbedBasePath()}/${answerPath}`;
     }
 
-    public render(dataSources: string[], query: QueryObject, answerId: string) {
+    public render(
+        dataSources: string[],
+        query: QueryObject,
+        answerId: string,
+    ): SearchEmbed {
         const src = this.getIFrameSrc(answerId);
         this.renderIFrame(src, this.viewConfig.frameParams);
 
