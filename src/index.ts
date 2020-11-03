@@ -1,72 +1,154 @@
-export enum AuthType {
-    SSO = 'SSO',
-    AuthServer = 'AuthServer',
-}
+import { getThoughtSpotHost } from './config';
+/**
+ * Copyright (c) 2020
+ *
+ * ThoughtSpot Embed UI SDK for embedding ThoughtSpot analytics
+ * in other web applications.
+ *
+ * @summary ThoughtSpot Embed UI SDK
+ * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
+ */
 
-export interface EmbedConfig {
-    thoughtSpotHost: string;
-    authType: AuthType;
-    authEndpoint?: string;
-}
+import {
+    EmbedConfig,
+    EventType,
+    FrameParams,
+    MessageCallback,
+    QueryObject,
+    ViewConfig,
+} from './types';
 
-export interface LayoutConfig {}
-export interface FrameParams {
-    width?: number;
-    height?: number;
-}
+import { id } from './utils';
 
-export interface ViewConfig {
-    layoutConfig?: LayoutConfig;
-    frameParams?: FrameParams;
-    theme?: string;
-    styleSheet__unstable?: string;
-}
+const DEFAULT_EMBED_WIDTH = 500;
+const DEFAULT_EMBED_HEIGHT = 500;
 
-export type MessagePayload = { data: any };
-export type MessageCallback = (event: MessagePayload) => void;
+let config = {} as EmbedConfig;
 
-export type QueryObject = any;
-
-let config = {};
-
-const init = (embedConfig: EmbedConfig) => {
+const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
 };
 
 class TsEmbed {
+    private id: string;
+
     private el: Element;
+
+    private iFrame: HTMLIFrameElement;
+
+    private eventHandlerMap: Map<string, MessageCallback[]>;
+
+    private thoughtSpotHost: string;
 
     constructor(domSelector: string) {
         this.el = document.querySelector(domSelector);
+        this.id = id();
+        // TODO: handle error
+        this.thoughtSpotHost = getThoughtSpotHost(config);
+        this.eventHandlerMap = new Map();
     }
 
-    public on(messageType: string, callback: MessageCallback) {
-        // TODO: implement
-        return this;
+    private executeCallbacks(eventType: EventType, data: any) {
+        const callbacks = this.eventHandlerMap.get(eventType) || [];
+        callbacks.forEach((callback) => callback(data));
     }
 
-    public trigger(messageType: string, data: MessagePayload) {
-        // TODO: implement
-        return this;
+    private throwInitError() {
+        throw new Error('You need to init the ThoughtSpot SDK module first');
     }
-}
 
-class SearchEmbed extends TsEmbed {
-    private viewConfig: ViewConfig;
-    private id: string;
+    private subscribeToEvents() {
+        window.addEventListener('message', (event) => {
+            const eventType = event.data?.type;
+            const embedId = event.data?.embedId;
+            if (embedId === this.getId()) {
+                this.executeCallbacks(eventType, event.data);
+            }
+        });
+    }
 
-    constructor(domSelector: string, viewConfig: ViewConfig) {
-        super(domSelector);
-        this.viewConfig = viewConfig;
-        this.id = `${Math.random()}`; // TODO: generate GUID instead
+    protected getEmbedBasePath() {
+        return `${this.thoughtSpotHost}/#/embed/${this.getId()}`;
+    }
+
+    protected renderIFrame(url: string, frameOptions: FrameParams) {
+        if (!this.thoughtSpotHost) {
+            this.throwInitError();
+        }
+
+        this.executeCallbacks(EventType.Init, {
+            data: {
+                timestamp: Date.now(),
+            },
+        });
+        this.iFrame = document.createElement('iframe');
+        this.iFrame.src = url;
+        this.iFrame.width = `${frameOptions.width || DEFAULT_EMBED_WIDTH}`;
+        this.iFrame.height = `${frameOptions.height || DEFAULT_EMBED_HEIGHT}`;
+        this.iFrame.style.border = '0';
+        this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+        this.iFrame.addEventListener('load', () =>
+            this.executeCallbacks(EventType.Load, {
+                data: {
+                    timestamp: Date.now(),
+                },
+            }),
+        );
+        this.el.appendChild(this.iFrame);
+
+        this.subscribeToEvents();
     }
 
     public getId() {
         return this.id;
     }
 
-    public render(dataSources: string[], query: QueryObject, answerId: string) {
-        // TODO: implement
+    public getThoughtSpotHost() {
+        return this.thoughtSpotHost;
+    }
+
+    public on(messageType: string, callback: MessageCallback) {
+        const callbacks = this.eventHandlerMap.get(messageType) || [];
+        callbacks.push(callback);
+        this.eventHandlerMap.set(messageType, callbacks);
+
+        return this;
+    }
+
+    public trigger(messageType: string, data: any) {
+        this.iFrame.contentWindow.postMessage(
+            {
+                type: messageType,
+                data,
+            },
+            this.thoughtSpotHost,
+        );
+
+        return this;
+    }
+}
+
+class SearchEmbed extends TsEmbed {
+    private viewConfig: ViewConfig;
+
+    constructor(domSelector: string, viewConfig: ViewConfig) {
+        super(domSelector);
+        this.viewConfig = viewConfig;
+    }
+
+    private getIFrameSrc(answerId?: string) {
+        const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
+        return `${this.getEmbedBasePath()}/${answerPath}`;
+    }
+
+    public render(
+        dataSources: string[],
+        query: QueryObject,
+        answerId: string,
+    ): SearchEmbed {
+        const src = this.getIFrameSrc(answerId);
+        this.renderIFrame(src, this.viewConfig.frameParams);
+
         return this;
     }
 }
