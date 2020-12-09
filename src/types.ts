@@ -13,10 +13,13 @@ export enum AuthType {
     AuthServer = 'AuthServer',
 }
 
+export type DOMSelector = string | HTMLElement;
+
 export interface EmbedConfig {
     thoughtSpotHost: string;
     authType: AuthType;
     authEndpoint?: string;
+    v1?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -37,10 +40,29 @@ export interface ViewConfig {
 export type MessagePayload = { type: string; data: any };
 export type MessageCallback = (payload: MessagePayload) => void;
 
+export type GenericCallbackFn = (...args: any[]) => any;
+
 export type QueryObject = any;
 
 // eslint-disable-next-line no-shadow
 export enum EventType {
+    RenderInit = 'renderInit',
     Init = 'init',
     Load = 'load',
+}
+
+// eslint-disable-next-line no-shadow
+export enum EventTypeV1 {
+    Alert = 'alert',
+    Data = 'data',
+    AuthExpire = 'authExpire',
+}
+
+// eslint-disable-next-line no-shadow
+export enum Page {
+    Home = 'home',
+    Search = 'search',
+    Answers = 'answers',
+    Pinboards = 'pinboards',
+    Data = 'data',
 }
