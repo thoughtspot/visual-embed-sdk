@@ -40,3 +40,14 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
 
     return `${protocol}//${host}${path}`;
 };
+
+/**
+ * It is a good idea to keep URLs under 2000 chars.
+ * If this is ever breached, since we pass view configuration through
+ * URL params, we would like to log an warning.
+ * Reference: https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers
+ */
+export const URL_MAX_LENGTH = 2000;
+
+export const DEFAULT_EMBED_WIDTH = 500;
+export const DEFAULT_EMBED_HEIGHT = 500;

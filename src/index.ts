@@ -1,4 +1,9 @@
-import { getThoughtSpotHost } from './config';
+import {
+    DEFAULT_EMBED_HEIGHT,
+    DEFAULT_EMBED_WIDTH,
+    getThoughtSpotHost,
+    URL_MAX_LENGTH,
+} from './config';
 /**
  * Copyright (c) 2020
  *
@@ -18,7 +23,13 @@ import {
     GenericCallbackFn,
     MessageCallback,
     Page,
+    AppRenderOptions,
+    PinboardRenderOptions,
+    PinboardViewConfig,
+    SearchRenderOptions,
+    SearchViewConfig,
     QueryObject,
+    QueryParams,
     ViewConfig,
 } from './types';
 
@@ -30,8 +41,12 @@ import {
     subscribeToData,
 } from './v1/api';
 
-const DEFAULT_EMBED_WIDTH = 500;
-const DEFAULT_EMBED_HEIGHT = 500;
+// eslint-disable-next-line no-shadow
+enum QueryParam {
+    DataSources = 'dataSources',
+    HideDataSources = 'hideDataSources',
+    CollapseDataSources = 'collapseDataSources',
+}
 
 let config = {} as EmbedConfig;
 
@@ -80,6 +95,21 @@ class TsEmbed {
         });
     }
 
+    protected getQueryParams(queryParams: QueryParams) {
+        const qp: string[] = [];
+        const params = Object.keys(queryParams);
+        params.forEach((key) => {
+            const val = queryParams[key];
+            qp.push(`${key}=${val}`);
+        });
+
+        if (qp.length) {
+            return qp.join('&');
+        }
+
+        return null;
+    }
+
     protected getEmbedBasePath() {
         return `${this.thoughtSpotHost}/#/embed/${this.getId()}`;
     }
@@ -93,23 +123,12 @@ class TsEmbed {
         return path;
     }
 
-    protected injectScript(src: string, callback?: GenericCallbackFn) {
-        const headEl = document.getElementsByTagName('head')[0];
-        const scriptEl = document.createElement('script');
-        scriptEl.type = 'text/javascript';
-        if (typeof callback === 'function') {
-            scriptEl.onload = () => {
-                callback();
-            };
-        }
-        scriptEl.src = src;
-
-        headEl.appendChild(scriptEl);
-    }
-
     protected renderIFrame(url: string, frameOptions: FrameParams) {
         if (!this.thoughtSpotHost) {
             this.throwInitError();
+        }
+        if (url.length > URL_MAX_LENGTH) {
+            // warn: URL too long
         }
 
         this.executeCallbacks(EventType.RenderInit, {
@@ -179,27 +198,57 @@ class TsEmbed {
     }
 }
 
+/**
+ * Embed search or a saved answer
+ */
 class SearchEmbed extends TsEmbed {
-    private viewConfig: ViewConfig;
+    private viewConfig: SearchViewConfig;
 
-    constructor(domSelector: string, viewConfig: ViewConfig) {
+    constructor(domSelector: string, viewConfig: SearchViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
     }
 
-    private getIFrameSrc(answerId?: string) {
+    private getIFrameSrc(
+        answerId: string,
+        collapseDataSources: boolean,
+        hideDataSources: boolean,
+        dataSources?: string[],
+    ) {
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
-        return `${this.getEmbedBasePath()}/${answerPath}`;
+        const queryParams = {};
+        if (dataSources && dataSources.length) {
+            queryParams[QueryParam.DataSources] = JSON.stringify(dataSources);
+        }
+        if (collapseDataSources === true) {
+            queryParams[QueryParam.CollapseDataSources] = 'true';
+        }
+        if (hideDataSources === true) {
+            queryParams[QueryParam.HideDataSources] = 'true';
+        }
+
+        let query = '';
+        const queryParamsString = this.getQueryParams(queryParams);
+        if (queryParamsString) {
+            query = `?${queryParamsString}`;
+        }
+
+        return `${this.getEmbedBasePath()}/${answerPath}${query}`;
     }
 
-    public render(
-        dataSources: string[],
-        query: QueryObject,
-        answerId: string,
-    ): SearchEmbed {
+    public render({
+        dataSources,
+        query,
+        answerId,
+    }: SearchRenderOptions): SearchEmbed {
         super.render();
 
-        const src = this.getIFrameSrc(answerId);
+        const src = this.getIFrameSrc(
+            answerId,
+            this.viewConfig.collapseDataSources === true,
+            this.viewConfig.hideDataSources === true,
+            dataSources,
+        );
         this.renderIFrame(src, this.viewConfig.frameParams);
 
         return this;
@@ -210,9 +259,9 @@ class SearchEmbed extends TsEmbed {
 
 const V1EmbedMixin = (superclass: typeof TsEmbed) =>
     class extends superclass {
-        private viewConfig: ViewConfig;
+        private viewConfig: PinboardViewConfig;
 
-        constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
+        constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
             super(domSelector);
             this.viewConfig = viewConfig;
         }
@@ -256,7 +305,7 @@ class PinboardEmbed extends V1EmbedMixin(TsEmbed) {
         return url;
     }
 
-    public render(pinboardId: string, vizId?: string): PinboardEmbed {
+    public render({ pinboardId, vizId }: PinboardRenderOptions): PinboardEmbed {
         super.render();
 
         const src = this.getIFrameSrc(pinboardId, vizId);
@@ -291,7 +340,7 @@ class AppEmbed extends V1EmbedMixin(TsEmbed) {
         }
     }
 
-    public render(pageId: Page): AppEmbed {
+    public render({ pageId }: AppRenderOptions): AppEmbed {
         super.render();
 
         const pageRoute = this.getPageRoute(pageId);

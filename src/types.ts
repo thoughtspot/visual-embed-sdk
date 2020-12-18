@@ -37,12 +37,56 @@ export interface ViewConfig {
     styleSheet__unstable?: string;
 }
 
+export interface SearchViewConfig extends ViewConfig {
+    collapseDataSources?: boolean;
+    hideDataSources?: boolean;
+    hideResults?: boolean;
+    enableSearchAssist?: boolean;
+    disabledActions?: string[];
+    disabledActionReason: string;
+}
+
+export interface PinboardViewConfig extends ViewConfig {
+    fullHeight?: boolean;
+    disabledActions?: string[];
+    disabledActionReason: string;
+}
+
+export type QueryObject = any;
+
+export interface SearchRenderOptions {
+    dataSources?: string[];
+    query?: QueryObject;
+    answerId?: string;
+}
+
+export interface PinboardRenderOptions {
+    pinboardId: string;
+    vizId?: string;
+    runtimeFilters?: any[];
+}
+
+// eslint-disable-next-line no-shadow
+export enum Page {
+    Home = 'home',
+    Search = 'search',
+    Answers = 'answers',
+    Pinboards = 'pinboards',
+    Data = 'data',
+}
+
+export interface AppRenderOptions {
+    pageId: Page;
+}
+
 export type MessagePayload = { type: string; data: any };
 export type MessageCallback = (payload: MessagePayload) => void;
 
 export type GenericCallbackFn = (...args: any[]) => any;
 
-export type QueryObject = any;
+export type QueryParams = {
+    [key: string]: string;
+};
 
 // eslint-disable-next-line no-shadow
 export enum EventType {
@@ -56,13 +100,4 @@ export enum EventTypeV1 {
     Alert = 'alert',
     Data = 'data',
     AuthExpire = 'authExpire',
-}
-
-// eslint-disable-next-line no-shadow
-export enum Page {
-    Home = 'home',
-    Search = 'search',
-    Answers = 'answers',
-    Pinboards = 'pinboards',
-    Data = 'data',
 }
