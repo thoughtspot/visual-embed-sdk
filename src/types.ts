@@ -7,6 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { RuntimeFilterOp } from './v1/api';
+
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     SSO = 'SSO',
@@ -60,10 +62,16 @@ export interface SearchRenderOptions {
     answerId?: string;
 }
 
+export interface RuntimeFilter {
+    columnName: string;
+    operator: RuntimeFilterOp;
+    values: string[];
+}
+
 export interface PinboardRenderOptions {
     pinboardId: string;
     vizId?: string;
-    runtimeFilters?: any[];
+    runtimeFilters?: RuntimeFilter[];
 }
 
 // eslint-disable-next-line no-shadow
@@ -90,9 +98,21 @@ export type QueryParams = {
 
 // eslint-disable-next-line no-shadow
 export enum EventType {
+    // Events emitted by TS app
     RenderInit = 'renderInit',
     Init = 'init',
     Load = 'load',
+    Data = 'data',
+    FiltersChanged = 'filtersChanged',
+    QueryChanged = 'queryChanged',
+    Drilldown = 'drilldown',
+    DataSourceSelected = 'dataSourceSelected',
+    CustomAction = 'customAction',
+
+    // Triggerable events
+    Search = 'search',
+    Filter = 'filter',
+    Reload = 'reload',
 }
 
 // eslint-disable-next-line no-shadow

@@ -28,12 +28,11 @@ import {
     PinboardViewConfig,
     SearchRenderOptions,
     SearchViewConfig,
-    QueryObject,
     QueryParams,
-    ViewConfig,
+    RuntimeFilter,
 } from './types';
 
-import { id } from './utils';
+import { getFilterQuery, id } from './utils';
 import {
     getCurrentData,
     initialize,
@@ -114,8 +113,9 @@ class TsEmbed {
         return `${this.thoughtSpotHost}/#/embed/${this.getId()}`;
     }
 
-    protected getV1EmbedBasePath(isAppEmbed = false) {
-        let path = `${this.thoughtSpotHost}/?embedApp=true#`;
+    protected getV1EmbedBasePath(queryString: string, isAppEmbed = false) {
+        const queryStringFrag = queryString ? `&${queryString}` : '';
+        let path = `${this.thoughtSpotHost}/?embedApp=true${queryStringFrag}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;
         }
@@ -296,8 +296,13 @@ const V1EmbedMixin = (superclass: typeof TsEmbed) =>
  * https://docs.thoughtspot.com/5.2/app-integrate/embedding-viz/embed-a-viz.html
  */
 class PinboardEmbed extends V1EmbedMixin(TsEmbed) {
-    private getIFrameSrc(pinboardId: string, vizId?: string) {
-        let url = `${this.getV1EmbedBasePath()}/viz/${pinboardId}`;
+    private getIFrameSrc(
+        pinboardId: string,
+        vizId?: string,
+        runtimeFilters?: RuntimeFilter[],
+    ) {
+        const filterQuery = getFilterQuery(runtimeFilters);
+        let url = `${this.getV1EmbedBasePath(filterQuery)}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;
         }
@@ -305,10 +310,14 @@ class PinboardEmbed extends V1EmbedMixin(TsEmbed) {
         return url;
     }
 
-    public render({ pinboardId, vizId }: PinboardRenderOptions): PinboardEmbed {
+    public render({
+        pinboardId,
+        vizId,
+        runtimeFilters,
+    }: PinboardRenderOptions): PinboardEmbed {
         super.render();
 
-        const src = this.getIFrameSrc(pinboardId, vizId);
+        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
         this.renderV1Embed(src);
 
         return this;
@@ -321,7 +330,7 @@ class PinboardEmbed extends V1EmbedMixin(TsEmbed) {
  */
 class AppEmbed extends V1EmbedMixin(TsEmbed) {
     private getIFrameSrc(pageId: string) {
-        return `${this.getV1EmbedBasePath(true)}/${pageId}`;
+        return `${this.getV1EmbedBasePath(null, true)}/${pageId}`;
     }
 
     private getPageRoute(pageId: Page) {
