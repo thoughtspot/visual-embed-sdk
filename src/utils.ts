@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { RuntimeFilter } from './types';
+import { QueryParams, RuntimeFilter } from './types';
 
 /**
  * A simple ID generator that meets the following goals:
@@ -28,7 +28,7 @@ export const id = (): string => Math.random().toString(36).substr(2, 9);
  * @param runtimeFilters
  */
 // TODO: add unit tests
-export const getFilterQuery = (runtimeFilters: RuntimeFilter[]) => {
+export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
     if (runtimeFilters.length) {
         const filters = runtimeFilters.map((filter, index) => {
             const filterExpr = [];
@@ -42,6 +42,25 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]) => {
         });
 
         return `**${filters.join('&')}**`;
+    }
+
+    return null;
+};
+
+/**
+ * Return a query param string composed from the given params object
+ * @param queryParams
+ */
+export const getQueryParamString = (queryParams: QueryParams): string => {
+    const qp: string[] = [];
+    const params = Object.keys(queryParams);
+    params.forEach((key) => {
+        const val = queryParams[key];
+        qp.push(`${key}=${val}`);
+    });
+
+    if (qp.length) {
+        return qp.join('&');
     }
 
     return null;

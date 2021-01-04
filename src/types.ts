@@ -121,3 +121,16 @@ export enum EventTypeV1 {
     Data = 'data',
     AuthExpire = 'authExpire',
 }
+
+// eslint-disable-next-line no-shadow
+export enum DataSourceVisualMode {
+    Hidden = 'hide',
+    Collapsed = 'collapse',
+    Expanded = 'expand',
+}
+
+// eslint-disable-next-line no-shadow
+export enum VisualConfigParam {
+    DataSources = 'dataSources',
+    DataSourceMode = 'dataSourceMode',
+}
