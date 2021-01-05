@@ -8,8 +8,20 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Page, AppRenderOptions } from 'src/types';
 import { V1Embed } from './base';
+
+// eslint-disable-next-line no-shadow
+export enum Page {
+    Home = 'home',
+    Search = 'search',
+    Answers = 'answers',
+    Pinboards = 'pinboards',
+    Data = 'data',
+}
+
+export interface AppRenderOptions {
+    pageId: Page;
+}
 
 export class AppEmbed extends V1Embed {
     private getIFrameSrc(pageId: string) {

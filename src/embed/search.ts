@@ -7,14 +7,26 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import {
-    DataSourceVisualMode,
-    SearchRenderOptions,
-    SearchViewConfig,
-    VisualConfigParam,
-} from 'src/types';
+import { DataSourceVisualMode, Param } from 'src/types';
 import { getQueryParamString } from 'src/utils';
-import { TsEmbed } from './base';
+import { ViewConfig, TsEmbed } from './base';
+
+export interface SearchViewConfig extends ViewConfig {
+    collapseDataSources?: boolean;
+    hideDataSources?: boolean;
+    hideResults?: boolean;
+    enableSearchAssist?: boolean;
+    disabledActions?: string[];
+    disabledActionReason: string;
+}
+
+export type QueryObject = any;
+
+export interface SearchRenderOptions {
+    dataSources?: string[];
+    query?: QueryObject;
+    answerId?: string;
+}
 
 export class SearchEmbed extends TsEmbed {
     private viewConfig: SearchViewConfig;
@@ -40,14 +52,10 @@ export class SearchEmbed extends TsEmbed {
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = {};
         if (dataSources && dataSources.length) {
-            queryParams[VisualConfigParam.DataSources] = JSON.stringify(
-                dataSources,
-            );
+            queryParams[Param.DataSources] = JSON.stringify(dataSources);
         }
 
-        queryParams[
-            VisualConfigParam.DataSourceMode
-        ] = this.getDataSourceMode();
+        queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams);

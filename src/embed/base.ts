@@ -18,10 +18,8 @@ import {
     EmbedConfig,
     EventType,
     EventTypeV1,
-    FrameParams,
     GenericCallbackFn,
     MessageCallback,
-    PinboardViewConfig,
 } from 'src/types';
 import { id } from 'src/utils';
 import {
@@ -36,6 +34,21 @@ let config = {} as EmbedConfig;
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface LayoutConfig {}
+export interface FrameParams {
+    width?: number;
+    height?: number;
+}
+
+export interface ViewConfig {
+    layoutConfig?: LayoutConfig;
+    frameParams?: FrameParams;
+    theme?: string;
+    // eslint-disable-next-line camelcase
+    styleSheet__unstable?: string;
+}
 
 /**
  * For embedding v2 experience
@@ -183,9 +196,9 @@ export class TsEmbed {
  * For embedding legacy v1 experience
  */
 export class V1Embed extends TsEmbed {
-    private viewConfig: PinboardViewConfig;
+    private viewConfig: ViewConfig;
 
-    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
+    constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
     }

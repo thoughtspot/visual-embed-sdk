@@ -24,69 +24,6 @@ export interface EmbedConfig {
     v1?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
-export interface FrameParams {
-    width?: number;
-    height?: number;
-}
-
-export interface ViewConfig {
-    layoutConfig?: LayoutConfig;
-    frameParams?: FrameParams;
-    theme?: string;
-    // eslint-disable-next-line camelcase
-    styleSheet__unstable?: string;
-}
-
-export interface SearchViewConfig extends ViewConfig {
-    collapseDataSources?: boolean;
-    hideDataSources?: boolean;
-    hideResults?: boolean;
-    enableSearchAssist?: boolean;
-    disabledActions?: string[];
-    disabledActionReason: string;
-}
-
-export interface PinboardViewConfig extends ViewConfig {
-    fullHeight?: boolean;
-    disabledActions?: string[];
-    disabledActionReason: string;
-}
-
-export type QueryObject = any;
-
-export interface SearchRenderOptions {
-    dataSources?: string[];
-    query?: QueryObject;
-    answerId?: string;
-}
-
-export interface RuntimeFilter {
-    columnName: string;
-    operator: RuntimeFilterOp;
-    values: string[];
-}
-
-export interface PinboardRenderOptions {
-    pinboardId: string;
-    vizId?: string;
-    runtimeFilters?: RuntimeFilter[];
-}
-
-// eslint-disable-next-line no-shadow
-export enum Page {
-    Home = 'home',
-    Search = 'search',
-    Answers = 'answers',
-    Pinboards = 'pinboards',
-    Data = 'data',
-}
-
-export interface AppRenderOptions {
-    pageId: Page;
-}
-
 export type MessagePayload = { type: string; data: any };
 export type MessageCallback = (payload: MessagePayload) => void;
 
@@ -95,6 +32,12 @@ export type GenericCallbackFn = (...args: any[]) => any;
 export type QueryParams = {
     [key: string]: string;
 };
+
+export interface RuntimeFilter {
+    columnName: string;
+    operator: RuntimeFilterOp;
+    values: string[];
+}
 
 // eslint-disable-next-line no-shadow
 export enum EventType {
@@ -130,7 +73,7 @@ export enum DataSourceVisualMode {
 }
 
 // eslint-disable-next-line no-shadow
-export enum VisualConfigParam {
+export enum Param {
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
 }

@@ -8,9 +8,20 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { RuntimeFilter, PinboardRenderOptions } from 'src/types';
 import { getFilterQuery } from 'src/utils';
-import { V1Embed } from './base';
+import { V1Embed, ViewConfig } from './base';
+
+export interface PinboardViewConfig extends ViewConfig {
+    fullHeight?: boolean;
+    disabledActions?: string[];
+    disabledActionReason: string;
+}
+
+export interface PinboardRenderOptions {
+    pinboardId: string;
+    vizId?: string;
+    runtimeFilters?: RuntimeFilter[];
+}
 
 export class PinboardEmbed extends V1Embed {
     private getIFrameSrc(
