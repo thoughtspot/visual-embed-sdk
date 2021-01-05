@@ -7,6 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { RuntimeFilterOp } from './v1/api';
+
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     SSO = 'SSO',
@@ -22,33 +24,38 @@ export interface EmbedConfig {
     v1?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
-export interface FrameParams {
-    width?: number;
-    height?: number;
-}
-
-export interface ViewConfig {
-    layoutConfig?: LayoutConfig;
-    frameParams?: FrameParams;
-    theme?: string;
-    // eslint-disable-next-line camelcase
-    styleSheet__unstable?: string;
-}
-
 export type MessagePayload = { type: string; data: any };
 export type MessageCallback = (payload: MessagePayload) => void;
 
 export type GenericCallbackFn = (...args: any[]) => any;
 
-export type QueryObject = any;
+export type QueryParams = {
+    [key: string]: string;
+};
+
+export interface RuntimeFilter {
+    columnName: string;
+    operator: RuntimeFilterOp;
+    values: string[];
+}
 
 // eslint-disable-next-line no-shadow
 export enum EventType {
+    // Events emitted by TS app
     RenderInit = 'renderInit',
     Init = 'init',
     Load = 'load',
+    Data = 'data',
+    FiltersChanged = 'filtersChanged',
+    QueryChanged = 'queryChanged',
+    Drilldown = 'drilldown',
+    DataSourceSelected = 'dataSourceSelected',
+    CustomAction = 'customAction',
+
+    // Triggerable events
+    Search = 'search',
+    Filter = 'filter',
+    Reload = 'reload',
 }
 
 // eslint-disable-next-line no-shadow
@@ -59,10 +66,14 @@ export enum EventTypeV1 {
 }
 
 // eslint-disable-next-line no-shadow
-export enum Page {
-    Home = 'home',
-    Search = 'search',
-    Answers = 'answers',
-    Pinboards = 'pinboards',
-    Data = 'data',
+export enum DataSourceVisualMode {
+    Hidden = 'hide',
+    Collapsed = 'collapse',
+    Expanded = 'expand',
+}
+
+// eslint-disable-next-line no-shadow
+export enum Param {
+    DataSources = 'dataSources',
+    DataSourceMode = 'dataSourceMode',
 }
