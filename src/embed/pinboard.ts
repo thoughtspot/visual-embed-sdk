@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { RuntimeFilter } from 'src/types';
 import { getFilterQuery } from 'src/utils';
 import { V1Embed, ViewConfig } from './base';
 
