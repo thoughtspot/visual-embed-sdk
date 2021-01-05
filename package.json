@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/ts-embed-sdk",
-    "version": "1.0.0",
+    "version": "0.0.1-alpha",
     "description": "ThoughtSpot Embed SDK",
     "main": "lib/src/index.js",
     "types": "",
