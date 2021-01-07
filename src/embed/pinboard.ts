@@ -27,9 +27,7 @@ export interface PinboardRenderOptions {
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
-    private getQueryString(runtimeFilters: RuntimeFilter[]) {
-        const filterQuery = getFilterQuery(runtimeFilters);
-
+    private getEmbedParams() {
         const params = {};
         const { disabledActions, disabledActionReason } = this.viewConfig;
         if (disabledActions && disabledActions.length) {
@@ -41,9 +39,6 @@ export class PinboardEmbed extends V1Embed {
         }
 
         const queryParams = getQueryParamString(params);
-        if (filterQuery && queryParams) {
-            return `${filterQuery}&${queryParams}`;
-        }
 
         return queryParams;
     }
@@ -53,10 +48,14 @@ export class PinboardEmbed extends V1Embed {
         vizId?: string,
         runtimeFilters?: RuntimeFilter[],
     ) {
-        const queryString = this.getQueryString(runtimeFilters);
-        let url = `${this.getV1EmbedBasePath(queryString)}/viz/${pinboardId}`;
+        const filterQuery = getFilterQuery(runtimeFilters);
+        let url = `${this.getV1EmbedBasePath(filterQuery)}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;
+        }
+        const postHashQueryParams = this.getEmbedParams();
+        if (postHashQueryParams) {
+            url = `${url}?${postHashQueryParams}`;
         }
 
         return url;
