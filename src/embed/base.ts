@@ -196,7 +196,7 @@ export class TsEmbed {
  * For embedding legacy v1 experience
  */
 export class V1Embed extends TsEmbed {
-    private viewConfig: ViewConfig;
+    protected viewConfig: ViewConfig;
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector);

@@ -76,4 +76,6 @@ export enum DataSourceVisualMode {
 export enum Param {
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
+    DisableActions = 'disableAction',
+    DisableActionReason = 'disableHint',
 }
