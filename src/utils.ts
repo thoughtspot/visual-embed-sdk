@@ -56,7 +56,9 @@ export const getQueryParamString = (queryParams: QueryParams): string => {
     const params = Object.keys(queryParams);
     params.forEach((key) => {
         const val = queryParams[key];
-        qp.push(`${key}=${val}`);
+        if (val !== undefined) {
+            qp.push(`${key}=${val}`);
+        }
     });
 
     if (qp.length) {
