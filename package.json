@@ -30,7 +30,6 @@
     "author": "Ayon Ghosh",
     "email": "ayon.ghosh@thoughtspot.com",
     "license": "UNLICENSED",
-    "private": true,
     "directories": {
         "lib": "lib"
     },
