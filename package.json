@@ -1,6 +1,6 @@
 {
-    "name": "@thoughtspot/ts-embed-sdk",
-    "version": "0.0.1-alpha",
+    "name": "@thoughtspot/embed-sdk",
+    "version": "0.0.1-alpha.0",
     "description": "ThoughtSpot Embed SDK",
     "main": "lib/src/index.js",
     "types": "",
@@ -40,6 +40,7 @@
     },
     "keywords": [
         "thoughtspot",
+        "everywhere",
         "embed",
         "sdk",
         "analytics"
