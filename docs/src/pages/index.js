@@ -1,29 +1,20 @@
-import * as React from "react"
-
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const test = {
-  width: "100%",
-  height: 600,
-  display: "flex"
-}
+import * as React from "react";
+import _translation from "../utils/lang-utils";
+import "./styles/index.scss";
 
 // markup
 const IndexPage = () => {
+
   return (
     <div>
-      <header style={{ height: 50, width: "100%", borderBottom: "1px solid black" }}>
-        <img src="" alt="logo" style={{ width: 200 }} />
-        <input type="text" title="search" style={{ margin: 10, width: 200 }} />
+      <header className="header">
+        <img src="" alt="logo" className="logo" />
+        <input type="text" title="search" className="searchBox" />
       </header>
-      <div style={test}>
-        <div style={{ width: "20%", borderRight: "1px solid black", display: "inline-flex" }}>Left Navigation</div>
-        <div style={{ width: "65%", borderRight: "1px solid black", display: "inline-flex" }}>Main Content</div>
-        <div style={{ width: "15%", display: "inline-flex" }}>On Page Right Navigation</div>
+      <div className="container">
+        <div className="leftSidebar">{_translation("HOME_LEFT_NAVIGATION")}</div>
+        <div className="contentArea">{_translation("HOME_MAIN_CONTENT")}</div>
+        <div className="rightSidebar">{_translation("HOME_RIGHT_NAVIGATION")}</div>
       </div>
     </div>
   )
