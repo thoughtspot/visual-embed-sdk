@@ -4,35 +4,36 @@
     border-bottom: 1px solid black;
 
     .logo {
-      width: 200px;
+        width: 200px;
     }
 
     .searchBox {
-      margin: 10px;
-      width: 200px;
+        margin: 10px;
+        width: 200px;
     }
-  }
+}
 
- .container {
+.container {
     width: 100%;
     height: 600px;
     display: flex;
 
-    .leftSidebar, .contentArea {
-      border-right: 1px solid black;
-      display: inline-flex
+    .leftSidebar,
+    .contentArea {
+        border-right: 1px solid black;
+        display: inline-flex;
     }
 
     .leftSidebar {
-      width: 20%;
+        width: 20%;
     }
 
     .contentArea {
-      width: 65%;
+        width: 65%;
     }
 
     .rightSidebar {
-      width: 15%;
-      display: inline-flex
+        width: 15%;
+        display: inline-flex;
     }
-  }
+}

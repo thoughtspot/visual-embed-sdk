@@ -11,7 +11,6 @@
         "build": "rollup -c",
         "watch": "rollup -cw",
         "develop-docs": "gatsby develop",
-        "start-docs": "gatsby develop",
         "build-docs": "gatsby build --prefix-paths",
         "serve-docs": "gatsby serve --prefix-paths",
         "clean-docs": "gatsby clean"

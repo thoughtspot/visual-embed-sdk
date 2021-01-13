@@ -106,3 +106,6 @@ docs/public/
 
 # TernJS port file
 .tern-port
+
+# Code editors or IDEs
+.vscode/

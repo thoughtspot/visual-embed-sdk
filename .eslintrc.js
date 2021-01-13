@@ -44,7 +44,9 @@ module.exports = {
         },
     },
     rules: {
-        indent: 0, // Conflict with Prettier
+        indent: [1, 4, { SwitchCase: 1 }], // Conflict with Prettier
+        quotes: [2, "single", { "avoidEscape": true }],
+        'jsx-quotes': [2, 'prefer-single'],
         '@typescript-eslint/explicit-function-return-type': [0],
         '@typescript-eslint/no-explicit-any': [0],
         '@typescript-eslint/no-unused-vars': [0],
