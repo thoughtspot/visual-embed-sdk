@@ -22,6 +22,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Use NodeJS v12.18.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.18.3'
+
       # Run npm install
       - name: Run npm install
         run: npm install
@@ -29,6 +34,10 @@ jobs:
       # Runs linter
       - name: Run linter
         run: npm run lint
+
+      # Runs tests
+      - name: Run tests
+        run: npm test
 
       # Runs TypeScript compiler
       - name: Run TypeScript compiler
