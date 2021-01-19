@@ -19,7 +19,6 @@ const urlRegex = new RegExp(
     ].join(''),
 );
 
-// TODO: add a unit test for this
 export const getThoughtSpotHost = (config: EmbedConfig): string => {
     const urlParts = config.thoughtSpotHost.match(urlRegex);
     if (!urlParts) {
