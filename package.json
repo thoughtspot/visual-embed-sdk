@@ -13,12 +13,14 @@
         "develop-docs": "gatsby develop",
         "build-docs": "gatsby build --prefix-paths",
         "serve-docs": "gatsby serve --prefix-paths",
-        "clean-docs": "gatsby clean"
+        "clean-docs": "gatsby clean",
+        "test": "jest -c jest.config.js"
     },
     "dependencies": {},
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
         "@mdx-js/react": "^1.6.22",
+        "@types/jest": "22.2.3",
         "@typescript-eslint/eslint-plugin": "^4.6.0",
         "@typescript-eslint/parser": "^4.6.0",
         "eslint": "^7.12.1",
@@ -33,6 +35,8 @@
         "gatsby-plugin-sass": "^2.8.0",
         "gatsby-source-filesystem": "^2.8.1",
         "node-sass": "^4.0.0",
+        "jest": "26.4.2",
+        "ts-jest": "26.4.4",
         "prettier": "2.1.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
