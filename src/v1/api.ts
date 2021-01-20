@@ -14,24 +14,6 @@ enum Events {
     GET_DATA = 'getData',
 }
 
-// eslint-disable-next-line no-shadow
-export enum RuntimeFilterOp {
-    EQ = 'EQ', // equals
-    NE = 'NE', // does not equal
-    LT = 'LT', // less than
-    LE = 'LE', // less than or equal to
-    GT = 'GT', // greater than
-    GE = 'GE', // greater than or equal to
-    CONTAINS = 'CONTAINS', // contains
-    BEGINS_WITH = 'BEGINS_WITH', // begins with
-    ENDS_WITH = 'ENDS_WITH', // ends with
-    BW_INC_MAX = 'BW_INC_MAX', // between inclusive of higher value
-    BW_INC_MIN = 'BW_INC_MIN', // between inclusive of lower value
-    BW_INC = 'BW_INC', // between inclusive
-    BW = 'BW', // between non-inclusive
-    IN = 'IN', // is included in this list of values
-}
-
 type Callback = (...args: any[]) => void;
 
 const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';

@@ -42,3 +42,9 @@ jobs:
       # Runs TypeScript compiler
       - name: Run TypeScript compiler
         run: npm run tsc
+
+      # Collect artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-coverage
+          path: coverage/

@@ -27,10 +27,10 @@ export const id = (): string => Math.random().toString(36).substr(2, 9);
  * https://docs.thoughtspot.com/6.2/app-integrate/runtime-filters/runtime-filter-operators.html#
  * @param runtimeFilters
  */
-// TODO: add unit tests
 export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
     if (runtimeFilters.length) {
-        const filters = runtimeFilters.map((filter, index) => {
+        const filters = runtimeFilters.map((filter, valueIndex) => {
+            const index = valueIndex + 1;
             const filterExpr = [];
             filterExpr.push(`col${index}=${filter.columnName}`);
             filterExpr.push(`op${index}=${filter.operator}`);

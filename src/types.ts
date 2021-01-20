@@ -7,8 +7,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { RuntimeFilterOp } from './v1/api';
-
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     SSO = 'SSO',
@@ -33,10 +31,28 @@ export type QueryParams = {
     [key: string]: string;
 };
 
+// eslint-disable-next-line no-shadow
+export enum RuntimeFilterOp {
+    EQ = 'EQ', // equals
+    NE = 'NE', // does not equal
+    LT = 'LT', // less than
+    LE = 'LE', // less than or equal to
+    GT = 'GT', // greater than
+    GE = 'GE', // greater than or equal to
+    CONTAINS = 'CONTAINS', // contains
+    BEGINS_WITH = 'BEGINS_WITH', // begins with
+    ENDS_WITH = 'ENDS_WITH', // ends with
+    BW_INC_MAX = 'BW_INC_MAX', // between inclusive of higher value
+    BW_INC_MIN = 'BW_INC_MIN', // between inclusive of lower value
+    BW_INC = 'BW_INC', // between inclusive
+    BW = 'BW', // between non-inclusive
+    IN = 'IN', // is included in this list of values
+}
+
 export interface RuntimeFilter {
     columnName: string;
     operator: RuntimeFilterOp;
-    values: string[];
+    values: (number | boolean | string)[];
 }
 
 // eslint-disable-next-line no-shadow
