@@ -20,11 +20,9 @@ export interface SearchViewConfig extends ViewConfig {
     disabledActionReason: string;
 }
 
-export type QueryObject = any;
-
 export interface SearchRenderOptions {
     dataSources?: string[];
-    query?: QueryObject;
+    searchQuery?: string;
     answerId?: string;
 }
 
@@ -48,11 +46,18 @@ export class SearchEmbed extends TsEmbed {
         return dataSourceMode;
     }
 
-    private getIFrameSrc(answerId: string, dataSources?: string[]) {
+    private getIFrameSrc(
+        answerId: string,
+        dataSources?: string[],
+        searchQuery?: string,
+    ) {
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = {};
         if (dataSources && dataSources.length) {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
+        }
+        if (searchQuery) {
+            queryParams[Param.SearchQuery] = searchQuery;
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
@@ -68,12 +73,12 @@ export class SearchEmbed extends TsEmbed {
 
     public render({
         dataSources,
-        query,
+        searchQuery,
         answerId,
     }: SearchRenderOptions): SearchEmbed {
         super.render();
 
-        const src = this.getIFrameSrc(answerId, dataSources);
+        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
         this.renderIFrame(src, this.viewConfig.frameParams);
 
         return this;
