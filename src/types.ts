@@ -94,4 +94,5 @@ export enum Param {
     DataSourceMode = 'dataSourceMode',
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
+    SearchQuery = 'searchQuery',
 }
