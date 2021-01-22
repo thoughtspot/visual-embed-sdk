@@ -26,7 +26,7 @@ const IndexPage = () => {
             }
         `,
     );
-    console.log('test query output ===>>> ', edges);
+
     const docTitle =
         edges[0].node.document.title || edges[0].node.document.main;
     const docContent = edges[0].node.html;
