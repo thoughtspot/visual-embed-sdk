@@ -20,6 +20,14 @@ module.exports = {
             __key: 'pages',
         },
         {
+            resolve: 'gatsby-source-filesystem',
+            options: {
+                name: 'asciidocs',
+                path: `${__dirname}/docs/src/asciidocs/`,
+            },
+            __key: 'asciidocs',
+        },
+        {
             resolve: `gatsby-plugin-intl`,
             options: {
                 // language JSON resource path
@@ -30,6 +38,15 @@ module.exports = {
                 defaultLanguage: 'en',
                 // option to redirect to `/en` when connecting `/`
                 redirect: true,
+            },
+        },
+        {
+            resolve: `gatsby-transformer-asciidoc`,
+            options: {
+                attributes: {
+                    showtitle: true,
+                },
+                fileExtensions: ['ad', 'adoc'],
             },
         },
     ],

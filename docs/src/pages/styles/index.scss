@@ -21,7 +21,13 @@
     .leftSidebar,
     .contentArea {
         border-right: 1px solid black;
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
+
+        .docContentArea {
+            padding: 0 15px;
+            width: 100%;
+        }
     }
 
     .leftSidebar {
