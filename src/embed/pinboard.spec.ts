@@ -1,6 +1,6 @@
 import { PinboardEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
-import { Action, AuthType } from '../types';
+import { Action, AuthType, EventTypeV1 } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -91,6 +91,23 @@ describe('Pinboard/viz embed tests', () => {
         });
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
+        );
+    });
+
+    test('should register event handler to adjust iframe height', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as PinboardViewConfig);
+        const onSpy = jest.spyOn(pinboardEmbed, 'on');
+
+        pinboardEmbed.render({
+            pinboardId,
+            vizId,
+        });
+        expect(onSpy).toHaveBeenCalledWith(
+            EventTypeV1.EmbedHeight,
+            expect.anything(),
         );
     });
 });

@@ -89,6 +89,7 @@ export enum EventType {
     Search = 'search',
     Filter = 'filter',
     Reload = 'reload',
+    CustomActionStatus = 'customActionStatus',
 }
 
 /**
@@ -99,6 +100,7 @@ export enum EventTypeV1 {
     Alert = 'alert',
     Data = 'data',
     AuthExpire = 'authExpire',
+    EmbedHeight = 'EMBED_HEIGHT',
 }
 
 /**

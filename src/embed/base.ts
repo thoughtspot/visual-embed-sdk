@@ -57,6 +57,8 @@ export interface ViewConfig {
 
 /**
  * Base class for embedding v2 experience
+ * Note: the v2 version of ThoughtSpot Blink is built on the new stack:
+ * React+GraphQL
  */
 export class TsEmbed {
     /**
@@ -127,8 +129,7 @@ export class TsEmbed {
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
             const eventType = event.data?.type;
-            const embedId = event.data?.embedId;
-            if (embedId === this.getId()) {
+            if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(eventType, event.data);
             }
         });
@@ -196,6 +197,14 @@ export class TsEmbed {
         this.el.appendChild(this.iFrame);
 
         this.subscribeToEvents();
+    }
+
+    /**
+     * Set the height of the iframe
+     * @param height The height in pixels
+     */
+    protected setIFrameHeight(height: number): void {
+        this.iFrame.style.height = `${height}px`;
     }
 
     /**
@@ -271,7 +280,9 @@ export class TsEmbed {
 }
 
 /**
- * Base class for embedding legacy v1 experience
+ * Base class for embedding v1 experience
+ * Note: The v1 version of ThoughtSpot Blink works on the AngularJS stack
+ * which is currently under migration to v2
  */
 export class V1Embed extends TsEmbed {
     protected viewConfig: ViewConfig;
@@ -294,7 +305,12 @@ export class V1Embed extends TsEmbed {
         const onAuthExpire = () =>
             this.executeCallbacks(EventTypeV1.AuthExpire, null);
 
-        initialize(onInit, onAuthExpire, this.getThoughtSpotHost());
+        initialize(
+            onInit,
+            onAuthExpire,
+            this.getThoughtSpotHost(),
+            config.authType,
+        );
 
         const onAlert = (data: any) =>
             this.executeCallbacks(EventTypeV1.Alert, data);

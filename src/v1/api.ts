@@ -5,6 +5,8 @@
  * @fileoverview ThoughtSpot Javascript API for use of ThoughtSpot in external webpages.
  */
 
+import { AuthType } from '../types';
+
 // eslint-disable-next-line no-shadow
 enum Events {
     THOUGHTSPOT_AUTH_EXPIRED = 'ThoughtspotAuthExpired',
@@ -197,6 +199,7 @@ function initialize(
     onInitialized: Callback,
     onAuthExpiration: Callback,
     _thoughtspotHost: string,
+    authType: AuthType,
 ): void {
     let tsHost = _thoughtspotHost;
     if (_thoughtspotHost === undefined) {
@@ -215,29 +218,31 @@ function initialize(
     setUpAuthExpirationHandling(thoughtspotHost);
     addAuthExpirationHandler(onAuthExpiration);
 
-    checkIfLoggedIn(thoughtspotHost, (isLoggedIn: boolean) => {
-        if (isLoggedIn) {
+    if (authType !== AuthType.None) {
+        checkIfLoggedIn(thoughtspotHost, (isLoggedIn: boolean) => {
+            if (isLoggedIn) {
+                if (isAtSSORedirectUrl()) {
+                    removeSSORedirectUrlMarker();
+                }
+                initialized = true;
+                onInitialized(true);
+                return;
+            }
+
+            // we have already tried authentication and it did not succeed, restore
+            // the current url to the original one and call the callback
             if (isAtSSORedirectUrl()) {
                 removeSSORedirectUrlMarker();
+                initialized = true;
+                onInitialized(false);
+                return;
             }
-            initialized = true;
-            onInitialized(true);
-            return;
-        }
 
-        // we have already tried authentication and it did not succeed, restore
-        // the current url to the original one and call the callback
-        if (isAtSSORedirectUrl()) {
-            removeSSORedirectUrlMarker();
-            initialized = true;
-            onInitialized(false);
-            return;
-        }
-
-        // redirect for SSO, when SSO is done this page will be loaded
-        // again and the same JS will execute again
-        doSSO(thoughtspotHost);
-    });
+            // redirect for SSO, when SSO is done this page will be loaded
+            // again and the same JS will execute again
+            doSSO(thoughtspotHost);
+        });
+    }
 }
 
 function notifyOnAuthExpiration(): void {

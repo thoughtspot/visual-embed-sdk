@@ -54,7 +54,7 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
 export const URL_MAX_LENGTH = 2000;
 
 /**
- * The default dimensions of the embedded app
+ * The default CSS dimensions of the embedded app
  */
-export const DEFAULT_EMBED_WIDTH = 1280;
-export const DEFAULT_EMBED_HEIGHT = 720;
+export const DEFAULT_EMBED_WIDTH = '100%';
+export const DEFAULT_EMBED_HEIGHT = '100%';
