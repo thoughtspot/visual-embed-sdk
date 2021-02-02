@@ -10,12 +10,7 @@
         "tsc": "tsc -p . --incremental false",
         "build": "rollup -c",
         "watch": "rollup -cw",
-        "develop-docs": "gatsby develop",
-        "build-docs": "gatsby build --prefix-paths",
-        "deploy-docs": "gatsby build --prefix-paths && gh-pages -d public -b 7.3.0-docs",
-        "publish-docs": "gh-pages -d public -b 7.3.0-docs",
-        "serve-docs": "gatsby serve",
-        "clean-docs": "gatsby clean",
+        "docs-cmd": "node scripts/gatsby-commands.js",
         "test": "jest -c jest.config.js"
     },
     "dependencies": {},
