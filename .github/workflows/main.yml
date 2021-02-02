@@ -39,6 +39,13 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # Collect coverage report
+      - uses: 5monkeys/cobertura-action@master
+        with:
+          path: coverage/cobertura-coverage.xml
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          minimum_coverage: 0
+
       # Runs TypeScript compiler
       - name: Run TypeScript compiler
         run: npm run tsc

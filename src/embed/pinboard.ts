@@ -8,14 +8,15 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Param, RuntimeFilter } from 'src/types';
+import { Action, Param, RuntimeFilter } from 'src/types';
 import { getFilterQuery, getQueryParamString } from 'src/utils';
 import { V1Embed, ViewConfig } from './base';
 
 export interface PinboardViewConfig extends ViewConfig {
     fullHeight?: boolean;
-    disabledActions?: string[];
+    disabledActions?: Action[];
     disabledActionReason: string;
+    hiddenActions?: Action[];
 }
 
 export interface PinboardRenderOptions {
@@ -29,13 +30,20 @@ export class PinboardEmbed extends V1Embed {
 
     private getEmbedParams() {
         const params = {};
-        const { disabledActions, disabledActionReason } = this.viewConfig;
+        const {
+            disabledActions,
+            disabledActionReason,
+            hiddenActions,
+        } = this.viewConfig;
         if (disabledActions && disabledActions.length) {
             const disabledActionsString = disabledActions.join(',');
             params[Param.DisableActions] = disabledActionsString;
         }
         if (disabledActionReason) {
             params[Param.DisableActionReason] = disabledActionReason;
+        }
+        if (hiddenActions && hiddenActions.length) {
+            params[Param.HideActions] = hiddenActions.join(',');
         }
 
         const queryParams = getQueryParamString(params);
