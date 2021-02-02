@@ -1,4 +1,5 @@
 module.exports = {
+    pathPrefix: '/embed-sdk',
     siteMetadata: {
         title: 'tseverywhere-docs',
     },
