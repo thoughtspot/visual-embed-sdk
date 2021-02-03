@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { id, getQueryParamString, getFilterQuery } from './utils';
 import { RuntimeFilterOp } from './types';
 

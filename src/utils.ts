@@ -28,7 +28,7 @@ export const id = (): string => Math.random().toString(36).substr(2, 9);
  * @param runtimeFilters
  */
 export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
-    if (runtimeFilters.length) {
+    if (runtimeFilters && runtimeFilters.length) {
         const filters = runtimeFilters.map((filter, valueIndex) => {
             const index = valueIndex + 1;
             const filterExpr = [];

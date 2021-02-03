@@ -9,6 +9,7 @@
 
 // eslint-disable-next-line no-shadow
 export enum AuthType {
+    None = 'None',
     SSO = 'SSO',
     AuthServer = 'AuthServer',
 }
@@ -64,7 +65,7 @@ export enum EventType {
     Data = 'data',
     FiltersChanged = 'filtersChanged',
     QueryChanged = 'queryChanged',
-    Drilldown = 'drilldown',
+    Drilldown = 'drillDown',
     DataSourceSelected = 'dataSourceSelected',
     CustomAction = 'customAction',
 

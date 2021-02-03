@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DataSourceVisualMode, Param } from '../types';
+import { DataSourceVisualMode, DOMSelector, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
@@ -17,7 +17,7 @@ export interface SearchViewConfig extends ViewConfig {
     hideResults?: boolean;
     enableSearchAssist?: boolean;
     disabledActions?: string[];
-    disabledActionReason: string;
+    disabledActionReason?: string;
 }
 
 export interface SearchRenderOptions {
@@ -29,7 +29,7 @@ export interface SearchRenderOptions {
 export class SearchEmbed extends TsEmbed {
     private viewConfig: SearchViewConfig;
 
-    constructor(domSelector: string, viewConfig: SearchViewConfig) {
+    constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
     }
@@ -75,7 +75,7 @@ export class SearchEmbed extends TsEmbed {
         dataSources,
         searchQuery,
         answerId,
-    }: SearchRenderOptions): SearchEmbed {
+    }: SearchRenderOptions = {}): SearchEmbed {
         super.render();
 
         const src = this.getIFrameSrc(answerId, dataSources, searchQuery);

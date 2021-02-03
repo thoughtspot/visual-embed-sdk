@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { getThoughtSpotHost } from './config';
 import { AuthType } from './types';
 
