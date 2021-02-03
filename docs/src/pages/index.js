@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import t from '../utils/lang-utils';
+import queryStringParser from '../utils/app-utils';
+import htmlParser from '../utils/doc-utils';
 import './styles/index.scss';
 
 // markup
-const IndexPage = () => {
+const IndexPage = (props) => {
+    const params = queryStringParser(props.location.search);
+
     const {
         allAsciidoc: { edges },
     } = useStaticQuery(
@@ -29,7 +33,7 @@ const IndexPage = () => {
 
     const docTitle =
         edges[0].node.document.title || edges[0].node.document.main;
-    const docContent = edges[0].node.html;
+    const docContent = htmlParser(edges[0].node.html, params);
 
     return (
         <div>

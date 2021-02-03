@@ -15,6 +15,30 @@ args.splice(0, 2);
 // used to handle command options supplied as arguments
 const cmdOptionHandler = (command, options) => {
     switch (command) {
+        case 'develop': {
+            const cmdOptions = options[1] && options[1].split('=');
+            if (cmdOptions) {
+                if (cmdOptions[0] !== 'port') {
+                    console.log(
+                        `Invalid command option passed to '${command}': `,
+                        cmdOptions[0],
+                    );
+                } else if (!cmdOptions[1]) {
+                    console.log(
+                        `Invalid value (ex.: option=value) passed to '${cmdOptions[0]}' option: `,
+                        cmdOptions[1],
+                    );
+                } else {
+                    const portNo = cmdOptions[1];
+                    return portNo;
+                }
+            } else {
+                // default port number for develop command
+                return 8002;
+            }
+
+            return false;
+        }
         case 'build': {
             if (options[1]) {
                 if (options[1] !== 'noprefix') {
@@ -88,7 +112,10 @@ let cmdToExecute = '';
 // validate and prepare supported command
 switch (cmdName) {
     case 'develop':
-        cmdToExecute = `gatsby develop`;
+        const portNo = cmdOptionHandler(cmdName, args);
+        if (!portNo) return;
+
+        cmdToExecute = `gatsby develop -p ${portNo}`;
         break;
     case 'build':
         const prefixOption = cmdOptionHandler(cmdName, args);
@@ -124,4 +151,7 @@ switch (cmdName) {
 }
 
 // execute prepared command
-exec(cmdToExecute, cb);
+const proc = exec(cmdToExecute, cb);
+
+// print the logs
+proc.stdout.on('data', console.log);
