@@ -12,7 +12,7 @@ import {
     URL_MAX_LENGTH,
     DEFAULT_EMBED_WIDTH,
     DEFAULT_EMBED_HEIGHT,
-} from 'src/config';
+} from '../config';
 import {
     DOMSelector,
     EmbedConfig,
@@ -20,8 +20,8 @@ import {
     EventTypeV1,
     GenericCallbackFn,
     MessageCallback,
-} from 'src/types';
-import { id } from 'src/utils';
+} from '../types';
+import { id } from '../utils';
 import {
     getCurrentData,
     initialize,
@@ -95,7 +95,7 @@ export class TsEmbed {
     }
 
     protected getEmbedBasePath(): string {
-        return `${this.thoughtSpotHost}/#/embed/${this.getId()}`;
+        return `${this.thoughtSpotHost}/v2/#/embed/${this.getId()}`;
     }
 
     protected getV1EmbedBasePath(

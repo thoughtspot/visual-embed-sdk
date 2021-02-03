@@ -8,8 +8,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Action, Param, RuntimeFilter } from 'src/types';
-import { getFilterQuery, getQueryParamString } from 'src/utils';
+import { Action, Param, RuntimeFilter } from '../types';
+import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
 export interface PinboardViewConfig extends ViewConfig {
@@ -56,7 +56,7 @@ export class PinboardEmbed extends V1Embed {
         vizId?: string,
         runtimeFilters?: RuntimeFilter[],
     ) {
-        const filterQuery = getFilterQuery(runtimeFilters);
+        const filterQuery = getFilterQuery(runtimeFilters || []);
         let url = `${this.getV1EmbedBasePath(filterQuery)}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;

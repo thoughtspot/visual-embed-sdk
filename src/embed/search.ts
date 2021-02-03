@@ -7,8 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DataSourceVisualMode, Param } from 'src/types';
-import { getQueryParamString } from 'src/utils';
+import { DataSourceVisualMode, Param } from '../types';
+import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
 export interface SearchViewConfig extends ViewConfig {
