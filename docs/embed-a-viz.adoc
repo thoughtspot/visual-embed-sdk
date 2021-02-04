@@ -1,0 +1,60 @@
+= Embed charts and tables  
+:toc: true
+
+This page explains, through an example, how to embed either a ThoughtSpot visualization (table or chart) in your Web page, portal, or application.
+////
+To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
+Experience working with Javascript also helps.
+////
+=== Import the SDK Library
+
+[source,javascript]
+----
+<add codeblock>
+----
+
+=== Initialize the SDK
+
+[source,javascript]
+----
+<add codeblock>
+----
+=== Construct the embed content
+ 
+[source,JavaScript]
+----
+ var protocol = "THOUGHTSPOT_PROTOCOL";
+ var hostPort = "HOST_PORT";
+
+ var vizualizationId = "VIZUALIZATON_ID";
+----
+
+. Edit each variable in the section and replace it with the IDs you copied from the pinboard.
+
+For example, your URL may look similar to the following:
+
+----
+http://172.18.202.35:8088/#/embed/viz/061457a2-27bc-43a9-9754-0cd873691bf0/9985fccf-b28d-4262-b54b-29619a38348e+`
+
+----
+This is a link copied from an individual visualization, the result in the file is:
+
+
+[source,JavaScript]
+----
+ var protocol = "http";
+ var hostPort = "172.18.202.35:8088";
+
+ var pinboardId = "061457a2-27bc-43a9-9754-0cd873691bf0";
+ var vizualizationId = "9985fccf-b28d-4262-b54b-29619a38348e";
+----
+
+
+=== Configure Events
+
+<Add information on events>
+ 
+
+== Verify the embed connection
+<Add steps to test visualization embedding>
+

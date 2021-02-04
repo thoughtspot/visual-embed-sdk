@@ -1,0 +1,42 @@
+= ThoughtSpot Embedded Analytics
+:toc: true
+ß
+The ThoughtSpot embedded analytics capability empowers you to embed ThoughtSpot functionality and infuse search-driven data and insights into your applications, products, websites, or portals. 
+ThoughtSpot provides a suite of APIs, SDK, and developer tools to  embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application within  the context of your  application, and thus provide a consistent and seamless experience to your users.
+
+== Types of Embedding
+The type of embedding your business requires can help you determine what type of embedding to use.
+For example, you may simply need a single chart displayed as a  wallboard, or you may want your customers to access reports on their own data.
+The first example could require modifying a single HTML page, while the later example may require working with a development team and several different workflows in a browser application.
+
+Based on your integration requirements, you can use one of the following embedding approaches.
+
+* Full-application embedding - You can embed the entire ThoughtSpot application is embedded into a host application. Application users can navigate to the ThoughtSpot UI through a tab or a link. 
+* Page-level embedding - You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The client applications can allow page-to-page navigation.
+* Object-level embedding - You can embed a specific component like search, pinboard, or charts.
+
+
+== Embedding Methods
+
+You can use one of the following methods to embed ThoughtSpot functionality into your application:
+
+* *Using iFrames via ThoughtSpot UI*- In this method, you can copy the embed link for a pinboard or visualization from the ThoughtSpot UI and add it your webpage or an HTML file. For more information, see Embedding a Pinboard or Visualization.
+* *Using the Visual Embed SDK* - In this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot components or application. <Add a link to visual embed sdk topic>
+* *Using REST APIs* - In this method, you can make calls to ThoughtSpot application using REST APIs to programmatically fetch data and customize data. <Add a link to REST API content>
+
+== Embed Content Services
+
+The ThoughtSpot embedded content services can be grouped into four categories:
+
+* Search
+* Visualizations (Charts and Tables)
+* Pinboards
+* Full application
+
+== Customization and Rebranding
+
+If you are an existing ThoughtSpot application user, you can customize the styles, look and feel of the ThoughtSpot components embedded in an application. You can also configure custom actions for ThoughtSpot visualization widgets and pinboards.  
+For more information, see the following pages:
+
+* Customize Styles
+* Configure Custom Action

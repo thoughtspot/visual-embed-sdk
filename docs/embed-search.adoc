@@ -1,0 +1,68 @@
+== Embed Search
+:toc: true
+This procedure shows how to embed the ThoughtSpot search function using the Visual Embed SDK.  
+
+////
+The Embedded Search API enables searching directly from an external application or web page to pull data from ThoughtSpot.
+This feature was introduced in ThoughtSpot 5.0.
+When using it, you can access data stored in ThoughtSpot directly.
+You do not have to save a search result to a pinboard and then reference it using the visualization's URL.
+
+////
+
+This embedded search is useful when you want to allow an application to pull data directly from ThoughtSpot in an ad hoc fashion.
+
+=== Import the SDK Library
+
+Import the SearchEmbed SDK library to your application environment:
+
+[source,javascript]
+----
+<add codeblock>
+----
+
+=== Initialize the SDK
+
+[source,javascript]
+----
+<add codeblock>
+----
+=== Construct the embed content
+
+[source,javascript]
+----
+<add codeblock>
+----
+ 
+=== Configure events
+
+<Add information on events>
+
+////
+
+Data retrieved using the Embedded Search API is returned as JSON (JavaScript Object Notation).
+You must parse the JSON to get the data values you need, generally using JavaScript in the receiving application.
+
+Use this procedure to construct the call to the Embedded Search API:
+
+. link:{{ site.baseurl }}/app-integrate/JSAPI/enable-JS-API.html#[Enable the JavaScript API (JS API)] on the receiving page of the target application.
+. link:{{ site.baseurl }}/app-integrate/JSAPI/about-JS-API.html#[Authenticate to ThoughtSpot] on the receiving page of the target application.
+. link:{{ site.baseurl }}/app-integrate/embedding-viz/about-full-embed.html#[Embed the ThoughtSpot application] in your own web page or application.
+. To subscribe to results for all the searches the user does in the embedded ThoughtSpot application, use the API JavaScript function subscribeToData( ).
+This will allow your page to listen for data coming from ThoughtSpot.
++
+
+////
+
+=== Perform a Search
+
+////
+Now when a user searches, the <iframe> sends data to the subscription.
+The parent web page or application receives the data as JSON, and can do whatever you want with it.
+
+. You can set up your web page or application to display or otherwise act on the data it receives from the subscription.
+
+////
+To verify the integration, perform a search using the ThoughtSpot search bar embedded in your application.
+
+ 

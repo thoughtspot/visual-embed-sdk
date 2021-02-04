@@ -1,0 +1,56 @@
+= Getting Started
+:toc: true
+== Download the Visual Embed SDK
+<add instructions on how to download SDK>
+
+== Install the Visual Embed SDK
+The preferred way to install the Visual Embed SDK for Node.js is to use npm, the Node.js package manager. To do so, type this at the command line:
+
+----
+npm install ts-embed-sdk
+----
+
+== Import the Visual SDK Library
+
+To use the Visual Embed SDK, include SDK Javascript library in your host page using a <script> HTML tag:
+
+----
+<script src=".....js></script>`
+----
+
+
+== Configuring Cross-Origin HTTP Requests
+
+When embedding ThoughtSpot into web pages, you must enable Cross-Origin HTTP Requests (CORS) between the client application domain and the ThoughtSpot domain. This protects your data, so that another application cannot use the same URL to embed the visualization in its Web pages.
+
+*<Question to dev team - Should CORS, same-site access, and content security settings be enabled via CLI or the dev portal > cluster settings page?)>*
+
+=== Enable CORS from the command line
+
+From the ThoughtSpot command line, run the following command with the appropriate values: 
+
+[source,console]
+----
+ $ echo "https?://(mythoughtspot1.mycompany.com|.*:443|.*:8080|.*:80)" | tscli --adv config set --key "/config/nginx/corshosts"
+----
+
+
+=== Enable CORS from the Developer Portal
+
+*<Add instructions>*
+
+== Enable Same-Site Access
+
+If you want to enable same-site access, run the following command:
+
+[source,console]
+----
+$ tscli --adv service add-gflag nginx.nanny nginx_cookie_flag 'Secure SameSite=None'
+----
+
+
+=== Enable Content Security
+
+<TBD>
+
+ 
