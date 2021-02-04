@@ -31,6 +31,11 @@ import {
 
 let config = {} as EmbedConfig;
 
+/**
+ * Initialize the ThoughtSpot embed settings globally
+ * @param embedConfig The configuration object containing ThoughtSpot host,
+ * authentication mecheanism etc.
+ */
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
 };
@@ -51,19 +56,40 @@ export interface ViewConfig {
 }
 
 /**
- * For embedding v2 experience
+ * Base class for embedding v2 experience
  */
 export class TsEmbed {
+    /**
+     * The identifier for the instance
+     */
     private id: string;
 
+    /**
+     * The DOM node where the ThoughtSpot app is to be embedded
+     */
     private el: Element;
 
+    /**
+     * A reference to the iframe within which the ThoughtSpot app
+     * will be rendered
+     */
     private iFrame: HTMLIFrameElement;
 
+    /**
+     * A map of event handlers for particular message types triggered
+     * by the embdedded app; multiple event handlers can be registered
+     * against a particular message type
+     */
     private eventHandlerMap: Map<string, MessageCallback[]>;
 
+    /**
+     * The ThoughtSpot host name or IP address
+     */
     private thoughtSpotHost: string;
 
+    /**
+     * A flag that is set to true post render
+     */
     private isRendered: boolean;
 
     constructor(domSelector: DOMSelector) {
@@ -74,16 +100,30 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
     }
 
+    /**
+     * Get a reference to the root DOM node where
+     * the embedded content will appear
+     * @param domSelector
+     */
     private getDOMNode(domSelector: DOMSelector) {
         return typeof domSelector === 'string'
             ? document.querySelector(domSelector)
             : domSelector;
     }
 
+    /**
+     * Throw error encountered during initialization
+     */
     private throwInitError() {
         throw new Error('You need to init the ThoughtSpot SDK module first');
     }
 
+    /**
+     * Add an global event listener to window for "message" events
+     * We detect if a particular event is targeted to this particular
+     * embed instance through an identifier contained in the payload,
+     * and execute the registere callbacks accordingly
+     */
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
             const eventType = event.data?.type;
@@ -94,10 +134,20 @@ export class TsEmbed {
         });
     }
 
+    /**
+     * Construct the base URL string to load the ThoughtSpot app
+     */
     protected getEmbedBasePath(): string {
         return `${this.thoughtSpotHost}/v2/#/embed/${this.getId()}`;
     }
 
+    /**
+     * Construct the base URL string to load v1 of the ThoughtSpot app
+     * This is used for pinboards, visualizations and full app embedding
+     * @param queryString Query string to append to the URL
+     * @param isAppEmbed A Boolean parameter to specify if we're embedding
+     * the full app
+     */
     protected getV1EmbedBasePath(
         queryString: string,
         isAppEmbed = false,
@@ -111,6 +161,12 @@ export class TsEmbed {
         return path;
     }
 
+    /**
+     * Renders the embedded ThoughtSpot app in an iframe and sets up
+     * event listeners
+     * @param url
+     * @param frameOptions
+     */
     protected renderIFrame(url: string, frameOptions: FrameParams): void {
         if (!this.thoughtSpotHost) {
             this.throwInitError();
@@ -142,6 +198,11 @@ export class TsEmbed {
         this.subscribeToEvents();
     }
 
+    /**
+     * Execute all registered event handlers for a particular event type
+     * @param eventType The event type
+     * @param data The payload the event handler will be invoked with
+     */
     protected executeCallbacks(
         eventType: EventType | EventTypeV1,
         data: any,
@@ -150,14 +211,26 @@ export class TsEmbed {
         callbacks.forEach((callback) => callback(data));
     }
 
+    /**
+     * Return the identifier for this instance
+     */
     public getId(): string {
         return this.id;
     }
 
+    /**
+     * Return the ThoughtSpot host name or IP address
+     */
     public getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
     }
 
+    /**
+     * Register an event listener to be triggered when we receive
+     * an event of a particular message type from the embedded app
+     * @param messageType The message type
+     * @param callback A callback function
+     */
     public on(
         messageType: string,
         callback: MessageCallback,
@@ -175,6 +248,11 @@ export class TsEmbed {
         return this;
     }
 
+    /**
+     * Trigger a message event to the embedded app
+     * @param messageType The message type
+     * @param data The payload to send with the message
+     */
     public trigger(messageType: string, data: any): typeof TsEmbed.prototype {
         this.iFrame.contentWindow.postMessage(
             {
@@ -193,7 +271,7 @@ export class TsEmbed {
 }
 
 /**
- * For embedding legacy v1 experience
+ * Base class for embedding legacy v1 experience
  */
 export class V1Embed extends TsEmbed {
     protected viewConfig: ViewConfig;
@@ -203,6 +281,10 @@ export class V1Embed extends TsEmbed {
         this.viewConfig = viewConfig;
     }
 
+    /**
+     * Render the app in an iframe and set up event handlers
+     * @param iframeSrc
+     */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
 
@@ -223,6 +305,12 @@ export class V1Embed extends TsEmbed {
         subscribeToData(onData);
     }
 
+    /**
+     * Fetch the current pinboard or answer data from the
+     * embedded app asynchronously
+     * @param callback A function to be executed with the
+     * fetched as an argument
+     */
     public getCurrentData(callback: GenericCallbackFn): void {
         getCurrentData(callback);
     }

@@ -23,11 +23,22 @@ export interface AppRenderOptions {
     pageId: Page;
 }
 
+/**
+ * Embed a page within the ThoughtSpot app
+ */
 export class AppEmbed extends V1Embed {
+    /**
+     * Construct the URL of the ThoughtSpot app page to be rendered
+     * @param pageId The id of the page to be embedded
+     */
     private getIFrameSrc(pageId: string) {
         return `${this.getV1EmbedBasePath(null, true)}/${pageId}`;
     }
 
+    /**
+     * Get the ThoughtSpot route of the page for a particular page id
+     * @param pageId The identifier for a page in the ThoughtSpot app
+     */
     private getPageRoute(pageId: Page) {
         switch (pageId) {
             case Page.Search:
@@ -44,6 +55,11 @@ export class AppEmbed extends V1Embed {
         }
     }
 
+    /**
+     * Render an embedded app in the ThoughtSpot app
+     * @param renderOptions An object containing the page id
+     * to be embedded
+     */
     public render({ pageId }: AppRenderOptions): AppEmbed {
         super.render();
 

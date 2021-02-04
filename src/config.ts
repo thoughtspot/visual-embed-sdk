@@ -19,6 +19,11 @@ const urlRegex = new RegExp(
     ].join(''),
 );
 
+/**
+ * Parse and construct the ThoughtSpot host name or IP address
+ * from the embed configuration object
+ * @param config
+ */
 export const getThoughtSpotHost = (config: EmbedConfig): string => {
     const urlParts = config.thoughtSpotHost.match(urlRegex);
     if (!urlParts) {
@@ -48,5 +53,8 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
  */
 export const URL_MAX_LENGTH = 2000;
 
-export const DEFAULT_EMBED_WIDTH = 500;
-export const DEFAULT_EMBED_HEIGHT = 500;
+/**
+ * The default dimensions of the embedded app
+ */
+export const DEFAULT_EMBED_WIDTH = 1280;
+export const DEFAULT_EMBED_HEIGHT = 720;
