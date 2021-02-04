@@ -126,8 +126,8 @@ export class TsEmbed {
         });
         this.iFrame = document.createElement('iframe');
         this.iFrame.src = url;
-        this.iFrame.width = `${frameOptions.width || DEFAULT_EMBED_WIDTH}`;
-        this.iFrame.height = `${frameOptions.height || DEFAULT_EMBED_HEIGHT}`;
+        this.iFrame.width = `${frameOptions?.width || DEFAULT_EMBED_WIDTH}`;
+        this.iFrame.height = `${frameOptions?.height || DEFAULT_EMBED_HEIGHT}`;
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
         this.iFrame.addEventListener('load', () =>

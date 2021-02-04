@@ -47,7 +47,7 @@ function getScriptHost() {
     const scripts = document.getElementsByTagName('script');
     const currentScriptNode = scripts[scripts.length - 1];
 
-    const currentScriptSrc = currentScriptNode.src;
+    const currentScriptSrc = currentScriptNode?.src;
     if (!currentScriptSrc) {
         // eslint-disable-next-line no-console
         console.error(
@@ -200,6 +200,7 @@ function initialize(
 ): void {
     let tsHost = _thoughtspotHost;
     if (_thoughtspotHost === undefined) {
+        autoDeterminedThoughtspotHost = getScriptHost();
         tsHost = autoDeterminedThoughtspotHost;
     }
     thoughtspotHost = tsHost;
@@ -247,8 +248,6 @@ function notifyOnAuthExpiration(): void {
         '*',
     );
 }
-
-autoDeterminedThoughtspotHost = getScriptHost();
 
 const messageCallbacks = {};
 
