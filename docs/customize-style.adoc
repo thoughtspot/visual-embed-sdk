@@ -1,0 +1,95 @@
+= Customize look and feel
+:toc: true
+
+
+You can brand the ThoughtSpot application for your company.
+
+You can customize the look and feel of the ThoughtSpot application for your company.
+Configuring these settings sets system-wide defaults for all your users.
+
+Style customization is enabled by default.
+You can configure your cluster to disable this functionality.
+
+////
+Contact https://community.thoughtspot.com/customers/s/contactsupport[ThoughtSpot Support] about disabling this feature.
+
+////
+
+== Customize styles
+
+To customize the styles, look and feel of the ThoughtSpot application components, you must be an authorized user with administrative privileges.
+
+To access style customization:
+
+. Go to the SpotDev portal.
+. Sign in with your ThoughtSpot user credentials.
+. Under *Configuration*, click *Style Customization*.
+
+== General guidelines for customization
+
+Your changes take effect either immediately, or after you refresh the browser.
+You can revert your changes by using the *Reset* button that appears when you move your cursor to the right of the setting.
+
+
+You can configure these style customizations:
+
+* Application Logo (Default) & Favicon
+* Font style for chart labels
+* Set the background for the embedded ThoughtSpot component
+* Set the default palette for all charts.
+  
+////
+
+  Sets a default application and favicon logo.
+This should be 140 pixels square.+++</dlentry>++++++<dlentry>+++Application Logo (Wide)::::  This logo should be 440 x 100 pixels.+++</dlentry>++++++<dlentry>+++Chart Visualization Fonts::::
+
+You can specify any Web Open Font Format (`WOFF`) file.+++</dlentry>++++++<dlentry>+++Table Visualization Fonts::::
+Set a font for table labels.
+You can specify any Web Open Font Format (`WOFF`) file.+++</dlentry>++++++<dlentry>+++Embedded Application Background::::
+Set the background for an embedded ThoughtSpot instance.
+This is only used if you are embedding ThoughtSpot in another application.+++</dlentry>++++++<dlentry>+++Chart Color Palettes::::
+Set the default palette for all charts.
+To set a value, however over a color value and enter a HEX value or select one from the chart.
+Individual users can still customize their own chart colors.
+They can use the *Reset colors* option on a chart to clear their changes.+++</dlentry>++++++<dlentry>+++Footer text::::  Define a footer to appear with the ThoughtSpot application.+++</dlentry>++++++<dlentry>+++Page title::::  Sets the title for the browser tab.+++</dlentry>+++
+
+////
+
+== How to specify fonts
+
+You can set your systems default fonts by specifying either or both of the *Chart Visualization Fonts* and *Table Visualization Fonts* values.
+To set this values, your font must be defined in a Web Open Font Format (`WOFF`) file.
+
+Changes to chart and table defaults apply only to charts and features created _after_ you configure a value.
+If you change table fonts, older tables retain their previous fonts.
+Some settings can be overridden on a per-object level.
+Users cannot configure their own defaults.
+
+. Make sure you have a WOFF file available for your font.
+. Select the label you want to change.
+. Click the *+* button.
++
+The system displays the *Custom Font* dialog.
+
+. Click the *Custom Font* field.
++
+The system displays the file finder.
+
+. Add the `WOFF` file you want.
++
+The file appears in the font dialog
+
+. Click *Save* to change the font.
+
+== How to specify the behavior or clickable links in data
+
+There is a system-wide setting which determines what happens when a user clicks on a link within the data.
+When your data includes URLs, they display as clickable links in ThoughtSpot tables.
+By default, clicking on a link opens the URL in a separate tab.
+But there is a system-wide setting that can be changed to open the links within the context of where they appear.
+
+Consider how the links open, by type:
+
+* Link in search result table in ThoughtSpot-Same browser tab as ThoughtSpot application
+* Link in table embedded in an <iframe> - Same <iframe> that contains the table
+* Link in full ThoughtSpot application embedded in an <iframe> - Same <iframe> that contains the application
