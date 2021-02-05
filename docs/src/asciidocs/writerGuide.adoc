@@ -33,6 +33,12 @@ endif::[]
 :gist-ref: https://gist.github.com
 :publican-ref: https://fedorahosted.org/publican
 
+preview in playground 1: 
+++++
+<a href="{{link}}">click me</a>
+++++
+preview in playground 2: {{value}}
+
 This guide provides a gentle introduction to AsciiDoc, a _plain text_ documentation *syntax* and *processor*.
 This introduction is intended for anyone who wants to reduce the effort required to write and publish content, whether for technical documentation, articles, web pages or good ol'-fashioned prose.
 

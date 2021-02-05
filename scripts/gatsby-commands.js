@@ -2,114 +2,164 @@
  * scripts to use in package.json
  */
 'use strict';
+const commandLineArgs = require('command-line-args');
+
+// parse the main command
+const mainCmdDefinitions = [
+    { name: 'command', type: String, defaultOption: true },
+];
+const mainOptions = commandLineArgs(mainCmdDefinitions, {
+    stopAtFirstUnknown: true,
+});
+const argv = mainOptions._unknown || [];
 
 // get node process
 const { exec } = require('child_process');
 
-// get all supplied arguments
-let args = process.argv;
-
-// remove node and file path arguments
-args.splice(0, 2);
-
-// used to handle command options supplied as arguments
-const cmdOptionHandler = (command, options) => {
-    switch (command) {
-        case 'build': {
-            if (options[1]) {
-                if (options[1] !== 'noprefix') {
-                    console.log(
-                        `Invalid command option passed to '${command}': `,
-                        options[1],
-                    );
-                } else {
-                    return 'noprefix';
-                }
-            } else {
-                // default option of noprefix for build command
-                return 'prefix';
-            }
-
-            return false;
-        }
-        case 'build-and-publish':
-        case 'publish': {
-            const cmdOptions = options[1] && options[1].split('=');
-            if (cmdOptions) {
-                if (cmdOptions[0] !== 'branch') {
-                    console.log(
-                        `Invalid command option passed to '${command}': `,
-                        cmdOptions[0],
-                    );
-                } else if (!cmdOptions[1]) {
-                    console.log(
-                        `Invalid value (ex.: option=value) passed to '${cmdOptions[0]}' option: `,
-                        cmdOptions[1],
-                    );
-                } else {
-                    const branchName = cmdOptions[1];
-                    return branchName;
-                }
-            } else {
-                // default branch name for publish command
-                return '7.3.0-docs';
-            }
-
-            return false;
-        }
-        default:
-            console.log(
-                `'${cmdName}' command does not support runtime options.`,
-            );
-            return;
+// get all the options for a command
+const getCmdOptions = (definition, argv) => {
+    try {
+        return commandLineArgs(definition, { argv });
+    } catch (err) {
+        console.log(`Command run error - ${err.name} :: '${err.optionName}'`);
+        return;
     }
+};
+
+// used to validate command options supplied as arguments
+const validateCmdOptions = (definitions, options) => {
+    let isValid = true;
+    if (definitions.length === 0) {
+        console.log('Command run error - OPTIONS_NOT_SUPPORTED');
+        return false;
+    }
+
+    definitions.some((def) => {
+        if (def.required && !options.hasOwnProperty(def.name)) {
+            console.log(
+                `Command run error - MISSING_REQUIRED_OPTION :: '${def.name}'`,
+            );
+            isValid = false;
+            return true;
+        } else if (
+            (typeof def.type() === 'number' && isNaN(options[def.name])) ||
+            typeof def.type() !== typeof options[def.name]
+        ) {
+            console.log(
+                `Command run error - OPTION_INVALID_TYPE :: '{ ${def.name}: ${
+                    options[def.name]
+                } }'`,
+            );
+            isValid = false;
+            return true;
+        }
+        return false;
+    });
+
+    return isValid;
 };
 
 // callback handler for process.exec function
 const cb = (error, stdout, stderr) => {
     if (error) {
-        console.log(`gatsby '${cmdName}' command error(s): `, error);
+        console.log(
+            `gatsby '${mainOptions.command}' command error(s): `,
+            error,
+        );
         return;
     }
 
     // it worked
     console.log(
-        `gatsby '${cmdName}' command successfully executed with message: `,
+        `gatsby '${mainOptions.command}' command successfully executed with message: `,
         stdout,
     );
 };
-
-// get command name to run
-const cmdName = args[0];
 
 // command string to execute
 let cmdToExecute = '';
 
 // validate and prepare supported command
-switch (cmdName) {
-    case 'develop':
-        cmdToExecute = `gatsby develop`;
+switch (mainOptions.command) {
+    case 'develop': {
+        const developDefinitions = [
+            {
+                name: 'port',
+                alias: 'p',
+                type: Number,
+                defaultValue: 8002,
+                required: true,
+            },
+        ];
+
+        const developOptions = getCmdOptions(developDefinitions, argv);
+        if (!developOptions) return;
+
+        const isValid = validateCmdOptions(developDefinitions, developOptions);
+        if (!isValid) return;
+
+        cmdToExecute = `gatsby develop -p ${developOptions.port}`;
         break;
-    case 'build':
-        const prefixOption = cmdOptionHandler(cmdName, args);
-        if (!prefixOption) return;
+    }
+    case 'build': {
+        const buildDefinitions = [
+            {
+                name: 'noprefix',
+                type: Boolean,
+                defaultValue: false,
+                required: true,
+            },
+        ];
+
+        const buildOptions = getCmdOptions(buildDefinitions, argv);
+        if (!buildOptions) return;
+
+        const isValid = validateCmdOptions(buildDefinitions, buildOptions);
+        if (!isValid) return;
 
         cmdToExecute = `gatsby build ${
-            prefixOption === 'prefix' ? '--prefix-paths' : ''
+            buildOptions.noprefix === 'prefix' ? '' : '--prefix-paths'
         }`;
         break;
+    }
     case 'build-and-publish': {
-        const branchName = cmdOptionHandler(cmdName, args);
-        if (!branchName) return;
+        const bapDefinitions = [
+            {
+                name: 'branch',
+                alias: 'b',
+                type: String,
+                defaultValue: '7.3.0-docs',
+                required: true,
+            },
+        ];
 
-        cmdToExecute = `gatsby build --prefix-paths && gh-pages -d public -b ${branchName}`;
+        const bapOptions = getCmdOptions(bapDefinitions, argv);
+        if (!bapOptions) return;
+
+        const isValid = validateCmdOptions(bapDefinitions, bapOptions);
+        if (!isValid) return;
+
+        cmdToExecute = `gatsby build --prefix-paths && gh-pages -d public -b ${bapOptions.branch}`;
         break;
     }
     case 'publish': {
-        const branchName = cmdOptionHandler(cmdName, args);
-        if (!branchName) return;
+        const publishDefinitions = [
+            {
+                name: 'branch',
+                alias: 'b',
+                type: String,
+                defaultValue: '7.3.0-docs',
+                required: true,
+            },
+        ];
 
-        cmdToExecute = `gh-pages -d public -b ${branchName}`;
+        const publishOptions = getCmdOptions(publishDefinitions, argv);
+        if (!publishOptions) return;
+
+        const isValid = validateCmdOptions(publishDefinitions, publishOptions);
+        if (!isValid) return;
+
+        cmdToExecute = `gh-pages -d public -b ${publishOptions.branch}`;
         break;
     }
     case 'serve':
@@ -119,9 +169,12 @@ switch (cmdName) {
         cmdToExecute = `gatsby clean`;
         break;
     default:
-        console.log(`'${cmdName}' command is not supported.`);
+        console.log(`'${mainOptions.command}' command is not supported.`);
         return;
 }
 
 // execute prepared command
-exec(cmdToExecute, cb);
+const proc = exec(cmdToExecute, cb);
+
+// print the logs
+proc.stdout.on('data', console.log);

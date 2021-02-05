@@ -6,7 +6,7 @@ import passThroughHandler from '../utils/doc-utils';
 import './styles/index.scss';
 
 // markup
-const IndexPage = (props) => {
+const Doc2Page = (props) => {
     const [params, setParams] = useState({});
     const [docTitle, setDocTitle] = useState('');
     const [docContent, setDocContent] = useState('');
@@ -17,9 +17,9 @@ const IndexPage = (props) => {
 
     useEffect(() => {
         setDocTitle(
-            edges[0].node.document.title || edges[0].node.document.main,
+            edges[1].node.document.title || edges[1].node.document.main,
         );
-        setDocContent(passThroughHandler(edges[0].node.html, params));
+        setDocContent(passThroughHandler(edges[1].node.html, params));
     }, [params]);
 
     const {
@@ -73,4 +73,4 @@ const IndexPage = (props) => {
     );
 };
 
-export default IndexPage;
+export default Doc2Page;
