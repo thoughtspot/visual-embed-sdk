@@ -1,0 +1,142 @@
+= Embed Full Application
+:toc: true
+
+Full embedding allows users to create ThoughtSpot content in an embedded environment. Fully embedding ThoughtSpot content gives your users the ability to perform many essential tasks:
+
+* create Answers and Pinboards
+* share objects with other users
+* upload data, and refresh uploaded data
+* relate uploaded data to existing worksheets
+
+This is useful for supplying the full search experience into an `iframe` with different navigation views and toggle options.
+////
+== Limitations of full embedding
+
+There are some limitations;
+users in a fully  embedded applications cannot perform the following tasks:
+
+* create worksheets or views
+* modify profiles
+* view the Help Center
+
+Before committing to fully embed the application, review the article link:{{ site.baseurl }}/app-integrate/embedding-viz/about-embedding-viz.html[Understand embedding].
+////
+=== Import the SDK Library
+
+Import the SearchEmbed SDK library to your application environment:
+
+[source,javascript]
+----
+<add codeblock>
+----
+
+=== Initialize the SDK
+
+[source,javascript]
+----
+<add codeblock>
+----
+=== Construct the embed content
+
+[source,javascript]
+----
+<add codeblock>
+----
+ 
+=== Configure events
+
+<Add information on events>
+== Example of full application embedding
+
+The following sample demonstrates how you can fully embed an application.
+
+----
+<!doctype html>
+<html lang="en" style="height: 100%; width: 100%">
+   <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+      <meta name="viewport" content="width=device-width">
+      <meta charset="utf-8">
+      <title>ThoughtSpot Embed App</title>
+      <script type="text/javascript" src="api/api.min.js"></script>
+      <script type="text/javascript">
+         function updateIframeUrl(id) {
+         var iframeUrl = "/?embedApp=true#/";
+         if (id === 'homepage') {
+         iframeUrl = "/?embedApp=true#/";
+         } else if (id === 'search') {
+         iframeUrl = "/?embedApp=true#/answer";
+         } else if (id === 'answerList') {
+         iframeUrl = "/?embedApp=true#/answers";
+         } else if (id === 'pinboardList') {
+         iframeUrl = "/?embedApp=true#/pinboards";
+         } else if (id === 'data') {
+         iframeUrl = "/?embedApp=true#/data/tables";
+         }
+         document.getElementById('ts-embed').setAttribute('src', iframeUrl);
+         }
+
+         function onCallback(event) {
+         console.log(event.data);
+         }
+         window.thoughtspot.subscribeToAlerts("http://localhost:8000", onCallback);
+
+      </script>
+   </head>
+   <body style="height: 100%; width: 100%">
+      <button onclick="updateIframeUrl('homepage')">Homepage</button>
+      <button onclick="updateIframeUrl('search')">Search</button>
+      <button onclick="updateIframeUrl('answerList')">Answer list</button>
+      <button onclick="updateIframeUrl('pinboardList')">Pinboard list</button>
+      <button onclick="updateIframeUrl('data')">Data</button>
+      <iframe id="ts-embed" allow=“fullscreen” src="/?embedApp=true#/" height="80%" width="80%"></iframe>
+   </body>
+</html>
+----
+
+The function `updateIframeUrl(id)` contains the logic to change the src URL of the `<iframe>` when your users click  navigation buttons.
+
+== Showing applications in a full screen
+
+To have an embedded ThoughtSpot application show in a full screen, the `<iframe>` element must have the `allow="fullscreen"` parameter or its analogues.
+
+=== Browser support for full screen embedding
+
+Note the following support across browsers:
++++<dlentry>+++Supported desktop browsers::::  Chrome, Edge, Firefox, and Opera+++</dlentry>++++++<dlentry>+++Supported mobile browsers::::  Android webview, Chrome for Android, Firefox for Android, Opera for Android, and Samsung Internet+++</dlentry>++++++<dlentry>+++NOT supported desktop browsers::::  Internet Explorer, Safari+++</dlentry>++++++<dlentry>+++NOT supported mobile browser::::  Safari on iOS+++</dlentry>+++
+
+=== Framework support for full screen embedding
+
+Additionally, consider the following framework factors:
++++<dlentry>+++allowfullscreen::::
+This attribute is the legacy precursor of `allow="fullscreen"`, and may still work with some browsers.
++ Set to `true` if the `<iframe>` can activate fullscreen mode by calling the `requestFullscreen()` method.
++ We strongly recommend that you update your embedding scripts to use the new approach inside the `<iframe>` tag.+++</dlentry>++++++<dlentry>+++Spring MVC::::  This framework supports the `allowfullscreen="true"` parameter inside the `iframe` tag.+++</dlentry>++++++<dlentry>+++React::::  This framework is case sensitive, and uses the attribute `allowFullScreen` inside the `iframe` tag.+++</dlentry>+++
+
+== Hide the ThoughtSpot navigation bar
+
+To hide the primary navigation, configure these:
+
+* Ensure the app is in an `<iframe/>` .
+* Set the `embedApp` flag to `true` to specify that the application is embedded.
+* Set the `primaryNavHidden` flag to `true` (the default) to specify that navigation visibility is off.
+
+If either flag is `false`, primary navigation appears.
+
+== Error messages and full embed
+
+In ThoughtSpot, you can disable error messages within the ThoughtSpot `iframe`.
+We provide APIs so you can access error messages and display them in your application's UI appropriately.
+
+This approach suppressing error messages inside the `<iframe>`, and uses the `window.postMessage` function to passes them through to the parent application, which acts as the listener.
+
+You can view these 'hidden' messages in the console logs.
+Contact ThoughtSpot Support to enable this feature.
+
+== Additional notes
+
+Here are some additional notes about the full embed feature:
+
+* Call `thoughtspot.<customerURL>.com/#/answer` and use that to access the search functionality.
+* Call `thoughtspot.<customerURL>.com/#/pinboards` and use that to access saved pinboards.
+* Use SAML for authentication against ThoughtSpot within the `<iframe>`.
