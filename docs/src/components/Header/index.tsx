@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../Button';
 import ThoughtspotLogo from '../../assets/svg/ThoughtspotLogo.svg';
 import './index.scss';
 
@@ -18,12 +19,8 @@ const Header = () => (
                     </h1>
                 </div>
                 <div>
-                    <button className="signin headerButtonStyle">
-                        Sign In
-                    </button>
-                    <button className="signup headerButtonStyle">
-                        Sign up
-                    </button>
+                    <Button label="Sign In" type="secondary" />
+                    <Button label="Sign up" type="primary" />
                 </div>
             </div>
         </section>

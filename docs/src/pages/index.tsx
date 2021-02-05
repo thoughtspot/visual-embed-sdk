@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-// import t from '../utils/lang-utils';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
