@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import t from '../utils/lang-utils';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-import './styles/index.scss';
+import '../assets/styles/index.scss';
 
 // markup
 const Doc2Page = (props) => {
