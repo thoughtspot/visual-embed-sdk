@@ -27,9 +27,9 @@ This is a demonstration of {library}. And this is the preamble of this document.
 
 preview in playground 1: 
 ++++
-<a href="{{link}}">click me</a>
+<a href="{{tshost}}">click me</a>
 ++++
-preview in playground 2: {{value}}
+preview in playground 2: {{pageid}}
 
 [[purpose]]
 .Purpose
