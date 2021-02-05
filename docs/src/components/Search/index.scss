@@ -1,0 +1,44 @@
+@import '../../assets/styles/variables.scss';
+
+.searchWrapper {
+    padding: 24px;
+    border-bottom: 1px $lightgrey solid;
+    position: fixed;
+    width: calc(100% - 250px);
+    background: $white;
+}
+
+.searchInputWrapper {
+    position: relative;
+    width: calc(100% - 300px);
+    &::before {
+        content: '';
+        background: url('../../assets/svg/searchicon.svg');
+        width: 16px;
+        height: 16px;
+        float: left;
+        position: absolute;
+        left: 12px;
+        top: 8px;
+    }
+
+    input {
+        width: 100%;
+        border: 1px solid $borderColor;
+        border-radius: 6px;
+        height: 32px;
+        padding-left: 36px;
+        font-size: 14px;
+        color: $darkgrey;
+    }
+
+    input:focus {
+        outline: 0;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    .searchInputWrapper {
+        width: 100%;
+    }
+}

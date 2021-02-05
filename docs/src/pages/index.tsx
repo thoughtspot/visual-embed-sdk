@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-import t from '../utils/lang-utils';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-import './styles/index.scss';
+import Docmap from '../components/Docmap';
+import Document from '../components/Document';
+import Header from '../components/Header';
+import LeftSidebar from '../components/LeftSidebar';
+import Search from '../components/Search';
+import '../assets/styles/index.scss';
 
 // markup
-const IndexPage = (props) => {
+const IndexPage = ({ location }) => {
     const [params, setParams] = useState({});
     const [docTitle, setDocTitle] = useState('');
     const [docContent, setDocContent] = useState('');
 
     useEffect(() => {
-        setParams(queryStringParser(props.location.search));
+        setParams(queryStringParser(location.search));
     }, []);
 
     useEffect(() => {
@@ -45,31 +49,19 @@ const IndexPage = (props) => {
     );
 
     return (
-        <div>
-            <header className="header">
-                <img src="" alt="logo" className="logo" />
-                <input type="text" title="search" className="searchBox" />
-            </header>
-            <div className="container">
-                <div className="leftSidebar">{t('HOME_LEFT_NAVIGATION')}</div>
-                <div className="contentArea">
-                    {/* {t('HOME_MAIN_CONTENT')} */}
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: `<b>Title:</b> ${docTitle}`,
-                        }}
-                    />
-                    <b>Document Content:</b>
-                    <div
-                        className="docContentArea"
-                        dangerouslySetInnerHTML={{
-                            __html: docContent,
-                        }}
-                    />
+        <>
+            <Header />
+            <main>
+                <LeftSidebar />
+                <div className="documentBody">
+                    <Search />
+                    <div className="introWrapper">
+                        <Document docTitle={docTitle} docContent={docContent} />
+                        <Docmap />
+                    </div>
                 </div>
-                <div className="rightSidebar">{t('HOME_RIGHT_NAVIGATION')}</div>
-            </div>
-        </div>
+            </main>
+        </>
     );
 };
 
