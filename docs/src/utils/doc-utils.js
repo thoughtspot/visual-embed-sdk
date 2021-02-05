@@ -1,4 +1,4 @@
-export const htmlParser = (html, params) => {
+export const passThroughHandler = (html, params) => {
     let parsedHtml = html;
     const paramKeys = Object.keys(params);
     if (!html && paramKeys.length === 0) return parsedHtml;
@@ -6,7 +6,6 @@ export const htmlParser = (html, params) => {
     const customPassThroughEnd = '}}';
 
     paramKeys.map((key) => {
-        console.log('key = ', key, params[key]);
         parsedHtml = parsedHtml.replace(
             new RegExp(
                 `${customPassThroughStart}${key}${customPassThroughEnd}`,
@@ -19,4 +18,4 @@ export const htmlParser = (html, params) => {
     return parsedHtml;
 };
 
-export default htmlParser;
+export default passThroughHandler;

@@ -1,3 +1,5 @@
+import 'url-search-params-polyfill';
+
 export const queryStringParser = (queryParamStr) => {
     const queryParamObj = {};
     if (!queryParamStr) return queryParamObj;

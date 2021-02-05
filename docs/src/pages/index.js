@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import t from '../utils/lang-utils';
 import queryStringParser from '../utils/app-utils';
-import htmlParser from '../utils/doc-utils';
+import passThroughHandler from '../utils/doc-utils';
 import './styles/index.scss';
 
 // markup
@@ -33,7 +33,7 @@ const IndexPage = (props) => {
 
     const docTitle =
         edges[0].node.document.title || edges[0].node.document.main;
-    const docContent = htmlParser(edges[0].node.html, params);
+    const docContent = passThroughHandler(edges[0].node.html, params);
 
     return (
         <div>
