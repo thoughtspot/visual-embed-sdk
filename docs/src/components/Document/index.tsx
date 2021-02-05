@@ -1,26 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './index.scss';
 
-const Document = ({ docTitle, docContent }) => (
+const Document = (props: { docTitle: string; docContent: string }) => (
     <div className="documentWrapper">
         <span
             dangerouslySetInnerHTML={{
-                __html: `<b>Title:</b> ${docTitle}`,
+                __html: `<b>Title:</b> ${props.docTitle}`,
             }}
         />
         <b>Document Content:</b>
         <div
             dangerouslySetInnerHTML={{
-                __html: docContent,
+                __html: props.docContent,
             }}
         />
     </div>
 );
-
-Document.propTypes = {
-    docTitle: PropTypes.string.isRequired,
-    docContent: PropTypes.string.isRequired,
-};
 
 export default Document;

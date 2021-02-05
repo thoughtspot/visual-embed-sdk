@@ -38,15 +38,14 @@ a {
 }
 
 .container {
-    padding: 12px 36px;
+    padding: 10px 36px;
 }
 
 /*active class with background*/
 
 .activelink {
     background: $hovercolor;
-    color: $secondarycolor;
-    font-weight: 500;
+    color: $secondarycolor !important;
 }
 
 /*end active class with background*/
@@ -69,7 +68,7 @@ a {
 
 .documentBody {
     width: calc(100% - 260px);
-    margin-top: 53px;
+    margin-top: 48px;
     float: right;
 }
 
