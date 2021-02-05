@@ -5,12 +5,12 @@ const Docmap = () => (
     <div className="docmapLinks">
         <ul>
             <li>
-                <a href="#" className="visited defaultStyle">
+                <a href="#" className="defaultStyle visited">
                     On this Page
                 </a>
             </li>
             <li>
-                <a href="#" className="active defaultStyle">
+                <a href="#" className="defaultStyle active">
                     Rights and Obligations
                 </a>
             </li>

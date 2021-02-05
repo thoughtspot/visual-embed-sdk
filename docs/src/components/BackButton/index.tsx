@@ -2,12 +2,12 @@ import React from 'react';
 import BackButtonImg from '../../assets/svg/backbtn.svg';
 import './index.scss';
 
-const BackButton = () => (
+const BackButton = (props: { title: string }) => (
     <div className="backButtonWrapper">
         <button>
             <img src={BackButtonImg} alt="BackButton" />
         </button>
-        <p>SpotDev Home</p>
+        <p>{props.title}</p>
     </div>
 );
 
