@@ -1,6 +1,10 @@
 = Calling the Data REST API
 :last_updated: 11/18/2019
 
+:page-title: Calling the Data REST API
+:page-pageid: calling-rest-api
+:page-description: Calling the Data REST API
+
 
 Learn how to call the Data REST API.
 

@@ -1,6 +1,10 @@
 = Embed Pinboards
-
 :toc: true
+
+:page-title: Embed Pinboards
+:page-pageid: embed-pinboard
+:page-description: Embed Pinboards
+
 
 This page explains, through an example, how to embed a ThoughtSpot Pinboard in your Web page, portal, or application.
 

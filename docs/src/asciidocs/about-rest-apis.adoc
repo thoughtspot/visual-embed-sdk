@@ -1,4 +1,9 @@
 == REST APIs
+
+:page-title: About rest APIs
+:page-pageid: about-rest-apis
+:page-description: About rest APIs
+
 ThoughtSpot APIs are documented in the ThoughtSpot Documentation.  You can also find details about the APIs and test many of them using Swagger.  To access Swagger, first, login as a user with Administrator credentials.  Then navigate to https://<your-thoughtspot.com>/external/swagger.  You will get a list of all publicly available services.   
 
 
