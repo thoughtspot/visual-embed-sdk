@@ -6,6 +6,7 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Sarah White <https://g
 :page-description: {description}
 :page-keywords: {keywords}
 :page-layout: docs
+:page-path: /my-blog-entry
 ifndef::env-site[]
 :toc: left
 :icons: font

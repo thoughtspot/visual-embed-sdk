@@ -1,3 +1,4 @@
+:page-path: /my-blog-entry2
 Asciidoctor Demo
 ================
 ////
