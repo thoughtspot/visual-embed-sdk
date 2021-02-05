@@ -159,7 +159,7 @@ switch (mainOptions.command) {
         const isValid = validateCmdOptions(publishDefinitions, publishOptions);
         if (!isValid) return;
 
-        cmdToExecute = `gh-pages -d public -b ${publishDefinitions.branch}`;
+        cmdToExecute = `gh-pages -d public -b ${publishOptions.branch}`;
         break;
     }
     case 'serve':

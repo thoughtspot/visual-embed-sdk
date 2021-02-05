@@ -25,6 +25,12 @@ endif::asciidoctor[]
 [role='lead']
 This is a demonstration of {library}. And this is the preamble of this document.
 
+preview in playground 1: 
+++++
+<a href="{{link}}">click me</a>
+++++
+preview in playground 2: {{value}}
+
 [[purpose]]
 .Purpose
 ****
