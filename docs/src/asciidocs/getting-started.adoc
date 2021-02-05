@@ -1,5 +1,10 @@
 = Getting Started
 :toc: true
+
+:page-title: Getting Started
+:page-pageid: getting-started
+:page-description: Getting Started
+
 == Download the Visual Embed SDK
 <add instructions on how to download SDK>
 

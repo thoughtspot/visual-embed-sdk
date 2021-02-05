@@ -1,5 +1,10 @@
 = Search Data API
 last_updated: 4/21/2020
+
+:page-title: Search Data API
+:page-pageid: search-data-api
+:page-description: Search Data API
+
 To use the data retrieved from a search query programmatically, you can first query this data using the ThoughtSpot Search Data API.
 
 It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search  bar.  To use the data that we retrieve from a query programmatically, you can use ThoughtSpot Search Data API.
