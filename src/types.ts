@@ -124,6 +124,7 @@ export enum Param {
     DisableActionReason = 'disableHint',
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
+    EnableVizTransformations = 'enableVizTransform',
 }
 
 /**

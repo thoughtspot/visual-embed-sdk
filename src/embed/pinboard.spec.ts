@@ -35,6 +35,54 @@ describe('Pinboard/viz embed tests', () => {
         );
     });
 
+    test('should set disabled actions', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            disabledActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx
+            ],
+            disabledActionReason: 'Action denied',
+            ...defaultViewConfig,
+        });
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX&disableHint=Action%20denied`,
+        );
+    });
+
+    test('should set hidden actions', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            hiddenActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx
+            ],
+            ...defaultViewConfig,
+        });
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX`,
+        );
+    });
+
+    test('should enable viz transformations', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            enableVizTransformations: true,
+            ...defaultViewConfig,
+        });
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
+        );
+    });
+
     test('should render viz', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
         pinboardEmbed.render({

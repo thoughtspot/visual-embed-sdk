@@ -8,15 +8,16 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Action, Param, RuntimeFilter } from '../types';
+import { Action, DOMSelector, Param, RuntimeFilter } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
 export interface PinboardViewConfig extends ViewConfig {
     fullHeight?: boolean;
     disabledActions?: Action[];
-    disabledActionReason: string;
+    disabledActionReason?: string;
     hiddenActions?: Action[];
+    enableVizTransformations?: boolean;
 }
 
 export interface PinboardRenderOptions {
@@ -31,6 +32,10 @@ export interface PinboardRenderOptions {
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
+    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
+        super(domSelector, viewConfig);
+    }
+
     /**
      * Construct a map of params to be passed on to the
      * embedded pinboard or viz
@@ -41,6 +46,7 @@ export class PinboardEmbed extends V1Embed {
             disabledActions,
             disabledActionReason,
             hiddenActions,
+            enableVizTransformations,
         } = this.viewConfig;
         if (disabledActions && disabledActions.length) {
             const disabledActionsString = disabledActions.join(',');
@@ -51,6 +57,9 @@ export class PinboardEmbed extends V1Embed {
         }
         if (hiddenActions && hiddenActions.length) {
             params[Param.HideActions] = hiddenActions.join(',');
+        }
+        if (enableVizTransformations) {
+            params[Param.EnableVizTransformations] = true;
         }
 
         const queryParams = getQueryParamString(params);
