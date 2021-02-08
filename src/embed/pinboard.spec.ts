@@ -1,4 +1,4 @@
-import { PinboardEmbed } from './pinboard';
+import { PinboardEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
 import { Action, AuthType } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
@@ -40,11 +40,11 @@ describe('Pinboard/viz embed tests', () => {
             disabledActions: [
                 Action.DownloadAsCsv,
                 Action.DownloadAsPdf,
-                Action.DownloadAsXlsx
+                Action.DownloadAsXlsx,
             ],
             disabledActionReason: 'Action denied',
             ...defaultViewConfig,
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render({
             pinboardId,
         });
@@ -58,10 +58,10 @@ describe('Pinboard/viz embed tests', () => {
             hiddenActions: [
                 Action.DownloadAsCsv,
                 Action.DownloadAsPdf,
-                Action.DownloadAsXlsx
+                Action.DownloadAsXlsx,
             ],
             ...defaultViewConfig,
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render({
             pinboardId,
         });
@@ -74,7 +74,7 @@ describe('Pinboard/viz embed tests', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,
             ...defaultViewConfig,
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render({
             pinboardId,
         });

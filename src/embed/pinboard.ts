@@ -32,10 +32,6 @@ export interface PinboardRenderOptions {
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
-    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
-        super(domSelector, viewConfig);
-    }
-
     /**
      * Construct a map of params to be passed on to the
      * embedded pinboard or viz
