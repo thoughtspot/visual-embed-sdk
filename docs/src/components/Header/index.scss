@@ -4,7 +4,7 @@ header {
     background: $gray-80;
     position: fixed;
     width: 100%;
-    z-index: 99;
+    z-index: $header-zIndex;
 
     .thoughtspotLogo {
         vertical-align: middle;
