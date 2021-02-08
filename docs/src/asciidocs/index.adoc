@@ -1,6 +1,11 @@
 = ThoughtSpot Embedded Analytics
 :toc: true
-ß
+
+:page-title: ThoughtSpot Embedded Analytics
+:page-pageid: index
+:page-description: ThoughtSpot Embedded Analytics
+
+
 The ThoughtSpot embedded analytics capability empowers you to embed ThoughtSpot functionality and infuse search-driven data and insights into your applications, products, websites, or portals. 
 ThoughtSpot provides a suite of APIs, SDK, and developer tools to  embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application within  the context of your  application, and thus provide a consistent and seamless experience to your users.
 

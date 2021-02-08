@@ -1,5 +1,10 @@
 == Embed Search
 :toc: true
+
+:page-title: Embed Search
+:page-pageid: embed-search
+:page-description: Embed Search
+
 This procedure shows how to embed the ThoughtSpot search function using the Visual Embed SDK.  
 
 ////

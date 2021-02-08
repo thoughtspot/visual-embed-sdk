@@ -1,6 +1,10 @@
 = Customize look and feel
 :toc: true
 
+:page-title: Customize look and feel
+:page-pageid: customize-style
+:page-description: Customize look and feel
+
 
 You can brand the ThoughtSpot application for your company.
 

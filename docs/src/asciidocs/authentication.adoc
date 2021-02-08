@@ -1,6 +1,11 @@
 == Authentication
 :toc: true
 
+:page-title: Authentication
+:page-pageid: authentication
+:page-description: Authentication
+
+
 You can control which type of authentication you use between your client application and ThoughtSpot.
 
 === No Authentication

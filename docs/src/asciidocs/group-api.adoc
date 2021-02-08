@@ -1,6 +1,10 @@
 = Group API
 :last_updated: 11/18/2019
 
+:page-title: Group API
+:page-pageid: group-api
+:page-description: Group API
+
 
 The Group APIs enable you to set or remove a privilege to or from a group or multiple groups.
 

@@ -1,6 +1,11 @@
 = Embed Full Application
 :toc: true
 
+:page-title: Embed Full Application
+:page-pageid: full-embed
+:page-description: Embed Full Application
+
+
 Full embedding allows users to create ThoughtSpot content in an embedded environment. Fully embedding ThoughtSpot content gives your users the ability to perform many essential tasks:
 
 * create Answers and Pinboards

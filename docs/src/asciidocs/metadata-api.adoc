@@ -1,6 +1,10 @@
 = Metadata API
 :last_updated: 11/18/2019
 
+:page-title: Metadata API
+:page-pageid: metadata-api
+:page-description: Metadata API
+
 
 The Metadata APIs allow you to fetch metadata for ThoughtSpot objects.
 

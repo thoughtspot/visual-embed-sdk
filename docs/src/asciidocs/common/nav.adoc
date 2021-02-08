@@ -1,0 +1,60 @@
+:page-title: Navigation
+:page-pageid: nav
+:page-description: Main navigation
+
+* xref:docs:index.adoc[ThoughtSpot Embedded Analytics]
+
+
+---
+* xref:docs:visual-embed-sdk.adoc[Visual Embed SDK]
+** xref:docs:authentication.adoc[Authentication]
+** xref:docs:getting-started.adoc[Getting Started]
+** xref:docs:embed-search.adoc[Embed search]
+** xref:docs:embed-a-viz.adoc[Embed Visualizations (Charts and Tables)]
+** xref:docs:embed-pinboard.adoc[Embed Pinboards]
+** xref:docs:full-embed.adoc[Embed Full Application]
+** Error Handling
+
+---
+* xref:docs:js-reference.adoc[SDK Reference]
+
+---
+
+* xref:docs:about-rest-apis.adoc[REST APIs]
+** Getting Started
+** Authentication
+** xref:docs:calling-rest-api[Making a REST API Call]
+** xref:docs:pinboarddata.adoc[Pinboard Data API]
+** xref:docs:metadata-api.adoc[Metadata API]
+** xref:docs:session-api.adoc[Session API]
+** xref:docs:user-api.adoc[User API]
+** xref:docs:group-api.adoc[Group API]
+** xref:docs:search-data-api.adoc[Search Data API]
+** xref:docs:rest-api-reference.adoc[API Reference Guide]
+
+---
+
+* Customization Settings
+** xref:docs:customize-style.adoc[Customize the application style]
+
+** Configure Actions 
+
+---
+
+* xref:docs:glossary.adoc[Glossary]
+
+---
+* Frequently asked questions
+
+---
+* Resources
+** ThoughtSpot Documentation
+** Community
+** Playground
+////
+*** xref:docs:upload-application-logos.adoc[Upload application logos]
+*** xref:docs:set-chart-and-table-visualization-fonts.adoc[Set chart and table visualization fonts]
+*** xref:docs:choose-background-color.adoc[Choose a background color]
+*** xref:docs:select-chart-color-palettes.adoc[Select chart color palettes]
+*** xref:docs:change-the-footer-text.adoc[Change the footer text]
+////

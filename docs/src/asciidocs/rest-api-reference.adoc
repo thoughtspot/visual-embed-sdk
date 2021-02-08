@@ -1,6 +1,11 @@
 [[_pinboarddata]]
 === Pinboard Data API
 
+:page-title: Pinboard Data API
+:page-pageid: rest-api-reference
+:page-description: Pinboard Data API
+
+
 Retrieves data for a pinboard or other visualization from the ThoughtSpot system.
 
 This API lets you fetch the following data:
