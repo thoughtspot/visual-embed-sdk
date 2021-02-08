@@ -8,7 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Action, DOMSelector, Param, RuntimeFilter } from '../types';
+import { Action, Param, RuntimeFilter } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
