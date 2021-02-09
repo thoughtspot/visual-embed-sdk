@@ -1,0 +1,61 @@
+/*start sidebar*/
+
+@import '../../assets/styles/variables.scss';
+
+aside {
+    width: 260px;
+    border-right: 1px $lightgrey solid;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: 100%;
+    position: fixed;
+    left: $gutter;
+    margin-top: 50px;
+
+    .heading {
+        padding: 30px 0px 30px 24px;
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .subHeading {
+        margin: $gutter;
+        padding-bottom: 10px;
+        padding-left: 24px;
+        font-size: 14px;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: $gutter;
+        padding: $gutter;
+    }
+
+    .navWrapper {
+        margin-bottom: 32px;
+    }
+
+    .navlinksAnchor {
+        font-size: 14px;
+        font-family: 'Plain';
+        font-weight: 300;
+        line-height: 32px;
+        color: $primarycolor;
+        padding-left: 42px;
+        width: 100%;
+        display: inline-block;
+    }
+
+    .navlinks:hover {
+        .navlinksAnchor {
+            background: $hovercolor;
+            color: $secondarycolor;
+        }
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    aside {
+        width: 210px;
+    }
+}

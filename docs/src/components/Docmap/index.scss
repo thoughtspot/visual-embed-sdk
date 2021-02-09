@@ -1,0 +1,27 @@
+@import '../../assets/styles/variables.scss';
+
+.docmapLinks {
+    width: 300px;
+    padding: 24px;
+    border-left: 1px $lightgrey solid;
+    position: fixed;
+    right: 0;
+    height: 100%;
+    font-size: 14px;
+
+    ul {
+        list-style-type: none;
+    }
+}
+
+.defaultStyle {
+    color: $primarycolor;
+    padding: 8px 0;
+    display: inline-block;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    .docmapLinks {
+        width: 210px;
+    }
+}

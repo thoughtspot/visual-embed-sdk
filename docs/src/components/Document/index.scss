@@ -1,0 +1,14 @@
+.documentWrapper {
+    width: calc(100% - 300px);
+    padding: 60px;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    .documentWrapper {
+        width: calc(100% - 210px);
+    }
+}
+
+pre {
+    white-space: pre-wrap;
+}

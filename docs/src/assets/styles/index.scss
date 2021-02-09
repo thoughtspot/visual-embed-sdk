@@ -1,0 +1,88 @@
+@import './variables.scss';
+
+@font-face {
+    font-family: 'Plain';
+    src: url('../fonts/Plain-Medium.woff2') format('woff2'),
+        url('../fonts/Plain-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Plain';
+    src: url('../fonts/Plain-Light.woff2') format('woff2'),
+        url('../fonts/Plain-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    margin: $gutter;
+    padding: $gutter;
+    font-family: 'Plain';
+    font-size: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+.m-0 {
+    margin: $gutter;
+}
+
+.container {
+    padding: 10px 36px;
+}
+
+/*active class with background*/
+
+.activelink {
+    background: $hovercolor;
+    color: $secondarycolor !important;
+}
+
+/*end active class with background*/
+
+/*active class without background*/
+
+.active {
+    color: $secondarycolor;
+}
+
+/*end active class without background*/
+
+/*visited class*/
+
+.visited {
+    color: $disabledcolor;
+}
+
+/*end visited class*/
+
+.documentBody {
+    width: calc(100% - 260px);
+    margin-top: 48px;
+    float: right;
+}
+
+.introWrapper {
+    display: flex;
+    padding-top: 81px;
+}
+
+button {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    .documentBody {
+        width: calc(100% - 210px);
+    }
+}
