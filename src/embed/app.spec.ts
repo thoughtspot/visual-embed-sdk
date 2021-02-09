@@ -18,7 +18,9 @@ beforeAll(() => {
     });
 });
 
-const cleanUp = () => (document.body.innerHTML = getDocumentBody());
+const cleanUp = () => {
+    document.body.innerHTML = getDocumentBody();
+};
 
 describe('App embed tests', () => {
     beforeEach(() => {
