@@ -1,4 +1,4 @@
-import { PinboardEmbed } from './pinboard';
+import { PinboardEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
 import { Action, AuthType } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
@@ -32,6 +32,54 @@ describe('Pinboard/viz embed tests', () => {
         });
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
+        );
+    });
+
+    test('should set disabled actions', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            disabledActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            disabledActionReason: 'Action denied',
+            ...defaultViewConfig,
+        } as PinboardViewConfig);
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
+        );
+    });
+
+    test('should set hidden actions', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            hiddenActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            ...defaultViewConfig,
+        } as PinboardViewConfig);
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
+        );
+    });
+
+    test('should enable viz transformations', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            enableVizTransformations: true,
+            ...defaultViewConfig,
+        } as PinboardViewConfig);
+        pinboardEmbed.render({
+            pinboardId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
         );
     });
 

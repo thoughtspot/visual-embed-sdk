@@ -18,18 +18,43 @@ beforeAll(() => {
     });
 });
 
+const cleanUp = () => {
+    document.body.innerHTML = getDocumentBody();
+};
+
 describe('App embed tests', () => {
     beforeEach(() => {
-        document.body.innerHTML = getDocumentBody();
+        cleanUp();
     });
 
-    test('should render', () => {
+    test('should render home page by default', () => {
         const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
-        appEmbed.render({
-            pageId: Page.Search,
-        });
+        appEmbed.render({});
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/answer`,
+            `http://${thoughtSpotHost}/?embedApp=true#/home`,
         );
+    });
+
+    test('should render the correct routes for pages', () => {
+        const pageRouteMap = {
+            [Page.Search]: 'answer',
+            [Page.Answers]: 'answers',
+            [Page.Pinboards]: 'pinboards',
+            [Page.Data]: 'data/tables',
+            [Page.Home]: 'home',
+        };
+
+        const pageIds = Object.keys(pageRouteMap);
+        pageIds.forEach((pageId) => {
+            const route = pageRouteMap[pageId];
+            const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
+            appEmbed.render({
+                pageId: pageId as Page,
+            });
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/${route}`,
+            );
+            cleanUp();
+        });
     });
 });

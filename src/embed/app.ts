@@ -20,7 +20,7 @@ export enum Page {
 }
 
 export interface AppRenderOptions {
-    pageId: Page;
+    pageId?: Page;
 }
 
 /**
