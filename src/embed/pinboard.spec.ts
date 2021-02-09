@@ -49,7 +49,7 @@ describe('Pinboard/viz embed tests', () => {
             pinboardId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX&disableHint=Action%20denied`,
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
         );
     });
 
@@ -66,7 +66,7 @@ describe('Pinboard/viz embed tests', () => {
             pinboardId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX`,
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
         );
     });
 
