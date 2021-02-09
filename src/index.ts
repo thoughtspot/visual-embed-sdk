@@ -12,5 +12,23 @@ import { AppEmbed } from './embed/app';
 import { init } from './embed/base';
 import { PinboardEmbed } from './embed/pinboard';
 import { SearchEmbed } from './embed/search';
+import {
+    AuthType,
+    RuntimeFilterOp,
+    EventType,
+    DataSourceVisualMode,
+    Action,
+} from './types';
 
-export { init, SearchEmbed, PinboardEmbed, AppEmbed };
+export {
+    init,
+    SearchEmbed,
+    PinboardEmbed,
+    AppEmbed,
+    // types
+    AuthType,
+    RuntimeFilterOp,
+    EventType,
+    DataSourceVisualMode,
+    Action,
+};

@@ -15,8 +15,9 @@ import { V1Embed, ViewConfig } from './base';
 export interface PinboardViewConfig extends ViewConfig {
     fullHeight?: boolean;
     disabledActions?: Action[];
-    disabledActionReason: string;
+    disabledActionReason?: string;
     hiddenActions?: Action[];
+    enableVizTransformations?: boolean;
 }
 
 export interface PinboardRenderOptions {
@@ -41,6 +42,7 @@ export class PinboardEmbed extends V1Embed {
             disabledActions,
             disabledActionReason,
             hiddenActions,
+            enableVizTransformations,
         } = this.viewConfig;
         if (disabledActions && disabledActions.length) {
             const disabledActionsString = disabledActions.join(',');
@@ -51,6 +53,9 @@ export class PinboardEmbed extends V1Embed {
         }
         if (hiddenActions && hiddenActions.length) {
             params[Param.HideActions] = hiddenActions.join(',');
+        }
+        if (enableVizTransformations) {
+            params[Param.EnableVizTransformations] = true;
         }
 
         const queryParams = getQueryParamString(params);
