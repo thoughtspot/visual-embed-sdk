@@ -14,8 +14,6 @@ const defaultViewConfig = {
 const answerId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 
-jest.spyOn(utils, 'id').mockImplementation(() => mockEmbedId);
-
 beforeAll(() => {
     init({
         thoughtSpotHost,

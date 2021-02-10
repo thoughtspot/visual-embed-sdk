@@ -62,11 +62,6 @@ export interface ViewConfig {
  */
 export class TsEmbed {
     /**
-     * The identifier for the instance
-     */
-    private id: string;
-
-    /**
      * The DOM node where the ThoughtSpot app is to be embedded
      */
     private el: Element;
@@ -96,7 +91,6 @@ export class TsEmbed {
 
     constructor(domSelector: DOMSelector) {
         this.el = this.getDOMNode(domSelector);
-        this.id = id();
         // TODO: handle error
         this.thoughtSpotHost = getThoughtSpotHost(config);
         this.eventHandlerMap = new Map();
@@ -139,7 +133,7 @@ export class TsEmbed {
      * Construct the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
-        return `${this.thoughtSpotHost}/v2/#/embed/${this.getId()}`;
+        return `${this.thoughtSpotHost}/v2/#/embed`;
     }
 
     /**
@@ -218,13 +212,6 @@ export class TsEmbed {
     ): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
         callbacks.forEach((callback) => callback(data));
-    }
-
-    /**
-     * Return the identifier for this instance
-     */
-    public getId(): string {
-        return this.id;
     }
 
     /**

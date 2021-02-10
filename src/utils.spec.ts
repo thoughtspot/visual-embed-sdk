@@ -2,17 +2,10 @@
  * @jest-environment node
  */
 
-import { id, getQueryParamString, getFilterQuery } from './utils';
+import { getQueryParamString, getFilterQuery } from './utils';
 import { RuntimeFilterOp } from './types';
 
 describe('unit test for utils', () => {
-    test('id', () => {
-        // expect unique ids during every invocation
-        const id1 = id();
-        const id2 = id();
-        expect(id1).not.toEqual(id2);
-    });
-
     test('getQueryParamString', () => {
         expect(
             getQueryParamString({
