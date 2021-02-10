@@ -22,6 +22,11 @@ export const postMessageToParent = (window: WindowProxy, data: any) => {
     window.parent.dispatchEvent(message);
 };
 
+/**
+ * Execute a given function after a certain time has elapsed
+ * @param fn The function to be executed after the wait period
+ * @param waitTime The wait period in milliseconds
+ */
 export const executeAfterWait = (fn: Function, waitTime: number) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {

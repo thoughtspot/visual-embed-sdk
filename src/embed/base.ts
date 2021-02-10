@@ -21,7 +21,6 @@ import {
     GenericCallbackFn,
     MessageCallback,
 } from '../types';
-import { id } from '../utils';
 import {
     getCurrentData,
     initialize,
