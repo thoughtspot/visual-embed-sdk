@@ -1,4 +1,4 @@
-:page-title: Navigation
+:page-title: Documentation
 :page-pageid: nav
 :page-description: Main navigation
 

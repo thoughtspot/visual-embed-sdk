@@ -7,4 +7,4 @@
 ThoughtSpot APIs are documented in the ThoughtSpot Documentation.  You can also find details about the APIs and test many of them using Swagger.  To access Swagger, first, login as a user with Administrator credentials.  Then navigate to https://<your-thoughtspot.com>/external/swagger.  You will get a list of all publicly available services.   
 
 
-You can click on a header to expand and get the list of services.  Clicking on a service name provides more details about the service.  
+You can click on a header to expand and get the list of services.  Clicking on a service name provides more details about the service.

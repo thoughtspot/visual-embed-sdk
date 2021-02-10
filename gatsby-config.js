@@ -29,6 +29,14 @@ module.exports = {
             __key: 'asciidocs',
         },
         {
+            resolve: 'gatsby-source-filesystem',
+            options: {
+                name: 'common',
+                path: `${__dirname}/docs/src/asciidocs/common/`,
+            },
+            __key: 'asciidocs_common',
+        },
+        {
             resolve: `gatsby-plugin-intl`,
             options: {
                 // language JSON resource path
