@@ -5,7 +5,7 @@ import 'url-search-params-polyfill';
  * @param {string} queryParamStr - query string from location.search
  * @returns {object} which contains query params 'key: value' pairs
  */
-export const queryStringParser = (queryParamStr) => {
+export const queryStringParser = (queryParamStr: string) => {
     const queryParamObj = {};
     if (!queryParamStr) return queryParamObj;
 

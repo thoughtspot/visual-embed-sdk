@@ -4,10 +4,10 @@ import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
-import Header from '../components/Header';
 import LeftSidebar from '../components/LeftSidebar';
 import Search from '../components/Search';
 import '../assets/styles/index.scss';
+import { DOC_NAV_PAGE_ID } from '../configs/doc-configs';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -23,7 +23,7 @@ const IndexPage = ({ location }) => {
 
     useEffect(() => {
         const navIndex = edges.findIndex(
-            (i) => i.node.pageAttributes.pageid === 'nav',
+            (i) => i.node.pageAttributes.pageid === DOC_NAV_PAGE_ID,
         );
         setNavTitle(edges[navIndex].node.pageAttributes.title);
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
@@ -73,7 +73,6 @@ const IndexPage = ({ location }) => {
 
     return (
         <>
-            <Header />
             <main>
                 <LeftSidebar navTitle={navTitle} navContent={navContent} />
                 <div className="documentBody">
