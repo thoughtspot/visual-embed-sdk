@@ -3,13 +3,8 @@ import './index.scss';
 
 const Document = (props: { docTitle: string; docContent: string }) => (
     <div className="documentWrapper">
-        <span
-            dangerouslySetInnerHTML={{
-                __html: `<b>Title:</b> ${props.docTitle}`,
-            }}
-        />
-        <b>Document Content:</b>
         <div
+            id={props.docTitle}
             dangerouslySetInnerHTML={{
                 __html: props.docContent,
             }}

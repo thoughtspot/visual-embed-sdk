@@ -4,7 +4,7 @@
  * @param {object} params - json object containing passThroughKey: replacementValue pairs
  * @returns {string} parsed html content
  */
-export const passThroughHandler = (html, params) => {
+export const passThroughHandler = (html: string, params: object) => {
     let parsedHtml = html;
     const paramKeys = Object.keys(params);
     if (!html && paramKeys.length === 0) return parsedHtml;
