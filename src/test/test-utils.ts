@@ -27,7 +27,10 @@ export const postMessageToParent = (window: WindowProxy, data: any) => {
  * @param fn The function to be executed after the wait period
  * @param waitTime The wait period in milliseconds
  */
-export const executeAfterWait = (fn: Function, waitTime: number) => {
+export const executeAfterWait = (
+    fn: (...args: any[]) => void,
+    waitTime: number,
+) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const value = fn();
