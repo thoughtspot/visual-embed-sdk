@@ -103,6 +103,17 @@ describe('Search embed tests', () => {
         );
     });
 
+    test('should enable search assist', () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableSearchAssist: true,
+        });
+        searchEmbed.render({});
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand`,
+        );
+    });
+
     test('should load saved answer', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
         searchEmbed.render({

@@ -128,6 +128,7 @@ export enum Param {
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     EnableVizTransformations = 'enableVizTransform',
+    EnableSearchAssist = 'enableSearchAssist',
 }
 
 /**

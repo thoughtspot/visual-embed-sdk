@@ -76,6 +76,9 @@ export class SearchEmbed extends TsEmbed {
         if (searchQuery) {
             queryParams[Param.SearchQuery] = searchQuery;
         }
+        if (this.viewConfig.enableSearchAssist) {
+            queryParams[Param.EnableSearchAssist] = true;
+        }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
