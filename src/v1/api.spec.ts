@@ -23,10 +23,6 @@ beforeAll(() => {
     });
 });
 
-afterAll(() => {
-    jest.unmock('./api');
-});
-
 describe('tests for v1 API', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
