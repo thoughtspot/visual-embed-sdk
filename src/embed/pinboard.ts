@@ -83,7 +83,11 @@ export class PinboardEmbed extends V1Embed {
         runtimeFilters?: RuntimeFilter[],
     ) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
-        let url = `${this.getV1EmbedBasePath(filterQuery)}/viz/${pinboardId}`;
+        let url = `${this.getV1EmbedBasePath(
+            filterQuery,
+            true,
+            false,
+        )}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;
         }

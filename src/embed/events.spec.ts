@@ -69,6 +69,28 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    test('should execute multiple event handlers if registered', async () => {
+        const handlerOne = jest.fn();
+        const handlerTwo = jest.fn();
+
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        searchEmbed
+            .on(EventType.CustomAction, handlerOne)
+            .on(EventType.CustomAction, handlerTwo)
+            .render();
+
+        const iframe = getIFrameEl();
+        postMessageToParent(iframe.contentWindow, {
+            type: EventType.CustomAction,
+            data: PAYLOAD,
+        });
+
+        await executeAfterWait(() => {
+            expect(handlerOne).toHaveBeenCalled();
+            expect(handlerTwo).toHaveBeenCalled();
+        }, EVENT_WAIT_TIME);
+    });
+
     test('should capture event from correct iframe', async () => {
         const spyOne = jest.fn();
         const embedOne = new SearchEmbed(getRootEl(), defaultViewConfig);
