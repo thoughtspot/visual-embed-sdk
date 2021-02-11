@@ -4,7 +4,6 @@ import { Action, AuthType } from '../types';
 import * as utils from '../utils';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
-const mockEmbedId = '123';
 const defaultViewConfig = {
     frameParams: {
         width: 1280,
@@ -13,8 +12,6 @@ const defaultViewConfig = {
 };
 const answerId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
-
-jest.spyOn(utils, 'id').mockImplementation(() => mockEmbedId);
 
 beforeAll(() => {
     init({
@@ -32,7 +29,7 @@ describe('Search embed tests', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSourceMode=expand`,
         );
     });
 
@@ -43,7 +40,7 @@ describe('Search embed tests', () => {
             dataSources,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand`,
         );
     });
 
@@ -55,7 +52,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
         );
     });
 
@@ -70,7 +67,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse`,
         );
     });
 
@@ -85,7 +82,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide`,
         );
     });
 
@@ -102,7 +99,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
         );
     });
 
@@ -112,7 +109,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/${mockEmbedId}/saved-answer/${answerId}?dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?dataSourceMode=expand`,
         );
     });
 });

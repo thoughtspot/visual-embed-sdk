@@ -328,6 +328,7 @@ function getCurrentData(responseCallBack: Callback): void {
 
 export {
     initialize,
+    checkIfLoggedIn,
     notifyOnAuthExpiration,
     subscribeToAlerts,
     subscribeToData,
