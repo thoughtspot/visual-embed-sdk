@@ -41,6 +41,7 @@ describe('tests for v1 API', () => {
 
         const iframe = getIFrameEl();
         iframe.contentWindow.addEventListener('message', (e) => {
+            // eslint-disable-next-line no-underscore-dangle
             expect(e.data.__type).toBe(EventTypeV1.GetData);
             postMessageToParent(iframe.contentWindow, {
                 __type: EventTypeV1.ExportVizDataToParent,
@@ -51,7 +52,10 @@ describe('tests for v1 API', () => {
         embed.getCurrentData();
 
         await executeAfterWait(() => {
-            expect(onDataSpy).toHaveBeenCalled();
+            expect(onDataSpy).toHaveBeenCalledWith({
+                __type: EventTypeV1.ExportVizDataToParent,
+                data: 'payload',
+            });
         }, 2000);
     });
 });
