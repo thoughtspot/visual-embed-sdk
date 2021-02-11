@@ -108,6 +108,10 @@ export class TsEmbed {
         throw new Error('You need to init the ThoughtSpot SDK module first');
     }
 
+    /**
+     * Extract the type field from the event payload
+     * @param event The window message event
+     */
     protected getEventType(event: MessageEvent) {
         return event.data?.type;
     }
@@ -264,11 +268,21 @@ export class TsEmbed {
         return this;
     }
 
+    /**
+     * Mark the ThoughtSpot object to have been rendered
+     * Needs to be overridden by subclasses to do the actual
+     * rendering of the iframe.
+     * @param args
+     */
     public render(...args: any[]): void {
         this.isRendered = true;
     }
 }
 
+/**
+ * Provides mapping of v2 events to v1 events where they do not match
+ * This helps provide a unified interface for events across v1 and v2
+ */
 const messageTypeV1Map = {
     [EventType.Data]: EventTypeV1.ExportVizDataToParent,
 };
@@ -347,6 +361,7 @@ export class V1Embed extends TsEmbed {
         messageType: string,
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
+        // use the v1 equivalent if any
         const messageTypeV1 = messageTypeV1Map[messageType] || messageType;
         return super.on(messageTypeV1, callback);
     }
