@@ -1,9 +1,10 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.6",
+    "version": "0.0.1-alpha.12",
     "description": "ThoughtSpot Embed SDK",
-    "main": "lib/src/index.js",
-    "types": "",
+    "module": "lib/src/index.js",
+    "main": "dist/tsembed.js",
+    "types": "lib/src/index.d.ts",
     "scripts": {
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
@@ -14,6 +15,7 @@
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
+        "prepublishOnly": "npm run test; npm run tsc; npm run build",
         "test:e2e": "npm run test:e2e-doc",
         "test:e2e-doc": "jest -c docs/jest-e2e.config.js"
     },
@@ -56,7 +58,7 @@
     },
     "author": "Ayon Ghosh",
     "email": "ayon.ghosh@thoughtspot.com",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "directories": {
         "lib": "lib"
     },
