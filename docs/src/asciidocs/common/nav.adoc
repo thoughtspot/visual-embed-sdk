@@ -2,7 +2,7 @@
 :page-pageid: nav
 :page-description: Main navigation
 
-* link:{{navprefix}}=asciidoc[ThoughtSpot Embedded Analytics]
+* link:{{navprefix}}=index[ThoughtSpot Embedded Analytics]
 
 ---
 * link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
