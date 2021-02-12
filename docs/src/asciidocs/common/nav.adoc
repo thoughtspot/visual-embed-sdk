@@ -2,46 +2,45 @@
 :page-pageid: nav
 :page-description: Main navigation
 
-* xref:docs:index.adoc[ThoughtSpot Embedded Analytics]
-
+* link:{{navprefix}}=index[ThoughtSpot Embedded Analytics]
 
 ---
-* xref:docs:visual-embed-sdk.adoc[Visual Embed SDK]
-** xref:docs:authentication.adoc[Authentication]
-** xref:docs:getting-started.adoc[Getting Started]
-** xref:docs:embed-search.adoc[Embed search]
-** xref:docs:embed-a-viz.adoc[Embed Visualizations (Charts and Tables)]
-** xref:docs:embed-pinboard.adoc[Embed Pinboards]
-** xref:docs:full-embed.adoc[Embed Full Application]
+* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
+** link:{{navprefix}}=authentication[Authentication]
+** link:{{navprefix}}=getting-started[Getting Started]
+** link:{{navprefix}}=embed-search[Embed search]
+** link:{{navprefix}}=embed-a-viz[Embed Visualizations (Charts and Tables)]
+** link:{{navprefix}}=embed-pinboard[Embed Pinboards]
+** link:{{navprefix}}=full-embed[Embed Full Application]
 ** Error Handling
 
 ---
-* xref:docs:js-reference.adoc[SDK Reference]
+* link:{{navprefix}}=js-reference[SDK Reference]
 
 ---
 
-* xref:docs:about-rest-apis.adoc[REST APIs]
+* link:{{navprefix}}=about-rest-apis[REST APIs]
 ** Getting Started
 ** Authentication
-** xref:docs:calling-rest-api[Making a REST API Call]
-** xref:docs:pinboarddata.adoc[Pinboard Data API]
-** xref:docs:metadata-api.adoc[Metadata API]
-** xref:docs:session-api.adoc[Session API]
-** xref:docs:user-api.adoc[User API]
-** xref:docs:group-api.adoc[Group API]
-** xref:docs:search-data-api.adoc[Search Data API]
-** xref:docs:rest-api-reference.adoc[API Reference Guide]
+** link:{{navprefix}}=calling-rest-api[Making a REST API Call]
+** link:{{navprefix}}=pinboarddata[Pinboard Data API]
+** link:{{navprefix}}=metadata-api[Metadata API]
+** link:{{navprefix}}=session-api[Session API]
+** link:{{navprefix}}=user-api[User API]
+** link:{{navprefix}}=group-api[Group API]
+** link:{{navprefix}}=search-data-api[Search Data API]
+** link:{{navprefix}}=rest-api-reference[API Reference Guide]
 
 ---
 
 * Customization Settings
-** xref:docs:customize-style.adoc[Customize the application style]
+** link:{{navprefix}}=customize-style[Customize the application style]
 
 ** Configure Actions 
 
 ---
 
-* xref:docs:glossary.adoc[Glossary]
+* link:{{navprefix}}=glossary[Glossary]
 
 ---
 * Frequently asked questions
@@ -52,9 +51,9 @@
 ** Community
 ** Playground
 ////
-*** xref:docs:upload-application-logos.adoc[Upload application logos]
-*** xref:docs:set-chart-and-table-visualization-fonts.adoc[Set chart and table visualization fonts]
-*** xref:docs:choose-background-color.adoc[Choose a background color]
-*** xref:docs:select-chart-color-palettes.adoc[Select chart color palettes]
-*** xref:docs:change-the-footer-text.adoc[Change the footer text]
+*** link:{{navprefix}}=upload-application-logos[Upload application logos]
+*** link:{{navprefix}}=set-chart-and-table-visualization-fonts[Set chart and table visualization fonts]
+*** link:{{navprefix}}=choose-background-color[Choose a background color]
+*** link:{{navprefix}}=select-chart-color-palettes[Select chart color palettes]
+*** link:{{navprefix}}=change-the-footer-text[Change the footer text]
 ////
