@@ -1,6 +1,6 @@
-import { AppEmbed, Page } from './app';
+import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
-import { Action, AuthType } from '../types';
+import { AuthType } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -31,7 +31,18 @@ describe('App embed tests', () => {
         const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
         appEmbed.render({});
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
+        );
+    });
+
+    test('should hide the primary nav bar', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hidePrimaryNavbar: false,
+        } as AppViewConfig);
+        appEmbed.render({});
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
         );
     });
 
@@ -52,7 +63,7 @@ describe('App embed tests', () => {
                 pageId: pageId as Page,
             });
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/${route}`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
             );
             cleanUp();
         });

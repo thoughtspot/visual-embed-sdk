@@ -8,7 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { V1Embed } from './base';
+import { V1Embed, ViewConfig } from './base';
 
 // eslint-disable-next-line no-shadow
 export enum Page {
@@ -19,6 +19,10 @@ export enum Page {
     Data = 'data',
 }
 
+export interface AppViewConfig extends ViewConfig {
+    hidePrimaryNavbar?: boolean;
+}
+
 export interface AppRenderOptions {
     pageId?: Page;
 }
@@ -27,12 +31,18 @@ export interface AppRenderOptions {
  * Embed a page within the ThoughtSpot app
  */
 export class AppEmbed extends V1Embed {
+    protected viewConfig: AppViewConfig;
+
     /**
      * Construct the URL of the ThoughtSpot app page to be rendered
      * @param pageId The id of the page to be embedded
      */
     private getIFrameSrc(pageId: string) {
-        return `${this.getV1EmbedBasePath(null, true)}/${pageId}`;
+        return `${this.getV1EmbedBasePath(
+            null,
+            this.viewConfig.hidePrimaryNavbar,
+            true,
+        )}/${pageId}`;
     }
 
     /**

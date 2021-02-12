@@ -1,3 +1,4 @@
+import { EventTypeV1 } from '../types';
 import {
     init,
     AuthType,
@@ -69,6 +70,28 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    test('should execute multiple event handlers if registered', async () => {
+        const handlerOne = jest.fn();
+        const handlerTwo = jest.fn();
+
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        searchEmbed
+            .on(EventType.CustomAction, handlerOne)
+            .on(EventType.CustomAction, handlerTwo)
+            .render();
+
+        const iframe = getIFrameEl();
+        postMessageToParent(iframe.contentWindow, {
+            type: EventType.CustomAction,
+            data: PAYLOAD,
+        });
+
+        await executeAfterWait(() => {
+            expect(handlerOne).toHaveBeenCalled();
+            expect(handlerTwo).toHaveBeenCalled();
+        }, EVENT_WAIT_TIME);
+    });
+
     test('should capture event from correct iframe', async () => {
         const spyOne = jest.fn();
         const embedOne = new SearchEmbed(getRootEl(), defaultViewConfig);
@@ -89,6 +112,33 @@ describe('test communication between host app and ThoughtSpot', () => {
         await executeAfterWait(() => {
             expect(spyOne).toHaveBeenCalled();
             expect(spyTwo).not.toHaveBeenCalled();
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('should fetch data', async () => {
+        const onDataSpy = jest.fn();
+        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        embed.on(EventType.Data, onDataSpy).render({
+            pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        });
+
+        const iframe = getIFrameEl();
+        iframe.contentWindow.addEventListener('message', (e) => {
+            // eslint-disable-next-line no-underscore-dangle
+            expect(e.data.__type).toBe(EventTypeV1.GetData);
+            postMessageToParent(iframe.contentWindow, {
+                __type: EventTypeV1.ExportVizDataToParent,
+                data: 'payload',
+            });
+        });
+
+        embed.getCurrentData();
+
+        await executeAfterWait(() => {
+            expect(onDataSpy).toHaveBeenCalledWith({
+                __type: EventTypeV1.ExportVizDataToParent,
+                data: 'payload',
+            });
         }, EVENT_WAIT_TIME);
     });
 });
