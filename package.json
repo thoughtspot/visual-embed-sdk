@@ -13,6 +13,7 @@
         "docs-cmd": "node scripts/gatsby-commands.js",
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
+        "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "test:e2e": "npm run test:e2e-doc",
         "test:e2e-doc": "jest -c docs/jest-e2e.config.js"
     },
@@ -25,6 +26,7 @@
         "@typescript-eslint/parser": "^4.6.0",
         "asciidoctor": "^2.2.1",
         "command-line-args": "^5.1.1",
+        "coveralls": "^3.1.0",
         "eslint": "^7.12.1",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-config-prettier": "^6.15.0",
