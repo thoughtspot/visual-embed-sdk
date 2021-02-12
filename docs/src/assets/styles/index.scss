@@ -2,8 +2,7 @@
 
 @font-face {
     font-family: 'Plain';
-    src: url('../fonts/Plain-Medium.woff2') format('woff2'),
-        url('../fonts/Plain-Medium.woff') format('woff');
+    src: url('../fonts/Plain-Medium.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -11,8 +10,7 @@
 
 @font-face {
     font-family: 'Plain';
-    src: url('../fonts/Plain-Light.woff2') format('woff2'),
-        url('../fonts/Plain-Light.woff') format('woff');
+    src: url('../fonts/Plain-Light.otf') format('opentype');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
