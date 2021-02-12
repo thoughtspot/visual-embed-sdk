@@ -2,12 +2,12 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'jsdom',
     collectCoverage: true,
-    collectCoverageFrom: ['./**'],
-    coverageDirectory: '../coverage/sdk/',
+    collectCoverageFrom: ['src/**'],
+    coverageDirectory: 'coverage/sdk/',
     coverageReporters: ['lcov', 'text', 'cobertura'],
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
     testPathIgnorePatterns: ['/lib/', '/docs/'],
-    testMatch: ['**/*.spec.ts'],
+    testMatch: ['**/src/**/*.spec.ts'],
     globals: {
         window: {
             location: {
