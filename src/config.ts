@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from './errors';
 import { EmbedConfig } from './types';
 
 /**
@@ -27,9 +28,7 @@ const urlRegex = new RegExp(
 export const getThoughtSpotHost = (config: EmbedConfig): string => {
     const urlParts = config.thoughtSpotHost.match(urlRegex);
     if (!urlParts) {
-        throw new Error(
-            `Error parsing ThoughtSpot host: ${config.thoughtSpotHost}. Please provide a valid URL`,
-        );
+        throw new Error(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST);
     }
 
     const protocol = urlParts[2] || window.location.protocol;

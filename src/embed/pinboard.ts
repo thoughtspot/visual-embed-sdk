@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { ERROR_MESSAGE } from '../errors';
 import {
     Action,
     EventTypeV1,
@@ -119,9 +120,7 @@ export class PinboardEmbed extends V1Embed {
         runtimeFilters,
     }: PinboardRenderOptions): PinboardEmbed {
         if (!pinboardId && !vizId) {
-            throw Error(
-                'Please provide either pinboardId or both pinboarId and vizId',
-            );
+            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
         if (this.viewConfig.fullHeight === true) {
             this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
