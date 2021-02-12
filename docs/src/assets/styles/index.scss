@@ -1,7 +1,7 @@
 @import './variables.scss';
 
 @font-face {
-    font-family: 'Plain';
+    font-family: 'Optimo-Plain';
     src: url('../fonts/Plain-Medium.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
@@ -9,7 +9,7 @@
 }
 
 @font-face {
-    font-family: 'Plain';
+    font-family: 'Optimo-Plain';
     src: url('../fonts/Plain-Light.otf') format('opentype');
     font-weight: 300;
     font-style: normal;
@@ -19,7 +19,7 @@
 body {
     margin: $gutter;
     padding: $gutter;
-    font-family: 'Plain';
+    font-family: 'Optimo-Plain';
     font-size: 14px;
 }
 
