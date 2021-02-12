@@ -1,3 +1,4 @@
+import { EventTypeV1 } from '../types';
 import {
     init,
     AuthType,
@@ -112,5 +113,32 @@ describe('test communication between host app and ThoughtSpot', () => {
             expect(spyOne).toHaveBeenCalled();
             expect(spyTwo).not.toHaveBeenCalled();
         }, EVENT_WAIT_TIME);
+    });
+
+    test('should fetch data', async () => {
+        const onDataSpy = jest.fn();
+        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        embed.on(EventType.Data, onDataSpy).render({
+            pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        });
+
+        const iframe = getIFrameEl();
+        iframe.contentWindow.addEventListener('message', (e) => {
+            // eslint-disable-next-line no-underscore-dangle
+            expect(e.data.__type).toBe(EventTypeV1.GetData);
+            postMessageToParent(iframe.contentWindow, {
+                __type: EventTypeV1.ExportVizDataToParent,
+                data: 'payload',
+            });
+        });
+
+        embed.getCurrentData();
+
+        await executeAfterWait(() => {
+            expect(onDataSpy).toHaveBeenCalledWith({
+                __type: EventTypeV1.ExportVizDataToParent,
+                data: 'payload',
+            });
+        }, 2000);
     });
 });
