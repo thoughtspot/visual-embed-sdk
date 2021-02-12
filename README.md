@@ -9,7 +9,7 @@ ThoughtSpot Embed SDK
 npm i embed-sdk
 ```
 
-```
+```js
 import { SearchEmbed, init } from 'embed-sdk';
 
 init({
