@@ -11,7 +11,11 @@ import { DOC_NAV_PAGE_ID } from '../configs/doc-configs';
 
 // markup
 const IndexPage = ({ location }) => {
-    const [params, setParams] = useState({ tshost: '', pageid: '' });
+    const [params, setParams] = useState({
+        tshost: '',
+        pageid: '',
+        navprefix: '',
+    });
     const [docTitle, setDocTitle] = useState('');
     const [docContent, setDocContent] = useState('');
     const [navTitle, setNavTitle] = useState('');
