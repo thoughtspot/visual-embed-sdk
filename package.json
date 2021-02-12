@@ -11,7 +11,8 @@
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
-        "test": "jest -c src/jest.config.js",
+        "test-sdk": "jest -c jest.config.sdk.js",
+        "test": "npm run test-sdk",
         "test:e2e": "npm run test:e2e-doc",
         "test:e2e-doc": "jest -c docs/jest-e2e.config.js"
     },

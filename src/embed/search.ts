@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DataSourceVisualMode, DOMSelector, Param } from '../types';
+import { Action, DataSourceVisualMode, DOMSelector, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
@@ -16,8 +16,9 @@ export interface SearchViewConfig extends ViewConfig {
     hideDataSources?: boolean;
     hideResults?: boolean;
     enableSearchAssist?: boolean;
-    disabledActions?: string[];
+    disabledActions?: Action[];
     disabledActionReason?: string;
+    hiddenActions?: Action[];
 }
 
 export interface SearchRenderOptions {
@@ -68,6 +69,13 @@ export class SearchEmbed extends TsEmbed {
         dataSources?: string[],
         searchQuery?: string,
     ) {
+        const {
+            disabledActions,
+            disabledActionReason,
+            hiddenActions,
+            hideResults,
+            enableSearchAssist,
+        } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = {};
         if (dataSources && dataSources.length) {
@@ -76,8 +84,21 @@ export class SearchEmbed extends TsEmbed {
         if (searchQuery) {
             queryParams[Param.SearchQuery] = searchQuery;
         }
-        if (this.viewConfig.enableSearchAssist) {
+        if (enableSearchAssist) {
             queryParams[Param.EnableSearchAssist] = true;
+        }
+        if (hideResults) {
+            queryParams[Param.HideResult] = true;
+        }
+        if (disabledActions && disabledActions.length) {
+            const disabledActionsString = disabledActions.join(',');
+            queryParams[Param.DisableActions] = disabledActionsString;
+        }
+        if (disabledActionReason) {
+            queryParams[Param.DisableActionReason] = disabledActionReason;
+        }
+        if (hiddenActions && hiddenActions.length) {
+            queryParams[Param.HideActions] = hiddenActions.join(',');
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();

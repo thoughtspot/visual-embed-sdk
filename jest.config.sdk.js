@@ -3,7 +3,7 @@ module.exports = {
     testEnvironment: 'jsdom',
     collectCoverage: true,
     collectCoverageFrom: ['src/**'],
-    coverageDirectory: 'coverage',
+    coverageDirectory: 'coverage/sdk/',
     coverageReporters: ['lcov', 'text', 'cobertura'],
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
     testPathIgnorePatterns: ['/lib/', '/docs/'],
