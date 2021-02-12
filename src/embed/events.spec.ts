@@ -139,6 +139,6 @@ describe('test communication between host app and ThoughtSpot', () => {
                 __type: EventTypeV1.ExportVizDataToParent,
                 data: 'payload',
             });
-        }, 2000);
+        }, EVENT_WAIT_TIME);
     });
 });
