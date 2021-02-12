@@ -118,6 +118,11 @@ export class PinboardEmbed extends V1Embed {
         vizId,
         runtimeFilters,
     }: PinboardRenderOptions): PinboardEmbed {
+        if (!pinboardId && !vizId) {
+            throw Error(
+                'Please provide either pinboardId or both pinboarId and vizId',
+            );
+        }
         if (this.viewConfig.fullHeight === true) {
             this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
         }

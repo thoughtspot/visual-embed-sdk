@@ -86,7 +86,6 @@ describe('Search embed tests', () => {
         );
     });
 
-    // TODO: enable test after implementation is done
     test('should disable actions', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -99,7 +98,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=download,edit&disableHint=Permission%20denied&dataSourceMode=expand`,
         );
     });
 
@@ -111,6 +110,38 @@ describe('Search embed tests', () => {
         searchEmbed.render({});
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand`,
+        );
+    });
+
+    test('should hide actions', () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            hiddenActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            ...defaultViewConfig,
+        });
+        searchEmbed.render({
+            answerId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX&dataSourceMode=expand`,
+        );
+    });
+
+    test('should disable and hide actions', () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            disabledActions: [Action.DownloadAsXlsx],
+            hiddenActions: [Action.DownloadAsCsv],
+            disabledActionReason: 'Access denied',
+            ...defaultViewConfig,
+        });
+        searchEmbed.render({
+            answerId,
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=downloadAsXLSX&disableHint=Access%20denied&hideAction=downloadAsCSV&dataSourceMode=expand`,
         );
     });
 

@@ -129,6 +129,7 @@ export enum Param {
     HideActions = 'hideAction',
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
+    HideResult = 'hideResult',
 }
 
 /**
