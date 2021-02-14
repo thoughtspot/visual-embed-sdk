@@ -1,45 +1,15 @@
-== Authentication
+== Configure trusted authentication
 :toc: true
 
-:page-title: Authentication
+:page-title: Configure trusted authentication
 :page-pageid: authentication
 :page-description: Authentication
 
+If your organization has a trusted authentication server, you can use it to authenticate users of the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
 
-You can control which type of authentication you use between your client application and ThoughtSpot.
-
-=== No Authentication
-
-You can simply not set up authentication.
-This would require the user to be _already logged into ThoughtSpot_, before interacting with the client application.
-This approach is for testing the client.
-Do not use this in a production environment.
-
-=== SAML SSO
-
-To avoid showing the ThoughtSpot login page in the iFrame and provide a seamless login experience, you should configure SSO so that your users are automatically authenticated to ThoughtSpot, and the pages are loaded immediately.
-
-Before you can embed all or part of ThoughtSpot, you must authenticate to ThoughtSpot using SAML with the public REST API call.
-
-////
-For more information, see  https://cloud-docs.thoughtspot.com/admin/ts-cloud/authentication-integration.html[Managing authentication with SAML].
-Note that this does not assign the user to any groups, which must be managed manually or via the APIs.
-
-After authentication, a URL is provided to call the desired visualization, and populate it into an `<iframe>` element.
-
-You must link:{{ site.baseurl}}/admin/setup/configure-SAML-with-tscli.html[configure SAML] on your ThoughtSpot instance before using this method.
-
-////
-
-=== Trusted authentication service
-
-A ThoughtSpot installation can enable support for token-based authentication service.
-This allows an installation to use a central authentication service rather than using ThoughtSpot to authenticate.
-In this architecture, ThoughtSpot provides the service with a token that allows it to authenticate on behalf of users.
-
-A trusted authenticator application or service obtains a token from ThoughtSpot.
-This token is used to obtain trust from other third-party client applications that need access to ThoughtSpot.
 In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
+
+
 
 ==== Enable Trusted Authentication
 
@@ -125,3 +95,33 @@ If you use +embedApp=true+ with this link, you will get the home page with no na
 
 
 ////
+
+
+A trusted authenticator application or service obtains a token from ThoughtSpot.
+This token is used to obtain trust from other, third-party client applications that need access to ThoughtSpot.
+In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
+
+image::authentication.png[]
+
+A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
+
+. The client-side application requests a user token from the trusted authenticator.
+. The trusted authenticator requests a user token from ThoughtSpot.
+. ThoughtSpot verifies the authenticator and returns a user token.
+. The authenticator returns the user token to the client.
+. The client forwards the user token to ThoughtSpot.
+. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.
+A trusted authenticator application or service obtains a token from ThoughtSpot.
+This token is used to obtain trust from other, third-party client applications that need access to ThoughtSpot.
+In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
+
+image::authentication.png[]
+
+A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
+
+. The client-side application requests a user token from the trusted authenticator.
+. The trusted authenticator requests a user token from ThoughtSpot.
+. ThoughtSpot verifies the authenticator and returns a user token.
+. The authenticator returns the user token to the client.
+. The client forwards the user token to ThoughtSpot.
+. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.

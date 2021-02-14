@@ -5,7 +5,7 @@
 :page-pageid: visual-embed-sdk
 :page-description: What is Visual Embed SDK
 
-The Visual Embed SDK provides a set of APIs delivered as a Javascript library to programatically embed ThoughtSpot elements in a host application.
+The Visual Embed SDK provides a set of Javascript library to programatically embed ThoughtSpot elements in a host application.
 
 You can use the Visual Embed SDK to:
 
@@ -15,29 +15,14 @@ You can use the Visual Embed SDK to:
 
 == Visual Embed SDK Libraries
 
-The Visual Embed SDK for Javascript bundles the following TypeScript definition files:
+The Visual Embed SDK includes the following Javascript libraries:
 
-* `base.ts`
-* `search.ts`
-* `pinboard.ts`
-* `app.ts`
-
-=== Embed Search
-The Visual Embed SDK includes the `search.ts` definition file to help you integrate the search bar and search answers page. Users can select data sources and search for the required data. The JavaScript library for search does not add the ThoughtSpot navigation bar, so users will not be able to navigate to other parts of the ThoughtSpot application.
-
-For information on embedding the ThoughtSpot search functionality, see *<add a link to the embed search tutorial page>*
-
-=== Embed Pinboards and Visualizations
-
-The Visual Embed SDK includes the `pinboard.ts` definition file to help you embed pinboards in the iframes elements of your application.
-
-*<add a link to the embed pinboard tutorial page>*
-
-=== Embed the Full ThoughtSpot Application
-
-You can embed the full application with or without the navigation bar. The `app.ts` definition file helps you embed the full application and load the entire ThoughtSpot application, including menu bars.
- 
-*<add a link to the full application tutorial page>*
+SearchEmbed::
+For embedding the ThoughtSpot search functionality.
+pinboardEmbed::
+For embedding ThoughtSpot visualizations and pinboards.
+fullEmbed::
+For embedding full ThoughtSpot application with or without the navigation bar.
 
 
 ////

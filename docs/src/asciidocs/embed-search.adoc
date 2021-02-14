@@ -1,73 +1,162 @@
-== Embed Search
+== Embed ThoughtSpot Search
 :toc: true
 
 :page-title: Embed Search
-:page-pageid: embed-search
+:page-pageid: search-embed
 :page-description: Embed Search
 
-This procedure shows how to embed the ThoughtSpot search function using the Visual Embed SDK.  
+This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
 
-////
-The Embedded Search API enables searching directly from an external application or web page to pull data from ThoughtSpot.
-This feature was introduced in ThoughtSpot 5.0.
-When using it, you can access data stored in ThoughtSpot directly.
-You do not have to save a search result to a pinboard and then reference it using the visualization's URL.
-
-////
-
-This embedded search is useful when you want to allow an application to pull data directly from ThoughtSpot in an ad hoc fashion.
-
-=== Import the SDK Library
-
+=== Import the JavaScript library
+In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
+[source,javascript]
+----
+<script type="text/javascript" src="<file-location>/<file-name>.js"></script>
+----
+=== Import the SearchEmbed package
 Import the SearchEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-<add codeblock>
+import { init, SearchEmbed } from "ts-embed-sdk";
 ----
-
-=== Initialize the SDK
-
+=== Import styles
 [source,javascript]
 ----
-<add codeblock>
+import "./styles.css"
 ----
-=== Construct the embed content
+=== Add the embed domain
 
-[source,javascript]
-----
-<add codeblock>
-----
- 
-=== Configure events
+To allow your client application to connect to ThoughtSpot:
 
-<Add information on events>
-
-////
-
-Data retrieved using the Embedded Search API is returned as JSON (JavaScript Object Notation).
-You must parse the JSON to get the data values you need, generally using JavaScript in the receiving application.
-
-Use this procedure to construct the call to the Embedded Search API:
-
-. link:{{ site.baseurl }}/app-integrate/JSAPI/enable-JS-API.html#[Enable the JavaScript API (JS API)] on the receiving page of the target application.
-. link:{{ site.baseurl }}/app-integrate/JSAPI/about-JS-API.html#[Authenticate to ThoughtSpot] on the receiving page of the target application.
-. link:{{ site.baseurl }}/app-integrate/embedding-viz/about-full-embed.html#[Embed the ThoughtSpot application] in your own web page or application.
-. To subscribe to results for all the searches the user does in the embedded ThoughtSpot application, use the API JavaScript function subscribeToData( ).
-This will allow your page to listen for data coming from ThoughtSpot.
+. Configure the URL with ThoughtSpot hostname or IP address.
+. Specify the authentication method to use for authenticating application users.
 +
+[source,javascript]
+----
+init
+    ({
+        thoughtSpotHost:"https://<hostname>:<port>",
+        authType: "SSO"
+    });
+----
++
+thoughtSpotHost::
+_String_. Hostname or IP address of the ThoughtSpot application.
+authType::
+[horizontal]
+SSO::
+SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
+AuthServer::
+Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens and grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
++
+authEndpoint::
+_String_. The endpoint URL of the authentication server.
+None::
+Requires no authentication. The user must already be logged into ThoughtSpot before interacting with the embedded content.
++
+This approach is used only for testing client applications. Do not use this in production environments.
 
+=== Create an instance of the search object
+Create an instance of the SearchEmbed object and customize your search page view.
+
+[source,javascript]
+----
+const SearchEmbed = new SearchEmbed(
+    document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%'
+    },
+    collapseDataSources:false,
+    hideDataSources: true,
+    hideResults: false,
+    enableSearchAssist: true,
+    disabledActions: [],
+    });
+
+----
+==== Search Page UI Attributes
+frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
+collapseDataSources [small]_optional_::
+_Boolean_. When set to true, collapses the list of data sources on the Data Source panel.
+ hideDataSources [small]_optional_::
+_Boolean_. When set to true, hides the Data Source panel.
+hideResults [small]_optional_::
+_boolean_. When set to true, hides charts and tables in search answers.
+enableSearchAssist [small]_optional_::
+_Boolean_. When set to true, enables search assistance.
+disabledActions [small]_optional_::
+_String_. Disables the specified menu item from the list of actions in the search answer page.
++
+For example, to hide the *Show underlying data* action from the (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
+
+disabledActionReason [small]_optional_::
+_String_. Indicates the reason for disabling an action from the search answer page view.
+
+=== Construct the URL and render the embedded search
+Construct the URL of the embedded ThoughtSpot search object to load in the iframe.
+Render the embedded search and pass parameters such as data source ID.
+[source, javascript]
+----
+searchEmbed.render({
+    dataSources,
+    searchQuery,
+    answerId,
+  }: SearchRenderOptions = {}): SearchEmbed {
+     super.render();
+     const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
+    this.renderIFrame(src, this.viewConfig.frameParams);
+ return this;
+    }
+
+----
+==== Attributes for rendering search
+dataSources::
+_String_. The Global Unique Identifier (GUID) of the data sources for searching data.
+answerID::
+_String_. The GUID of the search answers saved in a user a profile.
+searchQuery::
+_String_. The search query string to use when the application loads.
+
+=== Subscribe to events
+Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
+[source, javascript]
+----
+ search.on("init", showLoader)
+ search.on("load", hideLoader)
+ search.on("answerPageLoading", payload =>
+    console.log("message received from embedded view" + JSON.stringify(payload))
+
+// Functions to show or hide a loader while the iframe loads.
+ function showLoader() {
+    document.getElementById("loader").style.display = "block";
+    }
+
+ function hideLoader() {
+    document.getElementById("loader").style.display = "none";
+    }
+----
+////
+==== Event Type
+init::
+The search iframe is initiaized.
+load::
+The search iframe is loaded.
+queryChanged::
+The search query is modified.
+dataSourceSelected::
+The data source for searching data is selected.
 ////
 
-=== Perform a Search
+=== Test the embedded workflow
 
-////
-Now when a user searches, the <iframe> sends data to the subscription.
-The parent web page or application receives the data as JSON, and can do whatever you want with it.
+To verify the ThoughtSpot Search integration, perform the following tasks:
 
-. You can set up your web page or application to display or otherwise act on the data it receives from the subscription.
+* Load your application.
+* Search for data.
+* Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
+* If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
 
-////
-To verify the integration, perform a search using the ThoughtSpot search bar embedded in your application.
-
- 
+=== Code sample
+<To be added>

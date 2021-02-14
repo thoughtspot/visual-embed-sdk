@@ -2,52 +2,60 @@
 :page-pageid: nav
 :page-description: Main navigation
 
-* link:{{navprefix}}=index[ThoughtSpot Embedded Analytics]
+ts7-docs
+* xref:docs:intro-embed.adoc[Embedded Analytics with ThoughtSpot]
+** xref:docs:integration-overview.adoc[Integration guidelines]
+** xref:docs:spotdev-portal.adoc[SpotDev Portal]
+** Authentication
+*** xref:docs:configure-saml.adoc[Configure SAML SSO]
+*** xref:docs:trusted-authentication.adoc[Configure trusted authentication]
+** xref:docs:security-settings.adoc[Configure security settings]
 
----
-* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
-** link:{{navprefix}}=authentication[Authentication]
-** link:{{navprefix}}=getting-started[Getting Started]
-** link:{{navprefix}}=embed-search[Embed search]
-** link:{{navprefix}}=embed-a-viz[Embed Visualizations (Charts and Tables)]
-** link:{{navprefix}}=embed-pinboard[Embed Pinboards]
-** link:{{navprefix}}=full-embed[Embed Full Application]
+* xref:docs:visual-embed-sdk.adoc[Visual Embed SDK]
+** xref:docs:getting-started.adoc[Get Started]
+** xref:docs:embed-search.adoc[Embed search]
+** xref:docs:embed-a-viz.adoc[Embed visualizations]
+** xref:docs:embed-pinboard.adoc[Embed pinboards]
+** xref:docs:full-embed.adoc[Embed full application]
 ** Error Handling
 
----
-* link:{{navprefix}}=js-reference[SDK Reference]
+* xref:docs:js-reference.adoc[SDK Reference]
 
----
-
-* link:{{navprefix}}=about-rest-apis[REST APIs]
+* xref:docs:about-rest-apis.adoc[REST APIs]
 ** Getting Started
 ** Authentication
-** link:{{navprefix}}=calling-rest-api[Making a REST API Call]
-** link:{{navprefix}}=pinboarddata[Pinboard Data API]
-** link:{{navprefix}}=metadata-api[Metadata API]
-** link:{{navprefix}}=session-api[Session API]
-** link:{{navprefix}}=user-api[User API]
-** link:{{navprefix}}=group-api[Group API]
-** link:{{navprefix}}=search-data-api[Search Data API]
-** link:{{navprefix}}=rest-api-reference[API Reference Guide]
+** xref:docs:calling-rest-api[Making a REST API Call]
+** xref:docs:pinboarddata.adoc[Pinboard Data API]
+** xref:docs:metadata-api.adoc[Metadata API]
+** xref:docs:session-api.adoc[Session API]
+** xref:docs:user-api.adoc[User API]
+** xref:docs:group-api.adoc[Group API]
+** xref:docs:search-data-api.adoc[Search Data API]
+** xref:docs:rest-api-reference.adoc[API Reference Guide]
+=======
 
 ---
 
+ main
 * Customization Settings
 ** link:{{navprefix}}=customize-style[Customize the application style]
 
 ** Configure Actions 
+ ts7-docs
+////
+* xref:docs:glossary.adoc[Glossary]
+=======
 
 ---
 
 * link:{{navprefix}}=glossary[Glossary]
+main
 
----
 * Frequently asked questions
-
----
+////
+---ß
 * Resources
-** ThoughtSpot Documentation
+** link://https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
 ** Community
 ** Playground
 ////
