@@ -1,66 +1,46 @@
-:page-title: Developer Documentation
+
+:page-title: Developer Guides
 :page-pageid: nav
 :page-description: Main navigation
 
-
-
-
-* link:{{navprefix}}=intro-embed[Embedded Analytics with ThoughtSpot]
-** link:{{navprefix}}=integration-overview[Integration guidelines]
+* Embed ThoughtSpot
+** link:{{navprefix}}=introduction[Embedded Analytics with ThoughtSpot]
+** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=spotdev-portal[SpotDev Portal]
-** link:{{navprefix}}=configure-saml[SAML SSO Authentication]
-** link:{{navprefix}}=trusted-authentication[Trusted authentication]
+** link:{{navprefix}}=saml-sso[SAML SSO Authentication]
+** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=security-settings[Security settings]
-
-
-* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
+* Visual Embed SDK
+** link:{{navprefix}}=visual-embed-sdk[Overview]
 ** link:{{navprefix}}=getting-started[Get Started]
-** link:{{navprefix}}=embed-search[Embed search]
+** link:{{navprefix}}=search-embed[Embed search]
 ** link:{{navprefix}}=embed-a-viz[Embed visualizations]
 ** link:{{navprefix}}=embed-pinboard[Embed pinboards]
 ** link:{{navprefix}}=full-embed[Embed full application]
-
-* link:{{navprefix}}=customize-style[Style customization]
-* link:{{navprefix}}=customize-actions-menu[Actions customization]
-
-* link:{{navprefix}}=customize-style[Rebrand embedded content]
-* Configure Actions 
-
+* Customization Settings
+** link:{{navprefix}}=customize-style[Style customization]
+** link:{{navprefix}}=customize-actions[Actions customization]
 ////
 ** Error Handling
 ////
 
-
-* link:{{navprefix}}=about-rest-apis[REST APIs]
-** Get Started
-** link:{{navprefix}}=authentication[REST API authentication]
-
-* link:{{navprefix}}=about-rest-apis[REST APIs]
-** Get Started
-** Authentication
-
-** link:{{navprefix}}=call-rest-api[Making a REST API Call]
-** link:{{navprefix}}=pinboarddata[Pinboard Data API]
+* REST APIs
+** link:{{navprefix}}=rest-apis[Get Started]
+** link:{{navprefix}}=rest-api-authentication[REST API authentication]
+** link:{{navprefix}}=calling-rest-api[Making a REST API Call]
+** link:{{navprefix}}=pinboard-api[Pinboard Data API]
 ** link:{{navprefix}}=metadata-api[Metadata API]
 ** link:{{navprefix}}=session-api[Session API]
 ** link:{{navprefix}}=user-api[User API]
 ** link:{{navprefix}}=group-api[Group API]
 ** link:{{navprefix}}=search-data-api[Search Data API]
-
-* link:{{navprefix}}=js-reference[SDK Reference]
-* link:{{navprefix}}=rest-api-reference[API Reference Guide]
-
-
-* link:{{navprefix}}=js-reference[SDK Reference]
-* link:{{navprefix}}=rest-api-reference[API Reference Guide]
-
+* Reference Guides
+** link:{{navprefix}}=js-reference[Embed SDK Reference]
+** link:{{navprefix}}=rest-api-reference[REST API Reference Guide]
 ////
-* link:{{navprefix}}=glossary[Glossary]
-
+* xref:docs:glossary.adoc[Glossary]
 * Frequently asked questions
 ////
-
----
 * Resources
 ** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
 ** link:https://community.thoughtspot.com/customers/s/[Community] 
