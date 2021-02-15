@@ -103,7 +103,7 @@ const IndexPage = ({ location }) => {
                     <Search />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap />
+                        <Docmap docContent={docContent} />
                     </div>
                 </div>
             </main>

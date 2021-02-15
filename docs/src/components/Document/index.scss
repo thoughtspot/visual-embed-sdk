@@ -1,6 +1,11 @@
 .documentWrapper {
     width: calc(100% - 300px);
     padding: 60px;
+    
+    /* In order to hide TOC in main component */
+    #toc {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
