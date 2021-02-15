@@ -5,14 +5,11 @@ import BackButton from '../BackButton';
 const LeftSideBar = (props: {
     navTitle: string;
     navContent: string;
-    spotDevHomeLink: string;
+    backLink: string;
 }) => (
     <aside>
-        {props.spotDevHomeLink && (
-            <BackButton
-                title="SpotDev Home"
-                spotDevHomeLink={props.spotDevHomeLink}
-            />
+        {props.backLink && (
+            <BackButton title="SpotDev Home" backLink={props.backLink} />
         )}
         <nav>
             <h2 className="heading">{props.navTitle}</h2>

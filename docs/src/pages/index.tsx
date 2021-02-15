@@ -26,7 +26,7 @@ const IndexPage = ({ location }) => {
     const [docContent, setDocContent] = useState('');
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
-    const [spotDevHomeLink, setSpotDevHomeLink] = useState('');
+    const [backLink, setBackLink] = useState('');
 
     useEffect(() => {
         setParams(queryStringParser(location.search));
@@ -45,7 +45,7 @@ const IndexPage = ({ location }) => {
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
 
         // get & set left navigation 'SpotDev Home' button url
-        setSpotDevHomeLink(params[TS_ORIGIN_PARAM]);
+        setBackLink(params[TS_ORIGIN_PARAM]);
 
         // check if url query param is having pageid or not
         if (params[TS_PAGE_ID_PARAM]) {
@@ -106,7 +106,7 @@ const IndexPage = ({ location }) => {
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
-                    spotDevHomeLink={spotDevHomeLink}
+                    backLink={backLink}
                 />
                 <div className="documentBody">
                     <div className="introWrapper">
