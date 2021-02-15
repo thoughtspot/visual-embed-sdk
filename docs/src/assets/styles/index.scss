@@ -1,18 +1,16 @@
 @import './variables.scss';
 
 @font-face {
-    font-family: 'Plain';
-    src: url('../fonts/Plain-Medium.woff2') format('woff2'),
-        url('../fonts/Plain-Medium.woff') format('woff');
+    font-family: 'Optimo-Plain';
+    src: url('../fonts/Plain-Medium.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Plain';
-    src: url('../fonts/Plain-Light.woff2') format('woff2'),
-        url('../fonts/Plain-Light.woff') format('woff');
+    font-family: 'Optimo-Plain';
+    src: url('../fonts/Plain-Light.otf') format('opentype');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -21,7 +19,7 @@
 body {
     margin: $gutter;
     padding: $gutter;
-    font-family: 'Plain';
+    font-family: 'Optimo-Plain';
     font-size: 14px;
 }
 
@@ -56,7 +54,7 @@ a {
     color: $secondarycolor;
 }
 
-/*end active class without background*/
+/*active class without background*/
 
 /*visited class*/
 
@@ -80,7 +78,7 @@ button {
     cursor: pointer;
 }
 
-// Scrollbar styling start
+/*Scrollbar styling start*/
 ::-webkit-scrollbar {
     width: 0.4em;
 }
@@ -100,8 +98,7 @@ button {
     border-radius: 4px;
 }
 
-// Scrollbar styling end
-
+/* Scrollbar styling end*/
 @media screen and (min-width: 767px) and (max-width: 1024px) {
     .documentBody {
         width: calc(100% - 210px);

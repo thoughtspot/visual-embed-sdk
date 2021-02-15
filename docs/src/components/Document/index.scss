@@ -1,6 +1,10 @@
 .documentWrapper {
     width: calc(100% - 300px);
     padding: 60px;
+
+    p {
+        font-weight: 300;
+    }
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
