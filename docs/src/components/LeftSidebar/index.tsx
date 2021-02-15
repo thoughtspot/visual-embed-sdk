@@ -8,10 +8,12 @@ const LeftSideBar = (props: {
     spotDevHomeLink: string;
 }) => (
     <aside>
-        <BackButton
-            title="SpotDev Home"
-            spotDevHomeLink={props.spotDevHomeLink}
-        />
+        {props.spotDevHomeLink && (
+            <BackButton
+                title="SpotDev Home"
+                spotDevHomeLink={props.spotDevHomeLink}
+            />
+        )}
         <nav>
             <h2 className="heading">{props.navTitle}</h2>
             <div

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './index.scss';
 
 const Docmap = (props: { docContent: string }) => {
-
     const [toc, setToc] = useState('');
 
     useEffect(() => {
@@ -20,18 +19,12 @@ const Docmap = (props: { docContent: string }) => {
     }, [props.docContent]);
 
     return (
-        <div className="docmapLinks">
-            {
-                toc !== ''
-                &&
-                <>
-                    <p className="tocTitle">On this page</p>
-                    <div
-                        dangerouslySetInnerHTML={{ __html: toc }}
-                    />
-                </>
-            }
-        </div>
+        toc !== '' && (
+            <div className="docmapLinks">
+                <p className="tocTitle">On this page</p>
+                <div dangerouslySetInnerHTML={{ __html: toc }} />
+            </div>
+        )
     );
 };
 
