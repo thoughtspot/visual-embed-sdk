@@ -27,11 +27,7 @@
                 color: $primarycolor;
             }
 
-            a:link {
-                color: $primarycolor;
-            }
-
-            a:active {
+            a:hover {
                 color: $secondarycolor;
             }
 

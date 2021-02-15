@@ -1,3 +1,5 @@
+@import '../../assets/styles/variables.scss';
+
 .documentWrapper {
     width: calc(100% - 300px);
     padding: 60px;
@@ -6,6 +8,11 @@
     #toc {
         display: none;
     }
+
+    p {
+        font-weight: $font-weight-normal;
+    }
+
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
