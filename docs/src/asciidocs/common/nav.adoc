@@ -1,41 +1,43 @@
-:page-title: Documentation
+:page-title: Developer Documentation
 :page-pageid: nav
 :page-description: Main navigation
 
 
-* xref:docs:intro-embed.adoc[Embedded Analytics with ThoughtSpot]
-** xref:docs:integration-overview.adoc[Integration guidelines]
-** xref:docs:spotdev-portal.adoc[SpotDev Portal]
-** xref:docs:configure-saml.adoc[Configure SAML SSO]
-** xref:docs:trusted-authentication.adoc[Configure trusted authentication]
-** xref:docs:security-settings.adoc[Configure security settings]
-* xref:docs:visual-embed-sdk.adoc[Visual Embed SDK]
-** xref:docs:getting-started.adoc[Get Started]
-** xref:docs:embed-search.adoc[Embed search]
-** xref:docs:embed-a-viz.adoc[Embed visualizations]
-** xref:docs:embed-pinboard.adoc[Embed pinboards]
-** xref:docs:full-embed.adoc[Embed full application]
-* xref:docs:customize-style.adoc[Rebrand embedded content]
-* Configure Actions 
+
+* link:{{navprefix}}=intro-embed[Embedded Analytics with ThoughtSpot]
+** link:{{navprefix}}=integration-overview[Integration guidelines]
+** link:{{navprefix}}=spotdev-portal[SpotDev Portal]
+** link:{{navprefix}}=configure-saml[SAML SSO Authentication]
+** link:{{navprefix}}=trusted-authentication[Trusted authentication]
+** link:{{navprefix}}=security-settings[Security settings]
+* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
+** link:{{navprefix}}=getting-started[Get Started]
+** link:{{navprefix}}=embed-search[Embed search]
+** link:{{navprefix}}=embed-a-viz[Embed visualizations]
+** link:{{navprefix}}=embed-pinboard[Embed pinboards]
+** link:{{navprefix}}=full-embed[Embed full application]
+* link:{{navprefix}}=customize-style[Style customization]
+* link:{{navprefix}}=customize-actions-menu[Actions customization]
 
 ////
 ** Error Handling
 ////
 
-
-* xref:docs:about-rest-apis.adoc[REST APIs]
+* link:{{navprefix}}=about-rest-apis[REST APIs]
 ** Get Started
-** Authentication
-** xref:docs:call-rest-api[Making a REST API Call]
-** xref:docs:pinboarddata.adoc[Pinboard Data API]
-** xref:docs:metadata-api.adoc[Metadata API]
-** xref:docs:session-api.adoc[Session API]
-** xref:docs:user-api.adoc[User API]
-** xref:docs:group-api.adoc[Group API]
-** xref:docs:search-data-api.adoc[Search Data API]
+** link:{{navprefix}}=authentication[REST API authentication]
+** link:{{navprefix}}=call-rest-api[Making a REST API Call]
+** link:{{navprefix}}=pinboarddata[Pinboard Data API]
+** link:{{navprefix}}=metadata-api[Metadata API]
+** link:{{navprefix}}=session-api[Session API]
+** link:{{navprefix}}=user-api[User API]
+** link:{{navprefix}}=group-api[Group API]
+** link:{{navprefix}}=search-data-api[Search Data API]
+* link:{{navprefix}}=js-reference[SDK Reference]
+* link:{{navprefix}}=rest-api-reference[API Reference Guide]
+=======
 
-* xref:docs:js-reference.adoc[SDK Reference]
-* xref:docs:rest-api-reference.adoc[API Reference Guide]
+
 ////
 * xref:docs:glossary.adoc[Glossary]
 
@@ -44,8 +46,8 @@
 
 ---
 * Resources
-** link://https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
-** Community
+** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
+** link:https://community.thoughtspot.com/customers/s/[Community] 
 ** Playground
 ////
 *** link:{{navprefix}}=upload-application-logos[Upload application logos]

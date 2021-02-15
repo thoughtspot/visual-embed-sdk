@@ -1,5 +1,9 @@
-= Configure SAML SSO
-:last_updated: 11/18/2019
+= SAML SSO Authentication
+:toc: true
+
+:page-title: SAML SSO Authentication
+:page-pageid: saml-sso
+:page-description: SAML SSO Configuration
 
 The Security Assertion Markup Language (SAML) Single Sign-On (SSO) authentication method eliminates the need for displaying a login page when a user requests access to an embedded ThoughtSpot content. The SAML SSO method enables client applications to allow federated users to access the embedded ThoughtSpot content.
 In this authentication method, users authenticate to the SAML identity provider at your federation to obtain access to ThoughtSpot content embedded in your application.
@@ -57,4 +61,4 @@ For example, *idp-meta.xml*. Provide an absolute path to your Identity Providerâ
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
 If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually].
-. Click *OK*.
+. Click *Save*.

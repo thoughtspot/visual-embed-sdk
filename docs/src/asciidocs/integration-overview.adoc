@@ -2,7 +2,7 @@
 :toc: true
 
 :page-title: ThoughtSpot Application Integration Guidelines
-:page-pageid: index
+:page-pageid: integration-guidelines
 :page-description: ThoughtSpot Embedded Analytics
 
 Embedding ThoughtSpot content allows you to build search-driven analytics and visualizations into your application. Embedding an external application requires a thorough understanding  of your business requirements, software limitations, and tools to enable seamless navigation between multiple interfaces. 

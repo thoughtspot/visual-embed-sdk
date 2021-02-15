@@ -1,46 +1,67 @@
-= Customize look and feel
+= Style customization
 :toc: true
 
-:page-title: Customize look and feel
+:page-title: Style customization
 :page-pageid: customize-style
-:page-description: Customize look and feel
+:page-description: Rebrand embedded ThoughtSpot content
 
+If you want to match the look and feel of the embedded ThoughtSpot content with your core your application, you can white label and customize the embedded ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that matches with your company’s branding guidelines. 
 
-You can brand the ThoughtSpot application for your company.
+You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations. 
+[NOTE]
+When you rebrand the embedded ThoughtSpot content, the UI styles are reset for all users.
 
-You can customize the look and feel of the ThoughtSpot application for your company.
-Configuring these settings sets system-wide defaults for all your users.
+== Style Components
 
-Style customization is enabled by default.
-You can configure your cluster to disable this functionality.
+You can customize the following ThoughtSpot UI style components:
 
-////
-Contact https://community.thoughtspot.com/customers/s/contactsupport[ThoughtSpot Support] about disabling this feature.
+* xref:#logo-change[Application logo & favicon]
+* Font style for charts and tables
+* Background color of application
+* Navigation panel color
+* Color palette for charts
+* Footer text
+* Page title
 
-////
+== Access Customization Settings
 
-== Customize styles
-
-To customize the styles, look and feel of the ThoughtSpot application components, you must be an authorized user with administrative privileges.
-
-To access style customization:
+To access style customization settings:
 
 . Go to the SpotDev portal.
 . Sign in with your ThoughtSpot user credentials.
-. Under *Configuration*, click *Style Customization*.
+. Under *Configuration*, click *Styles*.
 
-== General guidelines for customization
+:tip-caption:
+[TIP]
+The style customization settings are also available in the ThoughtSpot *Admin* console. 
+For more information on setting UI styles from the *Admin* console, see link://https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization].
 
-Your changes take effect either immediately, or after you refresh the browser.
-You can revert your changes by using the *Reset* button that appears when you move your cursor to the right of the setting.
+[#logo-change]
+== Change application logo and favicon
+To upload your own default and wide application logos:
+
+. Go to *Customizations* > *Styles* page.
+. To upload the default logo, click *Application Logo (Default)*.
+. Browse to your local directory and select logo image.
++
+image::./images/style-applogo.png[Default Application Logo]
+
++
+Your icon image should be a square, and the recommended size is 140px by 140px.
+The accepted file formats are jpg, jpeg, and png.
+This logo will appear on the top left of the interface.
+
+. To upload a wide logo, click the wide icon under *Application Logo (Wide)*.
+to browse for and select your own wide logo.
++
+image::./images/style-widelogo.png[Wide application logo]
++
+The recommended size is 330px by 100px.
+The accepted file formats are jpg, jpeg, and png.
+This logo appears on the login screen.
+You may need to test a few versions to make sure it appears correctly.
 
 
-You can configure these style customizations:
-
-* Application Logo (Default) & Favicon
-* Font style for chart labels
-* Set the background for the embedded ThoughtSpot component
-* Set the default palette for all charts.
   
 ////
 
@@ -59,19 +80,29 @@ They can use the *Reset colors* option on a chart to clear their changes.+++</dl
 
 ////
 
-== How to specify fonts
+== Customize fonts for visualizations
 
+You can add and edit fonts to customize the appearance of your charts and tables. 
 You can set your systems default fonts by specifying either or both of the *Chart Visualization Fonts* and *Table Visualization Fonts* values.
-To set this values, your font must be defined in a Web Open Font Format (`WOFF`) file.
 
-Changes to chart and table defaults apply only to charts and features created _after_ you configure a value.
-If you change table fonts, older tables retain their previous fonts.
-Some settings can be overridden on a per-object level.
-Users cannot configure their own defaults.
+[NOTE]
+Before you begin, make sure you have the WOFF files available for the fonts you want to use.
 
-. Make sure you have a WOFF file available for your font.
-. Select the label you want to change.
-. Click the *+* button.
+=== Important points to note
+* To set this values, your font must be defined in a Web Open Font Format (`WOFF`) file.
+* Changes to chart and table defaults apply only to charts and features created _after_ you configure a value.
+* If you change table fonts, older tables retain their previous fonts.
+* Some settings can be overridden on a per-object level.
+* Users cannot configure their own defaults.
+
+=== Update fonts
+
+. Go to *Customizations* > *Styles* page.
+. To update fonts, go to *Chart Visualization Fonts*, and select a chart label.
++
+By default, the font changes are applied to all values in the table cells.
+
+. To add a custom font, click *+*.
 +
 The system displays the *Custom Font* dialog.
 
@@ -81,9 +112,35 @@ The system displays the file finder.
 
 . Add the `WOFF` file you want.
 +
-The file appears in the font dialog
+The file appears in the font dialog.
 
-. Click *Save* to change the font.
+. Click *Confirm*.
+. To update the font style:
+.. Click the edit icon.
+.. Update font color, weight, and style.
+.. Click *Confirm*.
+
+== Customize background color
+
+You can customize ThoughtSpot's background color to match your company's theme.
+
+You can change the background color to match with your company's theme.
+The custom background color is in effect when using the API to embed visualizations and pinboards.
+
+This feature is only applicable when embedding ThoughtSpot in an external web portal or application.
+To choose a background color:
+
+. Navigate to the Admin Console by clicking on the *Admin* tab from the top navigation bar.
+Select *Style Customization* from the side navigation bar that appears.
++ If the Style Customization option is not available, link:{{ site.baseurl }}/appliance/contact.html[contact ThoughtSpot Support] to enable it.
+. Click the background color box under *Embedded Application Background*.
++
+image::set-background-color.png[]
+
+. Use the color menu to choose your new background color.
+. Click the *Reset* button on the upper right hand side of the section if you would like to bring back the default color.
+
+== Customize color scheme
 
 == How to specify the behavior or clickable links in data
 
@@ -97,3 +154,10 @@ Consider how the links open, by type:
 * Link in search result table in ThoughtSpot-Same browser tab as ThoughtSpot application
 * Link in table embedded in an <iframe> - Same <iframe> that contains the table
 * Link in full ThoughtSpot application embedded in an <iframe> - Same <iframe> that contains the application
+
+
+== Reset Styles
+Your changes take effect either immediately, or after you refresh the browser.
+You can revert your changes by using the *Reset* button that appears when you move your cursor to the right of the setting.
+
+. Click the *Reset* button on the upper right hand side of the sections if you would like to bring back the default logos.

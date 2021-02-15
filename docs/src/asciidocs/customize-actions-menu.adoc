@@ -1,8 +1,14 @@
-= Customize Answer actions menu
-:last_updated: 7/27/2020
+= Actions customization menu
+
+:toc: true
+
+:page-title: Actions customization
+:page-pageid: customize-style
+:page-description: Add custom actions
+
 
 
 You can add custom actions to the more options menu for Answers.
-:toc: true
 
-{% include content/admin-portal/customize-actions-menu.md %}
+
+

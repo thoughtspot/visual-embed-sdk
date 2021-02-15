@@ -1,127 +1,50 @@
-== Configure trusted authentication
+== REST API authentication
 :toc: true
 
-:page-title: Configure trusted authentication
-:page-pageid: authentication
-:page-description: Authentication
+:page-title: REST API authentication
+:page-pageid: rest-api-authentication
+:page-description: REST API Authentication
 
-If your organization has a trusted authentication server, you can use it to authenticate users of the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
+The REST API allows you to get data out of ThoughtSpot so you can use it in a Web page, portal, or application.
+When using the Data REST API, authentication is achieved through SAML.
+After authentication, use the POST method to call a URL for the desired visualization or pinboard.
+A JSON (JavaScript Object Notation) representation of the data will be returned.
 
-In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
+Before you can use the Data REST API, you must authenticate to ThoughtSpot using SAML.
 
+== Cross Domain Verification
 
+You can enable cross-domain verification when using the Data REST API.
+This protects your data, so that another website cannot use a URL to get data from ThoughtSpot.
+The procedure for link:{{ site.baseurl }}/app-integrate/JSAPI/enable-JS-API.html#[enabling the JavaScript API] includes information on how to enable this.
 
-==== Enable Trusted Authentication
+== Data REST API capabilities
 
-If you are using Trusted Authentication, enable this capability from the command line:
-[source,console]
-----
-$ tscli tokenauthentication enable
-----
-This command turns on trusted authentication and returns something like the following:
-[source,console]
-----
-Token generated. Copy the GUID in the box.
+Use a POST method to access the URL, which calls the REST API.
+The data is returned as a JSON string.
+When using this method, you must extract the data from the JSON file and render it on your Web page, portal, or application.
 
- ########################################
- # b0cb26a0-351e-40b4-9e42-00fa2265d50c #
- ########################################
+You can use the REST API to do things like:
 
- Override added successfully
-----
+* Generate dynamic picklists on your Web page.
+* Display a single value.
+* Retrieve the data to populate a visualization drawn by your own renderer.
+* Pull data directly from ThoughtSpot
 
-The key inside the hashes is the ThoughtSpot secret key.  This key is needed to make calls to get a token for an individual user.  
+Remember that the data you retrieve from ThoughtSpot is live data, so whenever the Web page is rendered, the current value(s) will be shown.
 
-To disable trusted authentication, run the following command at the command line:
+== Direct Search-to-Embed API
 
-[source,console]
-----
+The link:{{ site.baseurl }}/app-integrate/data-api/direct-search-to-embed.html#[Direct Search-to-Embed API] enables searching directly from an external application or web page to pull data from ThoughtSpot.
+This feature was introduced in ThoughtSpot 5.0.
+When using it, you can access data stored in ThoughtSpot directly.
+You do not have to save a search result to a pinboard and then reference it using the visualization's URL.
 
- $ tscli tokenauthentication disable
+== Public API reference
 
-----
+You can find more information on our public APIs in the link:{{ site.baseurl }}/app-integrate/reference/public-api-reference.html#[Reference guide].
 
-This command disables token authentication and the secret token.
+== Related information
 
-For more information, see
-https://docs.thoughtspot.com/6.3/app-integrate/embedding-viz/trusted-authentication.html[Configure trusted authentication].
-////
-==== Trusted Authentication Workflow
-
-. The user will log into the web application using the customer provided authentication capabilities.  
-. The trusted authentication service  calls the ThoughtSpot service to log in, using a service account that has admin privileges. This step creates a session for the next call. 
-. After establishing a session, the token service will make calls to ThoughtSpot to get a token for the user using the +session/login/token +service.  
-. On success,  the token service returns a unique token for future calls on behalf of the user.
-The user is now authenticated, though the calls take a special format as described below.
-
-
-
-A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
-
-. The client-side application requests a user token from the trusted authenticator.
-. The trusted authenticator requests a user token from ThoughtSpot.
-. ThoughtSpot verifies the authenticator and returns a user token.
-. The authenticator returns the user token to the client.
-. The client forwards the user token to ThoughtSpot.
-. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.
-
-== Cross-origin HTTP Requests (CORS)
-
-Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities.
-Cross-origin or cross-domain verification prevents such security risks.
-
-When embedding, you must enable CORS between your client application domain and the ThoughtSpot domain.
-This protects your data, so that another actor cannot use the same URL to embed the visualization in its own Web pages.
-
-
-== Decide if you need to change the feedback email
-
-ThoughtSpot has an automated feature that collects feedback from users and sends it to ThoughtSpot Support.
-Depending on what and how you embed, user actions with your embedded application can trigger feedback.
-You can continue to forward feedback in this manner or direct the feedback to another email.
-To learn how to change the feedback email, see link:{{site.baseurl }}/admin/setup/work-with-ts-support.html#manage-the-feedback-contact[Manage the feedback contact].
-
-== Remove the ThoughtSpot branded footer
-
-The ThoughtSpot footer appears by default in the ThoughtSpot application.
-It also appears with an embed application that encompasses an individual Pinboard, or a full application.
-In embed applications that are have a single visualization, you can ask your ThoughtSpot support engineer to disable the footer.
-
-
-To embed with the navigation bar, call: +https://<thoughtspot-url>?embedApp=false#/+ +
-To embed without the navigation bar, call: +https://<thoughtspot-url>?embedApp=true#/+ 
-
-If you use +embedApp=true+ with this link, you will get the home page with no navigation bar, so you will need to provide navigation to use ThoughtSpot.  
-
-
-////
-
-
-A trusted authenticator application or service obtains a token from ThoughtSpot.
-This token is used to obtain trust from other, third-party client applications that need access to ThoughtSpot.
-In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
-
-image::authentication.png[]
-
-A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
-
-. The client-side application requests a user token from the trusted authenticator.
-. The trusted authenticator requests a user token from ThoughtSpot.
-. ThoughtSpot verifies the authenticator and returns a user token.
-. The authenticator returns the user token to the client.
-. The client forwards the user token to ThoughtSpot.
-. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.
-A trusted authenticator application or service obtains a token from ThoughtSpot.
-This token is used to obtain trust from other, third-party client applications that need access to ThoughtSpot.
-In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
-
-image::authentication.png[]
-
-A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
-
-. The client-side application requests a user token from the trusted authenticator.
-. The trusted authenticator requests a user token from ThoughtSpot.
-. ThoughtSpot verifies the authenticator and returns a user token.
-. The authenticator returns the user token to the client.
-. The client forwards the user token to ThoughtSpot.
-. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.
+* link:{{ site.baseurl }}/app-integrate/reference/public-api-reference.html#[API Reference guide].
+* link:{{ site.baseurl }}/app-integrate/data-api/direct-search-to-embed.html#[Direct Search-to-Embed API].

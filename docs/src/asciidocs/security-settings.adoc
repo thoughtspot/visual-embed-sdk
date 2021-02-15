@@ -1,9 +1,9 @@
-= Configure security settings
+= Security settings
 :toc: true
 
-:page-title: Configure security settings
+:page-title: Security settings
 :page-pageid: security-settings
-:page-description: Security settings for accessing embedded 
+:page-description: Security settings for embedding
 
 Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers. 
 

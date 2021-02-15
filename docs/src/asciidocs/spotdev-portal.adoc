@@ -1,7 +1,7 @@
 = ThoughtSpot SpotDev Portal
 :toc: true
 
-:page-title: SpotDev
+:page-title: ThoughtSpot SpotDev Portal
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot SpotDev Portal
 
