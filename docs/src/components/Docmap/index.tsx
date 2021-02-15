@@ -11,15 +11,23 @@ const Docmap = (props: { docContent: string }) => {
         const tocEl = doc.querySelector('#toc');
         if (tocEl) {
             setToc(tocEl.innerHTML);
+        } else {
+            setToc('');
         }
     }, [props.docContent]);
 
     return (
         <div className="docmapLinks">
-            <p className="tocTitle">On this page</p>
-            <div
-                dangerouslySetInnerHTML={{ __html: toc }}
-            />
+            {
+                toc !== ''
+                &&
+                <>
+                    <p className="tocTitle">On this page</p>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: toc }}
+                    />
+                </>
+            }
         </div>
     );
 };
