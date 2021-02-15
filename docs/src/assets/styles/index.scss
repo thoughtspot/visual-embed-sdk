@@ -3,7 +3,7 @@
 @font-face {
     font-family: 'Optimo-Plain';
     src: url('../fonts/Plain-Medium.otf') format('opentype');
-    font-weight: 500;
+    font-weight: $font-weight-bold;
     font-style: normal;
     font-display: swap;
 }
@@ -11,9 +11,13 @@
 @font-face {
     font-family: 'Optimo-Plain';
     src: url('../fonts/Plain-Light.otf') format('opentype');
-    font-weight: 300;
+    font-weight: $font-weight-normal;
     font-style: normal;
     font-display: swap;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -71,7 +75,7 @@ a {
 
 .introWrapper {
     display: flex;
-    padding-top: 81px;
+    // padding-top: 81px;
 }
 
 button {
