@@ -44,7 +44,7 @@ const IndexPage = ({ location }) => {
         // get & set left navigation area content with dynamic link creation
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
 
-        // get & set left navigation area content with dynamic link creation
+        // get & set left navigation 'SpotDev Home' button url
         setSpotDevHomeLink(params[TS_ORIGIN_PARAM]);
 
         // check if url query param is having pageid or not
