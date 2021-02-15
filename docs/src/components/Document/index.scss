@@ -1,10 +1,18 @@
+@import '../../assets/styles/variables.scss';
+
 .documentWrapper {
     width: calc(100% - 300px);
     padding: 60px;
+    
+    /* In order to hide TOC in main component */
+    #toc {
+        display: none;
+    }
 
     p {
-        font-weight: 300;
+        font-weight: $font-weight-normal;
     }
+
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

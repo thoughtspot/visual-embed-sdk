@@ -5,7 +5,6 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
-import Search from '../components/Search';
 import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -100,10 +99,9 @@ const IndexPage = ({ location }) => {
             <main>
                 <LeftSidebar navTitle={navTitle} navContent={navContent} />
                 <div className="documentBody">
-                    <Search />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap />
+                        <Docmap docContent={docContent} />
                     </div>
                 </div>
             </main>
