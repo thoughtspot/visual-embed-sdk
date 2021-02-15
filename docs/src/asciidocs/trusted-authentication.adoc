@@ -1,9 +1,9 @@
-= Trusted authentication
-:toc: true
+:page-title: ThoughtSpot Embedded Analytics
+:page-pageid: trusted-authentication
+:page-description: ThoughtSpot Embedded Analytics
 
-:page-title: trusted authentication
-:page-pageid: trusted-auth 
-:page-description: Trusted Authentication 
+= Configure trusted authentication
+:last_updated: 05/03/2020
 
 If your organization has a trusted authentication server, you can use it to authenticate the users who request access to the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
 
