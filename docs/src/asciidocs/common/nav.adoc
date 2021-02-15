@@ -2,58 +2,47 @@
 :page-pageid: nav
 :page-description: Main navigation
 
-ts7-docs
+
 * xref:docs:intro-embed.adoc[Embedded Analytics with ThoughtSpot]
 ** xref:docs:integration-overview.adoc[Integration guidelines]
 ** xref:docs:spotdev-portal.adoc[SpotDev Portal]
-** Authentication
-*** xref:docs:configure-saml.adoc[Configure SAML SSO]
-*** xref:docs:trusted-authentication.adoc[Configure trusted authentication]
+** xref:docs:configure-saml.adoc[Configure SAML SSO]
+** xref:docs:trusted-authentication.adoc[Configure trusted authentication]
 ** xref:docs:security-settings.adoc[Configure security settings]
-
 * xref:docs:visual-embed-sdk.adoc[Visual Embed SDK]
 ** xref:docs:getting-started.adoc[Get Started]
 ** xref:docs:embed-search.adoc[Embed search]
 ** xref:docs:embed-a-viz.adoc[Embed visualizations]
 ** xref:docs:embed-pinboard.adoc[Embed pinboards]
 ** xref:docs:full-embed.adoc[Embed full application]
-** Error Handling
+* xref:docs:customize-style.adoc[Rebrand embedded content]
+* Configure Actions 
 
-* xref:docs:js-reference.adoc[SDK Reference]
+////
+** Error Handling
+////
+
 
 * xref:docs:about-rest-apis.adoc[REST APIs]
-** Getting Started
+** Get Started
 ** Authentication
-** xref:docs:calling-rest-api[Making a REST API Call]
+** xref:docs:call-rest-api[Making a REST API Call]
 ** xref:docs:pinboarddata.adoc[Pinboard Data API]
 ** xref:docs:metadata-api.adoc[Metadata API]
 ** xref:docs:session-api.adoc[Session API]
 ** xref:docs:user-api.adoc[User API]
 ** xref:docs:group-api.adoc[Group API]
 ** xref:docs:search-data-api.adoc[Search Data API]
-** xref:docs:rest-api-reference.adoc[API Reference Guide]
-=======
 
----
-
- main
-* Customization Settings
-** link:{{navprefix}}=customize-style[Customize the application style]
-
-** Configure Actions 
- ts7-docs
+* xref:docs:js-reference.adoc[SDK Reference]
+* xref:docs:rest-api-reference.adoc[API Reference Guide]
 ////
 * xref:docs:glossary.adoc[Glossary]
-=======
-
----
-
-* link:{{navprefix}}=glossary[Glossary]
-main
 
 * Frequently asked questions
 ////
----ß
+
+---
 * Resources
 ** link://https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
 ** Community
