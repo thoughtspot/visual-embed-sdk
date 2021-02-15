@@ -44,7 +44,6 @@ aside {
                     color: $primarycolor;
                     font-weight: 600;
                     margin: 5px 0;
-
                     & > a {
                         color: $primarycolor;
                         font-weight: 600;
@@ -91,6 +90,7 @@ aside {
     hr {
         display: none;
     }
+    
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

@@ -1,0 +1,70 @@
+= Configure security settings
+:toc: true
+
+:page-title: Configure security settings
+:page-pageid: security-settings
+:page-description: Security settings for accessing embedded 
+
+Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers. 
+
+Users with ThoughtSpot admin privileges can configure security settings.
+
+== Configure Cross-Origin HTTP Requests
+
+When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for the same-orgin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure cross-orgin requests and data exchange.
+ 
+Your cluster’s CORS configuration controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
+
+////
+=== Enable CORS from the command line
+
+From the ThoughtSpot command line, run the following command with the appropriate values: 
+
+[source,console]
+----
+ $ echo "https?://(mythoughtspot1.mycompany.com|.*:443|.*:8080|.*:80)" | tscli --adv config set --key "/config/nginx/corshosts"
+----
+////
+
+=== Enable CORS on ThoughtSpot UI
+To enable CORS, follow these steps:
+
+. Log in to ThoughtSpot.
+. Click *Admin* tab.
+. Under *Settings*, click *Advanced*.
+. Enable *Cross-Origin HTTP Requests (CORS)*.
+. Click *Save Settings*.
+
+== Enable same-site access
+
+Some browsers, such as Google Chrome 80 (and newer), use the same-site cookie attributes to disable the use of third-party content. To access embedded Thoughtspot content in a web application from browsers, you must set the same-site attribute to `none`.
+
+////
+To configure same-site access from the ThoughtSpot UI, follow these steps:
+
+. Log in to ThoughtSpot.
+. Click *Admin* tab.
+. Under *Settings*, click *Advanced*.
+. Select *None* under *Same-site*.
+
+////
+To set the same-site access, exceute the following command at the tscli command line:
+[source,console]
+----
+$ tscli --adv service add-gflag nginx.nanny nginx_cookie_flag 'Secure SameSite=None'
+----
+
+== Whitelist domains
+The ThoughtSpot embedding solution allows embedding ThoughtSpot content in iFrames of a client application. To define which domains can embed and access ThoughtSpot visualizations and pinboards, you can create a list of allowed domains.
+
+To whitelist client application domains, follow these steps:
+
+. Log in to the ThoughtSpot.
+. Click the *SpotDev* tab.
+. Under *Customizations*, click *Settings*.
+. To whitelist a domain, add the domain name. 
++
+You can add multiple domains as comma-separated values.
+
+. Click *Save changes*.
+ 

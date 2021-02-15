@@ -1,0 +1,60 @@
+= Configure SAML SSO
+:last_updated: 11/18/2019
+
+The Security Assertion Markup Language (SAML) Single Sign-On (SSO) authentication method eliminates the need for displaying a login page when a user requests access to an embedded ThoughtSpot content. The SAML SSO method enables client applications to allow federated users to access the embedded ThoughtSpot content.
+In this authentication method, users authenticate to the SAML identity provider at your federation to obtain access to ThoughtSpot content embedded in your application.
+To allow ThoughtSpot to trust the login requests from your corporate authentication servers, you must configure SAML settings in ThoughtSpot.
+
+////
+This configurator also checks with the user if internal authentication needs to be set or not.
+This internal authentication mechanism is used to authenticate `tsadmin` and other ThoughtSpot local users.
+Set it to true by default to let local system/admin users in via the frontend.
+////
+
+////
+You can set up SAML through the shell on the ThoughtSpot instance <<tscli,using a `tscli` based configurator>>, or <<admin-portal,through the Admin Console>>.
+
+
+[#tscli]
+== Configure SAML using tscli
+
+Use this procedure to set up SAML on ThoughtSpot for user authentication.
+Note that this configuration persists across software updates, so you do not have to reapply it if you update to a newer release of ThoughtSpot.
+
+. Log in to the Linux shell using SSH.
+. Execute the command to launch the interactive SAML configuration:
++
+----
+ tscli saml configure
+----
+
+. Complete the configurator prompts with the information you gathered above.
+. When the configuration is complete, open a Web browser and go to the ThoughtSpot login page.
+It should now show the Single Sign On option.
+////
+[#admin-portal]
+== Enable SAML authentication
+You need ThoughtSpot admin privileges to enable SAML authentication.
+
+. Log in to the ThoughtSpot application.
+. From the top navigation bar, click the **Admin** tab.
+. Click *SAML*.
+. Click *Configure*.
+. Configure the following attributes:
+[horizontal]
+ThoughtSpot Service Address::
+A fully qualified and resolvable domain name for the ThoughtSpot service. For example, *thoughtspot.thoughtspot-customer.com*.
+Port::
+Port of the server where your ThoughtSpot instance is running. For example, port `443`.
+Unique Service Name::
+The unique key used by your Identity Provider to identify the client. For example, *urn:thoughtspot:callosum:saml*.
+Skew Time in Seconds::
+The allowed skew time, after which the authentication response is rejected and sent back from the IDP. The commonly used value is `86400`. The default value is *3600*.
+Protocol::
+The authentication mechanism for ThoughtSpot. For example, `http` or `https`.
+IDP Metadata XML File::
+For example, *idp-meta.xml*. Provide an absolute path to your Identity Provider’s metadata file. The IDP metadata file is provided by your IDP.  You need this file so that the configuration persists over upgrades. It is a best practice to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. 
+Automatically add SAML users to ThoughtSpot upon first authentication::
+Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
+If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually].
+. Click *OK*.
