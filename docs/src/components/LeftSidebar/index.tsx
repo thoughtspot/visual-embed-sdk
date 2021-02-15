@@ -2,9 +2,16 @@ import React from 'react';
 import './index.scss';
 import BackButton from '../BackButton';
 
-const LeftSideBar = (props: { navTitle: string; navContent: string }) => (
+const LeftSideBar = (props: {
+    navTitle: string;
+    navContent: string;
+    spotDevHomeLink: string;
+}) => (
     <aside>
-        <BackButton title="SpotDev Home" />
+        <BackButton
+            title="SpotDev Home"
+            spotDevHomeLink={props.spotDevHomeLink}
+        />
         <nav>
             <h2 className="heading">{props.navTitle}</h2>
             <div

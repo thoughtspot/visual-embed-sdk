@@ -1,6 +1,6 @@
 /*start sidebar*/
 
-@import '../../assets/styles/variables.scss';
+@import '../../static/styles/variables.scss';
 
 aside {
     width: 260px;
@@ -90,7 +90,6 @@ aside {
     hr {
         display: none;
     }
-    
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
