@@ -62,7 +62,6 @@ module.exports = {
             options: {
                 attributes: {
                     showtitle: true,
-                    // imagesdir: `/doc-assets`,
                 },
                 fileExtensions: ['ad', 'adoc'],
             },
