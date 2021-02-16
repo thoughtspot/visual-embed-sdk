@@ -1,11 +1,13 @@
 import React from 'react';
-import BackButtonImg from '../../assets/svg/backbtn.svg';
+import BackButtonImg from '../../static/svg/backbtn.svg';
 import './index.scss';
 
-const BackButton = (props: { title: string }) => (
+const BackButton = (props: { title: string; backLink: string }) => (
     <div className="backButtonWrapper">
         <button>
-            <img src={BackButtonImg} alt="BackButton" />
+            <a href={props.backLink} target="_parent">
+                <img src={BackButtonImg} alt="BackButton" />
+            </a>
         </button>
         <p>{props.title}</p>
     </div>

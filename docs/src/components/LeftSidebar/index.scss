@@ -1,6 +1,5 @@
 /*start sidebar*/
-
-@import '../../assets/styles/variables.scss';
+@import '../../static/styles/variables.scss';
 
 aside {
     width: 260px;
@@ -77,6 +76,52 @@ aside {
                 }
             }
         }
+
+        & > .exampleblock > .content {
+            & > .ulist {
+                margin-bottom: 22px;
+    
+                & > ul > li {
+                    & > p {
+                        padding-left: 24px;
+                        padding-right: 5px;
+                        color: $primarycolor;
+                        font-weight: $font-weight-bold;
+                        margin: 5px 0;
+                        & > a {
+                            color: $primarycolor;
+                            font-weight: $font-weight-bold;
+                            padding-right: 5px;
+                        }
+                    }
+    
+                    & > div.ulist > ul > li {
+                        & > p {
+                            padding-left: 42px;
+                            font-weight: $font-weight-normal;
+                            color: $primarycolor;
+                            padding-right: 5px;
+                            margin: 5px 0;
+                            line-height: 32px;
+    
+                            & > a {
+                                color: $primarycolor;
+                                padding-right: 5px;
+    
+                                &:hover {
+                                    color: $secondarycolor;
+                                }
+                            }
+    
+                            &:hover {
+                                background: $hovercolor;
+                                color: $secondarycolor;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     a {
@@ -90,7 +135,6 @@ aside {
     hr {
         display: none;
     }
-    
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

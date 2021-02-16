@@ -5,10 +5,11 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
-import '../assets/styles/index.scss';
+import '../static/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
+    TS_ORIGIN_PARAM,
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
 } from '../configs/doc-configs';
@@ -17,6 +18,7 @@ import {
 const IndexPage = ({ location }) => {
     const [params, setParams] = useState({
         [TS_HOST_PARAM]: '',
+        [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
     });
@@ -24,6 +26,7 @@ const IndexPage = ({ location }) => {
     const [docContent, setDocContent] = useState('');
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
+    const [backLink, setBackLink] = useState('');
 
     useEffect(() => {
         setParams(queryStringParser(location.search));
@@ -40,6 +43,9 @@ const IndexPage = ({ location }) => {
 
         // get & set left navigation area content with dynamic link creation
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
+
+        // get & set left navigation 'SpotDev Home' button url
+        setBackLink(params[TS_ORIGIN_PARAM]);
 
         // check if url query param is having pageid or not
         if (params[TS_PAGE_ID_PARAM]) {
@@ -97,7 +103,11 @@ const IndexPage = ({ location }) => {
     return (
         <>
             <main>
-                <LeftSidebar navTitle={navTitle} navContent={navContent} />
+                <LeftSidebar
+                    navTitle={navTitle}
+                    navContent={navContent}
+                    backLink={backLink}
+                />
                 <div className="documentBody">
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />

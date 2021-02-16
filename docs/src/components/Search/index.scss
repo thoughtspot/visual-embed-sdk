@@ -1,4 +1,4 @@
-@import '../../assets/styles/variables.scss';
+@import '../../static/styles/variables.scss';
 
 .searchWrapper {
     padding: 24px;
@@ -13,7 +13,7 @@
     width: calc(100% - 300px);
     &::before {
         content: '';
-        background: url('../../assets/svg/searchicon.svg');
+        background: url('../../static/svg/searchicon.svg');
         width: 16px;
         height: 16px;
         float: left;

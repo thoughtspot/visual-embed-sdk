@@ -1,4 +1,4 @@
-@import '../../assets/styles/variables.scss';
+@import '../../static/styles/variables.scss';
 
 .docmapLinks {
     width: 300px;
@@ -14,25 +14,27 @@
         padding-left: 40px;
         margin: 0;
         color: $disabledcolor;
-        margin-bottom: 8px;
+        margin-bottom: 7px;
     }
 
-    .sectlevel1 {
-        margin-top: 2px;
-        list-style-type: none;
-        li {
-            padding: 8px 0;
-
-            a {
-                color: $primarycolor;
-            }
-
-            a:hover {
-                color: $secondarycolor;
-            }
-
-            a:visited {
-                color: $secondarycolor;
+    div {
+        ul {
+            margin-top: 2px;
+            list-style-type: none;
+            li {
+                padding: 7px 0;
+    
+                a {
+                    color: $primarycolor;
+                }
+    
+                a:hover {
+                    color: $secondarycolor;
+                }
+    
+                a:visited {
+                    color: $secondarycolor;
+                }
             }
         }
     }

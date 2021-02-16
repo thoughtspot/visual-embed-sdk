@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import ThoughtspotLogo from '../../assets/svg/ThoughtspotLogo.svg';
+import ThoughtspotLogo from '../../static/svg/ThoughtspotLogo.svg';
 import './index.scss';
 
 const Header = () => (
