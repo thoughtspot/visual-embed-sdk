@@ -51,15 +51,15 @@ export class PinboardEmbed extends V1Embed {
             hiddenActions,
             enableVizTransformations,
         } = this.viewConfig;
-        if (disabledActions && disabledActions.length) {
-            const disabledActionsString = disabledActions.join(',');
-            params[Param.DisableActions] = disabledActionsString;
+
+        if (disabledActions?.length) {
+            params[Param.DisableActions] = disabledActions;
         }
         if (disabledActionReason) {
             params[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions && hiddenActions.length) {
-            params[Param.HideActions] = hiddenActions.join(',');
+        if (hiddenActions?.length) {
+            params[Param.HideActions] = hiddenActions;
         }
         if (enableVizTransformations) {
             params[Param.EnableVizTransformations] = true;

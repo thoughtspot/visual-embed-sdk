@@ -14,6 +14,13 @@ describe('unit test for utils', () => {
             }),
         ).toBe('foo=bar&baz=42');
         expect(getQueryParamString({})).toBe(null);
+        // should not add undefined params
+        expect(
+            getQueryParamString({
+                foo: undefined,
+                bar: 'baz',
+            }),
+        ).toBe('bar=baz');
     });
 
     test('getFilterQuery', () => {
