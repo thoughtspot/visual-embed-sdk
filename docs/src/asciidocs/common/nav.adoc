@@ -26,8 +26,8 @@
 ////
 
 * REST APIs
-** link:{{navprefix}}=rest-apis[Get Started]
-** link:{{navprefix}}=rest-api-authentication[REST API authentication]
+** link:{{navprefix}}=rest-apis[Overview]
+** link:{{navprefix}}=rest-api-authentication[Get started]
 ** link:{{navprefix}}=calling-rest-api[Making a REST API Call]
 ** link:{{navprefix}}=pinboard-api[Pinboard Data API]
 ** link:{{navprefix}}=metadata-api[Metadata API]
@@ -47,10 +47,4 @@
 ** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation]
 ** link:https://community.thoughtspot.com/customers/s/[Community] 
 ** Playground
-////
-*** link:{{navprefix}}=upload-application-logos[Upload application logos]
-*** link:{{navprefix}}=set-chart-and-table-visualization-fonts[Set chart and table visualization fonts]
-*** link:{{navprefix}}=choose-background-color[Choose a background color]
-*** link:{{navprefix}}=select-chart-color-palettes[Select chart color palettes]
-*** link:{{navprefix}}=change-the-footer-text[Change the footer text]
-////
+

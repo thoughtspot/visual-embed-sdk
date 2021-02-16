@@ -80,7 +80,7 @@ const SearchEmbed = new SearchEmbed(
     });
 
 ----
-==== Search Page UI Attributes
+
 frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
 ---
 collapseDataSources [small]*_optional_*::
@@ -128,6 +128,7 @@ searchEmbed.render({
 
 ----
 ==== Attributes for rendering search
+---
 dataSources::
 _String_. The Global Unique Identifier (GUID) of the data sources for searching data.
 
@@ -183,6 +184,8 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 === Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search">Preview in Playground</a>
+
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground>Preview in Playground</a>
+
 ++++
 

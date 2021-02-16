@@ -6,22 +6,20 @@
 :page-description: Calling the Data REST API
 
 
-Learn how to call the Data REST API.
-
-To call the Data REST API, you can specify a URL using the POST method, passing the ID numbers of the objects from which you want to obtain data.
+To call a REST API, you can specify a URL using the `POST` method, passing the ID numbers of the objects from which you want to obtain data.
 
 == Specify the pinboard or visualization example
 
 For a pinboard, you can append the ID of your pinboard as a parameter, like this example:
 
 ----
-https://<thoughtspot_server>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
+https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
 To retrieve data from a specific visualization within a pinboard, you would append the ID number of the visualization using the vizid parameter:
 
 ----
-https://<thoughtspot_server>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
+/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
 ----
 
 *Remember:* You must add brackets around the vizid parameter.
@@ -31,8 +29,6 @@ The URL encoding for open bracket is `%5B`, and the URL encoding for close brack
 
 When you parse the returned JSON data you can see that there is one object for every viz on the pinboard.
 The objects are named according to the corresponding vizid.
-
-image::parsed_json_data.png[]
 
 If you make a call to a specific viz on a pinboard, it will return just one object.
 The JSON object format for the data that is returned from ThoughtSpot is:
@@ -67,12 +63,13 @@ Each sub array represents a new row of data.
 image::columnnames_and_data_arrays.png[]
 
 The REST API supports filtering the data returned through parameters that you pass within the URL.
-These are called link:{{ site.baseurl }}/app-integrate/runtime-filters/about-runtime-filters.html#[Runtime Filters].
+These are called Runtime Filters.
 
 == Example
 
 The following example shows a JavaScript function that calls the REST API, gets the results back, and retrieves a single value from the JSON results:
 
+[source, JSON]
 ----
 /**
  * Generates headline by making a data API call.

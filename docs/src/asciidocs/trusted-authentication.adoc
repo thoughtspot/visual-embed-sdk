@@ -53,7 +53,7 @@ This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level`
 
 The following illustration depicts the trusted authentication workflow:
 
-image::./static/images/trusted-auth-workflow.png[]
+image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 == Enable trusted authentication 
 You need ThoughtSpot admin privileges to enable trusted authentication.
@@ -76,7 +76,6 @@ This key is required for making API calls to get a token for ThoughtSpot users.
 
 . Store the key in a secure location.
 . Click *Save Changes*.
- 
 
 ////
 Add instructions on overwriting tokens.

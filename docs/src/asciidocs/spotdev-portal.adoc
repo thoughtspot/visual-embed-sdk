@@ -1,4 +1,4 @@
-= ThoughtSpot SpotDev Portal
+= ThoughtSpot SpotDev portal
 :toc: true
 
 :page-title: ThoughtSpot SpotDev Portal
@@ -42,11 +42,19 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 
 Customizations::
 For ThoughtSpot users with administrator and developer privileges, the SpotDev portal displays the following customization settings:
-[horizontal]
-Styles:: A set of customization controls for white-labeling and rebranding the embedded ThoughtSpot content.
-Actions:: Configuration settings for creating custom actions for the embedded pinboards and visualizations.
-Settings:: Security controls for accessing embedded content from external applications.
 
+* *Styles*
++
+A set of customization controls for white-labeling and rebranding the embedded ThoughtSpot content.
+ 
+* *Actions*
++ 
+Configuration settings for creating custom actions for the embedded pinboards and visualizations.
+
+* *Settings*
++
+Security controls for accessing embedded content from external applications.
+ 
 == Explore the APIs
 ThoughtSpot provides a set of APIs, SDK, and developer tools to integrate search analytics, data insights, visualizations, pinboards, and even the entire ThoughtSpot application in an external application, portal, or business solution.
 The SpotDev Playground allows developers to preview the code, test it, and familiarize themselves with the application controls.
@@ -57,37 +65,58 @@ To explore the search embed API and preview the code:
 . Go to *Playground* > *Search*.
 . Select a data source or a saved search answer.
 . If required, enable the *User experience customization* settings.
-. Click *Run*.
-
-==== User experience settings
++
 Collapse data panel::
 Minimizes the data panel on the left navigation bar. 
+
++
+---
 Hide data panel::
 Hides the default data source. You can use your worksheet as a data source from which your users can draw search results.
+
++
+---
 Hide chart or table::
 Hides the visualizations displayed as search results. 
+
++
+---
 Modify available actions::
 Defines a list of actions to be disabled on the search answers page.  
+
++
+---
 Enable Search Assist::
 Enables the Search Assist feature that helps users with simple search scenarios. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet. 
+
++
+---
 Add search tokens::
 Sets search tokens in the search bar to programmatically construct a search query for your users. 
+
++
+---
 Set runtime filters::
 Sets filters that will be applied to the search query parameters passed in the URL for the search results data.
+. Click *Run*.
 
 === Visualization
 To explore the API for embedding visualizations: 
 
-. Go to *Playground* > *Visualization*
+. Go to *Playground* > *Visualization*.
 . Select a pinboard or visualization.
 . If required, enable the *User experience customization* settings.
-. Click *Run*.
-
-==== User experience settings
++
 Modify available actions::
 Defines a list of actions to be disabled on the visualizations page.  
+
++
+---
+
 Set runtime filters::
 Sets filters that will be applied to the visualization.
+
+. Click *Run*.
 
 === Pinboard
 To explore the Pinboard API:
@@ -95,18 +124,26 @@ To explore the Pinboard API:
 . Go to *Playground* > *Pinboard*.
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
-. Click *Run*.
-
-==== User experience settings
++
 Hide title::
 Hides the title and the description of the pinboard.
+
++
+---
 Hide filter bar::
 Hides the pinboard filters.
-Modify available actions
+
++
+---
 Modify available actions::
-Defines a list of actions to be disabled on the *Pinboards* page, and each of the visualizations in the *Pinboards* page.  
+Defines a list of actions to be disabled on the *Pinboards* page, and each of the visualizations in the *Pinboards* page.
+
++
+---
 Set runtime filters::
 Sets filters that will be applied to the visualization.
+. Click *Run*.
+
 
 === Full Application
 To explore the API for embedding full application:
@@ -114,13 +151,15 @@ To explore the API for embedding full application:
 . Go to *Playground* > *Full app*.
 . Select a tab to set a default page view for embedded application users.
 . If required, enable *User experience customization* settings.
-. Click *Run*.
-
-==== User experience settings
++
 Hide navigation bar::
 Hides the ThoughtSpot top navigation bar.
+
++
+---
 Set runtime filters::
 Sets filters that will apply to visualizations and pinboards on any tab.
+. Click *Run*.
 
 == Customize embedded content
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.

@@ -86,6 +86,9 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
+
++
+
 ---
 authType::
 [horizontal]
@@ -132,7 +135,6 @@ embed.render({ pageId }: AppRenderOptions): AppEmbed {
     }
     
 ----
-==== Attributes for rendering ThoughtSpot pages
 
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
@@ -223,7 +225,9 @@ The function `updateIframeUrl(id)` contains the logic to change the src URL of t
 === Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp">Preview in Playground</a>
+
+<a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground">Preview in Playground</a>
+
 ++++
 
 ////

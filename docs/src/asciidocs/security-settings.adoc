@@ -7,7 +7,7 @@
 
 Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers. 
 
-Users with ThoughtSpot admin privileges can configure security settings.
+Only the ThoughtSpot users with admin privileges can configure security settings.
 
 == Configure Cross-Origin HTTP Requests
 

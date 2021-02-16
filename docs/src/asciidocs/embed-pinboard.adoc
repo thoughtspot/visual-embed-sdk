@@ -231,5 +231,7 @@ Visualization drilldown is initiated.
 === Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard">Preview in Playground</a>
+
+<a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground">Preview in Playground</a>
+
 ++++
