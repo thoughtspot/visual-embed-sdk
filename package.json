@@ -12,6 +12,7 @@
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
+        "docgen": "typedoc --tsconfig tsconfig.json",
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
@@ -53,6 +54,7 @@
         "rollup-plugin-typescript2": "0.27.3",
         "ts-jest": "26.4.4",
         "ts-loader": "8.0.4",
+        "typedoc": "0.20.25",
         "typescript": "3.8.3",
         "url-search-params-polyfill": "^8.1.0"
     },
