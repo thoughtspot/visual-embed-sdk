@@ -1,5 +1,5 @@
 /*start sidebar*/
-@import '../../static/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
 aside {
     width: 260px;
@@ -80,7 +80,7 @@ aside {
         & > .exampleblock > .content {
             & > .ulist {
                 margin-bottom: 22px;
-    
+
                 & > ul > li {
                     & > p {
                         padding-left: 24px;
@@ -94,7 +94,7 @@ aside {
                             padding-right: 5px;
                         }
                     }
-    
+
                     & > div.ulist > ul > li {
                         & > p {
                             padding-left: 42px;
@@ -103,16 +103,16 @@ aside {
                             padding-right: 5px;
                             margin: 5px 0;
                             line-height: 32px;
-    
+
                             & > a {
                                 color: $primarycolor;
                                 padding-right: 5px;
-    
+
                                 &:hover {
                                     color: $secondarycolor;
                                 }
                             }
-    
+
                             &:hover {
                                 background: $hovercolor;
                                 color: $secondarycolor;

@@ -37,14 +37,6 @@ module.exports = {
             __key: 'asciidocs_common',
         },
         {
-            resolve: 'gatsby-source-filesystem',
-            options: {
-                name: 'static',
-                path: `${__dirname}/docs/src/static/`,
-            },
-            __key: 'asciidocs_common',
-        },
-        {
             resolve: `gatsby-plugin-intl`,
             options: {
                 // language JSON resource path
@@ -62,6 +54,7 @@ module.exports = {
             options: {
                 attributes: {
                     showtitle: true,
+                    imagesdir: `/doc-images`,
                 },
                 fileExtensions: ['ad', 'adoc'],
             },

@@ -5,7 +5,7 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
-import '../static/styles/index.scss';
+import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
