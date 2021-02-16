@@ -85,6 +85,8 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
+
+---
 authType::
 [horizontal]
 SSO::
@@ -99,6 +101,7 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
+---
 === Create an instance of the AppEmbed object
 Create an instance of the AppEmbed object and pass the iframe parameters for the application pages.
 
@@ -133,14 +136,17 @@ embed.render({ pageId }: AppRenderOptions): AppEmbed {
 
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
+
 [horizontal]
 Page.Search:: 
 Displays the search answers page when the application loads.
+---
 Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads. 
 Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
- 
+
+--- 
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
@@ -215,7 +221,10 @@ The function `updateIframeUrl(id)` contains the logic to change the src URL of t
 ////
 
 === Code sample
-<To be added>
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp">Preview in Playground</a>
+++++
 
 ////
 == Showing applications in a full screen

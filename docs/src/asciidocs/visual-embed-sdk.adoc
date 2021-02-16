@@ -1,13 +1,13 @@
-= What is Visual Embed SDK
+= Visual Embed SDK Overview
 :toc: true
 
 :page-title: What is Visual Embed SDK
 :page-pageid: visual-embed-sdk
 :page-description: What is Visual Embed SDK
 
-The Visual Embed SDK provides a set of Javascript library to programatically embed ThoughtSpot elements in a host application.
+The Visual Embed SDK provides a set of Javascript libraries to embed ThoughtSpot elements in a host application.
 
-You can use the Visual Embed SDK to:
+You can use the Visual Embed SDK for the following purposes:
 
 * Embed specific components of ThoughtSpot application. For example, search bar, search answers page, pinboards, charts, and tables.
 * Render full ThoughtSpot application within the host application.
@@ -25,101 +25,51 @@ fullEmbed::
 For embedding full ThoughtSpot application with or without the navigation bar.
 
 
-////
+== Configuration requirements for embedding
 
+For information on configuration requirements, see the following sections:
 
-You can also use the ThoughtSpot data APIs to request data from ThoughtSpot.
+* xref:integration-overview.adoc[Integration Guidelines]
+* xref:security-settings.adoc[Security settings]
 
-=== Configuration requirements for embedding
+== Optional settings for embedding
 
-Only Extended Enterprise installation can use ThoughtSpot's embed functionality.
-ThoughtSpot Enterprise installations must also work with ThoughtSpot Support to enable embed before using this functionality.
-
-=== Optional settings for embedding
-
-There are some settings that apply to embedding which ThoughtSpot Support or your other ThoughtSpot technical contact can make for you.
-
-One of these involves what happens when a user clicks on a link within the data.
-When your data includes URLs, they display as clickable links in ThoughtSpot tables.
+One of these involves what happens when a user clicks on a link within the data.  
+The URLs in data display as clickable links in ThoughtSpot tables.
 By default, clicking on a link opens the URL in a separate tab.
-But there is a system-wide setting that can be changed to open the links within the context in which they appear.
+However, there is a system-wide setting that can be changed to open the links within the context in which they appear.
 
 Changing this setting opens the links.
 Consider the possible link types, and how they open:
-+++<dlentry>+++Link in search result table in ThoughtSpot::::  Same browser tab as ThoughtSpot application+++</dlentry>++++++<dlentry>+++Link in table embedded in an `<iframe>`::::  Same `<iframe>` that contains the table+++</dlentry>++++++<dlentry>+++Link in full ThoughtSpot application embedded in an `<iframe>` element::::  Same `<iframe>` that contains the application+++</dlentry>+++
 
-== Choose an authentication methodology
+* Link in search result table in ThoughtSpot.
++
+Same browser tab as ThoughtSpot application.
 
-You can control which type of authentication you use between your client application and ThoughtSpot.
+* Link in table embedded in an `<iframe>`.
++
+Same `<iframe>` that contains the table.
 
-=== No Authentication
+* Link in full ThoughtSpot application embedded in an `<iframe>` element
++
+Same `<iframe>` that contains the application.
 
-You can simply not set up authentication.
+== Authentication
+You can use any of the following authentication services for authenticating application users who want to access the embedded content.
+
+No Authentication::
 This would require the user to be _already logged into ThoughtSpot_, before interacting with the client application.
-This approach is for testing the client.
+You can use this authentication approach for testing environments.
 Do not use this in a production environment.
 
-=== SAML
+SAML::
+This method requires you to set up SAML SSO support on the ThoughtSpot admin console. 
++ 
+For more information, see *xref:configure.saml[SAML SSO].
+ 
+Trusted authentication service::
+This method requires to enable token-based trusted authentication service. 
+In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
++
+For more information, see *xref:trusted-authentication[Trusted Authentication].
 
-Before you can embed all or part of ThoughtSpot, you must authenticate to ThoughtSpot using SAML with the public REST API call.
-After authentication, a URL is provided to call the desired visualization, and populate it into an `<iframe>` element.
-
-You must link:{{ site.baseurl}}/admin/setup/configure-SAML-with-tscli.html[configure SAML] on your ThoughtSpot instance before using this method.
-
-=== Trusted authentication service
-
-A ThoughtSpot installation can enable support for token-based authentication service.
-This allows an installation to use a central authentication service rather than using ThoughtSpot to authenticate.
-In this architecture, ThoughtSpot provides the service with a token that allows it to authenticate on behalf of users.
-
-A trusted authenticator application or service obtains a token from ThoughtSpot.
-This token is used to obtain trust from other, third-party client applications that need access to ThoughtSpot.
-In the following scenario, the trust authenticator forwards requests for ThoughtSpot data from client applications to ThoughtSpot.
-
-image::authentication.png[]
-
-A user who is already logged into client-application interacts with a ThoughtSpot embed point, which initiates the following processes:
-
-. The client-side application requests a user token from the trusted authenticator.
-. The trusted authenticator requests a user token from ThoughtSpot.
-. ThoughtSpot verifies the authenticator and returns a user token.
-. The authenticator returns the user token to the client.
-. The client forwards the user token to ThoughtSpot.
-. ThoughtSpot validates the token and returns information commensurate with that authenticated user's authorization.
-
-== Plan for cross-origin HTTP Requests (CORS)
-
-Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities.
-Cross-origin or cross-domain verification prevents such security risks.
-
-When embedding, you must enable CORS between your client application domain and the ThoughtSpot domain.
-This protects your data, so that another actor cannot use the same URL to embed the visualization in its own Web pages.
-
-== Decide if you need to change the feedback email
-
-ThoughtSpot has an automated feature that collects feedback from users and sends it to ThoughtSpot Support.
-Depending on what and how you embed, user actions with your embedded application can trigger feedback.
-You can continue to forward feedback in this manner or direct the feedback to another email.
-To learn how to change the feedback email, see link:{{site.baseurl }}/admin/setup/work-with-ts-support.html#manage-the-feedback-contact[Manage the feedback contact].
-
-== Remove the ThoughtSpot branded footer
-
-The ThoughtSpot footer appears by default in the ThoughtSpot application.
-It also appears with an embed application that encompasses an individual Pinboard, or a full application.
-In embed applications that are have a single visualization, you can ask your ThoughtSpot support engineer to disable the footer.
-////
-
-
-////
-To embed with the navigation bar, call: +https://<thoughtspot-url>?embedApp=false#/+ +
-To embed without the navigation bar, call: +https://<thoughtspot-url>?embedApp=true#/+ 
-
-If you use +embedApp=true+ with this link, you will get the home page with no navigation bar, so you will need to provide navigation to use ThoughtSpot.  
-
-=== Embed a ThoughtSpot Page
-
-You can also embed particular pages, such as search, pinboards, etc.  The format for this call is: +https://<thoughtspot-url>?embedApp=true#/answer+
-
-This call shows the search page with no navigation bar.  Users can select data sources and search against the data, but not navigate to other parts of the application.
-
-////

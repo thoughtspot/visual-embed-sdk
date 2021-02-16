@@ -3,6 +3,7 @@
 :page-pageid: nav
 :page-description: Main navigation
 
+
 * Embed ThoughtSpot
 ** link:{{navprefix}}=introduction[Embedded Analytics with ThoughtSpot]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
@@ -34,6 +35,7 @@
 ** link:{{navprefix}}=user-api[User API]
 ** link:{{navprefix}}=group-api[Group API]
 ** link:{{navprefix}}=search-data-api[Search Data API]
+
 * Reference Guides
 ** link:{{navprefix}}=js-reference[Embed SDK Reference]
 ** link:{{navprefix}}=rest-api-reference[REST API Reference Guide]

@@ -43,6 +43,9 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
++
+---
+
 authType::
 [horizontal]
 SSO::
@@ -53,10 +56,11 @@ Trusted authentication method. The trusted authentication method enables applica
 authEndpoint::
 _String_. The endpoint URL of the authentication server.
 None::
-Requires no authentication. The user must already be logged into ThoughtSpot before interacting with the embedded content.
+Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
+---
 === Create an instance of the search object
 Create an instance of the SearchEmbed object and customize your search page view.
 
@@ -78,21 +82,33 @@ const SearchEmbed = new SearchEmbed(
 ----
 ==== Search Page UI Attributes
 frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
-collapseDataSources [small]_optional_::
+---
+collapseDataSources [small]*_optional_*::
 _Boolean_. When set to true, collapses the list of data sources on the Data Source panel.
+
+---
  hideDataSources [small]_optional_::
-_Boolean_. When set to true, hides the Data Source panel.
+_Boolean_. When set to true, it hides the Data Source panel.
+
+---
 hideResults [small]_optional_::
-_boolean_. When set to true, hides charts and tables in search answers.
+_Boolean_. When set to true, it hides charts and tables in search answers.
+
+---
 enableSearchAssist [small]_optional_::
-_Boolean_. When set to true, enables search assistance.
+_Boolean_. When set to true, it enables search assistance.
+
+---
 disabledActions [small]_optional_::
 _String_. Disables the specified menu item from the list of actions in the search answer page.
 +
 For example, to hide the *Show underlying data* action from the (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
 
+---
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
+
+---
 
 === Construct the URL and render the embedded search
 Construct the URL of the embedded ThoughtSpot search object to load in the iframe.
@@ -114,10 +130,16 @@ searchEmbed.render({
 ==== Attributes for rendering search
 dataSources::
 _String_. The Global Unique Identifier (GUID) of the data sources for searching data.
+
+---
 answerID::
 _String_. The GUID of the search answers saved in a user a profile.
+
+---
 searchQuery::
 _String_. The search query string to use when the application loads.
+
+---
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
@@ -154,9 +176,13 @@ The data source for searching data is selected.
 To verify the ThoughtSpot Search integration, perform the following tasks:
 
 * Load your application.
-* Search for data.
+* Search for data from a data source.
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
 
 === Code sample
-<To be added>
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/search">Preview in Playground</a>
+++++
+

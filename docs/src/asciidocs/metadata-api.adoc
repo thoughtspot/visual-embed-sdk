@@ -20,16 +20,12 @@ The expected output includes a list of objects, each with information about the 
 
 `get` /tspublic/v1/metadata/listvizheaders
 
-=== Request Parameters+++<table>++++++<colgroup>++++++<col style="width:20%">++++++</col>+++
-   +++<col style="width:15%">++++++</col>+++
-   +++<col style="width:65%">++++++</col>++++++</colgroup>+++
-   +++<thead class="thead" style="text-align:left;">++++++<tr>++++++<th>+++Query Parameter+++</th>+++
-         +++<th>+++Data Type+++</th>+++
-         +++<th>+++Description+++</th>++++++</tr>++++++</thead>+++
-   +++<tbody>++++++<tr>++++++<td>++++++<code>+++id+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++ID of a particular answer or a pinboard.+++</td>++++++</tr>++++++</tbody>++++++</table>+++
-
+=== Request Parameters
+[width="100%" cols="1,2,3"]
+|====
+|Query Parameter|Data Type|Description 
+|id|string|ID of a particular answer or a pinboard. 
+|====
 === Request Example
 
 .cURL
@@ -84,76 +80,52 @@ Use this API to fetch a comprehensive list of metadata headers of a specific obj
 
 `get` /tspublic/v1/metadata/listobjectheaders
 
-=== Request Parameters+++<table>++++++<colgroup>++++++<col style="width:20%">++++++</col>+++
-   +++<col style="width:15%">++++++</col>+++
-   +++<col style="width:65%">++++++</col>++++++</colgroup>+++
-   +++<thead class="thead" style="text-align:left;">++++++<tr>++++++<th>+++Query Parameter+++</th>+++
-         +++<th>+++Data Type+++</th>+++
-         +++<th>+++Description+++</th>++++++</tr>++++++</thead>+++
-   +++<tbody>++++++<tr>++++++<td>++++++<code>+++type+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Specifies the metadata object type. Valid values are:
-         +++<ul>++++++<li>++++++<code>+++QUESTION_ANSWER_BOOK+++</code>++++++</li>+++
-         +++<li>++++++<code>+++PINBOARD_ANSWER_BOOK+++</code>++++++</li>+++
-         +++<li>++++++<code>+++QUESTION_ANSWER_SHEET+++</code>++++++</li>+++
-         +++<li>++++++<code>+++PINBOARD_ANSWER_SHEET+++</code>++++++</li>+++
-         +++<li>++++++<code>+++LOGICAL_COLUMN+++</code>++++++</li>+++
-         +++<li>++++++<code>+++LOGICAL_TABLE+++</code>++++++</li>+++
-         +++<li>++++++<code>+++LOGICAL_RELATIONSHIP+++</code>++++++</li>+++
-         +++<li>++++++<code>+++TAG+++</code>++++++</li>+++
-         +++<li>++++++<code>+++DATA_SOURCE+++</code>++++++</li>++++++</ul>++++++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++subtypes+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Specifies the sub-types of metadata object. Valid values are:
-      +++<ul>++++++<li>++++++<code>+++ONE_TO_ONE_LOGICAL+++</code>++++++</li>+++
-      +++<li>++++++<code>+++WORKSHEET+++</code>++++++</li>+++
-      +++<li>++++++<code>+++PRIVATE_WORKSHEET+++</code>++++++</li>+++
-      +++<li>++++++<code>+++USER_DEFINED+++</code>++++++</li>+++
-      +++<li>++++++<code>+++AGGR_WORKSHEET+++</code>++++++</li>++++++</ul>+++
-      +++<b>+++Note:+++</b>+++ This parameter only applies to the +++<code>+++LOGICAL_TABLE+++</code>+++ type.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++category+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Specifies the metadata object category. Valid values are:
-      +++<ul>++++++<li>++++++<code>+++ALL+++</code>++++++</li>+++
-      +++<li>++++++<code>+++MY+++</code>++++++</li>+++
-      +++<li>++++++<code>+++FAVORITE+++</code>++++++</li>+++
-      +++<li>++++++<code>+++REQUESTED+++</code>++++++</li>++++++</ul>++++++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++sort+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Sort order of returned headers. Valid values are:
-          +++<ul>++++++<li>++++++<code>+++DEFAULT+++</code>++++++</li>+++
-          +++<li>++++++<code>+++NAME+++</code>++++++</li>+++
-          +++<li>++++++<code>+++DISPLAY_NAME+++</code>++++++</li>+++
-          +++<li>++++++<code>+++AUTHOR+++</code>++++++</li>+++
-          +++<li>++++++<code>+++CREATED+++</code>++++++</li>+++
-          +++<li>++++++<code>+++MODIFIED+++</code>++++++</li>++++++</ul>++++++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++sortascending+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++A flag to specify the sort order. A null value defines the default order.
-      +++<ul>++++++<li>+++Choose +++<code>+++true+++</code>+++ to set ascending order+++</li>+++
-      +++<li>+++Choose +++<code>+++false+++</code>+++ to set descending order+++</li>++++++</ul>++++++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++offset+++</code>++++++</td>+++
-      +++<td>+++integer+++</td>+++
-      +++<td>+++The batch offset to fetch the page headers. The system default is +++<code>+++-1+++</code>+++ that implies first page.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++batchsize+++</code>++++++</td>+++
-      +++<td>+++integer+++</td>+++
-      +++<td>+++The batch size of the object. A value of +++<code>+++-1+++</code>+++ implies no pagination.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++tagname+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++A JSON array containing a set of tag names to filter headers by.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++pattern+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++A pattern to match for object name. Use +++<code>+++%+++</code>+++ for wildcard match.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++skipids+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++IDs of metadata objects to exclude.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++fetchids+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++IDs of metadata objects to fetch.+++</td>++++++</tr>+++
-    +++<tr>++++++<td>++++++<code>+++auto_created+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++A flag that indicates whether to list auto-created objects only. A value of null signifies return all.+++</td>++++++</tr>++++++</tbody>++++++</table>+++
-
+=== Request Parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Query Parameter|Data Type|Description
+|type|string| Specifies the metadata object type. 
+ Valid values are:
+         `QUESTION_ANSWER_BOOK`
+         `PINBOARD_ANSWER_BOOK`
+         `QUESTION_ANSWER_SHEET`
+         `PINBOARD_ANSWER_SHEET`
+         `LOGICAL_COLUMN`
+         `LOGICAL_TABLE`
+         `LOGICAL_RELATIONSHIP`
+         `TAG`
+         `DATA_SOURCE` 
+|subtypes|string|Specifies the sub-types of metadata object. Valid values are:
+      `ONE_TO_ONE_LOGICAL`
+      `WORKSHEET`
+      `PRIVATE_WORKSHEET`
+      `USER_DEFINED`
+      `AGGR_WORKSHEET`
+      
+      Note: This parameter only applies to the`LOGICAL_TABLE`
+|category|string|Specifies the metadata object category. Valid values are:
+      `ALL`
+      `MY` 
+     `FAVORITE` 
+     `REQUESTED` 
+|`sort`|string|Sort order of returned headers. Valid values are:
+        `DEFAULT`
+        `NAME` 
+        `DISPLAY_NAME`
+        `AUTHOR`
+        `CREATED`
+        `MODIFIED`
+|sortascending| boolean| A flag to specify the sort order. A null value defines the default order.
+Choose `true` to set ascending order.
+Choose `false`to set descending order 
+|offset|integer|The batch offset to fetch the page headers. The system default is  `-1` that implies first page.
+|batchsize|integer|The batch size of the object. A value of `-1` implies no pagination. 
+|tagname|string|A JSON array containing a set of tag names to filter headers by.
+|pattern|string|A pattern to match for object name. Use `%`for wildcard match. |skipids|string|IDs of metadata objects to exclude.
+|fetchids|string|IDs of metadata objects to fetch. 
+|auto_created| boolean|A flag that indicates whether to list auto-created objects only. A value of null signifies return all. 
+|====
 === Request Example
 
 .cURL

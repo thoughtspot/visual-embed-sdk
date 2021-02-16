@@ -20,18 +20,16 @@ All the data sources which the `ALL_GROUP` group has permissions to are download
 
 `post` /tspublic/v1/group/addprivilege
 
-=== Request Parameters+++<table>++++++<colgroup>++++++<col style="width:20%">++++++</col>+++
-   +++<col style="width:15%">++++++</col>+++
-   +++<col style="width:65%">++++++</col>++++++</colgroup>+++
-   +++<thead>++++++<tr>++++++<th>+++Form Parameter+++</th>+++
-         +++<th>+++Data Type+++</th>+++
-         +++<th>+++Description+++</th>++++++</tr>++++++</thead>+++
-   +++<tbody>++++++<tr>++++++<td>++++++<code>+++privilege+++</code>++++++</td>+++
-         +++<td>+++string+++</td>+++
-         +++<td>+++Specifies a privilege type to add. Valid values are +++<code>+++DATADOWNLOADING+++</code>+++ or +++<code>+++USERDATAUPLOADING+++</code>+++ privilege.+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++groupNames+++</code>++++++</td>+++
-         +++<td>+++string+++</td>+++
-         +++<td>+++Specifies a group name to add the privilege to. Valid value is +++<code>+++ALL_GROUP+++</code>+++ group.+++</td>++++++</tr>++++++</tbody>++++++</table>+++
+=== Request Parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or`USERDATAUPLOADING` privilege.
+
+|groupNames|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
+
+|====
 
 === Request Example
 
@@ -60,18 +58,17 @@ Use this API to delete a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege from
 
 `post` /tspublic/v1/group/removeprivilege
 
-=== Request Parameters+++<table>++++++<colgroup>++++++<col style="width:20%">++++++</col>+++
-   +++<col style="width:15%">++++++</col>+++
-   +++<col style="width:65%">++++++</col>++++++</colgroup>+++
-   +++<thead>++++++<tr>++++++<th>+++Form Parameter+++</th>+++
-         +++<th>+++Data Type+++</th>+++
-         +++<th>+++Description+++</th>++++++</tr>++++++</thead>+++
-   +++<tbody>++++++<tr>++++++<td>++++++<code>+++privilege+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Specifies a privilege type to delete. Valid values are +++<code>+++DATADOWNLOADING+++</code>+++ or +++<code>+++USERDATAUPLOADING+++</code>+++ privilege.+++</td>++++++</tr>+++
-   +++<tr>++++++<td>++++++<code>+++groupNames+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Specifies a group name to delete the privilege from. Valid value is +++<code>+++ALL_GROUP+++</code>+++ group.+++</td>++++++</tr>++++++</tbody>++++++</table>+++
+=== Request Parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or`USERDATAUPLOADING` privilege.
+
+|groupNames|string|Specifies a group name to delete the privilege to. Valid value is `ALL_GROUP` group. 
+
+|====
 
 === Request Example
 

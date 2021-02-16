@@ -47,6 +47,8 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
+
+---
 authType::
 [horizontal]
 SSO::
@@ -60,6 +62,7 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
+---
 === Construct the embed content
 [source,JavaScript]
 ----
@@ -74,19 +77,23 @@ This approach is used only for testing client applications. Do not use this in p
 ----
 ==== Visualization Page UI Attributes
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
+---
 disabledActions [small]_optional_:: 
 _String_. Menu items from the list of actions to be disabled on the visualization page. 
 +
 For example, to disable the *Change Title* action from the (*...*) menu, add `editTitle` to the  `disabledActions` attribute.
 
+---
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
 For example, to hide *Download As PDF* action from the  (*...*) menu, add `downloadAsPdf` to the `hiddenActions` attribute.
 
+---
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
 
+---
 === Render the embedded visualization
 Costruct the URL for the embedded visualization and render the embedded content:
 [source,JavaScript]
@@ -107,8 +114,12 @@ Costruct the URL for the embedded visualization and render the embedded content:
 ==== Attributes for rendering visualization
 vizId:: 
 _String_. The Global Unique Identifier (GUID) of the visualization.
+
+---
 pinboardId [small]_optional_::
 _String_. The GUID of the pinboard to which the visualization is pinned.
+
+---
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
 + 
@@ -121,9 +132,11 @@ http://<thoughtspot_server>:<port>/
 ?col1=<column_name\>&op1=EQ>&val1=red#/pinboard/<pinboardId>/<viz_id>
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
-
++
+[width="100%" cols="1,2,1"]
+[options='header']
 |===
-| Operator | Description  | Number of Values
+|Operator |Description  |Number of Values
 
 | `EQ`
 | equals
@@ -178,6 +191,7 @@ Runtime filters have several operators you can use to filter your embedded visua
 | 2
 |===
 
+---
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
@@ -200,10 +214,16 @@ drilldown::
 Visualization drilldown is initiated.
 ////
 
-== Test the embedded workflow
+=== Test the embedded workflow
 
 * Load the client application. 
 * Try accessing a visualization embedded in your application.
 * Verify the iframe rendition.
 * If you have disabled a menu item from the visualizations page, verify if the menu command is disabled.
 * Verify the runtime filters.
+
+== Code sample
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer">Preview in Playground</a>
+++++

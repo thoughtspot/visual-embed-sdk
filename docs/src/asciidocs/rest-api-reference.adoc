@@ -1,7 +1,7 @@
 [[_pinboarddata]]
 === Pinboard Data API
 
-:page-title: Pinboard Data API
+:page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
 :page-description: Pinboard Data API
 

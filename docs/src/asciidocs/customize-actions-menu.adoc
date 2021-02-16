@@ -12,7 +12,7 @@ When you embed ThoughtSpot visualizations and pinboards, you can access the menu
 
 You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization or pinboard function. 
 
-For example, you may search in ThoughtSpot for customers who are coming due for renewal of their contract in the next month. You could then trigger an action that brings up a web page from an external billing system. The billing system could be set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot. The billing system might then add the price, generate an invoice for each customer, and send it by email.
+For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 
 Similarly, you can configure callback functions to send an event or action to the ThoughtSpot application.
 
@@ -41,7 +41,7 @@ A custom menu item is indicated with a custom tag to distinguish it from the def
 
 The callback custom action provides you with the flexibility to programmatically set up a function to request a call back from the parent application. 
 
-You can use configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code. When your application user triggers a callback, the callback function sends out data to notify the ThoughtSpot application code and fetches the user requested data. 
+You can configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code. When your application user triggers a callback, the callback function sends out data to notify the ThoughtSpot application code and fetches the user requested data. 
 
 To add a callback function:
 

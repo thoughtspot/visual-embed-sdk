@@ -2,7 +2,7 @@
 :toc: true
 
 :page-title: Embedded Analytics with ThoughtSpot
-:page-pageid: index
+:page-pageid: introduction
 :page-description: Embedded Analytics with ThoughtSpot
 
 The ThoughtSpot embedding solution enables you to integrate ThoughtSpot functionality and infuse search-driven data and insights into your application, website, portal, product, or business solution. With ThoughtSpot embedding, you can enrich your applications with ThoughtSpot capabilities and provide context-driven analytics with a seamless experience for your application users.
