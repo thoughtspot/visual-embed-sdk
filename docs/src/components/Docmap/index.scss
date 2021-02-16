@@ -14,15 +14,15 @@
         padding-left: 40px;
         margin: 0;
         color: $disabledcolor;
-        margin-bottom: 7px;
+        line-height: 31px;
     }
 
     div {
         ul {
-            margin-top: 2px;
+            margin-top: 0px;
             list-style-type: none;
             li {
-                padding: 7px 0;
+                line-height: 31px;
     
                 a {
                     color: $primarycolor;

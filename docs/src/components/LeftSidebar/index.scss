@@ -2,7 +2,7 @@
 @import '../../static/styles/variables.scss';
 
 aside {
-    width: 260px;
+    width: 310px;
     border-right: 1px $lightgrey solid;
     padding-top: 24px;
     padding-bottom: 24px;
@@ -47,6 +47,14 @@ aside {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
                         padding-right: 5px;
+
+                        &:visited {
+                            color: $secondarycolor;
+                        }
+
+                        &:active {
+                            color: $secondarycolor;
+                        }
                     }
                 }
 
@@ -70,6 +78,14 @@ aside {
 
                         &:hover {
                             background: $hovercolor;
+                            color: $secondarycolor;
+                        }
+
+                        &:visited {
+                            color: $secondarycolor;
+                        }
+
+                        &:active {
                             color: $secondarycolor;
                         }
                     }
@@ -139,6 +155,6 @@ aside {
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
     aside {
-        width: 210px;
+        width: 260px;
     }
 }
