@@ -5,7 +5,7 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+This page explains how to embed a ThoughtSpot visualization, such as tables and charts in your Web page, portal, or application.
 ////
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
@@ -16,12 +16,12 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
-=== Import the PinboardEmbed package
+=== Import the PinboardVizEmbed package
 Import the visualization SDK library to your application environment:
 
 [source,javascript]
 ----
-import { init, PinboardEmbed } from "ts-embed-sdk";
+import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 === Import styles
 [source,javascript]
@@ -47,28 +47,23 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
-
-+
-
----
 authType::
 [horizontal]
 SSO::
 Enables SAML SSO authentication method.
 AuthServer::
-Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens and grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
+Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens to grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
 authEndpoint::
 _String_. The endpoint URL of the authentication server.
 None::
-Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
+Requires no authentication. The user must already be logged into ThoughtSpot before interacting with the embedded content.
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
----
 === Construct the embed content
 [source,JavaScript]
 ----
- const embed = new PinboardEmbed("#embed", {
+ const embed = new PinboardVizEmbed("#embed", {
 	frameParams: {
 		width: 1280,
 		height: 720
@@ -77,55 +72,47 @@ This approach is used only for testing client applications. Do not use this in p
 	hiddenActions: [],
 });
 ----
-
+==== Visualization Page UI Attributes
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
----
-disabledActions [small]_optional_:: 
-_String_. Menu items from the list of actions to be disabled on the visualization page. 
+disabledActions [small]_optional_::
+_String_. Menu items from the list of actions to be disabled on the visualization page.
 +
 For example, to disable the *Change Title* action from the (*...*) menu, add `editTitle` to the  `disabledActions` attribute.
 
----
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
 For example, to hide *Download As PDF* action from the  (*...*) menu, add `downloadAsPdf` to the `hiddenActions` attribute.
 
----
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
 
----
 === Render the embedded visualization
-Costruct the URL for the embedded visualization and render the embedded content:
+Construct the URL for the embedded visualization and render the embedded content:
 [source,JavaScript]
 ----
-  PinboardEmbed.render({
+  PinboardVizEmbed.render({
         pinboardId,
         vizId,
         runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    }: PinboardRenderOptions): PinboardVizEmbed {
         super.render();
-        
+
         const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
         this.renderV1Embed(src);
 
         return this;
     }
 ----
-
-vizId:: 
+==== Attributes for rendering visualization
+vizId::
 _String_. The Global Unique Identifier (GUID) of the visualization.
-
----
 pinboardId [small]_optional_::
 _String_. The GUID of the pinboard to which the visualization is pinned.
-
----
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
-+ 
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization and pass filter specifications in the URL query parameters. 
++
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization by passing filter specifications in the URL query parameters.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization, you can pass the runtime filter in the URL query parameters as shown here:
 +
@@ -134,12 +121,9 @@ http://<thoughtspot_server>:<port>/
 ?col1=<column_name\>&op1=EQ>&val1=red#/pinboard/<pinboardId>/<viz_id>
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
-+
 
-[width="60%" cols="1,3,1"]
-[options='header']
 |===
-|Operator |Description  |Number of Values
+| Operator | Description  | Number of Values
 
 | `EQ`
 | equals
@@ -194,14 +178,13 @@ Runtime filters have several operators you can use to filter your embedded visua
 | 2
 |===
 
----
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
-[source, javascript] 
+[source,javascript]
 ----
-  //register event listeners for initializing visualization loading event
-  
+  //register event listeners for visualization loading event
+
   embed.on("init", showLoader)
   embed.on("load", hideLoader)
 ----
@@ -217,18 +200,40 @@ drilldown::
 Visualization drilldown is initiated.
 ////
 
-=== Test the embedded workflow
+== Test the embedded workflow
 
-* Load the client application. 
+* Load the client application.
 * Try accessing a visualization embedded in your application.
 * Verify the iframe rendition.
 * If you have disabled a menu item from the visualizations page, verify if the menu command is disabled.
 * Verify the runtime filters.
 
-== Code sample
+=== Code sample
 
+[source,javascript]
+----
+import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+
+init({
+    thoughtSpotHost: '<%=tshost%>',
+    authType: 'None',
+});
+
+const pinboardEmbed = new PinboardVizEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
+
+pinboardEmbed.render({
+    pinboardId: '<%=pinboardGUID%>',
+    vizId: '<%=vizGUID%>'
+});
+----
 ++++
-
 <a href="{{tshost}}/#/everywhere/playground/answer" id="preview-in-playground">Preview in Playground</a>
-
 ++++
+For more information on pinboardVizEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
