@@ -35,8 +35,8 @@ describe('test view config', () => {
         searchEmbed.render();
 
         const iframe = getIFrameEl();
-        expect(iframe.width).toBe(`${width}`);
-        expect(iframe.height).toBe(`${height}`);
+        expect(iframe.style.width).toBe(`${width}px`);
+        expect(iframe.style.height).toBe(`${height}px`);
     });
 
     test('trying to register event handler after render should throw error', () => {

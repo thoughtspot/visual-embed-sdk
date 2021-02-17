@@ -89,3 +89,16 @@ export const getQueryParamString = (
 
     return null;
 };
+
+/**
+ * Get a string representation of a dimension value in CSS
+ * If numeric, it is considered in pixels
+ * @param value
+ */
+export const getCssDimension = (value: number | string): string => {
+    if (typeof value === 'number') {
+        return `${value}px`;
+    }
+
+    return value;
+};

@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { getQueryParamString, getFilterQuery } from './utils';
+import { getQueryParamString, getFilterQuery, getCssDimension } from './utils';
 import { RuntimeFilterOp } from './types';
 
 describe('unit test for utils', () => {
@@ -56,5 +56,12 @@ describe('unit test for utils', () => {
         expect(getFilterQuery(filters)).toBe(
             '**col1=foo&op1=EQ&val1=42&col2=bar&op2=BW_INC&val2=1&val2=10&col3=baz&op3=CONTAINS&val3=abc**',
         );
+    });
+
+    test('getCssDimension', () => {
+        expect(getCssDimension(100)).toBe('100px');
+        expect(getCssDimension('100%')).toBe('100%');
+        expect(getCssDimension('100px')).toBe('100px');
+        expect(getCssDimension(null)).toBe(null);
     });
 });

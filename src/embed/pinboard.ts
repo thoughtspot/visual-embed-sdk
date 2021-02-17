@@ -36,7 +36,7 @@ export interface PinboardRenderOptions {
 /**
  * Embed a ThoughtSpot pinboard or visualization
  */
-export class PinboardEmbed extends V1Embed {
+export class PinboardVizEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
     /**
@@ -118,7 +118,7 @@ export class PinboardEmbed extends V1Embed {
         pinboardId,
         vizId,
         runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    }: PinboardRenderOptions): PinboardVizEmbed {
         if (!pinboardId && !vizId) {
             throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }

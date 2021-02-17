@@ -25,7 +25,7 @@ export interface AppViewConfig extends ViewConfig {
     disabledActions?: Action[];
     disabledActionReason?: string;
     hiddenActions?: Action[];
-    hidePrimaryNavbar?: boolean;
+    showPrimaryNavbar?: boolean;
 }
 
 export interface AppRenderOptions {
@@ -74,7 +74,7 @@ export class AppEmbed extends V1Embed {
         const filterQuery = getFilterQuery(runtimeFilters || []);
         let url = `${this.getV1EmbedBasePath(
             filterQuery,
-            this.viewConfig.hidePrimaryNavbar,
+            this.viewConfig.showPrimaryNavbar,
             true,
         )}/${pageId}`;
 
