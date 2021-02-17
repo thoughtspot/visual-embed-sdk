@@ -23,7 +23,8 @@
         "prepublishOnly": "npm run test; npm run tsc; npm run build"
     },
     "dependencies": {
-        "react-resizable": "^1.11.0"
+        "react-resizable": "^1.11.0",
+        "react-resize-detector": "^6.6.0"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
