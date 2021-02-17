@@ -1,6 +1,6 @@
-import { PinboardEmbed, PinboardViewConfig } from './pinboard';
+import { PinboardVizEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
-import { Action, AuthType, EventTypeV1 } from '../types';
+import { Action, AuthType, EventTypeV1, RuntimeFilterOp } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -26,7 +26,10 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render pinboard', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        const pinboardEmbed = new PinboardVizEmbed(
+            getRootEl(),
+            defaultViewConfig,
+        );
         pinboardEmbed.render({
             pinboardId,
         });
@@ -36,7 +39,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should set disabled actions', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+        const pinboardEmbed = new PinboardVizEmbed(getRootEl(), {
             disabledActions: [
                 Action.DownloadAsCsv,
                 Action.DownloadAsPdf,
@@ -54,7 +57,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should set hidden actions', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+        const pinboardEmbed = new PinboardVizEmbed(getRootEl(), {
             hiddenActions: [
                 Action.DownloadAsCsv,
                 Action.DownloadAsPdf,
@@ -71,7 +74,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should enable viz transformations', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+        const pinboardEmbed = new PinboardVizEmbed(getRootEl(), {
             enableVizTransformations: true,
             ...defaultViewConfig,
         } as PinboardViewConfig);
@@ -84,7 +87,10 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render viz', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        const pinboardEmbed = new PinboardVizEmbed(
+            getRootEl(),
+            defaultViewConfig,
+        );
         pinboardEmbed.render({
             pinboardId,
             vizId,
@@ -94,8 +100,29 @@ describe('Pinboard/viz embed tests', () => {
         );
     });
 
+    test('should apply runtime filters', () => {
+        const pinboardEmbed = new PinboardVizEmbed(
+            getRootEl(),
+            defaultViewConfig,
+        );
+        pinboardEmbed.render({
+            pinboardId,
+            vizId,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true&**col1=sales&op1=EQ&val1=1000**#/embed/viz/${pinboardId}/${vizId}`,
+        );
+    });
+
     test('should register event handler to adjust iframe height', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+        const pinboardEmbed = new PinboardVizEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
         } as PinboardViewConfig);

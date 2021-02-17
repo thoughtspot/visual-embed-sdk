@@ -2,7 +2,7 @@
 @import '../../static/styles/variables.scss';
 
 aside {
-    width: 260px;
+    width: 310px;
     border-right: 1px $lightgrey solid;
     padding-top: 24px;
     padding-bottom: 24px;
@@ -14,14 +14,14 @@ aside {
     .heading {
         padding: 39px 0px 26px 24px;
         margin: 0;
-        font-size: 18px;
+        font-size: $font-size-large;
     }
 
     .subHeading {
         margin: $gutter;
         padding-bottom: 10px;
         padding-left: 24px;
-        font-size: 14px;
+        font-size: $font-size-normal;
     }
 
     ul {
@@ -47,6 +47,14 @@ aside {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
                         padding-right: 5px;
+
+                        &:visited {
+                            color: $secondarycolor;
+                        }
+
+                        &:active {
+                            color: $secondarycolor;
+                        }
                     }
                 }
 
@@ -57,7 +65,7 @@ aside {
                         color: $primarycolor;
                         padding-right: 5px;
                         margin: 5px 0;
-                        line-height: 32px;
+                        line-height: $line-height-normal;
 
                         & > a {
                             color: $primarycolor;
@@ -70,6 +78,14 @@ aside {
 
                         &:hover {
                             background: $hovercolor;
+                            color: $secondarycolor;
+                        }
+
+                        &:visited {
+                            color: $secondarycolor;
+                        }
+
+                        &:active {
                             color: $secondarycolor;
                         }
                     }
@@ -102,7 +118,7 @@ aside {
                             color: $primarycolor;
                             padding-right: 5px;
                             margin: 5px 0;
-                            line-height: 32px;
+                            line-height: $line-height-normal;
     
                             & > a {
                                 color: $primarycolor;
@@ -125,9 +141,9 @@ aside {
     }
 
     a {
-        font-size: 14px;
+        font-size: $font-size-normal;
         font-weight: $font-weight-normal;
-        line-height: 32px;
+        line-height: $line-height-normal;
         width: 100%;
         display: inline-block;
     }
@@ -139,6 +155,6 @@ aside {
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
     aside {
-        width: 210px;
+        width: 260px;
     }
 }

@@ -36,7 +36,7 @@ export interface PinboardRenderOptions {
 /**
  * Embed a ThoughtSpot pinboard or visualization
  */
-export class PinboardEmbed extends V1Embed {
+export class PinboardVizEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
     /**
@@ -51,15 +51,15 @@ export class PinboardEmbed extends V1Embed {
             hiddenActions,
             enableVizTransformations,
         } = this.viewConfig;
-        if (disabledActions && disabledActions.length) {
-            const disabledActionsString = disabledActions.join(',');
-            params[Param.DisableActions] = disabledActionsString;
+
+        if (disabledActions?.length) {
+            params[Param.DisableActions] = disabledActions;
         }
         if (disabledActionReason) {
             params[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions && hiddenActions.length) {
-            params[Param.HideActions] = hiddenActions.join(',');
+        if (hiddenActions?.length) {
+            params[Param.HideActions] = hiddenActions;
         }
         if (enableVizTransformations) {
             params[Param.EnableVizTransformations] = true;
@@ -118,7 +118,7 @@ export class PinboardEmbed extends V1Embed {
         pinboardId,
         vizId,
         runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    }: PinboardRenderOptions): PinboardVizEmbed {
         if (!pinboardId && !vizId) {
             throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }

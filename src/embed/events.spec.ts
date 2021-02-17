@@ -4,7 +4,7 @@ import {
     AuthType,
     EventType,
     SearchEmbed,
-    PinboardEmbed,
+    PinboardVizEmbed,
 } from '../index';
 import {
     executeAfterWait,
@@ -53,6 +53,17 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    // TODO: enable test once we are actually able to load stuff in the iframe
+    xtest('should trigger iframe load event', async () => {
+        const onLoadSpy = jest.fn();
+
+        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        searchEmbed.on(EventType.Load, onLoadSpy).render();
+        await executeAfterWait(() => {
+            expect(onLoadSpy).toHaveBeenCalled();
+        }, EVENT_WAIT_TIME);
+    });
+
     test('should trigger event to ThoughtSpot app', (done) => {
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
@@ -98,7 +109,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         embedOne.on(EventType.CustomAction, spyOne).render();
 
         const spyTwo = jest.fn();
-        const embedTwo = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        const embedTwo = new PinboardVizEmbed(getRootEl(), defaultViewConfig);
         embedTwo.on(EventType.CustomAction, spyTwo).render({
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });
@@ -117,7 +128,7 @@ describe('test communication between host app and ThoughtSpot', () => {
 
     test('should fetch data', async () => {
         const onDataSpy = jest.fn();
-        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig);
+        const embed = new PinboardVizEmbed(getRootEl(), defaultViewConfig);
         embed.on(EventType.Data, onDataSpy).render({
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });

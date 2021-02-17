@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SearchEmbed | @thoughtspot/embed-sdk</title>
+	<title>PinboardVizEmbed | @thoughtspot/embed-sdk</title>
 	<meta name="description" content="Documentation for @thoughtspot/embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">@thoughtspot/embed-sdk</a>
 				</li>
 				<li>
-					<a href="searchembed.html">SearchEmbed</a>
+					<a href="pinboardvizembed.html">PinboardVizEmbed</a>
 				</li>
 			</ul>
-			<h1>Class SearchEmbed</h1>
+			<h1>Class PinboardVizEmbed</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Embed ThoughtSpot search</p>
+						<p>Embed a ThoughtSpot pinboard or visualization</p>
 					</div>
 				</div>
 			</section>
@@ -76,10 +76,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">TsEmbed</span>
+						<span class="tsd-signature-type">V1Embed</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">SearchEmbed</span>
+								<span class="target">PinboardVizEmbed</span>
 							</li>
 						</ul>
 					</li>
@@ -92,16 +92,17 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="searchembed.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="pinboardvizembed.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchembed.html#getthoughtspothost" class="tsd-kind-icon">get<wbr>Thought<wbr>Spot<wbr>Host</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchembed.html#on" class="tsd-kind-icon">on</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchembed.html#render" class="tsd-kind-icon">render</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchembed.html#trigger" class="tsd-kind-icon">trigger</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pinboardvizembed.html#getcurrentdata" class="tsd-kind-icon">get<wbr>Current<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pinboardvizembed.html#getthoughtspothost" class="tsd-kind-icon">get<wbr>Thought<wbr>Spot<wbr>Host</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pinboardvizembed.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pinboardvizembed.html#render" class="tsd-kind-icon">render</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pinboardvizembed.html#trigger" class="tsd-kind-icon">trigger</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,13 +114,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Search<wbr>Embed<span class="tsd-signature-symbol">(</span>domSelector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DOMSelector</span>, viewConfig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SearchViewConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="searchembed.html" class="tsd-signature-type" data-tsd-kind="Class">SearchEmbed</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Pinboard<wbr>Viz<wbr>Embed<span class="tsd-signature-symbol">(</span>domSelector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DOMSelector</span>, viewConfig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ViewConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pinboardvizembed.html" class="tsd-signature-type" data-tsd-kind="Class">PinboardVizEmbed</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/search.ts#L37">embed/search.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/base.ts#L305">embed/base.ts:305</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -128,16 +129,39 @@
 									<h5>domSelector: <span class="tsd-signature-type">DOMSelector</span></h5>
 								</li>
 								<li>
-									<h5>viewConfig: <span class="tsd-signature-type">SearchViewConfig</span></h5>
+									<h5>viewConfig: <span class="tsd-signature-type">ViewConfig</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="searchembed.html" class="tsd-signature-type" data-tsd-kind="Class">SearchEmbed</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pinboardvizembed.html" class="tsd-signature-type" data-tsd-kind="Class">PinboardVizEmbed</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcurrentdata" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/base.ts#L361">embed/base.ts:361</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetch the current answer data from the
+									embedded app asynchronously</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getthoughtspothost" class="tsd-anchor"></a>
 					<h3>get<wbr>Thought<wbr>Spot<wbr>Host</h3>
@@ -170,27 +194,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/base.ts#L246">embed/base.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/base.ts#L370">embed/base.ts:370</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Register an event listener to be triggered when we receive
-									an event of a particular message type from the embedded app</p>
-								</div>
+								<dl class="tsd-comment-tags">
+									<dt>override</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>messageType: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The message type</p>
-									</div>
 								</li>
 								<li>
 									<h5>callback: <span class="tsd-signature-type">MessageCallback</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>A callback function</p>
 									</div>
 								</li>
 							</ul>
@@ -202,27 +222,27 @@
 					<a name="render" class="tsd-anchor"></a>
 					<h3>render</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SearchRenderOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="searchembed.html" class="tsd-signature-type" data-tsd-kind="Class">SearchEmbed</a></li>
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PinboardRenderOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pinboardvizembed.html" class="tsd-signature-type" data-tsd-kind="Class">PinboardVizEmbed</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/search.ts#L119">embed/search.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/pinboard.ts#L117">embed/pinboard.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Render ThoughtSpot search</p>
+									<p>Render an embedded ThoughtSpot pinboard or viz</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">SearchRenderOptions</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-type">PinboardRenderOptions</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="searchembed.html" class="tsd-signature-type" data-tsd-kind="Class">SearchEmbed</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pinboardvizembed.html" class="tsd-signature-type" data-tsd-kind="Class">PinboardVizEmbed</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -296,33 +316,36 @@
 					<li class=" tsd-kind-class">
 						<a href="appembed.html" class="tsd-kind-icon">App<wbr>Embed</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="pinboardvizembed.html" class="tsd-kind-icon">Pinboard<wbr>Viz<wbr>Embed</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="searchembed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
+						<a href="pinboardvizembed.html" class="tsd-kind-icon">Pinboard<wbr>Viz<wbr>Embed</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="searchembed.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="pinboardvizembed.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchembed.html#getthoughtspothost" class="tsd-kind-icon">get<wbr>Thought<wbr>Spot<wbr>Host</a>
+								<a href="pinboardvizembed.html#getcurrentdata" class="tsd-kind-icon">get<wbr>Current<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchembed.html#on" class="tsd-kind-icon">on</a>
+								<a href="pinboardvizembed.html#getthoughtspothost" class="tsd-kind-icon">get<wbr>Thought<wbr>Spot<wbr>Host</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchembed.html#render" class="tsd-kind-icon">render</a>
+								<a href="pinboardvizembed.html#on" class="tsd-kind-icon">on</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchembed.html#trigger" class="tsd-kind-icon">trigger</a>
+								<a href="pinboardvizembed.html#render" class="tsd-kind-icon">render</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="pinboardvizembed.html#trigger" class="tsd-kind-icon">trigger</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="searchembed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
 					</li>
