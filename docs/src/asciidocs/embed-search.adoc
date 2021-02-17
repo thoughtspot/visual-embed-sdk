@@ -18,7 +18,7 @@ Import the SearchEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { init, SearchEmbed } from "ts-embed-sdk";
+import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 === Import styles
 [source,javascript]
@@ -37,7 +37,7 @@ To allow your client application to connect to ThoughtSpot:
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: "SSO"
+        authType: "SSO",
     });
 ----
 +
@@ -115,7 +115,7 @@ Construct the URL of the embedded ThoughtSpot search object to load in the ifram
 Render the embedded search and pass parameters such as data source ID.
 [source, javascript]
 ----
-searchEmbed.render({
+SearchEmbed.render({
     dataSources,
     searchQuery,
     answerId,
@@ -146,9 +146,9 @@ _String_. The search query string to use when the application loads.
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
- search.on("init", showLoader)
- search.on("load", hideLoader)
- search.on("answerPageLoading", payload =>
+ SearchEmbed.on("init", showLoader)
+ SearchEmbed.on("load", hideLoader)
+ SearchEmbed.on("answerPageLoading", payload =>
     console.log("message received from embedded view" + JSON.stringify(payload))
 
 // Functions to show or hide a loader while the iframe loads.
@@ -183,9 +183,32 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 === Code sample
 
+[source, javascript]
+----
+import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+
+init({
+    thoughtSpotHost: "<%=tshost%>",
+    authType: "SSO",
+});
+
+const searchEmbed = new SearchEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
+
+searchEmbed.render({});
+----
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Preview in Playground</a>
 ++++
 
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground>Preview in Playground</a>
+== Additional resources
 
-++++
+For more information on searchEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
 

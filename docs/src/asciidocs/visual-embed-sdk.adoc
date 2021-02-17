@@ -23,7 +23,7 @@ The Visual Embed SDK includes the following Javascript libraries:
 SearchEmbed::
 For xref:embed-search.adoc[embedding the ThoughtSpot search] functionality.
 
-pinboardEmbed::
+PinboardVizEmbed::
 For embedding ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
 
 
@@ -41,7 +41,7 @@ For information on configuration requirements, see the following sections:
 
 == Optional settings for embedding
 
-One of these involves what happens when a user clicks on a link within the data.  
+One of these involves what happens when a user clicks on a link within the data.
 The URLs in data display as clickable links in ThoughtSpot tables.
 By default, clicking on a link opens the URL in a separate tab.
 However, there is a system-wide setting that can be changed to open the links within the context in which they appear.
@@ -70,13 +70,13 @@ You can use this authentication approach for testing environments.
 Do not use this in a production environment.
 
 SAML::
-This method requires you to set up SAML SSO support on the ThoughtSpot admin console. 
-+ 
+This method requires you to set up SAML SSO support on the ThoughtSpot admin console.
++
 
 For more information, see xref:configure.saml[SAML SSO].
- 
+
 Trusted authentication service::
-This method requires you to enable token-based trusted authentication service. 
+This method requires you to enable token-based trusted authentication service.
 In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
 +
 For more information, see xref:trusted-authentication[Trusted Authentication].

@@ -223,16 +223,32 @@ The function `updateIframeUrl(id)` contains the logic to change the src URL of t
 ////
 
 === Code sample
+[source,javascript]
+----
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
+
+init({
+    thoughtSpotHost: '<%=tshost%>',
+    authType: "SSO", 
+});
+
+const appEmbed = new AppEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
+
+appEmbed.render({
+    Page.Data
+});
+----
 
 ++++
-
 <a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground">Preview in Playground</a>
-
 ++++
 
-////
-== Showing applications in a full screen
-
-To have an embedded ThoughtSpot application show in a full screen, the `<iframe>` element must have the `allow="fullscreen"` parameter or its analogues.
-
-
+=== Additional resources
+For more information on pinboardVizEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

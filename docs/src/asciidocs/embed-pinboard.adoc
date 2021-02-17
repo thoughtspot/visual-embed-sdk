@@ -17,14 +17,15 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
-=== Import the PinBoardEmbed package
+=== Import the PinboardVizEmbed package
 Import the pinboard SDK library to your application environment:
 
 [source,javascript]
 ----
-import { init, PinboardEmbed } from "ts-embed-sdk";
+import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 === Import styles
+[source,javascript]
 [source,javascript]
 ----
 import "./styles.css"
@@ -68,7 +69,7 @@ This approach is used only for testing client applications. Do not use this in p
 === Construct the embed content
 [source,JavaScript]
 ----
- const embed = new PinboardEmbed("#embed", {
+ const embed = new PinboardVizEmbed("#embed", {
 	frameParams: {
 		width: 1280,
 		height: 720
@@ -81,12 +82,12 @@ This approach is used only for testing client applications. Do not use this in p
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the pinboard.
 
 ---
-fullHeight:: 
+fullHeight::
 _Boolean_. Sets the pinboard page to full height.
 
 ---
-disabledActions:: 
-_String_. Menu items from the list of actions to be disabled on the Pinboards  page. 
+disabledActions::
+_String_. Menu items from the list of actions to be disabled on the Pinboards  page.
 +
 For example, to disable the *Present* action from the (*...*) menu, add `present` to the  `disabledActions` attribute.
 
@@ -105,13 +106,13 @@ _String_. Reason for disabling an action on the Pinboards page.
 Costruct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
-  PinboardEmbed.render({
+  PinboardVizEmbed.render({
         pinboardId,
         vizId,
         runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    }: PinboardRenderOptions): PinboardVizEmbed {
         super.render();
-        
+
         const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
         this.renderV1Embed(src);
 
@@ -123,14 +124,14 @@ pinboardId::
 _String_. The GUID of the pinboard.
 
 ---
-vizId [small]_optional_:: 
+vizId [small]_optional_::
 _String_. The Global Unique Identifier (GUID) of the visualizations added to the pinboard.
 
 ---
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the Pinboard page loads.
-+ 
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters. 
++
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
@@ -201,10 +202,10 @@ Runtime filters have several operators you can use to filter your embedded visua
 ---
 === Subscribe to events
 Register event handlers and subscribe to events triggered by the embedded pinboard:
-[source, javascript] 
+[source,javascript]
 ----
   //register event listeners for initializing pinboard loading event
-  
+
   embed.on("init", showLoader)
   embed.on("load", hideLoader)
 ----
@@ -222,7 +223,7 @@ Visualization drilldown is initiated.
 
 === Test the embedded workflow
 
-* Load the client application. 
+* Load the client application.
 * Try accessing a pinboard embedded in your application.
 * Verify the iframe rendition.
 * If you have disabled a menu item, verify if the menu command is disabled on the Pinboards page.
@@ -230,8 +231,34 @@ Visualization drilldown is initiated.
 
 === Code sample
 
-++++
+[source,javascript]
+----
+import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
+init({
+    thoughtSpotHost: '<%=tshost%>',
+    authType: 'None',
+});
+
+const pinboardEmbed = new PinboardVizEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
+
+pinboardEmbed.render({
+    pinboardId: '<%=pinboardGUID%>',
+    vizId: '<%=vizGUID%>'
+});
+
+----
+++++
 <a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground">Preview in Playground</a>
-
 ++++
+
+===Additional resources
+
+For more information on pinboardVizEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

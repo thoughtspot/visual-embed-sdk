@@ -117,6 +117,7 @@ Example When a ThoughtSpot UI query is revenue by commit date my calendar, where
 ```
 [revenue] by [commit date] calendar.'my calendar'
 ```
+
 == Request example
 
 === cURL - COMPACT

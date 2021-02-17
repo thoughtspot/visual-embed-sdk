@@ -1,5 +1,4 @@
 = Actions customization
-
 :toc: true
 
 :page-title: Actions customization

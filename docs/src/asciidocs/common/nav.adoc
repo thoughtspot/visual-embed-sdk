@@ -37,7 +37,7 @@
 ** link:{{navprefix}}=search-data-api[Search Data API]
 
 * Reference Guides
-** link:{{navprefix}}=js-reference[Embed SDK Reference]
+** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 ** link:{{navprefix}}=rest-api-reference[REST API Reference Guide]
 ////
 * xref:docs:glossary.adoc[Glossary]
