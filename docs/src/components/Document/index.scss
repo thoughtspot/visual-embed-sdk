@@ -11,10 +11,41 @@
 
     p {
         font-weight: $font-weight-normal;
+        font-size: $font-size-doc;
+        line-height: $line-height-doc;
     }
 
     img {
         width: 100%;
+    }
+
+    pre.highlight {
+        white-space: pre-wrap;
+        background: #F8F8F8;
+        padding: 20px 10px;
+    }
+
+    code[data-lang] {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    code[data-lang]::after {
+        content: attr(data-lang);
+        text-transform: uppercase;
+        color: $darkgrey;
+        position: relative;
+        top: -10px;
+    }
+
+    #preview-in-playground {
+        background: #2770ef;
+        color: white;
+        font-size: $font-size-normal;
+        font-weight: 300;
+        padding: 5px 10px;
+        border: 0;
+        border-radius: 2px;
     }
 }
 

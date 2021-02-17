@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.14",
+    "version": "0.0.1-alpha.15",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -16,9 +16,7 @@
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
-        "prepublishOnly": "npm run test; npm run tsc; npm run build",
-        "test:e2e": "npm run test:e2e-doc",
-        "test:e2e-doc": "jest -c docs/jest-e2e.config.js"
+        "prepublishOnly": "npm run test; npm run tsc; npm run build"
     },
     "dependencies": {},
     "devDependencies": {

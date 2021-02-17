@@ -7,6 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { getCssDimension } from '../utils';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -36,9 +37,11 @@ export const init = (embedConfig: EmbedConfig): void => {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LayoutConfig {}
+
 export interface FrameParams {
-    width?: number;
-    height?: number;
+    // unit is pixels if number
+    width?: number | string;
+    height?: number | string;
 }
 
 export interface ViewConfig {
@@ -147,11 +150,11 @@ export class TsEmbed {
      */
     protected getV1EmbedBasePath(
         queryString: string,
-        hidePrimaryNavbar = true,
+        showPrimaryNavbar = false,
         isAppEmbed = false,
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
-        const primaryNavParam = `&primaryNavHidden=${hidePrimaryNavbar}`;
+        const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const queryParams = `?embedApp=true${
             isAppEmbed ? primaryNavParam : ''
         }${queryStringFrag}`;
@@ -184,8 +187,14 @@ export class TsEmbed {
         });
         this.iFrame = document.createElement('iframe');
         this.iFrame.src = url;
-        this.iFrame.width = `${frameOptions?.width || DEFAULT_EMBED_WIDTH}`;
-        this.iFrame.height = `${frameOptions?.height || DEFAULT_EMBED_HEIGHT}`;
+        const width = getCssDimension(
+            frameOptions?.width || DEFAULT_EMBED_WIDTH,
+        );
+        const height = getCssDimension(
+            frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+        );
+        this.iFrame.style.width = `${width}`;
+        this.iFrame.style.height = `${height}`;
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
         this.iFrame.addEventListener('load', () =>

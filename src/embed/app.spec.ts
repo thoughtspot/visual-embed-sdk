@@ -38,7 +38,7 @@ describe('App embed tests', () => {
     test('should hide the primary nav bar', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            hidePrimaryNavbar: false,
+            showPrimaryNavbar: true,
         } as AppViewConfig);
         appEmbed.render({});
         expect(getIFrameSrc()).toBe(
@@ -72,7 +72,7 @@ describe('App embed tests', () => {
     test('should apply runtime filters', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            hidePrimaryNavbar: false,
+            showPrimaryNavbar: true,
         } as AppViewConfig);
         appEmbed.render({
             runtimeFilters: [
@@ -91,7 +91,7 @@ describe('App embed tests', () => {
     test('should disable and hide actions', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            hidePrimaryNavbar: false,
+            showPrimaryNavbar: true,
             disabledActions: [Action.Save, Action.Update],
             disabledActionReason: 'Access denied',
             hiddenActions: [Action.Download],

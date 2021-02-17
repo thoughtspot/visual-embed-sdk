@@ -8,9 +8,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { AppEmbed } from './embed/app';
+import { AppEmbed, Page } from './embed/app';
 import { init } from './embed/base';
-import { PinboardEmbed } from './embed/pinboard';
+import { PinboardVizEmbed } from './embed/pinboard';
 import { SearchEmbed } from './embed/search';
 import {
     AuthType,
@@ -23,9 +23,10 @@ import {
 export {
     init,
     SearchEmbed,
-    PinboardEmbed,
+    PinboardVizEmbed,
     AppEmbed,
     // types
+    Page,
     AuthType,
     RuntimeFilterOp,
     EventType,
