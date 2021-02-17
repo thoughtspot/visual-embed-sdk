@@ -54,6 +54,7 @@ const searchEmbed = new SearchEmbed(
             height: '100%',
         },
     });
+
 searchEmbed.render({});
 ```
 
@@ -75,9 +76,10 @@ const pinboardEmbed = new PinboardVizEmbed(
             height: '100%',
         },
     });
+
 pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>,
-    vizId: '<%=vizGUID%>
+    pinboardId: '<%=pinboardGUID%>',
+    vizId: '<%=vizGUID%>'
 });
 ```
 
@@ -99,6 +101,7 @@ const appEmbed = new AppEmbed(
             height: '100%',
         },
     });
+
 appEmbed.render({
     Page.Data
 });
