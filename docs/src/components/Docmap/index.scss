@@ -6,7 +6,7 @@
     border-left: 1px $lightgrey solid;
     position: fixed;
     right: 0;
-    font-size: 14px;
+    font-size: $font-size-normal;
     height: 100vh;
     overflow-y: auto;
 
@@ -14,15 +14,15 @@
         padding-left: 40px;
         margin: 0;
         color: $disabledcolor;
-        margin-bottom: 7px;
+        line-height: $line-height-normal;
     }
 
     div {
         ul {
-            margin-top: 2px;
+            margin-top: 0px;
             list-style-type: none;
             li {
-                padding: 7px 0;
+                line-height: $line-height-normal;
     
                 a {
                     color: $primarycolor;
