@@ -147,11 +147,11 @@ export class TsEmbed {
      */
     protected getV1EmbedBasePath(
         queryString: string,
-        hidePrimaryNavbar = true,
+        showPrimaryNavbar = false,
         isAppEmbed = false,
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
-        const primaryNavParam = `&primaryNavHidden=${hidePrimaryNavbar}`;
+        const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const queryParams = `?embedApp=true${
             isAppEmbed ? primaryNavParam : ''
         }${queryStringFrag}`;
