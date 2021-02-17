@@ -35,6 +35,7 @@
         "out": "docs/typedoc",
         "excludePrivate": true,
         "excludeProtected": true,
-        "excludeInternal": true
+        "excludeInternal": true,
+        "hideGenerator": true
     }
 }

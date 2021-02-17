@@ -39,38 +39,42 @@ pinboards, visualizations or the even full app version.
 ### Embedded Search
 
 ```js
-import { SearchEmbed, init } from '@thoughtspot/embed-sdk';
+import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: 'None',
+    authType: AuthType.None,
 });
 
-const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
-    frameParams: {
-        width: '100%',
-        height: '100%',
-    },
-});
+const searchEmbed = new SearchEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
 searchEmbed.render({});
 ```
 
 ### Embedded Pinboard & Visualization
 
 ```js
-import { PinboardVizEmbed, init } from '@thoughtspot/embed-sdk';
+import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: 'None',
 });
 
-const pinboardEmbed = new PinboardVizEmbed(document.getElementById('ts-embed'), {
-    frameParams: {
-        width: '100%',
-        height: '100%',
-    },
-});
+const pinboardEmbed = new PinboardVizEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
 pinboardEmbed.render({
     pinboardId: '<%=pinboardGUID%>,
     vizId: '<%=vizGUID%>
@@ -80,19 +84,21 @@ pinboardEmbed.render({
 ### Embedded Full App
 
 ```js
-import { AppEmbed, Page, init } from '@thoughtspot/embed-sdk';
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: 'None',
+    authType: AuthType.None,
 });
 
-const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
-    frameParams: {
-        width: '100%',
-        height: '100%',
-    },
-});
+const appEmbed = new AppEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
 appEmbed.render({
     Page.Data
 });
