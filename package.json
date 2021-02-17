@@ -20,7 +20,9 @@
         "test:e2e": "npm run test:e2e-doc",
         "test:e2e-doc": "jest -c docs/jest-e2e.config.js"
     },
-    "dependencies": {},
+    "dependencies": {
+        "react-resizable": "^1.11.0"
+    },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
         "@mdx-js/react": "^1.6.22",

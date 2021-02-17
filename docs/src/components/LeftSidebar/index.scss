@@ -2,11 +2,10 @@
 @import '../../static/styles/variables.scss';
 
 aside {
-    width: 260px;
+    width: 100%;
     border-right: 1px $lightgrey solid;
     padding-top: 24px;
     padding-bottom: 24px;
-    position: fixed;
     left: $gutter;
     height: 100vh;
     overflow-y: auto;
@@ -135,6 +134,15 @@ aside {
     hr {
         display: none;
     }
+}
+
+.react-resizable-handle {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    cursor: col-resize;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
