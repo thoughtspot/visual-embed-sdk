@@ -182,10 +182,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 * If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
 
 === Code sample
-
 ++++
-
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground>Preview in Playground</a>
-
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Preview in Playground</a>
 ++++
 

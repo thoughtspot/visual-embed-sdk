@@ -203,7 +203,6 @@ To customize the page title displayed in the browser bar:
 When you customize styles, the changes take effect after you refresh the browser.
 You can revert your changes by using the *Reset* button that appears when you move your cursor to the right of the style setting option.
 
-
 ////
 == How to specify the behavior or clickable links in data
 

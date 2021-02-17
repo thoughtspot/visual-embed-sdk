@@ -223,16 +223,6 @@ The function `updateIframeUrl(id)` contains the logic to change the src URL of t
 ////
 
 === Code sample
-
 ++++
-
 <a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground">Preview in Playground</a>
-
 ++++
-
-////
-== Showing applications in a full screen
-
-To have an embedded ThoughtSpot application show in a full screen, the `<iframe>` element must have the `allow="fullscreen"` parameter or its analogues.
-
-
