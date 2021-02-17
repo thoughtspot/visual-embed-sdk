@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ResizableBox } from 'react-resizable';
 import './index.scss';
 import BackButton from '../BackButton';
 
@@ -23,20 +24,29 @@ const LeftSideBar = (props: {
     }, [pageid, props.navContent]);
 
     return (
-        <aside>
-            {props.backLink && (
-                <BackButton title='SpotDev Home' backLink={props.backLink} />
-            )}
-            <nav>
-                <h2 className='heading'>{props.navTitle}</h2>
-                <div
-                    className='navWrapper'
-                    dangerouslySetInnerHTML={{
-                        __html: navContent,
-                    }}
-                />
-            </nav>
-        </aside>
+        <ResizableBox
+            width={310}
+            minConstraints={[100, 100]}
+            maxConstraints={[310]}
+            axis="x"
+            style={{ position: 'fixed' }}
+            height={window.screen.height}
+        >
+            <aside>
+                {props.backLink && (
+                    <BackButton title="SpotDev Home" backLink={props.backLink} />
+                )}
+                <nav>
+                    <h2 className="heading">{props.navTitle}</h2>
+                    <div
+                        className="navWrapper"
+                        dangerouslySetInnerHTML={{
+                            __html: navContent,
+                        }}
+                    />
+                </nav>
+            </aside>
+        </ResizableBox>
     );
 };
 
