@@ -139,7 +139,7 @@ switch (mainOptions.command) {
         const isValid = validateCmdOptions(bapDefinitions, bapOptions);
         if (!isValid) return;
 
-        cmdToExecute = `gatsby build --prefix-paths && gh-pages -d public -b ${bapOptions.branch}`;
+        cmdToExecute = `gatsby clean && gatsby build --prefix-paths && gh-pages -d public -b ${bapOptions.branch}`;
         break;
     }
     case 'publish': {
