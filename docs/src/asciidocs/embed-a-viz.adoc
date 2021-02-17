@@ -225,5 +225,5 @@ Visualization drilldown is initiated.
 == Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/answer" id="preview-in-playground">Preview in Playground</a>
 ++++

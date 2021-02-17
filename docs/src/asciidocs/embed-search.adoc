@@ -183,6 +183,6 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 === Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Preview in Playground</a>
 ++++
 

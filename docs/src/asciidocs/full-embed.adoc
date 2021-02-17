@@ -223,7 +223,7 @@ The function `updateIframeUrl(id)` contains the logic to change the src URL of t
 === Code sample
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground">Preview in Playground</a>
 ++++
 
 ////
