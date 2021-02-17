@@ -15,7 +15,7 @@ Analyze your business requirements and choose the embedding approach that best s
 For example, you may simply need a single chart displayed as a wallboard, or you may want your customers to access reports on their own data.
 The first example could require modifying a single HTML page, while the latter example may require working with a development team and several different workflows in a browser application.
 
-Based on your integration needs, determine if you want to embed a portion of ThoughtSpot application, or all of it.  
+Based on your integration needs, determine if you want to embed a portion of the ThoughtSpot application, or all of it.  
 
 == Try it out
 The ThoughtSpot SpotDev portal provides a playground for developers to explore the embed functions. The playground provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
@@ -44,20 +44,7 @@ The host application owners or users with admin privileges to modify the applica
 
 Developer::
 Application developers with privileges to integrate ThoughtSpot components into a host application using the APIs and SDK. Developer users can also configure custom actions to embedded visualizations and pinboards.
-////
-=== Optional settings for embedding
 
-There are some settings that apply to embedding which ThoughtSpot Support or your other ThoughtSpot technical contact can make for you.
-
-One of these involves what happens when a user clicks on a link within the data.
-When your data includes URLs, they display as clickable links in ThoughtSpot tables.
-By default, clicking on a link opens the URL in a separate tab.
-But there is a system-wide setting that can be changed to open the links within the context in which they appear.
-
-Changing this setting opens the links.
-Consider the possible link types, and how they open:
-+++<dlentry>+++Link in search result table in ThoughtSpot::::  Same browser tab as ThoughtSpot application+++</dlentry>++++++<dlentry>+++Link in table embedded in an `<iframe>`::::  Same `<iframe>` that contains the table+++</dlentry>++++++<dlentry>+++Link in full ThoughtSpot application embedded in an `<iframe>` element::::  Same `<iframe>` that contains the application+++</dlentry>+++
-////
 == Choose an authentication service
 
 ThoughtSpot supports the following authentication services:
@@ -76,7 +63,7 @@ For more information, see xref:trusted-authentication.adoc[Configure trusted aut
 == Define security settings
 Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities. Cross-origin or cross-domain verification prevents such security risks.
 
-When embedding, you must enable CORS between your client application domain and the ThoughtSpot domain to exchange data and resources.CORS allows an application to make an HTTP request to access resources and data from another application in a different domain. Enabling CORS also protects your data, so that another actor cannot use the same URL to embed the visualization in its own Web pages.
+When embedding, you must enable CORS between your client application domain and the ThoughtSpot domain to exchange data and resources.CORS allows an application to make an HTTP request to access resources and data from another application in a different domain. Enabling CORS also protects your data, so that another actor cannot use the same URL to embed the visualization in their Web pages.
 ////
 == Identify the UI elements to rebrand
 

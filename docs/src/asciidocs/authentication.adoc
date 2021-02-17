@@ -1,50 +1,23 @@
-== REST API authentication
+= REST API authentication
 :toc: true
 
 :page-title: REST API authentication
 :page-pageid: rest-api-authentication
 :page-description: REST API Authentication
 
-The REST API allows you to get data out of ThoughtSpot so you can use it in a Web page, portal, or application.
-When using the Data REST API, authentication is achieved through SAML.
-After authentication, use the POST method to call a URL for the desired visualization or pinboard.
-A JSON (JavaScript Object Notation) representation of the data will be returned.
+The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
+To access REST APIs, you must authenticate through SAML SSO.
+For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO].
 
-Before you can use the Data REST API, you must authenticate to ThoughtSpot using SAML.
+== Cross-Domain Verification
 
-== Cross Domain Verification
-
-You can enable cross-domain verification when using the Data REST API.
+You must enable cross-domain verification when using the REST APIs.
 This protects your data, so that another website cannot use a URL to get data from ThoughtSpot.
-The procedure for link:{{ site.baseurl }}/app-integrate/JSAPI/enable-JS-API.html#[enabling the JavaScript API] includes information on how to enable this.
+For more information on enabling Cross-Origin Resource Sharing (CORS) and whitelisting application domains, see xref:security-settings.adoc[Security settings].
 
-== Data REST API capabilities
+== Base URI
 
-Use a POST method to access the URL, which calls the REST API.
-The data is returned as a JSON string.
-When using this method, you must extract the data from the JSON file and render it on your Web page, portal, or application.
-
-You can use the REST API to do things like:
-
-* Generate dynamic picklists on your Web page.
-* Display a single value.
-* Retrieve the data to populate a visualization drawn by your own renderer.
-* Pull data directly from ThoughtSpot
-
-Remember that the data you retrieve from ThoughtSpot is live data, so whenever the Web page is rendered, the current value(s) will be shown.
-
-== Direct Search-to-Embed API
-
-The link:{{ site.baseurl }}/app-integrate/data-api/direct-search-to-embed.html#[Direct Search-to-Embed API] enables searching directly from an external application or web page to pull data from ThoughtSpot.
-This feature was introduced in ThoughtSpot 5.0.
-When using it, you can access data stored in ThoughtSpot directly.
-You do not have to save a search result to a pinboard and then reference it using the visualization's URL.
-
-== Public API reference
-
-You can find more information on our public APIs in the link:{{ site.baseurl }}/app-integrate/reference/public-api-reference.html#[Reference guide].
-
-== Related information
-
-* link:{{ site.baseurl }}/app-integrate/reference/public-api-reference.html#[API Reference guide].
-* link:{{ site.baseurl }}/app-integrate/data-api/direct-search-to-embed.html#[Direct Search-to-Embed API].
+The base URI for the REST APIs calls is:
+----
+https://<your-thoughtspot-hostname:port.com>
+----

@@ -1,12 +1,74 @@
-== REST APIs
+= REST APIs
 
 :page-title: About rest APIs
 :page-pageid: rest-apis
-:page-description: About rest APIs
+:page-description: About REST APIs
 
-ThoughtSpot REST APIs are documented in the ThoughtSpot Documentation.  You can also find details about the APIs and test many of them using Swagger.  
+The ThoughtSpot REST APIs enable your client applications to access to ThoughtSpot data.
+Client applications can use the REST APIs for the following purpose:
 
-To access Swagger, first, login as a user with Administrator credentials.  Then navigate to https://<your-thoughtspot.com>/external/swagger.  You will get a list of all publicly available services.   
+* get the pinboard and visualization data from the ThoughtSpot application.
+* list the metadata object headers in the repository.
+* transfer ownership of all objects from one user to another and more. 
+* embed data from visualizations and pinboards in a web page, portal, or application. 
+
+The REST APIs return data as a JSON string. To embed data into your application, extract the data from the JSON file and render it on your Web page.
+
+REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
+
+== List of APIs
+
+The following APIs are available on the Swagger portal for external users:
++++<table>++++++<colgroup>++++++<col style="width:15%">++++++</col>+++
+      +++<col style="width:45%">++++++</col>+++
+      +++<col style="width:40%">++++++</col>++++++</colgroup>+++
+   +++<thead>++++++<tr>++++++<th>+++Public APIs+++</th>+++
+         +++<th>+++Functional Behaviour+++</th>+++
+         +++<th>+++Despcription+++</th>++++++</tr>++++++</thead>+++
+   +++<tbody>++++++<tr>++++++<td>+++++++++Pinboard Data+++++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/pinboarddata+++</td>+++
+         +++<td>+++Get the pinboard data from the ThoughtSpot system+++</td>++++++</tr>+++
+     +++<tr>++++++<td rowspan="2">+++++++++Metadata+++++++++</td>+++
+         +++<td>++++++<code class="api-method-get">+++GET+++</code>+++ /tspublic/v1/metadata/listobjectheaders+++</td>+++
+         +++<td>+++List the metadata object headers in the repository+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++<code class="api-method-get">+++GET+++</code>+++ /tspublic/v1/metadata/listvizheaders+++</td>+++
+         +++<td>+++Get the visualization headers from the ThoughtSpot system+++</td>++++++</tr>+++
+      +++<tr>++++++<td rowspan="2">+++++++++Session+++++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/session/login+++</td>+++
+         +++<td>+++Authenticate and login a user+++</td>++++++</tr>+++
+     +++<tr>++++++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/session/logout+++</td>+++
+         +++<td>+++Logout a user out of an existing session+++</td>++++++</tr>+++
+      +++<tr>++++++<td rowspan="4">+++++++++User+++++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/user/transfer/ownership+++</td>+++
+         +++<td>+++Transfer ownership of all objects from one user to another+++</td>++++++</tr>+++
+     +++<tr>++++++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/user/sync+++</td>+++
+         +++<td>+++Synchronize principal from your external system with ThoughtSpot system+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/user/updatepassword+++</td>+++
+         +++<td>+++Change the password of a user+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++<code class="api-method-get">+++GET+++</code>+++ /tspublic/v1/user/list+++</td>+++
+         +++<td>+++Get all users, groups and their inter-dependencies+++</td>++++++</tr>+++
+      +++<tr>++++++<td rowspan="2">+++++++++Group+++++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/group/addprivilege+++</td>+++
+         +++<td>+++Add a privilege to a group+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/group/removeprivilege+++</td>+++
+         +++<td>+++Remove a privilege from a group+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++Materialization++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/materialization/refreshview/\{id}+++</td>+++
+         +++<td>+++Re-execute the query and load data into the materialized view+++</td>++++++</tr>+++
+      +++<tr>++++++<td>++++++Search Data++++++</td>+++
+         +++<td>++++++<code class="api-method-post">+++POST+++</code>+++ /tspublic/v1/searchdata+++</td>+++
+         +++<td>+++Search data from a specific data source in the ThoughtSpot system.+++</td>++++++</tr>++++++</tbody>++++++</table>+++
 
 
-You can click on a header to expand and get the list of services.  Clicking on a service name provides more details about the service.
+== Swagger portal
+To access APIs on Swagger:
+
+. Log in as a user with Administrator credentials.  
+. Go to the Swagger portal.
++
+----
+https://<your-thoughtspot.com>/external/swagger 
+----
+You will get a list of all publicly available services.   
+. Click on a header to expand and get the list of services.  
+. Click on a service name to view more details about the service.

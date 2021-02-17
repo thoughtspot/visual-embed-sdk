@@ -29,5 +29,9 @@
         "allowSyntheticDefaultImports": true
     },
     "include": ["src/**/*.ts", "custom-typings/**/*.d.ts"],
-    "exclude": ["node_modules", "../node_modules"]
+    "exclude": ["node_modules", "../node_modules"],
+    "typedocOptions": {
+        "entryPoints": ["src/index.ts"],
+        "out": "docs/typedoc"
+    }
 }

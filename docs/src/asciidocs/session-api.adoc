@@ -51,7 +51,9 @@ The user details are captured from the active user session.
 
 === Resource URL
 
-`post` /tspublic/v1/session/logout
+----
+POST /tspublic/v1/session/logout
+----
 
 === Request Example
 

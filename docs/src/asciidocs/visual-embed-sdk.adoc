@@ -1,4 +1,6 @@
-= Visual Embed SDK Overview
+
+= Visual Embed SDK
+
 :toc: true
 
 :page-title: What is Visual Embed SDK
@@ -13,24 +15,29 @@ You can use the Visual Embed SDK for the following purposes:
 * Render full ThoughtSpot application within the host application.
 * Render charts, visualizations, and pinboards.
 
-== Visual Embed SDK Libraries
+== Visual Embed SDK libraries
 
 The Visual Embed SDK includes the following Javascript libraries:
 
+[horizontal]
 SearchEmbed::
-For embedding the ThoughtSpot search functionality.
+For xref:embed-search.adoc[embedding the ThoughtSpot search] functionality.
+
 pinboardEmbed::
-For embedding ThoughtSpot visualizations and pinboards.
+For embedding ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
+
+
 fullEmbed::
-For embedding full ThoughtSpot application with or without the navigation bar.
+For embedding xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
 
 
 == Configuration requirements for embedding
 
 For information on configuration requirements, see the following sections:
 
-* xref:integration-overview.adoc[Integration Guidelines]
+* xref:integration-overview.adoc[Integration guidelines]
 * xref:security-settings.adoc[Security settings]
+
 
 == Optional settings for embedding
 
@@ -65,11 +72,11 @@ Do not use this in a production environment.
 SAML::
 This method requires you to set up SAML SSO support on the ThoughtSpot admin console. 
 + 
-For more information, see *xref:configure.saml[SAML SSO].
+
+For more information, see xref:configure.saml[SAML SSO].
  
 Trusted authentication service::
-This method requires to enable token-based trusted authentication service. 
+This method requires you to enable token-based trusted authentication service. 
 In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
 +
-For more information, see *xref:trusted-authentication[Trusted Authentication].
-
+For more information, see xref:trusted-authentication[Trusted Authentication].

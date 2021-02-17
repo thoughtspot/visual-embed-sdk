@@ -8,6 +8,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { getFilterQuery, getQueryParamString } from '../utils';
+import { Action, Param, RuntimeFilter } from '../types';
 import { V1Embed, ViewConfig } from './base';
 
 // eslint-disable-next-line no-shadow
@@ -20,11 +22,15 @@ export enum Page {
 }
 
 export interface AppViewConfig extends ViewConfig {
+    disabledActions?: Action[];
+    disabledActionReason?: string;
+    hiddenActions?: Action[];
     hidePrimaryNavbar?: boolean;
 }
 
 export interface AppRenderOptions {
     pageId?: Page;
+    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
@@ -34,15 +40,50 @@ export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
     /**
+     * Construct a map of params to be passed on to the
+     * embedded pinboard or viz
+     */
+    private getEmbedParams() {
+        const params = {};
+        const {
+            disabledActions,
+            disabledActionReason,
+            hiddenActions,
+        } = this.viewConfig;
+
+        if (disabledActions?.length) {
+            params[Param.DisableActions] = disabledActions;
+        }
+        if (disabledActionReason) {
+            params[Param.DisableActionReason] = disabledActionReason;
+        }
+        if (hiddenActions?.length) {
+            params[Param.HideActions] = hiddenActions;
+        }
+
+        const queryParams = getQueryParamString(params);
+
+        return queryParams;
+    }
+
+    /**
      * Construct the URL of the ThoughtSpot app page to be rendered
      * @param pageId The id of the page to be embedded
      */
-    private getIFrameSrc(pageId: string) {
-        return `${this.getV1EmbedBasePath(
-            null,
+    private getIFrameSrc(pageId: string, runtimeFilters: RuntimeFilter[]) {
+        const filterQuery = getFilterQuery(runtimeFilters || []);
+        let url = `${this.getV1EmbedBasePath(
+            filterQuery,
             this.viewConfig.hidePrimaryNavbar,
             true,
         )}/${pageId}`;
+
+        const postHashQueryParams = this.getEmbedParams();
+        if (postHashQueryParams) {
+            url = `${url}?${postHashQueryParams}`;
+        }
+
+        return url;
     }
 
     /**
@@ -70,11 +111,11 @@ export class AppEmbed extends V1Embed {
      * @param renderOptions An object containing the page id
      * to be embedded
      */
-    public render({ pageId }: AppRenderOptions): AppEmbed {
+    public render({ pageId, runtimeFilters }: AppRenderOptions = {}): AppEmbed {
         super.render();
 
         const pageRoute = this.getPageRoute(pageId);
-        const src = this.getIFrameSrc(pageRoute);
+        const src = this.getIFrameSrc(pageRoute, runtimeFilters);
         this.renderV1Embed(src);
 
         return this;
