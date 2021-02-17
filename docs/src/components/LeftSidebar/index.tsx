@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ResizableBox } from 'react-resizable';
+import { useResizeDetector } from 'react-resize-detector';
 import './index.scss';
 import BackButton from '../BackButton';
 
@@ -7,18 +8,26 @@ const LeftSideBar = (props: {
     navTitle: string;
     navContent: string;
     backLink: string;
+    docWidth: number;
+    handleLeftNavChange
 }) => {
+
+    const { width, ref } = useResizeDetector();
+
+    useEffect(() => {
+        props.handleLeftNavChange(width + 7);
+    }, [width]);
 
     return (
         <ResizableBox
-            width={310}
-            minConstraints={[100, 100]}
-            maxConstraints={[310]}
+            width={props.docWidth > 1024 ? 310 : 260}
+            minConstraints={[100]}
+            maxConstraints={[400]}
             axis="x"
             style={{ position: 'fixed' }}
             height={window.screen.height}
         >
-            <aside>
+            <aside ref={ref}>
                 {props.backLink && (
                     <BackButton title="SpotDev Home" backLink={props.backLink} />
                 )}

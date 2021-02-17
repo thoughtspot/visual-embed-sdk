@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
+import { useResizeDetector } from 'react-resize-detector';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
@@ -27,10 +28,18 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
+    const [leftNavWidth, setLeftNavWidth] = useState(310);
+    const [docWidth, setDocWidth] = useState(window.screen.width);
+
+    const { width, ref } = useResizeDetector();
 
     useEffect(() => {
         setParams(queryStringParser(location.search));
     }, []);
+
+    useEffect(() => {
+        setDocWidth(window.screen.width);
+    }, [window.screen.width]);
 
     useEffect(() => {
         // fetch navigation page index
@@ -75,6 +84,10 @@ const IndexPage = ({ location }) => {
         }
     }, [params]);
 
+    const handleLeftNavChange = (width) => {
+        setLeftNavWidth(width);
+    };
+
     // fetch adoc translated doc edges using graphql
     const {
         allAsciidoc: { edges },
@@ -102,13 +115,18 @@ const IndexPage = ({ location }) => {
 
     return (
         <>
-            <main>
+            <main ref={ref}>
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
                     backLink={backLink}
+                    handleLeftNavChange={handleLeftNavChange}
+                    docWidth={docWidth}
                 />
-                <div className="documentBody">
+                <div
+                    className="documentBody"
+                    style={{ width: `${width - leftNavWidth}px` }}
+                >
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap docContent={docContent} />
