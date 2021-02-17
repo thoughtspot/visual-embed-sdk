@@ -53,6 +53,17 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    // TODO: enable test once we are actually able to load stuff in the iframe
+    xtest('should trigger iframe load event', async () => {
+        const onLoadSpy = jest.fn();
+
+        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        searchEmbed.on(EventType.Load, onLoadSpy).render();
+        await executeAfterWait(() => {
+            expect(onLoadSpy).toHaveBeenCalled();
+        }, EVENT_WAIT_TIME);
+    });
+
     test('should trigger event to ThoughtSpot app', (done) => {
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();

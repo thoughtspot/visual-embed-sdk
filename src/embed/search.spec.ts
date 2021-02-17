@@ -1,7 +1,6 @@
 import { SearchEmbed } from './search';
 import { init } from '../index';
 import { Action, AuthType } from '../types';
-import * as utils from '../utils';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -98,7 +97,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=download,edit&disableHint=Permission%20denied&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand`,
         );
     });
 
@@ -126,7 +125,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=downloadAsCSV,downloadAsPdf,downloadAsXLSX&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand`,
         );
     });
 
@@ -141,7 +140,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=downloadAsXLSX&disableHint=Access%20denied&hideAction=downloadAsCSV&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand`,
         );
     });
 

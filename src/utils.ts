@@ -37,16 +37,49 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
 };
 
 /**
+ * Convert a value to a string representation to be sent as a query
+ * parameter to the ThoughtSpot app
+ * @param value Any parameter value
+ */
+const serializeParam = (value: any) => {
+    // do not serialize primitive types
+    if (
+        typeof value === 'string' ||
+        typeof value === 'number' ||
+        typeof value === 'boolean'
+    ) {
+        return value;
+    }
+
+    return JSON.stringify(value);
+};
+
+/**
+ * Convert a value to string:
+ * in case of an array we convert is to CSV
+ * in case of any other type we directly return the value
+ * @param value
+ */
+const paramToString = (value: any) =>
+    Array.isArray(value) ? value.join(',') : value;
+
+/**
  * Return a query param string composed from the given params object
  * @param queryParams
  */
-export const getQueryParamString = (queryParams: QueryParams): string => {
+export const getQueryParamString = (
+    queryParams: QueryParams,
+    shouldSerializeParamValues = false,
+): string => {
     const qp: string[] = [];
     const params = Object.keys(queryParams);
     params.forEach((key) => {
         const val = queryParams[key];
         if (val !== undefined) {
-            qp.push(`${key}=${val}`);
+            const serializedValue = shouldSerializeParamValues
+                ? serializeParam(val)
+                : paramToString(val);
+            qp.push(`${key}=${serializedValue}`);
         }
     });
 

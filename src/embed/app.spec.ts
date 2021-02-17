@@ -1,6 +1,6 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
-import { AuthType } from '../types';
+import { Action, AuthType, RuntimeFilterOp } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -67,5 +67,38 @@ describe('App embed tests', () => {
             );
             cleanUp();
         });
+    });
+
+    test('should apply runtime filters', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hidePrimaryNavbar: false,
+        } as AppViewConfig);
+        appEmbed.render({
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+        });
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&**col1=sales&op1=EQ&val1=1000**#/home`,
+        );
+    });
+
+    test('should disable and hide actions', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hidePrimaryNavbar: false,
+            disabledActions: [Action.Save, Action.Update],
+            disabledActionReason: 'Access denied',
+            hiddenActions: [Action.Download],
+        } as AppViewConfig);
+        appEmbed.render();
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home?disableAction=save,update&disableHint=Access%20denied&hideAction=download`,
+        );
     });
 });

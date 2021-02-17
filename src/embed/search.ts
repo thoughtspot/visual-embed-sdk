@@ -90,21 +90,20 @@ export class SearchEmbed extends TsEmbed {
         if (hideResults) {
             queryParams[Param.HideResult] = true;
         }
-        if (disabledActions && disabledActions.length) {
-            const disabledActionsString = disabledActions.join(',');
-            queryParams[Param.DisableActions] = disabledActionsString;
+        if (disabledActions?.length) {
+            queryParams[Param.DisableActions] = disabledActions;
         }
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions && hiddenActions.length) {
-            queryParams[Param.HideActions] = hiddenActions.join(',');
+        if (hiddenActions?.length) {
+            queryParams[Param.HideActions] = hiddenActions;
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
         let query = '';
-        const queryParamsString = getQueryParamString(queryParams);
+        const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
