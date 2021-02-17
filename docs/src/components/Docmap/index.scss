@@ -14,7 +14,7 @@
         padding-left: 40px;
         margin: 0;
         color: $disabledcolor;
-        line-height: 31px;
+        line-height: $line-height-normal;
     }
 
     div {
@@ -22,7 +22,7 @@
             margin-top: 0px;
             list-style-type: none;
             li {
-                line-height: 31px;
+                line-height: $line-height-normal;
     
                 a {
                     color: $primarycolor;

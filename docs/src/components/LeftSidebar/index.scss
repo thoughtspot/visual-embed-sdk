@@ -65,7 +65,7 @@ aside {
                         color: $primarycolor;
                         padding-right: 5px;
                         margin: 5px 0;
-                        line-height: 32px;
+                        line-height: $line-height-normal;
 
                         & > a {
                             color: $primarycolor;
@@ -118,7 +118,7 @@ aside {
                             color: $primarycolor;
                             padding-right: 5px;
                             margin: 5px 0;
-                            line-height: 32px;
+                            line-height: $line-height-normal;
     
                             & > a {
                                 color: $primarycolor;
@@ -143,7 +143,7 @@ aside {
     a {
         font-size: 14px;
         font-weight: $font-weight-normal;
-        line-height: 32px;
+        line-height: $line-height-normal;
         width: 100%;
         display: inline-block;
     }
