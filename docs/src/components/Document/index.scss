@@ -19,9 +19,9 @@
         width: 100%;
     }
 
-    pre.highlight {
+    pre {
         white-space: pre-wrap;
-        background: #F8F8F8;
+        background: $code-block-color;
         padding: 20px 10px;
     }
 
@@ -30,7 +30,7 @@
         justify-content: space-between;
     }
 
-    code[data-lang]::after {
+    code[data-lang]:hover::after {
         content: attr(data-lang);
         text-transform: uppercase;
         color: $darkgrey;
@@ -39,14 +39,36 @@
     }
 
     #preview-in-playground {
-        background: #2770ef;
-        color: white;
+        background: $secondarycolor;
+        color: $white;
         font-size: $font-size-normal;
         font-weight: 300;
         padding: 5px 10px;
         border: 0;
         border-radius: 2px;
     }
+
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+
+    tr, th, td {
+        border: 1px solid $borderColor;
+    }
+
+    td {
+        padding: 10px;
+        text-align: left;
+        font-weight: $font-weight-normal;
+    }
+
+    th {
+        padding: 10px;
+        text-align: center;
+    }
+
+
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
