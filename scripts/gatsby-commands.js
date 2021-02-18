@@ -117,7 +117,7 @@ switch (mainOptions.command) {
         const isValid = validateCmdOptions(buildDefinitions, buildOptions);
         if (!isValid) return;
 
-        cmdToExecute = `gatsby build ${
+        cmdToExecute = `gatsby clean && gatsby build ${
             buildOptions.noprefix === 'prefix' ? '' : '--prefix-paths'
         }`;
         break;
