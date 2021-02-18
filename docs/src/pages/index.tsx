@@ -12,6 +12,7 @@ import {
     TS_ORIGIN_PARAM,
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
+    NOT_FOUND_PAGE_ID,
 } from '../configs/doc-configs';
 
 // markup
@@ -32,28 +33,12 @@ const IndexPage = ({ location }) => {
         setParams(queryStringParser(location.search));
     }, []);
 
-    useEffect(() => {
-        // fetch navigation page index
-        const navIndex = edges.findIndex(
-            (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
-        );
-
-        // get & set left navigation title
-        setNavTitle(edges[navIndex].node.pageAttributes.title);
-
-        // get & set left navigation area content with dynamic link creation
-        setNavContent(passThroughHandler(edges[navIndex].node.html, params));
-
-        // get & set left navigation 'SpotDev Home' button url
-        setBackLink(params[TS_ORIGIN_PARAM]);
-
+    const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
-        if (params[TS_PAGE_ID_PARAM]) {
+        if (pageid) {
             // fetch edge id for specified pageid in the url
             const edgeIndex = edges.findIndex(
-                (i) =>
-                    i.node.pageAttributes[TS_PAGE_ID_PARAM] ===
-                    params[TS_PAGE_ID_PARAM],
+                (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === pageid,
             );
 
             // check if we have corresponding document to serve if not redirect to 404
@@ -70,9 +55,28 @@ const IndexPage = ({ location }) => {
                 );
             } else {
                 // pageid not found redirect
-                navigate('/404');
+                setPageContent(NOT_FOUND_PAGE_ID);
             }
         }
+    };
+
+    useEffect(() => {
+        // fetch navigation page index
+        const navIndex = edges.findIndex(
+            (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
+        );
+
+        // get & set left navigation title
+        setNavTitle(edges[navIndex].node.pageAttributes.title);
+
+        // get & set left navigation area content with dynamic link creation
+        setNavContent(passThroughHandler(edges[navIndex].node.html, params));
+
+        // get & set left navigation 'SpotDev Home' button url
+        setBackLink(params[TS_ORIGIN_PARAM]);
+
+        // set page title and content based on pageid
+        setPageContent(params[TS_PAGE_ID_PARAM]);
     }, [params]);
 
     // fetch adoc translated doc edges using graphql
