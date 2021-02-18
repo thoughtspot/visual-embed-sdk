@@ -1,6 +1,6 @@
 # embed-sdk
 
-[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=coverage-badge)](https://coveralls.io/github/ts-blink/embed-sdk?branch=coverage-badge)
+[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main)
 
 ThoughtSpot Embed SDK
 
