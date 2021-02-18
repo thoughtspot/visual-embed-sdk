@@ -101,6 +101,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
+        queryParams[Param.UseLastSelectedDataSource] = false;
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);

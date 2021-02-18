@@ -65,7 +65,7 @@ import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: 'None',
+    authType: AuthType.None,
 });
 
 const pinboardEmbed = new PinboardVizEmbed(

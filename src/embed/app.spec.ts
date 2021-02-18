@@ -84,7 +84,7 @@ describe('App embed tests', () => {
             ],
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&**col1=sales&op1=EQ&val1=1000**#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
         );
     });
 

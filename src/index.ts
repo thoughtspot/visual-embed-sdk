@@ -10,7 +10,7 @@
 
 import { AppEmbed, Page } from './embed/app';
 import { init } from './embed/base';
-import { PinboardVizEmbed } from './embed/pinboard';
+import { PinboardEmbed } from './embed/pinboard';
 import { SearchEmbed } from './embed/search';
 import {
     AuthType,
@@ -23,7 +23,7 @@ import {
 export {
     init,
     SearchEmbed,
-    PinboardVizEmbed,
+    PinboardEmbed,
     AppEmbed,
     // types
     Page,

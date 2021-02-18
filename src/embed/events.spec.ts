@@ -4,7 +4,7 @@ import {
     AuthType,
     EventType,
     SearchEmbed,
-    PinboardVizEmbed,
+    PinboardEmbed,
 } from '../index';
 import {
     executeAfterWait,
@@ -109,7 +109,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         embedOne.on(EventType.CustomAction, spyOne).render();
 
         const spyTwo = jest.fn();
-        const embedTwo = new PinboardVizEmbed(getRootEl(), defaultViewConfig);
+        const embedTwo = new PinboardEmbed(getRootEl(), defaultViewConfig);
         embedTwo.on(EventType.CustomAction, spyTwo).render({
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });
@@ -128,7 +128,7 @@ describe('test communication between host app and ThoughtSpot', () => {
 
     test('should fetch data', async () => {
         const onDataSpy = jest.fn();
-        const embed = new PinboardVizEmbed(getRootEl(), defaultViewConfig);
+        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig);
         embed.on(EventType.Data, onDataSpy).render({
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });
