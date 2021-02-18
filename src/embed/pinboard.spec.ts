@@ -117,7 +117,7 @@ describe('Pinboard/viz embed tests', () => {
             ],
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&**col1=sales&op1=EQ&val1=1000**#/embed/viz/${pinboardId}/${vizId}`,
+            `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
         );
     });
 

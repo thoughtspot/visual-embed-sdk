@@ -30,7 +30,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
             return filterExpr.join('&');
         });
 
-        return `**${filters.join('&')}**`;
+        return `${filters.join('&')}`;
     }
 
     return null;
