@@ -1,10 +1,14 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.16",
+    "version": "0.0.1-alpha.17",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
     "types": "lib/src/index.d.ts",
+    "files": [
+        "dist/**",
+        "lib/**"
+    ],
     "scripts": {
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
