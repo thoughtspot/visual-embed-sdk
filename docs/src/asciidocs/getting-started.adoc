@@ -46,5 +46,5 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 Based on integration requirements, import any of the following embed packages and build your code.
 
 * xref:embed-search.adoc[searchEmbed]
-* xref:embed-pinboard.adoc[PinboardVizEmbed]
+* xref:embed-pinboard.adoc[PinboardEmbed]
 * xref:full-emd.adoc[AppEmbed]

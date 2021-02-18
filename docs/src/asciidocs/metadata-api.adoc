@@ -22,6 +22,7 @@ The expected output includes a list of objects, each with information about the 
 
 === Request Parameters
 [width="100%" cols="1,2,3"]
+[options='header']
 |====
 |Query Parameter|Data Type|Description 
 |id|string|ID of a particular answer or a pinboard. 

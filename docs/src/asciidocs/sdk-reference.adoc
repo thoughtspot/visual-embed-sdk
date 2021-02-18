@@ -16,7 +16,6 @@ The link:./../typedoc/index.html[Visual Embed SDK] is available for download as 
 * `PinboardVizEmbed`
 * `AppEmbed`
 
-
  
  ++++ <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Preview in Playground</a>
  ++++

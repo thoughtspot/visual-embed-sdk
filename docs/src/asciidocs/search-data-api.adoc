@@ -18,11 +18,11 @@ When issuing a query through the ThoughtSpot UI, users make selections to disamb
 == Request Parameters
 
 [width="100%",options="header",cols="20%,20%,60%]
+[options='header']
 |====================
 | Query Parameter | Data Type |Description
 |`query_string` | string | The data search query.
 
-See <<Components of a search query>>.
 |`data_source_guid`  | string | The GUID of the data source, either a worksheet, a view, or a table.
 
 Example: 4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1

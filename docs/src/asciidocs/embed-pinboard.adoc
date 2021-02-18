@@ -17,12 +17,12 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
-=== Import the PinboardVizEmbed package
+=== Import the PinboardEmbed package
 Import the pinboard SDK library to your application environment:
 
 [source,javascript]
 ----
-import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 === Import styles
 [source,javascript]
@@ -69,7 +69,7 @@ This approach is used only for testing client applications. Do not use this in p
 === Construct the embed content
 [source,JavaScript]
 ----
- const embed = new PinboardVizEmbed("#embed", {
+ const embed = new PinboardEmbed("#embed", {
 	frameParams: {
 		width: 1280,
 		height: 720
@@ -106,11 +106,11 @@ _String_. Reason for disabling an action on the Pinboards page.
 Costruct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
-  PinboardVizEmbed.render({
+  PinboardEmbed.render({
         pinboardId,
         vizId,
         runtimeFilters,
-    }: PinboardRenderOptions): PinboardVizEmbed {
+    }: PinboardRenderOptions): PinboardEmbed {
         super.render();
 
         const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
@@ -233,14 +233,14 @@ Visualization drilldown is initiated.
 
 [source,javascript]
 ----
-import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: 'None',
 });
 
-const pinboardEmbed = new PinboardVizEmbed(
+const pinboardEmbed = new PinboardEmbed(
     document.getElementById('ts-embed'),
     {
         frameParams: {
@@ -261,4 +261,4 @@ pinboardEmbed.render({
 
 ===Additional resources
 
-For more information on pinboardVizEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
