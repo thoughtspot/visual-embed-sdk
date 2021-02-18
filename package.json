@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.15",
+    "version": "0.0.1-alpha.16",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
