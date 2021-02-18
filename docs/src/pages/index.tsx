@@ -7,6 +7,7 @@ import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
 import '../assets/styles/index.scss';
+import  constants from '../constants/ui-constants';
 import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
@@ -29,7 +30,7 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
-    const [leftNavWidth, setLeftNavWidth] = useState(310);
+    const [leftNavWidth, setLeftNavWidth] = useState(constants.leftNavWidthDesktop);
     const [docWidth, setDocWidth] = useState(window.screen.width);
 
     const { width, ref } = useResizeDetector();
