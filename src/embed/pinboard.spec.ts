@@ -26,10 +26,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render pinboard', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
         pinboardEmbed.render({
             pinboardId,
         });
@@ -87,10 +84,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render viz', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
         pinboardEmbed.render({
             pinboardId,
             vizId,
@@ -101,10 +95,7 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should apply runtime filters', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
         pinboardEmbed.render({
             pinboardId,
             vizId,
