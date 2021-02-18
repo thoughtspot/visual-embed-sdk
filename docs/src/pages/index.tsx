@@ -30,7 +30,12 @@ const IndexPage = ({ location }) => {
     const [backLink, setBackLink] = useState('');
 
     useEffect(() => {
-        setParams(queryStringParser(location.search));
+        const params = queryStringParser(location.search);
+        edges.map((e) => {
+            params[e.node.parent.name] =
+                e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
+        });
+        setParams({ ...params });
     }, []);
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
@@ -95,6 +100,11 @@ const IndexPage = ({ location }) => {
                                 pageid
                                 title
                                 description
+                            }
+                            parent {
+                                ... on File {
+                                    name
+                                }
                             }
                             html
                         }

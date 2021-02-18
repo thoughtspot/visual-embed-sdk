@@ -14,6 +14,7 @@ class CustomTSConverter {
 
             if (
                 !target.includes(`{{${config.NAV_PREFIX}}}`) &&
+                !target.includes('www.') &&
                 !target.startsWith('http')
             ) {
                 // check if link is for typedoc documents or not
@@ -21,14 +22,14 @@ class CustomTSConverter {
                     return `<a href="${
                         config.DOC_REPO_NAME + target
                     }">${node.getText()}</a>`;
-                } else {
+                } else if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
                         target.lastIndexOf('.html'),
                     );
                     return `<a href="{{${
                         config.NAV_PREFIX
-                    }}}=${target}">${node.getText()}</a>`;
+                    }}}={{${target}}}">${node.getText()}</a>`;
                 }
             }
         }
