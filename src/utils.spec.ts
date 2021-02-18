@@ -34,7 +34,7 @@ describe('unit test for utils', () => {
                     values: ['bar'],
                 },
             ]),
-        ).toBe('**col1=foo&op1=NE&val1=bar**');
+        ).toBe('col1=foo&op1=NE&val1=bar');
 
         const filters = [
             {
@@ -54,7 +54,7 @@ describe('unit test for utils', () => {
             },
         ];
         expect(getFilterQuery(filters)).toBe(
-            '**col1=foo&op1=EQ&val1=42&col2=bar&op2=BW_INC&val2=1&val2=10&col3=baz&op3=CONTAINS&val3=abc**',
+            'col1=foo&op1=EQ&val1=42&col2=bar&op2=BW_INC&val2=1&val2=10&col3=baz&op3=CONTAINS&val3=abc',
         );
     });
 

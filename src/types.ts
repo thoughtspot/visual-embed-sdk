@@ -130,6 +130,7 @@ export enum Param {
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
     HideResult = 'hideResult',
+    UseLastSelectedDataSource = 'useLastSelectedSources',
 }
 
 /**
