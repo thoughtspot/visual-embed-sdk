@@ -28,7 +28,7 @@ describe('Search embed tests', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -39,7 +39,7 @@ describe('Search embed tests', () => {
             dataSources,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -51,7 +51,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -66,7 +66,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse&useLastSelectedSources=false`,
         );
     });
 
@@ -81,7 +81,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide&useLastSelectedSources=false`,
         );
     });
 
@@ -97,7 +97,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -108,7 +108,7 @@ describe('Search embed tests', () => {
         });
         searchEmbed.render({});
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -125,7 +125,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -140,7 +140,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 
@@ -150,7 +150,7 @@ describe('Search embed tests', () => {
             answerId,
         });
         expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?dataSourceMode=expand`,
+            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?dataSourceMode=expand&useLastSelectedSources=false`,
         );
     });
 });
