@@ -12,7 +12,7 @@ The SpotDev portal enables business application owners and developers to learn a
 SpotDev portal is available for both new and existing users of ThoughtSpot. 
 
 New user?::
-. Go to link://https://www.thoughtspot.com[www.thoughtspot.com].
+. Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
 . Click the *Developers* tab.
 . To evaluate ThoughtSpot features, click *Sign Up* and register for a free trial. 
 . To explore ThoughtSpot APIs, click *Playground*. 
@@ -39,6 +39,11 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 * Visualizations
 * Pinboards
 * Full application
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Visit   Playground</a>
+++++
+
 
 Customizations::
 For ThoughtSpot users with administrator and developer privileges, the SpotDev portal displays the following customization settings:
