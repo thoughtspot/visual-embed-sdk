@@ -93,7 +93,7 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 authType::
 [horizontal]
 SSO::
-SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO. 
+SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
 AuthServer::
 Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens and grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
 +
@@ -122,7 +122,7 @@ frameParams:: Sets the `width` and `height` dimensions to render the iframe in t
 === Construct the URL and render the application
 Construct the URL of the embedded ThoughtSpot application to load in the iframe.
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
-[source, javascript] 
+[source, javascript]
 ----
 embed.render({ pageId }: AppRenderOptions): AppEmbed {
         super.render();
@@ -133,35 +133,35 @@ embed.render({ pageId }: AppRenderOptions): AppEmbed {
 
         return this;
     }
-    
+
 ----
 
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
 
 [horizontal]
-Page.Search:: 
+Page.Search::
 Displays the search answers page when the application loads.
 ---
-Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads. 
+Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads.
 Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
 
---- 
+---
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
-[source, javascript] 
+[source, javascript]
 ----
  embed.on("init", showLoader)
  embed.on("load", hideLoader)
-  
-// Functions to show or hide a loader while the iframe loads. 
+
+// Functions to show or hide a loader while the iframe loads.
  function showLoader() {
     document.getElementById("loader").style.display = "block";
     }
-    
+
  function hideLoader() {
     document.getElementById("loader").style.display = "none";
     }
@@ -175,14 +175,14 @@ The search iframe is loaded.
 queryChanged::
 The search query is modified.
 dataSourceSelected::
-The data source for searching data is selected. 
+The data source for searching data is selected.
 ////
 
 === Test the embedded workflow
 
 To verify the ThoughtSpot application integration, perform the following tasks:
 
-* Load your application. 
+* Load your application.
 * Verify if the page you set as the active tab opens when you load the application.
 * Verify if the tabs are displayed correctly.
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
@@ -229,7 +229,7 @@ import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: "SSO", 
+    authType: "SSO",
 });
 
 const appEmbed = new AppEmbed(
@@ -251,4 +251,4 @@ appEmbed.render({
 ++++
 
 === Additional resources
-For more information on pinboardVizEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+For more information on AppEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
