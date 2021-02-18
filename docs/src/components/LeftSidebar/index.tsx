@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ResizableBox } from 'react-resizable';
 import { useResizeDetector } from 'react-resize-detector';
 import './index.scss';
+import constants from '../../static/constants/ui-constants';
 import BackButton from '../BackButton';
 
 const LeftSideBar = (props: {
@@ -20,9 +21,9 @@ const LeftSideBar = (props: {
 
     return (
         <ResizableBox
-            width={props.docWidth > 1024 ? 310 : 260}
-            minConstraints={[100]}
-            maxConstraints={[400]}
+            width={props.docWidth > constants.maxMobileResolution ? constants.leftNavWidthDesktop : constants.leftNavWidthMobile}
+            minConstraints={[props.docWidth > constants.maxMobileResolution ? constants.minLeftNavWidthDesktop : constants.minLeftNavWidthMobile]}
+            maxConstraints={[props.docWidth > constants.maxMobileResolution ? constants.maxLeftNavWidthDesktop : constants.maxLeftNavWidthMobile]}
             axis="x"
             style={{ position: 'fixed' }}
             height={window.screen.height}

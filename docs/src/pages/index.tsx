@@ -6,6 +6,7 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
+import constants from '../static/constants/ui-constants';
 import '../static/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -28,7 +29,7 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
-    const [leftNavWidth, setLeftNavWidth] = useState(310);
+    const [leftNavWidth, setLeftNavWidth] = useState(constants.leftNavWidthDesktop);
     const [docWidth, setDocWidth] = useState(window.screen.width);
 
     const { width, ref } = useResizeDetector();
