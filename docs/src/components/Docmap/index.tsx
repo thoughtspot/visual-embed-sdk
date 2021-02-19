@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 
-const Docmap = (props: { docContent: string }) => {
+const Docmap = (props: { docContent: string, location }) => {
     const [toc, setToc] = useState('');
 
     useEffect(() => {
@@ -13,17 +13,17 @@ const Docmap = (props: { docContent: string }) => {
         const tocEl = doc.querySelector('#toc');
         if (tocEl) {
             setToc(tocEl.innerHTML);
-            setTimeout(() => {
-                document.querySelectorAll(".docmapLinks a").forEach((tag) => {
-                    tag.addEventListener('click', () => {
-                        toggleActiveClass(tag.getAttribute('href'))
-                    })
-                })
-            }, 500);
         } else {
             setToc('');
         }
     }, [props.docContent]);
+
+    useEffect(() => {
+        const href = location.hash;
+        if (href) {
+            toggleActiveClass(href);
+        }
+    }, [location.hash]);
 
     const toggleActiveClass = (href) => {
         document.querySelectorAll(".docmapLinks a").forEach((tag) => {
