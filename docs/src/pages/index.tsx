@@ -125,7 +125,7 @@ const IndexPage = ({ location }) => {
                 <div className="documentBody">
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap docContent={docContent} location={location} />
+                        <Docmap docContent={docContent} />
                     </div>
                 </div>
             </main>
