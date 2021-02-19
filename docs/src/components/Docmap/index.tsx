@@ -23,7 +23,7 @@ const Docmap = (props: { docContent: string }) => {
     }, [props.docContent, location.hash]);
 
     const toggleActiveClass = (toc: Element, href: string) => {
-        toc.querySelectorAll("a").forEach((tag, index) => {
+        toc.querySelectorAll('a').forEach((tag, index) => {
             const temp = tag;
             if (tag.getAttribute('href') === href) {
                 temp.classList.add('activeTag');
@@ -32,7 +32,7 @@ const Docmap = (props: { docContent: string }) => {
                     temp.classList.remove('activeTag');
                 }
             }
-            toc.querySelectorAll("a")[index].innerHTML = temp.innerHTML;
+            toc.querySelectorAll('a')[index].innerHTML = temp.innerHTML;
         });
         return toc;
     };
