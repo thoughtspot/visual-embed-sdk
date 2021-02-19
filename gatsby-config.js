@@ -1,7 +1,7 @@
 const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
 
-class CustomTSConverter {
+class CustomDocConverter {
     constructor() {
         this.baseConverter = asciidoc.Html5Converter.$new();
     }
@@ -96,7 +96,7 @@ module.exports = {
                     imagesdir: `/doc-images`,
                 },
                 fileExtensions: ['ad', 'adoc'],
-                converterFactory: CustomTSConverter,
+                converterFactory: CustomDocConverter,
             },
         },
     ],

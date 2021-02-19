@@ -1,9 +1,9 @@
 @import '../../assets/styles/variables.scss';
 
 .pageStyles {
-    color: #232129;
+    color: $primarycolor;
     padding: 96px;
-    font-family: -apple-system, Roboto, sans-serif, serif;
+    font-family: 'Optimo-Plain';
 }
 
 .headingStyles {
@@ -17,9 +17,9 @@
 }
 
 .codeStyles {
-    color: #8a6534;
+    color: $secondarycolor;
     padding: 4;
-    background-color: #fff4db;
+    background-color: $white;
     font-size: $font-size-404;
     border-radius: 4;
 }
