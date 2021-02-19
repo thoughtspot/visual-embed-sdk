@@ -3,14 +3,9 @@
 :page-pageid: 404-error
 :page-description: Page Not Found
 
----
-title: "Page Not Found"
-search: exclude
----  
-
 == We are sorry! 
 
 We could not find the page you were looking for!
 The URL maybe incorrect, or the page may have been moved!
 
-Go back to the previous page, or let's take you link:{{navprefix}}=index[Home].
+Go back to the previous page, or let's take you link:{{navprefix}}=introduction[Home].

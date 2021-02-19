@@ -40,7 +40,6 @@
         "eslint-plugin-prettier": "^3.1.4",
         "gatsby": "^2.26.1",
         "gatsby-plugin-intl": "^0.3.3",
-        "gatsby-plugin-mdx": "^1.7.1",
         "gatsby-plugin-sass": "^2.8.0",
         "gatsby-source-filesystem": "^2.8.1",
         "gatsby-transformer-asciidoc": "^1.8.0",

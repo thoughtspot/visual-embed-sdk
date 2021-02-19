@@ -1,4 +1,4 @@
-@import '../../static/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
 .docmapLinks {
     width: 300px;
@@ -23,15 +23,15 @@
             list-style-type: none;
             li {
                 line-height: $line-height-normal;
-    
+
                 a {
                     color: $primarycolor;
                 }
-    
+
                 a:hover {
                     color: $secondarycolor;
                 }
-    
+
                 a:visited {
                     color: $secondarycolor;
                 }

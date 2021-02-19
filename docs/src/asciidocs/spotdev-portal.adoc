@@ -41,7 +41,7 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 * Full application
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Visit   Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Visit Playground</a>
 ++++
 
 

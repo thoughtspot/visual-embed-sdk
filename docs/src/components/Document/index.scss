@@ -1,4 +1,4 @@
-@import '../../static/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
 .documentWrapper {
     width: calc(100% - 300px);
@@ -53,7 +53,9 @@
         border-collapse: collapse;
     }
 
-    tr, th, td {
+    tr,
+    th,
+    td {
         border: 1px solid $borderColor;
     }
 
@@ -67,8 +69,6 @@
         padding: 10px;
         text-align: center;
     }
-
-
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

@@ -23,7 +23,7 @@ const Page404 = () => {
                     </>
                 ) : null}
                 <br />
-                <Link to="/?pageid=index">Go home</Link>.
+                <Link to="/?pageid=introduction">Go home</Link>.
             </p>
         </main>
     );

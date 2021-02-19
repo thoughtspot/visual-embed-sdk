@@ -36,7 +36,6 @@
 ** link:{{navprefix}}=group-api[Group API]
 ** link:{{navprefix}}=search-data-api[Search Data API]
 
-tse-doc-update
 * Reference guides
 
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]

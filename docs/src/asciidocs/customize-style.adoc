@@ -131,7 +131,6 @@ To choose a background color for the ThoughtSpot application:
 . Go to *SpotDev* > *Customizations* > *Styles*.
 . Click the background color box under *Embedded Application Background*.
 +
-
 image::./images/set-background-color.png[Application Background Color]
 
 . Use the color menu to choose your new background color.

@@ -1,25 +1,25 @@
-@import '../../static/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
 .pageStyles {
-  color: #232129;
-  padding: 96px;
-  font-family: -apple-system, Roboto, sans-serif, serif,
+    color: $primarycolor;
+    padding: 96px;
+    font-family: 'Optimo-Plain', sans-serif;
 }
 
 .headingStyles {
-  margin-top: 0;
-  margin-bottom: 64;
-  max-width: 320;
+    margin-top: 0;
+    margin-bottom: 64;
+    max-width: 320;
 }
 
 .paragraphStyles {
-  margin-bottom: 48;
+    margin-bottom: 48;
 }
 
 .codeStyles {
-  color: #8A6534;
-  padding: 4;
-  background-color: #FFF4DB;
-  font-size: $font-size-404;
-  border-radius: 4;
+    color: $secondarycolor;
+    padding: 4;
+    background-color: $white;
+    font-size: $font-size-404;
+    border-radius: 4;
 }
