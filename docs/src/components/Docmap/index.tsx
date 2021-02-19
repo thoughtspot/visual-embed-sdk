@@ -13,10 +13,29 @@ const Docmap = (props: { docContent: string }) => {
         const tocEl = doc.querySelector('#toc');
         if (tocEl) {
             setToc(tocEl.innerHTML);
+            setTimeout(() => {
+                document.querySelectorAll(".docmapLinks a").forEach((tag) => {
+                    tag.addEventListener('click', () => {
+                        toggleActiveClass(tag.getAttribute('href'))
+                    })
+                })
+            }, 500);
         } else {
             setToc('');
         }
     }, [props.docContent]);
+
+    const toggleActiveClass = (href) => {
+        document.querySelectorAll(".docmapLinks a").forEach((tag) => {
+            if (tag.getAttribute('href') === href) {
+                tag.classList.add('activeTag');
+            } else {
+                if (tag.classList.contains('activeTag')) {
+                    tag.classList.remove('activeTag');
+                }
+            }
+        });
+    };
 
     return (
         toc !== '' && (

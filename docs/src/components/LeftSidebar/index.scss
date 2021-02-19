@@ -12,7 +12,7 @@ aside {
     overflow-y: auto;
 
     .heading {
-        padding: 39px 0px 26px 24px;
+        padding: 24px 0px 26px 24px;
         margin: 0;
         font-size: $font-size-large;
     }
@@ -34,9 +34,10 @@ aside {
         margin-bottom: 32px;
 
         & > .ulist {
-            margin-bottom: 22px;
+            // margin-bottom: 22px;
 
             & > ul > li {
+                margin-bottom: 40px;
                 & > p {
                     padding-left: 24px;
                     padding-right: 5px;
@@ -47,14 +48,6 @@ aside {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
                         padding-right: 5px;
-
-                        &:visited {
-                            color: $secondarycolor;
-                        }
-
-                        &:active {
-                            color: $secondarycolor;
-                        }
                     }
                 }
 
@@ -81,13 +74,6 @@ aside {
                             color: $secondarycolor;
                         }
 
-                        &:visited {
-                            color: $secondarycolor;
-                        }
-
-                        &:active {
-                            color: $secondarycolor;
-                        }
                     }
                 }
             }
@@ -95,9 +81,10 @@ aside {
 
         & > .exampleblock > .content {
             & > .ulist {
-                margin-bottom: 22px;
-
+                // margin-bottom: 22px;
+    
                 & > ul > li {
+                    margin-bottom: 40px;
                     & > p {
                         padding-left: 24px;
                         padding-right: 5px;
@@ -136,6 +123,16 @@ aside {
                         }
                     }
                 }
+            }
+        }
+
+        .paragraph {
+            padding-left: 24px;
+            margin-bottom: 40px;
+
+            p {
+                padding-right: 5px;
+                margin: 5px 0;
             }
         }
     }
