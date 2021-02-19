@@ -32,7 +32,7 @@
     "exclude": ["node_modules", "../node_modules"],
     "typedocOptions": {
         "entryPoints": ["src/index.ts"],
-        "out": "docs/typedoc",
+        "out": "static/typedoc",
         "excludePrivate": true,
         "excludeProtected": true,
         "excludeInternal": true,
