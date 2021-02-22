@@ -2,11 +2,15 @@
 
 .documentWrapper {
     width: calc(100% - 300px);
-    padding: 60px;
+    padding: $padding-md;
 
     /* In order to hide TOC in main component */
     #toc {
         display: none;
+    }
+
+    h1 {
+        margin-top: 0;
     }
 
     p {
@@ -22,7 +26,7 @@
     pre {
         white-space: pre-wrap;
         background: $code-block-color;
-        padding: 20px 10px;
+        padding: 20px $padding-sm;
     }
 
     code[data-lang] {
@@ -43,7 +47,7 @@
         color: $white;
         font-size: $font-size-normal;
         font-weight: 300;
-        padding: 5px 10px;
+        padding: $padding-xs $padding-sm;
         border: 0;
         border-radius: 2px;
     }
@@ -60,15 +64,20 @@
     }
 
     td {
-        padding: 10px;
+        padding: $padding-sm;
         text-align: left;
         font-weight: $font-weight-normal;
     }
 
     th {
-        padding: 10px;
+        padding: $padding-sm;
         text-align: center;
     }
+
+    h2 {
+        margin-top: $margin-lg;
+    }
+
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

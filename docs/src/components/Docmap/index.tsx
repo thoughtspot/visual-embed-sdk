@@ -10,13 +10,32 @@ const Docmap = (props: { docContent: string }) => {
         // Them we search for TOC using querySelector on the temporary element and then set the obtained TOC to display in the UI.
         const doc = document.createElement('div');
         doc.innerHTML = props.docContent;
-        const tocEl = doc.querySelector('#toc');
+        let tocEl = doc.querySelector('#toc');
         if (tocEl) {
+            const { hash } = location;
+            if (hash) {
+                tocEl = toggleActiveClass(tocEl, hash);
+            }
             setToc(tocEl.innerHTML);
         } else {
             setToc('');
         }
-    }, [props.docContent]);
+    }, [props.docContent, location.hash]);
+
+    const toggleActiveClass = (toc: Element, href: string) => {
+        toc.querySelectorAll('a').forEach((tag, index) => {
+            const temp = tag;
+            if (tag.getAttribute('href') === href) {
+                temp.classList.add('activeTag');
+            } else {
+                if (tag.classList.contains('activeTag')) {
+                    temp.classList.remove('activeTag');
+                }
+            }
+            toc.querySelectorAll('a')[index].innerHTML = temp.innerHTML;
+        });
+        return toc;
+    };
 
     return (
         toc !== '' && (

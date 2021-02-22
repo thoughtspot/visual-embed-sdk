@@ -4,23 +4,23 @@
 aside {
     width: 310px;
     border-right: 1px $lightgrey solid;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: $padding-md;
+    padding-bottom: $padding-md;
     position: fixed;
     left: $gutter;
     height: 100vh;
     overflow-y: auto;
 
     .heading {
-        padding: 39px 0px 26px 24px;
+        padding: $padding-md 0px 26px $padding-md;
         margin: 0;
         font-size: $font-size-large;
     }
 
     .subHeading {
         margin: $gutter;
-        padding-bottom: 10px;
-        padding-left: 24px;
+        padding-bottom: $padding-sm;
+        padding-left: $padding-md;
         font-size: $font-size-normal;
     }
 
@@ -34,27 +34,19 @@ aside {
         margin-bottom: 32px;
 
         & > .ulist {
-            margin-bottom: 22px;
 
             & > ul > li {
+                margin-bottom: $margin-lg;
                 & > p {
-                    padding-left: 24px;
-                    padding-right: 5px;
+                    padding-left: $padding-md;
+                    padding-right: $padding-xs;
                     color: $primarycolor;
                     font-weight: $font-weight-bold;
-                    margin: 5px 0;
+                    margin: $margin-xs 0;
                     & > a {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
-                        padding-right: 5px;
-
-                        &:visited {
-                            color: $secondarycolor;
-                        }
-
-                        &:active {
-                            color: $secondarycolor;
-                        }
+                        padding-right: $padding-xs;
                     }
                 }
 
@@ -63,13 +55,13 @@ aside {
                         padding-left: 42px;
                         font-weight: $font-weight-normal;
                         color: $primarycolor;
-                        padding-right: 5px;
-                        margin: 5px 0;
+                        padding-right: $padding-xs;
+                        margin: $margin-xs 0;
                         line-height: $line-height-normal;
 
                         & > a {
                             color: $primarycolor;
-                            padding-right: 5px;
+                            padding-right: $padding-xs;
 
                             &:hover {
                                 color: $secondarycolor;
@@ -81,13 +73,6 @@ aside {
                             color: $secondarycolor;
                         }
 
-                        &:visited {
-                            color: $secondarycolor;
-                        }
-
-                        &:active {
-                            color: $secondarycolor;
-                        }
                     }
                 }
             }
@@ -95,19 +80,19 @@ aside {
 
         & > .exampleblock > .content {
             & > .ulist {
-                margin-bottom: 22px;
-
+    
                 & > ul > li {
+                    margin-bottom: $margin-lg;
                     & > p {
-                        padding-left: 24px;
-                        padding-right: 5px;
+                        padding-left: $padding-md;
+                        padding-right: $padding-xs;
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
-                        margin: 5px 0;
+                        margin: $margin-xs 0;
                         & > a {
                             color: $primarycolor;
                             font-weight: $font-weight-bold;
-                            padding-right: 5px;
+                            padding-right: $padding-xs;
                         }
                     }
 
@@ -116,13 +101,13 @@ aside {
                             padding-left: 42px;
                             font-weight: $font-weight-normal;
                             color: $primarycolor;
-                            padding-right: 5px;
-                            margin: 5px 0;
+                            padding-right: $padding-xs;
+                            margin: $margin-xs 0;
                             line-height: $line-height-normal;
 
                             & > a {
                                 color: $primarycolor;
-                                padding-right: 5px;
+                                padding-right: $padding-xs;
 
                                 &:hover {
                                     color: $secondarycolor;
@@ -136,6 +121,16 @@ aside {
                         }
                     }
                 }
+            }
+        }
+
+        .paragraph {
+            padding-left: $padding-md;
+            margin-bottom: 40px;
+
+            p {
+                padding-right: $padding-xs;
+                margin: $margin-xs 0;
             }
         }
     }

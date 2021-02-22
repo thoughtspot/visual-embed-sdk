@@ -2,7 +2,7 @@
 
 .docmapLinks {
     width: 300px;
-    padding: 68px 24px;
+    padding: $padding-md;
     border-left: 1px $lightgrey solid;
     position: fixed;
     right: 0;
@@ -11,7 +11,6 @@
     overflow-y: auto;
 
     .tocTitle {
-        padding-left: 40px;
         margin: 0;
         color: $disabledcolor;
         line-height: $line-height-normal;
@@ -21,20 +20,19 @@
         ul {
             margin-top: 0px;
             list-style-type: none;
+            padding-left: 0;
             li {
                 line-height: $line-height-normal;
 
                 a {
                     color: $primarycolor;
+                    font-weight: $font-weight-normal;
                 }
 
                 a:hover {
                     color: $secondarycolor;
                 }
 
-                a:visited {
-                    color: $secondarycolor;
-                }
             }
         }
     }
@@ -48,6 +46,10 @@
     color: $primarycolor;
     padding: 8px 0;
     display: inline-block;
+}
+
+.activeTag {
+    color: $secondarycolor !important;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
