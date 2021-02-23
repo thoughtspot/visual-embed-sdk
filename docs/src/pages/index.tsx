@@ -6,8 +6,8 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
+import { leftNavWidthDesktop } from '../constants/ui-constants';
 import '../assets/styles/index.scss';
-import  constants from '../constants/ui-constants';
 import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
@@ -30,8 +30,7 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
-    const [leftNavWidth, setLeftNavWidth] = useState(constants.leftNavWidthDesktop);
-    const [docWidth, setDocWidth] = useState(window.screen.width);
+    const [leftNavWidth, setLeftNavWidth] = useState(leftNavWidthDesktop);
 
     const { width, ref } = useResizeDetector();
 
@@ -44,11 +43,20 @@ const IndexPage = ({ location }) => {
         setParams({ ...paramObj });
     }, []);
 
-    useEffect(() => {
-        setDocWidth(window.screen.width);
-    }, [window.screen.width]);
-
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
+        // fetch navigation page index
+        const navIndex = edges.findIndex(
+            (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
+        );
+
+        // get & set left navigation title
+        setNavTitle(edges[navIndex].node.pageAttributes.title);
+
+        // get & set left navigation area content with dynamic link creation
+        setNavContent(passThroughHandler(edges[navIndex].node.html, params));
+
+        // get & set left navigation 'SpotDev Home' button url
+        setBackLink(params[TS_ORIGIN_PARAM]);
 
         // check if url query param is having pageid or not
         if (pageid) {
@@ -137,7 +145,7 @@ const IndexPage = ({ location }) => {
                     navContent={navContent}
                     backLink={backLink}
                     handleLeftNavChange={handleLeftNavChange}
-                    docWidth={docWidth}
+                    docWidth={width}
                 />
                 <div
                     className="documentBody"

@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { ResizableBox } from 'react-resizable';
 import { useResizeDetector } from 'react-resize-detector';
 import './index.scss';
-import constants from '../../constants/ui-constants';
+import {
+    leftNavWidthDesktop,
+    leftNavWidthMobile,
+    maxLeftNavWidthDesktop,
+    maxLeftNavWidthMobile,
+    maxMobileResolution,
+    minLeftNavWidthDesktop,
+    minLeftNavWidthMobile
+} from '../../constants/ui-constants';
 import BackButton from '../BackButton';
 
 const LeftSideBar = (props: {
@@ -16,7 +24,7 @@ const LeftSideBar = (props: {
     const [pageid] = useState(location.search.slice(1).split('&')[0]);
     const [navContent, setNavContent] = useState('');
 
-    const { width, ref } = useResizeDetector();
+    const { width, ref, height } = useResizeDetector();
     
     useEffect(() => {
         const divElement = document.createElement('div');
@@ -30,17 +38,17 @@ const LeftSideBar = (props: {
     }, [pageid, props.navContent]);
 
     useEffect(() => {
-        props.handleLeftNavChange(width + 7);
+        props.handleLeftNavChange(width);
     }, [width]);
 
     return (
         <ResizableBox
-            width={props.docWidth > constants.maxMobileResolution ? constants.leftNavWidthDesktop : constants.leftNavWidthMobile}
-            minConstraints={[props.docWidth > constants.maxMobileResolution ? constants.minLeftNavWidthDesktop : constants.minLeftNavWidthMobile]}
-            maxConstraints={[props.docWidth > constants.maxMobileResolution ? constants.maxLeftNavWidthDesktop : constants.maxLeftNavWidthMobile]}
+            width={props.docWidth > maxMobileResolution ? leftNavWidthDesktop : leftNavWidthMobile}
+            minConstraints={[props.docWidth > maxMobileResolution ? minLeftNavWidthDesktop : minLeftNavWidthMobile]}
+            maxConstraints={[props.docWidth > maxMobileResolution ? maxLeftNavWidthDesktop : maxLeftNavWidthMobile]}
             axis="x"
             style={{ position: 'fixed' }}
-            height={window.screen.height}
+            height={height}
         >
             <aside ref={ref}>
                 {props.backLink && (
