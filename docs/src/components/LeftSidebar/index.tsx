@@ -10,7 +10,7 @@ const LeftSideBar = (props: {
     navContent: string;
     backLink: string;
     docWidth: number;
-    handleLeftNavChange
+    handleLeftNavChange: Function;
 }) => {
 
     const { width, ref } = useResizeDetector();
