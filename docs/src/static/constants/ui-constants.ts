@@ -1,11 +1,7 @@
-const constants = {
-  maxMobileResolution: 1024,
-  leftNavWidthDesktop: 310,
-  leftNavWidthMobile: 260,
-  minLeftNavWidthDesktop: 100,
-  maxLeftNavWidthDesktop: 400,
-  minLeftNavWidthMobile: 100,
-  maxLeftNavWidthMobile: 400,
-};
-
-export default constants;
+export const maxMobileResolution: number = 1024;
+export const leftNavWidthDesktop: number = 310;
+export const leftNavWidthMobile: number = 260;
+export const minLeftNavWidthDesktop: number = 150;
+export const maxLeftNavWidthDesktop: number = 400;
+export const minLeftNavWidthMobile: number = 150;
+export const maxLeftNavWidthMobile: number = 400;

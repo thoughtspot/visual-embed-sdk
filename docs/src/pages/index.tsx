@@ -6,7 +6,7 @@ import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
-import constants from '../static/constants/ui-constants';
+import { leftNavWidthDesktop } from '../static/constants/ui-constants';
 import '../static/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -29,18 +29,13 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
-    const [leftNavWidth, setLeftNavWidth] = useState(constants.leftNavWidthDesktop);
-    const [docWidth, setDocWidth] = useState(window.screen.width);
+    const [leftNavWidth, setLeftNavWidth] = useState(leftNavWidthDesktop);
 
     const { width, ref } = useResizeDetector();
 
     useEffect(() => {
         setParams(queryStringParser(location.search));
     }, []);
-
-    useEffect(() => {
-        setDocWidth(window.screen.width);
-    }, [window.screen.width]);
 
     useEffect(() => {
         // fetch navigation page index
@@ -122,7 +117,7 @@ const IndexPage = ({ location }) => {
                     navContent={navContent}
                     backLink={backLink}
                     handleLeftNavChange={handleLeftNavChange}
-                    docWidth={docWidth}
+                    docWidth={width}
                 />
                 <div
                     className="documentBody"
