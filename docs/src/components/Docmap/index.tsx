@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 
-const Docmap = (props: { docContent: string; location; }) => {
+const Docmap = (props: { docContent: string; location: Location; }) => {
     const [toc, setToc] = useState('');
 
     useEffect(() => {
