@@ -117,7 +117,7 @@ switch (mainOptions.command) {
         const isValid = validateCmdOptions(buildDefinitions, buildOptions);
         if (!isValid) return;
 
-        cmdToExecute = `gatsby build ${
+        cmdToExecute = `gatsby clean && gatsby build ${
             buildOptions.noprefix === 'prefix' ? '' : '--prefix-paths'
         }`;
         break;
@@ -139,7 +139,7 @@ switch (mainOptions.command) {
         const isValid = validateCmdOptions(bapDefinitions, bapOptions);
         if (!isValid) return;
 
-        cmdToExecute = `gatsby build --prefix-paths && gh-pages -d public -b ${bapOptions.branch}`;
+        cmdToExecute = `gatsby clean && gatsby build --prefix-paths && gh-pages -d public -b ${bapOptions.branch}`;
         break;
     }
     case 'publish': {

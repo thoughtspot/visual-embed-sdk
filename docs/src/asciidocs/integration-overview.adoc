@@ -21,7 +21,7 @@ Based on your integration needs, determine if you want to embed a portion of the
 The ThoughtSpot SpotDev portal provides a playground for developers to explore the embed functions. The playground provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Go to  Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Go to Playground</a>
 ++++
 
 == Define application workflows

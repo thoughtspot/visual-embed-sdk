@@ -1,5 +1,5 @@
 import React from 'react';
-import BackButtonImg from '../../static/svg/backbtn.svg';
+import BackButtonImg from '../../assets/svg/backbtn.svg';
 import './index.scss';
 
 const BackButton = (props: { title: string; backLink: string }) => (

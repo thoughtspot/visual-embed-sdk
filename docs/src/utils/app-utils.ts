@@ -17,7 +17,7 @@ export const queryStringParser = (queryParamStr: string) => {
             navPrefix += `${TS_HOST_PARAM}=${value}&`;
         }
         if (key === TS_ORIGIN_PARAM) {
-            navPrefix += `${TS_ORIGIN_PARAM}=${value}&`;
+            navPrefix += `${TS_ORIGIN_PARAM}=${encodeURIComponent(value)}&`;
         }
     }
     navPrefix += TS_PAGE_ID_PARAM;
