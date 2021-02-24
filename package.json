@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.19",
+    "version": "0.0.1-alpha.20",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -14,6 +14,7 @@
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
         "tsc": "tsc -p . --incremental false",
+        "bundle-dts": "dts-bundle --name @thoughtspot/embed-sdk --main lib/src/index.d.ts",
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
@@ -21,7 +22,8 @@
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
-        "prepublishOnly": "npm run test; npm run tsc; npm run build"
+        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
+        "publish-dev": "npm publish --tag dev"
     },
     "dependencies": {},
     "devDependencies": {
@@ -33,6 +35,7 @@
         "asciidoctor": "^2.2.1",
         "command-line-args": "^5.1.1",
         "coveralls": "^3.1.0",
+        "dts-bundle": "0.7.3",
         "eslint": "^7.12.1",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-config-prettier": "^6.15.0",
