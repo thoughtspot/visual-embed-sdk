@@ -133,6 +133,7 @@ const IndexPage = ({ location }) => {
                     backLink={backLink}
                     docWidth={width}
                     handleLeftNavChange={setLeftNavWidth}
+                    location={location}
                 />
                 <div
                     className="documentBody"
@@ -140,7 +141,7 @@ const IndexPage = ({ location }) => {
                 >
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap docContent={docContent} />
+                        <Docmap docContent={docContent} location={location} />
                     </div>
                 </div>
             </main>
