@@ -50,7 +50,7 @@ const LeftSideBar = (props: {
             maxConstraints={[isMaxMobileResolution ? MAX_LEFT_NAV_WIDTH_DESKTOP : MAX_LEFT_NAV_WIDTH_MOBILE]}
             axis="x"
             className="resizable"
-            height={height | 0}  //Height is set to 0 when element is not rendered
+            height={height || 0}  //Height is set to 0 when element is not rendered
         >
             <aside ref={ref}>
                 {props.backLink && (
