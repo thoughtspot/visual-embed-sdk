@@ -68,7 +68,7 @@ const LeftSideBar = (props: {
             className="resizable"
             height={height || 0} //Height is set to 0 when element is not rendered
         >
-            <aside ref={ref}>
+            <aside ref={ref as React.RefObject<HTMLDivElement>}>
                 {props.backLink && (
                     <BackButton
                         title="SpotDev Home"

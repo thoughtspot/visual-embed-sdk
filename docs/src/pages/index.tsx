@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useStaticQuery, graphql, navigate } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
@@ -126,7 +126,7 @@ const IndexPage = ({ location }) => {
 
     return (
         <>
-            <main ref={ref}>
+            <main ref={ref as React.RefObject<HTMLDivElement>}>
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
