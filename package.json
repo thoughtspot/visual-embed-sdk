@@ -22,7 +22,8 @@
         "test-sdk": "jest -c jest.config.sdk.js",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
-        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build"
+        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
+        "publish-dev": "npm publish --tag dev"
     },
     "dependencies": {},
     "devDependencies": {
