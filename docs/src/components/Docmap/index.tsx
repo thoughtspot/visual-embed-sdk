@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 
-const Docmap = (props: { docContent: string }) => {
+const Docmap = (props: { docContent: string; location: Location; }) => {
     const [toc, setToc] = useState('');
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const Docmap = (props: { docContent: string }) => {
         doc.innerHTML = props.docContent;
         let tocEl = doc.querySelector('#toc');
         if (tocEl) {
-            const { hash } = location;
+            const { hash } = props.location;
             if (hash) {
                 tocEl = toggleActiveClass(tocEl, hash);
             }
@@ -20,7 +20,7 @@ const Docmap = (props: { docContent: string }) => {
         } else {
             setToc('');
         }
-    }, [props.docContent, location.hash]);
+    }, [props.docContent, props.location.hash]);
 
     const toggleActiveClass = (toc: Element, href: string) => {
         toc.querySelectorAll('a').forEach((tag, index) => {

@@ -6,9 +6,10 @@ const LeftSideBar = (props: {
     navTitle: string;
     navContent: string;
     backLink: string;
+    location: Location;
 }) => {
 
-    const [pageid] = useState(location.search.slice(1).split('&')[0]);
+    const [pageid] = useState(props.location.search.slice(1).split('&')[0]);
     const [navContent, setNavContent] = useState('');
     
     useEffect(() => {
