@@ -104,6 +104,28 @@
         }
     }
 
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+      }
+      
+      .tooltip .tooltiptext {
+        // visibility: hidden;
+        width: 120px;
+        background-color: $gray-80;
+        color: white;
+        text-align: center;
+        border-radius: 4px;
+        padding: 5px 0;
+      
+        /* Position the tooltip */
+        position: absolute;
+        right: -35px;
+        top: 15px;
+        z-index: 1;
+      }
+
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {

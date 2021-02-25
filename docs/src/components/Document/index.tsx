@@ -37,6 +37,16 @@ const Document = (props: { docTitle: string; docContent: string }) => {
                 textareaElement.select();
                 document.execCommand("copy");
                 btn.parentElement.removeChild(textareaElement);
+                const divElement = document.createElement('div');
+                divElement.classList.add('tooltip');
+                const spanElement = document.createElement('span');
+                spanElement.classList.add('tooltiptext');
+                spanElement.innerText = 'Copied!';
+                divElement.appendChild(spanElement);
+                btn.parentElement.appendChild(divElement);
+                setTimeout(() => {
+                    btn.parentElement.removeChild(divElement);
+                }, 500);
             })
         });
     };
