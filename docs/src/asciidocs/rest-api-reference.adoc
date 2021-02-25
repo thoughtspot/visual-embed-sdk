@@ -192,7 +192,6 @@ __optional__|Set of tag names to filter headers by; JSON Array of name Strings|s
 __optional__|Type of metadata object. Valid values - QUESTION_ANSWER_BOOK, PINBOARD_ANSWER_BOOK, QUESTION_ANSWER_SHEET, PINBOARD_ANSWER_SHEET, LOGICAL_COLUMN, LOGICAL_TABLE, LOGICAL_RELATIONSHIP, TAG, DATA_SOURCE|string|`"PINBOARD_ANSWER_BOOK"`
 |===
 
-
 === Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
@@ -200,7 +199,6 @@ __optional__|Type of metadata object. Valid values - QUESTION_ANSWER_BOOK, PINBO
 |HTTP Code|Description|Schema
 |**200**|Metadata Headers JSON|string
 |===
-
 
 
 [[_getvisualizationheaders]]
@@ -242,7 +240,7 @@ POST /tspublic/v1/session/login
 
 
 === Description
-Authenticate and login a user
+Authenticate and login a user.
 
 
 === Parameters
@@ -279,7 +277,7 @@ POST /tspublic/v1/session/logout
 
 
 === Description
-Logout current user
+Logout current user.
 
 
 === Responses
@@ -301,7 +299,7 @@ GET /tspublic/v1/user/list
 
 
 ==== Description
-Api to get all users, groups and their inter-dependencies
+API to get all users, groups and their inter-dependencies
 
 
 ==== Responses
@@ -321,7 +319,7 @@ POST /tspublic/v1/user/sync
 
 
 === Description
-Api to synchronize principal from external system with ThoughtSpot system
+API to synchronize principal from external system with ThoughtSpot system.
 
 
 === Parameters
