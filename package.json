@@ -25,7 +25,9 @@
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
         "publish-dev": "npm publish --tag dev"
     },
-    "dependencies": {},
+    "dependencies": {
+        "highlight.js": "^10.6.0"
+    },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
         "@mdx-js/react": "^1.6.22",
