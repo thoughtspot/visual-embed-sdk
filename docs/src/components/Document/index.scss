@@ -26,20 +26,29 @@
     pre {
         white-space: pre-wrap;
         background: $code-block-color;
-        padding: 20px $padding-sm;
+        padding: 20px 10px;
+        display: flex;
+        justify-content: space-between;
     }
 
     code[data-lang] {
         display: flex;
         justify-content: space-between;
+        flex: 1;
     }
 
-    code[data-lang]:hover::after {
-        content: attr(data-lang);
-        text-transform: uppercase;
-        color: $darkgrey;
-        position: relative;
-        top: -10px;
+    pre.highlight:hover {
+        .copyButton {
+            visibility: visible;
+        }
+
+        code[data-lang]::after {
+            content: attr(data-lang);
+            text-transform: uppercase;
+            color: $darkgrey;
+            position: relative;
+            top: -9px;
+        }
     }
 
     #preview-in-playground {
@@ -76,6 +85,23 @@
 
     h2 {
         margin-top: $margin-lg;
+    }
+
+    .copyButton {
+        position: relative;
+        height: 20px;
+        top: -10px;
+        margin-left: 10px;
+        border: 0;
+        border-left: 1px solid $darkgrey;
+        background: transparent;
+        visibility: hidden;
+        outline: none;
+        padding-left: 10px;
+
+        img {
+            width: 17px;
+        }
     }
 
 }
