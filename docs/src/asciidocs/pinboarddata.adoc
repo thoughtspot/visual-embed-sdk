@@ -1,4 +1,5 @@
 = Pinboard Data API
+:toc: true
 
 :page-title: Pinboard Data API
 :page-pageid: pinboard-api

@@ -1,5 +1,5 @@
 = Metadata API
-:last_updated: 11/18/2019
+:toc: true
 
 :page-title: Metadata API
 :page-pageid: metadata-api

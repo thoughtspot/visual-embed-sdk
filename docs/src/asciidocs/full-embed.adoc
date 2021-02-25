@@ -222,7 +222,7 @@ Here are some additional notes about the full embed feature:
 The function `updateIframeUrl(id)` contains the logic to change the src URL of the `<iframe>` when your users click  navigation buttons.
 ////
 
-=== Code sample
+== Code sample
 [source,javascript]
 ----
 import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
@@ -247,8 +247,8 @@ appEmbed.render({
 ----
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
-=== Additional resources
+== Additional resources
 For more information on AppEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

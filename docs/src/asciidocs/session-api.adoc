@@ -1,4 +1,6 @@
 = Session API
+:toc: true
+
 :page-title: Session API
 :page-pageid: session-api
 :page-description: Session API

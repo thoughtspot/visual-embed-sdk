@@ -1,4 +1,6 @@
 = User API
+:toc: true
+
 :page-title: User API
 :page-pageid: user-api
 :page-description: User API

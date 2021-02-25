@@ -1,4 +1,5 @@
 = REST APIs
+:toc: true
 
 :page-title: About rest APIs
 :page-pageid: rest-apis
