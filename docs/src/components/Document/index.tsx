@@ -4,12 +4,8 @@ import { customizeDocContent } from './helper';
 
 const Document = (props: { docTitle: string; docContent: string }) => {
 
-    const [docContent, setDocContent] = useState('');
-
     useEffect(() => {
-        const divElement = document.createElement('div');
-        divElement.innerHTML = props.docContent;
-        customizeDocContent(divElement, setDocContent);
+        customizeDocContent();
     }, [props.docContent]);
 
     return (
@@ -17,7 +13,7 @@ const Document = (props: { docTitle: string; docContent: string }) => {
             <div
                 id={props.docTitle}
                 dangerouslySetInnerHTML={{
-                    __html: docContent,
+                    __html: props.docContent,
                 }}
             />
         </div>
