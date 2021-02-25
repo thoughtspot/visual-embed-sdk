@@ -7,25 +7,25 @@
 
 The ThoughtSpot embedding solution enables you to integrate ThoughtSpot functionality and infuse search-driven data and insights into your application, website, portal, product, or business solution. With ThoughtSpot embedding, you can enrich your applications with ThoughtSpot capabilities and provide context-driven analytics with a seamless experience for your application users.
 
-ThoughtSpot provides a suite of APIs, SDK, and developer tools to programmatically embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application. The ThoughtSpot embedding solution also provides UI menu options to customize and rebrand the embedded ThoughtSpot components. 
+ThoughtSpot provides a suite of APIs, SDK, and developer tools to programmatically embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application. The ThoughtSpot embedding solution also provides UI-based functions for customizing and rebranding the embedded ThoughtSpot components. 
 
 == Types of embedding
-ThoughtSpot supports embedding full application and individual application  components into your business solution. 
+ThoughtSpot supports embedding full application, or its individual components into your business solution. 
 Based on your business needs and integration environment, you can use one of the following embedding approaches:
 
 Full-application embedding::
-You can embed the entire ThoughtSpot application into your host application or portal. Your application users can navigßate to the ThoughtSpot UI through a tab or a link. 
+You can embed the entire ThoughtSpot application into your host application or portal. Your application users can navigate to the ThoughtSpot UI through a tab or a link. 
 Page-level embedding::
-You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The client applications can allow page-to-page navigation.
+You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The host application can allow page-to-page navigation.
 Object-level embedding::
-You can embed a specific component such as the search functionality, pinboards, or charts.
+You can embed a specific ThoughtSpot component such as the search functionality, pinboards, or charts.
 
 == ThoughtSpot SpotDev portal
-To enable your developers with tools and facilitate faster application integration, ThoughtSpot provides the SpotDev developer portal. 
-The SpotDev portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs and build sample content. 
+To facilitate faster application integration and assist developer users, ThoughtSpot offers the SpotDev portal. 
+The SpotDev portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs, and build sample content. 
 The portal also allows developers to customize the ThoughtSpot UI and configure custom actions.
 
-Users can access the SpotDev portal from either the ThoughtSpot website, or from the *SpotDev* tab in the ThoughtSpot application. The *SpotDev* tab in the ThoughtSpot application is available only for the ThoughtSpot users with the admin and developer privileges.
+You can access the SpotDev portal from either the ThoughtSpot website, or the *SpotDev* tab in the ThoughtSpot application. To access the *SpotDev* tab in the ThoughtSpot application, you must have the admin or developer user privileges.
 
 For more information, see xref:spotdev-portal.adoc[ThoughtSpot SpotDev portal].
 
@@ -35,7 +35,8 @@ You can use one of the following methods to embed a ThoughtSpot functionality or
 * *Using iFrames via ThoughtSpot UI*::In this method, you can copy the embed link for a pinboard or visualization from the ThoughtSpot UI and add it your webpage or an HTML file. For more information, see Embedding a Pinboard or Visualization.
 ////
 *Using the Visual Embed SDK*::
-In this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot components or the full application. The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as search, visualizations, pinboards, and the full application. 
+In this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components. 
+The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as the search bar, visualizations, pinboards, and the full application. 
 +
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
@@ -52,8 +53,8 @@ You can customize the ThoughtSpot application UI either from the *Admin* console
 For more information, see xref:customize-style.adoc[Style customization].
 
 == Custom actions 
-The ThoughtSpot embedding solution allows you to build additional actions to your embedded content, such as pinboards and visualizations. 
+The ThoughtSpot embedding solution allows you to build additional actions to the embedded  pinboards and visualizations. 
 
-For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the pinboards.
+For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the Pinboards page.
 
 For more information, see xref:customize-actions-menu.adoc[Actions customization].

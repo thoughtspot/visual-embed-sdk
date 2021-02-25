@@ -5,9 +5,10 @@
 :page-pageid: saml-sso
 :page-description: SAML SSO Configuration
 
-The Security Assertion Markup Language (SAML) Single Sign-On (SSO) authentication method eliminates the need for displaying a login page when a user requests access to an embedded ThoughtSpot content. The SAML SSO method enables client applications to allow federated users to access the embedded ThoughtSpot content.
-In this authentication method, users authenticate to the SAML identity provider at your federation to obtain access to ThoughtSpot content embedded in your application.
-To allow ThoughtSpot to trust the login requests from your corporate authentication servers, you must configure SAML settings in ThoughtSpot.
+The Security Assertion Markup Language (SAML) Single Sign-On (SSO) authentication method enables client applications to allow federated users to access the embedded content. The SAML SSO authentication method eliminates the need for displaying a login page when a user requests access to the embedded visualizations or pinboards.
+In the SAML SSO authentication method, users authenticate to the SAML identity provider at your federation to obtain access to the ThoughtSpot content embedded in your application.
+
+To allow ThoughtSpot to trust the login requests from your corporate authentication servers, you must configure SAML settings in the ThoughtSpot application.
 
 ////
 This configurator also checks with the user if internal authentication needs to be set or not.
@@ -38,9 +39,10 @@ It should now show the Single Sign On option.
 ////
 [#admin-portal]
 == Enable SAML authentication
-You need ThoughtSpot admin privileges to enable SAML authentication.
+You need admin privileges to enable SAML SSO authentication.
 
-. Log in to the ThoughtSpot application.
+. Configure the ThoughtSpot application instance on your IDP server.
+. Log in to your ThoughtSpot application instance.
 . From the top navigation bar, click the **Admin** tab.
 . Click *SAML*.
 . Click *Configure*.

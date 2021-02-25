@@ -255,10 +255,11 @@ pinboardEmbed.render({
 });
 
 ----
+
 ++++
 <a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground">Preview in Playground</a>
 ++++
 
-===Additional resources
+=== Additional resources
 
 For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

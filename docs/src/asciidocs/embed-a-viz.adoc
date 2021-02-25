@@ -123,7 +123,7 @@ http://<thoughtspot_server>:<port>/
 Runtime filters have several operators you can use to filter your embedded visualizations.
 
 |===
-| Operator | Description  | Number of Values
+|Operator |Description  |Number of Values
 
 | `EQ`
 | equals
@@ -236,4 +236,6 @@ pinboardEmbed.render({
 ++++
 <a href="{{tshost}}/#/everywhere/playground/answer" id="preview-in-playground">Preview in Playground</a>
 ++++
+
+=== Additional resources
 For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
