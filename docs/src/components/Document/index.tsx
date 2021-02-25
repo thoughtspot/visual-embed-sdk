@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 import Copy from '../../assets/svg/copy.svg';
+import addCopyFeature from './copyFunctionality';
 
 const Document = (props: { docTitle: string; docContent: string }) => {
 
@@ -9,6 +10,10 @@ const Document = (props: { docTitle: string; docContent: string }) => {
     useEffect(() => {
         const divElement = document.createElement('div');
         divElement.innerHTML = props.docContent;
+        addCopyButton(divElement);
+    }, [props.docContent]);
+
+    const addCopyButton = (divElement: HTMLElement) => {
         const allTags = divElement.querySelectorAll('.listingblock>.content>.highlight>code');
         if (allTags.length > 0) {
             divElement.querySelectorAll('.listingblock>.content>.highlight>code').forEach((tag) => {
@@ -26,29 +31,6 @@ const Document = (props: { docTitle: string; docContent: string }) => {
         setTimeout(() => {
             addCopyFeature();
         }, 500);
-    }, [props.docContent]);
-
-    const addCopyFeature = () => {
-        document.querySelectorAll('.listingblock>.content>.highlight>button').forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                const textareaElement = document.createElement("textarea");
-                textareaElement.value = (document.querySelectorAll('.listingblock>.content>.highlight>code')[index] as HTMLElement).innerText;
-                btn.parentElement.appendChild(textareaElement);
-                textareaElement.select();
-                document.execCommand("copy");
-                btn.parentElement.removeChild(textareaElement);
-                const divElement = document.createElement('div');
-                divElement.classList.add('tooltip');
-                const spanElement = document.createElement('span');
-                spanElement.classList.add('tooltiptext');
-                spanElement.innerText = 'Copied!';
-                divElement.appendChild(spanElement);
-                btn.parentElement.appendChild(divElement);
-                setTimeout(() => {
-                    btn.parentElement.removeChild(divElement);
-                }, 500);
-            })
-        });
     };
 
     return (
