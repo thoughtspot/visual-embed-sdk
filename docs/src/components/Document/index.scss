@@ -85,6 +85,7 @@
         margin-top: $margin-lg;
     }
 
+    /* Styling for copy button displayed over code panels */
     .copyButton {
         position: relative;
         height: 20px;
@@ -102,6 +103,7 @@
         }
     }
 
+    /* Styling for tooltip displayed when copy button is clicked */
     .tooltip {
         position: relative;
         display: inline-block;
