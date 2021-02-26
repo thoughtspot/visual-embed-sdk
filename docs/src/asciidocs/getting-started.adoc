@@ -1,4 +1,5 @@
-== Get Started
+
+= Get Started
 :toc: true
 
 :page-title: Getting Started
