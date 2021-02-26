@@ -25,9 +25,7 @@
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
         "publish-dev": "npm publish --tag dev"
     },
-    "dependencies": {
-        "highlight.js": "^10.6.0"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
         "@mdx-js/react": "^1.6.22",
@@ -50,6 +48,7 @@
         "gatsby-source-filesystem": "^2.8.1",
         "gatsby-transformer-asciidoc": "^1.8.0",
         "gh-pages": "^3.1.0",
+        "highlight.js": "^10.6.0",
         "jest": "26.4.2",
         "jest-puppeteer": "^4.4.0",
         "node-sass": "^4.0.0",
