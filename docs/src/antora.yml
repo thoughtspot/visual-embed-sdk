@@ -1,0 +1,5 @@
+name: Software
+version: '7.3.0'
+title:
+nav:
+- asciidocs/common/nav.adoc
