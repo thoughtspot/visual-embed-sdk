@@ -1,0 +1,45 @@
+name: DeployDocs
+
+# Controls when the action will run. Triggers the workflow on push to main branch
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+    paths: 
+    - 'static/typedoc/**'
+    - 'docs/src/asciidocs/**'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # ENV variables that will be used
+    env:
+      GH_TOKEN: ${{ secrets.GATSBY_PUBLISH_SECRET_KEY }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Use NodeJS v12.18.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.18.3'
+
+      # Run npm install
+      - name: Run npm install
+        run: npm install
+
+      # Setting up git user and email
+      - name: Setup git user
+        run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git remote set-url origin https://github-actions:${GH_TOKEN}@github.com/ts-blink/embed-sdk
+            
+      # Deploy on github pages
+      - name: Build and publish
+        run: npm run docs-cmd -- build-and-publish
+        
