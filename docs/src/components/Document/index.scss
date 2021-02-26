@@ -55,35 +55,29 @@
     table {
         border-spacing: 0;
         border-collapse: collapse;
+
+        th {
+            border-bottom: 3px solid $borderColor;
+            font-size: $font-size-doc;
+            padding: $padding-sm;
+            text-align: left;
+        }
         
         td {
             font-size: $font-size-table;
+            border-bottom: 1px solid $borderColor;
+            padding: $padding-sm;
+            text-align: left;
+            font-weight: $font-weight-normal;
 
             p {
                 font-size: $font-size-table;
             }
         }
-    }
 
-    th {
-        border-bottom: 3px solid $borderColor;
-        font-size: $font-size-doc;
-    }
-
-    tr,
-    td {
-        border-bottom: 1px solid $borderColor;
-    }
-
-    td {
-        padding: $padding-sm;
-        text-align: left;
-        font-weight: $font-weight-normal;
-    }
-
-    th {
-        padding: $padding-sm;
-        text-align: left;
+        tr {
+            border-bottom: 1px solid $borderColor;
+        }
     }
 
     h2 {
@@ -130,12 +124,12 @@
 
 }
 
+pre {
+    white-space: pre-wrap;
+}
+
 @media screen and (min-width: 767px) and (max-width: 1024px) {
     .documentWrapper {
         width: calc(100% - 210px);
     }
-}
-
-pre {
-    white-space: pre-wrap;
 }
