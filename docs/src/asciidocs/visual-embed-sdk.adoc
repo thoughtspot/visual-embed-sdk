@@ -9,7 +9,7 @@
 
 The Visual Embed SDK provides a set of Javascript libraries to embed ThoughtSpot elements in a host application.
 
-You can use the Visual Embed SDK for the following purposes:
+You can use the Visual Embed SDK for the following purpose:
 
 * Embed specific components of ThoughtSpot application. For example, search bar, search answers page, pinboards, charts, and tables.
 * Render full ThoughtSpot application within the host application.
@@ -73,10 +73,10 @@ SAML::
 This method requires you to set up SAML SSO support on the ThoughtSpot admin console.
 +
 
-For more information, see xref:configure.saml[SAML SSO].
+For more information, see xref:configure-saml.adoc[SAML SSO].
 
 Trusted authentication service::
 This method requires you to enable token-based trusted authentication service.
 In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
 +
-For more information, see xref:trusted-authentication[Trusted Authentication].
+For more information, see xref:trusted-authentication.adoc[Trusted Authentication].

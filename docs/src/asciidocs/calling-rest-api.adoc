@@ -1,5 +1,5 @@
-= Calling the Data REST API
-:last_updated: 11/18/2019
+= Make an API Call
+:toc: true
 
 :page-title: Calling the Data REST API
 :page-pageid: calling-rest-api
@@ -22,7 +22,8 @@ To retrieve data from a specific visualization within a pinboard, you would appe
 /tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
 ----
 
-*Remember:* You must add brackets around the vizid parameter.
+[NOTE]
+You must add brackets around the vizid parameter.
 The URL encoding for open bracket is `%5B`, and the URL encoding for close bracket is `%5D`.
 
 == Object Format for Returned Data

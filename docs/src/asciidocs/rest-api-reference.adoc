@@ -1,5 +1,7 @@
-[[_pinboarddata]]
-=== Pinboard Data API
+= REST API Reference 
+:toc: true
+
+== Pinboard Data API
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
@@ -14,14 +16,13 @@ This API lets you fetch the following data:
 * A specific visualization or a group of visualizations on a pinboard.
 
 
-
-==== Request URL
+=== Request URL
 ....
 POST /tspublic/v1/pinboarddata
 ....
 
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^9a,.^4a,.^2a"]
 |===
@@ -40,24 +41,22 @@ __optional__|PageNumber. Alternate way to set offset. This is 1-based indexingOf
 __optional__|GUID IDs of visualizations. Use this parameter to fetch a specific visualization on a pinboard. |string|
 |===
 
-==== Example Request
+=== Example Request
 
-===== cURL
+==== cURL
 ----
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
-===== Request URL
+==== Request URL
 ----
 https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
+=== Responses
 
 
-==== Responses
-
-
-===== Example Response 
+==== Example Response 
 
 ----
 {
@@ -88,7 +87,7 @@ https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a1
   }
 }
 ----
-===== Response Messages
+=== Response codes
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -101,17 +100,12 @@ https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a1
 
 //==== Produces
 
-//* `application/json`
+//* `application/json
 
 
-//==== Tags
 
-//* tspublic/v1
-
-
-[[_searchdata]]
-=== Search API
-Search data from a specific data source in thoughtspot system
+== Search API
+Search data from a specific data source in thoughtspot system.
 
 === Request URL
 ....
@@ -123,7 +117,7 @@ POST /tspublic/v1/searchdata
 Search data from a specific data source in thoughtspot system
 ////
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^9a,.^4a,.^2a"]
 |===
@@ -143,7 +137,7 @@ __optional__|Query string|string|
 |===
 
 
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -154,7 +148,7 @@ __optional__|Query string|string|
 
 
 [[_listobjectheaders]]
-=== Metadata object headers API
+== Metadata object headers API
 List of metadata object headers in the repository
 
 === Request URL
@@ -167,7 +161,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 List of metadata object headers in the repository
 ////
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^9a,.^4a,.^2a"]
 |===
@@ -198,8 +192,7 @@ __optional__|Set of tag names to filter headers by; JSON Array of name Strings|s
 __optional__|Type of metadata object. Valid values - QUESTION_ANSWER_BOOK, PINBOARD_ANSWER_BOOK, QUESTION_ANSWER_SHEET, PINBOARD_ANSWER_SHEET, LOGICAL_COLUMN, LOGICAL_TABLE, LOGICAL_RELATIONSHIP, TAG, DATA_SOURCE|string|`"PINBOARD_ANSWER_BOOK"`
 |===
 
-
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -208,19 +201,18 @@ __optional__|Type of metadata object. Valid values - QUESTION_ANSWER_BOOK, PINBO
 |===
 
 
-
 [[_getvisualizationheaders]]
-=== Metadata visualization header API
+== Metadata visualization header API
 ....
 GET /tspublic/v1/metadata/listvizheaders
 ....
 
 
-==== Description
+=== Description
 Get the visualization headers from the ThoughtSpot system.
 
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^9a,.^4a"]
 |===
@@ -230,7 +222,7 @@ __optional__|GUID of the reportbook|string
 |===
 
 
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -240,27 +232,18 @@ __optional__|GUID of the reportbook|string
 |===
 
 
-==== Produces
-
-* `application/json`
-
-
-==== Tags
-
-* tspublic/v1/metadata
-
 [[_login]]
-=== Session Login
+== Session Login
 ....
 POST /tspublic/v1/session/login
 ....
 
 
-==== Description
-Authenticate and login a user
+=== Description
+Authenticate and login a user.
 
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^9a,.^4a,.^2a"]
 |===
@@ -274,7 +257,7 @@ __optional__|Username|string|
 |===
 
 
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -286,19 +269,18 @@ __optional__|Username|string|
 
 
 
-
 [[_logout]]
-=== Session Logout
+== Session Logout
 ....
 POST /tspublic/v1/session/logout
 ....
 
 
-==== Description
-Logout current user
+=== Description
+Logout current user.
 
 
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -309,20 +291,15 @@ Logout current user
 |===
 
 
-==== Tags
-
-* tspublic/v1/session
-
-
 [[_list]]
-=== Fetch users and groups
+== Fetch users and groups
 ....
 GET /tspublic/v1/user/list
 ....
 
 
 ==== Description
-Api to get all users, groups and their inter-dependencies
+API to get all users, groups and their inter-dependencies
 
 
 ==== Responses
@@ -334,20 +311,18 @@ Api to get all users, groups and their inter-dependencies
 |===
 
 
-
-
 [[_synchronizeprincipals]]
-=== Synchronize Principals
+== Synchronize Principals
 ....
 POST /tspublic/v1/user/sync
 ....
 
 
-==== Description
-Api to synchronize principal from external system with ThoughtSpot system
+=== Description
+API to synchronize principal from external system with ThoughtSpot system.
 
 
-==== Parameters
+=== Parameters
 
 [options="header", cols=".^2a,.^3a,.^4a,.^2a"]
 |===
@@ -363,7 +338,7 @@ __optional__|boolean|`"true"`
 |===
 
 
-==== Responses
+=== Responses
 
 [options="header", cols=".^2a,.^14a,.^4a"]
 |===
@@ -372,30 +347,20 @@ __optional__|boolean|`"true"`
 |===
 
 
-==== Consumes
+=== Consumes
 
 * `multipart/form-data`
 
 
-==== Produces
-
-* `application/json`
-
-
-==== Tags
-
-* tspublic/v1/user
-
-
 [[_transferownership]]
-=== Transfer ownership of all objects from one user to another
+== Transfer ownership of all objects from one user to another
 ....
 POST /tspublic/v1/user/transfer/ownership
 ....
 
 
 ==== Description
-Api to transfer ownership of all objects from one user to another
+API to transfer ownership of all objects from one user to another
 
 
 ==== Parameters
@@ -430,7 +395,7 @@ POST /tspublic/v1/user/updatepassword
 
 
 ==== Description
-Api to change password of a user.
+API to change the password of a user.
 
 
 ==== Parameters

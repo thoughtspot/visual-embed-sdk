@@ -5,23 +5,23 @@
 :page-pageid: integration-guidelines
 :page-description: ThoughtSpot Embedded Analytics
 
-Embedding ThoughtSpot content allows you to build search-driven analytics and visualizations into your application. Embedding an external application requires a thorough understanding  of your business requirements, software limitations, and tools to enable seamless navigation between multiple interfaces. 
+Embedding ThoughtSpot content allows you to build search-driven analytics and visualizations into your application. Embedding an external application requires a thorough understanding  of your business requirements, software limitations, and tools required to enable seamless navigation between multiple interfaces. 
 
 ThoughtSpot recommends that you browse through the following guidelines before you begin embedding.
 
-== Plan for embedding
+== Decide what to embed
 Analyze your business requirements and choose the embedding approach that best suits your needs.
 
 For example, you may simply need a single chart displayed as a wallboard, or you may want your customers to access reports on their own data.
-The first example could require modifying a single HTML page, while the latter example may require working with a development team and several different workflows in a browser application.
+The first example could require modifying a single HTML page, while the latter example may require working with a development team and adding several different workflows to your web  application.
 
 Based on your integration needs, determine if you want to embed a portion of the ThoughtSpot application, or all of it.  
 
 == Try it out
-The ThoughtSpot SpotDev portal provides a playground for developers to explore the embed functions. The playground provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
+The ThoughtSpot SpotDev portal provides a playground for developers to explore the embed functions. The *Playground* provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Go to Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
 ++++
 
 == Define application workflows
@@ -40,34 +40,37 @@ The ThoughtSpot application integration involves several workflows that require 
 [horizontal]
 ThoughtSpot admin::
 The ThoughtSpot administrators define the authentication workflow and create user groups. 
-Access control in ThoughtSpot is managed via users and groups that are stored locally on ThoughtSpot, even if authentication is done using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot. 
-For more information, see  link: https://cloud-docs.thoughtspot.com/end-user/onboarding/intro-onboarding.html[Managing users and groups].
+Access control in ThoughtSpot is managed through the users and groups that are stored locally on ThoughtSpot, even if the users are authenticated using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot. 
+For more information, see 
+link:https://cloud-docs.thoughtspot.com/end-user/onboarding/intro-onboarding.html[Managing users and groups, window=_blank].
 
 Host application admin::
-The host application owners or users with admin privileges to modify the application interfaces. For example, rebranding the look and feel of the embedded UI may require administrator privileges.
+The host application owners or users with admin privileges to modify the application interfaces. For example, rebranding the look and feel of the embedded UI requires administrator privileges.
 
 Developer::
-Application developers with privileges to integrate ThoughtSpot components into a host application using the APIs and SDK. Developer users can also configure custom actions to embedded visualizations and pinboards.
+Application developers with privileges to integrate ThoughtSpot components into a host application using the APIs and SDK. Developer users can also configure custom actions to the  embedded visualizations and pinboards.
 
 == Choose an authentication method
 
 ThoughtSpot supports the following authentication services:
 
 SAML SSO::
-To provide a seamless login experience, you can configure SSO and enable SAML authentication, so that the federated users are automatically authenticated to ThoughtSpot. 
-With SSO, you can use your host application or an external service as the identity provider and allow authenticated users to access the ThoughtSpot service.
-ThoughtSpot administrators can set up SAML SSO either using the TSCLI command line or the Admin console in the ThoughtSpot application.
+To provide a seamless login experience for your application users, you can configure SSO and enable SAML authentication, so that the federated users are automatically authenticated to ThoughtSpot. 
+With SSO, you can use your host application, or an external service as the identity provider, and allow authenticated users to access the ThoughtSpot service.
+The ThoughtSpot administrators can set up SAML SSO either using the TSCLI command line or the *Admin* console in the ThoughtSpot application.
 +
 For more information, see xref:configure-saml.adoc[Configure SAML].
 Trusted Authentication::
-Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication service with a token for a given ThoughtSpot user. This token is used for obtaining trust from the third-party client applications to provide access to ThoughtSpot features.
+Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication service with a token for a given ThoughtSpot user. This token is used for obtaining trust from the third-party client applications before granting  access to ThoughtSpot content.
 +
 For more information, see xref:trusted-authentication.adoc[Configure trusted authentication].
 
 == Define security settings
-Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities. Cross-origin or cross-domain verification prevents such security risks.
+Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities. Cross-origin or cross-domain verification prevents such security risks. 
 
-When embedding, you must enable CORS between your client application domain and the ThoughtSpot domain to exchange data and resources.CORS allows an application to make an HTTP request to access resources and data from another application in a different domain. Enabling CORS also protects your data, so that another actor cannot use the same URL to embed the visualization in their Web pages.
+Before embedding, you must enable Cross-Origin Resource Sharing(CORS) between your client application domain and the ThoughtSpot domain for secure exchange of data and resources. CORS allows an application to make an HTTP request to safely access resources and data from another application in a different domain. Enabling CORS also protects your data, so that another actor cannot use the same URL to embed the visualization in their Web pages.
+
+For more information, see xref:security-settings.adoc[Configure security settings].
 ////
 == Identify the UI elements to rebrand
 

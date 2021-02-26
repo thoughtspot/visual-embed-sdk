@@ -1,5 +1,5 @@
 = Search Data API
-last_updated: 4/21/2020
+:toc: true
 
 :page-title: Search Data API
 :page-pageid: search-data-api

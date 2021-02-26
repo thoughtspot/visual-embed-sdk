@@ -5,30 +5,31 @@
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot SpotDev Portal
 
-The ThoughtSpot SpotDev portal helps you learn how to use the ThoughtSpot SDKs, APIs, and developer tools to build your web applications with ThoughtSpot content. 
-The SpotDev portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for embedding and application integration.
+The ThoughtSpot SpotDev portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content. 
+The SpotDev portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
  
 == Access SpotDev portal
-SpotDev portal is available for both new and existing users of ThoughtSpot. 
 
-New user?::
+To access SpotDev portal, follow these steps:
+
+If you are a new user::
 . Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
 . Click the *Developers* tab.
 . To evaluate ThoughtSpot features, click *Sign Up* and register for a free trial. 
 . To explore ThoughtSpot APIs, click *Playground*. 
 
-Already a ThoughtSpot Cloud user?::
+If you are an existing ThoughtSpot Cloud user?::
 . Sign in to ThoughtSpot Cloud.
 . Navigate to the *SpotDev* tab.
-. Explore the SpotDev portal features, and build your sample code in the *Playground*. 
-The SpotDev portal also allows users to customize styles and configure additional actions for visualizations and pinboards. 
+. Explore the SpotDev portal features, and build your sample code in *Playground*. 
+The SpotDev portal also allows users to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application. 
 
 == Find your way around  
 The SpotDev portal includes several sections to assist you through your embedding journey.
 
 Home::
 The *Home* page of the SpotDev portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
-The home page also includes links to the Developer Documentation and the *Playground* to preview the functions.
+The home page also includes links to the Developer Documentation and the *Playground* to preview the toolkit.
 
 Guide::
 The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot SDK and APIs to integrate ThoughtSpot features into your application.
@@ -39,14 +40,14 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 * Visualizations
 * Pinboards
 * Full application
-+
+
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Visit Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Visit Playground</a>
 ++++
 
 
 Customizations::
-For ThoughtSpot users with administrator and developer privileges, the SpotDev portal displays the following customization settings:
+For ThoughtSpot users with the administrator and developer privileges, the SpotDev portal displays the following customization settings:
 
 * *Styles*
 +
@@ -62,7 +63,7 @@ Security controls for accessing embedded content from external applications.
  
 == Explore the APIs
 ThoughtSpot provides a set of APIs, SDK, and developer tools to integrate search analytics, data insights, visualizations, pinboards, and even the entire ThoughtSpot application in an external application, portal, or business solution.
-The SpotDev Playground allows developers to preview the code, test it, and familiarize themselves with the application controls.
+The *Playground* allows developers to preview the code, test it, and familiarize themselves with the application controls.
 
 === Search
 To explore the search embed API and preview the code: 

@@ -1,5 +1,5 @@
 = Group API
-:last_updated: 11/18/2019
+:toc: true
 
 :page-title: Group API
 :page-pageid: group-api

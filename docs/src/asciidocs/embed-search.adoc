@@ -1,4 +1,4 @@
-== Embed ThoughtSpot Search
+= Embed ThoughtSpot Search
 :toc: true
 
 :page-title: Embed Search
@@ -7,25 +7,25 @@
 
 This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
 
-=== Import the JavaScript library
+== Import the JavaScript library
 In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
 [source,javascript]
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
-=== Import the SearchEmbed package
+== Import the SearchEmbed package
 Import the SearchEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
 import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
-=== Import styles
+== Import styles
 [source,javascript]
 ----
 import "./styles.css"
 ----
-=== Add the embed domain
+== Add the embed domain
 
 To allow your client application to connect to ThoughtSpot:
 
@@ -61,7 +61,7 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 This approach is used only for testing client applications. Do not use this in production environments.
 
 ---
-=== Create an instance of the search object
+== Create an instance of the search object
 Create an instance of the SearchEmbed object and customize your search page view.
 
 [source,javascript]
@@ -110,8 +110,8 @@ _String_. Indicates the reason for disabling an action from the search answer pa
 
 ---
 
-=== Construct the URL and render the embedded search
-Construct the URL of the embedded ThoughtSpot search object to load in the iframe.
+== Render the embedded search
+Construct the URL of the embedded ThoughtSpot search object.
 Render the embedded search and pass parameters such as data source ID.
 [source, javascript]
 ----
@@ -127,8 +127,7 @@ SearchEmbed.render({
     }
 
 ----
-==== Attributes for rendering search
----
+
 dataSources::
 _String_. The Global Unique Identifier (GUID) of the data sources for searching data.
 
@@ -142,7 +141,7 @@ _String_. The search query string to use when the application loads.
 
 ---
 
-=== Subscribe to events
+== Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
@@ -172,7 +171,7 @@ dataSourceSelected::
 The data source for searching data is selected.
 ////
 
-=== Test the embedded workflow
+== Test the embedded workflow
 
 To verify the ThoughtSpot Search integration, perform the following tasks:
 
@@ -181,7 +180,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
 
-=== Code sample
+== Code sample
 
 [source, javascript]
 ----
@@ -205,7 +204,7 @@ searchEmbed.render({});
 ----
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources

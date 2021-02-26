@@ -11,27 +11,27 @@ This page explains, through an example, how to embed a ThoughtSpot Pinboard in y
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
 ////
-=== Import the JavaScript library
+== Import the JavaScript library
 In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
 [source,javascript]
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
-=== Import the PinboardEmbed package
+== Import the PinboardEmbed package
 Import the pinboard SDK library to your application environment:
 
 [source,javascript]
 ----
 import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
-=== Import styles
+== Import styles
 [source,javascript]
 [source,javascript]
 ----
 import "./styles.css"
 ----
 
-=== Add the embed domain
+== Add the embed domain
 
 To allow your client application to connect to ThoughtSpot:
 
@@ -66,7 +66,7 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 This approach is used only for testing client applications. Do not use this in production environments.
 
 ---
-=== Construct the embed content
+== Construct the embed content
 [source,JavaScript]
 ----
  const embed = new PinboardEmbed("#embed", {
@@ -78,7 +78,6 @@ This approach is used only for testing client applications. Do not use this in p
 	hiddenActions: [],
 });
 ----
-==== Pinboard Page UI Attributes
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the pinboard.
 
 ---
@@ -102,7 +101,7 @@ disabledActionReason::
 _String_. Reason for disabling an action on the Pinboards page.
 
 ---
-=== Render the embedded pinboard
+== Render the embedded pinboard
 Costruct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
@@ -119,7 +118,7 @@ Costruct the URL for the embedded pinboard and render the embedded content:
         return this;
     }
 ----
-==== Attributes for rendering pinboards
+
 pinboardId::
 _String_. The GUID of the pinboard.
 
@@ -141,10 +140,10 @@ http://<thoughtspot_server>:<port>/
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
 +
-[width="100%" cols="1,2,1"]
+[width="100%" cols="1,1,1"]
 [options='header']
 |===
-|Operator |Description  |Number of Values
+|Operator|Description|Number of Values
 
 | `EQ`
 | equals
@@ -199,12 +198,12 @@ Runtime filters have several operators you can use to filter your embedded visua
 | 2
 |===
 
----
-=== Subscribe to events
+
+== Subscribe to events
 Register event handlers and subscribe to events triggered by the embedded pinboard:
 [source,javascript]
 ----
-  //register event listeners for initializing pinboard loading event
+  //register event listeners for initializing and loading pinboards
 
   embed.on("init", showLoader)
   embed.on("load", hideLoader)
@@ -221,7 +220,7 @@ drilldown::
 Visualization drilldown is initiated.
 ////
 
-=== Test the embedded workflow
+== Test the embedded workflow
 
 * Load the client application.
 * Try accessing a pinboard embedded in your application.
@@ -229,7 +228,7 @@ Visualization drilldown is initiated.
 * If you have disabled a menu item, verify if the menu command is disabled on the Pinboards page.
 * Verify the runtime filters.
 
-=== Code sample
+== Code sample
 
 [source,javascript]
 ----
@@ -255,10 +254,11 @@ pinboardEmbed.render({
 });
 
 ----
+
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground">Preview in Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
-===Additional resources
+== Additional resources
 
 For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
