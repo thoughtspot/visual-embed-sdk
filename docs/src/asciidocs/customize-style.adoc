@@ -1,4 +1,4 @@
-= Style customization
+= Customize Styles
 :toc: true
 
 :page-title: Style customization

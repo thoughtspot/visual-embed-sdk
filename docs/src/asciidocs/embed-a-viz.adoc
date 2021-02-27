@@ -47,6 +47,8 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
++
+---
 authType::
 [horizontal]
 SSO::
@@ -122,6 +124,8 @@ http://<thoughtspot_server>:<port>/
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
 
+[width="50%" cols="1,2,1"]
+[options='header']
 |===
 |Operator|Description|Number of Values
 

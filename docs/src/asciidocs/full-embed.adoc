@@ -142,7 +142,6 @@ The unique identifier for the ThoughtSpot application page. The following values
 [horizontal]
 Page.Search::
 Displays the search answers page when the application loads.
----
 Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads.
 Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.

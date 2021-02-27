@@ -1,8 +1,8 @@
-= REST API authentication
+= Get started
 :toc: true
 
 :page-title: REST API authentication
-:page-pageid: rest-api-authentication
+:page-pageid: rest-api-getStarted
 :page-description: REST API Authentication
 
 The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
@@ -17,7 +17,24 @@ For more information on enabling Cross-Origin Resource Sharing (CORS) and whitel
 
 == Base URI
 
-The base URI for the REST APIs calls is:
+The base URI for the REST APIs calls includes the following:
+
+* The hostname or IP address of your ThoughtSpot application instance.
+* Port number
+
+For example:
+
 ----
-https://<your-thoughtspot-hostname:port.com>
+https://<your-thoughtspot-hostname:port>.com
 ----
+
+== API service name and version
+
+For REST API calls, in addition to the base URI, append the API service name and the version number. 
+
+For example:
+
+----
+https://<your-thoughtspot-hostname:port>.com/callosum/v1/
+----
+

@@ -8,14 +8,14 @@
 
 The Session APIs enable you to manage the sessions of existing users.
 
-== Managing login
+== Log in a user
 
 Use this API to authenticate and login a user.
 
 === Resource URL
-
-`post` /tspublic/v1/session/login
-
+----
+POST /tspublic/v1/session/login
+----
 === Request Parameters
 
 [width="100%" cols="1,1,4"]
@@ -27,7 +27,7 @@ Use this API to authenticate and login a user.
 |rememberme|boolean|A flag to remember the user session. The system default is `false`.
 |====
 
-=== Request Example
+=== Example requests
 
 .cURL
 ----
@@ -39,17 +39,20 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<base-uri>/tspublic/v1/session/login
 ----
 
-=== Response Example
+=== Response codes
 
-----
-Not applicable
-204 - Successful login
-----
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|No response was specified 
+|**204**|Successful login 
+|**401**|Login failure/unauthorized 
+|===
 
-== Managing logout
+== Log out a user
 
-Use this API to log a current user out of an existing session.
-The user details are captured from the active user session.
+Use this API to log out a current user from an existing session.
+ 
 
 === Resource URL
 
@@ -57,7 +60,7 @@ The user details are captured from the active user session.
 POST /tspublic/v1/session/logout
 ----
 
-=== Request Example
+=== Example request
 
 .cURL
 ----
@@ -69,13 +72,15 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 https://<instance>/callosum/v1/tspublic/v1/session/logout
 ----
 
-=== Response Example
+=== Response codes
 
-----
-Not applicable
-204 - Successful logout
-----
-
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|No response was specified 
+|**204**|Successful logout 
+|**401**|Logout failure/unauthorized 
+|===
 ////
 ## Error Codes
 <table>
