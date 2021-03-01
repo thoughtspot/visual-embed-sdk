@@ -1,13 +1,13 @@
-import hljs from "highlight.js"
+import hljs from 'highlight.js';
 import Copy from '../../assets/svg/copy.svg';
 
-export const addEventListner = (element: HTMLElement, ...args: HTMLElement[]) => {
+export const enableCopyToClipboard = (element: HTMLElement, ...args: HTMLElement[]) => {
     element.addEventListener('click', () => {
-        const textareaElement = document.createElement("textarea");
+        const textareaElement = document.createElement('textarea');
         textareaElement.value = (args[0] as HTMLElement).innerText;
         element.parentElement.appendChild(textareaElement);
         textareaElement.select();
-        document.execCommand("copy");
+        document.execCommand('copy');
         element.parentElement.removeChild(textareaElement);
         const divElement = document.createElement('div');
         divElement.classList.add('tooltip');
@@ -28,7 +28,7 @@ export const customizeDocContent = () => {
     document.querySelectorAll('.listingblock>.content>.highlight>code').forEach((tag) => {
         const buttonElement = document.createElement('button');
         buttonElement.setAttribute('class', 'copyButton');
-        addEventListner(buttonElement, tag as HTMLElement);
+        enableCopyToClipboard(buttonElement, tag as HTMLElement);
         const imageElement = document.createElement('img');
         imageElement.src = Copy;
         imageElement.alt = 'Copy';
@@ -44,7 +44,7 @@ export const customizeDocContent = () => {
         tag.parentElement.appendChild(wrapperDiv);
     });
     /* To highlight code snippets */
-    document.querySelectorAll("pre code").forEach(block => {
+    document.querySelectorAll('pre code').forEach(block => {
         hljs.highlightBlock(block as HTMLElement);
     })
 };
