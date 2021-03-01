@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useStaticQuery, graphql, navigate } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
+import { useResizeDetector } from 'react-resize-detector';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
@@ -14,9 +15,17 @@ import {
     NAV_PREFIX,
     NOT_FOUND_PAGE_ID,
 } from '../configs/doc-configs';
+import {
+    LEFT_NAV_WIDTH_DESKTOP,
+    MAX_MOBILE_RESOLUTION,
+    LEFT_NAV_WIDTH_MOBILE
+} from '../constants/uiContants';
 
 // markup
 const IndexPage = ({ location }) => {
+
+    const { width, ref } = useResizeDetector();
+
     const [params, setParams] = useState({
         [TS_HOST_PARAM]: '',
         [TS_ORIGIN_PARAM]: '',
@@ -28,6 +37,7 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
+    const [leftNavWidth, setLeftNavWidth] = useState(width > MAX_MOBILE_RESOLUTION ? LEFT_NAV_WIDTH_DESKTOP : LEFT_NAV_WIDTH_MOBILE);
 
     useEffect(() => {
         const paramObj = queryStringParser(location.search);
@@ -116,14 +126,19 @@ const IndexPage = ({ location }) => {
 
     return (
         <>
-            <main>
+            <main ref={ref as React.RefObject<HTMLDivElement>}>
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
                     backLink={backLink}
+                    docWidth={width}
+                    handleLeftNavChange={setLeftNavWidth}
                     location={location}
                 />
-                <div className="documentBody">
+                <div
+                    className="documentBody"
+                    style={{ width: `${width - leftNavWidth}px` }}
+                >
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap docContent={docContent} location={location} />

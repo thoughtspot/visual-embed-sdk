@@ -2,11 +2,10 @@
 @import '../../assets/styles/variables.scss';
 
 aside {
-    width: 310px;
-    border-right: 1px $lightgrey solid;
     padding-top: $padding-md;
     padding-bottom: $padding-md;
-    position: fixed;
+    width: 100%;
+    border-right: 1px $lightgrey solid;
     left: $gutter;
     height: 100vh;
     overflow-y: auto;
@@ -148,8 +147,16 @@ aside {
     }
 }
 
-@media screen and (min-width: 767px) and (max-width: 1024px) {
-    aside {
-        width: 260px;
-    }
+/* Overriding react-resizable package class to match UI */
+.react-resizable-handle {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    cursor: col-resize;
+}
+
+.resizable {
+    position: fixed;
 }
