@@ -1,9 +1,9 @@
-= Authentication
+= Get started
 :toc: true
 
-:page-title: REST API authentication
-:page-pageid: rest-api-authentication
-:page-description: REST API Authentication
+:page-title: Getting started with REST API
+:page-pageid: rest-api-getstarted
+:page-description: Getting started with REST API 
 
 The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
 To access REST APIs, you must authenticate through SAML SSO.
@@ -25,7 +25,7 @@ The base URI for the REST APIs calls includes the following:
 For example:
 
 ----
-https://<your-thoughtspot-hostname:port>.com
+https://<your-thoughtspot-hostname:port>
 ----
 
 == API service name and version
@@ -35,6 +35,6 @@ For REST API calls, in addition to the base URI, append the API service name and
 For example:
 
 ----
-https://<your-thoughtspot-hostname:port>.com/callosum/v1/
+https://<your-thoughtspot-hostname:port>/callosum/v1/
 ----
 

@@ -37,16 +37,17 @@ Internet Explorer, Safari
 NOT supported mobile browser::
 Safari on iOS
 
+////
 === Error messages and full embed
 
-In ThoughtSpot, you can disable error messages within the ThoughtSpot `iframe`.
+In ThoughtSpot, you can disable error messages within the ThoughtSpot embedded context. 
 We provide APIs so you can access error messages and display them in your application UI appropriately.
 
-This approach suppressing error messages inside the `<iframe>`, and uses the `window.postMessage` function to passes them through to the parent application, which acts as the listener.
+This approach of suppressing error messages inside the `<iframe>` uses the `window.postMessage` function to pass them through to the parent application, which acts as the listener.
 
 You can view these 'hidden' messages in the console logs.
 Contact ThoughtSpot Support to enable this feature.
-
+////
 == Full application embedding workflow
 
 === Import the JavaScript library
@@ -142,7 +143,6 @@ The unique identifier for the ThoughtSpot application page. The following values
 [horizontal]
 Page.Search::
 Displays the search answers page when the application loads.
----
 Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads.
 Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.

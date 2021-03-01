@@ -80,29 +80,24 @@ This approach is used only for testing client applications. Do not use this in p
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the pinboard.
 
----
 fullHeight::
 _Boolean_. Sets the pinboard page to full height.
 
----
 disabledActions::
 _String_. Menu items from the list of actions to be disabled on the Pinboards  page.
 +
 For example, to disable the *Present* action from the (*...*) menu, add `present` to the  `disabledActions` attribute.
 
----
 hiddenActions::
 _String_. Menu items from the list of actions to be hidden on the Pinboards  page.
 +
 For example, to hide *Add filters* action from the  (*...*) menu, add `Add filters` to the `hiddenActions` attribute.
 
----
 disabledActionReason::
 _String_. Reason for disabling an action on the Pinboards page.
 
----
 == Render the embedded pinboard
-Costruct the URL for the embedded pinboard and render the embedded content:
+Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
   PinboardEmbed.render({
@@ -122,11 +117,9 @@ Costruct the URL for the embedded pinboard and render the embedded content:
 pinboardId::
 _String_. The GUID of the pinboard.
 
----
 vizId [small]_optional_::
 _String_. The Global Unique Identifier (GUID) of the visualizations added to the pinboard.
 
----
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the Pinboard page loads.
 +
@@ -136,11 +129,12 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<thoughtspot_server>:<port>/
-?col1=<column_name\>&op1=EQ>&val1=red#/pinboard/<pinboardId>/<vizId>
+?col1=Color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<vizId>
 ----
-Runtime filters have several operators you can use to filter your embedded visualizations.
+Runtime filters have several operators for filtering your embedded visualizations.
 +
-[width="100%" cols="1,1,1"]
+
+[width="50%" cols="1,2,1"]
 [options='header']
 |===
 |Operator|Description|Number of Values

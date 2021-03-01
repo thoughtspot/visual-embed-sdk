@@ -1,4 +1,4 @@
-= Actions customization
+= Add custom actions
 :toc: true
 
 :page-title: Actions customization
@@ -31,7 +31,7 @@ To add custom menu item:
 
 . Go to *SpotDev* > *Customizations* > *Actions*.
 . Click *Create new action*.
-. Add a label for the menu item. For example. Billing Renewal.
+. Add a label for the menu item. For example, Billing Renewal.
 . Add the URL of the application to which you want to attach the action.
 . Specify if you want to set the action as a primary action or menu item in the actions(*...*) menu.
 . Select the ThoughtSpot application pages to which you want to add the menu item. 
@@ -56,7 +56,7 @@ To add a callback function:
 
 . Go to *SpotDev* > *Customizations* > *Actions*.
 . Click *Add custom action item*.
-. Add a label for the menu item. For example. Billing Renewal.
+. Add a label for the menu item.
 . Add the syntax for the callback function. 
 . Specify if you want to set the function as a primary action or menu item in the actions(*...*) menu.
 . Select the ThoughtSpot application pages to which you want to add the function. 

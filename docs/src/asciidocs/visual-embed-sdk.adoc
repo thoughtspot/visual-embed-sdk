@@ -1,6 +1,4 @@
-
 = Visual Embed SDK
-
 :toc: true
 
 :page-title: What is Visual Embed SDK
@@ -27,8 +25,8 @@ PinboardEmbed::
 For embedding ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
 
 
-fullEmbed::
-For embedding xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
+AppEmbed::
+For embedding xref:full-embed.adoc[the full ThoughtSpot application] with or without the navigation bar.
 
 
 == Configuration requirements for embedding
@@ -53,11 +51,11 @@ Consider the possible link types, and how they open:
 +
 Same browser tab as ThoughtSpot application.
 
-* Link in table embedded in an `<iframe>`.
+* Link in table embedded in  a DOM element.
 +
 Same `<iframe>` that contains the table.
 
-* Link in full ThoughtSpot application embedded in an `<iframe>` element
+* Link in full ThoughtSpot application embedded in a web page.
 +
 Same `<iframe>` that contains the application.
 

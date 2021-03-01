@@ -11,11 +11,10 @@ Only the ThoughtSpot users with admin privileges can configure security settings
 
 == Configure Cross-Origin HTTP Requests
 
-When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for the same-orgin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
+When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for the same-origin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
  
 The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
-////
 === Enable CORS from the command line
 
 From the ThoughtSpot command line, run the following command with the appropriate values: 
@@ -24,13 +23,12 @@ From the ThoughtSpot command line, run the following command with the appropriat
 ----
  $ echo "https?://(mythoughtspot1.mycompany.com|.*:443|.*:8080|.*:80)" | tscli --adv config set --key "/config/nginx/corshosts"
 ----
-////
 
 === Enable CORS on ThoughtSpot UI
 To enable CORS, follow these steps:
 
 . Log in to ThoughtSpot.
-. Click *Admin* tab.
+. Click the *Admin* tab.
 . Under *Settings*, click *Advanced*.
 . Enable *Cross-Origin HTTP Requests (CORS)*.
 . Click *Save Settings*.
@@ -53,7 +51,7 @@ To configure same-site access from the ThoughtSpot UI, follow these steps:
 . Select *None* under *Same-site*.
 
 ////
-To set the same-site access, exceute the following command at the tscli command line:
+To set the same-site access, execute the following command at the TSCLI  command line:
 [source,console]
 ----
 $ tscli --adv service add-gflag nginx.nanny nginx_cookie_flag 'Secure SameSite=None'

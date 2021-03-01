@@ -6,30 +6,31 @@
 :page-description: Session API
 
 
-The Session APIs enable you to manage the sessions of existing users.
+The Session APIs enable you to manage the sessions of ThoughtSpot users.
 
-== Managing login
+== Log in a user
 
-Use this API to authenticate and login a user.
+Use this API to authenticate and log in a user.
 
 === Resource URL
-
-`post` /tspublic/v1/session/login
-
+----
+POST /tspublic/v1/session/login
+----
 === Request Parameters
 
 [width="100%" cols="1,1,4"]
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`username`|string|Username of the user.
-|password|string|Password of the user.
+|`username`|string|Username of the user account.
+|password|string|The password of the user account.
 |rememberme|boolean|A flag to remember the user session. The system default is `false`.
 |====
 
-=== Request Example
+=== Example requests
 
 .cURL
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=test&password=fhfh2323bbn&rememberme=false' 'https://<instance>/callosum/v1/tspublic/v1/session/login'
 ----
@@ -39,17 +40,20 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<base-uri>/tspublic/v1/session/login
 ----
 
-=== Response Example
+=== Response codes
 
-----
-Not applicable
-204 - Successful login
-----
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|No response was specified 
+|**204**|Successful login 
+|**401**|Login failure/unauthorized 
+|===
 
-== Managing logout
+== Log out a user
 
-Use this API to log a current user out of an existing session.
-The user details are captured from the active user session.
+Use this API to log out a current user from an existing session.
+ 
 
 === Resource URL
 
@@ -57,25 +61,28 @@ The user details are captured from the active user session.
 POST /tspublic/v1/session/logout
 ----
 
-=== Request Example
+=== Example request
 
 .cURL
+[source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/session/logout'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/session/logout'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/session/logout
+https://<base-uri>/callosum/v1/tspublic/v1/session/logout
 ----
 
-=== Response Example
+=== Response codes
 
-----
-Not applicable
-204 - Successful logout
-----
-
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|No response was specified 
+|**204**|Successful logout 
+|**401**|Logout failure/unauthorized 
+|===
 ////
 ## Error Codes
 <table>

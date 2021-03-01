@@ -1,26 +1,36 @@
-= User API
+= Manage user groups
 :toc: true
 
-:page-title: User API
-:page-pageid: user-api
-:page-description: User API
+:page-title: Manage users 
+:page-pageid: api-user-management
+:page-description: Manage users using REST APIs
 
-The User APIs enable you to manage user- and group-related operations in the ThoughtSpot system.
+The user access control in ThoughtSpot is applied based on the users and groups configured in your ThoughtSpot application instance. The users and groups are stored locally in ThoughtSpot, even if the authentication is done using the SAML SSO or trusted authentication service. 
 
-You can use the User APIs to manage your users and groups in ThoughtSpot.
-For example, you may want to view all users and groups in your ThoughtSpot cluster.
+To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank] or through the REST API service.
+
+ThoughtSpot provides the following set of REST APIs for managing users:
+[width="80%" cols="2,2"]
+[options='header']
+|====
+|Request URL|Description|
+`*GET* /tspublic/v1/user/list`|Get all users, groups, and their inter-dependencies.
+|`*POST* /tspublic/v1/user/updatepassword`|Change the password of a user account.
+|`*POST* /tspublic/v1/user/transfer/ownership`|Use this API to transfer ownership of all objects from one user to another.
+|`*POST* /tspublic/v1/user/sync`|Synchronize principal from your client application with ThoughtSpot.
+|====
 
 == Transfer ownership
 
-Use this API to transfer ownership of _all_ objects from one user to another.
+To transfer ownership of _all_ objects from one user to another, send a `POST` request:
+
+----
+POST /tspublic/v1/user/transfer/ownership
+----
 
 [NOTE]
 You cannot transfer objects to or from the system user or the administrative user.
 
-=== Resource URL
-----
-POST /tspublic/v1/user/transfer/ownership
-----
 === Request parameters 
 [width="100%" cols="2,2,4"]
 [options='header']
@@ -30,31 +40,31 @@ POST /tspublic/v1/user/transfer/ownership
 |`toUserName`|string|Username to transfer to.
 |====
 
-
 === Example request
 
-.cURL
+.CURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
 ----
 
 .Request URL
 ----
-https://<base-URI>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
+https://<base-uri>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
 ----
 
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|If the ownership of all objects is successfully transferred. 
-|**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
-|===
+=== Example response
+----
+204 - Successful login
+----
 
 == Synchronize principals
 
-Use this API to synchronize ThoughtSpot users and groups with your external database.
+To synchronize ThoughtSpot users and groups with your external database, send a `POST` request to the following endpoint:
+
+----
+POST /tspublic/v1/user/sync
+----
+
 The payload takes principals containing all users and groups present in the external database. 
 A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
@@ -66,15 +76,11 @@ During this operation:
 This includes group membership.
 
 * Objects not present in ThoughtSpot, but present in the external list  are created in ThoughtSpot.
-
-
-=== Resource URL
-----
-POST /tspublic/v1/user/sync
-----
+ 
 === Request parameters
 
 This API uses `multipart/form-data` content type.
+
 [width="100%" cols="1,1,4"]
 [options='header']
 |===
@@ -100,8 +106,7 @@ When true, this flag removes any deleted users or groups.
 
 === Example request
 
-.cURL
-[source, cURL]
+.CURL
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<base-uri>/callosum/v1/tspublic/v1/user/sync'
 ----
@@ -175,22 +180,13 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 ]
 ----
 
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|Description was not specified 
-|===
 == Change password
 
-Use this API to change the password of a user.
-
-=== Resource URL
+To change the password of the user, send a POST request to the following endpoint:
 ----
 POST /tspublic/v1/user/updatepassword
 ----
-=== Request parameters
+==== Request parameters
 [width="100%" cols="1,2,3"]
 [options='header']
 |====
@@ -201,40 +197,39 @@ POST /tspublic/v1/user/updatepassword
 |====
 === Example request
 
-.cURL
+.CURL
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
 ----
-https://<base-uri>/tspublic/v1/user/updatepassword
+https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
-=== Response codes
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|If the password of the user is changed successfully. 
-|===
+=== Example response
+
+----
+204 - Successful password update
+----
 
 == Fetch users and groups
-
 Use this API to get a list of all users, groups, and their inter-dependencies in the form of principal objects.
+
+=== Request properties
 A typical principal object contains the following properties:
 
 [width="100%" cols="1,3"]
 [options='header']
 |====
 |Property|Description 
-|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
+|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
 |`displayName`|Display name of the principal.
-|`description`|Description of the principal. 
-|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
+|description|Description of the principal. 
+|mail|The email address of the user. This field is populated only for the user object. It is ignored in the case of groups. 
 |`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
 |`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
-|`password` 
-
+|password
 a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
 
 Password is only required:
@@ -244,25 +239,27 @@ Password is only required:
 |`groupNames`|Name of the groups to which a principal belongs. Groups and users can belong to other groups. 
 |====
 
-=== Resource URL
+To fetch a list of all users, send a `POST` request to the following endpoint:
 ----
 GET /tspublic/v1/user/list
 ----
 === Example request
 
 .cURL
+
+[source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' 'https://<instance>/callosum/v1/tspublic/v1/user/list'
+curl -X GET --header 'Accept: application/json' 'https://<base-uri>/callosum/v1/tspublic/v1/user/list'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/user/list
+https://<base-uri>/callosum/v1/tspublic/v1/user/list
 ----
 
 === Example response
 
-[source,JSON]
+[source, JSON]
 ----
 [
   {
@@ -286,7 +283,7 @@ https://<instance>/callosum/v1/tspublic/v1/user/list
   {
     "name": "rls-group-3",
     "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs directly to rls-group-5",
+    "description": "Contains directly rls-group-1, rls-group-2 and belongs directlsy to rls-group-5",
     "created": 1459376495060,
     "modified": 1459376590681,
     "principalTypeEnum": "LOCAL_GROUP",
@@ -295,13 +292,6 @@ https://<instance>/callosum/v1/tspublic/v1/user/list
   }
   ]
 ----
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|Description was not specified 
-|===
 
 ////
 ## Error Codes
