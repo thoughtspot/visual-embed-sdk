@@ -1,9 +1,10 @@
 = REST API Reference 
- 
+:toc: true
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
 :page-description: Pinboard Data API
+
 
 Use the following REST APIs for programmatically managing users, groups, sessions, and embedding data.
 
