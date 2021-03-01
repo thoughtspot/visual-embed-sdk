@@ -5,9 +5,9 @@
 :page-pageid: push-data
 :page-description: Push data to an external application
 
-The ThoughtSpot REST API service allows you push data to third-party application from the ThoughtSpot application context. 
+ThoughtSpot allows you to push data to third-party application from the ThoughtSpot application context through an API service. 
 
-For example, if your client application has embedded the ThoughtSpot search functionality, you can initiate an action to send a search answer to another application or a workflow. To do this, you can use the custom menu item configured for your embedded instance and the REST API. 
+For example, if your client application has embedded the ThoughtSpot search functionality, you can initiate an action to send a search answer to another application or a workflow. To do this, you can use the custom menu item configured for your embedded instance. 
  
 For more information on custom menu items, see xref:customize-actions-menu.adoc[Add custom actions].
 

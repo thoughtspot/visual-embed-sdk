@@ -5,7 +5,7 @@
 :page-pageid: api-user-management
 :page-description: Manage users using REST APIs
 
-The user access control in ThoughtSpot is determined by the users and groups configured in your ThoughtSpot application instance. The users and groups are stored locally in ThoughtSpot, even if authentication is done using SSO or trusted authentication service. 
+The user access control in ThoughtSpot is applied based on the users and groups configured in your ThoughtSpot application instance. The users and groups are stored locally in ThoughtSpot, even if the authentication is done using the SAML SSO or trusted authentication service. 
 
 To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank] or through the REST API service.
 
@@ -54,7 +54,6 @@ https://<base-uri>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=
 
 === Example response
 ----
-Not applicable
 204 - Successful login
 ----
 
@@ -66,15 +65,17 @@ To synchronize ThoughtSpot users and groups with your external database, send a 
 POST /tspublic/v1/user/sync
 ----
 
-The payload takes principals containing all users and groups present in the external database. A successful API call returns the object that represents the changes made in the ThoughtSpot system.
+The payload takes principals containing all users and groups present in the external database. 
+A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
 During this operation:
 
-* Objects (users or groups) present in ThoughtSpot, but not present in the external list will be deleted in ThoughtSpot.
-* Objects present in ThoughtSpot and in the external list will be updated such that the object attributes in ThoughtSpot match those present in the list.
+* Objects (users or groups) present in ThoughtSpot, but not present in the external list are deleted in ThoughtSpot.
+* Objects present in ThoughtSpot and the external list are updated such that the object attributes in ThoughtSpot match those present in the list.
 +
 This includes group membership.
-* Objects not present in ThoughtSpot, but present in the external list  will be created in ThoughtSpot.
+
+* Objects not present in ThoughtSpot, but present in the external list  are created in ThoughtSpot.
  
 === Request parameters
 
@@ -86,7 +87,7 @@ This API uses `multipart/form-data` content type.
 |Form Parameter|Data Type|Description
 
 |`principals`|string|Specifies a list of principal objects.
-This is ideally a JSON file containing containing all users and groups present in the external database.
+This is a JSON file containing all users and groups present in the external database.
 
 |`applyChanges`
 |boolean
@@ -122,13 +123,14 @@ This example covers user objects (with emails), group objects, and their relatio
 * `created` and `modified` dates may be left blank for new users.
 * `principalTypeEnum` value specifies if the principal is a user or a group.
 
-Here, `test1` user belongs to two groups - `Customer Success` and `Marketing`.
-`test2` belongs to the group `Administrator`.
+Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`. 
+`test2` belongs to the group `Administrator`. 
 `All` is a default group to which every user belongs;
 you may omit it from the input.
 
 Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html#sharing-visibility[share objects] with users in this group.
 
+[source, JSON]
 ----
 [
   { "name": "Customer Success",
@@ -208,7 +210,6 @@ https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword
 === Example response
 
 ----
-Not applicable
 204 - Successful password update
 ----
 
@@ -222,17 +223,20 @@ A typical principal object contains the following properties:
 [options='header']
 |====
 |Property|Description 
-|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user/group. Consequently, this field is required to be unique (unique for users and groups separately. i.e., you can have user "`x`" and group "`x`"). 
+|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the prinicipal must be unique. 
 |`displayName`|Display name of the principal.
 |description|Description of the principal. 
-|mail|Email address of the user. This field should be populated in case of user only. It is ignored in the case of groups. 
+|mail|The email address of the user. This field is populated only for the user object. It is ignored in the case of groups. 
 |`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
-|`LOCAL_USER`|a user is validated through password saved in the ThoughtSpot database `LOCAL_GROUP`.
-|password|Password of the user. This field should be populated in case of user only. It is ignored in the case of groups. Password is only required:
-* if the user is of LOCAL_USER type,
-* when the user is created for the first time. 
-* In subsequent update, the user password is not updated even if it changes in the source system. 
-|`groupNames`|Group names that a principal belongs to. Groups and users can belong to other groups. 
+|`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
+|password
+a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+
+Password is only required:
+
+* if the user is of LOCAL_USER type
+* when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
+|`groupNames`|Name of the groups to whic a principal belongs. Groups and users can belong to other groups. 
 |====
 
 To fetch a list of all users, send a `POST` request to the following endpoint:
@@ -241,7 +245,9 @@ GET /tspublic/v1/user/list
 ----
 === Example request
 
-.CURL
+.cURL
+
+[source, cURL]
 ----
 curl -X GET --header 'Accept: application/json' 'https://<base-uri>/callosum/v1/tspublic/v1/user/list'
 ----
@@ -253,6 +259,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/user/list
 
 === Example response
 
+[source, JSON]
 ----
 [
   {

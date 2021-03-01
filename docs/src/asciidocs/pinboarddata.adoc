@@ -25,7 +25,7 @@ POST /tspublic/v1/pinboarddata
 |`id`|string|The pinboard id in the system.
 |`vizid`|string|(Optional) The visualization id(s) on a pinboard. Use this parameter to fetch a specific visualization on a pinboard. The syntax is:
          `4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1`, "\...\...
-|`batchsize`|integer|The batch size for loading of pinboard objects. The system default is -1. 
+|`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1. 
 |`pagenumber`|integer|The system default is -1.
 |`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
          `1-based indexingOffset = (pageNumber - 1)` * batchSize

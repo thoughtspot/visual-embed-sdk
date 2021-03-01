@@ -5,16 +5,16 @@
 :page-pageid: api-auth-session
 :page-description: Manage user sessions with REST APIs
 
-For embedding scenarios, ThoughtSpot recommends that you use the SAML SSO or   trusted authentication service to authenticate users. ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. 
+ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users for embedding scenarios. 
 
-However, in large production environments, local management of user profiles may lead to administration overhead. Hence, it is not recommended. 
+ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.  
 
-To authenticate ThoughtSpot users, your application can use the session API.
-The session API lets your host application authenticate and manage user sessions.
+To manage ThoughtSpot user sessions, use the session REST API.
+The session API service allows your host application to authenticate and manage user login.
 
 == Authenticate and log in a user
 
-To authenticate and login a user, send a `POST` request to the following endpoint URL:
+To authenticate and log in a user, send a `POST` request to the following endpoint URL:
 
 ----
 POST /tspublic/v1/session/login
@@ -25,14 +25,16 @@ POST /tspublic/v1/session/login
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`username`|string|Username of the user.
-|`password`|string|Password of the user.
+|`username`|string|Username of the user account.
+|`password`|string|The password of the user account.
 |`rememberme`|boolean|A flag to remember the user session. The system default is `false`.
 |====
 
 === Example request
 
-.CURL
+.cURL
+
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=userA&password=fhfh2323bbn&rememberme=false' 'https://<base-uri>/callosum/v1/tspublic/v1/session/login'
 ----
@@ -46,7 +48,6 @@ https://<base-uri>/callosum/v1/tspublic/v1/session/login
 === Example response
 
 ----
-Not applicable
 204 - Successful login
 ----
 
@@ -60,7 +61,9 @@ POST  /tspublic/v1/session/logout
 
 === Example request
 
-.CURL
+.cURL
+
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/session/logout'
 ----
@@ -72,7 +75,6 @@ https://<base-uri>/callosum/v1/tspublic/v1/session/logout
 
 === Example response 
 ----
-Not applicable
 204 - Successful logout
 ----
 

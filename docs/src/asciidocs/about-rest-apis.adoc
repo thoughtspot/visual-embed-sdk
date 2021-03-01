@@ -13,12 +13,12 @@ Client applications can use the REST APIs for the following purpose:
 * transfer ownership of all objects from one user to another and more. 
 * embed data from visualizations and pinboards in a web page, portal, or application. 
 
-The REST APIs return data as a JSON string. To embed data into your application, extract the data from the JSON file and render it on your Web page.
+The REST APIs return data as a JSON string. To embed data into your application, extract the data from the JSON file, and render it on your Web page.
 
 REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
 
 == List of APIs
-The following list of APIs are available on the Swagger portal ThoughtSpot users.
+The following APIs are available on the Swagger portal for ThoughtSpot users.
 
 === User management
 [width="80%" cols="2,2"]
@@ -38,7 +38,7 @@ The following list of APIs are available on the Swagger portal ThoughtSpot users
 |====
 |Request URL|Description|
 `*POST* /tspublic/v1/group/addprivilege` |Add a privilege to a group.
-|`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group
+|`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group.
 |====
 
 === Authentication and session management
@@ -46,7 +46,7 @@ The following list of APIs are available on the Swagger portal ThoughtSpot users
 [options='header']
 |====
 |Request URL|Description|
-`*POST* /tspublic/v1/session/login` |Authenticate and login a user.
+`*POST* /tspublic/v1/session/login` |Authenticate and log in a user.
 |`*POST* /tspublic/v1/session/logout`|Log out a user from an existing session.
 |====
 
@@ -58,7 +58,7 @@ The following list of APIs are available on the Swagger portal ThoughtSpot users
 Pinboard Data|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from the ThoughtSpot application.
 .2+|Metadata|
 `*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository
-|`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system
+|`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
 |Search data|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
 |====
 
@@ -71,6 +71,6 @@ To access APIs on Swagger:
 ----
 https://<your-thoughtspot.com>/external/swagger 
 ----
-You will get a list of all publicly available REST API services.   
+The portal displays a list of REST API services available for ThoughtSpot users.   
 . Click on a header to expand and view the list of services.  
 . Click on a service name to view more details about the API service.

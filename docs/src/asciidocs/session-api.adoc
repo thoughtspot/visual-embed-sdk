@@ -6,11 +6,11 @@
 :page-description: Session API
 
 
-The Session APIs enable you to manage the sessions of existing users.
+The Session APIs enable you to manage the sessions of ThoughtSpot users.
 
 == Log in a user
 
-Use this API to authenticate and login a user.
+Use this API to authenticate and log in a user.
 
 === Resource URL
 ----
@@ -22,14 +22,15 @@ POST /tspublic/v1/session/login
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`username`|string|Username of the user.
-|password|string|Password of the user.
+|`username`|string|Username of the user account.
+|password|string|The password of the user account.
 |rememberme|boolean|A flag to remember the user session. The system default is `false`.
 |====
 
 === Example requests
 
 .cURL
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=test&password=fhfh2323bbn&rememberme=false' 'https://<instance>/callosum/v1/tspublic/v1/session/login'
 ----
@@ -63,13 +64,14 @@ POST /tspublic/v1/session/logout
 === Example request
 
 .cURL
+[source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/session/logout'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/session/logout'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/session/logout
+https://<base-uri>/callosum/v1/tspublic/v1/session/logout
 ----
 
 === Response codes

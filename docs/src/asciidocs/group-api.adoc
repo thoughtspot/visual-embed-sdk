@@ -12,9 +12,9 @@ The Group APIs enable you to set or remove a privilege to or from a group or mul
 
 Use this API to add a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege to the system default `ALL_GROUP` group.
 All users in the system are always a part of the `ALL_GROUP` group.
-By default, this group does not have either permission.
+By default, this group does not have permission to download or upload data.
 
-All the data sources which the `ALL_GROUP` group has permissions to are downloadable when `DATADOWNLOADING` is applied.
+All the data sources that the `ALL_GROUP` group can access are downloadable when `DATADOWNLOADING` is applied.
 
 === Resource URL
 ----
@@ -27,13 +27,15 @@ POST /tspublic/v1/group/addprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or`USERDATAUPLOADING` privilege.
 
-|groupNames|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
 
 |====
 
 === Example request
 
 .cURL
+
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege'
 ----
@@ -69,13 +71,14 @@ POST /tspublic/v1/group/removeprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|groupNames|string|Specifies a group name to delete the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to delete the privilege to. Valid value is `ALL_GROUP` group. 
 
 |====
 
 === Example request
 
 .cURL
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege'
 ----

@@ -28,7 +28,7 @@
 
 * REST APIs
 ** link:{{navprefix}}=rest-apis[Overview]
-** link:{{navprefix}}=rest-api-getStarted[Get started]
+** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=calling-rest-api[Make a REST API Call]
 ** link:{{navprefix}}=api-user-management[Manage users]
 ** link:{{navprefix}}=api-user-group-management[Manage user groups]

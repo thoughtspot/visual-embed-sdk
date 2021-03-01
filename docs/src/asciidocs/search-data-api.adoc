@@ -5,9 +5,10 @@
 :page-pageid: search-data-api
 :page-description: Search Data API
 
-It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search  bar.  To use the data retrieved from a search query, you can use the ThoughtSpot search data API.
+To use the data retrieved from a search query, you can use the ThoughtSpot search data API.
 
-When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. Because selection is not possible with an API approach, the API query language is modified to include query disambiguation.
+When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. 
+It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search  bar. Because the selection is not possible with an API approach, the API query language is modified to include query disambiguation.
 
 [#components]
 == Components of a search query
@@ -104,7 +105,7 @@ For example, Columns `[Revenue]` and `[revenue]` are not unique.
 
 * Values must be enclosed in quotes, `‘’`, but they cannot contain quotes.
 
-* The API does not support **in-query formula** definitions. To use a formula, first create it on the worksheet or a table using the ThoughtSpot UI, and then use the named formula inside the API query.
+* The API does not support **in-query formula** definitions. To use a formula, create it on the worksheet or a table using the ThoughtSpot UI, and then use the named formula inside the API query.
 
 * Users must be authenticated and have read access to the data source.
 
@@ -117,7 +118,7 @@ To test the search query API, follow these steps:
 [#get-guid]
 === Determine the GUID of the data source
 
-. In a web browser tab, navigate to your ThoughtSpot application instance and log in as admin user:
+. In a web browser tab, navigate to your ThoughtSpot application instance and log in as an admin user:
 
 . From the top navigation menu, click *Data*. 
 +
@@ -147,6 +148,7 @@ https://<your-thoughtspot-instance>/#/data/tables/9d93a6b8-ca3a-4146-a1a1-e908b7
 https://<your-thoughtspot-instance>/external/swagger/#!/tspublic%2Fv1/searchData
 ----
 
+
 . Click `POST /tspublic/v1/searchdataTS`
 
 . In the **Parameters** interface, enter the values for the following:
@@ -156,7 +158,7 @@ https://<your-thoughtspot-instance>/external/swagger/#!/tspublic%2Fv1/searchData
 +
 You can leave other parameters at their default value.
 
-. Click **Try it out!**, and note the results.
+. Click **Try it out**, and note the results.
 
 +
 You can also verify if the query returns the same data when you run it in the ThoughtSpot UI search bar (with slightly different syntax).
@@ -199,22 +201,25 @@ Valid values are `COMPACT` (default) or `FULL` JSON.
 === Example requests
 
 .cURL (COMPACT)
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL (COMPACT)
+[source, cURL]
 ----
 https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 .cURL (FULL)
-
+[source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
 ----
 
 .Request URL (FULL)
+[source, cURL]
 ----
 https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL
 ----

@@ -48,20 +48,25 @@ https://<base-URI>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|If ownership of all objects are successfully transferred. 
+|**200**|If the ownership of all objects is successfully transferred. 
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
 
 == Synchronize principals
 
 Use this API to synchronize ThoughtSpot users and groups with your external database.
-The payload takes principals containing all users and groups present in the external database and a successful API call returns the object that represents the changes that were made in ThoughtSpot system.
-This means the following:
+The payload takes principals containing all users and groups present in the external database. 
+A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
-* Objects (users or groups) present in ThoughtSpot, but not present in the external list -  will be deleted in ThoughtSpot.
-* Objects present in ThoughtSpot, and present in the external list - will be updated such that the object attributes in ThoughtSpot match those present in the list.
+During this operation:
+
+* Objects (users or groups) present in ThoughtSpot, but not present in the external list are deleted in ThoughtSpot.
+* Objects present in ThoughtSpot and the external list are updated such that the object attributes in ThoughtSpot match those present in the list.
++
 This includes group membership.
-* Objects not present in ThoughtSpot, and present in the external list - will be created in ThoughtSpot.
+
+* Objects not present in ThoughtSpot, but present in the external list  are created in ThoughtSpot.
+
 
 === Resource URL
 ----
@@ -76,7 +81,7 @@ This API uses `multipart/form-data` content type.
 |Form Parameter|Data Type|Description
 
 |`principals`|string|Specifies a list of principal objects.
-This is ideally a JSON file containing containing all users and groups present in the external database.
+This is a JSON file containing all users and groups present in the external database.
 
 |`applyChanges`
 |boolean
@@ -112,12 +117,12 @@ This example covers user objects (with emails), group objects, and their relatio
 * `created` and `modified` dates may be left blank for new users.
 * `principalTypeEnum` value specifies if the principal is a user or a group.
 
-Here, `test1` user belongs to two groups - `Customer Success` and `Marketing`.
-`test2` belongs to the group `Administrator`.
+Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`. 
+`test2` belongs to the group `Administrator`. 
 `All` is a default group to which every user belongs;
 you may omit it from the input.
 
-Set `visibility` to `NON_SHARABLE` if you do not want users to be able to link:{{ site.baseurl }}/admin/users-groups/add-user.html#sharing-visibility[share objects] with users in this group.
+Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html#sharing-visibility[share objects] with users in this group.
 
 [source, JSON]
 ----
@@ -221,17 +226,21 @@ A typical principal object contains the following properties:
 [options='header']
 |====
 |Property|Description 
-|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user/group. Consequently, this field is required to be unique (unique for users and groups separately. i.e., you can have user "`x`" and group "`x`"). 
+|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the prinicipal must be unique. 
 |`displayName`|Display name of the principal.
-|description|Description of the principal. 
-|mail|Email address of the user. This field should be populated in case of user only. It is ignored in the case of groups. 
-|principalTypeEnum|Type of the user created in the ThoughtSpot system.
-|`LOCAL_USER`|a user is validated through password saved in the ThoughtSpot database `LOCAL_GROUP`.
-|password|Password of the user. This field should be populated in case of user only. It is ignored in the case of groups. Password is only required:
-* if the user is of LOCAL_USER type,
-* when the user is created for the first time. 
-* In subsequent update, the user password is not updated even if it changes in the source system. 
-|`groupNames`|Group names that a principal belongs to. Groups and users can belong to other groups. 
+|`description`|Description of the principal. 
+|`mail`|The email address of the user. This field should be populated in case of user only. It is ignored in the case of groups. 
+|`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
+|`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
+|`password` 
+
+a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+
+Password is only required:
+
+* if the user is of LOCAL_USER type
+* when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
+|`groupNames`|Name of the groups to which a principal belongs. Groups and users can belong to other groups. 
 |====
 
 === Resource URL

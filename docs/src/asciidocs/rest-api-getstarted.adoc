@@ -25,7 +25,7 @@ The base URI for the REST APIs calls includes the following:
 For example:
 
 ----
-https://<your-thoughtspot-hostname:port>.com
+https://<your-thoughtspot-hostname:port>
 ----
 
 == API service name and version
@@ -35,6 +35,6 @@ For REST API calls, in addition to the base URI, append the API service name and
 For example:
 
 ----
-https://<your-thoughtspot-hostname:port>.com/callosum/v1/
+https://<your-thoughtspot-hostname:port>/callosum/v1/
 ----
 
