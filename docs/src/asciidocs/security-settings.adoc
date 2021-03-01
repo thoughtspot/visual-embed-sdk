@@ -15,7 +15,6 @@ When you embed ThoughtSpot into your web pages, your host application calls Thou
  
 The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
-
 === Enable CORS from the command line
 
 From the ThoughtSpot command line, run the following command with the appropriate values: 

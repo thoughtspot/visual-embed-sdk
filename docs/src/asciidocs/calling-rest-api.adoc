@@ -1,3 +1,4 @@
+
 = Make a REST API Call
 :toc: true
 
@@ -25,6 +26,7 @@ https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc4
 [NOTE]
 Make sure you add brackets around the `vizid` parameter.
 The URL encoding for the open bracket is `%5B`, and the close bracket is `%5D`.
+
 
 == Data format of objects
 

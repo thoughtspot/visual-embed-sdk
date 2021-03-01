@@ -133,6 +133,7 @@ http://<thoughtspot_server>:<port>/
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +
+
 [width="50%" cols="1,2,1"]
 [options='header']
 |===
