@@ -120,7 +120,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<thoughtspot_server>:<port>/
-?col1=<column_name\>&op1=EQ>&val1=red#/pinboard/<pinboardId>/<viz_id>
+?col1=Color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<viz_id>
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
 

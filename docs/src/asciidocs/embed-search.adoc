@@ -129,7 +129,7 @@ _String_. The Global Unique Identifier (GUID) of the data sources for searching 
 
 ---
 answerID::
-_String_. The GUID of the search answers saved in a user a profile.
+_String_. The GUID of the search answers saved in a user profile.
 
 ---
 searchQuery::

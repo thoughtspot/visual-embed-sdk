@@ -63,7 +63,7 @@ POST /tspublic/v1/group/removeprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or`USERDATAUPLOADING` privilege.
+|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
 |`groupNames`|string|Specifies the group name from which you want to remove the privilege. The valid value is `ALL_GROUP` group. 
 

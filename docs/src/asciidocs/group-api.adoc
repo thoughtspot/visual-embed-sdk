@@ -25,7 +25,7 @@ POST /tspublic/v1/group/addprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or`USERDATAUPLOADING` privilege.
+|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
 |`groupNames`|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
 

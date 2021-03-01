@@ -101,13 +101,14 @@ When true, this flag removes any deleted users or groups.
 === Example request
 
 .cURL
+[source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<instance>/callosum/v1/tspublic/v1/user/sync'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<base-uri>/callosum/v1/tspublic/v1/user/sync'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/user/sync
+https://<base-uri>/callosum/v1/tspublic/v1/user/sync
 ----
 
 === Example response
@@ -202,7 +203,7 @@ POST /tspublic/v1/user/updatepassword
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<instance>/callosum/v1/tspublic/v1/user/updatepassword'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
@@ -226,10 +227,10 @@ A typical principal object contains the following properties:
 [options='header']
 |====
 |Property|Description 
-|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the prinicipal must be unique. 
+|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
 |`displayName`|Display name of the principal.
 |`description`|Description of the principal. 
-|`mail`|The email address of the user. This field should be populated in case of user only. It is ignored in the case of groups. 
+|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
 |`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
 |`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
 |`password` 
@@ -285,7 +286,7 @@ https://<instance>/callosum/v1/tspublic/v1/user/list
   {
     "name": "rls-group-3",
     "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs direclty to rls-group-5",
+    "description": "Contains directly rls-group-1, rls-group-2 and belongs directly to rls-group-5",
     "created": 1459376495060,
     "modified": 1459376590681,
     "principalTypeEnum": "LOCAL_GROUP",

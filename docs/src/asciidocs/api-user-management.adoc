@@ -223,7 +223,7 @@ A typical principal object contains the following properties:
 [options='header']
 |====
 |Property|Description 
-|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the prinicipal must be unique. 
+|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
 |`displayName`|Display name of the principal.
 |description|Description of the principal. 
 |mail|The email address of the user. This field is populated only for the user object. It is ignored in the case of groups. 
@@ -236,7 +236,7 @@ Password is only required:
 
 * if the user is of LOCAL_USER type
 * when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
-|`groupNames`|Name of the groups to whic a principal belongs. Groups and users can belong to other groups. 
+|`groupNames`|Name of the groups to which a principal belongs. Groups and users can belong to other groups. 
 |====
 
 To fetch a list of all users, send a `POST` request to the following endpoint:
@@ -283,7 +283,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/user/list
   {
     "name": "rls-group-3",
     "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs direclty to rls-group-5",
+    "description": "Contains directly rls-group-1, rls-group-2 and belongs directlsy to rls-group-5",
     "created": 1459376495060,
     "modified": 1459376590681,
     "principalTypeEnum": "LOCAL_GROUP",

@@ -5,7 +5,7 @@
 :page-pageid: rest-apis
 :page-description: About REST APIs
 
-The ThoughtSpot REST APIs enable your client applications to access to ThoughtSpot data.
+The ThoughtSpot REST APIs enable your client applications to access data from the ThoughtSpot application.
 Client applications can use the REST APIs for the following purpose:
 
 * get the pinboard and visualization data from the ThoughtSpot application.

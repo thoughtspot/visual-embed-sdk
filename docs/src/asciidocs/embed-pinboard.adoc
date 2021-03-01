@@ -97,7 +97,7 @@ disabledActionReason::
 _String_. Reason for disabling an action on the Pinboards page.
 
 == Render the embedded pinboard
-Costruct the URL for the embedded pinboard and render the embedded content:
+Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
   PinboardEmbed.render({
@@ -129,7 +129,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<thoughtspot_server>:<port>/
-?col1=color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<vizId>
+?col1=Color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<vizId>
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +

@@ -108,7 +108,7 @@ GET /tspublic/v1/metadata/listobjectheaders
          `LOGICAL_RELATIONSHIP`
          `TAG`
          `DATA_SOURCE` 
-|`subtypes`|string|Specifies the sub-types of a smetadata object. Valid values are:
+|`subtypes`|string|Specifies the sub-types of a metadata object. Valid values are:
       `ONE_TO_ONE_LOGICAL`
       `WORKSHEET`
       `PRIVATE_WORKSHEET`
@@ -129,8 +129,8 @@ GET /tspublic/v1/metadata/listobjectheaders
         `CREATED`
         `MODIFIED`
 |`sortascending`| boolean| A flag to specify the sort order. A null value defines the default order.
-Choose `true` to set ascending order.
-Choose `false` to set descending order 
+Choose `true` to set an ascending order.
+Choose `false` to set a descending order 
 |`offset`|integer|The batch offset to fetch the page headers. The system default is  `-1` that implies the first page.
 |`batchsize`|integer|The batch size of the object. A value of `-1` implies no pagination. 
 |`tagname`|string|A JSON array containing a set of tag names to filter headers by.
