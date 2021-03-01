@@ -1,8 +1,8 @@
-= Get started
+= Authentication
 :toc: true
 
 :page-title: REST API authentication
-:page-pageid: rest-api-getstarted
+:page-pageid: rest-api-authentication
 :page-description: REST API Authentication
 
 The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
