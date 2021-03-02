@@ -1,15 +1,15 @@
-== Get Started
+= Get Started
 :toc: true
 
 :page-title: Getting Started
 :page-pageid: getting-started
 :page-description: Getting Started
 
-The ThoughtSpot Visual Embed SDK is a JavaScript library that enables you to embed ThoughtSpot components in web pages. The library provides modularized packages for embedding ThoughtSpot functions such as search, visualizations, pinboards, and the full ThoughtSpot application.
+The ThoughtSpot Visual Embed SDK is a JavaScript library that enables you to embed ThoughtSpot components in web pages. The library provides modular packages for embedding ThoughtSpot functions such as search, visualizations, pinboards, and the full ThoughtSpot application.
 
 This section lists the tasks you need to complete before embedding ThoughtSpot content in your applications.
 
-=== Prerequisites
+== Prerequisites
 
 * Verify if the ThoughtSpot admin has enabled the authentication service.
 +
@@ -17,10 +17,10 @@ ThoughtSpot supports SAML SSO and trusted authentication services.
 
 * Verify if CORS is enabled.
 * Verify if the same-site cookie setting is set to `none`.
-* Verify if your application domain is whitelisted.
-* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to SpotDev. Make sure you have the admin or developer  privileges to access the *Customizations* menu in the *SpotDev* tab.
+* Verify if your host application domain is whitelisted for CORS and CSP.
+* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to SpotDev. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *SpotDev* tab.
 
-=== Prepare your project environment
+== Prepare your project environment
 The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package.
 
 If NPM is not installed, link:https://www.npmjs.com/get-npm[install NPM, window=_blank].
@@ -33,7 +33,7 @@ To install the SDK, run the following command at the command line:
 ----
 npm install ts-embed-sdk
 ----
-=== Import the JavaScript library
+== Import the JavaScript library
 
 In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
 [source,html]
@@ -41,10 +41,10 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 
 ----
-=== Import the embed package
+== Import the embed package
 
 Based on integration requirements, import any of the following embed packages and build your code.
 
 * xref:embed-search.adoc[SearchEmbed]
 * xref:embed-pinboard.adoc[PinboardEmbed]
-* xref:full-emd.adoc[AppEmbed]
+* xref:full-embed.adoc[AppEmbed]

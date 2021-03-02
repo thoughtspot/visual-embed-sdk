@@ -7,7 +7,7 @@
 
 The Visual Embed SDK provides a set of Javascript libraries to embed ThoughtSpot elements in a host application.
 
-You can use the Visual Embed SDK for the following purpose:
+You can use the Visual Embed SDK for the following purposes:
 
 * Embed specific components of ThoughtSpot application. For example, search bar, search answers page, pinboards, charts, and tables.
 * Render full ThoughtSpot application within the host application.
@@ -39,7 +39,6 @@ For information on configuration requirements, see the following sections:
 
 == Optional settings for embedding
 
-One of these involves what happens when a user clicks on a link within the data.
 The URLs in data display as clickable links in ThoughtSpot tables.
 By default, clicking on a link opens the URL in a separate tab.
 However, there is a system-wide setting that can be changed to open the links within the context in which they appear.

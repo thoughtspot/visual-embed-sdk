@@ -3,7 +3,7 @@
 
 :page-title: Getting started with REST API
 :page-pageid: rest-api-getstarted
-:page-description: Getting started with REST API 
+:page-description: Getting started with REST API
 
 The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
 To access REST APIs, you must authenticate through SAML SSO.
@@ -11,7 +11,7 @@ For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO]
 
 == Cross-Domain Verification
 
-You must enable cross-domain verification when using the REST APIs.
+To use REST APIs, you must enable CORS and whitelist your client application domains.
 This protects your data, so that another website cannot use a URL to get data from ThoughtSpot.
 For more information on enabling Cross-Origin Resource Sharing (CORS) and whitelisting application domains, see xref:security-settings.adoc[Security settings].
 
@@ -30,11 +30,10 @@ https://<your-thoughtspot-hostname:port>
 
 == API service name and version
 
-For REST API calls, in addition to the base URI, append the API service name and the version number. 
+For REST API calls, in addition to the base URI, append the API service name and the version number.
 
 For example:
 
 ----
 https://<your-thoughtspot-hostname:port>/callosum/v1/
 ----
-

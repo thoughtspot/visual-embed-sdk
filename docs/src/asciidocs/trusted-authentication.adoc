@@ -3,11 +3,13 @@
 :toc: true
 
 :page-title: trusted authentication
-:page-pageid: trusted-auth 
-:page-description: Trusted Authentication 
+:page-pageid: trusted-auth
+:page-description: Trusted Authentication
 
 If your organization has a trusted authentication server, you can use it to authenticate the users who request access to the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
 
+[NOTE]
+To use the trusted authentication method, you must enable CORS and add the authentication server domain to the allowed list of domains. For more information, see xref:security-settings.adoc[Security settings].
 
 == Trusted authentication workflow
 The embed user authentication workflow with trusted authentication service involves the following steps:
@@ -17,10 +19,10 @@ The embed user authentication workflow with trusted authentication service invol
 +
 Your server application must determine the following:
 
- ** if the requestor has authenticated with your server
- ** which user (`username`) is making the request
+ ** if the requestor has authenticated with your server.
+ ** which user (`username`) is making the request.
  ** what is being requested: an object, page, or the entire ThoughtSpot application.
- ** It is also important that the `username` is a match for a `username` on the ThoughtSpot application.
+ ** whether the requesting `username` matches a `username` on the ThoughtSpot application.
 +
 
 .  The trusted authenticator server intercepts the request, authenticates the user, and requests a token from ThoughtSpot on the user's behalf.
@@ -43,19 +45,40 @@ This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level`
 +
 
 . ThoughtSpot verifies the authenticator server's request and returns a user token.
-. The authenticator returns the user token to the client, which it uses to complete the user request.
+. The authenticator returns the user token to the client, which uses it to complete the user request.
 . The client application forwards the request and the user token to the ThoughtSpot application server.
 +
+[source, HTML]
 ----
- GET https://<base-url>/tspublic/v1/session/auth/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+GET https://<base-uri>/tspublic/v1/session/auth/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
 ----
+The request URL includes the following attributes:
+
+username::
+_String_. The `username` of the user requesting access to ThoughtSpot.
+
+auth-token::
+_String_. The authentication token obtained for the user from the trusted authentication service.
+
+redirect_url::
+_String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
++
+For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domains to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID.
++
+[source, HTML]
+----
+https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>
+----
+[NOTE]
+The request URL includes the `auth-token` attribute, whereas the redirect URL uses the `authtoken` attribute.
+
 . ThoughtSpot validates the token and returns the information that the authenticated user has requested.
 
 The following illustration depicts the trusted authentication workflow:
 
 image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
-== Enable trusted authentication 
+== Enable trusted authentication
 You need ThoughtSpot admin privileges to enable trusted authentication.
 
 . Log in to the ThoughtSpot.
@@ -63,16 +86,16 @@ You need ThoughtSpot admin privileges to enable trusted authentication.
 . Under *Customizations*, click *Settings*.
 . To enable trusted authentication, turn on the toggle.
 +
-An authentication token is generated. 
+An authentication token is generated.
 
-. Click the clipboard icon to copy the token. 
+. Click the clipboard icon to copy the token.
 +
 The following example shows a ThoughtSpot-generated authentication token key.
-+  
++
 ----
 b0cb26a0-351e-40b4-9e42-00fa2265d50c
 ----
-This key is required for making API calls to get a token for ThoughtSpot users. 
+This key is required for making API calls to get a token for ThoughtSpot users.
 
 . Store the key in a secure location.
 . Click *Save Changes*.
@@ -91,7 +114,7 @@ To disable trusted authentication, follow these steps:
 +
 A pop-window appears and prompts you to confirm the disable action.
 
-. Click *Disable*.  
+. Click *Disable*.
 
 +
 When you disable trusted authentication, the validity of your existing authentication token expires. You need to generate a new token by re-enabling trusted authentication.

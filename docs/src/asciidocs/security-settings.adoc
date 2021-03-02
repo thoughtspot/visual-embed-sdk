@@ -5,19 +5,19 @@
 :page-pageid: security-settings
 :page-description: Security settings for embedding
 
-Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers. 
+Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers.
 
 Only the ThoughtSpot users with admin privileges can configure security settings.
 
 == Configure Cross-Origin HTTP Requests
 
-When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for the same-origin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
- 
+When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for same-origin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
+
 The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
 === Enable CORS from the command line
 
-From the ThoughtSpot command line, run the following command with the appropriate values: 
+From the ThoughtSpot command line, run the following command with the appropriate values:
 
 [source,console]
 ----
@@ -33,9 +33,12 @@ To enable CORS, follow these steps:
 . Enable *Cross-Origin HTTP Requests (CORS)*.
 . Click *Save Settings*.
 
+[NOTE]
+If CORS is enabled, the `Access-Control-Allow-Origin` header is added in the API responses sent by the ThoughtSpot application.
+
 == Configure content security settings
 
-To prevent cross-site scripting attacks, ThoughtSpot recommends that you configure content security settings. 
+To prevent cross-site scripting attacks, ThoughtSpot recommends that you configure content security settings.
 To allow only trusted domains, you can add a list of domains for CSP whitelisting on the SpotDev *Settings* page.
 
 == Enable same-site access
@@ -51,7 +54,7 @@ To configure same-site access from the ThoughtSpot UI, follow these steps:
 . Select *None* under *Same-site*.
 
 ////
-To set the same-site access, execute the following command at the TSCLI  command line:
+To set same-site access, execute the following command at the TSCLI  command line:
 [source,console]
 ----
 $ tscli --adv service add-gflag nginx.nanny nginx_cookie_flag 'Secure SameSite=None'
@@ -62,11 +65,13 @@ The ThoughtSpot embedding solution allows embedding ThoughtSpot content in a cli
 
 To whitelist client application domains, follow these steps:
 
-. Log in to the ThoughtSpot.
+. Log in to your ThoughtSpot application instance.
 . Click the *SpotDev* tab.
 . Under *Customizations*, click *Settings*.
 . Add the domains to whitelist for Cross-Origin Resource Sharing (CORS) and Content-Security Policy (CSP).
 +
-You can add multiple domains as comma-separated values.
+* You can add multiple domains as comma-separated values.
+* If you want to use REST APIs, make sure you add the client application domain from which you want to send API requests.
+* If you want to add custom actions to your embedded instance, make sure you add the target URLs to this list.
 
 . Click *Save changes*.

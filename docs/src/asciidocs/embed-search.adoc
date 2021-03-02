@@ -1,4 +1,4 @@
-= Embed ThoughtSpot Search
+= Embed ThoughtSpot search
 :toc: true
 
 :page-title: Embed Search
@@ -43,10 +43,12 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
-+
----
+
 
 authType::
+_String_. Authentication type. Valid values are:
+
++
 [horizontal]
 SSO::
 SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
@@ -82,7 +84,7 @@ const SearchEmbed = new SearchEmbed(
 ----
 
 
-frameParams:: 
+frameParams::
 Sets the `width` and `height` dimensions to render the iframe in the web browser.
 
 collapseDataSources [small]*_optional_*::
@@ -100,7 +102,7 @@ _Boolean_. When set to true, it enables search assistance.
 disabledActions [small]_optional_::
 _String_. Disables the specified menu item from the list of actions in the search answer page.
 +
-For example, to hide the *Show underlying data* action from the (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
+For example, to hide the *Show underlying data* action from the *More* (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
 
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
@@ -111,7 +113,7 @@ Construct the URL of the embedded ThoughtSpot search object.
 Render the embedded search and pass parameters such as data source ID.
 [source, javascript]
 ----
-SearchEmbed.render({
+searchEmbed.render({
     dataSources,
     searchQuery,
     answerId,
@@ -127,23 +129,20 @@ SearchEmbed.render({
 dataSources::
 _String_. The Global Unique Identifier (GUID) of the data sources for searching data.
 
----
 answerID::
 _String_. The GUID of the search answers saved in a user profile.
 
----
 searchQuery::
 _String_. The search query string to use when the application loads.
 
----
 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
- SearchEmbed.on("init", showLoader)
- SearchEmbed.on("load", hideLoader)
- SearchEmbed.on("answerPageLoading", payload =>
+ searchEmbed.on("init", showLoader)
+ searchEmbed.on("load", hideLoader)
+ searchEmbed.on("answerPageLoading", payload =>
     console.log("message received from embedded view" + JSON.stringify(payload))
 
 // Functions to show or hide a loader while the iframe loads.
@@ -174,7 +173,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 * Load your application.
 * Search for data from a data source.
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
-* If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
+* If you have disabled a menu item from the search answers page, verify if the menu command is disabled.
 
 == Code sample
 
@@ -206,4 +205,3 @@ searchEmbed.render({});
 == Additional resources
 
 For more information on searchEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
-
