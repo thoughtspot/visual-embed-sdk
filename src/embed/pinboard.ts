@@ -120,7 +120,7 @@ export class PinboardEmbed extends V1Embed {
         runtimeFilters,
     }: PinboardRenderOptions): PinboardEmbed {
         if (!pinboardId && !vizId) {
-            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
+            this.handleError(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
         if (this.viewConfig.fullHeight === true) {
             this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);

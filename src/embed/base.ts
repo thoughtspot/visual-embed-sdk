@@ -115,7 +115,19 @@ export class TsEmbed {
      * Throw error encountered during initialization
      */
     private throwInitError() {
-        throw new Error('You need to init the ThoughtSpot SDK module first');
+        this.handleError('You need to init the ThoughtSpot SDK module first');
+    }
+
+    /**
+     * Handle errors within the SDK
+     * @param error The error message or object
+     */
+    protected handleError(error: string | object) {
+        this.executeCallbacks(EventType.Error, {
+            error,
+        });
+        // Log error
+        console.log(error);
     }
 
     /**
@@ -133,6 +145,19 @@ export class TsEmbed {
      * and execute the registere callbacks accordingly
      */
     private subscribeToEvents() {
+        const onAuthExpire = () =>
+            this.executeCallbacks(EventTypeV1.AuthExpire, null);
+
+        const onInit = (isInitialized: boolean) =>
+            this.executeCallbacks(EventType.AuthInit, isInitialized);
+
+        initialize(
+            onInit,
+            onAuthExpire,
+            this.getThoughtSpotHost(),
+            config.authType,
+        );
+
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             if (event.source === this.iFrame.contentWindow) {
@@ -194,7 +219,7 @@ export class TsEmbed {
             // warn: URL too long
         }
 
-        this.executeCallbacks(EventType.RenderInit, {
+        this.executeCallbacks(EventType.Init, {
             data: {
                 timestamp: Date.now(),
             },
@@ -262,7 +287,7 @@ export class TsEmbed {
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
-            throw new Error(
+            this.handleError(
                 'Please register event handlers before calling render',
             );
         }
@@ -297,8 +322,10 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public render(...args: any[]): void {
+    public render(...args: any[]) {
         this.isRendered = true;
+
+        return this;
     }
 }
 
@@ -329,19 +356,6 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
-
-        // Set up event handlers using v1 API
-        const onInit = (isInitialized: boolean) =>
-            this.executeCallbacks(EventType.Init, isInitialized);
-        const onAuthExpire = () =>
-            this.executeCallbacks(EventTypeV1.AuthExpire, null);
-
-        initialize(
-            onInit,
-            onAuthExpire,
-            this.getThoughtSpotHost(),
-            config.authType,
-        );
     }
 
     /**

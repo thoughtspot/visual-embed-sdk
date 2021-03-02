@@ -76,15 +76,16 @@ export interface RuntimeFilter {
 // eslint-disable-next-line no-shadow
 export enum EventType {
     // Events emitted by TS app
-    RenderInit = 'renderInit',
     Init = 'init',
+    AuthInit = 'authInit',
     Load = 'load',
     Data = 'data',
     FiltersChanged = 'filtersChanged',
     QueryChanged = 'queryChanged',
     Drilldown = 'drillDown',
     DataSourceSelected = 'dataSourceSelected',
-    CustomAction = 'customAction',
+    CustomAction = 'CustomAction',
+    Error = 'Error',
 
     // Triggerable events
     Search = 'search',

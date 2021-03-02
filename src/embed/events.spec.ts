@@ -7,6 +7,7 @@ import {
     PinboardEmbed,
 } from '../index';
 import {
+    EVENT_WAIT_TIME,
     executeAfterWait,
     getDocumentBody,
     getIFrameEl,
@@ -22,8 +23,6 @@ const defaultViewConfig = {
     },
 };
 const PAYLOAD = 'Sample payload';
-// time to wait for async events to be triggered
-const EVENT_WAIT_TIME = 1000;
 
 beforeAll(() => {
     init({
