@@ -56,7 +56,7 @@
     color: $secondarycolor !important;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1024px) {
+@media screen and (min-width: $mobile-resolution-min) and (max-width: $mobile-resolution-max) {
     .docmapLinks {
         width: $docmap-width-mobile;
     }

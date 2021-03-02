@@ -1,95 +1,85 @@
 @import './variables.scss';
 
 .documentWrapper .admonitionblock {
-  margin: 1.4rem 0 0;
+    margin: 1.4rem 0 0;
 
-  p {
-    font-size: calc((16 / $rem-base) * 1rem);
-  }
-
-  td.content {
-    font-size: calc((16 / $rem-base) * 1rem);
-    padding: 1rem 1rem 0.75rem;
-    background: $admonition-background;
-    width: 100%;
-    word-wrap: anywhere;
-    border: 1px solid $disabledcolor;
-
-    & > :not(.title):first-child {
-      margin-top: 0;
+    p {
+        font-size: calc((16 / $rem-base) * 1rem);
     }
 
-    & > .title + * {
-      margin-top: 0;
+    td.content {
+        font-size: calc((16 / $rem-base) * 1rem);
+        padding: 1rem 1rem 0.75rem;
+        background: $admonition-background;
+        width: 100%;
+        word-wrap: anywhere;
+        border: 1px solid $disabledcolor;
+
+        & > :not(.title):first-child {
+            margin-top: 0;
+        }
+
+        & > .title + * {
+            margin-top: 0;
+        }
     }
-  }
 
-  pre {
-    font-size: calc((15 / $rem-base) * 1rem);
-  }
-
-  .icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: calc((15 / $rem-base) * 1rem);
-    padding: 0 0.5rem;
-    height: 1.25rem;
-    line-height: 1;
-    font-weight: $admonition-label-font-weight;
-    text-transform: uppercase;
-    border-radius: 0.45rem;
-    transform: translate(-0.5rem, -50%);
-
-    i {
-      display: inline-flex;
-      align-items: center;
-      height: 100%;
-
-      &::after {
-        content: attr(title);
-      }
+    pre {
+        font-size: calc((15 / $rem-base) * 1rem);
     }
-  }
 
-  &.caution .icon {
-    background-color: $caution-color;
-    color: $caution-on-color;
-    font-size: $admonition-title-font-size;
-    line-height: $admonition-title-line-height;
-  }
+    .icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0 0.5rem;
+        height: 1.25rem;
+        font-weight: $admonition-label-font-weight;
+        text-transform: uppercase;
+        border-radius: 0.45rem;
+        transform: translate(-0.5rem, -50%);
+        font-size: $admonition-title-font-size;
+        line-height: $admonition-title-line-height;
 
-  &.important .icon {
-    background-color: $important-color;
-    color: $important-on-color;
-    font-size: $admonition-title-font-size;
-    line-height: $admonition-title-line-height;
-  }
+        i {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
 
-  &.note .icon {
-    background-color: $note-color;
-    color: $note-on-color;
-    font-size: $admonition-title-font-size;
-    line-height: $admonition-title-line-height;
-  }
+            &::after {
+                content: attr(title);
+            }
+        }
+    }
 
-  &.tip .icon {
-    background-color: $tip-color;
-    color: $tip-on-color;
-    font-size: $admonition-title-font-size;
-    line-height: $admonition-title-line-height;
-  }
+    &.caution .icon {
+        background-color: $caution-color;
+        color: $caution-on-color;
+    }
 
-  &.warning .icon {
-    background-color: $warning-color;
-    color: $warning-on-color;
-    font-size: $admonition-title-font-size;
-    line-height: $admonition-title-line-height;
-  }
+    &.important .icon {
+        background-color: $important-color;
+        color: $important-on-color;
+    }
 
-  & > table {
-    table-layout: fixed;
-    position: relative;
-    width: 100%;
-  }
+    &.note .icon {
+        background-color: $note-color;
+        color: $note-on-color;
+    }
+
+    &.tip .icon {
+        background-color: $tip-color;
+        color: $tip-on-color;
+    }
+
+    &.warning .icon {
+        background-color: $warning-color;
+        color: $warning-on-color;
+    }
+
+    & > table {
+        table-layout: fixed;
+        position: relative;
+        width: 100%;
+    }
 }
