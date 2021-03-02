@@ -39,7 +39,6 @@ aside {
                     padding-right: $padding-xs;
                     color: $primarycolor;
                     font-weight: $font-weight-bold;
-                    margin: $margin-xs 0;
                     & > a {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
@@ -51,11 +50,11 @@ aside {
                     ul {
                         padding-left: $padding-nested-ul;
                         li {
+                            margin: $margin-links 0;
                             p {
                                 font-weight: $font-weight-normal;
                                 color: $primarycolor;
                                 padding-right: $padding-xs;
-                                margin: $margin-links 0;
 
                                 a {
                                     color: $primarycolor;
