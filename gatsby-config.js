@@ -141,16 +141,22 @@ module.exports = {
                 `,
                 ref: 'pageid',
                 index: ['title', 'body'],
-                store: ['pageid', 'body', 'title'],
+                store: ['pageid', 'title'],
                 normalizer: ({ data }) => {
                     return [
-                        ...data.allAsciidoc.edges.map((edge) => {
-                            return {
-                                title: edge.node.document.title,
-                                pageid: edge.node.pageAttributes.pageid,
-                                body: htmlToText(edge.node.html),
-                            };
-                        }),
+                        ...data.allAsciidoc.edges
+                            .filter(
+                                (edge) =>
+                                    edge.node.pageAttributes.pageid &&
+                                    edge.node.pageAttributes.pageid !== 'nav',
+                            )
+                            .map((edge) => {
+                                return {
+                                    title: edge.node.document.title,
+                                    pageid: edge.node.pageAttributes.pageid,
+                                    body: htmlToText(edge.node.html),
+                                };
+                            }),
                         ...data.allFile.edges
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
