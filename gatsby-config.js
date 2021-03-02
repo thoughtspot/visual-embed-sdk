@@ -1,5 +1,6 @@
 const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
+const { htmlToText } = require('html-to-text');
 
 class CustomDocConverter {
     constructor() {
@@ -22,7 +23,9 @@ class CustomDocConverter {
                     return `<a href="${
                         config.DOC_REPO_NAME + target
                     }">${node.getText()}</a>`;
-                } else if (!target.startsWith('#')) {
+                }
+
+                if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
                         target.lastIndexOf('.html'),
@@ -46,7 +49,7 @@ module.exports = {
     plugins: [
         'gatsby-plugin-sass',
         {
-            resolve: `gatsby-plugin-page-creator`,
+            resolve: 'gatsby-plugin-page-creator',
             options: {
                 path: `${__dirname}/docs/src/pages`,
             },
@@ -76,7 +79,7 @@ module.exports = {
             __key: 'asciidocs_common',
         },
         {
-            resolve: `gatsby-plugin-intl`,
+            resolve: 'gatsby-plugin-intl',
             options: {
                 // language JSON resource path
                 path: `${__dirname}/docs/src/intl`,
@@ -89,15 +92,93 @@ module.exports = {
             },
         },
         {
-            resolve: `gatsby-transformer-asciidoc`,
+            resolve: 'gatsby-transformer-asciidoc',
             options: {
                 attributes: {
                     showtitle: true,
-                    imagesdir: `/doc-images`,
+                    imagesdir: '/doc-images',
                 },
                 fileExtensions: ['ad', 'adoc'],
                 converterFactory: CustomDocConverter,
             },
+        },
+        {
+            resolve: 'gatsby-plugin-local-search',
+            options: {
+                name: 'pages',
+                engine: 'flexsearch',
+                engineOptions: 'speed',
+                query: `
+                query {
+                    allAsciidoc(sort: { fields: [document___title], order: ASC }) {
+                        edges {
+                            node {
+                                document {
+                                    title
+                                }
+                                pageAttributes {
+                                    pageid
+                                    title
+                                    description
+                                }
+                                html
+                            }
+                        }
+                    }
+                    allFile(filter: {sourceInstanceName: {eq: "htmlFiles"}}) {
+                        edges {
+                          node {
+                            extension
+                            dir
+                            name
+                            childHtmlRehype {
+                              html
+                            }
+                          }
+                        }
+                    }
+                }
+                `,
+                ref: 'pageid',
+                index: ['title', 'body'],
+                store: ['pageid', 'body', 'title'],
+                normalizer: ({ data }) => {
+                    return [
+                        ...data.allAsciidoc.edges.map((edge) => {
+                            return {
+                                title: edge.node.document.title,
+                                pageid: edge.node.pageAttributes.pageid,
+                                body: htmlToText(edge.node.html),
+                            };
+                        }),
+                        ...data.allFile.edges
+                            .filter((edge) => edge.node.extension === 'html')
+                            .map((edge) => {
+                                return {
+                                    title: edge.node.name,
+                                    pageid: edge.node.name,
+                                    body: htmlToText(
+                                        edge.node.childHtmlRehype.html,
+                                    ),
+                                };
+                            }),
+                    ];
+                },
+            },
+        },
+        {
+            resolve: 'gatsby-transformer-rehype',
+            options: {
+                mediaType: 'text/html',
+            },
+        },
+        {
+            resolve: 'gatsby-source-filesystem',
+            options: {
+                name: 'htmlFiles',
+                path: `${__dirname}/static/typedoc/`,
+            },
+            __key: 'htmlFiles',
         },
     ],
 };

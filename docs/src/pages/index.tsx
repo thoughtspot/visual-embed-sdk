@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
+import { useFlexSearch } from 'react-use-flexsearch'
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
@@ -97,6 +98,7 @@ const IndexPage = ({ location }) => {
     // fetch adoc translated doc edges using graphql
     const {
         allAsciidoc: { edges },
+        localSearchPages: { index, store },
     } = useStaticQuery(
         graphql`
             query {
@@ -120,9 +122,16 @@ const IndexPage = ({ location }) => {
                         }
                     }
                 }
+                localSearchPages {
+                    index
+                    store
+                }
             }
         `,
     );
+
+    const results = useFlexSearch('Public/Protected', index, store);
+    console.log('results:  ', results);
 
     return (
         <>
