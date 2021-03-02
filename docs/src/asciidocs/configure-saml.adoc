@@ -62,5 +62,5 @@ IDP Metadata XML File::
 For example, *idp-meta.xml*. Provide an absolute path to your Identity Provider’s metadata file. The IDP metadata file is provided by your IDP.  You need this file so that the configuration persists over upgrades. It is a best practice to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. 
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
-If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually].
+If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 . Click *Save*.

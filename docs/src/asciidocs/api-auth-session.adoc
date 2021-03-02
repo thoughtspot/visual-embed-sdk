@@ -1,0 +1,102 @@
+= Manage user sessions
+:toc: true
+
+:page-title: Manage user sessions
+:page-pageid: api-auth-session
+:page-description: Manage user sessions with REST APIs
+
+ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users for embedding scenarios. 
+
+ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.  
+
+To manage ThoughtSpot user sessions, use the session REST API.
+The session API service allows your host application to authenticate and manage user login.
+
+== Authenticate and log in a user
+
+To authenticate and log in a user, send a `POST` request to the following endpoint URL:
+
+----
+POST /tspublic/v1/session/login
+----
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Query Parameter|Data Type|Description
+|`username`|string|Username of the user account.
+|`password`|string|The password of the user account.
+|`rememberme`|boolean|A flag to remember the user session. The system default is `false`.
+|====
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=userA&password=fhfh2323bbn&rememberme=false' 'https://<base-uri>/callosum/v1/tspublic/v1/session/login'
+----
+
+.Request URL
+
+----
+https://<base-uri>/callosum/v1/tspublic/v1/session/login
+----
+ 
+=== Example response
+
+----
+204 - Successful login
+----
+
+== Log out a user
+
+To log a current user out of an existing session, send a `POST` request to the following endpoint URL.
+
+----
+POST  /tspublic/v1/session/logout
+----
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/session/logout'
+----
+
+.Request URL
+----
+https://<base-uri>/callosum/v1/tspublic/v1/session/logout
+----
+
+=== Example response 
+----
+204 - Successful logout
+----
+
+////
+## Error Codes
+<table>
+   <colgroup>
+      <col style="width:20%" />
+      <col style="width:60%" />
+      <col style="width:20%" />
+   </colgroup>
+   <thead class="thead" style="text-align:left;">
+      <tr>
+         <th>Error Code</th>
+         <th>Description</th>
+         <th>HTTP Code</th>
+      </tr>
+   </thead>
+   <tbody>
+   <tr> <td><code>10000</code></td>  <td>Internal server error.</td> <td><code>500</code></td></tr>
+    <tr> <td><code>10002</code></td>  <td>Bad request. Invalid parameter values.</td> <td><code>400</code></td></tr>
+    <tr> <td><code>10003</code></td>  <td>Login or logout failure. Unauthorized.</td><td><code>401</code></td></tr>
+  </tbody>
+</table>
+////

@@ -63,7 +63,7 @@ You need ThoughtSpot admin privileges to enable trusted authentication.
 . Under *Customizations*, click *Settings*.
 . To enable trusted authentication, turn on the toggle.
 +
-An authenticate token is generated. 
+An authentication token is generated. 
 
 . Click the clipboard icon to copy the token. 
 +

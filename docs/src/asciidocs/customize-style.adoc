@@ -1,4 +1,4 @@
-= Style customization
+= Customize Styles
 :toc: true
 
 :page-title: Style customization
@@ -99,7 +99,7 @@ To update fonts:
 
 . Go to *SpotDev* > *Customizations* > *Styles*.
 . To update fonts for charts, go to *Chart Visualization Fonts*, and select a chart label.
-. To update font for tables, go to *Table Visualization Fonts*.  
+. To update fonts for tables, go to *Table Visualization Fonts*.  
 +
 By default, the font changes are applied to all values in the table cells.
 

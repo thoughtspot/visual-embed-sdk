@@ -1,4 +1,5 @@
-= Make an API Call
+
+= Make a REST API Call
 :toc: true
 
 :page-title: Calling the Data REST API
@@ -6,34 +7,37 @@
 :page-description: Calling the Data REST API
 
 
-To call a REST API, you can specify a URL using the `POST` method, passing the ID numbers of the objects from which you want to obtain data.
+To call a REST API, you can specify a URL using the `POST` method and pass the ID numbers of the objects from which you want to obtain data.
 
-== Specify the pinboard or visualization example
+== Pinboard or visualization objects
 
-For a pinboard, you can append the ID of your pinboard as a parameter, like this example:
+For a pinboard, you can append the ID of your pinboard as a parameter, as shown in the following example:
 
 ----
 https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
-To retrieve data from a specific visualization within a pinboard, you would append the ID number of the visualization using the vizid parameter:
+To retrieve data from a specific visualization within a pinboard,append the ID number of the visualization using the `vizid` parameter:
 
 ----
-/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
+https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
 ----
 
 [NOTE]
-You must add brackets around the vizid parameter.
-The URL encoding for open bracket is `%5B`, and the URL encoding for close bracket is `%5D`.
+Make sure you add brackets around the `vizid` parameter.
+The URL encoding for the open bracket is `%5B`, and the close bracket is `%5D`.
 
-== Object Format for Returned Data
 
-When you parse the returned JSON data you can see that there is one object for every viz on the pinboard.
-The objects are named according to the corresponding vizid.
+== Data format of objects
 
-If you make a call to a specific viz on a pinboard, it will return just one object.
-The JSON object format for the data that is returned from ThoughtSpot is:
+The returned JSON data includes one object for every visualization on the pinboard. 
+If you make a call to obtain data for a specific visualization on a pinboard, it will return just one object.
 
+The objects are named according to the corresponding `vizid`.
+
+The following example shows the JSON object format for the data returned from the ThoughtSpot application:
+
+[source, JSON]
 ----
 {
 vizId1 : {
@@ -50,18 +54,15 @@ vizId2 : {
 
 Each object contains four components:
 
-. An array of column headers.
-. An array of data.
-. The name given to the specific viz.
-. And a sampling ratio.
+. An array of column headers. The `columnNames` array contains a list of all column headers.
+. An array of data. The `data` array contains a list of other arrays. 
+ Each sub-array represents a new row of data.
+. Name of the visualization.
+. A sampling ratio.
 The sampling ratio tells you the percentage of total data returned.
-`1` would mean all data in the viz was returned in the API call.
+A sampling ratio of `1` indicates that all data in the visualization object was returned in the API call.
 
-The `columnNames` array contains a list of all column headers.
-And the `data` array contains a list of other arrays.
-Each sub array represents a new row of data.
-
-The REST API supports filtering the data returned through parameters that you pass within the URL.
+The REST API supports filtering data based on the parameters that you pass within the URL.
 These are called Runtime Filters.
 
 == Example

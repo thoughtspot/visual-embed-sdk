@@ -1,22 +1,22 @@
-= Pinboard Data API
+
+= Pinboard data API
 :toc: true
 
-:page-title: Pinboard Data API
+:page-title: Get Pinboard Data
 :page-pageid: pinboard-api
 :page-description: Pinboard Data API
 
-You can retrieve the data in a pinboard or other ThoughtSpot visualization.
+To retrieve data related to a pinboard or visualization from the ThoughtSpot system, you can use the pinboard data API.
 
-This API enables you to retrieve the data of a pinboard or visualization from the ThoughtSpot system.
-You may want to visualize the following:
+Using this API, you can fetch the following information: 
 
-* Fetch all the visualization objects on a pinboard.
-* Fetch a specific or a group of visualizations on a pinboard.
+* All the visualization objects on a pinboard.
+* A specific or a group of visualizations on a pinboard.
 
-== Resource URL
-
-`post` /tspublic/v1/pinboarddata
-
+== Request URL
+----
+POST /tspublic/v1/pinboarddata
+----
 == Request Parameters
 
 [width="100%" cols="1,1,4"]
@@ -26,26 +26,27 @@ You may want to visualize the following:
 |`id`|string|The pinboard id in the system.
 |`vizid`|string|(Optional) The visualization id(s) on a pinboard. Use this parameter to fetch a specific visualization on a pinboard. The syntax is:
          `4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1`, "\...\...
-|`batchsize`|integer|The batch size for loading of pinboard objects. The system default is -1. 
+|`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1. 
 |`pagenumber`|integer|The system default is -1.
 |`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
          `1-based indexingOffset = (pageNumber - 1)` * batchSize
 |`formattype`|string|Valid values are `COMPACT` or `FULL JSON`. The system default is `COMPACT`.
 |====
 
-== Request Example
 
-.cURL
+== Example request
+
+.CURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
-== Response Example
+== Example response
 
 ----
 {
@@ -76,7 +77,14 @@ https://<instance>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a1
   }
 }
 ----
+=== Response codes
 
+[options="header", cols="1,2"]
+|===
+|HTTP Code|Description
+|**200**|gets the data of a pinboard or visualization
+|**400**|invalid pinboard ID
+|===
 ////
 ## Error Codes
 

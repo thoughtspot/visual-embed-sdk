@@ -81,34 +81,30 @@ const SearchEmbed = new SearchEmbed(
 
 ----
 
-frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
----
+
+frameParams:: 
+Sets the `width` and `height` dimensions to render the iframe in the web browser.
+
 collapseDataSources [small]*_optional_*::
 _Boolean_. When set to true, collapses the list of data sources on the Data Source panel.
 
----
  hideDataSources [small]_optional_::
 _Boolean_. When set to true, it hides the Data Source panel.
 
----
 hideResults [small]_optional_::
 _Boolean_. When set to true, it hides charts and tables in search answers.
 
----
 enableSearchAssist [small]_optional_::
 _Boolean_. When set to true, it enables search assistance.
 
----
 disabledActions [small]_optional_::
 _String_. Disables the specified menu item from the list of actions in the search answer page.
 +
 For example, to hide the *Show underlying data* action from the (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
 
----
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
 
----
 
 == Render the embedded search
 Construct the URL of the embedded ThoughtSpot search object.
@@ -133,7 +129,7 @@ _String_. The Global Unique Identifier (GUID) of the data sources for searching 
 
 ---
 answerID::
-_String_. The GUID of the search answers saved in a user a profile.
+_String_. The GUID of the search answers saved in a user profile.
 
 ---
 searchQuery::

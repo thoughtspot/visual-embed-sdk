@@ -10,7 +10,7 @@ The ThoughtSpot embedding solution enables you to integrate ThoughtSpot function
 ThoughtSpot provides a suite of APIs, SDK, and developer tools to programmatically embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application. The ThoughtSpot embedding solution also provides UI-based functions for customizing and rebranding the embedded ThoughtSpot components. 
 
 == Types of embedding
-ThoughtSpot supports embedding full application, or its individual components into your business solution. 
+ThoughtSpot supports embedding the full application or its individual components into your business solution. 
 Based on your business needs and integration environment, you can use one of the following embedding approaches:
 
 Full-application embedding::
