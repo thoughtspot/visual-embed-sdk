@@ -4,11 +4,11 @@
     margin: 1.4rem 0 0;
 
     p {
-        font-size: calc((16 / $rem-base) * 1rem);
+        font-size: calc((#{$admonition-font-factor-p} / #{$rem-base}) * 1rem);
     }
 
     td.content {
-        font-size: calc((16 / $rem-base) * 1rem);
+        font-size: calc((#{$admonition-font-factor-p} / #{$rem-base}) * 1rem);
         padding: 1rem 1rem 0.75rem;
         background: $admonition-background;
         width: 100%;
@@ -25,7 +25,7 @@
     }
 
     pre {
-        font-size: calc((15 / $rem-base) * 1rem);
+        font-size: calc((#{$admonition-font-factor-pre} / #{$rem-base}) * 1rem);
     }
 
     .icon {
