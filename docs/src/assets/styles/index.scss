@@ -70,10 +70,12 @@ a {
 
 .documentBody {
     float: right;
+    padding-left: 7px;
 }
 
 .introWrapper {
     display: flex;
+    margin-top: $document-margin-top;
 }
 
 button {

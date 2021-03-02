@@ -35,6 +35,48 @@
     input:focus {
         outline: 0;
     }
+
+    .resultContainer {
+        position: absolute;
+        background-color: #FFFFFF;
+        width: 100%;
+        max-height: 320px;
+        top: 38px;
+        border-radius: 6px;
+        box-shadow: 0px 0px 4px rgba(25, 35, 49, 0.08), 0px 12px 24px rgba(25, 35, 49, 0.12);
+        overflow: auto;
+    }
+
+    .result {
+        height: 64px;
+        border-bottom: 1px solid #EAEDF2;
+        padding: 8px 0px;
+
+        .title {
+            margin: 2px 16px 0px 16px;
+            line-height: 20px;
+            font-size: 14px;
+            font-family: 'Plain';
+            color: #1D232F;
+        }
+
+        .footer {
+            margin: 5px 16px;
+            font-family: 'Plain';
+            font-size: 12px;
+            line-height: 18px;
+            color: #777E8B;
+        }
+    }
+    
+    .textContainer {
+        cursor: pointer;
+        height: 100%;
+    }
+
+    .textContainer:hover {
+        background: rgba(192, 198, 207, 0.12);
+    }
 }
 
 @media screen and (min-width: 767px) and (max-width: 1024px) {
