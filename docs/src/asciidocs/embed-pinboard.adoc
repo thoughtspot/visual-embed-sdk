@@ -1,4 +1,4 @@
-= Embed Pinboards
+= Embed pinboards
 :toc: true
 
 :page-title: Embed Pinboards
@@ -13,7 +13,7 @@ Experience working with Javascript also helps.
 ////
 == Import the JavaScript library
 In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
-[source,javascript]
+[source, javascript]
 ----
 <script type="text/javascript" src="<file-location>/<file-name>.js"></script>
 ----
@@ -38,7 +38,7 @@ To allow your client application to connect to ThoughtSpot:
 . Configure the URL with ThoughtSpot hostname or IP address.
 . Specify the authentication method to use for authenticating application users.
 +
-[source,javascript]
+[source, javascript]
 ----
 init
     ({
@@ -51,8 +51,10 @@ thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
 +
----
 authType::
+_String_. Authentication type. Valid values are:
+
++
 [horizontal]
 SSO::
 Enables SAML SSO authentication method.
@@ -86,12 +88,12 @@ _Boolean_. Sets the pinboard page to full height.
 disabledActions::
 _String_. Menu items from the list of actions to be disabled on the Pinboards  page.
 +
-For example, to disable the *Present* action from the (*...*) menu, add `present` to the  `disabledActions` attribute.
+For example, to disable the *Present* action from the *More* (*...*) menu, add `present` to the  `disabledActions` attribute.
 
 hiddenActions::
 _String_. Menu items from the list of actions to be hidden on the Pinboards  page.
 +
-For example, to hide *Add filters* action from the  (*...*) menu, add `Add filters` to the `hiddenActions` attribute.
+For example, to hide *Add filters* action from the *More* (*...*) menu, add `Add filters` to the `hiddenActions` attribute.
 
 disabledActionReason::
 _String_. Reason for disabling an action on the Pinboards page.
@@ -100,7 +102,7 @@ _String_. Reason for disabling an action on the Pinboards page.
 Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
-  PinboardEmbed.render({
+  pinboardEmbed.render({
         pinboardId,
         vizId,
         runtimeFilters,
@@ -129,7 +131,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<thoughtspot_server>:<port>/
-?col1=Color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<vizId>
+?col1=Color&op1=EQ>&val1=red#/embed/pinboard/<pinboard-id>/<viz-id>
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +
@@ -199,8 +201,8 @@ Register event handlers and subscribe to events triggered by the embedded pinboa
 ----
   //register event listeners for initializing and loading pinboards
 
-  embed.on("init", showLoader)
-  embed.on("load", hideLoader)
+  pinboardEmbed.on("init", showLoader)
+  pinboardEmbed.on("load", hideLoader)
 ----
 ////
 ==== Event Types
@@ -218,8 +220,8 @@ Visualization drilldown is initiated.
 
 * Load the client application.
 * Try accessing a pinboard embedded in your application.
-* Verify the iframe rendition.
-* If you have disabled a menu item, verify if the menu command is disabled on the Pinboards page.
+* Verify the rendition.
+* If you have disabled a menu item, verify if the menu command is disabled on the *Pinboards* page.
 * Verify the runtime filters.
 
 == Code sample
@@ -230,7 +232,7 @@ import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: 'None',
+    authType: AuthType.None,
 });
 
 const pinboardEmbed = new PinboardEmbed(

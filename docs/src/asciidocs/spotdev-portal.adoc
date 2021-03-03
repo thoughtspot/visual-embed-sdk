@@ -18,18 +18,18 @@ If you are a new user::
 . To evaluate ThoughtSpot features, click *Sign Up* and register for a free trial. 
 . To explore ThoughtSpot APIs, click *Playground*. 
 
-If you are an existing ThoughtSpot Cloud user?::
+If you are an existing ThoughtSpot Cloud user::
 . Sign in to ThoughtSpot Cloud.
 . Navigate to the *SpotDev* tab.
 . Explore the SpotDev portal features, and build your sample code in *Playground*. 
-The SpotDev portal also allows users to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application. 
+The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application. 
 
 == Find your way around  
 The SpotDev portal includes several sections to assist you through your embedding journey.
 
 Home::
 The *Home* page of the SpotDev portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
-The home page also includes links to the Developer Documentation and the *Playground* to preview the toolkit.
+The home page also includes links to the *Developer Guides* and the *Playground* to preview the toolkit.
 
 Guide::
 The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot SDK and APIs to integrate ThoughtSpot features into your application.
@@ -47,7 +47,7 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 
 
 Customizations::
-For ThoughtSpot users with the administrator and developer privileges, the SpotDev portal displays the following customization settings:
+For ThoughtSpot users with administrator and developer privileges, the SpotDev portal displays the following customization settings:
 
 * *Styles*
 +
@@ -76,32 +76,27 @@ Collapse data panel::
 Minimizes the data panel on the left navigation bar. 
 
 +
----
 Hide data panel::
 Hides the default data source. You can use your worksheet as a data source from which your users can draw search results.
 
 +
----
 Hide chart or table::
 Hides the visualizations displayed as search results. 
 
 +
----
 Modify available actions::
 Defines a list of actions to be disabled on the search answers page.  
 
 +
----
 Enable Search Assist::
 Enables the Search Assist feature that helps users with simple search scenarios. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet. 
 
 +
----
 Add search tokens::
 Sets search tokens in the search bar to programmatically construct a search query for your users. 
 
 +
----
+
 Set runtime filters::
 Sets filters that will be applied to the search query parameters passed in the URL for the search results data.
 . Click *Run*.
@@ -117,7 +112,6 @@ Modify available actions::
 Defines a list of actions to be disabled on the visualizations page.  
 
 +
----
 
 Set runtime filters::
 Sets filters that will be applied to the visualization.
@@ -135,17 +129,14 @@ Hide title::
 Hides the title and the description of the pinboard.
 
 +
----
 Hide filter bar::
 Hides the pinboard filters.
 
 +
----
 Modify available actions::
 Defines a list of actions to be disabled on the *Pinboards* page, and each of the visualizations in the *Pinboards* page.
 
 +
----
 Set runtime filters::
 Sets filters that will be applied to the visualization.
 . Click *Run*.
@@ -162,12 +153,11 @@ Hide navigation bar::
 Hides the ThoughtSpot top navigation bar.
 
 +
----
 Set runtime filters::
 Sets filters that will apply to visualizations and pinboards on any tab.
 . Click *Run*.
 
 == Customize embedded content
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
-* To xref:customize-actions-menu.adoc[create custom actions] for the *Actions* menu (*...*) on visualizations and pinboards, go to *Customizations* > *Styles*.
+* To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu (*...*) on visualizations and pinboards, go to *Customizations* > *Actions*.
 * If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as enabling CORS, setting up trusted authentication service, or whitelisting client application domains, go to *Customizations* > *Settings*.

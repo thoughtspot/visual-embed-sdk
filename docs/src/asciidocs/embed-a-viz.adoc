@@ -5,7 +5,7 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-This page explains how to embed a ThoughtSpot visualization, such as tables and charts in your Web page, portal, or application.
+This page explains how to embed a ThoughtSpot visualizations, such as tables and charts, in your Web page, portal, or application.
 ////
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
@@ -48,8 +48,10 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 +
----
 authType::
+_String_. Authentication type. Valid values are:
+
++
 [horizontal]
 SSO::
 Enables SAML SSO authentication method.
@@ -74,7 +76,7 @@ This approach is used only for testing client applications. Do not use this in p
 	hiddenActions: [],
 });
 ----
- 
+
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
 disabledActions [small]_optional_::
 _String_. Menu items from the list of actions to be disabled on the visualization page.
@@ -84,7 +86,7 @@ For example, to disable the *Change Title* action from the (*...*) menu, add `ed
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
-For example, to hide *Download As PDF* action from the  (*...*) menu, add `downloadAsPdf` to the `hiddenActions` attribute.
+For example, to hide *Download As PDF* action from the *More* (*...*) menu, add `downloadAsPdf` to the `hiddenActions` attribute.
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
@@ -93,7 +95,7 @@ _String_. Reason for disabling an action on the visualizations page.
 Construct the URL for the embedded visualization and render the embedded content:
 [source,JavaScript]
 ----
-  PinboardEmbed.render({
+  pinboardEmbed.render({
         pinboardId,
         vizId,
         runtimeFilters,
@@ -120,9 +122,11 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<thoughtspot_server>:<port>/
-?col1=Color&op1=EQ>&val1=red#/pinboard/<pinboardId>/<viz_id>
+?col1=Color&op1=EQ>&val1=red#/embed/viz/<pinboard-id>/<viz_id>
 ----
 Runtime filters have several operators you can use to filter your embedded visualizations.
+
++
 
 [width="50%" cols="1,2,1"]
 [options='header']
@@ -189,8 +193,8 @@ Register event handlers to subscribe to events triggered by the embedded visuali
 ----
   //register event listeners for visualization loading event
 
-  embed.on("init", showLoader)
-  embed.on("load", hideLoader)
+  pinboardEmbed.on("init", showLoader)
+  pinboardEmbed.on("load", hideLoader)
 ----
 ////
 ==== Event Types
@@ -208,7 +212,7 @@ Visualization drilldown is initiated.
 
 * Load the client application.
 * Try accessing a visualization embedded in your application.
-* Verify the iframe rendition.
+* Verify the rendition.
 * If you have disabled a menu item from the visualizations page, verify if the menu command is disabled.
 * Verify the runtime filters.
 
@@ -220,7 +224,7 @@ import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: 'None',
+    authType: AuthType.None,
 });
 
 const pinboardEmbed = new PinboardEmbed(

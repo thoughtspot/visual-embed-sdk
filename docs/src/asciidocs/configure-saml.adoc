@@ -8,7 +8,7 @@
 The Security Assertion Markup Language (SAML) Single Sign-On (SSO) authentication method enables client applications to allow federated users to access the embedded content. The SAML SSO authentication method eliminates the need for displaying a login page when a user requests access to the embedded visualizations or pinboards.
 In the SAML SSO authentication method, users authenticate to the SAML identity provider at your federation to obtain access to the ThoughtSpot content embedded in your application.
 
-To allow ThoughtSpot to trust the login requests from your corporate authentication servers, you must configure SAML settings in the ThoughtSpot application.
+To allow ThoughtSpot to trust login requests from your corporate authentication servers, you must configure SAML settings in the ThoughtSpot application.
 
 ////
 This configurator also checks with the user if internal authentication needs to be set or not.
@@ -59,8 +59,22 @@ The allowed skew time, after which the authentication response is rejected and s
 Protocol::
 The authentication mechanism for ThoughtSpot. For example, `http` or `https`.
 IDP Metadata XML File::
-For example, *idp-meta.xml*. Provide an absolute path to your Identity Provider’s metadata file. The IDP metadata file is provided by your IDP.  You need this file so that the configuration persists over upgrades. It is a best practice to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. 
+For example, *idp-meta.xml*. Provide an absolute path to your Identity Provider’s metadata file. The IDP metadata file is provided by your IDP.  You need this file so that the configuration persists over upgrades. It is a best practice to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster.
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
 If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 . Click *Save*.
+
+== Allow SAML Redirect Domains
+If you have to redirect SAML users to a login URL to a host server in a different domain, make sure you add the SAML redirect domains to the  list of allowed domains in ThoughtSpot.
+
+To whitelist a SAML redirect domain, follow these steps:
+
+. Log in to your ThoughtSpot application instance.
+. Click the *SpotDev* tab.
+. Under *Customizations*, click *Settings*.
+. In SAML redirect domains, add the domains to whitelist.
++
+You can add multiple domains as comma-separated values.
+
+. Click *Save changes*.

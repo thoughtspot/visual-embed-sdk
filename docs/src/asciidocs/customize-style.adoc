@@ -1,17 +1,17 @@
-= Customize Styles
+= Customize styles
 :toc: true
 
 :page-title: Style customization
 :page-pageid: customize-style
 :page-description: Rebrand embedded ThoughtSpot content
 
-If you want to match the look and feel of the embedded ThoughtSpot content with your core application, you can white label and customize the embedded ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines. 
+If you want to match the look and feel of the embedded ThoughtSpot content with your core application, you can white-label and customize the embedded ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines.
 
-You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations. 
+You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations.
 [NOTE]
 When you rebrand the embedded ThoughtSpot content, the UI styles are reset for all users.
 
-== Style Components
+== Style components
 
 You can customize the following ThoughtSpot UI style components:
 
@@ -23,7 +23,7 @@ You can customize the following ThoughtSpot UI style components:
 * xref:#footer-text[Footer text]
 * xref:#page-title[Page title]
 
-== Access Customization Settings
+== Access customization settings
 
 To access style customization settings:
 
@@ -31,9 +31,8 @@ To access style customization settings:
 . Sign in with your ThoughtSpot user credentials.
 . Under *Configuration*, click *Styles*.
 
-:tip-caption:
 [TIP]
-The style customization settings are also available in the ThoughtSpot *Admin*  console. 
+The style customization settings are also available in the ThoughtSpot *Admin*  console.
 For more information on setting UI styles from the *Admin* console, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization].
 
 [#logo-change]
@@ -83,7 +82,7 @@ They can use the *Reset colors* option on a chart to clear their changes.+++</dl
 [#font-customize]
 == Customize fonts for visualizations
 
-You can add and edit fonts to customize the appearance of your charts and tables. 
+You can add and edit fonts to customize the appearance of your charts and tables.
 You can set the default fonts of your system by customizing *Chart Visualization Fonts* and *Table Visualization Fonts*.
 
 [NOTE]
@@ -99,7 +98,7 @@ To update fonts:
 
 . Go to *SpotDev* > *Customizations* > *Styles*.
 . To update fonts for charts, go to *Chart Visualization Fonts*, and select a chart label.
-. To update fonts for tables, go to *Table Visualization Fonts*.  
+. To update fonts for tables, go to *Table Visualization Fonts*.
 +
 By default, the font changes are applied to all values in the table cells.
 
@@ -125,32 +124,34 @@ The file appears in the font dialog.
 == Customize background color
 You can customize the application background color to match your company's color scheme.
 The custom background color is applied to the embed visualizations, pinboards, and the ThoughtSpot application backgrounds.
- 
+
 To choose a background color for the ThoughtSpot application:
 
 . Go to *SpotDev* > *Customizations* > *Styles*.
 . Click the background color box under *Embedded Application Background*.
 +
 image::./images/set-background-color.png[Application Background Color]
-
 . Use the color menu to choose your new background color.
+
++
+You can also add a HEX color code.
 
 [#nav-panel]
 == Customize navigation panel
 If you have embedded the full ThoughtSpot application, you can customize the navigation panel color to match your company's color scheme.
 The custom background color is applied to the navigation panel of the ThoughtSpot application.
- 
+
 To choose a background color for the navigation panel:
 
 . Go to *SpotDev* > *Customizations* > *Styles*.
 . Click the background color box under *Navigation Panel Color*.
-. Use the color menu to choose your new background color. 
+. Use the color menu to choose your new background color.
 +
-You can also add a HEX color number directly.
+You can also add a HEX color code.
 
 [#chart-color]
 == Customize color palette for charts
-You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations, such as search answers and charts in your pinboards. 
+You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations, such as search answers and charts in your pinboards.
 
 To change the color palette for charts:
 
@@ -158,13 +159,14 @@ To change the color palette for charts:
 . Click the background color box under *Chart Color Palettes*.
 . Click the color you would like to change in the *primary* color palette, and use the color menu to choose your new color.
 +
-You can also add a HEX color number directly.
+You can also add a HEX color code.
+
 +
 All of the colors in the primary color palette are used in a chart before any from the secondary palette are used.
 Therefore, the primary palette usually consists of primary colors.
 
 . Click the color you would like to change in the *secondary* color palette, and use the color menu to choose your new color.
-You can also add a HEX color number directly.
+You can also add a HEX color code.
 +
 The colors from the secondary color palette are used after all of the colors have been exhausted from the primary palette.
 Therefore, the secondary palette usually consists of secondary colors.
@@ -178,7 +180,7 @@ If you leave color rotation enabled, ThoughtSpot generates the color of single-c
 [#chart-color]
 == Customize footer text
 
-The ThoughtSpot footer appears by default in the ThoughtSpot application. You can customize ThoughtSpot's footer test to add a company-specific message.
+The ThoughtSpot footer appears by default in the ThoughtSpot application. You can customize ThoughtSpot's footer text to add a company-specific message.
 
 To change the footer text:
 
@@ -200,7 +202,8 @@ To customize the page title displayed in the browser bar:
 == Reset styles
 
 When you customize styles, the changes take effect after you refresh the browser.
-You can revert your changes by using the *Reset* button that appears when you move your cursor to the right of the style setting option.
+
+To revert your changes, use the *Reset* button that appears when you move your cursor to the right of the style setting option.
 
 ////
 == How to specify the behavior or clickable links in data
