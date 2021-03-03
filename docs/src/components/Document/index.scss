@@ -1,7 +1,8 @@
 @import '../../assets/styles/variables.scss';
+@import '../../assets/styles/admonition.scss';
 
 .documentWrapper {
-    width: calc(100% - 300px);
+    width: calc(100% - #{$docmap-width-desktop});
     padding: $padding-md;
 
     /* In order to hide TOC in main component */
@@ -17,6 +18,10 @@
         font-weight: $font-weight-normal;
         font-size: $font-size-doc;
         line-height: $line-height-doc;
+
+        code {
+            background: $lightgrey;
+        }
     }
 
     img {
@@ -46,7 +51,7 @@
         background: $secondarycolor;
         color: $white;
         font-size: $font-size-normal;
-        font-weight: 300;
+        font-weight: $font-weight-normal;
         padding: $padding-xs $padding-sm;
         border: 0;
         border-radius: 2px;
@@ -55,37 +60,84 @@
     table {
         border-spacing: 0;
         border-collapse: collapse;
-    }
 
-    tr,
-    th,
-    td {
-        border: 1px solid $borderColor;
-    }
+        th {
+            border-bottom: 3px solid $borderColor;
+            font-size: $font-size-doc;
+            padding: $padding-sm;
+            text-align: left;
+        }
 
-    td {
-        padding: $padding-sm;
-        text-align: left;
-        font-weight: $font-weight-normal;
-    }
+        td {
+            font-size: $font-size-table;
+            border-bottom: 1px solid $borderColor;
+            padding: $padding-sm;
+            text-align: left;
+            font-weight: $font-weight-normal;
 
-    th {
-        padding: $padding-sm;
-        text-align: center;
+            p {
+                font-size: $font-size-table;
+            }
+        }
+
+        tr {
+            border-bottom: 1px solid $borderColor;
+        }
     }
 
     h2 {
         margin-top: $margin-lg;
     }
 
-}
+    h4 {
+        font-size: $font-size-doc;
+    }
 
-@media screen and (min-width: 767px) and (max-width: 1024px) {
-    .documentWrapper {
-        width: calc(100% - 210px);
+    ol > li {
+        &::marker {
+            font-weight: $font-weight-normal;
+        }
+
+        & > p {
+            margin-left: 3px;
+        }
+    }
+
+    .hdlist {
+        tr,
+        th,
+        td {
+            border: none;
+        }
+
+        .hdlist1 {
+            font-weight: $font-weight-bold;
+        }
+
+        td {
+            font-size: $font-size-doc;
+
+            p {
+                font-size: $font-size-doc;
+            }
+        }
+    }
+
+    .admonitionblock {
+        tr,
+        th,
+        td {
+            border: none;
+        }
     }
 }
 
 pre {
     white-space: pre-wrap;
+}
+
+@media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
+    .documentWrapper {
+        width: calc(100% - #{$docmap-width-mobile});
+    }
 }

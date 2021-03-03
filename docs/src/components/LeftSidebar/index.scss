@@ -26,22 +26,19 @@ aside {
     ul {
         list-style-type: none;
         margin: $gutter;
-        padding: $gutter;
+        padding-left: $padding-md;
     }
 
     .navWrapper {
         margin-bottom: 32px;
 
         & > .ulist {
-
             & > ul > li {
                 margin-bottom: $margin-lg;
                 & > p {
-                    padding-left: $padding-md;
                     padding-right: $padding-xs;
                     color: $primarycolor;
                     font-weight: $font-weight-bold;
-                    margin: $margin-xs 0;
                     & > a {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
@@ -49,73 +46,28 @@ aside {
                     }
                 }
 
-                & > div.ulist > ul > li {
-                    & > p {
-                        padding-left: 42px;
-                        font-weight: $font-weight-normal;
-                        color: $primarycolor;
-                        padding-right: $padding-xs;
-                        margin: $margin-xs 0;
-                        line-height: $line-height-normal;
-
-                        & > a {
-                            color: $primarycolor;
-                            padding-right: $padding-xs;
-
-                            &:hover {
-                                color: $secondarycolor;
-                            }
-                        }
-
-                        &:hover {
-                            background: $hovercolor;
-                            color: $secondarycolor;
-                        }
-
-                    }
-                }
-            }
-        }
-
-        & > .exampleblock > .content {
-            & > .ulist {
-    
-                & > ul > li {
-                    margin-bottom: $margin-lg;
-                    & > p {
-                        padding-left: $padding-md;
-                        padding-right: $padding-xs;
-                        color: $primarycolor;
-                        font-weight: $font-weight-bold;
-                        margin: $margin-xs 0;
-                        & > a {
-                            color: $primarycolor;
-                            font-weight: $font-weight-bold;
-                            padding-right: $padding-xs;
-                        }
-                    }
-
-                    & > div.ulist > ul > li {
-                        & > p {
-                            padding-left: 42px;
-                            font-weight: $font-weight-normal;
-                            color: $primarycolor;
-                            padding-right: $padding-xs;
-                            margin: $margin-xs 0;
-                            line-height: $line-height-normal;
-
-                            & > a {
+                .ulist {
+                    ul {
+                        padding-left: $padding-nested-ul;
+                        li {
+                            margin: $margin-links 0;
+                            p {
+                                font-weight: $font-weight-normal;
                                 color: $primarycolor;
                                 padding-right: $padding-xs;
+
+                                a {
+                                    color: $primarycolor;
+                                    padding-right: $padding-xs;
+
+                                    &:hover {
+                                        color: $secondarycolor;
+                                    }
+                                }
 
                                 &:hover {
                                     color: $secondarycolor;
                                 }
-                            }
-
-                            &:hover {
-                                background: $hovercolor;
-                                color: $secondarycolor;
                             }
                         }
                     }
@@ -125,7 +77,7 @@ aside {
 
         .paragraph {
             padding-left: $padding-md;
-            margin-bottom: 40px;
+            margin-bottom: $margin-lg;
 
             p {
                 padding-right: $padding-xs;
@@ -137,7 +89,6 @@ aside {
     a {
         font-size: $font-size-normal;
         font-weight: $font-weight-normal;
-        line-height: $line-height-normal;
         width: 100%;
         display: inline-block;
     }

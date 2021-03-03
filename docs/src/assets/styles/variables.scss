@@ -6,7 +6,7 @@ $primarycolor: #1d232f;
 $secondarycolor: #2770ef;
 $lightgrey: #eaedf2;
 $darkgrey: #777e8b;
-$code-block-color: #F6F8FA;
+$code-block-color: #f6f8fa;
 $borderColor: #c0c6cf;
 $hovercolor: rgba(113, 161, 244, 0.12);
 $disabledcolor: #a5acb9;
@@ -18,11 +18,52 @@ $line-height-button: 16px;
 $line-height-doc: 1.6rem;
 $font-size-small: 12px;
 $font-size-normal: 14px;
+$font-size-table: 15px;
+$font-size-doc: 16px;
 $font-size-large: 18px;
 $font-size-404: 1.25rem;
-$font-size-doc: 16px;
 $padding-md: 24px;
 $margin-lg: 40px;
+$margin-md: 24px;
 $margin-xs: 5px;
 $padding-xs: 5px;
 $padding-sm: 10px;
+$padding-nested-ul: 12px;
+$margin-links: 16px;
+$docmap-width-desktop: 300px;
+$docmap-width-mobile: 210px;
+$tablet-resolution-min: 767px;
+$tablet-resolution-max: 1024px;
+
+/* Admonition variables */
+
+$caution-color: #a0439c;
+$important-color: #d32f2f;
+$note-color: #217ee7;
+$tip-color: #41af46;
+$warning-color: #e18114;
+$color-white: #fff;
+$color-smoke-30: #fafafa;
+$color-jet-70: #222;
+$warning-on-color: $color-white;
+$caution-on-color: $color-white;
+$important-on-color: $color-white;
+$note-on-color: $color-white;
+$tip-on-color: $color-white;
+$panel-background: $color-smoke-30;
+/* fonts */
+$rem-base: 18;
+$body-font-size-desktop: 1.125em; /* 18px */
+$body-font-size-print: 0.9375em; /* 15px */
+$body-line-height: 1.15;
+$body-font-color: $color-jet-70;
+$body-font-family: 'Roboto', sans-serif;
+$body-font-weight-bold: 500;
+$monospace-font-family: 'Roboto Mono', monospace;
+$monospace-font-weight-bold: 500;
+$admonition-background: $panel-background;
+$admonition-label-font-weight: $body-font-weight-bold;
+$admonition-title-font-size: 12px;
+$admonition-title-line-height: 20px;
+$admonition-font-factor-p: 16;
+$admonition-font-factor-pre: 15;
