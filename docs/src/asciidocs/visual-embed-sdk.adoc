@@ -1,6 +1,4 @@
-
 = Visual Embed SDK
-
 :toc: true
 
 :page-title: What is Visual Embed SDK
@@ -27,8 +25,8 @@ PinboardEmbed::
 For embedding ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
 
 
-fullEmbed::
-For embedding xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
+AppEmbed::
+For embedding xref:full-embed.adoc[the full ThoughtSpot application] with or without the navigation bar.
 
 
 == Configuration requirements for embedding
@@ -41,7 +39,6 @@ For information on configuration requirements, see the following sections:
 
 == Optional settings for embedding
 
-One of these involves what happens when a user clicks on a link within the data.
 The URLs in data display as clickable links in ThoughtSpot tables.
 By default, clicking on a link opens the URL in a separate tab.
 However, there is a system-wide setting that can be changed to open the links within the context in which they appear.
@@ -53,11 +50,11 @@ Consider the possible link types, and how they open:
 +
 Same browser tab as ThoughtSpot application.
 
-* Link in table embedded in an `<iframe>`.
+* Link in table embedded in  a DOM element.
 +
 Same `<iframe>` that contains the table.
 
-* Link in full ThoughtSpot application embedded in an `<iframe>` element
+* Link in full ThoughtSpot application embedded in a web page.
 +
 Same `<iframe>` that contains the application.
 
@@ -73,10 +70,10 @@ SAML::
 This method requires you to set up SAML SSO support on the ThoughtSpot admin console.
 +
 
-For more information, see xref:configure.saml[SAML SSO].
+For more information, see xref:configure-saml.adoc[SAML SSO].
 
 Trusted authentication service::
 This method requires you to enable token-based trusted authentication service.
 In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
 +
-For more information, see xref:trusted-authentication[Trusted Authentication].
+For more information, see xref:trusted-authentication.adoc[Trusted Authentication].

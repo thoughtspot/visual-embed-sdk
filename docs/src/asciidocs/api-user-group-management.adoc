@@ -1,22 +1,21 @@
-= Group API
+= Manage user groups
 :toc: true
 
-:page-title: Group API
-:page-pageid: group-api
-:page-description: Group API
+:page-title: Manage user groups
+:page-pageid: api-user-group-management
+:page-description: Manage user groups using REST APIs
 
+To configure or remove privilege from single or multiple groups, use the group REST API service.
 
-The Group APIs enable you to set or remove a privilege to or from a group or multiple groups.
+== Add a privilege to a user group
 
-== Add a privilege
-
-Use this API to add a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege to the system default `ALL_GROUP` group.
 All users in the system are always a part of the `ALL_GROUP` group.
 By default, this group does not have permission to download or upload data.
 
 All the data sources that the `ALL_GROUP` group can access are downloadable when `DATADOWNLOADING` is applied.
 
-=== Resource URL
+To add a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege to the system default `ALL_GROUP` group, send a `POST` request to the following endpoint URL:
+
 ----
 POST /tspublic/v1/group/addprivilege
 ----
@@ -27,7 +26,7 @@ POST /tspublic/v1/group/addprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to which you want to add the privilege. The valid value is `ALL_GROUP` group. 
 
 |====
 
@@ -45,21 +44,16 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
-=== Response codes
+=== Example response
 
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|No response was specified 
-|**204**|Success
-|**401**|Failure/Unauthorized
-|===
+----
+204 - Success
+----
 
-== Remove a privilege
+== Remove a privilege from a user group
 
-Use this API to delete a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege from the system default ``ALL_GROUP``group.
+To delete a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege from the system default `ALL_GROUP` group, send a `POST` request to the following endpoint URL:
 
-=== Resource URL
 ----
 POST /tspublic/v1/group/removeprivilege
 ----
@@ -71,13 +65,14 @@ POST /tspublic/v1/group/removeprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to delete the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies the group name from which you want to remove the privilege. The valid value is `ALL_GROUP` group. 
 
 |====
 
 === Example request
 
 .cURL
+
 [source, cURL]
 ----
 curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege'
@@ -88,15 +83,11 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
-=== Response codes
-[options="header", cols="1,2"]
-|===
-|HTTP Code|Description 
-|**200**|No response was specified
-|**204**|Success 
-|**401**|Failure/Unauthorized 
-|===
+=== Example response
 
+----
+204 - Success
+----
 
 ////
 ## Error Codes

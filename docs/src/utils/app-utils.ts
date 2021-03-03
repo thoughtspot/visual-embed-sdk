@@ -1,5 +1,10 @@
 import 'url-search-params-polyfill';
-import { NAV_PREFIX, TS_HOST_PARAM, TS_ORIGIN_PARAM, TS_PAGE_ID_PARAM } from '../configs/doc-configs';
+import {
+    NAV_PREFIX,
+    TS_HOST_PARAM,
+    TS_ORIGIN_PARAM,
+    TS_PAGE_ID_PARAM,
+} from '../configs/doc-configs';
 
 /**
  * Parse query string into json object. (Polyfill by 'url-search-params-polyfill' npm package)
@@ -7,7 +12,7 @@ import { NAV_PREFIX, TS_HOST_PARAM, TS_ORIGIN_PARAM, TS_PAGE_ID_PARAM } from '..
  * @returns {object} which contains query params 'key: value' pairs
  */
 export const queryStringParser = (queryParamStr: string) => {
-    const queryParamObj = {};
+    const queryParamObj: { [key: string]: string } = {};
 
     const entries = new URLSearchParams(queryParamStr).entries();
     let navPrefix = '?';
