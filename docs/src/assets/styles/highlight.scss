@@ -1,0 +1,89 @@
+@import './variables.scss';
+ 
+    /*! Adapted from the GitHub style by Vasily Polovnyov <vast@whiteants.net> */
+    .hljs-comment,
+    .hljs-quote {
+        color: $highlight-grey;
+        font-style: italic;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+        color: $highlight-darkgrey;
+        font-weight: $font-weight-bold;
+    }
+
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+        color: $highlight-green;
+    }
+
+    .hljs-string,
+    .hljs-doctag {
+        color: $highlight-red;
+    }
+
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+        color: $highlight-darkred;
+        font-weight: $font-weight-bold;
+    }
+
+    .hljs-subst {
+        font-weight: normal;
+    }
+
+    .hljs-type,
+    .hljs-class .hljs-title {
+        color: $highlight-blue;
+        font-weight: $font-weight-bold;
+    }
+
+    .hljs-tag,
+    .hljs-name,
+    .hljs-attribute {
+        color: $highlight-darkblue;
+        font-weight: normal;
+    }
+
+    .hljs-regexp,
+    .hljs-link {
+        color: $highlight-lightgreen;
+    }
+
+    .hljs-symbol,
+    .hljs-bullet {
+        color: $highlight-violet;
+    }
+
+    .hljs-built_in,
+    .hljs-builtin-name {
+        color: $highlight-lightblue;
+    }
+
+    .hljs-meta {
+        color: $highlight-lightgrey;
+        font-weight: $font-weight-bold;
+    }
+
+    .hljs-deletion {
+        background: $highlight-peach;
+    }
+
+    .hljs-addition {
+        background: $highlight-fadedgreen;
+    }
+
+    .hljs-emphasis {
+        font-style: italic;
+    }
+
+    .hljs-strong {
+        font-weight: $font-weight-bold;
+    }
+    
