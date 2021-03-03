@@ -29,7 +29,7 @@ To access style customization settings:
 
 . Go to the SpotDev portal.
 . Sign in with your ThoughtSpot user credentials.
-. Under *Configuration*, click *Styles*.
+. Under *Customizations*, click *Styles*.
 
 [TIP]
 The style customization settings are also available in the ThoughtSpot *Admin*  console.
