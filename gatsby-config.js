@@ -14,6 +14,7 @@ class CustomDocConverter {
 
             if (
                 !target.includes(`{{${config.NAV_PREFIX}}}`) &&
+                !target.includes(`{{${config.TS_HOST_PARAM}}}`) &&
                 !target.includes('www.') &&
                 !target.startsWith('http')
             ) {
