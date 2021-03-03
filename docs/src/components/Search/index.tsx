@@ -12,7 +12,7 @@ const Search = ({ options, ...props }) => (
             {options.length > 0 && 
                 <div className="resultContainer">
                     {options.map((option) => (
-                        <div key={option.title} className="result">
+                        <div key={option.pageid} className="result">
                             <div className="textContainer">
                                 <p className="title">{props.value}</p>
                                 <p className="footer">{option.title}</p>

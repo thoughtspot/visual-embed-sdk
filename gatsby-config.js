@@ -133,6 +133,7 @@ module.exports = {
                             name
                             childHtmlRehype {
                               html
+                              htmlAst
                             }
                           }
                         }
@@ -140,7 +141,7 @@ module.exports = {
                 }
                 `,
                 ref: 'pageid',
-                index: ['title', 'body'],
+                index: ['title', 'body', 'pageid'],
                 store: ['pageid', 'title'],
                 normalizer: ({ data }) => {
                     return [
@@ -161,7 +162,10 @@ module.exports = {
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
                                 return {
-                                    title: edge.node.name,
+                                    title: edge.node.childHtmlRehype.htmlAst.children.find(
+                                        (children) =>
+                                            children.tagName === 'title',
+                                    ).children[0].value,
                                     pageid: edge.node.name,
                                     body: htmlToText(
                                         edge.node.childHtmlRehype.html,

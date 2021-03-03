@@ -135,8 +135,12 @@ const IndexPage = ({ location }) => {
         `,
     );
 
-    const results = useFlexSearch(query, index, store);
-    console.log('results:  ', results);
+    const results = useFlexSearch(query, index, store).reduce((acc, cur) => {
+        if (!acc.some((data) => data.pageid === cur.pageid)) {
+            acc.push(cur);
+        }
+        return acc;
+    }, []);
 
     return (
         <>
