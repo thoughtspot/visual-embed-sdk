@@ -5,7 +5,9 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-This page explains how to embed a ThoughtSpot visualizations, such as tables and charts, in your Web page, portal, or application.
+
+This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+
 ////
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.

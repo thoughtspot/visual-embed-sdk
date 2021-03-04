@@ -5,23 +5,23 @@
 :page-pageid: customize-actions
 :page-description: Add custom actions
 
-When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. ThoughtSpot allows you to exclude the actions that are not required in your application context, and also add custom actions of your choice.
+When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. ThoughtSpot not only allows you to exclude the actions that are not required in your application context, but also add custom actions of your choice.
+
 
 == Custom actions
 
-You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization function. 
+You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization or *Pinboards* page.
+
+For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
+
+Similarly, you can configure a callback function to call an event or action from the ThoughtSpot application.
+
+The custom action is added either as a primary menu action on the menu bar, or as a menu item in the **More** menu  image::./images/icon-more-10px.png[More menu options] on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
+
 ////
 You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization or pinboard function. 
 ////
-For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 
-Similarly, you can configure callback functions to send an event or action to the ThoughtSpot application.
-
-The custom actions are added as menu items in the *Search Answers* page.
-////
-*add on April release*
-The custom actions are added as menu items in the *Search Answers* or the *Pinboards* page. 
-////
 
 [NOTE]
 ThoughtSpot allows adding one custom menu item and one callback function for each application instance.
@@ -33,16 +33,19 @@ To add custom menu item:
 . Click *Create new action*.
 . Add a label for the menu item. For example, Billing Renewal.
 . Add the URL of the application to which you want to attach the action.
-. Specify if you want to set the action as a primary action, or as a menu command in the *More* (*...*) menu.
-. Select the ThoughtSpot application pages to which you want to add the menu item. 
+
 +
-////
-You can add the custom menu item to the *Pinboards* or *Search Answers* page, or both.
-////
+Make sure the URL you enter here is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
+
+. Specify the position of the action button. You can set the action as a primary action, or as a menu command in the **More** menu 
+image::./images/icon-more-10px.png[More menu options].
+
+. Select the ThoughtSpot application pages to which you want to add the menu item.
+
 . Click *Add action*.
 +
 The menu item is added to the ThoughtSpot application.
-A custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
+The custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
 
 . To view the action you just added, click *My actions*.
 
@@ -50,19 +53,22 @@ A custom menu item is indicated with a custom tag to distinguish it from the def
 
 The callback custom action provides you with the flexibility to programmatically set up a function to request a call back from the parent application. 
 
-You can configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code. When your application user triggers a callback, the callback function sends out data to notify the ThoughtSpot application code and fetches the user requested data. 
+You can configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code in response to events triggered from a parent application. When your application user triggers a callback, the callback function sends out a request to notify the ThoughtSpot application and fetches the requested data. 
 
 To add a callback function:
 
 . Go to *SpotDev* > *Customizations* > *Actions*.
 . Click *Add custom action item*.
 . Add a label for the menu item.
-. Add the syntax for the callback function. 
-. Specify if you want to set the function as a primary action, or as a menu command in the *More* (*...*) menu.
-. Select the ThoughtSpot application pages to which you want to add the function. 
+. Add an ID for the callback function.
+
 +
-////
-You can add the callback function for the *Pinboards* or *Search Answers* page, or both.
-////
+Make sure you use the same ID to register the callback function on your host application.
+
+. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image::./images/icon-more-10px.png[More menu options].
+
+. Select the ThoughtSpot application pages to which you want to add the function. 
 . Click *Add action*.
 . To view the action you just added, click *My actions*.
+
+
