@@ -33,6 +33,7 @@ To add custom menu item:
 . Click *Create new action*.
 . Add a label for the menu item. For example, Billing Renewal.
 . Add the URL of the application to which you want to attach the action.
+
 +
 Make sure the URL you enter here is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
 
@@ -60,10 +61,11 @@ To add a callback function:
 . Click *Add custom action item*.
 . Add a label for the menu item.
 . Add an ID for the callback function.
+
 +
 Make sure you use the same ID to register the callback function on your host application.
 
-. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu  image::./images/icon-more-10px.png[More menu options].
+. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image::./images/icon-more-10px.png[More menu options].
 
 . Select the ThoughtSpot application pages to which you want to add the function. 
 . Click *Add action*.
