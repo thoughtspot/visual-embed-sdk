@@ -62,7 +62,6 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
----
 == Create an instance of the search object
 Create an instance of the SearchEmbed object and customize your search page view.
 
