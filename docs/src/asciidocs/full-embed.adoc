@@ -1,4 +1,4 @@
-= Embed Full Application
+= Embed full application
 :toc: true
 
 :page-title: Embed Full Application
@@ -8,11 +8,11 @@
 
 Full embedding allows you to integrate the full ThoughtSpot content in an application.
 
-== Full application embedding overview
+== Full application embedding
 
 Full embedded ThoughtSpot content gives your users the ability to perform many essential tasks:
 
-* create Answers and Pinboards
+* create answers and pinboards
 * share objects with other users
 * upload data, and refresh uploaded data
 * relate uploaded data to existing worksheets
@@ -20,7 +20,8 @@ Full embedded ThoughtSpot content gives your users the ability to perform many e
 === Limitations
 Users in a fully  embedded application cannot perform the following tasks:
 
-* create worksheets or views
+* create worksheets
+* create views
 * modify profiles
 * view the Help Center
 
@@ -40,7 +41,7 @@ Safari on iOS
 ////
 === Error messages and full embed
 
-In ThoughtSpot, you can disable error messages within the ThoughtSpot embedded context. 
+In ThoughtSpot, you can disable error messages within the ThoughtSpot embedded context.
 We provide APIs so you can access error messages and display them in your application UI appropriately.
 
 This approach of suppressing error messages inside the `<iframe>` uses the `window.postMessage` function to pass them through to the parent application, which acts as the listener.
@@ -61,7 +62,7 @@ Import the AppEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { init, AppEmbed } from "ts-embed-sdk";
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 === Import styles
 [source,javascript]
@@ -87,11 +88,10 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
+authType::
+_String_. Authentication type. Valid values are:
 
 +
-
----
-authType::
 [horizontal]
 SSO::
 SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
@@ -111,12 +111,14 @@ Create an instance of the AppEmbed object and pass the iframe parameters for the
 
 [source,javascript]
 ----
-const embed = new AppEmbed("#embed", {
-  frameParams: {
-    width: '100%',
-    height: '100%'
-  },
-});
+const appEmbed = new AppEmbed(
+    document.getElementById('ts-embed'),
+    {
+        frameParams: {
+            width: '100%',
+            height: '100%',
+        },
+    });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
 
@@ -125,7 +127,7 @@ Construct the URL of the embedded ThoughtSpot application to load in the iframe.
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
 [source, javascript]
 ----
-embed.render({ pageId }: AppRenderOptions): AppEmbed {
+appEmbed.render({ pageId }: AppRenderOptions): AppEmbed {
         super.render();
 
         const pageRoute = this.getPageRoute(pageId);
@@ -133,7 +135,10 @@ embed.render({ pageId }: AppRenderOptions): AppEmbed {
         this.renderV1Embed(src);
 
         return this;
-    }
+
+        appEmbed.render({
+    Page.Data
+});
 
 ----
 
@@ -154,8 +159,8 @@ Page.Home:: Displays the *Home* page when the application loads.
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
- embed.on("init", showLoader)
- embed.on("load", hideLoader)
+ appEmbed.on("init", showLoader)
+ appEmbed.on("load", hideLoader)
 
 // Functions to show or hide a loader while the iframe loads.
  function showLoader() {
@@ -229,7 +234,7 @@ import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: "SSO",
+    authType: AuthType.None,
 });
 
 const appEmbed = new AppEmbed(

@@ -13,7 +13,7 @@ ThoughtSpot provides a suite of APIs, SDK, and developer tools to programmatical
 ThoughtSpot supports embedding the full application or its individual components into your business solution. 
 Based on your business needs and integration environment, you can use one of the following embedding approaches:
 
-Full-application embedding::
+Full application embedding::
 You can embed the entire ThoughtSpot application into your host application or portal. Your application users can navigate to the ThoughtSpot UI through a tab or a link. 
 Page-level embedding::
 You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The host application can allow page-to-page navigation.
@@ -25,7 +25,7 @@ To facilitate faster application integration and assist developer users, Thought
 The SpotDev portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs, and build sample content. 
 The portal also allows developers to customize the ThoughtSpot UI and configure custom actions.
 
-You can access the SpotDev portal from either the ThoughtSpot website, or the *SpotDev* tab in the ThoughtSpot application. To access the *SpotDev* tab in the ThoughtSpot application, you must have the admin or developer user privileges.
+You can access the SpotDev portal from either the ThoughtSpot website, or the *SpotDev* tab in the ThoughtSpot application. To access the *SpotDev* tab in the ThoughtSpot application, you must have administrator or developer user privileges.
 
 For more information, see xref:spotdev-portal.adoc[ThoughtSpot SpotDev portal].
 
@@ -35,13 +35,13 @@ You can use one of the following methods to embed a ThoughtSpot functionality or
 * *Using iFrames via ThoughtSpot UI*::In this method, you can copy the embed link for a pinboard or visualization from the ThoughtSpot UI and add it your webpage or an HTML file. For more information, see Embedding a Pinboard or Visualization.
 ////
 *Using the Visual Embed SDK*::
-In this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components. 
+Using this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components. 
 The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as the search bar, visualizations, pinboards, and the full application. 
 +
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
 *Using REST APIs*::
-In this method, you can use the REST APIs to programmatically fetch, embed, and customize data from the ThoughtSpot application. 
+Using this method, you can use the REST APIs to programmatically fetch, embed, and customize data from the ThoughtSpot application. 
 +
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 

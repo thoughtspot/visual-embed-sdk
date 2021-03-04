@@ -36,7 +36,6 @@ const LeftSideBar = (props: {
         );
         if (tag) {
             tag.classList.add('active');
-            tag.parentElement.classList.add('activelink');
         }
         setNavContent(divElement.innerHTML);
     }, [params, props.navContent]);

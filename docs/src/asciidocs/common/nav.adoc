@@ -8,9 +8,10 @@
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=spotdev-portal[SpotDev portal]
+** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
-** link:{{navprefix}}=security-settings[Security settings]
+
 * Visual Embed SDK
 ** link:{{navprefix}}=visual-embed-sdk[Overview]
 ** link:{{navprefix}}=getting-started[Get started]
