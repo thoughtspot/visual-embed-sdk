@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
-import { useFlexSearch } from 'react-use-flexsearch'
+import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
@@ -52,7 +52,7 @@ const IndexPage = ({ location }) => {
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
         setParams({ ...paramObj });
-    }, []);
+    }, [location.search]);
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
@@ -142,6 +142,11 @@ const IndexPage = ({ location }) => {
         return acc;
     }, []);
 
+    const optionSelected = (pageid) => {
+        updateQuery('');
+        navigate(pageid);
+    };
+
     return (
         <>
             <main ref={ref as React.RefObject<HTMLDivElement>}>
@@ -161,10 +166,15 @@ const IndexPage = ({ location }) => {
                         value={query}
                         onChange={(e) => updateQuery(e.target.value)}
                         options={results}
+                        optionSelected={optionSelected}
                     />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap docContent={docContent} location={location} />
+                        <Docmap
+                            docContent={docContent}
+                            location={location}
+                            options={results}
+                        />
                     </div>
                 </div>
             </main>

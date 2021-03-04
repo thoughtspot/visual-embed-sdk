@@ -9,7 +9,6 @@
     font-size: $font-size-normal;
     height: 100vh;
     overflow-y: auto;
-    z-index: -1;
 
     .tocTitle {
         margin: 0;
@@ -33,7 +32,6 @@
                 a:hover {
                     color: $secondarycolor;
                 }
-
             }
         }
     }

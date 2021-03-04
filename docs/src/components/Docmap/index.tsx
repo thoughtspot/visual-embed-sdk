@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { INTROWRAPPER_MARGIN_TOP } from '../../constants/uiContants';
 
-const Docmap = (props: { docContent: string; location: Location }) => {
+const Docmap = (props: {
+    docContent: string;
+    options: Object[];
+    location: Location;
+}) => {
     const [toc, setToc] = useState('');
 
     useEffect(() => {
@@ -44,7 +48,12 @@ const Docmap = (props: { docContent: string; location: Location }) => {
 
     return (
         toc !== '' && (
-            <div className="docmapLinks">
+            <div
+                className="docmapLinks"
+                style={{
+                    zIndex: props.options.length > 0 ? -1 : 0,
+                }}
+            >
                 <p className="tocTitle">On this page</p>
                 <div dangerouslySetInnerHTML={{ __html: toc }} />
             </div>

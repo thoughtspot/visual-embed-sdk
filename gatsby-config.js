@@ -142,7 +142,7 @@ module.exports = {
                 `,
                 ref: 'pageid',
                 index: ['title', 'body', 'pageid'],
-                store: ['pageid', 'title'],
+                store: ['pageid', 'title', 'redirectURL'],
                 normalizer: ({ data }) => {
                     return [
                         ...data.allAsciidoc.edges
@@ -152,21 +152,25 @@ module.exports = {
                                     edge.node.pageAttributes.pageid !== 'nav',
                             )
                             .map((edge) => {
+                                const pageid = edge.node.pageAttributes.pageid;
                                 return {
+                                    pageid,
+                                    redirectURL: `?pageid=${pageid}`,
                                     title: edge.node.document.title,
-                                    pageid: edge.node.pageAttributes.pageid,
                                     body: htmlToText(edge.node.html),
                                 };
                             }),
                         ...data.allFile.edges
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
+                                const pageid = edge.node.name;
                                 return {
+                                    pageid,
+                                    redirectURL: pageid,
                                     title: edge.node.childHtmlRehype.htmlAst.children.find(
                                         (children) =>
                                             children.tagName === 'title',
                                     ).children[0].value,
-                                    pageid: edge.node.name,
                                     body: htmlToText(
                                         edge.node.childHtmlRehype.html,
                                     ),
