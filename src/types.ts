@@ -30,6 +30,7 @@ export interface EmbedConfig {
     thoughtSpotHost: string;
     authType: AuthType;
     authEndpoint?: string;
+    basepath?: string;
 }
 
 export type MessagePayload = { type: string; data: any };

@@ -5,7 +5,9 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
+
 This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+
 ////
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
@@ -86,7 +88,9 @@ For example, to disable the *Change Title* action from the *More* menu image:./i
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
+
 For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `downloadAsPdf` to the `hiddenActions` attribute.
+
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.

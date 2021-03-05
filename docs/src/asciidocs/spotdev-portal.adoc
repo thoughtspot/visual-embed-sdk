@@ -21,6 +21,7 @@ If you are a new user::
 If you are an existing ThoughtSpot Cloud user::
 . Sign in to ThoughtSpot Cloud.
 . Navigate to the *SpotDev* tab.
+
 . Explore the SpotDev portal features, and build your sample code in *Playground*.
 The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 
@@ -158,5 +159,7 @@ Sets filters that will apply to visualizations and pinboards on any tab.
 
 == Customize embedded content
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
+
 * To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on visualizations and pinboards, go to *Customizations* > *Actions*.
+
 * If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as enabling CORS, setting up trusted authentication service, or whitelisting client application domains, go to *Customizations* > *Settings*.
