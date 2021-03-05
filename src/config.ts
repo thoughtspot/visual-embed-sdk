@@ -44,6 +44,20 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
     return `${protocol}//${host}${path}`;
 };
 
+export const getV2BasePath = (config: EmbedConfig): string => {
+    if (config.basepath) {
+        return config.basepath;
+    }
+
+    const tsHost = getThoughtSpotHost(config);
+    // This is to handle when the developer is developing in their local environment.
+    if (tsHost.includes('://localhost')) {
+        return '';
+    }
+
+    return 'v2';
+}
+
 /**
  * It is a good idea to keep URLs under 2000 chars.
  * If this is ever breached, since we pass view configuration through

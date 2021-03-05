@@ -13,6 +13,7 @@ import {
     URL_MAX_LENGTH,
     DEFAULT_EMBED_WIDTH,
     DEFAULT_EMBED_HEIGHT,
+    getV2BasePath,
 } from '../config';
 import {
     DOMSelector,
@@ -36,7 +37,7 @@ export const init = (embedConfig: EmbedConfig): void => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 export interface FrameParams {
     // unit is pixels if number
@@ -74,6 +75,11 @@ export class TsEmbed {
      */
     protected thoughtSpotHost: string;
 
+    /*
+    * This the base to access ThoughtSpot V2.
+    */
+    protected thoughtSpotV2Base: string;
+
     /**
      * A map of event handlers for particular message types triggered
      * by the embdedded app; multiple event handlers can be registered
@@ -90,6 +96,7 @@ export class TsEmbed {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
         this.thoughtSpotHost = getThoughtSpotHost(config);
+        this.thoughtSpotV2Base = getV2BasePath(config);
         this.eventHandlerMap = new Map();
     }
 
@@ -138,7 +145,7 @@ export class TsEmbed {
      * Construct the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
-        return `${this.thoughtSpotHost}/v2/#/embed`;
+        return `${this.thoughtSpotHost}/${this.thoughtSpotV2Base}/#/embed`;
     }
 
     /**
@@ -155,9 +162,8 @@ export class TsEmbed {
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
-        const queryParams = `?embedApp=true${
-            isAppEmbed ? primaryNavParam : ''
-        }${queryStringFrag}`;
+        const queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''
+            }${queryStringFrag}`;
         let path = `${this.thoughtSpotHost}/${queryParams}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;
