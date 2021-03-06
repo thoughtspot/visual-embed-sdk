@@ -148,12 +148,14 @@ To explore the API for embedding full application:
 . Select a tab to set a default page view for embedded application users.
 . If required, enable *User experience customization* settings.
 +
-Hide navigation bar::
-Hides the ThoughtSpot top navigation bar.
-
+Show navigation bar::
+Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
++
+////
 +
 Set runtime filters::
 Sets filters that will apply to visualizations and pinboards on any tab.
+////
 . Click *Run*.
 
 == Customize embedded content
