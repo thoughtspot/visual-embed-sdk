@@ -122,7 +122,7 @@ export class TsEmbed {
      * Handle errors within the SDK
      * @param error The error message or object
      */
-    protected handleError(error: string | object) {
+    protected handleError(error: string | Record<string, unknown>) {
         this.executeCallbacks(EventType.Error, {
             error,
         });
