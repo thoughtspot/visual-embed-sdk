@@ -56,7 +56,7 @@ export const getV2BasePath = (config: EmbedConfig): string => {
     }
 
     return 'v2';
-}
+};
 
 /**
  * It is a good idea to keep URLs under 2000 chars.
