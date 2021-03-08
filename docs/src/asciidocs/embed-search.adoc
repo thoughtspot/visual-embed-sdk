@@ -101,7 +101,9 @@ _Boolean_. When set to true, it enables search assistance.
 disabledActions [small]_optional_::
 _String_. Disables the specified menu item from the list of actions in the search answer page.
 +
-For example, to hide the *Show underlying data* action from the *More* (*...*) menu, add `showUnderlyingData` to the  `disabledActions` attribute.
+
+For example, to hide the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `showUnderlyingData` to the  `disabledActions` attribute.
+
 
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.

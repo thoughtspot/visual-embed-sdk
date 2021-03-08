@@ -37,7 +37,7 @@ export const init = (embedConfig: EmbedConfig): void => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 export interface FrameParams {
     // unit is pixels if number
@@ -76,8 +76,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-    * This the base to access ThoughtSpot V2.
-    */
+     * This the base to access ThoughtSpot V2.
+     */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -162,8 +162,9 @@ export class TsEmbed {
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
-        const queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''
-            }${queryStringFrag}`;
+        const queryParams = `?embedApp=true${
+            isAppEmbed ? primaryNavParam : ''
+        }${queryStringFrag}`;
         let path = `${this.thoughtSpotHost}/${queryParams}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;

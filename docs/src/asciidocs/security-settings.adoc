@@ -13,7 +13,8 @@ Only the ThoughtSpot users with admin privileges can configure security settings
 
 When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for same-origin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
 
-The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
+
+The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `\http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
 === Enable CORS from the command line
 

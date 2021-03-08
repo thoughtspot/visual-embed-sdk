@@ -16,10 +16,12 @@ For example, you may search in ThoughtSpot for customers whose contracts are due
 
 Similarly, you can configure a callback function to call an event or action from the ThoughtSpot application.
 
-The custom action is added either as a primary menu action on the menu bar, or as a menu item in the **More** menu  image::./images/icon-more-10px.png[More menu options] on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
+
+The custom action is added either as a primary menu action on the menu bar, or as a menu item in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
 
 ////
-You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization or pinboard function. 
+You can configure custom actions when you want to initiate an action in your client application from the ThoughtSpot visualization or pinboard function.
+
 ////
 
 
@@ -37,8 +39,7 @@ To add custom menu item:
 +
 Make sure the URL you enter here is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
 
-. Specify the position of the action button. You can set the action as a primary action, or as a menu command in the **More** menu 
-image::./images/icon-more-10px.png[More menu options].
+. Specify the position of the action button. You can set the action as a primary action, or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
 . Select the ThoughtSpot application pages to which you want to add the menu item.
 
@@ -51,9 +52,10 @@ The custom menu item is indicated with a custom tag to distinguish it from the d
 
 == Add a callback function
 
-The callback custom action provides you with the flexibility to programmatically set up a function to request a call back from the parent application. 
+The callback custom action provides you with the flexibility to programmatically set up a function to request a call back from the parent application.
 
-You can configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code in response to events triggered from a parent application. When your application user triggers a callback, the callback function sends out a request to notify the ThoughtSpot application and fetches the requested data. 
+
+You can configure the callback function in the embedded pages to fetch data or a response from the ThoughtSpot application code in response to events triggered from a parent application. When your application user triggers a callback, the callback function sends out a request to notify the ThoughtSpot application and fetches the requested data.
 
 To add a callback function:
 
@@ -65,10 +67,9 @@ To add a callback function:
 +
 Make sure you use the same ID to register the callback function on your host application.
 
-. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image::./images/icon-more-10px.png[More menu options].
+. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image:./images/icon-more-10px.png[the more options menu].
 
-. Select the ThoughtSpot application pages to which you want to add the function. 
+. Select the ThoughtSpot application pages to which you want to add the function.
 . Click *Add action*.
 . To view the action you just added, click *My actions*.
-
 

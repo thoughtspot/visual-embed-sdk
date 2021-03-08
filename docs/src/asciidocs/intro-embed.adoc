@@ -55,6 +55,6 @@ For more information, see xref:customize-style.adoc[Style customization].
 == Custom actions 
 The ThoughtSpot embedding solution allows you to build additional actions to the embedded  pinboards and visualizations. 
 
-For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the Pinboards page.
+For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the *Pinboards* page.
 
 For more information, see xref:customize-actions-menu.adoc[Actions customization].
