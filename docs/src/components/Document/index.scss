@@ -31,20 +31,27 @@
     pre {
         white-space: pre-wrap;
         background: $code-block-color;
-        padding: 20px $padding-sm;
-    }
-
-    code[data-lang] {
+        padding: 20px 10px;
         display: flex;
         justify-content: space-between;
     }
 
-    code[data-lang]:hover::after {
-        content: attr(data-lang);
-        text-transform: uppercase;
-        color: $darkgrey;
+    pre.highlight:hover {
+        .copyButton {
+            visibility: visible;
+        }
+
+        .lang {
+            visibility: visible;
+        }
+    }
+
+    .lang {
         position: relative;
-        top: -10px;
+        top: -14px;
+        text-transform: uppercase;
+        visibility: hidden;
+        color: $darkgrey;
     }
 
     #preview-in-playground {
