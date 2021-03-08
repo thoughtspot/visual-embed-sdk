@@ -6,17 +6,33 @@ class CustomDocConverter {
         this.baseConverter = asciidoc.Html5Converter.$new();
     }
 
+    /**
+     * Check if inline_anchor target is for transformation or not
+     * @param {string} target - inline_anchor target i.e. href
+     * @returns {boolean} true if transformation is needed else false
+     */
+    isTransformLink(target) {
+        return (
+            !target.includes(`{{${config.NAV_PREFIX}}}`) &&
+            !target.includes(`{{${config.TS_HOST_PARAM}}}`) &&
+            !target.includes('www.') &&
+            !target.startsWith('http')
+        );
+    }
+
+    /**
+     * Convert is used to return html node string based on transform or conditions
+     * @param {any} node - The concrete instance of AbstractNode to convert.
+     * @param {string} transform - An optional string transform that hints at which transformation should be applied to this node.
+     * @returns {string} html node string
+     */
     convert(node, transform) {
         // checking anchor node type
         if (node.getNodeName() === 'inline_anchor') {
             // get anchor target set inside adoc file
             let target = node.getTarget();
 
-            if (
-                !target.includes(`{{${config.NAV_PREFIX}}}`) &&
-                !target.includes('www.') &&
-                !target.startsWith('http')
-            ) {
+            if (this.isTransformLink(target)) {
                 // check if link is for typedoc documents or not
                 if (target.includes(config.TYPE_DOC_PREFIX)) {
                     return `<a href="${
