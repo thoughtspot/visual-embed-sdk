@@ -145,7 +145,14 @@ export class TsEmbed {
      * Construct the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
-        return `${this.thoughtSpotHost}/${this.thoughtSpotV2Base}/#/embed`;
+        return [
+            this.thoughtSpotHost,
+            this.thoughtSpotV2Base,
+            '#',
+            'embed'
+        ]
+            .filter(x => x.length > 0)
+            .join('/');
     }
 
     /**
