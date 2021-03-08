@@ -324,8 +324,6 @@ export class TsEmbed {
      */
     public render(...args: any[]) {
         this.isRendered = true;
-
-        return this;
     }
 }
 

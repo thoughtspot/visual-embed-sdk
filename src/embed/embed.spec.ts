@@ -51,6 +51,8 @@ describe('test view config', () => {
         searchEmbed
             .on(EventType.Error, onErrorSpy)
             .render()
+            // TypeScript complains about the `this` returned from render
+            // @ts-ignore
             .on(EventType.Load, () => null);
         await executeAfterWait(() => {
             expect(onErrorSpy).toHaveBeenCalledWith({
