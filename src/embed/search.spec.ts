@@ -169,7 +169,7 @@ describe('Search embed tests', () => {
     });
 
     test('should load saved answer', () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig, { 
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig, {
             answerId,
         });
         searchEmbed.render();
