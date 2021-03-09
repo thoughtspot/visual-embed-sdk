@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.scss';
 import { SearchQueryResult } from '../../interfaces/index';
+import {
+    ARROW_DOWN,
+    ARROW_UP,
+    ENTER,
+} from '../../constants/keystrokeConstants';
 
 type SearchProps = {
     options: SearchQueryResult[];
@@ -44,17 +49,17 @@ const Search: React.FC<SearchProps> = (props) => {
         const optionSize = props.options.length;
 
         switch (e.key) {
-            case 'ArrowUp':
+            case ARROW_UP:
                 e.preventDefault();
                 setHighlightedIndex(
                     (prev: number) => (prev - 1 + optionSize) % optionSize,
                 );
                 return;
-            case 'ArrowDown':
+            case ARROW_DOWN:
                 e.preventDefault();
                 setHighlightedIndex((prev: number) => (prev + 1) % optionSize);
                 return;
-            case 'Enter':
+            case ENTER:
                 props.optionSelected(
                     props.options[highlightedIndex].redirectURL,
                 );
