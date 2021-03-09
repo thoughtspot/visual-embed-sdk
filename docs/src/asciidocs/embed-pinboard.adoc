@@ -92,7 +92,9 @@ For example, to disable the *Present* action from the *More* (*...*) menu, add `
 hiddenActions::
 _String_. Menu items from the list of actions to be hidden on the Pinboards  page.
 +
-For example, to hide *Add filters* action from the *More* (*...*) menu, add `Add filters` to the `hiddenActions` attribute.
+
+For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `Add filters` to the `hiddenActions` attribute.
+
 
 disabledActionReason::
 _String_. Reason for disabling an action on the Pinboards page.

@@ -83,12 +83,14 @@ frameParams:: Sets the `width` and `height` dimensions to render the iframe cont
 disabledActions [small]_optional_::
 _String_. Menu items from the list of actions to be disabled on the visualization page.
 +
-For example, to disable the *Change Title* action from the (*...*) menu, add `editTitle` to the  `disabledActions` attribute.
+For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `editTitle` to the  `disabledActions` attribute.
 
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
-For example, to hide *Download As PDF* action from the *More* (*...*) menu, add `downloadAsPdf` to the `hiddenActions` attribute.
+
+For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `downloadAsPdf` to the `hiddenActions` attribute.
+
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.

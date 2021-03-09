@@ -13,6 +13,7 @@ import {
     URL_MAX_LENGTH,
     DEFAULT_EMBED_WIDTH,
     DEFAULT_EMBED_HEIGHT,
+    getV2BasePath,
 } from '../config';
 import {
     DOMSelector,
@@ -74,6 +75,11 @@ export class TsEmbed {
      */
     protected thoughtSpotHost: string;
 
+    /*
+     * This the base to access ThoughtSpot V2.
+     */
+    protected thoughtSpotV2Base: string;
+
     /**
      * A map of event handlers for particular message types triggered
      * by the embdedded app; multiple event handlers can be registered
@@ -90,6 +96,7 @@ export class TsEmbed {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
         this.thoughtSpotHost = getThoughtSpotHost(config);
+        this.thoughtSpotV2Base = getV2BasePath(config);
         this.eventHandlerMap = new Map();
     }
 
@@ -138,7 +145,14 @@ export class TsEmbed {
      * Construct the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
-        return `${this.thoughtSpotHost}/v2/#/embed`;
+        return [
+            this.thoughtSpotHost,
+            this.thoughtSpotV2Base,
+            '#',
+            'embed'
+        ]
+            .filter(x => x.length > 0)
+            .join('/');
     }
 
     /**
