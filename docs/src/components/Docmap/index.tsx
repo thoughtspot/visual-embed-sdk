@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
-import { INTROWRAPPER_MARGIN_TOP } from '../../constants/uiContants';
+import { INTRO_WRAPPER_MARGIN_TOP } from '../../constants/uiConstants';
 
 const Docmap = (props: {
     docContent: string;
@@ -23,7 +23,7 @@ const Docmap = (props: {
                 /* To position the element when anchor tag is clicked on right nav */
                 document.documentElement.scrollTop =
                     (document.querySelector(`${hash}`) as HTMLElement)
-                        .offsetTop - INTROWRAPPER_MARGIN_TOP;
+                        .offsetTop - INTRO_WRAPPER_MARGIN_TOP;
             }
             setToc(tocEl.innerHTML);
         } else {

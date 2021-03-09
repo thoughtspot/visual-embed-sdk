@@ -21,7 +21,7 @@ import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
-} from '../constants/uiContants';
+} from '../constants/uiConstants';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -142,7 +142,7 @@ const IndexPage = ({ location }) => {
         return acc;
     }, []);
 
-    const optionSelected = (pageid) => {
+    const optionSelected = (pageid: string) => {
         updateQuery('');
         navigate(pageid);
     };
@@ -164,7 +164,9 @@ const IndexPage = ({ location }) => {
                 >
                     <Search
                         value={query}
-                        onChange={(e) => updateQuery(e.target.value)}
+                        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                            updateQuery((e.target as HTMLInputElement).value)
+                        }
                         options={results}
                         optionSelected={optionSelected}
                     />

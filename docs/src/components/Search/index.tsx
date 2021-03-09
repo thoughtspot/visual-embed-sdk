@@ -1,20 +1,28 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.scss';
+import { SearchQueryResult } from '../../interfaces/index';
 
-const Search = ({ options, optionSelected, value, ...props }) => {
+type SearchProps = {
+    options: SearchQueryResult[];
+    value: string;
+    optionSelected: (pageid: string) => void;
+    onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+};
+
+const Search: React.FC<SearchProps> = (props) => {
     const node = useRef();
     const optionListRef = useRef({});
     const [showSearchResult, updateShowSearchResult] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
 
     useEffect(() => {
-        if (options.length > 0) {
+        if (props.options.length > 0) {
             updateShowSearchResult(true);
         }
-    }, [options]);
+    }, [props.options]);
 
     // This handles the mouse click events for suggestion list
-    const handleClick = (event) => {
+    const handleClick = (event: Event) => {
         if (node.current && node.current.contains(event.target)) {
             return;
         }
@@ -30,29 +38,32 @@ const Search = ({ options, optionSelected, value, ...props }) => {
 
     const onFocus = () => updateShowSearchResult(true);
 
-    const onKeyDown = (e) => {
-        if (!value || options.length === 0) return;
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!props.value || props.options.length === 0) return;
 
-        const optionSize = options.length;
+        const optionSize = props.options.length;
 
         switch (e.key) {
             case 'ArrowUp':
                 e.preventDefault();
                 setHighlightedIndex(
-                    (prev) => (prev - 1 + optionSize) % optionSize,
+                    (prev: number) => (prev - 1 + optionSize) % optionSize,
                 );
                 return;
             case 'ArrowDown':
                 e.preventDefault();
-                setHighlightedIndex((prev) => (prev + 1) % optionSize);
+                setHighlightedIndex((prev: number) => (prev + 1) % optionSize);
                 return;
             case 'Enter':
-                optionSelected(options[highlightedIndex].redirectURL);
+                props.optionSelected(
+                    props.options[highlightedIndex].redirectURL,
+                );
                 setHighlightedIndex(0);
                 return;
-            default: return;
+            default:
+                return;
         }
-    }
+    };
 
     if (optionListRef?.current[highlightedIndex]) {
         optionListRef?.current[highlightedIndex].scrollIntoView();
@@ -66,36 +77,38 @@ const Search = ({ options, optionSelected, value, ...props }) => {
                     placeholder="Search Documentation"
                     onFocus={onFocus}
                     onKeyDown={onKeyDown}
-                    value={value}
-                    {...props}
+                    value={props.value}
+                    onChange={props.onChange}
                 />
                 {showSearchResult && (
                     <div ref={node} className="resultContainer">
-                        {options.map((option, index) => (
-                            <div
-                                key={option.pageid}
-                                className="result"
-                                onClick={() =>
-                                    optionSelected(option.redirectURL)
-                                }
-                                ref={(el) => {
-                                    optionListRef.current[index] = el;
-                                }}
-                            >
+                        {props.options.map(
+                            (option: SearchQueryResult, index: number) => (
                                 <div
-                                    className={`textContainer 
-                                    ${index === highlightedIndex && 'active'}`}
+                                    key={option.pageid}
+                                    className="result"
+                                    onClick={() =>
+                                        props.optionSelected(option.redirectURL)
+                                    }
+                                    ref={(el: HTMLDivElement) => {
+                                        optionListRef.current[index] = el;
+                                    }}
                                 >
-                                    <p className="title">{value}</p>
-                                    <p className="footer">{option.title}</p>
+                                    <div
+                                        className={`textContainer 
+                                    ${index === highlightedIndex && 'active'}`}
+                                    >
+                                        <p className="title">{props.value}</p>
+                                        <p className="footer">{option.title}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ),
+                        )}
                     </div>
                 )}
             </div>
         </div>
     );
-}
+};
 
 export default Search;
