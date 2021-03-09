@@ -18,12 +18,11 @@ import {
 import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
-    LEFT_NAV_WIDTH_MOBILE
+    LEFT_NAV_WIDTH_MOBILE,
 } from '../constants/uiContants';
 
 // markup
 const IndexPage = ({ location }) => {
-
     const { width, ref } = useResizeDetector();
 
     const [params, setParams] = useState({
@@ -37,7 +36,11 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
-    const [leftNavWidth, setLeftNavWidth] = useState(width > MAX_MOBILE_RESOLUTION ? LEFT_NAV_WIDTH_DESKTOP : LEFT_NAV_WIDTH_MOBILE);
+    const [leftNavWidth, setLeftNavWidth] = useState(
+        width > MAX_MOBILE_RESOLUTION
+            ? LEFT_NAV_WIDTH_DESKTOP
+            : LEFT_NAV_WIDTH_MOBILE,
+    );
 
     useEffect(() => {
         const paramObj = queryStringParser(location.search);
