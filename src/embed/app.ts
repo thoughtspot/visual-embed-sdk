@@ -9,7 +9,7 @@
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Action, Param, RuntimeFilter } from '../types';
+import { Action, Param, RuntimeFilter, DOMSelector } from '../types';
 import { V1Embed, ViewConfig } from './base';
 
 // eslint-disable-next-line no-shadow
@@ -38,6 +38,19 @@ export interface AppRenderOptions {
  */
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
+
+    constructor(
+        domSelector: DOMSelector,
+        viewConfig: AppViewConfig,
+        { pageId, runtimeFilters }: AppRenderOptions,
+    ) {
+        super(domSelector, viewConfig);
+        this.viewConfig = viewConfig;
+
+        const pageRoute = this.getPageRoute(pageId);
+        const src = this.getIFrameSrc(pageRoute, runtimeFilters);
+        this.renderV1Embed(src);
+    }
 
     /**
      * Construct a map of params to be passed on to the
@@ -104,20 +117,5 @@ export class AppEmbed extends V1Embed {
             default:
                 return 'home';
         }
-    }
-
-    /**
-     * Render an embedded app in the ThoughtSpot app
-     * @param renderOptions An object containing the page id
-     * to be embedded
-     */
-    public render({ pageId, runtimeFilters }: AppRenderOptions = {}): AppEmbed {
-        super.render();
-
-        const pageRoute = this.getPageRoute(pageId);
-        const src = this.getIFrameSrc(pageRoute, runtimeFilters);
-        this.renderV1Embed(src);
-
-        return this;
     }
 }

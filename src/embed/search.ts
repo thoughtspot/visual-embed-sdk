@@ -36,9 +36,16 @@ export class SearchEmbed extends TsEmbed {
      */
     private viewConfig: SearchViewConfig;
 
-    constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
+    constructor(
+        domSelector: DOMSelector,
+        viewConfig: SearchViewConfig,
+        { answerId, dataSources, searchQuery }: SearchRenderOptions,
+    ) {
         super(domSelector);
         this.viewConfig = viewConfig;
+
+        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
+        this.renderIFrame(src, this.viewConfig.frameParams);
     }
 
     /**
@@ -110,23 +117,5 @@ export class SearchEmbed extends TsEmbed {
         }
 
         return `${this.getEmbedBasePath()}/${answerPath}${query}`;
-    }
-
-    /**
-     * Render ThoughtSpot search
-     * @param renderOptions An object specifying the list of dataSources,
-     * searchQuery and answerId (for loading a saved answer)
-     */
-    public render({
-        dataSources,
-        searchQuery,
-        answerId,
-    }: SearchRenderOptions = {}): SearchEmbed {
-        super.render();
-
-        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
-        this.renderIFrame(src, this.viewConfig.frameParams);
-
-        return this;
     }
 }

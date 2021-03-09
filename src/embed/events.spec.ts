@@ -38,7 +38,7 @@ describe('test communication between host app and ThoughtSpot', () => {
     });
 
     test('should capture event from ThoughtSpot app', (done) => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig, {});
         searchEmbed
             .on(EventType.CustomAction, (data) => {
                 expect(data.data).toBe(PAYLOAD);
@@ -57,7 +57,7 @@ describe('test communication between host app and ThoughtSpot', () => {
     xtest('should trigger iframe load event', async () => {
         const onLoadSpy = jest.fn();
 
-        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        const searchEmbed = new SearchEmbed(getRootEl(), {}, {});
         searchEmbed.on(EventType.Load, onLoadSpy).render();
         await executeAfterWait(() => {
             expect(onLoadSpy).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('test communication between host app and ThoughtSpot', () => {
     });
 
     test('should trigger event to ThoughtSpot app', (done) => {
-        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        const searchEmbed = new SearchEmbed(getRootEl(), {}, {});
         searchEmbed.render();
         setTimeout(() => {
             searchEmbed.trigger(EventType.CustomAction, {
@@ -85,7 +85,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         const handlerOne = jest.fn();
         const handlerTwo = jest.fn();
 
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig, {});
         searchEmbed
             .on(EventType.CustomAction, handlerOne)
             .on(EventType.CustomAction, handlerTwo)
@@ -105,14 +105,14 @@ describe('test communication between host app and ThoughtSpot', () => {
 
     test('should capture event from correct iframe', async () => {
         const spyOne = jest.fn();
-        const embedOne = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const embedOne = new SearchEmbed(getRootEl(), defaultViewConfig, {});
         embedOne.on(EventType.CustomAction, spyOne).render();
 
         const spyTwo = jest.fn();
-        const embedTwo = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        embedTwo.on(EventType.CustomAction, spyTwo).render({
+        const embedTwo = new PinboardEmbed(getRootEl(), defaultViewConfig, {
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });
+        embedTwo.on(EventType.CustomAction, spyTwo).render();
 
         const iframeOne = getIFrameEl();
         postMessageToParent(iframeOne.contentWindow, {
@@ -128,10 +128,10 @@ describe('test communication between host app and ThoughtSpot', () => {
 
     test('should fetch data', async () => {
         const onDataSpy = jest.fn();
-        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        embed.on(EventType.Data, onDataSpy).render({
+        const embed = new PinboardEmbed(getRootEl(), defaultViewConfig, {
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         });
+        embed.on(EventType.Data, onDataSpy).render();
 
         const iframe = getIFrameEl();
         iframe.contentWindow.addEventListener('message', (e) => {

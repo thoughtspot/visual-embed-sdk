@@ -297,8 +297,10 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public render(...args: any[]): void {
+    public render(): TsEmbed {
         this.isRendered = true;
+
+        return this;
     }
 }
 

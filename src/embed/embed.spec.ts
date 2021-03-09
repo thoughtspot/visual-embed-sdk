@@ -25,13 +25,17 @@ describe('test view config', () => {
         const width = 800;
         const height = 600;
 
-        const searchEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            frameParams: {
-                width,
-                height,
+        const searchEmbed = new SearchEmbed(
+            getRootEl(),
+            {
+                ...defaultViewConfig,
+                frameParams: {
+                    width,
+                    height,
+                },
             },
-        });
+            {},
+        );
         searchEmbed.render();
 
         const iframe = getIFrameEl();
@@ -40,7 +44,7 @@ describe('test view config', () => {
     });
 
     test('trying to register event handler after render should throw error', () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig, {});
         expect(() => {
             searchEmbed.render().on(EventType.Load, () => null);
         }).toThrowError();

@@ -15,6 +15,7 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
+    DOMSelector,
 } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
@@ -38,6 +39,25 @@ export interface PinboardRenderOptions {
  */
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
+
+    constructor(
+        domSelector: DOMSelector,
+        viewConfig: PinboardViewConfig,
+        { pinboardId, vizId, runtimeFilters }: PinboardRenderOptions,
+    ) {
+        super(domSelector, viewConfig);
+        this.viewConfig = viewConfig;
+
+        if (!pinboardId && !vizId) {
+            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
+        }
+        if (viewConfig.fullHeight === true) {
+            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
+        }
+
+        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
+        this.renderV1Embed(src);
+    }
 
     /**
      * Construct a map of params to be passed on to the
@@ -108,29 +128,4 @@ export class PinboardEmbed extends V1Embed {
     private updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(data.data);
     };
-
-    /**
-     * Render an embedded ThoughtSpot pinboard or viz
-     * @param renderOptions An object specifying the pinboard id,
-     * viz id and the runtime filters
-     */
-    public render({
-        pinboardId,
-        vizId,
-        runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
-        if (!pinboardId && !vizId) {
-            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
-        }
-        if (this.viewConfig.fullHeight === true) {
-            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
-        }
-
-        super.render();
-
-        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
-        this.renderV1Embed(src);
-
-        return this;
-    }
 }
