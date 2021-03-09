@@ -128,4 +128,19 @@ export class PinboardEmbed extends V1Embed {
     private updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(data.data);
     };
+
+    /**
+     * Render an embedded ThoughtSpot pinboard or viz
+     * @param renderOptions An object specifying the pinboard id,
+     * viz id and the runtime filters
+     */
+    public render(): PinboardEmbed {
+        if (this.viewConfig.fullHeight === true) {
+            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
+        }
+
+        super.render();
+
+        return this;
+    }
 }
