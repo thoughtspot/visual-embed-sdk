@@ -26,9 +26,6 @@ export interface PinboardViewConfig extends ViewConfig {
     disabledActionReason?: string;
     hiddenActions?: Action[];
     enableVizTransformations?: boolean;
-}
-
-export interface PinboardRenderOptions {
     pinboardId: string;
     vizId?: string;
     runtimeFilters?: RuntimeFilter[];
@@ -40,23 +37,14 @@ export interface PinboardRenderOptions {
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
 
-    constructor(
-        domSelector: DOMSelector,
-        viewConfig: PinboardViewConfig,
-        { pinboardId, vizId, runtimeFilters }: PinboardRenderOptions,
-    ) {
+    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = viewConfig;
+
+        const { pinboardId, vizId } = viewConfig;
 
         if (!pinboardId && !vizId) {
             throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
-        if (viewConfig.fullHeight === true) {
-            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
-        }
-
-        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
-        this.renderV1Embed(src);
     }
 
     /**
@@ -135,11 +123,16 @@ export class PinboardEmbed extends V1Embed {
      * viz id and the runtime filters
      */
     public render(): PinboardEmbed {
+        const { pinboardId, vizId, runtimeFilters } = this.viewConfig;
+
         if (this.viewConfig.fullHeight === true) {
             this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
         }
 
         super.render();
+
+        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
+        this.renderV1Embed(src);
 
         return this;
     }

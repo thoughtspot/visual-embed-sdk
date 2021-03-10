@@ -26,9 +26,6 @@ export interface AppViewConfig extends ViewConfig {
     disabledActionReason?: string;
     hiddenActions?: Action[];
     showPrimaryNavbar?: boolean;
-}
-
-export interface AppRenderOptions {
     pageId?: Page;
     runtimeFilters?: RuntimeFilter[];
 }
@@ -39,17 +36,12 @@ export interface AppRenderOptions {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
-    constructor(
-        domSelector: DOMSelector,
-        viewConfig: AppViewConfig,
-        { pageId, runtimeFilters }: AppRenderOptions,
-    ) {
+    /**
+     * The view configuration for the AppEmbed
+     */
+    constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         super(domSelector, viewConfig);
         this.viewConfig = viewConfig;
-
-        const pageRoute = this.getPageRoute(pageId);
-        const src = this.getIFrameSrc(pageRoute, runtimeFilters);
-        this.renderV1Embed(src);
     }
 
     /**
@@ -117,5 +109,21 @@ export class AppEmbed extends V1Embed {
             default:
                 return 'home';
         }
+    }
+
+    /**
+     * Render an embedded app in the ThoughtSpot app
+     * @param renderOptions An object containing the page id
+     * to be embedded
+     */
+    public render(): AppEmbed {
+        super.render();
+
+        const { pageId, runtimeFilters } = this.viewConfig;
+        const pageRoute = this.getPageRoute(pageId);
+        const src = this.getIFrameSrc(pageRoute, runtimeFilters);
+        this.renderV1Embed(src);
+
+        return this;
     }
 }

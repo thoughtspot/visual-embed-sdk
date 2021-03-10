@@ -26,11 +26,10 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render pinboard', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-            { pinboardId },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            pinboardId,
+        });
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
@@ -38,21 +37,16 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should set disabled actions', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            {
-                disabledActions: [
-                    Action.DownloadAsCsv,
-                    Action.DownloadAsPdf,
-                    Action.DownloadAsXlsx,
-                ],
-                disabledActionReason: 'Action denied',
-                ...defaultViewConfig,
-            } as PinboardViewConfig,
-            {
-                pinboardId,
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            disabledActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            disabledActionReason: 'Action denied',
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
@@ -60,20 +54,15 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should set hidden actions', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            {
-                hiddenActions: [
-                    Action.DownloadAsCsv,
-                    Action.DownloadAsPdf,
-                    Action.DownloadAsXlsx,
-                ],
-                ...defaultViewConfig,
-            } as PinboardViewConfig,
-            {
-                pinboardId,
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            hiddenActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
@@ -81,16 +70,11 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should enable viz transformations', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            {
-                enableVizTransformations: true,
-                ...defaultViewConfig,
-            } as PinboardViewConfig,
-            {
-                pinboardId,
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            enableVizTransformations: true,
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
@@ -98,14 +82,11 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render viz', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-            {
-                pinboardId,
-                vizId,
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            pinboardId,
+            vizId,
+        });
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
@@ -113,21 +94,18 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should apply runtime filters', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            defaultViewConfig,
-            {
-                pinboardId,
-                vizId,
-                runtimeFilters: [
-                    {
-                        columnName: 'sales',
-                        operator: RuntimeFilterOp.EQ,
-                        values: [1000],
-                    },
-                ],
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            pinboardId,
+            vizId,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+        });
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
@@ -135,17 +113,12 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should register event handler to adjust iframe height', () => {
-        const pinboardEmbed = new PinboardEmbed(
-            getRootEl(),
-            {
-                ...defaultViewConfig,
-                fullHeight: true,
-            } as PinboardViewConfig,
-            {
-                pinboardId,
-                vizId,
-            },
-        );
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            pinboardId,
+            vizId,
+        } as PinboardViewConfig);
 
         const onSpy = jest.spyOn(pinboardEmbed, 'on');
         pinboardEmbed.render();

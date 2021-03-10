@@ -19,9 +19,6 @@ export interface SearchViewConfig extends ViewConfig {
     disabledActions?: Action[];
     disabledActionReason?: string;
     hiddenActions?: Action[];
-}
-
-export interface SearchRenderOptions {
     dataSources?: string[];
     searchQuery?: string;
     answerId?: string;
@@ -36,16 +33,9 @@ export class SearchEmbed extends TsEmbed {
      */
     private viewConfig: SearchViewConfig;
 
-    constructor(
-        domSelector: DOMSelector,
-        viewConfig: SearchViewConfig,
-        { answerId, dataSources, searchQuery }: SearchRenderOptions,
-    ) {
+    constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
-
-        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
-        this.renderIFrame(src, this.viewConfig.frameParams);
     }
 
     /**
@@ -117,5 +107,17 @@ export class SearchEmbed extends TsEmbed {
         }
 
         return `${this.getEmbedBasePath()}/${answerPath}${query}`;
+    }
+
+    /**
+     * Render ThoughtSpot search
+     */
+    public render(): SearchEmbed {
+        super.render();
+        const { answerId, dataSources, searchQuery } = this.viewConfig;
+
+        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
+        this.renderIFrame(src, this.viewConfig.frameParams);
+        return this;
     }
 }

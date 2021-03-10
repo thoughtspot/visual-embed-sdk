@@ -28,7 +28,7 @@ describe('App embed tests', () => {
     });
 
     test('should render home page by default', () => {
-        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig, {});
+        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
         appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
@@ -36,14 +36,10 @@ describe('App embed tests', () => {
     });
 
     test('should hide the primary nav bar', () => {
-        const appEmbed = new AppEmbed(
-            getRootEl(),
-            {
-                ...defaultViewConfig,
-                showPrimaryNavbar: true,
-            } as AppViewConfig,
-            {},
-        );
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: true,
+        } as AppViewConfig);
         appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
@@ -62,7 +58,8 @@ describe('App embed tests', () => {
         const pageIds = Object.keys(pageRouteMap);
         pageIds.forEach((pageId) => {
             const route = pageRouteMap[pageId];
-            const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig, {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
                 pageId: pageId as Page,
             });
             appEmbed.render();
@@ -74,22 +71,17 @@ describe('App embed tests', () => {
     });
 
     test('should apply runtime filters', () => {
-        const appEmbed = new AppEmbed(
-            getRootEl(),
-            {
-                ...defaultViewConfig,
-                showPrimaryNavbar: true,
-            } as AppViewConfig,
-            {
-                runtimeFilters: [
-                    {
-                        columnName: 'sales',
-                        operator: RuntimeFilterOp.EQ,
-                        values: [1000],
-                    },
-                ],
-            },
-        );
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: true,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+        } as AppViewConfig);
 
         appEmbed.render();
         expect(getIFrameSrc()).toBe(
@@ -98,17 +90,13 @@ describe('App embed tests', () => {
     });
 
     test('should disable and hide actions', () => {
-        const appEmbed = new AppEmbed(
-            getRootEl(),
-            {
-                ...defaultViewConfig,
-                showPrimaryNavbar: true,
-                disabledActions: [Action.Save, Action.Update],
-                disabledActionReason: 'Access denied',
-                hiddenActions: [Action.Download],
-            } as AppViewConfig,
-            {},
-        );
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: true,
+            disabledActions: [Action.Save, Action.Update],
+            disabledActionReason: 'Access denied',
+            hiddenActions: [Action.Download],
+        } as AppViewConfig);
 
         appEmbed.render();
         expect(getIFrameSrc()).toBe(
