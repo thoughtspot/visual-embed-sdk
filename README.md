@@ -28,7 +28,7 @@ define(['tsembed'], function (TsEmbedSDK) {
 var TsEmbedSDK = window.tsembed;
 
 // ESM
-import * as TsEmbedSDK from 'tsembed.es';
+import * as TsEmbedSDK from '@thoughtspot/embed-sdk';
 ```
 
 ## Embed Flavours
