@@ -1,4 +1,4 @@
-import { init, AuthType, SearchEmbed, EventType } from '../index';
+import { init, AuthType, SearchEmbed, EmbedEvent } from '../index';
 import {
     EVENT_WAIT_TIME,
     executeAfterWait,
@@ -49,11 +49,9 @@ describe('test view config', () => {
         const onErrorSpy = jest.fn();
         const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
         searchEmbed
-            .on(EventType.Error, onErrorSpy)
+            .on(EmbedEvent.Error, onErrorSpy)
             .render()
-            // TypeScript complains about the `this` returned from render
-            // @ts-ignore
-            .on(EventType.Load, () => null);
+            .on(EmbedEvent.Load, () => null);
         await executeAfterWait(() => {
             expect(onErrorSpy).toHaveBeenCalledWith({
                 error: 'Please register event handlers before calling render',

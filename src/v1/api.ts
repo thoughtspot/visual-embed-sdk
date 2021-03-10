@@ -254,4 +254,10 @@ function notifyOnAuthExpiration(): void {
     );
 }
 
+// export const doTrustedAuth = async (authEndpoint: string) => {
+//     fetch(authEndpoint)
+//         .then(response => response.json())
+//         .then(auth)
+// }
+
 export { initialize, checkIfLoggedIn, notifyOnAuthExpiration };

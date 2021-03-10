@@ -18,9 +18,8 @@ import {
 import {
     DOMSelector,
     EmbedConfig,
-    EventType,
-    EventTypeV1,
-    GenericCallbackFn,
+    HostEvent,
+    EmbedEvent,
     MessageCallback,
 } from '../types';
 import { initialize } from '../v1/api';
@@ -123,7 +122,7 @@ export class TsEmbed {
      * @param error The error message or object
      */
     protected handleError(error: string | Record<string, unknown>) {
-        this.executeCallbacks(EventType.Error, {
+        this.executeCallbacks(EmbedEvent.Error, {
             error,
         });
         // Log error
@@ -146,10 +145,10 @@ export class TsEmbed {
      */
     private subscribeToEvents() {
         const onAuthExpire = () =>
-            this.executeCallbacks(EventTypeV1.AuthExpire, null);
+            this.executeCallbacks(EmbedEvent.AuthExpire, null);
 
         const onInit = (isInitialized: boolean) =>
-            this.executeCallbacks(EventType.AuthInit, isInitialized);
+            this.executeCallbacks(EmbedEvent.AuthInit, isInitialized);
 
         initialize(
             onInit,
@@ -219,7 +218,7 @@ export class TsEmbed {
             // warn: URL too long
         }
 
-        this.executeCallbacks(EventType.Init, {
+        this.executeCallbacks(EmbedEvent.Init, {
             data: {
                 timestamp: Date.now(),
             },
@@ -237,7 +236,7 @@ export class TsEmbed {
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
         this.iFrame.addEventListener('load', () =>
-            this.executeCallbacks(EventType.Load, {
+            this.executeCallbacks(EmbedEvent.Load, {
                 data: {
                     timestamp: Date.now(),
                 },
@@ -261,10 +260,7 @@ export class TsEmbed {
      * @param eventType The event type
      * @param data The payload the event handler will be invoked with
      */
-    protected executeCallbacks(
-        eventType: EventType | EventTypeV1,
-        data: any,
-    ): void {
+    protected executeCallbacks(eventType: EmbedEvent, data: any): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
         callbacks.forEach((callback) => callback(data));
     }
@@ -283,7 +279,7 @@ export class TsEmbed {
      * @param callback A callback function
      */
     public on(
-        messageType: string,
+        messageType: EmbedEvent,
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
@@ -304,7 +300,10 @@ export class TsEmbed {
      * @param messageType The message type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: string, data: any): typeof TsEmbed.prototype {
+    public trigger(
+        messageType: HostEvent,
+        data: any,
+    ): typeof TsEmbed.prototype {
         this.iFrame.contentWindow.postMessage(
             {
                 type: messageType,
@@ -322,18 +321,11 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public render(...args: any[]) {
+    public render(...args: any[]): TsEmbed {
         this.isRendered = true;
+        return this;
     }
 }
-
-/**
- * Provides mapping of v2 events to v1 events where they do not match
- * This helps provide a unified interface for events across v1 and v2
- */
-const messageTypeV1Map = {
-    [EventType.Data]: EventTypeV1.ExportVizDataToParent,
-};
 
 /**
  * Base class for embedding v1 experience
@@ -366,39 +358,14 @@ export class V1Embed extends TsEmbed {
     }
 
     /**
-     * Trigger a v1 specific event
-     * @param messageType
-     */
-    protected triggerV1(messageType: EventTypeV1) {
-        this.iFrame.contentWindow.postMessage(
-            {
-                __type: messageType,
-            },
-            this.thoughtSpotHost,
-        );
-    }
-
-    /**
-     * Fetch the current answer data from the
-     * embedded app asynchronously
-     * @param callback A function to be executed with the
-     * fetched as an argument
-     */
-    public getCurrentData(): void {
-        this.triggerV1(EventTypeV1.GetData);
-    }
-
-    /**
      * @override
      * @param messageType
      * @param callback
      */
     public on(
-        messageType: string,
+        messageType: EmbedEvent,
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
-        // use the v1 equivalent if any
-        const messageTypeV1 = messageTypeV1Map[messageType] || messageType;
-        return super.on(messageTypeV1, callback);
+        return super.on(messageType, callback);
     }
 }

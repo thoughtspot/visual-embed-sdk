@@ -15,7 +15,8 @@ import { SearchEmbed } from './embed/search';
 import {
     AuthType,
     RuntimeFilterOp,
-    EventType,
+    EmbedEvent,
+    HostEvent,
     DataSourceVisualMode,
     Action,
 } from './types';
@@ -29,7 +30,8 @@ export {
     Page,
     AuthType,
     RuntimeFilterOp,
-    EventType,
+    EmbedEvent,
+    HostEvent,
     DataSourceVisualMode,
     Action,
 };
