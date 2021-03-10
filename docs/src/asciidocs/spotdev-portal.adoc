@@ -196,16 +196,13 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 
 Set runtime filters::
-Applies Runtime Filters to a visualization.
-+
-Runtime filters provide the ability to filter data at the time of retrieval. 
-
+Applies Runtime Filters to a visualization. Runtime filters provide the ability to filter data at the time of retrieval. 
 +
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
 
 +
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
 . Click *Run*.
 
@@ -255,7 +252,7 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 
 +
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
 . Click *Run*.
 

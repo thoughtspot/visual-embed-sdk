@@ -103,7 +103,7 @@ frameParams::
 Sets the `width` and `height` dimensions to render the iframe in the web browser.
 
 collapseDataSources [small]*_optional_*::
-_Boolean_. When set to true, collapses the list of data sources on the Data Source panel.
+_Boolean_. When set to true, it minimizes the Data Source panel.
 
  hideDataSources [small]_optional_::
 _Boolean_. When set to true, it hides the Data Source panel.

@@ -99,7 +99,7 @@ hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
 +
 
-For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `addFilter` string in the `hiddenActions` attribute.
+For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `addFilter` string in the `hiddenActions` attribute.
 
 
 disabledActionReason::
