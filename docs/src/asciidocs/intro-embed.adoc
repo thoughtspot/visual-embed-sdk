@@ -14,7 +14,8 @@ ThoughtSpot supports embedding the full application or its individual components
 Based on your business needs and integration environment, you can use one of the following embedding approaches:
 
 Full application embedding::
-You can embed the entire ThoughtSpot application into your host application or portal. Your application users can navigate to the ThoughtSpot UI through a tab or a link. 
+You can embed the entire ThoughtSpot application into your host application or portal. The full application embedding allows your users to access ThoughtSpot tabs and pages within the context of your application.
+
 Page-level embedding::
 You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The host application can allow page-to-page navigation.
 Object-level embedding::

@@ -12,15 +12,25 @@ The SpotDev portal enables business application owners and developers to learn a
 
 To access SpotDev portal, follow these steps:
 
+If you are an existing ThoughtSpot user: ::
+. Sign in to your ThoughtSpot Cloud application instance.
+. Navigate to the **SpotDev** tab.
+If you are a new user: ::
+. Register for a free trial.
+. Sign in to free trail cluster to evaluate the embedding workflows.
+////
 If you are a new user::
 . Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
 . Click the *Developers* tab.
-. To evaluate ThoughtSpot features, click *Sign Up* and register for a free trial.
+. To evaluate ThoughtSpot features, click *Sign Up*, and register for a free trial.
 . To explore ThoughtSpot APIs, click *Playground*.
 
 If you are an existing ThoughtSpot Cloud user::
 . Sign in to ThoughtSpot Cloud.
 . Navigate to the *SpotDev* tab.
+. Explore the SpotDev portal features, and build your sample code in *Playground*.
+The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
+////
 
 . Explore the SpotDev portal features, and build your sample code in *Playground*.
 The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
@@ -77,7 +87,7 @@ Minimizes the data panel on the left navigation bar.
 
 +
 Hide data panel::
-Hides the default data source. You can use your worksheet as a data source from which your users can draw search results.
+Hides the default data panel.
 
 +
 Hide chart or table::
@@ -85,7 +95,26 @@ Hides the visualizations displayed as search results.
 
 +
 Modify available actions::
-Defines a list of actions to be disabled on the search answers page.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. 
++
+For example:
+
++
+* To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`. 
++
+----
+disabledActions: ['replaySearch']
+----
++
+* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
+
++
+----
+hiddenActions: ['replaySearch']
+----
++
+For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:/typedoc/enums/action.html[Actions].
 
 +
 Enable Search Assist::
@@ -93,12 +122,43 @@ Enables the Search Assist feature that helps users with simple search scenarios.
 
 +
 Add search tokens::
-Sets search tokens in the search bar to programmatically construct a search query for your users.
+Enables constructing a search query using search tokens.
++ 
+In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
+
++
+----
+searchQuery: "[Revenue] by [Shipmode]"
+----
++
+////
+The search query typically includes the following parameters:
++
+`query-string`::
+ _String_. The data search query string. For more information on the search query string components, see xref:search-data-api.adoc##components[Components of a search query].
+`data_source_guide`::
+_String_. The GUID of the data source, either a worksheet, a view, or a table.
+`batchsize`::
+_Integer_. The batch size for loading search objects. The default value is `-1`.
+`pagenumber`::
+_Integer_.Alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
+
++ 
+----
+indexingOffset = (pageNumber - 1) * batchSize
+----
+`offset`::
+_Integer_. Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
+
+`formattype`::
+The format of the data.
+Valid values are `COMPACT` or `FULL JSON`.
+////
++
+For more information on the search tokens and query string components, see xref:search-data-api.adoc##components[Components of a search query].
 
 +
 
-Set runtime filters::
-Sets filters that will be applied to the search query parameters passed in the URL for the search results data.
 . Click *Run*.
 
 === Visualization
@@ -107,14 +167,45 @@ To explore the API for embedding visualizations:
 . Go to *Playground* > *Visualization*.
 . Select a pinboard or visualization.
 . If required, enable the *User experience customization* settings.
+
 +
 Modify available actions::
-Defines a list of actions to be disabled on the visualizations page.
+
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
++
+For example:
+
+* To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`: 
+
++
+----
+disabledActions: ['download']
+----
+
+
+* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
+
++
+----
+hiddenActions: ['download']
+----
++
+For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
 +
 
 Set runtime filters::
-Sets filters that will be applied to the visualization.
+Applies Runtime Filters to a visualization.
++
+Runtime filters provide the ability to filter data at the time of retrieval. 
+
++
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
++
++
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
 
 . Click *Run*.
 
@@ -124,23 +215,49 @@ To explore the Pinboard API:
 . Go to *Playground* > *Pinboard*.
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
-+
-Hide title::
-Hides the title and the description of the pinboard.
 
-+
-Hide filter bar::
-Hides the pinboard filters.
++ 
 
-+
 Modify available actions::
-Defines a list of actions to be disabled on the *Pinboards* page, and each of the visualizations in the *Pinboards* page.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. 
 
 +
-Set runtime filters::
-Sets filters that will be applied to the visualization.
-. Click *Run*.
+For example:
 
+* To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`. 
+
++
+
+----
+disabledActions: ['downloadAsPdf']
+----
+
+* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+
+* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
+
++
+----
+hiddenActions: ['downloadAsPdf']
+----
+
+
++
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
+
+Set runtime filters::
+Applies Runtime Filters to a visualization in a pinboard.
++ 
+Runtime filters provide the ability to filter data at the time of retrieval.
+
++
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
++
++
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+
+. Click *Run*.
 
 === Full Application
 To explore the API for embedding full application:
@@ -149,17 +266,18 @@ To explore the API for embedding full application:
 . Select a tab to set a default page view for embedded application users.
 . If required, enable *User experience customization* settings.
 +
-Hide navigation bar::
-Hides the ThoughtSpot top navigation bar.
-
+Show navigation bar::
+Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
++
+////
 +
 Set runtime filters::
 Sets filters that will apply to visualizations and pinboards on any tab.
+////
 . Click *Run*.
 
 == Customize embedded content
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
+* To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
+* If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as CORS, trusted authentication service, and domain whitelisting, go to *Customizations* > *Settings*.
 
-* To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on visualizations and pinboards, go to *Customizations* > *Actions*.
-
-* If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as enabling CORS, setting up trusted authentication service, or whitelisting client application domains, go to *Customizations* > *Settings*.
