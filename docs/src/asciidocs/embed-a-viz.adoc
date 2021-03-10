@@ -84,7 +84,7 @@ For example, to disable the *Change Title* action from the *More* menu image:./i
 disabledActions: Action.editTitle
 ----
 hiddenActions [small]_optional_::
-_String_. Hides the menu items from *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
+_String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
 For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
