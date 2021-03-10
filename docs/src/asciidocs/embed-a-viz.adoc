@@ -73,7 +73,7 @@ This approach is used only for testing client applications. Do not use this in p
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
 
 disabledActions [small]_optional_::
-_String_. Disables specified action menu items from the the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
+_String_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
 For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `editTitle` string in the  `disabledActions` attribute.
@@ -84,7 +84,7 @@ For example, to disable the *Change Title* action from the *More* menu image:./i
 disabledActions: Action.editTitle
 ----
 hiddenActions [small]_optional_::
-_String_. Menu items from the list of actions to be hidden on the visualization page.
+_String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
 For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
@@ -133,14 +133,12 @@ runtimeFilters: [{
   }]
 
 ----
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
 +
 Runtime filters have several operators you can use to filter your embedded visualizations.
 
 +
-
-
 [width="50%" cols="1,2,1"]
 [options='header']
 |===
