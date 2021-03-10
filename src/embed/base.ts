@@ -169,13 +169,8 @@ export class TsEmbed {
      * Construct the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
-        return [
-            this.thoughtSpotHost,
-            this.thoughtSpotV2Base,
-            '#',
-            'embed'
-        ]
-            .filter(x => x.length > 0)
+        return [this.thoughtSpotHost, this.thoughtSpotV2Base, '#', 'embed']
+            .filter((x) => x.length > 0)
             .join('/');
     }
 
@@ -268,7 +263,7 @@ export class TsEmbed {
     /**
      * Return the ThoughtSpot host name or IP address
      */
-    public getThoughtSpotHost(): string {
+    protected getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
     }
 

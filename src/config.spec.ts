@@ -6,7 +6,7 @@ import { getThoughtSpotHost } from './config';
 import { AuthType } from './types';
 
 const embedConfig = {
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 };
 
 describe('getThoughtSpotHost', () => {
