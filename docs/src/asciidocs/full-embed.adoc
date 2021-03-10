@@ -10,7 +10,7 @@ Full embedding allows you to integrate the full ThoughtSpot content in an applic
 
 == Full application embedding
 
-Full embedded ThoughtSpot content gives your users the ability to perform many essential tasks:
+The full embedded ThoughtSpot content gives your users the ability to perform many essential tasks:
 
 * create answers and pinboards
 * share objects with other users
@@ -117,28 +117,27 @@ const appEmbed = new AppEmbed(
         frameParams: {
             width: '100%',
             height: '100%',
+          
         },
+    showPrimaryNavbar: true
+
     });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe in the web browser.
+frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application.
+
+showPrimaryNavbar::
+_Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
 === Construct the URL and render the application
-Construct the URL of the embedded ThoughtSpot application to load in the iframe.
+Construct the URL of the embedded ThoughtSpot application to load within the web page.
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
 [source, javascript]
 ----
-appEmbed.render({ pageId }: AppRenderOptions): AppEmbed {
-        super.render();
 
-        const pageRoute = this.getPageRoute(pageId);
-        const src = this.getIFrameSrc(pageRoute);
-        this.renderV1Embed(src);
-
-        return this;
-
-        appEmbed.render({
+    appEmbed.render({
     Page.Data
-});
+  });
+ 
 
 ----
 
@@ -153,23 +152,15 @@ Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
 
----
-
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
- appEmbed.on("init", showLoader)
- appEmbed.on("load", hideLoader)
 
-// Functions to show or hide a loader while the iframe loads.
- function showLoader() {
-    document.getElementById("loader").style.display = "block";
-    }
+ appEmbed.on(EventType.init, showLoader)
+ appEmbed.on(EventType.load, hideLoader)
 
- function hideLoader() {
-    document.getElementById("loader").style.display = "none";
-    }
+
 ----
 ////
 ==== Event Type

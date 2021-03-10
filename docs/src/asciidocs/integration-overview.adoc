@@ -44,11 +44,11 @@ Access control in ThoughtSpot is managed through the users and groups that are s
 For more information, see 
 link:https://cloud-docs.thoughtspot.com/end-user/onboarding/intro-onboarding.html[Managing users and groups, window=_blank].
 
-Host application admin::
-The host application owners or users with admin privileges to modify the application interfaces. For example, rebranding the look and feel of the embedded UI requires administrator privileges.
-
 Developer::
 Application developers with privileges to integrate ThoughtSpot components into a host application using the APIs and SDK. Developer users can also configure custom actions to the  embedded visualizations and pinboards.
+
+Host application admin::
+The host application owners or users with admin privileges to modify the application interface. For example, to embed ThoughtSpot components in a business application or web page, you may require edit access to the host application. 
 
 == Choose an authentication method
 

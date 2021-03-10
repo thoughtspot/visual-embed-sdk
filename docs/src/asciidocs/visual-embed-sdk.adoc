@@ -22,11 +22,11 @@ SearchEmbed::
 For xref:embed-search.adoc[embedding the ThoughtSpot search] functionality.
 
 PinboardEmbed::
-For embedding ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
+For embedding a ThoughtSpot xref:embed-a-viz.adoc[visualization] or  xref:embed-pinboard.adoc[pinboard].
 
 
 AppEmbed::
-For embedding xref:full-embed.adoc[the full ThoughtSpot application] with or without the navigation bar.
+For embedding the xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
 
 
 == Configuration requirements for embedding

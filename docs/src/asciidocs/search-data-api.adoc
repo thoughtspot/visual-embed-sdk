@@ -149,7 +149,7 @@ https://<your-thoughtspot-instance>/external/swagger/#!/tspublic%2Fv1/searchData
 ----
 
 
-. Click `POST /tspublic/v1/searchdataTS`
+. Click `POST /tspublic/v1/searchdata
 
 . In the **Parameters** interface, enter the values for the following:
 
@@ -168,7 +168,7 @@ You can also verify if the query returns the same data when you run it in the Th
 === Resource URL
 
 ----
-POST /tspublic/v1/searchdataTS
+POST /tspublic/v1/searchdata
 ----
 
 === Request parameters
@@ -185,17 +185,17 @@ Example: 4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1
 |`batchsize`  | integer | The batch size for loading search objects.
 
 The system default is -1.
-| `pagenumber` | integer | Alternate way to specify 1-based offset:
+| `pagenumber` | integer | Alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
 
 `indexingOffset = (pageNumber - 1) * batchSize`
 
 The system default is -1.
-| `offset` | integer | Specify a 1-based offset.
+| `offset` | integer | Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
 
 The system default is -1.
 | `formattype` | string | The format of the data.
 
-Valid values are `COMPACT` (default) or `FULL` JSON.
+Valid values are `COMPACT` or `FULL` JSON. The default value is `COMPACT`.
 |====================
 
 === Example requests

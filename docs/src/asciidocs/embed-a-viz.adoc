@@ -12,23 +12,13 @@ This page explains how to embed a ThoughtSpot visualization, such as tables and 
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
 ////
-== Import the JavaScript library
-In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
-[source,javascript]
-----
-<script type="text/javascript" src="<file-location>/<file-name>.js"></script>
-----
+
 == Import the PinboardEmbed package
 Import the visualization SDK library to your application environment:
 
 [source,javascript]
 ----
 import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
-----
-== Import styles
-[source,javascript]
-----
-import "./styles.css"
 ----
 
 == Add the embed domain
@@ -43,7 +33,7 @@ To allow your client application to connect to ThoughtSpot:
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: "SSO"
+        authType: AuthType.SSO,
     });
 ----
 +
@@ -69,7 +59,7 @@ This approach is used only for testing client applications. Do not use this in p
 == Construct the embed content
 [source,JavaScript]
 ----
- const embed = new PinboardEmbed("#embed", {
+ const pinboardEmbed = new PinboardEmbed("#embed", {
 	frameParams: {
 		width: 1280,
 		height: 720
@@ -79,43 +69,52 @@ This approach is used only for testing client applications. Do not use this in p
 });
 ----
 
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
-disabledActions [small]_optional_::
-_String_. Menu items from the list of actions to be disabled on the visualization page.
-+
-For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `editTitle` to the  `disabledActions` attribute.
 
+frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
+
+disabledActions [small]_optional_::
+_String_. Disables specified action menu items from the the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
++
+
+For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `editTitle` string in the  `disabledActions` attribute.
+
+
++
+----
+disabledActions: Action.editTitle
+----
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
 
-For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add `downloadAsPdf` to the `hiddenActions` attribute.
+For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
 
 
++
+[source,JavaScript]
+----
+hiddenActions: Action.downloadAsPdf
+----
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
+
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
 == Render the embedded visualization
 Construct the URL for the embedded visualization and render the embedded content:
 [source,JavaScript]
 ----
   pinboardEmbed.render({
-        pinboardId,
-        vizId,
-        runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
-        super.render();
+    pinboardId: '<%=pinboardGUID%>',
+    vizId: '<%=vizGUID%>'
+    runtimeFilters: []
+});
 
-        const src = this.getIFrameSrc(pinboardId, vizId, runtimeFilters);
-        this.renderV1Embed(src);
-
-        return this;
-    }
 ----
 
 vizId::
 _String_. The Global Unique Identifier (GUID) of the visualization.
-pinboardId [small]_optional_::
+pinboardId::
 _String_. The GUID of the pinboard to which the visualization is pinned.
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
@@ -124,13 +123,23 @@ Runtime filters provide the ability to filter data at the time of retrieval. Run
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization, you can pass the runtime filter in the URL query parameters as shown here:
 +
+[source,javascript]
 ----
-http://<thoughtspot_server>:<port>/
-?col1=Color&op1=EQ>&val1=red#/embed/viz/<pinboard-id>/<viz_id>
+
+runtimeFilters: [{
+  columnName: 'color',
+  operator: RuntimeFilterOp.EQ,
+  values: [ 'red' ]
+  }]
+
 ----
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+
++
 Runtime filters have several operators you can use to filter your embedded visualizations.
 
 +
+
 
 [width="50%" cols="1,2,1"]
 [options='header']
@@ -193,12 +202,13 @@ Runtime filters have several operators you can use to filter your embedded visua
 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
+
 [source,javascript]
 ----
-  //register event listeners for visualization loading event
 
-  pinboardEmbed.on("init", showLoader)
-  pinboardEmbed.on("load", hideLoader)
+ pinboardEmbed.on(EventType.init, showLoader)
+ pinboardEmbed.on(EventType.load, hideLoader)
+
 ----
 ////
 ==== Event Types
@@ -241,8 +251,8 @@ const pinboardEmbed = new PinboardEmbed(
     });
 
 pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>'
+    pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
+    vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92'
 });
 ----
 
