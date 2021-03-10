@@ -117,9 +117,10 @@ const appEmbed = new AppEmbed(
         frameParams: {
             width: '100%',
             height: '100%',
-            
+          
         },
     showPrimaryNavbar: true
+
     });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application.
@@ -132,10 +133,12 @@ Construct the URL of the embedded ThoughtSpot application to load within the web
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
 [source, javascript]
 ----
+
     appEmbed.render({
     Page.Data
   });
  
+
 ----
 
 pageId::
@@ -153,8 +156,10 @@ Page.Home:: Displays the *Home* page when the application loads.
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
+
  appEmbed.on(EventType.init, showLoader)
  appEmbed.on(EventType.load, hideLoader)
+
 
 ----
 ////

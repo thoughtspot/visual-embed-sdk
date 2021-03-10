@@ -32,6 +32,8 @@ If you are an existing ThoughtSpot Cloud user::
 The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 ////
 
+. Explore the SpotDev portal features, and build your sample code in *Playground*.
+The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 
 == Find your way around
 The SpotDev portal includes several sections to assist you through your embedding journey.
@@ -168,6 +170,7 @@ To explore the API for embedding visualizations:
 
 +
 Modify available actions::
+
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
 +
 For example:
@@ -190,7 +193,6 @@ hiddenActions: ['download']
 +
 For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
-
 +
 
 Set runtime filters::
@@ -204,7 +206,6 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 +
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
-
 
 . Click *Run*.
 
@@ -226,10 +227,10 @@ For example:
 * To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`. 
 
 +
+
 ----
 disabledActions: ['downloadAsPdf']
 ----
-
 
 * To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 
@@ -279,3 +280,4 @@ Sets filters that will apply to visualizations and pinboards on any tab.
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
 * To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
 * If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as CORS, trusted authentication service, and domain whitelisting, go to *Customizations* > *Settings*.
+

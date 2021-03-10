@@ -74,7 +74,9 @@ Requires no authentication. The user must already be logged in to ThoughtSpot be
 +
 This approach is used only for testing client applications. Do not use this in production environments.
 
+
 == Create an instance of the SearchEmbed class
+
 Create an instance of the SearchEmbed object and customize your search page view.
 
 [source,javascript]
@@ -128,9 +130,11 @@ _Array of strings_. Disables the specified menu items from the list of actions i
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add the `showUnderlyingData` action to the `disabledActions` attribute.
 
 +
+
 ---- 
 disabledActions: Action.showUnderlyingData
 ----
+
 
 
 disabledActionReason [small]_optional_::
@@ -143,11 +147,13 @@ Construct the URL of the embedded ThoughtSpot search object.
 Render the embedded search and pass parameters such as data source ID.
 [source, javascript]
 ----
+
  searchEmbed.render({
   dataSources: ['<%=datasourceGUID%>'],
   searchQuery: "<query-string>",
   answerId: "<%=savedAnswerGUID%>"
  })
+
 ----
 
 dataSources::
@@ -165,18 +171,22 @@ _String_. The search query string to use when the application loads. You can use
 * xref:search-data-api.adoc#keyword[Keyword] 
 * xref:search-data-api.adoc#calendar[Calendar]
 
+
 For example, to fetch revenue data by shipping mode, you can use the following search query string:
 
 ----
 searchQuery: "[Revenue] by [Shipmode]"
 ----
 
+
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
+
  searchEmbed.on(EventType.init, showLoader)
  searchEmbed.on(EventType.load, hideLoader)
+
 ----
 ////
 ==== Event Type

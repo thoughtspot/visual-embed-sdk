@@ -91,12 +91,16 @@ _Boolean_. Adjusts the height of the embedded widget to fit the entire pinboard.
 disabledActions::
 _Array of strings_. The action menu items to be disabled on the Pinboards page.
 +
+
 For example, to disable the *Present* action from the *More* (*...*) menu, specify the `present` string in the  `disabledActions` attribute.
+
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
 +
+
 For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `addFilter` string in the `hiddenActions` attribute.
+
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard page.
@@ -107,10 +111,12 @@ For a complete list of action menu items and the corresponding strings to use fo
 Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
+
     pinboardEmbed.render({
     pinboardId: '<%=pinboardGUID%>',
     runtimeFilters: []
 });
+
 ----
 
 pinboardId::
@@ -127,11 +133,13 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 [source,Javascript]
 ----
+
 runtimeFilters: [{
   columnName: 'color',
   operator: RuntimeFilterOp.EQ,
   values: [ 'red' ]
   }]
+
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +
@@ -199,8 +207,10 @@ Runtime filters have several operators for filtering your embedded visualization
 Register event handlers and subscribe to events triggered by the embedded pinboard:
 [source,javascript]
 ----
+
   pinboardEmbed.on(EventType.init, showLoader)
   pinboardEmbed.on(EventType.load, hideLoader)
+
 ----
 ////
 ==== Event Types

@@ -5,7 +5,9 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
+
 This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+
 ////
 To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
 Experience working with Javascript also helps.
@@ -73,7 +75,9 @@ frameParams:: Sets the `width` and `height` dimensions to render the iframe cont
 disabledActions [small]_optional_::
 _String_. Disables specified action menu items from the the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
+
 For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `editTitle` string in the  `disabledActions` attribute.
+
 
 +
 ----
@@ -82,7 +86,9 @@ disabledActions: Action.editTitle
 hiddenActions [small]_optional_::
 _String_. Menu items from the list of actions to be hidden on the visualization page.
 +
+
 For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
+
 
 +
 [source,JavaScript]
@@ -103,6 +109,7 @@ Construct the URL for the embedded visualization and render the embedded content
     vizId: '<%=vizGUID%>'
     runtimeFilters: []
 });
+
 ----
 
 vizId::
@@ -118,18 +125,22 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 [source,javascript]
 ----
+
 runtimeFilters: [{
   columnName: 'color',
   operator: RuntimeFilterOp.EQ,
   values: [ 'red' ]
   }]
+
 ----
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter].
+
++
 Runtime filters have several operators you can use to filter your embedded visualizations.
 
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filters.html[Apply a Runtime Filter].
 
-+
+
 [width="50%" cols="1,2,1"]
 [options='header']
 |===
@@ -194,8 +205,10 @@ Register event handlers to subscribe to events triggered by the embedded visuali
 
 [source,javascript]
 ----
+
  pinboardEmbed.on(EventType.init, showLoader)
  pinboardEmbed.on(EventType.load, hideLoader)
+
 ----
 ////
 ==== Event Types

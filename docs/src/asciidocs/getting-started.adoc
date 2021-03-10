@@ -40,11 +40,10 @@ Based on integration requirements, import any of the following embed modules and
 * *SearchEmbed*
 +
 To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
-
 * *PinboardEmbed*
 +
 To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
-
 * *AppEmbed*
 +
 To embed xref:full-embed.adoc[the full ThoughtSpot application].
+

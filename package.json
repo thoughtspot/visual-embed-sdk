@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/embed-sdk",
-    "version": "0.0.1-alpha.20",
+    "version": "0.0.1-alpha.23",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -48,6 +48,7 @@
         "gatsby-source-filesystem": "^2.8.1",
         "gatsby-transformer-asciidoc": "^1.8.0",
         "gh-pages": "^3.1.0",
+        "highlight.js": "^10.6.0",
         "jest": "26.4.2",
         "jest-puppeteer": "^4.4.0",
         "node-sass": "^4.0.0",
