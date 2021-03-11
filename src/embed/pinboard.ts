@@ -11,7 +11,7 @@
 import { ERROR_MESSAGE } from '../errors';
 import {
     Action,
-    EventTypeV1,
+    EmbedEvent,
     MessagePayload,
     Param,
     RuntimeFilter,
@@ -120,10 +120,10 @@ export class PinboardEmbed extends V1Embed {
         runtimeFilters,
     }: PinboardRenderOptions): PinboardEmbed {
         if (!pinboardId && !vizId) {
-            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
+            this.handleError(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
         if (this.viewConfig.fullHeight === true) {
-            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
         }
 
         super.render();

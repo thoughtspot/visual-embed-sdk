@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">ThoughtSpot Visual Embed SDK</a>
+					<a href="index.html" class="title">@thoughtspot/embed-sdk</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -57,7 +57,7 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-		<!--	<section class="tsd-panel-group tsd-index-group">
+			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
@@ -67,7 +67,8 @@
 								<li class="tsd-kind-enum"><a href="enums/action.html" class="tsd-kind-icon">Action</a></li>
 								<li class="tsd-kind-enum"><a href="enums/authtype.html" class="tsd-kind-icon">Auth<wbr>Type</a></li>
 								<li class="tsd-kind-enum"><a href="enums/datasourcevisualmode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a></li>
-								<li class="tsd-kind-enum"><a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/embedevent.html" class="tsd-kind-icon">Embed<wbr>Event</a></li>
+								<li class="tsd-kind-enum"><a href="enums/hostevent.html" class="tsd-kind-icon">Host<wbr>Event</a></li>
 								<li class="tsd-kind-enum"><a href="enums/page.html" class="tsd-kind-icon">Page</a></li>
 								<li class="tsd-kind-enum"><a href="enums/runtimefilterop.html" class="tsd-kind-icon">Runtime<wbr>Filter<wbr>Op</a></li>
 							</ul>
@@ -76,7 +77,7 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class"><a href="classes/appembed.html" class="tsd-kind-icon">App<wbr>Embed</a></li>
-							<li class="tsd-kind-class"><a href="classes/pinboardembed.html" class="tsd-kind-icon">Pinboard<wbr>Embed</a></li>
+								<li class="tsd-kind-class"><a href="classes/pinboardembed.html" class="tsd-kind-icon">Pinboard<wbr>Embed</a></li>
 								<li class="tsd-kind-class"><a href="classes/searchembed.html" class="tsd-kind-icon">Search<wbr>Embed</a></li>
 							</ul>
 						</section>
@@ -88,7 +89,7 @@
 						</section>
 					</div>
 				</section>
-			</section> -->
+			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
@@ -99,14 +100,14 @@
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
-						<!--	<aside class="tsd-sources">
+							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/39a9414/src/embed/base.ts#L34">embed/base.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/base.ts#L34">embed/base.ts:34</a></li>
 								</ul>
-							</aside> -->
+							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Initialize the ThoughtSpot embed settings globally.</p>
+									<p>Initialize the ThoughtSpot embed settings globally</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -115,7 +116,7 @@
 									<h5>embedConfig: <span class="tsd-signature-type">EmbedConfig</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The configuration object containing ThoughtSpot host,
-										authentication mecheanism and so on.</p>
+										authentication mecheanism etc.</p>
 									</div>
 								</li>
 							</ul>
@@ -145,7 +146,10 @@
 						<a href="enums/datasourcevisualmode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
 					</li>
 					<li class=" tsd-kind-enum">
-						<a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a>
+						<a href="enums/embedevent.html" class="tsd-kind-icon">Embed<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/hostevent.html" class="tsd-kind-icon">Host<wbr>Event</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/page.html" class="tsd-kind-icon">Page</a>
@@ -157,7 +161,7 @@
 						<a href="classes/appembed.html" class="tsd-kind-icon">App<wbr>Embed</a>
 					</li>
 					<li class=" tsd-kind-class">
-					<a href="classes/pinboardembed.html" class="tsd-kind-icon">Pinboard<wbr>Embed</a>
+						<a href="classes/pinboardembed.html" class="tsd-kind-icon">Pinboard<wbr>Embed</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/searchembed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
@@ -170,7 +174,6 @@
 		</div>
 	</div>
 </div>
-<!--
 <footer>
 	<div class="container">
 		<h2>Legend</h2>
@@ -181,7 +184,7 @@
 			</ul>
 		</div>
 	</div>
-</footer> -->
+</footer>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
 </body>
