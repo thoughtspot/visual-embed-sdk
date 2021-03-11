@@ -29,7 +29,7 @@ describe('Pinboard/viz embed tests', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
@@ -86,7 +86,7 @@ describe('Pinboard/viz embed tests', () => {
             ...defaultViewConfig,
             pinboardId,
             vizId,
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
@@ -105,7 +105,7 @@ describe('Pinboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
-        });
+        } as PinboardViewConfig);
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,

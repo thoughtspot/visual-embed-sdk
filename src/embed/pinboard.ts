@@ -15,7 +15,6 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
-    DOMSelector,
 } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
@@ -36,16 +35,6 @@ export interface PinboardViewConfig extends ViewConfig {
  */
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
-
-    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
-        super(domSelector, viewConfig);
-
-        const { pinboardId, vizId } = viewConfig;
-
-        if (!pinboardId && !vizId) {
-            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
-        }
-    }
 
     /**
      * Construct a map of params to be passed on to the
@@ -124,6 +113,10 @@ export class PinboardEmbed extends V1Embed {
      */
     public render(): PinboardEmbed {
         const { pinboardId, vizId, runtimeFilters } = this.viewConfig;
+
+        if (!pinboardId && !vizId) {
+            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
+        }
 
         if (this.viewConfig.fullHeight === true) {
             this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);

@@ -9,7 +9,7 @@
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Action, Param, RuntimeFilter, DOMSelector } from '../types';
+import { Action, Param, RuntimeFilter } from '../types';
 import { V1Embed, ViewConfig } from './base';
 
 // eslint-disable-next-line no-shadow
@@ -35,14 +35,6 @@ export interface AppViewConfig extends ViewConfig {
  */
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
-
-    /**
-     * The view configuration for the AppEmbed
-     */
-    constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
-        super(domSelector, viewConfig);
-        this.viewConfig = viewConfig;
-    }
 
     /**
      * Construct a map of params to be passed on to the

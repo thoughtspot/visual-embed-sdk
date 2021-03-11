@@ -61,7 +61,7 @@ describe('App embed tests', () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 pageId: pageId as Page,
-            });
+            } as AppViewConfig);
             appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
