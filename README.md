@@ -1,4 +1,4 @@
-# embed-sdk
+# ThoughtSpot Visual Embed SDK
 
 [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main)
 
@@ -28,7 +28,7 @@ define(['tsembed'], function (TsEmbedSDK) {
 var TsEmbedSDK = window.tsembed;
 
 // ESM
-import * as TsEmbedSDK from 'tsembed.es';
+import * as TsEmbedSDK from '@thoughtspot/embed-sdk';
 ```
 
 ## Embed Flavours
