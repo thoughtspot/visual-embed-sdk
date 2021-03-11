@@ -13,8 +13,17 @@
  */
 // eslint-disable-next-line no-shadow
 export enum AuthType {
+    /**
+     * Do not handle auth
+     */
     None = 'None',
-    SAML = 'SSO_SAML',
+    /**
+     * SSO using SAML
+     */
+    SSO = 'SSO_SAML',
+    /**
+     * Truted authentication server
+     */
     AuthServer = 'AuthServer',
 }
 
@@ -27,9 +36,31 @@ export type DOMSelector = string | HTMLElement;
  * auth server is being used
  */
 export interface EmbedConfig {
+    /**
+     * The ThoughtSpot cluster host name or IP address
+     */
     thoughtSpotHost: string;
+    /**
+     * The authentication mechanism to use
+     */
     authType: AuthType;
+    /**
+     * The trusted authentication endpoint to hit to get the auth token
+     * A GET request is made and the auth API endpoint is expected
+     * to return the token as plaintext response
+     */
     authEndpoint?: string;
+    /**
+     * A function that invokes the trusted authentication endpoint
+     * and returns a Promise that resolves to the auth token
+     */
+    getAuthToken?: () => Promise<string>;
+    /**
+     * The user name for trusted auth
+     */
+    username?: string;
+
+    /** @internal */
     basepath?: string;
 }
 

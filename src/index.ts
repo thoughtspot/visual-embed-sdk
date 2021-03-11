@@ -20,9 +20,11 @@ import {
     DataSourceVisualMode,
     Action,
 } from './types';
+import { authenticate } from './auth';
 
 export {
     init,
+    authenticate,
     SearchEmbed,
     PinboardEmbed,
     AppEmbed,
