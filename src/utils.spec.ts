@@ -2,7 +2,12 @@
  * @jest-environment node
  */
 
-import { getQueryParamString, getFilterQuery, getCssDimension } from './utils';
+import {
+    getQueryParamString,
+    getFilterQuery,
+    getCssDimension,
+    appendToUrlHash,
+} from './utils';
 import { RuntimeFilterOp } from './types';
 
 describe('unit test for utils', () => {
@@ -63,5 +68,14 @@ describe('unit test for utils', () => {
         expect(getCssDimension('100%')).toBe('100%');
         expect(getCssDimension('100px')).toBe('100px');
         expect(getCssDimension(null)).toBe(null);
+    });
+
+    test('appendToUrlHash', () => {
+        expect(appendToUrlHash('http://myhost:3000', 'hashFrag')).toBe(
+            'http://myhost:3000#hashFrag',
+        );
+        expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe(
+            'http://xyz.com/#foobar',
+        );
     });
 });

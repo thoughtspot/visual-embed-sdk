@@ -15,9 +15,8 @@ This section lists the tasks you need to complete before embedding ThoughtSpot c
 +
 ThoughtSpot supports SAML SSO and trusted authentication services.
 
-* Verify if CORS is enabled.
+* Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
 * Verify if the same-site cookie setting is set to `none`.
-* Verify if your host application domain is whitelisted for CORS and CSP.
 * If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to SpotDev. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *SpotDev* tab.
 
 == Prepare your project environment
@@ -29,22 +28,22 @@ If NPM is not installed, link:https://www.npmjs.com/get-npm[install NPM, window=
 The latest version of the Visual Embed SDK is available at link:https://www.npmjs.com/package/@thoughtspot/embed-sdk[https://www.npmjs.com/package/@thoughtspot/embed-sdk, window=_blank].
 
 To install the SDK, run the following command at the command line:
-[source,shell]
+[source,console]
 ----
 npm install @thoughtspot/embed-sdk
 ----
-== Import the JavaScript library
 
-In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
-[source,html]
-----
-<script type="text/javascript" src="<file-location>/<file-name>.js"></script>
-
-----
 == Import the embed package
 
-Based on integration requirements, import any of the following embed packages and build your code.
+Based on integration requirements, import any of the following embed modules and build your code.
 
-* xref:embed-search.adoc[SearchEmbed]
-* xref:embed-pinboard.adoc[PinboardEmbed]
-* xref:full-embed.adoc[AppEmbed]
+* *SearchEmbed*
++
+To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
+* *PinboardEmbed*
++
+To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
+* *AppEmbed*
++
+To embed xref:full-embed.adoc[the full ThoughtSpot application].
+

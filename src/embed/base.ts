@@ -18,22 +18,37 @@ import {
 import {
     DOMSelector,
     EmbedConfig,
-    EventType,
-    EventTypeV1,
-    GenericCallbackFn,
+    HostEvent,
+    EmbedEvent,
     MessageCallback,
+    AuthType,
 } from '../types';
-import { initialize } from '../v1/api';
+import { authenticate, isAuthenticated } from '../auth';
 
 let config = {} as EmbedConfig;
 
 /**
- * Initialize the ThoughtSpot embed settings globally
+ * Perform authentication on the ThoughtSpot app as applicable
+ */
+const handleAuth = () => {
+    if (config.authType !== AuthType.None) {
+        const authConfig = {
+            ...config,
+            thoughtSpotHost: getThoughtSpotHost(config),
+        };
+        authenticate(authConfig);
+    }
+};
+
+/**
+ * Initialize the ThoughtSpot embed settings globally and perform
+ * authentication if applicable
  * @param embedConfig The configuration object containing ThoughtSpot host,
- * authentication mecheanism etc.
+ * authentication mechanism etc.
  */
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
+    handleAuth();
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -115,7 +130,19 @@ export class TsEmbed {
      * Throw error encountered during initialization
      */
     private throwInitError() {
-        throw new Error('You need to init the ThoughtSpot SDK module first');
+        this.handleError('You need to init the ThoughtSpot SDK module first');
+    }
+
+    /**
+     * Handle errors within the SDK
+     * @param error The error message or object
+     */
+    protected handleError(error: string | Record<string, unknown>) {
+        this.executeCallbacks(EmbedEvent.Error, {
+            error,
+        });
+        // Log error
+        console.log(error);
     }
 
     /**
@@ -189,7 +216,7 @@ export class TsEmbed {
             // warn: URL too long
         }
 
-        this.executeCallbacks(EventType.RenderInit, {
+        this.executeCallbacks(EmbedEvent.Init, {
             data: {
                 timestamp: Date.now(),
             },
@@ -207,7 +234,7 @@ export class TsEmbed {
         this.iFrame.style.border = '0';
         this.iFrame.name = 'ThoughtSpot Embedded Analytics';
         this.iFrame.addEventListener('load', () =>
-            this.executeCallbacks(EventType.Load, {
+            this.executeCallbacks(EmbedEvent.Load, {
                 data: {
                     timestamp: Date.now(),
                 },
@@ -231,10 +258,7 @@ export class TsEmbed {
      * @param eventType The event type
      * @param data The payload the event handler will be invoked with
      */
-    protected executeCallbacks(
-        eventType: EventType | EventTypeV1,
-        data: any,
-    ): void {
+    protected executeCallbacks(eventType: EmbedEvent, data: any): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
         callbacks.forEach((callback) => callback(data));
     }
@@ -242,7 +266,7 @@ export class TsEmbed {
     /**
      * Return the ThoughtSpot host name or IP address
      */
-    public getThoughtSpotHost(): string {
+    protected getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
     }
 
@@ -253,11 +277,11 @@ export class TsEmbed {
      * @param callback A callback function
      */
     public on(
-        messageType: string,
+        messageType: EmbedEvent,
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
-            throw new Error(
+            this.handleError(
                 'Please register event handlers before calling render',
             );
         }
@@ -274,7 +298,10 @@ export class TsEmbed {
      * @param messageType The message type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: string, data: any): typeof TsEmbed.prototype {
+    public trigger(
+        messageType: HostEvent,
+        data: any,
+    ): typeof TsEmbed.prototype {
         this.iFrame.contentWindow.postMessage(
             {
                 type: messageType,
@@ -295,17 +322,13 @@ export class TsEmbed {
     public render(): TsEmbed {
         this.isRendered = true;
 
+        this.executeCallbacks(EmbedEvent.AuthInit, {
+            data: { isLoggedIn: isAuthenticated() },
+        });
+
         return this;
     }
 }
-
-/**
- * Provides mapping of v2 events to v1 events where they do not match
- * This helps provide a unified interface for events across v1 and v2
- */
-const messageTypeV1Map = {
-    [EventType.Data]: EventTypeV1.ExportVizDataToParent,
-};
 
 /**
  * Base class for embedding v1 experience
@@ -326,19 +349,6 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
-
-        // Set up event handlers using v1 API
-        const onInit = (isInitialized: boolean) =>
-            this.executeCallbacks(EventType.Init, isInitialized);
-        const onAuthExpire = () =>
-            this.executeCallbacks(EventTypeV1.AuthExpire, null);
-
-        initialize(
-            onInit,
-            onAuthExpire,
-            this.getThoughtSpotHost(),
-            config.authType,
-        );
     }
 
     /**
@@ -351,39 +361,14 @@ export class V1Embed extends TsEmbed {
     }
 
     /**
-     * Trigger a v1 specific event
-     * @param messageType
-     */
-    protected triggerV1(messageType: EventTypeV1) {
-        this.iFrame.contentWindow.postMessage(
-            {
-                __type: messageType,
-            },
-            this.thoughtSpotHost,
-        );
-    }
-
-    /**
-     * Fetch the current answer data from the
-     * embedded app asynchronously
-     * @param callback A function to be executed with the
-     * fetched as an argument
-     */
-    public getCurrentData(): void {
-        this.triggerV1(EventTypeV1.GetData);
-    }
-
-    /**
      * @override
      * @param messageType
      * @param callback
      */
     public on(
-        messageType: string,
+        messageType: EmbedEvent,
         callback: MessageCallback,
     ): typeof TsEmbed.prototype {
-        // use the v1 equivalent if any
-        const messageTypeV1 = messageTypeV1Map[messageType] || messageType;
-        return super.on(messageTypeV1, callback);
+        return super.on(messageType, callback);
     }
 }
