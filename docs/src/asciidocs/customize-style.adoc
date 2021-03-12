@@ -177,7 +177,7 @@ You can disable color rotation for single-color charts.
 If you disable color rotation, ThoughtSpot generates single-color charts in the order of your color palette, left to right.
 If you leave color rotation enabled, ThoughtSpot generates the color of single-color charts randomly.
 
-[#chart-color]
+[#footer-text]
 == Customize footer text
 
 The ThoughtSpot footer appears by default in the ThoughtSpot application. You can customize ThoughtSpot's footer text to add a company-specific message.

@@ -186,7 +186,7 @@ To change the password of the user, send a POST request to the following endpoin
 ----
 POST /tspublic/v1/user/updatepassword
 ----
-==== Request parameters
+=== Request parameters
 [width="100%" cols="1,2,3"]
 [options='header']
 |====
