@@ -193,8 +193,8 @@ export class TsEmbed {
      * Extract the type field from the event payload
      * @param event The window message event
      */
-    protected getEventType(event: MessageEvent) {
-        return event.data?.type;
+    private getEventType(event: MessageEvent) {
+        return event.data?.type || event.data?.__type;
     }
 
     /**
@@ -393,26 +393,5 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
-    }
-
-    /**
-     * @override
-     * @param event
-     */
-    protected getEventType(event: MessageEvent) {
-        // eslint-disable-next-line no-underscore-dangle
-        return event.data?.__type;
-    }
-
-    /**
-     * @override
-     * @param messageType
-     * @param callback
-     */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
-    ): typeof TsEmbed.prototype {
-        return super.on(messageType, callback);
     }
 }
