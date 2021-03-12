@@ -37,7 +37,7 @@ jobs:
         run: |
             git config user.name github-actions
             git config user.email github-actions@github.com
-            git remote set-url origin https://github-actions:${GH_TOKEN}@github.com/ts-blink/embed-sdk
+            git remote set-url origin https://github-actions:${GH_TOKEN}@github.com/thoughtspot/visual-embed-sdk
             
       # Deploy on github pages
       - name: Build and publish
