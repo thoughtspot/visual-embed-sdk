@@ -1,3 +1,4 @@
+
 name: DeployDocs
 
 # Controls when the action will run. Triggers the workflow on push to main branch
@@ -12,7 +13,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # ENV variables that will be used
@@ -32,14 +33,12 @@ jobs:
       - name: Run npm install
         run: npm install
 
-      # Setting up git user and email
-      - name: Setup git user
-        run: |
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git remote set-url origin https://github-actions:${GH_TOKEN}@github.com/thoughtspot/visual-embed-sdk
-            
       # Deploy on github pages
-      - name: Build and publish
-        run: npm run docs-cmd -- build-and-publish
+      - name: Build
+        run: npm run docs-cmd -- build
         
+      - name: publish
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GATSBY_PUBLISH_SECRET_KEY }}
+          publish_dir: ./public
