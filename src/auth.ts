@@ -28,14 +28,14 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
 /**
  * Check if we are stuck at the SSO redirect URL
  */
-function isAtSSORedirectUrl() {
+function isAtSSORedirectUrl(): boolean {
     return window.location.href.indexOf(SSO_REDIRECTION_MARKER_GUID) >= 0;
 }
 
 /**
  * Remove the SSO redirect URL marker
  */
-function removeSSORedirectUrlMarker() {
+function removeSSORedirectUrlMarker(): void {
     // Note (sunny): this will leave a # around even if it was not in the URL to
     // being with, trying to remove the hash by changing window.location will reload
     // the page which we don't want. We'll live with adding an unnecessary hash to the
@@ -50,7 +50,7 @@ function removeSSORedirectUrlMarker() {
  * Perform token based authentication
  * @param embedConfig The embed configuration
  */
-export const doTokenAuth = async (embedConfig: EmbedConfig) => {
+export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
     const {
         thoughtSpotHost,
         username,
@@ -88,7 +88,7 @@ export const doTokenAuth = async (embedConfig: EmbedConfig) => {
  * Perform SAML authentication
  * @param embedConfig The embed configuration
  */
-export const doSamlAuth = async (embedConfig: EmbedConfig) => {
+export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
     const { thoughtSpotHost } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (loggedIn) {
@@ -127,7 +127,7 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
  * Perform authentication on the ThoughtSpot cluster
  * @param embedConfig The embed config
  */
-export const authenticate = async (embedConfig: EmbedConfig) => {
+export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:
@@ -144,4 +144,4 @@ export const authenticate = async (embedConfig: EmbedConfig) => {
 /**
  * Check if we are authenticated to the ThoughtSpot cluster
  */
-export const isAuthenticated = () => loggedInStatus;
+export const isAuthenticated = (): boolean => loggedInStatus;
