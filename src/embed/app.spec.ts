@@ -70,6 +70,18 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should navigate to a path', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            path: 'foo/bar',
+        } as AppViewConfig);
+        appEmbed.render();
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/foo/bar`,
+        );
+        cleanUp();
+    });
+
     test('should apply runtime filters', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

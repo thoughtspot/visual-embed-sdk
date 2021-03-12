@@ -9,25 +9,31 @@
  */
 
 import { ERROR_MESSAGE } from '../errors';
-import {
-    Action,
-    EmbedEvent,
-    MessagePayload,
-    Param,
-    RuntimeFilter,
-} from '../types';
+import { EmbedEvent, MessagePayload, Param, RuntimeFilter } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
+/**
+ * The configuration for the embedded pinboard view
+ */
 export interface PinboardViewConfig extends ViewConfig {
+    /**
+     * If set to true, the iFrame will adjust to the full height
+     * of the pinboard after loading
+     */
     fullHeight?: boolean;
-    disabledActions?: Action[];
-    disabledActionReason?: string;
-    hiddenActions?: Action[];
+    /**
+     * If set to true, context menu in visualizations will be enabled
+     */
     enableVizTransformations?: boolean;
+    /**
+     * The pinboard to display in the embedded view
+     */
     pinboardId: string;
+    /**
+     * The visualization within the pinboard to display
+     */
     vizId?: string;
-    runtimeFilters?: RuntimeFilter[];
 }
 
 /**

@@ -9,25 +9,53 @@
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Action, Param, RuntimeFilter } from '../types';
+import { Param, RuntimeFilter } from '../types';
 import { V1Embed, ViewConfig } from './base';
 
+/**
+ * Pages within the ThoughtSpot app that can be embedded
+ */
 // eslint-disable-next-line no-shadow
 export enum Page {
+    /**
+     * Home page
+     */
     Home = 'home',
+    /**
+     * Search page
+     */
     Search = 'search',
+    /**
+     * Saved answers listing page
+     */
     Answers = 'answers',
+    /**
+     * Pinboards listing page
+     */
     Pinboards = 'pinboards',
+    /**
+     * Data management page
+     */
     Data = 'data',
 }
 
+/**
+ * The view configuration for full app embedding
+ */
 export interface AppViewConfig extends ViewConfig {
-    disabledActions?: Action[];
-    disabledActionReason?: string;
-    hiddenActions?: Action[];
+    /**
+     * If true, the main navigation bar within the ThoughtSpot app
+     * is displayed (hidden by default)
+     */
     showPrimaryNavbar?: boolean;
+    /**
+     * An URL path within the app that is to be embedded
+     */
+    path?: string;
+    /**
+     * The page to load initially in the embedded view
+     */
     pageId?: Page;
-    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
@@ -111,8 +139,8 @@ export class AppEmbed extends V1Embed {
     public render(): AppEmbed {
         super.render();
 
-        const { pageId, runtimeFilters } = this.viewConfig;
-        const pageRoute = this.getPageRoute(pageId);
+        const { pageId, runtimeFilters, path } = this.viewConfig;
+        const pageRoute = path || this.getPageRoute(pageId);
         const src = this.getIFrameSrc(pageRoute, runtimeFilters);
         this.renderV1Embed(src);
 

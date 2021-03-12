@@ -22,6 +22,8 @@ import {
     EmbedEvent,
     MessageCallback,
     AuthType,
+    Action,
+    RuntimeFilter,
 } from '../types';
 import { authenticate, isAuthenticated } from '../auth';
 
@@ -54,18 +56,60 @@ export const init = (embedConfig: EmbedConfig): void => {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LayoutConfig {}
 
+/**
+ * Embedded iFrame configuration
+ */
 export interface FrameParams {
-    // unit is pixels if number
+    /**
+     * The width of the iFrame (unit is pixels if numeric)
+     */
     width?: number | string;
+    /**
+     * The height of the iFrame (unit is pixels if numeric)
+     */
     height?: number | string;
 }
 
+/**
+ * The configuration object for an embedded view
+ */
 export interface ViewConfig {
+    /**
+     * @hidden
+     */
     layoutConfig?: LayoutConfig;
+    /**
+     * The configuration of the iFrame
+     */
     frameParams?: FrameParams;
+    /**
+     * @hidden
+     */
     theme?: string;
+    /**
+     * @hidden
+     */
     // eslint-disable-next-line camelcase
     styleSheet__unstable?: string;
+    /**
+     * The list of actions to disable from primary actions,
+     * menu item actions and context menu actions
+     */
+    disabledActions?: Action[];
+    /**
+     * The tooltip to display for disabled actions
+     */
+    disabledActionReason?: string;
+    /**
+     * The list of actions to hide from primary actions,
+     * menu item actions and context menu actions
+     */
+    hiddenActions?: Action[];
+    /**
+     * The list of runtime filters to apply to the answer,
+     * visualization or pinboard
+     */
+    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
