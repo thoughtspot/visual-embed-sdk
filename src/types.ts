@@ -14,7 +14,7 @@
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     None = 'None',
-    SSO = 'SSO',
+    SAML = 'SSO_SAML',
     AuthServer = 'AuthServer',
 }
 
@@ -70,39 +70,35 @@ export interface RuntimeFilter {
 }
 
 /**
- * Supported message types for communication between
- * the host app and the embedded app
+ * Event types emitted by the embedded ThoughtSpot application
  */
 // eslint-disable-next-line no-shadow
-export enum EventType {
-    // Events emitted by TS app
-    RenderInit = 'renderInit',
+export enum EmbedEvent {
     Init = 'init',
+    AuthInit = 'authInit',
     Load = 'load',
     Data = 'data',
     FiltersChanged = 'filtersChanged',
     QueryChanged = 'queryChanged',
     Drilldown = 'drillDown',
     DataSourceSelected = 'dataSourceSelected',
-    CustomAction = 'customAction',
-
-    // Triggerable events
-    Search = 'search',
-    Filter = 'filter',
-    Reload = 'reload',
-    CustomActionStatus = 'customActionStatus',
-}
-
-/**
- * Message types supported by the v1 of the ThoughtSpot app
- */
-// eslint-disable-next-line no-shadow
-export enum EventTypeV1 {
+    CustomAction = 'CustomAction',
+    Error = 'Error',
     Alert = 'alert',
-    GetData = 'getData',
     AuthExpire = 'ThoughtspotAuthExpired',
     EmbedHeight = 'EMBED_HEIGHT',
     ExportVizDataToParent = 'exportVizDataToParent',
+}
+
+/**
+ * Event types that can be triggered by the host application
+ * to the embedded ThoughtSpot app
+ */
+// eslint-disable-next-line no-shadow
+export enum HostEvent {
+    Search = 'search',
+    Filter = 'filter',
+    Reload = 'reload',
 }
 
 /**

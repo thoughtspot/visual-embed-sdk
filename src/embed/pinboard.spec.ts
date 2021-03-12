@@ -1,6 +1,6 @@
 import { PinboardEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
-import { Action, AuthType, EventTypeV1, RuntimeFilterOp } from '../types';
+import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 
 const defaultViewConfig = {
@@ -124,7 +124,7 @@ describe('Pinboard/viz embed tests', () => {
             vizId,
         });
         expect(onSpy).toHaveBeenCalledWith(
-            EventTypeV1.EmbedHeight,
+            EmbedEvent.EmbedHeight,
             expect.anything(),
         );
     });

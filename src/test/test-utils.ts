@@ -38,3 +38,8 @@ export const executeAfterWait = (
         }, waitTime);
     });
 };
+
+/**
+ * Time (in milliseconds) to wait for async events to be triggered
+ */
+export const EVENT_WAIT_TIME = 1000;

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Page | @thoughtspot/embed-sdk</title>
+	<title>HostEvent | @thoughtspot/embed-sdk</title>
 	<meta name="description" content="Documentation for @thoughtspot/embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,16 +55,24 @@
 					<a href="../modules.html">@thoughtspot/embed-sdk</a>
 				</li>
 				<li>
-					<a href="page.html">Page</a>
+					<a href="hostevent.html">HostEvent</a>
 				</li>
 			</ul>
-			<h1>Enumeration Page</h1>
+			<h1>Enumeration HostEvent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Event types that can be triggered by the host application
+						to the embedded ThoughtSpot app</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -72,11 +80,9 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="page.html#answers" class="tsd-kind-icon">Answers</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="page.html#data" class="tsd-kind-icon">Data</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="page.html#home" class="tsd-kind-icon">Home</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="page.html#pinboards" class="tsd-kind-icon">Pinboards</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="page.html#search" class="tsd-kind-icon">Search</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="hostevent.html#filter" class="tsd-kind-icon">Filter</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="hostevent.html#reload" class="tsd-kind-icon">Reload</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="hostevent.html#search" class="tsd-kind-icon">Search</a></li>
 							</ul>
 						</section>
 					</div>
@@ -85,42 +91,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="answers" class="tsd-anchor"></a>
-					<h3>Answers</h3>
-					<div class="tsd-signature tsd-kind-icon">Answers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;answers&quot;</span></div>
+					<a name="filter" class="tsd-anchor"></a>
+					<h3>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;filter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/app.ts#L19">embed/app.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L100">types.ts:100</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
+					<a name="reload" class="tsd-anchor"></a>
+					<h3>Reload</h3>
+					<div class="tsd-signature tsd-kind-icon">Reload<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;reload&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/app.ts#L21">embed/app.ts:21</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="home" class="tsd-anchor"></a>
-					<h3>Home</h3>
-					<div class="tsd-signature tsd-kind-icon">Home<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;home&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/app.ts#L17">embed/app.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="pinboards" class="tsd-anchor"></a>
-					<h3>Pinboards</h3>
-					<div class="tsd-signature tsd-kind-icon">Pinboards<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pinboards&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/app.ts#L20">embed/app.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L101">types.ts:101</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -130,7 +116,7 @@
 					<div class="tsd-signature tsd-kind-icon">Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;search&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/embed/app.ts#L18">embed/app.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L99">types.ts:99</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -158,33 +144,27 @@
 					<li class=" tsd-kind-enum">
 						<a href="embedevent.html" class="tsd-kind-icon">Embed<wbr>Event</a>
 					</li>
-					<li class=" tsd-kind-enum">
-						<a href="hostevent.html" class="tsd-kind-icon">Host<wbr>Event</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum">
-						<a href="page.html" class="tsd-kind-icon">Page</a>
+						<a href="hostevent.html" class="tsd-kind-icon">Host<wbr>Event</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="page.html#answers" class="tsd-kind-icon">Answers</a>
+								<a href="hostevent.html#filter" class="tsd-kind-icon">Filter</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="page.html#data" class="tsd-kind-icon">Data</a>
+								<a href="hostevent.html#reload" class="tsd-kind-icon">Reload</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="page.html#home" class="tsd-kind-icon">Home</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="page.html#pinboards" class="tsd-kind-icon">Pinboards</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="page.html#search" class="tsd-kind-icon">Search</a>
+								<a href="hostevent.html#search" class="tsd-kind-icon">Search</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-enum">
+						<a href="page.html" class="tsd-kind-icon">Page</a>
+					</li>
 					<li class=" tsd-kind-enum">
 						<a href="runtimefilterop.html" class="tsd-kind-icon">Runtime<wbr>Filter<wbr>Op</a>
 					</li>
