@@ -128,7 +128,7 @@ switch (mainOptions.command) {
                 name: 'branch',
                 alias: 'b',
                 type: String,
-                defaultValue: '7.3.0-docs',
+                defaultValue: 'gh-pages',
                 required: true,
             },
         ];
@@ -148,7 +148,7 @@ switch (mainOptions.command) {
                 name: 'branch',
                 alias: 'b',
                 type: String,
-                defaultValue: '7.3.0-docs',
+                defaultValue: 'gh-pages',
                 required: true,
             },
         ];
