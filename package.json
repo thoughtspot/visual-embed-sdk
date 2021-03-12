@@ -74,7 +74,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ts-blink/embed-sdk.git"
+        "url": "git+https://github.com/thoughtspot/visual-embed-sdk.git"
     },
     "keywords": [
         "thoughtspot",
@@ -84,7 +84,7 @@
         "analytics"
     ],
     "bugs": {
-        "url": "https://github.com/ts-blink/embed-sdk/issues"
+        "url": "https://github.com/thoughtspot/visual-embed-sdk/issues"
     },
-    "homepage": "https://github.com/ts-blink/embed-sdk#readme"
+    "homepage": "https://github.com/thoughtspot/visual-embed-sdk#readme"
 }
