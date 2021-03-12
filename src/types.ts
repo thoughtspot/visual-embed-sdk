@@ -13,8 +13,17 @@
  */
 // eslint-disable-next-line no-shadow
 export enum AuthType {
+    /**
+     * Do not handle auth
+     */
     None = 'None',
-    SAML = 'SSO_SAML',
+    /**
+     * SSO using SAML
+     */
+    SSO = 'SSO_SAML',
+    /**
+     * Truted authentication server
+     */
     AuthServer = 'AuthServer',
 }
 
@@ -27,9 +36,35 @@ export type DOMSelector = string | HTMLElement;
  * auth server is being used
  */
 export interface EmbedConfig {
+    /**
+     * The ThoughtSpot cluster host name or IP address
+     */
     thoughtSpotHost: string;
+    /**
+     * The authentication mechanism to use
+     */
     authType: AuthType;
+    /**
+     * The trusted authentication endpoint to hit to get the auth token.
+     * A GET request is made to the auth API endpoint which is expected
+     * to return the token as plaintext response.
+     * To perform trusted auth one of authEndpoint or getAuthToken must
+     * be provided.
+     */
     authEndpoint?: string;
+    /**
+     * A function that invokes the trusted authentication endpoint
+     * and returns a Promise that resolves to the auth token.
+     * To perform trusted auth one of authEndpoint or getAuthToken must
+     * be provided.
+     */
+    getAuthToken?: () => Promise<string>;
+    /**
+     * The user name for trusted auth
+     */
+    username?: string;
+
+    /** @internal */
     basepath?: string;
 }
 
@@ -47,25 +82,81 @@ export type QueryParams = {
  */
 // eslint-disable-next-line no-shadow
 export enum RuntimeFilterOp {
-    EQ = 'EQ', // equals
-    NE = 'NE', // does not equal
-    LT = 'LT', // less than
-    LE = 'LE', // less than or equal to
-    GT = 'GT', // greater than
-    GE = 'GE', // greater than or equal to
-    CONTAINS = 'CONTAINS', // contains
-    BEGINS_WITH = 'BEGINS_WITH', // begins with
-    ENDS_WITH = 'ENDS_WITH', // ends with
-    BW_INC_MAX = 'BW_INC_MAX', // between inclusive of higher value
-    BW_INC_MIN = 'BW_INC_MIN', // between inclusive of lower value
-    BW_INC = 'BW_INC', // between inclusive
-    BW = 'BW', // between non-inclusive
-    IN = 'IN', // is included in this list of values
+    /**
+     * Equals
+     */
+    EQ = 'EQ',
+    /**
+     * Does not equal
+     */
+    NE = 'NE',
+    /**
+     * Less than
+     */
+    LT = 'LT',
+    /**
+     * Less than or equal to
+     */
+    LE = 'LE',
+    /**
+     * Greater than
+     */
+    GT = 'GT',
+    /**
+     * Greater than or equal to
+     */
+    GE = 'GE',
+    /**
+     * Contains
+     */
+    CONTAINS = 'CONTAINS',
+    /**
+     * Begins with
+     */
+    BEGINS_WITH = 'BEGINS_WITH',
+    /**
+     * Ends with
+     */
+    ENDS_WITH = 'ENDS_WITH',
+    /**
+     * Between, inclusive of higher value
+     */
+    BW_INC_MAX = 'BW_INC_MAX',
+    /**
+     * Between, inclusive of lower value
+     */
+    BW_INC_MIN = 'BW_INC_MIN',
+    /**
+     * Between, inclusive of both higher and lower value
+     */
+    BW_INC = 'BW_INC',
+    /**
+     * Between, non-inclusive
+     */
+    BW = 'BW',
+    /**
+     * Is included in this list of values
+     */
+    IN = 'IN',
 }
 
+/**
+ * A filter that can be applied to ThoughtSpot answers, pinboards or
+ * visualizations at runtime
+ */
 export interface RuntimeFilter {
+    /**
+     * The name of the column to filter on (case-sensitive)
+     */
     columnName: string;
+    /**
+     * The operator to apply
+     */
     operator: RuntimeFilterOp;
+    /**
+     * The list of operands. Some operators like EQ, LE accept
+     * a single operand whereas other like BW, IN accept multiple operands
+     */
     values: (number | boolean | string)[];
 }
 
@@ -74,20 +165,75 @@ export interface RuntimeFilter {
  */
 // eslint-disable-next-line no-shadow
 export enum EmbedEvent {
+    /**
+     * Rendering has initialized.
+     * @return timestamp - The timestamp when the event was fired
+     */
     Init = 'init',
+    /**
+     * Authentication has either succeeded or failed.
+     * @return isLoggedIn - A Boolean specifying whether authentication was successful
+     */
     AuthInit = 'authInit',
+    /**
+     * The iFrame has loaded. This only refers to the iFrame load event
+     * and does not mean the ThoughtSpot app has completed loading.
+     * @return timestamp - The timestamp when the event was fired
+     */
     Load = 'load',
+    /**
+     * Data pertaining to answer or pinboard is received
+     * @return data - The answer or pinboard data
+     */
     Data = 'data',
+    /**
+     * Search/answer/pinboard filters have been applied/updated
+     * @hidden
+     */
     FiltersChanged = 'filtersChanged',
+    /**
+     * Search query has been updated
+     * @hidden
+     */
     QueryChanged = 'queryChanged',
+    /**
+     * A drill down operation has been performed
+     * @return additionalFilters - Any additonal filters applied
+     * @return drillDownColumns - The columns on which drill down was performed
+     * @return nonFilteredColumns - The columns that were not filtered
+     */
     Drilldown = 'drillDown',
+    /**
+     * One or more data sources have been selected
+     * @return dataSourceIds - the list of data sources
+     */
     DataSourceSelected = 'dataSourceSelected',
+    /**
+     * A custom action has been triggered
+     * @return actionId - The id of the custom action
+     * @return data - The answer or pinboard data
+     */
     CustomAction = 'CustomAction',
+    /**
+     * An error has occurred
+     * @return error - An error object or message
+     */
     Error = 'Error',
+    /**
+     * An alert has been thrown
+     * @return alert - An alert object
+     */
     Alert = 'alert',
+    /**
+     * The ThoughtSpot auth session has expired
+     * @hidden
+     */
     AuthExpire = 'ThoughtspotAuthExpired',
+    /**
+     * The height of the embedded pinboard or visualization has been computed
+     * @return data - The height of the embedded pinboard or visualization
+     */
     EmbedHeight = 'EMBED_HEIGHT',
-    ExportVizDataToParent = 'exportVizDataToParent',
 }
 
 /**
@@ -96,8 +242,21 @@ export enum EmbedEvent {
  */
 // eslint-disable-next-line no-shadow
 export enum HostEvent {
+    /**
+     * Trigger a search
+     * @param dataSourceIds - The list of data source GUIDs
+     * @param searchQuery - The search query
+     */
     Search = 'search',
+    /**
+     * Apply filters
+     * @hidden
+     */
     Filter = 'filter',
+    /**
+     * Reload the answer or visualization
+     * @hidden
+     */
     Reload = 'reload',
 }
 
@@ -107,8 +266,17 @@ export enum HostEvent {
  */
 // eslint-disable-next-line no-shadow
 export enum DataSourceVisualMode {
+    /**
+     * Data source panel is hidden
+     */
     Hidden = 'hide',
+    /**
+     * Data source panel is collapsed but the user can manually expand it
+     */
     Collapsed = 'collapse',
+    /**
+     * Data source panel is expanded but the user can manually collapse it
+     */
     Expanded = 'expand',
 }
 

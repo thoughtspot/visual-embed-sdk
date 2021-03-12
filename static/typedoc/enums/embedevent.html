@@ -80,7 +80,6 @@
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#alert" class="tsd-kind-icon">Alert</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#authexpire" class="tsd-kind-icon">Auth<wbr>Expire</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#authinit" class="tsd-kind-icon">Auth<wbr>Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#customaction" class="tsd-kind-icon">Custom<wbr>Action</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#data" class="tsd-kind-icon">Data</a></li>
@@ -88,11 +87,8 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#drilldown" class="tsd-kind-icon">Drilldown</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#embedheight" class="tsd-kind-icon">Embed<wbr>Height</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#error" class="tsd-kind-icon">Error</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#exportvizdatatoparent" class="tsd-kind-icon">Export<wbr>Viz<wbr>Data<wbr>ToParent</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#filterschanged" class="tsd-kind-icon">Filters<wbr>Changed</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#init" class="tsd-kind-icon">Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#load" class="tsd-kind-icon">Load</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#querychanged" class="tsd-kind-icon">Query<wbr>Changed</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,19 +102,19 @@
 					<div class="tsd-signature tsd-kind-icon">Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;alert&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L87">types.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L226">types.ts:226</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="authexpire" class="tsd-anchor"></a>
-					<h3>Auth<wbr>Expire</h3>
-					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Expire<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ThoughtspotAuthExpired&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L88">types.ts:88</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An alert has been thrown</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>alert - An alert object</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="authinit" class="tsd-anchor"></a>
@@ -126,9 +122,19 @@
 					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;authInit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L78">types.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L177">types.ts:177</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Authentication has either succeeded or failed.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>isLoggedIn - A Boolean specifying whether authentication was successful</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="customaction" class="tsd-anchor"></a>
@@ -136,9 +142,22 @@
 					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;CustomAction&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L85">types.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L216">types.ts:216</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A custom action has been triggered</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>actionId - The id of the custom action</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>data - The answer or pinboard data</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="data" class="tsd-anchor"></a>
@@ -146,9 +165,19 @@
 					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L80">types.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L188">types.ts:188</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Data pertaining to answer or pinboard is received</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>data - The answer or pinboard data</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="datasourceselected" class="tsd-anchor"></a>
@@ -156,9 +185,19 @@
 					<div class="tsd-signature tsd-kind-icon">Data<wbr>Source<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dataSourceSelected&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L84">types.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L210">types.ts:210</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>One or more data sources have been selected</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>dataSourceIds - the list of data sources</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="drilldown" class="tsd-anchor"></a>
@@ -166,9 +205,25 @@
 					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;drillDown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L83">types.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L205">types.ts:205</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A drill down operation has been performed</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>additionalFilters - Any additonal filters applied</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>drillDownColumns - The columns on which drill down was performed</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>nonFilteredColumns - The columns that were not filtered</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="embedheight" class="tsd-anchor"></a>
@@ -176,9 +231,19 @@
 					<div class="tsd-signature tsd-kind-icon">Embed<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EMBED_HEIGHT&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L89">types.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L236">types.ts:236</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The height of the embedded pinboard or visualization has been computed</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>data - The height of the embedded pinboard or visualization</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="error" class="tsd-anchor"></a>
@@ -186,29 +251,19 @@
 					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Error&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L86">types.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L221">types.ts:221</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="exportvizdatatoparent" class="tsd-anchor"></a>
-					<h3>Export<wbr>Viz<wbr>Data<wbr>ToParent</h3>
-					<div class="tsd-signature tsd-kind-icon">Export<wbr>Viz<wbr>Data<wbr>ToParent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;exportVizDataToParent&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L90">types.ts:90</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="filterschanged" class="tsd-anchor"></a>
-					<h3>Filters<wbr>Changed</h3>
-					<div class="tsd-signature tsd-kind-icon">Filters<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;filtersChanged&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L81">types.ts:81</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An error has occurred</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>error - An error object or message</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="init" class="tsd-anchor"></a>
@@ -216,9 +271,19 @@
 					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L77">types.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L172">types.ts:172</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Rendering has initialized.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>timestamp - The timestamp when the event was fired</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="load" class="tsd-anchor"></a>
@@ -226,19 +291,20 @@
 					<div class="tsd-signature tsd-kind-icon">Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;load&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L79">types.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5ee0fa8/src/types.ts#L183">types.ts:183</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="querychanged" class="tsd-anchor"></a>
-					<h3>Query<wbr>Changed</h3>
-					<div class="tsd-signature tsd-kind-icon">Query<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;queryChanged&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ts-blink/embed-sdk/blob/2daa8d0/src/types.ts#L82">types.ts:82</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The iFrame has loaded. This only refers to the iFrame load event
+							and does not mean the ThoughtSpot app has completed loading.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>timestamp - The timestamp when the event was fired</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -270,9 +336,6 @@
 								<a href="embedevent.html#alert" class="tsd-kind-icon">Alert</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="embedevent.html#authexpire" class="tsd-kind-icon">Auth<wbr>Expire</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="embedevent.html#authinit" class="tsd-kind-icon">Auth<wbr>Init</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -294,19 +357,10 @@
 								<a href="embedevent.html#error" class="tsd-kind-icon">Error</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="embedevent.html#exportvizdatatoparent" class="tsd-kind-icon">Export<wbr>Viz<wbr>Data<wbr>ToParent</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="embedevent.html#filterschanged" class="tsd-kind-icon">Filters<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="embedevent.html#init" class="tsd-kind-icon">Init</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="embedevent.html#load" class="tsd-kind-icon">Load</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="embedevent.html#querychanged" class="tsd-kind-icon">Query<wbr>Changed</a>
 							</li>
 						</ul>
 					</li>
@@ -330,6 +384,12 @@
 					<li class=" tsd-kind-class">
 						<a href="../classes/searchembed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/embedconfig.html" class="tsd-kind-icon">Embed<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/runtimefilter.html" class="tsd-kind-icon">Runtime<wbr>Filter</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
 					</li>
@@ -345,6 +405,9 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 		</div>
 	</div>

@@ -21,18 +21,34 @@ import {
     HostEvent,
     EmbedEvent,
     MessageCallback,
+    AuthType,
 } from '../types';
-import { initialize } from '../v1/api';
+import { authenticate, isAuthenticated } from '../auth';
 
 let config = {} as EmbedConfig;
 
 /**
- * Initialize the ThoughtSpot embed settings globally
+ * Perform authentication on the ThoughtSpot app as applicable
+ */
+const handleAuth = () => {
+    if (config.authType !== AuthType.None) {
+        const authConfig = {
+            ...config,
+            thoughtSpotHost: getThoughtSpotHost(config),
+        };
+        authenticate(authConfig);
+    }
+};
+
+/**
+ * Initialize the ThoughtSpot embed settings globally and perform
+ * authentication if applicable
  * @param embedConfig The configuration object containing ThoughtSpot host,
- * authentication mecheanism etc.
+ * authentication mechanism etc.
  */
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
+    handleAuth();
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -144,19 +160,6 @@ export class TsEmbed {
      * and execute the registere callbacks accordingly
      */
     private subscribeToEvents() {
-        const onAuthExpire = () =>
-            this.executeCallbacks(EmbedEvent.AuthExpire, null);
-
-        const onInit = (isInitialized: boolean) =>
-            this.executeCallbacks(EmbedEvent.AuthInit, isInitialized);
-
-        initialize(
-            onInit,
-            onAuthExpire,
-            this.getThoughtSpotHost(),
-            config.authType,
-        );
-
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             if (event.source === this.iFrame.contentWindow) {
@@ -318,6 +321,11 @@ export class TsEmbed {
      */
     public render(...args: any[]): TsEmbed {
         this.isRendered = true;
+
+        this.executeCallbacks(EmbedEvent.AuthInit, {
+            data: { isLoggedIn: isAuthenticated() },
+        });
+
         return this;
     }
 }
