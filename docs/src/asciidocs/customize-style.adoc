@@ -219,4 +219,3 @@ Consider how the links open, by type:
 * Link in table embedded in an <iframe> - Same <iframe> that contains the table
 * Link in full ThoughtSpot application embedded in an <iframe> - Same <iframe> that contains the application
 ////
-
