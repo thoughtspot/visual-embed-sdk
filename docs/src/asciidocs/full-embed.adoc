@@ -30,7 +30,7 @@ Users in a fully  embedded application cannot perform the following tasks:
 Note the following support across browsers:
 
 Supported desktop browsers::
-Chrome, Edge, Firefox, and Opera
+Chrome, Edge, Firefox, Opera
 Supported mobile browsers::
 Android webview, Chrome for Android, Firefox for Android, Opera for Android, and Samsung Internet
 NOT supported desktop browsers::
@@ -51,12 +51,6 @@ Contact ThoughtSpot Support to enable this feature.
 ////
 == Full application embedding workflow
 
-=== Import the JavaScript library
-In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
-[source,javascript]
-----
-<script type="text/javascript" src="<file-location>/<file-name>.js"></script>
-----
 === Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
 
@@ -64,11 +58,7 @@ Import the AppEmbed SDK library to your application environment:
 ----
 import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
-=== Import styles
-[source,javascript]
-----
-import "./styles.css"
-----
+
 === Add the embed domain
 
 To allow your client application to connect to ThoughtSpot:
@@ -81,7 +71,7 @@ To allow your client application to connect to ThoughtSpot:
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: "SSO"
+        authType: AuthType.SSO,
     });
 ----
 +
