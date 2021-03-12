@@ -14,6 +14,7 @@ import {
     getRootEl,
     postMessageToParent,
 } from '../test/test-utils';
+import { PinboardViewConfig } from './pinboard';
 
 const thoughtSpotHost = 'tshost';
 const defaultViewConfig = {
@@ -108,10 +109,11 @@ describe('test communication between host app and ThoughtSpot', () => {
         embedOne.on(EmbedEvent.CustomAction, spyOne).render();
 
         const spyTwo = jest.fn();
-        const embedTwo = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        embedTwo.on(EmbedEvent.CustomAction, spyTwo).render({
+        const embedTwo = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        });
+        } as PinboardViewConfig);
+        embedTwo.on(EmbedEvent.CustomAction, spyTwo).render();
 
         const iframeOne = getIFrameEl();
         postMessageToParent(iframeOne.contentWindow, {

@@ -19,9 +19,6 @@ export interface SearchViewConfig extends ViewConfig {
     disabledActions?: Action[];
     disabledActionReason?: string;
     hiddenActions?: Action[];
-}
-
-export interface SearchRenderOptions {
     dataSources?: string[];
     searchQuery?: string;
     answerId?: string;
@@ -114,19 +111,13 @@ export class SearchEmbed extends TsEmbed {
 
     /**
      * Render ThoughtSpot search
-     * @param renderOptions An object specifying the list of dataSources,
-     * searchQuery and answerId (for loading a saved answer)
      */
-    public render({
-        dataSources,
-        searchQuery,
-        answerId,
-    }: SearchRenderOptions = {}): SearchEmbed {
+    public render(): SearchEmbed {
         super.render();
+        const { answerId, dataSources, searchQuery } = this.viewConfig;
 
         const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
         this.renderIFrame(src, this.viewConfig.frameParams);
-
         return this;
     }
 }

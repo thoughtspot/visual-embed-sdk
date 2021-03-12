@@ -319,7 +319,7 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public render(...args: any[]): TsEmbed {
+    public render(): TsEmbed {
         this.isRendered = true;
 
         this.executeCallbacks(EmbedEvent.AuthInit, {

@@ -29,7 +29,7 @@ describe('App embed tests', () => {
 
     test('should render home page by default', () => {
         const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
-        appEmbed.render({});
+        appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
         );
@@ -40,7 +40,7 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
         } as AppViewConfig);
-        appEmbed.render({});
+        appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
         );
@@ -58,10 +58,11 @@ describe('App embed tests', () => {
         const pageIds = Object.keys(pageRouteMap);
         pageIds.forEach((pageId) => {
             const route = pageRouteMap[pageId];
-            const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
-            appEmbed.render({
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
                 pageId: pageId as Page,
-            });
+            } as AppViewConfig);
+            appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
             );
@@ -73,8 +74,6 @@ describe('App embed tests', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
-        } as AppViewConfig);
-        appEmbed.render({
             runtimeFilters: [
                 {
                     columnName: 'sales',
@@ -82,7 +81,9 @@ describe('App embed tests', () => {
                     values: [1000],
                 },
             ],
-        });
+        } as AppViewConfig);
+
+        appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
         );
@@ -96,6 +97,7 @@ describe('App embed tests', () => {
             disabledActionReason: 'Access denied',
             hiddenActions: [Action.Download],
         } as AppViewConfig);
+
         appEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home?disableAction=save,update&disableHint=Access%20denied&hideAction=download`,

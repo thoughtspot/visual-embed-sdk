@@ -26,10 +26,11 @@ describe('Pinboard/viz embed tests', () => {
     });
 
     test('should render pinboard', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        pinboardEmbed.render({
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
             pinboardId,
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
         );
@@ -44,10 +45,9 @@ describe('Pinboard/viz embed tests', () => {
             ],
             disabledActionReason: 'Action denied',
             ...defaultViewConfig,
-        } as PinboardViewConfig);
-        pinboardEmbed.render({
             pinboardId,
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
         );
@@ -61,10 +61,9 @@ describe('Pinboard/viz embed tests', () => {
                 Action.DownloadAsXlsx,
             ],
             ...defaultViewConfig,
-        } as PinboardViewConfig);
-        pinboardEmbed.render({
             pinboardId,
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
         );
@@ -74,29 +73,29 @@ describe('Pinboard/viz embed tests', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,
             ...defaultViewConfig,
-        } as PinboardViewConfig);
-        pinboardEmbed.render({
             pinboardId,
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
         );
     });
 
     test('should render viz', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        pinboardEmbed.render({
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
             pinboardId,
             vizId,
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
         );
     });
 
     test('should apply runtime filters', () => {
-        const pinboardEmbed = new PinboardEmbed(getRootEl(), defaultViewConfig);
-        pinboardEmbed.render({
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
             pinboardId,
             vizId,
             runtimeFilters: [
@@ -106,7 +105,8 @@ describe('Pinboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
-        });
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
         );
@@ -116,13 +116,13 @@ describe('Pinboard/viz embed tests', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
-        } as PinboardViewConfig);
-        const onSpy = jest.spyOn(pinboardEmbed, 'on');
-
-        pinboardEmbed.render({
             pinboardId,
             vizId,
-        });
+        } as PinboardViewConfig);
+
+        const onSpy = jest.spyOn(pinboardEmbed, 'on');
+        pinboardEmbed.render();
+
         expect(onSpy).toHaveBeenCalledWith(
             EmbedEvent.EmbedHeight,
             expect.anything(),

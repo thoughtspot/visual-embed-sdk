@@ -26,9 +26,6 @@ export interface AppViewConfig extends ViewConfig {
     disabledActionReason?: string;
     hiddenActions?: Action[];
     showPrimaryNavbar?: boolean;
-}
-
-export interface AppRenderOptions {
     pageId?: Page;
     runtimeFilters?: RuntimeFilter[];
 }
@@ -111,9 +108,10 @@ export class AppEmbed extends V1Embed {
      * @param renderOptions An object containing the page id
      * to be embedded
      */
-    public render({ pageId, runtimeFilters }: AppRenderOptions = {}): AppEmbed {
+    public render(): AppEmbed {
         super.render();
 
+        const { pageId, runtimeFilters } = this.viewConfig;
         const pageRoute = this.getPageRoute(pageId);
         const src = this.getIFrameSrc(pageRoute, runtimeFilters);
         this.renderV1Embed(src);

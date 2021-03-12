@@ -25,9 +25,6 @@ export interface PinboardViewConfig extends ViewConfig {
     disabledActionReason?: string;
     hiddenActions?: Action[];
     enableVizTransformations?: boolean;
-}
-
-export interface PinboardRenderOptions {
     pinboardId: string;
     vizId?: string;
     runtimeFilters?: RuntimeFilter[];
@@ -114,14 +111,13 @@ export class PinboardEmbed extends V1Embed {
      * @param renderOptions An object specifying the pinboard id,
      * viz id and the runtime filters
      */
-    public render({
-        pinboardId,
-        vizId,
-        runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    public render(): PinboardEmbed {
+        const { pinboardId, vizId, runtimeFilters } = this.viewConfig;
+
         if (!pinboardId && !vizId) {
             this.handleError(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
+
         if (this.viewConfig.fullHeight === true) {
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
         }
