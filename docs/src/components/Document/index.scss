@@ -1,4 +1,5 @@
 @import '../../assets/styles/variables.scss';
+@import '../../assets/styles/highlight.scss';
 @import '../../assets/styles/admonition.scss';
 
 .documentWrapper {
@@ -24,6 +25,10 @@
         }
     }
 
+    .image img {
+        width: auto;
+    }
+
     img {
         width: 100%;
     }
@@ -36,22 +41,46 @@
         justify-content: space-between;
     }
 
-    pre.highlight:hover {
-        .copyButton {
-            visibility: visible;
+    pre.highlight {
+        &:hover {
+            .wrapperContainer {
+                visibility: visible;
+            }
         }
 
-        .lang {
-            visibility: visible;
+        code {
+            max-width: 88%;
         }
-    }
 
-    .lang {
-        position: relative;
-        top: -14px;
-        text-transform: uppercase;
-        visibility: hidden;
-        color: $darkgrey;
+        .wrapperContainer {
+            max-width: 12%;
+            position: relative;
+            visibility: hidden;
+
+            .lang {
+                position: absolute;
+                top: -15px;
+                right: 0px;
+                text-transform: uppercase;
+                color: $darkgrey;
+            }
+
+            .copyButton {
+                position: absolute;
+                top: 5px;
+                right: 0px;
+
+                img {
+                    width: 9px;
+                }
+            }
+
+            .tooltip {
+                position: absolute;
+                top: 7px;
+                right: 30px;
+            }
+        }
     }
 
     #preview-in-playground {
