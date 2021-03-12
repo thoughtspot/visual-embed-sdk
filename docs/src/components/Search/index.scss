@@ -6,6 +6,7 @@
     position: fixed;
     width: calc(100% - 250px);
     background: $white;
+    z-index: 99;
 }
 
 .searchInputWrapper {
