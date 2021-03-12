@@ -5,3 +5,4 @@ export const MIN_LEFT_NAV_WIDTH_DESKTOP: number = 150;
 export const MAX_LEFT_NAV_WIDTH_DESKTOP: number = 400;
 export const MIN_LEFT_NAV_WIDTH_MOBILE: number = 150;
 export const MAX_LEFT_NAV_WIDTH_MOBILE: number = 400;
+export const INTRO_WRAPPER_MARGIN_TOP: number = 81;

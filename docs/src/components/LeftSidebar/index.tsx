@@ -12,7 +12,7 @@ import {
     MAX_MOBILE_RESOLUTION,
     MIN_LEFT_NAV_WIDTH_DESKTOP,
     MIN_LEFT_NAV_WIDTH_MOBILE,
-} from '../../constants/uiContants';
+} from '../../constants/uiConstants';
 import './index.scss';
 
 const LeftSideBar = (props: {

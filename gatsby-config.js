@@ -1,5 +1,6 @@
 const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
+const { htmlToText } = require('html-to-text');
 
 class CustomDocConverter {
     constructor() {
@@ -38,7 +39,9 @@ class CustomDocConverter {
                     return `<a href="${
                         config.DOC_REPO_NAME + target
                     }">${node.getText()}</a>`;
-                } else if (!target.startsWith('#')) {
+                }
+
+                if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
                         target.lastIndexOf('.html'),
@@ -62,7 +65,7 @@ module.exports = {
     plugins: [
         'gatsby-plugin-sass',
         {
-            resolve: `gatsby-plugin-page-creator`,
+            resolve: 'gatsby-plugin-page-creator',
             options: {
                 path: `${__dirname}/docs/src/pages`,
             },
@@ -92,7 +95,7 @@ module.exports = {
             __key: 'asciidocs_common',
         },
         {
-            resolve: `gatsby-plugin-intl`,
+            resolve: 'gatsby-plugin-intl',
             options: {
                 // language JSON resource path
                 path: `${__dirname}/docs/src/intl`,
@@ -105,15 +108,107 @@ module.exports = {
             },
         },
         {
-            resolve: `gatsby-transformer-asciidoc`,
+            resolve: 'gatsby-transformer-asciidoc',
             options: {
                 attributes: {
                     showtitle: true,
-                    imagesdir: `/doc-images`,
+                    imagesdir: '/doc-images',
                 },
                 fileExtensions: ['ad', 'adoc'],
                 converterFactory: CustomDocConverter,
             },
+        },
+        {
+            resolve: 'gatsby-plugin-local-search',
+            options: {
+                name: 'pages',
+                engine: 'flexsearch',
+                engineOptions: 'speed',
+                query: `
+                query {
+                    allAsciidoc(sort: { fields: [document___title], order: ASC }) {
+                        edges {
+                            node {
+                                document {
+                                    title
+                                }
+                                pageAttributes {
+                                    pageid
+                                    title
+                                    description
+                                }
+                                html
+                            }
+                        }
+                    }
+                    allFile(filter: {sourceInstanceName: {eq: "htmlFiles"}}) {
+                        edges {
+                          node {
+                            extension
+                            dir
+                            name
+                            childHtmlRehype {
+                              html
+                              htmlAst
+                            }
+                          }
+                        }
+                    }
+                }
+                `,
+                ref: 'pageid',
+                index: ['title', 'body', 'pageid'],
+                store: ['pageid', 'title', 'redirectURL'],
+                normalizer: ({ data }) => {
+                    return [
+                        ...data.allAsciidoc.edges
+                            .filter(
+                                (edge) =>
+                                    edge.node.pageAttributes.pageid &&
+                                    edge.node.pageAttributes.pageid !== 'nav',
+                            )
+                            .map((edge) => {
+                                const pageid = edge.node.pageAttributes.pageid;
+                                return {
+                                    pageid,
+                                    redirectURL: `?pageid=${pageid}`,
+                                    title: edge.node.document.title,
+                                    body: htmlToText(edge.node.html),
+                                };
+                            }),
+                        ...data.allFile.edges
+                            .filter((edge) => edge.node.extension === 'html')
+                            .map((edge) => {
+                                const pageid = edge.node.name;
+                                return {
+                                    pageid,
+                                    redirectURL: pageid,
+                                    title: edge.node.childHtmlRehype.htmlAst.children.find(
+                                        (children) =>
+                                            children.tagName === 'title',
+                                    ).children[0].value,
+                                    body: htmlToText(
+                                        edge.node.childHtmlRehype.html,
+                                    ),
+                                };
+                            }),
+                    ];
+                },
+            },
+        },
+        {
+            resolve: 'gatsby-transformer-rehype',
+            options: {
+                mediaType: 'text/html',
+            },
+        },
+        {
+            resolve: 'gatsby-source-filesystem',
+            options: {
+                name: 'htmlFiles',
+                path: `${__dirname}/static/typedoc/`,
+            },
+            __key: 'htmlFiles',
         },
     ],
 };
