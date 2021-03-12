@@ -14,26 +14,28 @@ import { PinboardEmbed } from './embed/pinboard';
 import { SearchEmbed } from './embed/search';
 import {
     AuthType,
+    RuntimeFilter,
     RuntimeFilterOp,
     EmbedEvent,
     HostEvent,
     DataSourceVisualMode,
     Action,
+    EmbedConfig,
 } from './types';
-import { authenticate } from './auth';
 
 export {
     init,
-    authenticate,
     SearchEmbed,
     PinboardEmbed,
     AppEmbed,
     // types
     Page,
     AuthType,
+    RuntimeFilter,
     RuntimeFilterOp,
     EmbedEvent,
     HostEvent,
     DataSourceVisualMode,
     Action,
+    EmbedConfig,
 };

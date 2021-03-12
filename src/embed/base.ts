@@ -41,9 +41,10 @@ const handleAuth = () => {
 };
 
 /**
- * Initialize the ThoughtSpot embed settings globally
+ * Initialize the ThoughtSpot embed settings globally and perform
+ * authentication if applicable
  * @param embedConfig The configuration object containing ThoughtSpot host,
- * authentication mecheanism etc.
+ * authentication mechanism etc.
  */
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
