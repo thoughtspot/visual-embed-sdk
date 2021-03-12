@@ -352,4 +352,11 @@ export enum Action {
     AnalysisInfo = 'analysisInfo',
     Subscription = 'subscription',
     Explore = 'explore',
+    DrillInclude = 'context-menu-item-include',
+    DrillExlude = 'context-menu-item-exclude',
+    CopyToClipboard = 'context-menu-item-copy-to-clipboard',
+    DrillEdit = 'context-menu-item-edit',
+    EditMeasure = 'context-menu-item-edit-measure',
+    Separator = 'context-menu-item-separator',
+    Drill = 'DRILL',
 }
