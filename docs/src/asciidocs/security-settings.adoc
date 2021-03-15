@@ -40,7 +40,7 @@ If CORS is enabled, the `Access-Control-Allow-Origin` header is added in the API
 
 To prevent cross-site scripting attacks, ThoughtSpot recommends that you configure content security settings.
 
-To allow only trusted domains, you must add the host application domain and other trusted domains to the CSP whitelist on the SpotDev *Settings* page.
+To allow only trusted domains, you must add the host application domain and other trusted domains to the CSP whitelist on the *Settings* page of *Developer Hub*.
 
 == Enable same-site access
 
@@ -67,7 +67,7 @@ The ThoughtSpot embedding solution allows embedding ThoughtSpot content in a cli
 To whitelist client application domains, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
-. Click the *SpotDev* tab.
+. Click the *Develop* tab.
 . Under *Customizations*, click *Settings*.
 . Add the domains to whitelist for Cross-Origin Resource Sharing (CORS) and Content-Security Policy (CSP).
 +

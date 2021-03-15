@@ -27,7 +27,7 @@ You can customize the following ThoughtSpot UI style components:
 
 To access style customization settings:
 
-. Go to the SpotDev portal.
+. Go to the Developer Hub.
 . Sign in with your ThoughtSpot user credentials.
 . Under *Customizations*, click *Styles*.
 
@@ -39,7 +39,7 @@ For more information on setting UI styles from the *Admin* console, see link:htt
 == Change application logo and favicon
 To upload your application logos:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . To upload the default logo:
 .. Click *Application Logo (Default)*.
 .. Browse to your local directory and select logo image.
@@ -96,7 +96,7 @@ Before you begin, make sure you have the WOFF files available for the fonts you 
 === Update fonts
 To update fonts:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . To update fonts for charts, go to *Chart Visualization Fonts*, and select a chart label.
 . To update fonts for tables, go to *Table Visualization Fonts*.
 +
@@ -127,7 +127,7 @@ The custom background color is applied to the embed visualizations, pinboards, a
 
 To choose a background color for the ThoughtSpot application:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . Click the background color box under *Embedded Application Background*.
 +
 image::./images/set-background-color.png[Application Background Color]
@@ -143,7 +143,7 @@ The custom background color is applied to the navigation panel of the ThoughtSpo
 
 To choose a background color for the navigation panel:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . Click the background color box under *Navigation Panel Color*.
 . Use the color menu to choose your new background color.
 +
@@ -155,7 +155,7 @@ You can define a set of primary and secondary colors for chart visualizations. T
 
 To change the color palette for charts:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . Click the background color box under *Chart Color Palettes*.
 . Click the color you would like to change in the *primary* color palette, and use the color menu to choose your new color.
 +
@@ -184,7 +184,7 @@ The ThoughtSpot footer appears by default in the ThoughtSpot application. You ca
 
 To change the footer text:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . Click the text box under *Footer text*.
 . Enter your new text message.
 +
@@ -195,7 +195,7 @@ Your new text message will automatically be displayed in the footer.
 
 To customize the page title displayed in the browser bar:
 
-. Go to *SpotDev* > *Customizations* > *Styles*.
+. Go to *Develop* > *Customizations* > *Styles*.
 . Click the text box under *Page title*.
 . Enter your new text message.
 

@@ -17,7 +17,7 @@ ThoughtSpot supports SAML SSO and trusted authentication services.
 
 * Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
 * Verify if the same-site cookie setting is set to `none`.
-* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to SpotDev. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *SpotDev* tab.
+* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to ThoughtSpot Developer Hub. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
 
 == Prepare your project environment
 The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package.
@@ -46,4 +46,3 @@ To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboa
 * *AppEmbed*
 +
 To embed xref:full-embed.adoc[the full ThoughtSpot application].
-

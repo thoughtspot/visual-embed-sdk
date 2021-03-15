@@ -71,7 +71,7 @@ If you have to redirect SAML users to a login URL to a host server in a differen
 To whitelist a SAML redirect domain, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
-. Click the *SpotDev* tab.
+. Click the *Develop* tab.
 . Under *Customizations*, click *Settings*.
 . In SAML redirect domains, add the domains to whitelist.
 +
