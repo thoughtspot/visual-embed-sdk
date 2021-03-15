@@ -194,6 +194,7 @@ export class TsEmbed {
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
+        // eslint-disable-next-line no-underscore-dangle
         return event.data?.type || event.data?.__type;
     }
 
