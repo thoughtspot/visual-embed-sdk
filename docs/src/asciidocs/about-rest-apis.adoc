@@ -10,8 +10,8 @@ Client applications can use the REST APIs for the following purpose:
 
 * get the pinboard and visualization data from the ThoughtSpot application.
 * list the metadata object and visualization headers in the repository.
-* transfer ownership of all objects from one user to another and more. 
-* embed data from visualizations and pinboards in a web page, portal, or application. 
+* transfer ownership of all objects from one user to another and more.
+* embed data from visualizations and pinboards in a web page, portal, or application.
 
 The REST APIs return data as a JSON string. To embed data into your application, extract the data from the JSON file, and render it on your Web page.
 
@@ -69,8 +69,8 @@ To access APIs on Swagger:
 . Go to the Swagger portal.
 +
 ----
-https://<your-thoughtspot.com>/external/swagger 
+https://<your-thoughtspot.com>/external/swagger
 ----
-The portal displays a list of REST API services available for ThoughtSpot users.   
-. Click on a header to expand and view the list of services.  
+The portal displays a list of REST API services available for ThoughtSpot users.
+. Click on a header to expand and view the list of services.
 . Click on a service name to view more details about the API service.

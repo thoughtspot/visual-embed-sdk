@@ -1,20 +1,20 @@
-= ThoughtSpot SpotDev portal
+= ThoughtSpot Developer portal
 :toc: true
 
-:page-title: ThoughtSpot SpotDev Portal
+:page-title: ThoughtSpot Developer portal
 :page-pageid: spotdev-portal
-:page-description: Using ThoughtSpot SpotDev Portal
+:page-description: Using ThoughtSpot Developer portal
 
-The ThoughtSpot SpotDev portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
-The SpotDev portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
+The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
+The Developer portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
 
-== Access SpotDev portal
+== Access Developer portal
 
-To access SpotDev portal, follow these steps:
+To access Developer portal, follow these steps:
 
 If you are an existing ThoughtSpot user: ::
 . Sign in to your ThoughtSpot Cloud application instance.
-. Navigate to the **SpotDev** tab.
+. Navigate to the **Develop** tab.
 If you are a new user: ::
 . Register for a free trial.
 . Sign in to free trail cluster to evaluate the embedding workflows.
@@ -27,19 +27,19 @@ If you are a new user::
 
 If you are an existing ThoughtSpot Cloud user::
 . Sign in to ThoughtSpot Cloud.
-. Navigate to the *SpotDev* tab.
-. Explore the SpotDev portal features, and build your sample code in *Playground*.
-The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
+. Navigate to the *Develop* tab.
+. Explore the Developer portal features, and build your sample code in *Playground*.
+The Developer portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 ////
 
-. Explore the SpotDev portal features, and build your sample code in *Playground*.
-The SpotDev portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
+. Explore the Developer portal features, and build your sample code in *Playground*.
+The Developer portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 
 == Find your way around
-The SpotDev portal includes several sections to assist you through your embedding journey.
+The Developer portal includes several sections to assist you through your embedding journey.
 
 Home::
-The *Home* page of the SpotDev portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
+The *Home* page of the *Developer Hub* provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
 The home page also includes links to the *Developer Guides* and the *Playground* to preview the toolkit.
 
 Guide::
@@ -57,7 +57,7 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 ++++
 
 Customizations::
-For ThoughtSpot users with administrator and developer privileges, the SpotDev portal displays the following customization settings:
+For ThoughtSpot users with administrator and developer privileges, the *Developer Hub* page displays the following customization settings:
 
 * *Styles*
 +
@@ -88,6 +88,11 @@ Minimizes the data panel on the left navigation bar.
 +
 Hide data panel::
 Hides the default data panel.
++
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 +
 Hide chart or table::
@@ -95,12 +100,12 @@ Hides the visualizations displayed as search results.
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page.
 +
 For example:
 
 +
-* To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`. 
+* To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`.
 +
 ----
 disabledActions: ['replaySearch']
@@ -123,7 +128,7 @@ Enables the Search Assist feature that helps users with simple search scenarios.
 +
 Add search tokens::
 Enables constructing a search query using search tokens.
-+ 
++
 In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
 
 +
@@ -143,7 +148,7 @@ _Integer_. The batch size for loading search objects. The default value is `-1`.
 `pagenumber`::
 _Integer_.Alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
 
-+ 
++
 ----
 indexingOffset = (pageNumber - 1) * batchSize
 ----
@@ -171,11 +176,11 @@ To explore the API for embedding visualizations:
 +
 Modify available actions::
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page.
 +
 For example:
 
-* To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`: 
+* To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`:
 
 +
 ----
@@ -196,9 +201,9 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 
 Set runtime filters::
-Applies Runtime Filters to a visualization. Runtime filters provide the ability to filter data at the time of retrieval. 
+Applies Runtime Filters to a visualization. Runtime filters provide the ability to filter data at the time of retrieval.
 +
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
 +
 +
@@ -213,15 +218,15 @@ To explore the Pinboard API:
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
 
-+ 
++
 
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page.
 
 +
 For example:
 
-* To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`. 
+* To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`.
 
 +
 
@@ -244,11 +249,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 Set runtime filters::
 Applies Runtime Filters to a visualization in a pinboard.
-+ 
++
 Runtime filters provide the ability to filter data at the time of retrieval.
 
 +
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
 +
 +
@@ -277,4 +282,3 @@ Sets filters that will apply to visualizations and pinboards on any tab.
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
 * To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
 * If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as CORS, trusted authentication service, and domain whitelisting, go to *Customizations* > *Settings*.
-

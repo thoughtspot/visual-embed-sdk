@@ -26,7 +26,7 @@ ThoughtSpot allows adding one custom menu item and one callback function for eac
 == Add a custom menu item
 To add custom menu item:
 
-. Go to *SpotDev* > *Customizations* > *Actions*.
+. Go to *Develop* > *Customizations* > *Actions*.
 . Click *Create new action*.
 . Add a label for the menu item. For example, Billing Renewal.
 . Add the URL of the application to which you want to attach the action.
@@ -53,7 +53,7 @@ You can configure the callback function in the embedded pages to fetch data or a
 
 To add a callback function:
 
-. Go to *SpotDev* > *Customizations* > *Actions*.
+. Go to *Develop* > *Customizations* > *Actions*.
 . Click *Add custom action item*.
 . Add a label for the menu item.
 . Add an ID for the callback function.
@@ -66,4 +66,3 @@ Make sure you use the same ID to register the callback function on your host app
 . Select the ThoughtSpot application pages to which you want to add the function.
 . Click *Add action*.
 . To view the action you just added, click *My actions*.
-
