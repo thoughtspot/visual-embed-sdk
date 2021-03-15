@@ -7,20 +7,44 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { Action, DataSourceVisualMode, DOMSelector, Param } from '../types';
+import { DataSourceVisualMode, DOMSelector, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
+/**
+ * The configuration of the embedded search view
+ */
 export interface SearchViewConfig extends ViewConfig {
+    /**
+     * If set to true, the data sources panel is collapsed on load
+     * but can be expanded manually
+     */
     collapseDataSources?: boolean;
+    /**
+     * If set to true, the data sources panel is hidden and cannot
+     * be expanded manually
+     */
     hideDataSources?: boolean;
+    /**
+     * If set to true, the results area is hidden. This can be used to
+     * roll out one's own custom visualization using raw answer data
+     */
     hideResults?: boolean;
+    /**
+     * If set to true, the search assist feature is enabled
+     */
     enableSearchAssist?: boolean;
-    disabledActions?: Action[];
-    disabledActionReason?: string;
-    hiddenActions?: Action[];
+    /**
+     * The array of data source GUIDs to set on load
+     */
     dataSources?: string[];
+    /**
+     * The initial search query to load the answer with
+     */
     searchQuery?: string;
+    /**
+     * The GUID of a saved answer to load initially
+     */
     answerId?: string;
 }
 

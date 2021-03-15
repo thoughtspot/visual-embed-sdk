@@ -22,6 +22,8 @@ import {
     EmbedEvent,
     MessageCallback,
     AuthType,
+    Action,
+    RuntimeFilter,
 } from '../types';
 import { authenticate, isAuthenticated } from '../auth';
 
@@ -54,18 +56,60 @@ export const init = (embedConfig: EmbedConfig): void => {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LayoutConfig {}
 
+/**
+ * Embedded iFrame configuration
+ */
 export interface FrameParams {
-    // unit is pixels if number
+    /**
+     * The width of the iFrame (unit is pixels if numeric)
+     */
     width?: number | string;
+    /**
+     * The height of the iFrame (unit is pixels if numeric)
+     */
     height?: number | string;
 }
 
+/**
+ * The configuration object for an embedded view
+ */
 export interface ViewConfig {
+    /**
+     * @hidden
+     */
     layoutConfig?: LayoutConfig;
+    /**
+     * The configuration of the iFrame
+     */
     frameParams?: FrameParams;
+    /**
+     * @hidden
+     */
     theme?: string;
+    /**
+     * @hidden
+     */
     // eslint-disable-next-line camelcase
     styleSheet__unstable?: string;
+    /**
+     * The list of actions to disable from primary actions,
+     * menu item actions and context menu actions
+     */
+    disabledActions?: Action[];
+    /**
+     * The tooltip to display for disabled actions
+     */
+    disabledActionReason?: string;
+    /**
+     * The list of actions to hide from primary actions,
+     * menu item actions and context menu actions
+     */
+    hiddenActions?: Action[];
+    /**
+     * The list of runtime filters to apply to the answer,
+     * visualization or pinboard
+     */
+    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
@@ -149,8 +193,9 @@ export class TsEmbed {
      * Extract the type field from the event payload
      * @param event The window message event
      */
-    protected getEventType(event: MessageEvent) {
-        return event.data?.type;
+    private getEventType(event: MessageEvent) {
+        // eslint-disable-next-line no-underscore-dangle
+        return event.data?.type || event.data?.__type;
     }
 
     /**
@@ -349,26 +394,5 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
-    }
-
-    /**
-     * @override
-     * @param event
-     */
-    protected getEventType(event: MessageEvent) {
-        // eslint-disable-next-line no-underscore-dangle
-        return event.data?.__type;
-    }
-
-    /**
-     * @override
-     * @param messageType
-     * @param callback
-     */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
-    ): typeof TsEmbed.prototype {
-        return super.on(messageType, callback);
     }
 }
