@@ -7,7 +7,7 @@
 * Embed ThoughtSpot
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
-** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer Hub]
+** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
@@ -45,9 +45,10 @@
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]
 *** link:{{navprefix}}=session-api[Session API]
-*** link:{{navprefix}}=pinboard-api[Pinboard data API]
 *** link:{{navprefix}}=metadata-api[Metadata API]
 *** link:{{navprefix}}=search-data-api[Search data API]
+*** link:{{navprefix}}=pinboard-api[Pinboard data API]
+*** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
 ////
 * xref:docs:glossary.adoc[Glossary]
 * Frequently asked questions
