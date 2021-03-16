@@ -46,10 +46,12 @@ describe('test communication between host app and ThoughtSpot', () => {
             })
             .render();
 
-        const iframe = getIFrameEl();
-        postMessageToParent(iframe.contentWindow, {
-            type: EmbedEvent.CustomAction,
-            data: PAYLOAD,
+        executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.CustomAction,
+                data: PAYLOAD,
+            });
         });
     });
 
@@ -72,12 +74,14 @@ describe('test communication between host app and ThoughtSpot', () => {
                 body: PAYLOAD,
             });
         }, EVENT_WAIT_TIME);
-        const iframe = getIFrameEl();
+        executeAfterWait(() => {
+            const iframe = getIFrameEl();
 
-        iframe.contentWindow.addEventListener('message', (e) => {
-            expect(e.data.type).toBe(HostEvent.Search);
-            expect(e.data.data.body).toBe(PAYLOAD);
-            done();
+            iframe.contentWindow.addEventListener('message', (e) => {
+                expect(e.data.type).toBe(HostEvent.Search);
+                expect(e.data.data.body).toBe(PAYLOAD);
+                done();
+            });
         });
     });
 
@@ -91,10 +95,12 @@ describe('test communication between host app and ThoughtSpot', () => {
             .on(EmbedEvent.CustomAction, handlerTwo)
             .render();
 
-        const iframe = getIFrameEl();
-        postMessageToParent(iframe.contentWindow, {
-            type: EmbedEvent.CustomAction,
-            data: PAYLOAD,
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.CustomAction,
+                data: PAYLOAD,
+            });
         });
 
         await executeAfterWait(() => {
@@ -115,10 +121,12 @@ describe('test communication between host app and ThoughtSpot', () => {
         } as PinboardViewConfig);
         embedTwo.on(EmbedEvent.CustomAction, spyTwo).render();
 
-        const iframeOne = getIFrameEl();
-        postMessageToParent(iframeOne.contentWindow, {
-            type: EmbedEvent.CustomAction,
-            data: PAYLOAD,
+        await executeAfterWait(() => {
+            const iframeOne = getIFrameEl();
+            postMessageToParent(iframeOne.contentWindow, {
+                type: EmbedEvent.CustomAction,
+                data: PAYLOAD,
+            });
         });
 
         await executeAfterWait(() => {
