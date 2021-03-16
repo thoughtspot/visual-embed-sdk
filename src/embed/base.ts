@@ -29,17 +29,17 @@ import { authenticate, isAuthenticated } from '../auth';
 
 let config = {} as EmbedConfig;
 
+let authPromise: Promise<void>;
+
 /**
  * Perform authentication on the ThoughtSpot app as applicable
  */
 const handleAuth = () => {
-    if (config.authType !== AuthType.None) {
-        const authConfig = {
-            ...config,
-            thoughtSpotHost: getThoughtSpotHost(config),
-        };
-        authenticate(authConfig);
-    }
+    const authConfig = {
+        ...config,
+        thoughtSpotHost: getThoughtSpotHost(config),
+    };
+    authPromise = authenticate(authConfig);
 };
 
 /**
@@ -266,28 +266,38 @@ export class TsEmbed {
                 timestamp: Date.now(),
             },
         });
-        this.iFrame = document.createElement('iframe');
-        this.iFrame.src = url;
-        const width = getCssDimension(
-            frameOptions?.width || DEFAULT_EMBED_WIDTH,
-        );
-        const height = getCssDimension(
-            frameOptions?.height || DEFAULT_EMBED_HEIGHT,
-        );
-        this.iFrame.style.width = `${width}`;
-        this.iFrame.style.height = `${height}`;
-        this.iFrame.style.border = '0';
-        this.iFrame.name = 'ThoughtSpot Embedded Analytics';
-        this.iFrame.addEventListener('load', () =>
-            this.executeCallbacks(EmbedEvent.Load, {
-                data: {
-                    timestamp: Date.now(),
-                },
-            }),
-        );
-        this.el.appendChild(this.iFrame);
 
-        this.subscribeToEvents();
+        authPromise
+            ?.then(() => {
+                this.executeCallbacks(EmbedEvent.AuthInit, {
+                    data: { isLoggedIn: isAuthenticated() },
+                });
+
+                this.iFrame = this.iFrame || document.createElement('iframe');
+                this.iFrame.src = url;
+                const width = getCssDimension(
+                    frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                );
+                const height = getCssDimension(
+                    frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                );
+                this.iFrame.style.width = `${width}`;
+                this.iFrame.style.height = `${height}`;
+                this.iFrame.style.border = '0';
+                this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+                this.iFrame.addEventListener('load', () =>
+                    this.executeCallbacks(EmbedEvent.Load, {
+                        data: {
+                            timestamp: Date.now(),
+                        },
+                    }),
+                );
+                this.el.appendChild(this.iFrame);
+                this.subscribeToEvents();
+            })
+            .catch((error) => {
+                this.handleError(error);
+            });
     }
 
     /**
@@ -366,10 +376,6 @@ export class TsEmbed {
      */
     public render(): TsEmbed {
         this.isRendered = true;
-
-        this.executeCallbacks(EmbedEvent.AuthInit, {
-            data: { isLoggedIn: isAuthenticated() },
-        });
 
         return this;
     }

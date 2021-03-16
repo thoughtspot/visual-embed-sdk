@@ -10,6 +10,7 @@ const EndPoints = {
     SSO_LOGIN_TEMPLATE: (targetUrl: string) =>
         `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
+    BASIC_LOGIN: '/callosum/v1/session/login',
 };
 
 /**
@@ -85,6 +86,36 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
 };
 
 /**
+ * Perform basic authentication to the ThoughtSpot cluster using the cluster
+ * credentials.
+ * Warning: This feature is primarily intended for developer testing and it is
+ * strongly advised not to use this in production
+ * @param embedConfig The embed configuration
+ */
+export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
+    const { thoughtSpotHost, username, password } = embedConfig;
+    const loggedIn = await isLoggedIn(thoughtSpotHost);
+    if (!loggedIn) {
+        const response = await fetch(
+            `${thoughtSpotHost}${EndPoints.BASIC_LOGIN}`,
+            {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'x-requested-by': 'ThoughtSpot',
+                },
+                body: `username=${encodeURIComponent(
+                    username,
+                )}&password=${encodeURIComponent(password)}`,
+            },
+        );
+        loggedInStatus = response.status === 200;
+    }
+
+    loggedInStatus = true;
+};
+
+/**
  * Perform SAML authentication
  * @param embedConfig The embed configuration
  */
@@ -131,13 +162,13 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:
-            doSamlAuth(embedConfig);
-            break;
+            return doSamlAuth(embedConfig);
         case AuthType.AuthServer:
-            doTokenAuth(embedConfig);
-            break;
+            return doTokenAuth(embedConfig);
+        case AuthType.Basic:
+            return doBasicAuth(embedConfig);
         default:
-            break;
+            return null;
     }
 };
 

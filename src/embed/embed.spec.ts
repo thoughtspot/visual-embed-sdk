@@ -27,7 +27,7 @@ describe('test view config', () => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test('should apply width and height to the iframe', () => {
+    test('should apply width and height to the iframe', async () => {
         const width = 800;
         const height = 600;
 
@@ -40,9 +40,11 @@ describe('test view config', () => {
         });
         searchEmbed.render();
 
-        const iframe = getIFrameEl();
-        expect(iframe.style.width).toBe(`${width}px`);
-        expect(iframe.style.height).toBe(`${height}px`);
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            expect(iframe.style.width).toBe(`${width}px`);
+            expect(iframe.style.height).toBe(`${height}px`);
+        });
     });
 
     test('trying to register event handler after render should throw error', async () => {

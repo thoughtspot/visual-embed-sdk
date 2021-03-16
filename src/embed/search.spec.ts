@@ -1,7 +1,12 @@
 import { SearchEmbed } from './search';
 import { init } from '../index';
 import { Action, AuthType } from '../types';
-import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
+import {
+    executeAfterWait,
+    getDocumentBody,
+    getIFrameSrc,
+    getRootEl,
+} from '../test/test-utils';
 
 const defaultViewConfig = {
     frameParams: {
@@ -24,27 +29,31 @@ describe('Search embed tests', () => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test('should render', () => {
+    test('should render', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should pass in data sources', () => {
+    test('should pass in data sources', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             dataSources,
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should pass in search query', () => {
+    test('should pass in search query', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -52,12 +61,14 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should collapse data sources', () => {
+    test('should collapse data sources', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -66,12 +77,14 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=collapse&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should hide data sources', () => {
+    test('should hide data sources', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -80,12 +93,14 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should disable actions', () => {
+    test('should disable actions', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -95,23 +110,27 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should enable search assist', () => {
+    test('should enable search assist', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             enableSearchAssist: true,
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/answer?enableSearchAssist=true&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should hide actions', () => {
+    test('should hide actions', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             hiddenActions: [
                 Action.DownloadAsCsv,
@@ -122,12 +141,14 @@ describe('Search embed tests', () => {
             answerId,
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should disable and hide actions', () => {
+    test('should disable and hide actions', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             disabledActions: [Action.DownloadAsXlsx],
             hiddenActions: [Action.DownloadAsCsv],
@@ -136,19 +157,23 @@ describe('Search embed tests', () => {
             answerId,
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 
-    test('should load saved answer', () => {
+    test('should load saved answer', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             answerId,
         });
         searchEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?dataSourceMode=expand&useLastSelectedSources=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/#/embed/saved-answer/${answerId}?dataSourceMode=expand&useLastSelectedSources=false`,
+            );
+        });
     });
 });
