@@ -1,9 +1,11 @@
-= ThoughtSpot Developer portal
+
+= ThoughtSpot Developer Hub
 :toc: true
 
-:page-title: ThoughtSpot Developer portal
+:page-title: ThoughtSpot Developer Hub
 :page-pageid: spotdev-portal
-:page-description: Using ThoughtSpot Developer portal
+:page-description: Using ThoughtSpot Developer Hub
+
 
 The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
 The Developer portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
@@ -47,14 +49,15 @@ The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The d
 
 Playground::
 The *Playground* provides an API playground to explore the following ThoughtSpot features.
-* Search
-* Visualizations
-* Pinboards
-* Full application
+* xref:spotdev-portal.adoc##playground-search[Search]
+* xref:spotdev-portal.adoc##playground-visualization[Visualizations]
+* xref:spotdev-portal.adoc##playground-pinboard[Pinboards]
+* xref:spotdev-portal.adoc##playground-fullapp[Full application]
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Visit Playground</a>
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
 ++++
+
 
 Customizations::
 For ThoughtSpot users with administrator and developer privileges, the *Developer Hub* page displays the following customization settings:
@@ -74,7 +77,7 @@ Security controls for accessing embedded content from external applications.
 == Explore the APIs
 ThoughtSpot provides a set of APIs, SDK, and developer tools to integrate search analytics, data insights, visualizations, pinboards, and even the entire ThoughtSpot application in an external application, portal, or business solution.
 The *Playground* allows developers to preview the code, test it, and familiarize themselves with the application controls.
-
+[#playground-search]
 === Search
 To explore the search embed API and preview the code:
 
@@ -84,6 +87,11 @@ To explore the search embed API and preview the code:
 +
 Collapse data panel::
 Minimizes the data panel on the left navigation bar.
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 
 +
 Hide data panel::
@@ -94,16 +102,24 @@ Hides the default data panel.
 <a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
+
+
 +
 Hide chart or table::
 Hides the visualizations displayed as search results.
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 
 +
 Modify available actions::
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page.
 +
-For example:
-
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 +
 * To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`.
 +
@@ -124,11 +140,22 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 Enable Search Assist::
 Enables the Search Assist feature that helps users with simple search scenarios. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 
 +
 Add search tokens::
 Enables constructing a search query using search tokens.
 +
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
++ 
+
 In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
 
 +
@@ -166,6 +193,7 @@ For more information on the search tokens and query string components, see xref:
 
 . Click *Run*.
 
+[#playground-visualization]
 === Visualization
 To explore the API for embedding visualizations:
 
@@ -176,9 +204,14 @@ To explore the API for embedding visualizations:
 +
 Modify available actions::
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page.
+
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
+
+
 +
-For example:
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 * To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`:
 
@@ -201,16 +234,33 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 
 Set runtime filters::
-Applies Runtime Filters to a visualization. Runtime filters provide the ability to filter data at the time of retrieval.
+
+Enables Runtime Filters. 
 +
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 +
+Runtime filters provide the ability to filter data at the time of retrieval.  
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
+
++
+----
+runtimeFilters: [{
+  columnName: 'color',
+  operator: RuntimeFilterOp.EQ,
+  values: [ 'red' ]
+  }]
+----
+
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
 . Click *Run*.
 
+[#playground-pinboard]
 === Pinboard
 To explore the Pinboard API:
 
@@ -218,13 +268,16 @@ To explore the Pinboard API:
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
 
-+
+
++ 
 
 Modify available actions::
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page.
 
 +
-For example:
+++++
+<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 * To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`.
 
@@ -242,18 +295,20 @@ disabledActions: ['downloadAsPdf']
 ----
 hiddenActions: ['downloadAsPdf']
 ----
-
-
 +
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
 Set runtime filters::
-Applies Runtime Filters to a visualization in a pinboard.
-+
-Runtime filters provide the ability to filter data at the time of retrieval.
+
+Enables Runtime Filters on a visualization in a pinboard.
 
 +
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
+++++
+<a href="{{tshost}}/#/everywhere/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+Runtime filters provide the ability to filter data at the time of retrieval.
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
 
 +
 +
@@ -261,6 +316,7 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud
 
 . Click *Run*.
 
+[#playground-fullapp]
 === Full Application
 To explore the API for embedding full application:
 
@@ -271,11 +327,10 @@ To explore the API for embedding full application:
 Show navigation bar::
 Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
 +
-////
-+
-Set runtime filters::
-Sets filters that will apply to visualizations and pinboards on any tab.
-////
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 . Click *Run*.
 
 == Customize embedded content

@@ -7,7 +7,7 @@
 * Embed ThoughtSpot
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
-** link:{{navprefix}}=spotdev-portal[SpotDev portal]
+** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer Hub]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
