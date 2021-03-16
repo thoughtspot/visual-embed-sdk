@@ -63,25 +63,27 @@
             .lang {
                 position: absolute;
                 top: -15px;
-                right: 0px;
+                right: 36px;
                 text-transform: uppercase;
                 color: $darkgrey;
             }
 
             .copyButton {
                 position: absolute;
-                top: 5px;
+                top: -15px;
                 right: 0px;
+                border: 0;
+                background: transparent;
 
                 img {
-                    width: 9px;
+                    width: 15px;
                 }
             }
 
             .tooltip {
                 position: absolute;
-                top: 7px;
-                right: 30px;
+                top: 15px;
+                right: -8px;
             }
         }
     }
