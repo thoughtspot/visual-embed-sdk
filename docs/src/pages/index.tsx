@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,Suspense,lazy} from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-import Docmap from '../components/Docmap';
-import Document from '../components/Document';
+const Docmap = React.lazy(()=>import('../components/Docmap'));
+const Document = React.lazy(()=>import('../components/Document'));
 import LeftSidebar from '../components/LeftSidebar';
-import Search from '../components/Search';
+const Search = React.lazy(()=>import('../components/Search'));
 import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -21,6 +21,7 @@ import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
+    INTRO_WRAPPER_MARGIN_TOP,
 } from '../constants/uiConstants';
 
 // markup
@@ -82,22 +83,25 @@ const IndexPage = ({ location }) => {
     };
 
     useEffect(() => {
+        async function fetchData(){
+            const navIndex = edges.findIndex(
+                (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
+            );
+    
+            // get & set left navigation title
+            setNavTitle(edges[navIndex].node.pageAttributes.title);
+    
+            // get & set left navigation area content with dynamic link creation
+            setNavContent(passThroughHandler(edges[navIndex].node.html, params));
+    
+            // get & set left navigation 'SpotDev Home' button url
+            setBackLink(params[TS_ORIGIN_PARAM]);
+    
+            // set page title and content based on pageid
+            await setPageContent(params[TS_PAGE_ID_PARAM]);
+        }
         // fetch navigation page index
-        const navIndex = edges.findIndex(
-            (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
-        );
-
-        // get & set left navigation title
-        setNavTitle(edges[navIndex].node.pageAttributes.title);
-
-        // get & set left navigation area content with dynamic link creation
-        setNavContent(passThroughHandler(edges[navIndex].node.html, params));
-
-        // get & set left navigation 'SpotDev Home' button url
-        setBackLink(params[TS_ORIGIN_PARAM]);
-
-        // set page title and content based on pageid
-        setPageContent(params[TS_PAGE_ID_PARAM]);
+        fetchData();
     }, [params]);
 
     // fetch adoc translated doc edges using graphql
@@ -162,6 +166,7 @@ const IndexPage = ({ location }) => {
                     className="documentBody"
                     style={{ width: `${width - leftNavWidth}px` }}
                 >
+                    <Suspense fallback={<div></div>}>
                     <Search
                         value={query}
                         onChange={(e: React.FormEvent<HTMLInputElement>) =>
@@ -170,13 +175,16 @@ const IndexPage = ({ location }) => {
                         options={results}
                         optionSelected={optionSelected}
                     />
+                    </Suspense>
                     <div className="introWrapper">
+                        <Suspense fallback={<div></div>}>
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap
                             docContent={docContent}
                             location={location}
                             options={results}
                         />
+                        </Suspense>
                     </div>
                 </div>
             </main>
