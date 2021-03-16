@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "0.0.1-alpha.26",
+    "version": "0.0.1-alpha.27",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -14,7 +14,7 @@
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
         "tsc": "tsc -p . --incremental false",
-        "bundle-dts": "dts-bundle --name visual-embed-sdk --main lib/src/index.d.ts",
+        "bundle-dts": "dts-bundle --name @thoughtspot/visual-embed-sdk --out visual-embed-sdk.d.ts --main lib/src/index.d.ts",
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
@@ -23,7 +23,8 @@
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
-        "publish-dev": "npm publish --tag dev"
+        "publish-dev": "npm publish --tag dev",
+        "publish-prod": "npm publish --tag prod"
     },
     "dependencies": {},
     "devDependencies": {
