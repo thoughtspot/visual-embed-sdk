@@ -168,7 +168,7 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
         case AuthType.Basic:
             return doBasicAuth(embedConfig);
         default:
-            break;
+            return null;
     }
 };
 
