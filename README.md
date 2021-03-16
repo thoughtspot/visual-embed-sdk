@@ -6,10 +6,10 @@ ThoughtSpot Embed SDK
 
 ## Usage
 
-Via [NPM](https://www.npmjs.com/package/@thoughtspot/embed-sdk):
+Via [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
 
 ```
-npm i @thoughtspot/embed-sdk
+npm i @thoughtspot/visual-embed-sdk
 ```
 
 The SDK is written in TypeScript and is also provided both as ESM and UMD module,
@@ -28,7 +28,7 @@ define(['tsembed'], function (TsEmbedSDK) {
 var TsEmbedSDK = window.tsembed;
 
 // ESM
-import * as TsEmbedSDK from '@thoughtspot/embed-sdk';
+import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
 ## Embed Flavours
@@ -39,21 +39,19 @@ pinboards, visualizations or the even full app version.
 ### Embedded Search
 
 ```js
-import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: AuthType.None,
 });
 
-const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-    });
+const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+});
 
 searchEmbed.render({});
 ```
@@ -61,7 +59,11 @@ searchEmbed.render({});
 ### Embedded Pinboard & Visualization
 
 ```js
-import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import {
+    PinboardVizEmbed,
+    AuthType,
+    init,
+} from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -75,18 +77,19 @@ const pinboardEmbed = new PinboardVizEmbed(
             width: '100%',
             height: '100%',
         },
-    });
+    },
+);
 
 pinboardEmbed.render({
     pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>'
+    vizId: '<%=vizGUID%>',
 });
 ```
 
 ### Embedded Full App
 
 ```js
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
