@@ -55,7 +55,8 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should render the correct routes for pages', async () => {
+    describe('should render the correct routes for pages', () => {
+        /* eslint-disable no-loop-func */
         const pageRouteMap = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
@@ -67,17 +68,21 @@ describe('App embed tests', () => {
         const pageIds = Object.keys(pageRouteMap);
         for (let i = 0; i < pageIds.length; i++) {
             const pageId = pageIds[i];
-            const route = pageRouteMap[pageId];
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                pageId: pageId as Page,
-            } as AppViewConfig);
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expect(getIFrameSrc()).toBe(
-                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
-                );
-                cleanUp();
+
+            test(`${pageId}`, async () => {
+                const route = pageRouteMap[pageId];
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    pageId: pageId as Page,
+                } as AppViewConfig);
+                appEmbed.render();
+
+                await executeAfterWait(() => {
+                    expect(getIFrameSrc()).toBe(
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
+                    );
+                    cleanUp();
+                });
             });
         }
     });

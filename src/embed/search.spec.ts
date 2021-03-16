@@ -93,7 +93,7 @@ describe('Search embed tests', () => {
             searchQuery: '[commit date][revenue]',
         });
         searchEmbed.render();
-        executeAfterWait(() => {
+        await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/v2/#/embed/answer?dataSources=[%22data-source-1%22]&searchQuery=[commit%20date][revenue]&dataSourceMode=hide&useLastSelectedSources=false`,
             );
