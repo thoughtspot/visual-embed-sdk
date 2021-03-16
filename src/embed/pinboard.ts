@@ -64,8 +64,8 @@ export class PinboardEmbed extends V1Embed {
         if (hiddenActions?.length) {
             params[Param.HideActions] = hiddenActions;
         }
-        if (enableVizTransformations) {
-            params[Param.EnableVizTransformations] = true;
+        if (enableVizTransformations !== undefined) {
+            params[Param.EnableVizTransformations] = enableVizTransformations.toString();
         }
 
         const queryParams = getQueryParamString(params);

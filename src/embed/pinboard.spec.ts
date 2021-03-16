@@ -69,7 +69,7 @@ describe('Pinboard/viz embed tests', () => {
         );
     });
 
-    test('should enable viz transformations', () => {
+    test('should enable viz transformations true', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,
             ...defaultViewConfig,
@@ -78,6 +78,18 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         expect(getIFrameSrc()).toBe(
             `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
+        );
+    });
+
+    test('should disable viz transformations when enableVizTransformations false', () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            enableVizTransformations: false,
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
+        expect(getIFrameSrc()).toBe(
+            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=false`,
         );
     });
 
