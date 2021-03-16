@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
+import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import LeftSidebar from '../components/LeftSidebar';
+import Search from '../components/Search';
 import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -19,7 +21,7 @@ import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
-} from '../constants/uiContants';
+} from '../constants/uiConstants';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -41,6 +43,7 @@ const IndexPage = ({ location }) => {
             ? LEFT_NAV_WIDTH_DESKTOP
             : LEFT_NAV_WIDTH_MOBILE,
     );
+    const [query, updateQuery] = useState('');
 
     useEffect(() => {
         const paramObj = queryStringParser(location.search);
@@ -49,7 +52,7 @@ const IndexPage = ({ location }) => {
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
         setParams({ ...paramObj });
-    }, []);
+    }, [location.search]);
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
@@ -100,6 +103,7 @@ const IndexPage = ({ location }) => {
     // fetch adoc translated doc edges using graphql
     const {
         allAsciidoc: { edges },
+        localSearchPages: { index, store },
     } = useStaticQuery(
         graphql`
             query {
@@ -123,9 +127,25 @@ const IndexPage = ({ location }) => {
                         }
                     }
                 }
+                localSearchPages {
+                    index
+                    store
+                }
             }
         `,
     );
+
+    const results = useFlexSearch(query, index, store).reduce((acc, cur) => {
+        if (!acc.some((data) => data.pageid === cur.pageid)) {
+            acc.push(cur);
+        }
+        return acc;
+    }, []);
+
+    const optionSelected = (pageid: string) => {
+        updateQuery('');
+        navigate(pageid);
+    };
 
     return (
         <>
@@ -142,9 +162,21 @@ const IndexPage = ({ location }) => {
                     className="documentBody"
                     style={{ width: `${width - leftNavWidth}px` }}
                 >
+                    <Search
+                        value={query}
+                        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                            updateQuery((e.target as HTMLInputElement).value)
+                        }
+                        options={results}
+                        optionSelected={optionSelected}
+                    />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap docContent={docContent} location={location} />
+                        <Docmap
+                            docContent={docContent}
+                            location={location}
+                            options={results}
+                        />
                     </div>
                 </div>
             </main>

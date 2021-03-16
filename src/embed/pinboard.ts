@@ -9,28 +9,31 @@
  */
 
 import { ERROR_MESSAGE } from '../errors';
-import {
-    Action,
-    EventTypeV1,
-    MessagePayload,
-    Param,
-    RuntimeFilter,
-} from '../types';
+import { EmbedEvent, MessagePayload, Param, RuntimeFilter } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
+/**
+ * The configuration for the embedded pinboard view
+ */
 export interface PinboardViewConfig extends ViewConfig {
+    /**
+     * If set to true, the iFrame will adjust to the full height
+     * of the pinboard after loading
+     */
     fullHeight?: boolean;
-    disabledActions?: Action[];
-    disabledActionReason?: string;
-    hiddenActions?: Action[];
+    /**
+     * If set to true, context menu in visualizations will be enabled
+     */
     enableVizTransformations?: boolean;
-}
-
-export interface PinboardRenderOptions {
+    /**
+     * The pinboard to display in the embedded view
+     */
     pinboardId: string;
+    /**
+     * The visualization within the pinboard to display
+     */
     vizId?: string;
-    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
@@ -114,16 +117,15 @@ export class PinboardEmbed extends V1Embed {
      * @param renderOptions An object specifying the pinboard id,
      * viz id and the runtime filters
      */
-    public render({
-        pinboardId,
-        vizId,
-        runtimeFilters,
-    }: PinboardRenderOptions): PinboardEmbed {
+    public render(): PinboardEmbed {
+        const { pinboardId, vizId, runtimeFilters } = this.viewConfig;
+
         if (!pinboardId && !vizId) {
-            throw Error(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
+            this.handleError(ERROR_MESSAGE.PINBOARD_VIZ_ID_VALIDATION);
         }
+
         if (this.viewConfig.fullHeight === true) {
-            this.on(EventTypeV1.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
         }
 
         super.render();

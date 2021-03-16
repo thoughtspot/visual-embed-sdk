@@ -8,16 +8,19 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { AppEmbed, Page } from './embed/app';
+import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import { init } from './embed/base';
-import { PinboardEmbed } from './embed/pinboard';
-import { SearchEmbed } from './embed/search';
+import { PinboardEmbed, PinboardViewConfig } from './embed/pinboard';
+import { SearchEmbed, SearchViewConfig } from './embed/search';
 import {
     AuthType,
+    RuntimeFilter,
     RuntimeFilterOp,
-    EventType,
+    EmbedEvent,
+    HostEvent,
     DataSourceVisualMode,
     Action,
+    EmbedConfig,
 } from './types';
 
 export {
@@ -28,8 +31,14 @@ export {
     // types
     Page,
     AuthType,
+    RuntimeFilter,
     RuntimeFilterOp,
-    EventType,
+    EmbedEvent,
+    HostEvent,
     DataSourceVisualMode,
     Action,
+    EmbedConfig,
+    SearchViewConfig,
+    PinboardViewConfig,
+    AppViewConfig,
 };

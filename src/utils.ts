@@ -102,3 +102,21 @@ export const getCssDimension = (value: number | string): string => {
 
     return value;
 };
+
+/**
+ * Append a string to a URL's hash fragment
+ * @param url A URL
+ * @param stringToAppend The string to append to the URL hash
+ */
+export const appendToUrlHash = (url: string, stringToAppend: string) => {
+    let outputUrl = url;
+    const encStringToAppend = encodeURIComponent(stringToAppend);
+
+    if (url.indexOf('#') >= 0) {
+        outputUrl = `${outputUrl}${encStringToAppend}`;
+    } else {
+        outputUrl = `${outputUrl}#${encStringToAppend}`;
+    }
+
+    return outputUrl;
+};

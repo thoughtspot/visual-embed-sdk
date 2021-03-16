@@ -10,7 +10,10 @@ $darkgrey: #777e8b;
 $code-block-color: #f6f8fa;
 $borderColor: #c0c6cf;
 $hovercolor: rgba(113, 161, 244, 0.12);
+$text-container-background: rgba(192, 198, 207, 0.12);
 $disabledcolor: #a5acb9;
+$result-container-max-height: 320px;
+$result-height: 64px;
 $highlight-grey: #998;
 $highlight-darkgrey: #333;
 $highlight-green: #008080;
@@ -31,6 +34,8 @@ $font-weight-bold: 500;
 $line-height-normal: 31px;
 $line-height-button: 16px;
 $line-height-doc: 1.6rem;
+$line-height-result-title: 20px;
+$line-height-result-footer: 18px;
 $font-size-small: 12px;
 $font-size-normal: 14px;
 $font-size-table: 15px;
@@ -43,12 +48,20 @@ $margin-md: 24px;
 $margin-xs: 5px;
 $padding-xs: 5px;
 $padding-sm: 10px;
+$document-margin-top: 81px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
 $docmap-width-desktop: 300px;
 $docmap-width-mobile: 210px;
 $tablet-resolution-min: 767px;
 $tablet-resolution-max: 1024px;
+$box-shadow-search-box: 0px 0px 4px rgba(25, 35, 49, 0.08),
+    0px 12px 24px rgba(25, 35, 49, 0.12);
+$height-search-icon: 16px;
+$width-search-icon: 16px;
+$height-search-input: 32px;
+$margin-search-result: 16px;
+$padding-left-search-input: 36px;
 
 /* Admonition variables */
 

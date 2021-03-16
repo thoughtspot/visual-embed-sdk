@@ -1,21 +1,22 @@
 @import '../../assets/styles/variables.scss';
 
 .searchWrapper {
-    padding: 24px;
+    padding: $padding-md;
     border-bottom: 1px $lightgrey solid;
     position: fixed;
     width: calc(100% - 250px);
     background: $white;
+    z-index: 99;
 }
 
 .searchInputWrapper {
     position: relative;
-    width: calc(100% - 300px);
+    width: calc(100% - #{$docmap-width-desktop});
     &::before {
         content: '';
         background: url('../../assets/svg/searchicon.svg');
-        width: 16px;
-        height: 16px;
+        width: $width-search-icon;
+        height: $height-search-icon;
         float: left;
         position: absolute;
         left: 12px;
@@ -26,8 +27,8 @@
         width: 100%;
         border: 1px solid $borderColor;
         border-radius: 6px;
-        height: 32px;
-        padding-left: 36px;
+        height: $height-search-input;
+        padding-left: $padding-left-search-input;
         font-size: $font-size-normal;
         color: $darkgrey;
     }
@@ -35,9 +36,57 @@
     input:focus {
         outline: 0;
     }
+
+    .resultContainer {
+        position: absolute;
+        background-color: $white;
+        width: 100%;
+        max-height: $result-container-max-height;
+        top: 38px;
+        border-radius: 6px;
+        box-shadow: $box-shadow-search-box;
+        overflow: auto;
+    }
+
+    .result {
+        height: $result-height;
+        border-bottom: 1px solid $lightgrey;
+        display: inline-block;
+        vertical-align: top;
+        width: 100%;
+        padding: 8px 0px;
+
+        .title {
+            margin: 2px $margin-search-result 0px $margin-search-result;
+            line-height: $line-height-result-title;
+            font-size: $font-size-normal;
+            font-weight: $font-weight-normal;
+            color: $primarycolor;
+        }
+
+        .footer {
+            margin: 5px $margin-search-result;
+            font-weight: $font-weight-normal;
+            font-size: $font-size-small;
+            line-height: $line-height-result-footer;
+            color: $darkgrey;
+        }
+    }
+
+    .textContainer {
+        cursor: pointer;
+    }
+
+    .textContainer:hover {
+        background: $text-container-background;
+    }
+
+    .active {
+        background: $text-container-background;
+    }
 }
 
-@media screen and (min-width: 767px) and (max-width: 1024px) {
+@media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .searchInputWrapper {
         width: 100%;
     }

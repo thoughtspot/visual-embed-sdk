@@ -1,9 +1,11 @@
+
 = ThoughtSpot Developer Hub
 :toc: true
 
 :page-title: ThoughtSpot Developer Hub
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot Developer Hub
+
 
 The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
 The Developer portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
@@ -95,9 +97,11 @@ Minimizes the data panel on the left navigation bar.
 Hide data panel::
 Hides the default data panel.
 +
+
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
+
 
 
 +
@@ -111,13 +115,13 @@ Hides the visualizations displayed as search results.
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page.
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
-* To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`. 
+* To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`.
 +
 ----
 disabledActions: ['replaySearch']
@@ -146,10 +150,12 @@ Enables the Search Assist feature that helps users with simple search scenarios.
 Add search tokens::
 Enables constructing a search query using search tokens.
 +
+
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 + 
+
 In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
 
 +
@@ -169,7 +175,7 @@ _Integer_. The batch size for loading search objects. The default value is `-1`.
 `pagenumber`::
 _Integer_.Alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
 
-+ 
++
 ----
 indexingOffset = (pageNumber - 1) * batchSize
 ----
@@ -198,14 +204,16 @@ To explore the API for embedding visualizations:
 +
 Modify available actions::
 
+
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
+
 
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
-* To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`: 
+* To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`:
 
 +
 ----
@@ -226,6 +234,7 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 
 Set runtime filters::
+
 Enables Runtime Filters. 
 +
 ++++
@@ -235,6 +244,7 @@ Enables Runtime Filters.
 +
 Runtime filters provide the ability to filter data at the time of retrieval.  
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
 
 +
 ----
@@ -258,16 +268,18 @@ To explore the Pinboard API:
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
 
+
 + 
+
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page.
 
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
-* To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`. 
+* To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`.
 
 +
 
@@ -287,6 +299,7 @@ hiddenActions: ['downloadAsPdf']
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
 Set runtime filters::
+
 Enables Runtime Filters on a visualization in a pinboard.
 
 +
@@ -295,6 +308,7 @@ Enables Runtime Filters on a visualization in a pinboard.
 ++++
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+
 
 +
 +
