@@ -24,7 +24,7 @@ Import the PinboardEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { PinboardEmbed, Action, EventType, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 ////
 == Import styles
@@ -94,13 +94,30 @@ _Array of strings_. The action menu items to be disabled on the Pinboards page.
 
 For example, to disable the *Present* action from the *More* (*...*) menu, specify the `present` string in the  `disabledActions` attribute.
 
-
++
+[source,JavaScript]
+----
+disabledActions: Action.present
+----
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
 +
 
 For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `addFilter` string in the `hiddenActions` attribute.
 
++
+[source,JavaScript]
+----
+hiddenActions: Action.addFilter
+----
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard page.
@@ -111,7 +128,6 @@ For a complete list of action menu items and the corresponding strings to use fo
 Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
-
     pinboardEmbed.render({
     pinboardId: '<%=pinboardGUID%>',
     runtimeFilters: []
@@ -133,13 +149,11 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 [source,Javascript]
 ----
-
 runtimeFilters: [{
   columnName: 'color',
   operator: RuntimeFilterOp.EQ,
   values: [ 'red' ]
   }]
-
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +
@@ -202,6 +216,11 @@ Runtime filters have several operators for filtering your embedded visualization
 | 2
 |===
 
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
 
 == Subscribe to events
 Register event handlers and subscribe to events triggered by the embedded pinboard:

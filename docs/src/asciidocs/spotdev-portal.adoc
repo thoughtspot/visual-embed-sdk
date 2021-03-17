@@ -1,14 +1,14 @@
 
-= ThoughtSpot Developer Hub
+= ThoughtSpot Developer portal
 :toc: true
 
-:page-title: ThoughtSpot Developer Hub
+:page-title: ThoughtSpot Developer Portal
 :page-pageid: spotdev-portal
-:page-description: Using ThoughtSpot Developer Hub
+:page-description: Using ThoughtSpot Developer Portal
 
 
 The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
-The Developer portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
+The portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
 
 == Access Developer portal
 
@@ -35,13 +35,13 @@ The Developer portal also allows you to customize styles and configure additiona
 ////
 
 . Explore the Developer portal features, and build your sample code in *Playground*.
-The Developer portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
+The portal also allows you to customize styles and configure additional actions for the visualizations and pinboards embedded in your host application.
 
 == Find your way around
 The Developer portal includes several sections to assist you through your embedding journey.
 
 Home::
-The *Home* page of the *Developer Hub* provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
+The *Home* page of the Developer portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
 The home page also includes links to the *Developer Guides* and the *Playground* to preview the toolkit.
 
 Guide::
@@ -60,7 +60,7 @@ The *Playground* provides an API playground to explore the following ThoughtSpot
 
 
 Customizations::
-For ThoughtSpot users with administrator and developer privileges, the *Developer Hub* page displays the following customization settings:
+For ThoughtSpot users with administrator and developer privileges, the Developer portal displays the following customization menu items:
 
 * *Styles*
 +
@@ -236,10 +236,12 @@ For a complete list of action menu items and the corresponding text strings to u
 Set runtime filters::
 
 Enables Runtime Filters. 
+
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
+
 
 +
 Runtime filters provide the ability to filter data at the time of retrieval.  
@@ -268,9 +270,7 @@ To explore the Pinboard API:
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
 
-
 + 
-
 Modify available actions::
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page.
 

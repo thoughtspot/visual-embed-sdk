@@ -118,6 +118,12 @@ frameParams:: Sets the `width` and `height` dimensions to render the pages in th
 showPrimaryNavbar::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
 === Construct the URL and render the application
 Construct the URL of the embedded ThoughtSpot application to load within the web page.
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
@@ -130,7 +136,6 @@ Render the embedded content and pass the `pageID` parameter for setting a page a
  
 
 ----
-
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
 
@@ -142,15 +147,16 @@ Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
 
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
-
  appEmbed.on(EventType.init, showLoader)
  appEmbed.on(EventType.load, hideLoader)
-
-
 ----
 ////
 ==== Event Type
