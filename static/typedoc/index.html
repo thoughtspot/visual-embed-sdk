@@ -112,26 +112,19 @@
 				<a href="#embedded-pinboard-amp-visualization" id="embedded-pinboard-amp-visualization" style="color: inherit; text-decoration: none;">
 					<h3>Embedded Pinboard &amp; Visualization</h3>
 				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">PinboardVizEmbed</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">AuthType</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">init</span><span style="color: #000000">,</span>
-<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #795E26">init</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
 <span style="color: #000000">});</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pinboardEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PinboardVizEmbed</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">),</span>
-<span style="color: #000000">    {</span>
-<span style="color: #000000">        </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">            </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">            </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">        },</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pinboardEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PinboardEmbed</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">), {</span>
+<span style="color: #000000">    </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
 <span style="color: #000000">    },</span>
-<span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
 
 <span style="color: #001080">pinboardEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">pinboardId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=pinboardGUID%&gt;&#039;</span><span style="color: #000000">,</span>
