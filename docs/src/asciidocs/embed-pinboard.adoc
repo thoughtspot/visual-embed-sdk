@@ -24,7 +24,7 @@ Import the PinboardEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { PinboardEmbed, Action, EventType, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 ----
 ////
 == Import styles
