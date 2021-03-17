@@ -1,91 +1,49 @@
-= ["Pinboard Download API"]
-:last_updated: 2/4/2021
-:permalink: /:collection/:path.html
-:redirect_from:
-:sidebar: mydoc_sidebar
-:summary: You can download a Pinboard, or specific visualizations from the Pinboard, as a PDF.
+= Pinboard Export API
+:toc: true
 
-This API enables you to programmatically download Pinboards or certain visualizations from the Pinboards as a PDF.
+:page-title: Export Pinboard as PDF
+:page-pageid: pinboard-export-api
+:page-description: Pinboard Export API
 
+This API enables you to programmatically download a Pinboard or specific visualizations from the Pinboards as a PDF file.
+
+////
 You can also <<embed,download an embedded Pinboard with unsaved changes>>.
 
 This feature is the API version of the link:{{ site.baseurl }}/end-user/pinboards/download-pinboard-pdf.html[download a Pinboard as a PDF] UI feature. The API parameters refer to options in the UI. To see these options in the UI, refer to link:{{ site.baseurl }}/end-user/pinboards/download-pinboard-pdf.html[Download a Pinboard as a PDF].
+////
 
 == Resource URL
 
-`post` /tspublic/v1/export/pinboard/pdf
-
-== Request Parameters+++<table>++++++<colgroup>++++++<col style="width:20%">++++++</col>+++
-      +++<col style="width:15%">++++++</col>+++
-      +++<col style="width:45%">++++++</col>+++
-      +++<col style="width:10%">++++++</col>+++
-      +++<col style="width:10%">++++++</col>++++++</colgroup>+++
-   +++<thead>++++++<tr>++++++<th>+++Form Parameter+++</th>+++
-         +++<th>+++Data Type+++</th>+++
-         +++<th>+++Description+++</th>+++
-         +++<th>+++Mandatory?+++</th>+++
-         +++<th>+++Default+++</th>++++++</tr>++++++</thead>+++
-   +++<tbody>++++++<tr>++++++<td>++++++<code>+++id+++</code>++++++</td>+++
-         +++<td>+++string+++</td>+++
-         +++<td>+++ID (GUID) of the Pinboard to download+++</td>+++
-         +++<td>+++Yes, unless using the +++<code>+++transient_pinboard_content+++</code>+++ parameter.+++</td>+++
-         +++<td>+++None+++</td>++++++</tr>+++
-     +++<tr>++++++<td>++++++<code>+++layout_type+++</code>++++++</td>+++
-         +++<td>+++string [PINBOARD/VISUALIZATION]+++</td>+++
-         +++<td>+++For +++<code>+++PINBOARD+++</code>+++, the PDF looks like the Pinboard does in the UI. For +++<code>+++VISUALIZATION+++</code>+++, the PDF has one visualization for each page.+++</td>+++
-         +++<td>+++Yes+++</td>+++
-         +++<td>+++PINBOARD+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++orientation+++</code>++++++</td>+++
-         +++<td>+++string [PORTRAIT/LANDSCAPE]+++</td>+++
-         +++<td>+++Specifies portrait or landscape mode.+++</td>+++
-         +++<td>+++Yes+++</td>+++
-         +++<td>+++LANDSCAPE+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++truncate_tables+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++If set to true, displays only the first page of the tables. Only applicable in Visualization layout.+++</td>+++
-      +++<td>+++Yes, if +++<code>+++layoutType+++</code>+++ is +++<code>+++VISUALIZATION+++</code>++++++</td>+++
-      +++<td>+++false+++</td>++++++</tr>+++
-     +++<tr>++++++<td>++++++<code>+++visualization_ids+++</code>++++++</td>+++
-     +++<td>+++string+++</td>+++
-     +++<td>+++Only select specific visualizations to include. Only applicable in Visualization layout.+++</td>+++
-     +++<td>+++Yes, if +++<code>+++layoutType+++</code>+++ is +++<code>+++VISUALIZATION+++</code>++++++</td>+++
-     +++<td>+++none+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++include_logo+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++Include customized wide logo if available in the footer+++</td>+++
-      +++<td>+++Yes+++</td>+++
-      +++<td>+++true+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++footer_text+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++Any footer text to be included in the footer of each page of the PDF+++</td>+++
-      +++<td>+++No+++</td>+++
-      +++<td>+++none+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++include_page_number+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++Whether to include a footer with the page number+++</td>+++
-      +++<td>+++Yes+++</td>+++
-      +++<td>+++true+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++include_cover_page+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++Whether to inclue a cover page displaying the Pinboard title+++</td>+++
-      +++<td>+++Yes+++</td>+++
-      +++<td>+++true+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++include_filter_page+++</code>++++++</td>+++
-      +++<td>+++boolean+++</td>+++
-      +++<td>+++Whether to include a second page with a list of all applied filters+++</td>+++
-      +++<td>+++Yes+++</td>+++
-      +++<td>+++true+++</td>++++++</tr>+++
-      +++<tr>++++++<td>++++++<code>+++transient_pinboard_content+++</code>++++++</td>+++
-      +++<td>+++string+++</td>+++
-      +++<td>+++For use when embedding ThoughtSpot. If the Pinboard has unsaved changes, pass this parameter, and use the +++<a href="{{ site.baseurl }}/reference/api/about-JS-API.html">+++JavaScript API+++</a>+++.+++</td>+++
-      +++<td>+++Yes, unless using the +++<code>+++id+++</code>+++ parameter.+++</td>+++
-      +++<td>+++none+++</td>++++++</tr>++++++</tbody>++++++</table>+++
-
-== Request Example
-
-.cURL
+----
+POST /tspublic/v1/export/pinboard/pdf
 ----
 
+== Request parameters
+
+[width="100%" cols="1,1,2,1"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description|Default
+|`id`|string|ID (GUID) of the Pinboard to download|None
+|`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the pinboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
+|`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
+|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|false
+|`visualization_ids`|string|IDs of the visualizations to include in the PDF. This setting is applicable only if the `layout_type` parameter is set to `VISUALIZATION`.|none
+|`include_logo`|boolean|Include customized wide logo if available in the footer|true 
+|`footer_text` _Optional_|string|Footer text to include in the footer of each page of the PDF.|none
+|`include_page_number`|boolean|When set to true, the page number is included in the footer of each page.|true
+|`include_cover_page`|boolean|When set to true, a cover page with the Pinboard title is added in the PDF.|true 
+|`include_filter_page`|boolean|When set to true, a second page with a list of all applied filters is added in the PDF|true
+|`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
+|====
+
+
+== Example request
+
+.cURL
+[source,curl]
+----
 curl --location --request POST 'http://<instance>/callosum/v1/tspublic/v1/export/pinboard/pdf' \
 --header 'Accept: application/octet-stream' \
 --header 'X-Requested-By: ThoughtSpot' \
@@ -99,24 +57,28 @@ curl --location --request POST 'http://<instance>/callosum/v1/tspublic/v1/export
 --form 'include_filter_page="true"' \
 --form 'include_cover_page="true"'
 ----
-
-{% include note.html content="You must send the `X-Requested-By` header in your request. Without it, the request fails." %}
+[NOTE]
+You must send the `X-Requested-By` header in your request. Without it, the request fails.
 
 .Request URL
+
+[source,html]
 ----
-https://<instance>/callosum/v1/tspublic/v1/export/pinboard/pdf
+https://<base-URI>/tspublic/v1/export/pinboard/pdf
 ----
 
-== Response Example
+== Example response
 
 The response appears in the form of a raw pdf file. The response type is `application/octet-stream`.
 
 == Runtime filters
 
-You can modify the API's output by appending runtime filters at the end of the resource URL, with a specific syntax. For example:
+You can modify the API's output by passing runtime filters as parameters in the  resource URL. 
+
+For example:
 
 ----
-https://<instance>/callosum/v1/tspublic/v1/export/pinboard/pdf?col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
+https://<base-URI>/callosum/v1/tspublic/v1/export/pinboard/pdf?col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
 ----
 
 You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
@@ -134,7 +96,8 @@ You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
 | Value of the column to filter on.
 |===
 
-{% include note.html content="These parameters are case-insensitive. `EQ`, `eq`, and `eQ`, for example, have the same result." %}
+[NOTE]
+These parameters are case-insensitive. `EQ`, `eq`, and `eQ`, for example, have the same result.
 
 === Runtime filter operators
 
@@ -201,18 +164,17 @@ You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
 [#embed]
 == Embedded Pinboard with unsaved changes
 
-If your ThoughtSpot environment is embedded, and you want to download Pinboards with unsaved changes as PDFs, you must use the link:{{ site.baseurl }}/reference/api/about-JS-API.html[JavaScript API] and pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
+If your ThoughtSpot environment is embedded, and you want to download Pinboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
 
-The signature for this API method is as follows:
-
+[source,javascript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves with a string that contains, encoded as JSON, the transient pinboard content which to send to the `/callosum/v1/tspublic/v1/export/pinboard/pdf` endpoint under the key `transient_pinboard_content`. This content resembles the current Pinboard as is, including any changes, saved or not.
+The promise returned resolves to  a string that contains the transient pinboard content, which is encoded as JSON and is sent to the `/callosum/v1/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Pinboard as is, including any changes, saved or not.
 
 === Sample browser fetch request
-
+[source,javascript]
 ----
 <iframe src="http://ts_host:port/" id="ts-embed"></iframe>
 <script src="/path/to/ts-api.js"></script>
@@ -232,16 +194,16 @@ async function downloadPDF() {
 </script>
 ----
 
-=== Response Example
+=== Response format
 
 The response appears in the form of a raw pdf file. The response type is `application/octet-stream`.
 
-== HTTP status codes
+== Response codes
 
 You may receive the following status codes in your output. These HTTP status codes have the following meanings:
 
 |===
-| Status code | Meaning
+| Response code | Description
 
 | 200
 | Streaming output for pinboard pdf
