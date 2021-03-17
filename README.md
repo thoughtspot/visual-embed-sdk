@@ -74,11 +74,7 @@ searchEmbed.render();
 ### Embedded Pinboard & Visualization
 
 ```js
-import {
-    PinboardVizEmbed,
-    AuthType,
-    init,
-} from '@thoughtspot/visual-embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -95,7 +91,7 @@ const pinboardEmbed = new PinboardVizEmbed(
         pinboardId: '<%=pinboardGUID%>',
         vizId: '<%=vizGUID%>',
     },
-);
+});
 
 pinboardEmbed.render();
 ```
