@@ -69,10 +69,7 @@ const LeftSideBar = (props: {
         >
             <aside ref={ref as React.RefObject<HTMLDivElement>}>
                 {props.backLink && (
-                    <BackButton
-                        title="SpotDev Home"
-                        backLink={props.backLink}
-                    />
+                    <BackButton title="Back" backLink={props.backLink} />
                 )}
                 <nav>
                     <h2 className="heading">{props.navTitle}</h2>

@@ -93,7 +93,7 @@ const IndexPage = ({ location }) => {
         // get & set left navigation area content with dynamic link creation
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
 
-        // get & set left navigation 'SpotDev Home' button url
+        // get & set left navigation 'Back' button url
         setBackLink(params[TS_ORIGIN_PARAM]);
 
         // set page title and content based on pageid
