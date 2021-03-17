@@ -1,7 +1,12 @@
 import { PinboardEmbed, PinboardViewConfig } from './pinboard';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
-import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
+import {
+    executeAfterWait,
+    getDocumentBody,
+    getIFrameSrc,
+    getRootEl,
+} from '../test/test-utils';
 
 const defaultViewConfig = {
     frameParams: {
@@ -25,18 +30,20 @@ describe('Pinboard/viz embed tests', () => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test('should render pinboard', () => {
+    test('should render pinboard', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
+            );
+        });
     });
 
-    test('should set disabled actions', () => {
+    test('should set disabled actions', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             disabledActions: [
                 Action.DownloadAsCsv,
@@ -48,12 +55,14 @@ describe('Pinboard/viz embed tests', () => {
             pinboardId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
+            );
+        });
     });
 
-    test('should set hidden actions', () => {
+    test('should set hidden actions', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             hiddenActions: [
                 Action.DownloadAsCsv,
@@ -64,48 +73,56 @@ describe('Pinboard/viz embed tests', () => {
             pinboardId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
+            );
+        });
     });
 
-    test('should enable viz transformations true', () => {
+    test('should enable viz transformations true', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,
             ...defaultViewConfig,
             pinboardId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
+            );
+        });
     });
 
-    test('should disable viz transformations when enableVizTransformations false', () => {
+    test('should disable viz transformations when enableVizTransformations false', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: false,
             ...defaultViewConfig,
             pinboardId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=false`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=false`,
+            );
+        });
     });
 
-    test('should render viz', () => {
+    test('should render viz', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
             vizId,
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
+            );
+        });
     });
 
-    test('should apply runtime filters', () => {
+    test('should apply runtime filters', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
@@ -119,12 +136,14 @@ describe('Pinboard/viz embed tests', () => {
             ],
         } as PinboardViewConfig);
         pinboardEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
+            );
+        });
     });
 
-    test('should register event handler to adjust iframe height', () => {
+    test('should register event handler to adjust iframe height', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
@@ -135,9 +154,11 @@ describe('Pinboard/viz embed tests', () => {
         const onSpy = jest.spyOn(pinboardEmbed, 'on');
         pinboardEmbed.render();
 
-        expect(onSpy).toHaveBeenCalledWith(
-            EmbedEvent.EmbedHeight,
-            expect.anything(),
-        );
+        executeAfterWait(() => {
+            expect(onSpy).toHaveBeenCalledWith(
+                EmbedEvent.EmbedHeight,
+                expect.anything(),
+            );
+        });
     });
 });

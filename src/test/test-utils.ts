@@ -29,7 +29,7 @@ export const postMessageToParent = (window: WindowProxy, data: any) => {
  */
 export const executeAfterWait = (
     fn: (...args: any[]) => void,
-    waitTime: number,
+    waitTime = 0,
 ) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {

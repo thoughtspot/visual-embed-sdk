@@ -25,6 +25,12 @@ export enum AuthType {
      * Truted authentication server
      */
     AuthServer = 'AuthServer',
+    /**
+     * Use ThoughtSpot login API to authenticate to the cluster directly
+     * Warning: This feature is primarily intended for developer testing and it is
+     * strongly advised not to use this in production
+     */
+    Basic = 'Basic',
 }
 
 export type DOMSelector = string | HTMLElement;
@@ -63,6 +69,13 @@ export interface EmbedConfig {
      * The user name for trusted auth
      */
     username?: string;
+
+    /**
+     * The ThoughtSpot login password corresponding to the user name
+     * Warning: This feature is primarily intended for developer testing and it is
+     * strongly advised not to use this in production
+     */
+    password?: string;
 
     /** @internal */
     basepath?: string;

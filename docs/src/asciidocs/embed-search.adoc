@@ -105,17 +105,45 @@ Sets the `width` and `height` dimensions to render the iframe in the web browser
 collapseDataSources [small]*_optional_*::
 _Boolean_. When set to true, it minimizes the Data Source panel.
 
- hideDataSources [small]_optional_::
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
+hideDataSources [small]_optional_::
 _Boolean_. When set to true, it hides the Data Source panel.
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 
 hideResults [small]_optional_::
 _Boolean_. When set to true, it hides charts and tables in search answers.
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 enableSearchAssist [small]_optional_::
 _Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
 hiddenActions::
 _Array of strings_. Hides the specified action menu items on the search answer page.
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 +
 For example, to hide the *Replay Search* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `replaySearch` text string in the `hiddenActions` attribute.
@@ -134,11 +162,14 @@ For example, to disable the *Show underlying data* action from the *More* menu i
 ---- 
 disabledActions: Action.showUnderlyingData
 ----
-
-
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
+
 
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
@@ -179,6 +210,10 @@ searchQuery: "[Revenue] by [Shipmode]"
 ----
 
 
+++++
+<a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
+ 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
@@ -213,7 +248,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 == Code sample
 
-[source, javascript]
+[source,javascript]
 ----
 import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
@@ -235,6 +270,7 @@ searchEmbed.render({
     dataSources: ['4f289824-e301-4001-ad06-8888f69c4748']
 });
 ----
+
 
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>

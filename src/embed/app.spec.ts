@@ -1,7 +1,12 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
 import { Action, AuthType, RuntimeFilterOp } from '../types';
-import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
+import {
+    executeAfterWait,
+    getDocumentBody,
+    getIFrameSrc,
+    getRootEl,
+} from '../test/test-utils';
 
 const defaultViewConfig = {
     frameParams: {
@@ -27,26 +32,31 @@ describe('App embed tests', () => {
         cleanUp();
     });
 
-    test('should render home page by default', () => {
+    test('should render home page by default', async () => {
         const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
         appEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
+            );
+        });
     });
 
-    test('should hide the primary nav bar', () => {
+    test('should hide the primary nav bar', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
         } as AppViewConfig);
         appEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
+            );
+        });
     });
 
-    test('should render the correct routes for pages', () => {
+    describe('should render the correct routes for pages', () => {
+        /* eslint-disable no-loop-func */
         const pageRouteMap = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
@@ -56,33 +66,41 @@ describe('App embed tests', () => {
         };
 
         const pageIds = Object.keys(pageRouteMap);
-        pageIds.forEach((pageId) => {
-            const route = pageRouteMap[pageId];
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                pageId: pageId as Page,
-            } as AppViewConfig);
-            appEmbed.render();
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
-            );
-            cleanUp();
-        });
+        for (let i = 0; i < pageIds.length; i++) {
+            const pageId = pageIds[i];
+
+            test(`${pageId}`, async () => {
+                const route = pageRouteMap[pageId];
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    pageId: pageId as Page,
+                } as AppViewConfig);
+                appEmbed.render();
+
+                await executeAfterWait(() => {
+                    expect(getIFrameSrc()).toBe(
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
+                    );
+                    cleanUp();
+                });
+            });
+        }
     });
 
-    test('should navigate to a path', () => {
+    test('should navigate to a path', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             path: 'foo/bar',
         } as AppViewConfig);
         appEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/foo/bar`,
-        );
-        cleanUp();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/foo/bar`,
+            );
+        });
     });
 
-    test('should apply runtime filters', () => {
+    test('should apply runtime filters', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
@@ -96,12 +114,14 @@ describe('App embed tests', () => {
         } as AppViewConfig);
 
         appEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
+            );
+        });
     });
 
-    test('should disable and hide actions', () => {
+    test('should disable and hide actions', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
@@ -111,8 +131,10 @@ describe('App embed tests', () => {
         } as AppViewConfig);
 
         appEmbed.render();
-        expect(getIFrameSrc()).toBe(
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home?disableAction=save,update&disableHint=Access%20denied&hideAction=download`,
-        );
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home?disableAction=save,update&disableHint=Access%20denied&hideAction=download`,
+            );
+        });
     });
 });

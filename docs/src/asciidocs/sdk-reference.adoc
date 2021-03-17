@@ -11,7 +11,7 @@ The ThoughtSpot Visual Embed SDK is a Javascript library used for embedding Thou
 The link:/typedoc/index.html[Visual Embed SDK] is available for download as `@thoughtspot/embed-sdk` through link:https://www.npmjs.com/package/@thoughtspot/embed-sdk[NPM, window=_blank] includes the following packages:
 
 * `SearchEmbed`
-* `PinboardVizEmbed`
+* `PinboardEmbed`
 * `AppEmbed`
  
 ++++
@@ -23,16 +23,24 @@ The link:/typedoc/index.html[Visual Embed SDK] is available for download as `@th
 == Classes
 
 * link:/typedoc/classes/appembed.html[AppEmbed]
-* link:/typedoc/classes/pinboardvizembed.html[PinboardVizEmbed]
+* link:/typedoc/classes/pinboardembed.html[PinboardEmbed]
 * link:/typedoc/classes/searchembed.html[SearchEmbed]
 
 == Enumerations
 * link:/typedoc/enums/action.html[Actions]
 * link:/typedoc/enums/authtype.html[AuthType]
 * link:/typedoc/enums/datasourcevisualmode.html[datasourcevisualmode]
-* link:/typedoc/enums/eventtype.html[EventType]
+* link:/typedoc/enums/embedevent.html[EmbedEvent]
+* link:/typedoc/enums/hostevent.html[HostEvent]
 * link:/typedoc/enums/page.html[Page]
 * link:/typedoc/enums/runtimefilterop.html[RuntimeFilterOp]
+
+== Interfaces
+* link:/typedoc/interfaces/appviewconfig.html[AppViewConfig]
+* link:/typedoc/interfaces/embedconfig.html[EmbedConfig]
+* link:/typedoc/interfaces/pinboardviewconfig.html[PinboardViewConfig]
+* link:/typedoc/interfaces/runtimefilter.html[RuntimeFilter]
+* link:/typedoc/interfaces/searchviewconfig.html[SearchViewConfig]
 
 == Functions
 * link:/typedoc/modules.html[Init]
