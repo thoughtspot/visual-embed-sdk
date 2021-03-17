@@ -1,4 +1,6 @@
 @import './variables.scss';
+@import './padding.scss';
+@import './margin.scss';
 
 @font-face {
     font-family: 'Optimo-Plain';
@@ -80,6 +82,10 @@ a {
 
 button {
     cursor: pointer;
+}
+
+.widthAuto {
+    width: auto;
 }
 
 /*Scrollbar styling start*/
