@@ -3,8 +3,13 @@
     <img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
 </p>
 
+<br/>
 
 # ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) [![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL)
+
+SDK to embed ThoughtSpot into your web apps.
+
+<br/>
 
 ## Usage
 
