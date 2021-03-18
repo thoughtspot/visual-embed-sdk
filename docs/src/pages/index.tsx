@@ -5,6 +5,9 @@ import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import LeftSidebar from '../components/LeftSidebar';
+import Docmap from '../components/Docmap';
+import Document from '../components/Document';
+import Search from '../components/Search';
 import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -19,10 +22,6 @@ import {
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
 } from '../constants/uiConstants';
-
-const Docmap = React.lazy(() => import('../components/Docmap'));
-const Document = React.lazy(() => import('../components/Document'));
-const Search = React.lazy(() => import('../components/Search'));
 
 // markup
 const IndexPage = ({ location }) => {
