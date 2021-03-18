@@ -1,8 +1,15 @@
-# ThoughtSpot Visual Embed SDK
 
-[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
+</p>
 
-ThoughtSpot Embed SDK
+<br/>
+
+# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk/prod)
+
+SDK to embed ThoughtSpot into your web apps.
+
+<br/>
 
 ## Usage
 
@@ -31,7 +38,15 @@ var TsEmbedSDK = window.tsembed;
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
-## Embed Flavours
+<br/>
+
+## Full API Reference
+
+Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
+
+<br/>
+
+## Quick Start
 
 The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
 pinboards, visualizations or the even full app version.
@@ -53,17 +68,13 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     },
 });
 
-searchEmbed.render({});
+searchEmbed.render();
 ```
 
 ### Embedded Pinboard & Visualization
 
 ```js
-import {
-    PinboardVizEmbed,
-    AuthType,
-    init,
-} from '@thoughtspot/visual-embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -77,13 +88,12 @@ const pinboardEmbed = new PinboardVizEmbed(
             width: '100%',
             height: '100%',
         },
+        pinboardId: '<%=pinboardGUID%>',
+        vizId: '<%=vizGUID%>',
     },
-);
-
-pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>',
 });
+
+pinboardEmbed.render();
 ```
 
 ### Embedded Full App
@@ -103,9 +113,13 @@ const appEmbed = new AppEmbed(
             width: '100%',
             height: '100%',
         },
+        page: Page.Data,
     });
 
-appEmbed.render({
-    Page.Data
-});
+appEmbed.render();
 ```
+
+<br/>
+<br/>
+
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2021
