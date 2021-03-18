@@ -103,7 +103,7 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
         }
         if (searchQuery) {
-            queryParams[Param.SearchQuery] = searchQuery;
+            queryParams[Param.SearchQuery] = encodeURIComponent(searchQuery);
         }
         if (enableSearchAssist) {
             queryParams[Param.EnableSearchAssist] = true;

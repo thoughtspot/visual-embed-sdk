@@ -132,6 +132,24 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
+     * Format the path provided by the user
+     * @param path The URL path
+     * @returns The URL path that the embedded app understands
+     */
+    private formatPath(path: string) {
+        if (!path) {
+            return null;
+        }
+
+        // remove leading slash
+        if (path.indexOf('/') === 0) {
+            return path.substring(1);
+        }
+
+        return path;
+    }
+
+    /**
      * Render an embedded app in the ThoughtSpot app
      * @param renderOptions An object containing the page id
      * to be embedded
@@ -140,7 +158,7 @@ export class AppEmbed extends V1Embed {
         super.render();
 
         const { pageId, runtimeFilters, path } = this.viewConfig;
-        const pageRoute = path || this.getPageRoute(pageId);
+        const pageRoute = this.formatPath(path) || this.getPageRoute(pageId);
         const src = this.getIFrameSrc(pageRoute, runtimeFilters);
         this.renderV1Embed(src);
 
