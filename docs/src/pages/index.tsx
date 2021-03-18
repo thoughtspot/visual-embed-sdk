@@ -1,12 +1,12 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-const Docmap = React.lazy(()=>import('../components/Docmap'));
-const Document = React.lazy(()=>import('../components/Document'));
-const Search = React.lazy(()=>import('../components/Search'));
+const Docmap = React.lazy(() => import('../components/Docmap'));
+const Document = React.lazy(() => import('../components/Document'));
+const Search = React.lazy(() => import('../components/Search'));
 import LeftSidebar from '../components/LeftSidebar';
 import '../assets/styles/index.scss';
 import {
@@ -170,7 +170,6 @@ const IndexPage = ({ location }) => {
                     className="documentBody"
                     style={{ width: `${width - leftNavWidth}px` }}
                 >
-                    <Suspense fallback={<div></div>}>
                     <Search
                         value={query}
                         onChange={(e: React.FormEvent<HTMLInputElement>) =>
@@ -179,16 +178,13 @@ const IndexPage = ({ location }) => {
                         options={results}
                         optionSelected={optionSelected}
                     />
-                    </Suspense>
                     <div className="introWrapper">
-                        <Suspense fallback={<div></div>}>
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap
                             docContent={docContent}
                             location={location}
                             options={results}
                         />
-                        </Suspense>
                     </div>
                 </div>
             </main>
