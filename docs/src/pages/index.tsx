@@ -4,9 +4,6 @@ import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-const Docmap = React.lazy(() => import('../components/Docmap'));
-const Document = React.lazy(() => import('../components/Document'));
-const Search = React.lazy(() => import('../components/Search'));
 import LeftSidebar from '../components/LeftSidebar';
 import '../assets/styles/index.scss';
 import {
@@ -22,6 +19,10 @@ import {
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
 } from '../constants/uiConstants';
+
+const Docmap = React.lazy(() => import('../components/Docmap'));
+const Document = React.lazy(() => import('../components/Document'));
+const Search = React.lazy(() => import('../components/Search'));
 
 // markup
 const IndexPage = ({ location }) => {
