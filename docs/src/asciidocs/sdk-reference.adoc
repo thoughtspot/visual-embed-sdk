@@ -5,45 +5,18 @@
 :page-pageid: js-reference
 :page-description: Visual Embed SDK Reference
 
-The ThoughtSpot Visual Embed SDK is a Javascript library used for embedding ThoughtSpot visualizations, pinboards, and the entire application in web applications. The Embed SDK library allows you to connect your applications to the ThoughtSpot embedded components and programmatically import them within your application framework.
+The ThoughtSpot Visual Embed SDK is an open source Javascript library used for embedding ThoughtSpot visualizations, pinboards, and the entire application in web applications. The Embed SDK library allows you to connect your applications to the ThoughtSpot embedded components and programmatically import them within your application framework.
 
 == Visual Embed SDK libraries
-The link:/typedoc/index.html[Visual Embed SDK] is available for download as `@thoughtspot/embed-sdk` through link:https://www.npmjs.com/package/@thoughtspot/embed-sdk[NPM, window=_blank] includes the following packages:
+The link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK, window=_blank] is available for download as `@thoughtspot/visual-embed-sdk` through link:https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk[NPM, window=_blank]. It exports the following classes:
 
-* `SearchEmbed`
-* `PinboardEmbed`
-* `AppEmbed`
- 
-++++
- 
- <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
- 
-++++
- 
-== Classes
+* link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/classes/appembed.html[AppEmbed^, window=_blank]
+* link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/classes/pinboardembed.html[PinboardEmbed, window=_blank]
+* link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/classes/searchembed.html[SearchEmbed, window=_blank]
 
-* link:/typedoc/classes/appembed.html[AppEmbed]
-* link:/typedoc/classes/pinboardembed.html[PinboardEmbed]
-* link:/typedoc/classes/searchembed.html[SearchEmbed]
+For more specific information on Embed options and functions, visit our link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html[API site, window=_blank].
 
-== Enumerations
-* link:/typedoc/enums/action.html[Actions]
-* link:/typedoc/enums/authtype.html[AuthType]
-* link:/typedoc/enums/datasourcevisualmode.html[datasourcevisualmode]
-* link:/typedoc/enums/embedevent.html[EmbedEvent]
-* link:/typedoc/enums/hostevent.html[HostEvent]
-* link:/typedoc/enums/page.html[Page]
-* link:/typedoc/enums/runtimefilterop.html[RuntimeFilterOp]
 
-== Interfaces
-* link:/typedoc/interfaces/appviewconfig.html[AppViewConfig]
-* link:/typedoc/interfaces/embedconfig.html[EmbedConfig]
-* link:/typedoc/interfaces/pinboardviewconfig.html[PinboardViewConfig]
-* link:/typedoc/interfaces/runtimefilter.html[RuntimeFilter]
-* link:/typedoc/interfaces/searchviewconfig.html[SearchViewConfig]
-
-== Functions
-* link:/typedoc/modules.html[Init]
 
 == Additional resources
  

@@ -28,7 +28,7 @@ const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
 
     const [params, setParams] = useState({
-        [TS_HOST_PARAM]: '',
+        [TS_HOST_PARAM]: 'https://try-everywhere.thoughtspot.cloud/v2',
         [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
@@ -51,8 +51,17 @@ const IndexPage = ({ location }) => {
             paramObj[e.node.parent.name] =
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
-        setParams({ ...paramObj });
+        setParams({ ...params, ...paramObj });
     }, [location.search]);
+
+    useEffect(() => {
+        // This is to send navigation events to the parent app (if in Iframe)
+        // So that the parent can sync the url.
+        window.parent.postMessage({
+            params: queryStringParser(location.search),
+            subsection: location.hash.split('#')[1] || '',
+        }, '*');
+    }, [location.search, location.hash])
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
@@ -67,7 +76,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                        edges[edgeIndex].node.pageAttributes.title,
+                    edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
