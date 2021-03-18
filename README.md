@@ -4,7 +4,6 @@
 [![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL)
 
 
-()
 ThoughtSpot Embed SDK
 
 ## Usage
