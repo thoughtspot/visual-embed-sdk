@@ -38,10 +38,13 @@ var TsEmbedSDK = window.tsembed;
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
+<br/>
+
 ## Full API Reference
 
 Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
 
+<br/>
 
 ## Quick Start
 
