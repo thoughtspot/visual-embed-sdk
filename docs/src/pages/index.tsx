@@ -1,13 +1,13 @@
-import React, { useState, useEffect, lazy } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import queryStringParser from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
-import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import Search from '../components/Search';
+import LeftSidebar from '../components/LeftSidebar';
 import '../assets/styles/index.scss';
 import {
     DOC_NAV_PAGE_ID,
@@ -28,7 +28,7 @@ const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
 
     const [params, setParams] = useState({
-        [TS_HOST_PARAM]: 'https://try-everywhere.thoughtspot.cloud/v2',
+        [TS_HOST_PARAM]: '',
         [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
@@ -44,6 +44,37 @@ const IndexPage = ({ location }) => {
             : LEFT_NAV_WIDTH_MOBILE,
     );
     const [query, updateQuery] = useState('');
+    const [innW, setinnW] = useState(0);
+    let Wheight;
+    let Wwidth;
+    if (typeof window !== `undefined`) {
+        Wheight = window.innerHeight;
+        Wwidth = window.innerWidth;
+    }
+    const [dimensions, setDimensions] = useState({
+        windowHeight: Wheight,
+        windowWidth: Wwidth,
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setDimensions({
+                windowHeight: window.innerHeight,
+                windowWidth: window.innerWidth,
+            });
+        };
+        window.addEventListener(`resize`, handleResize);
+        // Remove the event listener if resizing stopped.
+        return () => window.removeEventListener(`resize`, handleResize);
+    }, []);
+
+    useEffect(() => {
+        if (dimensions.windowWidth > 1036) {
+            setinnW(dimensions.windowWidth);
+        } else {
+            setinnW(dimensions.windowWidth + 50);
+        }
+    }, [dimensions.windowWidth]);
 
     useEffect(() => {
         const paramObj = queryStringParser(location.search);
@@ -51,17 +82,8 @@ const IndexPage = ({ location }) => {
             paramObj[e.node.parent.name] =
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
-        setParams({ ...params, ...paramObj });
+        setParams({ ...paramObj });
     }, [location.search]);
-
-    useEffect(() => {
-        // This is to send navigation events to the parent app (if in Iframe)
-        // So that the parent can sync the url.
-        window.parent.postMessage({
-            params: queryStringParser(location.search),
-            subsection: location.hash.split('#')[1] || '',
-        }, '*');
-    }, [location.search, location.hash])
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
@@ -76,7 +98,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                    edges[edgeIndex].node.pageAttributes.title,
+                        edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
@@ -89,7 +111,6 @@ const IndexPage = ({ location }) => {
             }
         }
     };
-
     useEffect(() => {
         // fetch navigation page index
         const navIndex = edges.findIndex(
@@ -102,7 +123,7 @@ const IndexPage = ({ location }) => {
         // get & set left navigation area content with dynamic link creation
         setNavContent(passThroughHandler(edges[navIndex].node.html, params));
 
-        // get & set left navigation 'Back' button url
+        // get & set left navigation 'SpotDev Home' button url
         setBackLink(params[TS_ORIGIN_PARAM]);
 
         // set page title and content based on pageid
@@ -155,6 +176,7 @@ const IndexPage = ({ location }) => {
         updateQuery('');
         navigate(pageid);
     };
+
     return (
         <>
             <main ref={ref as React.RefObject<HTMLDivElement>}>
@@ -168,7 +190,10 @@ const IndexPage = ({ location }) => {
                 />
                 <div
                     className="documentBody"
-                    style={{ width: `${width - leftNavWidth}px` }}
+                    style={{
+                        width: `${width - leftNavWidth}px`,
+                        maxWidth: `${innW - 321}px`,
+                    }}
                 >
                     <Search
                         value={query}
@@ -178,6 +203,7 @@ const IndexPage = ({ location }) => {
                         options={results}
                         optionSelected={optionSelected}
                     />
+
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap
