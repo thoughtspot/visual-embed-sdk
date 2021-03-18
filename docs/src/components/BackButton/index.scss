@@ -6,8 +6,8 @@
     align-items: center;
 
     button {
-        width: 40px;
-        height: 40px;
+        width: $width-back-button;
+        height: $height-back-button;
         display: block;
         border-radius: 50%;
         border: none;
@@ -16,9 +16,13 @@
     }
     img {
         padding-top: 3px;
+        position: relative;
+        left: -6px;
+        top: -4px;
     }
     p {
         color: $darkgrey;
         font-size: $font-size-normal;
+        font-family: $font-family-back-button;
     }
 }
