@@ -1,4 +1,4 @@
-import React, { useState, useEffect,Suspense,lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
@@ -146,11 +146,9 @@ const IndexPage = ({ location }) => {
         updateQuery('');
         navigate(pageid);
     };
-
     return (
-        <>  
+        <>
             <main ref={ref as React.RefObject<HTMLDivElement>}>
-                
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
@@ -163,7 +161,7 @@ const IndexPage = ({ location }) => {
                     className="documentBody"
                     style={{ width: `${width - leftNavWidth}px` }}
                 >
-                    <Suspense fallback={<div> </div>}>
+                    <Suspense fallback={<div></div>}>
                     <Search
                         value={query}
                         onChange={(e: React.FormEvent<HTMLInputElement>) =>
@@ -174,7 +172,7 @@ const IndexPage = ({ location }) => {
                     />
                     </Suspense>
                     <div className="introWrapper">
-                        <Suspense fallback={<div> </div>}>
+                        <Suspense fallback={<div></div>}>
                         <Document docTitle={docTitle} docContent={docContent} />
                         <Docmap
                             docContent={docContent}
