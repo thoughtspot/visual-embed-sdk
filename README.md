@@ -1,10 +1,11 @@
-# ThoughtSpot Visual Embed SDK
+# ThoughtSpot Visual Embed SDK  
 
-[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main)
-[![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL)
+[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) [![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL)
 
+<img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="right" alt="ThoughtSpot" />
 
-ThoughtSpot Embed SDK
+<br/>
+<br/>
 
 ## Usage
 
@@ -33,7 +34,12 @@ var TsEmbedSDK = window.tsembed;
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
-## Embed Flavours
+## Full API Reference
+
+Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
+
+
+## Quick Start
 
 The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
 pinboards, visualizations or the even full app version.
@@ -55,7 +61,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     },
 });
 
-searchEmbed.render({});
+searchEmbed.render();
 ```
 
 ### Embedded Pinboard & Visualization
@@ -79,13 +85,12 @@ const pinboardEmbed = new PinboardVizEmbed(
             width: '100%',
             height: '100%',
         },
+        pinboardId: '<%=pinboardGUID%>',
+        vizId: '<%=vizGUID%>',
     },
 );
 
-pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>',
-});
+pinboardEmbed.render();
 ```
 
 ### Embedded Full App
@@ -105,9 +110,8 @@ const appEmbed = new AppEmbed(
             width: '100%',
             height: '100%',
         },
+        page: Page.Data,
     });
 
-appEmbed.render({
-    Page.Data
-});
+appEmbed.render();
 ```
