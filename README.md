@@ -122,3 +122,8 @@ const appEmbed = new AppEmbed(
 
 appEmbed.render();
 ```
+
+<br/>
+<br/>
+
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2021
