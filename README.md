@@ -5,7 +5,7 @@
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) [![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL)
+# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) [![CodeQL](https://github.com/thoughtspot/visual-embed-sdk/workflows/CodeQL/badge.svg)](https://github.com/thoughtspot/visual-embed-sdk/actions?query=workflow%3ACodeQL) ![npm (scoped)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk?style=flat-square)
 
 SDK to embed ThoughtSpot into your web apps.
 
