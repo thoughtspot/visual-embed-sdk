@@ -13,6 +13,8 @@ import { ViewConfig, TsEmbed } from './base';
 
 /**
  * The configuration of the embedded search view
+ *
+ * @Category Search Embed
  */
 export interface SearchViewConfig extends ViewConfig {
     /**
@@ -50,6 +52,8 @@ export interface SearchViewConfig extends ViewConfig {
 
 /**
  * Embed ThoughtSpot search
+ *
+ * @Category Search Embed
  */
 export class SearchEmbed extends TsEmbed {
     /**

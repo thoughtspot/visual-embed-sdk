@@ -3,11 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>EmbedEvent | @thoughtspot/visual-embed-sdk</title>
+	<title>EmbedEvent | @thoughtspot/visual-embed-sdk
+	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script async src="../assets/js/search.js" id="search-script"></script>
+	<script async src="../ assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -64,250 +65,6 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Event types emitted by the embedded ThoughtSpot application</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#alert" class="tsd-kind-icon">Alert</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#authinit" class="tsd-kind-icon">Auth<wbr>Init</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#customaction" class="tsd-kind-icon">Custom<wbr>Action</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#data" class="tsd-kind-icon">Data</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#datasourceselected" class="tsd-kind-icon">Data<wbr>Source<wbr>Selected</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#drilldown" class="tsd-kind-icon">Drilldown</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#embedheight" class="tsd-kind-icon">Embed<wbr>Height</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#error" class="tsd-kind-icon">Error</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#init" class="tsd-kind-icon">Init</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#load" class="tsd-kind-icon">Load</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="alert" class="tsd-anchor"></a>
-					<h3>Alert</h3>
-					<div class="tsd-signature tsd-kind-icon">Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;alert&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L239">types.ts:239</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An alert has been thrown</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>alert - An alert object</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="authinit" class="tsd-anchor"></a>
-					<h3>Auth<wbr>Init</h3>
-					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;authInit&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L190">types.ts:190</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Authentication has either succeeded or failed.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>isLoggedIn - A Boolean specifying whether authentication was successful</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="customaction" class="tsd-anchor"></a>
-					<h3>Custom<wbr>Action</h3>
-					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;CustomAction&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L229">types.ts:229</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A custom action has been triggered</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>actionId - The id of the custom action</p>
-							</dd>
-							<dt>returns</dt>
-							<dd><p>data - The answer or pinboard data</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L201">types.ts:201</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Data pertaining to answer or pinboard is received</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>data - The answer or pinboard data</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="datasourceselected" class="tsd-anchor"></a>
-					<h3>Data<wbr>Source<wbr>Selected</h3>
-					<div class="tsd-signature tsd-kind-icon">Data<wbr>Source<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dataSourceSelected&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L223">types.ts:223</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>One or more data sources have been selected</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>dataSourceIds - the list of data sources</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="drilldown" class="tsd-anchor"></a>
-					<h3>Drilldown</h3>
-					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;drillDown&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L218">types.ts:218</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A drill down operation has been performed</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>additionalFilters - Any additonal filters applied</p>
-							</dd>
-							<dt>returns</dt>
-							<dd><p>drillDownColumns - The columns on which drill down was performed</p>
-							</dd>
-							<dt>returns</dt>
-							<dd><p>nonFilteredColumns - The columns that were not filtered</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="embedheight" class="tsd-anchor"></a>
-					<h3>Embed<wbr>Height</h3>
-					<div class="tsd-signature tsd-kind-icon">Embed<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EMBED_HEIGHT&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L249">types.ts:249</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The height of the embedded pinboard or visualization has been computed</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>data - The height of the embedded pinboard or visualization</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="error" class="tsd-anchor"></a>
-					<h3>Error</h3>
-					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Error&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L234">types.ts:234</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An error has occurred</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>error - An error object or message</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="init" class="tsd-anchor"></a>
-					<h3>Init</h3>
-					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L185">types.ts:185</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Rendering has initialized.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>timestamp - The timestamp when the event was fired</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="load" class="tsd-anchor"></a>
-					<h3>Load</h3>
-					<div class="tsd-signature tsd-kind-icon">Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;load&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/191c5ba/src/types.ts#L196">types.ts:196</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The iFrame has loaded. This only refers to the iFrame load event
-							and does not mean the ThoughtSpot app has completed loading.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>timestamp - The timestamp when the event was fired</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-			</section>
-		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
@@ -405,6 +162,250 @@
 				</ul>
 			</nav>
 		</div>
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Event types emitted by the embedded ThoughtSpot application</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumeration members</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#alert" class="tsd-kind-icon">Alert</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#authinit" class="tsd-kind-icon">Auth<wbr>Init</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#customaction" class="tsd-kind-icon">Custom<wbr>Action</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#data" class="tsd-kind-icon">Data</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#datasourceselected" class="tsd-kind-icon">Data<wbr>Source<wbr>Selected</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#drilldown" class="tsd-kind-icon">Drilldown</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#embedheight" class="tsd-kind-icon">Embed<wbr>Height</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#error" class="tsd-kind-icon">Error</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#init" class="tsd-kind-icon">Init</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="embedevent.html#load" class="tsd-kind-icon">Load</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="alert" class="tsd-anchor"></a>
+					<h3>Alert</h3>
+					<div class="tsd-signature tsd-kind-icon">Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;alert&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L239">types.ts:239</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An alert has been thrown</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>alert - An alert object</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="authinit" class="tsd-anchor"></a>
+					<h3>Auth<wbr>Init</h3>
+					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;authInit&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L190">types.ts:190</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Authentication has either succeeded or failed.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>isLoggedIn - A Boolean specifying whether authentication was successful</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="customaction" class="tsd-anchor"></a>
+					<h3>Custom<wbr>Action</h3>
+					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;CustomAction&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L229">types.ts:229</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A custom action has been triggered</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>actionId - The id of the custom action</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>data - The answer or pinboard data</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L201">types.ts:201</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Data pertaining to answer or pinboard is received</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>data - The answer or pinboard data</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="datasourceselected" class="tsd-anchor"></a>
+					<h3>Data<wbr>Source<wbr>Selected</h3>
+					<div class="tsd-signature tsd-kind-icon">Data<wbr>Source<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dataSourceSelected&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L223">types.ts:223</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>One or more data sources have been selected</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>dataSourceIds - the list of data sources</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="drilldown" class="tsd-anchor"></a>
+					<h3>Drilldown</h3>
+					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;drillDown&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L218">types.ts:218</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A drill down operation has been performed</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>additionalFilters - Any additonal filters applied</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>drillDownColumns - The columns on which drill down was performed</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>nonFilteredColumns - The columns that were not filtered</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="embedheight" class="tsd-anchor"></a>
+					<h3>Embed<wbr>Height</h3>
+					<div class="tsd-signature tsd-kind-icon">Embed<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EMBED_HEIGHT&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L249">types.ts:249</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The height of the embedded pinboard or visualization has been computed</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>data - The height of the embedded pinboard or visualization</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="error" class="tsd-anchor"></a>
+					<h3>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Error&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L234">types.ts:234</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An error has occurred</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>error - An error object or message</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="init" class="tsd-anchor"></a>
+					<h3>Init</h3>
+					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L185">types.ts:185</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Rendering has initialized.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>timestamp - The timestamp when the event was fired</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="load" class="tsd-anchor"></a>
+					<h3>Load</h3>
+					<div class="tsd-signature tsd-kind-icon">Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;load&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1c93c2c/src/types.ts#L196">types.ts:196</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The iFrame has loaded. This only refers to the iFrame load event
+							and does not mean the ThoughtSpot app has completed loading.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>timestamp - The timestamp when the event was fired</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+		</div>
 	</div>
 </div>
 <footer>
@@ -422,6 +423,6 @@
 	</div>
 </footer>
 <div class="overlay"></div>
-<script src="../assets/js/main.js"></script>
+<script src="../ assets/js/main.js"></script>
 </body>
 </html>

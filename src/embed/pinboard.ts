@@ -9,12 +9,19 @@
  */
 
 import { ERROR_MESSAGE } from '../errors';
-import { EmbedEvent, MessagePayload, Param, RuntimeFilter } from '../types';
+import {
+    EmbedEvent,
+    MessagePayload,
+    Param,
+    RuntimeFilter,
+    DOMSelector,
+} from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
 /**
  * The configuration for the embedded pinboard view
+ * @Category Pinboards and Charts
  */
 export interface PinboardViewConfig extends ViewConfig {
     /**
@@ -38,9 +45,15 @@ export interface PinboardViewConfig extends ViewConfig {
 
 /**
  * Embed a ThoughtSpot pinboard or visualization
+ * @Category Pinboards and Charts
  */
 export class PinboardEmbed extends V1Embed {
     protected viewConfig: PinboardViewConfig;
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(domSelector: DOMSelector, viewConfig: PinboardViewConfig) {
+        super(domSelector, viewConfig);
+    }
 
     /**
      * Construct a map of params to be passed on to the

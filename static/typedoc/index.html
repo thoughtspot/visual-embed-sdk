@@ -3,11 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@thoughtspot/visual-embed-sdk</title>
+	<title>@thoughtspot/visual-embed-sdk
+	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
+	<script async src=" assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -56,106 +57,6 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#thoughtspot-visual-embed-sdk" id="thoughtspot-visual-embed-sdk" style="color: inherit; text-decoration: none;">
-					<h1>ThoughtSpot Visual Embed SDK</h1>
-				</a>
-				<p><a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a></p>
-				<p>ThoughtSpot Embed SDK</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<p>Via <a href="https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk">NPM</a>:</p>
-				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> @</span><span style="color: #001080">thoughtspot</span><span style="color: #000000">/</span><span style="color: #001080">visual</span><span style="color: #000000">-</span><span style="color: #001080">embed</span><span style="color: #000000">-</span><span style="color: #001080">sdk</span>
-</code></pre>
-				<p>The SDK is written in TypeScript and is also provided both as ESM and UMD module,
-				allowing you to use it in a variety of environments, e.g.,</p>
-				<pre><code class="language-js"><span style="color: #008000">// CommonJS</span>
-<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;tsembed&#039;</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">// RequireJS (AMD)</span>
-<span style="color: #795E26">define</span><span style="color: #000000">([</span><span style="color: #A31515">&#039;tsembed&#039;</span><span style="color: #000000">], </span><span style="color: #0000FF">function</span><span style="color: #000000"> (</span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #008000">// Global</span>
-<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> = </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #001080">tsembed</span><span style="color: #000000">;</span>
-
-<span style="color: #008000">// ESM</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
-</code></pre>
-				<a href="#embed-flavours" id="embed-flavours" style="color: inherit; text-decoration: none;">
-					<h2>Embed Flavours</h2>
-				</a>
-				<p>The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
-				pinboards, visualizations or the even full app version.</p>
-				<a href="#embedded-search" id="embedded-search" style="color: inherit; text-decoration: none;">
-					<h3>Embedded Search</h3>
-				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #795E26">init</span><span style="color: #000000">({</span>
-<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">searchEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchEmbed</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">), {</span>
-<span style="color: #000000">    </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">        </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    },</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #001080">searchEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">({});</span>
-</code></pre>
-				<a href="#embedded-pinboard-amp-visualization" id="embedded-pinboard-amp-visualization" style="color: inherit; text-decoration: none;">
-					<h3>Embedded Pinboard &amp; Visualization</h3>
-				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #795E26">init</span><span style="color: #000000">({</span>
-<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pinboardEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PinboardEmbed</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">), {</span>
-<span style="color: #000000">    </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">        </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    },</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #001080">pinboardEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">({</span>
-<span style="color: #000000">    </span><span style="color: #001080">pinboardId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=pinboardGUID%&gt;&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">vizId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=vizGUID%&gt;&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">});</span>
-</code></pre>
-				<a href="#embedded-full-app" id="embedded-full-app" style="color: inherit; text-decoration: none;">
-					<h3>Embedded Full App</h3>
-				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppEmbed</span><span style="color: #000000">, </span><span style="color: #001080">Page</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #795E26">init</span><span style="color: #000000">({</span>
-<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">AppEmbed</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">),</span>
-<span style="color: #000000">    {</span>
-<span style="color: #000000">        </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">            </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">            </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">        },</span>
-<span style="color: #000000">    });</span>
-
-<span style="color: #001080">appEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">({</span>
-<span style="color: #000000">    Page.</span><span style="color: #001080">Data</span>
-<span style="color: #000000">});</span>
-</code></pre>
-			</div>
-		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
@@ -217,6 +118,120 @@
 				</ul>
 			</nav>
 		</div>
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p align="center">
+					<img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
+				</p>
+				<br/>
+				<a href="#thoughtspot-visual-embed-sdk---" id="thoughtspot-visual-embed-sdk---" style="color: inherit; text-decoration: none;">
+					<h1>ThoughtSpot Visual Embed SDK  <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk/prod" alt="npm (scoped with tag)"></h1>
+				</a>
+				<p>SDK to embed ThoughtSpot into your web apps.</p>
+				<br/>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>Via <a href="https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk">NPM</a>:</p>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> @</span><span style="color: #001080">thoughtspot</span><span style="color: #000000">/</span><span style="color: #001080">visual</span><span style="color: #000000">-</span><span style="color: #001080">embed</span><span style="color: #000000">-</span><span style="color: #001080">sdk</span>
+</code></pre>
+				<p>The SDK is written in TypeScript and is also provided both as ESM and UMD module,
+				allowing you to use it in a variety of environments, e.g.,</p>
+				<pre><code class="language-js"><span style="color: #008000">// CommonJS</span>
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;tsembed&#039;</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// RequireJS (AMD)</span>
+<span style="color: #795E26">define</span><span style="color: #000000">([</span><span style="color: #A31515">&#039;tsembed&#039;</span><span style="color: #000000">], </span><span style="color: #0000FF">function</span><span style="color: #000000"> (</span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// Global</span>
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> = </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #001080">tsembed</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// ESM</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+</code></pre>
+				<br/>
+				<a href="#full-api-reference" id="full-api-reference" style="color: inherit; text-decoration: none;">
+					<h2>Full API Reference</h2>
+				</a>
+				<p>Please visit our <a href="https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html">API reference docs</a>.</p>
+				<br/>
+				<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
+					<h2>Quick Start</h2>
+				</a>
+				<p>The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
+				pinboards, visualizations or the even full app version.</p>
+				<a href="#embedded-search" id="embedded-search" style="color: inherit; text-decoration: none;">
+					<h3>Embedded Search</h3>
+				</a>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">searchEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchEmbed</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">), {</span>
+<span style="color: #000000">    </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">searchEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#embedded-pinboard-amp-visualization" id="embedded-pinboard-amp-visualization" style="color: inherit; text-decoration: none;">
+					<h3>Embedded Pinboard &amp; Visualization</h3>
+				</a>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pinboardEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PinboardVizEmbed</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">),</span>
+<span style="color: #000000">    {</span>
+<span style="color: #000000">        </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">            </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">            </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        },</span>
+<span style="color: #000000">        </span><span style="color: #001080">pinboardId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=pinboardGUID%&gt;&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">vizId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=vizGUID%&gt;&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">pinboardEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#embedded-full-app" id="embedded-full-app" style="color: inherit; text-decoration: none;">
+					<h3>Embedded Full App</h3>
+				</a>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppEmbed</span><span style="color: #000000">, </span><span style="color: #001080">Page</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">AppEmbed</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">),</span>
+<span style="color: #000000">    {</span>
+<span style="color: #000000">        </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">            </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">            </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        },</span>
+<span style="color: #000000">        </span><span style="color: #001080">page:</span><span style="color: #000000"> </span><span style="color: #001080">Page</span><span style="color: #000000">.</span><span style="color: #001080">Data</span><span style="color: #000000">,</span>
+<span style="color: #000000">    });</span>
+
+<span style="color: #001080">appEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">();</span>
+</code></pre>
+				<br/>
+				<br/>
+				<p>Visual-Embed-SDK, © ThoughtSpot, Inc. 2021</p>
+			</div>
+		</div>
 	</div>
 </div>
 <footer>
@@ -234,6 +249,6 @@
 	</div>
 </footer>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
+<script src=" assets/js/main.js"></script>
 </body>
 </html>

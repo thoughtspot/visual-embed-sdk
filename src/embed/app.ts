@@ -5,11 +5,12 @@
  * https://docs.thoughtspot.com/5.2/app-integrate/embedding-viz/about-full-embed.html
  *
  * @summary Full app embed
+ * @module
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Param, RuntimeFilter } from '../types';
+import { Param, RuntimeFilter, DOMSelector } from '../types';
 import { V1Embed, ViewConfig } from './base';
 
 /**
@@ -41,6 +42,7 @@ export enum Page {
 
 /**
  * The view configuration for full app embedding
+ * @Category App Embed
  */
 export interface AppViewConfig extends ViewConfig {
     /**
@@ -60,9 +62,15 @@ export interface AppViewConfig extends ViewConfig {
 
 /**
  * Embed a page within the ThoughtSpot app
+ * @Category App Embed
  */
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
+        super(domSelector, viewConfig);
+    }
 
     /**
      * Construct a map of params to be passed on to the
