@@ -21,6 +21,7 @@ import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
+    INTRO_WRAPPER_MARGIN_TOP,
 } from '../constants/uiConstants';
 
 // markup
@@ -57,11 +58,14 @@ const IndexPage = ({ location }) => {
     useEffect(() => {
         // This is to send navigation events to the parent app (if in Iframe)
         // So that the parent can sync the url.
-        window.parent.postMessage({
-            params: queryStringParser(location.search),
-            subsection: location.hash.split('#')[1] || '',
-        }, '*');
-    }, [location.search, location.hash])
+        window.parent.postMessage(
+            {
+                params: queryStringParser(location.search),
+                subsection: location.hash.split('#')[1] || '',
+            },
+            '*',
+        );
+    }, [location.search, location.hash]);
 
     const setPageContent = (pageid: string = NOT_FOUND_PAGE_ID) => {
         // check if url query param is having pageid or not
@@ -76,7 +80,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                    edges[edgeIndex].node.pageAttributes.title,
+                        edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
@@ -91,6 +95,26 @@ const IndexPage = ({ location }) => {
     };
 
     useEffect(() => {
+        async function fetchData() {
+            const navIndex = edges.findIndex(
+                (i) =>
+                    i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
+            );
+
+            // get & set left navigation title
+            setNavTitle(edges[navIndex].node.pageAttributes.title);
+
+            // get & set left navigation area content with dynamic link creation
+            setNavContent(
+                passThroughHandler(edges[navIndex].node.html, params),
+            );
+
+            // get & set left navigation 'SpotDev Home' button url
+            setBackLink(params[TS_ORIGIN_PARAM]);
+
+            // set page title and content based on pageid
+            await setPageContent(params[TS_PAGE_ID_PARAM]);
+        }
         // fetch navigation page index
         const navIndex = edges.findIndex(
             (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,

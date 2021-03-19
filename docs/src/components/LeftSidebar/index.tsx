@@ -44,7 +44,7 @@ const LeftSideBar = (props: {
         props.handleLeftNavChange(width);
     }, [width]);
 
-    const isMaxMobileResolution = props.docWidth > MAX_MOBILE_RESOLUTION;
+    const isMaxMobileResolution = !(props.docWidth < MAX_MOBILE_RESOLUTION);
 
     return (
         <ResizableBox
