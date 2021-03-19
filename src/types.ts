@@ -226,7 +226,7 @@ export enum EmbedEvent {
      * @return actionId - The id of the custom action
      * @return data - The answer or pinboard data
      */
-    CustomAction = 'CustomAction',
+    CustomAction = 'customAction',
     /**
      * An error has occurred
      * @return error - An error object or message
@@ -247,6 +247,11 @@ export enum EmbedEvent {
      * @return data - The height of the embedded pinboard or visualization
      */
     EmbedHeight = 'EMBED_HEIGHT',
+    /**
+     * The v1 event type for Data
+     * @hidden
+     */
+    V1Data = 'exportVizDataToParent',
 }
 
 /**
