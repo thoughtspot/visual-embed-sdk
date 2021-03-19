@@ -4,7 +4,7 @@
     padding: $padding-md;
     border-bottom: 1px $lightgrey solid;
     position: fixed;
-    width: calc(100% - 250px);
+    width: calc(100% - #{$docmap-width-desktop});
     background: $white;
     z-index: 99;
 }
@@ -31,6 +31,8 @@
         padding-left: $padding-left-search-input;
         font-size: $font-size-normal;
         color: $darkgrey;
+        font-family: $font-family-doc;
+        padding-bottom: 2px;
     }
 
     input:focus {

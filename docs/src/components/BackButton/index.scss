@@ -6,19 +6,25 @@
     align-items: center;
 
     button {
-        width: 40px;
-        height: 40px;
+        width: $width-back-button;
+        height: $height-back-button;
         display: block;
         border-radius: 50%;
         border: none;
         outline: none;
         margin-right: 10px;
     }
+
     img {
         padding-top: 3px;
+        position: relative;
+        left: 0px;
+        top: 0px;
     }
+
     p {
         color: $darkgrey;
         font-size: $font-size-normal;
+        font-family: $font-family-back-button;
     }
 }
