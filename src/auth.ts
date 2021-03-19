@@ -107,6 +107,7 @@ export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
                 body: `username=${encodeURIComponent(
                     username,
                 )}&password=${encodeURIComponent(password)}`,
+                credentials: 'include',
             },
         );
         loggedInStatus = response.status === 200;
