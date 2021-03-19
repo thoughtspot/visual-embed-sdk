@@ -52,12 +52,16 @@ The *Playground* allows you to explore the following ThoughtSpot components that
 * xref:spotdev-portal.adoc#playground-pinboard[Pinboards]
 * xref:spotdev-portal.adoc#playground-visualization[Visualizations]
 * xref:spotdev-portal.adoc#playground-fullapp[Full application]
+
 +
+++++
+<a href="{{origin}}/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+////
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
 ++++
-
-
+////
 Customizations::
 For ThoughtSpot users with administrator and developer privileges, the Developer portal displays the following customization menu items:
 
