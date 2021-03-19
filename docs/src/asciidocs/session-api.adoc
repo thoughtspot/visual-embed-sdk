@@ -9,7 +9,6 @@
 The Session APIs enable you to manage the sessions of ThoughtSpot users.
 
 == Log in a user
-
 Use this API to authenticate and log in a user.
 
 === Resource URL
@@ -32,7 +31,7 @@ POST /tspublic/v1/session/login
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=test&password=fhfh2323bbn&rememberme=false' 'https://<instance>/callosum/v1/tspublic/v1/session/login'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=test&password=fhfh2323bbn&rememberme=false' 'https://<base-uri>/callosum/v1/tspublic/v1/session/login'
 ----
 
 .Request URL
@@ -45,10 +44,58 @@ https://<base-uri>/tspublic/v1/session/login
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|No response was specified 
+|**200**|User logged in
 |**204**|Successful login 
 |**401**|Login failure/unauthorized 
 |===
+
+== Obtain an authentication token for a user
+Use this API to obtain an authentication token. The authentication token is required if a token-based trusted authentication service is used for authenticating ThoughtSpot users.
+
+=== Resource URL
+----
+ POST https://<base-uri>/tspublic/v1/session/auth/token
+----
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`secret_key`|string|The authentication token string provided by the ThoughtSpot application server.
+|`username`|string|The user name of the user configured in ThoughtSpot.
+|`access_level`|string a|User access permission. Valid values are:
+
+* `FULL` - Allow full access.
+* `REPORT_BOOK_VIEW` - Allow view access to visualizations.
+|`id`|string|GUID of the ThoughtSpot object. This parameter is required if the  `access_level` is set to `REPORT_BOOK_VIEW`.
+|====
+
+=== Example request 
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/session/auth/token'
+----
+
+.Request URL
+----
+https://<base-uri>/callosum/v1/tspublic/v1/session/auth/token
+----
+
+=== Example response
+If the request parameters are assigned correct values, the API returns an authentication token for the user.
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**| The authentication token is generated successfully.
+|**401**| Unauthorized service.
+|===
+
 
 == Log out a user
 
@@ -79,7 +126,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/session/logout
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|No response was specified 
+|**200**|User logged out
 |**204**|Successful logout 
 |**401**|Logout failure/unauthorized 
 |===

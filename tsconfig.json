@@ -3,7 +3,15 @@
         "baseUrl": ".",
         "module": "esnext",
         "target": "es2019",
-        "lib": ["es6", "dom", "es2016", "es2017", "es2018", "es2019", "es2020"],
+        "lib": [
+            "es6",
+            "dom",
+            "es2016",
+            "es2017",
+            "es2018",
+            "es2019",
+            "es2020"
+        ],
         "sourceMap": true,
         "allowJs": true,
         "rootDir": "./",
@@ -28,14 +36,29 @@
         "removeComments": false,
         "allowSyntheticDefaultImports": true
     },
-    "include": ["src/**/*.ts", "custom-typings/**/*.d.ts"],
-    "exclude": ["node_modules", "../node_modules"],
+    "include": [
+        "src/**/*.ts",
+        "custom-typings/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "../node_modules"
+    ],
     "typedocOptions": {
-        "entryPoints": ["src/index.ts"],
+        "entryPoints": [
+            "src/index.ts"
+        ],
         "out": "static/typedoc",
         "excludePrivate": true,
         "excludeProtected": true,
         "excludeInternal": true,
-        "hideGenerator": true
+        "hideGenerator": true,
+        "categorizeByGroup": false,
+        "categoryOrder": [
+            "Search Embed",
+            "App Embed",
+            "Pinboards and Charts",
+            "*"
+        ]
     }
 }

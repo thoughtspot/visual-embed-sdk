@@ -25,19 +25,6 @@ Users in a fully  embedded application cannot perform the following tasks:
 * modify profiles
 * view the Help Center
 
-
-=== Browser support
-Note the following support across browsers:
-
-Supported desktop browsers::
-Chrome, Edge, Firefox, Opera
-Supported mobile browsers::
-Android webview, Chrome for Android, Firefox for Android, Opera for Android, and Samsung Internet
-NOT supported desktop browsers::
-Internet Explorer, Safari
-NOT supported mobile browser::
-Safari on iOS
-
 ////
 === Error messages and full embed
 
@@ -118,6 +105,12 @@ frameParams:: Sets the `width` and `height` dimensions to render the pages in th
 showPrimaryNavbar::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
 === Construct the URL and render the application
 Construct the URL of the embedded ThoughtSpot application to load within the web page.
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
@@ -130,7 +123,6 @@ Render the embedded content and pass the `pageID` parameter for setting a page a
  
 
 ----
-
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
 
@@ -142,15 +134,16 @@ Page.Pinboards:: Displays the *Pinboards* page when the application loads.
 Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
 
+++++
+<a href="{{tshost}}/#/everywhere/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
 ----
-
  appEmbed.on(EventType.init, showLoader)
  appEmbed.on(EventType.load, hideLoader)
-
-
 ----
 ////
 ==== Event Type

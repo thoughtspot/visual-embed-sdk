@@ -117,4 +117,5 @@ A pop-window appears and prompts you to confirm the disable action.
 . Click *Disable*.
 
 +
-When you disable trusted authentication, the validity of your existing authentication token expires. You need to generate a new token by re-enabling trusted authentication.
+When you disable trusted authentication, the validity of your existing authentication token expires. Your application will become inoperable until you add the new token to it.
+To generate a new token, re-enable trusted authentication.

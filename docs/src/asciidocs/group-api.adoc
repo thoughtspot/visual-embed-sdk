@@ -5,17 +5,23 @@
 :page-pageid: group-api
 :page-description: Group API
 
-
-The Group APIs enable you to set or remove a privilege to or from a group or multiple groups.
+The Group APIs allow you to set or remove a privilege to or from a group.
 
 == Add a privilege
+Use this API to add the following privileges to a group.
 
-Use this API to add a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege to the system default `ALL_GROUP` group.
-All users in the system are always a part of the `ALL_GROUP` group.
-By default, this group does not have permission to download or upload data.
+* `DATADOWNLOADING` 
++
+Allows users to download data from search results and pinboards. When `DATADOWNLOADING` privilege is applied, the users can download all the data sources that a group can access.
 
-All the data sources that the `ALL_GROUP` group can access are downloadable when `DATADOWNLOADING` is applied.
+* `USERDATAUPLOADING` 
++
+Allows users to upload their own data to ThoughtSpot.
+Each user group in ThoughtSpot assigns a set of privileges for its users. 
 
+ThoughtSpot also has a default group called `ALL_GROUP`, which includes every user in ThoughtSpot. When you create a new user, they will be added to the `ALL_GROUP` group automatically. By default, the members of `ALL_GROUP` do not have permission to download or upload data. You can use this API to add these privileges to the `ALL_GROUP` group.
+
+ 
 === Resource URL
 ----
 POST /tspublic/v1/group/addprivilege
@@ -27,7 +33,7 @@ POST /tspublic/v1/group/addprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to add the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to which you want to add the privilege. The default value is `ALL_GROUP` group. 
 
 |====
 
@@ -50,9 +56,9 @@ https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|No response was specified 
+|**200**|Privilege added
 |**204**|Success
-|**401**|Failure/Unauthorized
+|**401**|Failure/Unauthorized request
 |===
 
 == Remove a privilege
@@ -71,7 +77,7 @@ POST /tspublic/v1/group/removeprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to delete the privilege to. Valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to delete the privilege to. The valid value is `ALL_GROUP` group. 
 
 |====
 
@@ -92,9 +98,9 @@ https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege
 [options="header", cols="1,2"]
 |===
 |HTTP Code|Description 
-|**200**|No response was specified
+|**200**|Privilege removed
 |**204**|Success 
-|**401**|Failure/Unauthorized 
+|**401**|Failure/Unauthorized request
 |===
 
 

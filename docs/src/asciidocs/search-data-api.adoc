@@ -92,7 +92,7 @@ For example, when a ThoughtSpot UI query is revenue by commit date my calendar, 
 [revenue] by [commit date] calendar.'my calendar'
 ----
 
-== Limitations of search query API
+== Limitations of search data API
 
 * To avoid join path ambiguities, a query can use only a single data source.
 

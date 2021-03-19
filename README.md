@@ -1,15 +1,22 @@
-# ThoughtSpot Visual Embed SDK
 
-[![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
+</p>
 
-ThoughtSpot Embed SDK
+<br/>
+
+# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk/prod)
+
+SDK to embed ThoughtSpot into your web apps.
+
+<br/>
 
 ## Usage
 
-Via [NPM](https://www.npmjs.com/package/@thoughtspot/embed-sdk):
+Via [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
 
 ```
-npm i @thoughtspot/embed-sdk
+npm i @thoughtspot/visual-embed-sdk
 ```
 
 The SDK is written in TypeScript and is also provided both as ESM and UMD module,
@@ -28,10 +35,18 @@ define(['tsembed'], function (TsEmbedSDK) {
 var TsEmbedSDK = window.tsembed;
 
 // ESM
-import * as TsEmbedSDK from '@thoughtspot/embed-sdk';
+import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
-## Embed Flavours
+<br/>
+
+## Full API Reference
+
+Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
+
+<br/>
+
+## Quick Start
 
 The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
 pinboards, visualizations or the even full app version.
@@ -39,29 +54,27 @@ pinboards, visualizations or the even full app version.
 ### Embedded Search
 
 ```js
-import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: AuthType.None,
 });
 
-const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-    });
+const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+});
 
-searchEmbed.render({});
+searchEmbed.render();
 ```
 
 ### Embedded Pinboard & Visualization
 
 ```js
-import { PinboardVizEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -75,18 +88,18 @@ const pinboardEmbed = new PinboardVizEmbed(
             width: '100%',
             height: '100%',
         },
-    });
-
-pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>'
+        pinboardId: '<%=pinboardGUID%>',
+        vizId: '<%=vizGUID%>',
+    },
 });
+
+pinboardEmbed.render();
 ```
 
 ### Embedded Full App
 
 ```js
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -100,9 +113,13 @@ const appEmbed = new AppEmbed(
             width: '100%',
             height: '100%',
         },
+        page: Page.Data,
     });
 
-appEmbed.render({
-    Page.Data
-});
+appEmbed.render();
 ```
+
+<br/>
+<br/>
+
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2021

@@ -105,17 +105,45 @@ Sets the `width` and `height` dimensions to render the iframe in the web browser
 collapseDataSources [small]*_optional_*::
 _Boolean_. When set to true, it minimizes the Data Source panel.
 
- hideDataSources [small]_optional_::
-_Boolean_. When set to true, it hides the Data Source panel.
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
+hideDataSources [small]_optional_::
+_Boolean_. When set to true, it hides the default Data Source panel. Use this attibute if you want to create a custom data panel.
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
 
 hideResults [small]_optional_::
-_Boolean_. When set to true, it hides charts and tables in search answers.
+_Boolean_. When set to true, it hides charts and tables in search answers. Use this attribute if you want to create your own visualization.
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 enableSearchAssist [small]_optional_::
 _Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
+
+
 hiddenActions::
-_Array of strings_. Hides the specified action menu items on the search answer page.
+_Array of strings_. Hides the specified action menu items on the search answer page. You can use this attribute to remove actions that are not applicable to your application context.
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 +
 For example, to hide the *Replay Search* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `replaySearch` text string in the `hiddenActions` attribute.
@@ -125,7 +153,7 @@ For example, to hide the *Replay Search* action from the *More* menu image:./ima
 hiddenActions: Action.replaySearch
 ----
 disabledActions [small]_optional_::
-_Array of strings_. Disables the specified menu items from the list of actions in the search answer page.
+_Array of strings_. Disables the specified menu items from the list of actions in the search answer page. You can use this attribute to restrict user access to certain features.
 +
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add the `showUnderlyingData` action to the `disabledActions` attribute.
 
@@ -134,13 +162,16 @@ For example, to disable the *Show underlying data* action from the *More* menu i
 ---- 
 disabledActions: Action.showUnderlyingData
 ----
-
-
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
+
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/action.html[Actions, window=_blank].
 
 == Render the embedded search
 Construct the URL of the embedded ThoughtSpot search object.
@@ -179,6 +210,10 @@ searchQuery: "[Revenue] by [Shipmode]"
 ----
 
 
+++++
+<a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
+ 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
@@ -200,7 +235,7 @@ dataSourceSelected::
 The data source for searching data is selected.
 ////
 
-For a complete list of event types, see the link:/typedoc/enums/eventtype.html[EventType reference page].
+For a complete list of event types, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 == Test the embedded workflow
 
@@ -213,7 +248,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 == Code sample
 
-[source, javascript]
+[source,javascript]
 ----
 import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
 
@@ -235,6 +270,7 @@ searchEmbed.render({
     dataSources: ['4f289824-e301-4001-ad06-8888f69c4748']
 });
 ----
+
 
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>

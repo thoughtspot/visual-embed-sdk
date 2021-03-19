@@ -83,6 +83,11 @@ For example, to disable the *Change Title* action from the *More* menu image:./i
 ----
 disabledActions: Action.editTitle
 ----
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
+
 hiddenActions [small]_optional_::
 _String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
@@ -95,6 +100,13 @@ For example, to hide *Download As PDF* action from the *More* menu image:./image
 ----
 hiddenActions: Action.downloadAsPdf
 ----
+
+
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
+
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
 
@@ -198,6 +210,11 @@ Runtime filters have several operators you can use to filter your embedded visua
 |===
 
 
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+++++
+
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
 
@@ -254,8 +271,8 @@ pinboardEmbed.render({
 });
 ----
 
-++++
 
+++++
 <a href="{{tshost}}/#/everywhere/playground/answer" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 

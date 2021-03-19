@@ -25,6 +25,12 @@ export enum AuthType {
      * Truted authentication server
      */
     AuthServer = 'AuthServer',
+    /**
+     * Use ThoughtSpot login API to authenticate to the cluster directly
+     * Warning: This feature is primarily intended for developer testing and it is
+     * strongly advised not to use this in production
+     */
+    Basic = 'Basic',
 }
 
 export type DOMSelector = string | HTMLElement;
@@ -63,6 +69,13 @@ export interface EmbedConfig {
      * The user name for trusted auth
      */
     username?: string;
+
+    /**
+     * The ThoughtSpot login password corresponding to the user name
+     * Warning: This feature is primarily intended for developer testing and it is
+     * strongly advised not to use this in production
+     */
+    password?: string;
 
     /** @internal */
     basepath?: string;
@@ -213,7 +226,7 @@ export enum EmbedEvent {
      * @return actionId - The id of the custom action
      * @return data - The answer or pinboard data
      */
-    CustomAction = 'CustomAction',
+    CustomAction = 'customAction',
     /**
      * An error has occurred
      * @return error - An error object or message
@@ -234,6 +247,11 @@ export enum EmbedEvent {
      * @return data - The height of the embedded pinboard or visualization
      */
     EmbedHeight = 'EMBED_HEIGHT',
+    /**
+     * The v1 event type for Data
+     * @hidden
+     */
+    V1Data = 'exportVizDataToParent',
 }
 
 /**

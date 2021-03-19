@@ -29,17 +29,27 @@ import { authenticate, isAuthenticated } from '../auth';
 
 let config = {} as EmbedConfig;
 
+let authPromise: Promise<void>;
+
+/**
+ * The event id map from v2 event names to v1 event id
+ * v1 events are the classic embed events implemented in Blink v1
+ * We cannot rename v1 event types to maintain backward compatibility
+ * @internal
+ */
+const V1EventMap = {
+    [EmbedEvent.Data]: [EmbedEvent.V1Data],
+};
+
 /**
  * Perform authentication on the ThoughtSpot app as applicable
  */
 const handleAuth = () => {
-    if (config.authType !== AuthType.None) {
-        const authConfig = {
-            ...config,
-            thoughtSpotHost: getThoughtSpotHost(config),
-        };
-        authenticate(authConfig);
-    }
+    const authConfig = {
+        ...config,
+        thoughtSpotHost: getThoughtSpotHost(config),
+    };
+    authPromise = authenticate(authConfig);
 };
 
 /**
@@ -266,28 +276,38 @@ export class TsEmbed {
                 timestamp: Date.now(),
             },
         });
-        this.iFrame = document.createElement('iframe');
-        this.iFrame.src = url;
-        const width = getCssDimension(
-            frameOptions?.width || DEFAULT_EMBED_WIDTH,
-        );
-        const height = getCssDimension(
-            frameOptions?.height || DEFAULT_EMBED_HEIGHT,
-        );
-        this.iFrame.style.width = `${width}`;
-        this.iFrame.style.height = `${height}`;
-        this.iFrame.style.border = '0';
-        this.iFrame.name = 'ThoughtSpot Embedded Analytics';
-        this.iFrame.addEventListener('load', () =>
-            this.executeCallbacks(EmbedEvent.Load, {
-                data: {
-                    timestamp: Date.now(),
-                },
-            }),
-        );
-        this.el.appendChild(this.iFrame);
 
-        this.subscribeToEvents();
+        authPromise
+            ?.then(() => {
+                this.executeCallbacks(EmbedEvent.AuthInit, {
+                    data: { isLoggedIn: isAuthenticated() },
+                });
+
+                this.iFrame = this.iFrame || document.createElement('iframe');
+                this.iFrame.src = url;
+                const width = getCssDimension(
+                    frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                );
+                const height = getCssDimension(
+                    frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                );
+                this.iFrame.style.width = `${width}`;
+                this.iFrame.style.height = `${height}`;
+                this.iFrame.style.border = '0';
+                this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+                this.iFrame.addEventListener('load', () =>
+                    this.executeCallbacks(EmbedEvent.Load, {
+                        data: {
+                            timestamp: Date.now(),
+                        },
+                    }),
+                );
+                this.el.appendChild(this.iFrame);
+                this.subscribeToEvents();
+            })
+            .catch((error) => {
+                this.handleError(error);
+            });
     }
 
     /**
@@ -313,6 +333,16 @@ export class TsEmbed {
      */
     protected getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
+    }
+
+    /**
+     * Get the v1 event type (if applicable) for the EmbedEvent type
+     * @param eventType The v2 event type
+     * @returns The correspding v1 event type if one exists
+     * or else the v2 event type itself
+     */
+    protected getCompatibleEventType(eventType: EmbedEvent): EmbedEvent {
+        return V1EventMap[eventType] || eventType;
     }
 
     /**
@@ -367,10 +397,6 @@ export class TsEmbed {
     public render(): TsEmbed {
         this.isRendered = true;
 
-        this.executeCallbacks(EmbedEvent.AuthInit, {
-            data: { isLoggedIn: isAuthenticated() },
-        });
-
         return this;
     }
 }
@@ -394,5 +420,15 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
+    }
+
+    // @override
+    public on(
+        messageType: EmbedEvent,
+        callback: MessageCallback,
+    ): typeof TsEmbed.prototype {
+        const eventType = this.getCompatibleEventType(messageType);
+
+        return super.on(eventType, callback);
     }
 }

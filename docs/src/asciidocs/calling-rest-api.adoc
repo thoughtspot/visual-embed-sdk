@@ -69,7 +69,7 @@ These are called Runtime Filters.
 
 The following example shows a JavaScript function that calls the REST API, gets the results back, and retrieves a single value from the JSON results:
 
-[source, JSON]
+[source,javascript]
 ----
 /**
  * Generates headline by making a data API call.
