@@ -16,10 +16,6 @@ The link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK, windo
 
 For more specific information on Embed options and functions, visit our link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html[API site, window=_blank].
 
-
-
 == Additional resources
  
 For information on how to use the Visual Embed SDK, see xref:getting-started.adoc[Get Started].
-
-

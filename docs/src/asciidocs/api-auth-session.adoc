@@ -5,11 +5,11 @@
 :page-pageid: api-auth-session
 :page-description: Manage user sessions with REST APIs
 
-ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users for embedding scenarios. 
+ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users for embed scenarios. 
 
 ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.  
 
-To manage ThoughtSpot user sessions, use the session REST API.
+To manage ThoughtSpot user sessions, you can use the session REST API.
 The session API service allows your host application to authenticate and manage user login.
 
 == Authenticate and log in a user

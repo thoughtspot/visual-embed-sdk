@@ -147,7 +147,7 @@ Runtime filters provide the ability to filter data at the time of retrieval. Run
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
-[source,Javascript]
+[source,javascript]
 ----
 runtimeFilters: [{
   columnName: 'color',

@@ -9,6 +9,7 @@
 
 The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
 The portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
+The portal also allows authorized users to customize and rebrand the look and feel of the UI and  configure custom actions to an embedded visualization or pinboard.
 
 == Access Developer portal
 
@@ -17,9 +18,9 @@ To access Developer portal, follow these steps:
 If you are an existing ThoughtSpot user: ::
 . Sign in to your ThoughtSpot Cloud application instance.
 . Navigate to the **Develop** tab.
-If you are a new user: ::
-. Register for a free trial.
-. Sign in to free trail cluster to evaluate the embedding workflows.
+If you are not a ThoughtSpot user: ::
+. Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
+. Click the *Developers* tab.
 ////
 If you are a new user::
 . Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
@@ -34,8 +35,6 @@ If you are an existing ThoughtSpot Cloud user::
 The Developer portal also allows you to customize styles and configure additional actions for the  visualizations and pinboards embedded in your host application.
 ////
 
-. Explore the Developer portal features, and build your sample code in *Playground*.
-The portal also allows you to customize styles and configure additional actions for the visualizations and pinboards embedded in your host application.
 
 == Find your way around
 The Developer portal includes several sections to assist you through your embedding journey.
@@ -45,14 +44,14 @@ The *Home* page of the Developer portal provides a pictorial view of the Thought
 The home page also includes links to the *Developer Guides* and the *Playground* to preview the toolkit.
 
 Guide::
-The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot SDK and APIs to integrate ThoughtSpot features into your application.
+The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot Visual Embed SDK and REST APIs to integrate ThoughtSpot features into your application.
 
 Playground::
-The *Playground* provides an API playground to explore the following ThoughtSpot features.
-* xref:spotdev-portal.adoc##playground-search[Search]
-* xref:spotdev-portal.adoc##playground-visualization[Visualizations]
-* xref:spotdev-portal.adoc##playground-pinboard[Pinboards]
-* xref:spotdev-portal.adoc##playground-fullapp[Full application]
+The *Playground* allows you to explore the following ThoughtSpot components that you can embed in your application:
+* xref:spotdev-portal.adoc#playground-search[Search]
+* xref:spotdev-portal.adoc#playground-pinboard[Pinboards]
+* xref:spotdev-portal.adoc#playground-visualization[Visualizations]
+* xref:spotdev-portal.adoc#playground-fullapp[Full application]
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
@@ -68,18 +67,17 @@ A set of customization controls for white-labeling and rebranding the embedded T
 
 * *Actions*
 +
-Configuration settings for creating custom actions for the embedded pinboards and visualizations.
+Configuration settings for creating custom actions in the ThoughtSpot UI to trigger workflows in your application, or invoke a URL with ThoughtSpot data as the payload.
 
 * *Settings*
 +
 Security controls for accessing embedded content from external applications.
 
-== Explore the APIs
-ThoughtSpot provides a set of APIs, SDK, and developer tools to integrate search analytics, data insights, visualizations, pinboards, and even the entire ThoughtSpot application in an external application, portal, or business solution.
-The *Playground* allows developers to preview the code, test it, and familiarize themselves with the application controls.
+== Explore the Visual Embed APIs
+The *Playground* allows developers to try the Visual Embed APIs, preview the code, test it, and familiarize themselves with the application controls.
 [#playground-search]
 === Search
-To explore the search embed API and preview the code:
+To embed search:
 
 . Go to *Playground* > *Search*.
 . Select a data source or a saved search answer.
@@ -87,35 +85,28 @@ To explore the search embed API and preview the code:
 +
 Collapse data panel::
 Minimizes the data panel on the left navigation bar.
+
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
-
 +
 Hide data panel::
-Hides the default data panel.
+Hides the default data panel. You can use this function to create a custom data panel when embedding the search module in your application.
 +
-
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
-
-
 +
 Hide chart or table::
-Hides the visualizations displayed as search results.
+Hides the visualizations displayed as search results. You can use this function to create your own visualization when embedding search in your application.
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
-
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
@@ -138,8 +129,8 @@ hiddenActions: ['replaySearch']
 For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:/typedoc/enums/action.html[Actions].
 
 +
-Enable Search Assist::
-Enables the Search Assist feature that helps users with simple search scenarios. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+Disable Search Assist::
+Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 +
 ++++
 <a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
@@ -195,7 +186,7 @@ For more information on the search tokens and query string components, see xref:
 
 [#playground-visualization]
 === Visualization
-To explore the API for embedding visualizations:
+To embed a visualization:
 
 . Go to *Playground* > *Visualization*.
 . Select a pinboard or visualization.
@@ -203,23 +194,19 @@ To explore the API for embedding visualizations:
 
 +
 Modify available actions::
-
-
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
 
-
 +
-++++
-<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
-++++
-
 * To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`:
 
 +
 ----
 disabledActions: ['download']
 ----
-
++
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
+++++
 
 * To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 * To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
@@ -229,10 +216,14 @@ disabledActions: ['download']
 hiddenActions: ['download']
 ----
 +
+++++
+<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
+++++
+
++
 For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
 
 +
-
 Set runtime filters::
 
 Enables Runtime Filters. 
@@ -241,14 +232,12 @@ Enables Runtime Filters.
 ++++
 <a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
-
 +
 Runtime filters provide the ability to filter data at the time of retrieval.  
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
 
-
 +
+[source,javascript]
 ----
 runtimeFilters: [{
   columnName: 'color',
@@ -264,7 +253,7 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud
 
 [#playground-pinboard]
 === Pinboard
-To explore the Pinboard API:
+To embed a pinboard:
 
 . Go to *Playground* > *Pinboard*.
 . Select a pinboard.
@@ -282,11 +271,9 @@ Disables or hides the specified action menu items in the **More** menu image:./i
 * To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`.
 
 +
-
 ----
 disabledActions: ['downloadAsPdf']
 ----
-
 * To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 
 * To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
@@ -309,8 +296,15 @@ Enables Runtime Filters on a visualization in a pinboard.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
 
-
 +
+[source,javascript]
+----
+runtimeFilters: [{
+      columnName: 'Revenue',
+      operator: EQ,
+      values: [ 100000 ]
+      }]
+----
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
@@ -318,7 +312,7 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud
 
 [#playground-fullapp]
 === Full Application
-To explore the API for embedding full application:
+To embed full application:
 
 . Go to *Playground* > *Full app*.
 . Select a tab to set a default page view for embedded application users.

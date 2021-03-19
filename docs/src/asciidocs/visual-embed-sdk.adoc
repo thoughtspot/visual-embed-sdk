@@ -5,11 +5,11 @@
 :page-pageid: visual-embed-sdk
 :page-description: What is Visual Embed SDK
 
-The Visual Embed SDK provides a set of Javascript libraries to embed ThoughtSpot elements in a host application.
+The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements in a host application.
 
 You can use the Visual Embed SDK for the following purposes:
 
-* Embed specific components of ThoughtSpot application. For example, search bar, search answers page, pinboards, charts, and tables.
+* Embed specific components of the ThoughtSpot application; For example, search, pinboards, and visualizations.
 * Render full ThoughtSpot application within the host application.
 * Render charts, visualizations, and pinboards.
 
@@ -17,16 +17,14 @@ You can use the Visual Embed SDK for the following purposes:
 
 The Visual Embed SDK includes the following Javascript libraries:
 
-[horizontal]
 SearchEmbed::
-For xref:embed-search.adoc[embedding the ThoughtSpot search] functionality.
+To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
 
 PinboardEmbed::
-For embedding a ThoughtSpot xref:embed-a-viz.adoc[visualization] or  xref:embed-pinboard.adoc[pinboard].
-
+To embed a ThoughtSpot xref:embed-a-viz.adoc[visualization] or  xref:embed-pinboard.adoc[pinboard].
 
 AppEmbed::
-For embedding the xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
+To embed the xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
 
 
 == Configuration requirements for embedding
@@ -35,7 +33,6 @@ For information on configuration requirements, see the following sections:
 
 * xref:integration-overview.adoc[Integration guidelines]
 * xref:security-settings.adoc[Security settings]
-
 
 == Optional settings for embedding
 

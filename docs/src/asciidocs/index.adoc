@@ -5,55 +5,59 @@
 :page-pageid: index
 :page-description: Embedded Analytics with ThoughtSpot
 
-The ThoughtSpot embedding solution enables you to integrate ThoughtSpot functionality and infuse search-driven data and insights into your application, website, portal, product, or business solution. With ThoughtSpot embedding, you can enrich your applications with ThoughtSpot capabilities and provide context-driven analytics with a seamless experience for your application users.
+ThoughtSpot allows you to embed search-driven analytics and infuse insights into your application, website, portal, or product. By embedding ThoughtSpot, you can enrich your applications with ThoughtSpot's analytical capabilities and provide a seamless experience for your application users, as they navigate between your application interfaces.
 
-ThoughtSpot provides a suite of APIs, SDK, and developer tools to programmatically embed search analytics, pinboards, visualizations, and even the entire ThoughtSpot application. The ThoughtSpot embedding solution also provides UI menu options to customize and rebrand the embedded ThoughtSpot components.
+ThoughtSpot provides the Visual Embed SDK to programmatically embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot application. ThoughtSpot also provides REST API services to programmatically query data, manage users and user sessions, push data to an external application, and other key functions. 
 
+== ThoughtSpot Developer portal
+To facilitate faster application integration and assist developers, ThoughtSpot provides the Developer portal. The portal includes a playground for application developers to learn and explore the Visual Embed SDK components. Developers can interact with the embed modules, try integrating ThoughtSpot experience in their applications, and view results instantly.
+
+The portal provides customization settings to customize and rebrand the look and feel of your application. You can also configure custom actions that can be invoked from the UI to trigger your application or a URL with ThoughtSpot data as a payload. 
+
+You can access the Developer portal either from the ThoughtSpot website, or by using the *Develop* tab in the ThoughtSpot application. To access the *Develop* tab in the ThoughtSpot application, you require administrator or developer user privileges.
+
+For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
+
+////
 == Types of embedding
-ThoughtSpot supports embedding full application and individual application  components into your business solution.
+ThoughtSpot supports embedding the full application or its individual components into your business solution.
 Based on your business needs and integration environment, you can use one of the following embedding approaches:
 
-Full-application embedding::
-You can embed the entire ThoughtSpot application into your host application or portal. Your application users can navigßate to the ThoughtSpot UI through a tab or a link. 
+Full application embedding::
+You can embed the entire ThoughtSpot application into your host application or portal. The full application embedding allows your users to access ThoughtSpot tabs and pages within the context of your application.
+
 Page-level embedding::
-You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The client applications can allow page-to-page navigation.
+You can embed a ThoughtSpot page and hide  the navigation bar, help, and profile links. The host application can allow page-to-page navigation.
 Object-level embedding::
-You can embed a specific component such as the search functionality, pinboards, or charts.
-
-== ThoughtSpot Developer Hub
-To facilitate faster application integration and assist developer users, ThoughtSpot provides the *Developer Hub* site.
-The developer portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs, and build sample content.
-The portal also allows developers to customize the ThoughtSpot UI and configure custom actions.
-
-You can access the ThoughtSpot Developer Hub from either the ThoughtSpot website, or from the *Develop* tab in the ThoughtSpot application. The *Develop* tab in the ThoughtSpot application is available only for the ThoughtSpot users with the administrator and developer privileges.
-
-For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer Hub].
+You can embed a specific ThoughtSpot component such as the search functionality, pinboards, or charts.
+////
 
 == Embedding methods
-You can use one of the following methods to embed a ThoughtSpot functionality or the full application into your host application:
+You can use one of the following methods to embed ThoughtSpot into your host application:
 ////
 * *Using iFrames via ThoughtSpot UI*::In this method, you can copy the embed link for a pinboard or visualization from the ThoughtSpot UI and add it your webpage or an HTML file. For more information, see Embedding a Pinboard or Visualization.
 ////
 *Using the Visual Embed SDK*::
-In this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot components or the full application. The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as search, visualizations, pinboards, and the full application.
+Using this method, you can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components.
+The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as search, visualizations, pinboards, and the full application.
 +
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
 *Using REST APIs*::
-In this method, you can use the REST APIs to programmatically fetch, embed, and customize data from the ThoughtSpot application.
+Using this method, you can use the REST APIs to programmatically query data from the ThoughtSpot application. You can also use REST APIs to manage users and perform other key functions.
 +
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 
 == UI customization and rebranding
 If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughSpot UI to match your organization's branding guidelines.
 
-You can customize the ThoughtSpot application UI either from the *Admin* console, or by using the style customization settings in the *Developer Hub*.
+You can customize the ThoughtSpot application UI by using the style customization settings in the Developer portal.
 
 For more information, see xref:customize-style.adoc[Style customization].
 
 == Custom actions
-The ThoughtSpot embedding solution allows you to build additional actions to your embedded content, such as pinboards and visualizations.
+ThoughtSpot allows you to add custom actions to the embedded  pinboards and visualizations.
 
-For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the pinboards.
+For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.  
 
 For more information, see xref:customize-actions-menu.adoc[Actions customization].

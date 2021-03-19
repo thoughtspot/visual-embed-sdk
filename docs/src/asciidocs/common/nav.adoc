@@ -7,10 +7,12 @@
 * Embed ThoughtSpot
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
+** link:{{navprefix}}=user-roles[User configuration]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
+** link:{{navprefix}}=browser-settings[Browser settings for embedding]
 
 * Visual Embed SDK
 ** link:{{navprefix}}=visual-embed-sdk[Overview]

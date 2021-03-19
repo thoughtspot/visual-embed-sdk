@@ -112,7 +112,7 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 
 
 hideDataSources [small]_optional_::
-_Boolean_. When set to true, it hides the Data Source panel.
+_Boolean_. When set to true, it hides the default Data Source panel. Use this attibute if you want to create a custom data panel.
 
 +
 ++++
@@ -121,7 +121,7 @@ _Boolean_. When set to true, it hides the Data Source panel.
 
 
 hideResults [small]_optional_::
-_Boolean_. When set to true, it hides charts and tables in search answers.
+_Boolean_. When set to true, it hides charts and tables in search answers. Use this attribute if you want to create your own visualization.
 
 +
 ++++
@@ -138,7 +138,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 
 hiddenActions::
-_Array of strings_. Hides the specified action menu items on the search answer page.
+_Array of strings_. Hides the specified action menu items on the search answer page. You can use this attribute to remove actions that are not applicable to your application context.
 
 +
 ++++
@@ -153,7 +153,7 @@ For example, to hide the *Replay Search* action from the *More* menu image:./ima
 hiddenActions: Action.replaySearch
 ----
 disabledActions [small]_optional_::
-_Array of strings_. Disables the specified menu items from the list of actions in the search answer page.
+_Array of strings_. Disables the specified menu items from the list of actions in the search answer page. You can use this attribute to restrict user access to certain features.
 +
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add the `showUnderlyingData` action to the `disabledActions` attribute.
 
@@ -171,7 +171,7 @@ disabledActionReason [small]_optional_::
 _String_. Indicates the reason for disabling an action from the search answer page view.
 
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/action.html[Actions, window=_blank].
 
 == Render the embedded search
 Construct the URL of the embedded ThoughtSpot search object.
@@ -235,7 +235,7 @@ dataSourceSelected::
 The data source for searching data is selected.
 ////
 
-For a complete list of event types, see the link:/typedoc/enums/eventtype.html[EventType reference page].
+For a complete list of event types, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 == Test the embedded workflow
 

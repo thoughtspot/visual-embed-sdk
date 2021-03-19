@@ -5,74 +5,50 @@
 :page-pageid: security-settings
 :page-description: Security settings for embedding
 
-Before you integrate ThoughtSpot content into your web application, you need to configure security settings on ThoughtSpot to allow external application users to access the embedded content from web browsers.
+Before you integrate ThoughtSpot content into your web application, configure security settings on ThoughtSpot to allow your application users to access the embedded content from web browsers. To configure security settings for embedding on the Developer portal, you need administrator or developer privileges. 
 
-Only the ThoughtSpot users with admin privileges can configure security settings.
+[#csp-viz-embed-hosts]
+== Add CSP visual embed host domains
+To allow your host domain to set the `frame-ancestors` CSP policy header and embed a ThoughtSpot object within your application frame, add your domain as a CSP visual embed host. 
 
-== Configure Cross-Origin HTTP Requests
+To add a visual embed host:
 
-When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. Web browsers may look for same-origin requests as a security measure. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for secure data exchange.
+. Log in to your ThoughtSpot application instance.
+. Click the *Develop* tab.
+. Go to *Customizations*, click *Settings*.
+. In the *CSP visual embed hosts* text box, add one or several domains that you want to use to set `frame-ancestors` CSP policy header.
++
+You can add multiple domains as comma-separated values.
+. Click *Save changes*.
 
-The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your web application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `\http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
+[#csp-connect-src]
+== Allow domains for CSP connect-src
+To allow JavaScript events triggered by the custom action URLs, add the domains of these to CSP connect-src list.
 
-=== Enable CORS from the command line
+. Log in to your ThoughtSpot application instance.
+. Click the *Develop* tab.
+. Go to *Customizations*, click *Settings*.
+. In the *CSP connect-src domains* text box, add one or several domains for the URLs that you want to invoke when triggering custom actions.
++
+You can add multiple domains as comma-separated values.
+. Click *Save changes*.
 
-From the ThoughtSpot command line, run the following command with the appropriate values:
+[#cors-hosts]
+== Allow domains for CORS
+When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for these domains for secure data exchange.
 
-[source,console]
-----
- $ echo "https?://(mythoughtspot1.mycompany.com|.*:443|.*:8080|.*:80)" | tscli --adv config set --key "/config/nginx/corshosts"
-----
+The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your  application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `\http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
-=== Enable CORS on ThoughtSpot UI
-To enable CORS, follow these steps:
-
-. Log in to ThoughtSpot.
-. Click the *Admin* tab.
-. Under *Settings*, click *Advanced*.
-. Enable *Cross-Origin HTTP Requests (CORS)*.
-. Click *Save Settings*.
-
-[NOTE]
-If CORS is enabled, the `Access-Control-Allow-Origin` header is added in the API responses sent by the ThoughtSpot application.
-
-== Configure content security settings
-
-To prevent cross-site scripting attacks, ThoughtSpot recommends that you configure content security settings.
-
-To allow only trusted domains, you must add the host application domain and other trusted domains to the CSP whitelist on the *Settings* page of *Developer Hub*.
-
-== Enable same-site access
-
-Some browsers, such as Google Chrome 80 (and newer), use the same-site cookie attributes to disable the use of third-party content. To access embedded Thoughtspot content in a web application from browsers, you must set the same-site attribute to `none`.
-
-////
-To configure same-site access from the ThoughtSpot UI, follow these steps:
-
-. Log in to ThoughtSpot.
-. Click *Admin* tab.
-. Under *Settings*, click *Advanced*.
-. Select *None* under *Same-site*.
-
-////
-To set same-site access, execute the following command at the TSCLI  command line:
-[source,console]
-----
-$ tscli --adv service add-gflag nginx.nanny nginx_cookie_flag 'Secure SameSite=None'
-----
-
-== Whitelist domains for CORS and CSP
-The ThoughtSpot embedding solution allows embedding ThoughtSpot content in a client application. To define which domains can embed and access ThoughtSpot visualizations and pinboards, you can create a list of allowed domains.
-
-To whitelist client application domains, follow these steps:
+To whitelist client application domains for CORS, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
 . Under *Customizations*, click *Settings*.
-. Add the domains to whitelist for Cross-Origin Resource Sharing (CORS) and Content-Security Policy (CSP).
+. In the *CORS whitelisted domains* text box, add the domains to the CORS whitelist.
 +
 * You can add multiple domains as comma-separated values.
 * If you want to use REST APIs, make sure you add the client application domain from which you want to send API requests.
-* If you want to add custom actions to your embedded instance, make sure you add the target URLs to this list.
-
 . Click *Save changes*.
+
+[NOTE]
+After you add your domain to the CORS whitelist, the `Access-Control-Allow-Origin` header is added in the API responses sent by the ThoughtSpot application.

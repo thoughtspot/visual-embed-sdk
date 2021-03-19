@@ -5,10 +5,8 @@
 :page-pageid: integration-guidelines
 :page-description: ThoughtSpot Embedded Analytics
 
-Embedding ThoughtSpot content allows you to build search-driven analytics and visualizations into your application. Embedding an external application requires a thorough understanding  of your business requirements, software limitations, and tools required to enable seamless navigation between multiple interfaces.
-
 ThoughtSpot recommends that you browse through the following guidelines before you begin embedding.
-
+////
 == Decide what to embed
 Analyze your business requirements and choose the embedding approach that best suits your needs.
 
@@ -16,22 +14,15 @@ For example, you may simply need a single chart displayed as a wallboard, or you
 The first example could require modifying a single HTML page, while the latter example may require working with a development team and adding several different workflows to your web  application.
 
 Based on your integration needs, determine if you want to embed a portion of the ThoughtSpot application, or all of it.
-
-== Try it out
-The ThoughtSpot Developer Hub provides a playground for developers to explore the embed functions. The *Playground* provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
-
-++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
-++++
+////
 
 == Define application workflows
 
-ThoughtSpot offers a suite of APIs and developer toolkits to enable the integration of ThoughtSpot content in external applications.
-The ThoughtSpot Visual Embed SDK includes Javascript libraries for programmatically embedding search, pinboards, visualizations, and full ThoughtSpot application.
+The ThoughtSpot Visual Embed SDK includes a Javascript library to programmatically embed search, pinboards, visualizations, and the full ThoughtSpot experience.
 
-In addition to the Visual Embed SDK, ThoughtSpot provides a set of data APIs to fetch data from the ThoughtSpot application. For example, you can construct a search answer using the data APIs and use this link to embed search answers with your application.
+In addition to the Visual Embed SDK, ThoughtSpot provides REST APIs to query data from the ThoughtSpot application. For example, you can construct a search answer using the data APIs and use this link to embed search answers with your application.
 
-Irrespective of the method you use for embedding, you must define your application workflows to enable seamless navigation between the host and embedded interfaces.
+Irrespective of the method you use for embedding, make sure you define your application workflows and authentication criteria to enable seamless navigation between the host and embedded interfaces.
 
 == Define user roles and privileges
 
@@ -40,37 +31,63 @@ The ThoughtSpot application integration involves several workflows that require 
 [horizontal]
 ThoughtSpot admin::
 ThoughtSpot administrators define the authentication workflow and create user groups.
-Access control in ThoughtSpot is managed through the users and groups that are stored locally on ThoughtSpot, even if the users are authenticated using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot.
-For more information, see
-link:https://cloud-docs.thoughtspot.com/end-user/onboarding/intro-onboarding.html[Managing users and groups, window=_blank].
+Access control in ThoughtSpot is managed through the users and groups that are stored locally on ThoughtSpot, even if the users are authenticated using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot. 
++
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing users, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing Groups, window=_blank].
 
 Developer::
-Application developers with privileges to integrate ThoughtSpot components into a host application using the APIs and SDK. Developer users can also configure custom actions to the  embedded visualizations and pinboards.
+Application developers with privileges to use the Developer portal and embed ThoughtSpot components in their host application. Developer users can also customize the look and feel of the UI, add custom actions to an embedded visualization or pinboard, and modify security settings such as CORS and CSP. For more information, see xref:user-roles.adoc[User configuration].
 
 Host application admin::
 The host application owners or users with admin privileges to modify the application interface. For example, to embed ThoughtSpot components in a business application or web page, you may require edit access to the host application.
 
-== Choose an authentication method
+== Define an authentication method
 
-ThoughtSpot supports the following authentication services:
+For initial development and testing purposes, you can use the xref:api-auth-session.adoc[session REST API] to manage ThoughtSpot user logins and sessions. However, ThoughtSpot does not recommend using the session REST API to manage user sessions in production environments. Instead, you can use the SAML SSO or trusted authentication service to authenticate users. 
 
 SAML SSO::
 To provide a seamless login experience for your application users, you can configure SSO and enable SAML authentication, so that the federated users are automatically authenticated to ThoughtSpot.
 With SSO, you can use your host application, or an external service as the identity provider, and allow authenticated users to access the ThoughtSpot service.
-ThoughtSpot administrators can set up SAML SSO either using the TSCLI command line or the *Admin* console in the ThoughtSpot application.
+ThoughtSpot administrators can set up SAML SSO either using the *Admin* console in the ThoughtSpot application.
+
++
+To use SSO authentication, you must add the identity provider domain as a SAML redirect domain in the *Security Settings* page of the Developer portal.
+
 +
 For more information, see xref:configure-saml.adoc[Configure SAML].
+
 Trusted Authentication::
-Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication service with a token for a given ThoughtSpot user. This token is used for obtaining trust from the third-party client applications before granting  access to ThoughtSpot content.
+Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication service with a token for a given ThoughtSpot user. This token is used for obtaining trust from the client applications before granting  access to ThoughtSpot content.
++
+ThoughtSpot users with administrator privileges can generate a trusted authentication token in the *Security Settings* page of the Developer portal. 
 +
 For more information, see xref:trusted-authentication.adoc[Configure trusted authentication].
 
 == Define security settings
-Collecting user credentials from one application (domain) and sending them to another application (such as ThoughtSpot) can present security vulnerabilities. Cross-origin or cross-domain verification prevents such security risks.
 
-Before embedding, you must enable Cross-Origin Resource Sharing (CORS) between your client application domain and the ThoughtSpot domain for secure exchange of data and resources. CORS allows an application to make an HTTP request to safely access resources and data from another application in a different domain. Enabling CORS also protects your data, so that another actor cannot use the same URL to embed the visualization in their Web pages.
+Before embedding, you must enable several security settings in the Devloper portal to prevent security vulnerabilities in ThoughtSpot. 
+
+Cross-Origin Resource Sharing::
+Cross-Origin Resource Sharing (CORS) domains are the origins from which ThoughtSpot APIs can be called. When you add your host domain for CORS in the Developer portal, ThoughtSpot adds the `access-control-allow-origin` header in its API responses. 
+
+Content Security Policy::
+To use the Visual Embed SDK, configure the following content security policy (CSP). 
+* *CSP visual embed hosts*
++
+To allow your host domain to set the *frame-ancestors* CSP policy header and embed a ThoughtSpot object within your application frame, you must add your host domain as a CSP visual embed host.
+* *CSP connect-src*
++
+If you plan to configure custom actions to invoke external URLs, you must add these URLs to the *CSP connect-src* domain list in the Developer portal. 
 
 For more information, see xref:security-settings.adoc[Configure security settings].
+
+== Try out the embed modules
+The ThoughtSpot Developer portal provides a playground for developers to explore the Visual Embed SDK components. The *Playground* provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
+
+++++
+<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
+++++
+
 ////
 == Identify the UI elements to rebrand
 

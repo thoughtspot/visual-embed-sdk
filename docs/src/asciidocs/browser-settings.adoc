@@ -1,0 +1,33 @@
+= Browser settings for embedding
+:toc: true
+
+:page-title: Browser settings
+:page-pageid: browser-settings
+:page-description: Browser settings for embedding
+
+ThoughtSpot supports rendering embedded content in the following web browsers: 
+
+* Google Chrome
+* Microsoft Edge
+* Mozilla Firefox
+* Opera
+* Safari
+
+== Same-Site cookie behavior
+
+Google Chrome 80 or later versions use the `SameSite` cookie attribute to disable the use of third-party content.  
+
+For third-party application integrations that rely on cookies, the SameSite cookie attribute must be to `None`. This setting is enabled by default on ThoughtSpot cloud instances.
+
+== Embedded content rendition on Safari
+If the embedded ThoughtSpot content does not render when browsing your application on Safari, configure the following settings on Safari:
+
+. Open your Safari web browser.
+. Go to *Safari* > *Preferences*.
++
+The window for setting preferences appears.
+
+. Click the *Privacy* tab.
+. Clear the *Prevent cross-site tracking* checkbox.
+. Close the *Preferences* window.
+. Reload your application.

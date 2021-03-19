@@ -25,19 +25,6 @@ Users in a fully  embedded application cannot perform the following tasks:
 * modify profiles
 * view the Help Center
 
-
-=== Browser support
-Note the following support across browsers:
-
-Supported desktop browsers::
-Chrome, Edge, Firefox, Opera
-Supported mobile browsers::
-Android webview, Chrome for Android, Firefox for Android, Opera for Android, and Samsung Internet
-NOT supported desktop browsers::
-Internet Explorer, Safari
-NOT supported mobile browser::
-Safari on iOS
-
 ////
 === Error messages and full embed
 

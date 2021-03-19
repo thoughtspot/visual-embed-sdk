@@ -1,4 +1,4 @@
-= Manage user groups
+= Manage users
 :toc: true
 
 :page-title: Manage users 

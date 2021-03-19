@@ -1,4 +1,4 @@
-= Pinboard Export API
+= Pinboard export API
 :toc: true
 
 :page-title: Export Pinboard as PDF
@@ -38,7 +38,6 @@ POST /tspublic/v1/export/pinboard/pdf
 |`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
 |====
 
-
 == Example request
 
 .cURL
@@ -59,6 +58,7 @@ curl --location --request POST 'http://<instance>/callosum/v1/tspublic/v1/export
 ----
 [NOTE]
 You must send the `X-Requested-By` header in your request. Without it, the request fails.
+
 
 .Request URL
 
@@ -86,13 +86,13 @@ You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
 |===
 | Parameter | Definition
 
-| col__n__
-| Name of the column to filter on
+| col<__n__>
+| Name of the column to filter on.
 
-| op__n__
+| op<__n__>
 | {IN, EQ, NE, LT, LE...}
 
-| val__n__
+| val<__n__>
 | Value of the column to filter on.
 |===
 
