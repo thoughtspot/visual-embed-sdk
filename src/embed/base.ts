@@ -32,6 +32,16 @@ let config = {} as EmbedConfig;
 let authPromise: Promise<void>;
 
 /**
+ * The event id map from v2 event names to v1 event id
+ * v1 events are the classic embed events implemented in Blink v1
+ * We cannot rename v1 event types to maintain backward compatibility
+ * @internal
+ */
+const V1EventMap = {
+    [EmbedEvent.Data]: [EmbedEvent.V1Data],
+};
+
+/**
  * Perform authentication on the ThoughtSpot app as applicable
  */
 const handleAuth = () => {
@@ -326,6 +336,16 @@ export class TsEmbed {
     }
 
     /**
+     * Get the v1 event type (if applicable) for the EmbedEvent type
+     * @param eventType The v2 event type
+     * @returns The correspding v1 event type if one exists
+     * or else the v2 event type itself
+     */
+    protected getCompatibleEventType(eventType: EmbedEvent): EmbedEvent {
+        return V1EventMap[eventType] || eventType;
+    }
+
+    /**
      * Register an event listener to be triggered when we receive
      * an event of a particular message type from the embedded app
      * @param messageType The message type
@@ -400,5 +420,15 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): void {
         this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
+    }
+
+    // @override
+    public on(
+        messageType: EmbedEvent,
+        callback: MessageCallback,
+    ): typeof TsEmbed.prototype {
+        const eventType = this.getCompatibleEventType(messageType);
+
+        return super.on(eventType, callback);
     }
 }
