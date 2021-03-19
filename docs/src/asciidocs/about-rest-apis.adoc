@@ -8,7 +8,8 @@
 The ThoughtSpot REST APIs enable your client applications to access data from the ThoughtSpot application.
 Client applications can use the REST APIs for the following purpose:
 
-* get the pinboard and visualization data from the ThoughtSpot application.
+* get pinboard and visualization data from the ThoughtSpot application.
+* get ThoughtSpot data by programmatically sending a search query. 
 * list the metadata object and visualization headers in the repository.
 * transfer ownership of all objects from one user to another and more.
 * embed data from visualizations and pinboards in a web page, portal, or application.
@@ -18,7 +19,7 @@ The REST APIs return data as a JSON string. To embed data into your application,
 REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
 
 == List of APIs
-The following APIs are available on the Swagger portal for ThoughtSpot users.
+The following APIs are available on the <a href="{{tshost}}/external/swagger  target="_blank">Swagger portal</a> for ThoughtSpot users.
 
 === User management
 [width="80%" cols="2,2"]
@@ -60,6 +61,7 @@ Pinboard Data|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from th
 `*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository
 |`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
 |Search data|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
+|Export| `*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
 |====
 
 == Swagger portal

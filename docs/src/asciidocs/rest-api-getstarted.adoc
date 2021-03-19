@@ -5,15 +5,14 @@
 :page-pageid: rest-api-getstarted
 :page-description: Getting started with REST API
 
-The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
+The REST API allows you to query data from ThoughtSpot and embed it in a Web page, portal, or application.
 To access REST APIs, you must authenticate through SAML SSO.
 For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO].
 
-== Cross-Domain Verification
+== Cross-Origin Resource Sharing
 
-To use REST APIs, you must enable CORS and whitelist your client application domains.
-This protects your data, so that another website cannot use a URL to get data from ThoughtSpot.
-For more information on enabling Cross-Origin Resource Sharing (CORS) and whitelisting application domains, see xref:security-settings.adoc[Security settings].
+To query and modify ThoughtSpot objects using REST APIs, you must add your client application domain as an allowed domain for CORS. When you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
+For more information on whitelisting a domain for CORS, see  xref:security-settings.adoc[Security settings].
 
 == Base URI
 

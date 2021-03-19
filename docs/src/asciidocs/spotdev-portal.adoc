@@ -241,7 +241,7 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 ----
 runtimeFilters: [{
   columnName: 'color',
-  operator: RuntimeFilterOp.EQ,
+  operator: 'EQ',
   values: [ 'red' ]
   }]
 ----
@@ -301,7 +301,7 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 ----
 runtimeFilters: [{
       columnName: 'Revenue',
-      operator: EQ,
+      operator: 'EQ',
       values: [ 100000 ]
       }]
 ----

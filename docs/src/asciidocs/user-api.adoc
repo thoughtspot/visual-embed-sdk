@@ -10,6 +10,132 @@ The User APIs enable you to manage user- and group-related operations in the Tho
 You can use the User APIs to manage your users and groups in ThoughtSpot.
 For example, you may want to view all users and groups in your ThoughtSpot cluster.
 
+== Fetch users and groups
+
+Use this API to get a list of all users, groups, and their inter-dependencies in the form of principal objects.
+
+=== Resource URL
+----
+GET /tspublic/v1/user/list
+----
+
+=== Example request
+
+.cURL
+----
+curl -X GET --header 'Accept: application/json' 'https://<instance>/callosum/v1/tspublic/v1/user/list'
+----
+
+.Request URL
+----
+https://<instance>/callosum/v1/tspublic/v1/user/list
+----
+
+=== Example response
+
+[source,JSON]
+----
+[
+  {
+    "name": "Administrator",
+    "displayName": "Administration Group",
+    "created": 1354006445722,
+    "modified": 1354006445987,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": [],
+    "visibility": "DEFAULT"
+  },
+  {
+    "name": "Analyst",
+    "displayName": "Analyst Group",
+    "created": 1354006445722,
+    "modified": 1354006445987,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": [],
+    "visibility": "DEFAULT"
+  },
+  {
+    "name": "rls-group-3",
+    "displayName": "rls-group-3",
+    "description": "Contains directly rls-group-1, rls-group-2 and belongs directly to rls-group-5",
+    "created": 1459376495060,
+    "modified": 1459376590681,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": rls-group-5,
+    "visibility": "DEFAULT"
+  }
+  ]
+----
+
+==== Object properties
+A typical principal object contains the following properties:
+
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Property|Description 
+|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
+|`displayName`|Display name of the principal.
+|`description`|Description of the principal. 
+|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
+|`principalTypeEnum` a|Type of the user created in the ThoughtSpot system. 
+Valid values are:
+
+* `LOCAL_USER`
+* `LOCAL_GROUP`
+|`password` a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+Password is only required:
+
+* if the user is of `LOCAL_USER` type
+* when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system. 
+|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP, or `Developer`. Users can belong to multiple groups. 
+|`visibility`| Whether the users of the group can share objects with other users in the group.
+|====
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|Description was not specified 
+|===
+== Change password
+
+Use this API to change the password of a user.
+
+=== Resource URL
+----
+POST /tspublic/v1/user/updatepassword
+----
+=== Request parameters
+[width="100%" cols="1,2,3"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`name`|string|Name of the user.
+|`currentpassword`|string|The current password of the user.
+|password|string|A new password of the user. 
+|====
+=== Example request
+
+.cURL
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
+----
+
+.Request URL
+----
+https://<base-uri>/tspublic/v1/user/updatepassword
+----
+
+=== Response codes
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description 
+|**200**|If the password of the user is changed successfully. 
+|===
+
+
 == Transfer ownership
 
 Use this API to transfer ownership of _all_ objects from one user to another.
@@ -123,7 +249,7 @@ Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`.
 `All` is a default group to which every user belongs;
 you may omit it from the input.
 
-Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html#sharing-visibility[share objects] with users in this group.
+Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html#sharing-visibility[share objects, window=_blank] with other users in this group.
 
 [source, JSON]
 ----
@@ -182,126 +308,7 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 |HTTP Code|Description 
 |**200**|Description was not specified 
 |===
-== Change password
 
-Use this API to change the password of a user.
-
-=== Resource URL
-----
-POST /tspublic/v1/user/updatepassword
-----
-=== Request parameters
-[width="100%" cols="1,2,3"]
-[options='header']
-|====
-|Form Parameter|Data Type|Description
-|`name`|string|Name of the user.
-|`currentpassword`|string|The current password of the user.
-|password|string|A new password of the user. 
-|====
-=== Example request
-
-.cURL
-----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
-----
-
-.Request URL
-----
-https://<base-uri>/tspublic/v1/user/updatepassword
-----
-
-=== Response codes
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|If the password of the user is changed successfully. 
-|===
-
-== Fetch users and groups
-
-Use this API to get a list of all users, groups, and their inter-dependencies in the form of principal objects.
-A typical principal object contains the following properties:
-
-[width="100%" cols="1,3"]
-[options='header']
-|====
-|Property|Description 
-|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
-|`displayName`|Display name of the principal.
-|`description`|Description of the principal. 
-|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
-|`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
-|`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
-|`password` 
-
-a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
-
-Password is only required:
-
-* if the user is of LOCAL_USER type
-* when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
-|`groupNames`|Name of the groups to which a principal belongs. Groups and users can belong to other groups. 
-|====
-
-=== Resource URL
-----
-GET /tspublic/v1/user/list
-----
-=== Example request
-
-.cURL
-----
-curl -X GET --header 'Accept: application/json' 'https://<instance>/callosum/v1/tspublic/v1/user/list'
-----
-
-.Request URL
-----
-https://<instance>/callosum/v1/tspublic/v1/user/list
-----
-
-=== Example response
-
-[source,JSON]
-----
-[
-  {
-    "name": "Administrator",
-    "displayName": "Administration Group",
-    "created": 1354006445722,
-    "modified": 1354006445987,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": [],
-    "visibility": "DEFAULT"
-  },
-  {
-    "name": "Analyst",
-    "displayName": "Analyst Group",
-    "created": 1354006445722,
-    "modified": 1354006445987,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": [],
-    "visibility": "DEFAULT"
-  },
-  {
-    "name": "rls-group-3",
-    "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs directly to rls-group-5",
-    "created": 1459376495060,
-    "modified": 1459376590681,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": rls-group-5,
-    "visibility": "DEFAULT"
-  }
-  ]
-----
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description 
-|**200**|Description was not specified 
-|===
 
 ////
 ## Error Codes

@@ -20,6 +20,121 @@ ThoughtSpot provides the following set of REST APIs for managing users:
 |`*POST* /tspublic/v1/user/sync`|Synchronize principal from your client application with ThoughtSpot.
 |====
 
+== Fetch users and groups
+To fetch a list of all users, groups, and their inter-dependencies, send a `GET` request to the following endpoint:
+
+----
+GET /tspublic/v1/user/list
+----
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X GET --header 'Accept: application/json' 'https://<base-uri>/callosum/v1/tspublic/v1/user/list'
+----
+
+.Request URL
+----
+https://<base-uri>/callosum/v1/tspublic/v1/user/list
+----
+
+=== Example response
+
+[source, JSON]
+----
+[
+  {
+    "name": "Administrator",
+    "displayName": "Administration Group",
+    "created": 1354006445722,
+    "modified": 1354006445987,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": [],
+    "visibility": "DEFAULT"
+  },
+  {
+    "name": "Analyst",
+    "displayName": "Analyst Group",
+    "created": 1354006445722,
+    "modified": 1354006445987,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": [],
+    "visibility": "DEFAULT"
+  },
+  {
+    "name": "rls-group-3",
+    "displayName": "rls-group-3",
+    "description": "Contains directly rls-group-1, rls-group-2 and belongs directlsy to rls-group-5",
+    "created": 1459376495060,
+    "modified": 1459376590681,
+    "principalTypeEnum": "LOCAL_GROUP",
+    "groupNames": rls-group-5,
+    "visibility": "DEFAULT"
+  }
+  ]
+----
+=== Object properties
+A typical principal object contains the following properties:
+
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Property|Description 
+|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
+|`displayName`|Display name of the principal.
+|`description`|Description of the principal. 
+|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
+|`principalTypeEnum` a|Type of the user created in the ThoughtSpot system. 
+Valid values are:
+
+* `LOCAL_USER`
+* `LOCAL_GROUP`
+|`password` a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+Password is only required:
+
+* if the user is of `LOCAL_USER` type.
+* when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
+|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `All`, or `Developer`. Groups and users can belong to other groups. 
+|`visibility`| Whether the users of the group can share objects with other users in the group.
+|====
+
+
+== Change password
+
+To change the password of the user, send a POST request to the following endpoint:
+----
+POST /tspublic/v1/user/updatepassword
+----
+=== Request parameters
+[width="100%" cols="1,2,3"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`name`|string|Name of the user.
+|`currentpassword`|string|The current password of the user.
+|password|string|A new password of the user. 
+|====
+=== Example request
+
+.CURL
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
+----
+
+.Request URL
+----
+https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword
+----
+
+=== Example response
+
+----
+204 - Successful password update
+----
+
+
 == Transfer ownership
 
 To transfer ownership of _all_ objects from one user to another, send a `POST` request:
@@ -180,118 +295,6 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 ]
 ----
 
-== Change password
-
-To change the password of the user, send a POST request to the following endpoint:
-----
-POST /tspublic/v1/user/updatepassword
-----
-=== Request parameters
-[width="100%" cols="1,2,3"]
-[options='header']
-|====
-|Form Parameter|Data Type|Description
-|`name`|string|Name of the user.
-|`currentpassword`|string|The current password of the user.
-|password|string|A new password of the user. 
-|====
-=== Example request
-
-.CURL
-----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
-----
-
-.Request URL
-----
-https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword
-----
-
-=== Example response
-
-----
-204 - Successful password update
-----
-
-== Fetch users and groups
-Use this API to get a list of all users, groups, and their inter-dependencies in the form of principal objects.
-
-=== Request properties
-A typical principal object contains the following properties:
-
-[width="100%" cols="1,3"]
-[options='header']
-|====
-|Property|Description 
-|Name of the principal|This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
-|`displayName`|Display name of the principal.
-|description|Description of the principal. 
-|mail|The email address of the user. This field is populated only for the user object. It is ignored in the case of groups. 
-|`principalTypeEnum`|Type of the user created in the ThoughtSpot system.
-|`LOCAL_USER`|a user is validated through a password saved in the ThoughtSpot database `LOCAL_GROUP`.
-|password
-a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
-
-Password is only required:
-
-* if the user is of LOCAL_USER type
-* when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
-|`groupNames`|Name of the groups to which a principal belongs. Groups and users can belong to other groups. 
-|====
-
-To fetch a list of all users, send a `POST` request to the following endpoint:
-----
-GET /tspublic/v1/user/list
-----
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X GET --header 'Accept: application/json' 'https://<base-uri>/callosum/v1/tspublic/v1/user/list'
-----
-
-.Request URL
-----
-https://<base-uri>/callosum/v1/tspublic/v1/user/list
-----
-
-=== Example response
-
-[source, JSON]
-----
-[
-  {
-    "name": "Administrator",
-    "displayName": "Administration Group",
-    "created": 1354006445722,
-    "modified": 1354006445987,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": [],
-    "visibility": "DEFAULT"
-  },
-  {
-    "name": "Analyst",
-    "displayName": "Analyst Group",
-    "created": 1354006445722,
-    "modified": 1354006445987,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": [],
-    "visibility": "DEFAULT"
-  },
-  {
-    "name": "rls-group-3",
-    "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs directlsy to rls-group-5",
-    "created": 1459376495060,
-    "modified": 1459376590681,
-    "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": rls-group-5,
-    "visibility": "DEFAULT"
-  }
-  ]
-----
 
 ////
 ## Error Codes

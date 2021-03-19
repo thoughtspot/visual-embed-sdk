@@ -5,7 +5,7 @@
 :page-pageid: pinboard-export-api
 :page-description: Pinboard Export API
 
-This API enables you to programmatically download a Pinboard or specific visualizations from the Pinboards as a PDF file.
+This API enables you to programmatically download a pinboard or specific visualizations from a pinboard as a PDF file.
 
 ////
 You can also <<embed,download an embedded Pinboard with unsaved changes>>.
