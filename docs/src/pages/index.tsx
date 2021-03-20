@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
-import {queryStringParser,removeSlashFromEnd} from '../utils/app-utils';
+import {queryStringParser,removeTrailingSlash} from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
@@ -54,7 +54,7 @@ const IndexPage = ({ location }) => {
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
         paramObj[TS_ORIGIN_PARAM] = paramObj[TS_ORIGIN_PARAM] || PUBLIC_SITE_URL;
-        paramObj[TS_ORIGIN_PARAM] = removeSlashFromEnd(paramObj[TS_ORIGIN_PARAM]);
+        paramObj[TS_ORIGIN_PARAM] = removeTrailingSlash(paramObj[TS_ORIGIN_PARAM]);
         setParams({ ...params, ...paramObj });
     }, [location.search]);
 

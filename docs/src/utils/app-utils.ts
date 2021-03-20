@@ -31,8 +31,8 @@ export const queryStringParser = (queryParamStr: string) => {
     return queryParamObj;
 };
 
-export const removeSlashFromEnd = (url:string) => {
-    return url.replace(/\/$/, "");
+export const removeTrailingSlash = (url:string) => {
+    return url.replace(/\/$/, '');
 };
 
 export default queryStringParser;
