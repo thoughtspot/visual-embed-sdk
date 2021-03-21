@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
-import queryStringParser from '../utils/app-utils';
+import {queryStringParser,removeTrailingSlash} from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
@@ -24,6 +24,7 @@ import {
     INTRO_WRAPPER_MARGIN_TOP,
 } from '../constants/uiConstants';
 
+const PUBLIC_SITE_URL = 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere-standalone';
 // markup
 const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
@@ -52,6 +53,8 @@ const IndexPage = ({ location }) => {
             paramObj[e.node.parent.name] =
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
+        paramObj[TS_ORIGIN_PARAM] = paramObj[TS_ORIGIN_PARAM] || PUBLIC_SITE_URL;
+        paramObj[TS_ORIGIN_PARAM] = removeTrailingSlash(paramObj[TS_ORIGIN_PARAM]);
         setParams({ ...params, ...paramObj });
     }, [location.search]);
 
