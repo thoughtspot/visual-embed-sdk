@@ -169,7 +169,7 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
         case AuthType.Basic:
             return doBasicAuth(embedConfig);
         default:
-            return null;
+            return Promise.resolve();
     }
 };
 

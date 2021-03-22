@@ -302,6 +302,7 @@ export class TsEmbed {
                         },
                     }),
                 );
+                this.el.innerHTML = '';
                 this.el.appendChild(this.iFrame);
                 this.subscribeToEvents();
             })

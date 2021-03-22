@@ -1,8 +1,13 @@
-export const getDocumentBody = () => '<div id="embed"></div>';
+export const getDocumentBody = () =>
+    '<div id="embed"></div><div id="embed-2"></div>';
 
 export const getRootEl = () => document.getElementById('embed');
 
+export const getRootEl2 = () => document.getElementById('emebed-2');
+
 export const getIFrameEl = () => document.querySelector('iframe');
+
+export const getAllIframeEl = () => document.querySelectorAll('iframe');
 
 export const getIFrameSrc = () => getIFrameEl().src;
 

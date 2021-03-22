@@ -12,6 +12,7 @@ import {
     getDocumentBody,
     getIFrameEl,
     getRootEl,
+    getRootEl2,
     postMessageToParent,
 } from '../test/test-utils';
 import { PinboardViewConfig } from './pinboard';
@@ -115,7 +116,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         embedOne.on(EmbedEvent.CustomAction, spyOne).render();
 
         const spyTwo = jest.fn();
-        const embedTwo = new PinboardEmbed(getRootEl(), {
+        const embedTwo = new PinboardEmbed(getRootEl2(), {
             ...defaultViewConfig,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         } as PinboardViewConfig);
