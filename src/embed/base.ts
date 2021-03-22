@@ -161,12 +161,18 @@ export class TsEmbed {
      */
     private isRendered: boolean;
 
+    /**
+     * A flag to mark if an error has occurred
+     */
+    private isError: boolean;
+
     constructor(domSelector: DOMSelector) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
         this.thoughtSpotHost = getThoughtSpotHost(config);
         this.thoughtSpotV2Base = getV2BasePath(config);
         this.eventHandlerMap = new Map();
+        this.isError = false;
     }
 
     /**
@@ -192,6 +198,7 @@ export class TsEmbed {
      * @param error The error message or object
      */
     protected handleError(error: string | Record<string, unknown>) {
+        this.isError = true;
         this.executeCallbacks(EmbedEvent.Error, {
             error,
         });
@@ -264,6 +271,9 @@ export class TsEmbed {
      * @param frameOptions
      */
     protected renderIFrame(url: string, frameOptions: FrameParams): void {
+        if (this.isError) {
+            return;
+        }
         if (!this.thoughtSpotHost) {
             this.throwInitError();
         }
