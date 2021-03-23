@@ -1,5 +1,5 @@
 
-:page-title: Developer Guides Dev
+:page-title: Developer Guides Release
 :page-pageid: nav
 :page-description: Main navigation
 

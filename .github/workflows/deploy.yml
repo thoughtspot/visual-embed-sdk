@@ -32,12 +32,12 @@ jobs:
 
       # Add build env for Prod
       - name: Add build Env for Prod
-        if: ${{ env.BRANCH_NAME == 'release' }}
+        if: ${{ env.BRANCH_NAME == 'test-SCAL-79910' }}
         run: echo "BUILD_ENV=PROD" >> $GITHUB_ENV
 
       # Add build env for Dev/Staging
       - name: Add build Env for Dev/Staging
-        if: ${{ env.BRANCH_NAME == 'test-SCAL-79910' }}
+        if: ${{ env.BRANCH_NAME == 'main' }}
         run: echo "BUILD_ENV=DEV" >> $GITHUB_ENV
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -59,7 +59,7 @@ jobs:
       # Deploy on github pages for Dev env
       - name: publish-dev
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ env.BRANCH_NAME == 'test-SCAL-79910' }}
+        if: ${{ env.BRANCH_NAME == 'main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
@@ -68,7 +68,7 @@ jobs:
       # Deploy on github pages for Prod env
       - name: publish-release
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ env.BRANCH_NAME == 'release' }}
+        if: ${{ env.BRANCH_NAME == 'test-SCAL-79910' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
