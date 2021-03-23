@@ -118,7 +118,7 @@ switch (mainOptions.command) {
         if (!isValid) return;
 
         cmdToExecute = `gatsby clean && gatsby build ${
-            buildOptions.noprefix === 'prefix' ? '' : '--prefix-paths'
+            buildOptions.noprefix ? '' : '--prefix-paths'
         }`;
         break;
     }

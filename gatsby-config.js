@@ -2,6 +2,23 @@ const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
 const { htmlToText } = require('html-to-text');
 
+const buildEnv = process.env.BUILD_ENV || 'LOCAL'; // Default build env
+
+const getPathPrefix = () => {
+    switch (buildEnv) {
+        case 'PROD':
+            return 'release';
+        case 'DEV':
+        case 'STAGING':
+            return 'dev';
+        case 'LOCAL':
+        default:
+            return ''; // Default path prefix
+    }
+};
+
+const getPath = (path) => `${path}/${getPathPrefix()}`;
+
 class CustomDocConverter {
     constructor() {
         this.baseConverter = asciidoc.Html5Converter.$new();
@@ -37,7 +54,7 @@ class CustomDocConverter {
                 // check if link is for typedoc documents or not
                 if (target.includes(config.TYPE_DOC_PREFIX)) {
                     return `<a href="${
-                        config.DOC_REPO_NAME + target
+                        getPath(config.DOC_REPO_NAME) + target
                     }">${node.getText()}</a>`;
                 }
 
@@ -58,7 +75,7 @@ class CustomDocConverter {
 }
 
 module.exports = {
-    pathPrefix: config.DOC_REPO_NAME,
+    pathPrefix: getPath(config.DOC_REPO_NAME),
     siteMetadata: {
         title: 'tseverywhere-docs',
     },

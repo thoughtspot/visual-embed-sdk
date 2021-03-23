@@ -5,14 +5,19 @@ name: DeployDocs
 # events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches:
+    # Push events on `main` branch
+      - main
     paths: 
     - 'static/typedoc/**'
     - 'docs/src/**'
+  
+  # For manually triggering the build
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job called "deploy"
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -21,6 +26,21 @@ jobs:
       GH_TOKEN: ${{ secrets.GATSBY_PUBLISH_SECRET_KEY }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # extract branch name
+      - name: Extract branch name
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        id: extract_branch
+
+      # Add build env for Prod
+      - name: Add build Env for Prod
+        if: ${{ env.BRANCH_NAME == 'release' }}
+        run: echo "BUILD_ENV=PROD" >> $GITHUB_ENV
+
+      # Add build env for Dev/Staging
+      - name: Add build Env for Dev/Staging
+        if: ${{ env.BRANCH_NAME == 'main' }}
+        run: echo "BUILD_ENV=DEV" >> $GITHUB_ENV
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -34,11 +54,23 @@ jobs:
         run: npm install
 
       # Deploy on github pages
-      - name: Build
+      - name: build
         run: npm run docs-cmd -- build
         
-      - name: publish
+      # Deploy on github pages for Dev env
+      - name: publish-dev
         uses: peaceiris/actions-gh-pages@v3
+        if: ${{ env.BRANCH_NAME == 'main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          destination_dir: ./dev
+
+      # Deploy on github pages for Prod env
+      - name: publish-release
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ env.BRANCH_NAME == 'release' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          destination_dir: ./release
