@@ -133,7 +133,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home?disableAction=save,update&disableHint=Access%20denied&hideAction=download`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&disableAction=save,update&disableHint=Access%20denied&hideAction=download#/home`,
             );
         });
     });

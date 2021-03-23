@@ -105,16 +105,15 @@ export class AppEmbed extends V1Embed {
      */
     private getIFrameSrc(pageId: string, runtimeFilters: RuntimeFilter[]) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
-        let url = `${this.getV1EmbedBasePath(
-            filterQuery,
+        const queryParams = this.getEmbedParams();
+        const queryString = [filterQuery, queryParams]
+            .filter(Boolean)
+            .join('&');
+        const url = `${this.getV1EmbedBasePath(
+            queryString,
             this.viewConfig.showPrimaryNavbar,
             true,
         )}/${pageId}`;
-
-        const postHashQueryParams = this.getEmbedParams();
-        if (postHashQueryParams) {
-            url = `${url}?${postHashQueryParams}`;
-        }
 
         return url;
     }
