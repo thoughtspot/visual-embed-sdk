@@ -85,7 +85,7 @@ disabledActions: Action.editTitle
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 hiddenActions [small]_optional_::
@@ -104,7 +104,7 @@ hiddenActions: Action.downloadAsPdf
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 disabledActionReason [small]_optional_::
@@ -212,7 +212,7 @@ Runtime filters have several operators you can use to filter your embedded visua
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 == Subscribe to events
@@ -273,7 +273,7 @@ pinboardEmbed.render({
 
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/answer" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources

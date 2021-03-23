@@ -50,14 +50,14 @@ This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level`
 +
 [source, HTML]
 ----
-GET https://<base-uri>/tspublic/v1/session/auth/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+GET https://<base-uri>/collosum/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
 ----
 The request URL includes the following attributes:
 
 username::
 _String_. The `username` of the user requesting access to ThoughtSpot.
 
-auth-token::
+auth_token::
 _String_. The authentication token obtained for the user from the trusted authentication service.
 
 redirect_url::
@@ -70,7 +70,7 @@ For example, if the user has requested access to a specific visualization on a p
 https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>
 ----
 [NOTE]
-The request URL includes the `auth-token` attribute, whereas the redirect URL uses the `authtoken` attribute.
+The request URL includes the `auth_token` attribute, whereas the redirect URL uses the `authtoken` attribute.
 
 . ThoughtSpot validates the token and returns the information that the authenticated user has requested.
 

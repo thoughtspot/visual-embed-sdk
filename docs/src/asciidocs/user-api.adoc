@@ -88,7 +88,7 @@ Password is only required:
 
 * if the user is of `LOCAL_USER` type
 * when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system. 
-|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP, or `Developer`. Users can belong to multiple groups. 
+|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP` and so on. Users can belong to multiple groups. 
 |`visibility`| Whether the users of the group can share objects with other users in the group.
 |====
 
@@ -97,7 +97,7 @@ Password is only required:
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|Description was not specified 
+|**200**|Successful operation.
 |===
 == Change password
 
@@ -306,7 +306,7 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description 
-|**200**|Description was not specified 
+|**200**|If the user sync operation is successful.
 |===
 
 

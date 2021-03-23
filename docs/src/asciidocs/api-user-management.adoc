@@ -96,7 +96,7 @@ Password is only required:
 
 * if the user is of `LOCAL_USER` type.
 * when the user is created for the first time. In subsequent updates, the user password is not updated even if it changes in the source system. 
-|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `All`, or `Developer`. Groups and users can belong to other groups. 
+|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Groups and users can belong to other groups. 
 |`visibility`| Whether the users of the group can share objects with other users in the group.
 |====
 

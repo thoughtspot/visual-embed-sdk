@@ -57,11 +57,7 @@ The *Playground* allows you to explore the following ThoughtSpot components that
 ++++
 <a href="{{origin}}/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-////
-++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
-++++
-////
+
 Customizations::
 For ThoughtSpot users with administrator and developer privileges, the Developer portal displays the following customization menu items:
 
@@ -92,28 +88,28 @@ Minimizes the data panel on the left navigation bar.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
 Hide data panel::
 Hides the default data panel. You can use this function to create a custom data panel when embedding the search module in your application.
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
 Hide chart or table::
 Hides the visualizations displayed as search results. You can use this function to create your own visualization when embedding search in your application.
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
 Modify available actions::
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
 * To disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `replaySearch`.
@@ -137,7 +133,7 @@ Disable Search Assist::
 Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -147,9 +143,9 @@ Enables constructing a search query using search tokens.
 +
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-+ 
++
 
 In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
 
@@ -198,7 +194,7 @@ To embed a visualization:
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. 
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page.
 
 +
 * To disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `download`:
@@ -209,7 +205,7 @@ disabledActions: ['download']
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
+<a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
 ++++
 
 * To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
@@ -221,7 +217,7 @@ hiddenActions: ['download']
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
+<a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it out</a>
 ++++
 
 +
@@ -230,15 +226,15 @@ For a complete list of action menu items and the corresponding text strings to u
 +
 Set runtime filters::
 
-Enables Runtime Filters. 
+Enables Runtime Filters.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 +
-Runtime filters provide the ability to filter data at the time of retrieval.  
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+Runtime filters provide the ability to filter data at the time of retrieval.
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
 +
 [source,javascript]
@@ -263,13 +259,13 @@ To embed a pinboard:
 . Select a pinboard.
 . If required, enable *User experience customization* settings.
 
-+ 
++
 Modify available actions::
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 * To disable the **Download As PDF** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `downloadAsPdf`.
@@ -295,10 +291,10 @@ Enables Runtime Filters on a visualization in a pinboard.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 Runtime filters provide the ability to filter data at the time of retrieval.
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute. 
+To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
 +
 [source,javascript]
@@ -326,7 +322,7 @@ Show navigation bar::
 Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 . Click *Run*.

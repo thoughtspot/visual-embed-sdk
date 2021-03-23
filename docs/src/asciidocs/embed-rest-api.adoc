@@ -17,7 +17,8 @@ To embed a pinboard or visualization, construct the URL for the REST API call:
 To embed a pinboard, click the ellipses (...) icon, and then select *Copy embed link*.
 
 +
-image::./images/copy_pinboard_link.png[Copy embed link]
+[.widthAuto]
+image::./images/copy_pinboard_link.png[Copy embed link, width=auto]
 
 +
 To embed a visualization:
@@ -26,7 +27,8 @@ To embed a visualization:
 .. Click the ellipses (...) icon in the upper right corner of the table or chart.
 .. Click *Copy embed link* icon.
 +
-image::./images/copy_link.png[]
+[.widthAuto]
+image::./images/copy_link.png[Copy link, width=auto]
 . Copy the ID number from the link.
 Paste it somewhere so that you can use it later to construct the URL for the REST API call.
 
@@ -34,12 +36,14 @@ Paste it somewhere so that you can use it later to construct the URL for the RES
 If the object is a pinboard, copy the identifier that appears after `viz/`.
 
 +
-image::./images/copy_link_pinboard.png[]
+[.widthAuto]
+image::./images/copy_link_pinboard.png[Copy pinboard link, width=auto]
 
 +
 For visualizations (table or chart), copy the IDs that appear after `viz/`. 
 +
-image::./images/copy_link_viz_pinboard_part.png[]
+[.widthAuto]
+image::./images/copy_link_viz_pinboard_part.png[Copy visualization link, width=auto]
 
 . Construct the URL. 
 +
@@ -62,6 +66,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%
 
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
+
 +
 ----
 http://<base-uri>/callosum/v1/tspublic/v1/pinboarddata
@@ -70,6 +75,7 @@ http://<base-uri>/callosum/v1/tspublic/v1/pinboarddata
 ----
 
 . After you construct the URL, send a POST request to get data from ThoughtSpot.
+
 +
 The Data REST API returns the data formatted as JSON.
 . Retrieve the data from the JSON and embed it in your Web page, Web portal, or application.

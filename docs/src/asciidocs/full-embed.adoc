@@ -16,6 +16,9 @@ The full embedded ThoughtSpot content gives your users the ability to perform ma
 * share objects with other users
 * upload data, and refresh uploaded data
 * relate uploaded data to existing worksheets
+* Use search answers
+* Use SpotIQ
+
 
 === Limitations
 Users in a fully  embedded application cannot perform the following tasks:
@@ -94,7 +97,7 @@ const appEmbed = new AppEmbed(
         frameParams: {
             width: '100%',
             height: '100%',
-          
+
         },
     showPrimaryNavbar: true
 
@@ -107,7 +110,7 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -120,7 +123,7 @@ Render the embedded content and pass the `pageID` parameter for setting a page a
     appEmbed.render({
     Page.Data
   });
- 
+
 
 ----
 pageId::
@@ -135,7 +138,7 @@ Page.Data:: Displays the *Data* page when the application loads.
 Page.Home:: Displays the *Home* page when the application loads.
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 === Subscribe to events
@@ -226,7 +229,7 @@ appEmbed.render({
 ----
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources

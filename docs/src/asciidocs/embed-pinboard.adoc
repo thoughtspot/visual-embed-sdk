@@ -101,7 +101,7 @@ disabledActions: Action.present
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
@@ -116,7 +116,7 @@ hiddenActions: Action.addFilter
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 disabledActionReason::
@@ -143,7 +143,7 @@ _String_. The Global Unique Identifier (GUID) of a visualization added to the pi
 ////
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the Pinboard page loads.
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.     
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
@@ -219,7 +219,7 @@ Runtime filters have several operators for filtering your embedded visualization
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 == Subscribe to events
@@ -279,7 +279,7 @@ pinboardEmbed.render({
 ----
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/pinboard" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/pinboard" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources

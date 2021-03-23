@@ -68,6 +68,7 @@ Email::
 The user's email address. ThoughtSpot uses this email address for notifications.
 [NOTE]
 Make sure that the domain address of the email provider is added to the CSP whitelist on the *Security Settings* page.
+
 Send a welcome email::
 __Optional__. When checked, this option ensures that the new user receives a welcome email.
 

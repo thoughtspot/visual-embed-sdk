@@ -54,7 +54,7 @@ Use this API to obtain an authentication token. The authentication token is requ
 
 === Resource URL
 ----
- POST https://<base-uri>/tspublic/v1/session/auth/token
+ POST /tspublic/v1/session/auth/token
 ----
 === Request parameters
 

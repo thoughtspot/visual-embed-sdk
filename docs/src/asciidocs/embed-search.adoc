@@ -95,7 +95,7 @@ const searchEmbed = new SearchEmbed(
     hiddenActions: [],
     disabledActionReason: '<reason for disabling>'
     });
-  
+
 ----
 
 
@@ -107,7 +107,7 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -116,7 +116,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -125,7 +125,7 @@ _Boolean_. When set to true, it hides charts and tables in search answers. Use t
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 enableSearchAssist [small]_optional_::
@@ -133,7 +133,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -142,14 +142,14 @@ _Array of strings_. Hides the specified action menu items on the search answer p
 
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 +
 For example, to hide the *Replay Search* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `replaySearch` text string in the `hiddenActions` attribute.
 
 +
----- 
+----
 hiddenActions: Action.replaySearch
 ----
 disabledActions [small]_optional_::
@@ -159,12 +159,12 @@ For example, to disable the *Show underlying data* action from the *More* menu i
 
 +
 
----- 
+----
 disabledActions: Action.showUnderlyingData
 ----
 +
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 disabledActionReason [small]_optional_::
@@ -196,10 +196,10 @@ _String_. The GUID of the search answers saved in a user profile.
 searchQuery::
 _String_. The search query string to use when the application loads. You can use the following types of search tokens to construct a search query:
 * xref:search-data-api.adoc#column[Column]
-* xref:search-data-api.adoc#operator[Operator] 
+* xref:search-data-api.adoc#operator[Operator]
 * xref:search-data-api.adoc#value[Value]
 * xref:search-data-api.adoc#date-bucket[Date Bucket]
-* xref:search-data-api.adoc#keyword[Keyword] 
+* xref:search-data-api.adoc#keyword[Keyword]
 * xref:search-data-api.adoc#calendar[Calendar]
 
 
@@ -211,9 +211,9 @@ searchQuery: "[Revenue] by [Shipmode]"
 
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
- 
+
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
 [source, javascript]
@@ -273,7 +273,7 @@ searchEmbed.render({
 
 
 ++++
-<a href="{{tshost}}/#/everywhere/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources
