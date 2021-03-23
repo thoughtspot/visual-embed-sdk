@@ -12,7 +12,6 @@ const getPathPrefix = () => {
         case 'STAGING':
             return 'dev';
         case 'LOCAL':
-            return '';
         default:
             return ''; // Default path prefix
     }
