@@ -107,7 +107,7 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 
 +
 ++++
-<a href="{{origin}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -116,7 +116,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 +
 ++++
-<a href="{{origin}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -125,7 +125,7 @@ _Boolean_. When set to true, it hides charts and tables in search answers. Use t
 
 +
 ++++
-<a href="{{origin}}/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 enableSearchAssist [small]_optional_::
@@ -133,7 +133,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 +
 ++++
-<a href="{{origin}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -142,7 +142,7 @@ _Array of strings_. Hides the specified action menu items on the search answer p
 
 +
 ++++
-<a href="{{origin}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 +
@@ -164,7 +164,7 @@ disabledActions: Action.showUnderlyingData
 ----
 +
 ++++
-<a href="{{origin}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search?modifyActions=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 disabledActionReason [small]_optional_::
@@ -211,7 +211,7 @@ searchQuery: "[Revenue] by [Shipmode]"
 
 
 ++++
-<a href="{{origin}}/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
 == Subscribe to events
@@ -273,7 +273,7 @@ searchEmbed.render({
 
 
 ++++
-<a href="{{origin}}/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources
