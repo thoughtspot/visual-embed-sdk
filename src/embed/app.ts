@@ -51,7 +51,8 @@ export interface AppViewConfig extends ViewConfig {
      */
     showPrimaryNavbar?: boolean;
     /**
-     * An URL path within the app that is to be embedded
+     * An URL path within the app that is to be embedded.
+     * If both path and pageId values are defined, the path definition takes precedence.
      */
     path?: string;
     /**
