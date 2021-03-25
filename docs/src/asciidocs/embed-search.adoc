@@ -93,13 +93,15 @@ Enables trusted authentication method. To use the trusted authentication method,
 +
 _String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
 
-** `*getAuthToken*` _Optional_
-+
-A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
-
 ** `*username*`
 +
-The username for trusted authentication.
+_String_. The username for trusted authentication.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
+
+    getAuthToken: () => Promise.resolve(token) 
 
 
 == Create an instance of the SearchEmbed class
@@ -109,22 +111,23 @@ Create an instance of the SearchEmbed object and customize your search page view
 [source,javascript]
 ----
 const searchEmbed = new SearchEmbed(
-	document.getElementById('ts-embed'), {
-		frameParams: {
-			width: '100%',
-			height: '100%'
-		},
-		answerId: "<%=savedAnswerGUID%>",
-		dataSources: ['<%=datasourceGUID%>'],
-		collapseDataSources: false,
-		disabledActions: [],
-		disabledActionReason: '<reason for disabling>',
-		hiddenActions: [],
-		hideDataSources: false,
-		hideResults: false,
-		searchQuery: "<query-string>",
-		},
-	});
+    document.getElementById('ts-embed'), 
+    {
+	    frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+    	answerId: "<%=savedAnswerGUID%>",
+    	dataSources: ['<%=datasourceGUID%>'],
+    	collapseDataSources: false,
+    	disabledActions: [],
+    	disabledActionReason: '<reason for disabling>',
+    	hiddenActions: [],
+    	hideDataSources: false,
+    	hideResults: false,
+    	searchQuery: "<query-string>",
+    },
+});
 ----
 
 
@@ -241,17 +244,18 @@ Register event handlers to subscribe to embed events triggered by the ThoughtSpo
 ----
  searchEmbed.on(EmbedEvent.init, showLoader)
  searchEmbed.on(EmbedEvent.load, hideLoader)
+ searchEmbed.on(EventType.Error)
 ----
 If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
 
 [source, javascript]
 ----
  searchEmbed.on(EmbedEvent.customAction, payload => {
-      const data = payload.data;
-      if (data.id === 'insert Custom Action ID here') {
-          console.log('Custom Action event:', data.columnsAndData);
-      }
-  })
+	const data = payload.data;
+	if(data.id === 'insert Custom Action ID here') {
+		console.log('Custom Action event:', data.columnsAndData);
+	}
+})
 ----
 For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
@@ -268,25 +272,20 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
-
-init({
-    thoughtSpotHost: "<%=tshost%>",
-    authType: AuthType.SSO,
-});
-
-const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-        dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
-        },
+    import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+    init({
+    	thoughtSpotHost: "<%=tshost%>",
+    	authType: AuthType.SSO,
     });
-
-searchEmbed.render();
+    const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+    	frameParams: {
+    		width: '100%',
+    		height: '100%',
+    	},
+    	dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
+    },
+    });
+    searchEmbed.render();
 ----
 
 

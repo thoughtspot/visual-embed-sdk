@@ -73,21 +73,25 @@ Enables trusted authentication method. To use the trusted authentication method,
 +
 _String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
 
-** `*getAuthToken*` _Optional_
-+
-A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
-
 ** `*username*`
 +
-The username for trusted authentication.
+_String_. The username for trusted authentication.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
+
+    getAuthToken: () => Promise.resolve(token) 
 
 == Construct the embed content
 [source,JavaScript]
 ----
- const pinboardEmbed = new PinboardEmbed("#embed", {
+ const pinboardEmbed = new PinboardEmbed(
+    document.getElementById('ts-embed'),  
+    {
 	frameParams: {
-		width: 1280,
-		height: 720
+		width: 100%,
+		height: 100%,
 	},
     disabledActions: [],
     disabledActionReason: '<reason for disabling>'
@@ -236,11 +240,12 @@ Construct the URL for the embedded pinboard and render the embedded content:
 ----
 
 == Subscribe to events
-Register event handlers and subscribe to events triggered by the embedded pinboard:
+Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.
 [source,javascript]
 ----
   pinboardEmbed.on(EventType.init, showLoader)
   pinboardEmbed.on(EventType.load, hideLoader)
+  pinboardEmbed.on(EventType.Error)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
@@ -248,10 +253,10 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register ev
 [source, javascript]
 ----
     pinboardEmbed.on(EmbedEvent.customAction, payload => {
-    const data = payload.data;
-    if (data.id === 'insert Custom Action ID here') {
-        console.log('Custom Action event:', data.columnsAndData);
-    }
+    	const data = payload.data;
+    	if(data.id === 'insert Custom Action ID here') {
+    		console.log('Custom Action event:', data.columnsAndData);
+    	}
     })
 ----
 For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
@@ -286,7 +291,7 @@ const pinboardEmbed = new PinboardEmbed(
         },
     });
 
-    pinboardEmbed.render();
+pinboardEmbed.render();
 ----
 
 

@@ -77,28 +77,33 @@ Enables trusted authentication method. To use the trusted authentication method,
 +
 _String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
 
-** `*getAuthToken*` _Optional_
-+
-A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
-
 ** `*username*`
 +
-The username for trusted authentication.
+_String_.The username for trusted authentication.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
+
+    getAuthToken: () => Promise.resolve(token) 
+
 
 == Construct the embed content
 [source,JavaScript]
 ----
- const pinboardEmbed = new PinboardEmbed("#embed", {
+ const pinboardEmbed = new PinboardEmbed(
+    document.getElementById('ts-embed'), 
+    {
 	frameParams: {
-		width: 1280,
-		height: 720
+		width: 100%,
+		height: 100%,
 	},
 	disabledActions: [],
 	disabledActionReason: '<reason for disabling>',
 	hiddenActions: [],
 	pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>',
-    runtimeFilters: [],
+	vizId: '<%=vizGUID%>',
+	runtimeFilters: [],
     },
 });
 ----
@@ -161,13 +166,11 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 [source,javascript]
 ----
-
 runtimeFilters: [{
   columnName: 'color',
   operator: RuntimeFilterOp.EQ,
   values: [ 'red' ]
   }]
-
 ----
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
@@ -255,6 +258,7 @@ Register event handlers to subscribe to events triggered by the embedded visuali
 ----
  pinboardEmbed.on(EventType.init, showLoader)
  pinboardEmbed.on(EventType.load, hideLoader)
+ pinboardEmbed.on(EventType.Error)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
@@ -283,26 +287,22 @@ For a complete list of event types that you can register, see the link:https://d
 
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
-
-init({
-    thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.None,
-});
-
-const pinboardEmbed = new PinboardEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-        pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
-        vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
-        },
+ import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+ init({
+    	thoughtSpotHost: '<%=tshost%>',
+    	authType: AuthType.None,
     });
-
-pinboardEmbed.render();
+ const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), 
+    {
+    	frameParams: {
+    		width: '100%',
+    		height: '100%',
+    	},
+    	pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
+    	vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
+    },
+    });
+ pinboardEmbed.render();
 ----
 
 
