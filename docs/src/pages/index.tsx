@@ -29,7 +29,6 @@ import {
 // markup
 const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
-
     const [params, setParams] = useState({
         [TS_HOST_PARAM]: 'https://try-everywhere.thoughtspot.cloud/v2',
         [TS_ORIGIN_PARAM]: '',
