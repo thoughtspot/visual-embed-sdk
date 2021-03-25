@@ -102,8 +102,8 @@ export interface ViewConfig {
     // eslint-disable-next-line camelcase
     styleSheet__unstable?: string;
     /**
-     * The list of actions to disable from the primary menu, more menu (...), 
-     * and the contextual menu.
+     * The list of actions to disable from the primary menu, more menu
+     * (...), and the contextual menu.
      */
     disabledActions?: Action[];
     /**
@@ -111,8 +111,8 @@ export interface ViewConfig {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the primary menu, more menu (...),
-     * and the contextual menu.
+     * The list of actions to hide from the primary menu, more menu
+     * (...), and the contextual menu.
      */
     hiddenActions?: Action[];
     /**
