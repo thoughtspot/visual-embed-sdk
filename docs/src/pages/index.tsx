@@ -16,6 +16,7 @@ import {
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
     NOT_FOUND_PAGE_ID,
+    DEFAULT_HOST,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -27,7 +28,7 @@ import {
 const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
     const [params, setParams] = useState({
-        [TS_HOST_PARAM]: 'https://try-everywhere.thoughtspot.cloud/v2',
+        [TS_HOST_PARAM]: DEFAULT_HOST,
         [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
