@@ -13,12 +13,9 @@ import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
     TS_ORIGIN_PARAM,
-    TS_APP_ROOT_PARAM,
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
     NOT_FOUND_PAGE_ID,
-    DEFAULT_HOST,
-    DEFAULT_APP_ROOT,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -53,14 +50,6 @@ const IndexPage = ({ location }) => {
             paramObj[e.node.parent.name] =
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
-
-        // check required params and add default if value is not available
-        paramObj[TS_HOST_PARAM] = removeTrailingSlash(
-            paramObj[TS_HOST_PARAM] || DEFAULT_HOST,
-        );
-        paramObj[TS_APP_ROOT_PARAM] = removeTrailingSlash(
-            paramObj[TS_APP_ROOT_PARAM] || DEFAULT_APP_ROOT,
-        );
 
         setParams({ ...params, ...paramObj });
     }, [location.search]);
@@ -189,6 +178,7 @@ const IndexPage = ({ location }) => {
         updateQuery('');
         navigate(pageid);
     };
+
     return (
         <>
             <main ref={ref as React.RefObject<HTMLDivElement>}>
