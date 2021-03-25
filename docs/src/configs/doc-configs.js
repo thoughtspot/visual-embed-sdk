@@ -9,5 +9,5 @@ module.exports = {
     NOT_FOUND_PAGE_ID: '404-error',
     TYPE_DOC_PREFIX: 'typedoc',
     DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud/v2',
-    DEFAULT_APP_ROOT: '/everywhere-standalone',
+    DEFAULT_APP_ROOT: '/everywhere',
 };
