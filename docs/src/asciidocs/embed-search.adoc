@@ -20,7 +20,7 @@ Import the SearchEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 ----
 ////
 == Import styles
@@ -56,23 +56,50 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
-
++
 authType::
-_String_. Authentication type. Valid values are:
+_String_. Authentication type. You can set the `authType` attribute to one of the following values:
+
+* `*Basic*`
++
+Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
 
 +
-[horizontal]
-SSO::
-SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
-AuthServer::
-Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens and grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
+[WARNING]
+Do not use this authentication method in production environments.
+
+* `*SSO*`
 +
-authEndpoint::
-_String_. The endpoint URL of the authentication server.
-None::
+Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
+
+* `*None*`
++
 Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
+
 +
-This approach is used only for testing client applications. Do not use this in production environments.
+[WARNING]
+Do not use this authentication method in production environments.
+
++
+* `*AuthServer*`
+
++
++
+Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
+
++
+
+** `*authEndpoint*` _Optional_
++
+_String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
+
+** `*username*`
++
+The username for trusted authentication.
 
 
 == Create an instance of the SearchEmbed class
@@ -82,25 +109,33 @@ Create an instance of the SearchEmbed object and customize your search page view
 [source,javascript]
 ----
 const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'), {
-    frameParams: {
-        width: '100%',
-        height: '100%'
-    },
-    collapseDataSources:false,
-    hideDataSources: false,
-    hideResults: false,
-    enableSearchAssist: true,
-    disabledActions:[],
-    hiddenActions: [],
-    disabledActionReason: '<reason for disabling>'
-    });
-
+	document.getElementById('ts-embed'), {
+		frameParams: {
+			width: '100%',
+			height: '100%'
+		},
+		answerId: "<%=savedAnswerGUID%>",
+		dataSources: ['<%=datasourceGUID%>'],
+		collapseDataSources: false,
+		disabledActions: [],
+		disabledActionReason: '<reason for disabling>',
+		hiddenActions: [],
+		hideDataSources: false,
+		hideResults: false,
+		searchQuery: "<query-string>",
+		},
+	});
 ----
 
 
 frameParams::
 Sets the `width` and `height` dimensions to render the iframe in the web browser.
+
+answerID::
+_String_. The Global Unique Identifiers (GUID) of the search answers saved in a user profile.
+
+dataSources::
+_Array of strings_. The GUIDs of the data sources for running a search query on.
 
 collapseDataSources [small]*_optional_*::
 _Boolean_. When set to true, it minimizes the Data Source panel.
@@ -127,7 +162,7 @@ _Boolean_. When set to true, it hides charts and tables in search answers. Use t
 ++++
 <a href="{{origin}}/playground/search?hideResults=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
+////
 enableSearchAssist [small]_optional_::
 _Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 
@@ -135,7 +170,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 ++++
 <a href="{{origin}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
-
+////
 
 hiddenActions::
 _Array of strings_. Hides the specified action menu items on the search answer page. You can use this attribute to remove actions that are not applicable to your application context.
@@ -173,26 +208,6 @@ _String_. Indicates the reason for disabling an action from the search answer pa
 
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/action.html[Actions, window=_blank].
 
-== Render the embedded search
-Construct the URL of the embedded ThoughtSpot search object.
-Render the embedded search and pass parameters such as data source ID.
-[source, javascript]
-----
-
- searchEmbed.render({
-  dataSources: ['<%=datasourceGUID%>'],
-  searchQuery: "<query-string>",
-  answerId: "<%=savedAnswerGUID%>"
- })
-
-----
-
-dataSources::
-_Array of strings_. The Global Unique Identifiers (GUIDs) of the data sources for running a search query on.
-
-answerID::
-_String_. The GUID of the search answers saved in a user profile.
-
 searchQuery::
 _String_. The search query string to use when the application loads. You can use the following types of search tokens to construct a search query:
 * xref:search-data-api.adoc#column[Column]
@@ -201,7 +216,6 @@ _String_. The search query string to use when the application loads. You can use
 * xref:search-data-api.adoc#date-bucket[Date Bucket]
 * xref:search-data-api.adoc#keyword[Keyword]
 * xref:search-data-api.adoc#calendar[Calendar]
-
 
 For example, to fetch revenue data by shipping mode, you can use the following search query string:
 
@@ -214,28 +228,32 @@ searchQuery: "[Revenue] by [Shipmode]"
 <a href="{{origin}}/playground/search/searchQuery=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
-== Subscribe to events
-Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
+== Render the embedded search
+
 [source, javascript]
 ----
-
- searchEmbed.on(EventType.init, showLoader)
- searchEmbed.on(EventType.load, hideLoader)
-
+ searchEmbed.render();
 ----
-////
-==== Event Type
-init::
-The search iframe is initiaized.
-load::
-The search iframe is loaded.
-queryChanged::
-The search query is modified.
-dataSourceSelected::
-The data source for searching data is selected.
-////
 
-For a complete list of event types, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
+== Subscribe to events
+Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function:
+[source, javascript]
+----
+ searchEmbed.on(EmbedEvent.init, showLoader)
+ searchEmbed.on(EmbedEvent.load, hideLoader)
+----
+If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+
+[source, javascript]
+----
+ searchEmbed.on(EmbedEvent.customAction, payload => {
+      const data = payload.data;
+      if (data.id === 'insert Custom Action ID here') {
+          console.log('Custom Action event:', data.columnsAndData);
+      }
+  })
+----
+For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 == Test the embedded workflow
 
@@ -250,7 +268,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: "<%=tshost%>",
@@ -264,11 +282,11 @@ const searchEmbed = new SearchEmbed(
             width: '100%',
             height: '100%',
         },
+        dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
+        },
     });
 
-searchEmbed.render({
-    dataSources: ['4f289824-e301-4001-ad06-8888f69c4748']
-});
+searchEmbed.render();
 ----
 
 
