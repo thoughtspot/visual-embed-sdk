@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
-import {queryStringParser,removeTrailingSlash} from '../utils/app-utils';
+import { queryStringParser, removeTrailingSlash } from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
@@ -13,22 +13,22 @@ import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
     TS_ORIGIN_PARAM,
+    TS_APP_ROOT_PARAM,
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
     NOT_FOUND_PAGE_ID,
+    DEFAULT_HOST,
+    DEFAULT_APP_ROOT,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
     MAX_MOBILE_RESOLUTION,
     LEFT_NAV_WIDTH_MOBILE,
-    INTRO_WRAPPER_MARGIN_TOP,
 } from '../constants/uiConstants';
 
-const PUBLIC_SITE_URL = 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere-standalone';
 // markup
 const IndexPage = ({ location }) => {
     const { width, ref } = useResizeDetector();
-
     const [params, setParams] = useState({
         [TS_HOST_PARAM]: 'https://try-everywhere.thoughtspot.cloud/v2',
         [TS_ORIGIN_PARAM]: '',
@@ -53,8 +53,15 @@ const IndexPage = ({ location }) => {
             paramObj[e.node.parent.name] =
                 e.node.pageAttributes.pageid || NOT_FOUND_PAGE_ID;
         });
-        paramObj[TS_ORIGIN_PARAM] = paramObj[TS_ORIGIN_PARAM] || PUBLIC_SITE_URL;
-        paramObj[TS_ORIGIN_PARAM] = removeTrailingSlash(paramObj[TS_ORIGIN_PARAM]);
+
+        // check required params and add default if value is not available
+        paramObj[TS_HOST_PARAM] = removeTrailingSlash(
+            paramObj[TS_HOST_PARAM] || DEFAULT_HOST,
+        );
+        paramObj[TS_APP_ROOT_PARAM] = removeTrailingSlash(
+            paramObj[TS_APP_ROOT_PARAM] || DEFAULT_APP_ROOT,
+        );
+
         setParams({ ...params, ...paramObj });
     }, [location.search]);
 

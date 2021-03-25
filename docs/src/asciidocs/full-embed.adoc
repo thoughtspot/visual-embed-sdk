@@ -138,7 +138,7 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
 +
 ++++
-<a href="{{origin}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 path::
 _String_. The URL path of the ThoughtSpot application page to embed. 
@@ -170,7 +170,7 @@ Displays the *Home* page when the application loads.
 
 +
 ++++
-<a href="{{origin}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 
@@ -242,7 +242,7 @@ appEmbed.render();
 
 
 ++++
-<a href="{{origin}}/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{tshost}}/#{{appRoot}}/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
 
 == Additional resources
