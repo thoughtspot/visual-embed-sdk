@@ -46,7 +46,7 @@ Import the AppEmbed SDK library to your application environment:
 
 [source,javascript]
 ----
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 ----
 
 === Add the embed domain
@@ -68,40 +68,68 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
++
 authType::
-_String_. Authentication type. Valid values are:
+_String_. Authentication type. You can set the `authType` attribute to one of the following values:
+
+* `*Basic*`
++
+Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
 
 +
-[horizontal]
-SSO::
-SAML SSO authentication method. Users accessing the embedded content are authenticated with SAML SSO.
-AuthServer::
-Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens and grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
+[WARNING]
+Do not use this authentication method in production environments.
+
+* `*SSO*`
 +
-authEndpoint::
-_String_. The endpoint URL of the authentication server.
-None::
+Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
+
+* `*None*`
++
 Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
-+
-This approach is used only for testing client applications. Do not use this in production environments.
 
----
++
+[WARNING]
+Do not use this authentication method in production environments.
+
++
+* `*AuthServer*`
+
++
++
+Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
+
++
+
+** `*authEndpoint*` _Optional_
++
+_String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
+
+** `*username*`
++
+The username for trusted authentication.
+
 === Create an instance of the AppEmbed object
 Create an instance of the AppEmbed object and pass the iframe parameters for the application pages.
 
 [source,javascript]
 ----
-const appEmbed = new AppEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-
-        },
-    showPrimaryNavbar: true
-
-    });
+ const appEmbed = new AppEmbed(
+ document.getElementById('ts-embed'), {
+     frameParams: {
+         width: '100%',
+         height: '100%',
+    
+     },
+     showPrimaryNavbar: true,
+     page: Page.Data,
+     path: '<url-string>',
+  },
+  });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application.
 
@@ -112,6 +140,38 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 ++++
 <a href="{{origin}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_parent">Preview in Playground</a>
 ++++
+path::
+_String_. The URL path of the ThoughtSpot application page to embed. 
+
+[NOTE]
+When both `path` and `PageId` attributes are defined, the path definition takes precedence.
+
+pageId::
+The unique identifier for the ThoughtSpot application page. The following values are valid.
+* `*Page.Search*`
++
+Displays the search answers page when the application loads.
+
+* `*Page.Answers*`
++
+Displays the saved search answers (*Answers*) page when the application loads.
+
+* `*Page.Pinboards*`
++
+Displays the *Pinboards* page when the application loads.
+
+* `*Page.Data*`
++ 
+Displays the *Data* page when the application loads.
+
+* `*Page.Home*`
++
+Displays the *Home* page when the application loads.
+
++
+++++
+<a href="{{origin}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
+++++
 
 
 === Construct the URL and render the application
@@ -119,27 +179,9 @@ Construct the URL of the embedded ThoughtSpot application to load within the web
 Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
 [source, javascript]
 ----
-
-    appEmbed.render({
-    Page.Data
-  });
-
-
+ appEmbed.render();
 ----
-pageId::
-The unique identifier for the ThoughtSpot application page. The following values are valid.
 
-[horizontal]
-Page.Search::
-Displays the search answers page when the application loads.
-Page.Answers:: Displays the saved search answers (*Answers*) page when the application loads.
-Page.Pinboards:: Displays the *Pinboards* page when the application loads.
-Page.Data:: Displays the *Data* page when the application loads.
-Page.Home:: Displays the *Home* page when the application loads.
-
-++++
-<a href="{{origin}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_parent">Preview in Playground</a>
-++++
 
 === Subscribe to events
 Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
@@ -148,17 +190,19 @@ Register event handlers to subscribe to events triggered by the ThoughtSpot Sear
  appEmbed.on(EventType.init, showLoader)
  appEmbed.on(EventType.load, hideLoader)
 ----
-////
-==== Event Type
-init::
-The search iframe is initiaized.
-load::
-The search iframe is loaded.
-queryChanged::
-The search query is modified.
-dataSourceSelected::
-The data source for searching data is selected.
-////
+
+If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+
+[source, javascript]
+----
+    pinboardEmbed.on(EmbedEvent.customAction, payload => {
+    const data = payload.data;
+    if (data.id === 'insert Custom Action ID here') {
+        console.log('Custom Action event:', data.columnsAndData);
+    }
+    })
+----
+For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 === Test the embedded workflow
 
@@ -170,44 +214,11 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item from the search visualizations page, verify if the menu command is disabled.
 
-////
-
-
-=== Framework support for full screen embedding
-
-Additionally, consider the following framework factors:
-+++<dlentry>+++allowfullscreen::::
-This attribute is the legacy precursor of `allow="fullscreen"`, and may still work with some browsers.
-+ Set to `true` if the `<iframe>` can activate fullscreen mode by calling the `requestFullscreen()` method.
-+ We strongly recommend that you update your embedding scripts to use the new approach inside the `<iframe>` tag.+++</dlentry>++++++<dlentry>+++Spring MVC::::  This framework supports the `allowfullscreen="true"` parameter inside the `iframe` tag.+++</dlentry>++++++<dlentry>+++React::::  This framework is case sensitive, and uses the attribute `allowFullScreen` inside the `iframe` tag.+++</dlentry>+++
-
-== Hide the ThoughtSpot navigation bar
-
-To hide the primary navigation, configure these:
-
-* Ensure the app is in an `<iframe/>` .
-* Set the `embedApp` flag to `true` to specify that the application is embedded.
-* Set the `primaryNavHidden` flag to `true` (the default) to specify that navigation visibility is off.
-
-If either flag is `false`, primary navigation appears.
-////
-
-////
-== Additional notes
-
-Here are some additional notes about the full embed feature:
-
-* Call `thoughtspot.<customerURL>.com/#/answer` and use that to access the search functionality.
-* Call `thoughtspot.<customerURL>.com/#/pinboards` and use that to access saved pinboards.
-* Use SAML for authentication against ThoughtSpot within the `<iframe>`.
-
-The function `updateIframeUrl(id)` contains the logic to change the src URL of the `<iframe>` when your users click  navigation buttons.
-////
 
 == Code sample
 [source,javascript]
 ----
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/embed-sdk';
+import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -221,12 +232,14 @@ const appEmbed = new AppEmbed(
             width: '100%',
             height: '100%',
         },
+        path: '<url-string>',
+        Page.Data,
+        },
     });
 
-appEmbed.render({
-    Page.Data
-});
+appEmbed.render();
 ----
+
 
 ++++
 <a href="{{origin}}/playground/fullApp" id="preview-in-playground" target="_parent">Preview in Playground</a>

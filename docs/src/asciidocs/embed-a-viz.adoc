@@ -18,7 +18,7 @@ Import the visualization SDK library to your application environment:
 
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 ----
 
 == Add the embed domain
@@ -39,22 +39,51 @@ init
 +
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
-+
-authType::
-_String_. Authentication type. Valid values are:
 
 +
-[horizontal]
-SSO::
-Enables SAML SSO authentication method.
-AuthServer::
-Trusted authentication method. The trusted authentication method enables applications to exchange secure tokens to grant access to the embedded content. If this authentication method is used, define the `authEndpoint`  attribute.
-authEndpoint::
-_String_. The endpoint URL of the authentication server.
-None::
-Requires no authentication. The user must already be logged into ThoughtSpot before interacting with the embedded content.
+authType::
+_String_. Authentication type. You can set the `authType` attribute to one of the following values:
+
+* `*Basic*`
 +
-This approach is used only for testing client applications. Do not use this in production environments.
+Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
+
++
+[WARNING]
+Do not use this authentication method in production environments.
+
+* `*SSO*`
++
+Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
+
+* `*None*`
++
+Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
+
++
+[WARNING]
+Do not use this authentication method in production environments.
+
++
+* `*AuthServer*`
+
++
++
+Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
+
++
+
+** `*authEndpoint*` _Optional_
++
+_String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
+
+** `*username*`
++
+The username for trusted authentication.
 
 == Construct the embed content
 [source,JavaScript]
@@ -65,11 +94,14 @@ This approach is used only for testing client applications. Do not use this in p
 		height: 720
 	},
 	disabledActions: [],
+	disabledActionReason: '<reason for disabling>',
 	hiddenActions: [],
+	pinboardId: '<%=pinboardGUID%>',
+    vizId: '<%=vizGUID%>',
+    runtimeFilters: [],
+    },
 });
 ----
-
-
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
 
 disabledActions [small]_optional_::
@@ -87,6 +119,8 @@ disabledActions: Action.editTitle
 ++++
 <a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
++
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:/typedoc/enums/action.html[Actions].
 
 hiddenActions [small]_optional_::
 _String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -107,25 +141,15 @@ hiddenActions: Action.downloadAsPdf
 <a href="{{origin}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
++
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:/typedoc/enums/action.html[Actions].
+
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
-
-== Render the embedded visualization
-Construct the URL for the embedded visualization and render the embedded content:
-[source,JavaScript]
-----
-  pinboardEmbed.render({
-    pinboardId: '<%=pinboardGUID%>',
-    vizId: '<%=vizGUID%>'
-    runtimeFilters: []
-});
-
-----
-
 vizId::
 _String_. The Global Unique Identifier (GUID) of the visualization.
+
 pinboardId::
 _String_. The GUID of the pinboard to which the visualization is pinned.
 runtimeFilters [small]_optional_::
@@ -215,27 +239,37 @@ Runtime filters have several operators you can use to filter your embedded visua
 <a href="{{origin}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
 ++++
 
+== Render the embedded visualization
+Construct the URL for the embedded visualization and render the embedded content:
+
+[source,JavaScript]
+----
+  pinboardEmbed.render();
+----
+
+
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
 
 [source,javascript]
 ----
-
  pinboardEmbed.on(EventType.init, showLoader)
  pinboardEmbed.on(EventType.load, hideLoader)
-
 ----
-////
-==== Event Types
-init::
-The visualization iframe is initiaized.
-load::
-The visualization iframe is loaded.
-filtersChanged::
-New filters applied for the visualization
-drilldown::
-Visualization drilldown is initiated.
-////
+
+If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+
+[source, javascript]
+----
+ pinboardEmbed.on(EmbedEvent.customAction, payload => {
+      const data = payload.data;
+      if (data.id === 'insert Custom Action ID here') {
+          console.log('Custom Action event:', data.columnsAndData);
+      }
+  })
+ 
+----
+For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 == Test the embedded workflow
 
@@ -249,7 +283,7 @@ Visualization drilldown is initiated.
 
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/embed-sdk';
+import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -263,12 +297,12 @@ const pinboardEmbed = new PinboardEmbed(
             width: '100%',
             height: '100%',
         },
+        pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
+        vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
+        },
     });
 
-pinboardEmbed.render({
-    pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
-    vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92'
-});
+pinboardEmbed.render();
 ----
 
 
