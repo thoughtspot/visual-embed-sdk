@@ -58,5 +58,5 @@
 * Resources
 ** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
-** link:{{tshost}}/#/everywhere/playground/search[Playground, window=_parent]
+** link:{{previewPrefix}}/playground/search[Playground, window=_parent]
 
