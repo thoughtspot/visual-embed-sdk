@@ -51,7 +51,7 @@ const LeftSideBar = (props: {
 
     const onMenuClick = () => {
         props.setLeftNavOpen(!props.leftNavOpen);
-        document.querySelector('aside').classList.toggle('asideDisplay');
+        // document.querySelector('aside').classList.toggle('asideDisplay');
         document.documentElement.scrollTop = 0;
     };
 
@@ -85,6 +85,7 @@ const LeftSideBar = (props: {
                     navContent={navContent}
                     navTitle={props.navTitle}
                     refObj={ref as React.RefObject<HTMLDivElement>}
+                    leftNavOpen={props.leftNavOpen}
                 />
             </ResizableBox>
         ) : (
@@ -97,6 +98,7 @@ const LeftSideBar = (props: {
                     navContent={navContent}
                     navTitle={props.navTitle}
                     refObj={ref as React.RefObject<HTMLDivElement>}
+                    leftNavOpen={props.leftNavOpen}
                 />
             </div>
         );

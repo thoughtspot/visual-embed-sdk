@@ -5,10 +5,14 @@ const NavContent = (props: {
     refObj: React.RefObject<HTMLDivElement>;
     backLink: string;
     navTitle: string;
+    leftNavOpen: boolean;
     navContent: string;
 }) => {
     return (
-        <aside ref={props.refObj}>
+        <aside
+            ref={props.refObj}
+            className={props.leftNavOpen && 'asideDisplay'}
+        >
             {props.backLink && (
                 <BackButton title="Back" backLink={props.backLink} />
             )}
