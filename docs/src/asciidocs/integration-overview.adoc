@@ -85,7 +85,7 @@ For more information, see xref:security-settings.adoc[Configure security setting
 The ThoughtSpot Developer portal provides a playground for developers to explore the Visual Embed SDK components. The *Playground* provides a preview of the code sample that developers can use to embed search analytics, visualizations, pinboards, and the full ThoughtSpot application. Developers can leverage the interactive coding experience to evaluate the ThoughtSpot embed functionality.
 
 ++++
-<a href="{{origin}}/playground/search" id="preview-in-playground" target="_parent">Go to Playground</a>
+<a href="{{origin}}/playground/search" id="preview-in-playground" target="_blank">Go to Playground</a>
 ++++
 
 ////

@@ -116,7 +116,7 @@ disabledActions: Action.present
 ----
 +
 ++++
-<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:/typedoc/enums/action.html[Actions].
@@ -134,7 +134,7 @@ hiddenActions: Action.addFilter
 ----
 +
 ++++
-<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
 +
@@ -225,7 +225,7 @@ Runtime filters have several operators for filtering your embedded visualization
 |===
 +
 ++++
-<a href="{{origin}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_parent">Try it in Playground</a>
+<a href="{{origin}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
 == Render the embedded pinboard
@@ -291,7 +291,7 @@ const pinboardEmbed = new PinboardEmbed(
 
 
 ++++
-<a href="{{origin}}/playground/pinboard" id="preview-in-playground" target="_parent">Preview in Playground</a>
+<a href="{{origin}}/playground/pinboard" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 
 == Additional resources
