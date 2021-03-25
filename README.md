@@ -13,14 +13,13 @@ SDK to embed ThoughtSpot into your web apps.
 
 ## Usage
 
-Via [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
+Install the Visual Embed SDK from [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
 
 ```
 npm i @thoughtspot/visual-embed-sdk
 ```
 
-The SDK is written in TypeScript and is also provided both as ESM and UMD module,
-allowing you to use it in a variety of environments, e.g.,
+The SDK is written in TypeScript and is also provided both as ES Module (ESM) and Universal Module Definition (UMD) modules, allowing you to use it in a variety of environments. For example,...
 
 ```js
 // CommonJS

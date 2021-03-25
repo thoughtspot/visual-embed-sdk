@@ -12,40 +12,40 @@ import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
 /**
- * The configuration of the embedded search view
+ * The configuration attributes for the embedded search view.
  *
  * @Category Search Embed
  */
 export interface SearchViewConfig extends ViewConfig {
     /**
      * If set to true, the data sources panel is collapsed on load
-     * but can be expanded manually
+     * but can be expanded manually.
      */
     collapseDataSources?: boolean;
     /**
-     * If set to true, the data sources panel is hidden and cannot
-     * be expanded manually
+     * If set to true, hides the data sources panel.
      */
     hideDataSources?: boolean;
     /**
-     * If set to true, the results area is hidden. This can be used to
-     * roll out one's own custom visualization using raw answer data
+     * If set to true, hides the charts and tables in search answers.
+     * This attribute can be used to create a custom visualization
+     * using raw answer data.
      */
     hideResults?: boolean;
     /**
-     * If set to true, the search assist feature is enabled
+     * If set to true, the search assist feature is enabled.
      */
     enableSearchAssist?: boolean;
     /**
-     * The array of data source GUIDs to set on load
+     * The array of data source GUIDs to set on load.
      */
     dataSources?: string[];
     /**
-     * The initial search query to load the answer with
+     * The initial search query to load the answer with.
      */
     searchQuery?: string;
     /**
-     * The GUID of a saved answer to load initially
+     * The GUID of a saved answer to load initially.
      */
     answerId?: string;
 }
@@ -87,7 +87,7 @@ export class SearchEmbed extends TsEmbed {
      * loaded in the iframe
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
-     * @param searchQuery A search query to be fired on load
+     * @param searchQuery A search query to be generated on load
      */
     private getIFrameSrc(
         answerId: string,
