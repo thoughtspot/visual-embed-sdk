@@ -15,8 +15,10 @@ import {
     TS_ORIGIN_PARAM,
     TS_PAGE_ID_PARAM,
     NAV_PREFIX,
+    PREVIEW_PREFIX,
     NOT_FOUND_PAGE_ID,
     DEFAULT_HOST,
+    DEFAULT_APP_ROOT,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -32,6 +34,7 @@ const IndexPage = ({ location }) => {
         [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
+        [PREVIEW_PREFIX]: `${DEFAULT_HOST}/#${DEFAULT_APP_ROOT}`,
     });
     const [docTitle, setDocTitle] = useState('');
     const [docContent, setDocContent] = useState('');
