@@ -10,6 +10,7 @@ import {
 type SearchProps = {
     options: SearchQueryResult[];
     value: string;
+    leftNavOpen: boolean;
     optionSelected: (pageid: string) => void;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 };
@@ -75,7 +76,9 @@ const Search: React.FC<SearchProps> = (props) => {
     }
 
     return (
-        <div className="searchWrapper">
+        <div
+            className={`searchWrapper ${props.leftNavOpen ? 'visHidden' : ''}`}
+        >
             <div className="searchInputWrapper">
                 <input
                     type="Search"

@@ -6,7 +6,7 @@
     position: fixed;
     width: calc(100% - #{$docmap-width-desktop});
     background: $white;
-    z-index: 99;
+    z-index: $z-index-search;
 }
 
 .searchInputWrapper {
@@ -91,5 +91,21 @@
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .searchInputWrapper {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: $mobile-resolution-max) {
+    .searchWrapper {
+        width: 100%;
+        top: 0;
+        left: 0;
+
+        .searchInputWrapper {
+            width: 86%;
+        }
+    }
+
+    .visHidden {
+        visibility: hidden;
     }
 }
