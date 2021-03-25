@@ -20,8 +20,7 @@ export const queryStringParser = (queryParamStr: string) => {
 
     const entries = new URLSearchParams(queryParamStr).entries();
     let navPrefix = '?';
-    let tsHost = DEFAULT_HOST;
-    let appRoot = DEFAULT_APP_ROOT;
+    let tsHostUrl = DEFAULT_HOST;
 
     for (const [key, value] of entries) {
         queryParamObj[key] = value;
@@ -31,12 +30,11 @@ export const queryStringParser = (queryParamStr: string) => {
         if (key === TS_ORIGIN_PARAM) {
             if (value) {
                 navPrefix += `${TS_ORIGIN_PARAM}=${encodeURIComponent(value)}&`;
-                tsHost = removeTrailingSlash(value.split('#')[0]);
+                tsHostUrl = removeTrailingSlash(value.split('#')[0]);
             }
         }
         if (key === TS_APP_ROOT_PARAM) {
             navPrefix += `${TS_APP_ROOT_PARAM}=${value}&`;
-            appRoot = value;
         }
     }
 
@@ -52,7 +50,7 @@ export const queryStringParser = (queryParamStr: string) => {
     queryParamObj[NAV_PREFIX] = navPrefix;
     queryParamObj[
         PREVIEW_PREFIX
-    ] = `${tsHost}/#${queryParamObj[TS_APP_ROOT_PARAM]}`;
+    ] = `${tsHostUrl}/#${queryParamObj[TS_APP_ROOT_PARAM]}`;
 
     return queryParamObj;
 };
