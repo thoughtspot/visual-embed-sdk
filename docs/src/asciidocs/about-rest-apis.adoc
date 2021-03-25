@@ -18,8 +18,27 @@ The REST APIs return data as a JSON string. To embed data into your application,
 
 REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
 
+== Swagger portal
+To access APIs on Swagger:
+
+. Log in to ThoughtSpot as an admin user.
+. Go to the Swagger portal.
++
+----
+https://<your-thoughtspot.com>/external/swagger
+----
+
+The portal displays a list of REST API services available for ThoughtSpot users.
+
+. Click on a header to expand and view the list of services.
+. Click on a service name to view more details about the API service.
+
+++++
+<a href="{{origin}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger portal</a>
+++++
+
 == List of APIs
-The following APIs are available on the pass:[<a href="{{tshost}}/external/swagger  target="_blank">Swagger portal</a>] for ThoughtSpot users.
+The following APIs are available for ThoughtSpot users.
 
 === User management
 [width="80%" cols="2,2"]
@@ -65,15 +84,6 @@ Pinboard Data|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from th
 |Export| `*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
 |====
 
-== Swagger portal
-To access APIs on Swagger:
 
-. Log in to ThoughtSpot as an admin user.
-. Go to the Swagger portal.
-+
-----
-https://<your-thoughtspot.com>/external/swagger
-----
-The portal displays a list of REST API services available for ThoughtSpot users.
-. Click on a header to expand and view the list of services.
-. Click on a service name to view more details about the API service.
+
+
