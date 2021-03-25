@@ -58,12 +58,19 @@ Same `<iframe>` that contains the application.
 == Authentication
 You can use any of the following authentication services for authenticating application users who want to access the embedded content.
 
+Authentication with session REST API::
+In this method, you can send a POST request to the `/tspublic/v1/session/login` API to allow a user to log in to Thoughtspot.
+
+[WARNING]
+This authentication method is intended to be used in initial development and testing phases. Do not use this authentication method in production environments.
+
 No Authentication::
 This would require the user to be _already logged into ThoughtSpot_, before interacting with the client application.
-You can use this authentication approach for testing environments.
-Do not use this in a production environment.
 
-SAML::
+[WARNING]
+Do not use this authentication method in a production environment.
+
+SAML SSO::
 This method requires you to set up SAML SSO support on the ThoughtSpot admin console.
 +
 

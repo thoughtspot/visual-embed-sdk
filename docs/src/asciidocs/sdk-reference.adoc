@@ -14,7 +14,7 @@ The link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK, windo
 * link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/classes/pinboardembed.html[PinboardEmbed, window=_blank]
 * link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/classes/searchembed.html[SearchEmbed, window=_blank]
 
-For more specific information on Embed options and functions, visit our link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html[API site, window=_blank].
+For more specific information on Embed options and functions, see the  link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
 
 == Additional resources
  
