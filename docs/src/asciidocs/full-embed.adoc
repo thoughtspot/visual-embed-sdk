@@ -105,13 +105,15 @@ Enables trusted authentication method. To use the trusted authentication method,
 +
 _String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
 
-** `*getAuthToken*` _Optional_
-+
-A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used.
-
 ** `*username*`
 +
-The username for trusted authentication.
+_String_.The username for trusted authentication.
+
+** `*getAuthToken*` _Optional_
++
+A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
+
+    getAuthToken: () => Promise.resolve(token) 
 
 === Create an instance of the AppEmbed object
 Create an instance of the AppEmbed object and pass the iframe parameters for the application pages.
@@ -119,14 +121,15 @@ Create an instance of the AppEmbed object and pass the iframe parameters for the
 [source,javascript]
 ----
  const appEmbed = new AppEmbed(
- document.getElementById('ts-embed'), {
+ document.getElementById('ts-embed'), 
+    {
      frameParams: {
          width: '100%',
          height: '100%',
     
      },
      showPrimaryNavbar: true,
-     page: Page.Data,
+     pageId: Page.Data,
      path: '<url-string>',
   },
   });
@@ -184,23 +187,25 @@ Render the embedded content and pass the `pageID` parameter for setting a page a
 
 
 === Subscribe to events
-Register event handlers to subscribe to events triggered by the ThoughtSpot Search function:
+Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.
+
 [source, javascript]
 ----
  appEmbed.on(EventType.init, showLoader)
  appEmbed.on(EventType.load, hideLoader)
+ appEmbed.on(EventType.Error)
 ----
 
-If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the event triggered by the custom action:
 
 [source, javascript]
 ----
-    pinboardEmbed.on(EmbedEvent.customAction, payload => {
-    const data = payload.data;
-    if (data.id === 'insert Custom Action ID here') {
-        console.log('Custom Action event:', data.columnsAndData);
-    }
-    })
+appEmbed.on(EmbedEvent.customAction, payload => {
+	const data = payload.data;
+	if(data.id === 'insert Custom Action ID here') {
+		console.log('Custom Action event:', data.columnsAndData);
+	}
+})
 ----
 For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
@@ -219,24 +224,20 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 [source,javascript]
 ----
 import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
-
 init({
-    thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.None,
-});
-
-const appEmbed = new AppEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-        path: '<url-string>',
-        Page.Data,
-        },
+        thoughtSpotHost: '<%=tshost%>',
+    	authType: AuthType.None,
     });
-
+const appEmbed = new AppEmbed(
+      document.getElementById('ts-embed'), 
+      {
+    	frameParams: {
+    		width: '100%',
+    		height: '100%',
+    	},
+    	Page.Data,
+    },
+    });
 appEmbed.render();
 ----
 
