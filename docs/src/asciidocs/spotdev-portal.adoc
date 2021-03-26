@@ -290,7 +290,7 @@ Displays the ThoughtSpot top navigation bar. By default, the navigation bar is h
 == Customize embedded content
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
 * To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
-* If you are a ThoughtSpot admin user and you want to xref:security-settings.adoc[configure security settings], such as CORS, trusted authentication service, and domain whitelisting, go to *Customizations* > *Settings*.
+* If you are a ThoughtSpot admin user and you want to configure security settings, such as  xref:security-settings.adoc[CORS and CSP domains],  xref:trusted-authentication.adoc[trusted authentication service], and  xref:configure-saml.adoc[SAML redirect domains], go to *Customizations* > *Settings*.
 
 ////
 +
