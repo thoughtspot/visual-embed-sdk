@@ -9,13 +9,12 @@ The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements
 
 You can use the Visual Embed SDK for the following purposes:
 
-* Embed specific components of the ThoughtSpot application; For example, search, pinboards, and visualizations.
+* Embed specific components of the ThoughtSpot application; for example, search, pinboards, and visualizations.
 * Render full ThoughtSpot application within the host application.
-* Render charts, visualizations, and pinboards.
 
-== Visual Embed SDK libraries
+== Visual Embed SDK APIs
 
-The Visual Embed SDK includes the following Javascript libraries:
+The Visual Embed SDK includes the following embed modules:
 
 SearchEmbed::
 To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
@@ -62,7 +61,7 @@ Authentication with session REST API::
 In this method, you can send a POST request to the `/tspublic/v1/session/login` API to allow a user to log in to Thoughtspot.
 
 [WARNING]
-This authentication method is intended to be used in initial development and testing phases. Do not use this authentication method in production environments.
+This authentication method is intended to be used in initial development and testing phases. Do not use this authentication method in a production environment.
 
 No Authentication::
 This would require the user to be _already logged into ThoughtSpot_, before interacting with the client application.
