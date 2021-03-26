@@ -56,7 +56,7 @@ const handleAuth = () => {
  * Initialize the ThoughtSpot embed settings globally and perform
  * authentication if applicable
  * @param embedConfig The configuration object containing ThoughtSpot host,
- * authentication mechanism etc.
+ * authentication mechanism and so on.
  */
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
@@ -89,7 +89,7 @@ export interface ViewConfig {
      */
     layoutConfig?: LayoutConfig;
     /**
-     * The configuration of the iFrame
+     * The height and width of the iFrame.
      */
     frameParams?: FrameParams;
     /**
@@ -102,22 +102,22 @@ export interface ViewConfig {
     // eslint-disable-next-line camelcase
     styleSheet__unstable?: string;
     /**
-     * The list of actions to disable from primary actions,
-     * menu item actions and context menu actions
+     * The list of actions to disable from the primary menu, more menu
+     * (...), and the contextual menu.
      */
     disabledActions?: Action[];
     /**
-     * The tooltip to display for disabled actions
+     * The tooltip to display for disabled actions.
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from primary actions,
-     * menu item actions and context menu actions
+     * The list of actions to hide from the primary menu, more menu
+     * (...), and the contextual menu.
      */
     hiddenActions?: Action[];
     /**
-     * The list of runtime filters to apply to the answer,
-     * visualization or pinboard
+     * The list of runtime filters to apply to a search answer,
+     * visualization, or pinboard.
      */
     runtimeFilters?: RuntimeFilter[];
 }
@@ -176,7 +176,7 @@ export class TsEmbed {
     }
 
     /**
-     * Get a reference to the root DOM node where
+     * Gets a reference to the root DOM node where
      * the embedded content will appear
      * @param domSelector
      */
@@ -187,14 +187,14 @@ export class TsEmbed {
     }
 
     /**
-     * Throw error encountered during initialization
+     * Throws error encountered during initialization
      */
     private throwInitError() {
         this.handleError('You need to init the ThoughtSpot SDK module first');
     }
 
     /**
-     * Handle errors within the SDK
+     * Handles errors within the SDK
      * @param error The error message or object
      */
     protected handleError(error: string | Record<string, unknown>) {
@@ -207,7 +207,7 @@ export class TsEmbed {
     }
 
     /**
-     * Extract the type field from the event payload
+     * Extracts the type field from the event payload
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
@@ -216,7 +216,7 @@ export class TsEmbed {
     }
 
     /**
-     * Add an global event listener to window for "message" events
+     * Adds a global event listener to window for "message" events
      * We detect if a particular event is targeted to this particular
      * embed instance through an identifier contained in the payload,
      * and execute the registere callbacks accordingly
@@ -231,7 +231,7 @@ export class TsEmbed {
     }
 
     /**
-     * Construct the base URL string to load the ThoughtSpot app
+     * Constructs the base URL string to load the ThoughtSpot app
      */
     protected getEmbedBasePath(): string {
         return [this.thoughtSpotHost, this.thoughtSpotV2Base, '#', 'embed']
@@ -240,7 +240,7 @@ export class TsEmbed {
     }
 
     /**
-     * Construct the base URL string to load v1 of the ThoughtSpot app
+     * Constructs the base URL string to load v1 of the ThoughtSpot app
      * This is used for pinboards, visualizations and full app embedding
      * @param queryString Query string to append to the URL
      * @param isAppEmbed A Boolean parameter to specify if we're embedding
@@ -322,7 +322,7 @@ export class TsEmbed {
     }
 
     /**
-     * Set the height of the iframe
+     * Sets the height of the iframe
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number): void {
@@ -330,7 +330,7 @@ export class TsEmbed {
     }
 
     /**
-     * Execute all registered event handlers for a particular event type
+     * Executes all registered event handlers for a particular event type
      * @param eventType The event type
      * @param data The payload the event handler will be invoked with
      */
@@ -340,14 +340,14 @@ export class TsEmbed {
     }
 
     /**
-     * Return the ThoughtSpot host name or IP address
+     * Returns the ThoughtSpot host name or IP address
      */
     protected getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
     }
 
     /**
-     * Get the v1 event type (if applicable) for the EmbedEvent type
+     * Gets the v1 event type (if applicable) for the EmbedEvent type
      * @param eventType The v2 event type
      * @returns The correspding v1 event type if one exists
      * or else the v2 event type itself
@@ -357,8 +357,8 @@ export class TsEmbed {
     }
 
     /**
-     * Register an event listener to be triggered when we receive
-     * an event of a particular message type from the embedded app
+     * Registers an event listener to be triggered when the ThoughtSpot app
+     * sends an event of a particular message type to the host application
      * @param messageType The message type
      * @param callback A callback function
      */
@@ -380,8 +380,8 @@ export class TsEmbed {
     }
 
     /**
-     * Trigger a message event to the embedded app
-     * @param messageType The message type
+     * Triggers an event to the embedded app
+     * @param messageType The event type
      * @param data The payload to send with the message
      */
     public trigger(
@@ -400,7 +400,7 @@ export class TsEmbed {
     }
 
     /**
-     * Mark the ThoughtSpot object to have been rendered
+     * Marks the ThoughtSpot object to have been rendered
      * Needs to be overridden by subclasses to do the actual
      * rendering of the iframe.
      * @param args
