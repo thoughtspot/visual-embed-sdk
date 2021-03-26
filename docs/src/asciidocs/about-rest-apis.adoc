@@ -34,7 +34,7 @@ The portal displays a list of REST API services available for ThoughtSpot users.
 . Click on a service name to view more details about the API service.
 
 ++++
-<a href="{{origin}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger portal</a>
+<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger portal</a>
 ++++
 
 == List of APIs

@@ -154,10 +154,10 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The configuration object for embedding, specifying
-							the ThoughtSpot host or IP address, the authentication
-							mechanism and the authentication endpoint if a trusted
-						auth server is being used</p>
+						<p>The configuration object for embedding ThoughtSpot content.
+							It includes the ThoughtSpot hostname or IP address,
+							the type of authentication, and the authentication endpoint
+						if a trusted authentication server is used.</p>
 					</div>
 				</div>
 			</section>
@@ -195,16 +195,16 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L60">types.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L60">types.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The trusted authentication endpoint to hit to get the auth token.
-								A GET request is made to the auth API endpoint which is expected
-								to return the token as plaintext response.
-								To perform trusted auth one of authEndpoint or getAuthToken must
-							be provided.</p>
+							<p>The trusted authentication endpoint to use to get the
+								authentication token. A GET request is made to the
+								authentication API endpoint, which  returns the token
+								as a plaintext response. For trusted authentication,
+							the authEndpoint or getAuthToken attribute is required.</p>
 						</div>
 					</div>
 				</section>
@@ -214,12 +214,12 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/authtype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L52">types.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L52">types.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The authentication mechanism to use</p>
+							<p>The authentication mechanism to use.</p>
 						</div>
 					</div>
 				</section>
@@ -229,15 +229,15 @@
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Auth<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L67">types.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L67">types.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A function that invokes the trusted authentication endpoint
-								and returns a Promise that resolves to the auth token.
-								To perform trusted auth one of authEndpoint or getAuthToken must
-							be provided.</p>
+								and returns a Promise that resolves to the <code>auth token</code> string.
+								For trusted authentication, the <code>authEndpoint</code> or <code>getAuthToken</code>
+							attribute is required.</p>
 						</div>
 					</div>
 					<div class="tsd-type-declaration">
@@ -262,14 +262,14 @@
 					<div class="tsd-signature tsd-kind-icon">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L78">types.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L79">types.ts:79</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The ThoughtSpot login password corresponding to the user name
 								Warning: This feature is primarily intended for developer testing and it is
-							strongly advised not to use this in production</p>
+							strongly advised not to use this in production.</p>
 						</div>
 					</div>
 				</section>
@@ -279,12 +279,12 @@
 					<div class="tsd-signature tsd-kind-icon">thought<wbr>Spot<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L48">types.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L48">types.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The ThoughtSpot cluster host name or IP address</p>
+							<p>The ThoughtSpot cluster hostname or IP address.</p>
 						</div>
 					</div>
 				</section>
@@ -294,12 +294,13 @@
 					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/180d93e/src/types.ts#L71">types.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/22cb1ea/src/types.ts#L72">types.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The user name for trusted auth</p>
+							<p>The user name of the ThoughtSpot user. This attribute is
+							required for trusted authentication.</p>
 						</div>
 					</div>
 				</section>

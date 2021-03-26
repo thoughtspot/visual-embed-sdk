@@ -14,7 +14,7 @@
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     /**
-     * Do not handle auth
+     * No authentication. Use this only for testing purposes.
      */
     None = 'None',
     /**
@@ -22,7 +22,7 @@ export enum AuthType {
      */
     SSO = 'SSO_SAML',
     /**
-     * Truted authentication server
+     * Trusted authentication server
      */
     AuthServer = 'AuthServer',
     /**
@@ -36,44 +36,45 @@ export enum AuthType {
 export type DOMSelector = string | HTMLElement;
 
 /**
- * The configuration object for embedding, specifying
- * the ThoughtSpot host or IP address, the authentication
- * mechanism and the authentication endpoint if a trusted
- * auth server is being used
+ * The configuration object for embedding ThoughtSpot content.
+ * It includes the ThoughtSpot hostname or IP address,
+ * the type of authentication, and the authentication endpoint
+ * if a trusted authentication server is used.
  */
 export interface EmbedConfig {
     /**
-     * The ThoughtSpot cluster host name or IP address
+     * The ThoughtSpot cluster hostname or IP address.
      */
     thoughtSpotHost: string;
     /**
-     * The authentication mechanism to use
+     * The authentication mechanism to use.
      */
     authType: AuthType;
     /**
-     * The trusted authentication endpoint to hit to get the auth token.
-     * A GET request is made to the auth API endpoint which is expected
-     * to return the token as plaintext response.
-     * To perform trusted auth one of authEndpoint or getAuthToken must
-     * be provided.
+     * The trusted authentication endpoint to use to get the
+     * authentication token. A GET request is made to the
+     * authentication API endpoint, which  returns the token
+     * as a plaintext response. For trusted authentication,
+     * the authEndpoint or getAuthToken attribute is required.
      */
     authEndpoint?: string;
     /**
      * A function that invokes the trusted authentication endpoint
-     * and returns a Promise that resolves to the auth token.
-     * To perform trusted auth one of authEndpoint or getAuthToken must
-     * be provided.
+     * and returns a Promise that resolves to the `auth token` string.
+     * For trusted authentication, the `authEndpoint` or `getAuthToken`
+     * attribute is required.
      */
     getAuthToken?: () => Promise<string>;
     /**
-     * The user name for trusted auth
+     * The user name of the ThoughtSpot user. This attribute is
+     * required for trusted authentication.
      */
     username?: string;
 
     /**
      * The ThoughtSpot login password corresponding to the user name
      * Warning: This feature is primarily intended for developer testing and it is
-     * strongly advised not to use this in production
+     * strongly advised not to use this in production.
      */
     password?: string;
 
@@ -180,7 +181,7 @@ export interface RuntimeFilter {
 export enum EmbedEvent {
     /**
      * Rendering has initialized.
-     * @return timestamp - The timestamp when the event was fired
+     * @return timestamp - The timestamp when the event was generated.
      */
     Init = 'init',
     /**
@@ -191,7 +192,7 @@ export enum EmbedEvent {
     /**
      * The iFrame has loaded. This only refers to the iFrame load event
      * and does not mean the ThoughtSpot app has completed loading.
-     * @return timestamp - The timestamp when the event was fired
+     * @return timestamp - The timestamp when the event was generated.
      */
     Load = 'load',
     /**
@@ -233,7 +234,7 @@ export enum EmbedEvent {
      */
     Error = 'Error',
     /**
-     * An alert has been thrown
+     * The embedded object has sent an alert
      * @return alert - An alert object
      */
     Alert = 'alert',
@@ -349,11 +350,11 @@ export enum Action {
     DownloadAsCsv = 'downloadAsCSV',
     DownloadAsXlsx = 'downloadAsXLSX',
     DownloadTrace = 'downloadTrace',
-    ExportTSL = 'exportTSL',
-    ImportTSL = 'importTSL',
-    UpdateTSL = 'updateTSL',
-    EditTSL = 'editTSL',
-    Presentation = 'present',
+    ExportTML = 'exportTSL',
+    ImportTML = 'importTSL',
+    UpdateTML = 'updateTSL',
+    EditTML = 'editTSL',
+    Present = 'present',
     ToggleSize = 'toggleSize',
     Edit = 'edit',
     EditTitle = 'editTitle',
@@ -376,5 +377,5 @@ export enum Action {
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
-    Drill = 'DRILL',
+    DrillDown = 'DRILL',
 }
