@@ -6,8 +6,9 @@ module.exports = {
     TS_APP_ROOT_PARAM: 'appRoot',
     TS_PAGE_ID_PARAM: 'pageid',
     NAV_PREFIX: 'navprefix',
+    PREVIEW_PREFIX: 'previewPrefix',
     NOT_FOUND_PAGE_ID: '404-error',
     TYPE_DOC_PREFIX: 'typedoc',
     DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud/v2',
-    DEFAULT_APP_ROOT: '/everywhere-standalone',
+    DEFAULT_APP_ROOT: '/everywhere',
 };
