@@ -14,9 +14,9 @@ module.exports = {
     DEFAULT_APP_ROOT: '/everywhere',
     BUILD_ENVS: {
         PROD: 'PROD',
-        PROD: 'DEV',
-        PROD: 'STAGING',
-        PROD: 'LOCAL',
+        DEV: 'DEV',
+        STAGING: 'STAGING',
+        LOCAL: 'LOCAL',
     },
     DEPLOY_ENVS: {
         RELEASE: 'release',
