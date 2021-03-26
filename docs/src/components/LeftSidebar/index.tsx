@@ -51,7 +51,6 @@ const LeftSideBar = (props: {
 
     const onMenuClick = () => {
         props.setLeftNavOpen(!props.leftNavOpen);
-        // document.querySelector('aside').classList.toggle('asideDisplay');
         document.documentElement.scrollTop = 0;
     };
 
