@@ -210,5 +210,6 @@ module.exports = {
             },
             __key: 'htmlFiles',
         },
+        'gatsby-plugin-catch-links',
     ],
 };
