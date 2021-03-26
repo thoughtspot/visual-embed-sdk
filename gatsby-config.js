@@ -2,16 +2,16 @@ const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
 const { htmlToText } = require('html-to-text');
 
-const buildEnv = process.env.BUILD_ENV || 'LOCAL'; // Default build env
+const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default build env
 
 const getPathPrefix = () => {
     switch (buildEnv) {
-        case 'PROD':
-            return 'release';
-        case 'DEV':
-        case 'STAGING':
-            return 'dev';
-        case 'LOCAL':
+        case config.BUILD_ENVS.PROD:
+            return config.DEPLOY_ENVS.RELEASE;
+        case config.BUILD_ENVS.DEV:
+        case config.BUILD_ENVS.STAGING:
+            return config.DEPLOY_ENVS.DEV;
+        case config.BUILD_ENVS.LOCAL:
         default:
             return ''; // Default path prefix
     }
@@ -32,6 +32,8 @@ class CustomDocConverter {
     isTransformLink(target) {
         return (
             !target.includes(`{{${config.NAV_PREFIX}}}`) &&
+            !target.includes(`{{${config.PREVIEW_PREFIX}}}`) &&
+            !target.includes(`{{${config.VISUAL_EMBED_SDK_PREFIX}}}`) &&
             !target.includes(`{{${config.TS_HOST_PARAM}}}`) &&
             !target.includes('www.') &&
             !target.startsWith('http')

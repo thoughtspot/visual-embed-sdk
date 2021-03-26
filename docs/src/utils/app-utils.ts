@@ -1,13 +1,18 @@
 import 'url-search-params-polyfill';
 import {
+    DOC_REPO_NAME,
+    TYPE_DOC_PREFIX,
     NAV_PREFIX,
     PREVIEW_PREFIX,
+    VISUAL_EMBED_SDK_PREFIX,
     TS_HOST_PARAM,
     TS_ORIGIN_PARAM,
     TS_APP_ROOT_PARAM,
     TS_PAGE_ID_PARAM,
     DEFAULT_HOST,
     DEFAULT_APP_ROOT,
+    BUILD_ENVS,
+    DEPLOY_ENVS,
 } from '../configs/doc-configs';
 
 /**
@@ -46,11 +51,28 @@ export const queryStringParser = (queryParamStr: string) => {
         queryParamObj[TS_APP_ROOT_PARAM] || DEFAULT_APP_ROOT,
     );
 
+    // prepare and set 'Main Navigation' links URL prefix
     navPrefix += TS_PAGE_ID_PARAM;
     queryParamObj[NAV_PREFIX] = navPrefix;
+
+    // prepare and set 'Preview in Playground' button URL prefix
     queryParamObj[
         PREVIEW_PREFIX
     ] = `${tsHostUrl}/#${queryParamObj[TS_APP_ROOT_PARAM]}`;
+
+    // set deployed environment of 'Visual Embed SDK'
+    const buildEnv = process.env.BUILD_ENV || BUILD_ENVS.LOCAL;
+    let deployedEnv = '';
+    if (buildEnv !== BUILD_ENVS.LOCAL) {
+        deployedEnv = `${
+            buildEnv === BUILD_ENVS.PROD ? DEPLOY_ENVS.RELEASE : DEPLOY_ENVS.DEV
+        }/`;
+    }
+
+    // prepare and set 'Visual Embed SDK' links URL prefix
+    queryParamObj[
+        VISUAL_EMBED_SDK_PREFIX
+    ] = `${DOC_REPO_NAME}/${deployedEnv}${TYPE_DOC_PREFIX}`;
 
     return queryParamObj;
 };

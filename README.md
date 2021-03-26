@@ -41,7 +41,7 @@ import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 
 ## Full API Reference
 
-Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
+Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/release/typedoc/modules.html).
 
 <br/>
 

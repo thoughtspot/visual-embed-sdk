@@ -207,7 +207,7 @@ appEmbed.on(EmbedEvent.customAction, payload => {
 	}
 })
 ----
-For a complete list of event types that you can register, see the link:https://docs.thoughtspot.com/visual-embed-sdk/typedoc/enums/embedevent.html[EmbedEvent reference page, window=_blank].
+For a complete list of event types that you can register, see the link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent reference page, window=_blank].
 
 === Test the embedded workflow
 
