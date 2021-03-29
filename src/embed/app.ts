@@ -61,6 +61,11 @@ export interface AppViewConfig extends ViewConfig {
      * in the embedded view.
      */
     pageId?: Page;
+    /**
+     * This puts a filter tag on the Application, all metadata lists in the app
+     * like pinboards, Answers etc would be filtered by this tag.
+     */
+    tag?: string;
 }
 
 /**
@@ -85,6 +90,7 @@ export class AppEmbed extends V1Embed {
             disabledActions,
             disabledActionReason,
             hiddenActions,
+            tag,
         } = this.viewConfig;
 
         if (disabledActions?.length) {
@@ -95,6 +101,9 @@ export class AppEmbed extends V1Embed {
         }
         if (hiddenActions?.length) {
             params[Param.HideActions] = hiddenActions;
+        }
+        if (tag) {
+            params[Param.Tag] = tag;
         }
 
         const queryParams = getQueryParamString(params);

@@ -137,4 +137,19 @@ describe('App embed tests', () => {
             );
         });
     });
+
+    test('Should add the tag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            tag: 'Finance',
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&tag=Finance#/home`,
+            );
+        });
+    });
 });
