@@ -9,7 +9,7 @@ import {
 
 type SearchProps = {
     options: SearchQueryResult[];
-    value: string;
+    keyword: string;
     optionSelected: (pageid: string) => void;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 };
@@ -44,7 +44,7 @@ const Search: React.FC<SearchProps> = (props) => {
     const onFocus = () => updateShowSearchResult(true);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!props.value || props.options.length === 0) return;
+        if (!props.keyword || props.options.length === 0) return;
 
         const optionSize = props.options.length;
 
@@ -60,9 +60,7 @@ const Search: React.FC<SearchProps> = (props) => {
                 setHighlightedIndex((prev: number) => (prev + 1) % optionSize);
                 return;
             case ENTER:
-                props.optionSelected(
-                    props.options[highlightedIndex].redirectURL,
-                );
+                props.optionSelected(props.options[highlightedIndex].pageid);
                 setHighlightedIndex(0);
                 return;
             default:
@@ -82,7 +80,7 @@ const Search: React.FC<SearchProps> = (props) => {
                     placeholder="Search Documentation"
                     onFocus={onFocus}
                     onKeyDown={onKeyDown}
-                    value={props.value}
+                    value={props.keyword}
                     onChange={props.onChange}
                 />
                 {showSearchResult && (
@@ -93,7 +91,7 @@ const Search: React.FC<SearchProps> = (props) => {
                                     key={option.pageid}
                                     className="result"
                                     onClick={() =>
-                                        props.optionSelected(option.redirectURL)
+                                        props.optionSelected(option.pageid)
                                     }
                                     ref={(el: HTMLDivElement) => {
                                         optionListRef.current[index] = el;
@@ -103,7 +101,7 @@ const Search: React.FC<SearchProps> = (props) => {
                                         className={`textContainer 
                                     ${index === highlightedIndex && 'active'}`}
                                     >
-                                        <p className="title">{props.value}</p>
+                                        <p className="title">{props.keyword}</p>
                                         <p className="footer">{option.title}</p>
                                     </div>
                                 </div>

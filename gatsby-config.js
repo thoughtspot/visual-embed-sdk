@@ -177,7 +177,7 @@ module.exports = {
                 `,
                 ref: 'pageid',
                 index: ['title', 'body', 'pageid'],
-                store: ['pageid', 'title', 'redirectURL'],
+                store: ['title', 'pageid'],
                 normalizer: ({ data }) => {
                     return [
                         ...data.allAsciidoc.edges
@@ -190,7 +190,6 @@ module.exports = {
                                 const pageid = edge.node.pageAttributes.pageid;
                                 return {
                                     pageid,
-                                    redirectURL: `?pageid=${pageid}`,
                                     title: edge.node.document.title,
                                     body: htmlToText(edge.node.html),
                                 };
@@ -201,7 +200,6 @@ module.exports = {
                                 const pageid = edge.node.name;
                                 return {
                                     pageid,
-                                    redirectURL: pageid,
                                     title: edge.node.childHtmlRehype.htmlAst.children.find(
                                         (children) =>
                                             children.tagName === 'title',
