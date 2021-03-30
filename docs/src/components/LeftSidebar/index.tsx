@@ -89,8 +89,17 @@ const LeftSideBar = (props: {
             </ResizableBox>
         ) : (
             <div className="menuMain">
-                <div className="menuContainer" onClick={onMenuClick}>
-                    <img src={props.leftNavOpen ? ClearIcon : MenuIcon} />
+                <div className="menuContainer">
+                    <img
+                        src={MenuIcon}
+                        className={`${props.leftNavOpen && 'imgOpacity'}`}
+                        onClick={onMenuClick}
+                    />
+                    <img
+                        src={ClearIcon}
+                        className={`${!props.leftNavOpen && 'imgOpacity'}`}
+                        onClick={onMenuClick}
+                    />
                 </div>
                 <NavContent
                     backLink={props.backLink}

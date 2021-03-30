@@ -18,6 +18,20 @@
             position: relative;
             top: 0;
             padding-left: 5px;
+            transition: opacity 0.5s, transform 0.5s;
+
+            &:first-child {
+                float: right;
+            }
+
+            &:last-child {
+                left: 41px;
+            }
+        }
+
+        .imgOpacity {
+            opacity: 0;
+            transform: rotate(90deg);
         }
     }
 }
