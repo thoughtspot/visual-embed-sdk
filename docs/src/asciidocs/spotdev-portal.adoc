@@ -113,7 +113,7 @@ hiddenActions: ['replaySearch']
 ----
 
 +
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 
 +
@@ -181,7 +181,7 @@ hiddenActions: ['download']
 ++++
 
 +
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 +
 Set runtime filters::
@@ -243,7 +243,7 @@ disabledActions: ['downloadAsPdf']
 hiddenActions: ['downloadAsPdf']
 ----
 +
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 Set runtime filters::
 

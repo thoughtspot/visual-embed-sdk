@@ -125,7 +125,7 @@ disabledActions: Action.editTitle
 <a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 hiddenActions [small]_optional_::
 _String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -147,7 +147,7 @@ hiddenActions: Action.downloadAsPdf
 ++++
 
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:/typedoc/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.

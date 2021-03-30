@@ -10,7 +10,8 @@ module.exports = {
     VISUAL_EMBED_SDK_PREFIX: 'visualEmbedSDKPrefix',
     NOT_FOUND_PAGE_ID: '404-error',
     TYPE_DOC_PREFIX: 'typedoc',
-    DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud/v2',
+    DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud',
+    DEFAULT_PREVIEW_HOST: 'https://try-everywhere.thoughtspot.cloud/v2',
     DEFAULT_APP_ROOT: '/everywhere',
     BUILD_ENVS: {
         PROD: 'PROD',

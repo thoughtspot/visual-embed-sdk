@@ -18,6 +18,7 @@ import {
     PREVIEW_PREFIX,
     NOT_FOUND_PAGE_ID,
     DEFAULT_HOST,
+    DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
 } from '../configs/doc-configs';
 import {
@@ -34,7 +35,7 @@ const IndexPage = ({ location }) => {
         [TS_ORIGIN_PARAM]: '',
         [TS_PAGE_ID_PARAM]: '',
         [NAV_PREFIX]: '',
-        [PREVIEW_PREFIX]: `${DEFAULT_HOST}/#${DEFAULT_APP_ROOT}`,
+        [PREVIEW_PREFIX]: `${DEFAULT_PREVIEW_HOST}/#${DEFAULT_APP_ROOT}`,
     });
     const [docTitle, setDocTitle] = useState('');
     const [docContent, setDocContent] = useState('');
