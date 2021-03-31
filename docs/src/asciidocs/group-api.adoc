@@ -8,20 +8,21 @@
 The Group APIs allow you to set or remove a privilege to or from a group.
 
 == Add a privilege
+Each user group in ThoughtSpot assigns a set of privileges to its users.
 Use this API to add the following privileges to a group.
 
-* `DATADOWNLOADING` 
+* `DATADOWNLOADING`
 +
 Allows users to download data from search results and pinboards. When `DATADOWNLOADING` privilege is applied, the users can download all the data sources that a group can access.
 
-* `USERDATAUPLOADING` 
+* `USERDATAUPLOADING`
 +
-Allows users to upload their own data to ThoughtSpot.
-Each user group in ThoughtSpot assigns a set of privileges for its users. 
+Allows users to upload their data to ThoughtSpot.
 
-ThoughtSpot also has a default group called `ALL_GROUP`, which includes every user in ThoughtSpot. When you create a new user, they will be added to the `ALL_GROUP` group automatically. By default, the members of `ALL_GROUP` do not have permission to download or upload data. You can use this API to add these privileges to the `ALL_GROUP` group.
+[NOTE]
+ThoughtSpot also has a default group called `ALL_GROUP`, which includes every user in ThoughtSpot. When you create new users in ThoughtSpot, they will be automatically added to the `ALL_GROUP` group. By default, the members of `ALL_GROUP` do not have permission to download or upload data. You can use this API to add these privileges to the `ALL_GROUP` group.
 
- 
+
 === Resource URL
 ----
 POST /tspublic/v1/group/addprivilege
@@ -33,7 +34,7 @@ POST /tspublic/v1/group/addprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to which you want to add the privilege. The default value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to which you want to add the privilege; for example,  `ALL_GROUP`.
 
 |====
 
@@ -43,19 +44,19 @@ POST /tspublic/v1/group/addprivilege
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=ALL_GROUP' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
+|HTTP Code|Description
 |**200**|Privilege added
 |**204**|Success
 |**401**|Failure/Unauthorized request
@@ -63,7 +64,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege
 
 == Remove a privilege
 
-Use this API to delete a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege from the system default ``ALL_GROUP``group.
+Use this API to delete the `DATADOWNLOADING` or `USERDATAUPLOADING` privilege from the system default `ALL_GROUP` group.
 
 === Resource URL
 ----
@@ -77,7 +78,7 @@ POST /tspublic/v1/group/removeprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to delete the privilege to. The valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to delete the privilege to. The default value is `ALL_GROUP` group.
 
 |====
 
@@ -86,20 +87,20 @@ POST /tspublic/v1/group/removeprivilege
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
 === Response codes
 [options="header", cols="1,2"]
 |===
-|HTTP Code|Description 
+|HTTP Code|Description
 |**200**|Privilege removed
-|**204**|Success 
+|**204**|Successful operation
 |**401**|Failure/Unauthorized request
 |===
 

@@ -5,7 +5,7 @@
 :page-pageid: api-user-group-management
 :page-description: Manage user groups using REST APIs
 
-To configure or remove privilege from single or multiple groups, use the group REST API service.
+To configure or remove privilege from single or multiple groups, use the Group REST API service.
 
 == Add a privilege to a user group
 
@@ -26,7 +26,7 @@ POST /tspublic/v1/group/addprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies a group name to which you want to add the privilege. The valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies a group name to which you want to add the privilege. The valid value is `ALL_GROUP` group.
 
 |====
 
@@ -36,12 +36,12 @@ POST /tspublic/v1/group/addprivilege
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=ALL_GROUP' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/group/addprivilege
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
 === Example response
@@ -65,7 +65,7 @@ POST /tspublic/v1/group/removeprivilege
 |Form Parameter|Data Type|Description
 |`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
 
-|`groupNames`|string|Specifies the group name from which you want to remove the privilege. The valid value is `ALL_GROUP` group. 
+|`groupNames`|string|Specifies the group name from which you want to remove the privilege. The valid value is `ALL_GROUP` group.
 
 |====
 
@@ -75,12 +75,12 @@ POST /tspublic/v1/group/removeprivilege
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=ALL_GROUP' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/group/removeprivilege
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
 === Example response

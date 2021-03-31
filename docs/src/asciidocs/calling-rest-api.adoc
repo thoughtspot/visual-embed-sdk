@@ -14,13 +14,13 @@ To call a REST API, you can specify a URL using the `POST` method and pass the I
 For a pinboard, you can append the ID of your pinboard as a parameter, as shown in the following example:
 
 ----
-https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
 To retrieve data from a specific visualization within a pinboard,append the ID number of the visualization using the `vizid` parameter:
 
 ----
-https://<base-uri>/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
 ----
 
 [NOTE]
@@ -30,7 +30,7 @@ The URL encoding for the open bracket is `%5B`, and the close bracket is `%5D`.
 
 == Data format of objects
 
-The returned JSON data includes one object for every visualization on the pinboard. 
+The returned JSON data includes one object for every visualization on the pinboard.
 If you make a call to obtain data for a specific visualization on a pinboard, it will return just one object.
 
 The objects are named according to the corresponding `vizid`.
@@ -55,7 +55,7 @@ vizId2 : {
 Each object contains four components:
 
 . An array of column headers. The `columnNames` array contains a list of all column headers.
-. An array of data. The `data` array contains a list of other arrays. 
+. An array of data. The `data` array contains a list of other arrays.
  Each sub-array represents a new row of data.
 . Name of the visualization.
 . A sampling ratio.

@@ -5,17 +5,14 @@
 :page-pageid: metadata-api
 :page-description: Metadata API
 
-
-To fetch metadata for ThoughtSpot objects, use the metadata REST API service.
-
 The metadata API service allows you to fetch metadata details for various objects in the ThoughtSpot system.
 
-For example, you may want to see the visualization headers of a particular answer or a pinboard.
+For example, you may want to see the visualization headers of a particular visualization or a pinboard.
 
 == Get visualization headers
 
-Use this API to list the visualization headers from the ThoughtSpot system.
-The expected output includes a list of objects, each with information about the visualizations in a given pinboard or a search answer.
+Use this API to get a list of visualization headers from the ThoughtSpot system.
+The output includes a list of objects, each with information about the visualizations in a given pinboard or a search answer.
 
 === Resource URL
 ----
@@ -25,20 +22,20 @@ GET /tspublic/v1/metadata/listvizheaders
 [width="100%" cols="1,2,3"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description 
-|id|string|ID of a particular answer or a pinboard. 
+|Query Parameter|Data Type|Description
+|`id`|string|ID of a particular answer or a pinboard.
 |====
 === Example request
 
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<instance>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
 ----
 
 === Example response
@@ -80,9 +77,9 @@ https://<base-uri>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-7
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
-|**200**|gets the visualization headers 
-|**400**|invalid pinboard GUID 
+|HTTP Code|Description
+|**200**|Successful retrieval of the visualization headers list
+|**400**|Invalid pinboard GUID
 |===
 == Get object headers
 
@@ -97,59 +94,64 @@ GET /tspublic/v1/metadata/listobjectheaders
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`type`|string| Specifies the metadata object type. 
+|`type`|string a|Specifies the metadata object type.
  Valid values are:
-         `QUESTION_ANSWER_BOOK`
-         `PINBOARD_ANSWER_BOOK`
-         `QUESTION_ANSWER_SHEET`
-         `PINBOARD_ANSWER_SHEET`
-         `LOGICAL_COLUMN`
-         `LOGICAL_TABLE`
-         `LOGICAL_RELATIONSHIP`
-         `TAG`
-         `DATA_SOURCE` 
-|`subtypes`|string|Specifies the sub-types of a metadata object. Valid values are:
-      `ONE_TO_ONE_LOGICAL`
-      `WORKSHEET`
-      `PRIVATE_WORKSHEET`
-      `USER_DEFINED`
-      `AGGR_WORKSHEET`
-      
-      Note: This parameter only applies to the`LOGICAL_TABLE`
-|`category`|string|Specifies the metadata object category. Valid values are:
-      `ALL`
-      `MY` 
-     `FAVORITE` 
-     `REQUESTED` 
-|`sort`|string|Sort order of returned headers. Valid values are:
-        `DEFAULT`
-        `NAME` 
-        `DISPLAY_NAME`
-        `AUTHOR`
-        `CREATED`
-        `MODIFIED`
-|`sortascending`| boolean| A flag to specify the sort order. A null value defines the default order.
-Choose `true` to set an ascending order.
-Choose `false` to set a descending order 
+
+* `QUESTION_ANSWER_BOOK`
+* `PINBOARD_ANSWER_BOOK`
+* `QUESTION_ANSWER_SHEET`
+* `PINBOARD_ANSWER_SHEET`
+* `LOGICAL_COLUMN`
+* `LOGICAL_TABLE`
+* `LOGICAL_RELATIONSHIP`
+* `TAG`
+* `DATA_SOURCE`
+|`subtypes`|string a|Specifies the sub-types of a metadata object. Valid values are:
+
+* `ONE_TO_ONE_LOGICAL`
+* `WORKSHEET`
+* `PRIVATE_WORKSHEET`
+* `USER_DEFINED`
+* `AGGR_WORKSHEET`
+
+Note: This parameter only applies to the `LOGICAL_TABLE`.
+|`category`|string a|Specifies the metadata object category. Valid values are:
+
+* `ALL`
+* `MY`
+* `FAVORITE`
+* `REQUESTED`
+|`sort`|string a|Sort order of returned headers. Valid values are:
+
+* `DEFAULT`
+* `NAME`
+* `DISPLAY_NAME`
+* `AUTHOR`
+* `CREATED`
+* `MODIFIED`
+|`sortascending`| boolean a|A flag to specify the sort order. A null value defines the default order.
+
+* To set an ascending order, specify `true`.
+* To set a descending order, specify `false`.
 |`offset`|integer|The batch offset to fetch the page headers. The system default is  `-1` that implies the first page.
-|`batchsize`|integer|The batch size of the object. A value of `-1` implies no pagination. 
+|`batchsize`|integer|The batch size of the object. A value of `-1` implies no pagination.
 |`tagname`|string|A JSON array containing a set of tag names to filter headers by.
-|`pattern`|string|A pattern to match for object name. Use `%`for wildcard match. 
+|`pattern`|string|A pattern to match for object name. Use `%`for wildcard match.
 |`skipids`|string|IDs of metadata objects to exclude.
-|`fetchids`|string|IDs of metadata objects to fetch. 
-|`auto_created`| boolean|A flag that indicates whether to list auto-created objects only. A value of null signifies return all. 
+|`fetchids`|string|IDs of metadata objects to fetch.
+|`auto_created`| boolean|A flag that indicates whether to list only the auto-created objects. A value of null returns all objects.
 |====
 === Example request
 
 .CURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1
 ----
 
 === Example response
@@ -198,7 +200,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBO
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP Code|Description
-|**200**|Metadata Headers JSON
+|**200**|Successful retrieval of metadata headers
 |===
 ////
 ## Error Codes

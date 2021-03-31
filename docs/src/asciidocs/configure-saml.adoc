@@ -10,33 +10,6 @@ In the SAML SSO authentication method, users authenticate to the SAML identity p
 
 To allow ThoughtSpot to trust login requests from your corporate authentication servers, you must configure SAML settings in the ThoughtSpot application.
 
-////
-This configurator also checks with the user if internal authentication needs to be set or not.
-This internal authentication mechanism is used to authenticate `tsadmin` and other ThoughtSpot local users.
-Set it to true by default to let local system/admin users in via the frontend.
-////
-
-////
-You can set up SAML through the shell on the ThoughtSpot instance <<tscli,using a `tscli` based configurator>>, or <<admin-portal,through the Admin Console>>.
-
-
-[#tscli]
-== Configure SAML using tscli
-
-Use this procedure to set up SAML on ThoughtSpot for user authentication.
-Note that this configuration persists across software updates, so you do not have to reapply it if you update to a newer release of ThoughtSpot.
-
-. Log in to the Linux shell using SSH.
-. Execute the command to launch the interactive SAML configuration:
-+
-----
- tscli saml configure
-----
-
-. Complete the configurator prompts with the information you gathered above.
-. When the configuration is complete, open a Web browser and go to the ThoughtSpot login page.
-It should now show the Single Sign On option.
-////
 [#admin-portal]
 == Enable SAML authentication
 You need admin privileges to enable SAML SSO authentication.
@@ -47,7 +20,7 @@ You need admin privileges to enable SAML SSO authentication.
 . Click *SAML*.
 . Click *Configure*.
 . Configure the following attributes:
-[horizontal]
+
 ThoughtSpot Service Address::
 A fully qualified and resolvable domain name for the ThoughtSpot service. For example, *thoughtspot.thoughtspot-customer.com*.
 Port::

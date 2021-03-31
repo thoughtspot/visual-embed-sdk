@@ -12,7 +12,7 @@ To construct the URL for making a REST API call for embedding a pinboard or visu
 . Log in to ThoughtSpot from a browser.
 . Navigate to the pinboard from which you want to get data.
 . Find the ID number of the object you want to get the data from.
-+ 
++
 To embed a pinboard, click the ellipses (...) icon, and select *Copy embed link*.
 
 +
@@ -36,17 +36,17 @@ If the object is a pinboard, copy the identifier that appears after `viz/`.
 image::./images/copy_link_pinboard.png[Copy pinboard link, width=auto]
 
 +
-For visualizations (table or chart), copy the IDs that appear after `viz/`. 
+For visualizations (table or chart), copy the IDs that appear after `viz/`.
 +
 image::./images/copy_link_viz_pinboard_part.png[Copy visualization link, width=auto]
 
-. Construct the URL. 
+. Construct the URL.
 +
 For a pinboard, the URL is as follows:
 
 +
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
 ----
 
 +
@@ -54,7 +54,7 @@ For a visualization, the URL is as follows:
 
 +
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
 ----
 
 . To apply filters to the data, use runtime filters.
