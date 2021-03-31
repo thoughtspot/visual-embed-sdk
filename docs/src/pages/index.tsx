@@ -4,6 +4,8 @@ import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import { queryStringParser } from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
 import Document from '../components/Document';
@@ -20,6 +22,7 @@ import {
     DEFAULT_HOST,
     DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
+    IS_PUBLIC_SITE_OPEN,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -48,9 +51,9 @@ const IndexPage = ({ location }) => {
             ? LEFT_NAV_WIDTH_DESKTOP
             : LEFT_NAV_WIDTH_TABLET,
     );
-    const [query, updateQuery] = useState('');
     const [leftNavOpen, setLeftNavOpen] = useState(false);
     const [keyword, updateKeyword] = useState('');
+    const [isPublicSiteOpen, setIsPublicSiteOpen] = useState(false);
 
     useEffect(() => {
         const paramObj = queryStringParser(location.search);
@@ -122,6 +125,7 @@ const IndexPage = ({ location }) => {
             // set page title and content based on pageid
             await setPageContent(params[TS_PAGE_ID_PARAM]);
         }
+
         // fetch navigation page index
         const navIndex = edges.findIndex(
             (i) => i.node.pageAttributes[TS_PAGE_ID_PARAM] === DOC_NAV_PAGE_ID,
@@ -138,6 +142,9 @@ const IndexPage = ({ location }) => {
 
         // set page title and content based on pageid
         setPageContent(params[TS_PAGE_ID_PARAM]);
+
+        // based on query params set if public site is open or not
+        setIsPublicSiteOpen(!!params[IS_PUBLIC_SITE_OPEN]);
     }, [params]);
 
     // fetch adoc translated doc edges using graphql
@@ -191,7 +198,11 @@ const IndexPage = ({ location }) => {
 
     return (
         <>
-            <main ref={ref as React.RefObject<HTMLDivElement>}>
+            {isPublicSiteOpen && <Header />}
+            <main
+                ref={ref as React.RefObject<HTMLDivElement>}
+                className={isPublicSiteOpen ? 'withHeaderFooter' : ''}
+            >
                 <LeftSidebar
                     navTitle={navTitle}
                     navContent={navContent}
@@ -201,6 +212,7 @@ const IndexPage = ({ location }) => {
                     location={location}
                     setLeftNavOpen={setLeftNavOpen}
                     leftNavOpen={leftNavOpen}
+                    isPublicSiteOpen={isPublicSiteOpen}
                 />
                 <div
                     className="documentBody"
@@ -229,6 +241,7 @@ const IndexPage = ({ location }) => {
                     </div>
                 </div>
             </main>
+            {isPublicSiteOpen && <Footer />}
         </>
     );
 };

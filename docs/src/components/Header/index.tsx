@@ -1,6 +1,5 @@
 import React from 'react';
-import Button from '../Button';
-import ThoughtspotLogo from '../../assets/svg/ThoughtspotLogo.svg';
+import TSLogo from '../../assets/svg/ts_logo_white.svg';
 import './index.scss';
 
 const Header = () => (
@@ -11,16 +10,12 @@ const Header = () => (
                     <h1 className="m-0">
                         <a href="#" title="logo">
                             <img
-                                src={ThoughtspotLogo}
+                                src={TSLogo}
                                 alt="logo"
                                 className="thoughtspotLogo"
                             />
                         </a>
                     </h1>
-                </div>
-                <div>
-                    <Button label="Sign In" type="secondary" />
-                    <Button label="Sign up" type="primary" />
                 </div>
             </div>
         </section>

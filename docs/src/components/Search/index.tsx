@@ -9,7 +9,6 @@ import {
 
 type SearchProps = {
     options: SearchQueryResult[];
-    value: string;
     leftNavOpen: boolean;
     keyword: string;
     optionSelected: (pageid: string) => void;

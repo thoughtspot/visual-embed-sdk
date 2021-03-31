@@ -7,6 +7,7 @@ const NavContent = (props: {
     navTitle: string;
     leftNavOpen: boolean;
     navContent: string;
+    isPublicSiteOpen: boolean;
 }) => {
     return (
         <aside
@@ -19,7 +20,9 @@ const NavContent = (props: {
             <nav>
                 <h2 className="heading">{props.navTitle}</h2>
                 <div
-                    className="navWrapper"
+                    className={`navWrapper ${
+                        props.isPublicSiteOpen ? 'withHeaderFooter' : ''
+                    }`}
                     dangerouslySetInnerHTML={{
                         __html: props.navContent,
                     }}

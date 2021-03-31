@@ -52,15 +52,24 @@ class CustomDocConverter {
             // get anchor target set inside adoc file
             let target = node.getTarget();
 
+            // get anchor attributes
+            let attributes = node.getAttributes();
+
             if (this.isTransformLink(target)) {
                 // check if link is for 'Visual Embed SDK' documents or not
                 if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
-                    return `<a href="${getPath(config.DOC_REPO_NAME)}/${
-                        config.TYPE_DOC_PREFIX
-                    }${target.replace(
+                    let anchorMarkup = `href="${getPath(
+                        config.DOC_REPO_NAME,
+                    )}/${config.TYPE_DOC_PREFIX}${target.replace(
                         `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
                         '',
-                    )}">${node.getText()}</a>`;
+                    )}"`;
+
+                    if (attributes.window) {
+                        anchorMarkup += ` target="${attributes.window}"`;
+                    }
+
+                    return `<a ${anchorMarkup}>${node.getText()}</a>`;
                 }
 
                 if (!target.startsWith('#')) {
@@ -68,9 +77,14 @@ class CustomDocConverter {
                         target.lastIndexOf(':') + 1,
                         target.lastIndexOf('.html'),
                     );
-                    return `<a href="{{${
-                        config.NAV_PREFIX
-                    }}}={{${target}}}">${node.getText()}</a>`;
+
+                    let anchorMarkup = `href="{{${config.NAV_PREFIX}}}={{${target}}}"`;
+
+                    if (attributes.window) {
+                        anchorMarkup += ` target="${attributes.window}"`;
+                    }
+
+                    return `<a ${anchorMarkup}>${node.getText()}</a>`;
                 }
             }
         }

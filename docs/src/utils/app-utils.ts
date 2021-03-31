@@ -9,6 +9,7 @@ import {
     DEFAULT_HOST,
     DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
+    IS_PUBLIC_SITE_OPEN,
 } from '../configs/doc-configs';
 
 /**
@@ -17,24 +18,28 @@ import {
  * @returns {object} which contains query params 'key: value' pairs
  */
 export const queryStringParser = (queryParamStr: string) => {
-    const queryParamObj: { [key: string]: string } = {};
+    const queryParamObj: { [key: string]: string | any } = {};
 
     const entries = new URLSearchParams(queryParamStr).entries();
     let navPrefix = '?';
     let tsHostUrl = DEFAULT_PREVIEW_HOST;
+    let isPublicSiteOpen = true;
 
     for (const [key, value] of entries) {
         queryParamObj[key] = value;
         if (key === TS_HOST_PARAM) {
+            isPublicSiteOpen = false;
             navPrefix += `${TS_HOST_PARAM}=${value}&`;
         }
         if (key === TS_ORIGIN_PARAM) {
+            isPublicSiteOpen = false;
             if (value) {
                 navPrefix += `${TS_ORIGIN_PARAM}=${encodeURIComponent(value)}&`;
                 tsHostUrl = removeTrailingSlash(value.split('#')[0]);
             }
         }
         if (key === TS_APP_ROOT_PARAM) {
+            isPublicSiteOpen = false;
             navPrefix += `${TS_APP_ROOT_PARAM}=${value}&`;
         }
     }
@@ -55,6 +60,9 @@ export const queryStringParser = (queryParamStr: string) => {
     queryParamObj[
         PREVIEW_PREFIX
     ] = `${tsHostUrl}/#${queryParamObj[TS_APP_ROOT_PARAM]}`;
+
+    // used to check if the docs portal open as public site or inside embed iframe
+    queryParamObj[IS_PUBLIC_SITE_OPEN] = isPublicSiteOpen;
 
     return queryParamObj;
 };

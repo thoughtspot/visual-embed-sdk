@@ -13,6 +13,7 @@ module.exports = {
     DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud',
     DEFAULT_PREVIEW_HOST: 'https://try-everywhere.thoughtspot.cloud/v2',
     DEFAULT_APP_ROOT: '/everywhere',
+    IS_PUBLIC_SITE_OPEN: 'isPublicSiteOpen',
     BUILD_ENVS: {
         PROD: 'PROD',
         DEV: 'DEV',
