@@ -23,8 +23,9 @@ import {
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
+    MAX_TABLET_RESOLUTION,
+    LEFT_NAV_WIDTH_TABLET,
     MAX_MOBILE_RESOLUTION,
-    LEFT_NAV_WIDTH_MOBILE,
 } from '../constants/uiConstants';
 
 // markup
@@ -43,10 +44,12 @@ const IndexPage = ({ location }) => {
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
     const [leftNavWidth, setLeftNavWidth] = useState(
-        width > MAX_MOBILE_RESOLUTION
+        width > MAX_TABLET_RESOLUTION
             ? LEFT_NAV_WIDTH_DESKTOP
-            : LEFT_NAV_WIDTH_MOBILE,
+            : LEFT_NAV_WIDTH_TABLET,
     );
+    const [query, updateQuery] = useState('');
+    const [leftNavOpen, setLeftNavOpen] = useState(false);
     const [keyword, updateKeyword] = useState('');
 
     useEffect(() => {
@@ -184,6 +187,8 @@ const IndexPage = ({ location }) => {
         navigate(`${params[NAV_PREFIX]}=${pageid}`);
     };
 
+    const isMaxMobileResolution = !(width < MAX_MOBILE_RESOLUTION);
+
     return (
         <>
             <main ref={ref as React.RefObject<HTMLDivElement>}>
@@ -194,10 +199,16 @@ const IndexPage = ({ location }) => {
                     docWidth={width}
                     handleLeftNavChange={setLeftNavWidth}
                     location={location}
+                    setLeftNavOpen={setLeftNavOpen}
+                    leftNavOpen={leftNavOpen}
                 />
                 <div
                     className="documentBody"
-                    style={{ width: `${width - leftNavWidth}px` }}
+                    style={{
+                        width: isMaxMobileResolution
+                            ? `${width - leftNavWidth}px`
+                            : '100%',
+                    }}
                 >
                     <Search
                         keyword={keyword}
@@ -206,6 +217,7 @@ const IndexPage = ({ location }) => {
                         }
                         options={results}
                         optionSelected={optionSelected}
+                        leftNavOpen={leftNavOpen}
                     />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />

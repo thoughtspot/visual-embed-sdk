@@ -1,6 +1,45 @@
 /*start sidebar*/
 @import '../../assets/styles/variables.scss';
 
+.menuMain {
+    position: relative;
+    top: 20px;
+    z-index: $z-index-left-nav;
+
+    .menuContainer {
+        cursor: pointer;
+        padding-right: $padding-md;
+        float: right;
+        position: fixed;
+        right: 0;
+
+        img {
+            width: $menu-icon-width;
+            position: relative;
+            top: 0;
+            padding-left: 5px;
+            transition: opacity 0.5s, transform 0.5s;
+
+            &:first-child {
+                float: right;
+            }
+
+            &:last-child {
+                left: 41px;
+            }
+        }
+
+        .imgOpacity {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.asideDisplay {
+    display: block;
+}
+
 aside {
     padding-top: $padding-md;
     padding-bottom: $padding-md;
@@ -110,4 +149,16 @@ aside {
 
 .resizable {
     position: fixed;
+}
+
+@media screen and (max-width: $mobile-resolution-max) {
+    aside {
+        height: 100%;
+        display: none;
+        padding-bottom: 0;
+
+        .navWrapper {
+            margin-bottom: 0;
+        }
+    }
 }

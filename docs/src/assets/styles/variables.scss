@@ -53,9 +53,11 @@ $document-margin-top: 81px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
 $docmap-width-desktop: 300px;
-$docmap-width-mobile: 210px;
+$docmap-width-tablet: 210px;
+$docmap-width-mobile: 100%;
 $tablet-resolution-min: 767px;
 $tablet-resolution-max: 1024px;
+$mobile-resolution-max: 600px;
 $box-shadow-search-box: 0px 0px 4px rgba(25, 35, 49, 0.08),
     0px 12px 24px rgba(25, 35, 49, 0.12);
 $height-search-icon: 16px;
@@ -68,6 +70,10 @@ $font-family-doc: Optimo-Plain;
 $font-family-back-button: Label;
 $width-back-button: 32px;
 $height-back-button: 32px;
+$margin-top-mobile: 80px;
+$menu-icon-width: 43px;
+$z-index-search: 1;
+$z-index-left-nav: 9;
 
 /* Admonition variables */
 

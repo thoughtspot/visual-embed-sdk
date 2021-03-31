@@ -58,6 +58,12 @@
 
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .docmapLinks {
-        width: $docmap-width-mobile;
+        width: $docmap-width-tablet;
+    }
+}
+
+@media screen and (max-width: $mobile-resolution-max) {
+    .docmapLinks {
+        display: none;
     }
 }

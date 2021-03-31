@@ -117,3 +117,14 @@ button {
         width: calc(100% - 260px);
     }
 }
+
+@media screen and (max-width: $mobile-resolution-max) {
+    .introWrapper {
+        margin-top: $margin-top-mobile;
+    }
+
+    .documentBody {
+        width: 100%;
+        padding-left: 0;
+    }
+}

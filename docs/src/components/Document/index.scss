@@ -185,6 +185,17 @@ pre {
 
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .documentWrapper {
-        width: calc(100% - #{$docmap-width-mobile});
+        width: calc(100% - #{$docmap-width-tablet});
+    }
+}
+
+@media screen and (max-width: $mobile-resolution-max) {
+    .documentWrapper {
+        width: 100%;
+        overflow-x: auto;
+
+        pre {
+            overflow-x: auto;
+        }
     }
 }
