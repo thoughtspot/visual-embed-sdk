@@ -11,7 +11,7 @@ const NavContent = (props: {
     return (
         <aside
             ref={props.refObj}
-            className={props.leftNavOpen && 'asideDisplay'}
+            className={props.leftNavOpen ? 'asideDisplay' : ''}
         >
             {props.backLink && (
                 <BackButton title="Back" backLink={props.backLink} />
