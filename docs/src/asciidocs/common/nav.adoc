@@ -51,6 +51,7 @@
 *** link:{{navprefix}}=search-data-api[Search data API]
 *** link:{{navprefix}}=pinboard-api[Pinboard data API]
 *** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
+*** link:{{navprefix}}=tml-api[TML API]
 ////
 * xref:docs:glossary.adoc[Glossary]
 * Frequently asked questions
