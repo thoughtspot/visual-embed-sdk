@@ -236,7 +236,7 @@ Runtime filters have several operators for filtering your embedded visualization
 Construct the URL for the embedded pinboard and render the embedded content:
 [source,JavaScript]
 ----
-    pinboardEmbed.render();
+pinboardEmbed.render();
 ----
 
 == Subscribe to events
