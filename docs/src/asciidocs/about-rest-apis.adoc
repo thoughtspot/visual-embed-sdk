@@ -78,7 +78,17 @@ The following APIs are available for ThoughtSpot users.
 |`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
 |====
 
+== TML APIs
+[width="80%" cols="1,1"]
+[options='header']
+|====
+|Request URL|Description|
+`*POST* /tspublic/v1/metadata/tml/import` |Validate and import the TML objects.
+|`*POST* /tspublic/v1/metadata/tml/export`|Export TML objects.
+|====
+
 === Data APIs
+
 [width="85%" cols="1,3,3"]
 [options='header']
 |====
