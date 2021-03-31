@@ -9,7 +9,7 @@ The ThoughtSpot REST APIs enable your client applications to access data from th
 Client applications can use the REST APIs for the following purpose:
 
 * get pinboard and visualization data from the ThoughtSpot application.
-* get ThoughtSpot data by programmatically sending a search query. 
+* get ThoughtSpot data by programmatically sending a search query.
 * list the metadata object and visualization headers in the repository.
 * transfer ownership of all objects from one user to another and more.
 * embed data from visualizations and pinboards in a web page, portal, or application.
@@ -68,7 +68,7 @@ The following APIs are available for ThoughtSpot users.
 |Request URL|Description|
 `*POST* /tspublic/v1/session/login` |Authenticate and log in a user.
 |`*POST* /tspublic/v1/session/logout`|Log out a user from an existing session.
-|`*POST* /tspublic/v1/session/auth/token`|Obtain authentication token for a user.
+|`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
 |====
 
 === Data APIs
@@ -83,7 +83,3 @@ Pinboard Data|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from th
 |Search data|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
 |Export| `*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
 |====
-
-
-
-

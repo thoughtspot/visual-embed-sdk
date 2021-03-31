@@ -8,7 +8,6 @@
 The User APIs enable you to manage user- and group-related operations in the ThoughtSpot system.
 
 You can use the User APIs to manage your users and groups in ThoughtSpot.
-For example, you may want to view all users and groups in your ThoughtSpot cluster.
 
 == Fetch users and groups
 
@@ -23,12 +22,12 @@ GET /tspublic/v1/user/list
 
 .cURL
 ----
-curl -X GET --header 'Accept: application/json' 'https://<instance>/callosum/v1/tspublic/v1/user/list'
+curl -X GET --header 'Accept: application/json' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list'
 ----
 
 .Request URL
 ----
-https://<instance>/callosum/v1/tspublic/v1/user/list
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
 ----
 
 === Example response
@@ -73,22 +72,22 @@ A typical principal object contains the following properties:
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Property|Description 
-|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique. 
+|Property|Description
+|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique.
 |`displayName`|Display name of the principal.
-|`description`|Description of the principal. 
-|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group. 
-|`principalTypeEnum` a|Type of the user created in the ThoughtSpot system. 
+|`description`|Description of the principal.
+|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group.
+|`principalTypeEnum` a|Type of the user created in the ThoughtSpot system.
 Valid values are:
 
 * `LOCAL_USER`
 * `LOCAL_GROUP`
-|`password` a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+|`password` a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups.
 Password is only required:
 
 * if the user is of `LOCAL_USER` type
-* when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system. 
-|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP` and so on. Users can belong to multiple groups. 
+* when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system.
+|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Users can belong to multiple groups.
 |`visibility`| Whether the users of the group can share objects with other users in the group.
 |====
 
@@ -96,7 +95,7 @@ Password is only required:
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
+|HTTP Code|Description
 |**200**|Successful operation.
 |===
 == Change password
@@ -114,25 +113,25 @@ POST /tspublic/v1/user/updatepassword
 |Form Parameter|Data Type|Description
 |`name`|string|Name of the user.
 |`currentpassword`|string|The current password of the user.
-|password|string|A new password of the user. 
+|password|string|A new password of the user.
 |====
 === Example request
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<base-uri>/callosum/v1/tspublic/v1/user/updatepassword'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
 ----
-https://<base-uri>/tspublic/v1/user/updatepassword
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
 === Response codes
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
-|**200**|If the password of the user is changed successfully. 
+|HTTP Code|Description
+|**200**|If the password of the user is changed successfully.
 |===
 
 
@@ -147,7 +146,7 @@ You cannot transfer objects to or from the system user or the administrative use
 ----
 POST /tspublic/v1/user/transfer/ownership
 ----
-=== Request parameters 
+=== Request parameters
 [width="100%" cols="2,2,4"]
 [options='header']
 |====
@@ -161,27 +160,27 @@ POST /tspublic/v1/user/transfer/ownership
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-URI>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
 ----
 
 .Request URL
 ----
-https://<base-URI>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
 ----
 
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
-|**200**|If the ownership of all objects is successfully transferred. 
+|HTTP Code|Description
+|**200**|If the ownership of all objects is successfully transferred.
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
 
 == Synchronize principals
 
 Use this API to synchronize ThoughtSpot users and groups with your external database.
-The payload takes principals containing all users and groups present in the external database. 
+The payload takes principals containing all users and groups present in the external database.
 A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
 During this operation:
@@ -229,12 +228,12 @@ When true, this flag removes any deleted users or groups.
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<base-uri>/callosum/v1/tspublic/v1/user/sync'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/user/sync
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
 
 === Example response
@@ -244,8 +243,8 @@ This example covers user objects (with emails), group objects, and their relatio
 * `created` and `modified` dates may be left blank for new users.
 * `principalTypeEnum` value specifies if the principal is a user or a group.
 
-Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`. 
-`test2` belongs to the group `Administrator`. 
+Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`.
+`test2` belongs to the group `Administrator`.
 `All` is a default group to which every user belongs;
 you may omit it from the input.
 
@@ -305,8 +304,8 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description 
-|**200**|If the user sync operation is successful.
+|HTTP Code|Description
+|**200**| The user sync operation is successful.
 |===
 
 

@@ -315,6 +315,7 @@ export enum Param {
     EnableSearchAssist = 'enableSearchAssist',
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
+    Tag = 'tag',
 }
 
 /**

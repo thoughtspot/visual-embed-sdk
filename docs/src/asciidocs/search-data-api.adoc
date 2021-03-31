@@ -7,7 +7,7 @@
 
 To use the data retrieved from a search query, you can use the ThoughtSpot search data API.
 
-When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. 
+When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query.
 It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search  bar. Because the selection is not possible with an API approach, the API query language is modified to include query disambiguation.
 
 [#components]
@@ -16,7 +16,7 @@ It is often difficult to programmatically use the result set of a query that run
 In ThoughtSpot Query Language, the components of a query are classified into various types of tokens: xref:Column[Column], xref:Operator[Operator], xref:Value[Value], xref:Date-Bucket[Date Bucket], xref:Keyword[Keyword], and xref:Calendar[Calendar]:
 
 [#column]
-Column:: 
+Column::
 Columns must be enclosed in square brackets, [ ].
 
 For example, in the query revenue by ship mode, both revenue and ship mode are columns. A valid query for the API is:
@@ -120,7 +120,7 @@ To test the search query API, follow these steps:
 
 . In a web browser tab, navigate to your ThoughtSpot application instance and log in as an admin user:
 
-. From the top navigation menu, click *Data*. 
+. From the top navigation menu, click *Data*.
 +
 Alternatively, navigate to the following address:
 
@@ -203,25 +203,25 @@ Valid values are `COMPACT` or `FULL` JSON. The default value is `COMPACT`.
 .cURL (COMPACT)
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL (COMPACT)
-[source, cURL]
+[source, html]
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 .cURL (FULL)
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
 ----
 
 .Request URL (FULL)
-[source, cURL]
+[source,html]
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL
 ----
 
 === Example response
@@ -267,8 +267,7 @@ https://<base-uri>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%2
 
 [options="header", cols="1,2"]
 |===
-|HTTP Code|Description 
-|**200**|gets the data from the data source 
-|**400**|invalid query/data source 
+|HTTP Code|Description
+|**200**|gets the data from the data source
+|**400**|invalid query/data source
 |===
-

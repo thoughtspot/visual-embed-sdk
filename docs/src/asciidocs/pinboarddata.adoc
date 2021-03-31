@@ -8,7 +8,7 @@
 
 To retrieve data related to a pinboard or visualization from the ThoughtSpot system, you can use the pinboard data API.
 
-Using this API, you can fetch the following information: 
+Using this API, you can fetch the following information:
 
 * All the visualization objects on a pinboard.
 * A specific or a group of visualizations on a pinboard.
@@ -26,7 +26,7 @@ POST /tspublic/v1/pinboarddata
 |`id`|string|The pinboard id in the system.
 |`vizid`|string|(Optional) The visualization id(s) on a pinboard. Use this parameter to fetch a specific visualization on a pinboard. The syntax is:
          `4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1`, "\...\...
-|`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1. 
+|`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1.
 |`pagenumber`|integer|The system default is -1.
 |`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
          `1-based indexingOffset = (pageNumber - 1)` * batchSize
@@ -38,12 +38,12 @@ POST /tspublic/v1/pinboarddata
 
 .CURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 == Example response
@@ -82,8 +82,8 @@ https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a1
 [options="header", cols="1,2"]
 |===
 |HTTP Code|Description
-|**200**|gets the data of a pinboard or visualization
-|**400**|invalid pinboard ID
+|**200**|Successful retrieval of pinboard or visualization data
+|**400**|Invalid pinboard ID
 |===
 ////
 ## Error Codes

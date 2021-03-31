@@ -5,7 +5,7 @@
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk/prod)
+# ThoughtSpot Visual Embed SDK  [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk)
 
 SDK to embed ThoughtSpot into your web apps.
 
@@ -41,7 +41,7 @@ import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 
 ## Full API Reference
 
-Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/typedoc/modules.html).
+Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/release/typedoc/modules.html).
 
 <br/>
 

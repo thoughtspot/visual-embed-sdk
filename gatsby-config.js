@@ -2,22 +2,23 @@ const asciidoc = require(`asciidoctor`)();
 const config = require('./docs/src/configs/doc-configs');
 const { htmlToText } = require('html-to-text');
 
-const buildEnv = process.env.BUILD_ENV || 'LOCAL'; // Default build env
+const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default build env
 
 const getPathPrefix = () => {
     switch (buildEnv) {
-        case 'PROD':
-            return 'release';
-        case 'DEV':
-        case 'STAGING':
-            return 'dev';
-        case 'LOCAL':
+        case config.BUILD_ENVS.PROD:
+            return config.DEPLOY_ENVS.RELEASE;
+        case config.BUILD_ENVS.DEV:
+        case config.BUILD_ENVS.STAGING:
+            return config.DEPLOY_ENVS.DEV;
+        case config.BUILD_ENVS.LOCAL:
         default:
             return ''; // Default path prefix
     }
 };
 
-const getPath = (path) => `${path}/${getPathPrefix()}`;
+const getPath = (path) =>
+    getPathPrefix() ? `${path}/${getPathPrefix()}` : path;
 
 class CustomDocConverter {
     constructor() {
@@ -32,6 +33,7 @@ class CustomDocConverter {
     isTransformLink(target) {
         return (
             !target.includes(`{{${config.NAV_PREFIX}}}`) &&
+            !target.includes(`{{${config.PREVIEW_PREFIX}}}`) &&
             !target.includes(`{{${config.TS_HOST_PARAM}}}`) &&
             !target.includes('www.') &&
             !target.startsWith('http')
@@ -51,11 +53,14 @@ class CustomDocConverter {
             let target = node.getTarget();
 
             if (this.isTransformLink(target)) {
-                // check if link is for typedoc documents or not
-                if (target.includes(config.TYPE_DOC_PREFIX)) {
-                    return `<a href="${
-                        getPath(config.DOC_REPO_NAME) + target
-                    }">${node.getText()}</a>`;
+                // check if link is for 'Visual Embed SDK' documents or not
+                if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
+                    return `<a href="${getPath(config.DOC_REPO_NAME)}/${
+                        config.TYPE_DOC_PREFIX
+                    }${target.replace(
+                        `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
+                        '',
+                    )}">${node.getText()}</a>`;
                 }
 
                 if (!target.startsWith('#')) {
@@ -175,7 +180,7 @@ module.exports = {
                 `,
                 ref: 'pageid',
                 index: ['title', 'body', 'pageid'],
-                store: ['pageid', 'title', 'redirectURL'],
+                store: ['title', 'pageid'],
                 normalizer: ({ data }) => {
                     return [
                         ...data.allAsciidoc.edges
@@ -188,7 +193,6 @@ module.exports = {
                                 const pageid = edge.node.pageAttributes.pageid;
                                 return {
                                     pageid,
-                                    redirectURL: `?pageid=${pageid}`,
                                     title: edge.node.document.title,
                                     body: htmlToText(edge.node.html),
                                 };
@@ -199,7 +203,6 @@ module.exports = {
                                 const pageid = edge.node.name;
                                 return {
                                     pageid,
-                                    redirectURL: pageid,
                                     title: edge.node.childHtmlRehype.htmlAst.children.find(
                                         (children) =>
                                             children.tagName === 'title',
@@ -227,5 +230,6 @@ module.exports = {
             },
             __key: 'htmlFiles',
         },
+        'gatsby-plugin-catch-links',
     ],
 };

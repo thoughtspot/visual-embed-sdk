@@ -3,7 +3,7 @@
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
-:page-description: Pinboard Data API
+:page-description: REST API Reference
 
 
 Use the following REST APIs for programmatically managing users, groups, sessions, and embedding data.
@@ -20,7 +20,7 @@ Use the following REST APIs for programmatically managing users, groups, session
 |`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group.
 .3+|xref:session-api.adoc[Session]|`*POST* /tspublic/v1/session/login` |Authenticate and login a user.
 |`*POST* /tspublic/v1/session/logout`|Log out a user from an existing session.
-|`*POST* /tspublic/v1/session/auth/token`|Obtain authentication token for a user.
+|`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
 
 |xref:pinboarddata.adoc[Pinboard Data]|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from the ThoughtSpot application.
 |xref:pinboard-export-api.adoc[Pinboard export API]|POST /tspublic/v1/export/pinboard/pdf|Download a pinboard or specific visualizations from a pinboard as a PDF file.
