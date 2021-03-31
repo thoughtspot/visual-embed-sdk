@@ -1,4 +1,3 @@
-
 = ThoughtSpot Developer portal
 :toc: true
 
