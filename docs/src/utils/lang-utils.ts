@@ -1,4 +1,5 @@
 import { useIntl } from 'gatsby-plugin-intl';
+let intl;
 
 /**
  * Used to get string translation based on slag_id and selected language.
@@ -6,7 +7,9 @@ import { useIntl } from 'gatsby-plugin-intl';
  * @returns {string} string translation based on currently selected language and slag_id
  */
 export const t = (slag_id: string) => {
-    const intl = useIntl();
+    if (!intl) {
+        intl = useIntl();
+    }
     return intl.formatMessage({ id: slag_id });
 };
 
