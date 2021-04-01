@@ -175,6 +175,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 ++++
 ////
 
+
 hiddenActions::
 _Array of strings_. Hides the specified action menu items on the search answer page. You can use this attribute to remove actions that are not applicable to your application context.
 
@@ -213,12 +214,12 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 searchQuery::
 _String_. The search query string to use when the application loads. You can use the following types of search tokens to construct a search query:
-* xref:search-data-api.adoc#column[Column]
-* xref:search-data-api.adoc#operator[Operator]
-* xref:search-data-api.adoc#value[Value]
-* xref:search-data-api.adoc#date-bucket[Date Bucket]
-* xref:search-data-api.adoc#keyword[Keyword]
-* xref:search-data-api.adoc#calendar[Calendar]
+* xref:search-data-api.adoc#Column[Column]
+* xref:search-data-api.adoc#Operator[Operator]
+* xref:search-data-api.adoc#Value[Value]
+* xref:search-data-api.adoc#Date-Bucket[Date Bucket]
+* xref:search-data-api.adoc#Keyword[Keyword]
+* xref:search-data-api.adoc#Calendar[Calendar]
 
 For example, to fetch revenue data by shipping mode, you can use the following search query string:
 
