@@ -22,6 +22,9 @@ npm i @thoughtspot/visual-embed-sdk
 The SDK is written in TypeScript and is also provided both as ES Module (ESM) and Universal Module Definition (UMD) modules, allowing you to use it in a variety of environments. For example,...
 
 ```js
+// ESM
+import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
+
 // CommonJS
 var TsEmbedSDK = require('tsembed');
 
@@ -32,9 +35,6 @@ define(['tsembed'], function (TsEmbedSDK) {
 
 // Global
 var TsEmbedSDK = window.tsembed;
-
-// ESM
-import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 
 <br/>
