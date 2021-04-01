@@ -80,7 +80,7 @@ init({
     authType: AuthType.None,
 });
 
-const pinboardEmbed = new PinboardVizEmbed(
+const pinboardEmbed = new PinboardEmbed(
     document.getElementById('ts-embed'),
     {
         frameParams: {
@@ -112,7 +112,7 @@ const appEmbed = new AppEmbed(
             width: '100%',
             height: '100%',
         },
-        page: Page.Data,
+        pageId: Page.Data,
     });
 
 appEmbed.render();
