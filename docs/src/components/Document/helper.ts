@@ -1,4 +1,5 @@
 import hljs from 'highlight.js';
+import t from '../../utils/lang-utils';
 import Copy from '../../assets/svg/copy.svg';
 
 export const enableCopyToClipboard = (
@@ -16,7 +17,7 @@ export const enableCopyToClipboard = (
         divElement.classList.add('tooltip');
         const spanElement = document.createElement('span');
         spanElement.classList.add('tooltiptext');
-        spanElement.innerText = 'Copied!';
+        spanElement.innerText = t('CODE_COPY_BTN_AFTER_CLICK_TEXT');
         divElement.appendChild(spanElement);
         element.parentElement.appendChild(divElement);
         /* To remove copy tooltip */
@@ -36,8 +37,8 @@ export const customizeDocContent = () => {
             enableCopyToClipboard(buttonElement, tag as HTMLElement);
             const imageElement = document.createElement('img');
             imageElement.src = Copy;
-            imageElement.alt = 'Copy';
-            imageElement.title = 'Copy to clipboard';
+            imageElement.alt = t('CODE_COPY_BTN_TEXT');
+            imageElement.title = t('CODE_COPY_BTN_HOVER_TEXT');
             buttonElement.appendChild(imageElement);
             const spanElement = document.createElement('span');
             spanElement.innerText = tag.getAttribute('data-lang');
