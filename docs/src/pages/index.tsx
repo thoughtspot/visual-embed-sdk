@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
-import { queryStringParser } from '../utils/app-utils';
+import { queryStringParser, isPublicSite } from '../utils/app-utils';
 import passThroughHandler from '../utils/doc-utils';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -56,6 +56,9 @@ const IndexPage = ({ location }) => {
     const [isPublicSiteOpen, setIsPublicSiteOpen] = useState(false);
 
     useEffect(() => {
+        // based on query params set if public site is open or not
+        setIsPublicSiteOpen(isPublicSite(location.search));
+
         const paramObj = queryStringParser(location.search);
         edges.map((e) => {
             paramObj[e.node.parent.name] =
@@ -142,9 +145,6 @@ const IndexPage = ({ location }) => {
 
         // set page title and content based on pageid
         setPageContent(params[TS_PAGE_ID_PARAM]);
-
-        // based on query params set if public site is open or not
-        setIsPublicSiteOpen(!!params[IS_PUBLIC_SITE_OPEN]);
     }, [params]);
 
     // fetch adoc translated doc edges using graphql
