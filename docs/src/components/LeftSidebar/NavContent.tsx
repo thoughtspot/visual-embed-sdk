@@ -1,5 +1,6 @@
 import React from 'react';
 import BackButton from '../BackButton';
+import t from '../../utils/lang-utils';
 
 const NavContent = (props: {
     refObj: React.RefObject<HTMLDivElement>;
@@ -15,7 +16,10 @@ const NavContent = (props: {
             className={props.leftNavOpen ? 'asideDisplay' : ''}
         >
             {props.backLink && (
-                <BackButton title="Back" backLink={props.backLink} />
+                <BackButton
+                    title={t('NAV_BACK_BTN_TEXT')}
+                    backLink={props.backLink}
+                />
             )}
             <nav>
                 <h2 className="heading">{props.navTitle}</h2>

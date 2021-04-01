@@ -6,6 +6,7 @@ import {
     ARROW_UP,
     ENTER,
 } from '../../constants/keystrokeConstants';
+import t from '../../utils/lang-utils';
 
 type SearchProps = {
     options: SearchQueryResult[];
@@ -80,7 +81,7 @@ const Search: React.FC<SearchProps> = (props) => {
             <div className="searchInputWrapper">
                 <input
                     type="Search"
-                    placeholder="Search Documentation"
+                    placeholder={t('SEARCH_PLACEHOLDER')}
                     onFocus={onFocus}
                     onKeyDown={onKeyDown}
                     value={props.keyword}
