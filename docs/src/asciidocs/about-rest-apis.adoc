@@ -19,23 +19,30 @@ The REST APIs return data as a JSON string. To embed data into your application,
 REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
 
 == Swagger portal
-To access APIs on Swagger:
+To access REST APIs on Swagger:
 
-. Log in to ThoughtSpot as an admin user.
-. Go to the Swagger portal.
+. Log in to your ThoughtSpot instance as an admin user.
+. Access the Swagger portal.
++
+If you have already logged into your ThoughtSpot instance, use the following URL to access the portal:
+
 +
 ----
 https://<your-thoughtspot.com>/external/swagger
 ----
++
+++++
+<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger Portal</a> 
+++++
 
-The portal displays a list of REST API services available for ThoughtSpot users.
+
++
+The portal displays a list of REST API services available for the logged in ThoughtSpot users.
 
 . Click on a header to expand and view the list of services.
 . Click on a service name to view more details about the API service.
 
-++++
-<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger portal</a>
-++++
+
 
 == List of APIs
 The following APIs are available for ThoughtSpot users.
@@ -71,7 +78,17 @@ The following APIs are available for ThoughtSpot users.
 |`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
 |====
 
+== TML APIs
+[width="80%" cols="1,1"]
+[options='header']
+|====
+|Request URL|Description|
+`*POST* /tspublic/v1/metadata/tml/import` |Validate and import the TML objects.
+|`*POST* /tspublic/v1/metadata/tml/export`|Export TML objects.
+|====
+
 === Data APIs
+
 [width="85%" cols="1,3,3"]
 [options='header']
 |====

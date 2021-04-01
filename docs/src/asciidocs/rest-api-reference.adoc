@@ -27,5 +27,7 @@ Use the following REST APIs for programmatically managing users, groups, session
 .2+|xref:metadata-api.adoc[Metadata]|
 `*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository.
 |`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
+.2+|xref:tml-api.adoc[TML API]| `*POST* /tspublic/v1/metadata/tml/import`|Imports ThoughtSpot Modeling Language (TML) objects.
+|`*POST* /tspublic/v1/metadata/tml/export`|Exports ThoughtSpot Modeling Language (TML) objects.
 |xref:search-data-api.adoc[Search data]|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
 |====

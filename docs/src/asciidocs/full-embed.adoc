@@ -128,14 +128,63 @@ Create an instance of the AppEmbed object and pass the iframe parameters for the
          height: '100%',
     
      },
+     disabledActions: [],
+     disabledActionReason: '<reason for disabling>'
+     hiddenActions: [],
      showPrimaryNavbar: true,
      pageId: Page.Data,
      path: '<url-string>',
-  },
+     runtimeFilters: [],
+     
+     },
+  
   });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application.
 
+disabledActions::
+_Array of strings_. The action menu items to be disabled on the ThoughtSpot application pages.
++
+
+For example, to disable the *download* action from the *More* (*...*) menu on the pinboard or visualization page, specify the `download` string in the  `disabledActions` attribute.
+
++
+[source,JavaScript]
+----
+disabledActions: ['download']
+----
++
+++++
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+++++
+
++
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+
+disabledActionReason::
+_String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+
+hiddenActions::
+_Array of strings_. The action menu items to hide on a pinboard or visualization page.
++
+
+For example, to hide the *Download* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `add` string in the `hiddenActions` attribute.
+
++
+[source,JavaScript]
++
+----
+hiddenActions: ['download']
+----
++
+++++
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+++++
+
++
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+
++
 showPrimaryNavbar::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
@@ -177,14 +226,91 @@ Displays the *Home* page when the application loads.
 ++++
 
 
-=== Construct the URL and render the application
-Construct the URL of the embedded ThoughtSpot application to load within the web page.
-Render the embedded content and pass the `pageID` parameter for setting a page as an active tab when the application loads.
+runtimeFilters [small]_optional_::
+Runtime filters to be applied when the pinboard or visualization page loads.
+Runtime filters provide the ability to pass filter specifications in the URL query parameters and filter data at the time of retrieval.  
++
+For example, to sort values equal to `100000` in the `Revenue` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
++
+[source,javascript]
+----
+runtimeFilters: [{
+      columnName: 'Revenue',
+      operator: 'EQ',
+      values: [ 100000 ]
+      }]
+----
+Runtime filters have several operators for filtering your embedded visualizations.
++
+
+[width="50%" cols="1,2,1"]
+[options='header']
+|===
+|Operator|Description|Number of Values
+
+| `EQ`
+| equals
+| 1
+
+| `NE`
+| does not equal
+| 1
+
+| `LT`
+| less than
+| 1
+
+| `LE`
+| less than or equal to
+| 1
+
+| `GT`
+| greater than
+| 1
+
+| `GE`
+| greater than or equal to
+| 1
+
+| `CONTAINS`
+| contains
+| 1
+
+| `BEGINS_WITH`
+| begins with
+| 1
+
+| `ENDS_WITH`
+| ends with
+| 1
+
+| `BW_INC_MAX`
+| between inclusive of the higher value
+| 2
+
+| `BW_INC_MIN`
+| between inclusive of the lower value
+| 2
+
+| `BW_INC`
+| between inclusive
+| 2
+
+| `BW`
+| between non-inclusive
+| 2
+|===
++
+++++
+<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+++++
+
+=== Render the embedded application
+Render the embedded content.
 [source, javascript]
 ----
- appEmbed.render();
+appEmbed.render();
 ----
-
 
 === Subscribe to events
 Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.
@@ -235,8 +361,10 @@ const appEmbed = new AppEmbed(
     		width: '100%',
     		height: '100%',
     	},
-    	Page.Data,
-    },
+    	pageId: Page.Data,
+      
+      },
+    
     });
 appEmbed.render();
 ----

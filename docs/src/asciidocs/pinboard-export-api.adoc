@@ -76,7 +76,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/export/pinboard/pdf?col1=COL_
 ----
 
 You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
-
+[width="100%" cols="1,5"]
+[options='header']
 |===
 | Parameter | Definition
 
@@ -94,7 +95,8 @@ You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
 These parameters are case-insensitive. `EQ`, `eq`, and `eQ`, for example, have the same result.
 
 === Runtime filter operators
-
+[width="100%" cols="1,2,1"]
+[options='header']
 |===
 | Operator | Description | Number of Values
 
@@ -154,11 +156,11 @@ These parameters are case-insensitive. `EQ`, `eq`, and `eQ`, for example, have t
 | is included in this list of values
 | multiple
 |===
-
+////
 [#embed]
 == Embedded Pinboard with unsaved changes
 
-If your ThoughtSpot environment is embedded, and you want to download Pinboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
+If you have embedded ThoughtSpot in your host application, and you want to download Pinboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
 
 [source,javascript]
 ----
@@ -187,27 +189,28 @@ async function downloadPDF() {
 }
 </script>
 ----
-
+////
 === Response format
 
-The response appears in the form of a raw pdf file. The response type is `application/octet-stream`.
+The response appears in the form of a raw PDF file. The response type is `application/octet-stream`.
 
 == Response codes
 
 You may receive the following status codes in your output. These HTTP status codes have the following meanings:
-
+[width="100%" cols="1,5"]
+[options='header']
 |===
-| Response code | Description
+| HTTP status code | Description
 
-| 200
+| **200**
 | Streaming output for pinboard pdf
 
-| 400
+| **400**
 | Invalid parameter values
 
-| 403
+| **403**
 | No read access for pinboard
 
-| 404
+| **404**
 | Object not found
 |===

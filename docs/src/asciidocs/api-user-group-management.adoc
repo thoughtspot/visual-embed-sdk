@@ -1,20 +1,27 @@
-= Manage user groups
+= Configure privileges for user groups
 :toc: true
 
 :page-title: Manage user groups
 :page-pageid: api-user-group-management
 :page-description: Manage user groups using REST APIs
 
-To configure or remove privilege from single or multiple groups, use the Group REST API service.
+Each user group in ThoughtSpot assigns a set of privileges to its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. 
+
+ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to the `ALL_GROUP` group. 
+
+By default, the members of `ALL_GROUP` do not have the permission to download or upload data. You can use the Group APIs to globally add the following privileges to all the users in `ALL_GROUP`.
+
+* `DATADOWNLOADING`
++
+Allows users to download data from search results and pinboards. When the `DATADOWNLOADING` privilege is applied, the users can download all the data sources that a group can access.
+
+* `USERDATAUPLOADING`
++
+Allows users to upload their data to ThoughtSpot.
 
 == Add a privilege to a user group
 
-All users in the system are always a part of the `ALL_GROUP` group.
-By default, this group does not have permission to download or upload data.
-
-All the data sources that the `ALL_GROUP` group can access are downloadable when `DATADOWNLOADING` is applied.
-
-To add a `DATADOWNLOADING` or `USERDATAUPLOADING` privilege to the system default `ALL_GROUP` group, send a `POST` request to the following endpoint URL:
+To add a privilege to a group, send a `POST` request to the following endpoint URL:
 
 ----
 POST /tspublic/v1/group/addprivilege
@@ -24,9 +31,9 @@ POST /tspublic/v1/group/addprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
+|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING`.
 
-|`groupNames`|string|Specifies a group name to which you want to add the privilege. The valid value is `ALL_GROUP` group.
+|`groupNames`|string|Specifies a group name to which you want to add the privilege; For example, `ALL_GROUP`.
 
 |====
 
@@ -63,9 +70,9 @@ POST /tspublic/v1/group/removeprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING` privilege.
+|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING`.
 
-|`groupNames`|string|Specifies the group name from which you want to remove the privilege. The valid value is `ALL_GROUP` group.
+|`groupNames`|string|Specifies the group name from which you want to remove the privilege; For example, `ALL_GROUP` group.
 
 |====
 
