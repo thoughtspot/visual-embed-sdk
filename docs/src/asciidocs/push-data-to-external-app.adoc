@@ -9,7 +9,7 @@ ThoughtSpot allows you to push data to a third-party application from the Though
 
 For example, if your client application has embedded the ThoughtSpot search functionality, you can initiate an action to send a search answer to another application or a workflow. To do this, you can use the custom menu item configured for your embedded instance. 
  
-For more information on custom menu items, see xref:customize-actions-menu.adoc[Add custom actions].
+For more information on configuring custom actions, see xref:customize-actions-menu.adoc[Add custom actions].
 
 == Data format
 

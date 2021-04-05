@@ -5,7 +5,7 @@
 :page-pageid: embed-data-restapi
 :page-description: Embed Data using REST APIs
 
-To get data out from ThoughtSpot objects and embed it in a web page, portal, or application, you can use the data APIs. The data REST APIs return data as JSON (JavaScript Object Notation) objects.
+To query ThoughtSpot objects and embed them in a web page, portal, or application, you can use the data REST APIs. The data REST APIs return data as JSON (JavaScript Object Notation) objects.
 
 == Embed pinboard or visualization data
 To embed a pinboard or visualization, construct the URL for the REST API call:
@@ -51,7 +51,7 @@ For a pinboard, the URL is as follows:
 
 +
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
 ----
 
 +
@@ -59,7 +59,7 @@ For a visualization, the URL is as follows:
 
 +
 ----
-https://<base-uri>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
 ----
 
 . To apply filters to the data, use runtime filters.
@@ -69,7 +69,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 
 +
 ----
-http://<base-uri>/callosum/v1/tspublic/v1/pinboarddata
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
 ?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
 &col1=color&op1=EQ&val1=red
 ----

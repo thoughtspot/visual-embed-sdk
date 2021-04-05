@@ -35,7 +35,7 @@ For information on configuration requirements, see the following sections:
 
 == Optional settings for embedding
 
-The URLs in data display as clickable links in ThoughtSpot tables.
+The URLs in data appear as clickable links in ThoughtSpot tables.
 By default, clicking on a link opens the URL in a separate tab.
 However, there is a system-wide setting that can be changed to open the links within the context in which they appear.
 

@@ -9,7 +9,7 @@
 If your organization has a trusted authentication server, you can use it to authenticate the users who request access to the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
 
 [NOTE]
-To use the trusted authentication method, you must enable CORS and add the authentication server domain to the allowed list of domains. For more information, see xref:security-settings.adoc[Security settings].
+To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
 
 == Trusted authentication workflow
 The embed user authentication workflow with trusted authentication service involves the following steps:
@@ -28,7 +28,7 @@ Your server application must determine the following:
 .  The trusted authenticator server intercepts the request, authenticates the user, and requests a token from ThoughtSpot on the user's behalf.
 +
 ----
- POST https://<base-uri>/tspublic/v1/session/auth/token
+ POST /tspublic/v1/session/auth/token
 ----
 +
 This POST request method includes the following attributes:
@@ -50,7 +50,7 @@ This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level`
 +
 [source, HTML]
 ----
-GET https://<base-uri>/collosum/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+GET https://<ThoughtSpot-host>/collosum/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
 ----
 The request URL includes the following attributes:
 
