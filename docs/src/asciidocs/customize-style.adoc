@@ -27,8 +27,8 @@ You can customize the following ThoughtSpot UI style components:
 
 To access style customization settings:
 
-. Go to the Developer Hub.
-. Sign in with your ThoughtSpot user credentials.
+. Log in to ThoughtSpot as as admin or developer user.
+. To access the ThoughtSpot Developer portal, click the *Develop* tab.
 . Under *Customizations*, click *Styles*.
 
 [TIP]
@@ -50,18 +50,20 @@ image::./images/style-applogo.png[Default Application Logo]
 +
 Your icon image should be a square, and the recommended size is 140px by 140px.
 The accepted file formats are jpg, jpeg, and png.
-This logo will appear on the top left of the interface.
 
++
+.. Verify if the logo appears correctly at the top left corner of the navigation bar.
 . To upload a wide logo:
 .. Click the wide icon under *Application Logo (Wide)*.
 .. Browse to your local directory and select logo image.
 +
 image::./images/style-widelogo.png[Wide application logo]
 +
-The recommended size is 330px by 100px.
-The accepted file formats are jpg, jpeg, and png.
-This logo appears on the login screen.
-You may need to test a few versions to make sure it appears correctly.
+* The recommended size is 330px by 100px.
+* The accepted file formats are jpg, jpeg, and png.
+* This logo appears on the login screen.
++
+.. Verify if the logo appears correctly.
 
 ////
 

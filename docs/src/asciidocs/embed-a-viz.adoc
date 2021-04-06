@@ -1,4 +1,4 @@
-= Embed visualizations
+= Embed a visualization
 :toc: true
 
 :page-title: Embed visualizations
@@ -79,7 +79,7 @@ _String_. The endpoint URL of the authentication server. When the `authEndPoint`
 
 ** `*username*`
 +
-_String_.The username for trusted authentication.
+_String_. The username of the ThoughtSpot user.
 
 ** `*getAuthToken*` _Optional_
 +
@@ -94,23 +94,23 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
  const pinboardEmbed = new PinboardEmbed(
     document.getElementById('ts-embed'), 
     {
-	frameParams: {
+	  frameParams: {
 		width: 100%,
 		height: 100%,
 	},
-	disabledActions: [],
-	disabledActionReason: '<reason for disabling>',
-	hiddenActions: [],
-	pinboardId: '<%=pinboardGUID%>',
-	vizId: '<%=vizGUID%>',
-	runtimeFilters: [],
+	  disabledActions: [],
+	  disabledActionReason: '<reason for disabling>',
+	  hiddenActions: [],
+	  pinboardId: '<%=pinboardGUID%>',
+	  vizId: '<%=vizGUID%>',
+	  runtimeFilters: [],
     },
 });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
 
 disabledActions [small]_optional_::
-_String_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
+_Array of strings_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
 For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `editTitle` string in the  `disabledActions` attribute.
@@ -128,7 +128,7 @@ disabledActions: Action.editTitle
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
 
 hiddenActions [small]_optional_::
-_String_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
+_Array of strings_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
 For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
@@ -245,7 +245,7 @@ Runtime filters have several operators you can use to filter your embedded visua
 == Render the embedded visualization
 Construct the URL for the embedded visualization and render the embedded content:
 
-[source,JavaScript]
+[source,javaScript]
 ----
   pinboardEmbed.render();
 ----
@@ -256,12 +256,12 @@ Register event handlers to subscribe to events triggered by the embedded visuali
 
 [source,javascript]
 ----
- pinboardEmbed.on(EventType.init, showLoader)
- pinboardEmbed.on(EventType.load, hideLoader)
- pinboardEmbed.on(EventType.Error)
+ pinboardEmbed.on(EmbedEvent.init, showLoader)
+ pinboardEmbed.on(EmbedEvent.load, hideLoader)
+ pinboardEmbed.on(EmbedEvent.Error)
 ----
 
-If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+If you have added a xref:customize-actions-menu.adoc[custom action], register the event handler to manage the events triggered by the custom action:
 
 [source, javascript]
 ----

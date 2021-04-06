@@ -13,9 +13,16 @@ It is often difficult to programmatically use the result set of a query that run
 [#components]
 == Components of a search query
 
-In ThoughtSpot Query Language, the components of a query are classified into various types of tokens: xref:Column[Column], xref:Operator[Operator], xref:Value[Value], xref:Date-Bucket[Date Bucket], xref:Keyword[Keyword], and xref:Calendar[Calendar]:
+In ThoughtSpot Query Language, the components of a query are classified into various types of tokens: 
 
-[#column]
+* xref:Column[Column]
+* xref:Operator[Operator]
+* xref:Value[Value]
+* xref:Date-Bucket[Date Bucket]
+* xref:Keyword[Keyword]
+* xref:Calendar[Calendar]
+
+[#Column]
 Column::
 Columns must be enclosed in square brackets, [ ].
 
@@ -66,6 +73,8 @@ When a ThoughtSpot UI query is revenue day of week = 5, and if day of week is bo
 ----
 [revenue] [commit date].'day of week' = 5
 ----
+
+[#Keyword]
 Keyword:: Use keywords in the API query in the same manner as in the UI.
 +
 For example, when a ThoughtSpot UI query uses keywords growth of and sort by, the equivalent API query is as follows:
@@ -74,6 +83,8 @@ For example, when a ThoughtSpot UI query uses keywords growth of and sort by, th
 ----
 growth of [revenue] by [commit date]
 ----
+
+[#Calendar]
 Calendar:: You can specify a custom calendar in the query. Use the calendar.calendar_name format explicitly.
 +
 When the calendar name contains multiple words, enclose these words in single quotes.

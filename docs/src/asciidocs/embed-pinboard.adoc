@@ -1,4 +1,4 @@
-= Embed pinboards
+= Embed a pinboard
 :toc: true
 
 :page-title: Embed Pinboards
@@ -75,7 +75,7 @@ _String_. The endpoint URL of the authentication server. When the `authEndPoint`
 
 ** `*username*`
 +
-_String_. The username for trusted authentication.
+_String_. The username of the ThoughtSpot user.
 
 ** `*getAuthToken*` _Optional_
 +
@@ -111,7 +111,7 @@ disabledActions::
 _Array of strings_. The action menu items to be disabled on the Pinboards page.
 +
 
-For example, to disable the *Present* action from the *More* (*...*) menu, specify the `present` string in the  `disabledActions` attribute.
+For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `present` string in the  `disabledActions` attribute.
 
 +
 [source,JavaScript]
@@ -240,12 +240,12 @@ pinboardEmbed.render();
 ----
 
 == Subscribe to events
-Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.
+Register event handlers to subscribe to the events triggered by the embedded pinboard;  .
 [source,javascript]
 ----
-  pinboardEmbed.on(EventType.init, showLoader)
-  pinboardEmbed.on(EventType.load, hideLoader)
-  pinboardEmbed.on(EventType.Error)
+  pinboardEmbed.on(EmbedEvent.init, showLoader)
+  pinboardEmbed.on(EmbedEvent.load, hideLoader)
+  pinboardEmbed.on(EmbedEvent.Error)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:

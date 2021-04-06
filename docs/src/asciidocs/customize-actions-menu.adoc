@@ -15,7 +15,7 @@ You can configure custom actions when you want to initiate an action in your app
 For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 ////
 
-You can add the custom action as a primary menu item or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu]on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
+You can add a custom action as a primary menu item or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu]on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
  
 == Add a custom menu item
 To add custom menu item:
@@ -27,9 +27,9 @@ To add custom menu item:
 . Add the URL that you want to invoke when the user clicks the action label in the UI.
 
 +
-If you use a URL target, make sure it is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
+If you want to use a URL target for the custom action, make sure it is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
 
-. Specify the position of the action button. You can set the action as a primary action or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu].
+. Specify the position of the action button. You can set the action as a primary menu or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
 . Select the ThoughtSpot application pages to which you want to add the menu item.
 
@@ -55,7 +55,7 @@ To add a callback function:
 . Add an ID for the callback function.
 
 +
-Make sure you use the same ID to register the callback function on your host application.
+Make sure you use the same ID to register the callback function on your host application. 
 
 . Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image:./images/icon-more-10px.png[the more options menu].
 

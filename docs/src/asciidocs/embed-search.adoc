@@ -49,7 +49,7 @@ To allow your client application to connect to ThoughtSpot:
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.None,
+        authType: AuthType.SSO,
     });
 ----
 +
@@ -95,7 +95,7 @@ _String_. The endpoint URL of the authentication server. When the `authEndPoint`
 
 ** `*username*`
 +
-_String_. The username for trusted authentication.
+_String_. The username of the ThoughtSpot user.
 
 ** `*getAuthToken*` _Optional_
 +
@@ -149,8 +149,29 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 ++++
 
 
+disabledActions [small]_optional_::
+_Array of strings_. Disables the specified menu items from the list of actions in the search answer page. You can use this attribute to restrict user access to certain features.
++
+For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add the `showUnderlyingData` action to the `disabledActions` attribute.
+
++
+
+----
+disabledActions: Action.showUnderlyingData
+----
++
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+++++
++
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+
+disabledActionReason [small]_optional_::
+_String_. Indicates the reason for disabling an action from the search answer page view.
+
+
 hideDataSources [small]_optional_::
-_Boolean_. When set to true, it hides the default Data Source panel. Use this attibute if you want to create a custom data panel.
+_Boolean_. When set to true, it hides the default Data Source panel. Use this attribute if you want to create a custom data panel.
 
 +
 ++++
@@ -175,6 +196,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 ++++
 ////
 
+
 hiddenActions::
 _Array of strings_. Hides the specified action menu items on the search answer page. You can use this attribute to remove actions that are not applicable to your application context.
 
@@ -190,35 +212,18 @@ For example, to hide the *Replay Search* action from the *More* menu image:./ima
 ----
 hiddenActions: Action.replaySearch
 ----
-disabledActions [small]_optional_::
-_Array of strings_. Disables the specified menu items from the list of actions in the search answer page. You can use this attribute to restrict user access to certain features.
-+
-For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], add the `showUnderlyingData` action to the `disabledActions` attribute.
 
 +
-
-----
-disabledActions: Action.showUnderlyingData
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-disabledActionReason [small]_optional_::
-_String_. Indicates the reason for disabling an action from the search answer page view.
-
-
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions, window=_blank].
 
 searchQuery::
 _String_. The search query string to use when the application loads. You can use the following types of search tokens to construct a search query:
-* xref:search-data-api.adoc#column[Column]
-* xref:search-data-api.adoc#operator[Operator]
-* xref:search-data-api.adoc#value[Value]
-* xref:search-data-api.adoc#date-bucket[Date Bucket]
-* xref:search-data-api.adoc#keyword[Keyword]
-* xref:search-data-api.adoc#calendar[Calendar]
+* xref:search-data-api.adoc#Column[Column]
+* xref:search-data-api.adoc#Operator[Operator]
+* xref:search-data-api.adoc#Value[Value]
+* xref:search-data-api.adoc#Date-Bucket[Date Bucket]
+* xref:search-data-api.adoc#Keyword[Keyword]
+* xref:search-data-api.adoc#Calendar[Calendar]
 
 For example, to fetch revenue data by shipping mode, you can use the following search query string:
 
@@ -244,7 +249,7 @@ Register event handlers to subscribe to embed events triggered by the ThoughtSpo
 ----
  searchEmbed.on(EmbedEvent.init, showLoader)
  searchEmbed.on(EmbedEvent.load, hideLoader)
- searchEmbed.on(EventType.Error)
+ searchEmbed.on(EmbedEvent.Error)
 ----
 If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
 

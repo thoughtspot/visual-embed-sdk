@@ -7,7 +7,7 @@
 :page-description: Calling the Data REST API
 
 
-To call a REST API, you can specify a URL using the `POST` method and pass the ID numbers of the objects from which you want to obtain data.
+To call a REST API, you can send a `POST` or `GET` request to the endpoint URL and pass the parameters of the objects that you want to view or modify.
 
 == Pinboard or visualization objects
 
@@ -17,7 +17,7 @@ For a pinboard, you can append the ID of your pinboard as a parameter, as shown 
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
-To retrieve data from a specific visualization within a pinboard,append the ID number of the visualization using the `vizid` parameter:
+To retrieve data from a specific visualization within a pinboard, append the ID number of the visualization using the `vizid` parameter:
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
@@ -25,7 +25,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22
 
 [NOTE]
 Make sure you add brackets around the `vizid` parameter.
-The URL encoding for the open bracket is `%5B`, and the close bracket is `%5D`.
+The URL encoding for the opening bracket is `%5B` and the closing bracket is `%5D`.
 
 
 == Data format of objects
@@ -63,7 +63,7 @@ The sampling ratio tells you the percentage of total data returned.
 A sampling ratio of `1` indicates that all data in the visualization object was returned in the API call.
 
 The REST API supports filtering data based on the parameters that you pass within the URL.
-These are called Runtime Filters.
+These are called link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[Runtime Filters, window=_blank].
 
 == Example
 
