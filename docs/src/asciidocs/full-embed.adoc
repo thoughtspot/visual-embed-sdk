@@ -196,7 +196,7 @@ path::
 _String_. The URL path of the ThoughtSpot application page to embed. 
 
 [NOTE]
-When both `path` and `PageId` attributes are defined, the path definition takes precedence.
+When both `path` and `pageId` attributes are defined, the path definition takes precedence.
 
 pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.

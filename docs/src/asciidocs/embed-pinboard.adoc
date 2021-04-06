@@ -1,4 +1,4 @@
-= Embed pinboards
+= Embed a pinboard
 :toc: true
 
 :page-title: Embed Pinboards
