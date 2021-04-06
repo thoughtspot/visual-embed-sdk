@@ -14,19 +14,24 @@ The portal also allows authorized users to customize and rebrand the look and fe
 
 To access Developer portal, follow these steps:
 
-If you are an existing ThoughtSpot user: ::
-. Sign in to your ThoughtSpot Cloud application instance.
+. Log in to your ThoughtSpot Cloud application instance.
 . Navigate to the **Develop** tab.
++
+The **Develop** tab in ThoughtSpot application is available only for the ThoughtSpot users with admin or developer privileges.
+
++
+For more information on configuring a user group with developer privileges, see the xref:user-roles.adoc[User configuration].
+////
 If you are not a ThoughtSpot user: ::
 . Go to link:https://www.thoughtspot.com[www.thoughtspot.com].
-. Click the *Developers* tab.
-
+. Sign up for evaluation.Click the *Developers* tab.
+////
 == Find your way around
 The Developer portal includes several sections to assist you through your embedding journey.
 
 Home::
 The *Home* page of the Developer portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
-The home page also includes links to the *Developer Guides* and the *Playground* to preview the toolkit.
+The home page also includes links to the *Developer Guides* and *Playground* to preview the toolkit.
 
 Guide::
 The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot Visual Embed SDK and REST APIs to integrate ThoughtSpot features into your application.
@@ -271,7 +276,7 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud
 
 [#playground-fullapp]
 === Full Application
-To embed full application:
+To embed the full ThoughtSpot application:
 
 . Go to *Playground* > *Full app*.
 . Select a tab to set a default page view for embedded application users.
