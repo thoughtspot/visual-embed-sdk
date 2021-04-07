@@ -9,7 +9,6 @@ import {
     DEFAULT_HOST,
     DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
-    IS_PUBLIC_SITE_OPEN,
 } from '../configs/doc-configs';
 
 /**
@@ -72,7 +71,6 @@ export const removeTrailingSlash = (url: string) => {
 export const isPublicSite = (queryParamStr: string) => {
     const entries = new URLSearchParams(queryParamStr).entries();
     let isPublicSiteOpen = true;
-
     for (const [key, value] of entries) {
         if ([TS_HOST_PARAM, TS_ORIGIN_PARAM, TS_APP_ROOT_PARAM].includes(key)) {
             isPublicSiteOpen = false;
