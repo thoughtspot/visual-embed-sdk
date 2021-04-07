@@ -38,7 +38,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true/#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -57,7 +57,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?disableAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}&disableHint=Action%20denied`,
+                `http://${thoughtSpotHost}/?embedApp=true&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied/#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -75,7 +75,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?hideAction=${Action.DownloadAsCsv},${Action.DownloadAsPdf},${Action.DownloadAsXlsx}`,
+                `http://${thoughtSpotHost}/?embedApp=true&hideAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]/#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -89,7 +89,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=true`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableVizTransform=true/#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -103,7 +103,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}?enableVizTransform=false`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableVizTransform=false/#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -117,7 +117,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true/#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
@@ -138,7 +138,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000/#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
