@@ -253,6 +253,13 @@ export enum EmbedEvent {
      * @hidden
      */
     V1Data = 'exportVizDataToParent',
+    /**
+     * Emitted when the embed does not have cookie access. This
+     * happens on Safari where 3rd party cookies are blocked by default.
+     *
+     * @version 1.1.0
+     */
+    NoCookieAccess = 'noCookieAccess',
 }
 
 /**
