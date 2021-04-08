@@ -83,7 +83,7 @@ export class PinboardEmbed extends V1Embed {
             ] = enableVizTransformations.toString();
         }
 
-        const queryParams = getQueryParamString(params);
+        const queryParams = getQueryParamString(params, true);
 
         return queryParams;
     }
@@ -102,17 +102,17 @@ export class PinboardEmbed extends V1Embed {
         runtimeFilters?: RuntimeFilter[],
     ) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
+        const queryParams = this.getEmbedParams();
+        const queryString = [filterQuery, queryParams]
+            .filter(Boolean)
+            .join('&');
         let url = `${this.getV1EmbedBasePath(
-            filterQuery,
+            queryString,
             true,
             false,
         )}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;
-        }
-        const postHashQueryParams = this.getEmbedParams();
-        if (postHashQueryParams) {
-            url = `${url}?${postHashQueryParams}`;
         }
 
         return url;

@@ -37,7 +37,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true/#/home`,
             );
         });
     });
@@ -50,7 +50,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false/#/home`,
             );
         });
     });
@@ -79,7 +79,7 @@ describe('App embed tests', () => {
 
                 await executeAfterWait(() => {
                     expect(getIFrameSrc()).toBe(
-                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/${route}`,
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true/#/${route}`,
                     );
                     cleanUp();
                 });
@@ -95,7 +95,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true#/foo/bar`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true/#/foo/bar`,
             );
         });
     });
@@ -116,7 +116,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&col1=sales&op1=EQ&val1=1000/#/home`,
             );
         });
     });
@@ -133,7 +133,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&disableAction=save,update&disableHint=Access%20denied&hideAction=download#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22download%22]/#/home`,
             );
         });
     });
@@ -148,7 +148,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&tag=Finance#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&tag=Finance/#/home`,
             );
         });
     });

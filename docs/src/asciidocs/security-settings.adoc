@@ -5,7 +5,8 @@
 :page-pageid: security-settings
 :page-description: Security settings for embedding
 
-Before you integrate ThoughtSpot content into your web application, configure security settings on ThoughtSpot to allow your application users to access the embedded content from web browsers. To configure security settings for embedding on the Developer portal, you need administrator or developer privileges. 
+Before you integrate ThoughtSpot content into your web application, configure security settings on ThoughtSpot to allow your application users to access the embedded content from web browsers. 
+To configure security settings for embedding on the Developer portal, you need administrator or developer privileges. 
 
 [#csp-viz-embed-hosts]
 == Add CSP visual embed host domains

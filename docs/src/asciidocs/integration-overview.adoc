@@ -83,7 +83,7 @@ If you plan to configure custom actions to invoke external URLs, you must add th
 For more information, see xref:security-settings.adoc[Configure security settings].
 
 == Try out the embed modules
-The ThoughtSpot Developer portal provides a playground for developers to explore the Visual Embed SDK components. The *Playground* offers an interactive coding experience for developers to evaluate the APIs and embed ThoughtSpot search, visualizations, pinboards, or the full ThoughtSpot application within their host application.
+The ThoughtSpot Developer portal provides a playground for developers to explore the Visual Embed SDK components. The *Playground* offers an interactive coding experience for developers to evaluate the APIs and embed ThoughtSpot search, visualizations, pinboards, or the full ThoughtSpot experience within their host application.
 
 ++++
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Go to Playground</a>

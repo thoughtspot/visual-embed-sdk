@@ -134,7 +134,7 @@ export class SearchEmbed extends TsEmbed {
             query = `?${queryParamsString}`;
         }
 
-        return `${this.getEmbedBasePath()}/${answerPath}${query}`;
+        return `${this.getEmbedBasePath(query)}/${answerPath}`;
     }
 
     /**

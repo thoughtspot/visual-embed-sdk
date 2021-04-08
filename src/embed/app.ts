@@ -106,7 +106,7 @@ export class AppEmbed extends V1Embed {
             params[Param.Tag] = tag;
         }
 
-        const queryParams = getQueryParamString(params);
+        const queryParams = getQueryParamString(params, true);
 
         return queryParams;
     }

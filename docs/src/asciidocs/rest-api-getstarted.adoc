@@ -11,28 +11,28 @@ For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO]
 
 == Cross-Origin Resource Sharing
 
-To query and modify ThoughtSpot objects using REST APIs, you must add your client application domain as an allowed domain for CORS. When you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
-For more information on whitelisting a domain for CORS, see  xref:security-settings.adoc[Security settings].
+To query and modify ThoughtSpot objects using REST APIs, you must add your client application domain as an allowed domain for Cross-Origin Resource Sharing (CORS). When you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
+For more information on whitelisting domains for CORS, see  xref:security-settings.adoc[Security settings].
 
-== Base URI
+== Base path
 
-The base URI for the REST APIs calls includes the following:
+The base URL for the REST APIs constitutes the following:
 
 * The hostname or IP address of your ThoughtSpot application instance.
 * Port number
+* Name of the ThoughtSpot API service
+* The version number
+
+For example, in the following URL, the base path is  `https://<your-thoughtspot-hostname:port>/callosum/v1`. 
+
+----
+https://<your-thoughtspot-hostname:port>/callosum/v1/tspublic/v1/session/login
+----
+
+Note that the API endpoint and resource URLs in the REST API documentation pages omit the base path and show only the API endpoint URL. 
 
 For example:
 
 ----
-https://<your-thoughtspot-hostname:port>
-----
-
-== API service name and version
-
-For REST API calls, in addition to the base URI, append the API service name and the version number.
-
-For example:
-
-----
-https://<your-thoughtspot-hostname:port>/callosum/v1/
+POST /tspublic/v1/session/login
 ----
