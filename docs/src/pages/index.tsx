@@ -28,6 +28,7 @@ import {
     MAX_TABLET_RESOLUTION,
     LEFT_NAV_WIDTH_TABLET,
     MAX_MOBILE_RESOLUTION,
+    MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
 } from '../constants/uiConstants';
 
 // markup
@@ -201,6 +202,7 @@ const IndexPage = ({ location }) => {
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
                 className={isPublicSiteOpen ? 'withHeaderFooter' : ''}
+                style={{ height: !docContent && MAIN_HEIGHT_WITHOUT_DOC_CONTENT }}
             >
                 <LeftSidebar
                     navTitle={navTitle}
