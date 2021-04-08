@@ -123,7 +123,7 @@ disabledActions: Action.present
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
@@ -142,7 +142,7 @@ hiddenActions: Action.addFilter
 ++++
 
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard page.

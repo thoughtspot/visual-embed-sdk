@@ -151,7 +151,7 @@ For example, to disable the *download* action from the *More* (*...*) menu on th
 +
 [source,JavaScript]
 ----
-disabledActions: ['download']
+disabledActions: Action.download
 ----
 +
 ++++
@@ -159,7 +159,7 @@ disabledActions: ['download']
 ++++
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
@@ -174,7 +174,7 @@ For example, to hide the *Download* action from the *More* menu image:./images/i
 [source,JavaScript]
 +
 ----
-hiddenActions: ['download']
+hiddenActions: Action.download
 ----
 +
 ++++
@@ -182,7 +182,7 @@ hiddenActions: ['download']
 ++++
 
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Actions].
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 +
 showPrimaryNavbar::
