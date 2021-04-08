@@ -49,29 +49,41 @@ class CustomDocConverter {
     convert(node, transform) {
         // checking anchor node type
         if (node.getNodeName() === 'inline_anchor') {
+            let anchorMarkup = '';
+
             // get anchor target set inside adoc file
             let target = node.getTarget();
 
+            // get anchor attributes
+            let attributes = node.getAttributes();
             if (this.isTransformLink(target)) {
                 // check if link is for 'Visual Embed SDK' documents or not
                 if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
-                    return `<a href="${getPath(config.DOC_REPO_NAME)}/${
+                    anchorMarkup = `${getPath(config.DOC_REPO_NAME)}/${
                         config.TYPE_DOC_PREFIX
                     }${target.replace(
                         `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
                         '',
-                    )}">${node.getText()}</a>`;
-                }
-
-                if (!target.startsWith('#')) {
+                    )}`;
+                } else if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
                         target.lastIndexOf('.html'),
                     );
-                    return `<a href="{{${
-                        config.NAV_PREFIX
-                    }}}={{${target}}}">${node.getText()}</a>`;
+
+                    anchorMarkup = `{{${config.NAV_PREFIX}}}={{${target}}}`;
                 }
+
+                // attribute handling - DO NOT CHANGE ORDER OF IFs
+                if (attributes.fragment) {
+                    anchorMarkup += `#${attributes.fragment}`;
+                }
+                anchorMarkup = `href="${anchorMarkup}"`;
+                if (attributes.window) {
+                    anchorMarkup += ` target="${attributes.window}"`;
+                }
+
+                return `<a ${anchorMarkup}>${node.getText()}</a>`;
             }
         }
 
