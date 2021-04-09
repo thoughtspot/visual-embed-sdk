@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './index.scss';
 import { INTRO_WRAPPER_MARGIN_TOP } from '../../constants/uiConstants';
+import t from '../../utils/lang-utils';
+import './index.scss';
 
 const Docmap = (props: {
     docContent: string;
@@ -57,7 +58,7 @@ const Docmap = (props: {
                     zIndex: props.options.length > 0 ? -1 : 0,
                 }}
             >
-                <p className="tocTitle">On this page</p>
+                <p className="tocTitle">{t('RIGHT_NAV_SIDERBAR_TITLE')}</p>
                 <div dangerouslySetInnerHTML={{ __html: toc }} />
             </div>
         )

@@ -32,7 +32,7 @@
         font-size: $font-size-normal;
         color: $darkgrey;
         font-family: $font-family-doc;
-        padding-bottom: 2px;
+        padding-bottom: 1px;
     }
 
     input:focus {
@@ -96,9 +96,9 @@
 
 @media screen and (max-width: $mobile-resolution-max) {
     .searchWrapper {
-        width: 100%;
-        top: 0;
         left: 0;
+        padding: 12px 24px;
+        width: 100%;
 
         .searchInputWrapper {
             width: 86%;

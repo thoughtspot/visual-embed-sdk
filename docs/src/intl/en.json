@@ -1,5 +1,16 @@
 {
-    "HOME_LEFT_NAVIGATION": "Left Navigation",
-    "HOME_MAIN_CONTENT": "Main Content",
-    "HOME_RIGHT_NAVIGATION": "On Page Right Navigation"
+    "TS_LOGO_ALT_TEXT": "ThoughtSpot",
+    "NAV_BACK_BTN_TEXT": "Back",
+    "404_PAGE_TITLE": "Not found",
+    "404_PAGE_HEADING": "Page not found",
+    "404_PAGE_MSG_PRETEXT": "Sorry",
+    "404_PAGE_MSG": "we couldn’t find what you were looking for.",
+    "404_PAGE_DEV_ENV_MSG": "Try creating a page in",
+    "404_GO_HOME_LINK_TEXT": "Go home",
+    "SEARCH_PLACEHOLDER": "Search Documentation",
+    "CODE_COPY_BTN_TEXT": "Copy",
+    "CODE_COPY_BTN_HOVER_TEXT": "Copy to clipboard",
+    "CODE_COPY_BTN_AFTER_CLICK_TEXT": "Copied!",
+    "RIGHT_NAV_SIDERBAR_TITLE": "On this page",
+    "COPYRIGHT_TEXT": "©2021 ThoughtSpot Inc. All Rights Reserved."
 }

@@ -3,13 +3,12 @@
 
 .menuMain {
     position: relative;
-    top: 20px;
+    top: 10px;
     z-index: $z-index-left-nav;
 
     .menuContainer {
         cursor: pointer;
         padding-right: $padding-md;
-        float: right;
         position: fixed;
         right: 0;
 
@@ -125,6 +124,10 @@ aside {
         }
     }
 
+    .navWrapper.withHeaderFooter {
+        margin-bottom: 90px;
+    }
+
     a {
         font-size: $font-size-normal;
         font-weight: $font-weight-normal;
@@ -155,9 +158,11 @@ aside {
     aside {
         height: 100%;
         display: none;
+        padding-top: 0;
         padding-bottom: 0;
 
-        .navWrapper {
+        .navWrapper,
+        .navWrapper.withHeaderFooter {
             margin-bottom: 0;
         }
     }

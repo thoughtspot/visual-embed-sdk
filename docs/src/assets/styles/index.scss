@@ -29,6 +29,15 @@ body {
     font-size: $font-size-normal;
 }
 
+main {
+    display: flow-root;
+}
+
+main.withHeaderFooter {
+    padding-top: 51px;
+    padding-bottom: 25px;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -42,7 +51,7 @@ a {
 }
 
 .container {
-    padding: 10px 36px;
+    padding: 10px 25px;
 }
 
 /*active class with background*/

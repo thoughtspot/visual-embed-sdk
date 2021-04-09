@@ -63,4 +63,19 @@ export const removeTrailingSlash = (url: string) => {
     return url.replace(/\/$/, '');
 };
 
+/**
+ * Used to check if the docs portal open as public site or inside embed iframe
+ * @param {string} queryParamStr - query string from location.search
+ * @returns {boolean} true, if it is opened as public site otherwise false
+ */
+export const isPublicSite = (queryParamStr: string) => {
+    const entries = new URLSearchParams(queryParamStr).entries();
+    for (const [key, value] of entries) {
+        if ([TS_HOST_PARAM, TS_ORIGIN_PARAM, TS_APP_ROOT_PARAM].includes(key)) {
+            return false;
+        }
+    }
+    return true;
+};
+
 export default queryStringParser;

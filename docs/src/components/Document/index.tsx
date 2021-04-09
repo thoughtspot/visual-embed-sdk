@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './index.scss';
 import { customizeDocContent } from './helper';
 
 const Document = (props: { docTitle: string; docContent: string }) => {
-
     useEffect(() => {
         customizeDocContent();
     }, [props.docContent]);

@@ -1,0 +1,14 @@
+@import '../../assets/styles/variables.scss';
+
+footer {
+    position: absolute;
+    width: 100%;
+    z-index: $footer-zIndex;
+
+    .footerWrapper {
+        text-align: center;
+        color: $darkgrey;
+        font-size: 12px;
+        font-weight: 300;
+    }
+}

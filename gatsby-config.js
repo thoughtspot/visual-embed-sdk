@@ -243,5 +243,13 @@ module.exports = {
             __key: 'htmlFiles',
         },
         'gatsby-plugin-catch-links',
+        {
+            resolve: 'gatsby-plugin-manifest',
+            options: {
+                name: 'ThoughtSpot Software Documentation',
+                short_name: 'Documentation',
+                icon: `${__dirname}/docs/src/assets/icons/favicon.svg`,
+            },
+        },
     ],
 };
