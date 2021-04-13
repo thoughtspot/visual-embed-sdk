@@ -51,7 +51,7 @@ export interface EmbedConfig {
      */
     authType: AuthType;
     /**
-     * The trusted authentication endpoint to use to get the
+     * [AuthServer] The trusted authentication endpoint to use to get the
      * authentication token. A GET request is made to the
      * authentication API endpoint, which  returns the token
      * as a plaintext response. For trusted authentication,
@@ -59,24 +59,32 @@ export interface EmbedConfig {
      */
     authEndpoint?: string;
     /**
-     * A function that invokes the trusted authentication endpoint
+     * [AuthServer] A function that invokes the trusted authentication endpoint
      * and returns a Promise that resolves to the `auth token` string.
      * For trusted authentication, the `authEndpoint` or `getAuthToken`
      * attribute is required.
      */
     getAuthToken?: () => Promise<string>;
     /**
-     * The user name of the ThoughtSpot user. This attribute is
+     * [AuthServer / Basic] The user name of the ThoughtSpot user. This attribute is
      * required for trusted authentication.
      */
     username?: string;
 
     /**
-     * The ThoughtSpot login password corresponding to the user name
+     * [Basic] The ThoughtSpot login password corresponding to the user name
      * Warning: This feature is primarily intended for developer testing and it is
      * strongly advised not to use this in production.
      */
     password?: string;
+
+    /**
+     * [SSO] For SSO Auth, if `noRedirect` is true, it will open the SAML auth
+     * flow in a popup, instead of redirecting browser in place.
+     *
+     * @default false
+     */
+    noRedirect?: boolean;
 
     /** @internal */
     basepath?: string;
@@ -260,6 +268,12 @@ export enum EmbedEvent {
      * @version 1.1.0
      */
     NoCookieAccess = 'noCookieAccess',
+    /**
+     * Emitted when SAML is complete
+     * @private
+     * @hidden
+     */
+    SAMLComplete = 'samlComplete',
 }
 
 /**

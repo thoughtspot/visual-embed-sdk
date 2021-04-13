@@ -1,7 +1,9 @@
-import { AuthType, EmbedConfig } from './types';
+import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { appendToUrlHash } from './utils';
 
 let loggedInStatus = false;
+let samlAuthWindow: Window = null;
+let samlCompletionPromise: Promise<void> = null;
 
 const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
 
@@ -73,12 +75,12 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
                 response.text(),
             );
         }
-        window.location.href = `${thoughtSpotHost}${
-            EndPoints.TOKEN_LOGIN
-        }?username=${username}&auth_token=${authToken}&redirect_url=${encodeURIComponent(
-            window.location.href,
-        )}`;
-
+        await fetch(
+            `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?username=${username}&auth_token=${authToken}`,
+            {
+                credentials: 'include',
+            },
+        );
         loggedInStatus = false;
     }
 
@@ -116,6 +118,41 @@ export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
     loggedInStatus = true;
 };
 
+async function samlPopupFlow(ssoURL: string) {
+    document.body.insertAdjacentHTML(
+        'beforeend',
+        '<div id="ts-saml-auth"></div>',
+    );
+    const authElem = document.getElementById('ts-saml-auth');
+    samlCompletionPromise =
+        samlCompletionPromise ||
+        new Promise<void>((resolve, reject) => {
+            window.addEventListener('message', (e) => {
+                if (e.data.type === EmbedEvent.SAMLComplete) {
+                    (e.source as Window).close();
+                    resolve();
+                }
+            });
+        });
+    authElem.addEventListener(
+        'click',
+        () => {
+            if (samlAuthWindow === null || samlAuthWindow.closed) {
+                samlAuthWindow = window.open(
+                    ssoURL,
+                    '_blank',
+                    'location=no,height=570,width=520,scrollbars=yes,status=yes',
+                );
+            } else {
+                samlAuthWindow.focus();
+            }
+        },
+        { once: true },
+    );
+    authElem.click();
+    return samlCompletionPromise;
+}
+
 /**
  * Perform SAML authentication
  * @param embedConfig The embed configuration
@@ -141,10 +178,9 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
 
     // redirect for SSO, when SSO is done this page will be loaded
     // again and the same JS will execute again
-    const ssoRedirectUrl = appendToUrlHash(
-        window.location.href,
-        SSO_REDIRECTION_MARKER_GUID,
-    );
+    const ssoRedirectUrl = embedConfig.noRedirect
+        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
 
     // bring back the page to the same url
     const ssoEndPoint = `${EndPoints.SSO_LOGIN_TEMPLATE(
@@ -152,6 +188,11 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
     )}`;
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
+    if (embedConfig.noRedirect) {
+        await samlPopupFlow(ssoURL);
+        return;
+    }
+
     window.location.href = ssoURL;
 };
 
