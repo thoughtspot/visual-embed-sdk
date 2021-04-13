@@ -1,29 +1,34 @@
 import * as React from 'react';
 import { Link } from 'gatsby';
+import { NOT_FOUND_GO_HOME_PAGE_ID } from '../../configs/doc-configs';
+import t from '../../utils/lang-utils';
 import './index.scss';
 
 const Page404 = () => {
     return (
         <main className="pageStyles">
-            <title>Not found</title>
-            <h1 className="headingStyles">Page not found</h1>
+            <title>{t('404_PAGE_TITLE')}</title>
+            <h1 className="headingStyles">{t('404_PAGE_HEADING')}</h1>
             <p className="paragraphStyles">
-                Sorry{' '}
+                {t('404_PAGE_MSG_PRETEXT')}{' '}
                 <span role="img" aria-label="Pensive emoji">
                     😔
                 </span>{' '}
-                we couldn’t find what you were looking for.
+                {t('404_PAGE_MSG')}
                 <br />
                 {process.env.NODE_ENV === 'development' ? (
                     <>
                         <br />
-                        Try creating a page in{' '}
-                        <code className="codeStyles">src/pages/</code>.
+                        {t('404_PAGE_DEV_ENV_MSG')}{' '}
+                        <code className="codeStyles">docs/src/pages/</code>.
                         <br />
                     </>
                 ) : null}
                 <br />
-                <Link to="/?pageid=introduction">Go home</Link>.
+                <Link to={`/?pageid=${NOT_FOUND_GO_HOME_PAGE_ID}`}>
+                    {t('404_GO_HOME_LINK_TEXT')}
+                </Link>
+                .
             </p>
         </main>
     );

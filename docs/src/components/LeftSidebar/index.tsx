@@ -27,10 +27,10 @@ const LeftSideBar = (props: {
     handleLeftNavChange: (width: number) => void;
     location: Location;
     setLeftNavOpen: Function;
+    isPublicSiteOpen: boolean;
 }) => {
     const params = queryStringParser(props.location.search);
     const [navContent, setNavContent] = useState('');
-
     const { width, ref, height } = useResizeDetector();
 
     useEffect(() => {
@@ -85,6 +85,7 @@ const LeftSideBar = (props: {
                     navTitle={props.navTitle}
                     refObj={ref as React.RefObject<HTMLDivElement>}
                     leftNavOpen={props.leftNavOpen}
+                    isPublicSiteOpen={props.isPublicSiteOpen}
                 />
             </ResizableBox>
         ) : (
@@ -107,6 +108,7 @@ const LeftSideBar = (props: {
                     navTitle={props.navTitle}
                     refObj={ref as React.RefObject<HTMLDivElement>}
                     leftNavOpen={props.leftNavOpen}
+                    isPublicSiteOpen={props.isPublicSiteOpen}
                 />
             </div>
         );

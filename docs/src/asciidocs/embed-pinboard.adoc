@@ -125,11 +125,13 @@ disabledActions: Action.Present
 +
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
+
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the pinboards page.
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard page.
+
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
