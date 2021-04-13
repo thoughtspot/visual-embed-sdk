@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../Button';
-import ThoughtspotLogo from '../../assets/svg/ThoughtspotLogo.svg';
+import TSLogo from '../../assets/svg/ts_logo_white.svg';
+import t from '../../utils/lang-utils';
 import './index.scss';
 
 const Header = () => (
@@ -9,18 +9,14 @@ const Header = () => (
             <div className="headerWrapper">
                 <div>
                     <h1 className="m-0">
-                        <a href="#" title="logo">
+                        <a href="#" title={t('TS_LOGO_ALT_TEXT')}>
                             <img
-                                src={ThoughtspotLogo}
-                                alt="logo"
+                                src={TSLogo}
+                                alt={t('TS_LOGO_ALT_TEXT')}
                                 className="thoughtspotLogo"
                             />
                         </a>
                     </h1>
-                </div>
-                <div>
-                    <Button label="Sign In" type="secondary" />
-                    <Button label="Sign up" type="primary" />
                 </div>
             </div>
         </section>

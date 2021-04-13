@@ -127,8 +127,10 @@ disabledActions: Action.EditTitle
 +
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
+
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the visualization page.
+
 
 hiddenActions [small]_optional_::
 _Array of strings_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -151,8 +153,10 @@ hiddenActions: Action.DownloadAsPdf
 +
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
+
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  visualization page.
+
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.

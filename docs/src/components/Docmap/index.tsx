@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './index.scss';
 import { INTRO_WRAPPER_MARGIN_TOP } from '../../constants/uiConstants';
+import t from '../../utils/lang-utils';
+import './index.scss';
 
 const Docmap = (props: {
     docContent: string;
@@ -19,11 +20,14 @@ const Docmap = (props: {
         if (tocEl) {
             const { hash } = props.location;
             if (hash) {
-                tocEl = toggleActiveClass(tocEl, hash);
-                /* To position the element when anchor tag is clicked on right nav */
-                document.documentElement.scrollTop =
-                    (document.querySelector(`${hash}`) as HTMLElement)
-                        .offsetTop - INTRO_WRAPPER_MARGIN_TOP;
+                const ele = document.querySelector(hash);
+                if (ele) {
+                    tocEl = toggleActiveClass(tocEl, hash);
+                    /* To position the element when anchor tag is clicked on right nav */
+                    document.documentElement.scrollTop =
+                        (ele as HTMLElement).offsetTop -
+                        INTRO_WRAPPER_MARGIN_TOP;
+                }
             }
             setToc(tocEl.innerHTML);
         } else {
@@ -54,7 +58,7 @@ const Docmap = (props: {
                     zIndex: props.options.length > 0 ? -1 : 0,
                 }}
             >
-                <p className="tocTitle">On this page</p>
+                <p className="tocTitle">{t('RIGHT_NAV_SIDERBAR_TITLE')}</p>
                 <div dangerouslySetInnerHTML={{ __html: toc }} />
             </div>
         )

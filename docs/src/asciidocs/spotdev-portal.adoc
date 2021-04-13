@@ -133,6 +133,7 @@ hiddenActions: [Action.ReplaySearch]
 Or
 
 +
+
 ----
 hiddenActions: ['replaySearch']
 ----
@@ -141,6 +142,7 @@ hiddenActions: ['replaySearch']
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 +
+
 For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 

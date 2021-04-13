@@ -7,3 +7,4 @@ export const MAX_LEFT_NAV_WIDTH_DESKTOP: number = 400;
 export const MIN_LEFT_NAV_WIDTH_TABLET: number = 150;
 export const MAX_LEFT_NAV_WIDTH_TABLET: number = 400;
 export const INTRO_WRAPPER_MARGIN_TOP: number = 81;
+export const MAIN_HEIGHT_WITHOUT_DOC_CONTENT: string = '96vh';
