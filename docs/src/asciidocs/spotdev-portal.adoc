@@ -8,7 +8,7 @@
 
 The ThoughtSpot Developer portal allows you to explore the ThoughtSpot APIs and developer tools, and build your web applications with ThoughtSpot content.
 The portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
-The portal also allows authorized users to customize and rebrand the look and feel of the UI and  configure custom actions to an embedded visualization or pinboard.
+The portal also allows authorized users to customize and rebrand the look and feel of the UI and  configure custom actions in an embedded visualization or pinboard.
 
 == Access Developer portal
 
@@ -17,7 +17,7 @@ To access the Developer portal, follow these steps:
 . Log in to your ThoughtSpot Cloud application instance.
 . Navigate to the **Develop** tab.
 +
-The **Develop** tab in the ThoughtSpot application is available only for the ThoughtSpot users with admin or developer privileges.
+The **Develop** tab in the ThoughtSpot application is available only for ThoughtSpot users with admin or developer privileges.
 
 +
 For more information on configuring a user group with developer privileges, see the xref:user-roles.adoc[User configuration].
@@ -301,7 +301,7 @@ disabledActions: ['downloadAsPdf']
 * To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
 +
 ----
-hiddenActions: [DownloadAsPdf]
+hiddenActions: [Action.DownloadAsPdf]
 ----
 +
 Or
