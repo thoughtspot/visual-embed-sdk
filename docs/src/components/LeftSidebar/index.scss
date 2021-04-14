@@ -77,6 +77,9 @@ aside {
                     padding-right: $padding-xs;
                     color: $primarycolor;
                     font-weight: $font-weight-bold;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
                     & > a {
                         color: $primarycolor;
                         font-weight: $font-weight-bold;
@@ -120,6 +123,20 @@ aside {
             p {
                 padding-right: $padding-xs;
                 margin: $margin-xs 0;
+            }
+        }
+
+        .iconSpan {
+            position: relative;
+            right: 8px;
+            top: 0px;
+            float: right;
+            padding-left: 15px;
+
+            img {
+                width: $arrow-icon-width;
+                position: relative;
+                top: 2px;
             }
         }
     }

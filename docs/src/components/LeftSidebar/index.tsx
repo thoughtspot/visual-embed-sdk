@@ -13,6 +13,7 @@ import {
     MIN_LEFT_NAV_WIDTH_TABLET,
     MAX_MOBILE_RESOLUTION,
 } from '../../constants/uiConstants';
+import { collapseAndExpandLeftNav,addExpandCollapseImages } from './helper';
 import ClearIcon from '../../assets/svg/clear.svg';
 import MenuIcon from '../../assets/svg/menu.svg';
 import NavContent from './NavContent';
@@ -33,6 +34,9 @@ const LeftSideBar = (props: {
     const [navContent, setNavContent] = useState('');
     const { width, ref, height } = useResizeDetector();
 
+    const isMaxTabletResolution = !(props.docWidth < MAX_TABLET_RESOLUTION);
+    const isMaxMobileResolution = !(props.docWidth < MAX_MOBILE_RESOLUTION);
+
     useEffect(() => {
         const divElement = document.createElement('div');
         divElement.innerHTML = props.navContent;
@@ -42,20 +46,22 @@ const LeftSideBar = (props: {
         if (tag) {
             tag.classList.add('active');
         }
-        setNavContent(divElement.innerHTML);
-    }, [params, props.navContent]);
+        const updatedHTML = addExpandCollapseImages(divElement.innerHTML, params[TS_PAGE_ID_PARAM]);
+        setNavContent(updatedHTML);
+    }, [params[NAV_PREFIX], params[TS_PAGE_ID_PARAM], props.navContent]);
 
     useEffect(() => {
         props.handleLeftNavChange(width);
     }, [width]);
 
+    useEffect(() => {
+        collapseAndExpandLeftNav(ref.current as HTMLDivElement, props.setLeftNavOpen);
+    }, [params[TS_PAGE_ID_PARAM], isMaxMobileResolution, navContent]);
+
     const onMenuClick = () => {
         props.setLeftNavOpen(!props.leftNavOpen);
         document.documentElement.scrollTop = 0;
     };
-
-    const isMaxTabletResolution = !(props.docWidth < MAX_TABLET_RESOLUTION);
-    const isMaxMobileResolution = !(props.docWidth < MAX_MOBILE_RESOLUTION);
 
     const renderLeftNav = () => {
         return isMaxMobileResolution ? (
