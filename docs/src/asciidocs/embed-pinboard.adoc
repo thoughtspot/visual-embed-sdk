@@ -90,8 +90,8 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
     document.getElementById('ts-embed'),  
     {
 	frameParams: {
-		width: 100%,
-		height: 100%,
+		width: '100%',
+		height: '100%',
 	},
     disabledActions: [],
     disabledActionReason: '<reason for disabling>'
@@ -102,7 +102,7 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
     
 });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the pinboard.
+frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the pinboard. You can set the `width` and `height` attribute values in pixels or as a percentage. 
 
 fullHeight::
 _Boolean_. Adjusts the height of the embedded widget to fit the entire pinboard.
@@ -111,12 +111,12 @@ disabledActions::
 _Array of strings_. The action menu items to be disabled on the Pinboards page.
 +
 
-For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `present` string in the  `disabledActions` attribute.
+For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Present` action menu string in the `disabledActions` attribute.
 
 +
 [source,JavaScript]
 ----
-disabledActions: Action.present
+disabledActions: Action.Present
 ----
 +
 ++++
@@ -125,27 +125,34 @@ disabledActions: Action.present
 +
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
+
+[NOTE]
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the pinboards page.
+
+disabledActionReason::
+_String_. Reason for disabling an action on a pinboard page.
+
+
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
 +
 
-For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `addFilter` string in the `hiddenActions` attribute.
+For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `AddFilter` action menu string in the `hiddenActions` attribute.
 
 +
 [source,JavaScript]
 ----
-hiddenActions: Action.addFilter
+hiddenActions: Action.AddFilter
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
-
 +
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
-disabledActionReason::
-_String_. Reason for disabling an action on a pinboard page.
+[NOTE]
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  pinboards page.
 
 pinboardId::
 _String_. The GUID of the pinboard.
@@ -240,7 +247,8 @@ pinboardEmbed.render();
 ----
 
 == Subscribe to events
-Register event handlers to subscribe to the events triggered by the embedded pinboard;  .
+Register event handlers to subscribe to the events triggered by the embedded pinboard.
+
 [source,javascript]
 ----
   pinboardEmbed.on(EmbedEvent.init, showLoader)
@@ -259,14 +267,14 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register ev
     	}
     })
 ----
-For a complete list of event types that you can register, see the link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent reference page, window=_blank].
+For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
 * Load the client application.
 * Try accessing a pinboard embedded in your application.
 * Verify the rendition.
-* If you have disabled a menu item, verify if the menu command is disabled on the *Pinboards* page.
+* If you have disabled a menu item, verify if the menu command is disabled on the pinboards page.
 * Verify the runtime filters.
 
 == Code sample

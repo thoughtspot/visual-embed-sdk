@@ -95,8 +95,8 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
     document.getElementById('ts-embed'), 
     {
 	  frameParams: {
-		width: 100%,
-		height: 100%,
+		width: '100%',
+		height: '100%',
 	},
 	  disabledActions: [],
 	  disabledActionReason: '<reason for disabling>',
@@ -107,18 +107,18 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
     },
 });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization.
+frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization. You can set the `width` and `height` attribute values in pixels or as a percentage. 
 
 disabledActions [small]_optional_::
 _Array of strings_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
-For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `editTitle` string in the  `disabledActions` attribute.
+For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `EditTitle` action menu string in the `disabledActions` attribute.
 
 
 +
 ----
-disabledActions: Action.editTitle
+disabledActions: Action.EditTitle
 ----
 +
 ++++
@@ -127,17 +127,21 @@ disabledActions: Action.editTitle
 +
 For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
+
+[NOTE]
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the visualization page.
+
+
 hiddenActions [small]_optional_::
 _Array of strings_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
 +
 
-For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `downloadAsPdf` string in the `hiddenActions` attribute.
-
+For example, to hide *Download As PDF* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `DownloadAsPdf` action menu string in the `hiddenActions` attribute.
 
 +
 [source,JavaScript]
 ----
-hiddenActions: Action.downloadAsPdf
+hiddenActions: Action.DownloadAsPdf
 ----
 
 
@@ -148,6 +152,11 @@ hiddenActions: Action.downloadAsPdf
 
 +
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+
+
+[NOTE]
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  visualization page.
+
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
@@ -273,14 +282,14 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register th
   })
  
 ----
-For a complete list of event types that you can register, see the link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent reference page, window=_blank].
+For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
 * Load the client application.
 * Try accessing a visualization embedded in your application.
 * Verify the rendition.
-* If you have disabled a menu item from the visualizations page, verify if the menu command is disabled.
+* If you have disabled a menu item from a visualizations page, verify if the menu command is disabled.
 * Verify the runtime filters.
 
 == Code sample

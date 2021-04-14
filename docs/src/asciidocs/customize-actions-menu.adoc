@@ -10,7 +10,7 @@ When you embed ThoughtSpot visualizations and pinboards, you can access the menu
 
 == Custom actions
 
-You can configure custom actions when you want to initiate an action in your application from the ThoughtSpot UI and provide the data requested by the user as a payload. When the custom action is clicked by the user, you can configure it to invoke a specific URL or a callback into your parent application.  
+You can configure a custom action when you want to initiate an action in your application from the ThoughtSpot UI and provide the data requested by the user as a payload. When the custom action is clicked by the user, you can configure it to invoke a specific URL or a callback into your parent application.  
 ////
 For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 ////
@@ -29,6 +29,12 @@ To add custom menu item:
 +
 If you want to use a URL target for the custom action, make sure it is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
 
+. Specify an ID for the custom action.
++
+To disable or hide this custom action on a ThoughtSpot page using Visual Embed SDK, use this ID in the `disabledActions` or  `hiddenActions` attribute.
+
++
+For example, if you have created a custom action with the label as *Billing Renewal*  and its ID as *billing-renewal*, use `billing-renewal` in the `disabledActions` or `hiddenActions` attribute in the SDK to disable or hide the custom action on a ThoughtSpot application page.
 . Specify the position of the action button. You can set the action as a primary menu or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
 . Select the ThoughtSpot application pages to which you want to add the menu item.
@@ -55,7 +61,7 @@ To add a callback function:
 . Add an ID for the callback function.
 
 +
-Make sure you use the same ID to register the callback function on your host application. 
+This ID is used as a reference for the custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable or hide the custom action on a ThoughtSpot application page.
 
 . Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image:./images/icon-more-10px.png[the more options menu].
 
