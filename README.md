@@ -30,7 +30,7 @@ import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 ```
 <br/>
 
-## Live Demo
+## Live Playground
 
 Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere).
 
