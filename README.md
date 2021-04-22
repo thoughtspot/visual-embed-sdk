@@ -25,16 +25,8 @@ The SDK is written in TypeScript and is also provided both as ES Module (ESM) an
 // ESM
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 
-// CommonJS
-var TsEmbedSDK = require('tsembed');
-
-// RequireJS (AMD)
-define(['tsembed'], function (TsEmbedSDK) {
-    // ...
-});
-
-// Global
-var TsEmbedSDK = window.tsembed;
+// <script>
+<script src='https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.js'></script>
 ```
 <br/>
 
