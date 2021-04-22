@@ -36,6 +36,11 @@ define(['tsembed'], function (TsEmbedSDK) {
 // Global
 var TsEmbedSDK = window.tsembed;
 ```
+<br/>
+
+## Live Demo
+
+Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere).
 
 <br/>
 
