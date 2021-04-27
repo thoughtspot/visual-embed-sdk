@@ -21,8 +21,8 @@ const urlRegex = new RegExp(
 );
 
 /**
- * Parse and construct the ThoughtSpot host name or IP address
- * from the embed configuration object
+ * Parse and construct the ThoughtSpot hostname or IP address
+ * from the embed configuration object.
  * @param config
  */
 export const getThoughtSpotHost = (config: EmbedConfig): string => {
@@ -61,7 +61,7 @@ export const getV2BasePath = (config: EmbedConfig): string => {
 /**
  * It is a good idea to keep URLs under 2000 chars.
  * If this is ever breached, since we pass view configuration through
- * URL params, we would like to log an warning.
+ * URL params, we would like to log a warning.
  * Reference: https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers
  */
 export const URL_MAX_LENGTH = 2000;

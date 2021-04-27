@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2020
  *
- * Common utility functions for ThoughtSpot Embed UI SDK
+ * Common utility functions for ThoughtSpot Visual Embed SDK
  *
  * @summary Utils
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
@@ -10,10 +10,10 @@
 import { QueryParams, RuntimeFilter } from './types';
 
 /**
- * Construct a runtime filters query string from the given filters
+ * Construct a runtime filters query string from the given filters.
  * Refer to the following docs for more details on runtime filter syntax:
- * https://docs.thoughtspot.com/6.2/app-integrate/runtime-filters/apply-runtime-filter.html
- * https://docs.thoughtspot.com/6.2/app-integrate/runtime-filters/runtime-filter-operators.html#
+ * https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html
+ * https://cloud-docs.thoughtspot.com/admin/ts-cloud/runtime-filter-operators.html
  * @param runtimeFilters
  */
 export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
@@ -38,7 +38,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
 
 /**
  * Convert a value to a string representation to be sent as a query
- * parameter to the ThoughtSpot app
+ * parameter to the ThoughtSpot app.
  * @param value Any parameter value
  */
 const serializeParam = (value: any) => {
@@ -55,9 +55,9 @@ const serializeParam = (value: any) => {
 };
 
 /**
- * Convert a value to string:
- * in case of an array we convert is to CSV
- * in case of any other type we directly return the value
+ * Convert a value to a string:
+ * in case of an array, we convert it to CSV.
+ * in case of any other type, we directly return the value.
  * @param value
  */
 const paramToString = (value: any) =>
@@ -92,7 +92,7 @@ export const getQueryParamString = (
 
 /**
  * Get a string representation of a dimension value in CSS
- * If numeric, it is considered in pixels
+ * If numeric, it is considered in pixels.
  * @param value
  */
 export const getCssDimension = (value: number | string): string => {

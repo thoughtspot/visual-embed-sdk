@@ -42,7 +42,7 @@ const V1EventMap = {
 };
 
 /**
- * Perform authentication on the ThoughtSpot app as applicable
+ * Perform authentication on the ThoughtSpot app as applicable.
  */
 const handleAuth = () => {
     const authConfig = {
@@ -54,7 +54,7 @@ const handleAuth = () => {
 
 /**
  * Initialize the ThoughtSpot embed settings globally and perform
- * authentication if applicable
+ * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
  */
@@ -71,17 +71,17 @@ export interface LayoutConfig {}
  */
 export interface FrameParams {
     /**
-     * The width of the iFrame (unit is pixels if numeric)
+     * The width of the iFrame (unit is pixels if numeric).
      */
     width?: number | string;
     /**
-     * The height of the iFrame (unit is pixels if numeric)
+     * The height of the iFrame (unit is pixels if numeric).
      */
     height?: number | string;
 }
 
 /**
- * The configuration object for an embedded view
+ * The configuration object for an embedded view.
  */
 export interface ViewConfig {
     /**
@@ -129,40 +129,40 @@ export interface ViewConfig {
  */
 export class TsEmbed {
     /**
-     * The DOM node where the ThoughtSpot app is to be embedded
+     * The DOM node where the ThoughtSpot app is to be embedded.
      */
     private el: Element;
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
-     * will be rendered
+     * will be rendered.
      */
     protected iFrame: HTMLIFrameElement;
 
     /**
-     * The ThoughtSpot host name or IP address
+     * The ThoughtSpot hostname or IP address
      */
     protected thoughtSpotHost: string;
 
     /*
-     * This the base to access ThoughtSpot V2.
+     * This is the base to access ThoughtSpot V2.
      */
     protected thoughtSpotV2Base: string;
 
     /**
      * A map of event handlers for particular message types triggered
-     * by the embdedded app; multiple event handlers can be registered
-     * against a particular message type
+     * by the embedded app; multiple event handlers can be registered
+     * against a particular message type.
      */
     private eventHandlerMap: Map<string, MessageCallback[]>;
 
     /**
-     * A flag that is set to true post render
+     * A flag that is set to true post render.
      */
     private isRendered: boolean;
 
     /**
-     * A flag to mark if an error has occurred
+     * A flag to mark if an error has occurred.
      */
     private isError: boolean;
 
@@ -177,7 +177,7 @@ export class TsEmbed {
 
     /**
      * Gets a reference to the root DOM node where
-     * the embedded content will appear
+     * the embedded content will appear.
      * @param domSelector
      */
     private getDOMNode(domSelector: DOMSelector) {
@@ -187,7 +187,7 @@ export class TsEmbed {
     }
 
     /**
-     * Throws error encountered during initialization
+     * Throws error encountered during initialization.
      */
     private throwInitError() {
         this.handleError('You need to init the ThoughtSpot SDK module first');
@@ -216,10 +216,10 @@ export class TsEmbed {
     }
 
     /**
-     * Adds a global event listener to window for "message" events
-     * We detect if a particular event is targeted to this particular
+     * Adds a global event listener to window for "message" events.
+     * ThoughtSpot detects if a particular event is targeted to this
      * embed instance through an identifier contained in the payload,
-     * and execute the registere callbacks accordingly
+     * and executes the registered callbacks accordingly.
      */
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
@@ -231,7 +231,7 @@ export class TsEmbed {
     }
 
     /**
-     * Constructs the base URL string to load the ThoughtSpot app
+     * Constructs the base URL string to load the ThoughtSpot app.
      */
     protected getEmbedBasePath(queryString: string): string {
         const basePath = [
@@ -246,11 +246,11 @@ export class TsEmbed {
     }
 
     /**
-     * Constructs the base URL string to load v1 of the ThoughtSpot app
-     * This is used for pinboards, visualizations and full app embedding
-     * @param queryString Query string to append to the URL
-     * @param isAppEmbed A Boolean parameter to specify if we're embedding
-     * the full app
+     * Constructs the base URL string to load v1 of the ThoughtSpot app.
+     * This is used for embedding pinboards, visualizations, and full application.
+     * @param queryString The query string to append to the URL.
+     * @param isAppEmbed A Boolean parameter to specify if you are embedding
+     * the full application.
      */
     protected getV1EmbedBasePath(
         queryString: string,
@@ -272,7 +272,7 @@ export class TsEmbed {
 
     /**
      * Renders the embedded ThoughtSpot app in an iframe and sets up
-     * event listeners
+     * event listeners.
      * @param url
      * @param frameOptions
      */
@@ -284,7 +284,7 @@ export class TsEmbed {
             this.throwInitError();
         }
         if (url.length > URL_MAX_LENGTH) {
-            // warn: URL too long
+            // warn: The URL is too long
         }
 
         this.executeCallbacks(EmbedEvent.Init, {
@@ -338,7 +338,7 @@ export class TsEmbed {
     /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
-     * @param data The payload the event handler will be invoked with
+     * @param data The payload invoked with the event handler
      */
     protected executeCallbacks(eventType: EmbedEvent, data: any): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
@@ -346,7 +346,7 @@ export class TsEmbed {
     }
 
     /**
-     * Returns the ThoughtSpot host name or IP address
+     * Returns the ThoughtSpot hostname or IP address.
      */
     protected getThoughtSpotHost(): string {
         return this.thoughtSpotHost;
@@ -355,7 +355,7 @@ export class TsEmbed {
     /**
      * Gets the v1 event type (if applicable) for the EmbedEvent type
      * @param eventType The v2 event type
-     * @returns The correspding v1 event type if one exists
+     * @returns The corresponding v1 event type if one exists
      * or else the v2 event type itself
      */
     protected getCompatibleEventType(eventType: EmbedEvent): EmbedEvent {
@@ -363,8 +363,9 @@ export class TsEmbed {
     }
 
     /**
-     * Registers an event listener to be triggered when the ThoughtSpot app
-     * sends an event of a particular message type to the host application
+     * Registers an event listener to trigger an alert when the ThoughtSpot app
+     * sends an event of a particular message type to the host application.
+     *
      * @param messageType The message type
      * @param callback A callback function
      */

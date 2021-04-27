@@ -1,10 +1,10 @@
 /**
  * Copyright (c) 2021
  *
- * Embed pinboard or visualization
- * https://docs.thoughtspot.com/5.2/app-integrate/embedding-viz/embed-a-viz.html
+ * Embed a ThoughtSpot pinboard or visualization
+ * https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=embed-a-viz
  *
- * @summary Pinboard & viz embed
+ * @summary Pinboard & visualization embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
@@ -20,25 +20,25 @@ import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
 
 /**
- * The configuration for the embedded pinboard view
+ * The configuration for the embedded pinboard or visualization page view.
  * @Category Pinboards and Charts
  */
 export interface PinboardViewConfig extends ViewConfig {
     /**
      * If set to true, the iFrame will adjust to the full height
-     * of the pinboard after loading
+     * of the pinboard after loading.
      */
     fullHeight?: boolean;
     /**
-     * If set to true, context menu in visualizations will be enabled
+     * If set to true, the context menu in visualizations will be enabled.
      */
     enableVizTransformations?: boolean;
     /**
-     * The pinboard to display in the embedded view
+     * The pinboard to display in the embedded view.
      */
     pinboardId: string;
     /**
-     * The visualization within the pinboard to display
+     * The visualization within the pinboard to display.
      */
     vizId?: string;
 }
@@ -57,7 +57,7 @@ export class PinboardEmbed extends V1Embed {
 
     /**
      * Construct a map of params to be passed on to the
-     * embedded pinboard or viz
+     * embedded pinboard or visualization.
      */
     private getEmbedParams() {
         const params = {};
@@ -89,12 +89,12 @@ export class PinboardEmbed extends V1Embed {
     }
 
     /**
-     * Construct the URL of the embedded ThoughtSpot pinboard or viz
-     * to be loaded within the iframe
-     * @param pinboardId The GUID of the pinboard
-     * @param vizId The optional GUID of a visualization within the pinboard
+     * Construct the URL of the embedded ThoughtSpot pinboard or visualization
+     * to be loaded within the iframe.
+     * @param pinboardId The GUID of the pinboard.
+     * @param vizId The optional GUID of a visualization within the pinboard.
      * @param runtimeFilters A list of runtime filters to be applied to
-     * the pinboard or viz on load
+     * the pinboard or visualization on load.
      */
     private getIFrameSrc(
         pinboardId: string,
@@ -120,7 +120,7 @@ export class PinboardEmbed extends V1Embed {
 
     /**
      * Set the iframe height as per the computed height received
-     * from the ThoughtSpot app
+     * from the ThoughtSpot app.
      * @param data The event payload
      */
     private updateIFrameHeight = (data: MessagePayload) => {
@@ -128,9 +128,9 @@ export class PinboardEmbed extends V1Embed {
     };
 
     /**
-     * Render an embedded ThoughtSpot pinboard or viz
-     * @param renderOptions An object specifying the pinboard id,
-     * viz id and the runtime filters
+     * Render an embedded ThoughtSpot pinboard or visualization
+     * @param renderOptions An object specifying the pinboard ID,
+     * visualization ID and the runtime filters.
      */
     public render(): PinboardEmbed {
         const { pinboardId, vizId, runtimeFilters } = this.viewConfig;

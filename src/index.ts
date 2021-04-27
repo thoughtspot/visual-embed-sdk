@@ -1,10 +1,10 @@
 /**
  * Copyright (c) 2020
  *
- * ThoughtSpot Embed UI SDK for embedding ThoughtSpot analytics
+ * ThoughtSpot Visual Embed SDK for embedding ThoughtSpot analytics
  * in other web applications.
  *
- * @summary ThoughtSpot Embed UI SDK
+ * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 

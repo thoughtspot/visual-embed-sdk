@@ -1,15 +1,15 @@
 /**
  * Copyright (c) 2020
  *
- * TypeScript type definitions for ThoughtSpot Embed UI SDK
+ * TypeScript type definitions for ThoughtSpot Visual Embed SDK
  *
  * @summary Type definitions for Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
 /**
- * The authentication mechanism to be followed
- * for the embedded app
+ * The authentication mechanism for allowing access to the
+ * the embedded app
  */
 // eslint-disable-next-line no-shadow
 export enum AuthType {
@@ -26,9 +26,10 @@ export enum AuthType {
      */
     AuthServer = 'AuthServer',
     /**
-     * Use ThoughtSpot login API to authenticate to the cluster directly
-     * Warning: This feature is primarily intended for developer testing and it is
-     * strongly advised not to use this in production
+     * Use the ThoughtSpot login API to authenticate to the cluster directly.
+     *
+     * Warning: This feature is primarily intended for developer testing. It is
+     * strongly advised not to use this authentication method in production.
      */
     Basic = 'Basic',
 }
@@ -55,7 +56,7 @@ export interface EmbedConfig {
      * authentication token. A GET request is made to the
      * authentication API endpoint, which  returns the token
      * as a plaintext response. For trusted authentication,
-     * the authEndpoint or getAuthToken attribute is required.
+     * the `authEndpoint` or `getAuthToken` attribute is required.
      */
     authEndpoint?: string;
     /**
@@ -73,13 +74,14 @@ export interface EmbedConfig {
 
     /**
      * [Basic] The ThoughtSpot login password corresponding to the user name
-     * Warning: This feature is primarily intended for developer testing and it is
-     * strongly advised not to use this in production.
+     *
+     * Warning: This feature is primarily intended for developer testing. It is
+     * strongly advised not to use this authentication method in production.
      */
     password?: string;
 
     /**
-     * [SSO] For SSO Auth, if `noRedirect` is true, it will open the SAML auth
+     * [SSO] For SSO Authentication, if `noRedirect` is set to true, it will open the SAML auth
      * flow in a popup, instead of redirecting browser in place.
      *
      * @default false
@@ -163,8 +165,8 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * A filter that can be applied to ThoughtSpot answers, pinboards or
- * visualizations at runtime
+ * A filter that can be applied to ThoughtSpot answers, pinboards, or
+ * visualizations at runtime.
  */
 export interface RuntimeFilter {
     /**
@@ -177,13 +179,13 @@ export interface RuntimeFilter {
     operator: RuntimeFilterOp;
     /**
      * The list of operands. Some operators like EQ, LE accept
-     * a single operand whereas other like BW, IN accept multiple operands
+     * a single operand, whereas other operators like BW and IN accept multiple operands.
      */
     values: (number | boolean | string)[];
 }
 
 /**
- * Event types emitted by the embedded ThoughtSpot application
+ * Event types emitted by the embedded ThoughtSpot application.
  */
 // eslint-disable-next-line no-shadow
 export enum EmbedEvent {
@@ -194,7 +196,7 @@ export enum EmbedEvent {
     Init = 'init',
     /**
      * Authentication has either succeeded or failed.
-     * @return isLoggedIn - A Boolean specifying whether authentication was successful
+     * @return isLoggedIn - A Boolean specifying whether authentication was successful.
      */
     AuthInit = 'authInit',
     /**
@@ -219,14 +221,14 @@ export enum EmbedEvent {
      */
     QueryChanged = 'queryChanged',
     /**
-     * A drill down operation has been performed
-     * @return additionalFilters - Any additonal filters applied
+     * A drill down operation has been performed.
+     * @return additionalFilters - Any additional filters applied
      * @return drillDownColumns - The columns on which drill down was performed
      * @return nonFilteredColumns - The columns that were not filtered
      */
     Drilldown = 'drillDown',
     /**
-     * One or more data sources have been selected
+     * One or more data sources have been selected.
      * @return dataSourceIds - the list of data sources
      */
     DataSourceSelected = 'dataSourceSelected',
@@ -237,7 +239,7 @@ export enum EmbedEvent {
      */
     CustomAction = 'customAction',
     /**
-     * An error has occurred
+     * An error has occurred.
      * @return error - An error object or message
      */
     Error = 'Error',
@@ -247,12 +249,12 @@ export enum EmbedEvent {
      */
     Alert = 'alert',
     /**
-     * The ThoughtSpot auth session has expired
+     * The ThoughtSpot auth session has expired.
      * @hidden
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
-     * The height of the embedded pinboard or visualization has been computed
+     * The height of the embedded pinboard or visualization has been computed.
      * @return data - The height of the embedded pinboard or visualization
      */
     EmbedHeight = 'EMBED_HEIGHT',
@@ -263,7 +265,7 @@ export enum EmbedEvent {
     V1Data = 'exportVizDataToParent',
     /**
      * Emitted when the embed does not have cookie access. This
-     * happens on Safari where 3rd party cookies are blocked by default.
+     * happens on Safari where third-party cookies are blocked by default.
      *
      * @version 1.1.0
      */
@@ -302,27 +304,27 @@ export enum HostEvent {
 
 /**
  * The different visual modes that the data sources panel within
- * search could appear in, i.e., hidden, collapsed or expanded
+ * search could appear in, i.e., hidden, collapsed, or expanded.
  */
 // eslint-disable-next-line no-shadow
 export enum DataSourceVisualMode {
     /**
-     * Data source panel is hidden
+     * Data source panel is hidden.
      */
     Hidden = 'hide',
     /**
-     * Data source panel is collapsed but the user can manually expand it
+     * Data source panel is collapsed, but the user can manually expand it.
      */
     Collapsed = 'collapse',
     /**
-     * Data source panel is expanded but the user can manually collapse it
+     * Data source panel is expanded, but the user can manually collapse it.
      */
     Expanded = 'expand',
 }
 
 /**
  * The query params passed down to the embedded ThoughtSpot app
- * containing configuration and/or visual info
+ * containing configuration and/or visual information.
  */
 // eslint-disable-next-line no-shadow
 export enum Param {
@@ -341,7 +343,7 @@ export enum Param {
 
 /**
  * The list of actions that can be performed on visual ThoughtSpot
- * entities, i.e., answers and pinboards
+ * entities, such as answers and pinboards.
  */
 // eslint-disable-next-line no-shadow
 export enum Action {

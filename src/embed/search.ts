@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2021
  *
- * Embed search or a saved answer
+ * Embed ThoughtSpot search or a saved answer
  *
  * @summary Search embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
@@ -18,7 +18,7 @@ import { ViewConfig, TsEmbed } from './base';
  */
 export interface SearchViewConfig extends ViewConfig {
     /**
-     * If set to true, the data sources panel is collapsed on load
+     * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
      */
     collapseDataSources?: boolean;
@@ -33,7 +33,7 @@ export interface SearchViewConfig extends ViewConfig {
      */
     hideResults?: boolean;
     /**
-     * If set to true, the search assist feature is enabled.
+     * If set to true, the Search Assist feature is enabled.
      */
     enableSearchAssist?: boolean;
     /**
@@ -57,7 +57,7 @@ export interface SearchViewConfig extends ViewConfig {
  */
 export class SearchEmbed extends TsEmbed {
     /**
-     * The view configuration for the embedded ThoughtSpot search
+     * The view configuration for the embedded ThoughtSpot search.
      */
     private viewConfig: SearchViewConfig;
 
@@ -68,7 +68,7 @@ export class SearchEmbed extends TsEmbed {
 
     /**
      * Get the state of the data sources panel that the embedded
-     * ThoughtSpot search will be initialized with
+     * ThoughtSpot search will be initialized with.
      */
     private getDataSourceMode() {
         let dataSourceMode = DataSourceVisualMode.Expanded;
@@ -138,7 +138,7 @@ export class SearchEmbed extends TsEmbed {
     }
 
     /**
-     * Render ThoughtSpot search
+     * Render the embedded ThoughtSpot search
      */
     public render(): SearchEmbed {
         super.render();

@@ -2,7 +2,7 @@
  * Copyright (c) 2021
  *
  * Full application embedding
- * https://docs.thoughtspot.com/5.2/app-integrate/embedding-viz/about-full-embed.html
+ * https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=full-embed
  *
  * @summary Full app embed
  * @module
@@ -47,12 +47,12 @@ export enum Page {
 export interface AppViewConfig extends ViewConfig {
     /**
      * If true, the main navigation bar within the ThoughtSpot app
-     * is displayed (hidden by default).
+     * is displayed. By default, the navigation bar is hidden.
      */
     showPrimaryNavbar?: boolean;
     /**
-     * An URL path within the app that is to be embedded.
-     * If both path and pageId values are defined, the path definition
+     * A URL path within the app that is to be embedded.
+     * If both path and pageId attributes are defined, the path definition
      * takes precedence.
      */
     path?: string;
@@ -62,8 +62,8 @@ export interface AppViewConfig extends ViewConfig {
      */
     pageId?: Page;
     /**
-     * This puts a filter tag on the Application, all metadata lists in the app
-     * like pinboards, Answers etc would be filtered by this tag.
+     * This puts a filter tag on the application. All metadata lists in the application, such as
+     * pinboards and answers, would be filtered by this tag.
      */
     tag?: string;
 }
@@ -81,8 +81,8 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
-     * Constructs a map of params to be passed on to the
-     * embedded pinboard or viz.
+     * Constructs a map of parameters to be passed on to the
+     * embedded pinboard or visualization.
      */
     private getEmbedParams() {
         const params = {};
@@ -113,7 +113,7 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Constructs the URL of the ThoughtSpot app page to be rendered.
-     * @param pageId The id of the page to be embedded
+     * @param pageId The ID of the page to be embedded.
      */
     private getIFrameSrc(pageId: string, runtimeFilters: RuntimeFilter[]) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
@@ -131,8 +131,8 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
-     * Gets the ThoughtSpot route of the page for a particular page id.
-     * @param pageId The identifier for a page in the ThoughtSpot app
+     * Gets the ThoughtSpot route of the page for a particular page ID.
+     * @param pageId The identifier for a page in the ThoughtSpot app.
      */
     private getPageRoute(pageId: Page) {
         switch (pageId) {
@@ -152,8 +152,8 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Formats the path provided by the user.
-     * @param path The URL path
-     * @returns The URL path that the embedded app understands
+     * @param path The URL path.
+     * @returns The URL path that the embedded app understands.
      */
     private formatPath(path: string) {
         if (!path) {
@@ -169,9 +169,9 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
-     * Renders an embedded app in the ThoughtSpot app.
-     * @param renderOptions An object containing the page id
-     * to be embedded
+     * Renders the embedded application pages in the ThoughtSpot app.
+     * @param renderOptions An object containing the page ID
+     * to be embedded.
      */
     public render(): AppEmbed {
         super.render();

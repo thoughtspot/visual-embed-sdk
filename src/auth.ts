@@ -39,10 +39,10 @@ function isAtSSORedirectUrl(): boolean {
  * Remove the SSO redirect URL marker
  */
 function removeSSORedirectUrlMarker(): void {
-    // Note (sunny): this will leave a # around even if it was not in the URL to
-    // being with, trying to remove the hash by changing window.location will reload
+    // Note (sunny): This will leave a # around even if it was not in the URL
+    // to begin with. Trying to remove the hash by changing window.location will reload
     // the page which we don't want. We'll live with adding an unnecessary hash to the
-    // parent page's URL until we find any use case where that creates an issue
+    // parent page URL until we find any use case where that creates an issue.
     window.location.hash = window.location.hash.replace(
         SSO_REDIRECTION_MARKER_GUID,
         '',
@@ -90,8 +90,9 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
 /**
  * Perform basic authentication to the ThoughtSpot cluster using the cluster
  * credentials.
- * Warning: This feature is primarily intended for developer testing and it is
- * strongly advised not to use this in production
+ *
+ * Warning: This feature is primarily intended for developer testing. It is
+ * strongly advised not to use this authentication method in production.
  * @param embedConfig The embed configuration
  */
 export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
@@ -169,20 +170,20 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
     }
 
     // we have already tried authentication and it did not succeed, restore
-    // the current url to the original one and call the callback
+    // the current URL to the original one and invoke the callback.
     if (isAtSSORedirectUrl()) {
         removeSSORedirectUrlMarker();
         loggedInStatus = false;
         return;
     }
 
-    // redirect for SSO, when SSO is done this page will be loaded
-    // again and the same JS will execute again
+    // redirect for SSO, when the SSO authentication is done, this page will be loaded
+    // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
         : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
 
-    // bring back the page to the same url
+    // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.SSO_LOGIN_TEMPLATE(
         encodeURIComponent(ssoRedirectUrl),
     )}`;
@@ -198,7 +199,7 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
 
 /**
  * Perform authentication on the ThoughtSpot cluster
- * @param embedConfig The embed config
+ * @param embedConfig The embed configuration
  */
 export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
     const { authType } = embedConfig;
