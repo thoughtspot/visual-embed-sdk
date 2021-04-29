@@ -311,6 +311,16 @@ export class TsEmbed {
 
                 this.iFrame = this.iFrame || document.createElement('iframe');
                 this.iFrame.src = url;
+
+                // according to screenfull.js documentation
+                // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
+                this.iFrame.allowFullscreen = true;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                this.iFrame.webkitallowfullscreen = true;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                this.iFrame.mozallowfullscreen = true;
                 const width = getCssDimension(
                     frameOptions?.width || DEFAULT_EMBED_WIDTH,
                 );
