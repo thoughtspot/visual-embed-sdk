@@ -1,3 +1,4 @@
+import { config } from 'gatsby/dist/redux/reducers';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { appendToUrlHash } from './utils';
 
@@ -7,7 +8,7 @@ let samlCompletionPromise: Promise<void> = null;
 
 const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
 
-const EndPoints = {
+export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
     SSO_LOGIN_TEMPLATE: (targetUrl: string) =>
         `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
@@ -24,7 +25,6 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     const response = await fetch(authVerificationUrl, {
         credentials: 'include',
     });
-
     return response.status === 200;
 }
 
