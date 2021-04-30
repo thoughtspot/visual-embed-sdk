@@ -44,6 +44,14 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 authType::
 _String_. Authentication type. You can set the `authType` attribute to one of the following values:
 
+* `*None*`
++
+Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
+
++
+[WARNING]
+Do not use this authentication method in production environments.
+
 * `*Basic*`
 +
 Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
@@ -56,13 +64,9 @@ Do not use this authentication method in production environments.
 +
 Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
 
-* `*None*`
+** `*noRedirect*` _Optional_
 +
-Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
-
-+
-[WARNING]
-Do not use this authentication method in production environments.
+_Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of redirecting users to a web browser.
 
 +
 * `*AuthServer*`
