@@ -22,9 +22,15 @@ export const EndPoints = {
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
-    const response = await fetch(authVerificationUrl, {
-        credentials: 'include',
-    });
+    let response;
+    try {
+        response = await fetch(authVerificationUrl, {
+            credentials: 'include',
+        });
+    } catch (e) {
+        return false;
+    }
+
     return response.status === 200;
 }
 
