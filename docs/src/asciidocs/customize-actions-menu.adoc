@@ -5,7 +5,7 @@
 :page-pageid: customize-actions
 :page-description: Add custom actions
 
-When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. ThoughtSpot not just allows you to restrict user access to certain features or exclude the menu  actions that are not applicable to your application context. It also allows you to add custom actions of your choice.
+When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. ThoughtSpot not just allows you to restrict user access to certain features or exclude the menu actions that do not apply to your application context. It also allows you to add custom actions of your choice.
 
 
 == Custom actions
@@ -15,29 +15,52 @@ You can configure a custom action when you want to initiate an action in your ap
 For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 ////
 
-You can add a custom action as a primary menu item or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu]on the **Pinboards** and **Search Answers** page. You can also preview the position of the menu items when adding a custom action.
- 
+You can add a custom action as a primary button or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the **Pinboards** and **Search Answers** pages. You can also add the custom action to the contextual menu that opens when you right-click on a visualization. 
+
+[NOTE]
+====
+To add a custom action to the contextual menu, you must have the new Answer experience enabled on your cluster. For more information, see  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank].
+====
+
 == Add a custom menu item
 To add custom menu item:
 
 . Go to *Develop* > *Customizations* > *Actions*.
 . Click *Create action*.
-. Add a label for the custom action. For example, Billing Renewal.
+. Add a label for the custom action. For example, Send Survey.
 . Select the *URL* option.
 . Add the URL that you want to invoke when the user clicks the action label in the UI.
 
 +
-If you want to use a URL target for the custom action, make sure it is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
+If you want to use a URL target for the custom action, make sure the URL is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
 
 . Specify an ID for the custom action.
 +
 To disable or hide this custom action on a ThoughtSpot page using Visual Embed SDK, use this ID in the `disabledActions` or  `hiddenActions` attribute.
 
 +
-For example, if you have created a custom action with the label as *Billing Renewal*  and its ID as *billing-renewal*, use `billing-renewal` in the `disabledActions` or `hiddenActions` attribute in the SDK to disable or hide the custom action on a ThoughtSpot application page.
-. Specify the position of the action button. You can set the action as a primary menu or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu].
+For example, if you have a custom action labeled as *Send Survey* and its ID is  *send-survey*, use `send-survey` in the `disabledActions` parameter to disable and in the  `hiddenActions` parameter to hide the custom action on a ThoughtSpot application page.
 
+. To specify the position of the custom action button, select one of the following options:
+* *Primary*
++
+Sets the custom action as a primary button.
+* *Menu*
++
+Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu].
+
+* *Context menu*
++
+Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
+
++ 
+This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+
+. Preview  the position of the custom action.
 . Select the ThoughtSpot application pages to which you want to add the menu item.
+
++
+image::./images/custom-action-url.png[Custom Action]
 
 . Click *Add action*.
 +
@@ -45,6 +68,7 @@ The menu item is added to the ThoughtSpot application.
 The custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
 
 . To view the action you just added, click *My actions*.
+
 
 == Add a callback function
 
@@ -63,8 +87,21 @@ To add a callback function:
 +
 This ID is used as a reference for the custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable or hide the custom action on a ThoughtSpot application page.
 
-. Specify the position of the action button. You can set the callback function as a primary action, or as a menu command in the *More* menu image:./images/icon-more-10px.png[the more options menu].
+. To specify the position of the custom action button, select one of the following options:
+* *Primary*
++
+Sets the custom action as a primary button.
+* *Menu*
++
+Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu].
 
+* *Context menu*
++
+Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
++ 
+This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+
+. Preview  the position of the custom action.
 . Select the ThoughtSpot application pages to which you want to add the function.
 . Click *Add action*.
 . To view the action you just added, click *My actions*.
