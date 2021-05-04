@@ -1,0 +1,30 @@
+= Changelog
+
+:toc: true
+
+:page-title: Changelog
+:page-pageid: api-changelog
+:page-description: Changes to the SDK and APIs
+
+
+This changelog lists the enhancements, additions, and modifications to the Visual Embed SDK and REST APIs. 
+This changelog tracks only changes to the SDK and API. For information about the changes introduced in the Developer portal or ThoughtSpot application, see the link:https://cloud-docs.thoughtspot.com/release/notes.html[ThoughtSpot Cloud Release Notes, window=_blank]. 
+
+== May 2021
+
+=== Visual Embed SDK 1.2.0
+The ThoughtSpot 7 Cloud May release introduces the Visual Embed SDK 1.2.0 version with a minor update and backward-compatible improvements. 
+
+In this version, the `noRedirect` attribute is introduced in the *SearchEmbed*, *AppEmbed*, and *PinboardEmbed* SDK packages. The `noRedirect` attribute is available as an optional parameter for  the `SSO` `AuthType`. When set to `true`, the `noRedirect` attribute opens SAML SSO authentication workflow in a pop-up window, instead of redirecting users to a web browser. 
+ 
+=== REST APIs
+The ThoughtSpot 7 Cloud May release introduces the following new REST APIs:
+
+* `POST /tspublic/v1/user/updatepreference`
++
+You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience. 
++
+For more information, see xref:user-api.adoc#updatepreference-api[User API].
+
+* `GET /tspublic/v1/metadata/listas` 
+You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
