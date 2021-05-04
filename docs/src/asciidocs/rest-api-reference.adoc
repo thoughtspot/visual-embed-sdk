@@ -12,10 +12,11 @@ Use the following REST APIs for programmatically managing users, groups, session
 [options='header']
 |====
 |API service|Request URL|Description
-.4+|xref:user-api.adoc[User]|`*GET* /tspublic/v1/user/list`|Get all users, groups, and their inter-dependencies.
+.5+|xref:user-api.adoc[User]|`*GET* /tspublic/v1/user/list`|Get all users, groups, and their inter-dependencies.
 |`*POST* /tspublic/v1/user/updatepassword`|Change the password of a user account.
 |`*POST* /tspublic/v1/user/transfer/ownership`|Transfer ownership of all objects from one user to another.
 |`*POST* /tspublic/v1/user/sync`|Synchronize principal from your client application with ThoughtSpot.
+|`*POST* /tspublic/v1/user/updatepreference`|Modify a user profile.
 .2+|xref:group-api.adoc[Group]|`*POST* /tspublic/v1/group/addprivilege` |Add a privilege to a group.
 |`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group.
 .3+|xref:session-api.adoc[Session]|`*POST* /tspublic/v1/session/login` |Authenticate and login a user.
@@ -24,9 +25,10 @@ Use the following REST APIs for programmatically managing users, groups, session
 
 |xref:pinboarddata.adoc[Pinboard Data]|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from the ThoughtSpot application.
 |xref:pinboard-export-api.adoc[Pinboard export]|`*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
-.2+|xref:metadata-api.adoc[Metadata]|
+.3+|xref:metadata-api.adoc[Metadata]|
 `*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository.
 |`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
+|`*GET* /tspublic/v1/metadata/listas`| Get a list of metadata objects for a user or user group.
 .2+|xref:tml-api.adoc[TML API]| `*POST* /tspublic/v1/metadata/tml/import`|Imports ThoughtSpot Modeling Language (TML) objects.
 |`*POST* /tspublic/v1/metadata/tml/export`|Exports ThoughtSpot Modeling Language (TML) objects.
 |xref:search-data-api.adoc[Search data]|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.

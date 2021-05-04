@@ -80,6 +80,119 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
 The Data REST API returns the data formatted as JSON.
 . Retrieve the data from the JSON and embed it in your Web page, Web portal, or application.
 
+== Apply runtime filters
+
+Runtime filters allow you to apply filters to the data returned by the APIs. The filters are specified in the called URL as parameters. 
+
+You can use the following operators when applying Runtime filters on a visualization or pinboard.
+
+[width="50%" cols="1,2,1"]
+[options='header']
+|===
+|Operator|Description|Number of Values
+
+| `EQ`
+| equals
+| 1
+
+| `NE`
+| does not equal
+| 1
+
+| `LT`
+| less than
+| 1
+
+| `LE`
+| less than or equal to
+| 1
+
+| `GT`
+| greater than
+| 1
+
+| `GE`
+| greater than or equal to
+| 1
+
+| `CONTAINS`
+| contains
+| 1
+
+| `BEGINS_WITH`
+| begins with
+| 1
+
+| `ENDS_WITH`
+| ends with
+| 1
+
+| `BW_INC_MAX`
+| between inclusive of the higher value
+| 2
+
+| `BW_INC_MIN`
+| between inclusive of the lower value
+| 2
+
+| `BW_INC`
+| between inclusive
+| 2
+
+| `BW`
+| between non-inclusive
+| 2
+|===
+
+To apply runtime filters to a visualization object in the `tspublic/v1/pinboarddata` REST API call, use the following format:
+
+[source]
+----
+http://<ThoughtSpot-host>:<port>
+/callosum/v1/tspublic/v1/pinboarddata
+?id=<pinboard_id>
+&col1=<column_name\>&op1=<operator\>&val1=<value\>
+----
+To apply runtime filters to a visualization object in the REST API call, use the following format:
+ 
+[source]
+----
+http://<thoughtspot_server>:<port>
+/callosum/v1/tspublic/v1/pinboarddata
+?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+&col1=<column_name\>&op1=<operator\>&val1=<value\>
+----
+
+To add additional filters on a particular column, you can specify multiple values by separating them with `&` (ampersand) as in the example:
+ 
+[source]
+----
+ val1=foo&val1=bar
+----
+
+You can also use the `IN` operator for multiple values, as shown in this example:
+ 
+[source]
+----
+ col1=<column_name>&op1=IN&val1=<value>&val1=<value>
+----
+
+You can add additional filters by incrementing the number at the end of each parameter in the *Runtime Filter* for each filter you want to add, for example, `col2`, `op2`, `val2`, and so on.
+
+This example passes multiple variables to a single column as well as multiple columns.
+It shows that data values are returned as epoch.
+
+[source]
+----
+  col1=region&op1=IN&val1=midwest&val1=south&val1=northeast
+  &col2=date&op2=BET&val2=<epoch_start>&val2=<epoch_end>
+----
+
+[NOTE]
+====
+Runtime Filters can also be applied on visualizations or pinboards embedded in your application. You can specify the runtime filter criteria in the SDK when embedding ThoughtSpot objects. For more information, see xref:embed-a-viz.adoc[Embed a visualization] and xref:embed-pinboard.adoc[Embed a pinboard].
+====
+
 ////
 == Obtain search data
 
@@ -98,5 +211,3 @@ You can set up your web page or application to display or otherwise act on the d
 To test it out, do a search in the embedded ThoughtSpot application to retrieve the data. Your application should act on the data in the way you set it up to do so.
 
 ////
-
-

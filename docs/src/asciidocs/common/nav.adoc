@@ -13,6 +13,7 @@
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=browser-settings[Browser settings for embedding]
+** link:{{navprefix}}=api-changelog[Changelog]
 
 * Visual Embed SDK
 ** link:{{navprefix}}=visual-embed-sdk[Overview]
@@ -24,24 +25,19 @@
 * Customization Settings
 ** link:{{navprefix}}=customize-style[Customize styles]
 ** link:{{navprefix}}=customize-actions[Add custom actions]
-////
-** Error Handling
-////
-
 
 * REST APIs
 ** link:{{navprefix}}=rest-apis[Overview]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
-** link:{{navprefix}}=calling-rest-api[Make a REST API call]
+** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users]
 ** link:{{navprefix}}=api-user-group-management[Configure privileges for user groups]
-** link:{{navprefix}}=api-auth-session[Manage user sessions]
+** link:{{navprefix}}=calling-rest-api[Make a REST API call]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
 ** link:{{navprefix}}=push-data[Push data to an external app]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
 
 * Reference guides
-
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 ** link:{{navprefix}}=rest-api-reference[REST API Reference Guide]
 *** link:{{navprefix}}=user-api[User API]
@@ -52,11 +48,9 @@
 *** link:{{navprefix}}=pinboard-api[Pinboard data API]
 *** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
 *** link:{{navprefix}}=tml-api[TML API]
-////
-* xref:docs:glossary.adoc[Glossary]
-* Frequently asked questions
-////
+
 * Resources
 ** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
+

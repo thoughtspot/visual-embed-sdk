@@ -1,4 +1,4 @@
-= Manage user sessions
+= Authentication
 :toc: true
 
 :page-title: Manage user sessions
@@ -11,6 +11,7 @@ ThoughtSpot also supports local management of user profiles. For initial develop
 
 To manage ThoughtSpot user sessions, you can use the session REST API.
 The session API service allows your host application to authenticate and manage user login.
+---
 
 == Authenticate and log in a user
 
@@ -50,8 +51,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
 ----
 204 - Successful login
 ----
-
-== Obtain an authentication token for a user
+---
+== Obtain authentication token
 Use this API to obtain an authentication token. The authentication token is required if a token-based trusted authentication service is used for authenticating ThoughtSpot users.
 
 === Resource URL
@@ -98,8 +99,7 @@ If the request parameters are assigned correct values, the API returns an authen
 |**401**| Unauthorized request.
 |===
 
-
-
+---
 == Log out a user
 
 To log a current user out of an existing session, send a `POST` request to the following endpoint URL.
