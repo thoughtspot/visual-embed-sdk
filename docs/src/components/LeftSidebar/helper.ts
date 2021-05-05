@@ -3,7 +3,7 @@ import ArrowDown from '../../assets/svg/arrowDown.svg';
 import ArrowForward from '../../assets/svg/arrowForward.svg';
 import selectors from '../../constants/selectorsContant';
 
-export const addExpandCollapseImages = (navContent: string, pageId: string) => {
+export const addExpandCollapseImages = (navContent: string, pageId: string, tabsClosed: number[]) => {
     const nav = document.createElement('div');
     nav.innerHTML = navContent;
     nav.classList.add('navWrapper');
@@ -16,7 +16,13 @@ export const addExpandCollapseImages = (navContent: string, pageId: string) => {
             const spanElement = document.createElement('span');
             spanElement.classList.add('iconSpan');
             const imageElement = document.createElement('img');
-            imageElement.src = ArrowDown;
+            const tabIndex = tabsClosed.findIndex(i => i === index);
+            if (tabIndex >= 0) {
+                imageElement.src = ArrowForward;
+                divElement.classList.add('displayNone');
+            } else {
+                imageElement.src = ArrowDown;
+            }
 
             //Checking if this div contains the active link
             const allLinks = divElement.querySelectorAll('a');
@@ -37,7 +43,7 @@ export const addExpandCollapseImages = (navContent: string, pageId: string) => {
     return nav.innerHTML;
 };
 
-export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Function) => {
+export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Function, handleTabClick: Function) => {
     doc
     .querySelectorAll(selectors.headings)
     .forEach((tag, index) => {
@@ -53,6 +59,7 @@ export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Fu
             img.src = divElement.classList.contains('displayNone')
                 ? ArrowForward
                 : ArrowDown;
+            handleTabClick(index);
         });
 
         //Adding click listener to close left nav when in mobile resolution
