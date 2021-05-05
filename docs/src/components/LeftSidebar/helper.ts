@@ -16,8 +16,7 @@ export const addExpandCollapseImages = (navContent: string, pageId: string) => {
             const spanElement = document.createElement('span');
             spanElement.classList.add('iconSpan');
             const imageElement = document.createElement('img');
-            imageElement.src = ArrowForward;
-            divElement.classList.add('displayNone');
+            imageElement.src = ArrowDown;
 
             //Checking if this div contains the active link
             const allLinks = divElement.querySelectorAll('a');
