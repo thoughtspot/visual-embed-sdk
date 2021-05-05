@@ -181,6 +181,7 @@ module.exports = {
                             extension
                             dir
                             name
+                            relativePath
                             childHtmlRehype {
                               html
                               htmlAst
@@ -192,7 +193,7 @@ module.exports = {
                 `,
                 ref: 'pageid',
                 index: ['title', 'body', 'pageid'],
-                store: ['title', 'pageid'],
+                store: ['title', 'pageid', 'type', 'link'],
                 normalizer: ({ data }) => {
                     return [
                         ...data.allAsciidoc.edges
@@ -205,8 +206,10 @@ module.exports = {
                                 const pageid = edge.node.pageAttributes.pageid;
                                 return {
                                     pageid,
+                                    type: 'ASCII',
                                     title: edge.node.document.title,
                                     body: htmlToText(edge.node.html),
+                                    link: '',
                                 };
                             }),
                         ...data.allFile.edges
@@ -215,6 +218,7 @@ module.exports = {
                                 const pageid = edge.node.name;
                                 return {
                                     pageid,
+                                    type: edge.node.extension,
                                     title: edge.node.childHtmlRehype.htmlAst.children.find(
                                         (children) =>
                                             children.tagName === 'title',
@@ -222,6 +226,9 @@ module.exports = {
                                     body: htmlToText(
                                         edge.node.childHtmlRehype.html,
                                     ),
+                                    link: `${getPath(config.DOC_REPO_NAME)}/${
+                                        config.TYPE_DOC_PREFIX
+                                    }/${edge.node.relativePath}`,
                                 };
                             }),
                     ];

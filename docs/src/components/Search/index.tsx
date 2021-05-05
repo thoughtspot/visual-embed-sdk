@@ -7,6 +7,7 @@ import {
     ENTER,
 } from '../../constants/keystrokeConstants';
 import t from '../../utils/lang-utils';
+import SearchResult from './SearchResult';
 
 type SearchProps = {
     options: SearchQueryResult[];
@@ -14,10 +15,12 @@ type SearchProps = {
     keyword: string;
     optionSelected: (pageid: string) => void;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+    updateKeyword: Function;
 };
 
 const Search: React.FC<SearchProps> = (props) => {
     const node = useRef();
+    const anchor = useRef();
     const optionListRef = useRef({});
     const [showSearchResult, updateShowSearchResult] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -30,7 +33,7 @@ const Search: React.FC<SearchProps> = (props) => {
 
     // This handles the mouse click events for suggestion list
     const handleClick = (event: Event) => {
-        if (node.current && node.current.contains(event.target)) {
+        if (node?.current?.contains(event.target)) {
             return;
         }
         updateShowSearchResult(false);
@@ -62,7 +65,16 @@ const Search: React.FC<SearchProps> = (props) => {
                 setHighlightedIndex((prev: number) => (prev + 1) % optionSize);
                 return;
             case ENTER:
-                props.optionSelected(props.options[highlightedIndex].pageid);
+                if (props.options[highlightedIndex].type === 'html') {
+                    if (anchor?.current) {
+                        anchor.current.click();
+                    }
+                    props.updateKeyword('');
+                } else {
+                    props.optionSelected(
+                        props.options[highlightedIndex].pageid,
+                    );
+                }
                 setHighlightedIndex(0);
                 return;
             default:
@@ -90,26 +102,43 @@ const Search: React.FC<SearchProps> = (props) => {
                 {showSearchResult && (
                     <div ref={node} className="resultContainer">
                         {props.options.map(
-                            (option: SearchQueryResult, index: number) => (
-                                <div
-                                    key={option.pageid}
-                                    className="result"
-                                    onClick={() =>
-                                        props.optionSelected(option.pageid)
-                                    }
-                                    ref={(el: HTMLDivElement) => {
-                                        optionListRef.current[index] = el;
-                                    }}
-                                >
+                            (option: SearchQueryResult, index: number) => {
+                                return option.type !== 'html' ? (
                                     <div
-                                        className={`textContainer 
-                                    ${index === highlightedIndex && 'active'}`}
+                                        key={option.pageid}
+                                        className="result"
+                                        onClick={() =>
+                                            props.optionSelected(option.pageid)
+                                        }
+                                        ref={(el: HTMLDivElement) => {
+                                            optionListRef.current[index] = el;
+                                        }}
                                     >
-                                        <p className="title">{props.keyword}</p>
-                                        <p className="footer">{option.title}</p>
+                                        <SearchResult
+                                            highlightedIndex={highlightedIndex}
+                                            index={index}
+                                            keyword={props.keyword}
+                                            title={option.title}
+                                        />
                                     </div>
-                                </div>
-                            ),
+                                ) : (
+                                    <a
+                                        key={option.pageid}
+                                        className="result"
+                                        href={option.link}
+                                        target="_blank"
+                                        ref={anchor}
+                                        onClick={() => props.updateKeyword('')}
+                                    >
+                                        <SearchResult
+                                            highlightedIndex={highlightedIndex}
+                                            index={index}
+                                            keyword={props.keyword}
+                                            title={option.title}
+                                        />
+                                    </a>
+                                );
+                            },
                         )}
                     </div>
                 )}

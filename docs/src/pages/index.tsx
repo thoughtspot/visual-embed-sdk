@@ -202,7 +202,9 @@ const IndexPage = ({ location }) => {
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
                 className={isPublicSiteOpen ? 'withHeaderFooter' : ''}
-                style={{ height: !docContent && MAIN_HEIGHT_WITHOUT_DOC_CONTENT }}
+                style={{
+                    height: !docContent && MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
+                }}
             >
                 <LeftSidebar
                     navTitle={navTitle}
@@ -231,6 +233,7 @@ const IndexPage = ({ location }) => {
                         options={results}
                         optionSelected={optionSelected}
                         leftNavOpen={leftNavOpen}
+                        updateKeyword={updateKeyword}
                     />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
