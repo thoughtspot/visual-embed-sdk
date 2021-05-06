@@ -31,7 +31,7 @@ import {
     MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
 } from '../constants/uiConstants';
 import { SearchQueryResult } from '../interfaces';
-import { getAllPageIds } from '../utils/helper-utils';
+import { getAllPageIds } from '../components/LeftSidebar/helper';
 
 // markup
 const IndexPage = ({ location }) => {
