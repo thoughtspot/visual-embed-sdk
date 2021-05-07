@@ -187,10 +187,10 @@ const IndexPage = ({ location }) => {
     const allPageIds = getAllPageIds(navContent);
 
     const results = useFlexSearch(keyword, index, store).reduce((acc, cur) => {
-        const pageIndex = allPageIds.findIndex(
-            (id: string) => id === cur.pageid,
-        );
-        if (!acc.some((data) => data.pageid === cur.pageid) && pageIndex >= 0) {
+        if (
+            !acc.some((data) => data.pageid === cur.pageid) &&
+            allPageIds.includes(cur.pageid)
+        ) {
             acc.push(cur);
         }
         return acc;
