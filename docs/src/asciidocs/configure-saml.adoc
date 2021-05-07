@@ -91,7 +91,7 @@ To configure SAML SSO authentication on the ThoughtSpot embedded instance, compl
 * xref:configure-saml.adoc#auth-config-sdk[Enable SSO authentication in Visual Embed SDK]
 * xref:configure-saml.adoc#saml-redirect[Add SAML redirect domain to the allowed list in ThoughtSpot]
 
-Before you begin, make sure you have the admin user privileges to configure SAML support on ThoughtSpot and developer privileges to embed ThoughtSpot content in your application.
+Before you begin, make sure you have the admin user privileges to configure SAML support on ThoughtSpot.
 
 [#admin-portal]
 === Enable SAML authentication on ThoughtSpot
