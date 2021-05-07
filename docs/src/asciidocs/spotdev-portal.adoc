@@ -6,7 +6,7 @@
 :page-description: Using ThoughtSpot Developer Portal
 
 
-The ThoughtSpot Developer portal allows you to explore ThoughtSpot SDK, APIs, ßand build your web applications with ThoughtSpot content.
+The ThoughtSpot Developer portal allows you to explore ThoughtSpot SDK, APIs, and build your web applications with ThoughtSpot content.
 The portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
 The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
 
@@ -14,12 +14,12 @@ The portal also allows authorized users to customize and rebrand the look and fe
 You can access the developer portal from your ThoughtSpot application instance or the link:https://developers.thoughtspot.com/[ThoughtSpot Developers, window=_blank] website.
 
 If you have a ThoughtSpot user account::
-
-. Make sure your user account has admin or developer privileges.
 . Log in to your ThoughtSpot Cloud application instance.
-. Navigate to the **Develop** tab.
+. Make sure your user account has admin or developer privileges.
 +
 For more information about configuring developer privileges, see the xref:user-roles.adoc[User configuration].
+. Navigate to the **Develop** tab.
+
 
 If you do not have a ThoughtSpot user account::
 If you do not have a ThoughtSpot user account and you want to evaluate the APIs in the developer playground: 
