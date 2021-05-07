@@ -42,7 +42,7 @@ export const addExpandCollapseImages = (navContent: string, pageId: string, tabs
     return nav.innerHTML;
 };
 
-export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Function, handleTabClick: Function) => {
+export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Function, toggleExpandOnTab: Function) => {
     doc
     .querySelectorAll(selectors.headings)
     .forEach((tag, index) => {
@@ -58,7 +58,7 @@ export const collapseAndExpandLeftNav = (doc: HTMLDivElement, setLeftNavOpen: Fu
             img.src = divElement.classList.contains('displayNone')
                 ? ArrowForward
                 : ArrowDown;
-            handleTabClick(index);
+            toggleExpandOnTab(index);
         });
 
         //Adding click listener to close left nav when in mobile resolution

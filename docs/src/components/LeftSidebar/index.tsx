@@ -34,7 +34,7 @@ const LeftSideBar = (props: {
     const [navContent, setNavContent] = useState('');
     const { width, ref, height } = useResizeDetector();
 
-    const tabsRef = useRef([]);
+    const expandedTabsRef = useRef([]);
 
     const isMaxTabletResolution = !(props.docWidth < MAX_TABLET_RESOLUTION);
     const isMaxMobileResolution = !(props.docWidth < MAX_MOBILE_RESOLUTION);
@@ -51,7 +51,7 @@ const LeftSideBar = (props: {
         const updatedHTML = addExpandCollapseImages(
             divElement.innerHTML,
             params[TS_PAGE_ID_PARAM],
-            tabsRef.current,
+            expandedTabsRef.current,
         );
         setNavContent(updatedHTML);
     }, [params[NAV_PREFIX], params[TS_PAGE_ID_PARAM], props.navContent]);
@@ -64,7 +64,7 @@ const LeftSideBar = (props: {
         collapseAndExpandLeftNav(
             ref.current as HTMLDivElement,
             props.setLeftNavOpen,
-            handleTabClick,
+            toggleExpandOnTab,
         );
     }, [params[TS_PAGE_ID_PARAM], isMaxMobileResolution, navContent]);
 
@@ -73,10 +73,10 @@ const LeftSideBar = (props: {
         document.documentElement.scrollTop = 0;
     };
 
-    const handleTabClick = (tabIndex: number) => {
-        tabsRef.current = tabsRef.current.includes(tabIndex) ?
-            tabsRef.current.filter(idx => idx !== tabIndex) :
-            [...tabsRef.current, tabIndex];
+    const toggleExpandOnTab = (tabIndex: number) => {
+        expandedTabsRef.current = expandedTabsRef.current.includes(tabIndex) ?
+            expandedTabsRef.current.filter(idx => idx !== tabIndex) :
+            [...expandedTabsRef.current, tabIndex];
     };
 
     const renderLeftNav = () => {
