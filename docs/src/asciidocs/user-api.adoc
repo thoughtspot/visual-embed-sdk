@@ -118,13 +118,13 @@ POST /tspublic/v1/user/updatepassword
 |Form Parameter|Data Type|Description
 |`name`|string|Name of the user.
 |`currentpassword`|string|The current password of the user.
-|password|string|A new password of the user.
+|`password`|string|A new password of the user.
 |====
 === Example request
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest¤tpassword=test&password=foobarfoobar' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest&currentpassword=test&password=foobarfoobar' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
@@ -191,7 +191,7 @@ POST /tspublic/v1/user/updatepreference
 
 [NOTE]
 ====
-If your browser or OS locale is set to xref:user-api.adoc#locale-setting[ThoughtSpot supported locale], ThoughtSpot automatically defaults to that locale. If your browser locale is not supported in ThoughtSpot, ThoughtSpot sets `en-US` (US English) as the default locale.
+If your browser or OS locale is set to a xref:user-api.adoc#locale-setting[ThoughtSpot supported locale], ThoughtSpot automatically defaults to that locale. If your browser locale is not supported in ThoughtSpot, ThoughtSpot sets `en-US` (US English) as the default locale.
 ====
 
 === Example request
