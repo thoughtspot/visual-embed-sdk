@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ResizableBox } from 'react-resizable';
 import { useResizeDetector } from 'react-resize-detector';
 import queryStringParser from '../../utils/app-utils';
@@ -13,7 +13,7 @@ import {
     MIN_LEFT_NAV_WIDTH_TABLET,
     MAX_MOBILE_RESOLUTION,
 } from '../../constants/uiConstants';
-import { collapseAndExpandLeftNav,addExpandCollapseImages } from './helper';
+import { collapseAndExpandLeftNav, addExpandCollapseImages } from './helper';
 import ClearIcon from '../../assets/svg/clear.svg';
 import MenuIcon from '../../assets/svg/menu.svg';
 import NavContent from './NavContent';
@@ -34,6 +34,8 @@ const LeftSideBar = (props: {
     const [navContent, setNavContent] = useState('');
     const { width, ref, height } = useResizeDetector();
 
+    const expandedTabsRef = useRef([]);
+
     const isMaxTabletResolution = !(props.docWidth < MAX_TABLET_RESOLUTION);
     const isMaxMobileResolution = !(props.docWidth < MAX_MOBILE_RESOLUTION);
 
@@ -46,7 +48,11 @@ const LeftSideBar = (props: {
         if (tag) {
             tag.classList.add('active');
         }
-        const updatedHTML = addExpandCollapseImages(divElement.innerHTML, params[TS_PAGE_ID_PARAM]);
+        const updatedHTML = addExpandCollapseImages(
+            divElement.innerHTML,
+            params[TS_PAGE_ID_PARAM],
+            expandedTabsRef.current,
+        );
         setNavContent(updatedHTML);
     }, [params[NAV_PREFIX], params[TS_PAGE_ID_PARAM], props.navContent]);
 
@@ -55,12 +61,22 @@ const LeftSideBar = (props: {
     }, [width]);
 
     useEffect(() => {
-        collapseAndExpandLeftNav(ref.current as HTMLDivElement, props.setLeftNavOpen);
+        collapseAndExpandLeftNav(
+            ref.current as HTMLDivElement,
+            props.setLeftNavOpen,
+            toggleExpandOnTab,
+        );
     }, [params[TS_PAGE_ID_PARAM], isMaxMobileResolution, navContent]);
 
     const onMenuClick = () => {
         props.setLeftNavOpen(!props.leftNavOpen);
         document.documentElement.scrollTop = 0;
+    };
+
+    const toggleExpandOnTab = (tabIndex: number) => {
+        expandedTabsRef.current = expandedTabsRef.current.includes(tabIndex) ?
+            expandedTabsRef.current.filter(idx => idx !== tabIndex) :
+            [...expandedTabsRef.current, tabIndex];
     };
 
     const renderLeftNav = () => {
