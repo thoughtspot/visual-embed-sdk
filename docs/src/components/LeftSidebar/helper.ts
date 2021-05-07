@@ -16,8 +16,7 @@ export const addExpandCollapseImages = (navContent: string, pageId: string, tabs
             const spanElement = document.createElement('span');
             spanElement.classList.add('iconSpan');
             const imageElement = document.createElement('img');
-            const tabIndex = tabsClosed.findIndex(i => i === index);
-            if (tabIndex >= 0) {
+            if (tabsClosed.includes(index)) {
                 imageElement.src = ArrowForward;
                 divElement.classList.add('displayNone');
             } else {

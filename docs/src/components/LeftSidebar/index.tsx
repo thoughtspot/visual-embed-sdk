@@ -73,15 +73,10 @@ const LeftSideBar = (props: {
         document.documentElement.scrollTop = 0;
     };
 
-    const handleTabClick = (index: number) => {
-        const tabsArr = [...tabsRef.current];
-        const tabIndex = tabsArr.findIndex((i) => i === index);
-        if (tabIndex >= 0) {
-            tabsArr.splice(tabIndex, 1);
-        } else {
-            tabsArr.push(index);
-        }
-        tabsRef.current = [...tabsArr];
+    const handleTabClick = (tabIndex: number) => {
+        tabsRef.current = tabsRef.current.includes(tabIndex) ?
+            tabsRef.current.filter(idx => idx !== tabIndex) :
+            [...tabsRef.current, tabIndex];
     };
 
     const renderLeftNav = () => {
