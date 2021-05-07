@@ -30,6 +30,8 @@ import {
     MAX_MOBILE_RESOLUTION,
     MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
 } from '../constants/uiConstants';
+import { SearchQueryResult } from '../interfaces';
+import { getAllPageIds } from '../components/LeftSidebar/helper';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -182,8 +184,13 @@ const IndexPage = ({ location }) => {
         `,
     );
 
+    const allPageIds = getAllPageIds(navContent);
+
     const results = useFlexSearch(keyword, index, store).reduce((acc, cur) => {
-        if (!acc.some((data) => data.pageid === cur.pageid)) {
+        if (
+            !acc.some((data) => data.pageid === cur.pageid) &&
+            allPageIds.includes(cur.pageid)
+        ) {
             acc.push(cur);
         }
         return acc;
