@@ -48,6 +48,7 @@ const IndexPage = ({ location }) => {
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
     const [backLink, setBackLink] = useState('');
+    const [allPageIds, setAllPageIds] = useState([]);
     const [leftNavWidth, setLeftNavWidth] = useState(
         width > MAX_TABLET_RESOLUTION
             ? LEFT_NAV_WIDTH_DESKTOP
@@ -184,7 +185,9 @@ const IndexPage = ({ location }) => {
         `,
     );
 
-    const allPageIds = getAllPageIds(navContent);
+    useEffect(() => {
+        setAllPageIds(getAllPageIds(navContent));
+    }, [navContent]);
 
     const results = useFlexSearch(keyword, index, store).reduce((acc, cur) => {
         if (
