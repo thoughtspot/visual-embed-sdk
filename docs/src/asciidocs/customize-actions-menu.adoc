@@ -5,22 +5,17 @@
 :page-pageid: customize-actions
 :page-description: Add custom actions
 
-When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. ThoughtSpot not just allows you to restrict user access to certain features or exclude the menu actions that do not apply to your application context. It also allows you to add custom actions of your choice.
+When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. You can disable or exclude the menu actions that are not required for your application users. You can also add custom actions that are relevant to  your application context.
 
 
 == Custom actions
 
-You can configure a custom action when you want to initiate an action in your application from the ThoughtSpot UI and provide the data requested by the user as a payload. When the custom action is clicked by the user, you can configure it to invoke a specific URL or a callback into your parent application.  
+You can configure a custom button or menu item to initiate an action in your application from the ThoughtSpot UI and provide the data requested by the user as a payload. You can configure it to invoke a specific URL or a callback into your parent application when a user clicks the custom action. 
 ////
 For example, you may search in ThoughtSpot for customers whose contracts are due for renewal in the next month. You could then trigger an action that brings up a web page from an external billing system. When the billing system is set up to read the data (list of names, emails, products, and renewal dates) from ThoughtSpot, it can add the price, generate an invoice for each customer, and send it by email.
 ////
 
-You can add a custom action as a primary button or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the **Pinboards** and **Search Answers** pages. You can also add the custom action to the contextual menu that opens when you right-click on a visualization. 
-
-[NOTE]
-====
-To add a custom action to the contextual menu, you must have the new Answer experience enabled on your cluster. For more information, see  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank].
-====
+You can add a custom action as a primary button or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the **Pinboards** and **Search Answers** pages. If the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your cluster, you can also add a custom action to the contextual menu for visualizations in the **Pinboards** and **Search Answers** page.
 
 == Add a custom menu item
 To add custom menu item:

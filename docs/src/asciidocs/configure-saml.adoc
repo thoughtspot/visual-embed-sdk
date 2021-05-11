@@ -5,27 +5,53 @@
 :page-pageid: saml-sso
 :page-description: SAML SSO Configuration
 
-ThoughtSpot supports the Single Sign-On (SSO) authentication method with the Security Assertion Markup Language (SAML) authentication and authorization framework. With SAML SSO, users can authenticate to the SAML identity provider at your federation to access the ThoughtSpot application, or the embedded ThoughtSpot content in an external web application. It also allows them to  navigate seamlessly between different application interfaces with their existing credentials.
+ThoughtSpot supports the Single Sign-On (SSO) authentication method with the Security Assertion Markup Language (SAML) authentication and authorization framework. With SAML SSO, users can authenticate to the SAML identity provider to access the ThoughtSpot application or the embedded ThoughtSpot content in an external web application. It also allows them to  navigate seamlessly between different applications with their existing credentials.
 
 == About SAML authentication
 
-The SAML SSO authentication involves several entities and components.
+SAML is an XML standard that allows secure exchange of user authentication and authorization data between trusted partners. It enables the following entities to exchange identity, authentication, and authorization information:
 
 === SAML entities
 
-SAML is an XML standard that allows secure exchange of user authentication and authorization data between trusted partners. It enables the following entities to exchange identity, authentication, and authorization information:
+The SAML SSO authentication involves several entities.
 
 * *Identity Provider (IdP)*
 +
-The Identity Management system that maintains the user identity information. IdP acts as a SAML authority and authenticates SSO users. ThoughtSpot supports SAML authentication framework with popular Identity Providers such as Okta, Azure Active Directory, PingFederate, Microsoft Active Directory Federation Services (ADFS), and Onelogin. 
+The Identity Management system that maintains the user identity information. The IdP acts as a SAML authority and authenticates SSO users. ThoughtSpot supports the SAML authentication framework with popular Identity Providers such as Okta, Azure Active Directory, PingFederate, Microsoft Active Directory Federation Services (ADFS), and Onelogin. 
 
 * *Service Provider (SP)*
 +
-The provider of a business function or application service; for example ThoughtSpot. The SP relies on IdP to authenticate users before allowing access to its services. 
+The provider of a business function or application service; for example, ThoughtSpot. The SP relies on the IdP to authenticate users before allowing access to its services. 
 
 * *Federated user*
 +
-A user whose identity information is managed by the IdP. The federated users have SSO credentials and authenticate to IdP to access various application services. 
+A user whose identity information is managed by the IdP. The federated users have SSO credentials and authenticate to the IdP to access various application services. 
+
+=== SAML assertion and attributes
+
+Both SP-initiated and IdP-initiated authentication workflows rely on assertions that are exchanged between the SAML endpoints through a web browser.   
+
+Some of the most commonly used elements are: 
+ 
+* *SAML assertion*
++
+The user authentication and authorization information issued by the IdP. SAML assertions contain all the information necessary for a service provider to confirm if the user identity is valid.
+
+* *Metadata*
++
+Data in the XML format to establish interoperability between the IdP and SP. It contains the URLs of the endpoints, entity ID, and so on. 
+
+* *Assertion Services Consumer (ACS) URL*
++
+The endpoint URL to which the user's browser sends the SAML response received from the IdP after authenticating a user.
+
+* *Entity ID*
++
+A unique service name to identify the client application from which the SSO login request originates.
+
+* *SAML attributes*
++
+The attributes associated with the user; for example, username and email address.  
 
 === SSO workflows
 
@@ -33,36 +59,10 @@ Most SAML deployments support the following authentication workflows:
 
 * SP-initiated SSO
 +
-In the SP-initiated SSO authentication flow, the SSO request originates from the client application. For example, when a  user tries to access the ThoughtSpot standalone application, or the ThoughtSpot content embedded in an external application, a federation authentication request is created and sent to the IdP server.
+In the SP-initiated SSO authentication flow, the SSO request originates from the client application. For example, when a  user tries to access the ThoughtSpot standalone application or the ThoughtSpot content embedded in an external application, a federation authentication request is created and sent to the IdP server.
 * IdP-initiated SSO
 +
 In the IdP-initiated SSO authentication flow, the user authenticates to the IdP first. The browser then redirects the login request to the host application and allows the user to access the requested content.
-
-=== SAML assertion and attributes
-
-Both SP-initiated and IdP-initiated authentication workflows rely upon assertions that are exchanged between the SAML endpoints through a web browser.   
-
-Some of the most commonly used elements are: 
- 
-* SAML assertion
-+
-The user authentication and authorization information issued by the IdP. SAML assertions contain all the information necessary for a service provider to confirm if the user identity is valid.
-
-* Metadata
-+
-Data in the XML format to establish interoperability between the IdP and SP. It contains the URLs of the endpoints, entity ID, and so on. 
-
-* Assertion Services Consumer (ACS) URL
-+
-The endpoint URL to which the user's browser sends the SAML response received from the IdP after authenticating a user.
-
-* Entity ID
-+
-A unique service name to identify the client application from which the SSO login request originates.
-
-* SAML attributes
-+
-The attributes associated with the user; for example, username and email address.  
 
 == SAML authentication workflow for a ThoughtSpot embedded instance
 
@@ -70,11 +70,11 @@ With SAML SSO authentication, your host applications can allow federated users t
 
 A typical SP-initiated SSO authentication workflow consists of the following steps: 
 
-. A federated user tries to access a ThoughtSpot page, pinboard or a visualization in the host application.
+. A federated user tries to access a ThoughtSpot page, pinboard, or visualization in the host application.
 . The host application sends the authentication request to ThoughtSpot. 
-. If the SAML SSO authentication method is configured for the embedded instance, the browser sends the SAML request to the IdP. 
+. If the SAML SSO authentication method is configured for the ThoughtSpot embedded instance, the browser sends the SAML request to the IdP. 
 * If the user has already authenticated to the IdP, the login request is redirected to the host application. 
-* If the user is not authenticated, the browser displays a login page to allow the user to authenticate to the IdP. 
+* If the user is not authenticated, the browser displays a login page to allow the user to authenticate to the IdP and then redirects. 
 +
 . The requested ThoughtSpot page or resource is displayed.
 
@@ -84,16 +84,17 @@ image::./images/saml-auth.png[SAML authentication]
 
 == Configuration steps
 
-To configure SAML SSO authentication ThoughtSpot embedded instance, complete the following steps:  
-* Enable SAML authentication on ThoughtSpot 
-* Configure the IdP server for SAML authentication
-* Enable SSO authentication in Visual Embed SDK
-* Add SAML redirect domain to the allowed list in ThoughtSpot
+To configure SAML SSO authentication on the ThoughtSpot embedded instance, complete the following steps:  
 
-Before you begin, make sure you have the admin user privileges to configure SAML support on ThoughtSpot and developer privileges to embed ThoughtSpot content in your application.
+* xref:configure-saml.adoc#admin-portal[Enable SAML authentication on ThoughtSpot] 
+* xref:configure-saml.adoc#idp-config[Configure the IdP server for SAML authentication]
+* xref:configure-saml.adoc#auth-config-sdk[Enable SSO authentication in Visual Embed SDK]
+* xref:configure-saml.adoc#saml-redirect[Add SAML redirect domain to the allowed list in ThoughtSpot]
+
+Before you begin, make sure you have the admin user privileges to configure SAML support on ThoughtSpot.
 
 [#admin-portal]
-== Enable SAML authentication on ThoughtSpot
+=== Enable SAML authentication on ThoughtSpot
 You need admin privileges to enable SAML SSO authentication.
 
 . Configure the ThoughtSpot application instance on your IDP server.
@@ -112,22 +113,22 @@ The unique key used by your Identity Provider to identify the client. For exampl
 Skew Time in Seconds::
 The allowed skew time, after which the authentication response is rejected and sent back from the IDP. The commonly used value is `86400`. The default value is *3600*.
 Protocol::
-The authentication mechanism for ThoughtSpot. For example, `http` or `https`.
+The connection protocol for ThoughtSpot. For example, `https`.
 IDP Metadata XML File::
-The IDP metadata file. For example, *idp-meta.xml*. Provide an absolute path to your Identity Provider’s metadata file. This file is provided by your IDP.  You need this file so that the configuration persists over upgrades. It is a best practice to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IDP needs an Assertion Consumer Service URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
+The IDP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider’s metadata file provided by your IDP. You need this file so that the configuration persists over upgrades.The best practice is to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IdP needs an ACS URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
 +
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
-If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
+If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 +
 . Click *Save*.
 
 [#idp-config]
-=== Configure IdP
-To enable IdP to recognize your host application and ThoughtSpot as a valid service provider, you must configure the IdP with required attributes and metadata. 
+=== Configure the IdP server for SAML authentication
+To enable IdP to recognize your host application and ThoughtSpot as a valid service provider, you must configure the IdP with the required attributes and metadata. 
 
 ThoughtSpot supports SAML authentication with several identity and access management providers, such as Okta, OneLogin, PingFederate, Microsoft ADFS, Microsoft Azure Active Directory, and so on. 
-If you want to use one of these providers as your IdP, make sure you browse through to the SAML configuration steps described in the Identity provider's documentation site. 
+If you want to use one of these providers as your IdP, make sure you follow the SAML configuration steps described in the Identity provider's documentation. 
 
 To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot support. 
 
@@ -146,7 +147,9 @@ When configuring SAML 2.0, make sure you map the SAML user attributes to appropr
 
 [#auth-config-sdk]
 === Enable SSO authentication in the Visual Embed SDK
-If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], or xref:embed-a-viz.adoc[visualization] in your application.
+If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
+
+For more information, see the embedding instructions for xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], or xref:embed-a-viz.adoc[visualization].
 
 [#saml-redirect]
 === Allow SAML Redirect Domains
@@ -154,7 +157,7 @@ If you have to redirect SAML users to a host URL in a different domain, make sur
 
 To whitelist a SAML redirect domain, follow these steps:
 
-. Log in to your ThoughtSpot application instance.
+. Log in to your ThoughtSpot application instance as an admin user.
 . Click the *Develop* tab.
 . Under *Customizations*, click *Settings*.
 . In SAML redirect domains, add the domains to whitelist.
@@ -162,6 +165,3 @@ To whitelist a SAML redirect domain, follow these steps:
 You can add multiple domains as comma-separated values.
 
 . Click *Save changes*.
-////
-
-////

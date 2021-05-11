@@ -50,7 +50,8 @@
 *** link:{{navprefix}}=tml-api[TML API]
 
 * Resources
-** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Documentation, window=_blank]
+** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
+** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Product Documentation, window=_blank]
 
