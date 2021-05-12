@@ -44,20 +44,23 @@ module.exports = {
         },
     },
     rules: {
-        indent: [1, 4, { SwitchCase: 1 }], // Conflict with Prettier
-        quotes: [2, "single", { "avoidEscape": true }],
-        'jsx-quotes': [2, 'prefer-single'],
+        indent: [0, 4, { SwitchCase: 1 }], // Conflict with Prettier
+        quotes: [2, 'single', { avoidEscape: true }],
+        'no-tabs': ['error', { allowIndentationTabs: true }],
+        'jsx-quotes': [2, 'prefer-double'],
         '@typescript-eslint/explicit-function-return-type': [0],
         '@typescript-eslint/no-explicit-any': [0],
         '@typescript-eslint/no-unused-vars': [0],
         'import/prefer-default-export': 0,
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': ['error'],
         // do not complain when importing js related files without extension,
         // Typescript should handle this.
         'import/extensions': [0],
         'import/no-extraneous-dependencies': [
             'error',
             {
-                devDependencies: ['**/*.spec.ts'],
+                devDependencies: ['**/*.spec.{ts,tsx}'],
             },
         ],
         'import/no-absolute-path': [0],
@@ -68,5 +71,12 @@ module.exports = {
         'no-continue': 0,
         'max-classes-per-file': 0,
         'class-methods-use-this': 0,
+        'no-param-reassign': [
+            'error',
+            {
+                props: true,
+                ignorePropertyModificationsFor: ['accu'],
+            },
+        ],
     },
 };

@@ -59,7 +59,7 @@ export class SearchEmbed extends TsEmbed {
     /**
      * The view configuration for the embedded ThoughtSpot search.
      */
-    private viewConfig: SearchViewConfig;
+    protected viewConfig: SearchViewConfig;
 
     constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
         super(domSelector);

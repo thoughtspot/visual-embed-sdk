@@ -1,15 +1,19 @@
 export const getDocumentBody = () =>
     '<div id="embed"></div><div id="embed-2"></div>';
 
+type DOMElement = HTMLElement | Document;
+
 export const getRootEl = () => document.getElementById('embed');
 
 export const getRootEl2 = () => document.getElementById('emebed-2');
 
-export const getIFrameEl = () => document.querySelector('iframe');
+export const getIFrameEl = (container: DOMElement = document) =>
+    container.querySelector('iframe');
 
 export const getAllIframeEl = () => document.querySelectorAll('iframe');
 
-export const getIFrameSrc = () => getIFrameEl().src;
+export const getIFrameSrc = (container: DOMElement = document) =>
+    getIFrameEl(container).src;
 
 /**
  * jsdom does not set event source, therefore we do it

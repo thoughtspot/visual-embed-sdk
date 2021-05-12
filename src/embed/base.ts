@@ -145,6 +145,8 @@ export class TsEmbed {
      */
     protected iFrame: HTMLIFrameElement;
 
+    protected viewConfig: ViewConfig;
+
     /**
      * The ThoughtSpot hostname or IP address
      */
@@ -172,13 +174,14 @@ export class TsEmbed {
      */
     private isError: boolean;
 
-    constructor(domSelector: DOMSelector) {
+    constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
         this.thoughtSpotHost = getThoughtSpotHost(config);
         this.thoughtSpotV2Base = getV2BasePath(config);
         this.eventHandlerMap = new Map();
         this.isError = false;
+        this.viewConfig = viewConfig;
     }
 
     /**
@@ -455,7 +458,7 @@ export class V1Embed extends TsEmbed {
     protected viewConfig: ViewConfig;
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
-        super(domSelector);
+        super(domSelector, viewConfig);
         this.viewConfig = viewConfig;
     }
 
