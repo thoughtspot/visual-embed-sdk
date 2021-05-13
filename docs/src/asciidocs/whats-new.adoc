@@ -32,7 +32,7 @@ For more information, see the instructions for embedding xref:full-embed.adoc[Th
 ==== Safari browser support for ThoughtSpot embedded applications
 When a user accesses the embedded application from the Safari web browser, the Visual Embed SDK emits an event to notify the user to enable third-party cookies in Safari's  Preferences setting page. The user can enable third-party cookies to continue with Safari or switch to another web browser. 
 
-For more information on allowing third-party cookies on Safari, see xref:browser-setting.adoc[Browser settings for embedding].
+For more information on allowing third-party cookies on Safari, see xref:browser-settings.adoc[Browser settings for embedding].
 
 ==== Pinboard embed Enhancements
 The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations. 
