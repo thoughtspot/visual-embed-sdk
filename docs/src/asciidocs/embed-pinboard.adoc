@@ -62,7 +62,7 @@ Sets SAML SSO as the authentication method. Federated users can authenticate wit
 
 ** `*noRedirect*` _Optional_
 +
-_Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of redirecting users to a web browser.
+_Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
 
 +
 * `*AuthServer*`
@@ -260,7 +260,7 @@ Register event handlers to subscribe to the events triggered by the embedded pin
   pinboardEmbed.on(EmbedEvent.Error)
 ----
 
-If you have added a xref:customize-actions-menu.adoc[custom action], register event handler to manage the events triggered by the custom action:
+If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
 
 [source, javascript]
 ----

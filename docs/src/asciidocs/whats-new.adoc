@@ -1,0 +1,86 @@
+= New features and enhancements
+
+:toc: true
+
+:page-title: What's new
+:page-pageid: whats-new
+:page-description: New features and enhancements
+
+This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
+
+
+== May 2021
+
+The latest release of ThoughtSpot Cloud consists of several new and enhanced features for the  ThoughtSpot Developer users.
+
+=== Custom actions in the context menu
+You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Search Answers* or *Pinboards* page. 
+
+[NOTE]
+This feature is available only if the  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your ThoughtSpot instance.  
+
+For more information, see xref:customize-actions-menu.adoc[Add custom actions]. 
+
+=== Visual Embed SDK 1.2.0
+The ThoughtSpot 7 Cloud May release introduces the Visual Embed SDK 1.2.0 version with minor updates and backward-compatible improvements. 
+
+==== SAML authentication
+The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the `SSO` `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
+
+For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
+
+==== Safari browser support for ThoughtSpot embedded applications
+When a user accesses the embedded application from the Safari web browser, the Visual Embed SDK emits an event to notify the user to enable third-party cookies in Safari's  Preferences setting page. The user can enable third-party cookies to continue with Safari or switch to another web browser. 
+
+For more information on allowing third-party cookies on Safari, see xref:browser-setting.adoc[Browser settings for embedding].
+
+==== Pinboard embed Enhancements
+The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations. 
+
+Pinboard::
+* Save 
+* Make a copy
+* Add filters  
+* Configure filters  
+* Present
+* Download as PDF
+* Pinboard info
+* Manage schedules
+
+[NOTE]
+Users with edit permissions can view and access the *Save*, *Add filters*, *Configure filters*, and *Manage schedules* actions.
+ 
+Visualizations on a pinboard::
+* Pin
+* Download
+* Edit
+* Present
+* Download as CSV
+* Download as XLSX  
+* Download as PDF 
+
+[NOTE]
+--
+* Users with edit permissions can view and access the *Edit* action.
+* The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations.
+* The *Download* action is available for chart visualizations.
+--
+==== Performance optimization
+This release introduces the following performance improvements for ThoughtSpot embedded applications:
+
+* Faster loading of embedded objects and application pages.
+* Faster loading of preview results in the Playground. 
+ 
+=== REST APIs
+The ThoughtSpot 7 Cloud May release introduces the following new REST APIs:
+
+* `POST /tspublic/v1/user/updatepreference`
++
+You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience. 
++
+For more information, see xref:user-api.adoc#updatepreference-api[User API].
+
+* `GET /tspublic/v1/metadata/listas` 
++
+You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
+

@@ -5,50 +5,168 @@
 :page-pageid: push-data
 :page-description: Push data to an external application
 
-ThoughtSpot allows you to push data to a third-party application from the ThoughtSpot application context through an API service. 
+ThoughtSpot allows you to create custom actions to push data to a third-party application from the ThoughtSpot application context. 
 
-For example, if your client application has embedded the ThoughtSpot search functionality, you can initiate an action to send a search answer to another application or a workflow. To do this, you can use the custom menu item configured for your embedded instance. 
- 
-For more information on configuring custom actions, see xref:customize-actions-menu.adoc[Add custom actions].
+You can add a custom action as a primary button or as a menu item in the *More* menu image:./images/icon-more-10px.png[the more options menu] on the *Answers* or *Pinboards* page. 
+You can configure this custom menu item to initiate an action or a callback to the parent application.
+For example, if you have embedded the ThoughtSpot search functionality in your application, you can add a custom menu item in the *Answers* page to send the search answer data to an external application or a workflow.  
+//// 
+You can also use the REST APIs to query data and automatically trigger the custom action workflow.   
+//// 
+[NOTE]
+The data is available to the external application in the JavaScript Object Notation (JSON) format. You must parse the JSON data to get the values you need using JavaScript in the receiving application.
 
-== Data format
+== Push data to an external app using a callback custom action
+To push data to an external app through a callback custom action, follow these steps:
 
-The data is available to the external application in JSON (JavaScript Object Notation) format. You must parse the JSON to get the data values you need using JavaScript in the receiving application.
+* xref:push-data-external-app.adoc#add-callback[Add a callback custom action in ThoughtSpot]
+* xref:push-data-external-app.adoc#register-callback[Register the custom action]
+* xref:push-data-external-app.adoc#callback-initiate[Initiate a callback]
+* xref:push-data-external-app.adoc#handle-data[Define classes and functions to handle custom action data]
 
-== Sample application
+[#add-callback]
+=== Add a callback custom action in the ThoughtSpot
+You can create a custom action in the ThoughtSpot to register a callback for sending data. To add a custom action for callback, go to *Develop* > *Customization* > *Actions* > *Create action*. 
 
-Here is a sample application for pushing data from an embedded ThoughtSpot instance:
+For more information, see xref:customize-actions-menu.adoc#callback[Configure a callback custom action].
 
-[source,HTML]
+[#register-callback]
+=== Register the callback through the Visual Embed SDK
+
+Register the callback using the Visual Embed SDK. This configuration is required to trigger an event when the custom action is initiated.
+
+The following example shows how to call `showData` when a custom action is received.
+
+[source, Javascript]
 ----
-<!doctype html>
-<html lang="en">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script type="text/javascript" src="api/api.js"></script>
-<body>
-    <script>
+ const searchEmbed = new SearchEmbed('#embed', {
+   frameParams: {},
+ });
 
-        var app = angular.module("latestData", []);
-        app.controller("dataCtrl", ['$scope', '$window', function($scope, $window) {
+ embed
+   .on(EmbedEvent.CustomAction, (payload) => {
+     showData(payload);
+   })
+   .render();
+----
+[#callback-initiate]
+=== Initiate the callback action
+Define the function and classes to handle the data that you want to send as a payload when a custom action is triggered.
+This example shows how to handle the `show-data` callback custom action and the details of its data:
 
-            $scope.currentData=undefined;
-            $scope.showData=false;
-            $scope.displayData = function() {
-                $scope.showData = true;
-            };
-            function currentDataCallback(event) {
-                $scope.currentData = event;
-            }
-            $window.onload = function(){
-                $window.thoughtspot.getCurrentData(currentDataCallback);
-            };
+[source, Javascript]
+----
+ const showData = (payload) => {
+  const data = payload.data;
+  if (data.id === 'show-data') {
+    // Display the data as a table.
+    const actionData = ActionData.createFromJSON(payload);
+  
+    const html = actionDataToHTML(actionData);
+    const dataContentElement = document.getElementById('modal-data-content');
+    dataContentElement.innerHTML = html;
 
-        }]);
-    </script>
-    <div ng-app ="latestData" ng-controller="dataCtrl">
-        <button class="get-data" ng-click="displayData()">Click here for latest exported data</button>
-        <div class="display-data" ng-if="showData"> {{currentData}}</div>
-    </div>
-</body>
-</html>
+    const dataElement = document.getElementById('callback-data');
+    dataElement.style.display = 'block';
+  }
+  else {
+   console.log(`Got unknown custom actions ${data.id}`);
+ }
+ }
+----
+[#handle-data]
+==== Define functions and classes to handle custom action data
+The following code snippet shows the sample classes and functions for handling custom action data:
+
+[source, Javascript]
+----
+const zip = (arrays) => {
+ // combines and inverts arrays, so a = [1, 2, 3], b = [4, 5, 6] becomes [[1,4], [2,5], [3,6]]
+ return arrays[0].map(function (_, i) {
+   return arrays.map(function (array) {
+     return array[i]
+   })
+ });
+}
+
+class ActionData {
+ // Wrapper for the data sent when a custom action is triggered.
+
+ constructor() {
+   this._columnNames = [];  // list of the columns in order.
+   this._data = {};         // data is stored and indexed by column with the index being column name.
+ }
+
+ get nbrRows() {
+   // Return the number of rows.  Assumes all columns are of the same length.
+   if (this._columnNames && Object.keys(this._data)) {  // make sure there is some data.
+     return this._data[this._columnNames[0]]?.length;
+   }
+   return 0;
+ }
+
+ get nbrColumns() {
+   // Returns the number of columns.
+   return this._columnNames.length;
+ }
+
+ static createFromJSON(jsonData) {
+   // Creates a new ActionData object from JSON.
+   const actionData = new ActionData();
+
+   // Get the column names.
+   const nbrCols = jsonData.data.columnsAndData.columns.length;
+   for (let colCnt = 0; colCnt < nbrCols; colCnt += 1) {
+     actionData._columnNames.push(jsonData.data.columnsAndData.columns[colCnt].column.name);
+   }
+
+   // can come in two flavors, so need to get the right data.
+   let dataSet;
+   dataSet = (Array.isArray(jsonData.data.columnsAndData.data))
+     ? jsonData.data.columnsAndData.data[0].columnDataLite
+     : jsonData.data.columnsAndData.data.columnDataLite;
+
+   for (let colCnt = 0; colCnt < actionData.nbrColumns; colCnt++) {
+     actionData._data[actionData._columnNames[colCnt]] = Array.from(dataSet[colCnt].dataValue);  // shallow copy the data
+   }
+
+   return actionData
+ }
+
+ getDataAsTable () {
+   // returns the data as a table.  The columns will be in the same order as the column headers.
+    const arrays = []
+    for (const cname of this._columnNames) {
+      arrays.push(this._data[cname])
+    }
+
+    return zip(arrays);  // returns a two dimensional data array
+ }
+}
+
+const actionDataToHTML = (actionData) => {
+ // Converts an ActionData data to an HTML table.
+ let table = '<table class="tabular-data">';
+
+ // Add a header
+ table += '<tr>';
+ for (const columnName of actionData._columnNames) {
+   table += `<th class="tabular-data-th">${columnName}</th>`;
+ }
+ table += '</tr>';
+
+ const data = actionData.getDataAsTable();
+ for (let rnbr = 0; rnbr < actionData.nbrRows; rnbr++) {
+   table += '<tr>';
+   for (let cnbr = 0; cnbr < actionData.nbrColumns; cnbr++) {
+     table += `<td class="tabular-data">${data[rnbr][cnbr]}</td>`;
+   }
+   table += '</tr>';
+ }
+ table += '</table>';
+
+ return table;
+}
+
+export { ActionData, actionDataToHTML }
 ----

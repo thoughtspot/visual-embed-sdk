@@ -13,7 +13,7 @@
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=browser-settings[Browser settings for embedding]
-** link:{{navprefix}}=api-changelog[Changelog]
+
 
 * Visual Embed SDK
 ** link:{{navprefix}}=visual-embed-sdk[Overview]
@@ -25,6 +25,7 @@
 * Customization Settings
 ** link:{{navprefix}}=customize-style[Customize styles]
 ** link:{{navprefix}}=customize-actions[Add custom actions]
+** link:{{navprefix}}=push-data[Push data to an external app]
 
 * REST APIs
 ** link:{{navprefix}}=rest-apis[Overview]
@@ -34,7 +35,6 @@
 ** link:{{navprefix}}=api-user-group-management[Configure privileges for user groups]
 ** link:{{navprefix}}=calling-rest-api[Make a REST API call]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
-** link:{{navprefix}}=push-data[Push data to an external app]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
 
 * Reference guides
@@ -49,9 +49,12 @@
 *** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
 *** link:{{navprefix}}=tml-api[TML API]
 
+* Release notes
+** link:{{navprefix}}=whats-new[New features and enhancements]
+
 * Resources
+** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
-** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
-** link:https://cloud-docs.thoughtspot.com[ThoughtSpot Product Documentation, window=_blank]
+** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
 

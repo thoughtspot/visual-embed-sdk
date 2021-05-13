@@ -5,7 +5,7 @@
 :page-pageid: customize-actions
 :page-description: Add custom actions
 
-When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. You can disable or exclude the menu actions that are not required for your application users. You can also add custom actions that are relevant to  your application context.
+When you embed ThoughtSpot visualizations and pinboards, you can access the menu options that are generally available for all ThoughtSpot instances. You can disable or exclude the menu actions that are not required for your application users. You can also add custom actions that are relevant to your application context.
 
 
 == Custom actions
@@ -16,8 +16,8 @@ For example, you may search in ThoughtSpot for customers whose contracts are due
 ////
 
 You can add a custom action as a primary button or as a menu command in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the **Pinboards** and **Search Answers** pages. If the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your cluster, you can also add a custom action to the contextual menu for visualizations in the **Pinboards** and **Search Answers** page.
-
-== Add a custom menu item
+[#url]
+== Configure a custom action to send data to a URL
 To add custom menu item:
 
 . Go to *Develop* > *Customizations* > *Actions*.
@@ -27,14 +27,14 @@ To add custom menu item:
 . Add the URL that you want to invoke when the user clicks the action label in the UI.
 
 +
-If you want to use a URL target for the custom action, make sure the URL is added to the xref:security.settngs.adoc[CORS and CSP whitelist].
+If you want to use a URL target for the custom action, make sure the URL is added to the xref:security-settngs.adoc[CORS and CSP whitelist].
 
 . Specify an ID for the custom action.
 +
 To disable or hide this custom action on a ThoughtSpot page using Visual Embed SDK, use this ID in the `disabledActions` or  `hiddenActions` attribute.
 
 +
-For example, if you have a custom action labeled as *Send Survey* and its ID is  *send-survey*, use `send-survey` in the `disabledActions` parameter to disable and in the  `hiddenActions` parameter to hide the custom action on a ThoughtSpot application page.
+For example, if you have a custom action labeled as *Send Survey* and its ID is  *send-survey*, use `send-survey` in the `disabledActions` parameter to disable and in the `hiddenActions` parameter to hide the custom action on a ThoughtSpot application page.
 
 . To specify the position of the custom action button, select one of the following options:
 * *Primary*
@@ -64,14 +64,12 @@ The custom menu item is indicated with a custom tag to distinguish it from the d
 
 . To view the action you just added, click *My actions*.
 
+[#callback]
+== Configure a callback custom action
 
-== Add a callback function
+ThoughtSpot allows you to programmatically set up a callback function from the parent application which triggers on the click of a custom action. For example, if you want to push insights from ThoughtSpot into your app or trigger an event to an external application, you can add a custom action in Thoughtspot and set up a callback in the parent application. When the user clicks this action on the *Answers* or *Pinboards* page, it initiates a callback to the parent application.
 
-The callback custom action provides you with the flexibility to programmatically set up a function to request a call back to the parent application.
-
-When the user clicks the callback action label in the UI, the Visual Embed SDK generates the `customAction` event with the callback ID, and ThoughtSpot sends the requested data as a payload.
-
-To add a callback function:
+To add a callback custom action:
 
 . Go to *Develop* > *Customizations* > *Actions*.
 . Click *Create action*.

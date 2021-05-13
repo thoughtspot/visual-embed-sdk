@@ -149,7 +149,7 @@ When configuring SAML 2.0, make sure you map the SAML user attributes to appropr
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
 
-For more information, see the embedding instructions for xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], or xref:embed-a-viz.adoc[visualization].
+For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and  xref:embed-a-viz.adoc[visualizations].
 
 [#saml-redirect]
 === Allow SAML Redirect Domains
