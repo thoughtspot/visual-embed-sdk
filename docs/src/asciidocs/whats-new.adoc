@@ -8,9 +8,7 @@
 
 This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
 
-
 == May 2021
-
 The latest release of ThoughtSpot Cloud consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu
@@ -29,12 +27,13 @@ The Visual Embed SDK packages now include the `noRedirect` attribute as an optio
 
 For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
 
-==== Safari browser support for ThoughtSpot embedded applications
-When a user accesses the embedded application from the Safari web browser, the Visual Embed SDK emits an event to notify the user to enable third-party cookies in Safari's  Preferences setting page. The user can enable third-party cookies to continue with Safari or switch to another web browser. 
+==== Visual Embed SDK notification when third-party cookies are disabled
+When a user accesses the embedded application from a web browser that has third-party cookies disabled, the Visual Embed SDK emits the `NoCookieAccess` event to notify the developer. Cookies are disabled by default in Safari. Users can enable third-party cookies in Safari’s Preferences setting page or use another web browser.
+To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.  
 
 For more information on allowing third-party cookies on Safari, see xref:browser-settings.adoc[Browser settings for embedding].
 
-==== Pinboard embed Enhancements
+==== Pinboard embed enhancements
 The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations. 
 
 Pinboard::
@@ -60,11 +59,8 @@ Visualizations on a pinboard::
 * Download as PDF 
 
 [NOTE]
---
-* Users with edit permissions can view and access the *Edit* action.
-* The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations.
-* The *Download* action is available for chart visualizations.
---
+Users with edit permissions can view and access the *Edit* action. The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations. The *Download* action is available for chart visualizations.
+
 ==== Performance optimization
 This release introduces the following performance improvements for ThoughtSpot embedded applications:
 
@@ -74,13 +70,11 @@ This release introduces the following performance improvements for ThoughtSpot e
 === REST APIs
 The ThoughtSpot 7 Cloud May release introduces the following new REST APIs:
 
-* `POST /tspublic/v1/user/updatepreference`
+* `*POST* /tspublic/v1/user/updatepreference`
 +
-You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience. 
-+
-For more information, see xref:user-api.adoc#updatepreference-api[User API].
+You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience. For more information, see xref:user-api.adoc#updatepreference-api[User API].
 
-* `GET /tspublic/v1/metadata/listas` 
+* `*GET* /tspublic/v1/metadata/listas` 
 +
 You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
 

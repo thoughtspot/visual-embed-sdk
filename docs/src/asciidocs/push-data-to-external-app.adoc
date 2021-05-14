@@ -75,7 +75,7 @@ This example shows how to handle the `show-data` callback custom action and the 
  }
 ----
 [#handle-data]
-==== Define functions and classes to handle custom action data
+=== Define functions and classes to handle custom action data
 The following code snippet shows the sample classes and functions for handling custom action data:
 
 [source, Javascript]
@@ -98,7 +98,7 @@ class ActionData {
  }
 
  get nbrRows() {
-   // Return the number of rows.  Assumes all columns are of the same length.
+   // Returns the number of rows.  Assumes all columns are of the same length.
    if (this._columnNames && Object.keys(this._data)) {  // make sure there is some data.
      return this._data[this._columnNames[0]]?.length;
    }
@@ -114,13 +114,12 @@ class ActionData {
    // Creates a new ActionData object from JSON.
    const actionData = new ActionData();
 
-   // Get the column names.
+   // Gets the column names.
    const nbrCols = jsonData.data.columnsAndData.columns.length;
    for (let colCnt = 0; colCnt < nbrCols; colCnt += 1) {
      actionData._columnNames.push(jsonData.data.columnsAndData.columns[colCnt].column.name);
    }
-
-   // can come in two flavors, so need to get the right data.
+ 
    let dataSet;
    dataSet = (Array.isArray(jsonData.data.columnsAndData.data))
      ? jsonData.data.columnsAndData.data[0].columnDataLite
