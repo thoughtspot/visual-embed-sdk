@@ -17,6 +17,17 @@ const getPathPrefix = () => {
     }
 };
 
+const stripLinks = (text) =>{
+    if (text) {
+        const re = /<a\s.*?href=[\"\'](.*?)[\"\']*?>(.*?)<\/a>/g;
+        const str = text;
+        const subst = '$2';
+        const result = str.replace(re, subst);
+        return result;
+    }
+    return '';
+}
+
 const getPath = (path) =>
     getPathPrefix() ? `${path}/${getPathPrefix()}` : path;
 
@@ -204,28 +215,29 @@ module.exports = {
                             )
                             .map((edge) => {
                                 const pageid = edge.node.pageAttributes.pageid;
+                                const body = htmlToText(stripLinks(edge?.node?.html))
                                 return {
                                     pageid,
+                                    body,
                                     type: 'ASCII',
-                                    title: edge.node.document.title,
-                                    body: htmlToText(edge.node.html),
                                     link: '',
+                                    title: edge.node.document.title,
                                 };
                             }),
                         ...data.allFile.edges
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
                                 const pageid = edge.node.name;
+                                const body = htmlToText(stripLinks(edge?.node?.childHtmlRehype?.html))
+
                                 return {
+                                    body,
                                     pageid,
                                     type: edge.node.extension,
                                     title: edge.node.childHtmlRehype.htmlAst.children.find(
                                         (children) =>
                                             children.tagName === 'title',
                                     ).children[0].value,
-                                    body: htmlToText(
-                                        edge.node.childHtmlRehype.html,
-                                    ),
                                     link: `${getPath(config.DOC_REPO_NAME)}/${
                                         config.TYPE_DOC_PREFIX
                                     }/${edge.node.relativePath}`,
