@@ -215,7 +215,7 @@ module.exports = {
                             )
                             .map((edge) => {
                                 const pageid = edge.node.pageAttributes.pageid;
-                                const body = htmlToText(stripLinks(edge?.node?.html))
+                                const body = edge && edge.node ? htmlToText(stripLinks(edge.node.html)) : '';
                                 return {
                                     pageid,
                                     body,
@@ -228,8 +228,8 @@ module.exports = {
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
                                 const pageid = edge.node.name;
-                                const body = htmlToText(stripLinks(edge?.node?.childHtmlRehype?.html))
-
+                                const body = edge && edge.node && edge.node.childHtmlRehype ?
+                                            htmlToText(stripLinks(edge.node.childHtmlRehype.html)) : ''
                                 return {
                                     body,
                                     pageid,
