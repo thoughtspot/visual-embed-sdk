@@ -68,6 +68,39 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should pass the search token string and executeSearch if present', async () => {
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
+
+        let searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchOptions,
+        });
+
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/?searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+            );
+        });
+
+        searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchOptions: {
+                ...searchOptions,
+                executeSearch: true,
+            },
+        });
+
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/?searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&executeSearch=true&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+            );
+        });
+    });
+
     test('should collapse data sources', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {

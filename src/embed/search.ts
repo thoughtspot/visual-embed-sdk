@@ -12,6 +12,22 @@ import { getQueryParamString } from '../utils';
 import { ViewConfig, TsEmbed } from './base';
 
 /**
+ * Configuration for search options
+ */
+interface SearchOptions {
+    /**
+     * The tml string to load the answer
+     */
+    searchTokenString: string;
+    /**
+     * Boolean to determine if the search should be executed or not.
+     * if it is executed, put the focus on the results.
+     * if it’s not executed, put the focus in the search bar - at the end of the tokens
+     */
+    executeSearch?: boolean;
+}
+
+/**
  * The configuration attributes for the embedded search view.
  *
  * @Category Search Embed
@@ -44,6 +60,10 @@ export interface SearchViewConfig extends ViewConfig {
      * The initial search query to load the answer with.
      */
     searchQuery?: string;
+    /**
+     * Configuration for search options
+     */
+    searchOptions?: SearchOptions;
     /**
      * The GUID of a saved answer to load initially.
      */
@@ -100,11 +120,21 @@ export class SearchEmbed extends TsEmbed {
             hiddenActions,
             hideResults,
             enableSearchAssist,
+            searchOptions,
         } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = {};
         if (dataSources && dataSources.length) {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
+        }
+        if (searchOptions?.searchTokenString) {
+            queryParams[Param.searchTokenString] = encodeURIComponent(
+                searchOptions.searchTokenString,
+            );
+
+            if (searchOptions.executeSearch) {
+                queryParams[Param.executeSearch] = true;
+            }
         }
         if (searchQuery) {
             queryParams[Param.SearchQuery] = encodeURIComponent(searchQuery);

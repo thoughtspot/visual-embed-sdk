@@ -339,6 +339,8 @@ export enum Param {
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
     Tag = 'tag',
+    searchTokenString = 'searchTokenString',
+    executeSearch = 'executeSearch',
 }
 
 /**
