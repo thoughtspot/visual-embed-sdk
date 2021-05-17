@@ -56,7 +56,7 @@ jobs:
 
       # Deploy on github pages
       - name: build
-        run: npm run docs-cmd -- build
+        run: npm run build:gatsby
         
       # Deploy on github pages for Dev env
       - name: publish-dev

@@ -18,6 +18,13 @@
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
         "tsc": "tsc -p . --incremental false",
+        "start": "gatsby develop",
+        "publish": "gh-pages -d public",
+        "build:gatsby": "npm run clean:gatsby && gatsby build --prefix-paths",
+        "build:gatsby:noprefix": "npm run clean:gatsby && gatsby build",
+        "serve:gatsby": "gatsby serve",
+        "clean:gatsby": "gatsby clean",
+        "build-and-publish": "npm run build:gatsby && npm run publish",
         "bundle-dts": "dts-bundle --name @thoughtspot/visual-embed-sdk --out visual-embed-sdk.d.ts --main lib/src/index.d.ts",
         "build": "rollup -c",
         "watch": "rollup -cw",
@@ -35,8 +42,8 @@
         "react-dom": "> 16.8.0"
     },
     "dependencies": {
-        "mixpanel-browser": "^2.41.0",
-        "gatsby": "3.1.0"
+        "gatsby": "3.1.0",
+        "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
