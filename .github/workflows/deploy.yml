@@ -11,6 +11,7 @@ on:
     paths: 
     - 'static/typedoc/**'
     - 'docs/src/**'
+    - 'gatsby-config.js'
   
   # For manually triggering the build
   workflow_dispatch:
