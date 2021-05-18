@@ -104,6 +104,49 @@ button {
     display: none;
 }
 
+/*Tags style start*/
+
+.tag {
+    border-radius: $tag-border-radius;
+    display: inline-block;
+    font-size: $tag-font-size !important;
+    font-weight: $tag-font-weight !important;
+    height: $tag-height;
+    line-height: $tag-line-height !important;
+    margin-right: $tag-margin-right;
+    text-align: center;
+    text-transform: uppercase;
+    min-width: $tag-width;
+    padding: $tag-padding;
+    color: $tag-font-color;
+}
+
+.blueBackground {
+    background-color: $note-color;
+}
+
+.purpleBackground {
+    background-color: $caution-color;
+}
+
+.redBackground {
+    background-color: $important-color;
+}
+
+.greenBackground {
+    background-color: $tip-color;
+}
+
+.orangeBackground {
+    background-color: $warning-color;
+}
+
+.yellowBackground {
+    background-color: $tag-color-yellow;
+}
+
+/*Tags style end*/
+
 /*Scrollbar styling start*/
 ::-webkit-scrollbar {
     width: 0.4em;
