@@ -130,8 +130,14 @@
         margin-top: $margin-lg;
     }
 
+    h3 {
+        margin-top: $margin-title;
+        font-size: $font-size-h3;
+    }
+
     h4 {
-        font-size: $font-size-doc;
+        font-size: $font-size-h4;
+        margin-top: $margin-title;
     }
 
     ol > li {
