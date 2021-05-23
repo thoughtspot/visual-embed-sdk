@@ -116,6 +116,32 @@ const appEmbed = new AppEmbed(
 appEmbed.render();
 ```
 
+## React Components
+
+All the above flavors of embedding are also provided as React components for your convenience.
+The constructor options are passed as props and the event listeners can be attached using `on<EventName>` convention.
+
+### Search Component
+```js
+import { init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed } from '@thoughtspot/visual-embed-sdk/react';
+
+init({
+    thoughtSpotHost: '<%=tshost%>',
+    authType: AuthType.None,
+});
+
+const MyComponent = ({ dataSources }) => {
+    const onCustomAction = (actionEvent) => {
+        // Do something with actionEvent.
+    };
+    
+    return <SearchEmbed dataSources={dataSources} onCustomAction={onCustomAction} />
+}
+```
+
+### 
+
 <br/>
 <br/>
 
