@@ -1,3 +1,12 @@
+/**
+ Initialises fetch to the global object
+*/
+global.fetch = jest.fn(() =>
+    Promise.resolve({
+        json: () => ({ mixpanelAccessToken: '' }),
+    }),
+);
+
 export const getDocumentBody = () =>
     '<div id="embed"></div><div id="embed-2"></div>';
 

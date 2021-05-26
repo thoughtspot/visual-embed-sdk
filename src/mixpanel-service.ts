@@ -11,9 +11,6 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
 };
 
-const nodeEnv = process.env.NODE_ENV;
-const TEST_ENV = 'test';
-
 let isEventCollectorOn = false;
 const eventCollectorQueue: { eventId: string; eventProps: any }[] = [];
 
@@ -48,9 +45,6 @@ function emptyQueue() {
 }
 
 export async function initMixpanel(config: EmbedConfig): Promise<any> {
-    if (nodeEnv === TEST_ENV) {
-        return Promise.resolve();
-    }
     const { thoughtSpotHost } = config;
     return fetch(`${thoughtSpotHost}${EndPoints.CONFIG}`)
         .then((response) => response.json())
