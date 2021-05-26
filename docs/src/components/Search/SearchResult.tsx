@@ -5,11 +5,12 @@ type SearchResultProps = {
     highlightedIndex: number;
     keyword: string;
     title: string;
+    isKeywordNotFound: boolean
 };
 
 const SearchResult = (props: SearchResultProps) => (
     <div
-        className={`textContainer 
+        className={`${!props.isKeywordNotFound && 'textContainer'} 
         ${props.index === props.highlightedIndex && 'active'}`}
     >
         <p className="title">{props.keyword}</p>

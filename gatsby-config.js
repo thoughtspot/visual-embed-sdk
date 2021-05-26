@@ -17,7 +17,7 @@ const getPathPrefix = () => {
     }
 };
 
-const stripLinks = (text) =>{
+const stripLinks = (text) => {
     if (text) {
         const re = /<a\s.*?href=[\"\'](.*?)[\"\']*?>(.*?)<\/a>/g;
         const str = text;
@@ -70,12 +70,11 @@ class CustomDocConverter {
             if (this.isTransformLink(target)) {
                 // check if link is for 'Visual Embed SDK' documents or not
                 if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
-                    anchorMarkup = `${getPath(config.DOC_REPO_NAME)}/${
-                        config.TYPE_DOC_PREFIX
-                    }${target.replace(
-                        `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
-                        '',
-                    )}`;
+                    anchorMarkup = `${getPath(config.DOC_REPO_NAME)}/${config.TYPE_DOC_PREFIX
+                        }${target.replace(
+                            `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
+                            '',
+                        )}`;
                 } else if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
@@ -168,7 +167,13 @@ module.exports = {
             options: {
                 name: 'pages',
                 engine: 'flexsearch',
-                engineOptions: 'speed',
+                engineOptions: {
+                    encode: 'icase',
+                    tokenize: 'forward',
+                    threshold: 8,
+                    resolution: 9,
+                    depth: 1
+                },
                 query: `
                 query {
                     allAsciidoc(sort: { fields: [document___title], order: ASC }) {
@@ -238,9 +243,8 @@ module.exports = {
                                         (children) =>
                                             children.tagName === 'title',
                                     ).children[0].value,
-                                    link: `${getPath(config.DOC_REPO_NAME)}/${
-                                        config.TYPE_DOC_PREFIX
-                                    }/${edge.node.relativePath}`,
+                                    link: `${getPath(config.DOC_REPO_NAME)}/${config.TYPE_DOC_PREFIX
+                                        }/${edge.node.relativePath}`,
                                 };
                             }),
                     ];

@@ -65,6 +65,9 @@ const Search: React.FC<SearchProps> = (props) => {
                 setHighlightedIndex((prev: number) => (prev + 1) % optionSize);
                 return;
             case ENTER:
+                if (props.options[highlightedIndex].type === 'text') {
+                    return;
+                }
                 if (props.options[highlightedIndex].type === 'html') {
                     if (anchor?.current) {
                         anchor.current.click();
@@ -79,6 +82,67 @@ const Search: React.FC<SearchProps> = (props) => {
                 return;
             default:
                 return;
+        }
+    };
+
+    const renderOption = (option: SearchQueryResult, index: number) => {
+        switch (option.type) {
+            case 'html':
+                return (
+                    <a
+                        key={option.pageid}
+                        className="result"
+                        href={option.link}
+                        target="_blank"
+                        ref={anchor}
+                        onClick={() => props.updateKeyword('')}
+                    >
+                        <SearchResult
+                            highlightedIndex={highlightedIndex}
+                            index={index}
+                            keyword={props.keyword}
+                            title={option.title}
+                        />
+                    </a>
+                );
+            case 'text':
+                return (
+                    <div
+                        key={option.pageid}
+                        className="result"
+                        ref={(el: HTMLDivElement) => {
+                            optionListRef.current[index] = el;
+                        }}
+                    >
+                        <SearchResult
+                            highlightedIndex={highlightedIndex}
+                            index={index}
+                            keyword={props.keyword}
+                            title={option.title}
+                            isKeywordNotFound={true}
+                        />
+                    </div>
+                );
+            default:
+                return (
+                    <div
+                        key={option.pageid}
+                        className="result"
+                        onClick={() =>
+                            props.optionSelected(option.pageid)
+                        }
+                        ref={(el: HTMLDivElement) => {
+                            optionListRef.current[index] = el;
+                        }}
+                    >
+                        <SearchResult
+                            highlightedIndex={highlightedIndex}
+                            index={index}
+                            keyword={props.keyword}
+                            title={option.title}
+                        />
+                    </div>
+                );
         }
     };
 
@@ -103,41 +167,7 @@ const Search: React.FC<SearchProps> = (props) => {
                     <div ref={node} className="resultContainer">
                         {props.options.map(
                             (option: SearchQueryResult, index: number) => {
-                                return option.type !== 'html' ? (
-                                    <div
-                                        key={option.pageid}
-                                        className="result"
-                                        onClick={() =>
-                                            props.optionSelected(option.pageid)
-                                        }
-                                        ref={(el: HTMLDivElement) => {
-                                            optionListRef.current[index] = el;
-                                        }}
-                                    >
-                                        <SearchResult
-                                            highlightedIndex={highlightedIndex}
-                                            index={index}
-                                            keyword={props.keyword}
-                                            title={option.title}
-                                        />
-                                    </div>
-                                ) : (
-                                    <a
-                                        key={option.pageid}
-                                        className="result"
-                                        href={option.link}
-                                        target="_blank"
-                                        ref={anchor}
-                                        onClick={() => props.updateKeyword('')}
-                                    >
-                                        <SearchResult
-                                            highlightedIndex={highlightedIndex}
-                                            index={index}
-                                            keyword={props.keyword}
-                                            title={option.title}
-                                        />
-                                    </a>
-                                );
+                                return renderOption(option, index)
                             },
                         )}
                     </div>
