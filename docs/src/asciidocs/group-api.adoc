@@ -1,5 +1,4 @@
-= Group API
-:toc: true
+= Group APIs
 
 :page-title: Group API
 :page-pageid: group-api

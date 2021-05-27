@@ -6,23 +6,23 @@
 :page-pageid: trusted-auth
 :page-description: Trusted Authentication
 
-If your organization has a trusted authentication server, you can use it to authenticate the users who request access to the embedded ThoughtSpot application. After authenticating a user, the trusted authenticator server or service obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
+If your organization has a trusted authentication server, you can use it to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. After authenticating a user, the trusted authentication  server obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
 
 [NOTE]
 To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
 
 == Trusted authentication workflow
-The embed user authentication workflow with trusted authentication service involves the following steps:
+The embed user authentication workflow with a trusted authentication service involves the following steps:
 
-. A user logs into the client application and requests access to an embedded ThoughtSpot component.
-. The client application sends a request for a user token from the trusted authenticator.
+. A user logs into the host application and requests access to the embedded ThoughtSpot content.
+. The host application sends a request for a user token from the trusted authentication server.
 +
-Your server application must determine the following:
+The authentication server must determine the following:
 
- ** if the requestor has authenticated with your server.
+ ** if the requestor has authenticated with the server.
  ** which user (`username`) is making the request.
  ** what is being requested: an object, page, or the entire ThoughtSpot application.
- ** whether the requesting `username` matches a `username` on the ThoughtSpot application.
+ ** whether the requesting `username` matches a `username` added in ThoughtSpot.
 +
 
 .  The trusted authenticator server intercepts the request, authenticates the user, and requests a token from ThoughtSpot on the user's behalf.
@@ -44,13 +44,13 @@ An optional `formData` parameter containing the identifier of the embedded Thoug
 This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level` parameter.
 +
 
-. ThoughtSpot verifies the authenticator server's request and returns a user token.
-. The authenticator returns the user token to the client, which uses it to complete the user request.
+. ThoughtSpot verifies the authentication server's request and returns a user token.
+. The authentication server returns the user token to the client, which uses it to complete the user request.
 . The client application forwards the request and the user token to the ThoughtSpot application server.
 +
 [source, HTML]
 ----
-GET https://<ThoughtSpot-host>/collosum/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
 ----
 The request URL includes the following attributes:
 
@@ -78,6 +78,7 @@ The following illustration depicts the trusted authentication workflow:
 
 image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
+[#trusted-auth-enable]
 == Enable trusted authentication
 You need ThoughtSpot admin privileges to enable trusted authentication.
 
@@ -86,11 +87,12 @@ You need ThoughtSpot admin privileges to enable trusted authentication.
 . Under *Customizations*, click *Settings*.
 . To enable trusted authentication, turn on the toggle.
 +
-An authentication token is generated.
+A secret key for trusted authentication is generated. This secret key required for obtaining authentication token for a ThoughtSpot user.
 
 . Click the clipboard icon to copy the token.
 +
-The following example shows a ThoughtSpot-generated authentication token key.
+The following example shows a ThoughtSpot-generated token string.
+
 +
 ----
 b0cb26a0-351e-40b4-9e42-00fa2265d50c

@@ -80,71 +80,16 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
 The Data REST API returns the data formatted as JSON.
 . Retrieve the data from the JSON and embed it in your Web page, Web portal, or application.
 
-== Apply runtime filters
+=== Apply runtime filters
 
 Runtime filters allow you to apply filters to the data returned by the APIs. The filters are specified in the called URL as parameters. 
 
-You can use the following operators when applying Runtime filters on a visualization or pinboard.
+==== Runtime filter operators
+include::runtime-filter.adoc[]
 
-[width="50%" cols="1,2,1"]
-[options='header']
-|===
-|Operator|Description|Number of Values
+==== Apply runtime filters to a visualization
 
-| `EQ`
-| equals
-| 1
-
-| `NE`
-| does not equal
-| 1
-
-| `LT`
-| less than
-| 1
-
-| `LE`
-| less than or equal to
-| 1
-
-| `GT`
-| greater than
-| 1
-
-| `GE`
-| greater than or equal to
-| 1
-
-| `CONTAINS`
-| contains
-| 1
-
-| `BEGINS_WITH`
-| begins with
-| 1
-
-| `ENDS_WITH`
-| ends with
-| 1
-
-| `BW_INC_MAX`
-| between inclusive of the higher value
-| 2
-
-| `BW_INC_MIN`
-| between inclusive of the lower value
-| 2
-
-| `BW_INC`
-| between inclusive
-| 2
-
-| `BW`
-| between non-inclusive
-| 2
-|===
-
-To apply runtime filters to a visualization object in the `tspublic/v1/pinboarddata` REST API call, use the following format:
+To apply runtime filters to a pinboard, use the following format in the REST API call:
 
 [source]
 ----
@@ -153,7 +98,7 @@ http://<ThoughtSpot-host>:<port>
 ?id=<pinboard_id>
 &col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
-To apply runtime filters to a visualization object in the REST API call, use the following format:
+To apply runtime filters to a specific visualization object, use the following format in the REST API call:
  
 [source]
 ----
@@ -167,7 +112,7 @@ To add additional filters on a particular column, you can specify multiple value
  
 [source]
 ----
- val1=foo&val1=bar
+val1=foo&val1=bar
 ----
 
 You can also use the `IN` operator for multiple values, as shown in this example:

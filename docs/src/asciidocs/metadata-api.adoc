@@ -1,92 +1,23 @@
-= Metadata API
-:toc: true
+= Metadata APIs
 
 :page-title: Get metadata
 :page-pageid: metadata-api
 :page-description: Metadata API
 
-The metadata API service allows you to fetch metadata details for various objects in the ThoughtSpot system.
+The metadata APIs allow you to run a query for metadata objects in the ThoughtSpot system. The metadata objects include search answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot. 
 
-For example, you may want to see the visualization headers of a particular visualization or a pinboard.
-
----
-== Get visualization headers
-
-Use this API to get a list of visualization headers from the ThoughtSpot system.
-The output includes a list of objects, each with information about the visualizations in a given pinboard or a search answer.
-
-=== Resource URL
-----
-GET /tspublic/v1/metadata/listvizheaders
-----
-=== Request parameters
-[width="100%" cols="1,2,3"]
-[options='header']
-|====
-|Query Parameter|Data Type|Description
-|`id`|string|ID of a particular answer or a pinboard.
-|====
-=== Example request
-
-.cURL
-[source, cURL]
-----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
-----
-
-=== Example response
-
-[source,JSON]
-----
-[
-  {
-    "id": "dd7f5467-99c3-4278-998b-6dd0c4346cd4",
-    "name": "Headline Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  },
-  {
-    "id": "fcb65fdb-3965-4f56-8bda-e5e3c2a127a7",
-    "name": "Filter Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days Row: 1",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  },
-  {
-    "id": "0f6e7220-5088-4a0e-8122-50b637c356fc",
-    "name": "Table Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  }
-]
-----
-
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
+The metadata APIs support the following operations:
+[width="100%" cols="2,3"]
 |===
-|HTTP Code|Description
-|**200**|Successful retrieval of the visualization headers list
-|**400**|Invalid pinboard GUID
+|`xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]`|Returns metadata object headers from the ThoughtSpot system.
+|`xref:metadata-api.adoc#viz-header[GET /tspublic/v1/metadata/listvizheaders]` |Returns visualization headers for a given metadata object such as a pinboard or search answer.
+|`xref:metadata-api.adoc#headers-metadata-users[GET /tspublic/v1/metadata/listas]`|Returns metadata objects for a user or user group.
+|`xref:metadata-api.adoc#assign-tag[POST /tspublic/v1/metadata/assigntag]`|Assigns tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
 |===
 
----
+[#object-header]
 == Get object headers
-
-Use this API to fetch a comprehensive list of metadata headers of a specific object type in the Thoughtspot system.
+To query metadata objects headers for a data type in the Thoughtspot system, use the `/tspublic/v1/metadata/listobjectheaders` API.
 
 === Resource URL
 ----
@@ -97,56 +28,61 @@ GET /tspublic/v1/metadata/listobjectheaders
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`type`|string a|Specifies the metadata object type.
- Valid values are:
+|`type` __Optional__|string a|Type of the metadata object. To query data for specific object type, set the metadata object `type` to one of the following values:
 
-* `QUESTION_ANSWER_BOOK`
-* `PINBOARD_ANSWER_BOOK`
-* `QUESTION_ANSWER_SHEET`
-* `PINBOARD_ANSWER_SHEET`
-* `LOGICAL_COLUMN`
-* `LOGICAL_TABLE`
-* `LOGICAL_RELATIONSHIP`
-* `TAG`
-* `DATA_SOURCE`
-|`subtypes`|string a|Specifies the sub-types of a metadata object. Valid values are:
+* `QUESTION_ANSWER_BOOK` for search answers.
+* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values. 
+* `TAG` for tags assigned to a metadata object.
+* `DATA_SOURCE` for data source from which the metadata objects were loaded.  
 
-* `ONE_TO_ONE_LOGICAL`
-* `WORKSHEET`
-* `PRIVATE_WORKSHEET`
-* `USER_DEFINED`
-* `AGGR_WORKSHEET`
+[IMPORTANT]
+====
+The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
+====
 
-Note: This parameter only applies to the `LOGICAL_TABLE`.
-|`category`|string a|Specifies the metadata object category. Valid values are:
+|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype. 
 
-* `ALL`
-* `MY`
-* `FAVORITE`
-* `REQUESTED`
-|`sort`|string a|Sort order of returned headers. Valid values are:
+* `ONE_TO_ONE_LOGICAL` for tables
+* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+* `USER_DEFINED` for tables uploaded from a CSV file.
+* `AGGR_WORKSHEET` for Views. A **View** in ThoughtSpot refers to a table materialized from a search answer that was saved as a View by a user. 
 
-* `DEFAULT`
-* `NAME`
-* `DISPLAY_NAME`
+[IMPORTANT]
+====
+The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
+====
+|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as search answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:    
+
+* `ALL` to get all objects for a given metadata type, for example, search answers or pinboards.
+* `MY` to get the objects created or saved by the current logged in user.
+* `FAVORITE` to get a list of objects marked as favorites by the current logged in user.
+* `REQUESTED` to get only the objects requested by the current logged in user.   
+|`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
+
+* `DEFAULT` 
+* `NAME` 
+* `DISPLAY_NAME` 
 * `AUTHOR`
 * `CREATED`
 * `MODIFIED`
-|`sortascending`| boolean a|A flag to specify the sort order. A null value defines the default order.
+|`sortascending` __Optional__| boolean a|A flag to specify the sort order. A null value defines the default order.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset`|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
-|`batchsize`|integer|The batch size of the object. A value of `-1` implies no pagination.
-|`tagname`|string|A JSON array containing a set of tag names to filter headers by.
-|`pattern`|string|A pattern to match object name. Use `%`for wildcard match.
-|`skipids`|string|IDs of metadata objects to exclude.
-|`fetchids`|string|IDs of metadata objects to fetch.
-|`auto_created`| boolean|A flag that indicates whether to list only the auto-created objects. A value of null returns all objects.
+|`offset` __Optional__|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
+|`batchsize` __Optional__|integer|The batch size of the object. A value of `-1` implies no pagination.
+|`tagname` __Optional__|string|A JSON array containing a set of tag names to filter headers by.
+|`pattern` __Optional__|string|A pattern to match object name. Use `%`for a  wildcard match.
+|`skipids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to exclude.
+|`fetchids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to fetch.
+|`auto_created` __Optional__| boolean|A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
 |====
 === Example request
 
-.CURL
+.cURL
 [source,cURL]
 ----
 curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
@@ -202,8 +138,83 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of metadata headers
+|*400*|Invalid metadata subtype
+|*500*|Invalid metadata type
+|===
+---
+[#viz-header]
+== Get visualization headers
+To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 
+The API returns a list of visualizations for a given pinboard or a search answer.
+
+=== Resource URL
+----
+GET /tspublic/v1/metadata/listvizheaders
+----
+=== Request parameters
+[width="100%" cols="1,2,3"]
+[options='header']
+|====
+|Query Parameter|Data Type|Description
+|`id`|string|ID of a search answer or a pinboard.
+|====
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
+----
+
+=== Example response
+
+[source,JSON]
+----
+[
+  {
+    "id": "dd7f5467-99c3-4278-998b-6dd0c4346cd4",
+    "name": "Headline Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  },
+  {
+    "id": "fcb65fdb-3965-4f56-8bda-e5e3c2a127a7",
+    "name": "Filter Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days Row: 1",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  },
+  {
+    "id": "0f6e7220-5088-4a0e-8122-50b637c356fc",
+    "name": "Table Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  }
+]
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|Successful retrieval of the visualization headers list
+|**400**|Invalid pinboard GUID
 |===
 
 ---
@@ -217,7 +228,7 @@ Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects ava
 GET /tspublic/v1/metadata/listas
 ----
 === Request parameters
-[width="100%" cols="1,2,3"]
+[width="100%" cols="1,1,3"]
 [options='header']
 |====
 |Query Parameter|Data Type|Description
@@ -232,7 +243,7 @@ GET /tspublic/v1/metadata/listas
 * If the `principalID` parameter is not defined, but the `type` attribute is set to `USER_GROUP`, the API returns metadata objects for all user groups.
 * If both `principalID` and `type` parameters are not defined, the API returns headers for all users.
 
-|`minimumaccesslevel`__Optional__|string a| Minimum access level that the specified user or user group has. 
+|`minimumaccesslevel` __Optional__|string a| Minimum access level that the specified user or user group has. 
 Valid values are:
 
 * `NO_ACCESS`
@@ -398,6 +409,22 @@ The following example shows the headers returned for a user:
       "isHidden": false,
       "isAutoCreated": false,
       "isAutoDelete": false,
+      "tags": [
+        {
+          "id": "bde9b681-01e8-4156-bf86-170f6cb7d7ab",
+          "indexVersion": 2045,
+          "generationNum": 2045,
+          "name": "Sales",
+          "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "created": 1621312956892,
+          "modified": 1621312957239,
+          "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "owner": "bde9b681-01e8-4156-bf86-170f6cb7d7ab",
+          "isDeleted": false,
+          "isHidden": false,
+          "clientState": {
+            "color": "#63c9ea"
+          },
       "tags": [],
       "isExternal": false,
       "isDeprecated": false
@@ -418,25 +445,67 @@ The following example shows the headers returned for a user:
 |**401**| Unauthorized request
 |**404**|The requested resource could not be found
 |===
+---
+[#assign-tag]
+== Assign tags to metadata objects
+Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or search answer. You can use tags to find and filter your answers, pinboards, and data objects. 
 
+To apply a tag to a ThoughtSpot object programmatically, you can use the  `/tspublic/v1/metadata/assigntag` API.  
 
-////
-## Error Codes
-<table>
-   <colgroup>
-      <col style="width:20%" />
-      <col style="width:60%" />
-      <col style="width:20%" />
-   </colgroup>
-   <thead class="thead" style="text-align:left;">
-      <tr>
-         <th>Error Code</th>
-         <th>Description</th>
-         <th>HTTP Code</th>
-      </tr>
-   </thead>
-   <tbody>
-    <tr> <td><code>10002</code></td>  <td>Bad request. Invalid parameter values i.e., wrong pinboard ID.</td> <td><code>400</code></td></tr>
-  </tbody>
-</table>
-////
+Before you apply a tag, make sure the tags are created and available for assignment.
+[NOTE]
+====
+Only ThoughtSpot admin users can create a tag. Any ThoughtSpot user with edit permissions can assign a tag to an object.
+====
+
+=== Resource URL
+----
+POST /tspublic/v1/metadata/assigntag
+----
+
+=== Request parameters
+[width="100%" cols="1,2,3"]
+[options='header']
+|====
+|Query Parameter|Data Type|Description
+|`id`|string|The GUID of the metadata object to tag. For example, a pinboard or visualization. If you want to assign the same tag to several objects, specify the GUID of the metadata objects.
+|`type` __Optional__ |string a|Type of the metadata object. Specify one of the following values as a metadata object type:
+
+* `QUESTION_ANSWER_BOOK` for search answers.
+* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+|`tagid`|string|The GUID of tag to assign.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag
+----
+
+=== Example response
+ 
+----
+Response code
+
+204
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP code|Description
+|**204**|Successful application of tag to a metadata object
+|**400**|Invalid parameter value
+|**500**|Invalid metadata object ID
+|===
+ 
