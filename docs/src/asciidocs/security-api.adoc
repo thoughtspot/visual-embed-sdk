@@ -11,7 +11,7 @@ The security APIs support the following operations:
 [width="100%" cols="1,2"]
 |===
 |`xref:security-api.adoc#share-object[POST /tspublic/v1/security/share]`|Shares ThoughtSpot objects with another user or user group.
-|`xref:security-api.adoc##shareviz[POST /tspublic/v1/security/shareviz ]`|Shares a ThoughtSpot visualization with another user or user group.
+|`xref:security-api.adoc##shareviz[POST /tspublic/v1/security/shareviz]`|Shares a ThoughtSpot visualization with another user or user group.
 |===
 
 == Share objects with another user
@@ -42,7 +42,7 @@ POST /tspublic/v1/security/share
 You can provide either `READ-ONLY` or `FULL` access to the objects. With READ-ONLY access, the users can view the shared object. The `FULL` access allows users to modify the object. 
 
 The format of the permission string is `{"permissions":{"<GUID of the object>":{"sharemode":"<type-of-access>"}}}`. For example, to provide a read-only access to a pinboard with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, you can specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"share mode":"READ_ONLY"}}}`
-|`emailshares`|string|The email address of the user accounts with whom you want to share the objects. If no address is specified, the objects are shared with all users in `ALL_GROUP`.
+|`emailshares`|string|The email address of the user accounts with whom you want to share the objects. 
 |`notify` __Optional__|boolean|When set to `true`, a notification is sent to the users after an object is shared.
 |`message` __Optional__|string|The message text to send in the notification email.
 |====
