@@ -1,4 +1,4 @@
-= Push data to an external application
+= Push data using a callback custom action
 :toc: true
 
 :page-title: Push data to an external app
