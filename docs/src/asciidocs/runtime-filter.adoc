@@ -78,6 +78,6 @@ The `DATE` and `DATE_TIME` data type requires you to provide the date and time v
 For example, if you want to filter data for 2020-05-22, you can specify the date value in the Epoch time format as `1590192000`, or use the following JavaScript method to calculate the timestamp:
 
 ----
-new Date('<YYYY-MM-DD').getTime() / 1000
+new Date('2020-05-22').getTime() / 1000
 ----
 ====
