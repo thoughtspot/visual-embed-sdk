@@ -8,8 +8,70 @@
 
 This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
 
+== June 2021
+
+The ThoughtSpot 7 Cloud June release introduces the following new features and enhancements:
+
+== Custom actions
+This release introduces the following new features and enhancements are introduced for custom actions:
+
+=== Global and local custom actions
+
+The ThoughtSpot developer portal now supports designating a custom action as a __global__ or __local__ action. This feature allows you to determine and control the placement of custom actions in the ThoughtSpot UI. Developers can now choose to create a custom action that will appear on all visualizations or a specific custom action that can be added to a particular visualization by a ThoughtSpot user. A custom actions panel in the visualization pages allows ThoughtSpot users to view the available custom actions and add an action to any visualization.
+
+For example, if you want an action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add a custom action globally to all visualizations. Similarly, if you want to send the data obtained from a specific visualization to a URL, you can associate a custom action locally to that visualization. 
+
+For more information, see xref:customize-actions-menu.adoc[Custom actions] and xref:custom-actions-viz.adoc[Add a custom action to a specific visualization].
+
+=== Authentication schemes for custom actions
+
+You can now apply an authentication scheme for custom actions that trigger a data payload to a specific URL target. If a custom action requires your users to authenticate to send  data to a URL, you can specify the authentication method and authorization attributes when creating a custom action in the Developer portal.
+
+ThoughtSpot will use this authentication information to send the required attributes in the `Authorization` headers to the URL endpoint configured in the custom action.
+
+=== Custom action position settings
+
+ThoughtSpot users with edit privileges can now define or modify the position of a custom action on visualization pages. When a developer creates a custom action in the Developer portal, ThoughtSpot adds a menu item to the **More** image:./images/icon-more-10px.png[the more options menu] menu by default. ThoughtSpot users can change this to a context menu action or a primary action at any time. 
+
+If your application instance requires an action that sends only a single row of data from charts or tables, developers can configure a custom action and restrict it to only the contextual menu. If this setting is enabled on a custom action, ThoughtSpot users cannot modify this action on a visualization page.
+
+For more information, see xref:custom-actions-viz.adoc[Add a custom action to a specific visualization].
+
+== Custom link format for ThoughtSpot embedded instances
+
+ThoughtSpot generates links to access objects, such as pinboards, visualizations, and search answers, when a user shares an object with another user or follows a pinboard to receive periodic notifications. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context. 
+
+For embedded instances, ThoughtSpot now allows you to customize the format of these links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
+
+For more information, see xref:customize-links.adoc[Customize links]
+
+== REST APIs
+
+The ThoughtSpot 7 Cloud June release introduces the following REST APIs:
+
+* `POST /tspublic/v1/security/share`
++
+You can use this API to share ThoughtSpot objects with another user or user group. For more information, see xref:security-api.adoc#share-object[Share objects with another user].
+
+* `POST /tspublic/v1/security/shareviz` 
++
+You can use this API to share a specific ThoughtSpot visualization with another user or user group. For more information, see xref:security-api.adoc##shareviz[Share a visualization with another user or user group].  
+
+* `GET /tspublic/v1/session/login/token`
++
+This API allows you to authenticate and log in a user if trusted authentication is enabled on ThoughtSpot. For more information, see xref:session-api.adoc#session-loginToken[Authenticate and log in a user]. 
+
+* `POST /tspublic/v1/metadata/assigntag`
++
+You can use this API to programmatically assign a tag to a ThoughtSpot object such as pinboards, search answers, tables, and worksheets. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+
+=== Other API enhancements
+The *`/tspublic/v1/user/updatepreference`* API now includes the optional `username` parameter to allow API users to specify the `username` of the ThoughtSpot user whose profile is being modified. 
+For more information, see xref:user-api.adoc#updatepreference-api[Update a user profile].
+
+---
 == May 2021
-The latest release of ThoughtSpot Cloud consists of several new and enhanced features for the  ThoughtSpot Developer users.
+The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu
 You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Search Answers* or *Pinboards* page. 
@@ -68,7 +130,7 @@ This release introduces the following performance improvements for ThoughtSpot e
 * Faster loading of preview results in the Playground. 
  
 === REST APIs
-The ThoughtSpot 7 Cloud May release introduces the following new REST APIs:
+The ThoughtSpot 7 Cloud May release introduces the following REST APIs:
 
 * `*POST* /tspublic/v1/user/updatepreference`
 +
@@ -77,4 +139,3 @@ You can use this API to programmatically update a ThoughtSpot user's profile set
 * `*GET* /tspublic/v1/metadata/listas` 
 +
 You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
-

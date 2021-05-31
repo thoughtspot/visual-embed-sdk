@@ -207,17 +207,3 @@ When you customize styles, the changes take effect after you refresh the browser
 
 To revert your changes, use the *Reset* button that appears when you move your cursor to the right of the style setting option.
 
-////
-== How to specify the behavior or clickable links in data
-
-There is a system-wide setting which determines what happens when a user clicks on a link within the data.
-When your data includes URLs, they display as clickable links in ThoughtSpot tables.
-By default, clicking on a link opens the URL in a separate tab.
-But there is a system-wide setting that can be changed to open the links within the context of where they appear.
-
-Consider how the links open, by type:
-
-* Link in search result table in ThoughtSpot-Same browser tab as ThoughtSpot application
-* Link in table embedded in an <iframe> - Same <iframe> that contains the table
-* Link in full ThoughtSpot application embedded in an <iframe> - Same <iframe> that contains the application
-////

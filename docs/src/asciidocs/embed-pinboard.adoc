@@ -239,6 +239,9 @@ Runtime filters have several operators for filtering your embedded visualization
 | 2
 |===
 +
+
+
+
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++

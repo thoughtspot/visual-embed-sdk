@@ -61,6 +61,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
 
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
+
 +
 ----
 http://<base-uri>/callosum/v1/tspublic/v1/pinboarddata

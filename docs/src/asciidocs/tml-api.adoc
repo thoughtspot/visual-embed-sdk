@@ -194,7 +194,7 @@ curl -X POST
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' \
 --header 'X-Requested-By: ThoughtSpot' -d 'export_ids=%5B%226abd2843-afef-4c2f-bf2f-8fba065330e2%22%2C%20%22d305bc51-688b-414f-badc-94579d48308c%22%5D&formattype=YAML&export_associated=false' \
-'http://<base-uri>/callosum/v1/tspublic/v1/metadata/tml/export'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export'
 ----
 
 [NOTE]

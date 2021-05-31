@@ -1,4 +1,4 @@
-= Push data to an external application
+= Callback custom action workflow
 :toc: true
 
 :page-title: Push data to an external app
@@ -6,8 +6,6 @@
 :page-description: Push data to an external application
 
 ThoughtSpot allows you to create custom actions to push data to a third-party application from the ThoughtSpot application context. 
-
-You can add a custom action as a primary button or as a menu item in the *More* menu image:./images/icon-more-10px.png[the more options menu] on the *Answers* or *Pinboards* page. 
 You can configure this custom menu item to initiate an action or a callback to the parent application.
 For example, if you have embedded the ThoughtSpot search functionality in your application, you can add a custom menu item in the *Answers* page to send the search answer data to an external application or a workflow.  
 //// 
@@ -16,7 +14,7 @@ You can also use the REST APIs to query data and automatically trigger the custo
 [NOTE]
 The data is available to the external application in the JavaScript Object Notation (JSON) format. You must parse the JSON data to get the values you need using JavaScript in the receiving application.
 
-== Push data to an external app using a callback custom action
+== Push data using a callback custom action
 To push data to an external app through a callback custom action, follow these steps:
 
 * xref:push-data-external-app.adoc#add-callback[Add a callback custom action in ThoughtSpot]
@@ -28,7 +26,7 @@ To push data to an external app through a callback custom action, follow these s
 === Add a callback custom action in the ThoughtSpot
 You can create a custom action in the ThoughtSpot to register a callback for sending data. To add a custom action for callback, go to *Develop* > *Customization* > *Actions* > *Create action*. 
 
-For more information, see xref:customize-actions-menu.adoc#callback[Configure a callback custom action].
+For more information, see xref:custom-actions-callback.adoc[Configure a callback custom action].
 
 [#register-callback]
 === Register the callback through the Visual Embed SDK

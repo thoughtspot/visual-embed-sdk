@@ -1,15 +1,22 @@
-= Session API
-:toc: true
+= Session APIs
 
 :page-title: Session API
 :page-pageid: session-api
 :page-description: Session API
 
+The Session APIs allow ThoughtSpot users to authenticate and manage their sessions.
 
-The Session APIs enable you to manage the sessions of ThoughtSpot users.
+[width="100%" cols="1,2"]
+|===
+|`xref:session-api.adoc#session-login[POST /tspublic/v1/session/login]`|Signs a user into ThoughtSpot.
+|`xref:session-api.adoc#session-logout[POST /tspublic/v1/session/logout]`|Logs a user out of the current session. 
+|`xref:session-api.adoc#session-authToken[POST /tspublic/v1/session/auth/token]`|Returns an authentication token for a given ThoughtSpot user if trusted authentication is enabled. 
+|`xref:session-api.adoc#session-loginToken[GET /tspublic/v1/session/login/token]`|Logs in an authenticated user.
+|===
 
-== Log in a user
-Use this API to authenticate and log in a user.
+[#session-login]
+== Sign in a ThoughtSpot user
+If you are a ThoughtSpot user, you can programmatically sign into ThoughtSpot using the `/tspublic/v1/session/login` API.
 
 === Resource URL
 ----
@@ -38,7 +45,6 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
 ----
-
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
@@ -48,62 +54,12 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
 |**204**|Successful login
 |**401**|Login failure/unauthorized request
 |===
-
-== Obtain an authentication token for a user
-Use this API to obtain an authentication token. The authentication token is required if a token-based trusted authentication service is used for authenticating ThoughtSpot users.
-
-=== Resource URL
-----
- POST /tspublic/v1/session/auth/token
-----
-=== Request parameters
-
-[width="100%" cols="1,1,4"]
-[options='header']
-|====
-|Form Parameter|Data Type|Description
-|`secret_key`|string|The authentication token string provided by the ThoughtSpot application server.
-|`username`|string|The user name of the user configured in ThoughtSpot.
-|`access_level`|string a|User access permission. Valid values are:
-
-* `FULL` - Allow full access.
-* `REPORT_BOOK_VIEW` - Allow view access to visualizations.
-|`id`|string|GUID of the ThoughtSpot object. This parameter is required if the  `access_level` is set to `REPORT_BOOK_VIEW`.
-|====
-
-=== Example request
-
-.cURL
-[source, cURL]
-----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token
-----
-
-=== Example response
-If the request parameters are assigned correct values, the API returns an authentication token for the user.
-
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description
-|**200**| The authentication token is generated successfully.
-|**401**| Unauthorized request.
-|===
-
-
+[#session-logout]
 == Log out a user
 
-Use this API to log out a current user from an existing session.
-
+To log out of the current user session, use the `/tspublic/v1/session/logout` API.
 
 === Resource URL
-
 ----
 POST /tspublic/v1/session/logout
 ----
@@ -130,25 +86,264 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
 |**204**|Successful logout of user
 |**401**|Logout failure/unauthorized request
 |===
-////
-## Error Codes
-<table>
-   <colgroup>
-      <col style="width:20%" />
-      <col style="width:60%" />
-      <col style="width:20%" />
-   </colgroup>
-   <thead class="thead" style="text-align:left;">
-      <tr>
-         <th>Error Code</th>
-         <th>Description</th>
-         <th>HTTP Code</th>
-      </tr>
-   </thead>
-   <tbody>
-   <tr> <td><code>10000</code></td>  <td>Internal server error.</td> <td><code>500</code></td></tr>
-    <tr> <td><code>10002</code></td>  <td>Bad request. Invalid parameter values.</td> <td><code>400</code></td></tr>
-    <tr> <td><code>10003</code></td>  <td>Login or logout failure. Unauthorized.</td><td><code>401</code></td></tr>
-  </tbody>
-</table>
-////
+[#session-authToken]
+== Obtain an authentication token
+ThoughtSpot supports the trusted authentication method, which is also known as token-based authentication. In the trusted authentication method, ThoughtSpot users are authenticated by an external authentication server.
+When ThoughtSpot receives a request from a trusted authentication service, it returns an authentication token to allow authenticated users to access ThoughtSpot content.
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication service] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user. 
+
+=== Resource URL
+----
+POST /tspublic/v1/session/auth/token
+----
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`secret_key`|string|The secret key string provided by the ThoughtSpot application server. This secret key is generated after you enable trusted authentication in ThoughtSpot.
+|`username`|string|The user name of the user configured in ThoughtSpot.
+|`access_level`|string a|User access permission. Valid values are:
+
+* `FULL` - Allow full access.
+* `REPORT_BOOK_VIEW` - Allow view access to visualizations.
+|`id`|string|GUID of the ThoughtSpot object. This parameter is required if the  `access_level` is set to `REPORT_BOOK_VIEW`.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token
+----
+
+=== Example response
+If the request parameters are assigned correct values, the API returns an authentication token for the user.
+
+----
+JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0
+----
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP Code|Description
+|**200**|The authentication token is generated successfully.
+|**401**|Unauthorized request or invalid token.
+|**500**|Token-based trusted authentication is not enabled on ThoughtSpot.
+|===
+
+[#login-token]
+== Authenticate and log in a user 
+If trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. You can use this token to log in a ThoughtSpot user and provide access to the requested content. 
+To programmatically log in an authenticated user, use the `/tspublic/v1/session/login/token` API. 
+
+=== Resource URL
+----
+GET /tspublic/v1/session/login/token
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`username`|string|The user name of the user who requested access to ThoughtSpot.
+|`auth_token`|string a|The authentication token obtained from ThoughtSpot.
+|`redirect_url`|string|The URL to which you want redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user. 
+
+For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domains to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID as shown here. 
+
+`https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
+|====
+
+=== Example request
+
+.cURL
+----
+curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+----
+
+=== Example response
+On successful login, the API returns the application details. 
+The following example shows a partial output.
+[source, HTML]
+----
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+        <!-- Preloading Fonts -->
+        <link rel="preload" href="node_modules/@thoughtspot/radiant/widgets/resources/font/optimo/Plain-Light.otf"
+              as="font" crossorigin>
+        <link rel="preload" href="node_modules/@thoughtspot/radiant/widgets/resources/font/bb-roller/BB-Roller-Mono-Regular-fontlab.ttf"
+              as="font" crossorigin>
+        <link rel="preload" href="node_modules/@thoughtspot/radiant/widgets/resources/font/optimo/Plain-Regular.otf"
+              as="font" crossorigin>
+        <link rel="preload" href="node_modules/@thoughtspot/radiant/widgets/resources/font/optimo/Plain-Medium.ttf"
+              as="font" crossorigin>
+        <link rel="preload" href="node_modules/@thoughtspot/radiant/widgets/resources/font/optimo/Plain-LightIta.otf"
+              as="font" crossorigin>
+        <link rel="modulepreload" href="https://cdn.skypack.dev/react">
+	<link rel="modulepreload" href="https://cdn.skypack.dev/react-dom">
+    <link rel="stylesheet" href='(none)'>
+    <style>
+        .bk-app-loading-indicator {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    align-items: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <div class="bk-app-loading-indicator">
+        <div class="load-wrap">
+    <div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+</div>
+    </div>
+
+    <script type="text/javascript" id="app-init">
+        // Top level namespace var declaration
+        var blink = {};
+        // Object to store all CDN related variables
+        blink.cdnAutoUpdateConfig = {};
+        // Location of Eureka Base URL
+        blink.eurekaBasePath = 'https://d2if2nytu6z4ml.cloudfront.net';
+        // Keys set in blink.env will override / create flags
+        blink.env = {
+            dev: false
+        };
+        blink.commitId = '600e99e3c3ebe1b4d89abd99e920c6939616f54c';
+        blink.gitBranch = '(HEAD detached at 600e99e3c3e)';
+        blink.buildTimeStamp = 'Thu May 20 2021 09:25:58';
+        blink.depsPath = 'node_modules';
+        blink.localeSuffix = '.' + blink.commitId;
+        blink.metrics = {
+            scriptsLoadStartTime: window.performance.now()
+        };
+
+        function createNode(tag, attributes) {
+            var node = document.createElement(tag);
+            Object.keys(attributes).forEach(function (key) {
+                return node[key] = attributes[key];
+            });
+            return node;
+        }
+        function appendNodesToDom(nodes) {
+            var fragment = document.createDocumentFragment();
+            nodes.forEach(function (node) {
+                return fragment.appendChild(node);
+            });
+            document.getElementsByTagName('body')[0].appendChild(fragment);
+        }
+        function fetchAndLoadRelease(rcLink) {
+            fetch(rcLink).then(function (response) {
+                return response.json()
+            }).then(function (releaseJson) {
+                blink.cdnAutoUpdateConfig.evaluationMode = true;
+                blink.cdnAutoUpdateConfig.currentReleaseVersion = releaseJson.releaseVersion;
+                blink.cdnAutoUpdateConfig.cdnBuildTimestamp = releaseJson.buildTimestamp;
+                blink.cdnAutoUpdateConfig.cdnBasePath = releaseJson.basePath;
+                var nodes = releaseJson.resources.css.map(function (cssScript) {
+                    return createNode('link', {
+                        type: 'text/css',
+                        rel:'stylesheet',
+                        href: [blink.cdnAutoUpdateConfig.cdnBasePath, cssScript].join('/')
+                    })
+                });
+
+                nodes = nodes.concat(releaseJson.resources.js.map(function (script) {
+                    return createNode('script', {
+                        src: [blink.cdnAutoUpdateConfig.cdnBasePath, script].join('/'),
+                        async: false
+                    });
+                }));
+                nodes = nodes
+                    .concat(releaseJson.resources.modules.map(function (module, index) {
+                        return createNode('script', {
+                            async: false,
+                            type: 'module',
+                            src: [blink.cdnAutoUpdateConfig.cdnBasePath, module].join('/'),
+                            id: 'module-script' + index
+                        });
+                    }));
+                nodes = nodes
+                    .concat(releaseJson.resources.noModule.map(function (noModule, index) {
+                        return createNode('script', {
+                            async: false,
+                            noModule: true,
+                            src: [blink.cdnAutoUpdateConfig.cdnBasePath, noModule].join('/'),
+                            id: 'nomodule-script' + index
+                        });
+                    }));
+                appendNodesToDom(nodes);
+            }, function (error) {
+                appendNodesToDom([createNode('div', {
+                    innerText: 'unable to fetch: ' + rcLink +
+                    'Link does not exist'
+                })]);
+            });
+        }
+        var ua = window.navigator && window.navigator.userAgent;
+        var trident = ua && ua.indexOf('Trident/');
+        var edge = ua && ua.indexOf('Edge');
+        var safari = ua && ua.indexOf('Safari');
+        var chrome = ua && ua.indexOf('Chrome');
+
+    </script>
+    
+        <link type="text/css" rel="stylesheet" href="resources/css/all.min.90630a0a141abec0.css">
+
+        <script src="js/lib.min.bcef417e2b193abd.js"></script>
+        <script src="js/templates.133e974a290769f7.js"></script>
+        <script src="js/all.min.b4be265ed3041f65.js"></script>
+        <script type="module" src="js/module/app-ad896427.js
+" id="module-script"></script>
+        <script nomodule src="js/nomodule/app.js" id="nomodule-script"></script>
+    <app-controller class="bk-app-controller-container"></app-controller>
+</body>
+</html>
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|The user is logged in successfully.
+|**302**|The user is redirected to the specified URL. 
+|**401**|Unauthorized request or invalid token.
+|===

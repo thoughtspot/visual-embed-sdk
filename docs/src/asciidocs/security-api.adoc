@@ -1,0 +1,139 @@
+= Security APIs
+
+
+:page-title: Security API
+:page-pageid: security-api
+:page-description: security API
+
+The Security APIs allow you to share ThoughtSpot objects, such as pinboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group. 
+
+The security APIs support the following operations:
+[width="100%" cols="1,2"]
+|===
+|`xref:security-api.adoc#share-object[POST /tspublic/v1/security/share]`|Shares ThoughtSpot objects with another user or user group.
+|`xref:security-api.adoc##shareviz[POST /tspublic/v1/security/shareviz]`|Shares a ThoughtSpot visualization with another user or user group.
+|===
+
+== Share objects with another user
+
+To programmatically share ThoughtSpot objects with another user or user group, use the `/tspublic/v1/security/share` API. 
+
+When you share an object like a pinboard or visualization, a notification with a live link is sent to the user. When the users access this object, they can view the last saved version of the object.
+
+=== Resource URL
+----
+POST /tspublic/v1/security/share
+----
+
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`type`|string a|Type of metadata object. Specify one of the following values as a metadata object type:
+
+* `QUESTION_ANSWER_BOOK` to share search answers.
+* `PINBOARD_ANSWER_BOOK` to share pinboards.
+* `LOGICAL_COLUMN` to share a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_TABLE` to share a data object such as a table, worksheet, or view.
+|`id`|string|The GUID of the objects to share.
+|`permission`|string|The string with the GUID of the objects and share permission. 
+
+You can provide either `READ-ONLY` or `FULL` access to the objects. With READ-ONLY access, the users can view the shared object. The `FULL` access allows users to modify the object. 
+
+The format of the permission string is `{"permissions":{"<GUID of the object>":{"sharemode":"<type-of-access>"}}}`. For example, to provide a read-only access to a pinboard with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, you can specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"share mode":"READ_ONLY"}}}`
+|`emailshares`|string|The email address of the user accounts with whom you want to share the objects. 
+|`notify` __Optional__|boolean|When set to `true`, a notification is sent to the users after an object is shared.
+|`message` __Optional__|string|The message text to send in the notification email.
+|====
+////
+`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
+////
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9Csharemode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' 'https://<ThoughtSpot-host/callosum/v1/tspublic/v1/security/share'
+
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/share
+----
+
+== Example response
+----
+Response code
+
+204
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**204**|Successful operation
+|**400**|Invalid parameter value
+|===
+
+---
+[#shareviz]
+== Share a visualization with another user or user group
+If you want to share a specific visualization from a pinboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide a read-only access.   
+
+=== Resource URL
+----
+POST /tspublic/v1/security/shareviz
+----
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`type`|string|Type of the metadata object. The valid value is `PINBOARD_ANSWER_BOOK`.
+|`pinboardId`|string|The GUID of the pinboard to which the visualization belongs.
+|`principalids`|string|The GUID of the users with whom you want to share the visualization.
+|`vizid`|string|The GUID of visualization.
+|`emailshares`|string|The email address of the user account with whom you want to share the visualization. If no email address is specified, the visualization is shared only with the user IDs specified in `principalids`.
+|`notify` __Optional__|boolean|When set to `true`, a notification is sent to the user after the visualization is shared.
+|`message` __Optional__|string|The message text to send in the notification email.
+|====
+
+////
+`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
+////
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&pinboardId=7a9a6715-e154-431b-baaf-7b58246c13dd&principalids=%5B%2259481331-ee53-42be-a548-bd87be6ddd4a%22%5D&vizid=e9753523-5de5-41ef-8d8c-b840f0260ea0&emailshares=%5Btsuser%40thoughtspot.com%5D&notify=true&useCustomEmbedUrls=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz
+----
+
+== Example response
+----
+Response code
+
+204
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**204**|Successful operation
+|**400**|Invalid parameter value
+|===

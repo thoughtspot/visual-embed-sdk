@@ -1,19 +1,28 @@
 = User API
-:toc: true
 
 :page-title: User API
 :page-pageid: user-api
 :page-description: User API
 
-The User APIs enable you to manage user- and group-related operations in the ThoughtSpot system.
+The User APIs allow you to programmatically manager ThoughtSpot users and user groups.
 
-You can use the User APIs to manage your users and groups in ThoughtSpot.
+[width="100%" cols="2,3"]
+|===
+|`xref:user-api.adoc#user-list[GET /tspublic/v1/user/list]`|Gets a list of all users and user groups configured in the ThoughtSpot system
+|`xref:user-api.adoc#change-pwd[POST /tspublic/v1/user/updatepassword]`|Changes the password of a ThoughtSpot user account. 
+|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates profile setttings of a ThoughtSpot user. 
+|`xref:user-api.adoc#user-sync[POST /tspublic/v1/user/sync]`|Synchronizes user accounts and user groups with ThoughtSpot. 
+|`xref:user-api.adoc#transfer-ownership[POST /tspublic/v1/user/transfer/ownership]`|Transfers ownership of objects from one user to another.
+|===
+[NOTE]
+====
+If you want to get a list object headers associated with a user or user group, use the xref:metadata-api.adoc#headers-metadata-users[GET /tspublic/v1/metadata/listas] API.
+====
 
 ---
-
+[#user-list]
 == Get a list of users and groups
-
-Use this API to get a list of all users, groups, and their inter-dependencies in the form of principal objects.
+To get a list of all users, groups, and their inter-dependencies in the form of principal objects, use the  `/tspublic/v1/user/list` API.
 
 === Resource URL
 ----
@@ -67,7 +76,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
   }
   ]
 ----
-
 ==== Object properties
 A typical principal object contains the following properties:
 
@@ -101,18 +109,18 @@ Password is only required:
 |HTTP Code|Description
 |**200**|Successful operation.
 |===
-
 ---
+[#change-pwd]
 == Change password
-
-Use this API to change the password of a user.
+To change the password of a ThoughtSpot user account, use the `/tspublic/v1/user/updatepassword` API.
 
 === Resource URL
 ----
 POST /tspublic/v1/user/updatepassword
 ----
 === Request parameters
-[width="100%" cols="1,2,3"]
+
+[width="100%" cols="1,1,3"]
 [options='header']
 |====
 |Form Parameter|Data Type|Description
@@ -142,7 +150,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ---
 [#updatepreference-api]
 == Update a user profile
-To update the profile settings of a ThoughtSpot user  programmatically, you can use the `/tspublic/v1/user/updatepreference` API. 
+To update the profile settings of a ThoughtSpot user  programmatically, you can use the `/tspublic/v1/user/updatepreference` API.
 
 The `/tspublic/v1/user/updatepreference` API allows you to modify the following attributes of a ThoughtSpot user profile:
 
@@ -180,8 +188,9 @@ POST /tspublic/v1/user/updatepreference
 [options="header"]
 |===
 |Form Parameter|Data Type|Description
-|`userid`|string|The ID of the user. Use the GUID of the user.
-|`preferences`|string a|JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
+|`userid` __Optional__|string|The ID of the user. The user ID is a GUID. 
+|`username` __Optional__|string|Username of the user.  
+|`preferences`|string a|The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
 * receive email notifications when another user shares a search answer or a pinboard
@@ -191,7 +200,7 @@ POST /tspublic/v1/user/updatepreference
 
 [NOTE]
 ====
-If your browser or OS locale is set to a xref:user-api.adoc#locale-setting[ThoughtSpot supported locale], ThoughtSpot automatically defaults to that locale. If your browser locale is not supported in ThoughtSpot, ThoughtSpot sets `en-US` (US English) as the default locale.
+If your browser or OS locale is set to a xref:user-api.adoc#locale-setting[ThoughtSpot supported locale], ThoughtSpot automatically defaults to that locale. If your browser locale is not supported in ThoughtSpot, ThoughtSpot sets `en-US` (US English) as your  default locale.
 ====
 
 === Example request
@@ -275,12 +284,13 @@ The allowed values are:
 |===
 
 ---
+[#transfer-ownership]
 == Transfer ownership
 
-Use this API to transfer ownership of _all_ objects from one user to another.
+To programmatically transfer ownership of _all_ objects from one user to another, use the `/tspublic/v1/user/transfer/ownership` API.
 
 [NOTE]
-You cannot transfer objects to or from the system user or the administrative user.
+ThoughtSpot does not support transferring objects to or from a system or admin user account.
 
 === Resource URL
 ----
@@ -294,7 +304,6 @@ POST /tspublic/v1/user/transfer/ownership
 |`fromUserName`| string|Username to transfer from.
 |`toUserName`|string|Username to transfer to.
 |====
-
 
 === Example request
 
@@ -316,11 +325,10 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 |**200**|If the ownership of all objects is successfully transferred.
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
-
-
+---
+[#user-sync]
 == Synchronize principals
-
-Use this API to synchronize ThoughtSpot users and groups with your external database.
+To programmatically synchronize user accounts and user groups with ThoughtSpot, use the `/tspublic/v1/user/sync` API.
 The payload takes principals containing all users and groups present in the external database.
 A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
@@ -332,7 +340,6 @@ During this operation:
 This includes group membership.
 
 * Objects not present in ThoughtSpot, but present in the external list  are created in ThoughtSpot.
-
 
 === Resource URL
 ----
@@ -448,27 +455,3 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
 |HTTP Code|Description
 |**200**| The user sync operation is successful.
 |===
-
-
-////
-## Error Codes
-<table>
-   <colgroup>
-      <col style="width:20%" />
-      <col style="width:60%" />
-      <col style="width:20%" />
-   </colgroup>
-   <thead class="thead" style="text-align:left;">
-      <tr>
-         <th>Error Code</th>
-         <th>Description</th>
-         <th>HTTP Code</th>
-      </tr>
-   </thead>
-   <tbody>
-   <tr> <td><code>10000</code></td>  <td>Internal server error.</td> <td><code>500</code></td></tr>
-    <tr> <td><code>10002</code></td>  <td>Bad request. No user found with the given username.</td> <td><code>400</code></td></tr>
-    <tr> <td><code>10003</code></td>  <td>Unable to authenticate user</td><td><code>403</code></td></tr>
-  </tbody>
-</table>
-////
