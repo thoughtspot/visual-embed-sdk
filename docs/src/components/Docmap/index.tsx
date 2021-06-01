@@ -22,8 +22,6 @@ const Docmap = (props: {
             if (hash) {
                 const ele = document.querySelector(hash);
                 if (ele) {
-                    tocEl = toggleActiveClass(tocEl, hash);
-                    /* To position the element when anchor tag is clicked on right nav */
                     document.documentElement.scrollTop =
                         (ele as HTMLElement).offsetTop -
                         INTRO_WRAPPER_MARGIN_TOP;

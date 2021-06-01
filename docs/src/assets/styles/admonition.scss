@@ -10,7 +10,7 @@
     td.content {
         font-size: calc((#{$admonition-font-factor-p} / #{$rem-base}) * 1rem);
         padding: 1rem 1rem 0.75rem;
-        background: $admonition-background;
+        background: var(--admonition-background);
         width: 100%;
         word-wrap: anywhere;
         border: 1px solid $disabledcolor;

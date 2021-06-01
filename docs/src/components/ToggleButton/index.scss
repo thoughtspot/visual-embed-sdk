@@ -1,0 +1,66 @@
+@import '../../assets/styles/variables.scss';
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: $switch-width;
+    height: $switch-height;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $slider-background;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: $slider-width;
+    width: $slider-height;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: black;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(55px);
+}
+
+.slider:after {
+    content: 'Light';
+    color: var(--primary-color);
+    display: block;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    right: 0;
+    font-size: 12px;
+    font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider:after {
+    content: 'Dark';
+    color: var(--primary-color);
+    left: 40%;
+}

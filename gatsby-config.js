@@ -26,7 +26,7 @@ const stripLinks = (text) => {
         return result;
     }
     return '';
-}
+};
 
 const getPath = (path) =>
     getPathPrefix() ? `${path}/${getPathPrefix()}` : path;
@@ -70,11 +70,12 @@ class CustomDocConverter {
             if (this.isTransformLink(target)) {
                 // check if link is for 'Visual Embed SDK' documents or not
                 if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
-                    anchorMarkup = `${getPath(config.DOC_REPO_NAME)}/${config.TYPE_DOC_PREFIX
-                        }${target.replace(
-                            `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
-                            '',
-                        )}`;
+                    anchorMarkup = `${getPath(config.DOC_REPO_NAME)}/${
+                        config.TYPE_DOC_PREFIX
+                    }${target.replace(
+                        `{{${config.VISUAL_EMBED_SDK_PREFIX}}}`,
+                        '',
+                    )}`;
                 } else if (!target.startsWith('#')) {
                     target = target.substring(
                         target.lastIndexOf(':') + 1,
@@ -172,7 +173,7 @@ module.exports = {
                     tokenize: 'forward',
                     threshold: 8,
                     resolution: 9,
-                    depth: 1
+                    depth: 1,
                 },
                 query: `
                 query {
@@ -220,7 +221,10 @@ module.exports = {
                             )
                             .map((edge) => {
                                 const pageid = edge.node.pageAttributes.pageid;
-                                const body = edge && edge.node ? htmlToText(stripLinks(edge.node.html)) : '';
+                                const body =
+                                    edge && edge.node
+                                        ? htmlToText(stripLinks(edge.node.html))
+                                        : '';
                                 return {
                                     pageid,
                                     body,
@@ -233,8 +237,17 @@ module.exports = {
                             .filter((edge) => edge.node.extension === 'html')
                             .map((edge) => {
                                 const pageid = edge.node.name;
-                                const body = edge && edge.node && edge.node.childHtmlRehype ?
-                                            htmlToText(stripLinks(edge.node.childHtmlRehype.html)) : ''
+                                const body =
+                                    edge &&
+                                    edge.node &&
+                                    edge.node.childHtmlRehype
+                                        ? htmlToText(
+                                              stripLinks(
+                                                  edge.node.childHtmlRehype
+                                                      .html,
+                                              ),
+                                          )
+                                        : '';
                                 return {
                                     body,
                                     pageid,
@@ -243,8 +256,9 @@ module.exports = {
                                         (children) =>
                                             children.tagName === 'title',
                                     ).children[0].value,
-                                    link: `${getPath(config.DOC_REPO_NAME)}/${config.TYPE_DOC_PREFIX
-                                        }/${edge.node.relativePath}`,
+                                    link: `${getPath(config.DOC_REPO_NAME)}/${
+                                        config.TYPE_DOC_PREFIX
+                                    }/${edge.node.relativePath}`,
                                 };
                             }),
                     ];

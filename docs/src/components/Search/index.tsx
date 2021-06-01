@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { IconContext } from '@react-icons/all-files';
+import { BiSearch } from '@react-icons/all-files/bi/BiSearch';
 import './index.scss';
 import { SearchQueryResult } from '../../interfaces/index';
 import {
@@ -8,14 +10,18 @@ import {
 } from '../../constants/keystrokeConstants';
 import t from '../../utils/lang-utils';
 import SearchResult from './SearchResult';
+import ToggleButton from '../ToggleButton';
 
 type SearchProps = {
     options: SearchQueryResult[];
     leftNavOpen: boolean;
     keyword: string;
+    isMaxMobileResolution: boolean;
+    isDarkMode: boolean;
     optionSelected: (pageid: string) => void;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
     updateKeyword: Function;
+    setDarkMode: Function;
 };
 
 const Search: React.FC<SearchProps> = (props) => {
@@ -128,9 +134,7 @@ const Search: React.FC<SearchProps> = (props) => {
                     <div
                         key={option.pageid}
                         className="result"
-                        onClick={() =>
-                            props.optionSelected(option.pageid)
-                        }
+                        onClick={() => props.optionSelected(option.pageid)}
                         ref={(el: HTMLDivElement) => {
                             optionListRef.current[index] = el;
                         }}
@@ -155,24 +159,43 @@ const Search: React.FC<SearchProps> = (props) => {
             className={`searchWrapper ${props.leftNavOpen ? 'visHidden' : ''}`}
         >
             <div className="searchInputWrapper">
-                <input
-                    type="Search"
-                    placeholder={t('SEARCH_PLACEHOLDER')}
-                    onFocus={onFocus}
-                    onKeyDown={onKeyDown}
-                    value={props.keyword}
-                    onChange={props.onChange}
-                />
-                {showSearchResult && (
+                <div className="searchInputContainer">
+                    <IconContext.Provider
+                        value={{
+                            className: `icon searchIcon`,
+                        }}
+                    >
+                        <BiSearch />
+                    </IconContext.Provider>
+                    <input
+                        type="Search"
+                        placeholder={t('SEARCH_PLACEHOLDER')}
+                        onFocus={onFocus}
+                        onKeyDown={onKeyDown}
+                        value={props.keyword}
+                        onChange={props.onChange}
+                    />
+                </div>
+                {showSearchResult && props.options?.length ? (
                     <div ref={node} className="resultContainer">
                         {props.options.map(
                             (option: SearchQueryResult, index: number) => {
-                                return renderOption(option, index)
+                                return renderOption(option, index);
                             },
                         )}
                     </div>
+                ) : (
+                    ''
                 )}
             </div>
+            {props.isMaxMobileResolution && (
+                <div className="ml-4">
+                    <ToggleButton
+                        setDarkMode={props.setDarkMode}
+                        isDarkMode={props.isDarkMode}
+                    />
+                </div>
+            )}
         </div>
     );
 };

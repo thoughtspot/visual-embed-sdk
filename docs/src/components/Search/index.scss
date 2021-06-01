@@ -2,52 +2,62 @@
 
 .searchWrapper {
     padding: $padding-md;
-    border-bottom: 1px $lightgrey solid;
+    border-bottom: 1px var(--border-color) solid;
     position: fixed;
-    width: calc(100% - #{$docmap-width-desktop});
-    background: $white;
+    width: calc(100% - 250px);
+    background: var(--body-background-color);
     z-index: $z-index-search;
+    display: flex;
 }
 
 .searchInputWrapper {
     position: relative;
-    width: calc(100% - #{$docmap-width-desktop});
-    &::before {
-        content: '';
-        background: url('../../assets/svg/searchicon.svg');
-        width: $width-search-icon;
-        height: $height-search-icon;
-        float: left;
-        position: absolute;
-        left: 12px;
-        top: 8px;
+    width: calc(100% - 350px);
+
+    .searchInputContainer {
+        display: flex;
+        align-items: center;
     }
 
     input {
         width: 100%;
-        border: 1px solid $borderColor;
+        border: 1px solid var(--border-color);
         border-radius: 6px;
         height: $height-search-input;
         padding-left: $padding-left-search-input;
         font-size: $font-size-normal;
-        color: $darkgrey;
+        color: var(--primary-color);
         font-family: $font-family-doc;
         padding-bottom: 1px;
+        background: var(--body-background-color);
     }
 
     input:focus {
         outline: 0;
     }
 
+    input::placeholder {
+        color: var(--primary-color);
+    }
+
+    .searchIcon {
+        position: relative;
+        left: 30px;
+        height: $icon-width;
+        width: $icon-height;
+    }
+
     .resultContainer {
         position: absolute;
-        background-color: $white;
-        width: 100%;
+        background-color: var(--body-background-color);
+        width: calc(100% - 20px);
         max-height: $result-container-max-height;
         top: 38px;
         border-radius: 6px;
+        border: 1px solid $lightgrey;
         box-shadow: $box-shadow-search-box;
         overflow: auto;
+        left: 20px;
     }
 
     .result {
@@ -63,7 +73,7 @@
             line-height: $line-height-result-title;
             font-size: $font-size-normal;
             font-weight: $font-weight-normal;
-            color: $primarycolor;
+            color: var(--primary-color);
         }
 
         .footer {
@@ -71,16 +81,12 @@
             font-weight: $font-weight-normal;
             font-size: $font-size-small;
             line-height: $line-height-result-footer;
-            color: $darkgrey;
+            color: var(--primary-color);
         }
-    }
-
-    .textContainer {
+        &:hover {
+            background: $text-container-background;
+        }
         cursor: pointer;
-    }
-
-    .textContainer:hover {
-        background: $text-container-background;
     }
 
     .active {
@@ -90,7 +96,7 @@
 
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .searchInputWrapper {
-        width: 100%;
+        width: 78%;
     }
 }
 

@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import './index.scss';
-import { customizeDocContent } from './helper';
+import { customizeDocContent, addScrollListener } from './helper';
 
 const Document = (props: { docTitle: string; docContent: string }) => {
     useEffect(() => {
         customizeDocContent();
     }, [props.docContent]);
+
+    useEffect(() => {
+        addScrollListener();
+    }, []);
 
     return (
         <div className="documentWrapper">

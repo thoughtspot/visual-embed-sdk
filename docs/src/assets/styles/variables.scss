@@ -3,12 +3,9 @@ $gutter: 0;
 $gray-80: #323946;
 $white: #fff;
 $darkblue: #2770ef;
-$primarycolor: #1d232f;
 $secondarycolor: #2770ef;
 $lightgrey: #eaedf2;
 $darkgrey: #777e8b;
-$code-block-color: #f6f8fa;
-$borderColor: #c0c6cf;
 $hovercolor: rgba(113, 161, 244, 0.12);
 $text-container-background: rgba(192, 198, 207, 0.12);
 $disabledcolor: #a5acb9;
@@ -27,7 +24,7 @@ $highlight-lightblue: #0086b3;
 $highlight-lightgrey: #999;
 $highlight-peach: #fdd;
 $highlight-fadedgreen: #dfd;
-$highlight-purple: #032f62;
+$highlight-purple: #0000cd;
 
 $header-zIndex: 99;
 $header-logo-width: 158px;
@@ -80,6 +77,16 @@ $arrow-icon-width: 12px;
 $sub-title-margin: 30px;
 $font-size-h3: 20px;
 $font-size-h4: 18px;
+$icon-width: 20px;
+$icon-height: 20px;
+
+/* Toggle button variables */
+
+$switch-width: 80px;
+$switch-height: 34px;
+$slider-width: 26px;
+$slider-height: 26px;
+$slider-background: #ccc;
 
 /* Admonition variables */
 
@@ -102,12 +109,10 @@ $rem-base: 18;
 $body-font-size-desktop: 1.125em; /* 18px */
 $body-font-size-print: 0.9375em; /* 15px */
 $body-line-height: 1.15;
-$body-font-color: $color-jet-70;
 $body-font-family: 'Roboto', sans-serif;
 $body-font-weight-bold: 500;
 $monospace-font-family: 'Roboto Mono', monospace;
 $monospace-font-weight-bold: 500;
-$admonition-background: $panel-background;
 $admonition-label-font-weight: $body-font-weight-bold;
 $admonition-title-font-size: 12px;
 $admonition-title-line-height: 20px;
@@ -126,3 +131,24 @@ $tag-padding: 0 10px;
 $tag-width: 100px;
 $tag-font-color: #fff;
 $tag-color-yellow: #ffbc00;
+
+:root {
+    --body-background-color: #fff;
+    --primary-color: #1d232f;
+    --admonition-background: #fafafa;
+    --code-block-color: #f6f8fa;
+    --text-color-code-lang: $darkgrey;
+    --icon-color: #1d232f;
+    --back-button-background: #e6e6e6;
+    --border-color: #c0c6cf;
+}
+
+#wrapper[data-theme='dark'] {
+    --body-background-color: #000033;
+    --primary-color: #fff;
+    --admonition-background: #3c4356;
+    --code-block-color: #3c4356;
+    --text-color-code-lang: #fff;
+    --icon-color: #fff;
+    --back-button-background: #191966;
+}

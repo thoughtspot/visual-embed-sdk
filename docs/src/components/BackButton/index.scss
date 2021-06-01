@@ -13,17 +13,18 @@
         border: none;
         outline: none;
         margin-right: 10px;
+        background: var(--back-button-background);
     }
 
-    img {
-        padding-top: 3px;
+    .leftIcon {
+        height: $icon-width;
+        width: $icon-height;
         position: relative;
-        left: 0px;
-        top: 0px;
+        top: 2px;
     }
 
     p {
-        color: $darkgrey;
+        color: var(--primary-color);
         font-size: $font-size-normal;
         font-family: $font-family-back-button;
     }

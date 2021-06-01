@@ -5,7 +5,7 @@ type SearchResultProps = {
     highlightedIndex: number;
     keyword: string;
     title: string;
-    isKeywordNotFound: boolean
+    isKeywordNotFound?: boolean;
 };
 
 const SearchResult = (props: SearchResultProps) => (

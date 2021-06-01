@@ -3,7 +3,7 @@
 .docmapLinks {
     width: $docmap-width-desktop;
     padding: $padding-md 0;
-    border-left: 1px $lightgrey solid;
+    border-left: 1px var(--border-color) solid;
     position: fixed;
     right: 0;
     font-size: $font-size-normal;
@@ -26,7 +26,7 @@
                 margin: $margin-links 0;
 
                 a {
-                    color: $primarycolor;
+                    color: var(--primary-color);
                     font-weight: $font-weight-normal;
                 }
 
@@ -47,7 +47,7 @@
 }
 
 .defaultStyle {
-    color: $primarycolor;
+    color: var(--primary-color);
     padding: 8px 0;
     display: inline-block;
 }

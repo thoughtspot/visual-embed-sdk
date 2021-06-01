@@ -31,6 +31,7 @@ body {
 
 main {
     display: flow-root;
+    background-color: var(--body-background-color);
 }
 
 main.withHeaderFooter {
@@ -102,6 +103,10 @@ button {
 
 .displayNone {
     display: none;
+}
+
+.icon {
+    color: var(--icon-color);
 }
 
 /*Tags style start*/

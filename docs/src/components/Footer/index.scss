@@ -4,10 +4,11 @@ footer {
     position: absolute;
     width: 100%;
     z-index: $footer-zIndex;
+    background: var(--body-background-color);
 
     .footerWrapper {
         text-align: center;
-        color: $darkgrey;
+        color: var(--primary-color);
         font-size: 12px;
         font-weight: 300;
     }

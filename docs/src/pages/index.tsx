@@ -58,6 +58,7 @@ const IndexPage = ({ location }) => {
     const [leftNavOpen, setLeftNavOpen] = useState(false);
     const [keyword, updateKeyword] = useState('');
     const [isPublicSiteOpen, setIsPublicSiteOpen] = useState(false);
+    const [isDarkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         // based on query params set if public site is open or not
@@ -97,7 +98,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                    edges[edgeIndex].node.pageAttributes.title,
+                        edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
@@ -212,16 +213,16 @@ const IndexPage = ({ location }) => {
             link: '',
             pageid: 'stringnotfound',
             title: t('KEYWORD_NOT_FOUND_MSG') + ` "${keyword}".`,
-            type: 'text'
+            type: 'text',
         });
     }
 
     return (
-        <>
+        <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
             {isPublicSiteOpen && <Header />}
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
-                className={isPublicSiteOpen ? 'withHeaderFooter' : ''}
+                className={`dark ${isPublicSiteOpen ? 'withHeaderFooter' : ''}`}
                 style={{
                     height: !docContent && MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
                 }}
@@ -236,6 +237,9 @@ const IndexPage = ({ location }) => {
                     setLeftNavOpen={setLeftNavOpen}
                     leftNavOpen={leftNavOpen}
                     isPublicSiteOpen={isPublicSiteOpen}
+                    isMaxMobileResolution={isMaxMobileResolution}
+                    setDarkMode={setDarkMode}
+                    isDarkMode={isDarkMode}
                 />
                 <div
                     className="documentBody"
@@ -254,6 +258,9 @@ const IndexPage = ({ location }) => {
                         optionSelected={optionSelected}
                         leftNavOpen={leftNavOpen}
                         updateKeyword={updateKeyword}
+                        isMaxMobileResolution={isMaxMobileResolution}
+                        setDarkMode={setDarkMode}
+                        isDarkMode={isDarkMode}
                     />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
@@ -266,7 +273,7 @@ const IndexPage = ({ location }) => {
                 </div>
             </main>
             {isPublicSiteOpen && <Footer />}
-        </>
+        </div>
     );
 };
 
