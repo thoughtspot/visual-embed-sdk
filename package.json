@@ -19,7 +19,6 @@
         "lint:fix": "eslint 'src/**/*.*' --fix",
         "tsc": "tsc -p . --incremental false",
         "start": "gatsby develop",
-        "publish": "gh-pages -d public",
         "build:gatsby": "npm run clean:gatsby && gatsby build --prefix-paths",
         "build:gatsby:noprefix": "npm run clean:gatsby && gatsby build",
         "serve:gatsby": "gatsby serve",
