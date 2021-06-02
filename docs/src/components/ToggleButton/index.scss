@@ -38,7 +38,7 @@
 }
 
 input:checked + .slider {
-    background-color: black;
+    background-color: $gray-80;
 }
 
 input:checked + .slider:before {
