@@ -1,6 +1,5 @@
 = Security APIs
 
-
 :page-title: Security API
 :page-pageid: security-api
 :page-description: security API
