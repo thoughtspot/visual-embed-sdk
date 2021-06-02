@@ -29,8 +29,8 @@
 ** link:{{navprefix}}=customize-actions[Overview]
 ** link:{{navprefix}}=custom-action-url[Custom action to send data to a URL]
 ** link:{{navprefix}}=custom-action-callback[Custom action for a callback]
-** link:{{navprefix}}=custom-action-viz[Custom action for visualizations]
-** link:{{navprefix}}=push-data[Push data to an external app]
+** link:{{navprefix}}=custom-action-viz[Custom action for visualizations] 
+** link:{{navprefix}}=push-data[Callback custom action example]
 
 * Custom link format
 ** link:{{navprefix}}=customize-links[Customize links]
