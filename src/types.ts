@@ -404,4 +404,5 @@ export enum Action {
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
     DrillDown = 'DRILL',
+    RequestAccess = 'requestAccess',
 }
