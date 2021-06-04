@@ -1,4 +1,4 @@
-= What's New
+= What's new
 
 :toc: true
 
@@ -43,7 +43,7 @@ ThoughtSpot generates links to access objects, such as pinboards, visualizations
 
 For embedded instances, ThoughtSpot now allows you to customize the format of these links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
 
-For more information, see xref:customize-links.adoc[Customize links]
+For more information, see xref:customize-links.adoc[Customize links].
 
 == REST APIs
 
