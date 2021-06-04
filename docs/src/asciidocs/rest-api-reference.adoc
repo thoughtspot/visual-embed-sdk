@@ -19,17 +19,22 @@ Use the following REST APIs for programmatically managing users, groups, session
 |`*POST* /tspublic/v1/user/updatepreference`|Modify a user profile.
 .2+|xref:group-api.adoc[Group]|`*POST* /tspublic/v1/group/addprivilege` |Add a privilege to a group.
 |`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group.
-.3+|xref:session-api.adoc[Session]|`*POST* /tspublic/v1/session/login` |Authenticate and login a user.
+.4+|xref:session-api.adoc[Session]|`*POST* /tspublic/v1/session/login` |Authenticate and login a user.
 |`*POST* /tspublic/v1/session/logout`|Log out a user from an existing session.
 |`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
+|`*GET* /tspublic/v1/session/login/token`|Log in an authenticated user when trusted authentication is enabled.
 
 |xref:pinboarddata.adoc[Pinboard Data]|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from the ThoughtSpot application.
 |xref:pinboard-export-api.adoc[Pinboard export]|`*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
-.3+|xref:metadata-api.adoc[Metadata]|
+.4+|xref:metadata-api.adoc[Metadata]|
 `*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository.
 |`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
-|`*GET* /tspublic/v1/metadata/listas`| Get a list of metadata objects for a user or user group.
+|`*GET* /tspublic/v1/metadata/listas`|Get a list of metadata objects for a user or user group.
+|`*POST* /tspublic/v1/metadata/assigntag`|Assign tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
 .2+|xref:tml-api.adoc[TML API]| `*POST* /tspublic/v1/metadata/tml/import`|Imports ThoughtSpot Modeling Language (TML) objects.
 |`*POST* /tspublic/v1/metadata/tml/export`|Exports ThoughtSpot Modeling Language (TML) objects.
 |xref:search-data-api.adoc[Search data]|`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
+.2+|xref:security-api.adoc[Security]
+|`*POST* /tspublic/v1/security/share`|Share ThoughtSpot objects with another user or user group.
+|`*POST* /tspublic/v1/security/shareviz`|Share a specific ThoughtSpot visualization with another user or user group.
 |====

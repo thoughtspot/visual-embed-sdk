@@ -7,11 +7,13 @@
 * Embed ThoughtSpot
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
-** link:{{navprefix}}=user-roles[User configuration]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
-** link:{{navprefix}}=security-settings[Security settings]
+
+* Authentication and security
+** link:{{navprefix}}=user-roles[User configuration]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
+** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=browser-settings[Browser settings for embedding]
 
 * Visual Embed SDK
@@ -21,6 +23,7 @@
 ** link:{{navprefix}}=embed-pinboard[Embed a pinboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
+** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
 * Style customization
 ** link:{{navprefix}}=customize-style[Customize styles]
@@ -29,8 +32,8 @@
 ** link:{{navprefix}}=customize-actions[Overview]
 ** link:{{navprefix}}=custom-action-url[Custom action to send data to a URL]
 ** link:{{navprefix}}=custom-action-callback[Custom action for a callback]
-** link:{{navprefix}}=custom-action-viz[Custom action for visualizations]
-** link:{{navprefix}}=push-data[Push data to an external app]
+** link:{{navprefix}}=custom-action-viz[Custom action for visualizations] 
+** link:{{navprefix}}=push-data[Callback custom action example]
 
 * Custom link format
 ** link:{{navprefix}}=customize-links[Customize links]
@@ -44,9 +47,6 @@
 ** link:{{navprefix}}=calling-rest-api[Make a REST API call]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
-
-* Reference guides
-** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 ** link:{{navprefix}}=rest-api-reference[REST API Reference]
 *** link:{{navprefix}}=user-api[User APIs]
 *** link:{{navprefix}}=group-api[Group APIs]
@@ -59,14 +59,12 @@
 *** link:{{navprefix}}=tml-api[TML APIs]
 
 * Release notes
-** link:{{navprefix}}=whats-new[New features and enhancements]
+** link:{{navprefix}}=whats-new[What's new]
 
 * Resources
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
+** link:https://try-everywhere.thoughtspot.cloud/external/swagger/[REST API Explorer, window=_blank]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
-////** link:https://try-everywhere.thoughtspot.cloud/external/swagger/[REST API Explorer, window=_blank]////
-
-
 

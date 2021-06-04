@@ -1,4 +1,4 @@
-= New features and enhancements
+= What's new
 
 :toc: true
 
@@ -8,14 +8,14 @@
 
 This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
 
-== June 2021
+== June 2021 (Coming soon)
 
 The ThoughtSpot 7 Cloud June release introduces the following new features and enhancements:
 
 == Custom actions
 This release introduces the following new features and enhancements are introduced for custom actions:
 
-=== Global and local custom actions
+=== Global and local custom actions 
 
 The ThoughtSpot developer portal now supports designating a custom action as a __global__ or __local__ action. This feature allows you to determine and control the placement of custom actions in the ThoughtSpot UI. Developers can now choose to create a custom action that will appear on all visualizations or a specific custom action that can be added to a particular visualization by a ThoughtSpot user. A custom actions panel in the visualization pages allows ThoughtSpot users to view the available custom actions and add an action to any visualization.
 
@@ -43,7 +43,7 @@ ThoughtSpot generates links to access objects, such as pinboards, visualizations
 
 For embedded instances, ThoughtSpot now allows you to customize the format of these links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
 
-For more information, see xref:customize-links.adoc[Customize links]
+For more information, see xref:customize-links.adoc[Customize links].
 
 == REST APIs
 
