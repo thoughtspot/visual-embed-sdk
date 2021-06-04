@@ -24,6 +24,9 @@
         code {
             background: var(--code-block-color);
             font-family: $font-family-code;
+            a {
+                color: var(--primary-color);
+            }
         }
     }
 
