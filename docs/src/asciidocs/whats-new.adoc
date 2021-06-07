@@ -8,7 +8,7 @@
 
 This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
 
-== June 2021 (Coming soon)
+== June 2021
 
 The ThoughtSpot 7 Cloud June release introduces the following new features and enhancements:
 
