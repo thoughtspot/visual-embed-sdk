@@ -62,3 +62,11 @@ ThoughtSpot allows you to add custom actions to the embedded  pinboards and visu
 For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.  
 
 For more information, see xref:customize-actions-menu.adoc[Actions customization].
+
+== Custom link format
+
+When a user shares an object with another user or follows a pinboard to receive periodic notifications, ThoughtSpot generates links to access objects, such as pinboards, visualizations, and search answers. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
+
+ThoughtSpot allows you to customize the format of the links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
+
+For more information, see xref:customize-links.adoc[Customize links].
