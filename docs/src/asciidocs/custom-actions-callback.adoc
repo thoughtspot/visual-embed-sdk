@@ -1,4 +1,4 @@
-= Configure a callback custom action
+= Configure a callback action
 :toc: true
 
 :page-title: Actions customization
