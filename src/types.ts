@@ -341,6 +341,7 @@ export enum Param {
     Tag = 'tag',
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',
+    fullHeight = 'isFullHeightPinboard',
 }
 
 /**

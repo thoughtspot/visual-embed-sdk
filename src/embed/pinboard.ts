@@ -66,8 +66,12 @@ export class PinboardEmbed extends V1Embed {
             disabledActionReason,
             hiddenActions,
             enableVizTransformations,
+            fullHeight,
         } = this.viewConfig;
 
+        if (fullHeight === true) {
+            params[Param.fullHeight] = true;
+        }
         if (disabledActions?.length) {
             params[Param.DisableActions] = disabledActions;
         }
