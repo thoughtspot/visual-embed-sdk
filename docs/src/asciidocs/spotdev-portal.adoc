@@ -20,7 +20,6 @@ If you have a ThoughtSpot user account::
 For more information about configuring developer privileges, see the xref:user-roles.adoc[User configuration].
 . Navigate to the **Develop** tab.
 
-
 If you do not have a ThoughtSpot user account::
 If you do not have a ThoughtSpot user account and you want to evaluate the APIs in the developer playground: 
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
@@ -462,6 +461,7 @@ Allows you to view the code for a custom action event. If the embedded instance 
 * To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
 * To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
 * If you are a ThoughtSpot admin user and you want to configure security settings, such as  xref:security-settings.adoc[CORS and CSP domains],  xref:trusted-authentication.adoc[trusted authentication service], and  xref:configure-saml.adoc[SAML redirect domains], go to *Customizations* > *Settings*.
+* To xref:customize-links.adoc[customize the link format for an embedded ThoughtSpot instance], go to *Customizations* > *Links*.
 
 ////
 +
