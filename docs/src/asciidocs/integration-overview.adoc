@@ -66,7 +66,7 @@ For more information, see xref:trusted-authentication.adoc[Configure trusted aut
 
 == Define security settings
 
-Before embedding, you must enable several security settings in the Devloper portal to prevent security vulnerabilities in ThoughtSpot.
+Before embedding, you must enable several security settings in the Developer portal to prevent security vulnerabilities in ThoughtSpot.
 
 Cross-Origin Resource Sharing::
 Cross-Origin Resource Sharing (CORS) domains are the origins from which ThoughtSpot APIs can be called. When you add your host domain for CORS in the Developer portal, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
