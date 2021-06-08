@@ -114,7 +114,7 @@ To disable trusted authentication, follow these steps:
 . Go to *Develop* > *Customizations* > *Settings*.
 . On the *Settings* page, turn off the *Trusted Authentication* toggle.
 +
-A pop-window appears and prompts you to confirm the disable action.
+A pop-up window appears and prompts you to confirm the disable action.
 
 . Click *Disable*.
 

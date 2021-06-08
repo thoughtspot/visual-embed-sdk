@@ -16,7 +16,7 @@ The Session APIs allow ThoughtSpot users to authenticate and manage their sessio
 
 [#session-login]
 == Sign in a ThoughtSpot user
-If you are a ThoughtSpot user, you can programmatically sign into ThoughtSpot using the `/tspublic/v1/session/login` API.
+If you are a ThoughtSpot user, you can programmatically sign in to ThoughtSpot using the `/tspublic/v1/session/login` API.
 
 === Resource URL
 ----
@@ -140,7 +140,7 @@ JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96
 |**500**|Token-based trusted authentication is not enabled on ThoughtSpot.
 |===
 
-[#login-token]
+[#session-loginToken]
 == Authenticate and log in a user 
 If trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. You can use this token to log in a ThoughtSpot user and provide access to the requested content. 
 To programmatically log in an authenticated user, use the `/tspublic/v1/session/login/token` API. 
@@ -158,7 +158,7 @@ GET /tspublic/v1/session/login/token
 |Form Parameter|Data Type|Description
 |`username`|string|The user name of the user who requested access to ThoughtSpot.
 |`auth_token`|string a|The authentication token obtained from ThoughtSpot.
-|`redirect_url`|string|The URL to which you want redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user. 
+|`redirect_url`|string|The URL to which you want to redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user. 
 
 For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domains to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID as shown here. 
 
