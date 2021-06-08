@@ -1,20 +1,19 @@
-= Add a custom action to a specific visualization
+= Add a custom action to a visualization
 
 :page-title: Actions customization
-:page-pageid: custom-action-viz
+:page-pageid: add-action-viz
 :page-description: Add custom actions
 
-ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. You can also add a custom action to a specific visualization from the *Answers* or *Pinboards* page. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization.  
+ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. You can also add a custom action to a specific visualization from the *Answers* or *Pinboards* page. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization. 
 
-ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. To view these actions, you can open a visualization from a pinboard or search answer, and click the *Custom actions* icon image:./custom-action-icon.png[the Custom actions menu]. If you have edit permissions to modify the visualization, the *Custom actions* panel allows you to perform the following actions:
+ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. To view these actions, you can open a visualization from a pinboard or search answer, and click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. If you have edit permissions to modify the visualization, the *Custom actions* panel allows you to perform the following actions:
 
 Add a custom action::
 Allows you to add a custom action to the visualization and place the action command in the desired location. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization and set it as a primary action.
 Edit a custom action::
 Allows you to modify the placement of an action. To edit an action, go to the action in the Custom actions panel and then click the edit icon.
 Hide a custom action::
-Allows you to hide an action. To hide an action, go to the action in the Custom actions panel  and click the hide icon .
-
+Allows you to hide an action. To hide an action, go to the action in the Custom actions panel and click the hide icon  image:./images/hide-icon.png[the Custom actions menu].
 
 == Before you begin
 * Create a custom action in the ThoughtSpot Developer portal. Make sure the custom action is not set as a __global__ action. 
@@ -35,7 +34,7 @@ To add a custom action to a visualization page:
 
 * If the visualization is saved as a search answer, go to *Answers* and click the search answer that you want to edit.
 
-. Click the *Custom actions* icon image:./custom-action-icon.png[the Custom actions menu].
+. Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
 +
 The custom actions available for your instance are displayed.
 

@@ -1,4 +1,4 @@
-= Create a custom action to send data to a URL
+= Configure a URL action
 :toc: true
 
 :page-title: Send data to a URL using a custom action

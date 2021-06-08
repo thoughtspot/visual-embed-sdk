@@ -1,4 +1,4 @@
-= Configure a callback custom action
+= Configure a callback action
 :toc: true
 
 :page-title: Actions customization
@@ -39,4 +39,4 @@ The custom action is added to the *My actions* list in the Developer portal.
 
 . To view and verify the custom action you just created, navigate to a visualization page.
 
-For more information about how to push data to an external application using a callback custom action, see xref:push-data-to-external-app.adoc[Push data using a callback custom action].
+For more information about how to push data to an external application using a callback custom action, see xref:push-data-to-external-app.adoc[Callback custom action example].

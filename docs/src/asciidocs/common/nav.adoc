@@ -30,9 +30,9 @@
 
 * Custom actions
 ** link:{{navprefix}}=customize-actions[Overview]
-** link:{{navprefix}}=custom-action-url[Custom action to send data to a URL]
-** link:{{navprefix}}=custom-action-callback[Custom action for a callback]
-** link:{{navprefix}}=custom-action-viz[Custom action for visualizations] 
+** link:{{navprefix}}=custom-action-url[Configure a URL action]
+** link:{{navprefix}}=custom-action-callback[Configure a callback action]
+** link:{{navprefix}}=add-action-viz[Add a custom action to a visualization] 
 ** link:{{navprefix}}=push-data[Callback custom action example]
 
 * Custom link format
