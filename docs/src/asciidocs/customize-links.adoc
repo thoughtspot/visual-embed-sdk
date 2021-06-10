@@ -47,7 +47,7 @@ The *Link Settings* page in the Developer portal displays the default link forma
 
 [IMPORTANT]
 ====
-Make sure the {object-id} and {sub-object-id} variables are used only for ThoughSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/pinboard-id={object-id}`, ThoughtSpot may replace both these variables with the  pinboard GUID when it generates the pinboard link.
+Make sure the {object-id} and {sub-object-id} variables are used only for ThoughtSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/pinboard-id={object-id}`, ThoughtSpot may replace both these variables with the pinboard GUID when it generates the pinboard link.
 ====
 
 == Customize link format
