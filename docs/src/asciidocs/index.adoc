@@ -49,7 +49,7 @@ Using this method, you can use the REST APIs to programmatically query data from
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 
 == UI customization and rebranding
-If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughSpot UI to match your organization's branding guidelines.
+If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughtSpot UI to match your organization's branding guidelines.
 
 You can customize the ThoughtSpot application UI by using the style customization settings in the Developer portal.
 

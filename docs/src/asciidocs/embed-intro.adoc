@@ -37,7 +37,7 @@ In this method, you can use the REST APIs to programmatically fetch, embed, and 
 <Add a link to REST API content>
 ////
 == UI customization and rebranding
-If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughSpot UI to match your organization's branding guidelines.
+If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughtSpot UI to match your organization's branding guidelines.
 
 == Custom actions
 The ThoughtSpot embedding solution allows you to build additional actions to your embedded content, such as pinboards and visualizations. For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the pinboards.
