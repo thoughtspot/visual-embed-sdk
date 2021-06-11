@@ -308,6 +308,7 @@ export class TsEmbed {
 
         authPromise
             ?.then(() => {
+                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
                 this.executeCallbacks(EmbedEvent.AuthInit, {
                     data: { isLoggedIn: isAuthenticated() },
                 });
@@ -353,6 +354,7 @@ export class TsEmbed {
                 this.subscribeToEvents();
             })
             .catch((error) => {
+                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED);
                 this.handleError(error);
             });
     }
