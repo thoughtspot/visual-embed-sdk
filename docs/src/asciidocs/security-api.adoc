@@ -39,18 +39,22 @@ POST /tspublic/v1/security/share
 * `LOGICAL_COLUMN` to share a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` to share a data object such as a table, worksheet, or view.
 |`id`|string|The GUID of the objects to share.
-|`permission`|string|The string with the GUID of the objects and share permission. 
+|`permission`|string a|A string with the GUID of the objects and access privilege. 
 
-You can provide either `READ-ONLY` or `FULL` access to the objects. With READ-ONLY access, the users can view the shared object. The `FULL` access allows users to modify the object. 
+* The format of the permission string is `{"permissions":{"<GUID of the object>":{"sharemode":"<type-of-access>"}}}`.
+* You can provide `READ-ONLY` or `FULL` access to the objects. With `READ-ONLY` access, the user or user group can view the shared object, whereas `FULL` access enables users to modify the object. 
+For example, to provide a read-only access to a pinboard with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, you can specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"share mode":"READ_ONLY"}}}`
 
-The format of the permission string is `{"permissions":{"<GUID of the object>":{"sharemode":"<type-of-access>"}}}`. For example, to provide a read-only access to a pinboard with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, you can specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"share mode":"READ_ONLY"}}}`
+[IMPORTANT]
+====
+You can also set the `permission` parameter to `NO_ACCESS` to remove a user or user group's access to a shared object.
+====
+
 |`emailshares`|string|The email address of the user accounts with whom you want to share the objects. 
 |`notify` __Optional__|boolean|When set to `true`, a notification is sent to the users after an object is shared.
 |`message` __Optional__|string|The message text to send in the notification email.
+|`useCustomEmbedUrls`|boolean|When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
 |====
-////
-`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
-////
 
 === Example request
 
@@ -105,11 +109,8 @@ POST /tspublic/v1/security/shareviz
 |`emailshares`|string|The email address of the user account with whom you want to share the visualization. If no email address is specified, the visualization is shared only with the user IDs specified in `principalids`.
 |`notify` __Optional__|boolean|When set to `true`, a notification is sent to the user after the visualization is shared.
 |`message` __Optional__|string|The message text to send in the notification email.
+|`useCustomEmbedUrls`|boolean|When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
 |====
-
-////
-`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
-////
 
 === Example request
 

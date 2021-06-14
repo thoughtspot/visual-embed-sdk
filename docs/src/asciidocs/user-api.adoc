@@ -16,10 +16,9 @@ The User APIs allow you to programmatically manager ThoughtSpot users and user g
 |===
 [NOTE]
 ====
-If you want to get a list object headers associated with a user or user group, use the xref:metadata-api.adoc#headers-metadata-users[GET /tspublic/v1/metadata/listas] API.
+If you want to get a list of object headers associated with a user or user group, use the `xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]` API.
 ====
-
----
+ 
 [#user-list]
 == Get a list of users and groups
 To get a list of all users, groups, and their inter-dependencies in the form of principal objects, use the  `/tspublic/v1/user/list` API.
