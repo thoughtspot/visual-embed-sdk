@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getCssDimension } from '../utils';
+import { getEncodedQueryParamsString, getCssDimension } from '../utils';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -174,6 +174,13 @@ export class TsEmbed {
      */
     private isError: boolean;
 
+    /**
+     * [Basic] Should we encode URL Query Params which thoughtspot will generate for embedding
+     * This provides additional security to thoughtspot clusters against Cross site scripting attacks.
+     * @default false
+     */
+    private shouldEncodeUrlQueryParams: boolean = false;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
@@ -182,6 +189,7 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
+        this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
     }
 
     /**
@@ -270,9 +278,14 @@ export class TsEmbed {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
-        const queryParams = `?embedApp=true${
-            isAppEmbed ? primaryNavParam : ''
-        }${isAppEmbed ? disableProfileAndHelpParam : ''}${queryStringFrag}`;
+        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
+            isAppEmbed ? disableProfileAndHelpParam : ''
+        }${queryStringFrag}`;
+        if (this.shouldEncodeUrlQueryParams) {
+            queryParams = `?${getEncodedQueryParamsString(
+                queryParams.substr(1),
+            )}`;
+        }
         let path = `${this.thoughtSpotHost}/${queryParams}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;

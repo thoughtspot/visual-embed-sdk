@@ -90,6 +90,13 @@ export interface EmbedConfig {
 
     /** @internal */
     basepath?: string;
+
+    /**
+     * [Basic] Should we encode URL Query Params which thoughtspot will generate for embedding
+     * This provides additional security to thoughtspot clusters against Cross site scripting attacks.
+     * @default false
+     */
+    shouldEncodeUrlQueryParams?: boolean;
 }
 
 export type MessagePayload = { type: string; data: any };
