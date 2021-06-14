@@ -114,6 +114,7 @@ export class PinboardEmbed extends V1Embed {
             queryString,
             true,
             false,
+            false,
         )}/viz/${pinboardId}`;
         if (vizId) {
             url = `${url}/${vizId}`;

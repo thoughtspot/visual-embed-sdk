@@ -264,13 +264,15 @@ export class TsEmbed {
     protected getV1EmbedBasePath(
         queryString: string,
         showPrimaryNavbar = false,
+        disableProfileAndHelp = false,
         isAppEmbed = false,
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
+        const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
         const queryParams = `?embedApp=true${
             isAppEmbed ? primaryNavParam : ''
-        }${queryStringFrag}`;
+        }${isAppEmbed ? disableProfileAndHelpParam : ''}${queryStringFrag}`;
         let path = `${this.thoughtSpotHost}/${queryParams}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;

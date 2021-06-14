@@ -51,6 +51,11 @@ export interface AppViewConfig extends ViewConfig {
      */
     showPrimaryNavbar?: boolean;
     /**
+     * If true, help and profile buttons will hide on NavBar. By default,
+     * they are shown.
+     */
+    disableProfileAndHelp?: boolean;
+    /**
      * A URL path within the app that is to be embedded.
      * If both path and pageId attributes are defined, the path definition
      * takes precedence.
@@ -124,6 +129,7 @@ export class AppEmbed extends V1Embed {
         const url = `${this.getV1EmbedBasePath(
             queryString,
             this.viewConfig.showPrimaryNavbar,
+            this.viewConfig.disableProfileAndHelp,
             true,
         )}/${pageId}`;
 
