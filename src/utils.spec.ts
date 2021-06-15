@@ -78,4 +78,6 @@ describe('unit test for utils', () => {
             'http://xyz.com/#foobar',
         );
     });
+
+    test('getEncodedQueryParamsString', () => {});
 });
