@@ -18,17 +18,17 @@ POST /tspublic/v1/export/pinboard/pdf
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`id`|string|GUID of the Pinboard to download|None
+|`id`|string|GUID of the Pinboard to download|none
 |`visualization_ids`|string|GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
 |`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
 |`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the pinboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
 |`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
-|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|false
-|`include_logo`|boolean|Include customized wide logo if available in the footer|true
+|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
+|`include_logo`|boolean|Include customized wide logo if available in the footer|`true`
 |`footer_text` _Optional_|string|Footer text to include in the footer of each page of the PDF.|none
-|`include_page_number`|boolean|When set to `true`, the page number is included in the footer of each page.|true
-|`include_cover_page`|boolean|When set to `true`, a cover page with the Pinboard title is added in the PDF.|true
-|`include_filter_page`|boolean|When set to `true`, a second page with a list of all applied filters is added in the PDF|true
+|`include_page_number`|boolean|When set to `true`, the page number is included in the footer of each page.|`true`
+|`include_cover_page`|boolean|When set to `true`, a cover page with the Pinboard title is added in the PDF.|`true`
+|`include_filter_page`|boolean|When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
 |====
 
 == Example request
