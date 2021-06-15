@@ -28,6 +28,7 @@ import {
     MAX_TABLET_RESOLUTION,
     LEFT_NAV_WIDTH_TABLET,
     MAX_MOBILE_RESOLUTION,
+    MAX_CONTENT_WIDTH_DESKTOP,
     MAIN_HEIGHT_WITHOUT_DOC_CONTENT,
 } from '../constants/uiConstants';
 import { SearchQueryResult } from '../interfaces';
@@ -245,8 +246,11 @@ const IndexPage = ({ location }) => {
                     className="documentBody"
                     style={{
                         width: isMaxMobileResolution
-                            ? `${width - leftNavWidth}px`
+                            ? `${MAX_CONTENT_WIDTH_DESKTOP - leftNavWidth}px`
                             : '100%',
+                        marginLeft: isMaxMobileResolution
+                            ? `${leftNavWidth}px`
+                            : '0px',
                     }}
                 >
                     <Search
@@ -264,11 +268,13 @@ const IndexPage = ({ location }) => {
                     />
                     <div className="introWrapper">
                         <Document docTitle={docTitle} docContent={docContent} />
-                        <Docmap
-                            docContent={docContent}
-                            location={location}
-                            options={results}
-                        />
+                        <div>
+                            <Docmap
+                                docContent={docContent}
+                                location={location}
+                                options={results}
+                            />
+                        </div>
                     </div>
                 </div>
             </main>

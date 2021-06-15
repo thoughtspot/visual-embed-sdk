@@ -1,7 +1,6 @@
 @import '../../assets/styles/variables.scss';
 
 footer {
-    position: absolute;
     width: 100%;
     z-index: $footer-zIndex;
     background: var(--body-background-color);
