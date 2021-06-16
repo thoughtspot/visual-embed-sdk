@@ -109,12 +109,12 @@ aside {
                                     padding-right: $padding-xs;
 
                                     &:hover {
-                                        color: $secondarycolor;
+                                        color: var(--secondary-color);
                                     }
                                 }
 
                                 &:hover {
-                                    color: $secondarycolor;
+                                    color: var(--secondary-color);
                                 }
                             }
                         }

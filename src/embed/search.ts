@@ -49,6 +49,10 @@ export interface SearchViewConfig extends ViewConfig {
      */
     hideResults?: boolean;
     /**
+     * If set to true, expands all the data sources panel.
+     */
+    expandAllDataSource?: boolean;
+    /**
      * If set to true, the Search Assist feature is enabled.
      */
     enableSearchAssist?: boolean;
@@ -119,6 +123,7 @@ export class SearchEmbed extends TsEmbed {
             disabledActionReason,
             hiddenActions,
             hideResults,
+            expandAllDataSource,
             enableSearchAssist,
             searchOptions,
         } = this.viewConfig;
@@ -144,6 +149,9 @@ export class SearchEmbed extends TsEmbed {
         }
         if (hideResults) {
             queryParams[Param.HideResult] = true;
+        }
+        if (expandAllDataSource) {
+            queryParams[Param.ExpandAllDataSource] = true;
         }
         if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;

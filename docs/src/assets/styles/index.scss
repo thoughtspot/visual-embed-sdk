@@ -59,7 +59,7 @@ a {
 
 .activelink {
     background: $hovercolor;
-    color: $secondarycolor;
+    color: var(--secondary-color);
 }
 
 /*end active class with background*/
@@ -67,7 +67,7 @@ a {
 /*active class without background*/
 /*to override document componet style used important*/
 .active {
-    color: $secondarycolor !important;
+    color: var(--secondary-color) !important;
 }
 
 /*active class without background*/
