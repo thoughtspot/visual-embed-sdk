@@ -2,6 +2,7 @@
 
 .documentWrapper .admonitionblock {
     margin: 1.4rem 0 0;
+    line-height: $admonition-content-line-height;
 
     p {
         font-size: calc((#{$admonition-font-factor-p} / #{$rem-base}) * 1rem);
