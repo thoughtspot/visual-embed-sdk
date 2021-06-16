@@ -54,7 +54,7 @@
         max-height: $result-container-max-height;
         top: 38px;
         border-radius: 6px;
-        border: 1px solid $lightgrey;
+        border: 1px solid var(--border-color);
         box-shadow: $box-shadow-search-box;
         overflow: auto;
         left: 20px;
@@ -62,7 +62,7 @@
 
     .result {
         height: $result-height;
-        border-bottom: 1px solid $lightgrey;
+        border-bottom: 1px solid var(--border-color);
         display: inline-block;
         vertical-align: top;
         width: 100%;

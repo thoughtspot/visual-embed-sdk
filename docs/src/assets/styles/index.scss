@@ -167,7 +167,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: $disabledcolor;
+    background-color: var(--scrollbar-color);
     outline: none;
     border-radius: 4px;
 }
