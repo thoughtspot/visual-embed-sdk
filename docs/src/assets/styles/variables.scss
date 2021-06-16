@@ -13,18 +13,13 @@ $result-container-max-height: 320px;
 $result-height: 64px;
 $highlight-grey: #998;
 $highlight-darkgrey: #333;
-$highlight-green: #008080;
 $highlight-red: #d14;
 $highlight-darkred: #900;
 $highlight-blue: #458;
-$highlight-darkblue: #000080;
 $highlight-lightgreen: #009926;
-$highlight-violet: #990073;
-$highlight-lightblue: #0086b3;
 $highlight-lightgrey: #999;
 $highlight-peach: #fdd;
 $highlight-fadedgreen: #dfd;
-$highlight-purple: #0000cd;
 
 $header-zIndex: 99;
 $header-logo-width: 158px;
@@ -104,7 +99,6 @@ $tip-color: #41af46;
 $warning-color: #e18114;
 $color-white: #fff;
 $color-smoke-30: #fafafa;
-$color-jet-70: #222;
 $warning-on-color: $color-white;
 $caution-on-color: $color-white;
 $important-on-color: $color-white;
@@ -149,6 +143,14 @@ $tag-color-yellow: #ffbc00;
     --back-button-background: #e6e6e6;
     --border-color: #c0c6cf;
     --scrollbar-color: #a5acb9;
+    --color-jet-70: #222;
+    --highlight-purple: #0000cd;
+    --highlight-green: #008080;
+    --highlight-lightblue: #0086b3;
+    --highlight-darkblue: #000080;
+    --highlight-blue: #458;
+    --highlight-darkred: #900;
+    --highlight-violet: #990073;
 }
 
 #wrapper[data-theme='dark'] {
@@ -161,4 +163,12 @@ $tag-color-yellow: #ffbc00;
     --back-button-background: #a4abb8;
     --border-color: #3c4356;
     --scrollbar-color: #3c4356;
+    --color-jet-70: #bdbdbd;
+    --highlight-purple: #40c4ff;
+    --highlight-green: aquamarine;
+    --highlight-lightblue: #90caf9;
+    --highlight-darkblue: #9fa8da;
+    --highlight-blue: #c5cae9;
+    --highlight-darkred: #ef9a9a;
+    --highlight-violet: #f8bbd0;
 }

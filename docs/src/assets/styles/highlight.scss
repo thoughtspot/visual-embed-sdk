@@ -10,7 +10,7 @@
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-subst {
-    color: $color-jet-70;
+    color: var(--color-jet-70);
     font-weight: $font-weight-bold;
 }
 
@@ -19,18 +19,18 @@
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag .hljs-attr {
-    color: $highlight-green;
+    color: var(--highlight-green);
 }
 
 .hljs-string,
 .hljs-doctag {
-    color: $highlight-purple;
+    color: var(--highlight-purple);
 }
 
 .hljs-title,
 .hljs-section,
 .hljs-selector-id {
-    color: $highlight-darkred;
+    color: var(--highlight-darkred);
     font-weight: $font-weight-bold;
 }
 
@@ -40,14 +40,14 @@
 
 .hljs-type,
 .hljs-class .hljs-title {
-    color: $highlight-blue;
+    color: var(--highlight-blue);
     font-weight: $font-weight-bold;
 }
 
 .hljs-tag,
 .hljs-name,
 .hljs-attribute {
-    color: $highlight-darkblue;
+    color: var(--highlight-darkblue);
     font-weight: normal;
 }
 
@@ -58,12 +58,12 @@
 
 .hljs-symbol,
 .hljs-bullet {
-    color: $highlight-violet;
+    color: var(--highlight-violet);
 }
 
 .hljs-built_in,
 .hljs-builtin-name {
-    color: $highlight-lightblue;
+    color: var(--highlight-lightblue);
 }
 
 .hljs-meta {
