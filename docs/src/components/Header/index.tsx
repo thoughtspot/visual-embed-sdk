@@ -1,5 +1,5 @@
 import React from 'react';
-import TSLogo from '../../assets/svg/ts_logo_white.svg';
+import TSLogo from '../../assets/svg/ts-logo-white.svg';
 import t from '../../utils/lang-utils';
 import './index.scss';
 
