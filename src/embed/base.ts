@@ -24,6 +24,7 @@ import {
     AuthType,
     Action,
     RuntimeFilter,
+    OperationType,
 } from '../types';
 import { authenticate, isAuthenticated } from '../auth';
 import {
@@ -31,6 +32,7 @@ import {
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
 } from '../mixpanel-service';
+import { processData } from '../utils/processData';
 
 let config = {} as EmbedConfig;
 
@@ -234,7 +236,10 @@ export class TsEmbed {
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             if (event.source === this.iFrame.contentWindow) {
-                this.executeCallbacks(eventType, event.data);
+                this.executeCallbacks(
+                    eventType,
+                    processData(event.data, this.thoughtSpotHost),
+                );
             }
         });
     }
