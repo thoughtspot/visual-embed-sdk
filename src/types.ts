@@ -333,6 +333,7 @@ export enum Param {
     ExpandAllDataSource = 'expandAllDataSource',
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
+    ForceTable = 'forceTable',
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     EnableVizTransformations = 'enableVizTransform',

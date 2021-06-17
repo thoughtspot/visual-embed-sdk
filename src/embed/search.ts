@@ -57,6 +57,10 @@ export interface SearchViewConfig extends ViewConfig {
      */
     enableSearchAssist?: boolean;
     /**
+     *
+     */
+    forceTable?: boolean;
+    /**
      * The array of data source GUIDs to set on load.
      */
     dataSources?: string[];
@@ -125,6 +129,7 @@ export class SearchEmbed extends TsEmbed {
             hideResults,
             expandAllDataSource,
             enableSearchAssist,
+            forceTable,
             searchOptions,
         } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
@@ -161,6 +166,9 @@ export class SearchEmbed extends TsEmbed {
         }
         if (hiddenActions?.length) {
             queryParams[Param.HideActions] = hiddenActions;
+        }
+        if (forceTable) {
+            queryParams[Param.ForceTable] = true;
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
