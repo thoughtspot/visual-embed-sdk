@@ -8,7 +8,7 @@ The TML APIs enable you to programmatically export, validate, and import scripta
 
 [width="100%" cols="1,2"]
 |===
-|`xref:tml-api.adoc#export[POST /tspublic/v1/metadata/tml/import]`|Validates and imports TML objects.
+|`xref:tml-api.adoc#import[POST /tspublic/v1/metadata/tml/import]`|Validates and imports TML objects.
 |`xref:tml-api.adoc#export[POST /tspublic/v1/metadata/tml/export]`|Exports TML objects.
 |===
 
@@ -26,7 +26,7 @@ POST /tspublic/v1/metadata/tml/import
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of strings of TML objects to upload, in YAML or JSON format. 
+|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format. 
 
 If in YAML format within the JSON array, use escape characters for YAML quotes, and new line characters when there is a new line. 
 

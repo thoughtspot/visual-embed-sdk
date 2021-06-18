@@ -4,13 +4,13 @@
 :page-pageid: user-api
 :page-description: User API
 
-The User APIs allow you to programmatically manager ThoughtSpot users and user groups.
+The User APIs allow you to programmatically manage ThoughtSpot users and user groups.
 
 [width="100%" cols="2,3"]
 |===
 |`xref:user-api.adoc#user-list[GET /tspublic/v1/user/list]`|Gets a list of all users and user groups configured in the ThoughtSpot system
 |`xref:user-api.adoc#change-pwd[POST /tspublic/v1/user/updatepassword]`|Changes the password of a ThoughtSpot user account. 
-|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates profile setttings of a ThoughtSpot user. 
+|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates the profile settings of a ThoughtSpot user. 
 |`xref:user-api.adoc#user-sync[POST /tspublic/v1/user/sync]`|Synchronizes user accounts and user groups with ThoughtSpot. 
 |`xref:user-api.adoc#transfer-ownership[POST /tspublic/v1/user/transfer/ownership]`|Transfers ownership of objects from one user to another.
 |===
@@ -345,7 +345,7 @@ POST /tspublic/v1/user/sync
 ----
 === Request parameters
 
-This API uses `multipart/form-data` content type. 
+This API uses `multipart/form-data` content-type. 
 
 [NOTE]
 ====
@@ -457,7 +457,7 @@ The above example covers user objects (with emails), group objects, and their re
 * In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing` and the 
 `test2` user belongs to the group `Administrator`.
 * `All` is a default group to which every user belongs; you may omit it from the input.
-* Set `visibility` to `NON_SHARABLE` if you do not want users to share ThoughtSpot object with other users in this group.
+* Set `visibility` to `NON_SHARABLE` if you do not want users to share ThoughtSpot objects with other users in this group.
 ====
 
 === Response codes

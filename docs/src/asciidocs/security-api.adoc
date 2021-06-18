@@ -9,9 +9,9 @@ The Security APIs allow you to share ThoughtSpot objects, such as pinboards and 
 
 [width="100%" cols="1,2"]
 |===
-|xref:security-api.adoc#share-object[`POST /tspublic/v1/security/share`] 
-|Shares ThoughtSpot objects with another user or user group
-|xref:security-api.adoc#shareviz[`POST /tspublic/v1/security/shareviz`]|Shares a ThoughtSpot visualization with another user or user group
+|xref:security-api.adoc#share-object[`**POST **/tspublic/v1/security/share`] 
+|Shares ThoughtSpot objects with another user or user group.
+|xref:security-api.adoc#shareviz[`**POST** /tspublic/v1/security/shareviz`]|Shares a ThoughtSpot visualization with another user or user group.
 |===
 
 ---

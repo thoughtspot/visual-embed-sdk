@@ -1,4 +1,3 @@
-
 = Pinboard data API
 :toc: true
 
@@ -13,19 +12,18 @@ Using this API, you can fetch the following information:
 * All the visualization objects on a pinboard.
 * A specific or a group of visualizations on a pinboard.
 
-== Request URL
+=== Request URL
 ----
 POST /tspublic/v1/pinboarddata
 ----
-== Request Parameters
+=== Request Parameters
 
 [width="100%" cols="1,1,4"]
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`id`|string|The pinboard id in the system.
-|`vizid`|string|(Optional) The visualization id(s) on a pinboard. Use this parameter to fetch a specific visualization on a pinboard. The syntax is:
-         `4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1`, "\...\...
+|`id`|string|GUID of pinboard.
+|`vizid` __Optional__|string|A JSON array of GUIDs of the visualizations. 
 |`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1.
 |`pagenumber`|integer|The system default is -1.
 |`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
@@ -33,10 +31,13 @@ POST /tspublic/v1/pinboarddata
 |`formattype`|string|Valid values are `COMPACT` or `FULL JSON`. The system default is `COMPACT`.
 |====
 
+=== Example requests
 
-== Example request
+==== Pinboard data
 
 .CURL
+
+[source,cURL]
 ----
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
@@ -46,8 +47,36 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
-== Example response
+==== Visualization data
 
+.CURL
+
+[source,cURL]
+----
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=%5B'fa934657-e347-4de7-b02d-3b46609233cc'%2C'62f98ad3-6ddd-4aed-8f13-58054295b7e3'%2C'eb77ba14-15de-4d4d-aac4-625ebd58b1c6'%5D&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=%5B'fa934657-e347-4de7-b02d-3b46609233cc'%2C'62f98ad3-6ddd-4aed-8f13-58054295b7e3'%2C'eb77ba14-15de-4d4d-aac4-625ebd58b1c6'%5D&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+----
+
+=== Example response
+Each data object returned in the API response contains four components:
+
+. The `columnNames` array that contains a list of all column headers.
+. The `data` array that contains a list of sub-arrays. Each sub-array represents a new row of data.
+. Name of the visualization.
+. A sampling ratio.
++
+The sampling ratio tells you the percentage of total data returned.
+A sampling ratio of `1` indicates that all data in the visualization object was returned in the API call.
+
+==== Pinboard data
+
+[source,JSON]
 ----
 {
   "4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1": {
@@ -77,6 +106,82 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5
   }
 }
 ----
+==== Visualization data
+The returned JSON data includes one object for every visualization on the pinboard.
+If you make a call to obtain data for a specific visualization on a pinboard, The API returns data for only that visualization.
+
+[source,JSON]
+----
+{
+  "fa934657-e347-4de7-b02d-3b46609233cc": {
+    "columnNames": [
+      "User"
+    ],
+    "data": [
+      [
+        9
+      ]
+    ],
+    "samplingRatio": 1,
+    "totalRowCount": 1,
+    "rowCount": 1,
+    "pageSize": -1,
+    "offset": -1,
+    "name": "MAU Last 30 Days"
+  },
+  "eb77ba14-15de-4d4d-aac4-625ebd58b1c6": {
+    "columnNames": [
+      "User",
+      "Number of User Action"
+    ],
+    "data": [
+      [
+        "tsadmin",
+        436
+      ],
+      [
+        "system",
+        50
+      ],
+      [
+        "cristi-test",
+        8
+      ],
+      [
+        "sandeep2",
+        7
+      ],
+      [
+        "sandeep",
+        4
+      ]
+    ],
+    "samplingRatio": 1,
+    "totalRowCount": 5,
+    "rowCount": 5,
+    "pageSize": 100000,
+    "offset": 0,
+    "name": "Top 10 Pinboard Consumers Last 30 days"
+  },
+  "62f98ad3-6ddd-4aed-8f13-58054295b7e3": {
+    "columnNames": [
+      "User"
+    ],
+    "data": [
+      [
+        2
+      ]
+    ],
+    "samplingRatio": 1,
+    "totalRowCount": 1,
+    "rowCount": 1,
+    "pageSize": -1,
+    "offset": -1,
+    "name": "Inactive Users"
+  }
+}
+----
+
 === Response codes
 
 [options="header", cols="1,2"]
@@ -85,25 +190,3 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5
 |**200**|Successful retrieval of pinboard or visualization data
 |**400**|Invalid pinboard ID
 |===
-////
-## Error Codes
-
-<table>
-   <colgroup>
-      <col style="width:20%" />
-      <col style="width:60%" />
-      <col style="width:20%" />
-   </colgroup>
-   <thead class="thead" style="text-align:left;">
-      <tr>
-         <th>Error Code</th>
-         <th>Description</th>
-         <th>HTTP Code</th>
-      </tr>
-   </thead>
-   <tbody>
-    <tr> <td><code>10002</code></td>  <td>Bad request. Invalid parameter values.</td> <td><code>400</code></td></tr>
-    <tr> <td><code>10000</code></td>  <td>Internal server error. Malformed JSON Exception.</td><td><code>500</code></td></tr>
-  </tbody>
-</table>
-////
