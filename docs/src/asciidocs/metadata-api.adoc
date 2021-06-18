@@ -6,215 +6,448 @@
 
 The metadata APIs allow you to run a query for metadata objects in the ThoughtSpot system. The metadata objects include search answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot. 
 
-The metadata APIs support the following operations:
-[width="100%" cols="2,3"]
+== Supported operations
+
+[width="100%" cols="3,3"]
+[%noheader]
 |===
-|`xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]`|Returns metadata object headers from the ThoughtSpot system.
-|`xref:metadata-api.adoc#viz-header[GET /tspublic/v1/metadata/listvizheaders]` |Returns visualization headers for a given metadata object such as a pinboard or search answer.
-|`xref:metadata-api.adoc#headers-metadata-users[GET /tspublic/v1/metadata/listas]`|Returns metadata objects for a user or user group.
-|`xref:metadata-api.adoc#assign-tag[POST /tspublic/v1/metadata/assigntag]`|Assigns tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
+|`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`
+
+|Assigns tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
+|`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]` 
+
+|Returns metadata  details for a specific data object such as a pinboard, search answer, or a worksheet.
+|`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]`
+
+|Returns metadata objects for a user or user group.
+|`xref:metadata-api.adoc#object-header[**GET** /tspublic/v1/metadata/listobjectheaders]` 
+
+|Returns object headers for a given data type.
+|`xref:metadata-api.adoc#viz-header[**GET** /tspublic/v1/metadata/listvizheaders]` 
+
+|Returns visualization headers for pinboards or search answers.
+|`xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]`
+
+|Adds objects to the *Favorites* list for a given user account.
+|`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
+
+|Removes the objects from the *Favorites* list in a user account.
 |===
 
-[#object-header]
-== Get object headers
-To query metadata objects headers for a data type in the Thoughtspot system, use the `/tspublic/v1/metadata/listobjectheaders` API.
+[#assign-tag]
+== Assign tags to metadata objects
+Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or search answer. You can use tags to find and filter your answers, pinboards, and data objects. 
+
+To apply a tag to a ThoughtSpot object programmatically, you can use the  `/tspublic/v1/metadata/assigntag` API.  
+
+Before you apply a tag, make sure the tags are created and available for assignment.
+[NOTE]
+====
+Only ThoughtSpot admin users can create a tag. Any ThoughtSpot user with edit permissions can assign a tag to an object.
+====
 
 === Resource URL
 ----
-GET /tspublic/v1/metadata/listobjectheaders
+POST /tspublic/v1/metadata/assigntag
+----
+
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`id`|string|The GUID of the metadata object to tag. For example, a pinboard or visualization. If you want to assign the same tag to several objects, specify the GUID of the metadata objects.
+|`type` __Optional__ |string a|Type of the metadata object. Specify one of the following values as a metadata object type:
+
+* `QUESTION_ANSWER_BOOK` for search answers.
+* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+|`tagid`|string|The GUID of the tag to assign.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag
+----
+
+=== Example response
+ 
+----
+Response code
+
+204
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP code|Description
+|**204**|Successful application of tag to a metadata object
+|**400**|Invalid parameter value
+|**500**|Invalid metadata object ID
+|===
+ 
+[#metadata-details]
+To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.
+
+=== Resource URL
+----
+GET /tspublic/v1/metadata/details
 ----
 === Request parameters
 [width="100%" cols="1,1,4"]
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`type` __Optional__|string a|Type of the metadata object. To query data for specific object type, set the metadata object `type` to one of the following values:
+|`type`|string a|Type of the metadata object. To query details for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for search answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values. 
-* `TAG` for tags assigned to a metadata object.
-* `DATA_SOURCE` for data source from which the metadata objects were loaded.  
+* `TAG` for tag objects.
+* `USER` for user objects.
+* `USER_GROUP` for user group objects.
+|`id`|string|A JSON array of GUIDs of the objects.
+|`showhidden`|boolean|When set to `true`, returns details of the hidden objects, for example such as a column in a worksheet or a table.By default, this attribute is set to `false`.
+|`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL TABLE` data type. By default, this attribute is set to `false`.
+|`version`__Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.   
+|==== 
 
-[IMPORTANT]
-====
-The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
-====
-
-|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype. 
-
-* `ONE_TO_ONE_LOGICAL` for tables
-* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
-* `USER_DEFINED` for tables uploaded from a CSV file.
-* `AGGR_WORKSHEET` for Views. A **View** in ThoughtSpot refers to a table materialized from a search answer that was saved as a View by a user. 
-
-[IMPORTANT]
-====
-The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
-====
-|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as search answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:    
-
-* `ALL` to get all objects for a given metadata type, for example, search answers or pinboards.
-* `MY` to get the objects created or saved by the current logged in user.
-* `FAVORITE` to get a list of objects marked as favorites by the current logged in user.
-* `REQUESTED` to get only the objects requested by the current logged in user.   
-|`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
-
-* `DEFAULT` 
-* `NAME` 
-* `DISPLAY_NAME` 
-* `AUTHOR`
-* `CREATED`
-* `MODIFIED`
-|`sortascending` __Optional__| boolean a|A flag to specify the sort order. A null value defines the default order.
-
-* To set an ascending order, specify `true`.
-* To set a descending order, specify `false`.
-|`offset` __Optional__|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|integer|The batch size of the object. A value of `-1` implies no pagination.
-|`tagname` __Optional__|string|A JSON array containing a set of tag names to filter headers by.
-|`pattern` __Optional__|string|A pattern to match object name. Use `%`for a  wildcard match.
-|`skipids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to exclude.
-|`fetchids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to fetch.
-|`auto_created` __Optional__| boolean|A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
-|====
 === Example request
 
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/details?type=QUESTION_ANSWER_BOOK&id=%5B%22999edb43-7957-495c-bfdf-d2a9de2a4fd6%22%5D&showhidden=false&dropquestiondetails=false'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/details?type=QUESTION_ANSWER_BOOK&id=%5B%22999edb43-7957-495c-bfdf-d2a9de2a4fd6%22%5D&showhidden=false&dropquestiondetails=false
 ----
 
 === Example response
 
-[source, JSON]
-----
-[
-  {
-    "id": "7752fa9e-db22-415e-bf34-e082c4bc41c3",
-    "name": "Basic Pinboard 1",
-    "description": "This pinboard contains one TPCH based visualization",
-    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "created": 1450823023991,
-    "modified": 1504281997165,
-    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "owner": "7752fa9e-db22-415e-bf34-e082c4bc41c3",
-    "isAutoCreated": false,
-    "isAutoDelete": false
-  },
-  {
-    "id": "6715f768-8930-4180-9a3d-1efdbfaa8e7f",
-    "name": "Headline Pinboard",
-    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "created": 1519940021267,
-    "modified": 1519945210514,
-    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "owner": "6715f768-8930-4180-9a3d-1efdbfaa8e7f",
-    "isAutoCreated": false,
-    "isAutoDelete": false
-  },
-  {
-    "id": "601be8e5-140e-477c-8812-843795306438",
-    "name": "Pinboard Filter - datatypes",
-    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "created": 1519943239150,
-    "modified": 1519944533160,
-    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "owner": "601be8e5-140e-477c-8812-843795306438",
-    "isAutoCreated": false,
-    "isAutoDelete": false
-  }
-]
-----
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP status code|Description
-|**200**|Successful retrieval of metadata headers
-|*400*|Invalid metadata subtype
-|*500*|Invalid metadata type
-|===
----
-[#viz-header]
-== Get visualization headers
-To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 
-The API returns a list of visualizations for a given pinboard or a search answer.
-
-=== Resource URL
-----
-GET /tspublic/v1/metadata/listvizheaders
-----
-=== Request parameters
-[width="100%" cols="1,2,3"]
-[options='header']
-|====
-|Query Parameter|Data Type|Description
-|`id`|string|ID of a search answer or a pinboard.
-|====
-=== Example request
-
-.cURL
-[source, cURL]
-----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
-----
-
-=== Example response
+The following example shows the metadata details of a pinboard object:
 
 [source,JSON]
 ----
-[
-  {
-    "id": "dd7f5467-99c3-4278-998b-6dd0c4346cd4",
-    "name": "Headline Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  },
-  {
-    "id": "fcb65fdb-3965-4f56-8bda-e5e3c2a127a7",
-    "name": "Filter Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days Row: 1",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  },
-  {
-    "id": "0f6e7220-5088-4a0e-8122-50b637c356fc",
-    "name": "Table Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
-    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
-  }
-]
+{
+  "storables": [
+    {
+      "reportContent": {
+        "sheets": [
+          {
+            "sheetType": "QUESTION",
+            "sheetContent": {
+              "headlineVisibilityMap": {},
+              "defaultQueryableSource": "LIVE",
+              "querableSources": [
+                "LIVE"
+              ],
+              "externalQueryableDataSource": "RDBMS_SNOWFLAKE",
+              "bestDisplayMode": "TABLE_MODE",
+              "canGenerateLeafData": true,
+              "sheetContentType": "QUESTION",
+              "question": {
+                "sageContextProto": "CoYDCgMKATAa8wEK5gEKD0FjY291bnQgQmFsYW5jZRACGAcgASokOTM4NjFkZjQtMjIwZC00YzgyLWI1YWMtNmMxNGM4MTBkZGQzMiRkMmIxOTBlNi1mNzIxLTRjOTUtOTFkYy1jZWFlN2RlZGY4ZGY6CgoDCgExGgMKATFSHRIPQWNjb3VudCBCYWxhbmNlIgMKATEqAwoBMTAAWABhE+xy+yLF9UCAAQCQAQCYAQDqAQ9BY2NvdW50IEJhbGFuY2WAAgCQAleaAgIIAaICJGI5MTMxMTZiLTBhNGQtNDI3MC1hNzM3LTA4NjZmYmRmNTBiNxIICAEQABgBIAEqAwoBMjIUMTQxMDE4NDUxNTI2ODMxNDUxMjg6VBJQCiMgAkAAchcIASIRCgMKATQaCgoDCgExGgMKATFAB4IBAwoBMkoDCgEzWiQwZDM3MTNjNS05YjdkLTQ3M2YtYTI2Mi1iMmYyM2FlNGZjZTYYAEoKCgQIABIAEgISAFgKegplbl9VUy51dGY4MjIKJGEzMDdhZWYwLWFlYWMtNDNkOC1hNmYyLTEwNTI1NzhjNGY3ORIKTmV3IFRhYmxlMDI2CiQwZDM3MTNjNS05YjdkLTQ3M2YtYTI2Mi1iMmYyM2FlNGZjZTYSDlJldGFpbCBCYW5raW5nMjcKJGQyYjE5MGU2LWY3MjEtNGM5NS05MWRjLWNlYWU3ZGVkZjhkZhIPQWNjb3VudCBCYWxhbmNlMiYKJDhiOWNhZDk1LTJkY2MtNDg2MS05ZWFmLTcwOTNjODRiMjFiODI3CiQ5Mzg2MWRmNC0yMjBkLTRjODItYjVhYy02YzE0YzgxMGRkZDMSD0FjY291bnQgQmFsYW5jZTgC",
+                "sageContextIndex": 0,
+                "text": "account balance",
+                "isChasmTrapQuery": false
+              },
+              "visualizations": [
+                {
+                  "vizContent": {
+                    "vizType": "TABLE",
+                    "columns": [
+                      {
+                        "isUserSorted": false,
+                        "aggrTypeOverride": "NONE",
+                        "typeOverride": "MEASURE",
+                        "dataTypeOverride": "UNKNOWN",
+                        "formatTypeOverride": "NONE",
+                        "groupBy": false,
+                        "uniqueValues": -1,
+                        "sageOutputColumnId": "d2b190e6-f721-4c95-91dc-ceae7dedf8df",
+                        "outputIdsWithMatchingLogicalKey": [],
+                        "aggrApplied": false,
+                        "isVisible": true,
+                        "columnToFormatPatternType": {},
+                        "effectiveAggrType": "SUM",
+                        "effectiveDataType": "DOUBLE",
+                        "effectiveType": "MEASURE",
+                        "id": "d2b190e6-f721-4c95-91dc-ceae7dedf8df",
+                        "effectiveColumnGuid": "d17c7367-e653-31d2-8542-4c8751401c18",
+                        "effectiveColumnIdString": "93861df4-220d-4c82-b5ac-6c14c810ddd3#SUM#MEASURE#null",
+                        "baseColumnName": "Account Balance",
+                        "baseAggrType": "SUM",
+                        "baseDataType": "DOUBLE",
+                        "baseType": "MEASURE",
+                        "isBaseColumnFormulaColumn": true,
+                        "isBaseColumnAdditive": true,
+                        "baseCurrencyTypeInfo": {
+                          "setting": "FROM_ISO_CODE",
+                          "isoCode": "USD"
+                        },
+                        "referencedTableHeaders": [
+                          {
+                            "id": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                            "name": "Retail Banking"
+                          }
+                        ],
+                        "referencedColumnHeaders": [
+                          {
+                            "id": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                            "name": "Account Balance"
+                          }
+                        ],
+                        "allLevelReferencedTableHeaders": [
+                          {
+                            "id": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                            "name": "Retail Banking"
+                          },
+                          {
+                            "id": "d56e7bee-979f-4220-b6e8-aab95ea5fa3c",
+                            "name": "DIM_RB_ACCOUNTS"
+                          }
+                        ],
+                        "allLevelReferencedColumnHeaders": [
+                          {
+                            "id": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                            "name": "Account Balance"
+                          },
+                          {
+                            "id": "cf782d93-7c17-4033-a99f-8f4ef2d6bf41",
+                            "name": "BALANCE"
+                          }
+                        ]
+                      }
+                    ],
+                    "title": {
+                      "value": {
+                        "text": "Table 1"
+                      }
+                    },
+                    "customTitle": false,
+                    "locked": false
+                  },
+                  "relatedLinks": [],
+                  "header": {
+                    "id": "9657d273-c9a4-431d-9ae9-a409e4f8e75c",
+                    "indexVersion": 2468,
+                    "generationNum": 2468,
+                    "name": "Table Viz account balance",
+                    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+                    "authorName": "tsadmin",
+                    "authorDisplayName": "Administrator",
+                    "created": 1623061257553,
+                    "modified": 1623061257553,
+                    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+                    "owner": "bf5aad95-efb2-41f1-b3e8-5f7e41dd6a0f",
+                    "isDeleted": false,
+                    "isHidden": false,
+                    "clientState": {
+                      "tableVizPropVersion": "V1"
+                    },
+                    "tags": [],
+                    "type": "QUESTION",
+                    "isExternal": false,
+                    "isDeprecated": false
+                  },
+                  "complete": true,
+                  "incompleteDetail": []
+                },
+                {
+                  "vizContent": {
+                    "vizType": "HEADLINE",
+                    "template": "MEASURE",
+                    "columns": [
+                      {
+                        "column": {
+                          "isUserSorted": false,
+                          "aggrTypeOverride": "NONE",
+                          "typeOverride": "MEASURE",
+                          "dataTypeOverride": "UNKNOWN",
+                          "formatTypeOverride": "NONE",
+                          "groupBy": false,
+                          "uniqueValues": -1,
+                          "sageOutputColumnId": "d2b190e6-f721-4c95-91dc-ceae7dedf8df",
+                          "outputIdsWithMatchingLogicalKey": [],
+                          "aggrApplied": true,
+                          "isVisible": true,
+                          "columnToFormatPatternType": {},
+                          "effectiveAggrType": "SUM",
+                          "effectiveDataType": "DOUBLE",
+                          "effectiveType": "MEASURE",
+                          "id": "d2b190e6-f721-4c95-91dc-ceae7dedf8df",
+                          "effectiveColumnGuid": "d17c7367-e653-31d2-8542-4c8751401c18",
+                          "effectiveColumnIdString": "93861df4-220d-4c82-b5ac-6c14c810ddd3#SUM#MEASURE#null",
+                          "baseColumnName": "Account Balance",
+                          "baseAggrType": "SUM",
+                          "baseDataType": "DOUBLE",
+                          "baseType": "MEASURE",
+                          "isBaseColumnFormulaColumn": true,
+                          "isBaseColumnAdditive": true,
+                          "baseCurrencyTypeInfo": {
+                            "setting": "FROM_ISO_CODE",
+                            "isoCode": "USD"
+                          },
+                          "referencedTableHeaders": [
+                            {
+                              "id": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                              "name": "Retail Banking"
+                            }
+                          ],
+                          "referencedColumnHeaders": [
+                            {
+                              "id": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                              "name": "Account Balance"
+                            }
+                          ],
+                          "allLevelReferencedTableHeaders": [
+                            {
+                              "id": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                              "name": "Retail Banking"
+                            },
+                            {
+                              "id": "d56e7bee-979f-4220-b6e8-aab95ea5fa3c",
+                              "name": "DIM_RB_ACCOUNTS"
+                            }
+                          ],
+                          "allLevelReferencedColumnHeaders": [
+                            {
+                              "id": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                              "name": "Account Balance"
+                            },
+                            {
+                              "id": "cf782d93-7c17-4033-a99f-8f4ef2d6bf41",
+                              "name": "BALANCE"
+                            }
+                          ]
+                        },
+                        "possibleAggrs": [
+                          "SUM",
+                          "AVERAGE",
+                          "STD_DEVIATION",
+                          "VARIANCE",
+                          "MIN",
+                          "MAX",
+                          "TABLE_AGGR"
+                        ],
+                        "aggrs": [
+                          "TABLE_AGGR"
+                        ],
+                        "tableSummary": true
+                      }
+                    ],
+                    "showSummaryAggrs": false,
+                    "title": {
+                      "value": {
+                        "text": "Headline Account Balance"
+                      }
+                    },
+                    "customTitle": false,
+                    "locked": true
+                  },
+                  "relatedLinks": [],
+                  "header": {
+                    "id": "4e33f9ec-80e3-4080-a24f-ed2e47e9f663",
+                    "indexVersion": 2468,
+                    "generationNum": 2468,
+                    "name": "Headline Account Balance",
+                    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+                    "authorName": "tsadmin",
+                    "authorDisplayName": "Administrator",
+                    "created": 1623061257553,
+                    "modified": 1623061257553,
+                    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+                    "owner": "bf5aad95-efb2-41f1-b3e8-5f7e41dd6a0f",
+                    "isDeleted": false,
+                    "isHidden": false,
+                    "clientState": {
+                      "headlineVizPropVersion": "V1"
+                    },
+                    "tags": [],
+                    "type": "QUESTION",
+                    "isExternal": false,
+                    "isDeprecated": false
+                  },
+                  "complete": true,
+                  "incompleteDetail": []
+                }
+              ]
+            },
+            "header": {
+              "id": "bf5aad95-efb2-41f1-b3e8-5f7e41dd6a0f",
+              "indexVersion": 2468,
+              "generationNum": 2468,
+              "name": "Total Account Balance",
+              "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+              "authorName": "tsadmin",
+              "authorDisplayName": "Administrator",
+              "created": 1623061257553,
+              "modified": 1623061257553,
+              "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+              "owner": "999edb43-7957-495c-bfdf-d2a9de2a4fd6",
+              "isDeleted": false,
+              "isHidden": false,
+              "tags": [],
+              "type": "QUESTION",
+              "isExternal": false,
+              "isDeprecated": false
+            },
+            "complete": true,
+            "incompleteDetail": []
+          }
+        ]
+      },
+      "type": "QUESTION",
+      "header": {
+        "id": "999edb43-7957-495c-bfdf-d2a9de2a4fd6",
+        "indexVersion": 2468,
+        "generationNum": 2468,
+        "name": "Total Account Balance",
+        "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "authorName": "tsadmin",
+        "authorDisplayName": "Administrator",
+        "created": 1623061257553,
+        "modified": 1623061257553,
+        "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "owner": "999edb43-7957-495c-bfdf-d2a9de2a4fd6",
+        "isDeleted": false,
+        "isHidden": false,
+        "isAutoCreated": false,
+        "isAutoDelete": false,
+        "tags": [],
+        "isExternal": false,
+        "isDeprecated": false
+      },
+      "complete": true,
+      "incompleteDetail": []
+    }
+  ],
+  "debugInfo": {}
+}
 ----
-
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|**200**|Successful retrieval of the visualization headers list
-|**400**|Invalid pinboard GUID
+|**200**|Successful retrieval of metadata deatils
+|*400*|Invalid request
 |===
 
 ---
@@ -228,13 +461,13 @@ Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects ava
 GET /tspublic/v1/metadata/listas
 ----
 === Request parameters
-[width="100%" cols="1,1,3"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |====
 |Query Parameter|Data Type|Description
 |`offset` __Optional__|integer| The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
 |`batchsize` __Optional__|integer|The batch size of the objects. A value of `-1` implies no pagination.
-|`pattern` __Optional__|string|The pattern to match object names. Use `%` for a wildcard match.
+|`pattern` __Optional__|string|A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
 |`principalid` __Optional__|string a|ID of the user or user group. 
 
 * If you specify a userID and set the `type` parameter to `USER`, the API returns metadata objects associated with the user ID. 
@@ -445,37 +678,230 @@ The following example shows the headers returned for a user:
 |**401**| Unauthorized request
 |**404**|The requested resource could not be found
 |===
----
-[#assign-tag]
-== Assign tags to metadata objects
-Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or search answer. You can use tags to find and filter your answers, pinboards, and data objects. 
 
-To apply a tag to a ThoughtSpot object programmatically, you can use the  `/tspublic/v1/metadata/assigntag` API.  
-
-Before you apply a tag, make sure the tags are created and available for assignment.
-[NOTE]
-====
-Only ThoughtSpot admin users can create a tag. Any ThoughtSpot user with edit permissions can assign a tag to an object.
-====
+[#object-header]
+== Get object headers
+To query metadata objects headers for a data type in the Thoughtspot system, use the `/tspublic/v1/metadata/listobjectheaders` API.
 
 === Resource URL
 ----
-POST /tspublic/v1/metadata/assigntag
+GET /tspublic/v1/metadata/listobjectheaders
 ----
-
 === Request parameters
-[width="100%" cols="1,2,3"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`id`|string|The GUID of the metadata object to tag. For example, a pinboard or visualization. If you want to assign the same tag to several objects, specify the GUID of the metadata objects.
-|`type` __Optional__ |string a|Type of the metadata object. Specify one of the following values as a metadata object type:
+|`type` __Optional__|string a|Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for search answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-|`tagid`|string|The GUID of tag to assign.
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values. 
+* `TAG` for tags assigned to a metadata object.
+* `DATA_SOURCE` for data source from which the metadata objects were loaded.  
+* `USER` for data objects associated with a user.
+* `USER_GROUP` for data objects associated with a user group.
+
+[IMPORTANT]
+====
+The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
+====
+
+|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype. 
+
+* `ONE_TO_ONE_LOGICAL` for tables
+* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+* `USER_DEFINED` for tables uploaded from a CSV file.
+* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a search answer that was saved as a view by a user. 
+
+[IMPORTANT]
+====
+The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
+====
+|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as search answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:    
+
+* `ALL` to get all objects for a given metadata type, for example, search answers or pinboards.
+* `MY` to get the objects created or saved by the current logged in user.
+* `FAVORITE` to get a list of objects marked as favorites by the current logged in user.
+* `REQUESTED` to get only the objects requested by the current logged in user.   
+|`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
+
+* `DEFAULT` 
+* `NAME` 
+* `DISPLAY_NAME` 
+* `AUTHOR`
+* `CREATED`
+* `MODIFIED`
+|`sortascending` __Optional__| boolean a|A flag to specify the sort order. A null value defines the default order.
+
+* To set an ascending order, specify `true`.
+* To set a descending order, specify `false`.
+|`offset` __Optional__|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
+|`batchsize` __Optional__|integer|The batch size of the object. A value of `-1` implies no pagination.
+|`tagname` __Optional__|string|A JSON array containing a set of tag names to filter headers by.
+|`pattern` __Optional__|string|A pattern to match the name of the metadata object or the user name associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
+|`skipids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to exclude.
+|`fetchids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to fetch.
+|`auto_created` __Optional__| boolean|A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
+|====
+=== Example request
+
+.cURL
+[source,cURL]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1
+----
+
+=== Example response
+
+[source, JSON]
+----
+[
+  {
+    "id": "7752fa9e-db22-415e-bf34-e082c4bc41c3",
+    "name": "Basic Pinboard 1",
+    "description": "This pinboard contains one TPCH based visualization",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1450823023991,
+    "modified": 1504281997165,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "7752fa9e-db22-415e-bf34-e082c4bc41c3",
+    "isAutoCreated": false,
+    "isAutoDelete": false
+  },
+  {
+    "id": "6715f768-8930-4180-9a3d-1efdbfaa8e7f",
+    "name": "Headline Pinboard",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1519940021267,
+    "modified": 1519945210514,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "6715f768-8930-4180-9a3d-1efdbfaa8e7f",
+    "isAutoCreated": false,
+    "isAutoDelete": false
+  },
+  {
+    "id": "601be8e5-140e-477c-8812-843795306438",
+    "name": "Pinboard Filter - datatypes",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1519943239150,
+    "modified": 1519944533160,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "601be8e5-140e-477c-8812-843795306438",
+    "isAutoCreated": false,
+    "isAutoDelete": false
+  }
+]
+----
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|Successful retrieval of metadata headers
+|*400*|Invalid metadata subtype
+|*500*|Invalid metadata type
+|===
+---
+[#viz-header]
+== Get visualization headers
+To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 
+The API returns a list of visualizations for a given pinboard or a search answer.
+
+=== Resource URL
+----
+GET /tspublic/v1/metadata/listvizheaders
+----
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Query Parameter|Data Type|Description
+|`id`|string|ID of a search answer or a pinboard.
+|====
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97be839e-71b6-42ggad-a980-20c38b4d6db5
+----
+
+=== Example response
+
+[source,JSON]
+----
+[
+  {
+    "id": "dd7f5467-99c3-4278-998b-6dd0c4346cd4",
+    "name": "Headline Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  },
+  {
+    "id": "fcb65fdb-3965-4f56-8bda-e5e3c2a127a7",
+    "name": "Filter Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days Row: 1",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  },
+  {
+    "id": "0f6e7220-5088-4a0e-8122-50b637c356fc",
+    "name": "Table Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1536179170172,
+    "modified": 1536179170172,
+    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+  }
+]
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|Successful retrieval of the visualization headers list
+|**400**|Invalid object ID
+|===
+
+[#set-favorite]
+== Set objects as favorites
+To add a pinboard or search answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+
+=== Resource URL
+----
+POST /tspublic/v1/metadata/markunmarkfavoritefor
+----
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`type`|string a|Type of metadata object. Specify one of the following types:
+
+* `PINBOARD_ANSWER_BOOK` for pinboards
+* `QUESTION_ANSWER_BOOK` for search answers
+|`ids`|string|A JSON array of the GUIDs of objects to be set as favorites.
+|`userid`|string|The GUID of the user account for which you want to add the object to the favorites list.
 |====
 
 === Example request
@@ -483,29 +909,75 @@ POST /tspublic/v1/metadata/assigntag
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
-
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor
 ----
 
 === Example response
- 
-----
-Response code
 
+When the specified object is successfully added to a user's favorites list, the following response code is returned.
+
+----
+Response Code
 204
 ----
-
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
-|**204**|Successful application of tag to a metadata object
-|**400**|Invalid parameter value
-|**500**|Invalid metadata object ID
+|HTTP status code|Description
+|*204*|The object is successfully added to favorites
+|*400*|Invalid object or user ID
+|*500*| Invalid metadata type
 |===
- 
+
+[#del-object-fav]
+== Remove objects from favorites 
+
+To remove a pinboard or search answer from the favorites list in a ThoughtSpot user account, send a DELETE request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+
+=== Resource URL
+----
+DELETE /tspublic/v1/metadata/markunmarkfavoritefor
+----
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`ids`|string|A JSON array of the GUIDs of objects to remove from the favorites list.
+|`userid`|string|The GUID of the user account for which you want to run the delete operation.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://10.87.89.232/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor
+----
+
+=== Example response
+
+When the specified object is successfully deleted from the favorites list in the user account, the following response code is returned.
+
+----
+Response Code
+204
+----
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|*204*|The object is successfully added to favorites
+|*400*|Invalid object or user ID
+|===

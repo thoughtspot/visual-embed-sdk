@@ -5,17 +5,13 @@
 :page-pageid: api-auth-session
 :page-description: Manage user sessions with REST APIs
 
-ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users for embed scenarios.
+To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. If trusted authentication is enabled on your instance, you must obtain an authentication token to log in and include the authorization token when making subsequent requests from that session. 
 
 ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
 
-To manage ThoughtSpot user sessions, you can use the session REST API.
-The session API service allows your host application to authenticate and manage user login.
----
+== Log in a user
 
-== Authenticate and log in a user
-
-To authenticate and log in a user, send a `POST` request to the following endpoint URL:
+To log in as a ThoughtSpot user, send a `POST` request to the following endpoint URL:
 
 ----
 POST /tspublic/v1/session/login
@@ -99,10 +95,9 @@ If the request parameters are assigned correct values, the API returns an authen
 |**401**| Unauthorized request.
 |===
 
----
-== Log out a user
+== Log out of a user session
 
-To log a current user out of an existing session, send a `POST` request to the following endpoint URL.
+To log out of the current user session, send a `POST` request to the following endpoint URL.
 
 ----
 POST  /tspublic/v1/session/logout
@@ -127,25 +122,3 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
 204 - Successful logout
 ----
 
-////
-## Error Codes
-<table>
-   <colgroup>
-      <col style="width:20%" />
-      <col style="width:60%" />
-      <col style="width:20%" />
-   </colgroup>
-   <thead class="thead" style="text-align:left;">
-      <tr>
-         <th>Error Code</th>
-         <th>Description</th>
-         <th>HTTP Code</th>
-      </tr>
-   </thead>
-   <tbody>
-   <tr> <td><code>10000</code></td>  <td>Internal server error.</td> <td><code>500</code></td></tr>
-    <tr> <td><code>10002</code></td>  <td>Bad request. Invalid parameter values.</td> <td><code>400</code></td></tr>
-    <tr> <td><code>10003</code></td>  <td>Login or logout failure. Unauthorized.</td><td><code>401</code></td></tr>
-  </tbody>
-</table>
-////

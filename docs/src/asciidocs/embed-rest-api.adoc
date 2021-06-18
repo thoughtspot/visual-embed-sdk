@@ -53,7 +53,6 @@ For a pinboard, the URL is as follows:
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
 ----
-
 +
 For a visualization, the URL is as follows:
 
@@ -61,7 +60,13 @@ For a visualization, the URL is as follows:
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
 ----
++
+[NOTE]
+====
+Make sure you add brackets around the `vizid` parameter. The URL encoding for the opening bracket is `%5B` and the closing bracket is `%5D`. 
+====
 
++
 . To apply filters to the data, use runtime filters.
 
 +
@@ -218,22 +223,3 @@ It shows that data values are returned as epoch.
 ====
 Runtime Filters can also be applied on visualizations or pinboards embedded in your application. You can specify the runtime filter criteria in the SDK when embedding ThoughtSpot objects. For more information, see xref:embed-a-viz.adoc[Embed a visualization] and xref:embed-pinboard.adoc[Embed a pinboard].
 ====
-
-////
-== Obtain search data
-
-Using the REST APIs, you can search data from the ThoughtSpot application. To obtain this data, you do not have to save a search result to a pinboard and then reference it using the visualization’s URL. Using the REST API service, you can allow your application to pull data directly from ThoughtSpot in an ad hoc fashion.
-
-To obtain search data from the data sources configured in ThoughtSpot application, you must embed the ThoughtSpot search functionality using the  xref:visual-embed-sdk.adoc[Visual Embed SDK].
-
-Data retrieved using the Embedded Search API is returned as JSON (JavaScript Object Notation). You must parse the JSON to get the data values you need, generally using JavaScript in the receiving application.
-
-To subscribe to results for all the searches the user does in the embedded ThoughtSpot application, use the API JavaScript function `subscribeToData( )`. This will allow your page to listen for data coming from ThoughtSpot.
-
-Now when a user searches, the <iframe> sends data to the subscription. The parent web page or application receives the data as JSON, and can do whatever you want with it.
-
-You can set up your web page or application to display or otherwise act on the data it receives from the subscription.
-
-To test it out, do a search in the embedded ThoughtSpot application to retrieve the data. Your application should act on the data in the way you set it up to do so.
-
-////

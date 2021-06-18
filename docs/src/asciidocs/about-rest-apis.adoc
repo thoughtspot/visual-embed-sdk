@@ -5,116 +5,38 @@
 :page-pageid: rest-apis
 :page-description: About REST APIs
 
-The ThoughtSpot REST APIs enable your client applications to access data from the ThoughtSpot application.
-Client applications can use the REST APIs for the following purpose:
+ThoughtSpot provides RESTful APIs to let you programmatically create, access, and manage ThoughtSpot objects and resources. Using REST APIs, your client application can perform the following operations:
 
 * get pinboard and visualization data from the ThoughtSpot application.
 * get ThoughtSpot data by programmatically sending a search query.
-* list the metadata object and visualization headers in the repository.
-* transfer ownership of all objects from one user to another and more.
+* list metadata object headers for visualizations in the repository.
+* transfer ownership of objects from one user to another.
 * embed data from visualizations and pinboards in a web page, portal, or application.
+* import, export, and validate scriptable files and automate deployments
 
-The REST APIs return data as a JSON string. To embed data into your application, extract the data from the JSON file, and render it on your Web page.
+== Resource endpoints
 
-REST APIs retrieve live data from ThoughtSpot, so whenever the Web page is rendered, the current values will be shown.
+ThoughtSpot resources are represented as JSON objects and are identified using a unique URI. The base URI of the API endpoints constitutes the following:
 
-== Swagger portal
-To access REST APIs on Swagger:
+* The hostname or IP address of your ThoughtSpot application instance.
+* Port number
+* Name of the ThoughtSpot API service
+* The version number
 
-. Log in to your ThoughtSpot instance as an admin user.
-. Access the Swagger portal.
-+
-If you have already logged into your ThoughtSpot instance, use the following URL to access the portal:
+For example, in the `\https://<your-thoughtspot-hostname:port>/callosum/v1/tspublic/v1/session/login` URL, the base URI is `\https://<your-thoughtspot-hostname:port>/callosum/v1` and `/tspublic/v1/session/login` is the resource path. 
 
-+
-----
-https://<your-thoughtspot.com>/external/swagger
-----
-+
-++++
-<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger Portal</a> 
-++++
+== HTTP request methods
 
+ThoughtSpot REST APIs support Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests:
+ 
+* **GET** to query information, such as getting a list of users, objects, or metadata headers.
+* **POST** to create, add, or exchange data. 
+* **PUT** to update the parameters in resource representation.
+* **DELETE** to remove a specific data, association, or object. 
 
-+
-The portal displays a list of REST API services available for the logged in ThoughtSpot users.
+== Data format
 
-. Click on a header to expand and view the list of services.
-. Click on a service name to view more details about the API service.
-
-
+The REST APIs allow you to send and receive data in JSON format. To embed this data in your application, you can import or extract the data from the JSON file. You can also use the scriptable files in ThoughtSpot Modeling Language (TML) to represent objects in a reusable, editable, and easy-to-read format. ThoughtSpot allows you to export, validate, and import these scriptable files. 
 
 == List of APIs
-The following APIs are available for ThoughtSpot users.
-
-
-=== Authentication and session management
-You can use the xref:session-api.adoc[session APIs] to manage ThoughtSpot user sessions.
-[width="80%" cols="2,2"]
-[options='header']
-|====
-|Request URL|Description|
-`*POST* /tspublic/v1/session/login` |Sign a user into ThoughtSpot.
-|`*POST* /tspublic/v1/session/logout`|Log out a user from an existing session.
-|`*POST* /tspublic/v1/session/auth/token`|Obtain an authentication token for a user.
-|`*GET* /tspublic/v1/session/login/token`|Log in an authenticated user when trusted authentication is enabled.
-|====
-
-=== User management
-You can use the xref:user-api.adoc[user APIs] to manage ThoughtSpot users.
-[width="80%" cols="2,2"]
-[options='header']
-|====
-|Request URL|Description|
-`*GET* /tspublic/v1/user/list`|Get all users, groups, and their inter-dependencies.
-|`*POST* /tspublic/v1/user/updatepassword`|Change the password of a user account.
-|`*POST* /tspublic/v1/user/updatepreference`|Modify a user profile.
-|`*POST* /tspublic/v1/user/transfer/ownership`|Transfer ownership of all objects from one user to another.
-|`*POST* /tspublic/v1/user/sync`|Synchronize principal from your client application with ThoughtSpot.
-|====
-
-=== User group management
-You can use the xref:group-api.adoc[group APIs] to configure privileges for ThoughtSpot user groups.
-[width="80%" cols="2,2"]
-[options='header']
-|====
-|Request URL|Description|
-`*POST* /tspublic/v1/group/addprivilege` |Add a privilege to a group.
-|`*POST*/tspublic/v1/group/removeprivilege` |Remove a privilege from a group.
-|====
-
-=== TML APIs
-You can use the xref:tml-api.adoc[tml APIs] to import and export TML  objects.
-[width="80%" cols="1,1"]
-[options='header']
-|====
-|Request URL|Description|
-`*POST* /tspublic/v1/metadata/tml/import` |Validate and import the TML objects.
-|`*POST* /tspublic/v1/metadata/tml/export`|Export TML objects.
-|====
-
-=== Data APIs
-You can use the data APIs to query and embed data from the ThoughtSpot application.
-[width="85%" cols="1,3,3"]
-[options='header']
-|====
-|Data API|Request URL|Description|
-xref:pinboarddata.adoc[Pinboard Data]|`*POST* /tspublic/v1/pinboarddata`|Fetch the pinboard data from the ThoughtSpot application.
-|xref:pinboard-export-api.adoc[Pinboard export]| `*POST* /tspublic/v1/export/pinboard/pdf`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
-.4+|xref:metadata-api.adoc[Metadata]|
-`*GET* /tspublic/v1/metadata/listobjectheaders`|List the metadata object headers in the repository
-|`*GET* /tspublic/v1/metadata/listvizheaders`|Get the visualization headers from the ThoughtSpot system.
-|`*GET* /tspublic/v1/metadata/listas`|Get a list of metadata objects for a user or user group.
-|`*POST* /tspublic/v1/metadata/assigntag`|Assign tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
-|xref:search-data-api.adoc[Search data] |`*POST* /tspublic/v1/searchdata`|Search data from a specific data source in the ThoughtSpot application.
-|====
-
-=== Security APIs
-You can use the xref:security-api.adoc[Security APIs] to share objects with another user or user group.
-
-[width="100%" cols="1,2"]
-|===
-|`*POST* /tspublic/v1/security/share`
-|Share ThoughtSpot objects with another user or user group.
-|`*POST* /tspublic/v1/security/shareviz`|Share a specific ThoughtSpot visualization with another user or user group.
-|===
+For a complete list of API endpoints and information about how to make an API request to these points, see xref:rest-api-reference.adoc[REST API Reference].

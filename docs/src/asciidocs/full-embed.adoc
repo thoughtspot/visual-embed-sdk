@@ -16,8 +16,8 @@ The full embedded ThoughtSpot content gives your users the ability to perform ma
 * share objects with other users
 * upload data, and refresh uploaded data
 * relate uploaded data to existing worksheets
-* Use search answers
-* Use SpotIQ
+* use search answers
+* use SpotIQ
 
 
 === Limitations

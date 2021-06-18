@@ -8,10 +8,13 @@ The Session APIs allow ThoughtSpot users to authenticate and manage their sessio
 
 [width="100%" cols="1,2"]
 |===
-|`xref:session-api.adoc#session-login[POST /tspublic/v1/session/login]`|Signs a user into ThoughtSpot.
-|`xref:session-api.adoc#session-logout[POST /tspublic/v1/session/logout]`|Logs a user out of the current session. 
-|`xref:session-api.adoc#session-authToken[POST /tspublic/v1/session/auth/token]`|Returns an authentication token for a given ThoughtSpot user if trusted authentication is enabled. 
-|`xref:session-api.adoc#session-loginToken[GET /tspublic/v1/session/login/token]`|Logs in an authenticated user.
+|`xref:session-api.adoc#session-login[**POST** /tspublic/v1/session/login]`|Signs a user into ThoughtSpot.
+|`xref:session-api.adoc#session-logout[**POST** /tspublic/v1/session/logout]`|Logs a user out of the current session. 
+|`xref:session-api.adoc#session-authToken[**POST** /tspublic/v1/session/auth/token]`|Returns an authentication token for a given ThoughtSpot user if trusted authentication is enabled. 
+|`xref:session-api.adoc#session-loginToken[**GET** /tspublic/v1/session/login/token]`|Logs in an authenticated user.
+|`xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`|Sets a a specific pinboard as a home pinboard.
+|`xref:session-api.adoc#get-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`|Returns the GUID of the pinboard that is set as a home pinboard for the current logged-in user.
+|`xref:session-api.adoc#del-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`|Removes the home pinboard settings for the current logged-in user.
 |===
 
 [#session-login]
@@ -47,9 +50,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
 ----
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="1,4"]
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**|User logged in
 |**204**|Successful login
 |**401**|Login failure/unauthorized request
@@ -79,9 +82,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="1,4"]
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**|User logged out
 |**204**|Successful logout of user
 |**401**|Logout failure/unauthorized request
@@ -90,8 +93,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
 == Obtain an authentication token
 ThoughtSpot supports the trusted authentication method, which is also known as token-based authentication. In the trusted authentication method, ThoughtSpot users are authenticated by an external authentication server.
 When ThoughtSpot receives a request from a trusted authentication service, it returns an authentication token to allow authenticated users to access ThoughtSpot content.
-If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication service] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user. 
-
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user. 
 === Resource URL
 ----
 POST /tspublic/v1/session/auth/token
@@ -132,9 +134,9 @@ JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96
 ----
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="1,4"]
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**|The authentication token is generated successfully.
 |**401**|Unauthorized request or invalid token.
 |**500**|Token-based trusted authentication is not enabled on ThoughtSpot.
@@ -155,7 +157,7 @@ GET /tspublic/v1/session/login/token
 [width="100%" cols="1,1,4"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
+|Query Parameter|Data Type|Description
 |`username`|string|The user name of the user who requested access to ThoughtSpot.
 |`auth_token`|string a|The authentication token obtained from ThoughtSpot.
 |`redirect_url`|string|The URL to which you want to redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user. 
@@ -340,10 +342,122 @@ The following example shows a partial output.
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="1,4"]
 |===
 |HTTP status code|Description
 |**200**|The user is logged in successfully.
 |**302**|The user is redirected to the specified URL. 
 |**401**|Unauthorized request or invalid token.
+|===
+
+[#set-home-pinboard]
+== Set a pinboard as a home pinboard
+To set a pinboard as a home pinboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home pinboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.  
+
+=== Resource URL
+----
+POST /tspublic/v1/session/homepinboard
+----
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Form Parameter|Data Type|Description
+|`id`|string|GUID of the pinboard to be set as a home pinboard.
+|`userid` __Optional__|string|GUID of the user account for which you want to set the home pinboard. If the `userid` attribute is not defined, ThoughtSpot sets the home pinboard of the current logged in user.
+|===
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=7a9a6715-e154-431b-baaf-7b58246c13dd&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation.
+|**204**|The specified pinboard is set as a home pinboard. 
+|**403**|The pinboard with the given ID is not accessible.
+|**401**|Unauthorized request or invalid token.
+|**404**|The specified pinboard was not found.
+|===
+
+[#get-home-pinboard]
+== Get details of the home pinboard
+To get the pinboard GUID that is set as home pinboard in the current logged in user account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/session/homepinboard
+----
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
+----
+
+=== Example response
+If the home pinboard is set in the current logged-in user's account, the API returns the GUID of the pinboard set as a home pinboard:
+
+----
+7a9a6715-e154-431b-baaf-7b58246c13dd
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation.
+|===
+
+[#del-home-pinboard]
+== Remove a home pinboard
+To remove the home pinboard setting from current logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
+
+=== Resource URL
+----
+DELETE /tspublic/v1/session/homepinboard
+----
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
+----
+
+=== Example response
+If the home pinboard is set in the current logged-in user's account, the API returns the following response:
+
+----
+Response Code
+200
+----
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation.
 |===

@@ -4,22 +4,21 @@
 :page-pageid: user-api
 :page-description: User API
 
-The User APIs allow you to programmatically manager ThoughtSpot users and user groups.
+The User APIs allow you to programmatically manage ThoughtSpot users and user groups.
 
 [width="100%" cols="2,3"]
 |===
 |`xref:user-api.adoc#user-list[GET /tspublic/v1/user/list]`|Gets a list of all users and user groups configured in the ThoughtSpot system
 |`xref:user-api.adoc#change-pwd[POST /tspublic/v1/user/updatepassword]`|Changes the password of a ThoughtSpot user account. 
-|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates profile setttings of a ThoughtSpot user. 
+|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates the profile settings of a ThoughtSpot user. 
 |`xref:user-api.adoc#user-sync[POST /tspublic/v1/user/sync]`|Synchronizes user accounts and user groups with ThoughtSpot. 
 |`xref:user-api.adoc#transfer-ownership[POST /tspublic/v1/user/transfer/ownership]`|Transfers ownership of objects from one user to another.
 |===
 [NOTE]
 ====
-If you want to get a list object headers associated with a user or user group, use the xref:metadata-api.adoc#headers-metadata-users[GET /tspublic/v1/metadata/listas] API.
+If you want to get a list of object headers associated with a user or user group, use the `xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]` API.
 ====
-
----
+ 
 [#user-list]
 == Get a list of users and groups
 To get a list of all users, groups, and their inter-dependencies in the form of principal objects, use the  `/tspublic/v1/user/list` API.
@@ -329,8 +328,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 [#user-sync]
 == Synchronize principals
 To programmatically synchronize user accounts and user groups with ThoughtSpot, use the `/tspublic/v1/user/sync` API.
-The payload takes principals containing all users and groups present in the external database.
-A successful API call returns the object that represents the changes made in the ThoughtSpot system.
+The payload takes principals containing all users and groups present in the external database. A successful API call returns the object that represents the changes made in the ThoughtSpot system.
 
 During this operation:
 
@@ -347,28 +345,32 @@ POST /tspublic/v1/user/sync
 ----
 === Request parameters
 
-This API uses `multipart/form-data` content type.
+This API uses `multipart/form-data` content-type. 
+
+[NOTE]
+====
+The `principals` attribute should be a JSON file that must be encoded as `application/json` or `text/json`. The other arguments use standard form-encoding. Each is sent as its own part of the multi-part request.
+====
+
 [width="100%" cols="1,1,4"]
 [options='header']
 |===
 |Form Parameter|Data Type|Description
 
-|`principals`|string|Specifies a list of principal objects.
-This is a JSON file containing all users and groups present in the external database.
+|`principals`|string|Specifies a list of principal objects. This is a JSON file containing all users and groups present in the external database.
 
 |`applyChanges`
 |boolean
-|A flag indicating whether to sync the users and groups to the system, and apply the difference evaluated.
-Use this parameter to validate a difference before applying changes.
+|Specifies whether to sync the users and groups to the system and apply the difference evaluated.
+ By default, this attribute is set to `false`. 
 
 |`removeDeleted`
 |boolean
-|A flag indicating whether to remove deleted users/groups.
-When true, this flag removes any deleted users or groups.
+|Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`. 
 
 |`password`
 |string
-|Specifies a password.
+|Password of the admin user
 |===
 
 === Example request
@@ -376,7 +378,14 @@ When true, this flag removes any deleted users or groups.
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'applyChanges=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync'
+curl -X POST \   
+--header 'X-Requested-By : ThoughtSpot' \
+--header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+--header 'Accept: application/json' \
+-F 'applyChanges=false' \
+-F 'removeDeleted=false' 
+-F 'principals=@principals.json;type=application/json' \
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
 
 .Request URL
@@ -384,19 +393,11 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
 
-=== Example response
+==== JSON request 
 
-This example covers user objects (with emails), group objects, and their relationships.
+The `principals.json` file contains the JSON request to be sent for synchronizing users. Make sure the JSON file is encoded as `application/json` in the API request. 
 
-* `created` and `modified` dates may be left blank for new users.
-* `principalTypeEnum` value specifies if the principal is a user or a group.
-
-Here, `test1` user belongs to two groups, `Customer Success` and `Marketing`.
-`test2` belongs to the group `Administrator`.
-`All` is a default group to which every user belongs;
-you may omit it from the input.
-
-Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html#sharing-visibility[share objects, window=_blank] with other users in this group.
+Use the example format for the JSON requests:
 
 [source, JSON]
 ----
@@ -446,7 +447,18 @@ Set `visibility` to `NON_SHARABLE` if you do not want users to link:https://clou
     "groupNames": [ "Administrator", "All" ],
     "visibility": "DEFAULT" }
 ]
-----
+---- 
+[IMPORTANT]
+====
+The above example covers user objects (with emails), group objects, and their relationships.
+
+* You can leave the `created` and `modified` dates blank for new users.
+* You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.  
+* In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing` and the 
+`test2` user belongs to the group `Administrator`.
+* `All` is a default group to which every user belongs; you may omit it from the input.
+* Set `visibility` to `NON_SHARABLE` if you do not want users to share ThoughtSpot objects with other users in this group.
+====
 
 === Response codes
 
