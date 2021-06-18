@@ -6,18 +6,17 @@
 :page-pageid: calling-rest-api
 :page-description: Calling the Data REST API
 
-
-To call a REST API, you can send a `POST` or `GET` request to the endpoint URL and pass the parameters of the objects that you want to view or modify.
+To call a REST API, you can send a  request to the endpoint URL and pass the parameters of the objects that you want to view or modify.
 
 == Pinboard or visualization objects
 
-For a pinboard, you can append the ID of your pinboard as a parameter, as shown in the following example:
+For a pinboard, you can append the GUID of your pinboard as a parameter, as shown in the following example:
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
-To retrieve data from a specific visualization within a pinboard, append the ID number of the visualization using the `vizid` parameter:
+To retrieve data from a specific visualization within a pinboard, append the GUID number of the visualization using the `vizid` parameter:
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D

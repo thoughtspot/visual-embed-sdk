@@ -9,9 +9,9 @@ The Security APIs allow you to share ThoughtSpot objects, such as pinboards and 
 
 [width="100%" cols="1,2"]
 |===
-|xref:security-api.adoc#share-object[`POST /tspublic/v1/security/share`] 
-|Shares ThoughtSpot objects with another user or user group
-|xref:security-api.adoc#shareviz[`POST /tspublic/v1/security/shareviz`]|Shares a ThoughtSpot visualization with another user or user group
+|xref:security-api.adoc#share-object[`**POST **/tspublic/v1/security/share`] 
+|Shares ThoughtSpot objects with another user or user group.
+|xref:security-api.adoc#shareviz[`**POST** /tspublic/v1/security/shareviz`]|Shares a ThoughtSpot visualization with another user or user group.
 |===
 
 ---
@@ -38,19 +38,28 @@ POST /tspublic/v1/security/share
 * `PINBOARD_ANSWER_BOOK` to share pinboards.
 * `LOGICAL_COLUMN` to share a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` to share a data object such as a table, worksheet, or view.
-|`id`|string|The GUID of the objects to share.
-|`permission`|string|The string with the GUID of the objects and share permission. 
+|`id`|string|A JSON array of the GUIDs of the objects to be shared.
+|`permission`|string a|A string with the GUIDs of the user or user group, and the type of access privilege.
 
-You can provide either `READ-ONLY` or `FULL` access to the objects. With READ-ONLY access, the users can view the shared object. The `FULL` access allows users to modify the object. 
+* The format of the permission string is `{"permissions":{"<GUID of the user or user group>":{"shareMode":"<type-of-access>"}}}`.
+* You can provide `READ_ONLY` or `FULL` access to the objects. With `READ_ONLY` access, the user or user group can view the shared object, whereas `FULL` access enables users to modify the object. 
 
-The format of the permission string is `{"permissions":{"<GUID of the object>":{"sharemode":"<type-of-access>"}}}`. For example, to provide a read-only access to a pinboard with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, you can specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"share mode":"READ_ONLY"}}}`
+For example, to provide read-only access to a user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"READ_ONLY"}}}`
+
+The following example shows how to set the permission string to provide read-only access to multiple users:
+
+`{"permissions": {"e7040a64-7ff1-4ab9-a1b0-f1acac596866": {"shareMode": "READ_ONLY"}, "f7b8f511-317c-485d-8131-26cf084ef47b": {"shareMode": "READ_ONLY"}}}`
+
+[IMPORTANT]
+====
+You can set the `shareMode` in the permission string to `NO_ACCESS` to remove a user or user group's access to a shared object. For example, if you send a POST request with the permission string as  `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"NO_ACCESS"}}}`, the user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd` cannot access the shared object.
+====
+
 |`emailshares`|string|The email address of the user accounts with whom you want to share the objects. 
 |`notify` __Optional__|boolean|When set to `true`, a notification is sent to the users after an object is shared.
 |`message` __Optional__|string|The message text to send in the notification email.
+|`useCustomEmbedUrls`|boolean|When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
 |====
-////
-`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
-////
 
 === Example request
 
@@ -58,7 +67,7 @@ The format of the permission string is `{"permissions":{"<GUID of the object>":{
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9Csharemode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' 'https://<ThoughtSpot-host/callosum/v1/tspublic/v1/security/share'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9CshareMode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' 'https://<ThoughtSpot-host/callosum/v1/tspublic/v1/security/share'
 
 ----
 
@@ -105,11 +114,8 @@ POST /tspublic/v1/security/shareviz
 |`emailshares`|string|The email address of the user account with whom you want to share the visualization. If no email address is specified, the visualization is shared only with the user IDs specified in `principalids`.
 |`notify` __Optional__|boolean|When set to `true`, a notification is sent to the user after the visualization is shared.
 |`message` __Optional__|string|The message text to send in the notification email.
+|`useCustomEmbedUrls`|boolean|When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
 |====
-
-////
-`useCustomEmbedUrls`|boolean|When set to `true`, the link to embed the object in an external application is sent in the notification message. 
-////
 
 === Example request
 

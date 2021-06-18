@@ -1,16 +1,20 @@
 = TML APIs
-:toc: true
 
 :page-title: TML Export and Import API
 :page-pageid: tml-api
 :page-description: TML Export and Import API 
 
+The TML APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
 
-These APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. Use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, analysts can  easily migrate from one environment to the other by automating the entire change management process, thereby reducing the risk of human error.
+[width="100%" cols="1,2"]
+|===
+|`xref:tml-api.adoc#import[POST /tspublic/v1/metadata/tml/import]`|Validates and imports TML objects.
+|`xref:tml-api.adoc#export[POST /tspublic/v1/metadata/tml/export]`|Exports TML objects.
+|===
 
-
+[#import]
 == Import API
-Use this API to validate and import the TML objects.
+To validate and import the TML objects, use the `/tspublic/v1/metadata/tml/import` API.
 
 === Resource URL
 ----
@@ -22,22 +26,36 @@ POST /tspublic/v1/metadata/tml/import
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`import_objects`|string|JSON array of TML objects to upload. Can be in JSON or YAML form.|None
+|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format. 
+
+If in YAML format within the JSON array, use escape characters for YAML quotes, and new line characters when there is a new line. 
+
+For example:
+
+* To import a single object, `["guid: 3729c085-8659-48fd-9479-a67bd7307496\npinboard:\n  name: …"]`
+* To import multiple objects, `["guid: 3729c085-8659-48fd-9479-a67bd7307496\npinboard:\n  name: …“, “["guid: 3729c085-8659-48fd-9479-a67bd7307496\npinboard:\n  name: "4f3827f2-ee0c-4771-848a-29e449901c86”]`
+|None
 |`import_policy`|string a|Policy to follow during import. The allowed values are:
 
 * `PARTIAL` 
 Imports all objects that validate successfully, and ignores objects that do not validate successfully.
 * `ALL_OR_NONE`
-Only imports the objects if they all validate successfully.
+Imports the objects that validate successfully.
 * `VALIDATE_ONLY`
-Validates the objects, but does not import them.|`PARTIAL`
-|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing.|`false`|
+Validates the objects but does not import them.|`PARTIAL`
+
+|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object.|`false`| 
 |====
 
 === Example request 
 
+Make sure the API request has the following headers:
+
+* The `Accept` header set as `Accept: text/plain`
+* The `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
+
 .cURL
-[source,curl]
+[source,cURL]
 ----
 curl -X POST --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' --data-urlencode 'import_objects=[{
 	"guid": "12289fad-f230-485e-8c65-e36082eebf44",
@@ -86,12 +104,8 @@ curl -X POST --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot
 }]'
 --data-urlencode 'import_policy=PARTIAL'
 --data-urlencode 'force_create=true' 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import'
---cookie 'userGUID=59481331-ee53-42be-a548-bd87be6ddd4a; JSESSIONID=04a56dde-ec1c-4066-adf1-77e6ea1c50ea'
 
 ----
-
-[NOTE]
-You must send the `X-Requested-By` header in your request. Without it, the request fails.
 
 .Request URL
 ----
@@ -107,27 +121,14 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
     {
       "response": {
         "status": {
-          "status_code": "ERROR",
-          "error_code": 14502,
-          "error_message": "Tables do not exist.<br/>- <b>tea ws</b><br/><br/>"
-        }
-      }
-    },
-    {
-      "response": {
-        "status": {
           "status_code": "OK"
         },
         "header": {
-          "id_guid": "d305bc51-688b-414f-badc-94579d48308c",
-          "name": "Stacked chart with line",
-          "description": "",
+          "id_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
+          "name": "Basic Answer 1",
+          "description": "This is basic answer with table and headline visualizations.",
           "author_guid": "59481331-ee53-42be-a548-bd87be6ddd4a",
-          "author_name": "tsadmin",
-          "author_display_name": "Administrator",
-          "created": 1519761534753,
-          "modified": 1617040275404,
-          "owner_guid": "d305bc51-688b-414f-badc-94579d48308c",
+          "owner_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
           "metadata_type": "QUESTION_ANSWER_BOOK"
         }
       }
@@ -138,12 +139,10 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
 
 === Response codes
 
-You may receive the following status codes in your output. These HTTP status codes have the following meanings:
-
 [width="100%" cols="1,3"]
 [options='header']
 |===
-|HTTP Status code | Description
+|HTTP status code | Description
 
 | **200**
 | ImportEPackResponse proto serialized as JSON string.
@@ -164,9 +163,10 @@ You may receive the following status codes in your output. These HTTP status cod
 | Internal server error
 |===
 
+[#export]
 == Export API
 
-Use this API allows you to export TML objects.
+To export TML objects, use the `/tspublic/v1/metadata/tml/export` API.
 
 === Resource URL
 ----
@@ -179,26 +179,35 @@ POST /tspublic/v1/metadata/tml/export
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`export_ids`|string|JSON array of the IDs of objects to export.|None
+|`export_ids`|string a|JSON array of the IDs of objects to export. An `x-www-form-urlencoded` string containing a JSON array of ids of objects to export. You receive results in the order you request them.
+
+For example:
+
+* To export a single object, `["226abd2843-afef-4c2f-bf2f-8fba065330e"]`
+* To export multiple objects, `["226abd2843-afef-4c2f-bf2f-8fba065330e", ”22d305bc51-688b-414f-badc-94579d48308c”]`|None
 |`formattype`|string|The format in which to export the objects. Valid values are `JSON` and `YAML`.|None
-|`export_associated`|boolean|Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying Worksheets, tables, or Views for a given object. By default, the API does not export these underlying objects.|false
+|`export_associated`|boolean|Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects. |false
 |====
 
 === Example request
+
+Make sure the API request has the following headers:
+
+* The `Accept` header set as `Accept: text/plain`
+* The `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
 
 .cURL
 
 [source,curl]
 ----
 curl -X POST
---header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' \
---header 'X-Requested-By: ThoughtSpot' -d 'export_ids=%5B%226abd2843-afef-4c2f-bf2f-8fba065330e2%22%2C%20%22d305bc51-688b-414f-badc-94579d48308c%22%5D&formattype=YAML&export_associated=false' \
+--header 'X-Requested-By: ThoughtSpot' \
+--data-urlencode 'export_ids=["12289fad-f230-485e-8c65-e36082eebf44"]' \
+--data-urlencode 'formattype=YAML' \
+--data-urlencode 'export_associated=false' \
 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export'
 ----
-
-[NOTE]
-You must send the `X-Requested-By` header in your request. Without it, the request fails.
 
 .Request URL
 ----
@@ -213,27 +222,15 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
   "object": [
     {
       "info": {
-        "name": "Total Cost by Type and Tea",
-        "filename": "Total Cost by Type and Te.answer.tml",
+        "name": "Basic Answer 1",
+        "filename": "Basic Answer 1.answer.tml",
         "status": {
           "status_code": "OK"
         },
         "type": "answer",
-        "id": "6abd2843-afef-4c2f-bf2f-8fba065330e2"
+        "id": "12289fad-f230-485e-8c65-e36082eebf44"
       },
-      "edoc": "guid: 6abd2843-afef-4c2f-bf2f-8fba065330e2\nanswer:\n  name: Total Cost by Type and Tea\n  tables:\n  - id: tea ws\n    name: tea ws\n  search_query: \"[Cost] [Tea] [Type]\"\n  answer_columns:\n  - name: Total Cost\n  - name: Tea\n  - name: Type\n  table:\n    table_columns:\n    - column_id: Tea\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Type\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Total Cost\n      headline_aggregation: SUM\n    ordered_column_ids:\n    - Tea\n    - Type\n    - Total Cost\n    client_state: \"\"\n    client_state_v2: \"{\\\"tableVizPropVersion\\\": \\\"V1\\\",\\\"wrapTableHeader\\\": true}\"\n  chart:\n    type: COLUMN\n    chart_columns:\n    - column_id: Tea\n    - column_id: Type\n    - column_id: Total Cost\n    axis_configs:\n    - x:\n      - Type\n      y:\n      - Total Cost\n      color:\n      - Tea\n    client_state: \"\"\n    client_state_v2: \"{\\\"version\\\": \\\"V4\\\",\\\"chartProperties\\\": {\\\"gridLines\\\": {},\\\"responsiveLayoutPreference\\\": \\\"AUTO_ON\\\",\\\"chartSpecific\\\": {}},\\\"columnProperties\\\": [{\\\"columnId\\\": \\\"Tea\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"Total Cost\\\",\\\"columnProperty\\\": {}}],\\\"axisProperties\\\": [{\\\"id\\\": \\\"2d659cfe-187b-4c92-9b6e-007729f808b4\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total Cost\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"69164478-6948-44fa-b8d3-84166a97d9ba\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"Type\\\"]}}],\\\"systemSeriesColors\\\": [{\\\"serieName\\\": \\\"barley\\\",\\\"color\\\": \\\"#06BF7F\\\"},{\\\"serieName\\\": \\\"chamomile\\\",\\\"color\\\": \\\"#FCC838\\\"},{\\\"serieName\\\": \\\"earl gray\\\",\\\"color\\\": \\\"#48D1E0\\\"},{\\\"serieName\\\": \\\"mint\\\",\\\"color\\\": \\\"#2E75F0\\\"}]}\"\n  display_mode: CHART_MODE\n"
-    },
-    {
-      "info": {
-        "name": "Stacked chart with line",
-        "filename": "Stacked chart with line.answer.tml",
-        "status": {
-          "status_code": "OK"
-        },
-        "type": "answer",
-        "id": "d305bc51-688b-414f-badc-94579d48308c"
-      },
-      "edoc": "guid: d305bc51-688b-414f-badc-94579d48308c\nanswer:\n  name: Stacked chart with line\n  tables:\n  - id: CUSTOMER\n    name: CUSTOMER\n  - id: LINEORDER\n    name: LINEORDER\n  joins:\n  - id: Lineorder CustKey - Customer CustKey\n    name: Lineorder CustKey - Customer CustKey\n    source: LINEORDER\n    destination: CUSTOMER\n  table_paths:\n  - id: CUSTOMER_1\n    table: CUSTOMER\n    join_path:\n    - join:\n      - Lineorder CustKey - Customer CustKey\n  - id: LINEORDER_1\n    table: LINEORDER\n    join_path:\n    - {}\n  search_query: \"[LINEORDER_1::Quantity] [LINEORDER_1::Tax] [LINEORDER_1::Discount] [CUSTOMER_1::Market Segment] [CUSTOMER_1::Customer Region]\"\n  answer_columns:\n  - name: Customer Region\n  - name: Market Segment\n  - name: Total Quantity\n  - name: Total Tax\n  - name: Total Discount\n  table:\n    table_columns:\n    - column_id: Market Segment\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Customer Region\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Total Quantity\n      headline_aggregation: SUM\n    - column_id: Total Tax\n      headline_aggregation: SUM\n    - column_id: Total Discount\n      headline_aggregation: SUM\n    ordered_column_ids:\n    - Market Segment\n    - Customer Region\n    - Total Quantity\n    - Total Tax\n    - Total Discount\n    client_state: \"\"\n    client_state_v2: \"{\\\"tableVizPropVersion\\\": \\\"V1\\\",\\\"wrapTableHeader\\\": true}\"\n  chart:\n    type: LINE_STACKED_COLUMN\n    chart_columns:\n    - column_id: Market Segment\n    - column_id: Customer Region\n    - column_id: Total Quantity\n    - column_id: Total Tax\n    - column_id: Total Discount\n    axis_configs:\n    - x:\n      - Customer Region\n      y:\n      - Total Quantity\n      color:\n      - Market Segment\n    - x:\n      - Customer Region\n      y:\n      - Total Tax\n    client_state: \"\"\n    client_state_v2: \"{\\\"version\\\": \\\"V4\\\",\\\"chartProperties\\\": {\\\"axisExtremes\\\": {\\\"x\\\": [{\\\"min\\\": 0.0,\\\"max\\\": 4.0}],\\\"y\\\": [{\\\"min\\\": 0.0,\\\"max\\\": 28646.1},{\\\"min\\\": 3668.0,\\\"max\\\": 4478.6}]},\\\"gridLines\\\": {\\\"xGridlineEnabled\\\": true,\\\"yGridlineEnabled\\\": true},\\\"isZoomed\\\": false,\\\"responsiveLayoutPreference\\\": \\\"USER_PREFERRED_ON\\\",\\\"chartSpecific\\\": {}},\\\"columnProperties\\\": [{\\\"columnId\\\": \\\"Market Segment\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"Customer Region\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"Total Quantity\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"Total Tax\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"Total Discount\\\",\\\"columnProperty\\\": {}}],\\\"axisProperties\\\": [{\\\"id\\\": \\\"3ef813bd-2405-416c-8f1e-8ef8ef0d7588\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total Quantity\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"4f7d774c-318d-4e3e-ad99-317ea2a61425\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total Tax\\\"],\\\"isOpposite\\\": true}},{\\\"id\\\": \\\"267015f9-db3e-4b79-ba18-3a8b0e16f09b\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"Customer Region\\\"]}}],\\\"seriesColors\\\": [{\\\"serieName\\\": \\\"total tax\\\",\\\"color\\\": \\\"#940713\\\"}],\\\"systemSeriesColors\\\": [{\\\"serieName\\\": \\\"total tax\\\",\\\"color\\\": \\\"#940713\\\"},{\\\"serieName\\\": \\\"automobile\\\",\\\"color\\\": \\\"#4074b3\\\"},{\\\"serieName\\\": \\\"building\\\",\\\"color\\\": \\\"#f5cb4e\\\"},{\\\"serieName\\\": \\\"furniture\\\",\\\"color\\\": \\\"#68b8e3\\\"},{\\\"serieName\\\": \\\"household\\\",\\\"color\\\": \\\"#f06c77\\\"},{\\\"serieName\\\": \\\"machinery\\\",\\\"color\\\": \\\"#e3394a\\\"}]}\"\n  display_mode: CHART_MODE\n"
+      "edoc": "guid: 12289fad-f230-485e-8c65-e36082eebf44\nanswer:\n  name: Basic Answer 1\n  description: This is the basic answer with table and headline visualizations.\n  tables:\n  - id: LINEORDER\n    name: LINEORDER\n    fqn: 2445fe81-30d6-46fa-9f42-f6b1b4e01623\n  - id: PART\n    name: PART\n    fqn: a7fc012e-bdb3-4e75-9ce4-b3f731d90136\n  joins:\n  - id: Lineorder PartKey - Part PartKey\n    name: Lineorder PartKey - Part PartKey\n    source: LINEORDER\n    destination: PART\n  table_paths:\n  - id: LINEORDER_1\n    table: LINEORDER\n    join_path:\n    - {}\n  - id: PART_1\n    table: PART\n    join_path:\n    - join:\n      - Lineorder PartKey - Part PartKey\n  formulas:\n  - id: f1\n    name: f1\n    expr: \"if ( [Revenue(1992)] > [Revenue(1995)] ) then \\\"l\\\" else \\\"h\\\"\"\n  search_query: \"[LINEORDER_1::Revenue] [LINEORDER_1::Commit Date].1992 vs [LINEORDER_1::Commit Date].1995 [PART_1::Color] [f1]\"\n  answer_columns:\n  - name: FiscalYearNumber(Commit Date) = 1992 OR FiscalYearNumber(Commit Date) = 1995\n  - name: f1\n  - name: Revenue(1992)\n  - name: Revenue(1995)\n  - name: Color\n  table:\n    table_columns:\n    - column_id: f1\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Color\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Revenue(1995)\n      headline_aggregation: TABLE_AGGR\n    - column_id: Revenue(1992)\n      headline_aggregation: TABLE_AGGR\n    ordered_column_ids:\n    - Color\n    - f1\n    - Revenue(1992)\n    - Revenue(1995)\n    client_state: \"{\\\"widthState\\\":{},\\\"wrapTableHeader\\\":true}\"\n    client_state_v2: \"{\\\"tableVizPropVersion\\\": \\\"V1\\\",\\\"wrapTableHeader\\\": true,\\\"columnProperties\\\": [{\\\"columnId\\\": \\\"6204abeb-31a5-4789-a5a5-6124caf32d67\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"f30157ce-7da4-4cd3-a11b-346b9ec5b398\\\",\\\"columnProperty\\\": {}}]}\"\n  chart:\n    type: COLUMN\n    chart_columns:\n    - column_id: f1\n    - column_id: Revenue(1992)\n    - column_id: Revenue(1995)\n    axis_configs:\n    - x:\n      - f1\n      y:\n      - Revenue(1992)\n      - Revenue(1995)\n    client_state: \"\"\n    client_state_v2: \"{\\\"version\\\": \\\"V4\\\",\\\"chartProperties\\\": {\\\"chartSpecific\\\": {}},\\\"axisProperties\\\": [{\\\"id\\\": \\\"b53fcf8a-fd80-4e34-9ec0-7da8acd90cf4\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Revenue(1992)\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"7f5859b1-88ea-4cf7-a2fd-3e1524de2ffa\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Revenue(1995)\\\"],\\\"isOpposite\\\": true}},{\\\"id\\\": \\\"a790945d-124e-44bf-bfc1-998b5924621d\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"f1\\\"]}}]}\"\n  display_mode: TABLE_MODE\n"
     }
   ]
 }
@@ -241,11 +238,10 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
 
 === Response codes
 
-You may receive the following status codes in your output for the TML export API. These HTTP status codes have the following meanings:
 [width="100%" cols="1,5"]
 [options='header']
 |===
-|HTTP Status code| Description
+|HTTP status code| Description
 
 | **200**
 | Returned EDoc (TML) representation of metadata

@@ -26,6 +26,7 @@ In ThoughtSpot Query Language, the components of a query are classified into var
 Column::
 Columns must be enclosed in square brackets, [ ].
 
++
 For example, in the query revenue by ship mode, both revenue and ship mode are columns. A valid query for the API is:
 
 ----
@@ -35,39 +36,46 @@ For example, in the query revenue by ship mode, both revenue and ship mode are c
 Operator:: ThoughtSpot supports various operators such as =, !=, >, >=, <=, <, contains, not contains, and so on. Use these operators in the API query in the same manner as in the UI.
 +
 For example, specify revenue over 1000, and limit ship mode to 'air':
+
 +
-```
+----
 [revenue] > 1000 [ship mode] = ‘air’
-```
+----
 [#Value]
 Value:: String (text) and date values must be enclosed within quotes, ’ ’. Do not use quotes for numeric values, except for dates.
 +
 When using multiple values, separate them by a comma.
+
 +
 For example, when a ThoughtSpot UI query is revenue top 2 ship mode, the equivalent API query is:
+
 +
 ----
 [revenue] top 2 [ship mode]
 ----
+
 +
 For example, when a ThoughtSpot UI query is revenue ship mode = air, the equivalent API query is:
+
 +
 ----
 [revenue] [ship mode] = ‘air’
+
 ----
 [#Date-Bucket]
 Date Bucket:: In the ThoughtSpot UI, when there are several date columns, users can bind date bucket tokens to a specific column. When using the API, this binding between the date column and the date bucket must be made explicit. Use a period to separate the column with which the date bucket is bound, and the date bucket token.
 +
 Single word date buckets can be expressed as is. Multi-word date buckets must be enclosed within quotes.
-+
-For example, when a ThoughtSpot UI query is revenue commit date monthly, and if monthly is bound to commit date, the equivalent API query is:
-+
 
++
+For example, when a ThoughtSpot UI query is `revenue commit date monthly`, and if monthly is bound to commit date, the equivalent API query is:
+
++
 ----
 [revenue] [commit date].monthly
 ----
 +
-When a ThoughtSpot UI query is revenue day of week = 5, and if day of week is bound to commit date, the equivalent API query is as follows:
+When a ThoughtSpot UI query is `revenue day of week = 5`, and if day of week is bound to commit date, the equivalent API query is as follows:
 
 +
 ----
@@ -88,6 +96,7 @@ growth of [revenue] by [commit date]
 Calendar:: You can specify a custom calendar in the query. Use the calendar.calendar_name format explicitly.
 +
 When the calendar name contains multiple words, enclose these words in single quotes.
+
 +
 For example, when a ThoughtSpot UI query is revenue by commit date fiscal, where the name of the calendar is fiscal, the equivalent API query is as follows:
 
@@ -107,9 +116,9 @@ For example, when a ThoughtSpot UI query is revenue by commit date my calendar, 
 
 * To avoid join path ambiguities, a query can use only a single data source.
 
-* Search execution of query strings is not case sensitive.
+* Search execution of query strings is not case-sensitive.
 
-* All column names in the data source must have unique names and must pass the _case insensitivity_ test.
+* All column names in the data source must have unique names and must pass the _case-insensitivity_ test.
 +
 For example, Columns `[Revenue]` and `[revenue]` are not unique.
 * Column names cannot contain square brackets, `[` or `]`.
@@ -160,7 +169,7 @@ https://<your-thoughtspot-instance>/external/swagger/#!/tspublic%2Fv1/searchData
 ----
 
 
-. Click `POST /tspublic/v1/searchdata
+. Click `**POST** /tspublic/v1/searchdata`
 
 . In the **Parameters** interface, enter the values for the following:
 
@@ -188,23 +197,23 @@ POST /tspublic/v1/searchdata
 [options='header']
 |====================
 | Query Parameter | Data Type |Description
-|`query_string` | string | The data search query.
+|`query_string` | string |The data search query.
 
 |`data_source_guid`  | string | The GUID of the data source, either a worksheet, a view, or a table.
 
 Example: 4fdf9d2c-6f34-4e3b-9fa6-bd0ca69676e1
-|`batchsize`  | integer | The batch size for loading search objects.
+|`batchsize`  | integer |The batch size for loading search objects.
 
 The system default is -1.
-| `pagenumber` | integer | Alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
+| `pagenumber` | integer |An alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
 
 `indexingOffset = (pageNumber - 1) * batchSize`
 
 The system default is -1.
-| `offset` | integer | Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
+| `offset` | integer |Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
 
 The system default is -1.
-| `formattype` | string | The format of the data.
+| `formattype` | string |The format of the data.
 
 Valid values are `COMPACT` or `FULL` JSON. The default value is `COMPACT`.
 |====================

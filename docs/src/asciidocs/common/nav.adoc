@@ -36,7 +36,7 @@
 ** link:{{navprefix}}=push-data[Callback custom action example]
 
 * Custom link format
-** link:{{navprefix}}=customize-links[Customize links]
+** link:{{navprefix}}=customize-links[Customize links] 
 
 * REST APIs
 ** link:{{navprefix}}=rest-apis[Overview]
@@ -44,7 +44,6 @@
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users]
 ** link:{{navprefix}}=api-user-group-management[Configure privileges for user groups]
-** link:{{navprefix}}=calling-rest-api[Make a REST API call]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
 ** link:{{navprefix}}=rest-api-reference[REST API Reference]

@@ -31,10 +31,9 @@ POST /tspublic/v1/group/addprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to add. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING`.
+|`privilege`|string|The type of privilege to add. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
 
-|`groupNames`|string|Specifies a group name to which you want to add the privilege; For example, `ALL_GROUP`.
-
+|`groupNames`|string|A JSON array of group names to which you want to add the privilege. To add a privilege to all user groups, specify `ALL_GROUP`.
 |====
 
 === Example request
@@ -70,11 +69,11 @@ POST /tspublic/v1/group/removeprivilege
 [options='header']
 |====
 |Form Parameter|Data Type|Description
-|`privilege`|string|Specifies a privilege type to delete. Valid values are `DATADOWNLOADING` or `USERDATAUPLOADING`.
+|`privilege`|string|Type of the privilege to delete. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
 
-|`groupNames`|string|Specifies the group name from which you want to remove the privilege; For example, `ALL_GROUP` group.
-
+|`groupNames`|string|A JSON array of group names. To remove the privilege from all user groups, specify `ALL_GROUP`.
 |====
+
 
 === Example request
 

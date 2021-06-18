@@ -9,14 +9,14 @@ ThoughtSpot lets you add custom actions globally for all your visualizations in 
 ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. To view these actions, you can open a visualization from a pinboard or search answer, and click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. If you have edit permissions to modify the visualization, the *Custom actions* panel allows you to perform the following actions:
 
 Add a custom action::
-Allows you to add a custom action to the visualization and place the action command in the desired location. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization and set it as a primary action.
+Allows you to add a custom action to the visualization and place the action command in the desired location. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization and set it as a primary action. 
 Edit a custom action::
 Allows you to modify the placement of an action. To edit an action, go to the action in the Custom actions panel and then click the edit icon.
 Hide a custom action::
 Allows you to hide an action. To hide an action, go to the action in the Custom actions panel and click the hide icon  image:./images/hide-icon.png[the Custom actions menu].
 
 == Before you begin
-* Create a custom action in the ThoughtSpot Developer portal. Make sure the custom action is not set as a __global__ action. 
+* Make sure the __local__ custom actions are created on your application instance and are available in the *Custom actions* panel. 
 * Make sure you have edit permissions to modify the visualization.
 * Verify if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
 

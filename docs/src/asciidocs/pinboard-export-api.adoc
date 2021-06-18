@@ -1,11 +1,10 @@
 = Pinboard export API
-:toc: true
 
 :page-title: Export Pinboard as PDF
 :page-pageid: pinboard-export-api
 :page-description: Pinboard Export API
 
-This API enables you to programmatically download a pinboard or specific visualizations from a pinboard as a PDF file.
+To programmatically download a pinboard or specific visualizations from a pinboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
 
 == Resource URL
 
@@ -15,29 +14,36 @@ POST /tspublic/v1/export/pinboard/pdf
 
 == Request parameters
 
-[width="100%" cols="1,1,2,1"]
+[width="80%" cols="1,1,3,1"]
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`id`|string|ID (GUID) of the Pinboard to download|None
+|`id`|string|GUID of the Pinboard to download|none
+|`visualization_ids`|string|GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
+|`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
 |`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the pinboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
 |`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
-|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|false
-|`visualization_ids`|string|IDs of the visualizations to include in the PDF. This setting is applicable only if the `layout_type` parameter is set to `VISUALIZATION`.|none
-|`include_logo`|boolean|Include customized wide logo if available in the footer|true
+|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
+|`include_logo`|boolean|Include customized wide logo if available in the footer|`true`
 |`footer_text` _Optional_|string|Footer text to include in the footer of each page of the PDF.|none
-|`include_page_number`|boolean|When set to true, the page number is included in the footer of each page.|true
-|`include_cover_page`|boolean|When set to true, a cover page with the Pinboard title is added in the PDF.|true
-|`include_filter_page`|boolean|When set to true, a second page with a list of all applied filters is added in the PDF|true
-|`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
+|`include_page_number`|boolean|When set to `true`, the page number is included in the footer of each page.|`true`
+|`include_cover_page`|boolean|When set to `true`, a cover page with the Pinboard title is added in the PDF.|`true`
+|`include_filter_page`|boolean|When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
 |====
 
 == Example request
 
+Make sure the API request has the following headers:
+
+* The `Accept` header set as `Accept: application/octet-stream`
+* The `Content-type` header set as `Content-type: multipart/form-data`
+* The `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
+
 .cURL
 [source,curl]
 ----
-curl --location --request POST 'http://<instance>/callosum/v1/tspublic/v1/export/pinboard/pdf' \
+ curl --location --request POST 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/export/pinboard/pdf' \
+--header 'Content-Type: multipart/form-data \
 --header 'Accept: application/octet-stream' \
 --header 'X-Requested-By: ThoughtSpot' \
 --header 'Cookie: JSESSIONID=71cc2672-7ead-4480-be7d-b6ad52023e98; userGUID=59481331-ee53-42be-a548-bd87be6ddd4a; Callosum-Download-Initiated=false' \
@@ -50,9 +56,6 @@ curl --location --request POST 'http://<instance>/callosum/v1/tspublic/v1/export
 --form 'include_filter_page="true"' \
 --form 'include_cover_page="true"'
 ----
-[NOTE]
-You must send the `X-Requested-By` header in your request. Without it, the request fails.
-
 
 .Request URL
 
@@ -92,7 +95,7 @@ You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
 |===
 
 [NOTE]
-These parameters are case-insensitive. `EQ`, `eq`, and `eQ`, for example, have the same result.
+These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have the same result.
 
 === Runtime filter operators
 [width="100%" cols="1,2,1"]
@@ -190,13 +193,10 @@ async function downloadPDF() {
 </script>
 ----
 ////
-=== Response format
-
-The response appears in the form of a raw PDF file. The response type is `application/octet-stream`.
+ 
 
 == Response codes
 
-You may receive the following status codes in your output. These HTTP status codes have the following meanings:
 [width="100%" cols="1,5"]
 [options='header']
 |===

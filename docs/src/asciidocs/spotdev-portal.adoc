@@ -165,7 +165,6 @@ In the following example, to fetch the total revenue data by shipping mode, the 
 ----
 searchQuery: "[Revenue] by [Shipmode]"
 ----
-
 +
 For more information on the search tokens and query string components, see xref:search-data-api.adoc##components[Components of a search query].
 

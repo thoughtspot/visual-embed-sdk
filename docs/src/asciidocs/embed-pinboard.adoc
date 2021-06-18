@@ -178,7 +178,9 @@ runtimeFilters: [{
   values: [ 'red' ]
   }]
 ----
+
 Runtime filters have several operators for filtering your embedded visualizations.
+
 +
 
 [width="50%" cols="1,2,1"]
