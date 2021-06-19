@@ -37,7 +37,7 @@ export function getAnswerServiceInstance(
 
     const fetchData = (offset: number, batchSize: number) => {
         if (operation === OperationType.GetChartWithData) {
-            variable = { batchSize, offset };
+            variable = { batchSize, offset: offset * batchSize };
         } else {
             variable = {
                 dataPaginationParams: {
