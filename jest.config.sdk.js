@@ -8,6 +8,7 @@ module.exports = {
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
     testPathIgnorePatterns: ['/lib/', '/docs/'],
     testMatch: ['**/src/**/*.spec.(ts|tsx)'],
+    setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     globals: {
         window: {
             location: {
