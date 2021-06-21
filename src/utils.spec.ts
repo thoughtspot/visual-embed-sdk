@@ -6,6 +6,7 @@ import {
     getQueryParamString,
     getFilterQuery,
     getCssDimension,
+    getEncodedQueryParamsString,
     appendToUrlHash,
 } from './utils';
 import { RuntimeFilterOp } from './types';
@@ -77,5 +78,10 @@ describe('unit test for utils', () => {
         expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe(
             'http://xyz.com/#foobar',
         );
+    });
+
+    test('getEncodedQueryParamsString', () => {
+        expect(getEncodedQueryParamsString('')).toBe('');
+        expect(getEncodedQueryParamsString('test')).toBe('dGVzdA');
     });
 });
