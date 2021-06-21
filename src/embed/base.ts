@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getCssDimension } from '../utils';
+import { getEncodedQueryParamsString, getCssDimension } from '../utils';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -176,6 +176,14 @@ export class TsEmbed {
      */
     private isError: boolean;
 
+    /**
+     * Should we encode URL Query Params using base64 encoding which thoughtspot
+     * will generate for embedding. This provides additional security to
+     * thoughtspot clusters against Cross site scripting attacks.
+     * @default false
+     */
+    private shouldEncodeUrlQueryParams = false;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
@@ -184,6 +192,7 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
+        this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
     }
 
     /**
@@ -248,6 +257,11 @@ export class TsEmbed {
      * Constructs the base URL string to load the ThoughtSpot app.
      */
     protected getEmbedBasePath(queryString: string): string {
+        if (this.shouldEncodeUrlQueryParams) {
+            queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
+                queryString.substr(1),
+            )}`;
+        }
         const basePath = [
             this.thoughtSpotHost,
             this.thoughtSpotV2Base,
@@ -275,9 +289,14 @@ export class TsEmbed {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
-        const queryParams = `?embedApp=true${
-            isAppEmbed ? primaryNavParam : ''
-        }${isAppEmbed ? disableProfileAndHelpParam : ''}${queryStringFrag}`;
+        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
+            isAppEmbed ? disableProfileAndHelpParam : ''
+        }${queryStringFrag}`;
+        if (this.shouldEncodeUrlQueryParams) {
+            queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
+                queryParams.substr(1),
+            )}`;
+        }
         let path = `${this.thoughtSpotHost}/${queryParams}#`;
         if (!isAppEmbed) {
             path = `${path}/embed`;

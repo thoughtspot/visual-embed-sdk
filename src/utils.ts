@@ -120,3 +120,13 @@ export const appendToUrlHash = (url: string, stringToAppend: string) => {
 
     return outputUrl;
 };
+
+export const getEncodedQueryParamsString = (queryString: string) => {
+    if (!queryString) {
+        return queryString;
+    }
+    return btoa(queryString)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+};
