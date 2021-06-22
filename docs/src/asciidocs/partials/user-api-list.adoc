@@ -1,0 +1,11 @@
+
+[width="100%" cols="1,3,3"]
+[options="header"]
+|===
+||Resource endpoint|Operation
+|[tag greenBackground]#New#|`xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]`|Get all users, groups, and their inter-dependencies.
+||`xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`|Synchronize principal from your client application with ThoughtSpot.
+||`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`|Transfer ownership of all objects from one user to another.
+||`xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`|Change the password of a user account.
+|[tag orangeBackground]#Modified#|`xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]`|Modify a user profile.
+|===

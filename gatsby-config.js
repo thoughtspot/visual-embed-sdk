@@ -155,9 +155,11 @@ module.exports = {
         {
             resolve: 'gatsby-transformer-asciidoc',
             options: {
+                safe: `server`,
                 attributes: {
                     showtitle: true,
                     imagesdir: '/doc-images',
+                    path:`${__dirname}/docs/src/asciidocs/partials`,
                 },
                 fileExtensions: ['ad', 'adoc'],
                 converterFactory: CustomDocConverter,

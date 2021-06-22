@@ -1,5 +1,6 @@
 = Authentication
 :toc: true
+:toclevels: 1
 
 :page-title: Manage user sessions
 :page-pageid: api-auth-session
@@ -9,116 +10,19 @@ To create, access, and modify ThoughtSpot objects and resources through the REST
 
 ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
 
-== Log in a user
+== Sign in a ThoughtSpot user
 
-To log in as a ThoughtSpot user, send a `POST` request to the following endpoint URL:
+include::{path}/log-in-api.adoc[]
 
-----
-POST /tspublic/v1/session/login
-----
-=== Request parameters
-
-[width="100%" cols="1,1,4"]
-[options='header']
-|====
-|Query Parameter|Data Type|Description
-|`username`|string|Username of the user account.
-|`password`|string|The password of the user account.
-|`rememberme`|boolean|A flag to remember the user session. The system default is `false`.
-|====
-
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=userA&password=fhfh2323bbn&rememberme=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login'
-----
-
-.Request URL
-
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
-----
-
-=== Example response
-
-----
-204 - Successful login
-----
----
 == Obtain authentication token
-Use this API to obtain an authentication token. The authentication token is required if a token-based trusted authentication service is used for authenticating ThoughtSpot users.
 
-=== Resource URL
-----
- POST /tspublic/v1/session/auth/token
-----
-=== Request parameters
+include::{path}/auth-token-api.adoc[]
 
-[width="100%" cols="1,1,4"]
-[options='header']
-|====
-|Form Parameter|Data Type|Description
-|`secret_key`|string|The authentication token string provided by the ThoughtSpot application server.
-|`username`|string|The user name of the user configured in ThoughtSpot.
-|`access_level`|string a|User access permission. Valid values are:
+== Authenticate and log in with a token
 
-* `FULL` - Allow full access.
-* `REPORT_BOOK_VIEW` - Allow view access to visualizations.
-|`id`|string|GUID of the ThoughtSpot object. This parameter is required if the  `access_level` is set to `REPORT_BOOK_VIEW`.
-|====
-
-=== Example request
-
-.cURL
-[source, cURL]
-----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token
-----
-
-=== Example response
-If the request parameters are assigned correct values, the API returns an authentication token for the user.
-
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP Code|Description
-|**200**| The authentication token is generated successfully.
-|**401**| Unauthorized request.
-|===
+include::{path}/login-token-api.adoc[]
 
 == Log out of a user session
 
-To log out of the current user session, send a `POST` request to the following endpoint URL.
-
-----
-POST  /tspublic/v1/session/logout
-----
-
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
-----
-
-=== Example response
-----
-204 - Successful logout
-----
+include::{path}/log-out-api.adoc[]
 

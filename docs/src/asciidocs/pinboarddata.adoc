@@ -1,5 +1,4 @@
 = Pinboard data API
-:toc: true
 
 :page-title: Get Pinboard Data
 :page-pageid: pinboard-api
@@ -72,7 +71,7 @@ Each data object returned in the API response contains four components:
 . A sampling ratio.
 +
 The sampling ratio tells you the percentage of total data returned.
-A sampling ratio of `1` indicates that all data in the visualization object was returned in the API call.
+A sampling ratio of `1` indicates that all data in the visualization object was returned in the API response.
 
 ==== Pinboard data
 

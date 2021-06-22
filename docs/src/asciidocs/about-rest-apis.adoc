@@ -5,18 +5,19 @@
 :page-pageid: rest-apis
 :page-description: About REST APIs
 
-ThoughtSpot provides RESTful APIs to let you programmatically create, access, and manage ThoughtSpot objects and resources. Using REST APIs, your client application can perform the following operations:
+ThoughtSpot REST APIs let you programmatically create, access, and manage ThoughtSpot objects and resources. Using REST APIs, your client application can perform the following operations:
 
 * get pinboard and visualization data from the ThoughtSpot application.
-* get ThoughtSpot data by programmatically sending a search query.
-* list metadata object headers for visualizations in the repository.
-* transfer ownership of objects from one user to another.
 * embed data from visualizations and pinboards in a web page, portal, or application.
+* view metadata details for various types of ThoughtSpot objects
+* construct a search query to get ThoughtSpot data.
+* manage ThoughtSpot user profiles and group privileges
+* transfer ownership of objects from one user to another.
 * import, export, and validate scriptable files and automate deployments
 
 == Resource endpoints
-
-ThoughtSpot resources are represented as JSON objects and are identified using a unique URI. The base URI of the API endpoints constitutes the following:
+ThoughtSpot API components or resources are represented by the URI endpoints. The URI endpoint contains the base URI, and the resource path to the objects that you want to query or manage.
+The base URI of the API endpoints constitutes the following:
 
 * The hostname or IP address of your ThoughtSpot application instance.
 * Port number
@@ -36,7 +37,7 @@ ThoughtSpot REST APIs support Create, Read, Update and Delete (CRUD) operations 
 
 == Data format
 
-The REST APIs allow you to send and receive data in JSON format. To embed this data in your application, you can import or extract the data from the JSON file. You can also use the scriptable files in ThoughtSpot Modeling Language (TML) to represent objects in a reusable, editable, and easy-to-read format. ThoughtSpot allows you to export, validate, and import these scriptable files. 
+The REST APIs allow you to send and receive data in JSON format. To embed this data in your application, you can import or extract the data from the JSON file. You can also use scriptable files in ThoughtSpot Modeling Language (TML) to represent objects in a reusable, editable, and easy-to-read format. ThoughtSpot allows you to export, validate, and import these scriptable files.
 
 == List of APIs
 For a complete list of API endpoints and information about how to make an API request to these points, see xref:rest-api-reference.adoc[REST API Reference].

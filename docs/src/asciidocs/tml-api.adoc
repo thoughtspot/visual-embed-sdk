@@ -1,4 +1,6 @@
 = TML APIs
+:toc: true
+:toclevels: 1
 
 :page-title: TML Export and Import API
 :page-pageid: tml-api

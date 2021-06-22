@@ -7,7 +7,7 @@
 
 Each user group in ThoughtSpot assigns a set of privileges to its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. 
 
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to the `ALL_GROUP` group. 
+ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to `ALL_GROUP`.
 
 By default, the members of `ALL_GROUP` do not have the permission to download or upload data. You can use the Group APIs to globally add the following privileges to all the users in `ALL_GROUP`.
 

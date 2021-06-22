@@ -1,4 +1,6 @@
 = Metadata APIs
+:toc: true
+:toclevels: 1
 
 :page-title: Get metadata
 :page-pageid: metadata-api
@@ -8,31 +10,7 @@ The metadata APIs allow you to run a query for metadata objects in the ThoughtSp
 
 == Supported operations
 
-[width="100%" cols="3,3"]
-[%noheader]
-|===
-|`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`
-
-|Assigns tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
-|`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]` 
-
-|Returns metadata  details for a specific data object such as a pinboard, search answer, or a worksheet.
-|`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]`
-
-|Returns metadata objects for a user or user group.
-|`xref:metadata-api.adoc#object-header[**GET** /tspublic/v1/metadata/listobjectheaders]` 
-
-|Returns object headers for a given data type.
-|`xref:metadata-api.adoc#viz-header[**GET** /tspublic/v1/metadata/listvizheaders]` 
-
-|Returns visualization headers for pinboards or search answers.
-|`xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]`
-
-|Adds objects to the *Favorites* list for a given user account.
-|`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
-
-|Removes the objects from the *Favorites* list in a user account.
-|===
+include::{path}/metadata-api-list.adoc[]
 
 [#assign-tag]
 == Assign tags to metadata objects
@@ -98,6 +76,7 @@ Response code
 |===
  
 [#metadata-details]
+== Get metadata details
 To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.
 
 === Resource URL
@@ -450,7 +429,7 @@ The following example shows the metadata details of a pinboard object:
 |*400*|Invalid request
 |===
 
----
+
 [#headers-metadata-users]
 == Get metadata objects for a user or user group
 
@@ -723,9 +702,9 @@ The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 |`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as search answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:    
 
 * `ALL` to get all objects for a given metadata type, for example, search answers or pinboards.
-* `MY` to get the objects created or saved by the current logged in user.
-* `FAVORITE` to get a list of objects marked as favorites by the current logged in user.
-* `REQUESTED` to get only the objects requested by the current logged in user.   
+* `MY` to get the objects created or saved by the current logged-in user.
+* `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
+* `REQUESTED` to get only the objects requested by the current logged-in user.
 |`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
 
 * `DEFAULT` 
@@ -741,7 +720,7 @@ The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 |`offset` __Optional__|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
 |`batchsize` __Optional__|integer|The batch size of the object. A value of `-1` implies no pagination.
 |`tagname` __Optional__|string|A JSON array containing a set of tag names to filter headers by.
-|`pattern` __Optional__|string|A pattern to match the name of the metadata object or the user name associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
+|`pattern` __Optional__|string|A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`skipids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to exclude.
 |`fetchids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to fetch.
 |`auto_created` __Optional__| boolean|A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
@@ -809,7 +788,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 |*400*|Invalid metadata subtype
 |*500*|Invalid metadata type
 |===
----
+
 [#viz-header]
 == Get visualization headers
 To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 

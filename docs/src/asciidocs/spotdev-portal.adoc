@@ -258,8 +258,6 @@ runtimeFilters: [{
 <a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 
-
-+
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
 
@@ -407,7 +405,6 @@ Or
 ----
 hiddenActions: ['share']
 ----
-
 +
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 

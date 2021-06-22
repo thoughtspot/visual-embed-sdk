@@ -1,6 +1,7 @@
 = What's new
 
 :toc: true
+:toclevels: 1
 
 :page-title: What's new
 :page-pageid: whats-new
@@ -28,7 +29,7 @@ ThoughtSpot will use this information to send the required attributes in the `Au
 
 === Custom action position settings
 
-ThoughtSpot users with edit privileges can now define or modify the position of a custom action on visualization pages. When a developer creates a custom action in the Developer portal, ThoughtSpot adds a menu item to the **More** image:./images/icon-more-10px.png[the more options menu] menu by default. ThoughtSpot users can change this to a context menu action or a primary action at any time. 
+ThoughtSpot users with edit privileges can now define or modify the position of a custom action on visualization pages. When a developer creates a custom action in the Developer portal, ThoughtSpot adds a menu item to the **More** image:./images/icon-more-10px.png[the more options menu] menu by default. ThoughtSpot users can change this to a context menu action or a primary action at any time.
 
 If your application instance requires an action that sends only a single row of data from charts or tables, developers can configure a custom action and restrict it to only the contextual menu. If this setting is enabled on a custom action, ThoughtSpot users cannot modify this action on a visualization page.
 
@@ -44,33 +45,58 @@ For more information, see xref:customize-links.adoc[Customize links].
 
 === REST APIs
 
-The ThoughtSpot 7 Cloud June release introduces the following REST APIs:
+The ThoughtSpot 7 Cloud June release introduces the following REST API endpoints:
 
 * `POST /tspublic/v1/security/share`
 +
-You can use this API to share ThoughtSpot objects with another user or user group. For more information, see xref:security-api.adoc#share-object[Share objects with another user].
+Use this API to share ThoughtSpot objects with another user or user group. For more information, see xref:security-api.adoc#share-object[Share objects with another user].
 
 * `POST /tspublic/v1/security/shareviz` 
 +
-You can use this API to share a specific ThoughtSpot visualization with another user or user group. For more information, see xref:security-api.adoc##shareviz[Share a visualization with another user or user group].  
+Use this API to share a specific ThoughtSpot visualization with another user or user group. For more information, see xref:security-api.adoc#shareviz[Share a visualization with another user or user group].
 
 * `GET /tspublic/v1/session/login/token`
 +
-This API allows you to authenticate and log in a user if trusted authentication is enabled on ThoughtSpot. For more information, see xref:session-api.adoc#session-loginToken[Authenticate and log in a user]. 
+Use this API to get a login token for a ThoughtSpot user when trusted authentication is enabled. For more information, see xref:session-api.adoc#session-loginToken[Authenticate and log in a user].
 
 * `POST /tspublic/v1/metadata/assigntag`
 +
-You can use this API to programmatically assign a tag to a ThoughtSpot object such as pinboards, search answers, tables, and worksheets. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, search answer, table, or  worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+
+* `POST /tspublic/v1/metadata/details`
++
+Use this API to query metadata details for a specific data object such as a pinboard, search answer, or a worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
+
+* `POST /tspublic/v1/metadata/markunmarkfavoritefor`
++
+Use this API to add pinboards and search answers to a user's favorites list. For more information, see xref:metadata-api.adoc#set-favorite[Set objects as favorites].
+
+* `DELETE /tspublic/v1/metadata/markunmarkfavoritefor`
++
+Use this API to remove an object from a user's favorites list. For more information, see xref:metadata-api.adoc#del-object-fav[Remove objects from favorites].
+
+* `POST /tspublic/v1/session/homepinboard`
++
+Use this API to sets a pinboard as the home pinboard for a user account. For more information, see xref:session-api.adoc#set-home-pinboard[Set a pinboard as a home pinboard].
+
+* `GET /tspublic/v1/session/homepinboard`
++
+Use this API to get the GUID of the pinboard set as a home pinboard. For more information, see xref:session-api.adoc#get-home-pinboard[Get details of the home pinboard].
+
+* `DELETE /tspublic/v1/session/homepinboard`
++
+Use this API to remove the home pinboard. For more information, see xref:session-api.adoc#del-home-pinboard[Remove a home pinboard].
 
 ==== Other API enhancements
 The `POST /tspublic/v1/user/updatepreference` API now includes the optional `username` parameter to allow API users to specify the `username` of the ThoughtSpot user whose profile is being modified. 
 For more information, see xref:user-api.adoc#updatepreference-api[Update a user profile].
 
+---
 == May 2021
 The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu
-You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Search Answers* or *Pinboards* page. 
+You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Search Answers* or *Pinboards* page.
 
 [NOTE]
 This feature is available only if the  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your ThoughtSpot instance.  

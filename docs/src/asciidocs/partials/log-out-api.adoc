@@ -1,0 +1,29 @@
+To log out of the current user session, use the `/tspublic/v1/session/logout` API.
+
+=== Resource URL
+----
+POST /tspublic/v1/session/logout
+----
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
+----
+
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|User logged out
+|**204**|Successful logout of user
+|**401**|Logout failure/unauthorized request
+|===

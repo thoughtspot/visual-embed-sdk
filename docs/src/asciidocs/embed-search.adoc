@@ -171,7 +171,7 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search answer page.
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is labelled as *Send Email* and its ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search answer page.
 
 
 disabledActionReason [small]_optional_::

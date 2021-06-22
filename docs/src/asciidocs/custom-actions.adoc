@@ -52,9 +52,6 @@ The custom menu item is indicated with a custom tag to distinguish it from the d
 
 . To view the action you just added, click *My actions*.
 
-
-
-
 . To specify the position of the custom action button, select one of the following options:
 * *Primary*
 +

@@ -6,15 +6,6 @@
 :page-description: ThoughtSpot Embedded Analytics
 
 ThoughtSpot recommends that you browse through the following guidelines before you begin embedding.
-////
-== Decide what to embed
-Analyze your business requirements and choose the embedding approach that best suits your needs.
-
-For example, you may simply need a single chart displayed as a wallboard, or you may want your customers to access reports on their own data.
-The first example could require modifying a single HTML page, while the latter example may require working with a development team and adding several different workflows to your web  application.
-
-Based on your integration needs, determine if you want to embed a portion of the ThoughtSpot application, or all of it.
-////
 
 == Define application workflows
 

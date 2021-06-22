@@ -248,11 +248,13 @@ For example, to sort values equal to `100000` in the `Revenue` column for a visu
 +
 [source,javascript]
 ----
-runtimeFilters: [{
+runtimeFilters: [
+{
       columnName: 'Revenue',
       operator: 'EQ',
       values: [ 100000 ]
-      }]
+      },
+]
 ----
 Runtime filters have several operators for filtering your embedded visualizations.
 +

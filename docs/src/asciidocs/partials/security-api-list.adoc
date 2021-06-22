@@ -1,0 +1,8 @@
+
+[width="100%" cols="1,3,3"]
+[options="header"]
+|===
+||Resource endpoint|Operation
+|[tag greenBackground]#New#|`xref:security-api.adoc#share-object[**POST** /tspublic/v1/security/share]`|Share ThoughtSpot objects with another user or user group.
+|[tag greenBackground]#New#|`xref:security-api.adoc#shareviz[**POST** /tspublic/v1/security/shareviz]`|Share a specific ThoughtSpot visualization with another user or user group.
+|===

@@ -1,4 +1,6 @@
 = User API
+:toc: true
+:toclevels: 1
 
 :page-title: User API
 :page-pageid: user-api
@@ -6,14 +8,8 @@
 
 The User APIs allow you to programmatically manage ThoughtSpot users and user groups.
 
-[width="100%" cols="2,3"]
-|===
-|`xref:user-api.adoc#user-list[GET /tspublic/v1/user/list]`|Gets a list of all users and user groups configured in the ThoughtSpot system
-|`xref:user-api.adoc#change-pwd[POST /tspublic/v1/user/updatepassword]`|Changes the password of a ThoughtSpot user account. 
-|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates the profile settings of a ThoughtSpot user. 
-|`xref:user-api.adoc#user-sync[POST /tspublic/v1/user/sync]`|Synchronizes user accounts and user groups with ThoughtSpot. 
-|`xref:user-api.adoc#transfer-ownership[POST /tspublic/v1/user/transfer/ownership]`|Transfers ownership of objects from one user to another.
-|===
+include::{path}/user-api-list.adoc[]
+ 
 [NOTE]
 ====
 If you want to get a list of object headers associated with a user or user group, use the `xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]` API.
@@ -108,7 +104,7 @@ Password is only required:
 |HTTP Code|Description
 |**200**|Successful operation.
 |===
----
+
 [#change-pwd]
 == Change password
 To change the password of a ThoughtSpot user account, use the `/tspublic/v1/user/updatepassword` API.
@@ -146,7 +142,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 |**200**|If the password of the user is changed successfully.
 |===
 
----
 [#updatepreference-api]
 == Update a user profile
 To update the profile settings of a ThoughtSpot user  programmatically, you can use the `/tspublic/v1/user/updatepreference` API.
@@ -183,7 +178,7 @@ POST /tspublic/v1/user/updatepreference
 ----
 
 === Request parameters
-[width="100%", cols="1,1,2"]
+[width="100%", cols="2,1,4"]
 [options="header"]
 |===
 |Form Parameter|Data Type|Description
@@ -282,7 +277,7 @@ The allowed values are:
 |**400**| Invalid user ID
 |===
 
----
+
 [#transfer-ownership]
 == Transfer ownership
 
@@ -324,7 +319,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 |**200**|If the ownership of all objects is successfully transferred.
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
----
+
 [#user-sync]
 == Synchronize principals
 To programmatically synchronize user accounts and user groups with ThoughtSpot, use the `/tspublic/v1/user/sync` API.

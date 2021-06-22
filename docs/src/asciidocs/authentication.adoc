@@ -5,7 +5,7 @@
 :page-pageid: rest-api-authentication
 :page-description: REST API Authentication
 
-The REST API allows you to get data out of ThoughtSpot so you can embed it in a Web page, portal, or application.
+The REST API allows you to get data out of ThoughtSpot, which you can embed in a Web page, portal, or application.
 To access REST APIs, you must authenticate through SAML SSO.
 For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO].
 

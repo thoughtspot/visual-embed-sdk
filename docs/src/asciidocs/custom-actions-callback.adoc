@@ -35,7 +35,7 @@ When you select this checkbox, the custom action will be added only in the conte
 
 . Click *Add action*.
 +
-The custom action is added to the *My actions* list in the Developer portal.
+The custom action is added to *My actions* in the Developer portal.
 
 . To view and verify the custom action you just created, navigate to a visualization page.
 

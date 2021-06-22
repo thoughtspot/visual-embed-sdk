@@ -1,4 +1,6 @@
 = Security APIs
+:toc: true
+:toclevels: 1
 
 :page-title: Security API
 :page-pageid: security-api
@@ -6,15 +8,8 @@
 
 The Security APIs allow you to share ThoughtSpot objects, such as pinboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group. 
 
+include::{path}/security-api-list.adoc[]
 
-[width="100%" cols="1,2"]
-|===
-|xref:security-api.adoc#share-object[`**POST **/tspublic/v1/security/share`] 
-|Shares ThoughtSpot objects with another user or user group.
-|xref:security-api.adoc#shareviz[`**POST** /tspublic/v1/security/shareviz`]|Shares a ThoughtSpot visualization with another user or user group.
-|===
-
----
 [#share-object]
 == Share objects with another user
 
@@ -92,7 +87,7 @@ Response code
 |**400**|Invalid parameter value
 |===
 
----
+
 [#shareviz]
 == Share a visualization with another user or user group
 If you want to share a specific visualization from a pinboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide a read-only access.   

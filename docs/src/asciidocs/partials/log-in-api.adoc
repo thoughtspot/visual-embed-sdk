@@ -1,0 +1,38 @@
+If you are a ThoughtSpot user, you can programmatically sign in to ThoughtSpot using the `/tspublic/v1/session/login` API.
+
+=== Resource URL
+----
+POST /tspublic/v1/session/login
+----
+=== Request Parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Form Parameter|Data Type|Description
+|`username`|string|Username of the user account.
+|`password`|string|The password of the user account.
+|`rememberme`|boolean|A flag to remember the user session. The system default is `false`.
+|====
+
+=== Example requests
+
+.cURL
+[source, cURL]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'username=test&password=fhfh2323bbn&rememberme=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
+----
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|User logged in
+|**204**|Successful login
+|**401**|Login failure/unauthorized request
+|===

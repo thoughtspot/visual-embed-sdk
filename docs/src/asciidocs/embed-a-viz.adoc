@@ -8,11 +8,6 @@
 
 This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
 
-////
-To build this sample, you must have access to a text editor and a ThoughtSpot instance with a visualization.
-Experience working with Javascript also helps.
-////
-
 == Import the PinboardEmbed package
 Import the visualization SDK library to your application environment:
 
@@ -159,7 +154,7 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  visualization page.
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is labelled as *Send Email* and its ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  visualization page.
 
 
 disabledActionReason [small]_optional_::

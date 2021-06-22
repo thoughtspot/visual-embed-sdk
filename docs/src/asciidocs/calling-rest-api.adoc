@@ -39,13 +39,13 @@ The following example shows the JSON object format for the data returned from th
 [source, JSON]
 ----
 {
-vizId1 : {
-         name: “Viz name”,
-         :[[2-d array of data values], [], [] …..[]],
-         columnNames:[col1, col2, …. ],
-         samplingRatio: n
+ "vizId1" : {
+         "name": "Viz name",
+         "data":[[2-d array of data values], [], [] …..[]],
+         "columnNames": [col1, col2, …. ],
+         "samplingRatio": n
          },
-vizId2 : {
+ "vizId2" : {
          .
          }
 }

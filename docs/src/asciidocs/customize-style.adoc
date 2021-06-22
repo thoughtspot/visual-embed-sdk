@@ -9,7 +9,9 @@ If you want to match the look and feel of the embedded ThoughtSpot content with 
 
 You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations.
 [NOTE]
+====
 When you rebrand the embedded ThoughtSpot content, the UI styles are reset for all users.
+====
 
 == Style components
 
@@ -27,7 +29,7 @@ You can customize the following ThoughtSpot UI style components:
 
 To access style customization settings:
 
-. Log in to ThoughtSpot as as admin or developer user.
+. Log in to ThoughtSpot as an admin or a developer user.
 . To access the ThoughtSpot Developer portal, click the *Develop* tab.
 . Under *Customizations*, click *Styles*.
 
@@ -52,7 +54,7 @@ Your icon image should be a square, and the recommended size is 140px by 140px.
 The accepted file formats are jpg, jpeg, and png.
 
 +
-.. Verify if the logo appears correctly at the top left corner of the navigation bar.
+.. Verify if the logo appears correctly in the top left corner of the navigation bar.
 . To upload a wide logo:
 .. Click the wide icon under *Application Logo (Wide)*.
 .. Browse to your local directory and select logo image.
@@ -65,22 +67,7 @@ image::./images/style-widelogo.png[Wide application logo]
 +
 .. Verify if the logo appears correctly.
 
-////
 
-  Sets a default application and favicon logo.
-This should be 140 pixels square.+++</dlentry>++++++<dlentry>+++Application Logo (Wide)::::  This logo should be 440 x 100 pixels.+++</dlentry>++++++<dlentry>+++Chart Visualization Fonts::::
-
-You can specify any Web Open Font Format (`WOFF`) file.+++</dlentry>++++++<dlentry>+++Table Visualization Fonts::::
-Set a font for table labels.
-You can specify any Web Open Font Format (`WOFF`) file.+++</dlentry>++++++<dlentry>+++Embedded Application Background::::
-Set the background for an embedded ThoughtSpot instance.
-This is only used if you are embedding ThoughtSpot in another application.+++</dlentry>++++++<dlentry>+++Chart Color Palettes::::
-Set the default palette for all charts.
-To set a value, however over a color value and enter a HEX value or select one from the chart.
-Individual users can still customize their own chart colors.
-They can use the *Reset colors* option on a chart to clear their changes.+++</dlentry>++++++<dlentry>+++Footer text::::  Define a footer to appear with the ThoughtSpot application.+++</dlentry>++++++<dlentry>+++Page title::::  Sets the title for the browser tab.+++</dlentry>+++
-
-////
 [#font-customize]
 == Customize fonts for visualizations
 
