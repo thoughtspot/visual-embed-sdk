@@ -1,6 +1,5 @@
 
-If trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. You can use this token to log in a ThoughtSpot user and access to the requested content. 
-To programmatically log in as an authenticated user, use the `/tspublic/v1/session/login/token` API. 
+When trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. The `/tspublic/v1/session/login/token` API allows you to log in as an authorized user and access ThoughtSpot content.
 
 === Resource URL
 ----
