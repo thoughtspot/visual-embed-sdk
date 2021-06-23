@@ -45,6 +45,7 @@
         display: flex;
         justify-content: space-between;
         font-family: $font-family-code;
+        overflow: auto;
     }
 
     pre.highlight {

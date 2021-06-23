@@ -1,6 +1,5 @@
 
-If trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. You can use this token to log in a ThoughtSpot user and access to the requested content. 
-To programmatically log in an authenticated user, use the `/tspublic/v1/session/login/token` API. 
+When trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. The `/tspublic/v1/session/login/token` API allows you to log in as an authorized user and access ThoughtSpot content.
 
 === Resource URL
 ----
@@ -17,19 +16,23 @@ GET /tspublic/v1/session/login/token
 |`auth_token`|string a|The authentication token obtained from ThoughtSpot.
 |`redirect_url`|string|The URL to which you want to redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user.
 
-For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the host domain to which the user will be redirected, the authentication token, and the visualization and pinboard IDs.
+`\https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
 
-`https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
+For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the host domain to which the user will be redirected, the authentication token, and the visualization and pinboard IDs. 
+
 |====
+
 
 === Example request
 
 .cURL
+[source, cURL]
 ----
 curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
 
 .Request URL
+[source, URL]
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
