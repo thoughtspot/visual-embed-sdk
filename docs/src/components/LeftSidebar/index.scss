@@ -8,7 +8,7 @@
 
     .menuContainer {
         cursor: pointer;
-        padding-right: $padding-md;
+        padding-right: $padding-xs;
         position: fixed;
         right: 0;
 
@@ -26,6 +26,12 @@
 
             &:last-child {
                 left: 34px;
+            }
+
+            &:nth-child(2) {
+                left: 40px;
+                top: -5px;
+                padding-left: 7px;
             }
         }
 

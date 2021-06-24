@@ -4,6 +4,8 @@ import { useResizeDetector } from 'react-resize-detector';
 import { IconContext } from '@react-icons/all-files';
 import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
 import { MdClear } from '@react-icons/all-files/md/MdClear';
+import { RiMoonClearLine } from '@react-icons/all-files/ri/RiMoonClearLine';
+import { FiSun } from '@react-icons/all-files/fi/FiSun';
 import queryStringParser from '../../utils/app-utils';
 import { NAV_PREFIX, TS_PAGE_ID_PARAM } from '../../configs/doc-configs';
 import {
@@ -132,6 +134,18 @@ const LeftSideBar = (props: {
                         }}
                     >
                         <GiHamburgerMenu onClick={onMenuClick} />
+                    </IconContext.Provider>
+                    <IconContext.Provider
+                        value={{
+                            className: `icon ${
+                                props.leftNavOpen && 'imgOpacity'
+                            }`,
+                        }}
+                    >
+                        {props.isDarkMode
+                            ? <RiMoonClearLine onClick={() => props.setDarkMode(false)} />
+                            : <FiSun onClick={() => props.setDarkMode(true)} />
+                        }
                     </IconContext.Provider>
                     <IconContext.Provider
                         value={{
