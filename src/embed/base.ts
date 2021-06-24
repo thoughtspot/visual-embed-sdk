@@ -256,7 +256,8 @@ export class TsEmbed {
     /**
      * Constructs the base URL string to load the ThoughtSpot app.
      */
-    protected getEmbedBasePath(queryString: string): string {
+    protected getEmbedBasePath(query: string): string {
+        let queryString = query;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
