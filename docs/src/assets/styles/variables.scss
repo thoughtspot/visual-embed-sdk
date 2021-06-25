@@ -153,6 +153,8 @@ $tag-color-yellow: #ffbc00;
     --highlight-darkred: #900;
     --highlight-violet: #990073;
     --secondary-color: #2770ef;
+    --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 12%), 0 0px 6px 0 rgba(0, 0, 0, 11%);
+    --box-shadow-hover: 0 4px 8px 0 rgba(0, 0, 0, 6%), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
 }
 
 #wrapper[data-theme='dark'] {
@@ -174,4 +176,6 @@ $tag-color-yellow: #ffbc00;
     --highlight-darkred: #ef9a9a;
     --highlight-violet: #f8bbd0;
     --secondary-color: #8388fe;
+    --box-shadow: 0 2px 2px 0 rgba(255, 255, 255, 12%), 0 0px 6px 0 rgba(255, 255, 255, 11%);
+    --box-shadow-hover: 0 4px 8px 0 rgb(255 255 255 / 6%), 0 6px 20px 0 rgb(255 255 255 / 6%);
 }
