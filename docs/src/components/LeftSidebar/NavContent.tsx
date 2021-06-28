@@ -1,7 +1,6 @@
 import React from 'react';
 import BackButton from '../BackButton';
 import t from '../../utils/lang-utils';
-import ToggleButton from '../ToggleButton';
 
 const NavContent = (props: {
     refObj: React.RefObject<HTMLDivElement>;
@@ -36,14 +35,6 @@ const NavContent = (props: {
                     }}
                 />
             </nav>
-            {!props.isMaxMobileResolution && (
-                <div className="toggleContainer">
-                    <ToggleButton
-                        setDarkMode={props.setDarkMode}
-                        isDarkMode={props.isDarkMode}
-                    />
-                </div>
-            )}
         </aside>
     );
 };
