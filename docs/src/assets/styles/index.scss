@@ -152,6 +152,25 @@ button {
 
 /*Tags style end*/
 
+/* Div box style start */
+
+.boxDiv {
+    padding: 10px;
+    display: inline-block;
+    margin: 10px;
+    box-shadow: var(--box-shadow);
+
+    &:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
+}
+
+.boxFullWidth {
+    width: 100%;
+}
+
+/* Div box style end */
+
 /*Scrollbar styling start*/
 ::-webkit-scrollbar {
     width: 0.4em;
@@ -187,5 +206,9 @@ button {
     .documentBody {
         width: 100%;
         padding-left: 0;
+    }
+
+    .boxDiv {
+        width: 100%;
     }
 }
