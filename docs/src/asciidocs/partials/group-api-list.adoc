@@ -1,8 +1,63 @@
 
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-||`xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]`|Add the data upload and download privileges to a user group in ThoughtSpot.
-||`xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]`|Remove a privilege from a user group.
-|===
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` [tag greenBackground]#New#
+
+Create a user group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]` [tag greenBackground]#New# 
+
+Modify a user group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]` [tag greenBackground]#New# 
+
+Get details of a user group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
+
+Assign user to a group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#get-users-group[*GET* /tspublic/v1/group/listuser/{groupid}]` [tag greenBackground]#New# 
+
+Get a list of users assigned to a group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]` 
+
+Assign a privilege to a user group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]` 
+
+Remove the privilege assigned to a group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
+
+Remove a user assigned to a group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#delete-group[*DELETE* /tspublic/v1/group/{groupid}]`  [tag greenBackground]#New# 
+
+Delete a user group.
+--

@@ -1,0 +1,1226 @@
+= Admin APIs
+:toc: true
+:toclevels: 1
+
+:page-title: Admin APIs
+:page-pageid: admin-api
+:page-description: Admin API services for configuration management
+
+The admin API service allows you to query and update configuration information for a ThoughtSpot cluster. You can also use these APIs to migrate data from one cluster to another.
+
+To access the admin API endpoints and send API requests, you must have admin user credentials.  
+
+== Supported operations
+
+include::{path}/admin-api-list.adoc[]
+
+
+[#get-configInfo]
+== Get configuration details
+To get details of the current configuration of a ThoughtSpot cluster, send a `GET` request to the `/tspublic/v1/admin/configinfo` API.
+
+=== Resource URL
+----
+POST /tspublic/v1/admin/configinfo
+----
+
+=== Example request 
+
+Make sure the API request has the following headers:
+
+* the`Accept` header set as `Accept: application/json`
+* the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
+
+.cURL
+[source,cURL]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo
+----
+=== Request parameters
+
+None
+
+=== Example response
+
+If the request is successful, the API returns a response with details of the configuration details, flags enabled on the cluster, and custom actions added for embedded instances. 
+
+The following example shows a snippet of the configuration information:
+
+[source,JSON]
+----
+{
+  "highCardinalityMaxDataSize": 20000,
+  "fetchPivotSummaryFromBackend": true,
+  "vizRenderingQueueTimeoutMS": 30000,
+  "enableColumnSummariesByDefault": true,
+  "defaultChartDataSize": 5000,
+  "maxFilterValues": 10000,
+  "useDomainQualifiedName": true,
+  "enableInstantSearch": false,
+  "defaultFilterNonCascading": false,
+  "pinboardFilterConfiguratorDisabled": false,
+  "isAnswerUndoStackEnabled": false,
+  "answerV2Experience": true,
+  "enablePinboardV2": false,
+  "blinkHelpConfigList": [
+    {
+      "enabled": true,
+      "title": "How search works",
+      "id": "BLINK_HOW_SEARCH_WORKS",
+      "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/release/help-center.html",
+      "iconFilePath": ""
+    },
+    {
+      "enabled": true,
+      "title": "Keywords",
+      "id": "BLINK_KEYWORDS",
+      "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html",
+      "iconFilePath": ""
+    }
+ 
+  ],
+  "blinkActionConfigList": [],
+  "embedActionConfigList": [
+    {
+      "id": "f4a19262-e93a-4233-8511-2eaa91b32514",
+      "name": "dave test action",
+      "version": "v2",
+      "type": "URL",
+      "detail": {
+        "link": "http://unpkg.com",
+        "function": "dave-test-action",
+        "authSelect": "NONE",
+        "authToken": "",
+        "encodeUser": "",
+        "apiKey": "X-API-KEY",
+        "apiValue": "",
+        "additionalUrlHeaders": "{}"
+      },
+      "actionAssociationMap": {
+        "WORKSHEET": {
+          "47c22122-779e-41e1-afa6-5247192b845a": {
+            "enabled": "true",
+            "context": "PRIMARY"
+          }
+        }
+      },
+      "context": "NONE",
+      "availability": []
+    },
+    {
+      "id": "3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
+      "name": "unpkg test",
+      "version": "v2",
+      "type": "URL",
+      "detail": {
+        "link": "https://unpkg.com",
+        "function": "unpkg-test",
+        "authSelect": "BEARER",
+        "authToken": "AbCdEf123456",
+        "encodeUser": "",
+        "apiKey": "X-API-KEY",
+        "apiValue": "",
+        "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"
+      },
+      "actionAssociationMap": {
+        "ANSWER": {
+          "e783038e-95fc-494b-a52a-7da3487b90ea": {
+            "enabled": "true",
+            "context": "MENU"
+          }
+        }
+      },
+      "context": "NONE",
+      "availability": [
+        "GLOBAL"
+      ]
+    },
+    
+  "ldapConfiguration": {
+    "enabled": false,
+    "realms": "",
+    "enforceBindingPriorToAuthentication": false,
+    "bindUsername": "",
+    "bindPassword": "",
+    "updateLdapAttributes": true,
+    "displayNameAttributeKey": "displayName",
+    "emailAttributeKey": "mail"
+  },
+  "autoCompleteConfig": {
+    "requestTimeout": 10000
+  },
+  "samlConfiguration": {
+    "enabled": false,
+    "samlLoginPageRedirect": false,
+    "forceAuthn": false,
+    "updateSamlAttributes": true,
+    "logoutEnabledInUI": false,
+    "mobileAppRedirectEnabled": true,
+    "emailAttributeKey": "mail",
+    "displayNameAttributeKey": "displayName",
+    "samlGroupAttributeKey": "roles",
+    "disableMaxAuthenticationAgeCheck": false,
+    "updateUserGroupsFromSAML": false
+  },
+  "oidcConfiguration": {
+    "enabled": false,
+    "forceAuthn": false,
+    "oidcLoginPageRedirect": false,
+    "updateOIDCAttributes": true,
+    "logoutEnabledInUI": false,
+    "emailAttributeKey": "email",
+    "displayNameAttributeKey": "displayName",
+    "subjectAttributeKey": "preferred_username",
+    "callbackUri": "/callosum/v1/oidc/callback",
+    "oidcLoginUri": "/callosum/v1/oidc/login",
+    "scope": "openid profile email"
+  },
+  "materializationConfig": {
+    "enabled": false,
+    "maxMaterializedViewsPerCluster": 50,
+    "refreshWindowStartTime": "08:00PM",
+    "materializationHours": 8
+  },
+  "emailConfig": {
+    "companyName": "Your Company",
+    "productName": "ThoughtSpot",
+    "fromEmail": "no-reply@notification.thoughtspot.com",
+    "thoughtspotLogoUrl": "https://storage.pardot.com/710713/5660/TS_logo_260x68.png",
+    "welcomeEmailConfig": {
+      "enabled": true,
+      "fromEmail": "ThoughtSpot Administrator <noreply@cloud.thoughtspot.com>",
+      "supportEmail": "ThoughtSpot Administrator <contact@cloud.thoughtspot.com>",
+      "customMessage": "",
+      "getStartedLink": "https://notyetset",
+      "learnMoreLink": "https://docs.thoughtspot.com",
+      "addMixpanelTokens": true
+    }
+  },
+  "notificationConfig": {
+    "groupMemberShareNotificationLimit": 500,
+    "asyncShareEmailServiceThreadCount": 10,
+    "accessRequestEmailThreadCount": 5,
+    "useNotificationService": true
+  },
+  "sharingConfiguration": {
+    "enableVizSharing": true,
+    "enableDataSourceSharing": true,
+    "enableVizSharingWithLink": true
+  },
+  "userPersonaConfiguration": {
+    "dataManagementCheckEnabled": true
+  },
+  "demoDataConfiguration": {
+    "demoConnectionGuids": [
+      "2aa36dbd-dda6-4497-a6db-bc47e128862e"
+    ],
+    "demoWorksheetGuids": [
+      "cd252e5c-b552-49a8-821d-3eadaa049cca"
+    ],
+    "demoTableGuids": [
+      "a633dccd-b449-46df-a0fc-92034d6858cb",
+      "7d174ef2-2482-4e61-9d6e-1e1d709d96b0",
+      "757f2434-66ef-43ad-9820-ba9008072155"
+    ],
+    "demoPinboardGuids": [
+      "d084c256-e284-4fc4-b80c-111cb606449a"
+    ]
+  },
+  "analystOnboardingConfig": {
+    "enabled": true,
+    "videoURL": "https://fast.wistia.net/embed/iframe/dmue1pc6fp",
+    "setupV2Enabled": true
+  },
+  "fullEmbedConfiguration": {
+    "primaryNavHidden": true,
+    "profileAndHelpOptionsInNavBarHidden": false,
+    "alertBarHidden": false,
+    "poweredFooterHidden": false,
+    "pinboardCreationPrivilegeEnabled": false,
+    "isPinboardDownloadAsPDFEnabled": true,
+    "isPinboardVizDownloadAsPDFEnabled": true,
+    "isPinboardVizDownloadAsPNGEnabled": true,
+    "isPinboardVizDownloadAsCSVEnabled": true,
+    "isPinboardVizDownloadAsXLSXEnabled": true
+  },
+  "walkMeConfiguration": {
+    "enableWalkme": false,
+    "enableTestEnvForWalkme": false
+  }
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful retrieval of the configuration information
+
+| **401**
+| Unauthorized request
+|===
+
+[#get-config-overrides]
+== Get details of configuration overrides
+
+To get the details of configuration overrides, send a GET request to the `/tspublic/v1/admin/configinfo/override` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/admin/configinfo/override
+----
+
+=== Request parameters
+
+None
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* the `Accept` header set as `Accept: application/json`
+* the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
+
+.cURL
+
+[source,curl]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/overrides'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/overrides
+----
+
+=== Example response 
+
+If the request is successful, the API returns the details of the configuration overrides. The following example shows a snippet of the configuration details:
+
+[source,JSON]
+----
+{
+  
+  "enableColumnSummariesByDefault": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Enable column summaries by default from backend",
+    "current": true
+  },
+  
+  "analystOnboardingConfig.setupV2Enabled": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "If setup v2 is to be enabled.",
+    "current": true
+  },
+
+  "notificationConfig.asyncShareEmailServiceThreadCount": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Number of threads sending asynchronous email notifications for share.",
+    "current": 10
+  },
+  "samlConfiguration.groupMapping": {
+    "category": "MAIN",
+    "dataType": "STRING",
+    "description": "SAML Group mapping in string format.",
+    "regex": ".*",
+    "current": ""
+  },
+  "samlConfiguration.updateUserGroupsFromSAML": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Whether to check if update userGroups from SAML is enabled.",
+    "current": false
+  },
+  "signUpConfiguration.signUpButtonLink": {
+    "category": "MAIN",
+    "dataType": "STRING",
+    "description": "Flag to configure the end point of Sign up button",
+    "regex": ".*",
+    "current": ""
+  },
+  "enablePendo": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Flag to enable or disable Pendo.",
+    "current": true
+  },
+  "disableFeedback": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Disable send feedback on the cluster",
+    "current": false
+  },
+  "pinboardFilterConfiguratorDisabled": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Disables Configure Filter option on a Pinboard",
+    "current": false
+  },
+ 
+  "embedActionConfigList": {
+    "category": "MAIN",
+    "dataType": "ARRAYLIST",
+    "description": "Embed Action items added by user",
+    "current": [
+      {
+        "id": "f4a19262-e93a-4233-8511-2eaa91b32514",
+        "name": "dave test action",
+        "version": "v2",
+        "type": "URL",
+        "detail": {
+          "link": "http://unpkg.com",
+          "function": "dave-test-action",
+          "authSelect": "NONE",
+          "authToken": "",
+          "encodeUser": "",
+          "apiKey": "X-API-KEY",
+          "apiValue": "",
+          "additionalUrlHeaders": "{}"
+        },
+        "actionAssociationMap": {
+          "WORKSHEET": {
+            "47c22122-779e-41e1-afa6-5247192b845a": {
+              "enabled": "true",
+              "context": "PRIMARY"
+            }
+          }
+        },
+        "context": "NONE",
+        "availability": []
+      },
+      {
+        "id": "3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
+        "name": "unpkg test",
+        "version": "v2",
+        "type": "URL",
+        "detail": {
+          "link": "https://unpkg.com",
+          "function": "unpkg-test",
+          "authSelect": "BEARER",
+          "authToken": "AbCdEf123456",
+          "encodeUser": "",
+          "apiKey": "X-API-KEY",
+          "apiValue": "",
+          "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"
+        },
+        "actionAssociationMap": {
+          "ANSWER": {
+            "e783038e-95fc-494b-a52a-7da3487b90ea": {
+              "enabled": "true",
+              "context": "MENU"
+            }
+          }
+        },
+        "context": "NONE",
+        "availability": [
+          "GLOBAL"
+        ]
+      },
+      {
+        "id": "8b9f5009-bbcf-46b0-8076-9593c75d2ea2",
+        "name": "my url",
+        "version": "v2",
+        "type": "URL",
+        "detail": {
+          "link": "http://thoughtspot.com/ ",
+          "function": "my-url",
+          "authSelect": "NONE",
+          "authToken": "",
+          "encodeUser": "",
+          "apiKey": "X-API-KEY",
+          "apiValue": "",
+          "additionalUrlHeaders": "{}"
+        },
+        "actionAssociationMap": {
+          "ANSWER": {
+            "e783038e-95fc-494b-a52a-7da3487b90ea": {
+              "enabled": "true",
+              "context": "CONTEXT_MENU"
+            }
+          }
+        },
+        "context": "NONE",
+        "availability": [
+          "GLOBAL"
+        ]
+      }
+    ]
+  },
+ 
+  "sharingConfiguration.enableVizSharingWithLink": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "enable/disable sharing of viz from using copy link button.",
+    "current": true
+  },
+  "analystOnboardingConfig.enabled": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "If onboarding is to be enabled.",
+    "current": true
+  },
+
+  "adminPortalDevEnabled": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Enable AdminPortal for dev",
+    "current": false
+  },
+  "rememberedSessionIdleTimeoutMs": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Session idle timeout for an authenticated session with remember me set to true.",
+    "current": 3600000
+  },
+  "maxNumSearchIQPreferredColumnsAllowed": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Maximum number of searchIQ preferred columns within a table.",
+    "current": 15
+  },
+  "vizEmbedConfiguration.disableTransformations": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Whether transformations are permitted within an embedded viz.",
+    "current": false
+  },
+  "loginConfig.allowSystemUserUILogin": {
+    "category": "MAIN",
+    "dataType": "BOOLEAN",
+    "description": "Allow system user to login through UI",
+    "current": false
+  },
+  "maxNumDataApiRows": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Size for maximum number of rows that can be returned using data api.",
+    "current": 100000
+  },
+  "callosumSaaSTest": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Does not matter right now",
+    "current": 1
+  },
+  "batchSize": {
+    "category": "MAIN",
+    "dataType": "INTEGER",
+    "description": "Data result set batch size. Data is exported in batches of batchSize up to a maximum of maxNumPaginatedRows.",
+    "current": 1000
+  },
+  "dataGenRules.enableUniqueCountTransformEmbrace": {
+    "category": "DATA",
+    "dataType": "BOOLEAN",
+    "description": "Flag to enable unique count transformation for embrace.",
+    "current": true
+  }
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful retrieval of the configuration information
+| **401**
+| Unauthorized request
+|===
+
+[#configinfo-update]
+== Update configuration
+To update the configuration settings for your cluster, send a `POST` request to the `/tspublic/v1/admin/configinfo/update` API endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/admin/configinfo/update
+----
+
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Form Parameter|Description
+|`configchanges`|__String__. A JSON file with the key-value pair of configuration attributes.
+|====
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* the `Accept` header set as `Accept: application/json`
+* the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
+* the Content-Type set as `application/x-www-form-urlencoded`
+
+.cURL
+
+[source,curl]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'configchanges=@import-embed-objects-b.json' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/update'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/update
+----
+
+=== Example response 
+
+If the request is successful, the API returns the following response code:
+
+----
+Response Code
+204
+----
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**204** |Successful update of the configuration information
+|**401** |Unauthorized request
+|===
+
+[#get-embed-actions]
+== Get details of the embed actions
+
+To get a list of custom actions available on a ThoughtSpot instance, send a `GET` request to the `/tspublic/v1/admin/embed/actions` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/admin/embed/actions
+----
+
+=== Request parameters
+
+None
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* the `Accept` header as `Accept: text/html`
+* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+
+.cURL
+
+[source,curl]
+----
+curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://jun-us-west-1.thoughtspotdev.cloud/callosum/v1/tspublic/v1/admin/embed/actions'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
+----
+
+=== Example response
+If the cluster has custom actions, the API returns the custom action details.
+
+[Source, JSON]
+----
+[
+  {
+    "id": "b89f1711-d5f6-4b0c-9f16-376e6a761505",
+    "name": "Send survey",
+    "version": "v2",
+    "type": "URL",
+    "detail": {
+      "link": "www.mysurvey.com",
+      "function": "send-survey",
+      "authSelect": "NONE",
+      "authToken": "",
+      "encodeUser": "",
+      "apiKey": "X-API-KEY",
+      "apiValue": "",
+      "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"b7640ef3-0966-4f7e-b06e-a6775bebacb2\",\"key\":\"user\",\"value\":\"andreea\"},\"url_header2\":{\"id\":\"bf53da76-688c-4bda-84b0-16d8be95e0e6\",\"key\":\"setup\",\"value\":\"test\"}}"
+    },
+    "context": "NONE",
+    "availability": [
+      "GLOBAL"
+    ]
+  },
+ 
+  {
+    "id": "bcafd582-76f8-4795-a217-ec76e62ade37",
+    "name": "Send data",
+    "version": "v2",
+    "type": "CALLBACK",
+    "detail": {
+      "link": "",
+      "function": "send-data",
+      "authSelect": "NONE",
+      "authToken": "",
+      "encodeUser": "",
+      "apiKey": "X-API-KEY",
+      "apiValue": "",
+      "additionalUrlHeaders": "{}"
+    },
+    "context": "NONE",
+    "availability": [
+      "GLOBAL"
+    ]
+  }
+]
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**401** |Unauthorized request
+|===
+
+[#get-action-by-id]
+== Get details of a specific custom action
+To get details of a specific custom action configured in the ThoughtSpot system, send a `GET` request to the `GET /tspublic/v1/admin/embed/actions/{actionid}` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/admin/embed/actions/{actionid}
+----
+
+=== Request parameters
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Path Parameter|Description
+|`actionId`|__String__. The GUID of the action.
+|====
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* The `Accept` header as `Accept: application/json`
+* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+
+.cURL
+
+[source,curl]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
+----
+
+=== Example response 
+
+If the request is successful, the API returns the JSON data for the specified action ID:
+
+[Source, JSON]
+----
+{
+  "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
+  "name": "test-callback",
+  "version": "v2",
+  "type": "CALLBACK",
+  "detail": {
+    "link": "",
+    "function": "test-callback",
+    "authSelect": "NONE",
+    "authToken": "",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{}"
+  },
+  "context": "NONE",
+  "availability": [
+    "GLOBAL"
+  ]
+}
+----
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|===
+
+[#create-custom-action]
+== Create custom actions 
+To programmatically create custom actions on ThoughtSpot clusters that support embedding configuration, send a `POST` request with action configuration details to the `/tspublic/v1/admin/embed/actions` API endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/admin/embed/actions
+----
+
+=== Request parameters
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Form parameter|Description
+|`embedaction`|__String__. A JSON map of the configuration attributes presented as key-value pairs.
+|====
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* the `Accept` header as `Accept: application/json`
+* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* the `Content-Type' as `application/x-www-form-urlencoded`
+
+.cURL
+
+[source,curl]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'embedaction=%7B%20%20%20%20%20%22id%22%3A%20%223f7eac93-cce1-4ffc-b7a8-429353edbc6b%22%2C%20%20%20%20%20%22name%22%3A%20%22unpkg%20test%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22unpkg-test%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22BEARER%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22asdfasadf3q4534534%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%5C%22url_header1%5C%22%3A%7B%5C%22id%5C%22%3A%5C%226a82908c-9328-40ff-b347-65adeda12f57%5C%22%2C%5C%22key%5C%22%3A%5C%22key1%5C%22%2C%5C%22value%5C%22%3A%5C%22value1%5C%22%7D%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22ANSWER%22%3A%20%7B%20%20%20%20%20%20%20%20%20%22e783038e-95fc-494b-a52a-7da3487b90ea%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22MENU%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%20%20%20%20%20%20%20%22GLOBAL%22%20%20%20%20%20%5D%20%20%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
+----
+
+=== Example response 
+
+If the request is successful, the API returns the JSON data for the custom action in the response body:
+
+[Source, JSON]
+----
+{
+  "id": "3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
+  "name": "unpkg test",
+  "version": "v2",
+  "type": "URL",
+  "detail": {
+    "link": "https://unpkg.com",
+    "function": "unpkg-test",
+    "authSelect": "BEARER",
+    "authToken": "AbCdEf123456",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"
+  },
+  "actionAssociationMap": {
+    "ANSWER": {
+      "e783038e-95fc-494b-a52a-7da3487b90ea": {
+        "enabled": "true",
+        "context": "MENU"
+      }
+    }
+  },
+  "context": "NONE",
+  "availability": [
+    "GLOBAL"
+  ]
+}
+----
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+|**200** |Successful operation
+|**401** |Unauthorized request
+|===
+
+[#update-custom-action]
+== Modify a custom action
+
+You can programmatically edit an existing custom action by sending a `PUT` request to the `/tspublic/v1/admin/embed/actions/{actionid}` API endpoint.
+
+=== Resource URL
+----
+PUT /tspublic/v1/admin/embed/actions/{actionid}
+----
+
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Parameter|Parameter Type| Description
+|`actionId`|Path parameter |__String__. The GUID of the custom action.
+|`embedaction`|Form data parameter|__String__. A JSON map of the configuration attributes presented as key-value pairs.
+|====
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* The `Accept` header as `Accept: application/json`
+* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* The `Content-Type' as `application/x-www-form-urlencoded`
+
+.cURL
+
+[source,curl]
+----
+curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'embedaction=%7B%20%20%20%22id%22%3A%20%220f1b18f9-2dbd-4742-bc70-7bfc1322ad3f%22%2C%20%20%20%22name%22%3A%20%22test-callback%22%2C%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%22type%22%3A%20%22CALLBACK%22%2C%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%22link%22%3A%20%22%22%2C%20%20%20%20%20%22function%22%3A%20%22test-callback%22%2C%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%7D%2C%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%22availability%22%3A%20%5B%20%20%20%20%20%E2%80%9CLOCAL%E2%80%9D%20%20%20%5D%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
+----
+
+=== Example response 
+
+If the request is successful, the API returns the JSON data for the specified action ID:
+
+[Source, JSON]
+----
+{
+  "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
+  "name": "test-callback",
+  "version": "v2",
+  "type": "CALLBACK",
+  "detail": {
+    "link": "",
+    "function": "test-callback",
+    "authSelect": "NONE",
+    "authToken": "",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{}"
+  },
+  "context": "NONE",
+  "availability": [
+    "LOCAL"
+  ]
+}
+----
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|===
+
+[#del-custom-action]
+== Delete a custom action
+
+To programmatically delete a custom action, send a `DELETE` request to the `DELETE /tspublic/v1/admin/embed/actions/{actionid}` API endpoint.
+
+=== Resource URL
+----
+DELETE /tspublic/v1/admin/embed/actions/{actionid}
+----
+
+=== Request parameters
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Path Parameter| Description
+|`actionId`|__String__. The GUID of the action.
+|====
+
+=== Example request
+
+Make sure the API request has the following headers:
+
+* The `Accept` header as `Accept: application/json`
+* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+
+.cURL
+
+[source,curl]
+----
+curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
+----
+
+=== Example response 
+
+On successful deletion of the action, the API returns a response body indicating that the specified action ID is no longer available:
+
+[Source, JSON]
+----
+{
+  "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
+  "name": "test-callback",
+  "version": "v2",
+  "type": "CALLBACK",
+  "detail": {
+    "link": "",
+    "function": "test-callback",
+    "authSelect": "NONE",
+    "authToken": "",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{}"
+  },
+  "context": "NONE",
+  "availability": [
+    null
+  ]
+}
+----
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|===
+
+[#custom-action-assoc]
+== Associate a custom action to ThoughtSpot objects
+
+ThoughtSpot supports associating custom actions to pinboards, search answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+
+=== Resource URL
+----
+POST /tspublic/v1/admin/embed/actions/{actionid}/associations
+----
+
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Parameter|Parameter Type| Description
+|`actionId`|Path parameter |__String__. The GUID of the custom action.
+|`actionassociation`|Form data parameter|__String__. A JSON map of the attributes for associating the action to a ThoughtSpot object ID.
+|====
+
+=== Example request
+
+.cURL
+[source,curl]
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
+----
+
+=== Example response 
+
+If the custom action is applied to a ThoughtSpot object, the API returns a response body with the action association map:
+
+[Source, JSON]
+----
+{
+  "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf",
+  "name": "My worksheet action",
+  "version": "v2",
+  "type": "URL",
+  "detail": {
+    "link": "https://unpkg.com",
+    "function": "my-worksheet-action",
+    "authSelect": "NONE",
+    "authToken": "",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{}"
+  },
+  "actionAssociationMap": {
+    "WORKSHEET": {
+      "7c28a4c0-6a84-4b61-b612-f39dc8a4a1c8": {
+        "enabled": "true",
+        "context": "PRIMARY"
+      },
+      "2b9d083a-275c-4984-9cfe-90b036affa17": {
+        "enabled": "true",
+        "context": "PRIMARY"
+      }
+    }
+  },
+  "context": "NONE",
+  "availability": []
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+|**200** |Successful operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|**500** |Request parsing error 
+|===
+
+[#get-custom-action-assoc]
+== Get details of custom action associations
+
+To get the details of the ThoughtSpot objects associated with a custom action, send a `GET` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+
+=== Resource URL
+----
+GET /tspublic/v1/admin/embed/actions/{actionid}/associations
+----
+
+=== Request parameters
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Path Parameter| Description
+|`actionId`|__String__. The GUID of the custom action.
+|====
+
+=== Example request
+
+.cURL
+[source,curl]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
+----
+
+=== Example response 
+
+If the custom action is associated to a ThoughtSpot object, the API returns a response body with the action association map for the specified action ID:
+
+[Source, JSON]
+----
+{
+  "WORKSHEET": {
+    "3ef174dc-fe09-4e27-ac93-0a651fe4e4c3": {
+      "enabled": "true",
+      "context": "PRIMARY"
+    }
+  }
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+|**200** |Successful operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|===
+
+[#del-action-association]
+== Delete custom action associations
+
+To  remove custom action associations to ThoughtSpot objects, send a `DELETE` request to the  `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+
+=== Resource URL
+----
+DELETE /tspublic/v1/admin/embed/actions/{actionid}/associations
+----
+
+=== Request parameters
+[width="100%" cols="1,1,3"]
+[options='header']
+|====
+|Parameter|Parameter Type| Description
+|`actionId`|Path parameter |__String__. The GUID of the custom action.
+|`actionassociation`|Form data parameter|__String__. A JSON map of the attributes for associating the action to a ThoughtSpot object ID.
+|====
+
+=== Example request
+
+.cURL
+[source,curl]
+----
+curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
+----
+
+=== Example response 
+
+After the custom action association is removed, the API returns a response body with the updated JSON map of the custom action:
+
+[Source, JSON]
+----
+{
+  "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf",
+  "name": "My worksheet action",
+  "version": "v2",
+  "type": "URL",
+  "detail": {
+    "link": "https://unpkg.com",
+    "function": "my-worksheet-action",
+    "authSelect": "NONE",
+    "authToken": "",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "additionalUrlHeaders": "{}"
+  },
+  "actionAssociationMap": {
+    "WORKSHEET": {
+      "7c28a4c0-6a84-4b61-b612-f39dc8a4a1c8": {
+        "enabled": "true",
+        "context": "PRIMARY"
+      }
+    }
+  },
+  "context": "NONE",
+  "availability": []
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+|**200** |Successful operation
+|**400** |Invalid operation
+|**401** |Unauthorized request
+|**404** |Invalid action ID
+|===

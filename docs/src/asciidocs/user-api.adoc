@@ -1,20 +1,400 @@
-= User API
+= User APIs
 :toc: true
 :toclevels: 1
 
-:page-title: User API
+:page-title: User APIs
 :page-pageid: user-api
-:page-description: User API
+:page-description: User APIs
 
 The User APIs allow you to programmatically manage ThoughtSpot users and user groups.
 
+== Supported operations
 include::{path}/user-api-list.adoc[]
  
+[#create-user]
+== Create a user
+
+To programmatically create a user account in the ThoughtSpot system, send a POST request to `/tspublic/v1/user/` API endpoint. Using this API, you can create a user and assign a user to a group.
+
 [NOTE]
 ====
-If you want to get a list of object headers associated with a user or user group, use the `xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]` API.
+* To create a user, you must have the admin user privileges. 
+* All users created in ThoughtSpot system are added to ALL_GROUP.
 ====
- 
+
+=== Resource URL
+----
+POST /tspublic/v1/user/
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`name` |__String__.  Name of the user. The username string must be unique.  
+|`password`|__String__.Password for the user account. 
+|`displayname`|__String__. A unique display name string for the user, usually their first and last name. 
+|`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
+|`groups` __Optional__|__Array of strings__. A JSON array of GUIDs of groups to assign user to. The user privileges are determined by the group to which you assign the user to. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
+|`usertype` __Optional__ a|__String__. Type of user. Default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.    
+|`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
+|`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes the user visible for other users and user groups, and allows them to share objects.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=TS%20User&password=testy1%4022&displayname=TS%20User&usertype=LOCAL_USER&visibility=DEFAULT' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/
+----
+
+=== Example response
+
+If the user is successfully created in ThoughtSpot, the API returns the user GUID along with the following JSON response:
+
+[Source, JSON]
+----
+{
+  "userContent": {
+    "userPreferences": {
+      "notifyOnShare": true,
+      "showWalkMe": true,
+      "analystOnboardingComplete": false
+    },
+    "userProperties": {},
+    "userActivityProto": {
+      "first_login": -1,
+      "welcome_email_sent": false
+    }
+  },
+  "state": "ACTIVE",
+  "assignedGroups": [
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "inheritedGroups": [
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "privileges": [],
+  "type": "LOCAL_USER",
+  "parenttype": "USER",
+  "visibility": "DEFAULT",
+  "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+  "displayName": "TS User",
+  "header": {
+    "id": "79c4cb2a-18cd-44a7-a077-6de65d1b468e",
+    "indexVersion": 0,
+    "generationNum": 0,
+    "name": "TS User",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1624796017810,
+    "modified": 1624796017810,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "79c4cb2a-18cd-44a7-a077-6de65d1b468e",
+    "tags": [],
+    "isExternal": false,
+    "isDeprecated": false
+  },
+  "complete": true,
+  "incompleteDetail": [],
+  "isSuperUser": false,
+  "isSystemPrincipal": false
+}
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**200**| Successful operation
+|**403**| Unauthorized request
+|**500**| Incorrect password format
+|===
+
+[#update-user]
+
+== Update user details
+
+If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` API to programmatically modify an existing user account. 
+
+This API allows the following modifications to a user profile:
+
+* Group assignment
+* Password reset
+* User visibility for sharing objects
+* User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications. 
+
+=== Resource URL
+----
+PUT /tspublic/v1/user/{userid}
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`userid`|__String__. GUID of the user.
+|`content`|__String__. A JSON map of strings with the user profile attributes.
+|`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account. 
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'userid=d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286&content=%7B%20%20%20%22userContent%22%3A%20%7B%20%20%20%20%20%22userPreferences%22%3A%20%7B%20%20%20%20%20%20%20%22notifyOnShare%22%3A%20false%2C%20%20%20%20%20%20%20%22showWalkMe%22%3A%20true%2C%20%20%20%20%20%20%20%22analystOnboardingComplete%22%3A%20false%20%20%20%20%20%7D%2C%20%20%20%20%20%22userProperties%22%3A%20%7B%7D%2C%20%20%20%20%20%22userActivityProto%22%3A%20%7B%20%20%20%20%20%20%20%22first_login%22%3A%20-1%2C%20%20%20%20%20%20%20%22welcome_email_sent%22%3A%20false%20%20%20%20%20%7D%20%20%20%7D%2C%20%20%20%22state%22%3A%20%22ACTIVE%22%2C%20%20%20%22assignedGroups%22%3A%20%20%5B%20%09%22d0326b56-ef23-4c8a-8327-a30e99bcc72b%22%2C%20%20%20%20%20%20%20%09%22b25ee394-9d13-49e3-9385-cd97f5b253b4%22%20%20%20%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%20%20%20%20%20%22b25ee394-9d13-49e3-9385-cd97f5b253b4%22%20%20%20%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_USER%22%2C%20%20%20%22parenttype%22%3A%20%22USER%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20User2%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%22d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20User2%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624846987754%2C%20%20%20%20%20%22modified%22%3A%201624846987754%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%22d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSuperUser%22%3A%20false%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
+----
+
+==== JSON file example for updating user profile
+
+[source,JSON]
+----
+{
+   "userContent":{
+      "userPreferences":{
+         "notifyOnShare":false,
+         "showWalkMe":true,
+         "analystOnboardingComplete":false
+      },
+      "userProperties":{
+         
+      },
+      "userActivityProto":{
+         "first_login":-1,
+         "welcome_email_sent":false
+      }
+   },
+   "state":"ACTIVE",
+   "assignedGroups":[
+      "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+      "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+   ],
+   "inheritedGroups":[
+      "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+   ],
+   "privileges":[
+      
+   ],
+   "type":"LOCAL_USER",
+   "parenttype":"USER",
+   "visibility":"DEFAULT",
+   "tenantId":"982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+   "displayName":"TS User2",
+   "header":{
+      "id":"d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286",
+      "indexVersion":0,
+      "generationNum":0,
+      "name":"TS User2",
+      "author":"59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created":1624846987754,
+      "modified":1624846987754,
+      "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner":"d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286",
+      "tags":[
+         
+      ],
+      "isExternal":false,
+      "isDeprecated":false
+   },
+   "complete":true,
+   "incompleteDetail":[
+      
+   ],
+   "isSuperUser":false,
+   "isSystemPrincipal":false
+}
+----
+
+=== Example response
+
+On successful update of the user profile, the API returns the following response code:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**403**| Unauthorized request
+|**500**| Invalid content format
+|===
+
+[#get-user-details]
+
+== Get user details
+
+To get the details of a specific user account or  all users in the ThoughtSpot system, send a `GET` request to `/tspublic/v1/user/` API endpoint.
+
+[NOTE]
+====
+If you want to get a list of object headers associated with a user or user group, you can use the `xref:metadata-api.adoc#object-header[GET /tspublic/v1/metadata/listobjectheaders]` API.
+====
+
+=== Resource URL
+----
+GET /tspublic/v1/user/
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Query Parameter|Description
+|`userid` __Optional__|__String__. GUID of the user account to query.
+|`name` __Optional__|__String__. Username of the user profile that you want to query.
+|===
+
+=== Example request
+
+.cURL
+
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
+----
+.Request URL
+
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2
+----
+
+=== Example response
+
+[source, JSON]
+----
+{
+  "userContent": {
+    "userPreferences": {
+      "notifyOnShare": true,
+      "showWalkMe": true,
+      "analystOnboardingComplete": false
+    },
+    "userProperties": {},
+    "userActivityProto": {
+      "first_login": -1,
+      "welcome_email_sent": false
+    }
+  },
+  "state": "ACTIVE",
+  "assignedGroups": [
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "inheritedGroups": [
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "privileges": [
+    "AUTHORING"
+  ],
+  "type": "LOCAL_USER",
+  "parenttype": "USER",
+  "visibility": "DEFAULT",
+  "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+  "displayName": "kailash",
+  "header": {
+    "id": "b995e481-d0a7-4820-b1e8-54051ede77a2",
+    "indexVersion": 2602,
+    "generationNum": 2602,
+    "name": "kailash",
+    "displayName": "kailash",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1623728042624,
+    "modified": 1623728042624,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "b995e481-d0a7-4820-b1e8-54051ede77a2",
+    "isDeleted": false,
+    "isHidden": false,
+    "tags": [],
+    "type": "LOCAL_USER",
+    "isExternal": false,
+    "isDeprecated": false
+  },
+  "complete": true,
+  "incompleteDetail": [],
+  "isSuperUser": false,
+  "isSystemPrincipal": false
+}
+
+----
+
+[NOTE]
+====
+If no `userid` or `name` attribute is specified, the API returns a response with the details of all users in the ThoughtSpot system.
+====
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**200** | Successful retrieval of user details 
+|**400**| Invalid username string
+|**500**| Invalid user ID
+|===
+
+[#delete-user]
+== Delete a user account 
+To remove a user from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/user/{userid}` API endpoint.
+
+=== Resource URL
+----
+DELETE /tspublic/v1/user/{userid}
+----
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Path Parameter|Description
+|`userid`|__String__. GUID of the user account to delete.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d'
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d
+----
+=== Example response
+
+On successful removal of the user account, the API returns the following response:
+
+----
+Response Code
+204
+----
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**403**| Unauthorized request
+|**500**| Invalid  user ID 
+|===
+
 [#user-list]
 == Get a list of users and groups
 To get a list of all users, groups, and their inter-dependencies in the form of principal objects, use the  `/tspublic/v1/user/list` API.
@@ -66,7 +446,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
     "created": 1459376495060,
     "modified": 1459376590681,
     "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": rls-group-5,
+    "groupNames": "rls-group-5",
     "visibility": "DEFAULT"
   }
   ]
@@ -74,32 +454,53 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
 ==== Object properties
 A typical principal object contains the following properties:
 
-[width="100%" cols="1,3"]
-[options='header']
-|====
-|Property|Description
-|`name`|Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique.
-|`displayName`|Display name of the principal.
-|`description`|Description of the principal.
-|`mail`|The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group.
-|`principalTypeEnum` a|Type of the user created in the ThoughtSpot system.
+* `name`                   
+
++
+Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique.
+ 
+* `displayName` 
+
++
+Display name of the principal.
+
+* `description`  
++
+Description of the principal.
+
+* `mail` 
++
+The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group.
+
+* `principalTypeEnum` 
++
+Type of the user created in the ThoughtSpot system.
 Valid values are:
 
-* `LOCAL_USER`
-* `LOCAL_GROUP`
-|`password` a|The password of the user. This field is populated only for the user object. It is ignored in the case of groups.
+** `LOCAL_USER`
+** `LOCAL_GROUP`
 
+* `password` 
++
+The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+
++
 Password is only required:
 
-* if the user is of `LOCAL_USER` type
-* when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system.
-|`groupNames` a|Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Users can belong to multiple groups.
-|`visibility`| Whether the users of the group can share objects with other users in the group.
-|====
+** if the user is of `LOCAL_USER` type
+** when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system.
+
+* `groupNames` 
++
+Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Users can belong to multiple groups.
+
+* `visibility`
++
+If the user is visible to the other ThoughtSpot users or user groups who might want to  share objects.
 
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options='header']
 |===
 |HTTP Code|Description
 |**200**|Successful operation.
@@ -115,13 +516,13 @@ POST /tspublic/v1/user/updatepassword
 ----
 === Request parameters
 
-[width="100%" cols="1,1,3"]
+[width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`name`|string|Name of the user.
-|`currentpassword`|string|The current password of the user.
-|`password`|string|A new password of the user.
+|Form Parameter|Description
+|`name` |__String__. Name of the user.
+|`currentpassword`|__String__. The current password of the user.
+|`password`|__String__. A new password of the user.
 |====
 === Example request
 
@@ -136,10 +537,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
 === Response codes
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options='header']
 |===
-|HTTP Code|Description
-|**200**|If the password of the user is changed successfully.
+|HTTP status code|Description
+|**200**|Password update is successful.
 |===
 
 [#updatepreference-api]
@@ -178,18 +580,20 @@ POST /tspublic/v1/user/updatepreference
 ----
 
 === Request parameters
-[width="100%", cols="2,1,4"]
+[width="100%", cols="1,4"]
 [options="header"]
 |===
-|Form Parameter|Data Type|Description
-|`userid` __Optional__|string|The ID of the user. The user ID is a GUID. 
-|`username` __Optional__|string|Username of the user.  
-|`preferences`|string a|The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
+|Form Parameter|Description
+|`userid` 
+ __Optional__
+|__String__. The GUID of the user. 
+|`username` __Optional__|__String__. Username of the user.  
+|`preferences` a|__String__. The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
 * receive email notifications when another user shares a search answer or a pinboard
 * enable the onboarding experience 
-|`preferencesProto` __Optional__|string| A 64-bit encoded string for setting user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`. 
+|`preferencesProto` __Optional__|__String__. A 64-bit encoded string for setting user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`. 
 |===
 
 [NOTE]
@@ -237,7 +641,7 @@ Indicates if the user is onboarded.
 
 * `preferredLocale` __String__
 +
-Sets the ThoughtSpot locale for the specified user account. For example, to allow a user to view the ThoughtSpot UI in Deutsche, you can set the `prefrredLocale` parameter to `de-DE`. 
+Sets the ThoughtSpot locale for the specified user account. For example, to allow a user to view the ThoughtSpot UI in Deutsche, you can set the `preferredLocale` parameter to `de-DE`.
 +
 The allowed values are:
 +
@@ -269,10 +673,10 @@ The allowed values are:
 |====================
 
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options='header']
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**| Successful update of a user profile
 |**400**| Invalid user ID
 |===
@@ -281,22 +685,20 @@ The allowed values are:
 [#transfer-ownership]
 == Transfer ownership
 
-To programmatically transfer ownership of _all_ objects from one user to another, use the `/tspublic/v1/user/transfer/ownership` API.
-
-[NOTE]
-ThoughtSpot does not support transferring objects to or from a system or admin user account.
+When a user is removed from the ThoughtSpot application, you may want to transfer objects from the deleted user account to the account. If you are an admin user, you can programmatically transfer the ownership of one or several objects from one ThoughtSpot user account to another, use the `/tspublic/v1/user/transfer/ownership` API. 
 
 === Resource URL
 ----
 POST /tspublic/v1/user/transfer/ownership
 ----
 === Request parameters
-[width="100%" cols="2,2,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`fromUserName`| string|Username to transfer from.
-|`toUserName`|string|Username to transfer to.
+|Query Parameter|Description
+|`fromUserName`|__String__. Username to transfer from.
+|`toUserName`|__String__. Username to transfer to.
+|`objectid`|__String__. A JSON array of ThoughtSpot object IDs. 
 |====
 
 === Example request
@@ -312,11 +714,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 ----
 
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options='header']
 |===
 |HTTP Code|Description
-|**200**|If the ownership of all objects is successfully transferred.
+|**200**|The ownership of objects is successfully transferred.
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
 
@@ -344,28 +746,27 @@ This API uses `multipart/form-data` content-type.
 
 [NOTE]
 ====
-The `principals` attribute should be a JSON file that must be encoded as `application/json` or `text/json`. The other arguments use standard form-encoding. Each is sent as its own part of the multi-part request.
+Make sure you use a JSON file encoded as `application/json` or `text/json` for the  `principals` attribute. The other arguments use standard form-encoding. Each is sent as its own part of the multi-part request.
 ====
 
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Data Type|Description
+|Form Parameter|Description
 
-|`principals`|string|Specifies a list of principal objects. This is a JSON file containing all users and groups present in the external database.
+|`principals`|__String__. Specifies a list of principal objects. This is a JSON file containing all users and groups present in the external database.
 
-|`applyChanges`
-|boolean
-|Specifies whether to sync the users and groups to the system and apply the difference evaluated.
+|`applyChanges`|
+__Boolean__.
+Specifies whether to sync the users and groups to the system and apply the difference evaluated.
  By default, this attribute is set to `false`. 
 
-|`removeDeleted`
-|boolean
-|Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`. 
+|`removeDeleted`|
+__Boolean__.
+Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`. 
 
 |`password`
-|string
-|Password of the admin user
+|__String__. Password of the admin user.
 |===
 
 === Example request
@@ -449,16 +850,16 @@ The above example covers user objects (with emails), group objects, and their re
 
 * You can leave the `created` and `modified` dates blank for new users.
 * You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.  
-* In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing` and the 
+* In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing`, and the
 `test2` user belongs to the group `Administrator`.
 * `All` is a default group to which every user belongs; you may omit it from the input.
 * Set `visibility` to `NON_SHARABLE` if you do not want users to share ThoughtSpot objects with other users in this group.
 ====
 
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options='header']
 |===
-|HTTP Code|Description
+|HTTP status code|Description
 |**200**| The user sync operation is successful.
 |===

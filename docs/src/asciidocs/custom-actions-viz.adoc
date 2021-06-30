@@ -6,7 +6,7 @@
 
 ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. You can also add a custom action to a specific visualization from the *Answers* or *Pinboards* page. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization. 
 
-ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. To view these actions, you can open a visualization from a pinboard or search answer, and click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. If you have edit permissions to modify the visualization, the *Custom actions* panel allows you to perform the following actions:
+To view the custom actions available on your cluster, you can open a visualization from a pinboard or search answer, and click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. If you have edit permissions to modify the visualization, the *Custom actions* panel allows you to perform the following actions:
 
 Add a custom action::
 Allows you to add a custom action to the visualization and place the action command in the desired location. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization and set it as a primary action. 

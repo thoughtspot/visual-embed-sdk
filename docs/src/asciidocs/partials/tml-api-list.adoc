@@ -1,8 +1,14 @@
 
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-||`xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`|Imports scriptable in TML that represents objects in an editable and reusable format.
-||`xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]`|Exports ThoughtSpot objects represented in ThoughtSpot Modeling Language (TML).
-|===
+[div boxDiv boxHalfWidth]
+--
+`xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`
+
+Imports scriptable in TML that represents objects in an editable and reusable format.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]`
+
+Exports ThoughtSpot objects represented in ThoughtSpot Modeling Language (TML).
+--

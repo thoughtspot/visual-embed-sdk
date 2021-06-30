@@ -33,6 +33,7 @@ For information on configuration requirements, see the following sections:
 * xref:integration-overview.adoc[Integration guidelines]
 * xref:security-settings.adoc[Security settings]
 
+////
 == Optional settings for embedding
 
 The URLs in data appear as clickable links in ThoughtSpot tables.
@@ -53,7 +54,7 @@ Same `<iframe>` that contains the table.
 * Link in full ThoughtSpot application embedded in a web page.
 +
 Same `<iframe>` that contains the application.
-
+////
 == Authentication
 You can use any of the following authentication services for authenticating application users who want to access the embedded content.
 

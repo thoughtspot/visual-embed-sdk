@@ -165,6 +165,12 @@ button {
     }
 }
 
+.boxHalfWidth {
+     width: 48%;
+     display: inline-block;
+}
+
+
 .boxFullWidth {
     width: 100%;
 }
@@ -211,6 +217,11 @@ button {
     .boxDiv {
         width: 100%;
     }
+    
+    .boxHalfWidth {
+     width: 100%;
+}
+    
 }
 
 @media screen and (max-width: $mobile-resolution-max) {

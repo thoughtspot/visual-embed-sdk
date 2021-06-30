@@ -38,7 +38,7 @@
 * Custom link format
 ** link:{{navprefix}}=customize-links[Customize links] 
 
-* REST APIs
+* REST APIs 
 ** link:{{navprefix}}=rest-apis[Overview]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=api-auth-session[Authentication]
@@ -51,6 +51,7 @@
 *** link:{{navprefix}}=group-api[Group APIs]
 *** link:{{navprefix}}=session-api[Session APIs]
 *** link:{{navprefix}}=metadata-api[Metadata APIs]
+*** link:{{navprefix}}=admin-api[Admin APIs]
 *** link:{{navprefix}}=search-data-api[Search data API]
 *** link:{{navprefix}}=pinboard-api[Pinboard data API]
 *** link:{{navprefix}}=security-api[Security APIs] 
@@ -62,8 +63,7 @@
 
 * Resources
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
-** link:https://try-everywhere.thoughtspot.cloud/external/swagger/[REST API Explorer, window=_blank]
+** +++<a href="{{tshost}}/external/swagger" target="_blank">REST API Explorer (Requires login)</a>+++
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
-

@@ -1,13 +1,49 @@
 
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-|[tag greenBackground]#New#|`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`|Assign tags to a metadata object such as a pinboard, search answer, table, worksheet, or view.
-|[tag greenBackground]#New#|`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]`|Returns metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
-||`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]`|Get a list of metadata objects for a user or user group.
-||`xref:metadata-api.adoc#object-header[**GET** /tspublic/v1/metadata/listobjectheaders]`|List the metadata object headers in the repository.
-||`xref:metadata-api.adoc#viz-header[**GET** /tspublic/v1/metadata/listvizheaders]`|Get the visualization headers from the ThoughtSpot system.
-|[tag greenBackground]#New#|`xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]`|Adds objects to favourites for given user account.
-|[tag greenBackground]#New#|`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`|Removes objects set as favorites in a user account.
-|===
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`
+
+Assign tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]`
+
+Get metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]` 
+
+Get a list of metadata objects for a user or user group.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#object-header[**GET** /tspublic/v1/metadata/listobjectheaders]` 
+
+List metadata object headers in the repository.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#viz-header[**GET** /tspublic/v1/metadata/listvizheaders]`
+
+Get visualization headers from the ThoughtSpot system.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]`
+
+Add objects to favorites for a given user account.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
+
+Remove the objects from the favorites list in a user account.
+--

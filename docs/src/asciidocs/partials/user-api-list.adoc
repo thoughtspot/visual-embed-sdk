@@ -1,11 +1,64 @@
 
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-|[tag greenBackground]#New#|`xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]`|Get all users, groups, and their inter-dependencies.
-||`xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`|Synchronize principal from your client application with ThoughtSpot.
-||`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`|Transfer ownership of all objects from one user to another.
-||`xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`|Change the password of a user account.
-|[tag orangeBackground]#Modified#|`xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]`|Modify a user profile.
-|===
+[div boxDiv boxHalfWidth]
+--
+`xref:group-api.adoc#create-group[*POST* /tspublic/v1/user/]` [tag greenBackground]#New# 
+
+Create a user account  
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]` [tag greenBackground]#New# 
+
+Modify a user account
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]` [tag greenBackground]#New# 
+
+Get details of the users in a ThoughtSpot system
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]` [tag greenBackground]#New# 
+
+Delete a user account
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]`
+
+Get all users, groups, and their inter-dependencies
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]`
+
+Modify a user profile
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]` [tag orangeBackground]#Modified# 
+
+Transfer the ownership of objects from one user to another
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`   
+
+Change the password of a user account
+--
+
+
+[div boxDiv boxHalfWidth]
+--
+`xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]` 
+
+Synchronize principals from your client application with ThoughtSpot system
+--
