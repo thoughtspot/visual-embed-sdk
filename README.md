@@ -22,11 +22,14 @@ npm i @thoughtspot/visual-embed-sdk
 The SDK is written in TypeScript and is also provided both as ES Module (ESM) and Universal Module Definition (UMD) modules, allowing you to use it in a variety of environments. For example,...
 
 ```js
-// ESM
+// ESM via NPM
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 
-// <script>
+// NPM <script>
 <script src='https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.js'></script>
+
+// ES6 from web
+import { PinboardEmbed, AuthType, init } from 'https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ```
 <br/>
 
@@ -50,8 +53,11 @@ pinboards, visualizations or the even full app version.
 
 ### Embedded Search
 
-```js
+```js 
+// NPM
 import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+// or ES6
+// import { SearchEmbed, AuthType, init } from 'https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -71,7 +77,10 @@ searchEmbed.render();
 ### Embedded Pinboard & Visualization
 
 ```js
+// NPM
 import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+// or ES6
+// import { PinboardEmbed, AuthType, init } from 'https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
@@ -96,7 +105,10 @@ pinboardEmbed.render();
 ### Embedded Full App
 
 ```js
+// NPM
 import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+// or ES6
+// import { AppEmbed, AuthType, init } from 'https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
