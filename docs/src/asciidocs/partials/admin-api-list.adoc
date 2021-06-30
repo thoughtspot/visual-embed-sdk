@@ -64,14 +64,14 @@ Associate a custom action to a ThoughtSpot object
 
 [div boxDiv boxHalfWidth]
 --
-`xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
+[tag greenBackground]#New#  `xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]` 
 
 Get the details of the ThoughtSpot objects associated with a custom action
 --
 
 [div boxDiv boxHalfWidth]
 --
-`xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
+[tag greenBackground]#New#  `xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]`
 
 Remove custom action associations 
 --
