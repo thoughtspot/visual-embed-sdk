@@ -1,7 +1,7 @@
 
 [div boxDiv boxHalfWidth]
 --
-`xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` [tag greenBackground]#New# 
+`xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` [tag greenBackground]#New#
 
 Create a user group.
 --

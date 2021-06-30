@@ -36,7 +36,7 @@ POST /tspublic/v1/user/
 |`name` |__String__.  Name of the user. The username string must be unique.  
 |`password`|__String__.Password for the user account. 
 |`displayname`|__String__. A unique display name string for the user, usually their first and last name. 
-|`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
+|`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
 |`groups` __Optional__|__Array of strings__. A JSON array of GUIDs of groups to assign user to. The user privileges are determined by the group to which you assign the user to. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
 |`usertype` __Optional__ a|__String__. Type of user. Default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.    
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
@@ -220,7 +220,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
 
 === Example response
 
-On succsessful update of the user profile, the API returns the following response code:
+On successful update of the user profile, the API returns the following response code:
 
 ----
 Response Code
@@ -259,7 +259,7 @@ GET /tspublic/v1/user/
 |===
 |Query Parameter|Description
 |`userid` __Optional__|__String__. GUID of the user account to query.
-|`name` __Optional__|__String__. User name of the user profile that you want to query.
+|`name` __Optional__|__String__. Username of the user profile that you want to query.
 |===
 
 === Example request
@@ -496,7 +496,7 @@ Name of the groups to which a principal belongs. For example, `Administrator`, `
 
 * `visibility`
 +
-Whether the users of the group can share objects with other users in the group.
+If the user is visible to the other ThoughtSpot users or user groups who might want to  share objects.
 
 === Response codes
 [width="100%" cols="2,4"]
@@ -641,7 +641,7 @@ Indicates if the user is onboarded.
 
 * `preferredLocale` __String__
 +
-Sets the ThoughtSpot locale for the specified user account. For example, to allow a user to view the ThoughtSpot UI in Deutsche, you can set the `prefrredLocale` parameter to `de-DE`. 
+Sets the ThoughtSpot locale for the specified user account. For example, to allow a user to view the ThoughtSpot UI in Deutsche, you can set the `preferredLocale` parameter to `de-DE`.
 +
 The allowed values are:
 +
@@ -718,7 +718,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|If the ownership of all objects is successfully transferred.
+|**200**|The ownership of objects is successfully transferred.
 |**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
 |===
 
@@ -850,7 +850,7 @@ The above example covers user objects (with emails), group objects, and their re
 
 * You can leave the `created` and `modified` dates blank for new users.
 * You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.  
-* In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing` and the 
+* In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing`, and the
 `test2` user belongs to the group `Administrator`.
 * `All` is a default group to which every user belongs; you may omit it from the input.
 * Set `visibility` to `NON_SHARABLE` if you do not want users to share ThoughtSpot objects with other users in this group.

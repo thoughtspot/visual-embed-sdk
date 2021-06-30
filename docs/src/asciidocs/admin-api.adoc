@@ -28,8 +28,8 @@ POST /tspublic/v1/admin/configinfo
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: application/json`
-* The `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
+* the`Accept` header set as `Accept: application/json`
+* the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 
 .cURL
 [source,cURL]
@@ -81,7 +81,7 @@ The following example shows a snippet of the configuration information:
       "id": "BLINK_KEYWORDS",
       "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html",
       "iconFilePath": ""
-    },
+    }
  
   ],
   "blinkActionConfigList": [],
@@ -121,7 +121,7 @@ The following example shows a snippet of the configuration information:
         "link": "https://unpkg.com",
         "function": "unpkg-test",
         "authSelect": "BEARER",
-        "authToken": "asdfasadf3q4534534",
+        "authToken": "AbCdEf123456",
         "encodeUser": "",
         "apiKey": "X-API-KEY",
         "apiValue": "",
@@ -251,7 +251,7 @@ The following example shows a snippet of the configuration information:
   "walkMeConfiguration": {
     "enableWalkme": false,
     "enableTestEnvForWalkme": false
-  },
+  }
 }
 ----
 
@@ -287,8 +287,8 @@ None
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: application/json`
-* The `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
+* the `Accept` header set as `Accept: application/json`
+* the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
 
 .cURL
 
@@ -409,7 +409,7 @@ If the request is successful, the API returns the details of the configuration o
           "link": "https://unpkg.com",
           "function": "unpkg-test",
           "authSelect": "BEARER",
-          "authToken": "asdfasadf3q4534534",
+          "authToken": "AbCdEf123456",
           "encodeUser": "",
           "apiKey": "X-API-KEY",
           "apiValue": "",
@@ -517,7 +517,7 @@ If the request is successful, the API returns the details of the configuration o
   "batchSize": {
     "category": "MAIN",
     "dataType": "INTEGER",
-    "description": "Data result set batch size. Data is exported in batches of batchSize upto a maximum of maxNumPaginatedRows.",
+    "description": "Data result set batch size. Data is exported in batches of batchSize up to a maximum of maxNumPaginatedRows.",
     "current": 1000
   },
   "dataGenRules.enableUniqueCountTransformEmbrace": {
@@ -564,9 +564,9 @@ POST /tspublic/v1/admin/configinfo/update
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: application/json`
-* The `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
-* The Content-Type set as `application/x-www-form-urlencoded`
+* the `Accept` header set as `Accept: application/json`
+* the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
+* the Content-Type set as `application/x-www-form-urlencoded`
 
 .cURL
 
@@ -618,8 +618,8 @@ None
 
 Make sure the API request has the following headers:
 
-* The `Accept` header as `Accept: text/html`
-* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* the `Accept` header as `Accept: text/html`
+* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
 
 .cURL
 
@@ -652,7 +652,7 @@ If the cluster has custom actions, the API returns the custom action details.
       "encodeUser": "",
       "apiKey": "X-API-KEY",
       "apiValue": "",
-      "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"b7640ef3-0966-4f7e-b06e-a6775bebacb2\",\"key\":\"wwwwwww\",\"value\":\"andreea\"},\"url_header2\":{\"id\":\"bf53da76-688c-4bda-84b0-16d8be95e0e6\",\"key\":\"zzzzzzzzzz\",\"value\":\"test\"}}"
+      "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"b7640ef3-0966-4f7e-b06e-a6775bebacb2\",\"key\":\"user\",\"value\":\"andreea\"},\"url_header2\":{\"id\":\"bf53da76-688c-4bda-84b0-16d8be95e0e6\",\"key\":\"setup\",\"value\":\"test\"}}"
     },
     "context": "NONE",
     "availability": [
@@ -679,7 +679,7 @@ If the cluster has custom actions, the API returns the custom action details.
     "availability": [
       "GLOBAL"
     ]
-  },
+  }
 ]
 ----
 
@@ -771,7 +771,7 @@ If the request is successful, the API returns the JSON data for the specified ac
 
 [#create-custom-action]
 == Create custom actions 
-To programmatically create custom actions on ThoughtSpot clusters that support embedding configuration, send a `POST` request with action configurtion details to the `/tspublic/v1/admin/embed/actions` API endpoint.
+To programmatically create custom actions on ThoughtSpot clusters that support embedding configuration, send a `POST` request with action configuration details to the `/tspublic/v1/admin/embed/actions` API endpoint.
 
 === Resource URL
 
@@ -791,9 +791,9 @@ POST /tspublic/v1/admin/embed/actions
 
 Make sure the API request has the following headers:
 
-* The `Accept` header as `Accept: application/json`
-* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
-* The `Content-Type' as `application/x-www-form-urlencoded`
+* the `Accept` header as `Accept: application/json`
+* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* the `Content-Type' as `application/x-www-form-urlencoded`
 
 .cURL
 
@@ -822,7 +822,7 @@ If the request is successful, the API returns the JSON data for the custom actio
     "link": "https://unpkg.com",
     "function": "unpkg-test",
     "authSelect": "BEARER",
-    "authToken": "asdfasadf3q4534534",
+    "authToken": "AbCdEf123456",
     "encodeUser": "",
     "apiKey": "X-API-KEY",
     "apiValue": "",
@@ -1205,7 +1205,7 @@ After the custom action association is removed, the API returns a response body 
       "7c28a4c0-6a84-4b61-b612-f39dc8a4a1c8": {
         "enabled": "true",
         "context": "PRIMARY"
-      },
+      }
     }
   },
   "context": "NONE",

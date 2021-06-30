@@ -15,7 +15,7 @@ include::{path}/group-api-list.adoc[]
 [#group-privilege]
 == User groups and privileges
 
-The group APIs allow adminstrators to programmatically assign the following types of privileges to a user group:
+The group APIs allow administrators to programmatically assign the following types of privileges to a user group:
 
 * `ADMINISTRATION`   
 +
@@ -68,7 +68,7 @@ Allows users to generate and access SpotIQ analyses.
 
 * `BYPASSRLS`
 +
-Allows users to perform the followig functions:  
+Allows users to perform the following functions:
 
 ** Create, edit, or delete existing RLS rules.
 ** Enable or disable Bypass RLS on a worksheet.
@@ -254,7 +254,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}
 
 === Example response
 
-On succsessful update of the user group profile, the API returns the following response code:
+On successful update of the user group profile, the API returns the following response code:
 
 ----
 Response Code
@@ -644,7 +644,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
     "incompleteDetail": [],
     "isSuperUser": false,
     "isSystemPrincipal": false
-  },
+  }
+]
 ----
 
 [#delete-user-assoc]
@@ -654,7 +655,7 @@ To programmatically remove a user from user group, send a `DELETE` request to th
 
 [NOTE]
 ====
-The API removes only user association from a user group. It does not delete the user from the Thoughtspot system. To delete the user, use the xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}] API.
+The API removes only the user association from a user group. It does not delete the user from the Thoughtspot system. To delete the user, use the xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}] API.
 ====
 
 === Resource URL
@@ -668,7 +669,7 @@ DELETE /tspublic/v1/group/{groupid}/user/{userid}
 [options='header']
 |===
 |Path Parameter|Description
-|`groupid`|__String__. The GUID of the user group tfrom which you want to remove the user.
+|`groupid`|__String__. The GUID of the user group from which you want to remove the user.
 |`userid`|__String__. The GUID of the user that you want to remove from the group.
 |===
 
