@@ -63,14 +63,7 @@
 
 * Resources
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
-** link:https://try-everywhere.thoughtspot.cloud/external/swagger/[REST API Explorer (Login required), window=_blank]
+** +++<a href="{{tshost}}/external/swagger" target="_blank">REST API Explorer (Requires login)</a>+++
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
-** link:{{previewPrefix}}/external/swagger[REST API Explorer (Login required), window=_blank] 
-** link:{{tshost}}/external/swagger[REST API Explorer(Login required), window=_blank]
-** +++<a href="{{tshost}}/external/swagger" target="_blank">REST API Explorer</a>+++
-
-
-
-
