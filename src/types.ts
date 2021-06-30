@@ -338,7 +338,6 @@ export enum DataSourceVisualMode {
 export enum Param {
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
-    ExpandAllDataSource = 'expandAllDataSource',
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
     ForceTable = 'forceTable',
