@@ -5,13 +5,6 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
-
-Use the following REST APIs for programmatically managing users, groups, sessions, and embedding data.
-
-== Session management
-
-include::{path}/session-api-list.adoc[]
-
 == User management
 
 include::{path}/user-api-list.adoc[]
@@ -20,9 +13,17 @@ include::{path}/user-api-list.adoc[]
 
 include::{path}/group-api-list.adoc[]
 
+== Session management
+
+include::{path}/session-api-list.adoc[]
+
 == Metadata management
 
 include::{path}/metadata-api-list.adoc[]
+
+== Configuration management
+
+include::{path}/admin-api-list.adoc[]
 
 == TML objects
 
@@ -32,14 +33,14 @@ include::{path}/tml-api-list.adoc[]
 
 include::{path}/pinboard-api-list.adoc[]
 
-
 == Search data
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-||`xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`|Search data from a specific data source in the ThoughtSpot application.
-|===
+
+[div boxDiv boxFullWidth]
+--
+`xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`  
+
+Search data from a specific data source in the ThoughtSpot application.
+--
 
 == Security
 

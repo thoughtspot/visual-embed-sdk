@@ -1,8 +1,13 @@
+[div boxDiv boxHalfWidth]
+--
+`xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`
 
-[width="100%" cols="1,3,3"]
-[options="header"]
-|===
-||Resource endpoint|Operation
-||`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`|Fetch the pinboard data from the ThoughtSpot application.
-||`xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`|Download a pinboard or specific visualizations from a pinboard as a PDF file.
-|===
+Download a pinboard or specific visualizations from a pinboard as a PDF file.
+--
+
+[div boxDiv boxHalfWidth]
+--
+`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  
+
+Fetch the pinboard data from the ThoughtSpot application.
+--
