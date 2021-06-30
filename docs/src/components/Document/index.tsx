@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
 import './index.scss';
 import { customizeDocContent, addScrollListener } from './helper';
+import Footer from '../Footer';
 
-const Document = (props: { docTitle: string; docContent: string }) => {
+const Document = (props: {
+    docTitle: string;
+    docContent: string;
+    isPublicSiteOpen: boolean;
+}) => {
     useEffect(() => {
         customizeDocContent();
     }, [props.docContent]);
@@ -19,6 +24,7 @@ const Document = (props: { docTitle: string; docContent: string }) => {
                     __html: props.docContent,
                 }}
             />
+            {props.isPublicSiteOpen && <Footer />}
         </div>
     );
 };
