@@ -7,6 +7,7 @@
 	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/svg+xml" href='assets/images/favicon.svg' />
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../ assets/js/search.js" id="search-script"></script>
 </head>
@@ -111,6 +112,9 @@
 						<a href="appviewconfig.html" class="tsd-kind-icon">App<wbr>View<wbr>Config</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="appviewconfig.html#disableprofileandhelp" class="tsd-kind-icon">disable<wbr>Profile<wbr>And<wbr>Help</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="appviewconfig.html#disabledactionreason" class="tsd-kind-icon">disabled<wbr>Action<wbr>Reason</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -187,6 +191,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appviewconfig.html#disableprofileandhelp" class="tsd-kind-icon">disable<wbr>Profile<wbr>And<wbr>Help</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appviewconfig.html#disabledactionreason" class="tsd-kind-icon">disabled<wbr>Action<wbr>Reason</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appviewconfig.html#disabledactions" class="tsd-kind-icon">disabled<wbr>Actions</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appviewconfig.html#frameparams" class="tsd-kind-icon">frame<wbr>Params</a></li>
@@ -204,12 +209,28 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="disableprofileandhelp" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> disable<wbr>Profile<wbr>And<wbr>Help</h3>
+					<div class="tsd-signature tsd-kind-icon">disable<wbr>Profile<wbr>And<wbr>Help<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/app.ts#L57">embed/app.ts:57</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If true, help and profile buttons will hide on NavBar. By default,
+							they are shown.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="disabledactionreason" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> disabled<wbr>Action<wbr>Reason</h3>
 					<div class="tsd-signature tsd-kind-icon">disabled<wbr>Action<wbr>Reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/base.ts#L118">embed/base.ts:118</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/base.ts#L120">embed/base.ts:120</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -224,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">disabled<wbr>Actions<span class="tsd-signature-symbol">:</span> <a href="../enums/action.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Action</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/base.ts#L114">embed/base.ts:114</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/base.ts#L116">embed/base.ts:116</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -240,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">frame<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FrameParams</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/base.ts#L100">embed/base.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/base.ts#L102">embed/base.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -255,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">hidden<wbr>Actions<span class="tsd-signature-symbol">:</span> <a href="../enums/action.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Action</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/base.ts#L123">embed/base.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/base.ts#L125">embed/base.ts:125</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -271,7 +292,7 @@
 					<div class="tsd-signature tsd-kind-icon">page<wbr>Id<span class="tsd-signature-symbol">:</span> <a href="../enums/page.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Page</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/app.ts#L63">embed/app.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/app.ts#L68">embed/app.ts:68</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -287,7 +308,7 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/app.ts#L58">embed/app.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/app.ts#L63">embed/app.ts:63</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -304,7 +325,7 @@
 					<div class="tsd-signature tsd-kind-icon">runtime<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="runtimefilter.html" class="tsd-signature-type" data-tsd-kind="Interface">RuntimeFilter</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/base.ts#L128">embed/base.ts:128</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/base.ts#L130">embed/base.ts:130</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +341,7 @@
 					<div class="tsd-signature tsd-kind-icon">show<wbr>Primary<wbr>Navbar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/app.ts#L52">embed/app.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/app.ts#L52">embed/app.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -336,7 +357,7 @@
 					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b96464b/src/embed/app.ts#L68">embed/app.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/41fe8e9/src/embed/app.ts#L73">embed/app.ts:73</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
