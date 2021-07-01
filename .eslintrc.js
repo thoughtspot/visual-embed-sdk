@@ -18,6 +18,7 @@ module.exports = {
         'airbnb-base',
         'plugin:prettier/recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:react-hooks/recommended',
     ],
     globals: {
         Atomics: 'readonly',
