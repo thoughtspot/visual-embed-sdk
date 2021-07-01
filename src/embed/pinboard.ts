@@ -86,6 +86,8 @@ export class PinboardEmbed extends V1Embed {
                 Param.EnableVizTransformations
             ] = enableVizTransformations.toString();
         }
+        params[Param.ViewPortHeight] = window.innerHeight;
+        params[Param.ViewPortWidth] = window.innerWidth;
 
         const queryParams = getQueryParamString(params, true);
 
