@@ -200,7 +200,7 @@
 
     .admonitionblock {
         code {
-            font-family: Optimo-Plain;
+            font-family: $font-family-code;
         }
     }
 
@@ -209,7 +209,8 @@
         width: $icon-height;
     }
 
-    a, a:active {
+    a,
+    a:active {
         color: var(--secondary-color);
     }
 }
