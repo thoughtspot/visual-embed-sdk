@@ -25,4 +25,18 @@ module.exports = {
         RELEASE: 'release',
         DEV: 'dev',
     },
+    VERSION_DROPDOWN: [
+        {
+            label: 'Cloud',
+            link: '/visual-embed-sdk/release/en',
+        },
+        {
+            label: 'Dev',
+            link: '/visual-embed-sdk/dev/en',
+        },
+        {
+            label: '7.1',
+            link: '/visual-embed-sdk/7.1/en',
+        },
+    ],
 };

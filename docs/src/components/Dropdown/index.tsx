@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCaretDown } from '@react-icons/all-files/ai/AiOutlineCaretDown';
+import { VERSION_DROPDOWN } from '../../configs/doc-configs';
 import './index.scss';
 
 const Dropdown = (props: { location: Location }) => {
     const { location } = props;
     const [currentVersion, setCurrentVersion] = useState({});
-    const options = [
-        {
-            label: 'Cloud',
-            link: '/visual-embed-sdk/release/en',
-        },
-        {
-            label: 'Dev',
-            link: '/visual-embed-sdk/dev/en',
-        },
-        {
-            label: '7.1',
-            link: '/visual-embed-sdk/7.1/en',
-        },
-    ];
+    const options = VERSION_DROPDOWN;
     useEffect(() => {
         const pathname = location.pathname;
         const selectedOption = options.find(({ link }) => {
@@ -28,9 +16,11 @@ const Dropdown = (props: { location: Location }) => {
     }, []);
 
     const handelClick = (link) => {
-        const previousLink = currentVersion.link;
-        const url = location.href.replace(previousLink, link);
-        window.open(url, '_self');
+        if (currentVersion?.link) {
+            const previousLink = currentVersion.link;
+            const url = location.href.replace(previousLink, link);
+            window.open(url, '_self');
+        }
     };
 
     if (!currentVersion?.link) {
