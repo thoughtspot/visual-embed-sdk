@@ -1,13 +1,12 @@
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:security-api.adoc#share-object[**POST** /tspublic/v1/security/share]`
 
-Share ThoughtSpot objects with another user or user group.
---
+Shares ThoughtSpot objects with another user or user group.
 
-[div boxDiv boxHalfWidth]
---
+--- 
+ 
 `xref:security-api.adoc#shareviz[**POST** /tspublic/v1/security/shareviz]`
 
-Share a specific visualization with another user or user group.
+Shares a specific visualization with another user or user group.
 --

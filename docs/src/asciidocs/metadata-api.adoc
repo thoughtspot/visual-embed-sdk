@@ -6,7 +6,7 @@
 :page-pageid: metadata-api
 :page-description: Metadata API
 
-The metadata APIs allow you to run a query for metadata objects in the ThoughtSpot system. The metadata objects include search answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot. 
+The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include search answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot. 
 
 == Supported operations
 
@@ -792,7 +792,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 [#viz-header]
 == Get visualization headers
 To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 
-The API returns a list of visualizations for a given pinboard or a search answer.
+The API returns a list of visualizations for a given pinboard or search answer.
 
 === Resource URL
 ----

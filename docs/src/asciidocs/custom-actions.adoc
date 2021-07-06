@@ -1,166 +1,59 @@
-= Add a custom action to a visualization
+= Custom actions
 
 :page-title: Actions customization
-:page-pageid: custom-action-viz
+:page-pageid: custom-action-intro
 :page-description: Add custom actions
 
-To add a custom action to a visualization page:
 
-. Navigate to the visualization page.
+[div boxDiv boxFullWidth]
+--
+*xref:customize-actions-menu.adoc[Custom actions overview]*
 
-* If the visualization is added to a pinboard:
-+
-.. Go to *Pinboards* and click the pinboard. 
-.. Navigate to the visualization.
-.. Go to the **More** menu image:./images/icon-more-10px.png[the more options menu] and then click *Edit*.
+Learn more about what custom actions are and where you can use them. 
+--
 
-* If the visualization is saved as a search answer
-+
-Go to *Answers* and click the search answer that you want to edit.
+[div boxDiv boxFullWidth]
+--
+*xref:custom-actions-url.adoc[Configure a custom action to send data to a URL]*
 
-. Click *Custom actions* icon image:./custom-action-icon.png[the Custom actions menu].
-+
-The custom actions available for your instance are displayed.
+Learn how to create a custom action to send ThoughtSpot data to a specific URL target. 
 
-. Click *Add action*.
-. Select the custom action that you want to add
-. To specify the position of the custom action button, select one of the following options:
-* *Primary*
-+
-Sets the custom action as a primary menu action.
-* *Menu*
-+
-Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu]. 
+Requires Developer privilege.
 
-* *Context menu*
-+
-Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
+--
 
-+ 
-This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+[div boxDiv boxFullWidth]
+--
+*xref:custom-actions-callback.adoc[Configure a callback custom action]*
 
-. Preview  the position of the custom action.
-. Select the ThoughtSpot application pages to which you want to add the menu item.
+Learn how to create a custom action that can trigger a callback from your host application to send ThoughtSpot data. 
 
-+
-image::./images/custom-action-url.png[Custom Action]
+Requires Developer privilege.
 
-. Click *Add action*.
-+
-The menu item is added to the ThoughtSpot application.
-The custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
+--
 
-. To view the action you just added, click *My actions*.
+[div boxDiv boxFullWidth]
+--
+*xref:custom-actions-viz.adoc[Add a custom action to a specific visualization]*
 
-. To specify the position of the custom action button, select one of the following options:
-* *Primary*
-+
-Sets the custom action as a primary button.
-* *Menu*
-+
-Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu].
+Learn how to assign a custom action to a specific visualization in a search answer or pinboard. 
 
-* *Context menu*
-+
-Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
+Requires edit privileges to modify a search answer or a visualization in a pinboard. 
 
-+ 
-This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+--
 
-. Preview  the position of the custom action.
-. Select the ThoughtSpot application pages to which you want to add the menu item.
+[div boxDiv boxFullWidth]
+--
+**xref:custom-actions-worksheet.adoc[Add custom actions to all visualizations built from a worksheet] **[tag greenBackground]#New# 
 
-+
-image::./images/custom-action-url.png[Custom Action]
+Learn how to assign a custom action to a specific worksheet, so that it appears on all visualizations generated using that worksheet. 
 
-. Click *Add action*.
-+
-The menu item is added to the ThoughtSpot application.
-The custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
+Requires edit privileges to access and modify the worksheet.
+--
 
-. To view the action you just added, click *My actions*.
+[div boxDiv boxFullWidth]
+--
+*xref:push-data-to-external-app.adoc[View callback custom action example]*
 
-
-
-
-== Configure a custom action to send data to a URL
-To add custom menu item:
-
-. Go to *Develop* > *Customizations* > *Actions*.
-. Click *Create action*.
-. Add a label for the custom action. For example, Send Survey.
-. Select the *URL* option.
-. Add the URL that you want to invoke when the user clicks the action label in the UI.
-
-+
-If you want to use a URL target for the custom action, make sure the URL is added to the xref:security-settngs.adoc[CORS and CSP whitelist].
-
-. Specify an ID for the custom action.
-+
-To disable or hide this custom action on a ThoughtSpot page using Visual Embed SDK, use this ID in the `disabledActions` or  `hiddenActions` attribute.
-
-+
-For example, if you have a custom action labeled as *Send Survey* and its ID is  *send-survey*, use `send-survey` in the `disabledActions` parameter to disable and in the `hiddenActions` parameter to hide the custom action on a ThoughtSpot application page.
-
-. To specify the position of the custom action button, select one of the following options:
-* *Primary*
-+
-Sets the custom action as a primary button.
-* *Menu*
-+
-Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu].
-
-* *Context menu*
-+
-Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
-
-+ 
-This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
-
-. Preview  the position of the custom action.
-. Select the ThoughtSpot application pages to which you want to add the menu item.
-
-+
-image::./images/custom-action-url.png[Custom Action]
-
-. Click *Add action*.
-+
-The menu item is added to the ThoughtSpot application.
-The custom menu item is indicated with a custom tag to distinguish it from the default ThoughtSpot application actions.
-
-. To view the action you just added, click *My actions*.
-
-[#callback]
-== Configure a callback custom action
-
-ThoughtSpot allows you to programmatically set up a callback function from the parent application which triggers on the click of a custom action. For example, if you want to push insights from ThoughtSpot into your app or trigger an event to an external application, you can add a custom action in Thoughtspot and set up a callback in the parent application. When the user clicks this action on the *Answers* or *Pinboards* page, it initiates a callback to the parent application.
-
-To add a callback custom action:
-
-. Go to *Develop* > *Customizations* > *Actions*.
-. Click *Create action*.
-. Add a label for the custom action.
-. Select the *Callback* option.
-. Add an ID for the callback function.
-
-+
-This ID is used as a reference for the custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable or hide the custom action on a ThoughtSpot application page.
-
-. To specify the position of the custom action button, select one of the following options:
-* *Primary*
-+
-Sets the custom action as a primary button.
-* *Menu*
-+
-Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu].
-
-* *Context menu*
-+
-Adds the custom action as a menu item in the contextual menu. The users can access the contextual menu by right-clicking on a visualization. 
-+ 
-This option is available only if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
-
-. Preview  the position of the custom action.
-. Select the ThoughtSpot application pages to which you want to add the function.
-. Click *Add action*.
-. To view the action you just added, click *My actions*.
+Learn more about the callback custom action workflow, the steps required to push data to an external app, and view examples of the response payload. 
+--

@@ -1,48 +1,39 @@
 
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
 
-Authenticate and login a user.
---
+Authenticates and login a user.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 
-Obtain an authentication token for a user.
---
+Obtains an authentication token for a user.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Log in an authenticated user when trusted authentication is enabled.
---
+Logs in an authenticated user when trusted authentication is enabled.
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:session-api.adoc#session-logout[*POST* /tspublic/v1/session/logout]`
 
-Log out a user from an existing session.
---
+Logs out a user from an existing session.
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`
 
 Sets a specific pinboard as a home pinboard.
---
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:session-api.adoc#get-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`
 
 Returns the GUID of the pinboard that is set as a home pinboard for the current logged-in user.
---
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:session-api.adoc#del-home-pinboard[**DELETE** /tspublic/v1/session/homepinboard]`
 
 Removes the home pinboard settings for the current logged-in user.

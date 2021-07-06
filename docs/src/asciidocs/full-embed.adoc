@@ -238,8 +238,6 @@ Displays the *Home* page when the application loads.
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
-
-
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the pinboard or visualization page loads.
 Runtime filters provide the ability to pass filter specifications in the URL query parameters and filter data at the time of retrieval.  
@@ -349,6 +347,10 @@ Render the embedded content.
 ----
 appEmbed.render();
 ----
+
+=== Define a method to process callback custom actions payload
+
+include::callback-payload.adoc[]
 
 === Subscribe to events
 Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.

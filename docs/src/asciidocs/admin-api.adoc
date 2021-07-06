@@ -28,7 +28,7 @@ POST /tspublic/v1/admin/configinfo
 
 Make sure the API request has the following headers:
 
-* the`Accept` header set as `Accept: application/json`
+* the `Accept` header set as `Accept: application/json`
 * the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -793,7 +793,7 @@ Make sure the API request has the following headers:
 
 * the `Accept` header as `Accept: application/json`
 * the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
-* the `Content-Type' as `application/x-www-form-urlencoded`
+* the `Content-Type` set as `application/x-www-form-urlencoded`
 
 .cURL
 

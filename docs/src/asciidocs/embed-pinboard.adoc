@@ -274,6 +274,10 @@ Construct the URL for the embedded pinboard and render the embedded content:
 pinboardEmbed.render();
 ----
 
+== Define a method to process callback custom actions payload
+
+include::callback-payload.adoc[]
+
 == Subscribe to events
 Register event handlers to subscribe to the events triggered by the embedded pinboard.
 

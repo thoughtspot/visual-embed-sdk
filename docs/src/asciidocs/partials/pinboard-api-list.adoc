@@ -1,13 +1,13 @@
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`
 
-Download a pinboard or specific visualizations from a pinboard as a PDF file.
---
+Downloads a pinboard or specific visualizations from a pinboard as a PDF file.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  
 
-Fetch the pinboard data from the ThoughtSpot application.
+Gets pinboard object data from the ThoughtSpot application.
+
 --

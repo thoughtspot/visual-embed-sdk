@@ -1,49 +1,43 @@
 
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`
 
-Assign tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
---
+Assigns tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]`
 
-Get metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
---
+Gets metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]` 
 
-Get a list of metadata objects for a user or user group.
---
+Gets a list of metadata objects for a user or user group.
 
-[div boxDiv boxHalfWidth]
---
+
+---
 `xref:metadata-api.adoc#object-header[**GET** /tspublic/v1/metadata/listobjectheaders]` 
 
-List metadata object headers in the repository.
---
+Lists metadata object headers in the repository.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:metadata-api.adoc#viz-header[**GET** /tspublic/v1/metadata/listvizheaders]`
 
-Get visualization headers from the ThoughtSpot system.
---
+Gets visualization headers from the ThoughtSpot system.
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]`
 
-Add objects to favorites for a given user account.
---
+Adds objects to favorites for a given user account.
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
 
-Remove the objects from the favorites list in a user account.
+Removes the objects from a user's favorites list.
+
 --

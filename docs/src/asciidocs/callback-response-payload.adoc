@@ -1,0 +1,930 @@
+= Custom action response payload  
+:toc: true
+
+:page-title: Push data to an external app
+:page-pageid: custom-action-payload
+:page-description: Callback custom action payload
+
+The examples in this section show the contents of the payload sent from ThoughtSpot for the custom action workflows. 
+
+== Sample response payload for callback custom actions
+
+[#search-answer-payload]
+=== Search answer payload
+
+The following example shows the visualization data payload for a callback custom action in a search answer page:
+
+[source, JSON]
+----
+{
+  "__typename": "TableViz",
+  "id": "f2524330-7c21-4b23-8cd9-10d74bb75b53",
+  "columns": [
+    {
+      "__typename": "VizColumn",
+      "column": {
+        "__typename": "AnswerColumn",
+        "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+        "name": "Account Balance",
+        "type": "MEASURE"
+      }
+    }
+  ],
+  "data": {
+    "columnDataLite": [
+      {
+        "columnId": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+        "columnDataType": "DOUBLE",
+        "dataValue": [
+          8542.212710650001
+        ]
+      }
+    ],
+    "completionRatio": 1,
+    "samplingRatio": 1,
+    "totalRowCount": "1"
+  },
+  "user": {
+    "userName": "tsadmin",
+    "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "userEmail": "TSuser@thoughtspot.com"
+  },
+  "reportBookMetadata": {
+    "id": "f5d85d72-1234-4f11-a850-5f76191251bb",
+    "description": "",
+    "metadata": {
+      "author": "Administrator",
+      "authorId": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "createdAt": "1623062404647",
+      "modifiedAt": "1623062404647",
+      "generationNum": "2471",
+      "isHidden": false,
+      "type": "",
+      "tags": [],
+      "__typename": "AnswerMetadata"
+    },
+    "name": "Total Account Balance",
+    "suggestedDisplayMode": "TABLE_MODE",
+    "visualizations": [
+      {
+        "id": "47805958-d92b-4301-a1ca-59b84d57c25e",
+        "title": "Headline Account Balance",
+        "vizProp": {
+          "headlineVizPropVersion": "V1",
+          "columnProperty": null,
+          "__typename": "HeadlineVizProps"
+        },
+        "aggregationType": [
+          "TABLE_AGGR"
+        ],
+        "possibleAggregations": [
+          "SUM",
+          "AVERAGE",
+          "STD_DEVIATION",
+          "VARIANCE",
+          "MIN",
+          "MAX",
+          "TABLE_AGGR"
+        ],
+        "headlineColumn": {
+          "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+          "name": "Account Balance",
+          "type": "MEASURE",
+          "baseColumnType": "SAGE_COLUMN",
+          "formulaId": "",
+          "columnProps": {
+            "version": null,
+            "columnProperties": null,
+            "__typename": "AnswerColumnProps"
+          },
+          "dataType": "DOUBLE",
+          "aggregationType": "SUM",
+          "formatPattern": null,
+          "isGroupBy": false,
+          "isUserDefinedTitle": false,
+          "isAdditive": true,
+          "customCalendarType": null,
+          "formatType": "CURRENCY",
+          "calendarGuid": "",
+          "format": {
+            "pattern": "",
+            "currencyFormat": {
+              "column": "",
+              "type": "ISO_CODE",
+              "isoCode": "USD",
+              "__typename": "CurrencyFormat"
+            },
+            "__typename": "AnswerColumnFormat"
+          },
+          "referencedColumns": [
+            {
+              "guid": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+              "displayName": "Account Balance",
+              "__typename": "EntityHeader"
+            }
+          ],
+          "referencedTables": [
+            {
+              "guid": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+              "displayName": "Retail Banking",
+              "__typename": "EntityHeader"
+            }
+          ],
+          "legacySheetProperties": null,
+          "legacyColumnFormatProperties": null,
+          "timeBucket": "NO_BUCKET",
+          "geoConfig": null,
+          "__typename": "AnswerColumn"
+        },
+        "sortInfo": [],
+        "__typename": "HeadlineViz"
+      },
+      {
+        "id": "f2524330-7c21-4b23-8cd9-10d74bb75b53",
+        "clientState": {},
+        "vizProp": {
+          "tableVizPropVersion": "V1",
+          "wrapTableHeader": null,
+          "widthState": [],
+          "theme": null,
+          "showTableFooter": null,
+          "showGridSummary": null,
+          "density": null,
+          "orderedColumnIds": [],
+          "columnProperties": [],
+          "__typename": "TableVizProps"
+        },
+        "columns": [
+          {
+            "column": {
+              "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+              "name": "Account Balance",
+              "type": "MEASURE",
+              "baseColumnType": "SAGE_COLUMN",
+              "formulaId": "",
+              "columnProps": {
+                "version": null,
+                "columnProperties": null,
+                "__typename": "AnswerColumnProps"
+              },
+              "dataType": "DOUBLE",
+              "aggregationType": "SUM",
+              "formatPattern": null,
+              "isGroupBy": false,
+              "isUserDefinedTitle": false,
+              "isAdditive": true,
+              "customCalendarType": null,
+              "formatType": "CURRENCY",
+              "calendarGuid": "",
+              "format": {
+                "pattern": "",
+                "currencyFormat": {
+                  "column": "",
+                  "type": "ISO_CODE",
+                  "isoCode": "USD",
+                  "__typename": "CurrencyFormat"
+                },
+                "__typename": "AnswerColumnFormat"
+              },
+              "referencedColumns": [
+                {
+                  "guid": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                  "displayName": "Account Balance",
+                  "__typename": "EntityHeader"
+                }
+              ],
+              "referencedTables": [
+                {
+                  "guid": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                  "displayName": "Retail Banking",
+                  "__typename": "EntityHeader"
+                }
+              ],
+              "legacySheetProperties": null,
+              "legacyColumnFormatProperties": null,
+              "timeBucket": "NO_BUCKET",
+              "geoConfig": null,
+              "__typename": "AnswerColumn"
+            },
+            "legacyMetricDefinition": null,
+            "__typename": "VizColumn"
+          }
+        ],
+        "sortInfo": [],
+        "topInfo": [],
+        "__typename": "TableViz"
+      }
+    ],
+    "headerMetadata": {
+      "id": "f5d85d72-1234-4f11-a850-5f76191251bb",
+      "name": "Total Account Balance",
+      "description": "",
+      "isNewAnswer": false,
+      "isHidden": false,
+      "loading": false
+    }
+  }
+}
+----
+
+The following example shows the cell-level data payload for a callback custom action set as a context menu in a search answer page:
+
+[source, JSON]
+----
+{
+  "id": "app-callback",
+  "contextMenuPoints": {
+    "clickedPoint": {
+      "selectedAttributes": [],
+      "deselectedAttributes": [],
+      "selectedMeasures": [],
+      "deselectedMeasures": [
+        {
+          "column": {
+            "__typename": "AnswerColumn",
+            "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+            "name": "Account Balance",
+            "type": "MEASURE",
+            "baseColumnType": "SAGE_COLUMN",
+            "formulaId": "",
+            "columnProps": {
+              "__typename": "AnswerColumnProps",
+              "version": "V1",
+              "columnProperties": null
+            },
+            "dataType": "DOUBLE",
+            "aggregationType": "SUM",
+            "formatPattern": null,
+            "isGroupBy": false,
+            "isUserDefinedTitle": false,
+            "isAdditive": true,
+            "customCalendarType": null,
+            "formatType": "CURRENCY",
+            "calendarGuid": "",
+            "format": {
+              "__typename": "AnswerColumnFormat",
+              "pattern": "",
+              "currencyFormat": {
+                "__typename": "CurrencyFormat",
+                "column": "",
+                "type": "ISO_CODE",
+                "isoCode": "USD"
+              }
+            },
+            "referencedColumns": [
+              {
+                "__typename": "EntityHeader",
+                "guid": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                "displayName": "Account Balance"
+              }
+            ],
+            "referencedTables": [
+              {
+                "__typename": "EntityHeader",
+                "guid": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                "displayName": "Retail Banking"
+              }
+            ],
+            "legacySheetProperties": null,
+            "legacyColumnFormatProperties": null,
+            "timeBucket": "NO_BUCKET",
+            "geoConfig": null
+          },
+          "value": 8542.212710650001
+        }
+      ]
+    },
+    "selectedPoints": [
+      {
+        "selectedAttributes": [],
+        "deselectedAttributes": [],
+        "selectedMeasures": [],
+        "deselectedMeasures": [
+          {
+            "column": {
+              "__typename": "AnswerColumn",
+              "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
+              "name": "Account Balance",
+              "type": "MEASURE",
+              "baseColumnType": "SAGE_COLUMN",
+              "formulaId": "",
+              "columnProps": {
+                "__typename": "AnswerColumnProps",
+                "version": "V1",
+                "columnProperties": null
+              },
+              "dataType": "DOUBLE",
+              "aggregationType": "SUM",
+              "formatPattern": null,
+              "isGroupBy": false,
+              "isUserDefinedTitle": false,
+              "isAdditive": true,
+              "customCalendarType": null,
+              "formatType": "CURRENCY",
+              "calendarGuid": "",
+              "format": {
+                "__typename": "AnswerColumnFormat",
+                "pattern": "",
+                "currencyFormat": {
+                  "__typename": "CurrencyFormat",
+                  "column": "",
+                  "type": "ISO_CODE",
+                  "isoCode": "USD"
+                }
+              },
+              "referencedColumns": [
+                {
+                  "__typename": "EntityHeader",
+                  "guid": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
+                  "displayName": "Account Balance"
+                }
+              ],
+              "referencedTables": [
+                {
+                  "__typename": "EntityHeader",
+                  "guid": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
+                  "displayName": "Retail Banking"
+                }
+              ],
+              "legacySheetProperties": null,
+              "legacyColumnFormatProperties": null,
+              "timeBucket": "NO_BUCKET",
+              "geoConfig": null
+            },
+            "value": 8542.212710650001
+          }
+        ]
+      }
+    ]
+  }
+}
+----
+
+=== Pinboard payload
+
+The following example shows the pinboard data payload for a callback custom action in a pinboard visualization page:
+
+[source, JSON]
+----
+{
+  "completionRatio": 1,
+  "reportBookData": {
+    "0928f6ee-faaf-4623-aeb5-2143bbff5edb": {
+      "vizData": {
+        "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb": {
+          "dataSets": {
+            "PINBOARD_VIZ": {
+              "id": "d5fb3361-5766-46d9-b997-46136650647a",
+              "clientState": {},
+              "vizProp": {
+                "tableVizPropVersion": "V1",
+                "wrapTableHeader": true,
+                "widthState": [],
+                "theme": null,
+                "showTableFooter": null,
+                "showGridSummary": null,
+                "density": null,
+                "orderedColumnIds": [],
+                "columnProperties": []
+              },
+              "columns": [
+                {
+                  "column": {
+                    "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                    "name": "Total Number of results",
+                    "type": "MEASURE",
+                    "baseColumnType": "SAGE_COLUMN",
+                    "formulaId": "",
+                    "columnProps": {
+                      "version": "V1",
+                      "columnProperties": null
+                    },
+                    "dataType": "INT32",
+                    "aggregationType": "SUM",
+                    "isGroupBy": false,
+                    "isUserDefinedTitle": false,
+                    "isAdditive": true,
+                    "customCalendarType": null,
+                    "formatType": "NONE",
+                    "calendarGuid": "",
+                    "formatPattern": null,
+                    "format": {
+                      "pattern": "",
+                      "currencyFormat": null
+                    },
+                    "referencedColumns": [
+                      {
+                        "guid": "7edea0a6-59ce-499a-886e-f106951d849f",
+                        "displayName": "Number of results"
+                      }
+                    ],
+                    "referencedTables": [
+                      {
+                        "guid": "2b9d083a-275c-4984-9cfe-90b036affa17",
+                        "displayName": "Discover Monitoring Data"
+                      }
+                    ],
+                    "legacySheetProperties": null,
+                    "legacyColumnFormatProperties": null,
+                    "timeBucket": "NO_BUCKET",
+                    "geoConfig": null
+                  },
+                  "legacyMetricDefinition": null
+                }
+              ],
+              "sortInfo": [],
+              "topInfo": [],
+              "data": {
+                "columnDataLite": [
+                  {
+                    "columnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                    "columnDataType": "INT64",
+                    "dataValue": [
+                      0
+                    ]
+                  }
+                ],
+                "completionRatio": 1,
+                "samplingRatio": 1,
+                "totalRowCount": "1"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "reportBookMetadata": {
+    "reportContent": {
+      "sheets": [
+        {
+          "sheetType": "PINBOARD",
+          "sheetContent": {
+            "sheetContentType": "PINBOARD",
+            "pinboardFilterDetails": {
+              "pinboardFiltersAnswerIds": [],
+              "filterLogicalTableIds": [],
+              "logicalTableIdToPinboardFilterVizIds": {},
+              "filterIdToLinkedFilterIds": {},
+              "filterIdToExcludedVizs": {}
+            },
+            "visualizations": [
+              {
+                "vizContent": {
+                  "refAnswerSheetIndex": 0,
+                  "refVizId": "d5fb3361-5766-46d9-b997-46136650647a",
+                  "locked": false,
+                  "dataOnDemand": false,
+                  "refAnswerBook": {
+                    "id": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
+                    "name": "Total Number of results",
+                    "sheets": [
+                      {
+                        "id": "634f2535-ffef-49cc-a435-a6d749b194ff",
+                        "name": "Total Number of results",
+                        "owner": "01020e97-9b7e-4de9-b1d8-5d832864a1f8"
+                      }
+                    ]
+                  },
+                  "vizType": "PINBOARD_VIZ"
+                },
+                "relatedLinks": [],
+                "header": {
+                  "id": "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb",
+                  "indexVersion": 2331,
+                  "generationNum": 2331,
+                  "name": "Answer: Total Number of resu Viz: Table Viz number of ",
+                  "author": "34395682-42c9-45b7-a950-e135471311fa",
+                  "authorName": "sandeep2",
+                  "authorDisplayName": "sandeep-dev2",
+                  "created": 1622096925970,
+                  "modified": 1622096925970,
+                  "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+                  "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
+                  "isDeleted": false,
+                  "isHidden": false,
+                  "tags": [],
+                  "isExternal": false,
+                  "isDeprecated": false
+                },
+                "complete": true,
+                "incompleteDetail": []
+              }
+            ],
+            "canGenerateLeafData": false,
+            "layout": {
+              "tiles": [
+                {
+                  "id": "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb",
+                  "size": "l",
+                  "order": 0,
+                  "x": 1
+                }
+              ]
+            }
+          },
+          "header": {
+            "id": "0928f6ee-faaf-4623-aeb5-2143bbff5edb",
+            "indexVersion": 2331,
+            "generationNum": 2331,
+            "name": "ksandeep-test2",
+            "author": "34395682-42c9-45b7-a950-e135471311fa",
+            "authorName": "sandeep2",
+            "authorDisplayName": "sandeep-dev2",
+            "created": 1622096925965,
+            "modified": 1622096925970,
+            "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+            "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
+            "isDeleted": false,
+            "isHidden": false,
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": []
+        }
+      ]
+    },
+    "type": "PINBOARD",
+    "header": {
+      "hasTabs": false,
+      "id": "977f6606-ef28-4456-9678-91d7b54796c9",
+      "indexVersion": 2331,
+      "generationNum": 2331,
+      "name": "ksandeep-test2",
+      "author": "34395682-42c9-45b7-a950-e135471311fa",
+      "authorName": "sandeep2",
+      "authorDisplayName": "sandeep-dev2",
+      "created": 1622096925965,
+      "modified": 1622096925970,
+      "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+      "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
+      "isDeleted": false,
+      "isHidden": false,
+      "isAutoCreated": false,
+      "isAutoDelete": false,
+      "resolvedObjects": {
+        "d5fb3361-5766-46d9-b997-46136650647a": {
+          "reportContent": {
+            "sheets": [
+              {
+                "sheetType": "QUESTION",
+                "sheetContent": {
+                  "headlineVisibilityMap": {},
+                  "defaultQueryableSource": "FALCON",
+                  "querableSources": [
+                    "FALCON"
+                  ],
+                  "externalQueryableDataSource": "DEFAULT",
+                  "bestDisplayMode": "TABLE_MODE",
+                  "canGenerateLeafData": true,
+                  "sheetContentType": "QUESTION",
+                  "question": {
+                    "sageContextProto": "CsEDCgMKATAarQIK6gEKEU51bWJlciBvZiByZXN1bHRzEAIYBCABKiQ3ZWRlYTBhNi01OWNlLTQ5OWEtODg2ZS1mMTA2OTUxZDg0OWYyJDZiY2Y0ZDkzLWQzYzAtNDc4Yy1hNDM4LWQzZjFhMzk0ZTRhNToKCgMKATEaAwoBMVIfEhFOdW1iZXIgb2YgcmVzdWx0cyIDCgExKgMKATEwAFgAYc4jGjGeb3FBgAEBkAEA6gERTnVtYmVyIG9mIHJlc3VsdHOAAgCQAoMBmgICCACiAiQ4Y2MyODgxYy0zYjg5LTRjZDItYThjMi03YjAwOWZmOTk0ZWEKNAoAgAEAgAIBmgICCAGiAiQxMTA1MjYwMi01YTNlLTRiYTQtOGVmMC0wODgwOWMyYWQ1MDUSCAgBEAAYASABKgMKATIyEzc4Njk3NDg1NDYwOTA1MjgzMzU6VhJSCiUgAjgDQAByFwgBIhEKAwoBNBoKCgMKATEaAwoBMUAEggEDCgEySgMKATNaJDJiOWQwODNhLTI3NWMtNDk4NC05Y2ZlLTkwYjAzNmFmZmExNxgASgoKBAgAEgASAhIAWAp6CmVuX1VTLnV0ZjgyMgokZDcwNmM5M2ItZGNmMS00N2YxLWI2OGItMTFmZGEyMTdhYmViEgpOZXcgVGFibGUwMkAKJDJiOWQwODNhLTI3NWMtNDk4NC05Y2ZlLTkwYjAzNmFmZmExNxIYRGlzY292ZXIgTW9uaXRvcmluZyBEYXRhMjkKJDZiY2Y0ZDkzLWQzYzAtNDc4Yy1hNDM4LWQzZjFhMzk0ZTRhNRIRTnVtYmVyIG9mIHJlc3VsdHMyJgokNWRiNDg3ZTgtOWM1Yi00MGE1LTk3NWYtOWE3ZDFlNzQ2NDQ5MjkKJDdlZGVhMGE2LTU5Y2UtNDk5YS04ODZlLWYxMDY5NTFkODQ5ZhIRTnVtYmVyIG9mIHJlc3VsdHM4Ag",
+                    "sageContextIndex": 0,
+                    "text": "number of results",
+                    "isChasmTrapQuery": false
+                  },
+                  "visualizations": [
+                    {
+                      "vizContent": {
+                        "vizType": "HEADLINE",
+                        "template": "MEASURE",
+                        "columns": [
+                          {
+                            "column": {
+                              "isUserSorted": false,
+                              "aggrTypeOverride": "SUM",
+                              "typeOverride": "MEASURE",
+                              "dataTypeOverride": "UNKNOWN",
+                              "formatTypeOverride": "NONE",
+                              "groupBy": false,
+                              "uniqueValues": -1,
+                              "sageOutputColumnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                              "outputIdsWithMatchingLogicalKey": [],
+                              "aggrApplied": true,
+                              "isVisible": true,
+                              "columnToFormatPatternType": {},
+                              "effectiveAggrType": "SUM",
+                              "effectiveDataType": "INT32",
+                              "effectiveType": "MEASURE",
+                              "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                              "effectiveColumnGuid": "463f9b8d-b856-3ecb-af6e-11b897fbe3a8",
+                              "effectiveColumnIdString": "7edea0a6-59ce-499a-886e-f106951d849f#SUM#MEASURE#null",
+                              "baseColumnName": "Number of results",
+                              "baseAggrType": "SUM",
+                              "baseDataType": "INT32",
+                              "baseType": "MEASURE",
+                              "isBaseColumnAdditive": true,
+                              "baseDataRecency": 1612685173,
+                              "referencedTableHeaders": [
+                                {
+                                  "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
+                                  "name": "Discover Monitoring Data"
+                                }
+                              ],
+                              "referencedColumnHeaders": [
+                                {
+                                  "id": "7edea0a6-59ce-499a-886e-f106951d849f",
+                                  "name": "Number of results"
+                                }
+                              ],
+                              "allLevelReferencedTableHeaders": [
+                                {
+                                  "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
+                                  "name": "Discover Monitoring Data"
+                                },
+                                {
+                                  "id": "182f1e7c-c461-4535-b9da-c5297147631a",
+                                  "name": "MetricsMonitoring"
+                                }
+                              ],
+                              "allLevelReferencedColumnHeaders": [
+                                {
+                                  "id": "7edea0a6-59ce-499a-886e-f106951d849f",
+                                  "name": "Number of results"
+                                },
+                                {
+                                  "id": "3e180ce3-24cb-43d4-9576-6a0c3d47465c",
+                                  "name": "number_of_results"
+                                }
+                              ]
+                            },
+                            "possibleAggrs": [
+                              "SUM",
+                              "AVERAGE",
+                              "STD_DEVIATION",
+                              "VARIANCE",
+                              "MIN",
+                              "MAX"
+                            ],
+                            "aggrs": [
+                              "SUM"
+                            ],
+                            "tableSummary": true
+                          }
+                        ],
+                        "showSummaryAggrs": false,
+                        "title": {
+                          "value": {
+                            "text": "Headline Total Number of results"
+                          }
+                        },
+                        "customTitle": false,
+                        "locked": true
+                      },
+                      "relatedLinks": [],
+                      "header": {
+                        "id": "da015726-1ec1-4c26-98ff-477f060d02e7",
+                        "indexVersion": 2331,
+                        "generationNum": 2331,
+                        "name": "Headline Total Number of results",
+                        "author": "34395682-42c9-45b7-a950-e135471311fa",
+                        "authorName": "sandeep2",
+                        "authorDisplayName": "sandeep-dev2",
+                        "created": 1622096925970,
+                        "modified": 1622096925970,
+                        "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+                        "owner": "634f2535-ffef-49cc-a435-a6d749b194ff",
+                        "isDeleted": false,
+                        "isHidden": false,
+                        "clientState": {
+                          "headlineVizPropVersion": "V1"
+                        },
+                        "tags": [],
+                        "type": "QUESTION",
+                        "isExternal": false,
+                        "isDeprecated": false
+                      },
+                      "complete": true,
+                      "incompleteDetail": []
+                    },
+                    {
+                      "vizContent": {
+                        "vizType": "TABLE",
+                        "columns": [
+                          {
+                            "isUserSorted": false,
+                            "aggrTypeOverride": "SUM",
+                            "typeOverride": "MEASURE",
+                            "dataTypeOverride": "UNKNOWN",
+                            "formatTypeOverride": "NONE",
+                            "groupBy": false,
+                            "uniqueValues": -1,
+                            "sageOutputColumnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                            "outputIdsWithMatchingLogicalKey": [],
+                            "aggrApplied": true,
+                            "isVisible": true,
+                            "columnToFormatPatternType": {},
+                            "effectiveAggrType": "SUM",
+                            "effectiveDataType": "INT32",
+                            "effectiveType": "MEASURE",
+                            "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+                            "effectiveColumnGuid": "463f9b8d-b856-3ecb-af6e-11b897fbe3a8",
+                            "effectiveColumnIdString": "7edea0a6-59ce-499a-886e-f106951d849f#SUM#MEASURE#null",
+                            "baseColumnName": "Number of results",
+                            "baseAggrType": "SUM",
+                            "baseDataType": "INT32",
+                            "baseType": "MEASURE",
+                            "isBaseColumnAdditive": true,
+                            "baseDataRecency": 1612685173,
+                            "referencedTableHeaders": [
+                              {
+                                "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
+                                "name": "Discover Monitoring Data"
+                              }
+                            ],
+                            "referencedColumnHeaders": [
+                              {
+                                "id": "7edea0a6-59ce-499a-886e-f106951d849f",
+                                "name": "Number of results"
+                              }
+                            ],
+                            "allLevelReferencedTableHeaders": [
+                              {
+                                "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
+                                "name": "Discover Monitoring Data"
+                              },
+                              {
+                                "id": "182f1e7c-c461-4535-b9da-c5297147631a",
+                                "name": "MetricsMonitoring"
+                              }
+                            ],
+                            "allLevelReferencedColumnHeaders": [
+                              {
+                                "id": "7edea0a6-59ce-499a-886e-f106951d849f",
+                                "name": "Number of results"
+                              },
+                              {
+                                "id": "3e180ce3-24cb-43d4-9576-6a0c3d47465c",
+                                "name": "number_of_results"
+                              }
+                            ],
+                            "clientState": {
+                              "version": "V1"
+                            }
+                          }
+                        ],
+                        "title": {
+                          "value": {
+                            "text": "Table 1"
+                          }
+                        },
+                        "customTitle": false,
+                        "locked": false
+                      },
+                      "relatedLinks": [],
+                      "header": {
+                        "id": "d5fb3361-5766-46d9-b997-46136650647a",
+                        "indexVersion": 2331,
+                        "generationNum": 2331,
+                        "name": "Table Viz number of results",
+                        "author": "34395682-42c9-45b7-a950-e135471311fa",
+                        "authorName": "sandeep2",
+                        "authorDisplayName": "sandeep-dev2",
+                        "created": 1622096925970,
+                        "modified": 1622096925970,
+                        "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+                        "owner": "634f2535-ffef-49cc-a435-a6d749b194ff",
+                        "isDeleted": false,
+                        "isHidden": false,
+                        "clientState": {
+                          "tableVizPropVersion": "V1",
+                          "wrapTableHeader": true
+                        },
+                        "tags": [],
+                        "type": "QUESTION",
+                        "isExternal": false,
+                        "isDeprecated": false
+                      },
+                      "complete": true,
+                      "incompleteDetail": []
+                    }
+                  ]
+                },
+                "header": {
+                  "id": "634f2535-ffef-49cc-a435-a6d749b194ff",
+                  "indexVersion": 2331,
+                  "generationNum": 2331,
+                  "name": "Total Number of results",
+                  "author": "34395682-42c9-45b7-a950-e135471311fa",
+                  "authorName": "sandeep2",
+                  "authorDisplayName": "sandeep-dev2",
+                  "created": 1622096925970,
+                  "modified": 1622096925970,
+                  "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+                  "owner": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
+                  "isDeleted": false,
+                  "isHidden": true,
+                  "tags": [],
+                  "type": "QUESTION",
+                  "isExternal": false,
+                  "isDeprecated": false
+                },
+                "complete": true,
+                "incompleteDetail": []
+              }
+            ]
+          },
+          "type": "QUESTION",
+          "header": {
+            "id": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
+            "indexVersion": 2331,
+            "generationNum": 2331,
+            "name": "Total Number of results",
+            "author": "34395682-42c9-45b7-a950-e135471311fa",
+            "authorName": "sandeep2",
+            "authorDisplayName": "sandeep-dev2",
+            "created": 1622096925970,
+            "modified": 1622096925970,
+            "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
+            "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
+            "isDeleted": false,
+            "isHidden": true,
+            "isAutoCreated": false,
+            "isAutoDelete": false,
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": []
+        }
+      },
+      "tags": [],
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": []
+  },
+  "user": {
+    "userName": "tsadmin",
+    "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "userEmail": "TSadmin1@thoughtspot.com"
+  }
+}
+
+----
+
+The following example shows the pinboard data payload for a callback custom action set as a context menu in a pinboard visualization page:
+
+
+[source, JSON]
+----
+{
+  "clickedPoint": {
+    "selectedAttributes": [],
+    "deselectedAttributes": [],
+    "selectedMeasures": [],
+    "deselectedMeasures": [
+      {
+        "column": {
+          "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
+          "name": "Total Number of results",
+          "type": "MEASURE",
+          "baseColumnType": "SAGE_COLUMN",
+          "formulaId": "",
+          "columnProps": {
+            "version": "V1",
+            "columnProperties": null
+          },
+          "dataType": "INT32",
+          "aggregationType": "SUM",
+          "isGroupBy": false,
+          "isUserDefinedTitle": false,
+          "isAdditive": true,
+          "customCalendarType": null,
+          "formatType": "NONE",
+          "calendarGuid": "",
+          "formatPattern": null,
+          "format": {
+            "pattern": "",
+            "currencyFormat": null
+          },
+          "referencedColumns": [
+            {
+              "guid": "7edea0a6-59ce-499a-886e-f106951d849f",
+              "displayName": "Number of results"
+            }
+          ],
+          "referencedTables": [
+            {
+              "guid": "2b9d083a-275c-4984-9cfe-90b036affa17",
+              "displayName": "Discover Monitoring Data"
+            }
+          ],
+          "legacySheetProperties": null,
+          "legacyColumnFormatProperties": null,
+          "timeBucket": "NO_BUCKET",
+          "geoConfig": null
+        },
+        "value": 0
+      }
+    ]
+  },
+  "selectedPoints": []
+}
+
+----

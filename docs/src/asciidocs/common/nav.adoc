@@ -28,12 +28,14 @@
 * Style customization
 ** link:{{navprefix}}=customize-style[Customize styles]
 
-* Custom actions
+* link:{{navprefix}}=custom-action-intro[Custom actions]
 ** link:{{navprefix}}=customize-actions[Overview]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
 ** link:{{navprefix}}=add-action-viz[Add a custom action to a visualization] 
+** link:{{navprefix}}=add-action-worksheet[Add custom actions to a worksheet]
 ** link:{{navprefix}}=push-data[Callback custom action example]
+** link:{{navprefix}}=custom-action-payload[Custom action response payload]
 
 * Custom link format
 ** link:{{navprefix}}=customize-links[Customize links] 
@@ -52,6 +54,7 @@
 *** link:{{navprefix}}=session-api[Session APIs]
 *** link:{{navprefix}}=metadata-api[Metadata APIs]
 *** link:{{navprefix}}=admin-api[Admin APIs]
+*** link:{{navprefix}}=dependent-objects-api[Dependent objects APIs]
 *** link:{{navprefix}}=search-data-api[Search data API]
 *** link:{{navprefix}}=pinboard-api[Pinboard data API]
 *** link:{{navprefix}}=security-api[Security APIs] 

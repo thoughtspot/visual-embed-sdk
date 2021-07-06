@@ -277,6 +277,9 @@ Construct the URL for the embedded visualization and render the embedded content
   pinboardEmbed.render();
 ----
 
+== Define a method to process callback custom actions payload
+
+include::callback-payload.adoc[]
 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:
@@ -331,7 +334,6 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
     });
  pinboardEmbed.render();
 ----
-
 
 ++++
 <a href="{{previewPrefix}}/playground/answer" id="preview-in-playground" target="_blank">Preview in Playground</a>

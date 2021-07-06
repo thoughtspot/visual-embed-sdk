@@ -1,77 +1,66 @@
 
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]` [tag greenBackground]#New# 
 
-Get details of the current configuration of a ThoughtSpot cluster
---
+Gets details of the current configuration of a ThoughtSpot cluster
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:admin-api.adoc#configinfo-update[*POST* /tspublic/v1/admin/configinfo/update]` [tag greenBackground]#New# 
 
-Update the configuration settings of the current ThoughtSpot cluster
---
+Updates the configuration settings of the current ThoughtSpot cluster
 
-[div boxDiv boxHalfWidth]
---
+---
 `xref:admin-api.adoc#get-config-overrides[*GET* /tspublic/v1/admin/configinfo/override]` [tag greenBackground]#New# 
 
-Get details of configuration overrides on the current ThoughtSpot cluster 
---
+Gets details of configuration overrides on the current ThoughtSpot cluster 
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:admin-api.adoc#get-embed-actions[*GET* /tspublic/v1/admin/embed/actions]` [tag greenBackground]#New# 
 
-Get details of the custom actions enabled on the cluster
---
+Gets details of the custom actions enabled on the cluster
 
-[div boxDiv boxHalfWidth]
---
+--- 
+
 `xref:admin-api.adoc#get-action-by-id[*GET* /tspublic/v1/admin/embed/actions/{actionid}]` [tag greenBackground]#New# 
 
-Get details of a specific custom action
---
+Gets details of a specific custom action
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:admin-api.adoc#create-custom-action[*POST* /tspublic/v1/admin/embed/actions]` [tag greenBackground]#New# 
 
-Create a custom action
---
+Creates a custom action
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:admin-api.adoc#edit-custom-action[*PUT* /tspublic/v1/admin/embed/actions/{actionid}]`[tag greenBackground]#New# 
 
-Edit a custom action
---
+Modifies the attributes of a custom action 
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:admin-api.adoc#del-custom-action[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}]` [tag greenBackground]#New# 
 
-Delete a custom action
---
+Deletes a custom action
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:admin-api.adoc#custom-action-assoc[*POST* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
 
-Associate a custom action to a ThoughtSpot object
---
+Associates a custom action to a ThoughtSpot object
 
-[div boxDiv boxHalfWidth]
---
-[tag greenBackground]#New#  `xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]` 
+---
 
-Get the details of the ThoughtSpot objects associated with a custom action
---
+`xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
 
-[div boxDiv boxHalfWidth]
---
-[tag greenBackground]#New#  `xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]`
+Gets the details of the ThoughtSpot objects associated with a custom action
 
-Remove custom action associations 
+---
+
+`xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
+
+Removes custom action associations 
+
 --

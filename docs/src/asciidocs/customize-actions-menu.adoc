@@ -6,7 +6,7 @@
 
 ThoughtSpot allows developers to insert buttons and menu items into ThoughtSpot’s UI, which can invoke a specific URL or a callback in their parent application and pass the data from the associated chart or table to these APIs. This allows users to take immediate action on the insights they find in ThoughtSpot.  
 
-Developers can create custom actions in the ThoughtSpot Developer portal. Any application user with edit privileges can add these custom actions to a visualization in the *Answers* or *Pinboards* page as primary buttons or menu items.  
+Developers can create custom actions in the ThoughtSpot Developer portal. Any application user with edit privileges can add these custom actions to a visualization as a primary button or menu item.  
 
 == Custom actions in the Developer portal
 
@@ -21,7 +21,7 @@ The ThoughtSpot Developer portal allows you to add a custom action to all visual
 
 * Local actions
 +
-You may also want to add a custom action to only a specific visualization. To do this, you can set a custom action as a __local__ action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically designates it as __local__ action. Any user with edit privileges can then xref:custom-actions-viz.adoc[add this action to a visualization] of your choice. 
+You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a __local__ action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a visualization] or xref:custom-actions-worksheet.adoc[to all visualizations generated from a specific worksheet]. 
  
 Overview::
 

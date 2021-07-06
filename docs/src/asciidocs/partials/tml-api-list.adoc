@@ -1,13 +1,12 @@
 
-[div boxDiv boxHalfWidth]
+[div boxDiv boxFullWidth]
 --
 `xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`
 
 Imports scriptable in TML that represents objects in an editable and reusable format.
---
 
-[div boxDiv boxHalfWidth]
---
+---
+
 `xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]`
 
 Exports ThoughtSpot objects represented in ThoughtSpot Modeling Language (TML).
