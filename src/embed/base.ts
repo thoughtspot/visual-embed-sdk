@@ -33,6 +33,7 @@ import {
     MIXPANEL_EVENT,
 } from '../mixpanel-service';
 import { processData } from '../utils/processData';
+import { processTrigger } from '../utils/processTrigger';
 
 let config = {} as EmbedConfig;
 
@@ -454,14 +455,10 @@ export class TsEmbed {
         messageType: HostEvent,
         data: any,
     ): typeof TsEmbed.prototype {
-        this.iFrame.contentWindow.postMessage(
-            {
-                type: messageType,
-                data,
-            },
-            this.thoughtSpotHost,
+        processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+        uploadMixpanelEvent(
+            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-
         return this;
     }
 
