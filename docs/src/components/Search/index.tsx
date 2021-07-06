@@ -22,6 +22,7 @@ type SearchProps = {
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
     updateKeyword: Function;
     setDarkMode: Function;
+    isPublicSiteOpen: boolean;
 };
 
 const Search: React.FC<SearchProps> = (props) => {
@@ -156,7 +157,9 @@ const Search: React.FC<SearchProps> = (props) => {
 
     return (
         <div
-            className={`searchWrapper ${props.leftNavOpen ? 'visHidden' : ''}`}
+            className={`searchWrapper ${props.leftNavOpen ? 'visHidden' : ''} ${
+                !props.isPublicSiteOpen ? 'inClusterSite' : ''
+            }`}
         >
             <div className="searchInputWrapper">
                 <div className="searchInputContainer">
