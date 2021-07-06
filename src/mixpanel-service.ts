@@ -1,4 +1,5 @@
 import * as mixpanel from 'mixpanel-browser';
+import { getSessionInfo } from './auth';
 import { EmbedConfig } from './types';
 
 export const EndPoints = {
@@ -47,25 +48,21 @@ function emptyQueue() {
     });
 }
 
-export async function initMixpanel(config: EmbedConfig): Promise<any> {
+export async function initMixpanel(authPromise: Promise<void>, config: EmbedConfig): Promise<any> {
     const { thoughtSpotHost } = config;
-    return fetch(`${thoughtSpotHost}${EndPoints.CONFIG}`, {
-        headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'x-requested-by': 'ThoughtSpot',
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            const token = data.mixpanelAccessToken;
-            if (token) {
-                mixpanel.init(token);
-                setEventCollectorOn();
-                emptyQueue();
-                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-                    authType: config.authType,
-                    host: config.thoughtSpotHost,
-                });
-            }
-        });
+    // Wait auth to complete
+    await authPromise;
+    // Fetch sessionInfo if not fetched yet.
+    const sessionInfo = await getSessionInfo(thoughtSpotHost);
+    // On a public cluster the user is anonymous, so don't set the identify to userGUID
+    const isPublicCluster = !!sessionInfo.configInfo.isPublicUser;
+    const token = sessionInfo.configInfo.mixpanelAccessToken;
+    if (token) {
+        mixpanel.init(token);
+        if (!isPublicCluster) {
+            mixpanel.identify(sessionInfo.userGUID);
+        }
+        setEventCollectorOn();
+        emptyQueue();
+    }
 }

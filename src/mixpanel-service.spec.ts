@@ -15,14 +15,14 @@ const MIXPANEL_EVENT = {
 
 describe('Unit test for mixpanel', () => {
     test('initMixpanel', async () => {
-        initMixpanel(config).then((result) => {
-            spyOn(mixpanel, 'init');
+        spyOn(mixpanel, 'init');
+        spyOn(mixpanel, 'track');
+        initMixpanel(Promise.resolve(), config).then((result) => {
             expect(mixpanel.init).toHaveBeenCalled();
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
                 authType: config.authType,
                 host: config.thoughtSpotHost,
             });
-            spyOn(mixpanel, 'track');
             expect(mixpanel.track).toHaveBeenCalled();
         });
     });
