@@ -18,17 +18,6 @@ export const EndPoints = {
 };
 
 /**
- * Return sessionInfo if available else make a loggedIn check to fetch the sessionInfo
- */
-export async function getSessionInfo(thoughtSpotHost: string) {
-    if (!sessionInfo) {
-        await isLoggedIn(thoughtSpotHost);
-    }
-    return sessionInfo;
-
-}
-
-/**
  * Check if we are logged into the ThoughtSpot cluster
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
  */
@@ -46,6 +35,16 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
         sessionInfo = null;
     }
     return !!sessionInfo;
+}
+
+/**
+ * Return sessionInfo if available else make a loggedIn check to fetch the sessionInfo
+ */
+export async function getSessionInfo(thoughtSpotHost: string) {
+    if (!sessionInfo) {
+        await isLoggedIn(thoughtSpotHost);
+    }
+    return sessionInfo;
 }
 
 /**

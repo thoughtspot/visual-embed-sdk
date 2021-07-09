@@ -48,7 +48,10 @@ function emptyQueue() {
     });
 }
 
-export async function initMixpanel(authPromise: Promise<void>, config: EmbedConfig): Promise<any> {
+export async function initMixpanel(
+    authPromise: Promise<void>,
+    config: EmbedConfig,
+): Promise<any> {
     const { thoughtSpotHost } = config;
     // Wait auth to complete
     await authPromise;
