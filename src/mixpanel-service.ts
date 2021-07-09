@@ -58,8 +58,8 @@ export async function initMixpanel(
     // Fetch sessionInfo if not fetched yet.
     const sessionInfo = await getSessionInfo(thoughtSpotHost);
     // On a public cluster the user is anonymous, so don't set the identify to userGUID
-    const isPublicCluster = !!sessionInfo.configInfo.isPublicUser;
-    const token = sessionInfo.configInfo.mixpanelAccessToken;
+    const isPublicCluster = !!sessionInfo?.configInfo.isPublicUser;
+    const token = sessionInfo?.configInfo.mixpanelAccessToken;
     if (token) {
         mixpanel.init(token);
         if (!isPublicCluster) {
