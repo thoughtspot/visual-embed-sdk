@@ -1,5 +1,4 @@
 = What's new
-
 :toc: true
 :toclevels: 1
 

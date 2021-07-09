@@ -229,7 +229,7 @@ const IndexPage = ({ location }) => {
 
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
-            {isPublicSiteOpen && <Header />}
+            {isPublicSiteOpen && <Header  location={location}/>}
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
                 className={`dark ${isPublicSiteOpen ? 'withHeaderFooter' : ''}`}
