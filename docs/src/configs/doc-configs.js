@@ -19,6 +19,7 @@ module.exports = {
         PROD: 'PROD',
         DEV: 'DEV',
         STAGING: 'STAGING',
+        PROD_VERSIONING: 'PROD_VERSIONING',
         LOCAL: 'LOCAL',
     },
     DEPLOY_ENVS: {

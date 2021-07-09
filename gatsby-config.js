@@ -8,6 +8,8 @@ const getPathPrefix = () => {
     switch (buildEnv) {
         case config.BUILD_ENVS.PROD:
             return config.DEPLOY_ENVS.RELEASE;
+        case config.BUILD_ENVS.PROD_VERSIONING:
+            return process.env.BUILD_DIR;
         case config.BUILD_ENVS.DEV:
         case config.BUILD_ENVS.STAGING:
             return config.DEPLOY_ENVS.DEV;
