@@ -25,6 +25,10 @@ include::{path}/metadata-api-list.adoc[]
 
 include::{path}/admin-api-list.adoc[]
 
+== Data connections
+
+include::{path}/connection-apis.adoc[]
+
 == TML objects
 
 include::{path}/tml-api-list.adoc[]
@@ -39,9 +43,9 @@ include::{path}/pinboard-api-list.adoc[]
 --
 `xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`  
 
-Search data from a specific data source in the ThoughtSpot application.
+Allows searching for data from a specific data source in the ThoughtSpot application.
 --
-== Object dependenies
+== Object dependencies
 
 include::{path}/dependency-api-list.adoc[]
 
@@ -49,3 +53,11 @@ include::{path}/dependency-api-list.adoc[]
 
 include::{path}/security-api-list.adoc[]
 
+== Log Streaming Service
+
+[div boxDiv boxFullWidth]
+--
+`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`  
+
+Gets security audit logs from the ThoughtSpot system.
+--

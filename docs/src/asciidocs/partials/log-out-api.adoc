@@ -1,5 +1,6 @@
 To log out of the current user session, use the `/tspublic/v1/session/logout` API.
 
+
 === Resource URL
 ----
 POST /tspublic/v1/session/logout

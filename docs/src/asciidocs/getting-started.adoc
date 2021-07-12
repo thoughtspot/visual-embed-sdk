@@ -17,12 +17,12 @@ ThoughtSpot supports SAML SSO and trusted authentication services.
 
 * Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
 * Verify if the same-site cookie setting is set to `none`.
-* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
+* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to the ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
 
 == Prepare your project environment
-The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package.
+The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package. Make sure the link:https://www.npmjs.com/get-npm[NPM is installed, window=_blank] in your environment. 
 
-If NPM is not installed, link:https://www.npmjs.com/get-npm[install NPM, window=_blank].
+You can also access Visual Embed SDK, including information about how to install from NPM or run from a web repository, in the link:https://github.com/thoughtspot/visual-embed-sdk[ThoughtSpot Visual Embed SDK GitHub repository, window=_blank]. 
 
 == Install the Visual Embed SDK
 The latest version of the Visual Embed SDK is available at link:https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk[https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk, window=_blank].

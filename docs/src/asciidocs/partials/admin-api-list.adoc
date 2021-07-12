@@ -25,42 +25,42 @@ Gets details of the custom actions enabled on the cluster
 
 `xref:admin-api.adoc#get-action-by-id[*GET* /tspublic/v1/admin/embed/actions/{actionid}]` [tag greenBackground]#New# 
 
-Gets details of a specific custom action
+Gets details of a specific custom action.
 
 ---
 
 `xref:admin-api.adoc#create-custom-action[*POST* /tspublic/v1/admin/embed/actions]` [tag greenBackground]#New# 
 
-Creates a custom action
+Creates a custom action.
 
 ---
 
 `xref:admin-api.adoc#edit-custom-action[*PUT* /tspublic/v1/admin/embed/actions/{actionid}]`[tag greenBackground]#New# 
 
-Modifies the attributes of a custom action 
+Modifies the attributes of a custom action. 
 
 ---
 
 `xref:admin-api.adoc#del-custom-action[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}]` [tag greenBackground]#New# 
 
-Deletes a custom action
+Deletes a custom action.
 
 ---
 
 `xref:admin-api.adoc#custom-action-assoc[*POST* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
 
-Associates a custom action to a ThoughtSpot object
+Associates a custom action to a ThoughtSpot object.
 
 ---
 
 `xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
 
-Gets the details of the ThoughtSpot objects associated with a custom action
+Gets the details of the ThoughtSpot objects associated with a custom action.
 
 ---
 
 `xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]` [tag greenBackground]#New# 
 
-Removes custom action associations 
+Removes custom action associations. 
 
 --

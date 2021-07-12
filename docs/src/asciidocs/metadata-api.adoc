@@ -88,7 +88,7 @@ GET /tspublic/v1/metadata/details
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`type`|string a|Type of the metadata object. To query details for a specific object type, set the metadata object `type` to one of the following values:
+|`type`|string a|Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for search answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
@@ -99,9 +99,9 @@ GET /tspublic/v1/metadata/details
 * `USER` for user objects.
 * `USER_GROUP` for user group objects.
 |`id`|string|A JSON array of GUIDs of the objects.
-|`showhidden`|boolean|When set to `true`, returns details of the hidden objects, for example such as a column in a worksheet or a table.By default, this attribute is set to `false`.
+|`showhidden` |boolean|When set to `true`, returns details of the hidden objects, for example such as a column in a worksheet or a table. By default, this attribute is set to `false`.
 |`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL TABLE` data type. By default, this attribute is set to `false`.
-|`version`__Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.   
+|`version` __Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.   
 |==== 
 
 === Example request

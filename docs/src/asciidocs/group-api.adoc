@@ -113,7 +113,7 @@ POST /tspublic/v1/group/
 * `BYPASSRLS`
 |`grouptype` __Optional__ a|__String__. Type of user group. Default value is `LOCAL_GROUP`, which indicates that the user group is created locally in the ThoughtSpot system.    
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user group is being created.
-|`visibility` __Optional__|__String__.Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.  
+|`visibility` __Optional__|__String__. Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.  
 |===
 
 === Example request
@@ -751,4 +751,3 @@ Response Code
 |**403**| Forbidden client
 |**500**| Invalid group ID 
 |===
-

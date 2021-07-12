@@ -24,7 +24,7 @@ You can add multiple domains as comma-separated values.
 
 [#csp-connect-src]
 == Allow domains for CSP connect-src
-To allow JavaScript events triggered by the custom action URLs, add the domains of these to CSP connect-src list.
+If you plan to create custom actions with URL targets, you must add these URLs to the `CSP connect-src` list. This allows JavaScript events that the custom action URL triggers when a user clicks the action in the ThoughtSpot UI. 
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
@@ -36,7 +36,7 @@ You can add multiple domains as comma-separated values.
 
 [#cors-hosts]
 == Allow domains for CORS
-When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for these domains for secure data exchange.
+When you embed ThoughtSpot into your web pages, your host application calls ThoughtSpot from your Web page, portal, or application. If your host application and ThoughtSpot are in different domains, you must enable Cross-Origin HTTP Requests (CORS) for these domains to allow secure data exchange.
 
 The CORS configuration for your cluster controls which domains can access and modify your embedded content. It also prevents code copying and deployment by unauthorized sites. For example, if your website is hosted on the `example.com` domain, you must enable CORS for that domain to allow your  application users to access the embedded content. Similarly, to test your code locally, you can add the domain for your local server, such as `\http://localhost:8080`. If you have added a localhost server, ThoughtSpot recommends that you disable the localhost access after testing.
 
@@ -52,4 +52,4 @@ To whitelist client application domains for CORS, follow these steps:
 . Click *Save changes*.
 
 [NOTE]
-After you add your domain to the CORS whitelist, the `Access-Control-Allow-Origin` header is added in the API responses sent by the ThoughtSpot application.
+After you add your domain as a CORS host, the `Access-Control-Allow-Origin` header is added in the API responses sent by the ThoughtSpot application.
