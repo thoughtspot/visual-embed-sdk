@@ -53,7 +53,10 @@ For more information about `searchOptions` parameter, see xref:embed-search.adoc
 
 JSON data structure changes in custom action response [tag redBackground]#Breaking change#:: 
 
-The JSON data structure passed in custom action response for search answers now shows as  `payload.data.embedAnswerData`. The payload now includes the following metadata:
+The JSON data structure passed in custom action response for search answers now shows as  `payload.data.embedAnswerData`. 
+
++
+The answer payload now includes the following metadata:
 
 * `reportBookmetadata`
 +

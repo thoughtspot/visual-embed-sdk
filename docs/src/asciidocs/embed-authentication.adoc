@@ -1,5 +1,6 @@
 = Embed user authentication
 :toc: true
+:toclevels: 1
 
 :page-title: Embed authentication
 :page-pageid: embed-auth
@@ -55,7 +56,7 @@ init
 [#trusted-auth-embed]
 == Trusted authentication
 
-This method requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable *Trusted authentication*] on ThoughtSpot. In this method, ThoughtSpot users are required to obtain an authentication token to access ThoughtSpot content. 
+This method requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable trusted authentication] on ThoughtSpot. In this method, ThoughtSpot users are required to obtain an authentication token to access ThoughtSpot content. 
  
 === Key attributes
 

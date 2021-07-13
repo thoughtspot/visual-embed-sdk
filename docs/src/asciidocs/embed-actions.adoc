@@ -1,6 +1,6 @@
 = Disable or hide menu actions
 :toc: true
-:toclevels: 2
+:toclevels: 1
 
 :page-title: Configure menu options for embedded pinboards and visualizations
 :page-pageid: action-config
@@ -13,122 +13,60 @@ ThoughtSpot pinboards and search answer pages include menu actions that perform 
 ThoughtSpot embedded instances support the following actions on pinboards and visualizations.
 
 === Pinboard actions
-
-* *Add filters*
-+
-Adds filters to all visualizations in a pinboard.
-
-* *Save*
-+
-Saves the pinboard
-
-* *Make a copy*
-+
-Creates a copy of the pinboard.
-
-* *Present*
-+
-Presents the pinboard in a fullscreen mode.
-
-* *Download as PDF*
-+
-Downloads the pinboard or visualizations in a pinboard as a PDF file.
-
-* *Manage schedules*
-+
-Allows scheduling and monitoring pinboard jobs.
-
-* *Pinboard info*
-+
-Displays information about the pinboard
-
-* *Follow*
-+
-Allows you to follow a pinboard and receive email notifications about the pinboard status and modifications.
-
-* *Share*
-
-+
-Allows sharing a pinboard with another or user group.
-
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|Action|Description
+|*Add filters*|Adds filters to all visualizations in a pinboard
+|*Save*| Saves the pinboard
+|*Make a copy*| Creates a copy of the pinboard.
+|*Present*|Presents the pinboard in a fullscreen mode.
+|*Download as PDF*|Downloads the pinboard or visualizations in a pinboard as a PDF file.
+|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.
+|*Pinboard info*|Displays information about the pinboard.
+|*Follow*|Allows you to follow a pinboard and receive email notifications about the pinboard status and modifications.
+|*Share*|Allows sharing a pinboard with another or user group.
+|===
 
 === Actions for visualizations in a pinboard
 
-* *Explore* 
-+
-Allows you to explore answers.
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|Action|Description
+|*Explore*|Allows you to explore answers.
+|*Pin*|Allows you to pin a visualization to a pinboard.
+|SpotIQ analysis icon|Allows you to run SpotIQ analyses. Available as a primary action icon. 
+|*Download* |Downloads the visualization data. Available only for charts.
+|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
+|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.
+|*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.
+|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.
+|===
 
-* *Pin*
-+
-Allows you to pin a visualization to a pinboard.
+=== Actions for visualizations in search answers
 
-* SpotIQ analysis
-+
-Allows you to run SpotIQ analyses. Available as a primary action icon. 
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|Action|Description
+|*Pin*|Allows you to pin a visualization to a pinboard.
+|SpotIQ analysis icon|Allows you to run SpotIQ analyses. Available as a primary action icon. 
+|*Download* |Downloads the visualization data. Available only for charts.
+|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
+|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.
+|*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.
+|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.
+|*Query details*| Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.
+|===
 
-* *Download* 
-+
-Downloads the visualization data. Available only for charts.
-
-* *Edit* 
-+
-Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
-
-* *Download as CSV* 
-+
-Downloads the visualization data in the CSV file format. Available only for tables.
-
-* *Download as XLSX* 
-+
-Downloads the visualization data in the XLSX file format. Available only for tables.
-
-* *Download as PDF* 
-+
-Downloads the visualization data as a PDF file. Available only for tables.
-
-
-=== Actions for charts and tables
-
-* *Pin*
-+
-Allows you to pin a visualization to a pinboard.
-
-* SpotIQ analysis
-+
-Allows you to run SpotIQ analyses. Available as a primary action icon. 
-
-* *Download* 
-+
-Downloads the visualization data. Available only for charts.
-
-* *Edit* 
-+
-Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
-
-* *Download as CSV* 
-+
-Downloads the visualization data in the CSV file format. Available only for tables.
-
-* *Download as XLSX* 
-+
-Downloads the visualization data in the XLSX file format. Available only for tables.
-
-* *Download as PDF* 
-+
-Downloads the visualization data as a PDF file. Available only for tables.
-
-* *Query details*
-+
-Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.
-
-== Configure menu actions using Visual Embed SDK
+== Disable or hide actions in Visual Embed SDK
 
 The Visual Embed SDK allows you to configure menu components for embedded pinboard and visualization pages. By default, the standard menu actions are enabled on all embedded instances. You can disable or hide specific menu actions in the *More* menu image:./images/icon-more-10px.png[the more options menu] or primary action bar in the visualization or pinboard page. 
 
-
 The SDK packages include the `disabledActions` and `hiddenActions` attributes and action enumerators that disable or hide the specified actions.
 
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of menu actions and the corresponding strings to use for disabling or hiding an action, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 === Disable actions
 
@@ -138,6 +76,7 @@ The `disabledActions` attribute in the Visual Embed SDK allows you to specify on
 
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], you can specify the `ShowUnderlyingData` action string in the `disabledActions` attribute.
 
+[source,JavaScript]
 ----
 disabledActions: ['Action.ShowUnderlyingData']
 ----
@@ -149,6 +88,7 @@ disabledActions: ['Action.ShowUnderlyingData']
 
 Similarly, to disable multiple actions, you can specify the action strings in the `disabledActions` attribute.
 
+[source,JavaScript]
 ----
 disabledActions: ['Action.AddFilter', 'Action.Present']
 ----
@@ -164,6 +104,7 @@ ThoughtSpot allows you to create custom actions for your embedded instance in th
 
 For example, if a custom action is labeled as *Send Email* and its ID is set as *send-email*, specify `send-email` in the `disabledActions` attribute.
 
+[source,JavaScript]
 ----
 disabledActions: ['Action.send-email']
 ----
@@ -172,9 +113,15 @@ disabledActions: ['Action.send-email']
 
 To add a tooltip for the disabled attribute, you can specify the message text string in the `disabledActionReason` attribute.
 
+[source,JavaScript]
 ----
 disabledActionReason: "Contact your administrator to enable this action"
 ----
+
+
+++++
+<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+++++
 
 === Hide actions
 
@@ -194,11 +141,12 @@ hiddenActions: ['Action.AddFilter', 'Action.Share']
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
  
-==== Hide custom actions
+=== Hide a custom action
 
 To hide a custom action, specify the ID of the custom action in the `disabledActions` attribute.  
 For example, if a custom action is labeled as *Send Email* and its ID is set as *send-email*, specify `send-email` in the `hiddenActions` attribute.
 
+[source,JavaScript]
 ----
 hiddenActions: ['Action.send-email']
 ----

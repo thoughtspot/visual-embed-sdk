@@ -12,7 +12,7 @@
 Learn more about what custom actions are and where you can use them. 
 --
 
-== How to configure and use custom actions
+== How to configure custom actions
 
 [div boxDiv boxFullWidth]
 --

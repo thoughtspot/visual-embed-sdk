@@ -16,7 +16,7 @@ You can use the Visual Embed SDK for the following purposes:
 
 [div boxDiv boxFullWidth]
 --
-xref:integration-overview.adoc[Integration guidelines]
+*xref:integration-overview.adoc[Integration guidelines]*
 
 Read through the integration guidelines to make sure you understand the embedding requirements.
 
@@ -24,7 +24,7 @@ Read through the integration guidelines to make sure you understand the embeddin
 
 [div boxDiv boxFullWidth]
 --
-xref:security-settings.adoc[Security settings]
+*xref:security-settings.adoc[Security settings]*
 
 Before you get started, add your application domain as a CORS and CSP host, and set up your application as a trusted host for secure data exchange.
 --
@@ -33,14 +33,14 @@ Before you get started, add your application domain as a CORS and CSP host, and 
 
 [div boxDiv boxFullWidth]
 --
-xref:getting-started.adoc[Get Started]
+*xref:getting-started.adoc[Get Started]*
 
 Download the Visual Embed SDK package and set up your application environment.
 --
 
 [div boxDiv boxFullWidth]
 --
-*Configure authentication method*
+*xref:embed-authentication.adoc[Configure authentication method]*
 
 Learn how to set up xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication service] to authenticate your embed application users. 
 
