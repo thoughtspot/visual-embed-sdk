@@ -10,7 +10,7 @@ Trusted authentication method is a token-based authentication service, which use
 
 == Key components
 
-The trusted authentication workflow involves several entities such as the web browser, host application, authenticator server, and the ThoughtSpot server.
+The trusted authentication workflow involves several entities, such as the web browser, host application, authenticator server, and the ThoughtSpot application server.
 
 Authenticator server::
 
@@ -21,15 +21,17 @@ The authenticator server performs the following functions:
 
 * Authenticates users who request access to the embedded content
 * Requests a token from ThoughtSpot on a user’s behalf
-* Returns the token through the user's web browser
+* Returns the token to the user's web browser 
 
++
 [NOTE]
 To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
 
 ThoughtSpot server::
 
-For token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable *Trusted authentication*] in the *Develop* > *Customization* > *Security Settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key` that can be used when requesting access to ThoughtSpot on a user’s behalf.
+For token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security Settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
 
++
 The trusted authenticator server also uses this secret key to obtain a security token.
 
 Security token::
@@ -119,7 +121,7 @@ The Visual Embed SDK simplifies and automates the trusted authentication workflo
 
 . The SDK checks for an existing user session in the browser.
 . If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method. 
-. The SDK uses the token and username in the GET request to the `/tspublic/v1/session/login/token` endpoint.
+. The SDK uses the obtained token and `username` in the GET request to the `/tspublic/v1/session/login/token` endpoint.
 . If the request is successful, the SDK renders the embedded content. 
 
 For more information, see xref:embed-authentication.adoc[Embed user authentication].
