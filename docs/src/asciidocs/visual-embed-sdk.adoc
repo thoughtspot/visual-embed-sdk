@@ -5,55 +5,77 @@
 :page-pageid: visual-embed-sdk
 :page-description: What is Visual Embed SDK
 
-The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements in a host application.
+The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements in your host application.
 
 You can use the Visual Embed SDK for the following purposes:
 
 * Embed specific components of the ThoughtSpot application; for example, search, pinboards, and visualizations.
 * Render full ThoughtSpot application within the host application.
 
-== Visual Embed SDK APIs
+== Configuration requirements
 
-The Visual Embed SDK includes the following embed modules:
+[div boxDiv boxFullWidth]
+--
+*xref:integration-overview.adoc[Integration guidelines]*
 
-SearchEmbed::
-To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
+Read through the integration guidelines to make sure you understand the embedding requirements.
 
-PinboardEmbed::
-To embed a ThoughtSpot xref:embed-a-viz.adoc[visualization] or  xref:embed-pinboard.adoc[pinboard].
+--
 
-AppEmbed::
-To embed the xref:full-embed.adoc[full ThoughtSpot application] with or without the navigation bar.
+[div boxDiv boxFullWidth]
+--
+*xref:security-settings.adoc[Security settings]*
 
+Before you get started, add your application domain as a CORS and CSP host, and set up your application as a trusted host for secure data exchange.
+--
 
-== Configuration requirements for embedding
+== Start embedding
 
-For information on configuration requirements, see the following sections:
+[div boxDiv boxFullWidth]
+--
+*xref:getting-started.adoc[Get Started]*
 
-* xref:integration-overview.adoc[Integration guidelines]
-* xref:security-settings.adoc[Security settings]
+Download the Visual Embed SDK package and set up your application environment.
+--
 
-////
-== Optional settings for embedding
+[div boxDiv boxFullWidth]
+--
+*xref:embed-authentication.adoc[Configure authentication method]*
 
-The URLs in data appear as clickable links in ThoughtSpot tables.
-By default, clicking on a link opens the URL in a separate tab.
-However, there is a system-wide setting that can be changed to open the links within the context in which they appear.
+Learn how to set up xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication service] to authenticate your embed application users. 
 
-Changing this setting opens the links.
-Consider the possible link types, and how they open:
+--
 
-* Link in search result table in ThoughtSpot.
-+
-Same browser tab as ThoughtSpot application.
+[div boxDiv boxFullWidth]
+--
+*xref:embed-search.adoc[Embed search]*
 
-* Link in table embedded in  a DOM element.
-+
-Same `<iframe>` that contains the table.
+Learn how to embed ThoughtSpot search in your application. 
+--
 
-* Link in full ThoughtSpot application embedded in a web page.
-+
-Same `<iframe>` that contains the application.
+[div boxDiv boxFullWidth]
+--
+*xref:embed-a-viz.adoc[Embed a visualization]*
+
+Learn how to embed ThoughtSpot charts and tables in your application.
+
+--
+
+[div boxDiv boxFullWidth]
+--
+*xref:embed-a-pinboard.adoc[Embed a pinboard]*
+
+Learn how to render pinboards and apply runtime controls on visualizations embedded in your application.
+
+--
+
+[div boxDiv boxFullWidth]
+--
+*xref:full-embed.adoc[Embed full ThoughtSpot experience]*
+
+Learn how to embed full ThoughtSpot experience in your application.
+
+--
 ////
 == Authentication
 You can use any of the following authentication services for authenticating application users who want to access the embedded content.
@@ -81,3 +103,15 @@ This method requires you to enable token-based trusted authentication service.
 In this authentication method, ThoughtSpot provides your client application service with a token that allows it to authenticate on behalf of users.
 +
 For more information, see xref:trusted-authentication.adoc[Trusted Authentication].
+
+////
+
+== Useful resources
+
+[div boxDiv boxFullWidth]
+--
+* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] 
+* link:https://github.com/thoughtspot/visual-embed-sdk#readme[ReadMe, window=_blank]
+* link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK GitHub repository, window=_blank]
+* link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
+--

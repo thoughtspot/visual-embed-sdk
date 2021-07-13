@@ -1,8 +1,6 @@
-
 ThoughtSpot supports the trusted authentication method, which is also known as token-based authentication. In the trusted authentication method, ThoughtSpot users are authenticated by an external authentication server.
 When ThoughtSpot receives a request from a trusted authentication service, it returns an authentication token to allow authenticated users to access ThoughtSpot content.
 If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user.
-
 
 === Resource URL
 ----
@@ -18,9 +16,9 @@ POST /tspublic/v1/session/auth/token
 |`username`|string|The username of the user configured in ThoughtSpot.
 |`access_level`|string a|User access privilege. Valid values are:
 
-* `FULL` - Allow full access.
-* `REPORT_BOOK_VIEW` - Allow view access to visualizations.
-|`id`|string|GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the pinboard object.
+* `FULL` - Creates a session with full access.
+* `REPORT_BOOK_VIEW` - Allow view access to the specified visualizations.
+|`id`|string|GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the pinboard or visualization object.
 |====
 
 === Example request

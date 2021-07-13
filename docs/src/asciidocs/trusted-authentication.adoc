@@ -6,12 +6,39 @@
 :page-pageid: trusted-auth
 :page-description: Trusted Authentication
 
-If your organization has a trusted authentication server, you can use it to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. After authenticating a user, the trusted authentication  server obtains an authentication token from ThoughtSpot on that user’s behalf. This ensures that the user authentication persists across all subsequent user sessions.
+Trusted authentication method is a token-based authentication service, which uses a security token to authenticate users that request access to the embedded ThoughtSpot content.
 
+== Key components
+
+The trusted authentication workflow involves several entities, such as the web browser, host application, authenticator server, and the ThoughtSpot application server.
+
+Authenticator server::
+
+If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
+
++
+The authenticator server performs the following functions:
+
+* Authenticates users who request access to the embedded content
+* Requests a token from ThoughtSpot on a user’s behalf
+* Returns the token to the user's web browser 
+
++
 [NOTE]
 To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
 
-== Trusted authentication workflow
+ThoughtSpot server::
+
+For token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security Settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
+
++
+The trusted authenticator server also uses this secret key to obtain a security token.
+
+Security token::
+
+The security token, also referred to as the authentication token, allows user access to the requested object. The user access is retained until the token expires. 
+ 
+== Trusted authentication workflow 
 The embed user authentication workflow with a trusted authentication service involves the following steps:
 
 . A user logs into the host application and requests access to the embedded ThoughtSpot content.
@@ -24,29 +51,39 @@ The authentication server must determine the following:
  ** what is being requested: an object, page, or the entire ThoughtSpot application.
  ** whether the requesting `username` matches a `username` added in ThoughtSpot.
 +
-
-.  The trusted authenticator server intercepts the request, authenticates the user, and requests a token from ThoughtSpot on the user's behalf.
+.  The trusted authenticator server intercepts the request and sends a POST request to the ThoughtSpot server with the `secret_key` and `username` attributes to obtain an authentication token on the user's behalf.
 +
 ----
  POST /tspublic/v1/session/auth/token
 ----
 +
-This POST request method includes the following attributes:
-[horizontal]
-secret_key::
-A required `formData` parameter containing the authentication token string provided by the ThoughtSpot application server.
-username::
-A required `formData` parameter containing a string which is the user's `username` on ThoughtSpot.
-access_level::
-A required `formData` parameter containing one of `FULL` or `REPORT_BOOK_VIEW`.
-id::
-An optional `formData` parameter containing the identifier of the embedded ThoughtSpot object.
-This is only required if you specified `REPORT_BOOK_VIEW` for the `access_level` parameter.
+This POST request body includes the following `formData` attributes:
+
+`secret_key`::
+__String__.The secret key obtained from the ThoughtSpot application server.  
+`username`::
+__String__. The `username` of the ThoughtSpot user.  
+`access_level`::
+__String__. Mode of access. Valid values are:
+
+* `FULL` 
++
+Creates a full user session. When a token has been requested in `FULL` mode, it will create a full ThoughtSpot session in the browser and the application. The token obtained for `FULL` mode persists through several sessions and is used only to create a session. 
+
+
+* `REPORT_BOOK_VIEW`
++
+Allows access to one object at a time. The token request for this access mode requires you to specify the GUID of the pinboard or search answer. If your application requires to access another object, a new token request must be sent. 
+
++
+`id`::
+__String__. The GUID of the pinboard or search answer. 
+This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 +
 
-. ThoughtSpot verifies the authentication server's request and returns a user token.
-. The authentication server returns the user token to the client, which uses it to complete the user request.
-. The client application forwards the request and the user token to the ThoughtSpot application server.
+. ThoughtSpot verifies the authentication server's request and returns a token.
+. The authentication server returns the user token to the user's web browser.
+. The client application constructs a fully encoded URL with the authentication token and the embedded resource endpoint and sends it as a query parameter in the GET request to the ThoughtSpot application server.
 +
 [source, HTML]
 ----
@@ -55,28 +92,39 @@ GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?usern
 The request URL includes the following attributes:
 
 username::
-_String_. The `username` of the user requesting access to ThoughtSpot.
+_String_. The `username` of the user requesting access to the embedded ThoughtSpot content.
 
 auth_token::
-_String_. The authentication token obtained for the user from the trusted authentication service.
+_String_. The authentication token obtained for the user in step 4.
 
 redirect_url::
 _String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
 +
-For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domains to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID.
+For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID.
 +
 [source, HTML]
 ----
 https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>
 ----
 [NOTE]
-The request URL includes the `auth_token` attribute, whereas the redirect URL uses the `authtoken` attribute.
+The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
 
-. ThoughtSpot validates the token and returns the information that the authenticated user has requested.
+. ThoughtSpot validates the request and allows access to the requested content.
 
 The following illustration depicts the trusted authentication workflow:
 
 image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
+
+== Trusted authentication workflow with Visual Embed SDK
+
+The Visual Embed SDK simplifies and automates the trusted authentication workflow. 
+
+. The SDK checks for an existing user session in the browser.
+. If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method. 
+. The SDK uses the obtained token and `username` in the GET request to the `/tspublic/v1/session/login/token` endpoint.
+. If the request is successful, the SDK renders the embedded content. 
+
+For more information, see xref:embed-authentication.adoc[Embed user authentication].
 
 [#trusted-auth-enable]
 == Enable trusted authentication
@@ -87,11 +135,11 @@ You need ThoughtSpot admin privileges to enable trusted authentication.
 . Under *Customizations*, click *Settings*.
 . To enable trusted authentication, turn on the toggle.
 +
-A secret key for trusted authentication is generated. This secret key required for obtaining authentication token for a ThoughtSpot user.
+A secret key for trusted authentication is generated. This secret key is required for obtaining an authentication token for a ThoughtSpot user.
 
 . Click the clipboard icon to copy the token.
 +
-The following example shows a ThoughtSpot-generated token string.
+The following example shows a ThoughtSpot-generated secret key string.
 
 +
 ----
@@ -102,10 +150,6 @@ This key is required for making API calls to get a token for ThoughtSpot users.
 . Store the key in a secure location.
 . Click *Save Changes*.
 
-////
-Add instructions on overwriting tokens.
-Every time you make API calls to initiate trusted authentication, the token is overwritten and a new one is returned.
-////
 
 == Disable trusted authentication
 
@@ -119,5 +163,5 @@ A pop-up window appears and prompts you to confirm the disable action.
 . Click *Disable*.
 
 +
-When you disable trusted authentication, the validity of your existing authentication token expires. Your application will become inoperable until you add the new token to it.
+When you disable trusted authentication, the validity of your existing authentication token expires. Your application will become inoperable until you add a new token to it.
 To generate a new token, re-enable trusted authentication.

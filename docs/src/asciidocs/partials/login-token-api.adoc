@@ -1,5 +1,5 @@
 
-When trusted authentication is enabled on ThoughtSpot, the authentication server obtains an authentication token from ThoughtSpot on a user's behalf. The `/tspublic/v1/session/login/token` API allows you to log in as an authorized user and access ThoughtSpot content.
+When trusted authentication is enabled on ThoughtSpot, trusted client applications can obtain an authentication token from the authentication server for ThoughtSpot user. The `/tspublic/v1/session/login/token` API allows you to log in to ThoughtSpot with the authentication token obtained from the trusted authentication server.
 
 === Resource URL
 ----
@@ -19,7 +19,6 @@ GET /tspublic/v1/session/login/token
 `\https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
 
 For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the host domain to which the user will be redirected, the authentication token, and the visualization and pinboard IDs. 
-
 |====
 
 

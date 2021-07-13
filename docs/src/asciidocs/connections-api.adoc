@@ -1,0 +1,303 @@
+= Connection APIs
+:toc: true
+:toclevels: 1
+
+:page-title: Connection APIs
+:page-pageid: connection-api
+:page-description: Live data connections API
+
+ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. ThoughtSpot users can run a live query of the data directly from the following external data sources to generate the information they need:
+
+* Snowflake
+* Amazon Redshift
+* Google BigQuery
+* Azure Synapse
+* Oracle ADW
+* Starburst
+* Databricks
+
+For information about how to set up a data connection to an external database and link it as a data source, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html, window=_blank].
+
+If you want to get a list of data connections that are currently used by your ThoughtSpot cluster, you can use the connection APIs.
+
+== Supported operations
+
+include::{path}/connection-apis.adoc[]
+
+[#connection-types]
+== Get a list of data connections
+To get a list of data connections and their associated attributes, send a `GET` request to the `/tspublic/v1/connection/types` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/connection/types
+----
+
+=== Request parameters
+
+None
+
+=== Example request 
+ 
+.cURL
+[source,cURL]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types
+----
+
+=== Example response
+
+[source,JSON]
+----
+[
+  {
+    "name": "RDBMS_SNOWFLAKE",
+    "displayName": "Snowflake",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_REDSHIFT",
+    "displayName": "Amazon Redshift",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_GCP_BIGQUERY",
+    "displayName": "Google BigQuery",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_AZURE_SQL_DATAWAREHOUSE",
+    "displayName": "Azure Synapse",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_PRESTO",
+    "displayName": "Starburst",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_ORACLE_ADW",
+    "displayName": "Oracle ADW",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  },
+  {
+    "name": "RDBMS_DATABRICKS",
+    "displayName": "Databricks",
+    "description": "",
+    "mode": "PRODUCTION",
+    "beta": false,
+    "enabled": true
+  }
+]
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful retrieval of connection types
+
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| No data connections set up on the cluster
+|===
+
+[#live-query-connections]
+== Get a list of live query connections
+
+To get a list of data connections that are set up as data sources for live query, send a `GET` request to the  `GET /tspublic/v1/connection/list` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/connection/list
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Query Parameter|Description 
+|`category` __Optional__ a|__String__. Type of the live query object. Valid values are:
+
+* `ALL`
++
+Gets all live query objects set up on the cluster
+
+* `MY`
++
+Gets a list of live query objects that are set up in the current logged-in user's account.
+
+|`sort` __Optional__ a|__String__. Sort order for the headers. Valid values are:
+
+* `DEFAULT` to use the default sort order in the response.
+* `NAME` to sort headers by the connection name.
+* `DISPLAY_NAME` to sort  headers by the display name of the connections.
+* `AUTHOR` to sort the headers by the author who set up the live query connection.  
+* `CREATED` to sort headers by the timestamp at which live query connections were set up.
+* `MODIFIED` to sort headers by the timestamp at which the live query connections were modified.
+| `sortascending` a|__Boolean__. A flag to specify the sort order. A null value defines the default order.
+
+* To set an ascending order, specify `true`.
+* To set a descending order, specify `false`.
+|`offset` __Optional__|__Integer__. Batch offset to value to fetch page headers. The default value is `-1`, which implies first page.
+|`batchsize` __Optional__ |__Integer__. Number of batches in which you want to fetch page headers in a single query. The default value is `-1`, which implies no pagination.
+|`tagname` __Optional__  |__Array of strings__. A JSON array of tag names to filter response headers by tags. A tag is a  label applied to a ThoughtSpot object.
+|`pattern` __Optional__  |__String__. A pattern to match the name of the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
+|====
+
+=== Example request
+
+.cURL
+
+[source,curl]
+----
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
+----
+
+=== Example response 
+
+[source,JSON]
+----
+{
+  "headers": [
+    {
+      "id": "c1f17251-b2b1-4230-b10b-c81254d5189f",
+      "indexVersion": 149,
+      "generationNum": 149,
+      "name": "test",
+      "description": "",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1625126133409,
+      "modified": 1625126133410,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "c1f17251-b2b1-4230-b10b-c81254d5189f",
+      "isDeleted": false,
+      "isHidden": false,
+      "statistics": {
+        "dataLoadStatistics": {
+          "scheduled": false,
+          "connectionType": "",
+          "connectionDisplayName": "",
+          "dataLoadStatusList": [],
+          "header": {
+            "id": "c4831f2f-c0a2-498b-9ac5-98b8bd222058",
+            "indexVersion": 149,
+            "generationNum": 149,
+            "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "owner": "c1f17251-b2b1-4230-b10b-c81254d5189f",
+            "isDeleted": false,
+            "isHidden": false,
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": []
+        }
+      },
+      "tags": [],
+      "type": "RDBMS_SNOWFLAKE",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    {
+      "id": "55bf4728-bea1-4e89-ae29-822413660daf",
+      "indexVersion": 328,
+      "generationNum": 328,
+      "name": "testsnow",
+      "description": "",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1625139996582,
+      "modified": 1625139996583,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "55bf4728-bea1-4e89-ae29-822413660daf",
+      "isDeleted": false,
+      "isHidden": false,
+      "statistics": {
+        "dataLoadStatistics": {
+          "scheduled": false,
+          "connectionType": "",
+          "connectionDisplayName": "",
+          "dataLoadStatusList": [],
+          "header": {
+            "id": "179697ab-5212-4da8-9508-e0550b7b2327",
+            "indexVersion": 328,
+            "generationNum": 328,
+            "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "owner": "55bf4728-bea1-4e89-ae29-822413660daf",
+            "isDeleted": false,
+            "isHidden": false,
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": []
+        }
+      },
+      "tags": [],
+      "type": "RDBMS_SNOWFLAKE",
+      "isExternal": false,
+      "isDeprecated": false
+    }
+  ],
+  "isLastBatch": true,
+  "debugInfo": {}
+}
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful retrieval of live query connections list
+
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| No live query connections on the cluster
+|===

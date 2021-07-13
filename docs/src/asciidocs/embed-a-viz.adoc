@@ -22,70 +22,10 @@ To allow your client application to connect to ThoughtSpot:
 
 . Configure the URL with ThoughtSpot hostname or IP address.
 . Specify the authentication method to use for authenticating application users.
-+
-[source,javascript]
-----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.SSO,
-    });
-----
-+
-thoughtSpotHost::
-_String_. Hostname or IP address of the ThoughtSpot application.
 
-+
-authType::
-_String_. Authentication type. You can set the `authType` attribute to one of the following values:
+include::{path}/embed-auth-config.adoc[]
 
-* `*None*`
-+
-Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
-
-+
-[WARNING]
-Do not use this authentication method in production environments.
-
-* `*Basic*`
-+
-Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
-
-+
-[WARNING]
-Do not use this authentication method in production environments.
-
-* `*SSO*`
-+
-Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
-
-** `*noRedirect*` _Optional_
-+
-_Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
-
-+
-* `*AuthServer*`
-
-+
-+
-Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
-
-+
-
-** `*authEndpoint*` _Optional_
-+
-_String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET request is sent to the authentication endpoint, which returns the authentication token as plaintext in its API response. This attribute is not required if `getAuthToken` is used.
-
-** `*username*`
-+
-_String_. The username of the ThoughtSpot user.
-
-** `*getAuthToken*` _Optional_
-+
-A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
-
-    getAuthToken: () => Promise.resolve(token) 
-
+For more information, see xref:embed-authentication.adoc[Embed user authentication].
 
 == Construct the embed content
 [source,JavaScript]
@@ -113,7 +53,6 @@ _Array of strings_. Disables the specified action menu items from the *More* men
 +
 
 For example, to disable the *Change Title* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the  `EditTitle` action menu string in the `disabledActions` attribute.
-
 
 +
 ----
@@ -279,7 +218,7 @@ Construct the URL for the embedded visualization and render the embedded content
 
 == Define a method to process callback custom actions payload
 
-include::callback-payload.adoc[]
+include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 Register event handlers to subscribe to events triggered by the embedded visualizations:

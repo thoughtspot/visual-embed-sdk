@@ -17,4 +17,4 @@ __Integer__. Sets the starting point for the records retrieved from the search a
 batchSize::
 __Integer__. Divides the data set into batches. For example, if you specify the batchSize as 3, the three batches are processed independently for faster response.
 
-If the dataset is divided into 10 batches, and the offset value is `0` and the batchSize is `3`, the first three batches of the dataset is retrieved in the answer payload in one UI query. Similarly, if the offset value is `1` and the batchSize is `3`, the next set of batches (4,5,and 6) are retrieved.
+If the dataset is divided into 10 batches, and the offset value is `0` and the batchSize is `3`, the first three batches of the dataset are retrieved in the answer payload in one UI query. Similarly, if the offset value is `1` and the batchSize is `3`, the next set of batches (4,5, and 6) are retrieved.

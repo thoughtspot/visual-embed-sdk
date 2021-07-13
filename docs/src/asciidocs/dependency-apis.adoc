@@ -6,7 +6,7 @@
 :page-pageid: dependent-objects-api
 :page-description: Dependent Objects API
 
-ThoughtSpot categorizes the objects related to a worksheet, table, or column as dependents. Before editing or deleting a data objects such as worksheets, tables, and columns, you must verify the dependent objects, and add or remove associations if required. To query the details of dependent objects and associate objects as dependents, you can use the `tspublic/v1/dependency` APIs.
+ThoughtSpot categorizes the objects related to a worksheet, table, or column as dependents. Before editing or deleting a data object such as a worksheet, table, or  column, you must verify its dependent objects, and modify or remove associations if required. To query the details of dependent objects and associate objects as dependents, you can use the `tspublic/v1/dependency` APIs.
 
 Note the naming convention of object headers in the API response:
 
@@ -57,7 +57,7 @@ POST /tspublic/v1/dependency/listdependents
 [options='header']
 |====
 |Form Parameter|Description
-|`type` a|__String__. Type of the data object. Valid values are:
+|`type` a|_String_. Type of the data object. Valid values are:
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
@@ -750,7 +750,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 [#get-incomplete-objects]
 == Get incomplete objects 
 
-To get a list of objects with incomplete metadata, send s `GET` request to the `GET /tspublic/v1/dependency/listincomplete` API endpoint.
+To get a list of objects with incomplete metadata, send a `GET` request to  the  `/tspublic/v1/dependency/listincomplete` API endpoint.
 
 === Resource URL
 ----
@@ -759,6 +759,7 @@ GET /tspublic/v1/dependency/listincomplete
 === Request parameters
 
 None
+
 === Example request
 
 .cURL

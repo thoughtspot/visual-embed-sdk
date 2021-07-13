@@ -1,0 +1,82 @@
+=  Log streaming service API
+:toc: true
+:toclevels: 1
+
+:page-title: Log streaming service 
+:page-pageid: logs-api
+:page-description: Log streaming service APIs
+
+ThoughtSpot cloud deployments allow you to collect security audit events and send them to your Security information and event management (SIEM) application in real-time. These events can help your security operations personnel to detect potential security threats or compromised user accounts in your organization. 
+
+The ThoughtSpot log streaming service API allows you to programmatically get a security audit event log from the ThoughtSpot system. To use this API, make sure you have admin user privileges. 
+
+== Resource URL
+----
+GET /tspublic/v1/logs/topics/{topic}
+----
+
+== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Path Parameter|Description 
+|`topic`|__String__. Type of the log. Valid value is `security_logs`. 
+|====
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Query Parameter|Description 
+|`fromEpoch` __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the start time for streaming logs. For example, to set timestamp as June 1, 2021 8 am, specify `1622534400000`.
+|`toEpoch`  __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the end time for streaming logs. To set the timestamp as July 1, 2021, 8 am, specify `1625126400000`.
+|====
+
+== Example request
+
+.cURL
+[source,cURL]
+----
+curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/logs/topics/security_logs?fromEpoch=1622534400000&toEpoch=1625126400000'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>callosum/v1/tspublic/v1/logs/topics/%22security_logs%22?fromEpoch=%221622534400000%22&toEpoch=%221625126400000%22
+----
+
+== Example response
+
+The API returns ThoughtSpot security events with the following information:
+
+* Event ID
+* A unique description of the event, for example, `User login failed`.
+* Timestamp 
+* User ID of the person initiating the event
+* IP address of the ThoughtSpot instance
+ 
+
+[source, JSON]
+----
+{
+   "date":"2021-05-12T13:54:10.449658Z",
+   "log":"{\"version\":\"1.0\",\"id\":\"TS-494a3556-eadd-495c-a5ce-c0273d7edc5b\",\"ts\":\"2021-05-12T13:54:10Z\",\"userGUID\":null,\"userName\":null,\"cIP\":\"10.253.143.254\",\"type\":\"LOGIN_FAILED\",\"desc\":\"User login failed\",\"data\":{\"userName\":\"svc.nebula-may-82\"}}"
+}{
+   "date":"2021-05-12T13:54:10.742073Z",
+   "log":"{\"version\":\"1.0\",\"id\":\"TS-0f9127f0-05a0-4f04-bf1b-8a46ed996f14\",\"ts\":\"2021-05-12T13:54:10Z\",\"userGUID\":\"f55fb80c-941f-4f70-bd2f-d389ff65d375\",\"userName\":\"svc.nebula-may-82\",\"cIP\":\"10.253.143.254\",\"type\":\"LOGIN_SUCCESSFUL\",\"desc\":\"User login successful\",\"data\":{\"userName\":\"svc.nebula-may-82\"}}"
+}
+----
+
+== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful retrieval of the log
+
+| **400**
+| Invalid parameter values
+|===

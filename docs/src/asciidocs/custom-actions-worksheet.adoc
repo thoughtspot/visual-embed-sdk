@@ -4,7 +4,7 @@
 :page-pageid: add-action-worksheet
 :page-description: Add custom actions to worksheets
 
-ThoughtSpot supports adding custom actions to the visualizations built from worksheets. The custom actions created in the Developer portal appear on a worksheet page, so that you can add these actions to all the visualizations generated using that worksheet. This feature allows ThoughtSpot application users to determine and control the position of a custom action on visualizations generated from a specific worksheet. 
+ThoughtSpot supports adding custom actions to the visualizations built from worksheets. The custom actions created in the Developer portal appear on a worksheet page, so that you can add these actions to all the visualizations built from that worksheet. This feature allows ThoughtSpot application users to determine and control the position of a custom action on visualizations generated from a specific worksheet. 
 
 Any user with edit privileges can assign a custom action to visualizations built from a worksheet. 
 

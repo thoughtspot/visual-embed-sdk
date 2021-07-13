@@ -21,7 +21,7 @@ For more information about configuring developer privileges, see the xref:user-r
 . Navigate to the **Develop** tab.
 
 If you do not have a ThoughtSpot user account::
-If you do not have a ThoughtSpot user account and you want to evaluate the APIs in the developer playground: 
+If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
 . From the header bar, click *Playground*.
 . Enter your name and email address.
@@ -109,7 +109,7 @@ Hides the visualizations displayed as search results. You can use this function 
 ++++
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
 +
 * To disable an action menu item, specify the menu string in the  `disabledActions` attribute. For example, to disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], specify the **Replay Search** menu string in the `disabledActions` attribute as shown here:
@@ -140,7 +140,6 @@ hiddenActions: [Action.ReplaySearch]
 Or
 
 +
-
 ----
 hiddenActions: ['replaySearch']
 ----
@@ -155,15 +154,18 @@ For a complete list of action menu items and the corresponding text strings to u
 
 +
 Add search tokens::
-Enables constructing a search query using search tokens.
+Enables constructing a TML-based search query string to set search tokens. You can also execute search to view the search results.
 
 +
 
-In the following example, to fetch the total revenue data by shipping mode, the `searchQuery` string uses the xref:search-data-api.adoc#column[Column] search token:
+The following example shows how to create a search token string to set the search tokens:
 
 +
 ----
-searchQuery: "[Revenue] by [Shipmode]"
+searchOptions: {
+        searchTokenString: '[product][sales][date].daily',
+        executeSearch: true,
+    }
 ----
 +
 For more information on the search tokens and query string components, see xref:search-data-api.adoc##components[Components of a search query].
@@ -190,7 +192,7 @@ To embed a visualization:
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
 +
 * To disable an action menu item, specify the menu string in `disabledActions` attribute. For example, to disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `Action.Download` or `download`:
@@ -278,7 +280,7 @@ To embed a pinboard:
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
 * To disable an action menu item, specify the menu string in the  `disabledActions` attribute. For example, to disable the **Download As PDF**  action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `Action.DownloadAsPdf` or `downloadAsPdf`.
 +
@@ -369,7 +371,7 @@ To embed the full ThoughtSpot application:
 
 +
 Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the ThoughtSpot application pages. You can use this function to restrict user access to certain features, or to remove the menu items that are not applicable to your application context.
+Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the ThoughtSpot application pages. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
 
 +

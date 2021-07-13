@@ -12,13 +12,15 @@
 Learn more about what custom actions are and where you can use them. 
 --
 
+== How to configure custom actions
+
 [div boxDiv boxFullWidth]
 --
 *xref:custom-actions-url.adoc[Configure a custom action to send data to a URL]*
 
 Learn how to create a custom action to send ThoughtSpot data to a specific URL target. 
 
-Requires Developer privilege.
+*Requires Developer privilege*.
 
 --
 
@@ -28,7 +30,7 @@ Requires Developer privilege.
 
 Learn how to create a custom action that can trigger a callback from your host application to send ThoughtSpot data. 
 
-Requires Developer privilege.
+*Requires Developer privilege*.
 
 --
 
@@ -51,9 +53,19 @@ Learn how to assign a custom action to a specific worksheet, so that it appears 
 Requires edit privileges to access and modify the worksheet.
 --
 
+== Custom action examples
+
 [div boxDiv boxFullWidth]
 --
 *xref:push-data-to-external-app.adoc[View callback custom action example]*
 
-Learn more about the callback custom action workflow, the steps required to push data to an external app, and view examples of the response payload. 
+Learn more about the callback custom action workflow, the steps required to push data to an external app. 
+--
+
+
+[div boxDiv boxFullWidth]
+--
+*xref:callback-response-payload.adoc[Custom action response payload]*
+
+View examples of the custom action response payload with search answer and pinboard data.
 --

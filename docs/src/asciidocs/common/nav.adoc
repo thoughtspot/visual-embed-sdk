@@ -19,11 +19,14 @@
 * Visual Embed SDK
 ** link:{{navprefix}}=visual-embed-sdk[Overview]
 ** link:{{navprefix}}=getting-started[Get started]
+** link:{{navprefix}}=embed-auth[Embed user authentication]
 ** link:{{navprefix}}=search-embed[Embed search]
 ** link:{{navprefix}}=embed-pinboard[Embed a pinboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
+** link:{{navprefix}}=action-config[Disable or hide menu actions]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
+
 
 * Style customization
 ** link:{{navprefix}}=customize-style[Customize styles]
@@ -52,14 +55,16 @@
 *** link:{{navprefix}}=user-api[User APIs]
 *** link:{{navprefix}}=group-api[Group APIs]
 *** link:{{navprefix}}=session-api[Session APIs]
+*** link:{{navprefix}}=connection-api[Data connection APIs]
 *** link:{{navprefix}}=metadata-api[Metadata APIs]
 *** link:{{navprefix}}=admin-api[Admin APIs]
+*** link:{{navprefix}}=tml-api[TML APIs]
 *** link:{{navprefix}}=dependent-objects-api[Dependent objects APIs]
 *** link:{{navprefix}}=search-data-api[Search data API]
 *** link:{{navprefix}}=pinboard-api[Pinboard data API]
-*** link:{{navprefix}}=security-api[Security APIs] 
 *** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
-*** link:{{navprefix}}=tml-api[TML APIs]
+*** link:{{navprefix}}=security-api[Security APIs] 
+*** link:{{navprefix}}=logs-api[Log streaming service API]
 
 * Release notes
 ** link:{{navprefix}}=whats-new[What's new]

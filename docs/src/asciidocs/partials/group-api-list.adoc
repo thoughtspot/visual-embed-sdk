@@ -49,7 +49,7 @@ Removes the privilege assigned to a group.
 
 `xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
 
-Removes a user assigned to a group.
+Removes a user from a user group.
 
 ---
 

@@ -129,15 +129,15 @@ class ActionData {
    const actionData = new ActionData();
 
    // Gets the column names.
-   const nbrCols = jsonData.data.columnsAndData.columns.length;
+   const nbrCols = jsonData.data.embedAnswerData.columns.length;
    for (let colCnt = 0; colCnt < nbrCols; colCnt += 1) {
-     actionData._columnNames.push(jsonData.data.columnsAndData.columns[colCnt].column.name);
+     actionData._columnNames.push(jsonData.data.embedAnswerData.columns[colCnt].column.name);
    }
  
    let dataSet;
-   dataSet = (Array.isArray(jsonData.data.columnsAndData.data))
-     ? jsonData.data.columnsAndData.data[0].columnDataLite
-     : jsonData.data.columnsAndData.data.columnDataLite;
+   dataSet = (Array.isArray(jsonData.data.embedAnswerData.data))
+     ? jsonData.data.embedAnswerData.data[0].columnDataLite
+     : jsonData.data.embedAnswerData.data.columnDataLite;
 
    for (let colCnt = 0; colCnt < actionData.nbrColumns; colCnt++) {
      actionData._data[actionData._columnNames[colCnt]] = Array.from(dataSet[colCnt].dataValue);  // shallow copy the data
@@ -184,4 +184,4 @@ const actionDataToHTML = (actionData) => {
 export { ActionData, actionDataToHTML }
 ----
 
-For sample response payload, see xref:callback-response-payload[Custom action response payload].
+For sample response payload, see xref:callback-response-payload.adoc[Custom action response payload].
