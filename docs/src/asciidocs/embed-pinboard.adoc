@@ -54,7 +54,7 @@ Sets the `width` and `height` dimensions to render the iframe containing the pin
 
 fullHeight __Optional__::
 
-_Boolean_. Dynamically resizes the embedded object frame based on the height of the pinboard. 
+_Boolean_. Dynamically resizes the embedded pinboard frame according to the height of the pinboard. 
 
 +
 If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded pinboard frame is automatically adjusted according to the height of the pinboard, and the second scroll bar does not appear.
