@@ -13,6 +13,8 @@ SDK to embed ThoughtSpot into your web apps.
 
 ## Usage
 
+The SDK is compatible with ThoughtSpot SW version >= 7.1 and ThoughtSpot Cloud.
+
 Install the Visual Embed SDK from [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
 
 ```
