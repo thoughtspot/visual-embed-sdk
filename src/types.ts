@@ -417,6 +417,7 @@ export enum Action {
     Separator = 'context-menu-item-separator',
     DrillDown = 'DRILL',
     RequestAccess = 'requestAccess',
+    QueryDetailsButtons = 'queryDetailsButtons',
 }
 
 export interface SessionInterface {
