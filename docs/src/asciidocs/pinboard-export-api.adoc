@@ -1,4 +1,6 @@
 = Pinboard export API
+:toc: true
+:toclevels: 1
 
 :page-title: Export Pinboard as PDF
 :page-pageid: pinboard-export-api
@@ -14,7 +16,7 @@ POST /tspublic/v1/export/pinboard/pdf
 
 == Request parameters
 
-[width="80%" cols="1,1,3,1"]
+[width="100%" cols="1,1,3,1"]
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
@@ -35,7 +37,7 @@ POST /tspublic/v1/export/pinboard/pdf
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: application/octet-stream`
+* The `Accept` header is set as `Accept: application/octet-stream`
 * The `Content-type` header set as `Content-type: multipart/form-data`
 * The `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 
@@ -193,7 +195,7 @@ async function downloadPDF() {
 </script>
 ----
 ////
- 
+
 
 == Response codes
 

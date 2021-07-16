@@ -16,7 +16,7 @@ include::{path}/metadata-api-list.adoc[]
 == Assign tags to metadata objects
 Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or search answer. You can use tags to find and filter your answers, pinboards, and data objects. 
 
-To apply a tag to a ThoughtSpot object programmatically, you can use the  `/tspublic/v1/metadata/assigntag` API.  
+To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API.  
 
 Before you apply a tag, make sure the tags are created and available for assignment.
 [NOTE]
@@ -99,8 +99,8 @@ GET /tspublic/v1/metadata/details
 * `USER` for user objects.
 * `USER_GROUP` for user group objects.
 |`id`|string|A JSON array of GUIDs of the objects.
-|`showhidden` |boolean|When set to `true`, returns details of the hidden objects, for example such as a column in a worksheet or a table. By default, this attribute is set to `false`.
-|`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL TABLE` data type. By default, this attribute is set to `false`.
+|`showhidden` |boolean|When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
+|`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
 |`version` __Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.   
 |==== 
 

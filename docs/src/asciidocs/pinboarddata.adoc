@@ -1,4 +1,6 @@
 = Pinboard data API
+:toc: true
+:toclevels: 1
 
 :page-title: Get Pinboard Data
 :page-pageid: pinboard-api

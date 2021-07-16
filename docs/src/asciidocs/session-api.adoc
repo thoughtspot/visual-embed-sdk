@@ -43,7 +43,7 @@ POST /tspublic/v1/session/homepinboard
 |===
 |Form Parameter|Data Type|Description
 |`id`|string|GUID of the pinboard to be set as a home pinboard.
-|`userid` __Optional__|string|GUID of the user account for which you want to set the home pinboard. If the `userid` attribute is not defined, ThoughtSpot sets the home pinboard of the current logged in user.
+|`userid` __Optional__|string|GUID of the user account for which you want to set the home pinboard. If the `userid` attribute is not defined, ThoughtSpot sets the home pinboard of the current logged-in user.
 |===
 === Example request
 

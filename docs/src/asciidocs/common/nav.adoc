@@ -8,6 +8,7 @@
 ** link:{{navprefix}}=introduction[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=dev-portal-playground[Developer playground]
 
 * Authentication and security
 ** link:{{navprefix}}=user-roles[User configuration]
@@ -32,7 +33,7 @@
 ** link:{{navprefix}}=customize-style[Customize styles]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Overview]
+** link:{{navprefix}}=customize-actions[Custom actions page]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
 ** link:{{navprefix}}=add-action-viz[Add a custom action to a visualization] 

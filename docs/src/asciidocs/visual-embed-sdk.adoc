@@ -10,7 +10,7 @@ The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements
 You can use the Visual Embed SDK for the following purposes:
 
 * Embed specific components of the ThoughtSpot application; for example, search, pinboards, and visualizations.
-* Render full ThoughtSpot application within the host application.
+* Render full ThoughtSpot application within a host application.
 
 == Configuration requirements
 

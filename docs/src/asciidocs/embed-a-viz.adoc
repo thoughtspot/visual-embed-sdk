@@ -31,7 +31,7 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
 [source,JavaScript]
 ----
  const pinboardEmbed = new PinboardEmbed(
-    document.getElementById('ts-embed'), 
+    document.getElementById('ts-embed'),
     {
 	  frameParams: {
 		width: '100%',
@@ -46,7 +46,7 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
     },
 });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization. You can set the `width` and `height` attribute values in pixels or as a percentage. 
+frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 disabledActions [small]_optional_::
 _Array of strings_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -240,7 +240,7 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register an
           console.log('Custom Action event:', data.columnsAndData);
       }
   })
- 
+
 ----
 For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
@@ -261,7 +261,7 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
     	thoughtSpotHost: '<%=tshost%>',
     	authType: AuthType.None,
     });
- const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), 
+ const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'),
     {
     	frameParams: {
     		width: '100%',

@@ -1,4 +1,4 @@
-If you are a ThoughtSpot user, you can programmatically sign in to ThoughtSpot using the `/tspublic/v1/session/login` API.
+You can programmatically sign in a user to ThoughtSpot using the `/tspublic/v1/session/login` API.
 
 === Resource URL
 ----
@@ -12,7 +12,7 @@ POST /tspublic/v1/session/login
 |Form Parameter|Data Type|Description
 |`username`|string|Username of the user account.
 |`password`|string|The password of the user account.
-|`rememberme`|boolean|A flag to remember the user session. The system default is `false`.
+|`rememberme`|boolean|A flag to remember the user session. When set to `true`, sets a session cookie that persists in subsequent API calls. The system default is `false`.
 |====
 
 === Example requests

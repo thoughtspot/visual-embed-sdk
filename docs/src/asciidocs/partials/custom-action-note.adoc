@@ -1,0 +1,2 @@
+[NOTE]
+If you have added a custom action and you want to disable or hide this custom action by using the *Modify available actions* checkbox, make sure you specify the ID of the custom action in the `disabledActions` and `hiddenActions` attribute. For more information about the custom action ID, see xref:customize-actions-menu.adoc[Custom actions].

@@ -119,8 +119,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 
 hideResults [small]#__Optional__#::
-_Boolean_. When set to true, it hides charts and tables in search answers. Use this attribute if you want to create your own visualization.
-
+_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a search answer.
 +
 ++++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>

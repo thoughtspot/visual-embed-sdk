@@ -1,9 +1,13 @@
 = Custom actions
+:toc: true
 
-:page-title: Actions customization
+:page-title: Action customization
 :page-pageid: custom-action-intro
-:page-description: Add custom actions
+:page-description: You can insert custom buttons or menu items in ThoughtSpot UI
 
+You can insert custom buttons and menu actions into the ThoughtSpot’s UI to push insights from ThoughtSpot to your app or trigger an event to an external application from your parent application. These custom actions allow your users to trigger actions on insights without leaving your application.
+
+If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.  
 
 [div boxDiv boxFullWidth]
 --

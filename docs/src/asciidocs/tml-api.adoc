@@ -4,7 +4,7 @@
 
 :page-title: TML Export and Import API
 :page-pageid: tml-api
-:page-description: TML Export and Import API 
+:page-description: TML Export and Import API
 
 The TML APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
 
@@ -26,9 +26,9 @@ POST /tspublic/v1/metadata/tml/import
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format. 
+|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format.
 
-If in YAML format within the JSON array, use escape characters for YAML quotes, and new line characters when there is a new line. 
+If in YAML format within the JSON array, use escape characters for YAML quotes, and new line characters when there is a new line.
 
 For example:
 
@@ -37,21 +37,21 @@ For example:
 |None
 |`import_policy`|string a|Policy to follow during import. The allowed values are:
 
-* `PARTIAL` 
+* `PARTIAL`
 Imports all objects that validate successfully, and ignores objects that do not validate successfully.
 * `ALL_OR_NONE`
 Imports the objects that validate successfully.
 * `VALIDATE_ONLY`
 Validates the objects but does not import them.|`PARTIAL`
 
-|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object.|`false`| 
+|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object.|`false`|
 |====
 
-=== Example request 
+=== Example request
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: text/plain`
+* The `Accept` header is set as `Accept: text/plain`
 * The `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -193,7 +193,7 @@ For example:
 
 Make sure the API request has the following headers:
 
-* The `Accept` header set as `Accept: text/plain`
+* The `Accept` header is set as `Accept: text/plain`
 * The `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -214,7 +214,7 @@ curl -X POST
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
 ----
 
-=== Example response 
+=== Example response
 
 [source,JSON]
 ----
