@@ -1,4 +1,5 @@
 import * as mixpanel from 'mixpanel-browser';
+import * as auth from './auth';
 
 import { initMixpanel, uploadMixpanelEvent } from './mixpanel-service';
 
@@ -15,14 +16,19 @@ const MIXPANEL_EVENT = {
 
 describe('Unit test for mixpanel', () => {
     test('initMixpanel', async () => {
-        initMixpanel(config).then((result) => {
-            spyOn(mixpanel, 'init');
-            expect(mixpanel.init).toHaveBeenCalled();
+        spyOn(mixpanel, 'init');
+        spyOn(mixpanel.default, 'track');
+        spyOn(auth, 'getSessionInfo').and.returnValue({
+            configInfo: {
+                mixpanelAccessToken: 'foo',
+            },
+        });
+        initMixpanel(Promise.resolve(), config).then((result) => {
+            expect(mixpanel.init).toHaveBeenCalledWith('foo');
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
                 authType: config.authType,
                 host: config.thoughtSpotHost,
             });
-            spyOn(mixpanel, 'track');
             expect(mixpanel.track).toHaveBeenCalled();
         });
     });

@@ -23,7 +23,7 @@ For more information, see xref:custom-actions-worksheet.adoc[Add custom actions 
 
 === Query parameters for URL-based custom actions
 
-The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a   URL-based custom action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot. 
+The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL-based custom action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot. 
 
 For more information, see xref:custom-actions-url.adoc[Configure a custom URL action].
 
@@ -42,6 +42,7 @@ Supports an easy-to-use TML query string to define search tokens.
 
 * `executeSearch`
 +
+
 When set to `true`, it executes search and shows the search results.
 
 Deprecation of searchQuery attribute [tag redBackground]#Deprecated#:: 
@@ -54,11 +55,13 @@ For more information about `searchOptions` parameter, see xref:embed-search.adoc
 JSON data structure changes in custom action response [tag redBackground]#Breaking change#:: 
 
 The JSON data structure passed in custom action response for search answers now shows as  `payload.data.embedAnswerData`. 
+
 +
 The answer payload for custom actions now includes the following metadata:
 
 * `reportBookmetadata`
 +
+
 Visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
 
 * user data

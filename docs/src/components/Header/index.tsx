@@ -1,9 +1,10 @@
 import React from 'react';
 import TSLogo from '../../assets/svg/ts-logo-white.svg';
 import t from '../../utils/lang-utils';
+import Dropdown from '../Dropdown';
 import './index.scss';
 
-const Header = () => (
+const Header = (props: { location: Location }) => (
     <header>
         <section className="container">
             <div className="headerWrapper">
@@ -18,6 +19,7 @@ const Header = () => (
                         </a>
                     </h1>
                 </div>
+                <Dropdown location={props.location} />
             </div>
         </section>
     </header>

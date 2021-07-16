@@ -18,7 +18,6 @@ You can access the Developer portal from your ThoughtSpot application instance.
 . Navigate to the **Develop** tab.
 +
 The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[User configuration].
-
 If you are not an existing ThoughtSpot user::
 If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
@@ -71,9 +70,11 @@ Provides UI workflows to create custom actions in the ThoughtSpot UI. For exampl
 
 * *Settings*
 +
+
 Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security Settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentiation] method, or xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
 
 * *Links*
 +
+
 Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 
  

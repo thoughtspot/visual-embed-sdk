@@ -5,6 +5,7 @@ import { appendToUrlHash } from './utils';
 let loggedInStatus = false;
 let samlAuthWindow: Window = null;
 let samlCompletionPromise: Promise<void> = null;
+let sessionInfo: any = null;
 
 const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
 
@@ -22,16 +23,28 @@ export const EndPoints = {
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
-    let response;
+    sessionInfo = null;
     try {
-        response = await fetch(authVerificationUrl, {
+        const response = await fetch(authVerificationUrl, {
             credentials: 'include',
         });
+        if (response.status === 200) {
+            sessionInfo = response.json();
+        }
     } catch (e) {
-        return false;
+        sessionInfo = null;
     }
+    return !!sessionInfo;
+}
 
-    return response.status === 200;
+/**
+ * Return sessionInfo if available else make a loggedIn check to fetch the sessionInfo
+ */
+export async function getSessionInfo(thoughtSpotHost: string) {
+    if (!sessionInfo) {
+        await isLoggedIn(thoughtSpotHost);
+    }
+    return sessionInfo;
 }
 
 /**

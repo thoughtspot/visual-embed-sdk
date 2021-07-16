@@ -1,0 +1,53 @@
+@import '../../assets/styles/variables.scss';
+
+.dropdownWrapper {
+    .dropdown {
+        float: left;
+        overflow: hidden;
+    }
+    
+    .dropdown .dropbtn {
+        font-size: $font-size-normal;
+        border: none;
+        outline: none;
+        color: $white;
+        background-color: inherit;
+        margin: 0;
+    }
+    
+    
+    .dropdownContent {
+        display: none;
+        position: absolute;
+        background-color: var(--body-background-color);
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        right: 10px;
+    }
+    
+    .dropdownContent div {
+        float: none;
+        cursor: pointer;
+        color: var(--primary-color);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+    
+    .dropdownContent div:hover {
+        color: var(--secondary-color);
+    }
+    
+    .dropdown:hover .dropdownContent {
+        display: block;
+    }
+    
+    .arrowDown {
+        height: 0.8rem;
+        width: 0.8rem;
+        vertical-align: middle;
+        margin-left: 5px;
+    }
+}

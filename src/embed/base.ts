@@ -69,7 +69,12 @@ const handleAuth = () => {
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
     handleAuth();
-    initMixpanel(embedConfig);
+    initMixpanel(authPromise, embedConfig);
+
+    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+        authType: config.authType,
+        host: config.thoughtSpotHost,
+    });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

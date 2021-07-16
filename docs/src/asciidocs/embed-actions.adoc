@@ -13,6 +13,7 @@ ThoughtSpot pinboards and search answer pages include menu actions that perform 
 ThoughtSpot embedded instances support the following actions on pinboards and visualizations.
 
 === Pinboard actions
+
 [width="100%" cols="2,4,2"]
 [options='header']
 |===
@@ -79,6 +80,7 @@ Adds filters to all visualizations in a pinboard.
 |*Include*|Allows you to include a specific data point in a visualization.| `Action.DrillInclude`
 |*Show underlying data*|Displays detailed information and raw data for a given visualization.| `Action.ShowUnderlyingData`
 |*Copy to clipboard*| Copies data to clipboard. Available for tables.| `Action.CopyToClipboard`
+
 |===
 
 == Disable or hide actions in Visual Embed SDK
@@ -110,11 +112,13 @@ Similarly, to disable multiple actions, you can specify the action strings in th
 
 [source,JavaScript]
 ----
+
 disabledActions: [Action.AddFilter, Action.Present]
 ----
 
 
 ++++
+
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
@@ -126,6 +130,7 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 
 [source,JavaScript]
 ----
+
 disabledActions: [Action.send-email]
 ----
 
@@ -153,6 +158,7 @@ For example:
 
 [source,JavaScript]
 ----
+
 hiddenActions: [Action.AddFilter, Action.Share]
 ----
 

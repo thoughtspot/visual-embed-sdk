@@ -19,10 +19,25 @@ module.exports = {
         PROD: 'PROD',
         DEV: 'DEV',
         STAGING: 'STAGING',
+        PROD_VERSIONING: 'PROD_VERSIONING',
         LOCAL: 'LOCAL',
     },
     DEPLOY_ENVS: {
         RELEASE: 'release',
         DEV: 'dev',
     },
+    VERSION_DROPDOWN: [
+        {
+            label: 'Cloud',
+            link: '/visual-embed-sdk/release/en',
+        },
+        {
+            label: 'Dev',
+            link: '/visual-embed-sdk/dev/en',
+        },
+        {
+            label: '7.1',
+            link: '/visual-embed-sdk/7.1/en',
+        },
+    ],
 };

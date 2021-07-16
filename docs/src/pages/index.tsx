@@ -217,9 +217,19 @@ const IndexPage = ({ location }) => {
         });
     }
 
+    const calculateDocumentBodyWidth = () => {
+        if (isMaxMobileResolution) {
+            if (width > MAX_CONTENT_WIDTH_DESKTOP) {
+                return `${MAX_CONTENT_WIDTH_DESKTOP - 300}px`;
+            }
+            return `${width - 300}px`;
+        }
+        return '100%';
+    };
+
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
-            {isPublicSiteOpen && <Header />}
+            {isPublicSiteOpen && <Header  location={location}/>}
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
                 className={`dark ${isPublicSiteOpen ? 'withHeaderFooter' : ''}`}
@@ -244,9 +254,7 @@ const IndexPage = ({ location }) => {
                 <div
                     className="documentBody"
                     style={{
-                        width: isMaxMobileResolution
-                            ? `${MAX_CONTENT_WIDTH_DESKTOP - leftNavWidth}px`
-                            : '100%',
+                        width: calculateDocumentBodyWidth(),
                         marginLeft: isMaxMobileResolution
                             ? `${leftNavWidth}px`
                             : '0px',
@@ -264,6 +272,7 @@ const IndexPage = ({ location }) => {
                         isMaxMobileResolution={isMaxMobileResolution}
                         setDarkMode={setDarkMode}
                         isDarkMode={isDarkMode}
+                        isPublicSiteOpen={isPublicSiteOpen}
                     />
                     <div className="introWrapper">
                         <Document
