@@ -47,7 +47,7 @@ init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
         authType: AuthType.SSO,
-         noRedirect: true
+        noRedirect: true
         
     });
 
