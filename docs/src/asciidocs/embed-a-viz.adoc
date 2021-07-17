@@ -104,6 +104,7 @@ _String_. The Global Unique Identifier (GUID) of the visualization.
 
 pinboardId::
 _String_. The GUID of the pinboard to which the visualization is pinned.
+
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
 +
@@ -120,89 +121,9 @@ runtimeFilters: [{
   }]
 ----
 +
-Runtime filters have several operators you can use to filter your embedded visualizations.
+include::{path}/runtime-filter.adoc[]
 
-+
-[width="50%" cols="1,2,1"]
-[options='header']
-|===
-|Operator|Description|Number of Values
-
-| `EQ`
-| equals
-| 1
-
-| `NE`
-| does not equal
-| 1
-
-| `LT`
-| less than
-| 1
-
-| `LE`
-| less than or equal to
-| 1
-
-| `GT`
-| greater than
-| 1
-
-| `GE`
-| greater than or equal to
-| 1
-
-| `CONTAINS`
-| contains
-| 1
-
-| `BEGINS_WITH`
-| begins with
-| 1
-
-| `ENDS_WITH`
-| ends with
-| 1
-
-| `BW_INC_MAX`
-| between inclusive of the higher value
-| 2
-
-| `BW_INC_MIN`
-| between inclusive of the lower value
-| 2
-
-| `BW_INC`
-| between inclusive
-| 2
-
-| `BW`
-| between non-inclusive
-| 2
-|===
-
-You can use runtime filters on these data types:
-
-* VARCHAR
-* BIGINT
-* INT
-* FLOAT
-* DOUBLE
-* BOOLEAN
-* DATE
-* DATE_TIME
-* TIME
-
-[IMPORTANT]
-====
-The `DATE` and `DATE_TIME` data type requires you to provide the date and time values in the Epoch time format, The Epoch time is also referred POSIX or Unix time. The Epoch timestamp is always in GMT/UTC time. You may have to convert time zones to calculate the appropriate timestamp.
-
-For example, if you want to filter data for 2020-05-22, you can specify the date value in the Epoch time format as `1590192000`, or use the following JavaScript method to calculate the timestamp:
-
-----
-new Date('2020-05-22').getTime() / 1000
-----
-====
+For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[].
 
 ++++
 <a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
@@ -213,7 +134,7 @@ Construct the URL for the embedded visualization and render the embedded content
 
 [source,javaScript]
 ----
-  pinboardEmbed.render();
+pinboardEmbed.render();
 ----
 
 == Define a method to process callback custom actions payload
