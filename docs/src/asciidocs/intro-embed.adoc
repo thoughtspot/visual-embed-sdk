@@ -1,13 +1,13 @@
-= Embedded Analytics
+= ThoughtSpot Everywhere
 :toc: true
 
 :page-title: Embedded Analytics with ThoughtSpot
-:page-pageid: introduction
+:page-pageid: embed-analytics
 :page-description: Embedded Analytics with ThoughtSpot
 
-ThoughtSpot allows you to embed search-driven analytics and infuse insights into your application, website, portal, or product. By embedding ThoughtSpot, you can enrich your applications with ThoughtSpot's analytical capabilities and provide a seamless experience for your application users as they navigate between your application interfaces.
+ThoughtSpot Everywhere provides a low-code embedded analytics platform for developers and product owners to build interactive data apps and incorporate ThoughtSpot functions and services directly into their apps, products, or services. Using ThoughtSpot Everywhere, you can embed search-driven analytics, infuse insights into your application, and enrich your website, portal, or product with ThoughtSpot's analytical capabilities.
 
-ThoughtSpot provides the Visual Embed SDK to programmatically embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot application. ThoughtSpot also provides REST API services to programmatically query data, manage users and user sessions, push data to an external application, and other key functions. 
+The ThoughtSpot Everywhere platform provides your developers with the Visual Embed SDK to programmatically embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot application. ThoughtSpot also provides REST API services to programmatically query data, manage users and user sessions, push data to an external application, and automate deployments. 
 
 == Embedding methods
 You can use one of the following methods to embed ThoughtSpot into your host application:

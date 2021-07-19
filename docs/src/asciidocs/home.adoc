@@ -1,0 +1,155 @@
+:toc: true
+
+:page-title: ThoughtSpot Everywhere Developer Documentation
+:page-pageid: introduction
+:page-description: ThoughtSpot Everywhere Developer Documentation
+
++++<h1>ThoughtSpot Everywhere Documentation</h1>+++
+
+---
+
+[width="100%" cols="6,6,6"]
+|====
+a|
+--
+Explore our guides and code examples to build interactive data apps with ThoughtSpotVisual Embed SDK and REST APIs. Read the docs and get started!
+
+xref:integration-overview.adoc[Read the guidelines -> ]
+--
+a| 
+--
+Set up your application environment, download the SDK, and start embedding ThoughtSpot functionality in your host application using Visual Embed SDK.
+
+xref:visual-embed-sdk.adoc[Get started with Visual Embed SDK ->] 
+--
+a|
+--
+Explore ThoughtSpot REST APIs to programmatically query, import, or export data, manage users and sessions, and automate deployments. 
+
+xref:about-rest-apis.adoc[Get started with REST APIs ->] 
+--
+
+|====
+
+
+
+[width="100%" cols="6,6,6"]
+|====
+a|[div boxDiv]
+--
++++ <h3>Embed search </h3> +++     
+
+image:./images/search.png[]
+
+Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly!
+
+xref:embed-search.adoc[Learn more about embedding search ->] 
+
+--
+
+a|[div boxDiv]
+--
++++ <h3>Embed charts and tables</h3> +++     
+
+image:./images/charts-viz.png[]
+
+Embed ThoughtSpot visualizations in your application to provide your users with insights that are easy to read and modify.
+
+xref:embed-a-viz.adoc[Learn more about embedding visualizations ->] 
+
+a|[div boxDiv]
+--
++++ <h3>Embed pinboards</h3> +++     
+
+image:./images/pinboard.png[]
+
+Embed ThoughtSpot pinboards in your application to provide your users with a set of dashboard insights that they can analyze and act on.
+
+xref:embed-pinboard.adoc[Learn more about embedding pinboards ->] 
+
+a|[div boxDiv]
+--
++++ <h3>Embed ThoughtSpot app</h3> +++     
+
+image:./images/full-app.png[]
+
+Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and pinboards.
+
+xref:full-embed.adoc[Learn more about embedding the full application ->] 
+
+
+a| [div boxDiv]
+--
++++ <h3>Custom actions</h3> +++     
+
+image:./images/custom-actions-home.png[]
+
+Insert buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.
+
+xref:custom-actions.adoc[Learn more about creating custom actions ->]
+
+--
+a|[div boxDiv boxFullWidth]
+--
++++ <h3>UI customization</h3> +++     
+
+image:./images/customize-styles.png[]
+
+Apply custom styles and themes to the embedded ThoughtSpot UI elements to match the look and feel of your app.
+
+xref:customize-style.adoc[Learn more about customizing the UI elements ->]  
+
+|====
+
+
+
+
+[width="100%" cols="6,6,6"]
+|====
+a|[div boxDiv]
+--
++++ <h3>Check what's new</h3> +++   
+
+See what's new in ThoughtSpot Everywhere and try out new features and enhancements.
+
+xref:whats-new.adoc[See what's new ->]
+--
+a|
+[div boxDiv]
+--
++++ <h3>Try out Embed APIs</h3> +++     
+
+Experiment with Embed APIs in the Developer playground and preview results instantly.
+ 
+link:{{previewPrefix}}/playground/search[Take me to Playground ->, window=_blank] 
+--
+a|[div boxDiv]
+--
++++ <h3>Learn how to embed</h3> +++     
+
+Learn how to use Developer portal, Playground, and embed ThoughtSpot content
+
+link:https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere[Learn more ->, window=_blank]
+ 
+--
+|====
+
+////
+ 
+[div boxDiv boxHalfWidth]
+--
++++ <h3>Visit playground</h3> +++     
+
+Experiment with Embed APIs and link:{{previewPrefix}}/playground/search[preview results in Playground, window=_blank] instantly
+ 
+--
+
+[div boxDiv boxHalfWidth]
+--
++++ <h3>Learn how to embed</h3> +++     
+
+link:https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere[Learn how to use Developer portal and embed ThoughtSpot content]
+ 
+--
+
+////

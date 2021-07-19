@@ -618,7 +618,7 @@ None
 
 Make sure the API request has the following headers:
 
-* the `Accept` header is set  as `Accept: text/html`
+* the `Accept` header is set as `Accept: text/html`
 * the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -715,7 +715,7 @@ GET /tspublic/v1/admin/embed/actions/{actionid}
 
 Make sure the API request has the following headers:
 
-* the `Accept` header is set  as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * The `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -791,7 +791,7 @@ POST /tspublic/v1/admin/embed/actions
 
 Make sure the API request has the following headers:
 
-* the `Accept` header is set  as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 * the `Content-Type` is set as `application/x-www-form-urlencoded`
 
@@ -875,7 +875,7 @@ PUT /tspublic/v1/admin/embed/actions/{actionid}
 
 Make sure the API request has the following headers:
 
-* the `Accept` header is set  as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
 * The `Content-Type' as `application/x-www-form-urlencoded`
 

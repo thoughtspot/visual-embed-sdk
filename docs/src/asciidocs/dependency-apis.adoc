@@ -20,7 +20,7 @@ Note the naming convention of object headers in the API response:
 
 * `LOGICAL_RELATIONSHIP` for table joins.
 +
-A join combines columns from one or several data objects by using matching values. 
+A join combines columns from one or several data objects by using matching values.
 
 * `PHYSICAL_COLUMN` for the underlying column objects that exist in the physical layer of the data repository.
 
@@ -38,12 +38,12 @@ include::{path}/dependency-api-list.adoc[]
 === Request headers
 Make sure your API request has the following headers:
 
-* the `Accept` header set as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 * the `Content-Type` in `POST` request is set as `application/x-www-form-urlencoded`
 
 
-[#add-dependents] 
+[#add-dependents]
 == Create dependent objects
 To add a list of dependents to a metadata object, send a `POST` request to the `POST /tspublic/v1/dependency/listdependents` API endpoint.
 
@@ -63,7 +63,7 @@ POST /tspublic/v1/dependency/listdependents
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
 * `LOGICAL_RELATIONSHIP` for table joins.
 * `PHYSICAL_COLUMN` for physical column objects
-* `PHYSICAL_TABLE` for a physical table 
+* `PHYSICAL_TABLE` for a physical table
 
 |`id`|__Array of strings__. A JSON array of GUIDs of the objects to associate as dependents.
 |`batchsize`|__Integer__. The maximum number of batches to fetch in a query. If this attribute is not defined, the `batchsize` value specified in the cluster configuration is used. To get the list of all dependent objects in a single query, define the batch size attribute as `-1`.
@@ -85,7 +85,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents
 === Example response
 If the `POST` operation is successful, the API returns a response body with dependent object details:
 
-[source,JSON] 
+[source,JSON]
 ----
 {
   "69428b60-58fd-42d7-b645-16ea3d524a06": {},
@@ -125,13 +125,13 @@ If the `POST` operation is successful, the API returns a response body with depe
 |===
 |HTTP code|Description
 |**204**|Successful addition of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |**500**|Null object ID
 |===
 
 [#get-column-dependents]
 == Get dependent objects for a column
-To get the details of dependent objects for a logical column in a worksheet, table, or view, send a `GET` request to `/tspublic/v1/dependency/logicalcolumn` API endpoint. 
+To get the details of dependent objects for a logical column in a worksheet, table, or view, send a `GET` request to `/tspublic/v1/dependency/logicalcolumn` API endpoint.
 
 === Resource URL
 ----
@@ -164,7 +164,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%
 If the GET operation is successful, the API returns a list of dependent objects such as worksheets, pinboard objects, and search answers.
 
 
-[source,JSON] 
+[source,JSON]
 ----
 {
   "34d09c13-08a3-4b09-907b-92cc6f544f78": {
@@ -276,9 +276,9 @@ If the GET operation is successful, the API returns a list of dependent objects 
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
- 
+
 [#get-table-dependents]
 == Get dependent details for data objects
 To get the details of dependent objects for a worksheet, table, or view, send a `GET` request to the  `/tspublic/v1/dependency/logicaltable` API endpoint.
@@ -293,7 +293,7 @@ GET /tspublic/v1/dependency/logicaltable
 |====
 |Query Parameter| Description
 |`id`|__Array of strings__. The GUIDs of data objects such as a worksheet, tables, or views.
-|==== 
+|====
 
 === Example request
 
@@ -402,7 +402,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
 
 [#get-dependents-joins]
@@ -419,9 +419,9 @@ GET /tspublic/v1/dependency/logicalrelationship
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__Array of strings__. A JSON array of the GUIDs of table joins.  
+|`id`|__Array of strings__. A JSON array of the GUIDs of table joins.
 |====
- 
+
 === Example request
 
 .cURL
@@ -434,10 +434,10 @@ curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: Though
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D
 ----
- 
+
 === Example response
 
-If the GET operation is successful, the API returns the following response: 
+If the GET operation is successful, the API returns the following response:
 
 [source,JSON]
 ----
@@ -480,14 +480,14 @@ If the GET operation is successful, the API returns the following response:
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
 
 [#get-dependents-phycolumn]
 == Get dependent objects for physical columns
 To get the details of dependent objects for a physical column, send a `GET` request to the `/tspublic/v1/dependency/physicalcolumn` API endpoints.
 
- 
+
 === Resource URL
 ----
 GET /tspublic/v1/dependency/physicalcolumn
@@ -600,12 +600,12 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
 
 [#get-dependents-phytable]
 == Get dependent objects for physical tables
-To get dependent objects for a physical table, send a `GET` request to the `/tspublic/v1/dependency/physicaltable` API endpoint. 
+To get dependent objects for a physical table, send a `GET` request to the `/tspublic/v1/dependency/physicaltable` API endpoint.
 
 === Resource URL
 ----
@@ -696,7 +696,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
 
 [#get-dependents-pinboard]
@@ -744,11 +744,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===
 
 [#get-incomplete-objects]
-== Get incomplete objects 
+== Get incomplete objects
 
 To get a list of objects with incomplete metadata, send a `GET` request to  the  `/tspublic/v1/dependency/listincomplete` API endpoint.
 
@@ -809,5 +809,5 @@ If the cluster has objects with incomplete metadata details, the API returns the
 |===
 |HTTP code|Description
 |**204**|Successful retrieval of dependent objects
-|**400**|Invalid object ID  
+|**400**|Invalid object ID
 |===

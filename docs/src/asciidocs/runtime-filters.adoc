@@ -2,7 +2,7 @@
 :toc: true
 :toclevels: 1
 
-:page-title: Runtime Filters
+:page-title: Runtime filters
 :page-pageid: runtime-filters
 :page-description: Apply filters to visualizations at runtime and pass them as URL parameters
 
@@ -48,8 +48,8 @@ new Date('2020-05-22').getTime() / 1000
 
 The runtime filters are specified in the request URL as parameters. To apply runtime filters, you need to embed ThoughtSpot data using one of the following methods:
 
-* xref:visual-embed-sdk.adoc[Embed a visualization or pinboard] using the Visual Embed SDK, and authenticate to ThoughtSpot.
-* Use the xref:pinboarddata.adoc[REST API to retrieve a visualization or pinboard].
+* xref:visual-embed-sdk.adoc[Embed a visualization or pinboard] using the Visual Embed SDK
+* Use the xref:pinboarddata.adoc[REST API to retrieve a visualization or pinboard]
 
 === Runtime filters for embedded pinboard or visualization
 
@@ -90,14 +90,14 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&
 The following example shows the URL to access a pinboard with a filter. Here the runtime filter is operating on the column `Color` and will only return values that equal (EQ) to `red`.
 
 ----
-http://<your.thoughtspot.com>/?col1=Color&op1=EQ&val1=red#
+http://<ThoughtSpot-host>/?col1=Color&op1=EQ&val1=red#
 /pinboard/e36ee65e-64be-436b-a29a-22d8998c4fae
 ----
 
 The following example shows the URL for a REST API request URL with a filter. Here the runtime filter is operating on the column `Category` and returning values that are equal to `mfgr%2324`.
 
 ----
-http://<your.thoughtspot.com>/callosum/v1/tspublic/v1/pinboarddata?
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?
 id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 &op1=EQ&val1=mfgr%2324
 ----
@@ -107,13 +107,13 @@ ThoughtSpot will try to find a matching column from the pinboard or visualizatio
 
 === Add additional filters
 
-You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2 and so on. To add additional filters on a particular column, you can specify multiple values by separating them with ampersand (&) as shown in the example here:
+You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2, and so on. To add additional filters on a particular column, you can specify multiple values by separating them with an ampersand (&) as shown in the example here:
 
 ----
 val1=foo&val1=bar
 ----
 
-You can also use the IN operator for multiple values, as shown in this example:
+You can also use the `IN` operator for multiple values, as shown in this example:
 
 ----
 col1=<column_name>&op1=IN&val1=<value>&val1=<value>
@@ -133,6 +133,6 @@ If the pinboard or answer you're filtering already has one or more filters appli
 
 * Runtime filter on `DATE` or `DATE_TIME` must be specified in epoch time (Unix time or POSIX time). 
 * Runtime filters do not work directly on top of tables. You must create a worksheet if you want to use runtime filters. This means that the pinboard or visualization on which you apply a runtime filter must be created on top of a worksheet.
-* If the worksheet was created from an answer (it is an aggregated worksheet), runtime Filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
+* If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a pinboard or visualization built from tables and worksheets that have chasm traps. 

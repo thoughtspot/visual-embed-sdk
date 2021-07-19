@@ -160,7 +160,7 @@ button {
     display: inline-block;
     margin: 10px;
     box-shadow: var(--box-shadow);
-
+    border-radius: 10px;
     &:hover {
         box-shadow: var(--box-shadow-hover);
     }
