@@ -80,18 +80,18 @@ xref:full-embed.adoc[Learn more about embedding the full application ->]
 
 a| [div boxDiv]
 --
-+++ <h3>Custom actions</h3> +++     
++++ <h3>Configure custom actions</h3> +++     
 
 image:./images/custom-actions-home.png[]
 
 Insert buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.
 
-xref:custom-actions.adoc[Learn more about creating custom actions ->]
+xref:custom-actions.adoc[Learn more about custom actions ->]
 
 --
 a|[div boxDiv boxFullWidth]
 --
-+++ <h3>UI customization</h3> +++     
++++ <h3>Customize UI</h3> +++     
 
 image:./images/customize-styles.png[]
 

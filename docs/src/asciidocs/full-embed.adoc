@@ -196,14 +196,15 @@ runtimeFilters: [
 },
 ]
 ----
-+
-include::{path}/runtime-filter.adoc[]
 
-For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[].
 
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
+
+include::{path}/runtime-filter.adoc[]
+
+For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
 === Render the embedded application
 Render the embedded content.
@@ -251,32 +252,8 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 
 
 == Code sample
-[source,javascript]
-----
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
-init({
-        thoughtSpotHost: '<%=tshost%>',
-    	authType: AuthType.None,
-    });
-const appEmbed = new AppEmbed(
-      document.getElementById('ts-embed'), 
-      {
-    	frameParams: {
-    		width: '100%',
-    		height: '100%',
-    	},
-    	pageId: Page.Data,
-      
-      },
-    
-    });
-appEmbed.render();
-----
 
-
-++++
-<a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
+See xref:code-samples.adoc[Code samples].
 
 == Additional resources
 For more information on AppEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

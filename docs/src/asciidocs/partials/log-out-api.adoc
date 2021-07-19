@@ -1,7 +1,6 @@
 To log a user out of the current session, use the `/tspublic/v1/session/logout` API.
 
 
-
 === Resource URL
 ----
 POST /tspublic/v1/session/logout
@@ -21,13 +20,14 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
 ----
 
-If the API request is AJAX call, add the following parameter to send credentials with the request:
+If the logout request is sent as an AJAX call, add the following parameter to send credentials with the request:
+
 ----
 xhrFields: { withCredentials: true }
 ----
 === Response codes
 
-[options="header", cols="1,4"]
+[options="header", cols="2,4"]
 |===
 |HTTP status code|Description
 |**200**|User logged out

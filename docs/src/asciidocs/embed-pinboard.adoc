@@ -126,14 +126,17 @@ runtimeFilters: [{
   values: [ 'red' ]
   }]
 ----
-+
-include::{path}/runtime-filter.adoc[]
 
-For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[].
 
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
+
+
+
+include::{path}/runtime-filter.adoc[]
+
+For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
 == Render the embedded pinboard
 
@@ -181,33 +184,7 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
 
 == Code sample
 
-[source,javascript]
-----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
-
-init({
-    thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.None,
-});
-
-const pinboardEmbed = new PinboardEmbed(
-    document.getElementById('ts-embed'),
-    {
-        frameParams: {
-            width: '100%',
-            height: '100%',
-        },
-        pinboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
-        },
-    });
-
-pinboardEmbed.render();
-----
-
-
-++++
-<a href="{{previewPrefix}}/playground/pinboard" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
+See xref:code-samples.adoc[Code samples].
 
 == Additional resources
 
