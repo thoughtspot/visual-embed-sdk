@@ -129,8 +129,10 @@ runtimeFilters: [{
 
 
 ++++
-<a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
+
+
 
 include::{path}/runtime-filter.adoc[]
 
