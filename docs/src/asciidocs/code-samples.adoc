@@ -1,0 +1,253 @@
+= Code samples
+:toc: true
+
+:page-title: Code samples
+:page-pageid: code-samples
+:page-description: Code samples
+
+This page contains code samples to help you embed ThoughtSpot features and data and build your applications.
+
+== Visual Embed SDK 
+
+You can use the following code snippets to build your code and embed ThoughtSpot content in your host  application.
+
+=== Embed ThoughtSpot Search
+
+[source,javascript]
+----
+import {
+	SearchEmbed,
+	AuthType,
+	init
+} from '@thoughtspot/visual-embed-sdk';
+init({
+	thoughtSpotHost: "<%=tshost%>",
+	authType: AuthType.SSO,
+});
+const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+	frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+	dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
+},
+});
+searchEmbed.render();
+----
+
+
+=== Embed charts and tables
+
+[source,javascript]
+----
+import {
+	PinboardEmbed,
+	AuthType,
+	init
+} from '@thoughtspot/visual-embed-sdk';
+init({
+	thoughtSpotHost: '<%=tshost%>',
+	authType: AuthType.SSO,
+});
+const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), {
+	frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+	pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
+	vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
+},
+});
+pinboardEmbed.render();
+----
+
+=== Embed a pinboard
+
+[source,javascript]
+----
+import {
+	PinboardEmbed,
+	AuthType,
+	init
+} from '@thoughtspot/visual-embed-sdk';
+
+init({
+	thoughtSpotHost: '<%=tshost%>',
+	authType: AuthType.SSO,
+});
+
+const pinboardEmbed = new PinboardEmbed(
+document.getElementById('ts-embed'), {
+	frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+	pinboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
+},
+});
+
+pinboardEmbed.render();
+----
+
+=== Embed full application
+
+[source,javascript]
+----
+import {
+	AppEmbed,
+	Page,
+	AuthType,
+	init
+} from '@thoughtspot/visual-embed-sdk';
+init({
+	thoughtSpotHost: '<%=tshost%>',
+	authType: AuthType.None,
+});
+const appEmbed = new AppEmbed(
+document.getElementById('ts-embed'), {
+	frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+	pageId: Page.Data,
+
+},
+
+});
+appEmbed.render();
+----
+
+== REST APIs
+
+The following examples show how to call REST APIs to query and import data using Javascript. 
+
+=== Search data API
+
+[source,javascript]
+----
+export const getSearchData = async (worksheetId, search) => {
+	console.log(`Getting data from the SearchAPI from worksheet ${worksheetId} with search ${search}`);
+	let getSearchDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/searchdata?`;
+	getSearchDataURL += `"batchSize=-1&data_source_guid=${worksheetId}&query_string=${search}`;
+
+	return await fetch(
+			encodeURI(getSearchDataURL), {
+				method: 'POST',
+				headers: {
+					"Accept": "application/json",
+					"X-Requested-By": "ThoughtSpot"
+				},
+				credentials: "include",
+			})
+		.then(response => response.json())
+		.then(data => data)
+		.catch(error => console.error(`Error getting search data ${error}`));
+}
+----
+=== Embed visualization data from a pinboard
+
+[source,javascript]
+----
+export const getPinboardData = async (pinboardId, vizIds) => {
+	console.log(`Getting data from pinboard ${pinboardId} and visualization(s) ${vizIds}`)
+	let getPinboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${pinboardId}`;
+
+	if (vizIds) { // if vizIds were specified, they are optional
+		if (!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
+			vizIds = [vizIds];
+		}
+
+		// TODO add handling for invalid types.  Currently only support string and array.
+		const formattedVizIds = `["${vizIds.join('","')}"]`;
+		getPinboardDataURL += '&vizid=' + formattedVizIds;
+	}
+
+	return await fetch(
+			encodeURI(getPinboardDataURL), {
+				method: 'POST',
+				headers: {
+					"Accept": "application/json",
+					"X-Requested-By": "ThoughtSpot"
+				},
+				credentials: "include"
+			})
+		.then(response => response.json())
+		.then(data => data)
+		.catch(error => {
+			console.error(`Unable to get the visualization list for pinboard ${pinboardId}: ${error}`);
+		});
+}
+----
+=== Get a list of visualizations on a pinboard
+
+[source,javascript]
+----
+export const getVisualizationList = async (pinboardId) => {
+	const vizMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + pinboardId;
+
+	return await fetch(
+			vizMetadataListURL, {
+				method: 'GET',
+				headers: {
+					"Accept": "application/json",
+					"X-Requested-By": "ThoughtSpot"
+				},
+				credentials: "include"
+			})
+		.then(response => response.json())
+		.then(data => data)
+		.catch(error => {
+			console.error("Unable to get the visualization list for pinboard " + pinboardId + ": " + error)
+		});
+}
+----
+
+=== Get a list of pinboards for a user
+
+[source,javascript]
+----
+export const getPinboardList = async () => {
+	// Returns the list of pinboards so the user can display them.
+	const pinboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
+		"type=PINBOARD_ANSWER_BOOK" +
+		"&batchsize=-1";
+
+	return await fetch(
+			pinboardMetadataListURL, {
+				method: 'GET',
+				headers: {
+					"Accept": "application/json",
+					"X-Requested-By": "ThoughtSpot"
+				},
+				credentials: "include"
+			})
+		.then(response => response.json())
+		.then(data => data)
+		.catch(error => {
+			console.error("Unable to get the pinboard list: " + error)
+		});
+}
+----
+
+== Custom actions
+
+See the following articles:
+
+* xref:push-data-to-external-app.adoc[Callback custom action workflow]
+
+* xref:callback-response-payload.adoc[Custom action response payload]
+
+== Additional resources
+
+* xref:home.adoc[Developer documentation]
+
+* xref:rest-api-reference.adoc[REST API Reference Guide]
+
+* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank]
+
+* link:https://developers.thoughtspot.com/guides[Tutorials, window=_blank]
+
+* link:https://github.com/thoughtspot/visual-embed-sdk[SDK and developer toolkit, window=_blank]
+
+* link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API examples, window=_blank]
+
