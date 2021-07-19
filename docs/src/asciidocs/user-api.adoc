@@ -6,7 +6,7 @@
 :page-pageid: user-api
 :page-description: User APIs
 
-The User APIs allow you to programmatically manage ThoughtSpot users and user groups.
+The User APIs allow you to programmatically manage ThoughtSpot users.
 
 == Supported operations
 include::{path}/user-api-list.adoc[]
@@ -18,8 +18,8 @@ To programmatically create a user account in the ThoughtSpot system, send a POST
 
 [NOTE]
 ====
-* To create a user, you must have the admin user privileges. 
-* All users created in ThoughtSpot system are added to ALL_GROUP.
+* To create a user, you require admin user privileges. 
+* All users created in the ThoughtSpot system are added to ALL_GROUP.
 ====
 
 === Resource URL
@@ -37,10 +37,10 @@ POST /tspublic/v1/user/
 |`password`|__String__.Password for the user account. 
 |`displayname`|__String__. A unique display name string for the user, usually their first and last name. 
 |`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
-|`groups` __Optional__|__Array of strings__. A JSON array of GUIDs of groups to assign user to. The user privileges are determined by the group to which you assign the user to. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
-|`usertype` __Optional__ a|__String__. Type of user. Default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.    
+|`groups` __Optional__|__Array of strings__. A JSON array of the GUIDs of groups to which you want to assign the user. The user privileges are determined by the group to which you assign the user. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
+|`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.    
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
-|`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes the user visible for other users and user groups, and allows them to share objects.
+|`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
 |===
 
 === Example request
@@ -258,7 +258,7 @@ GET /tspublic/v1/user/
 [options='header']
 |===
 |Query Parameter|Description
-|`userid` __Optional__|__String__. GUID of the user account to query.
+|`userid` __Optional__|__String__. The GUID of the user account to query.
 |`name` __Optional__|__String__. Username of the user profile that you want to query.
 |===
 
@@ -522,7 +522,7 @@ POST /tspublic/v1/user/updatepassword
 |Form Parameter|Description
 |`name` |__String__. Name of the user.
 |`currentpassword`|__String__. The current password of the user.
-|`password`|__String__. A new password of the user.
+|`password`|__String__. A new password for the user.
 |====
 === Example request
 
@@ -719,7 +719,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromU
 |===
 |HTTP Code|Description
 |**200**|The ownership of objects is successfully transferred.
-|**400**|In case of invalid `fromName` and `toName`, or if there is no user for a given username.
+|**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot that matches the specified username.
 |===
 
 [#user-sync]
@@ -766,7 +766,7 @@ __Boolean__.
 Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`. 
 
 |`password`
-|__String__. Password of the admin user.
+|__String__. The password of the admin user.
 |===
 
 === Example request

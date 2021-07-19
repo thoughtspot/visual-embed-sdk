@@ -10,70 +10,69 @@ The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements
 You can use the Visual Embed SDK for the following purposes:
 
 * Embed specific components of the ThoughtSpot application; for example, search, pinboards, and visualizations.
-* Render full ThoughtSpot application within the host application.
+* Render full ThoughtSpot application within a host application.
 
 == Configuration requirements
 
 [div boxDiv boxFullWidth]
 --
-*xref:integration-overview.adoc[Integration guidelines]*
++++ <h4> Integration guidelines </h4>+++
 
-Read through the integration guidelines to make sure you understand the embedding requirements.
+Read the xref:integration-overview.adoc[integration guidelines] to understand the embedding requirements and recommendations.
 
 --
 
 [div boxDiv boxFullWidth]
 --
-*xref:security-settings.adoc[Security settings]*
++++<h4>Security settings </h4> +++
 
-Before you get started, add your application domain as a CORS and CSP host, and set up your application as a trusted host for secure data exchange.
+Before you get started, xref:security-settings.adoc[add your application domain to the CORS and CSP allowed list] and set your application as a trusted host for secure data exchange.
 --
 
 == Start embedding
 
 [div boxDiv boxFullWidth]
 --
-*xref:getting-started.adoc[Get Started]*
++++<h4>Get Started</h4>+++
 
-Download the Visual Embed SDK package and set up your application environment.
+Download the Visual Embed SDK package, set up your application environment, and xref:getting-started.adoc[get started with embedding].
 --
 
 [div boxDiv boxFullWidth]
 --
-*xref:embed-authentication.adoc[Configure authentication method]*
++++<h4>Configure authentication method</h4>+++
 
-Learn how to set up xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication service] to authenticate your embed application users. 
-
---
-
-[div boxDiv boxFullWidth]
---
-*xref:embed-search.adoc[Embed search]*
-
-Learn how to embed ThoughtSpot search in your application. 
---
-
-[div boxDiv boxFullWidth]
---
-*xref:embed-a-viz.adoc[Embed a visualization]*
-
-Learn how to embed ThoughtSpot charts and tables in your application.
+Learn how to set up xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication service], and xref:embed-authentication.adoc[configure authentication methods in SDK] to authenticate your  application users. 
 
 --
 
 [div boxDiv boxFullWidth]
 --
-*xref:embed-a-pinboard.adoc[Embed a pinboard]*
++++<h4>Embed search</h4>+++
 
-Learn how to render pinboards and apply runtime controls on visualizations embedded in your application.
+Learn xref:embed-search.adoc[how to embed ThoughtSpot search] in your application. 
+--
+
+[div boxDiv boxFullWidth]
+--
++++<h4>Embed a visualization</h4>+++
+
+Learn how to xref:embed-a-viz.adoc[embed a ThoughtSpot visualization] in your application.
 
 --
 
 [div boxDiv boxFullWidth]
 --
-*xref:full-embed.adoc[Embed full ThoughtSpot experience]*
++++<h4>Embed a pinboard</h4>+++
 
-Learn how to embed full ThoughtSpot experience in your application.
+Learn how to xref:embed-a-pinboard.adoc[render pinboards and apply runtime controls on visualizations] embedded in your application.
+--
+
+[div boxDiv boxFullWidth]
+--
++++<h4>Embed full ThoughtSpot experience</h4>+++
+
+Learn how to xref:full-embed.adoc[embed full ThoughtSpot experience] in your application.
 
 --
 ////

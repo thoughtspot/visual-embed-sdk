@@ -5,12 +5,12 @@
 :page-pageid: customize-style
 :page-description: Rebrand embedded ThoughtSpot content
 
-If you want to match the look and feel of the embedded ThoughtSpot content with your core application, you can white-label and customize the embedded ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines.
+If you want to match the look and feel of the embedded ThoughtSpot content with your core application, you can customize the ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines.
 
 You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations.
 [NOTE]
 ====
-When you rebrand the embedded ThoughtSpot content, the UI styles are reset for all users.
+When you rebrand ThoughtSpot content, the UI styles are reset for all users.
 ====
 
 == Style components

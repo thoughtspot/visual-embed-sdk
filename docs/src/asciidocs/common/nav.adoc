@@ -3,11 +3,17 @@
 :page-pageid: nav
 :page-description: Main navigation
 
+* link:{{navprefix}}=introduction[Home]
 
-* Embed ThoughtSpot
-** link:{{navprefix}}=introduction[Embedded analytics]
+* Release Notes
+** link:{{navprefix}}=whats-new[What's new]
+
+* Embedded analytics
+** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=dev-portal-playground[Developer playground]
+
 
 * Authentication and security
 ** link:{{navprefix}}=user-roles[User configuration]
@@ -32,7 +38,7 @@
 ** link:{{navprefix}}=customize-style[Customize styles]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Overview]
+** link:{{navprefix}}=customize-actions[Custom actions page]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
 ** link:{{navprefix}}=add-action-viz[Add a custom action to a visualization] 
@@ -43,7 +49,11 @@
 * Custom link format
 ** link:{{navprefix}}=customize-links[Customize links] 
 
-* REST APIs 
+
+* Runtime filters
+** link:{{navprefix}}=runtime-filters[Runtime filters]
+
+* REST API fundamentals
 ** link:{{navprefix}}=rest-apis[Overview]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=api-auth-session[Authentication]
@@ -51,23 +61,21 @@
 ** link:{{navprefix}}=api-user-group-management[Configure privileges for user groups]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
-** link:{{navprefix}}=rest-api-reference[REST API Reference]
-*** link:{{navprefix}}=user-api[User APIs]
-*** link:{{navprefix}}=group-api[Group APIs]
-*** link:{{navprefix}}=session-api[Session APIs]
-*** link:{{navprefix}}=connection-api[Data connection APIs]
-*** link:{{navprefix}}=metadata-api[Metadata APIs]
-*** link:{{navprefix}}=admin-api[Admin APIs]
-*** link:{{navprefix}}=tml-api[TML APIs]
-*** link:{{navprefix}}=dependent-objects-api[Dependent objects APIs]
-*** link:{{navprefix}}=search-data-api[Search data API]
-*** link:{{navprefix}}=pinboard-api[Pinboard data API]
-*** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
-*** link:{{navprefix}}=security-api[Security APIs] 
-*** link:{{navprefix}}=logs-api[Log streaming service API]
 
-* Release notes
-** link:{{navprefix}}=whats-new[What's new]
+* link:{{navprefix}}=rest-api-reference[REST API Reference]
+** link:{{navprefix}}=user-api[User APIs]
+** link:{{navprefix}}=group-api[Group APIs]
+** link:{{navprefix}}=session-api[Session APIs]
+** link:{{navprefix}}=connection-api[Data connection APIs]
+** link:{{navprefix}}=metadata-api[Metadata APIs]
+** link:{{navprefix}}=admin-api[Admin APIs]
+** link:{{navprefix}}=tml-api[TML APIs]
+** link:{{navprefix}}=dependent-objects-api[Dependent objects APIs]
+** link:{{navprefix}}=search-data-api[Search data API]
+** link:{{navprefix}}=pinboard-api[Pinboard data API]
+** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
+** link:{{navprefix}}=security-api[Security APIs] 
+** link:{{navprefix}}=logs-api[Log streaming service API]
 
 * Resources
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]

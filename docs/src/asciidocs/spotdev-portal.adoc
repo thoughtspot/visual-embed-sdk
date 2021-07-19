@@ -6,21 +6,19 @@
 :page-description: Using ThoughtSpot Developer Portal
 
 
-The ThoughtSpot Developer portal allows you to explore ThoughtSpot SDK, APIs, and build your web applications with ThoughtSpot content.
-The portal enables business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
+The ThoughtSpot Developer portal allows you to explore Visual Embed SDK and build your web applications with ThoughtSpot content.
+The portal helps business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
 The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
 
 == Access Developer portal
-You can access the developer portal from your ThoughtSpot application instance or the link:https://developers.thoughtspot.com/[ThoughtSpot Developers, window=_blank] website.
 
-If you have a ThoughtSpot user account::
-. Log in to your ThoughtSpot Cloud application instance.
-. Make sure your user account has admin or developer privileges.
-+
-For more information about configuring developer privileges, see the xref:user-roles.adoc[User configuration].
+If you are an existing ThoughtSpot user:: 
+You can access the Developer portal from your ThoughtSpot application instance.
+. Log in to ThoughtSpot.
 . Navigate to the **Develop** tab.
-
-If you do not have a ThoughtSpot user account::
++
+The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[User configuration].
+If you are not an existing ThoughtSpot user::
 If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
 . From the header bar, click *Playground*.
@@ -28,445 +26,55 @@ If you do not have a ThoughtSpot user account, and you want to evaluate the APIs
 . Click *Try Live Playground*.
 
 [NOTE]
+====
 You can also link:https://www.thoughtspot.com/trial?tsref=trialtsefaq[register for a free trial, window=_blank] and evaluate the SDK and APIs on ThoughtSpot free trial cluster.
+====
 
 == Find your way around
-The ThoughtSpot Developer portal includes several sections to assist you through your embedding journey.
+The ThoughtSpot Developer portal includes several sections that assist you through your embedding journey.
 
 Home::
-The *Home* page of the Developer portal provides a pictorial view of the ThoughtSpot features that you can integrate with your applications.
-The home page also includes links to the *Developer Guides* and *Playground* to preview the toolkit.
+The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
+This page also includes links to the *Developer Guides* and *Playground*. 
 
 image::./images/develop-home.png[Developer Portal]
 
 Guide::
-The *Guide* menu displays the _ThoughtSpot Embed Developer Documentation_. The documentation portal provides step-by-step instructions on how to use the ThoughtSpot Visual Embed SDK and REST APIs to integrate ThoughtSpot features into your application.
+The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on how to use the ThoughtSpot Visual Embed SDK and REST APIs to integrate ThoughtSpot features into your application.
 
 Playground::
-The *Playground* allows you to explore the following ThoughtSpot components that you can embed in your application:
-* xref:spotdev-portal.adoc#playground-search[Search]
-* xref:spotdev-portal.adoc#playground-pinboard[Pinboards]
-* xref:spotdev-portal.adoc#playground-visualization[Visualizations]
-* xref:spotdev-portal.adoc#playground-fullapp[Full application]
+The *Playground* allows you to explore the following Visual Embed SDK components that you can embed in your application:
+* xref:developer-playground.adoc#playground-search[Search]
+* xref:developer-playground.adoc#playground-pinboard[Pinboards]
+* xref:developer-playground.adoc#playground-visualization[Visualizations]
+* xref:developer-playground.adoc#playground-fullapp[Full application]
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Go to Playground</a>
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the  Playground</a>
 ++++
 
+
 Customizations::
-For ThoughtSpot users with administrator and developer privileges, the Developer portal displays the following customization menu items:
+The Developer portal displays the following customization options for Thoughtspot embedded instances:
 
 * *Styles*
 +
-A set of customization controls for white-labeling and rebranding the embedded ThoughtSpot content.
+Provides a set of style customization controls for rebranding the embedded ThoughtSpot content. 
++
+For more information, see To xref:customize-style.adoc[Customize styles].
 
 * *Actions*
 +
-Configuration settings for creating custom actions in the ThoughtSpot UI to trigger workflows in your application, or invoke a URL with ThoughtSpot data as the payload.
+Provides UI workflows to create custom actions in the ThoughtSpot UI. For example, you can a create an action that triggers a callback to your host application, or invoke a URL to send ThoughtSpot data. For more information, see xref:custom-actions.adoc[Custom actions].
 
 * *Settings*
 +
-Security controls to define access to the embedded ThoughtSpot content from external applications.
 
-[NOTE]
-The *Customization* settings are available only for the ThoughtSpot developer or admin users.
+Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security Settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentiation] method, or xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
 
-== Explore the Visual Embed APIs
-The *Playground* allows developers to try the Visual Embed APIs, preview the code, test it, and familiarize themselves with the application controls.
-
-[NOTE]
-If you have added a custom action and you want to disable or hide this custom action on a Playground page by using the *Modify available actions* checkbox, make sure you specify the ID of the custom action in the `disabledActions` and `hiddenActions` attribute. For more information about the custom action ID, see xref:customize-actions-menu.adoc[Custom actions].
-
-[#playground-search]
-=== Search
-To embed search:
-
-. Go to *Playground* > *Search*.
-. Select a data source or a saved search answer.
-. If required, enable the *User experience customization* settings.
-+
-Collapse data panel::
-Minimizes the data panel on the left navigation bar.
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-+
-Hide data panel::
-Hides the default data panel. You can use this function to create a custom data panel when embedding the search module in your application.
-+
-++++
-<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-+
-Hide chart or table::
-Hides the visualizations displayed as search results. You can use this function to create your own visualization when embedding search in your application.
-+
-++++
-<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-+
-Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar in the search answer page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-+
-* To disable an action menu item, specify the menu string in the  `disabledActions` attribute. For example, to disable the **Replay Search** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], specify the **Replay Search** menu string in the `disabledActions` attribute as shown here:
-+
-----
-disabledActions: [Action.ReplaySearch]
-----
-+
-Or
-
-+
-----
-disabledActions: ['replaySearch']
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-+
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-
-+
-----
-hiddenActions: [Action.ReplaySearch]
-----
-+
-Or
-
-+
-----
-hiddenActions: ['replaySearch']
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-+
-
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
-
-+
-Add search tokens::
-Enables constructing a TML-based search query string to set search tokens. You can also execute search to view the search results.
-
-+
-
-The following example shows how to create a search token string to set the search tokens:
-
-+
-----
-searchOptions: {
-        searchTokenString: '[product][sales][date].daily',
-        executeSearch: true,
-    }
-----
-+
-For more information on the search tokens and query string components, see xref:search-data-api.adoc##components[Components of a search query].
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search/searchQuery=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-+
-Handle custom actions::
-Allows you to view the code for a custom action event. If the embedded instance has a custom action, use this checkbox to view the event generated by the custom action and send ThoughtSpot data as a payload.
-
-+
-
-. Click *Run*.
-
-[#playground-visualization]
-=== Visualization
-To embed a visualization:
-
-. Go to *Playground* > *Visualization*.
-. Select a pinboard or visualization.
-. If required, enable the *User experience customization* settings.
-
-+
-Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-+
-* To disable an action menu item, specify the menu string in `disabledActions` attribute. For example, to disable the **Download** action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `Action.Download` or `download`:
-
-+
-----
-disabledActions: [Action.Download]
-----
-+
-Or
-
-+
-----
-disabledActions: ['download']
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-
-+
-----
-hiddenActions: [Action.Download]
-----
-+
-
-Or
-
-+
-----
-hiddenActions: ['download']
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-+
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
-+
-Set runtime filters::
-
-Enables Runtime Filters.
-
-+
-Runtime filters provide the ability to filter data at the time of retrieval.
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
-
-+
-[source,javascript]
-----
-runtimeFilters: [{
-  columnName: 'color',
-  operator: 'EQ',
-  values: [ 'red' ]
-  }]
-----
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-+
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
-
-+
-Handle custom actions::
-Allows you to view the code for a custom action event. If the embedded instance has a custom action, use this checkbox to view the event generated by the custom action and send ThoughtSpot data as a payload.
-
-+
-. Click *Run*.
-
-[#playground-pinboard]
-=== Pinboard
-To embed a pinboard:
-
-. Go to *Playground* > *Pinboard*.
-. Select a pinboard.
-. If required, enable *User experience customization* settings.
-
-+
-Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the *Pinboards* page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-* To disable an action menu item, specify the menu string in the  `disabledActions` attribute. For example, to disable the **Download As PDF**  action menu item from the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `Action.DownloadAsPdf` or `downloadAsPdf`.
-+
-----
-disabledActions: [Action.DownloadAsPdf]
-----
-+
-Or
-
-+
-----
-disabledActions: ['downloadAsPdf']
-----
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-+
-----
-hiddenActions: [Action.DownloadAsPdf]
-----
-+
-Or
-
-+
-----
-hiddenActions: ['downloadAsPdf']
-----
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-
-+
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
-Set runtime filters::
-
-Enables Runtime Filters on a visualization in a pinboard.
-
-+
-Runtime filters provide the ability to filter data at the time of retrieval.
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
-
-+
-[source,javascript]
-----
-runtimeFilters: [{
-      columnName: 'Revenue',
-      operator: 'EQ',
-      values: [ 100000 ]
-      }]
-----
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-+
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
-
-+
-Handle custom actions::
-Allows you to view the code for a custom action event. If the embedded instance has a custom action, use this checkbox to view the event generated by the custom action and send ThoughtSpot data as a payload.
-
-+
-. Click *Run*.
-
-[#playground-fullapp]
-=== Full Application
-To embed the full ThoughtSpot application:
-
-. Go to *Playground* > *Full app*.
-. Select a tab to set a default page view for embedded application users.
-. If required, enable *User experience customization* settings.
-
-+
-Modify available actions::
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the menu bar on the ThoughtSpot application pages. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-
-*  To disable an action menu item, specify the menu string in the  `disabledActions` attribute. For example,  to disable the  *Share* menu on a ThoughtSpot application page, set the value of the `disabledActions` attribute as `Action.Share` or `share`.
-
-+
-----
-disabledActions: [Action.Share]
-----
-+
-Or
-
-+
-----
-disabledActions: ['share']
-----
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-+
-----
-hiddenActions: [Action.Share]
-----
-+
-Or
-
-+
-----
-hiddenActions: ['share']
-----
-+
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
+* *Links*
 +
-Show navigation bar::
-Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
-+
-++++
-<a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-Navigate to URL::
-Allows you to define a specific URL path for loading a ThoughtSpot application page. If a particular ThoughtSpot page is set as a homepage in  the `pageID` attribute and the URL path is also defined in the `path` attribute, the path definition takes precedence.
-
-Set runtime filters::
-
-Enables Runtime Filters on a visualization in a pinboard.
-
-+
-Runtime filters provide the ability to filter data at the time of retrieval.
-To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
-
-+
-[source,javascript]
-----
-runtimeFilters: [{
-      columnName: 'Revenue',
-      operator: 'EQ',
-      values: [ 100000 ]
-      }]
-----
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
 
-
-+
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
-
-+
-Handle custom actions::
-Allows you to view the code for a custom action event. If the embedded instance has a custom action, use this checkbox to view the event generated by the custom action and send ThoughtSpot data as a payload.
-
-+
-. Click *Run*.
-
-== Customize embedded content
-* To xref:customize-style.adoc[white-label and rebrand the embedded ThoughtSpot content], click *Customizations* > *Styles*.
-* To xref:customize-actions-menu.adoc[add custom actions] to the *More* menu image:./images/icon-more-10px.png[the more options menu] on a visualization or pinboards page, go to *Customizations* > *Actions*.
-* If you are a ThoughtSpot admin user and you want to configure security settings, such as  xref:security-settings.adoc[CORS and CSP domains],  xref:trusted-authentication.adoc[trusted authentication service], and  xref:configure-saml.adoc[SAML redirect domains], go to *Customizations* > *Settings*.
-* To xref:customize-links.adoc[customize the link format for an embedded ThoughtSpot instance], go to *Customizations* > *Links*.
-
-////
-+
-Disable Search Assist::
-Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
-+
-++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-////
+Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 
+ 

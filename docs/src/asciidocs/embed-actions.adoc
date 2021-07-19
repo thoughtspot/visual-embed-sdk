@@ -13,51 +13,74 @@ ThoughtSpot pinboards and search answer pages include menu actions that perform 
 ThoughtSpot embedded instances support the following actions on pinboards and visualizations.
 
 === Pinboard actions
-[width="100%" cols="2,4"]
+
+[width="100%" cols="2,4,2"]
 [options='header']
 |===
-|Action|Description
-|*Add filters*|Adds filters to all visualizations in a pinboard
-|*Save*| Saves the pinboard
-|*Make a copy*| Creates a copy of the pinboard.
-|*Present*|Presents the pinboard in a fullscreen mode.
-|*Download as PDF*|Downloads the pinboard or visualizations in a pinboard as a PDF file.
-|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.
-|*Pinboard info*|Displays information about the pinboard.
-|*Follow*|Allows you to follow a pinboard and receive email notifications about the pinboard status and modifications.
-|*Share*|Allows sharing a pinboard with another or user group.
+|Action|Description|Corresponding action string in SDK
+|*Share*|Allows sharing a pinboard with another or user group.|`Action.Share`
+|*Follow*|Allows you to follow a pinboard and receive email notifications about the pinboard status.|`Action.Subscription`
+|*Add filters*|
+Adds filters to all visualizations in a pinboard.
+|`Action.AddFilter`
+|*Configure filters*|Applies filters to a specific visualization in a pinboard.|`Action.ConfigureFilter`
+|*Copy link*| Copies pinboard link to clipboard.| `Action.CopyLink`
+|*Download as PDF*|Downloads the pinboard or visualizations in a pinboard as a PDF file.|`Action.DownloadAsPdf`
+|*Make a copy*| Creates a copy of the pinboard.| `Action.MakeACopy`
+|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.|`Action.Schedule`
+|*Add schedule*| Adds a pinboard job schedule.|`Action.SchedulesList`
+|*Present*|Presents the pinboard in a fullscreen mode.| `Action.Present`
+|*Pinboard info*|Displays information about the pinboard.|`Action.PinboardInfo`
+|*Save*| Saves the pinboard.| `Action.Save`
 |===
 
-=== Actions for visualizations in a pinboard
+=== Pinboard visualization actions
 
-[width="100%" cols="2,4"]
+[width="100%" cols="2,4,2"]
 [options='header']
 |===
-|Action|Description
-|*Explore*|Allows you to explore answers.
-|*Pin*|Allows you to pin a visualization to a pinboard.
-|SpotIQ analysis icon|Allows you to run SpotIQ analyses. Available as a primary action icon. 
-|*Download* |Downloads the visualization data. Available only for charts.
-|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
-|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.
-|*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.
-|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.
+|Action|Description|Corresponding action string in SDK
+|*Explore*|Allows you to explore a visualization.|`Action.Explore`
+|*Share*|Allows you to share a visualization with another user or a user group.|`Action.ShareViz`
+|*Add description* | Allows you to add a description to the visualization.|`Action.Describe`
+|*Pin*|Pins a visualization to a pinboard.| `Action.Pin`
+|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.|`Action.Edit`
+|*Change title*| Changes the title of the visualization.|`Action.EditTitle`
+|*Present*|Presents the visualization in a fullscreen mode.| `Action.Present`
+|*Download* |Downloads the visualization.| `Action.Download`
+|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.| `Action.DownloadAsCsv`
+|*Download as XLSX*|Downloads the visualization data in the XLSX file format. Available only for tables.| `Action.DownloadAsXLSX`
+|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.|`Action.DownloadAsPdf`
+|*Drill down*|Allows you to view additional details and granular data in a visualization.|`Action.DrillDown`
+|*Exclude*|Allows you to exclude a specific data point from a visualization.| `Action.DrillExclude`
+|*Include*|Allows you to include a specific data point in a visualization.| `Action.DrillInclude`
+|*Show underlying data*|Displays detailed information and raw data for a given visualization.| `Action.ShowUnderlyingData`
+|*SpotIQ analyze*|Allows you to run SpotIQ analyses. Available as a primary and contextual menu action.|`Action.SpotIQAnalyze`|
 |===
 
-=== Actions for visualizations in search answers
+=== Actions on search results page 
 
-[width="100%" cols="2,4"]
+[width="100%" cols="2,4,2"]
 [options='header']
 |===
-|Action|Description
-|*Pin*|Allows you to pin a visualization to a pinboard.
-|SpotIQ analysis icon|Allows you to run SpotIQ analyses. Available as a primary action icon. 
-|*Download* |Downloads the visualization data. Available only for charts.
-|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
-|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.
-|*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.
-|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.
-|*Query details*| Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.
+|Action|Description|Corresponding action string in SDK
+|*Explore*|Allows you to explore a visualization.|`Action.Explore`
+|*Share*|Allows you to share a visualization with another user or a user group|`Action.ShareViz`
+|*Pin*|Pins a visualization to a pinboard.|`Action.Pin`
+|*SpotIQ analyze*|Allows you to run SpotIQ analyses. Available as a primary action icon.|`Action.SpotIQAnalyze`
+|*Delete*|Deletes the visualization.|`Action.Remove`
+|*Download* |Downloads the visualization data. Available only for charts.| `Action.Download`
+|*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.|`Action.Edit`
+|*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.| `Action.DownloadAsCsv`
+|*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.| `Action.DownloadAsXLSX`
+|*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.|`Action.DownloadAsPdf`
+|*Query details*| Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.|`Action.AnalysisInfo`
+|*Drill down*|Allows you to view additional details and granular data in a visualization.|`Action.DrillDown`
+|*Exclude*|Allows you to exclude a specific data point from a visualization.| `Action.DrillExclude`
+|*Include*|Allows you to include a specific data point in a visualization.| `Action.DrillInclude`
+|*Show underlying data*|Displays detailed information and raw data for a given visualization.| `Action.ShowUnderlyingData`
+|*Copy to clipboard*| Copies data to clipboard. Available for tables.| `Action.CopyToClipboard`
+
 |===
 
 == Disable or hide actions in Visual Embed SDK
@@ -78,9 +101,8 @@ For example, to disable the *Show underlying data* action from the *More* menu i
 
 [source,JavaScript]
 ----
-disabledActions: ['Action.ShowUnderlyingData']
+disabledActions: [Action.ShowUnderlyingData]
 ----
-
 
 ++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -90,12 +112,14 @@ Similarly, to disable multiple actions, you can specify the action strings in th
 
 [source,JavaScript]
 ----
-disabledActions: ['Action.AddFilter', 'Action.Present']
+
+disabledActions: [Action.AddFilter, Action.Present]
 ----
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+
+<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Disable a custom action
@@ -106,7 +130,8 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 
 [source,JavaScript]
 ----
-disabledActions: ['Action.send-email']
+
+disabledActions: [Action.send-email]
 ----
 
 === Add a tooltip for disabled attributes
@@ -120,7 +145,7 @@ disabledActionReason: "Contact your administrator to enable this action"
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Hide actions
@@ -133,12 +158,13 @@ For example:
 
 [source,JavaScript]
 ----
-hiddenActions: ['Action.AddFilter', 'Action.Share']
+
+hiddenActions: [Action.AddFilter, Action.Share]
 ----
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
  
 === Hide a custom action
@@ -148,5 +174,5 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 
 [source,JavaScript]
 ----
-hiddenActions: ['Action.send-email']
+hiddenActions: [Action.send-email]
 ----

@@ -21,14 +21,14 @@ GET /tspublic/v1/logs/topics/{topic}
 [options='header']
 |====
 |Path Parameter|Description 
-|`topic`|__String__. Type of the log. Valid value is `security_logs`. 
+|`topic`|__String__. Type of the log. The valid value is `security_logs`. 
 |====
 
 [width="100%" cols="1,4"]
 [options='header']
 |====
 |Query Parameter|Description 
-|`fromEpoch` __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the start time for streaming logs. For example, to set timestamp as June 1, 2021 8 am, specify `1622534400000`.
+|`fromEpoch` __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the start time for streaming logs. For example, to set the timestamp as June 1, 2021 8 am, specify `1622534400000`.
 |`toEpoch`  __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the end time for streaming logs. To set the timestamp as July 1, 2021, 8 am, specify `1625126400000`.
 |====
 

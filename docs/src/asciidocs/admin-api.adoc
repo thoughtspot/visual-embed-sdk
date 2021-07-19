@@ -8,7 +8,7 @@
 
 The admin API service allows you to query and update configuration information for a ThoughtSpot cluster. You can also use these APIs to migrate data from one cluster to another.
 
-To access the admin API endpoints and send API requests, you must have admin user credentials.  
+To access the admin API endpoints and send API requests, you must have admin user credentials.
 
 == Supported operations
 
@@ -24,12 +24,12 @@ To get details of the current configuration of a ThoughtSpot cluster, send a `GE
 POST /tspublic/v1/admin/configinfo
 ----
 
-=== Example request 
+=== Example request
 
 Make sure the API request has the following headers:
 
-* the `Accept` header set as `Accept: application/json`
-* the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
+* the `Accept` header is set as `Accept: application/json`
+* the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 
 .cURL
 [source,cURL]
@@ -47,7 +47,7 @@ None
 
 === Example response
 
-If the request is successful, the API returns a response with details of the configuration details, flags enabled on the cluster, and custom actions added for embedded instances. 
+If the request is successful, the API returns a response with details of the configuration details, flags enabled on the cluster, and custom actions added for embedded instances.
 
 The following example shows a snippet of the configuration information:
 
@@ -82,7 +82,7 @@ The following example shows a snippet of the configuration information:
       "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html",
       "iconFilePath": ""
     }
- 
+
   ],
   "blinkActionConfigList": [],
   "embedActionConfigList": [
@@ -140,7 +140,7 @@ The following example shows a snippet of the configuration information:
         "GLOBAL"
       ]
     },
-    
+
   "ldapConfiguration": {
     "enabled": false,
     "realms": "",
@@ -287,7 +287,7 @@ None
 
 Make sure the API request has the following headers:
 
-* the `Accept` header set as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -302,21 +302,21 @@ curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: Though
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/overrides
 ----
 
-=== Example response 
+=== Example response
 
 If the request is successful, the API returns the details of the configuration overrides. The following example shows a snippet of the configuration details:
 
 [source,JSON]
 ----
 {
-  
+
   "enableColumnSummariesByDefault": {
     "category": "MAIN",
     "dataType": "BOOLEAN",
     "description": "Enable column summaries by default from backend",
     "current": true
   },
-  
+
   "analystOnboardingConfig.setupV2Enabled": {
     "category": "MAIN",
     "dataType": "BOOLEAN",
@@ -368,7 +368,7 @@ If the request is successful, the API returns the details of the configuration o
     "description": "Disables Configure Filter option on a Pinboard",
     "current": false
   },
- 
+
   "embedActionConfigList": {
     "category": "MAIN",
     "dataType": "ARRAYLIST",
@@ -458,7 +458,7 @@ If the request is successful, the API returns the details of the configuration o
       }
     ]
   },
- 
+
   "sharingConfiguration.enableVizSharingWithLink": {
     "category": "MAIN",
     "dataType": "BOOLEAN",
@@ -564,9 +564,9 @@ POST /tspublic/v1/admin/configinfo/update
 
 Make sure the API request has the following headers:
 
-* the `Accept` header set as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * the `X-requested-by` header must be `X-Requested-By: ThoughtSpot`
-* the Content-Type set as `application/x-www-form-urlencoded`
+* the Content-Type is set as `application/x-www-form-urlencoded`
 
 .cURL
 
@@ -580,7 +580,7 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/update
 ----
 
-=== Example response 
+=== Example response
 
 If the request is successful, the API returns the following response code:
 
@@ -618,8 +618,8 @@ None
 
 Make sure the API request has the following headers:
 
-* the `Accept` header as `Accept: text/html`
-* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* the `Accept` header is set as `Accept: text/html`
+* the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 
 .cURL
 
@@ -659,7 +659,7 @@ If the cluster has custom actions, the API returns the custom action details.
       "GLOBAL"
     ]
   },
- 
+
   {
     "id": "bcafd582-76f8-4795-a217-ec76e62ade37",
     "name": "Send data",
@@ -715,8 +715,8 @@ GET /tspublic/v1/admin/embed/actions/{actionid}
 
 Make sure the API request has the following headers:
 
-* The `Accept` header as `Accept: application/json`
-* The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
+* the `Accept` header is set as `Accept: application/json`
+* The `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
 
 .cURL
 
@@ -730,7 +730,7 @@ curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: Though
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
 ----
 
-=== Example response 
+=== Example response
 
 If the request is successful, the API returns the JSON data for the specified action ID:
 
@@ -770,7 +770,7 @@ If the request is successful, the API returns the JSON data for the specified ac
 |===
 
 [#create-custom-action]
-== Create custom actions 
+== Create custom actions
 To programmatically create custom actions on ThoughtSpot clusters that support embedding configuration, send a `POST` request with action configuration details to the `/tspublic/v1/admin/embed/actions` API endpoint.
 
 === Resource URL
@@ -791,9 +791,9 @@ POST /tspublic/v1/admin/embed/actions
 
 Make sure the API request has the following headers:
 
-* the `Accept` header as `Accept: application/json`
-* the `X-requested-by` header as `X-Requested-By: ThoughtSpot`
-* the `Content-Type` set as `application/x-www-form-urlencoded`
+* the `Accept` header is set as `Accept: application/json`
+* the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
+* the `Content-Type` is set as `application/x-www-form-urlencoded`
 
 .cURL
 
@@ -807,7 +807,7 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
 ----
 
-=== Example response 
+=== Example response
 
 If the request is successful, the API returns the JSON data for the custom action in the response body:
 
@@ -875,7 +875,7 @@ PUT /tspublic/v1/admin/embed/actions/{actionid}
 
 Make sure the API request has the following headers:
 
-* The `Accept` header as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
 * The `Content-Type' as `application/x-www-form-urlencoded`
 
@@ -891,7 +891,7 @@ curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
 ----
 
-=== Example response 
+=== Example response
 
 If the request is successful, the API returns the JSON data for the specified action ID:
 
@@ -952,7 +952,7 @@ DELETE /tspublic/v1/admin/embed/actions/{actionid}
 
 Make sure the API request has the following headers:
 
-* The `Accept` header as `Accept: application/json`
+* the `Accept` header is set as `Accept: application/json`
 * The `X-requested-by` header as `X-Requested-By: ThoughtSpot`
 
 .cURL
@@ -967,7 +967,7 @@ curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: Tho
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
 ----
 
-=== Example response 
+=== Example response
 
 On successful deletion of the action, the API returns a response body indicating that the specified action ID is no longer available:
 
@@ -1009,7 +1009,7 @@ On successful deletion of the action, the API returns a response body indicating
 [#custom-action-assoc]
 == Associate a custom action to ThoughtSpot objects
 
-ThoughtSpot supports associating custom actions to pinboards, search answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+ThoughtSpot supports associating custom actions to pinboards, search answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
 
 === Resource URL
 ----
@@ -1038,7 +1038,7 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
 ----
 
-=== Example response 
+=== Example response
 
 If the custom action is applied to a ThoughtSpot object, the API returns a response body with the action association map:
 
@@ -1086,13 +1086,13 @@ If the custom action is applied to a ThoughtSpot object, the API returns a respo
 |**200** |Successful operation
 |**401** |Unauthorized request
 |**404** |Invalid action ID
-|**500** |Request parsing error 
+|**500** |Request parsing error
 |===
 
 [#get-custom-action-assoc]
 == Get details of custom action associations
 
-To get the details of the ThoughtSpot objects associated with a custom action, send a `GET` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+To get the details of the ThoughtSpot objects associated with a custom action, send a `GET` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
 
 === Resource URL
 ----
@@ -1120,7 +1120,7 @@ curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: Though
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
 ----
 
-=== Example response 
+=== Example response
 
 If the custom action is associated to a ThoughtSpot object, the API returns a response body with the action association map for the specified action ID:
 
@@ -1150,7 +1150,7 @@ If the custom action is associated to a ThoughtSpot object, the API returns a re
 [#del-action-association]
 == Delete custom action associations
 
-To  remove custom action associations to ThoughtSpot objects, send a `DELETE` request to the  `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint. 
+To  remove custom action associations to ThoughtSpot objects, send a `DELETE` request to the  `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
 
 === Resource URL
 ----
@@ -1179,7 +1179,7 @@ curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: Tho
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations
 ----
 
-=== Example response 
+=== Example response
 
 After the custom action association is removed, the API returns a response body with the updated JSON map of the custom action:
 
