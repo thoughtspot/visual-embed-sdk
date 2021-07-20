@@ -1,21 +1,26 @@
-= Manage users
+= Manage users and user groups
 :toc: true
 
 :page-title: Manage users
 :page-pageid: api-user-management
-:page-description: Manage users using REST APIs
+:page-description: You can manage users and user groups using REST APIs
 
-The user access control in ThoughtSpot is applied based on the users and groups configured in your ThoughtSpot application instance. The users and groups are stored locally in ThoughtSpot, even if the authentication is done using the SAML SSO or trusted authentication service.
+The user access control in ThoughtSpot is applied based on the users and groups configured in your application instance. The users and groups are stored locally in ThoughtSpot, even if the authentication is done using the SAML SSO or trusted authentication service.
 
-To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank] or through the REST API service.
+To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can add link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[users,  window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[user groups]  either manually in the UI or by using the xref:rest-api-reference.adoc[REST API services].
 
-ThoughtSpot provides the following set of REST APIs for managing user data:
+== Group privileges
 
-[width="100%" cols="2,3"]
-|===
-|`xref:user-api.adoc#user-list[GET /tspublic/v1/user/list]`|Gets a list of all users and user groups configured in the ThoughtSpot system
-|`xref:user-api.adoc#change-pwd[POST /tspublic/v1/user/updatepassword]`|Changes the password of a ThoughtSpot user account. 
-|`xref:user-api.adoc#updatepreference-api[POST /tspublic/v1/user/updatepreference]`|Updates the profile settings for a ThoughtSpot user.
-|`xref:user-api.adoc#user-sync[POST /tspublic/v1/user/sync]`|Synchronizes user accounts and user groups with ThoughtSpot. 
-|`xref:user-api.adoc#transfer-ownership[POST /tspublic/v1/user/transfer/ownership]`|Transfers ownership of objects from one user to another.
-|===
+Each user group includes a set of privileges for its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. The group privileges allow users belonging to a group to perform specific operations and access workflows. If a user belongs to more than one group, they will have the highest level of privileges from all the groups they belong to. 
+
+[NOTE]
+====
+If a user group belongs to another user group, it inherits privileges from its parent group.
+====
+
+include::{path}/group-privileges.adoc[]
+
+[NOTE]
+====
+ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to `ALL_GROUP`. By default, the members of `ALL_GROUP` do not have permission to download or upload data. To globally add the following privileges to all the users in `ALL_GROUP`, you can use the Group APIs.
+====

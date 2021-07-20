@@ -13,8 +13,8 @@ Before you start using REST APIs, perform the following checks:
 After you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
 
 * You have valid login credentials and access privileges to run the operations.  
-+
-If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
+
+* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
 
 == Swagger UI
 To access REST APIs on Swagger:
@@ -41,7 +41,7 @@ The portal displays a list of REST API services available for the logged-in Thou
 
 == API requests and response
 
-To call a REST API, send a request to the endpoint URL with the attributes required to view or modify an object. 
+To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
 
 Request method::
 Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) operation in your request to the API endpoint. For example, GET, POST, PUT, or DELETE.
