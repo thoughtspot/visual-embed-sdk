@@ -25,7 +25,7 @@ include::{path}/metadata-api-list.adoc[]
 
 include::{path}/admin-api-list.adoc[]
 
-== Data connections
+== Data connections 
 
 include::{path}/connection-apis.adoc[]
 
@@ -57,7 +57,7 @@ include::{path}/security-api-list.adoc[]
 
 [div boxDiv boxFullWidth]
 --
-`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`  
+`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]` [tag greenBackground]#New#
 
 Gets security audit logs from the ThoughtSpot system.
 --

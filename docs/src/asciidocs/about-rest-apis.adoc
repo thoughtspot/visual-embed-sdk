@@ -7,33 +7,36 @@
 
 ThoughtSpot REST APIs let you programmatically create, access, and manage ThoughtSpot objects and resources. Using REST APIs, your client application can perform the following operations:
 
-* get pinboard and visualization data from the ThoughtSpot application.
-* embed data from visualizations and pinboards in a web page, portal, or application.
+* get pinboard and visualization data from the ThoughtSpot application
+* embed data from visualizations and pinboards in a web page, portal, or application
 * view metadata details for various types of ThoughtSpot objects
-* construct a search query to get ThoughtSpot data.
+* construct a search query to get ThoughtSpot data
 * manage ThoughtSpot user profiles and group privileges
-* transfer ownership of objects from one user to another.
+* transfer ownership of objects from one user to another
 * import, export, and validate scriptable files and automate deployments
 
 == Resource endpoints
-ThoughtSpot API components or resources are represented by the URI endpoints. The URI endpoint contains the base URI, and the resource path to the objects that you want to query or manage.
+ThoughtSpot API components or resources are represented by the URI endpoints. The URI endpoint contains the base URI and resource path to the objects that you want to query or manage.
 The base URI of the API endpoints constitutes the following:
 
-* The hostname or IP address of your ThoughtSpot application instance.
+* The hostname or IP address of your ThoughtSpot application instance
 * Port number
 * Name of the ThoughtSpot API service
 * The version number
 
-For example, in the `\https://<your-thoughtspot-hostname:port>/callosum/v1/tspublic/v1/session/login` URL, the base URI is `\https://<your-thoughtspot-hostname:port>/callosum/v1` and `/tspublic/v1/session/login` is the resource path. 
+For example, in the `\https://<your-thoughtspot-hostname:port>/callosum/v1/tspublic/v1/session/login` URL
+
+* the base URI is `\https://<your-thoughtspot-hostname:port>/callosum/v1`
+* the resource path is `/tspublic/v1/session/login` 
 
 == HTTP request methods
 
 ThoughtSpot REST APIs support Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests:
  
-* **GET** to query information, such as getting a list of users, objects, or metadata headers.
-* **POST** to create, add, or exchange data. 
-* **PUT** to update the parameters in resource representation.
-* **DELETE** to remove a specific data, association, or object. 
+* **GET** to query information, such as getting a list of users, objects, or metadata headers
+* **POST** to create, add, or exchange data
+* **PUT** to update the parameters in resource representation
+* **DELETE** to remove a specific data, association, or object
 
 == Data format
 

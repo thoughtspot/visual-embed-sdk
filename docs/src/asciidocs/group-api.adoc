@@ -15,65 +15,8 @@ include::{path}/group-api-list.adoc[]
 [#group-privilege]
 == User groups and privileges
 
-The group APIs allow administrators to programmatically assign the following types of privileges to a user group:
+include::{path}/group-privileges.adoc[]
 
-* `ADMINISTRATION`   
-+
-Allows users to perform the following functions:
-
-** Create, edit, and delete users and user groups.
-** View and edit access to all data. 
-** Download a saved answer.
-
-* `DEVELOPER`
-+
-Allows users to perform the following functions:
-
-** Access Developer portal
-** Embed ThoughtSpot app or its content in an external application 
-** Add custom menu options in the embedded pinboards and visualizations
-** Re-brand the interface elements of the embedded ThoughtSpot content 
-
-* `USERDATAUPLOADING`
-+
-Allows users to upload data to ThoughtSpot.
-
-* `DATADOWNLOADING`
-+
-Allows users to download ThoughtSpot data from search results and pinboards.
-
-* `DATAMANAGEMENT` 
-+
-Allows users to create worksheets and views. To edit a worksheet or view created and shared by another user, the user must have edit permission to modify the object.
-
-* `SHAREWITHALL`
-+
-Allows users to view the names and share objects with users of another group. 
-
-* `EXPERIMENTALFEATUREPRIVILEGE`
-+
-Allows access to the trial and experimental features that ThoughtSpot makes available to evaluating users and early adopters.
-
-* `JOBSCHEDULING`
-+
-Allows scheduling and editing pinboard jobs.
-
-* `RANALYSIS`
-+
-Allows invoking R scripts to explore search answers and sharing custom scripts.
-
-* `A3ANALYSIS`
-+ 
-Allows users to generate and access SpotIQ analyses.
-
-* `BYPASSRLS`
-+
-Allows users to perform the following functions:
-
-** Create, edit, or delete existing RLS rules.
-** Enable or disable Bypass RLS on a worksheet.
-
-If a user group belongs to another user group, it inherits privileges from its parent group.
 
 [#create-group]
 == Create a user group

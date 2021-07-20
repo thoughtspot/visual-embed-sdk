@@ -56,8 +56,7 @@
 ** link:{{navprefix}}=rest-apis[Overview]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=api-auth-session[Authentication]
-** link:{{navprefix}}=api-user-management[Manage users]
-** link:{{navprefix}}=api-user-group-management[Configure privileges for user groups]
+** link:{{navprefix}}=api-user-management[Manage users and user groups]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response] 
 

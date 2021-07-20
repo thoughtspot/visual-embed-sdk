@@ -1,6 +1,7 @@
 
 = Trusted authentication
 :toc: true
+:toclevels: 1
 
 :page-title: trusted authentication
 :page-pageid: trusted-auth
@@ -24,21 +25,6 @@ The authenticator server performs the following functions:
 * Request a token from ThoughtSpot on a user’s behalf
 * Return the token to the user's web browser 
 
-== Key components
-
-The trusted authentication workflow involves several entities, such as the web browser, host application, authenticator server, and the ThoughtSpot application server.
-
-Authenticator server::
-
-If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
-
-+
-The authenticator server performs the following functions:
-
-* Authenticates users who request access to the embedded content
-* Requests a token from ThoughtSpot on a user’s behalf
-* Returns the token to the user's web browser 
-
 +
 [NOTE]
 To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
@@ -51,7 +37,14 @@ The trusted authenticator server also uses this secret key to obtain a security 
 
 === Security token
 
-The security token, also referred to as the authentication token, allows user to access the requested object. The token stays valid until another token is generated. 
+The security token, also referred to as the authentication token, allows user to access the requested object. 
+
+Note the following points about token validity:
+
+* The token stays valid until another token is generated. 
+* When a new token is generated using the same secret key, the old token expires after a few minutes.
+* When you generate a new token using the new secret key, the old token becomes invalid immediately.
+* If users try to establish a session with an invalid or expired token, they may get locked out of their ThoughtSpot accounts.
  
 == Trusted authentication workflow 
 The embed user authentication workflow with a trusted authentication service involves the following steps:
@@ -189,4 +182,4 @@ A pop-up window appears and prompts you to confirm the disable action.
 
 +
 When you disable trusted authentication, the validity of your existing authentication token expires. Your application will become inoperable until you add a new token to it.
-To generate a new token, re-enable trusted authentication.
+To generate a new token, re-enable trusted authentication and obtain the security key.
