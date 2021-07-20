@@ -14,7 +14,10 @@ const SearchResult = (props: SearchResultProps) => (
         ${props.index === props.highlightedIndex && 'active'}`}
     >
         <p className="title">{props.keyword}</p>
-        <p className="footer">{props.title}</p>
+        <p
+            className="footer"
+            dangerouslySetInnerHTML={{ __html: props.title }}
+        ></p>
     </div>
 );
 
