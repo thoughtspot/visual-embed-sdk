@@ -16,7 +16,7 @@ const Docmap = (props: {
         // Them we search for TOC using querySelector on the temporary element and then set the obtained TOC to display in the UI.
         const doc = document.createElement('div');
         doc.innerHTML = props.docContent;
-        let tocEl = doc.querySelector('#toc');
+        const tocEl = doc.querySelector('#toc');
         if (tocEl) {
             const { hash } = props.location;
             if (hash) {
@@ -38,10 +38,8 @@ const Docmap = (props: {
             const temp = tag;
             if (tag.getAttribute('href') === href) {
                 temp.classList.add('activeTag');
-            } else {
-                if (tag.classList.contains('activeTag')) {
-                    temp.classList.remove('activeTag');
-                }
+            } else if (tag.classList.contains('activeTag')) {
+                temp.classList.remove('activeTag');
             }
             toc.querySelectorAll('a')[index].innerHTML = temp.innerHTML;
         });
@@ -50,12 +48,7 @@ const Docmap = (props: {
 
     return (
         toc !== '' && (
-            <div
-                className="docmapLinks"
-                style={{
-                    zIndex: props.options.length > 0 ? -1 : 0,
-                }}
-            >
+            <div className="docmapLinks">
                 <p className="tocTitle">{t('RIGHT_NAV_SIDERBAR_TITLE')}</p>
                 <div dangerouslySetInnerHTML={{ __html: toc }} />
             </div>
