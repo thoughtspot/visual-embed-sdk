@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.2.0-alpha.10",
+    "version": "1.2.0-alpha.12",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -41,7 +41,6 @@
         "react-dom": "> 16.8.0"
     },
     "dependencies": {
-        "gatsby": "3.1.0",
         "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {
@@ -69,6 +68,7 @@
         "eslint-import-resolver-typescript": "^2.3.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-prettier": "^3.1.4",
+        "gatsby": "3.1.0",
         "gatsby-plugin-catch-links": "^3.1.0",
         "gatsby-plugin-intl": "^0.3.3",
         "gatsby-plugin-local-search": "^2.0.0",
