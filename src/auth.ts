@@ -1,4 +1,3 @@
-import { config } from 'gatsby/dist/redux/reducers';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { appendToUrlHash } from './utils';
 
