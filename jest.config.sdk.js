@@ -6,6 +6,14 @@ module.exports = {
     coverageDirectory: 'coverage/sdk/',
     coverageReporters: ['lcov', 'text', 'cobertura'],
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
+    coverageThreshold: {
+        './src/': {
+            branches: 80,
+            functions: 80,
+            lines: 80,
+            statements: -10,
+        },
+    },
     testPathIgnorePatterns: ['/lib/', '/docs/'],
     testMatch: ['**/src/**/*.spec.(ts|tsx)'],
     setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
