@@ -103,7 +103,6 @@ xref:customize-style.adoc[Learn more about customizing the UI elements ->]
 
 
 
-
 [width="100%" cols="6,6,6"]
 |====
 a|[div boxDiv]
@@ -127,7 +126,7 @@ a|[div boxDiv]
 --
 +++ <h3>Learn how to embed</h3> +++     
 
-Learn how to use Developer portal, Playground, and embed ThoughtSpot content
+Learn how to use Developer portal, Playground, and embed ThoughtSpot content.
 
 link:https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere[Learn more ->, window=_blank]
  

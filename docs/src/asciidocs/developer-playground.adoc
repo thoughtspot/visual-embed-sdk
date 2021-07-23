@@ -167,7 +167,7 @@ runtimeFilters: [{
 <a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
+For more information, see xref:runtime-filters.adoc[Runtime filters].
 
 |**Handle custom actions**
 
@@ -238,7 +238,7 @@ runtimeFilters: [{
 <a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 +++
 
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
+For more information, see xref:runtime-filters.adoc[Runtime filters].
 
 |*Handle custom actions*
 
@@ -317,7 +317,7 @@ runtimeFilters: [{
 <a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 +++
 
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html[Apply a Runtime Filter, window=_blank].
+For more information, see xref:runtime-filters.adoc[Runtime filters].
 
 |**Handle custom actions**
 
