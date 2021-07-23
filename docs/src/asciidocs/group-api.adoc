@@ -238,7 +238,7 @@ GET /tspublic/v1/group/
 
 [NOTE]
 ====
-If no `groupid` or `name` attribute is specified, the API returns a response with the details of all user groups  in the ThoughtSpot system.
+You can use either `groupid` and `name` to query data for a specific. If using both, make sure the values for these parameters point to the same user account. If neither of these parameters is defined, the API returns a response with the details of all user groups in the ThoughtSpot system. 
 ====
 
 === Example request

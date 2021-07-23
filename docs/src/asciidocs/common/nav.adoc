@@ -14,7 +14,6 @@
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-portal-playground[Developer playground]
 
-
 * Authentication and security
 ** link:{{navprefix}}=user-roles[User configuration]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
