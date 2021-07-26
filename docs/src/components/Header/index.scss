@@ -16,4 +16,15 @@ header {
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo {
+        border-right: 1.5px solid $lightgrey;
+        padding-right: 15px;
+    }
+
+    .docsWrapper {
+        margin-left: 15px;
+        color: $lightgrey;
+        cursor: pointer;
+    }
 }

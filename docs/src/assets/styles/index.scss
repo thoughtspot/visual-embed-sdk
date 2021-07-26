@@ -57,6 +57,10 @@ a {
     padding: 10px 25px;
 }
 
+.d-inline-block {
+    display: inline-block;
+}
+
 /*active class with background*/
 
 .activelink {
@@ -167,10 +171,9 @@ button {
 }
 
 .boxHalfWidth {
-     width: 48%;
-     display: inline-block;
+    width: 48%;
+    display: inline-block;
 }
-
 
 .boxFullWidth {
     width: 100%;
@@ -218,11 +221,10 @@ button {
     .boxDiv {
         width: 100%;
     }
-    
+
     .boxHalfWidth {
-     width: 100%;
-}
-    
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: $mobile-resolution-max) {
