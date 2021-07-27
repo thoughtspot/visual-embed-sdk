@@ -8,7 +8,8 @@ on:
     branches:
     # Push events on `main` branch
       - main
-      - '^[0-9]+.[0-9]+.[0-9]+$'
+      - '[0-9]+.[0-9]+.[0-9]+'
+
     paths: 
     - 'static/typedoc/**'
     - 'docs/src/**'
