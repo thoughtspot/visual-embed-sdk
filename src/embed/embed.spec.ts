@@ -55,9 +55,13 @@ describe('test view config', () => {
             .render()
             .on(EmbedEvent.Load, () => null);
         await executeAfterWait(() => {
-            expect(onErrorSpy).toHaveBeenCalledWith({
-                error: 'Please register event handlers before calling render',
-            });
+            expect(onErrorSpy).toHaveBeenCalledWith(
+                {
+                    error:
+                        'Please register event handlers before calling render',
+                },
+                expect.any(Function),
+            );
         }, EVENT_WAIT_TIME);
     });
 });
