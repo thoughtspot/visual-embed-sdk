@@ -7,6 +7,7 @@ const Document = (props: {
     docTitle: string;
     docContent: string;
     isPublicSiteOpen: boolean;
+    shouldShowRightNav: boolean
 }) => {
     useEffect(() => {
         customizeDocContent();
@@ -17,7 +18,12 @@ const Document = (props: {
     }, []);
 
     return (
-        <div className="documentWrapper">
+        <div
+            className="documentWrapper"
+            style={{
+                width: !props.shouldShowRightNav ? '100%' : null,
+            }}
+        >
             <div
                 id={props.docTitle}
                 dangerouslySetInnerHTML={{
@@ -25,7 +31,7 @@ const Document = (props: {
                 }}
             />
             {props.isPublicSiteOpen && <Footer />}
-        </div>
+        </div >
     );
 };
 

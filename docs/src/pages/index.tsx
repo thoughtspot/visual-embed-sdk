@@ -98,7 +98,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                        edges[edgeIndex].node.pageAttributes.title,
+                    edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
@@ -226,10 +226,11 @@ const IndexPage = ({ location }) => {
         }
         return '100%';
     };
+    const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== 'introduction';
 
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
-            {isPublicSiteOpen && <Header  location={location}/>}
+            {isPublicSiteOpen && <Header location={location} />}
             <main
                 ref={ref as React.RefObject<HTMLDivElement>}
                 className={`dark ${isPublicSiteOpen ? 'withHeaderFooter' : ''}`}
@@ -276,17 +277,20 @@ const IndexPage = ({ location }) => {
                     />
                     <div className="introWrapper">
                         <Document
+                            shouldShowRightNav={shouldShowRightNav}
                             docTitle={docTitle}
                             docContent={docContent}
                             isPublicSiteOpen={isPublicSiteOpen}
                         />
-                        <div>
-                            <Docmap
-                                docContent={docContent}
-                                location={location}
-                                options={results}
-                            />
-                        </div>
+                        {shouldShowRightNav &&
+                            <div>
+                                <Docmap
+                                    docContent={docContent}
+                                    location={location}
+                                    options={results}
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
             </main>

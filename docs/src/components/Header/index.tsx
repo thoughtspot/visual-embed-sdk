@@ -6,7 +6,7 @@ import './index.scss';
 
 const Header = (props: { location: Location }) => (
     <header>
-        <section className="container">
+        <section className="containerWrapper">
             <div className="headerWrapper">
                 <div>
                     <h2 className="m-0 d-inline-block logo">
