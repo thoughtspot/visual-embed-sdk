@@ -4,9 +4,7 @@
 
 .documentWrapper {
     width: calc(100% - #{$docmap-width-desktop});
-    padding-left: $padding-md;
-    padding-right: $padding-md;
-    padding-top: $padding-md;
+    padding: $padding-md $padding-md 0;
     color: var(--primary-color);
 
     .documentView {
