@@ -351,6 +351,7 @@ This API uses `multipart/form-data` content-type.
 [source, cURL]
 ----
 curl -X POST \   
+--header 'Content-Type: multipart/form-data'
 --header 'X-Requested-By : ThoughtSpot' \
 --header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
 --header 'Accept: application/json' \
@@ -413,6 +414,7 @@ POST /tspublic/v1/group/removeprivilege
 [source, cURL]
 ----
 curl -X POST \   
+--header 'Content-Type: multipart/form-data'
 --header 'X-Requested-By : ThoughtSpot' \
 --header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
 --header 'Accept: application/json' \
