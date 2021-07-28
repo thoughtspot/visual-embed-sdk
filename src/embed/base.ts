@@ -7,7 +7,11 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getEncodedQueryParamsString, getCssDimension } from '../utils';
+import {
+    getEncodedQueryParamsString,
+    getCssDimension,
+    getOffsetTop,
+} from '../utils';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -459,7 +463,7 @@ export class TsEmbed {
      *  View port height.
      */
     protected getIframeCenter() {
-        const offsetTopClient = this.iFrame.offsetTop;
+        const offsetTopClient = getOffsetTop(this.iFrame);
         const scrollTopClient = window.scrollY;
         const viewPortHeight = window.innerHeight;
         const iframeHeight = this.iFrame.offsetHeight;
@@ -526,7 +530,7 @@ export class TsEmbed {
         if (eventPort) {
             try {
                 eventPort.postMessage({
-                    type: payload.eventType,
+                    type: payload.type,
                     data: payload.data,
                 });
             } catch (e) {
