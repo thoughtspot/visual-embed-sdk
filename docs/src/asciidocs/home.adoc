@@ -8,23 +8,24 @@
 
 ---
 
+
 [width="100%" cols="6,6,6"]
 |====
 a|
 --
-Explore our guides and code examples to build interactive data apps with ThoughtSpotVisual Embed SDK and REST APIs. Read the docs and get started!
+Explore our guides and code examples to build interactive data apps with ThoughtSpot Visual Embed SDK and REST APIs. Read the docs and get started!
 
 xref:integration-overview.adoc[Read the guidelines -> ]
 --
 a| 
 --
-Set up your application environment, download the SDK, and start embedding ThoughtSpot functionality in your host application using Visual Embed SDK.
+Set up your application environment, download the Visual Embed SDK, and start embedding ThoughtSpot functionality in your applications.
 
 xref:visual-embed-sdk.adoc[Get started with Visual Embed SDK ->] 
 --
 a|
 --
-Explore ThoughtSpot REST APIs to programmatically query, import, or export data, manage users and sessions, and automate deployments. 
+Explore ThoughtSpot REST APIs to programmatically query, import or export data, manage users and sessions, and automate deployments. 
 
 xref:about-rest-apis.adoc[Get started with REST APIs ->] 
 --
@@ -84,7 +85,7 @@ a| [div boxDiv]
 
 image:./images/custom-actions-home.png[]
 
-Insert buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.
+Add custom buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.
 
 xref:custom-actions.adoc[Learn more about custom actions ->]
 
@@ -118,7 +119,7 @@ a|
 --
 +++ <h3>Try out Embed APIs</h3> +++     
 
-Experiment with Embed APIs in the Developer playground and preview results instantly.
+Experiment with Visual Embed APIs in the Developer Playground and preview results.
  
 link:{{previewPrefix}}/playground/search[Take me to Playground ->, window=_blank] 
 --
