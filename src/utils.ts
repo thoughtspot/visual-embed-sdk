@@ -130,3 +130,8 @@ export const getEncodedQueryParamsString = (queryString: string) => {
         .replace(/\//g, '_')
         .replace(/=+$/, '');
 };
+
+export const getOffsetTop = (element: any) => {
+    const rect = element.getBoundingClientRect();
+    return rect.top + window.scrollY;
+};
