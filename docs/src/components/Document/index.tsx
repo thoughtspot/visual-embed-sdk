@@ -20,6 +20,7 @@ const Document = (props: {
         <div className="documentWrapper">
             <div
                 id={props.docTitle}
+                className="documentView"
                 dangerouslySetInnerHTML={{
                     __html: props.docContent,
                 }}
