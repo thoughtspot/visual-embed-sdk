@@ -27,8 +27,8 @@ Adds filters to all visualizations in a pinboard.
 |*Copy link*| Copies pinboard link to clipboard.| `Action.CopyLink`
 |*Download as PDF*|Downloads the pinboard or visualizations in a pinboard as a PDF file.|`Action.DownloadAsPdf`
 |*Make a copy*| Creates a copy of the pinboard.| `Action.MakeACopy`
-|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.|`Action.Schedule`
 |*Add schedule*| Adds a pinboard job schedule.|`Action.SchedulesList`
+|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.|`Action.Schedule`
 |*Present*|Presents the pinboard in a fullscreen mode.| `Action.Present`
 |*Pinboard info*|Displays information about the pinboard.|`Action.PinboardInfo`
 |*Save*| Saves the pinboard.| `Action.Save`
@@ -42,7 +42,6 @@ Adds filters to all visualizations in a pinboard.
 |Action|Description|Corresponding action string in SDK
 |*Explore*|Allows you to explore a visualization.|`Action.Explore`
 |*Share*|Allows you to share a visualization with another user or a user group.|`Action.ShareViz`
-|*Add description* | Allows you to add a description to the visualization.|`Action.Describe`
 |*Pin*|Pins a visualization to a pinboard.| `Action.Pin`
 |*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.|`Action.Edit`
 |*Change title*| Changes the title of the visualization.|`Action.EditTitle`
@@ -57,6 +56,10 @@ Adds filters to all visualizations in a pinboard.
 |*Show underlying data*|Displays detailed information and raw data for a given visualization.| `Action.ShowUnderlyingData`
 |*SpotIQ analyze*|Allows you to run SpotIQ analyses. Available as a primary and contextual menu action.|`Action.SpotIQAnalyze`|
 |===
+
+////
+|*Description* | Allows you to add a description to a pinboard.|`Action.Describe`
+////
 
 === Actions on search results page 
 
