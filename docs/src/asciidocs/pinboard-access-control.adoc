@@ -1,0 +1,55 @@
+= User access to embedded objects
+:toc: true
+:toclevels: 1
+
+:page-title: User access to embedded objects
+:page-pageid: object-access
+:page-description: You can define user access to view or edit embedded objects and related workflows.
+
+The user access in ThoughtSpot is determined based on the following factors:
+
+* Group to which the user is assigned
+* Privileges defined for a user group  
+
+Your ThoughtSpot administrator can assign users to a group and configure privileges either using the UI or the xref:group-api.adoc[Group APIs].
+
+If you want to define granular access at an object level, you can use any of the following methods:
+
+* If you are using Visual Embed SDK to embed ThoughtSpot objects, use the `disableActions` parameter to disable and `hideActions` parameters to hide a specific menu action. For more information on disabling or hiding an action, see xref:embed-actions.adoc[Disable or hide menu actions].
+
+* Define the access type when sharing a pinboard or visualization with another user. You can provide either read-only or edit access to a pinboard or visualization. 
+
+* If you are using Classic Answer Experience, you can restrict user access to pinboards by selecting the *Cannot create or update Pinboards* checkbox in the admin UI. 
+
+[IMPORTANT]
+====
+This feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disableActions` and `hideActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
+====
+
+== Restrict user access to pinboard
+
+If you have Classic Answer Experience enabled on your ThoughtSpot instance, you can use the *Cannot create or update Pinboards* privilege to restrict user access to a pinboard. This privilege allows `Read-only` access and restricts users from performing the following actions:
+
+* Sharing a pinboard with another user
+* Pinning a visualization to a pinboard
+* Downloading a pinboard
+* Editing a pinboard  
+* Copying a pinboard 
+* Copying the pinboard link
+
+=== Before you begin
+
+* make sure you have admin privilege.
+* make sure the *Cannot create or update Pinboards* checkbox is visible on the Group configuration page. If it is not available, contact ThoughtSpot Support.
+
+To limit user access to pinboards, follow these steps:
+
+* Log in to ThoughtSpot. 
+* Go to *Admin* > *Groups*.
+* Click *Add Group* to create a read-only user group.
+* Select the *Cannot create or update Pinboards* privilege.
+* Save changes.
+* Go to *Admin* > *Users*. 
+* Select the users to whom you want to assign this privilege, and then click *Add users to groups*.
+* Select the user group for which you enabled the *Cannot create or update Pinboards* privilege.
+* Click *Add*.

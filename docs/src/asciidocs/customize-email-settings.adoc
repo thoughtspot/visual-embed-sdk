@@ -1,0 +1,68 @@
+= Customize email settings
+
+
+:page-title: Customize email settings
+:page-pageid: customize-emails
+:page-description: You can rebrand email settings for embed users
+
+ThoughtSpot allows you to customize welcome emails, system-generated email notifications, and the onboarding experience for new users. 
+
+If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications, product name, and the sign-up experience. 
+[NOTE]
+====
+To customize email settings and the sign-up experience, you must have a ThoughtSpot user account with admin privileges.
+====
+
+To customize email settings and the onboarding experience, follow these steps:
+
+. Log in to ThoughtSpot as an admin user.
+. Go to *Admin* > *Application settings* > *Onboarding*.
+. Click *Edit*.
+. Configure the following parameters as per your requirement.
+
+Welcome email::
+Enable or disable welcome emails. When enabled, ThoughtSpot sends welcome emails to all new users.
+
+Company name::
+Your company name. The default value is `Your Company`.
+
+Custom admin email::
+The email address of the ThoughtSpot administrator.
+
+From ID::
+The email address from which the email notifications are sent. The default is `TS Admin <\no-reply@customer.thoughtspot.com>`.
+
+Support email ID::
+The email address of your organization’s Support contact.
+
+Learn More link::
+A link for users to learn more about ThoughtSpot, or your organization’s implementation of ThoughtSpot. The default link is `\https://docs.thoughtspot.com`.
+
+Product name::
+The name of the product to use in email notifications; for example, pinboard sharing, pinboard job schedule, or pinboard subscription notifications. If you specify a product name, these email notifications will show the product name as shown here: 
+
++
+----
+Visit <product-name> to view this pinboard
+----
+
++
+If the product name is not defined, the email notifications will show `ThoughtSpot` as the product name.
+
+Get started link::
+A link to allow users to get started with the product. By default, this link points users to the cluster to which they are added.
+
+Custom message::
+The message text to use in the email notifications.
+
+Signup experience::
+The signup experience for new ThoughtSpot users. To customize the sign-up experience, turn on the *Signup* toggle and configure the following parameters: 
+
+Signup button text;;
+Specify the text for the sign-up button.
+
+Signup button link;;
+Enter the URL that you want to use as a sign-up button link.  
+
++
+. Click *Save changes*.

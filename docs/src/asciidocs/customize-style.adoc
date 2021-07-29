@@ -1,5 +1,6 @@
-= Customize styles
+= Customize layout and styles
 :toc: true
+:toclevels: 1
 
 :page-title: Style customization
 :page-pageid: customize-style
@@ -19,8 +20,8 @@ You can customize the following ThoughtSpot UI style components:
 
 * xref:#logo-change[Application logo & favicon]
 * xref:#font-customize[Font style for charts and tables]
-* xref:#custom-bg[Background color of the application]
-* xref:#nav-panel[Background color of the navigation panel]
+* xref:#custom-bg[The background color of the UI]
+* xref:#nav-panel[The background color of navigation panel]
 * xref:#chart-color[Color palette for charts]
 * xref:#footer-text[Footer text]
 * xref:#page-title[Page title]
@@ -34,8 +35,10 @@ To access style customization settings:
 . Under *Customizations*, click *Styles*.
 
 [TIP]
-The style customization settings are also available in the ThoughtSpot *Admin*  console.
-For more information on setting UI styles from the *Admin* console, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization].
+====
+The style customization settings are also available in the ThoughtSpot *Admin* tab.
+For more information on setting UI styles from the *Admin* tab, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization].
+====
 
 [#logo-change]
 == Change application logo and favicon
@@ -166,9 +169,9 @@ You can disable color rotation for single-color charts.
 If you disable color rotation, ThoughtSpot generates single-color charts in the order of your color palette, left to right.
 If you leave color rotation enabled, ThoughtSpot generates the color of single-color charts randomly.
 
+
 [#footer-text]
 == Customize footer text
-
 The ThoughtSpot footer appears by default in the ThoughtSpot application. You can customize ThoughtSpot's footer text to add a company-specific message.
 
 To change the footer text:
@@ -193,4 +196,3 @@ To customize the page title displayed in the browser bar:
 When you customize styles, the changes take effect after you refresh the browser.
 
 To revert your changes, use the *Reset* button that appears when you move your cursor to the right of the style setting option.
-
