@@ -345,6 +345,7 @@ export enum Param {
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
     ForceTable = 'forceTable',
+    preventPinboardFilterRemoval = 'preventPinboardFilterRemoval',
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     EnableVizTransformations = 'enableVizTransform',
