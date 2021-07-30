@@ -57,11 +57,6 @@ export interface SearchViewConfig extends ViewConfig {
      */
     forceTable?: boolean;
     /**
-     * If set to true, all filter chips from a
-     * pinboard page will be read-only (no X buttons)
-     */
-    preventPinboardFilterRemoval?: boolean;
-    /**
      * The array of data source GUIDs to set on load.
      */
     dataSources?: string[];
@@ -130,7 +125,6 @@ export class SearchEmbed extends TsEmbed {
             hideResults,
             enableSearchAssist,
             forceTable,
-            preventPinboardFilterRemoval,
             searchOptions,
         } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
@@ -167,9 +161,6 @@ export class SearchEmbed extends TsEmbed {
         }
         if (forceTable) {
             queryParams[Param.ForceTable] = true;
-        }
-        if (preventPinboardFilterRemoval) {
-            queryParams[Param.preventPinboardFilterRemoval] = true;
         }
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();

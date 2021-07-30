@@ -42,6 +42,11 @@ export interface PinboardViewConfig extends ViewConfig {
      * The visualization within the pinboard to display.
      */
     vizId?: string;
+    /**
+     * If set to true, all filter chips from a
+     * pinboard page will be read-only (no X buttons)
+     */
+    preventPinboardFilterRemoval?: boolean;
 }
 
 /**
@@ -68,6 +73,7 @@ export class PinboardEmbed extends V1Embed {
             hiddenActions,
             enableVizTransformations,
             fullHeight,
+            preventPinboardFilterRemoval,
         } = this.viewConfig;
 
         if (fullHeight === true) {
@@ -86,6 +92,9 @@ export class PinboardEmbed extends V1Embed {
             params[
                 Param.EnableVizTransformations
             ] = enableVizTransformations.toString();
+        }
+        if (preventPinboardFilterRemoval) {
+            params[Param.preventPinboardFilterRemoval] = true;
         }
         params[Param.ViewPortHeight] = window.innerHeight;
         params[Param.ViewPortWidth] = window.innerWidth;
