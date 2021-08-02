@@ -41,6 +41,7 @@ jobs:
 
       # Collect coverage report
       - uses: 5monkeys/cobertura-action@master
+        continue-on-error: true
         with:
           path: coverage/sdk/cobertura-coverage.xml
           repo_token: ${{ secrets.GITHUB_TOKEN }}
