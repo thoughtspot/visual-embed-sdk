@@ -43,6 +43,8 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
     disabledActionReason: '<reason for disabling>'
     hiddenActions: [],
     pinboardId: '<%=pinboardGUID%>',
+    enableVizTransformations: true,
+    preventPinboardFilterRemoval: true,
     runtimeFilters: [],
     },
     
@@ -112,8 +114,14 @@ _String_. The GUID of the pinboard.
 vizId [small]_optional_::
 _String_. The Global Unique Identifier (GUID) of a visualization added to the pinboard.
 ////
+enableVizTransformations::
+_Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+
+preventPinboardFilterRemoval::
+_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter that is applied to a visualization. 
+
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the Pinboard page loads.
+Runtime filters to be applied when the pinboard page loads.
 Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
@@ -131,7 +139,6 @@ runtimeFilters: [{
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
-
 
 
 include::{path}/runtime-filter.adoc[]

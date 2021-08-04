@@ -1,29 +1,28 @@
-= User configuration
+= Developer access
 :toc: true
 
 :page-title: User configuration
-:page-pageid: user-roles
+:page-pageid: developer-access
 :page-description: Configure users and groups with developer privileges
 
-To embed ThoughtSpot content in your application, you must have developer privileges. ThoughtSpot users with the `Developer` privilieges can perform the following tasks:
+You will require a user account with `Developer` privilege to perform the following tasks in ThoughtSpot:
 
-* Use Visual Embed SDK to embed ThoughtSpot in their host applications.
-* Customize and rebrand the look and feel of the UI.
-* Add custom actions to an embedded pinboard and visualization. 
-* Modify security settings for visual embed hosts.
+* Access the *Develop* tab in ThoughtSpot and the developer playground.
+* Customize and rebrand the look and feel of the ThoughtSpot UI.
+* Add custom actions to a pinboard or visualization. 
+* Customize the format of links used in system-generated emails and notifications. 
+* Configure visual embed hosts for CORS and CSP.
+ 
+ThoughtSpot administrators can create a user group with `Developer` privilege enabled and assign users to this group. Administrators can configure developer access either using the *Admin* tab in the UI or the Group REST APIs. 
 
-You can create a developer group and add users either using the *Admin* console in the UI, or REST APIs. The following sections describe how to configure a developer user group and assign users to a group in the *Admin* console. 
-For information on managing users using REST APIs, see xref:api-user-group-management.adoc[Manage user groups] and see xref:api-user-management.adoc[Manage users].
-
-[NOTE]
-To add users and groups in the ThoughtSpot, you must have administrator privileges. For more information about ThoughtSpot user privileges, see link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Understand groups and privileges, window=_blank]. 
+The following sections describe how to configure developer access using the *Admin* tab in the UI. 
+For information about managing users and groups using REST APIs, see xref:group-api.adoc[Group APIs] and xref:user-api.adoc[User APIs].
 
 == Add a user group for developers
 To add a user group with developer privileges:
 
-. Log in to ThoughtSpot.
-. On the top navigation bar, click the *Admin* tab.
-. On the *Admin* page, go to *User management* > *Groups*.
+. Log in to ThoughtSpot as an admin user.
+. Go to *Admin* > *User management* > *Groups*.
 
 + 
 The group configuration page appears.
@@ -36,18 +35,19 @@ Name of the group. For example, `Developer Group`.
 Display name::
 Name of the group as it appears in ThoughtSpot. For example, `Embed Developer`.
 Sharing visibility::
-Indicate whether objects can be shared with this group. When set to `SHAREABLE`, this group is an option in the Share dialog.
-Description ::
+Specify if users can share objects with this group. When set to `SHAREABLE`, ThoughtSpot allows other users to share objects with the members of this group.
+Description::
 __Optional__. Enter a description for the group.
 Privileges::
 Select the *Has Developer privilege* checkbox.
 . Click *Add*.
 
-== Add a user to a developer group
+== Assign a user to a developer group
 
-To add a user:
+To assign a user to a developer group:
 
-. In the ThoughtSpot application, go to *Admin* > *Users management* > *Users*.
+. Log in to ThoughtSpot. 
+. Go to *Admin* > *Users management* > *Users*.
 +
 The user configuration page appears.
 
@@ -55,11 +55,11 @@ The user configuration page appears.
 . In the *Add a new user* dialog, enter the following details:
 +
 Username::
-A login name for the user. Usernames must be unique and lowercase.
+A unique login name for the user. Usernames must be in lowercase.
 Display name::
-A unique name for the user; for example, the first and last name of the user.
+A unique name for the user. For example, the first and last name of the user.
 Sharing visibility::
-Indicate whether objects can be shared with this user. When set to SHAREABLE, this user is listed in the *Share* dialog when sharing a pinboard or visualization.
+Specify if other users can share objects with this user. When set to *SHAREABLE*, this user is visible in the *Share* dialog when another user tries to share an object.
 Change password::
 A password for the user account. 
 Confirm password::
@@ -67,17 +67,14 @@ Enter the password again.
 Email::
 The user's email address. ThoughtSpot uses this email address for notifications.
 [NOTE]
-Make sure that the domain address of the email provider is added to the CSP whitelist on the *Security Settings* page.
+Make sure the domain address of the email provider is added to the CSP allowed list on the *Develop* > *Security Settings* page.
 
 Send a welcome email::
 __Optional__. When checked, this option ensures that the new user receives a welcome email.
 
 Email message text::
-__Optional__. Enter the text for the welcome email.
+__Optional__. Enter the text to use in the welcome email.
 Groups::
-Assign the user to group that has developer privileges.
+Select a group that has the Developer privilege enabled.
 
 . Click *Add*.
-+ 
-The user profile with developer privileges is added to ThoughtSpot. 
-You can use these login credentials to access ThoughtSpot Developer portal and the options available in the *Develop* tab.
