@@ -7,10 +7,11 @@
 
 ThoughtSpot allows you to customize welcome emails, system-generated email notifications, and the onboarding experience for new users. 
 
-If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications, product name, and the sign-up experience. 
+If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications, product name, and the sign-up experience.
+
 [NOTE]
 ====
-To customize email settings and the sign-up experience, you must have a ThoughtSpot user account with admin privileges.
+If you want your ThoughtSpot instance to send emails from a custom domain, contact ThoughtSpot Support to customize the domain URL for your application instance.
 ====
 
 To customize email settings and the onboarding experience, follow these steps:

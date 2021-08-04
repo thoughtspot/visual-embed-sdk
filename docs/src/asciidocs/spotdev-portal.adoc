@@ -5,9 +5,7 @@
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot Developer Portal
 
-
-The ThoughtSpot Developer portal allows you to explore Visual Embed SDK and build your web applications with ThoughtSpot content.
-The portal helps business application owners and developers to learn about ThoughtSpot APIs, and evaluate ThoughtSpot features that are available for integration.
+The ThoughtSpot Developer portal allows you to explore Visual Embed SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot features that are available for integration.
 The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
 
 == Access Developer portal
@@ -17,7 +15,8 @@ You can access the Developer portal from your ThoughtSpot application instance.
 . Log in to ThoughtSpot.
 . Navigate to the **Develop** tab.
 +
-The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[User configuration].
+The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[Developer access].
+
 If you are not an existing ThoughtSpot user::
 If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
@@ -40,7 +39,7 @@ This page also includes links to the *Developer Guides* and *Playground*.
 image::./images/develop-home.png[Developer Portal]
 
 Guide::
-The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on how to use the ThoughtSpot Visual Embed SDK and REST APIs to integrate ThoughtSpot features into your application.
+The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on embedding ThoughtSpot using the Visual Embed SDK and REST APIs.
 
 Playground::
 The *Playground* allows you to explore the following Visual Embed SDK components that you can embed in your application:
@@ -66,15 +65,13 @@ For more information, see To xref:customize-style.adoc[Customize styles].
 
 * *Actions*
 +
-Provides UI workflows to create custom actions in the ThoughtSpot UI. For example, you can a create an action that triggers a callback to your host application, or invoke a URL to send ThoughtSpot data. For more information, see xref:custom-actions.adoc[Custom actions].
+Provides UI workflows to create custom actions in the ThoughtSpot UI. For example, you can create an action that triggers a callback to your host application, or invoke a URL to send ThoughtSpot data. For more information, see xref:custom-actions.adoc[Custom actions].
 
 * *Settings*
 +
 
-Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security Settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentiation] method, or xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
+Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security Settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
 
 * *Links*
 +
-
 Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 
- 

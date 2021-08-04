@@ -19,15 +19,11 @@ Google Chrome 80 or later versions use the `SameSite` cookie attribute to disabl
 
 For third-party application integrations that rely on cookies, the SameSite cookie attribute must be to `None`. This setting is enabled by default on ThoughtSpot cloud instances.
 
-== Embedded content rendition on Safari
-If the embedded ThoughtSpot content does not render when browsing your application on Safari, configure the following settings on Safari:
+== Embedded content rendition 
 
-. Open your Safari web browser.
-. Go to *Safari* > *Preferences*.
-+
-The window for setting preferences appears.
+Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. If the embedded ThoughtSpot content is blocked on these browsers, do the following: 
 
-. Click the *Privacy* tab.
-. Clear the *Prevent cross-site tracking* checkbox.
-. Close the *Preferences* window.
+. Check if the domain URL of your ThoughtSpot instance is the same as its parent application. To customize the ThoughtSpot domain URL for your instance, contact ThoughtSpot Support.  
+. Enable third-party cookies and cross-site tracking in your browser's `Preferences` setting. 
 . Reload your application.
+  

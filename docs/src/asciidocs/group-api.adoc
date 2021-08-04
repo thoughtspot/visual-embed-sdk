@@ -6,7 +6,7 @@
 :page-pageid: group-api
 :page-description: Group API
 
-For ease of user management and access control, ThoughtSpot administrators can create user groups and assign users to these groups. If you are an admin user, you can create, edit and delete user groups, add users to a group, and assign privileges. The Group APIs allow you to create, edit, and delete a group, add users to a group, and assign privileges. 
+The Group APIs allow you to programmatically create and manage user groups, configure privileges, and assign users to a group. 
 
 == Supported operations
  

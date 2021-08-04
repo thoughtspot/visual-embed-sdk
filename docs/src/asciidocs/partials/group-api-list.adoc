@@ -23,7 +23,7 @@ Gets details of a user group.
 
 `xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
 
-Assigns user to a group.
+Assigns a user to a group.
 
 ---
 
