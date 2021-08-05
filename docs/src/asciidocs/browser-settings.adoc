@@ -24,6 +24,10 @@ For third-party application integrations that rely on cookies, the SameSite cook
 Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. If the embedded ThoughtSpot content is blocked on these browsers, do the following: 
 
 . Check if the domain URL of your ThoughtSpot instance is the same as its parent application. To customize the ThoughtSpot domain URL for your instance, contact ThoughtSpot Support.  
-. Enable third-party cookies and cross-site tracking in your browser's `Preferences` setting. 
+. Enable third-party cookies and cross-site tracking on your browser:
+
+ * On Safari, go to *Preferences* > *Privacy* and clear the *Prevent cross-site tracking* checkbox. 
+ * On Firefox, go to *Preferences* > *Privacy & Security* > *Enhanced Tracking Protection* and allow cross-site cookies.
++ 
 . Reload your application.
   
