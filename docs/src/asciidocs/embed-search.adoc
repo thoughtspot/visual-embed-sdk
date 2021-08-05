@@ -136,7 +136,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 
 hiddenActions [small]#__Optional__#::
-_Array of strings_. Hides the specified action menu items on a search answer page. You can use this attribute to remove actions that are not applicable to your application context.
+_Array of strings_. Hides the specified action menu items on a search answer page. You can use this attribute to remove actions that are not relevant to your application context.
 
 +
 ++++

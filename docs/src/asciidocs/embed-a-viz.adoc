@@ -42,6 +42,8 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
 	  hiddenActions: [],
 	  pinboardId: '<%=pinboardGUID%>',
 	  vizId: '<%=vizGUID%>',
+	  enableVizTransformations: true,
+	  preventPinboardFilterRemoval: true,
 	  runtimeFilters: [],
     },
 });
@@ -104,6 +106,12 @@ _String_. The Global Unique Identifier (GUID) of the visualization.
 
 pinboardId::
 _String_. The GUID of the pinboard to which the visualization is pinned.
+
+enableVizTransformations::
+_Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+
+preventPinboardFilterRemoval::
+_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter applied to a visualization. 
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
