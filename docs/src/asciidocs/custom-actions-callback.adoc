@@ -5,7 +5,7 @@
 :page-pageid: custom-action-callback
 :page-description: Add custom actions
 
-ThoughtSpot allows you to programmatically set up a callback function from the parent application which triggers on the click of a custom action. For example, if you want to push insights from ThoughtSpot into your host application or trigger an event to an external application, you can add a custom action in Thoughtspot and set up a callback in the parent application. When the user clicks this action on a visualization page, it initiates a callback to the parent application.
+ThoughtSpot allows you to set up a callback function from the parent application which triggers on the click of a custom action. For example, if you want to push insights from ThoughtSpot to your host application or trigger an event to an external application, you can add a custom action in Thoughtspot and set up a callback in the parent application. When the user clicks this action on a visualization page, it initiates a callback to the parent application.
 
 == Before you begin
 

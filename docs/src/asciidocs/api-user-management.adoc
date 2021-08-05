@@ -7,7 +7,7 @@
 
 The user access control in ThoughtSpot is applied based on the users and groups configured in your application instance. The users and groups are stored locally in ThoughtSpot, even if the authentication is done using the SAML SSO or trusted authentication service.
 
-To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can add link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[users,  window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[user groups]  either manually in the UI or by using the xref:rest-api-reference.adoc[REST API services].
+To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can create link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[user accounts, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[user groups, window=_blank] in the UI or by using xref:rest-api-reference.adoc[REST APIs].
 
 == Group privileges
 

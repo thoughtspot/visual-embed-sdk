@@ -1,8 +1,8 @@
-= Developer Playground
+= Explore APIs in Playground
 :toc: true
 
 :page-title: ThoughtSpot Developer Playground
-:page-pageid: dev-portal-playground
+:page-pageid: dev-playground
 :page-description: ThoughtSpot Developer playground
 
 The *Playground* allows developers to try Visual Embed APIs, play with the code, and view results instantly. 

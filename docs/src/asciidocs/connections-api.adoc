@@ -19,7 +19,7 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 
 If you want to get a list of data connections that are currently used by your ThoughtSpot cluster, you can use the connection APIs.
 
-Before using these APIs, make sure the data connection is set up. For information about how to set up a data connection to an external database and link it as a data source, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html, window=_blank].
+Before using these APIs, make sure the data connection is set up. For information about how to set up a data connection to an external database and link it as a data source, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
 
 == Supported operations

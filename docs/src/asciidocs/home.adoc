@@ -8,6 +8,33 @@
 
 ---
 
+////
+++++
+  <div class="row" "cols-md-4">
+      <div class="boxDiv">
+<p> Explore our guides and code examples to build interactive data apps with ThoughtSpot Visual Embed SDK and REST APIs. Read the docs and get started!</p>
+
+<p><a href="?pageid=integration-guidelines">Read the guidelines -> </a></p>
+ </div>
+ 
+      <div class="boxDiv">
+       <p>  Set up your application environment, download the Visual Embed SDK, and start embedding ThoughtSpot functionality in your applications.</p>
+
+<p>  <a href="?pageid=visual-embed-sdk"> Get started with Visual Embed SDK -></a>
+</div>
+ 
+         <div class="boxDiv">
+<p>
+Explore ThoughtSpot REST APIs to programmatically query, import or export data, manage users and sessions, and automate deployments. </p>
+
+<p>  <a href="?pageid=rest-apis"> Get started with REST APIs -></a></p> </div>
+  </div>
+
+++++
+////
+
+
+
 
 [width="100%" cols="6,6,6"]
 |====

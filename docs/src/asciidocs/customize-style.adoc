@@ -6,9 +6,9 @@
 :page-pageid: customize-style
 :page-description: Rebrand embedded ThoughtSpot content
 
-If you want to match the look and feel of the embedded ThoughtSpot content with your core application, you can customize the ThoughtSpot application UI and its styles. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines.
+If you want to match the look and feel of embedded ThoughtSpot content with your core application, you can customize the ThoughtSpot application UI elements. Using style customization, you can create a uniform ThoughtSpot experience that complies with your company’s branding guidelines.
 
-You can rebrand the ThoughtSpot application interface components such as the logo, background color, and color scheme of the visualizations.
+You can rebrand the ThoughtSpot interface elements such as the application logo, background color, and color scheme of visualizations.
 [NOTE]
 ====
 When you rebrand ThoughtSpot content, the UI styles are reset for all users.
@@ -36,8 +36,8 @@ To access style customization settings:
 
 [TIP]
 ====
-The style customization settings are also available in the ThoughtSpot *Admin* tab.
-For more information on setting UI styles from the *Admin* tab, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization].
+Style customization settings are also available in the ThoughtSpot *Admin* tab.
+For more information on setting UI styles from the *Admin* tab, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization, window=_blank].
 ====
 
 [#logo-change]
@@ -47,7 +47,7 @@ To upload your application logos:
 . Go to *Develop* > *Customizations* > *Styles*.
 . To upload the default logo:
 .. Click *Application Logo (Default)*.
-.. Browse to your local directory and select logo image.
+.. Browse to your local directory and select a logo image.
 
 +
 image::./images/style-applogo.png[Default Application Logo]
@@ -60,13 +60,15 @@ The accepted file formats are jpg, jpeg, and png.
 .. Verify if the logo appears correctly in the top left corner of the navigation bar.
 . To upload a wide logo:
 .. Click the wide icon under *Application Logo (Wide)*.
-.. Browse to your local directory and select logo image.
+.. Browse to your local directory and select a logo image.
 +
 image::./images/style-widelogo.png[Wide application logo]
+
 +
 * The recommended size is 330px by 100px.
 * The accepted file formats are jpg, jpeg, and png.
 * This logo appears on the login screen.
+
 +
 .. Verify if the logo appears correctly.
 
@@ -115,9 +117,9 @@ The file appears in the font dialog.
 [#custom-bg]
 == Customize background color
 You can customize the application background color to match your company's color scheme.
-The custom background color is applied to the embed visualizations, pinboards, and the ThoughtSpot application backgrounds.
+The custom background color is applied to the application interface, embedded visualizations in pinboards and answers.
 
-To choose a background color for the ThoughtSpot application:
+To choose a background color for the ThoughtSpot application interface:
 
 . Go to *Develop* > *Customizations* > *Styles*.
 . Click the background color box under *Embedded Application Background*.
@@ -130,8 +132,7 @@ You can also add a HEX color code.
 
 [#nav-panel]
 == Customize navigation panel
-If you have embedded the full ThoughtSpot application, you can customize the navigation panel color to match your company's color scheme.
-The custom background color is applied to the navigation panel of the ThoughtSpot application.
+If you have embedded the entire ThoughtSpot application in your app, you can customize the navigation panel color to match your company's color scheme.
 
 To choose a background color for the navigation panel:
 
@@ -143,7 +144,7 @@ You can also add a HEX color code.
 
 [#chart-color]
 == Customize color palette for charts
-You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations, such as search answers and charts in your pinboards.
+You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations in pinboards and answers.
 
 To change the color palette for charts:
 
@@ -167,12 +168,12 @@ Therefore, the secondary palette usually consists of secondary colors.
 
 You can disable color rotation for single-color charts.
 If you disable color rotation, ThoughtSpot generates single-color charts in the order of your color palette, left to right.
-If you leave color rotation enabled, ThoughtSpot generates the color of single-color charts randomly.
+If color rotation is enabled, ThoughtSpot chooses colors randomly.
 
 
 [#footer-text]
 == Customize footer text
-The ThoughtSpot footer appears by default in the ThoughtSpot application. You can customize ThoughtSpot's footer text to add a company-specific message.
+A footer appears by default in the ThoughtSpot application. You can customize the footer text to add your  company-specific message.
 
 To change the footer text:
 
