@@ -21,6 +21,7 @@ import {
     DEFAULT_HOST,
     DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
+    HOME_PAGE_ID,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -226,7 +227,7 @@ const IndexPage = ({ location }) => {
         }
         return '100%';
     };
-    const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== 'introduction';
+    const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== HOME_PAGE_ID;
 
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>

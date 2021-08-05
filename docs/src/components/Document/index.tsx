@@ -31,7 +31,7 @@ const Document = (props: {
                 }}
             />
             {props.isPublicSiteOpen && <Footer />}
-        </div >
+        </div>
     );
 };
 

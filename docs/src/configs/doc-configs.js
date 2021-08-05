@@ -9,6 +9,7 @@ module.exports = {
     PREVIEW_PREFIX: 'previewPrefix',
     VISUAL_EMBED_SDK_PREFIX: 'visualEmbedSDKPrefix',
     NOT_FOUND_PAGE_ID: '404-error',
+    HOME_PAGE_ID: 'introduction',
     NOT_FOUND_GO_HOME_PAGE_ID: 'introduction',
     TYPE_DOC_PREFIX: 'typedoc',
     DEFAULT_HOST: 'https://try-everywhere.thoughtspot.cloud',
