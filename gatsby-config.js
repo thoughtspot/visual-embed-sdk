@@ -71,7 +71,7 @@ class CustomDocConverter {
             let target = node.getTarget();
 
             // get anchor attributes
-            let attributes = node.getAttributes();
+            const attributes = node.getAttributes();
             if (this.isTransformLink(target)) {
                 // check if link is for 'Visual Embed SDK' documents or not
                 if (target.includes(config.VISUAL_EMBED_SDK_PREFIX)) {
@@ -107,6 +107,7 @@ class CustomDocConverter {
     }
 }
 
+console.log(getPath(config.DOC_REPO_NAME));
 module.exports = {
     pathPrefix: getPath(config.DOC_REPO_NAME),
     siteMetadata: {
@@ -154,13 +155,13 @@ module.exports = {
                 // language file path
                 defaultLanguage: 'en',
                 // option to redirect to `/en` when connecting `/`
-                redirect: true,
+                redirect: false,
             },
         },
         {
             resolve: 'gatsby-transformer-asciidoc',
             options: {
-                safe: `server`,
+                safe: 'server',
                 attributes: {
                     showtitle: true,
                     imagesdir: '/doc-images',
