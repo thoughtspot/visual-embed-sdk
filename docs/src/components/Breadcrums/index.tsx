@@ -10,21 +10,21 @@ type BreadcrumsProps = {
 const Breadcrums: React.FC<BreadcrumsProps> = (props: BreadcrumsProps) => {
     const breadcrums = getBreadcrumsPath(props.breadcrumsData, props.pageid);
 
-    if (!breadcrums.length) {
-        return <div />;
-    }
-
     return (
-        <div className="breadcrumsWrapper">
-            <ul className="breadcrumb">
-                <li>Developer Guides</li>
-                {breadcrums.map(({ name, href }) => (
-                    <li key={`${name}-${href}`}>
-                        {href ? <a href={href}>{name}</a> : name}
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            {breadcrums.length ? (
+                <div className="breadcrumsWrapper">
+                    <ul className="breadcrumb">
+                        <li>Developer Guides</li>
+                        {breadcrums.map(({ name, href }) => (
+                            <li key={`${name}-${href}`}>
+                                {href ? <a href={href}>{name}</a> : name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : null}
+        </>
     );
 };
 
