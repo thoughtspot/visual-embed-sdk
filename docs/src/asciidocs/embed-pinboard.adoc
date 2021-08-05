@@ -8,7 +8,6 @@
 
 This page explains, through an example, how to embed a ThoughtSpot Pinboard in your Web page, portal, or application.
 
-
 == Import the PinboardEmbed package
 Import the PinboardEmbed SDK library to your application environment:
 
