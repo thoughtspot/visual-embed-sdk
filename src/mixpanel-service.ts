@@ -1,6 +1,4 @@
 import * as mixpanel from 'mixpanel-browser';
-import { getSessionInfo } from './auth';
-import { EmbedConfig } from './types';
 
 export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',
@@ -48,18 +46,13 @@ function emptyQueue() {
     });
 }
 
-export async function initMixpanel(
-    authPromise: Promise<void>,
-    config: EmbedConfig,
-): Promise<any> {
-    const { thoughtSpotHost } = config;
-    // Wait auth to complete
-    await authPromise;
-    // Fetch sessionInfo if not fetched yet.
-    const sessionInfo = await getSessionInfo(thoughtSpotHost);
+export function initMixpanel(sessionInfo: any): void {
+    if (!sessionInfo || !sessionInfo.mixpanelToken) {
+        return;
+    }
     // On a public cluster the user is anonymous, so don't set the identify to userGUID
-    const isPublicCluster = !!sessionInfo?.configInfo.isPublicUser;
-    const token = sessionInfo?.configInfo.mixpanelAccessToken;
+    const isPublicCluster = !!sessionInfo.isPublicUser;
+    const token = sessionInfo.mixpanelToken;
     if (token) {
         mixpanel.init(token);
         if (!isPublicCluster) {

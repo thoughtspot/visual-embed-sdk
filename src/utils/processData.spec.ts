@@ -1,11 +1,14 @@
 import * as processDataInstance from './processData';
 import * as answerServiceInstance from './answerService';
-import { Action, OperationType } from '../types';
+import * as auth from '../auth';
+import { EmbedEvent, OperationType } from '../types';
 
 describe('Unit test for process data', () => {
     const thoughtSpotHost = 'http://localhost';
     test('processDataInstance, when operation is GetChartWithData', () => {
+        const answerService = {};
         const processChartData = {
+            answerService,
             data: {
                 session: 'session',
                 query: 'query',
@@ -15,7 +18,7 @@ describe('Unit test for process data', () => {
         jest.spyOn(
             answerServiceInstance,
             'getAnswerServiceInstance',
-        ).mockImplementation(async () => ({}));
+        ).mockReturnValue(answerService);
         expect(
             processDataInstance.processCustomAction(
                 processChartData,
@@ -25,18 +28,22 @@ describe('Unit test for process data', () => {
     });
 
     test('ProcessData, when Action is CustomAction', async () => {
-        const processedData = { type: Action.CustomAction };
+        const processedData = { type: EmbedEvent.CustomAction };
         jest.spyOn(
             processDataInstance,
             'processCustomAction',
         ).mockImplementation(async () => ({}));
         expect(
-            processDataInstance.processData(processedData, thoughtSpotHost),
+            processDataInstance.getProcessData(
+                EmbedEvent.CustomAction,
+                processedData,
+                thoughtSpotHost,
+            ),
         ).toStrictEqual(processedData);
     });
 
     test('ProcessData, when Action is non CustomAction', () => {
-        const processedData = { type: 'Action' };
+        const processedData = { type: EmbedEvent.Data };
         jest.spyOn(
             processDataInstance,
             'processCustomAction',
@@ -45,7 +52,28 @@ describe('Unit test for process data', () => {
             answerServiceInstance,
             'getAnswerServiceInstance',
         ).mockImplementation(async () => ({}));
-        processDataInstance.processData(processedData, thoughtSpotHost);
+        processDataInstance.getProcessData(
+            EmbedEvent.Data,
+            processedData,
+            thoughtSpotHost,
+        );
         expect(processDataInstance.processCustomAction).not.toBeCalled();
+    });
+
+    test('AuthInit', () => {
+        const sessionInfo = {
+            userGUID: '1234',
+            mixpanelToken: 'abc123',
+            isPublicUser: false,
+        };
+        const e = { type: EmbedEvent.AuthInit, data: sessionInfo };
+        jest.spyOn(auth, 'initSession').mockReturnValue(null);
+        expect(processDataInstance.getProcessData(e.type, e, '')).toEqual({
+            type: e.type,
+            data: {
+                userGUID: sessionInfo.userGUID,
+            },
+        });
+        expect(auth.initSession).toBeCalledWith(sessionInfo);
     });
 });
