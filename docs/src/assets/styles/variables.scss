@@ -42,7 +42,7 @@ $margin-md: 24px;
 $margin-xs: 5px;
 $padding-xs: 5px;
 $padding-sm: 10px;
-$document-margin-top: 81px;
+$document-margin-top: 88px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
 $docmap-width-desktop: 300px;
@@ -63,7 +63,7 @@ $font-family-doc: Optimo-Plain;
 $font-family-back-button: Optimo-Plain;
 $width-back-button: 32px;
 $height-back-button: 32px;
-$margin-top-mobile: 55px;
+$margin-top-mobile: 58px;
 $menu-icon-width: 43px;
 $z-index-search: 1;
 $z-index-left-nav: 9;
@@ -153,7 +153,8 @@ $tag-color-yellow: #ffbc00;
     --highlight-violet: #990073;
     --secondary-color: #2770ef;
     --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 12%), 0 0px 6px 0 rgba(0, 0, 0, 11%);
-    --box-shadow-hover: 0 4px 8px 0 rgba(0, 0, 0, 6%), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+    --box-shadow-hover: 0 4px 8px 0 rgba(0, 0, 0, 6%),
+        0 6px 20px 0 rgba(0, 0, 0, 0.06);
 }
 
 #wrapper[data-theme='dark'] {
@@ -175,6 +176,8 @@ $tag-color-yellow: #ffbc00;
     --highlight-darkred: #ef9a9a;
     --highlight-violet: #f8bbd0;
     --secondary-color: #8388fe;
-    --box-shadow: 0 2px 2px 0 rgba(255, 255, 255, 12%), 0 0px 6px 0 rgba(255, 255, 255, 11%);
-    --box-shadow-hover: 0 4px 8px 0 rgb(255 255 255 / 6%), 0 6px 20px 0 rgb(255 255 255 / 6%);
+    --box-shadow: 0 2px 2px 0 rgba(255, 255, 255, 12%),
+        0 0px 6px 0 rgba(255, 255, 255, 11%);
+    --box-shadow-hover: 0 4px 8px 0 rgb(255 255 255 / 6%),
+        0 6px 20px 0 rgb(255 255 255 / 6%);
 }

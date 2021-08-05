@@ -3,6 +3,7 @@
 :page-pageid: nav
 :page-description: Main navigation
 
+[navSection]
 * link:{{navprefix}}=introduction[Home]
 
 * Release Notes
