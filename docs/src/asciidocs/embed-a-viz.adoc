@@ -6,7 +6,9 @@
 :page-description: Embed charts and tables
 
 
-This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization. 
+
+You cannot currently embed a saved answer as an individual visualization - saved answers can be used in the SearchEmbed component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via PinboardEmbed must exist on a pinboard object in ThoughtSpot.
 
 == Import the PinboardEmbed package
 Import the visualization SDK library to your application environment:
