@@ -6,13 +6,13 @@
 :page-pageid: custom-domain-config
 :page-description:  
 
-When you embed ThoughtSpot into your app, your application URL will be set as  `<your-company-name>.thoughtspot.cloud` by default. The system-generated email notifications from your embedded ThoughtSpot instances will also include `thoughtspot.cloud` in the domain name.
+When you embed ThoughtSpot into your app, your application URL will be set as  `<your-company-name>.thoughtspot.cloud` by default. The system-generated email notifications from your embedded ThoughtSpot instance will also include `thoughtspot.cloud` in the domain name.
 
-For branding consistency and security purposes, you might want to use your own domain name. For example, you might want to use `<app-name>.<your-company-name>.com` as your base URL, instead of `<your-company-name>.thoughtspot.cloud`. 
+To ensure that embedding works on browsers that don't allow third-party cookies, such as Safari's default security setting and Firefox when in strict mode, you may want to set the domain name of the ThoughtSpot instance to the same domain as your parent application. For example, you might want to use `<app-name>.<your-company-name>.com` as your base URL, instead of `<your-company-name>.thoughtspot.cloud`. 
 
 Similarly, you might want to include your business domain name instead of `thoughtspot.com` in all system-generated notifications. For example, you might want your pinboard schedule notifications to show the sender's address as `<user-name>@<your-domain-name>`, instead of the default `TS Admin no-reply@notifications.thoughtspot.com`. 
 
-For all such domain customizations, ThoughtSpot recommends that you contact the ThoughtSpot Support team. We recommend that you read the following guidelines  before initiating a request for the URL or domain name change.
+For all such domain customizations, we recommend that you contact the ThoughtSpot Support team. We also recommend that you read the following guidelines before initiating a request for the URL or domain name change.
 
 == Domain URL customization
 
@@ -43,7 +43,7 @@ You must provide a valid email address to customize the sender ID, else the emai
 |Email message text|Go to *Admin* > *Onboarding* > *Custom message* in ThoughtSpot UI and add the message text. 
 |Product name in the email notifications|Go to *Admin* > *Onboarding* > *Product name* in the ThoughtSpot UI and add the product name.
 |Text such as `via amozonses.com`
-|Applicable only if Amazon Simple Email Service is used for emails.
+|Applicable if Amazon Simple Email Service is used for emails.
 
 Contact ThoughtSpot support.
 |===
