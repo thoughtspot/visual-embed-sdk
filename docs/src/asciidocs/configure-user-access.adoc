@@ -12,7 +12,7 @@ ThoughtSpot supports the following features to control user access to ThoughtSpo
 * Sharing visibility 
 * Object-level permissions
 * Row-level security (RLS) and column-level security (CLS) for data security
-* Visual Embed SDK for granular access (applicable for ThoughtSpot embedded instances)
+* Visual Embed SDK for granular access (applicable to ThoughtSpot embedded instances)
 
 == User groups and system privileges
 
