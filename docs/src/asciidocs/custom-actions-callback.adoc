@@ -39,4 +39,8 @@ The custom action is added to *My actions* in the Developer portal.
 
 . To view and verify the custom action you just created, navigate to a visualization page.
 
-For more information about how to push data to an external application using a callback custom action, see xref:push-data-to-external-app.adoc[Callback custom action example].
+== Register the callback through the Visual Embed SDK
+
+Once a callback custom action has been added within ThoughtSpot, you must add an event handler using the Visual Embed SDK to any page within the embedding application where you want the custom action to function. 
+
+See xref:push-data-to-external-app.adoc[Callback custom action workflow] for example code and instructions for handling the callback using the Visual Embed SDK.
