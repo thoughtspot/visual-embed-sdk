@@ -11,9 +11,17 @@ This page explains, through an example, how to embed a ThoughtSpot Pinboard in y
 == Import the PinboardEmbed package
 Import the PinboardEmbed SDK library to your application environment:
 
+**npm**
 [source,javascript]
 ----
 import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+----
+
+**ES6**
+[source,javascript]
+----
+<script type='module'>
+import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Add the embed domain
