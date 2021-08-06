@@ -49,7 +49,7 @@
 * Customization and rebranding
 ** link:{{navprefix}}=customize-style[Customize layout and styles]
 ** link:{{navprefix}}=customize-links[Customize links] 
-** link:{{navprefix}}=customize-emails[Customize email settings]
+** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
 * Runtime filters
 ** link:{{navprefix}}=runtime-filters[Runtime filters]

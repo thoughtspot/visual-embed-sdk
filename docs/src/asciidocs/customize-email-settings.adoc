@@ -1,4 +1,4 @@
-= Customize emails and onboarding experience
+= Customize onboarding settings
 
 
 :page-title: Customize email settings and onboarding experience
