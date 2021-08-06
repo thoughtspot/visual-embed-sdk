@@ -1,7 +1,7 @@
-= Custom actions
+= Custom actions overview
 :toc: true
 
-:page-title: Action customization
+:page-title: Custom action overview
 :page-pageid: custom-action-intro
 :page-description: You can insert custom buttons or menu items in ThoughtSpot UI
 

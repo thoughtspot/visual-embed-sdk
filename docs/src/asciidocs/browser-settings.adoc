@@ -13,21 +13,22 @@ ThoughtSpot supports rendering embedded content in the following web browsers:
 * Opera
 * Safari
 
-== Same-Site cookie behavior
+== Embedded content and browser cookies
 
-Google Chrome 80 or later versions use the `SameSite` cookie attribute to disable the use of third-party content.  
+For security purposes, most browsers allow cookies only when they originate from the same domain name as the main application URL. Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. 
 
-For third-party application integrations that rely on cookies, the SameSite cookie attribute must be to `None`. This setting is enabled by default on ThoughtSpot cloud instances.
+To avoid this issue, you might want to host your embedded ThoughtSpot instance in the same domain as its parent application. To customize the ThoughtSpot domain URL for your instance, contact ThoughtSpot Support.  
 
-== Embedded content rendition 
-
-Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. If the embedded ThoughtSpot content is blocked on these browsers, do the following: 
-
-. Check if the domain URL of your ThoughtSpot instance is the same as its parent application. To customize the ThoughtSpot domain URL for your instance, contact ThoughtSpot Support.  
-. Enable third-party cookies and cross-site tracking on your browser:
+If you do not want to customize your domain, you may need to enable third-party cookies and cross-site tracking on your browser:
 
  * On Safari, go to *Preferences* > *Privacy* and clear the *Prevent cross-site tracking* checkbox. 
  * On Firefox, go to *Preferences* > *Privacy & Security* > *Enhanced Tracking Protection* and allow cross-site cookies.
-+ 
-. Reload your application.
+ 
+If the embedded content is not rendered despite these configuration changes, contact ThoughtSpot Support. 
+
+=== Same-Site cookie behavior on Google Chrome
+
+Google Chrome 80 or later versions use the `SameSite` cookie attribute to disable the use of third-party content.  
+For third-party application integrations that rely on cookies, the SameSite cookie attribute must be set to `None`. This setting is enabled by default on ThoughtSpot cloud instances.
+ 
   

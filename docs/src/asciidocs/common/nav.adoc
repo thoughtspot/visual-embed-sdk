@@ -21,6 +21,7 @@
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
+** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 ** link:{{navprefix}}=browser-settings[Browser settings for embedding]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 
@@ -35,7 +36,8 @@
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
-* link:{{navprefix}}=custom-action-intro[Custom actions]
+* Custom actions
+** link:{{navprefix}}=custom-action-intro[Overview]
 ** link:{{navprefix}}=customize-actions[Custom actions page]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
@@ -47,7 +49,7 @@
 * Customization and rebranding
 ** link:{{navprefix}}=customize-style[Customize layout and styles]
 ** link:{{navprefix}}=customize-links[Customize links] 
-** link:{{navprefix}}=customize-emails[Customize email settings]
+** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
 * Runtime filters
 ** link:{{navprefix}}=runtime-filters[Runtime filters]
