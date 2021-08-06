@@ -1,31 +1,53 @@
-import { Action, OperationType } from '../types';
+import { initSession } from '../auth';
+import { EmbedEvent, OperationType } from '../types';
 import { getAnswerServiceInstance } from './answerService';
 
-export function processCustomAction(_data: any, thoughtSpotHost: string) {
-    const data = _data;
+export function processCustomAction(e: any, thoughtSpotHost: string) {
     if (
         [
             OperationType.GetChartWithData,
             OperationType.GetTableWithHeadlineData,
-        ].includes(data.data?.operation)
+        ].includes(e.data?.operation)
     ) {
-        const { session, query, operation } = data.data;
+        const { session, query, operation } = e.data;
         const answerService = getAnswerServiceInstance(
             session,
             query,
             operation,
             thoughtSpotHost,
         );
-        data.answerService = answerService;
+        return {
+            ...e,
+            answerService,
+        };
     }
-    return data;
+    return e;
 }
 
-export function processData(data: any, thoughtSpotHost: string) {
-    switch (data.type) {
-        case Action.CustomAction:
-            return processCustomAction(data, thoughtSpotHost);
+function processAuthInit(e: any) {
+    // Store user session details sent by app.
+    initSession(e.data);
+
+    // Expose only allowed details (eg: userGUID) back to SDK users.
+    return {
+        ...e,
+        data: {
+            userGUID: e.data.userGUID,
+        },
+    };
+}
+
+export function getProcessData(
+    type: EmbedEvent,
+    e: any,
+    thoughtSpotHost: string,
+) {
+    switch (type) {
+        case EmbedEvent.CustomAction:
+            return processCustomAction(e, thoughtSpotHost);
+        case EmbedEvent.AuthInit:
+            return processAuthInit(e);
         default:
     }
-    return data;
+    return e;
 }

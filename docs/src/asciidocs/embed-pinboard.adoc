@@ -8,7 +8,6 @@
 
 This page explains, through an example, how to embed a ThoughtSpot Pinboard in your Web page, portal, or application.
 
-
 == Import the PinboardEmbed package
 Import the PinboardEmbed SDK library to your application environment:
 
@@ -81,7 +80,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the pinboards page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. 
+
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a pinboard page.
+====
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard page.
@@ -106,7 +109,11 @@ hiddenActions: Action.AddFilter
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  pinboards page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. 
+
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a pinboard page.
+====
 
 pinboardId::
 _String_. The GUID of the pinboard.
@@ -117,6 +124,7 @@ _String_. The Global Unique Identifier (GUID) of a visualization added to the pi
 enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
+[#filter-removal]
 preventPinboardFilterRemoval::
 _Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter that is applied to a visualization. 
 

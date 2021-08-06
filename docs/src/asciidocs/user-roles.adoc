@@ -7,7 +7,7 @@
 
 You will require a user account with `Developer` privilege to perform the following tasks in ThoughtSpot:
 
-* Access the *Develop* tab in ThoughtSpot and the developer playground.
+* Access the *Develop* tab in ThoughtSpot application.
 * Customize and rebrand the look and feel of the ThoughtSpot UI.
 * Add custom actions to a pinboard or visualization. 
 * Customize the format of links used in system-generated emails and notifications. 

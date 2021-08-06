@@ -12,8 +12,9 @@
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 
-* link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
-** link:{{navprefix}}=dev-portal-playground[Developer playground]
+* ThoughtSpot Developer portal
+** link:{{navprefix}}=spotdev-portal[Access Developer portal]
+** link:{{navprefix}}=dev-playground[Explore APIs in Playground]
 
 * Authentication and security
 ** link:{{navprefix}}=developer-access[Developer access]

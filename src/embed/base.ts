@@ -36,7 +36,7 @@ import {
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
 } from '../mixpanel-service';
-import { processData } from '../utils/processData';
+import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 
 let config = {} as EmbedConfig;
@@ -73,7 +73,6 @@ const handleAuth = () => {
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
     handleAuth();
-    initMixpanel(authPromise, embedConfig);
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         authType: config.authType,
@@ -270,7 +269,7 @@ export class TsEmbed {
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processData(event.data, this.thoughtSpotHost),
+                    getProcessData(eventType, event.data, this.thoughtSpotHost),
                     eventPort,
                 );
             }
@@ -360,9 +359,6 @@ export class TsEmbed {
         authPromise
             ?.then(() => {
                 uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
-                this.executeCallbacks(EmbedEvent.AuthInit, {
-                    data: { isLoggedIn: isAuthenticated() },
-                });
 
                 this.iFrame = this.iFrame || document.createElement('iframe');
                 this.iFrame.src = url;

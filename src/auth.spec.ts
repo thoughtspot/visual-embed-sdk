@@ -1,15 +1,3 @@
-import {
-    EndPoints,
-    getSessionInfo,
-    doTokenAuth,
-    loggedInStatus,
-    doBasicAuth,
-    doSamlAuth,
-    authenticate,
-    isAuthenticated,
-    samlCompletionPromise,
-    SSO_REDIRECTION_MARKER_GUID,
-} from './auth';
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
 import { AuthType } from './types';
@@ -87,39 +75,22 @@ describe('Unit test for auth', () => {
     });
 
     test('endpoints, SSO_LOGIN_TEMPLATE', () => {
-        const ssoTemplateUrl = EndPoints.SSO_LOGIN_TEMPLATE(thoughtSpotHost);
+        const ssoTemplateUrl = authInstance.EndPoints.SSO_LOGIN_TEMPLATE(
+            thoughtSpotHost,
+        );
         expect(ssoTemplateUrl).toBe(
             `/callosum/v1/saml/login?targetURLPath=${thoughtSpotHost}`,
         );
     });
 
     test('when session info giving response', async () => {
-        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
-            async () => ({
-                json: () => mockSessionInfo,
-                status: 200,
-            }),
-        );
-        expect(await getSessionInfo(thoughtSpotHost)).toStrictEqual(
-            mockSessionInfo,
-        );
-        expect(authService.fetchSessionInfoService).toBeCalled();
-    });
-
-    test('when session info giving error', async () => {
-        jest.spyOn(
-            authService,
-            'fetchSessionInfoService',
-        ).mockImplementation(() => Promise.reject());
-        expect(await getSessionInfo(thoughtSpotHost)).toStrictEqual(
-            mockSessionInfo,
-        );
-        expect(authService.fetchSessionInfoService).toBeCalled();
+        authInstance.initSession(mockSessionInfo);
+        expect(authInstance.getSessionInfo()).toStrictEqual(mockSessionInfo);
     });
 
     test('doTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {
         try {
-            await doTokenAuth(
+            await authInstance.doTokenAuth(
                 embedConfig.doTokenAuthFailureWithoutAuthEndPoint,
             );
         } catch (e) {
@@ -136,9 +107,9 @@ describe('Unit test for auth', () => {
                 status: 200,
             }),
         );
-        await doTokenAuth(embedConfig.doTokenAuthSuccess);
+        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess);
         expect(authService.fetchSessionInfoService).toBeCalled();
-        expect(loggedInStatus).toBe(true);
+        expect(authInstance.loggedInStatus).toBe(true);
     });
 
     test('doTokenAuth: when user is not loggedIn & getAuthToken have response, isLoggedIn should called', async () => {
@@ -150,7 +121,7 @@ describe('Unit test for auth', () => {
             'fetchAuthTokenService',
         ).mockImplementation(() => ({ text: () => true }));
         jest.spyOn(authService, 'fetchAuthService');
-        await doTokenAuth(embedConfig.doTokenAuthSuccess);
+        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess);
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authService.fetchAuthService).toBeCalled();
     });
@@ -165,10 +136,10 @@ describe('Unit test for auth', () => {
         ).mockImplementation(() => ({ text: () => true }));
         jest.spyOn(authService, 'fetchAuthService');
         executeAfterWait(async () => {
-            await doTokenAuth(
+            await authInstance.doTokenAuth(
                 embedConfig.doTokenAuthFailureWithoutGetAuthToken,
             );
-            expect(loggedInStatus).toBe(true);
+            expect(authInstance.loggedInStatus).toBe(true);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(authService.fetchAuthService).toBeCalled();
         });
@@ -187,9 +158,9 @@ describe('Unit test for auth', () => {
                 json: () => mockSessionInfo,
                 status: 200,
             }));
-            await doBasicAuth(embedConfig.doBasicAuth);
+            await authInstance.doBasicAuth(embedConfig.doBasicAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
-            expect(loggedInStatus).toBe(true);
+            expect(authInstance.loggedInStatus).toBe(true);
         });
 
         it('when user is not loggedIn', async () => {
@@ -202,10 +173,10 @@ describe('Unit test for auth', () => {
                 'fetchBasicAuthService',
             ).mockImplementation(() => ({ status: 200 }));
 
-            await doBasicAuth(embedConfig.doBasicAuth);
+            await authInstance.doBasicAuth(embedConfig.doBasicAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(authService.fetchBasicAuthService).toBeCalled();
-            expect(loggedInStatus).toBe(true);
+            expect(authInstance.loggedInStatus).toBe(true);
         });
     });
 
@@ -220,7 +191,7 @@ describe('Unit test for auth', () => {
         it('when user is loggedIn & isAtSSORedirectUrl is true', async () => {
             Object.defineProperty(window, 'location', {
                 value: {
-                    href: SSO_REDIRECTION_MARKER_GUID,
+                    href: authInstance.SSO_REDIRECTION_MARKER_GUID,
                     hash: '',
                 },
             });
@@ -231,10 +202,10 @@ describe('Unit test for auth', () => {
                 json: () => mockSessionInfo,
                 status: 200,
             }));
-            await doSamlAuth(embedConfig.doSamlAuth);
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(window.location.hash).toBe('');
-            expect(loggedInStatus).toBe(true);
+            expect(authInstance.loggedInStatus).toBe(true);
         });
 
         it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
@@ -242,10 +213,10 @@ describe('Unit test for auth', () => {
                 authService,
                 'fetchSessionInfoService',
             ).mockImplementation(() => Promise.reject());
-            await doSamlAuth(embedConfig.doSamlAuth);
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(window.location.hash).toBe('');
-            expect(loggedInStatus).toBe(false);
+            expect(authInstance.loggedInStatus).toBe(false);
         });
 
         it('when user is not loggedIn, in config noRedirect is false and isAtSSORedirectUrl is false', async () => {
@@ -259,7 +230,7 @@ describe('Unit test for auth', () => {
                 authService,
                 'fetchSessionInfoService',
             ).mockImplementation(() => Promise.reject());
-            await doSamlAuth(embedConfig.doSamlAuth);
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(global.window.location.href).toBe(samalLoginUrl);
         });
@@ -276,9 +247,9 @@ describe('Unit test for auth', () => {
                 authService,
                 'fetchSessionInfoService',
             ).mockImplementation(() => Promise.reject());
-            expect(await samlCompletionPromise).not.toBe(null);
+            expect(await authInstance.samlCompletionPromise).not.toBe(null);
             expect(
-                await doSamlAuth({
+                await authInstance.doSamlAuth({
                     ...embedConfig.doSamlAuth,
                     noRedirect: true,
                 }),
@@ -289,32 +260,34 @@ describe('Unit test for auth', () => {
 
     it('authenticate: when authType is SSO', async () => {
         jest.spyOn(authInstance, 'doSamlAuth');
-        await authenticate(embedConfig.SSOAuth);
+        await authInstance.authenticate(embedConfig.SSOAuth);
         expect(window.location.hash).toBe('');
         expect(authInstance.doSamlAuth).toBeCalled();
     });
 
     it('authenticate: when authType is AuthServer', async () => {
         spyOn(authInstance, 'doTokenAuth');
-        await authenticate(embedConfig.authServerFailure);
+        await authInstance.authenticate(embedConfig.authServerFailure);
         expect(window.location.hash).toBe('');
         expect(authInstance.doTokenAuth).toBeCalled();
     });
 
     it('authenticate: when authType is Basic', async () => {
         jest.spyOn(authInstance, 'doBasicAuth');
-        await authenticate(embedConfig.basicAuthSuccess);
+        await authInstance.authenticate(embedConfig.basicAuthSuccess);
         expect(authInstance.doBasicAuth).toBeCalled();
-        expect(loggedInStatus).toBe(true);
+        expect(authInstance.loggedInStatus).toBe(true);
     });
 
     it('authenticate: when authType is None', async () => {
         expect(
-            await authenticate(embedConfig.nonAuthSucess),
+            await authInstance.authenticate(embedConfig.nonAuthSucess),
         ).not.toBeInstanceOf(Error);
     });
 
     it('user is authenticated when loggedInStatus is true', () => {
-        expect(isAuthenticated()).toBe(loggedInStatus);
+        expect(authInstance.isAuthenticated()).toBe(
+            authInstance.loggedInStatus,
+        );
     });
 });

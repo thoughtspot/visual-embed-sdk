@@ -102,8 +102,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is labelled as *Send Email* and its ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search answer page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. 
 
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search results page.
+====
 
 disabledActionReason [small]#__Optional__#::
 _String_. Indicates the reason for disabling an action on a search answer page.
@@ -156,8 +159,13 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  search answer page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. 
 
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the search results page.
+====
+
+[#search-query]
 searchOptions [small]#__Optional__#::
 Attribute for defining search tokens and executing search. 
 
@@ -172,12 +180,15 @@ __String__. The ThoughtSpot Modeling Language (TML) query string. For example, t
 * `executeSearch`
 __Boolean__. When set to `true`, the  focus is placed on search results. When set to `false`, the focus is placed at the end of search tokens in the search bar.
 +
+
+[source, javascript]
 ----
 searchOptions: {
         searchTokenString: '[product][sales][date].daily',
         executeSearch: true,
     }
 ----
+
 
 ++++
 <a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>

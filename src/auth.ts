@@ -1,3 +1,4 @@
+import { initMixpanel } from './mixpanel-service';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { appendToUrlHash } from './utils';
 // eslint-disable-next-line import/no-cycle
@@ -34,26 +35,25 @@ export const EndPoints = {
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
-    sessionInfo = null;
+    let response = null;
     try {
-        const response = await fetchSessionInfoService(authVerificationUrl);
-        if (response.status === 200) {
-            sessionInfo = response.json();
-        }
+        response = await fetchSessionInfoService(authVerificationUrl);
     } catch (e) {
-        sessionInfo = null;
+        return false;
     }
-    return !!sessionInfo;
+    return response.status === 200;
 }
 
 /**
  * Return sessionInfo if available else make a loggedIn check to fetch the sessionInfo
  */
-export async function getSessionInfo(thoughtSpotHost: string) {
-    if (!sessionInfo) {
-        await isLoggedIn(thoughtSpotHost);
-    }
+export function getSessionInfo() {
     return sessionInfo;
+}
+
+export function initSession(sessionDetails: any) {
+    sessionInfo = sessionDetails;
+    initMixpanel(sessionInfo);
 }
 
 /**
