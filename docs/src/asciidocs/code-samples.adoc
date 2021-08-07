@@ -20,6 +20,9 @@ import {
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
+// If not using npm, use the following for an ES6 standard import:
+// from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+
 init({
 	thoughtSpotHost: "<%=tshost%>",
 	authType: AuthType.SSO,
@@ -45,6 +48,9 @@ import {
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
+// If not using npm, use the following for an ES6 standard import:
+// from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.SSO,
@@ -70,6 +76,8 @@ import {
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
+// If not using npm, use the following for an ES6 standard import:
+// from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 
 init({
 	thoughtSpotHost: '<%=tshost%>',
@@ -99,6 +107,9 @@ import {
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
+// If not using npm, use the following for an ES6 standard import:
+// from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.None,
