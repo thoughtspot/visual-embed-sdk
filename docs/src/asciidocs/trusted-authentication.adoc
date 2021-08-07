@@ -10,11 +10,21 @@
 
 The trusted authentication method is a token-based authentication service, which uses a security token to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
 
+Trusted authentication requires you to have an authenticator server / service which can securely authenticate the users of the embedding application - **you** must implement secure authentication within the process that requests the login token from the authenticator server.
+
+The authenticator server has access to a ThoughtSpot secret key, allowing the authenticator server to request a login token **for any user** on the ThoughtSpot Server. This login token is then sent to the user's web browser, where it is used in the login process.
+
+The following illustration depicts the trusted authentication workflow:
+
+image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
+
 == Key components
 
 The trusted authentication workflow involves several entities, such as the web browser, host application, authenticator server, and the ThoughtSpot application server.
 
 === Authenticator server
+
+
 
 If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
 
@@ -96,7 +106,7 @@ __String__. The GUID of the pinboard or search answer.
 This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
 . ThoughtSpot verifies the authentication server's request and returns a token.
-. The authentication server returns the token to the user's web browser.
+. The authentication server returns the token to the user's web browser. **If using the Visual Embed SDK, the following steps are handled automatically.** See the section below for more details.
 . The client application constructs a fully encoded URL with the authentication token and the embedded resource endpoint and sends it as a query parameter in the GET request to the ThoughtSpot application server.
 +
 [source, HTML]
@@ -128,10 +138,6 @@ https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavH
 The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
 
 . ThoughtSpot validates the request and allows access to the requested content.
-
-The following illustration depicts the trusted authentication workflow:
-
-image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 == Trusted authentication workflow with Visual Embed SDK
 
