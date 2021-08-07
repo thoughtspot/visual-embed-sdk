@@ -18,9 +18,18 @@ In your .html page, include the JavaScript file in the `<script>` tag under `<he
 == Import the SearchEmbed package
 Import the SearchEmbed SDK library to your application environment:
 
+
+**npm**
 [source,javascript]
 ----
 import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+----
+
+**ES6**
+[source,javascript]
+----
+<script type='module'>
+import { SearchEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Add the embed domain
