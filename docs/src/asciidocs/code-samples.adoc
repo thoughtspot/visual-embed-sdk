@@ -260,5 +260,7 @@ See the following articles:
 
 * link:https://github.com/thoughtspot/visual-embed-sdk[SDK and developer toolkit, window=_blank]
 
-* link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API examples, window=_blank]
+* link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank]
+
+* link:https://github.com/thoughtspot/ts_everywhere_resources[Visual Embed SDK examples, window=_blank]
 
