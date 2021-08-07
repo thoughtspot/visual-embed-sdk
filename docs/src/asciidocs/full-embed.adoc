@@ -44,9 +44,17 @@ Contact ThoughtSpot Support to enable this feature.
 === Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
 
+**npm**
 [source,javascript]
 ----
 import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+----
+
+**ES6**
+[source,javascript]
+----
+<script type='module'>
+import { AppEmbed, Page, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 === Add the embed domain
