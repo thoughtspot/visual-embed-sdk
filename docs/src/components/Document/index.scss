@@ -5,11 +5,11 @@
 
 .documentWrapper {
     width: calc(100% - #{$docmap-width-desktop});
-    padding: $padding-md $padding-md 0;
     color: var(--primary-color);
 
     .documentView {
         min-height: 75vh;
+        padding: $padding-md $padding-md 0;
     }
 
     /* In order to hide TOC in main component */

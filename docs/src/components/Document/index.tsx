@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import './index.scss';
 import { customizeDocContent, addScrollListener } from './helper';
 import Footer from '../Footer';
+import Breadcrums from '../Breadcrums';
 
 const Document = (props: {
+    pageid?: string;
     docTitle: string;
     docContent: string;
     isPublicSiteOpen: boolean;
+    breadcrumsData: any;
 }) => {
     useEffect(() => {
         customizeDocContent();
@@ -18,6 +21,10 @@ const Document = (props: {
 
     return (
         <div className="documentWrapper">
+            <Breadcrums
+                breadcrumsData={props.breadcrumsData}
+                pageid={props.pageid}
+            />
             <div
                 id={props.docTitle}
                 className="documentView"
