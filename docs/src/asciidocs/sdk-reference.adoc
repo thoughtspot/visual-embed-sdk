@@ -20,6 +20,8 @@ For more specific information on Embed options and functions, see the  link:{{vi
  
 For information on how to use the Visual Embed SDK, see xref:getting-started.adoc[Get Started].
 
+Additional examples can be found at link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
+
 
 
 
