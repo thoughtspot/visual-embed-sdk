@@ -55,5 +55,5 @@ For information about additional customization settings for email notifications 
 * Make sure you add the new domain URL to the xref:security-settings.adoc[CORS and CSP allowed list in the ThoughtSpot UI].
 * If your setup uses SAML authentication for SSO, make sure the IdP server has the correct domain URLs. 
 * Verify if the ThoughtSpot instance loads with the new domain URL.
-* Try sharing an object and verify the system-generated notifications show the custom email domain name. 
+* Try sharing an object and verify if the system-generated notifications show the custom email domain name. 
 
