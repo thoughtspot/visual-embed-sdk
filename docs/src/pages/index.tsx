@@ -21,6 +21,7 @@ import {
     DEFAULT_HOST,
     DEFAULT_PREVIEW_HOST,
     DEFAULT_APP_ROOT,
+    HOME_PAGE_ID,
 } from '../configs/doc-configs';
 import {
     LEFT_NAV_WIDTH_DESKTOP,
@@ -233,6 +234,7 @@ const IndexPage = ({ location }) => {
         }
         return '100%';
     };
+    const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== HOME_PAGE_ID;
 
 
     return (
@@ -285,19 +287,22 @@ const IndexPage = ({ location }) => {
 
                     <div className="introWrapper">
                         <Document
+                            shouldShowRightNav={shouldShowRightNav}
                             pageid={params[TS_PAGE_ID_PARAM]}
                             docTitle={docTitle}
                             docContent={docContent}
                             breadcrumsData={breadcrumsData}
                             isPublicSiteOpen={isPublicSiteOpen}
                         />
-                        <div>
-                            <Docmap
-                                docContent={docContent}
-                                location={location}
-                                options={results}
-                            />
-                        </div>
+                        {shouldShowRightNav &&
+                            <div>
+                                <Docmap
+                                    docContent={docContent}
+                                    location={location}
+                                    options={results}
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
             </main>

@@ -9,6 +9,7 @@ const Document = (props: {
     docTitle: string;
     docContent: string;
     isPublicSiteOpen: boolean;
+    shouldShowRightNav: boolean
     breadcrumsData: any;
 }) => {
     useEffect(() => {
@@ -20,7 +21,12 @@ const Document = (props: {
     }, []);
 
     return (
-        <div className="documentWrapper">
+        <div
+            className="documentWrapper"
+            style={{
+                width: !props.shouldShowRightNav ? '100%' : null,
+            }}
+        >
             <Breadcrums
                 breadcrumsData={props.breadcrumsData}
                 pageid={props.pageid}

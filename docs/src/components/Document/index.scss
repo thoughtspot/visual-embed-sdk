@@ -1,6 +1,7 @@
 @import '../../assets/styles/variables.scss';
 @import '../../assets/styles/highlight.scss';
 @import '../../assets/styles/admonition.scss';
+@import '../../assets/styles/grid.scss';
 
 
 .documentWrapper {
@@ -220,6 +221,10 @@
     a:active {
         color: var(--secondary-color);
     }
+}
+
+hr {
+    border-color: var(--border-color);
 }
 
 pre {

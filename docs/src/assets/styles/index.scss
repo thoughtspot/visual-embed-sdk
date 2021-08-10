@@ -52,7 +52,7 @@ a {
     margin: $gutter;
 }
 
-.container {
+.containerWrapper {
     padding: 10px 25px;
 }
 
@@ -176,6 +176,13 @@ button {
 
 .boxFullWidth {
     width: 100%;
+}
+
+.divider {
+    border-bottom: 1px solid var(--border-color);
+    display: block;
+    width: 100%;
+    margin: 0 auto;
 }
 
 /* Div box style end */
