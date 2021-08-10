@@ -202,6 +202,14 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
+        if (!config.suppressNoCookieAccessAlert) {
+            this.on(EmbedEvent.NoCookieAccess, () => {
+                // eslint-disable-next-line no-alert
+                alert(
+                    'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',
+                );
+            });
+        }
     }
 
     /**
@@ -512,7 +520,6 @@ export class TsEmbed {
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push(callback);
         this.eventHandlerMap.set(messageType, callbacks);
-
         return this;
     }
 
@@ -564,6 +571,12 @@ export class TsEmbed {
         this.isRendered = true;
 
         return this;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    // eslint-disable-next-line camelcase
+    public test_setIframe(iframe: any): void {
+        this.iFrame = iframe;
     }
 }
 

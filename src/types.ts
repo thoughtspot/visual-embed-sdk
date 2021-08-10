@@ -98,6 +98,15 @@ export interface EmbedConfig {
      * @default false
      */
     shouldEncodeUrlQueryParams?: boolean;
+
+    /**
+     * Suppress cookie access alert when third party cookies are blocked by the user's browser.
+     * Third party cookie blocking is the default behaviour on Safari and opt-in for Firefox/Chrome.
+     * If you set this to `true`, you are encouraged to handle `noCookieAccess` event, to show your own treatment
+     * in this case.
+     * @default false
+     */
+    suppressNoCookieAccessAlert?: boolean;
 }
 
 export type MessagePayload = { type: string; data: any };
