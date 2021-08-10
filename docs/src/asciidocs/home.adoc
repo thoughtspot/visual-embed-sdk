@@ -6,11 +6,13 @@
 
 +++<h1>ThoughtSpot Everywhere Documentation</h1>+++
 
----
+[div divider]
 
-////
+ 
 ++++
-  <div class="row" "cols-md-4">
+ 
+  <div class="row">
+  <div class="col-md-4">
       <div class="boxDiv">
 <p> Explore our guides and code examples to build interactive data apps with ThoughtSpot Visual Embed SDK and REST APIs. Read the docs and get started!</p>
 
@@ -29,9 +31,10 @@ Explore ThoughtSpot REST APIs to programmatically query, import or export data, 
 
 <p>  <a href="?pageid=rest-apis"> Get started with REST APIs -></a></p> </div>
   </div>
-
+  </div>
+  </div>
 ++++
-////
+ 
 
 
 
