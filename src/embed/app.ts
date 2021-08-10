@@ -94,7 +94,7 @@ export class AppEmbed extends V1Embed {
      * embedded pinboard or visualization.
      */
     private getEmbedParams() {
-        const params = {};
+        const params = this.getBaseQueryParams();
         const {
             disabledActions,
             disabledActionReason,

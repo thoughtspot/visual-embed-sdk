@@ -66,7 +66,7 @@ export class PinboardEmbed extends V1Embed {
      * embedded pinboard or visualization.
      */
     private getEmbedParams() {
-        const params = {};
+        const params = this.getBaseQueryParams();
         const {
             disabledActions,
             disabledActionReason,
@@ -96,8 +96,6 @@ export class PinboardEmbed extends V1Embed {
         if (preventPinboardFilterRemoval) {
             params[Param.preventPinboardFilterRemoval] = true;
         }
-        params[Param.ViewPortHeight] = window.innerHeight;
-        params[Param.ViewPortWidth] = window.innerWidth;
 
         const queryParams = getQueryParamString(params, true);
 

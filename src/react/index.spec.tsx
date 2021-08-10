@@ -30,7 +30,7 @@ describe('React Components', () => {
             await waitFor(() => getIFrameEl(container));
 
             expect(getIFrameSrc(container)).toBe(
-                `http://${thoughtSpotHost}/?dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/?hostAppUrl=http://localhost&viewPortHeight=768&viewPortWidth=1024&dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
             );
         });
 

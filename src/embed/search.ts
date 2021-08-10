@@ -128,7 +128,7 @@ export class SearchEmbed extends TsEmbed {
             searchOptions,
         } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
-        const queryParams = {};
+        const queryParams = this.getBaseQueryParams();
         if (dataSources && dataSources.length) {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
         }

@@ -16,6 +16,8 @@ const defaultViewConfig = {
 };
 const answerId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
+const defaultParams =
+    'hostAppUrl=http://localhost&viewPortHeight=768&viewPortWidth=1024';
 
 beforeAll(() => {
     init({
@@ -34,7 +36,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -48,7 +50,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -63,7 +65,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -81,7 +83,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
 
@@ -96,7 +98,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&executeSearch=true&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&executeSearch=true&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -112,7 +114,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=collapse&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=collapse&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -128,7 +130,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -145,7 +147,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -158,7 +160,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?enableSearchAssist=true&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&enableSearchAssist=true&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -176,7 +178,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&hideAction=[%22downloadAsCSV%22,%22downloadAsPdf%22,%22downloadAsXLSX%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -192,7 +194,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&disableAction=[%22downloadAsXLSX%22]&disableHint=Access%20denied&hideAction=[%22downloadAsCSV%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -205,7 +207,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSourceMode=expand&useLastSelectedSources=false#/embed/saved-answer/${answerId}`,
             );
         });
     });

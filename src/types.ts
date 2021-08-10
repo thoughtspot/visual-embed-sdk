@@ -358,6 +358,7 @@ export enum Param {
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     HideObjects = 'hideObjects',
+    HostAppUrl = 'hostAppUrl',
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
     HideResult = 'hideResult',

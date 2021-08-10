@@ -15,6 +15,8 @@ const defaultViewConfig = {
     },
 };
 const thoughtSpotHost = 'tshost';
+const defaultParams =
+    '&hostAppUrl=http://localhost&viewPortHeight=768&viewPortWidth=1024';
 
 beforeAll(() => {
     init({
@@ -37,7 +39,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}#/home`,
             );
         });
     });
@@ -50,7 +52,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}#/home`,
             );
         });
     });
@@ -63,7 +65,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true${defaultParams}#/home`,
             );
         });
     });
@@ -92,7 +94,7 @@ describe('App embed tests', () => {
 
                 await executeAfterWait(() => {
                     expect(getIFrameSrc()).toBe(
-                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false#/${route}`,
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}#/${route}`,
                     );
                     cleanUp();
                 });
@@ -108,7 +110,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false#/foo/bar`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}#/foo/bar`,
             );
         });
     });
@@ -129,7 +131,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&col1=sales&op1=EQ&val1=1000#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&col1=sales&op1=EQ&val1=1000${defaultParams}#/home`,
             );
         });
     });
@@ -146,7 +148,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22download%22]#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22download%22]#/home`,
             );
         });
     });
@@ -161,7 +163,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&tag=Finance#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance#/home`,
             );
         });
     });
