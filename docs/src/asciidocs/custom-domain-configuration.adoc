@@ -1,0 +1,59 @@
+= Custom domain configuration
+:toc: true
+:toclevels: 1
+
+:page-title: Custom domain configuration
+:page-pageid: custom-domain-config
+:page-description:  
+
+When you embed ThoughtSpot into your app, your application URL will be set as  `<your-company-name>.thoughtspot.cloud` by default. The system-generated email notifications from your embedded ThoughtSpot instance will also include `thoughtspot.cloud` in the domain name.
+
+To ensure that embedding works on browsers that don't allow third-party cookies, such as Safari's default security setting and Firefox when in strict mode, you may want to set the domain name of the ThoughtSpot instance to the same domain as your parent application. For example, you might want to use `<app-name>.<your-company-name>.com` as your base URL, instead of `<your-company-name>.thoughtspot.cloud`. 
+
+Similarly, you might want to include your business domain name instead of `thoughtspot.com` in all system-generated notifications. For example, you might want your pinboard schedule notifications to show the sender's address as `<user-name>@<your-domain-name>`, instead of the default `TS Admin no-reply@notifications.thoughtspot.com`. 
+
+For all such domain customizations, we recommend that you contact the ThoughtSpot Support team. We also recommend that you read the following guidelines before initiating a request for the URL or domain name change.
+
+== Domain URL customization
+
+If you want to customize the application domain URL that appears in the browser, we recommend that you contact ThoughtSpot support to initiate a URL change request. ThoughtSpot may require the following information to complete this operation:
+
+* The domain name that you want to use. Make sure you have a valid and registered domain name.
+* A valid TLS/SSL certificate to serve your application pages over HTTPS.
+* Contact personnel for updating your DNS records after your cluster is migrated to the new domain.
+* Your preferred maintenance window for this operation.
+
+[IMPORTANT]
+====
+The domain URL customization does not update the email domain name in ThoughtSpot system-generated notifications. You must contact the ThoughtSpot Support team to customize the email domain.
+====
+
+== Email customization
+
+ThoughtSpot supports customizing the email domain, sender ID, and email message text in system-generated notifications, such as the pinboard and answer sharing notifications, pinboard job scheduled emails, and so on. 
+
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|To customize|Steps to configure
+|Email domain name|Contact ThoughtSpot Support and provide the email domain name. 
+|Sender ID|Contact ThoughtSpot Support to customize the sender ID.  
+
+You must provide a valid email address to customize the sender ID, else the email verification may fail.
+|Email message text|Go to *Admin* > *Onboarding* > *Custom message* in ThoughtSpot UI and add the message text. 
+|Product name in the email notifications|Go to *Admin* > *Onboarding* > *Product name* in the ThoughtSpot UI and add the product name.
+|Text such as `via amozonses.com`
+|Applicable if Amazon Simple Email Service is used for emails.
+
+Contact ThoughtSpot support.
+|===
+
+For information about additional customization settings for email notifications and onboarding experience, see xref:customize-email-settings.adoc[Customize email notifications and onboarding experience].
+
+== Post-customization checks
+
+* Make sure you add the new domain URL to the xref:security-settings.adoc[CORS and CSP allowed list in the ThoughtSpot UI].
+* If your setup uses SAML authentication for SSO, make sure the IdP server has the correct domain URLs. 
+* Verify if the ThoughtSpot instance loads with the new domain URL.
+* Try sharing an object and verify the system-generated notifications show the custom email domain name. 
+

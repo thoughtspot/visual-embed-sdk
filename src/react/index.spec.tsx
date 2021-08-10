@@ -2,9 +2,14 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { getIFrameEl, getIFrameSrc } from '../test/test-utils';
+import {
+    getIFrameEl,
+    getIFrameSrc,
+    postMessageToParent,
+} from '../test/test-utils';
 import { SearchEmbed, AppEmbed, PinboardEmbed } from './index';
 import { AuthType, init } from '../index';
+import { EmbedEvent } from '../types';
 
 const thoughtSpotHost = 'localhost';
 
@@ -30,13 +35,14 @@ describe('React Components', () => {
         });
 
         it('Should attach event listeners', async (done) => {
+            const userGUID = 'absfdfgd';
             const { container } = render(
                 <SearchEmbed
                     onInit={(e) => {
                         expect(e.data).toHaveProperty('timestamp');
                     }}
                     onAuthInit={(e) => {
-                        expect(e.data).toHaveProperty('isLoggedIn');
+                        expect(e.data.userGUID).toEqual(userGUID);
                         done();
                     }}
                 />,
@@ -44,6 +50,12 @@ describe('React Components', () => {
 
             await waitFor(() => getIFrameEl(container));
             const iframe = getIFrameEl(container);
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+                data: {
+                    userGUID,
+                },
+            });
         });
     });
 

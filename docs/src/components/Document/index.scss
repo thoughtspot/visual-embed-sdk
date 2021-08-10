@@ -3,10 +3,15 @@
 @import '../../assets/styles/admonition.scss';
 @import '../../assets/styles/grid.scss';
 
+
 .documentWrapper {
     width: calc(100% - #{$docmap-width-desktop});
-    padding: $padding-md;
     color: var(--primary-color);
+
+    .documentView {
+        min-height: 75vh;
+        padding: $padding-md $padding-md 0;
+    }
 
     /* In order to hide TOC in main component */
     #toc {
@@ -144,11 +149,13 @@
     h3 {
         margin-top: $sub-title-margin;
         font-size: $font-size-h3;
+        font-weight: $font-weight-normal;
     }
 
     h4 {
         font-size: $font-size-h4;
         margin-top: $sub-title-margin;
+        font-weight: $font-weight-normal;
     }
 
     ol > li {

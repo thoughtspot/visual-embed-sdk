@@ -6,14 +6,24 @@
 :page-description: Embed charts and tables
 
 
-This page explains how to embed a ThoughtSpot visualization, such as tables and charts, in your Web page, portal, or application.
+This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization. 
+
+You cannot currently embed a saved answer as an individual visualization - saved answers can be used in the SearchEmbed component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via PinboardEmbed must exist on a pinboard object in ThoughtSpot.
 
 == Import the PinboardEmbed package
 Import the visualization SDK library to your application environment:
 
+**npm**
 [source,javascript]
 ----
 import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+----
+
+**ES6**
+[source,javascript]
+----
+<script type='module'>
+import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Add the embed domain
@@ -42,6 +52,8 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
 	  hiddenActions: [],
 	  pinboardId: '<%=pinboardGUID%>',
 	  vizId: '<%=vizGUID%>',
+	  enableVizTransformations: true,
+	  preventPinboardFilterRemoval: true,
 	  runtimeFilters: [],
     },
 });
@@ -67,8 +79,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the visualization page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. 
 
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the visualization page.
+====
 
 hiddenActions [small]_optional_::
 _Array of strings_. Hides the menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -93,8 +108,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 
 [NOTE]
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is labelled as *Send Email* and its ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  visualization page.
+====
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. 
 
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the visualization page.
+====
 
 disabledActionReason [small]_optional_::
 _String_. Reason for disabling an action on the visualizations page.
@@ -104,6 +122,12 @@ _String_. The Global Unique Identifier (GUID) of the visualization.
 
 pinboardId::
 _String_. The GUID of the pinboard to which the visualization is pinned.
+
+enableVizTransformations::
+_Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+
+preventPinboardFilterRemoval::
+_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter applied to a visualization. 
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.

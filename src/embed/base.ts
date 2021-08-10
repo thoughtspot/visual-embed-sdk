@@ -7,7 +7,11 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getEncodedQueryParamsString, getCssDimension } from '../utils';
+import {
+    getEncodedQueryParamsString,
+    getCssDimension,
+    getOffsetTop,
+} from '../utils';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -32,7 +36,7 @@ import {
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
 } from '../mixpanel-service';
-import { processData } from '../utils/processData';
+import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 
 let config = {} as EmbedConfig;
@@ -69,7 +73,6 @@ const handleAuth = () => {
 export const init = (embedConfig: EmbedConfig): void => {
     config = embedConfig;
     handleAuth();
-    initMixpanel(authPromise, embedConfig);
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         authType: config.authType,
@@ -242,6 +245,18 @@ export class TsEmbed {
     }
 
     /**
+     * Extracts the port field from the event payload
+     * @param event  The window message event
+     * @returns
+     */
+    private getEventPort(event: MessageEvent) {
+        if (event.ports.length && event.ports[0]) {
+            return event.ports[0];
+        }
+        return null;
+    }
+
+    /**
      * Adds a global event listener to window for "message" events.
      * ThoughtSpot detects if a particular event is targeted to this
      * embed instance through an identifier contained in the payload,
@@ -250,10 +265,12 @@ export class TsEmbed {
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
+            const eventPort = this.getEventPort(event);
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processData(event.data, this.thoughtSpotHost),
+                    getProcessData(eventType, event.data, this.thoughtSpotHost),
+                    eventPort,
                 );
             }
         });
@@ -342,9 +359,6 @@ export class TsEmbed {
         authPromise
             ?.then(() => {
                 uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
-                this.executeCallbacks(EmbedEvent.AuthInit, {
-                    data: { isLoggedIn: isAuthenticated() },
-                });
 
                 this.iFrame = this.iFrame || document.createElement('iframe');
                 this.iFrame.src = url;
@@ -404,10 +418,19 @@ export class TsEmbed {
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
      * @param data The payload invoked with the event handler
+     * @param eventPort The event Port for a specific MessageChannel
      */
-    protected executeCallbacks(eventType: EmbedEvent, data: any): void {
+    protected executeCallbacks(
+        eventType: EmbedEvent,
+        data: any,
+        eventPort?: MessagePort | void,
+    ): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
-        callbacks.forEach((callback) => callback(data));
+        callbacks.forEach((callback) =>
+            callback(data, (payload) => {
+                this.triggerEventOnPort(eventPort, payload);
+            }),
+        );
     }
 
     /**
@@ -425,6 +448,48 @@ export class TsEmbed {
      */
     protected getCompatibleEventType(eventType: EmbedEvent): EmbedEvent {
         return V1EventMap[eventType] || eventType;
+    }
+
+    /**
+     * Calculates the iframe center for the current visible viewPort
+     * of iframe using Scroll position of Host App, offsetTop for iframe
+     * in Host app. ViewPort height of the tab.
+     * @returns iframe Center in visible viewport,
+     *  Iframe height,
+     *  View port height.
+     */
+    protected getIframeCenter() {
+        const offsetTopClient = getOffsetTop(this.iFrame);
+        const scrollTopClient = window.scrollY;
+        const viewPortHeight = window.innerHeight;
+        const iframeHeight = this.iFrame.offsetHeight;
+        const iframeScrolled = scrollTopClient - offsetTopClient;
+        let iframeVisibleViewPort;
+        let iframeOffset;
+
+        if (iframeScrolled < 0) {
+            iframeVisibleViewPort =
+                viewPortHeight - (offsetTopClient - scrollTopClient);
+            iframeVisibleViewPort = Math.min(
+                iframeHeight,
+                iframeVisibleViewPort,
+            );
+            iframeOffset = 0;
+        } else {
+            iframeVisibleViewPort = Math.min(
+                iframeHeight - iframeScrolled,
+                viewPortHeight,
+            );
+            iframeOffset = iframeScrolled;
+        }
+        const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
+        return {
+            iframeCenter,
+            iframeScrolled,
+            iframeHeight,
+            viewPortHeight,
+            iframeVisibleViewPort,
+        };
     }
 
     /**
@@ -449,6 +514,28 @@ export class TsEmbed {
         this.eventHandlerMap.set(messageType, callbacks);
 
         return this;
+    }
+
+    /**
+     * Triggers an event on specific Port registered against
+     * for the EmbedEvent
+     * @param eventType The message type
+     * @param data The payload to send
+     */
+    private triggerEventOnPort(eventPort: MessagePort | void, payload: any) {
+        if (eventPort) {
+            try {
+                eventPort.postMessage({
+                    type: payload.type,
+                    data: payload.data,
+                });
+            } catch (e) {
+                eventPort.postMessage({ error: e });
+                console.log(e);
+            }
+        } else {
+            console.log('Event Port is not defined');
+        }
     }
 
     /**

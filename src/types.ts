@@ -101,7 +101,10 @@ export interface EmbedConfig {
 }
 
 export type MessagePayload = { type: string; data: any };
-export type MessageCallback = (payload: MessagePayload) => void;
+export type MessageCallback = (
+    payload: MessagePayload,
+    responder?: (data: any) => void,
+) => void;
 
 export type GenericCallbackFn = (...args: any[]) => any;
 
@@ -266,6 +269,7 @@ export enum EmbedEvent {
      * @return data - The height of the embedded pinboard or visualization
      */
     EmbedHeight = 'EMBED_HEIGHT',
+    EmbedIframeCenter = 'EmbedIframeCenter',
     /**
      * The v1 event type for Data
      * @hidden
@@ -341,8 +345,10 @@ export enum Param {
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
     ForceTable = 'forceTable',
+    preventPinboardFilterRemoval = 'preventPinboardFilterRemoval',
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
+    HideObjects = 'hideObjects',
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
     HideResult = 'hideResult',
@@ -417,6 +423,7 @@ export enum Action {
     Separator = 'context-menu-item-separator',
     DrillDown = 'DRILL',
     RequestAccess = 'requestAccess',
+    QueryDetailsButtons = 'queryDetailsButtons',
 }
 
 export interface SessionInterface {

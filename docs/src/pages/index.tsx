@@ -3,7 +3,7 @@ import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import { queryStringParser, isPublicSite } from '../utils/app-utils';
-import passThroughHandler from '../utils/doc-utils';
+import { passThroughHandler, fetchChild } from '../utils/doc-utils';
 import Header from '../components/Header';
 import LeftSidebar from '../components/LeftSidebar';
 import Docmap from '../components/Docmap';
@@ -49,6 +49,7 @@ const IndexPage = ({ location }) => {
     const [docContent, setDocContent] = useState('');
     const [navTitle, setNavTitle] = useState('');
     const [navContent, setNavContent] = useState('');
+    const [breadcrumsData, setBreadcrumsData] = useState([]);
     const [backLink, setBackLink] = useState('');
     const [allPageIds, setAllPageIds] = useState([]);
     const [leftNavWidth, setLeftNavWidth] = useState(
@@ -124,9 +125,11 @@ const IndexPage = ({ location }) => {
             setNavTitle(edges[navIndex].node.pageAttributes.title);
 
             // get & set left navigation area content with dynamic link creation
-            setNavContent(
-                passThroughHandler(edges[navIndex].node.html, params),
-            );
+            const navContentData = passThroughHandler(edges[navIndex].node.html, params)
+            setNavContent(navContentData);
+
+            // set breadcrums data
+            setBreadcrumsData(fetchChild(navContentData));
 
             // get & set left navigation 'SpotDev Home' button url
             setBackLink(params[TS_ORIGIN_PARAM]);
@@ -144,7 +147,11 @@ const IndexPage = ({ location }) => {
         setNavTitle(edges[navIndex].node.pageAttributes.title);
 
         // get & set left navigation area content with dynamic link creation
-        setNavContent(passThroughHandler(edges[navIndex].node.html, params));
+        const navContentData = passThroughHandler(edges[navIndex].node.html, params)
+        setNavContent(navContentData);
+
+        // set breadcrums data
+        setBreadcrumsData(fetchChild(navContentData));
 
         // get & set left navigation 'Back' button url
         setBackLink(params[TS_ORIGIN_PARAM]);
@@ -229,6 +236,7 @@ const IndexPage = ({ location }) => {
     };
     const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== HOME_PAGE_ID;
 
+
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
             {isPublicSiteOpen && <Header location={location} />}
@@ -276,11 +284,14 @@ const IndexPage = ({ location }) => {
                         isDarkMode={isDarkMode}
                         isPublicSiteOpen={isPublicSiteOpen}
                     />
+
                     <div className="introWrapper">
                         <Document
                             shouldShowRightNav={shouldShowRightNav}
+                            pageid={params[TS_PAGE_ID_PARAM]}
                             docTitle={docTitle}
                             docContent={docContent}
+                            breadcrumsData={breadcrumsData}
                             isPublicSiteOpen={isPublicSiteOpen}
                         />
                         {shouldShowRightNav &&

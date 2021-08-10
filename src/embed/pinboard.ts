@@ -15,6 +15,7 @@ import {
     Param,
     RuntimeFilter,
     DOMSelector,
+    HostEvent,
 } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './base';
@@ -41,6 +42,11 @@ export interface PinboardViewConfig extends ViewConfig {
      * The visualization within the pinboard to display.
      */
     vizId?: string;
+    /**
+     * If set to true, all filter chips from a
+     * pinboard page will be read-only (no X buttons)
+     */
+    preventPinboardFilterRemoval?: boolean;
 }
 
 /**
@@ -67,6 +73,7 @@ export class PinboardEmbed extends V1Embed {
             hiddenActions,
             enableVizTransformations,
             fullHeight,
+            preventPinboardFilterRemoval,
         } = this.viewConfig;
 
         if (fullHeight === true) {
@@ -85,6 +92,9 @@ export class PinboardEmbed extends V1Embed {
             params[
                 Param.EnableVizTransformations
             ] = enableVizTransformations.toString();
+        }
+        if (preventPinboardFilterRemoval) {
+            params[Param.preventPinboardFilterRemoval] = true;
         }
         params[Param.ViewPortHeight] = window.innerHeight;
         params[Param.ViewPortWidth] = window.innerWidth;
@@ -134,6 +144,11 @@ export class PinboardEmbed extends V1Embed {
         this.setIFrameHeight(data.data);
     };
 
+    private embedIframeCenter = (data: MessagePayload, responder: any) => {
+        const obj = this.getIframeCenter();
+        responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
+    };
+
     /**
      * Render an embedded ThoughtSpot pinboard or visualization
      * @param renderOptions An object specifying the pinboard ID,
@@ -148,6 +163,7 @@ export class PinboardEmbed extends V1Embed {
 
         if (this.viewConfig.fullHeight === true) {
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
         }
 
         super.render();
