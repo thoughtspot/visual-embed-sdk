@@ -7,6 +7,7 @@ import {
     getIFrameSrc,
     getRootEl,
 } from '../test/test-utils';
+import { version } from '../../package.json';
 
 const defaultViewConfig = {
     frameParams: {
@@ -15,8 +16,7 @@ const defaultViewConfig = {
     },
 };
 const thoughtSpotHost = 'tshost';
-const defaultParams =
-    '&hostAppUrl=http://localhost&viewPortHeight=768&viewPortWidth=1024';
+const defaultParams = `&hostAppUrl=http://localhost&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 
 beforeAll(() => {
     init({
