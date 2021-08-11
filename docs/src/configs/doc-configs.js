@@ -1,5 +1,5 @@
 module.exports = {
-    DOC_REPO_NAME: '/visual-embed-sdk',
+    DOC_REPO_NAME: '',
     DOC_NAV_PAGE_ID: 'nav',
     TS_HOST_PARAM: 'tshost',
     TS_ORIGIN_PARAM: 'origin',

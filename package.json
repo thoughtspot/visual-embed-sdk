@@ -73,6 +73,7 @@
         "gatsby-plugin-intl": "^0.3.3",
         "gatsby-plugin-local-search": "^2.0.0",
         "gatsby-plugin-manifest": "^3.2.0",
+        "gatsby-plugin-output": "^0.1.3",
         "gatsby-plugin-sass": "4.1.0",
         "gatsby-source-filesystem": "3.1.0",
         "gatsby-transformer-asciidoc": "2.1.0",
