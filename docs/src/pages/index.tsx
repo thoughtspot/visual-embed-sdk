@@ -41,7 +41,7 @@ const IndexPage = ({ location }) => {
     const [params, setParams] = useState({
         [TS_HOST_PARAM]: DEFAULT_HOST,
         [TS_ORIGIN_PARAM]: '',
-        [TS_PAGE_ID_PARAM]: '',
+        [TS_PAGE_ID_PARAM]: 'introduction',
         [NAV_PREFIX]: '',
         [PREVIEW_PREFIX]: `${DEFAULT_PREVIEW_HOST}/#${DEFAULT_APP_ROOT}`,
     });
@@ -220,7 +220,7 @@ const IndexPage = ({ location }) => {
         results.push({
             link: '',
             pageid: 'stringnotfound',
-            title: t('KEYWORD_NOT_FOUND_MSG') + ` "${keyword}".`,
+            title: `${t('KEYWORD_NOT_FOUND_MSG')} "${keyword}".`,
             type: 'text',
         });
     }

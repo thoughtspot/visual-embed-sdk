@@ -1840,6 +1840,10 @@ dl.tsd-comment-tags dt {
   font-size: 0.8em;
   font-weight: normal;
 }
+dl.tsd-comment-tags dt.deprecated {
+  color: #f04152;
+  border-color: #f04152;
+}
 dl.tsd-comment-tags dd {
   margin: 0 0 10px 0;
 }
