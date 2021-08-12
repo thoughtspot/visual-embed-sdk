@@ -71,6 +71,7 @@ $arrow-icon-width: 12px;
 $sub-title-margin: 30px;
 $font-size-h3: 22px;
 $font-size-h4: 20px;
+$font-size-breadcrums: 13px;
 $icon-width: 16px;
 $icon-height: 16px;
 
@@ -136,6 +137,7 @@ $tag-color-yellow: #ffbc00;
 :root {
     --body-background-color: #fff;
     --primary-color: #1d232f;
+    --breadcrums-font-color: #5f6368;
     --admonition-background: #fafafa;
     --code-block-color: #f6f8fa;
     --text-color-code-lang: #999;
@@ -160,6 +162,7 @@ $tag-color-yellow: #ffbc00;
 #wrapper[data-theme='dark'] {
     --body-background-color: #21252c;
     --primary-color: #fff;
+    --breadcrums-font-color: #a5acb9;
     --admonition-background: #3c4356;
     --code-block-color: #3c4356;
     --text-color-code-lang: #fff;
