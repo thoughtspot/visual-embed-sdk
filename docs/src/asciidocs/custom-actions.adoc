@@ -7,67 +7,66 @@
 
 You can insert custom buttons and menu actions into the ThoughtSpot’s UI to push insights from ThoughtSpot to your app or trigger an event to an external application from your parent application. These custom actions allow your users to trigger actions on insights without leaving your application.
 
-If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.  
+If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Custom actions page</h4>+++
++++<h5>Custom actions page</h5>+++
 
-Learn more about xref:customize-actions-menu.adoc[the *Custom action* page in the Developer portal] and the workflows for creating and editing custom actions. 
+Learn more about xref:customize-actions-menu.adoc[the *Custom action* page in the Developer portal] and the workflows for creating and editing custom actions.
 --
 
 == How to configure custom actions
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Configure a custom action to send data to a URL</h4>+++
++++<h5>Configure a custom action to send data to a URL</h5>+++
 
-Learn how to xref:custom-actions-url.adoc[create a custom action to send ThoughtSpot data to a specific URL target]. 
+Learn how to xref:custom-actions-url.adoc[create a custom action to send ThoughtSpot data to a specific URL target].
 
-*Requires Developer privilege*.
-
+_Requires Developer privilege_.
 --
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Configure a callback custom action</h4>+++
++++<h5>Configure a callback custom action</h5>+++
 
-Learn how to xref:custom-actions-callback.adoc[create a custom action that can trigger a callback from your host application] to send ThoughtSpot data. 
+Learn how to xref:custom-actions-callback.adoc[create a custom action that can trigger a callback from your host application] to send ThoughtSpot data.
 
-*Requires Developer privilege*.
+_Requires Developer privilege_.
 --
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Assign a custom action to a specific visualization</h4>+++
++++<h5>Assign a custom action to a specific visualization</h5>+++
 
-Learn how to xref:custom-actions-viz.adoc[assign a custom action to a specific visualization] in a search answer or pinboard. 
+Learn how to xref:custom-actions-viz.adoc[assign a custom action to a specific visualization] in a search answer or pinboard.
 
-Requires edit privileges to modify a search answer or a visualization in a pinboard. 
+_Requires edit privileges to modify a search answer or a visualization in a pinboard_.
 --
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Add a custom action to a worksheet</h4>+++
++++<h5>Add a custom action to a worksheet</h5>+++
 
-Learn how to xref:custom-actions-worksheet.adoc[assign a custom action to a specific worksheet], so that it appears on all visualizations generated using that worksheet. 
+Learn how to xref:custom-actions-worksheet.adoc[assign a custom action to a specific worksheet], so that it appears on all visualizations generated using that worksheet.
 
-Requires edit privileges to access and modify the worksheet.
+_Requires edit privileges to access and modify the worksheet_.
 --
 
 == Custom action examples
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>View callback custom action example</h4>+++
++++<h5>View callback custom action example</h5>+++
 
-Learn more about the callback custom action workflow, the steps required to xref:push-data-to-external-app.adoc[push data to an external app]. 
+Learn more about the callback custom action workflow, the steps required to xref:push-data-to-external-app.adoc[push data to an external app].
 --
 
 
 [div boxDiv boxFullWidth]
 --
-+++<h4>Custom action response payload</h4>+++
++++<h5>Custom action response payload</h5>+++
 
 View examples of the xref:callback-response-payload.adoc[custom action response payload] with search answer and pinboard data.
 --

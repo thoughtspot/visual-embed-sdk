@@ -5,53 +5,53 @@
 
 Creates a user group.
 
----
++++<p class="divider"> </p>+++
 
 
 `xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]` [tag greenBackground]#New# 
 
 Modifies a user group.
 
----
++++<p class="divider"> </p>+++
 
 `xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]` [tag greenBackground]#New# 
 
 Gets details of a user group.
 
----
++++<p class="divider"> </p>+++
 
 
 `xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
 
 Assigns a user to a group.
 
----
++++<p class="divider"> </p>+++
 
 `xref:group-api.adoc#get-users-group[*GET* /tspublic/v1/group/listuser/{groupid}]` [tag greenBackground]#New# 
 
 Gets a list of users assigned to a group.
 
----
++++<p class="divider"> </p>+++
 
 `xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]` 
 
 Assigns a privilege to a user group.
 
----
++++<p class="divider"> </p>+++
 
 
 `xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]` 
 
 Removes the privilege assigned to a group.
 
----
++++<p class="divider"> </p>+++
 
 
 `xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
 
 Removes a user from a user group.
 
----
++++<p class="divider"> </p>+++
 
 `xref:group-api.adoc#delete-group[*DELETE* /tspublic/v1/group/{groupid}]`  [tag greenBackground]#New# 
 

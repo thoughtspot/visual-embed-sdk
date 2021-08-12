@@ -19,7 +19,7 @@
     }
 
     h1 {
-        margin-top: 0;
+        margin-top: $title-margin;
     }
 
     p {
@@ -158,6 +158,13 @@
         font-weight: $font-weight-normal;
     }
 
+    h5 {
+        font-size: $font-size-h5;
+        margin-top: $sub-title-margin-h5;
+        margin-bottom: $sub-title-margin-h5;
+        font-weight: $font-weight-bold;
+    }
+    
     ol > li {
         &::marker {
             font-weight: $font-weight-normal;

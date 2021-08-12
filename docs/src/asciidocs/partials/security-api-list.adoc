@@ -4,7 +4,7 @@
 
 Shares ThoughtSpot objects with another user or user group.
 
---- 
++++<p class="divider"> </p>+++
  
 `xref:security-api.adoc#shareviz[**POST** /tspublic/v1/security/shareviz]`
 

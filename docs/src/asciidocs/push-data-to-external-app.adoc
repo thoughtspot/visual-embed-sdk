@@ -17,10 +17,10 @@ The data is available to the external application in the JavaScript Object Notat
 == Push data using a callback custom action
 To push data to an external app through a callback custom action, follow these steps:
 
-* xref:push-data-external-app.adoc#add-callback[Add a callback custom action in ThoughtSpot]
-* xref:push-data-external-app.adoc#register-callback[Register the custom action]
-* xref:push-data-external-app.adoc#callback-initiate[Initiate a callback]
-* xref:push-data-external-app.adoc#handle-data[Define classes and functions to handle custom action data]
+* xref:push-data-to-external-app.adoc#add-callback[Add a callback custom action in ThoughtSpot]
+* xref:push-data-to-external-app.adoc#register-callback[Register the custom action]
+* xref:push-data-to-external-app.adoc#callback-initiate[Initiate a callback]
+* xref:push-data-to-external-app.adoc#handle-data[Define classes and functions to handle custom action data]
 
 [#add-callback]
 === Add a callback custom action in the ThoughtSpot
