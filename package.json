@@ -99,7 +99,7 @@
         "typedoc": "0.20.25",
         "typedoc-neo-theme": "^1.1.0",
         "typedoc-plugin-toc-group": "0.0.5",
-        "typescript": "^4.2.4",
+        "typescript": "^4.1.0",
         "url-search-params-polyfill": "^8.1.0"
     },
     "author": "ThoughtSpot",

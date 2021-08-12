@@ -125,23 +125,27 @@
 					<img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
 				</p>
 				<br/>
-				<a href="#thoughtspot-visual-embed-sdk---" id="thoughtspot-visual-embed-sdk---" style="color: inherit; text-decoration: none;">
-					<h1>ThoughtSpot Visual Embed SDK  <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"></h1>
+				<a href="#thoughtspot-visual-embed-sdk----" id="thoughtspot-visual-embed-sdk----" style="color: inherit; text-decoration: none;">
+					<h1>ThoughtSpot Visual Embed SDK  <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"> <a href="https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk"><img src="https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded" alt=""></a></h1>
 				</a>
 				<p>SDK to embed ThoughtSpot into your web apps.</p>
 				<br/>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
+				<p>The SDK is compatible with ThoughtSpot SW version &gt;= 7.1 and ThoughtSpot Cloud.</p>
 				<p>Install the Visual Embed SDK from <a href="https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk">NPM</a>:</p>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> @</span><span style="color: #001080">thoughtspot</span><span style="color: #000000">/</span><span style="color: #001080">visual</span><span style="color: #000000">-</span><span style="color: #001080">embed</span><span style="color: #000000">-</span><span style="color: #001080">sdk</span>
 </code></pre>
 				<p>The SDK is written in TypeScript and is also provided both as ES Module (ESM) and Universal Module Definition (UMD) modules, allowing you to use it in a variety of environments. For example,...</p>
-				<pre><code class="language-js"><span style="color: #008000">// ESM</span>
+				<pre><code class="language-js"><span style="color: #008000">// ESM via NPM</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
 
-<span style="color: #008000">// &lt;script&gt;</span>
-<span style="color: #800000">&lt;script</span><span style="color: #000000"> </span><span style="color: #FF0000">src</span><span style="color: #000000">=</span><span style="color: #A31515">&#039;https://unpkg.com/@thoughtspot/visual-embed-sdk/dist/tsembed.js&#039;</span><span style="color: #800000">&gt;&lt;/script&gt;</span>
+<span style="color: #008000">// NPM &lt;script&gt;</span>
+<span style="color: #800000">&lt;script</span><span style="color: #000000"> </span><span style="color: #FF0000">src</span><span style="color: #000000">=</span><span style="color: #A31515">&#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js&#039;</span><span style="color: #800000">&gt;&lt;/script&gt;</span>
+
+<span style="color: #008000">// ES6 from web</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;</span><span style="color: #000000">;</span>
 </code></pre>
 				<br/>
 				<a href="#live-playground" id="live-playground" style="color: inherit; text-decoration: none;">
@@ -165,7 +169,10 @@
 				<a href="#embedded-search" id="embedded-search" style="color: inherit; text-decoration: none;">
 					<h3>Embedded Search</h3>
 				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+				<pre><code class="language-js"><span style="color: #008000">// NPM</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+<span style="color: #008000">// or ES6</span>
+<span style="color: #008000">// import { SearchEmbed, AuthType, init } from &#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;;</span>
 
 <span style="color: #795E26">init</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
@@ -184,7 +191,10 @@
 				<a href="#embedded-pinboard-amp-visualization" id="embedded-pinboard-amp-visualization" style="color: inherit; text-decoration: none;">
 					<h3>Embedded Pinboard &amp; Visualization</h3>
 				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+				<pre><code class="language-js"><span style="color: #008000">// NPM</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">PinboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+<span style="color: #008000">// or ES6</span>
+<span style="color: #008000">// import { PinboardEmbed, AuthType, init } from &#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;;</span>
 
 <span style="color: #795E26">init</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>
@@ -208,7 +218,10 @@
 				<a href="#embedded-full-app" id="embedded-full-app" style="color: inherit; text-decoration: none;">
 					<h3>Embedded Full App</h3>
 				</a>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppEmbed</span><span style="color: #000000">, </span><span style="color: #001080">Page</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+				<pre><code class="language-js"><span style="color: #008000">// NPM</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppEmbed</span><span style="color: #000000">, </span><span style="color: #001080">Page</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+<span style="color: #008000">// or ES6</span>
+<span style="color: #008000">// import { AppEmbed, AuthType, init } from &#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;;</span>
 
 <span style="color: #795E26">init</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>

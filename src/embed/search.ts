@@ -63,6 +63,7 @@ export interface SearchViewConfig extends ViewConfig {
     dataSources?: string[];
     /**
      * The initial search query to load the answer with.
+     * @deprecated Use {@link searchOptions} instead
      */
     searchQuery?: string;
     /**

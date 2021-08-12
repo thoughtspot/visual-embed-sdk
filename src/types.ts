@@ -420,6 +420,9 @@ export enum Action {
     CustomizeHeadlines = 'customizeHeadlines',
     PinboardInfo = 'pinboardInfo',
     SendAnswerFeedback = 'sendFeedback',
+    /**
+     * @deprecated Will be removed in next version
+     */
     CustomAction = 'customAction',
     DownloadEmbraceQueries = 'downloadEmbraceQueries',
     Pin = 'pin',
