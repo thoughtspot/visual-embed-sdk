@@ -25,19 +25,15 @@ import {
     HostEvent,
     EmbedEvent,
     MessageCallback,
-    AuthType,
     Action,
     RuntimeFilter,
-    OperationType,
+    Param,
 } from '../types';
-import { authenticate, isAuthenticated } from '../auth';
-import {
-    initMixpanel,
-    uploadMixpanelEvent,
-    MIXPANEL_EVENT,
-} from '../mixpanel-service';
+import { authenticate } from '../auth';
+import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
+import { version } from '../../package.json';
 
 let config = {} as EmbedConfig;
 
@@ -202,6 +198,14 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
+        if (!config.suppressNoCookieAccessAlert) {
+            this.on(EmbedEvent.NoCookieAccess, () => {
+                // eslint-disable-next-line no-alert
+                alert(
+                    'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',
+                );
+            });
+        }
     }
 
     /**
@@ -295,6 +299,19 @@ export class TsEmbed {
             .join('/');
 
         return `${basePath}#/embed`;
+    }
+
+    /**
+     * Common query params set for all the embed modes.
+     * @returns queryParams
+     */
+    protected getBaseQueryParams() {
+        const queryParams = {};
+        queryParams[Param.HostAppUrl] = window?.location?.origin || '';
+        queryParams[Param.ViewPortHeight] = window.innerHeight;
+        queryParams[Param.ViewPortWidth] = window.innerWidth;
+        queryParams[Param.Version] = version;
+        return queryParams;
     }
 
     /**
@@ -512,7 +529,6 @@ export class TsEmbed {
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push(callback);
         this.eventHandlerMap.set(messageType, callbacks);
-
         return this;
     }
 
@@ -564,6 +580,12 @@ export class TsEmbed {
         this.isRendered = true;
 
         return this;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    // eslint-disable-next-line camelcase
+    public test_setIframe(iframe: any): void {
+        this.iFrame = iframe;
     }
 }
 
