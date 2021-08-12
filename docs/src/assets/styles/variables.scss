@@ -37,7 +37,7 @@ $font-size-doc: 15px;
 $font-size-large: 18px;
 $font-size-404: 1.25rem;
 $padding-md: 24px;
-$margin-lg: 40px;
+$margin-lg: 26px;
 $margin-md: 24px;
 $margin-xs: 5px;
 $padding-xs: 5px;
@@ -68,9 +68,13 @@ $menu-icon-width: 43px;
 $z-index-search: 1;
 $z-index-left-nav: 9;
 $arrow-icon-width: 12px;
+$title-margin: 15px;
 $sub-title-margin: 30px;
+$sub-title-margin-h5: 10px;
 $font-size-h3: 22px;
 $font-size-h4: 20px;
+$font-size-h5: 18px;
+$font-size-breadcrums: 13px;
 $icon-width: 16px;
 $icon-height: 16px;
 
@@ -136,6 +140,7 @@ $tag-color-yellow: #ffbc00;
 :root {
     --body-background-color: #fff;
     --primary-color: #1d232f;
+    --breadcrums-font-color: #5f6368;
     --admonition-background: #fafafa;
     --code-block-color: #f6f8fa;
     --text-color-code-lang: #999;
@@ -160,6 +165,7 @@ $tag-color-yellow: #ffbc00;
 #wrapper[data-theme='dark'] {
     --body-background-color: #21252c;
     --primary-color: #fff;
+    --breadcrums-font-color: #a5acb9;
     --admonition-background: #3c4356;
     --code-block-color: #3c4356;
     --text-color-code-lang: #fff;

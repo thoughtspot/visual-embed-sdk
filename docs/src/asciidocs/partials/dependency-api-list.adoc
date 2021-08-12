@@ -5,39 +5,43 @@
 
 Creates a list of dependents for a given data object type.
 
----
++++<p class="divider"> </p>+++
+
 `xref:dependency-apis.adoc#get-column-dependents[*GET* /tspublic/v1/dependency/logicalcolumn]` [tag greenBackground]#New# 
 
 Gets a list of dependent objects for a logical column.
 
----
++++<p class="divider"> </p>+++
+
 `xref:dependency-apis.adoc#get-table-dependents[*GET* /tspublic/v1/dependency/logicaltable]` [tag greenBackground]#New# 
 
 Gets a list of dependent objects for data objects such as worksheets, tables, or views.
 
----
++++<p class="divider"> </p>+++
+
 `xref:dependency-apis.adoc#get-dependents-joins[*GET* /tspublic/v1/dependency/logicalrelationship]` [tag greenBackground]#New# 
 
 Gets a list of dependent objects for table joins.
 
---- 
++++<p class="divider"> </p>+++ 
 
 `xref:dependency-apis.adoc#get-dependents-phycolumn[*GET* /tspublic/v1/dependency/physicalcolumn]` [tag greenBackground]#New# 
 
 Gets a list of dependent objects for a physical column.
 
----
++++<p class="divider"> </p>+++
 
 `xref:dependency-apis.adoc#get-dependents-phytable[*GET* /tspublic/v1/dependency/physicaltable]` [tag greenBackground]#New# 
 
 Gets a list of dependent objects for a physical table.
 
----
++++<p class="divider"> </p>+++
+
 `xref:dependency-apis.adoc#get-dependents-pinboard[*GET* /tspublic/v1/dependency/pinboard]` [tag greenBackground]#New# 
 
 Gets a list of dependent object headers for a pinboard.
 
----
++++<p class="divider"> </p>+++
 
 `xref:admin-api.adoc#get-incomplete-objects[*GET* /tspublic/v1/dependency/listincomplete]` [tag greenBackground]#New# 
 

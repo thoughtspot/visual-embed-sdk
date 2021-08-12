@@ -5,45 +5,50 @@
 
 Creates a user account.
 
----
++++<p class="divider"> </p>+++
 
 `xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]` [tag greenBackground]#New#
 
 Modifies a user account.
 
----
++++<p class="divider"> </p>+++
 
 `xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]` [tag greenBackground]#New#
 
 Gets details of the users in a ThoughtSpot system.
 
----
++++<p class="divider"> </p>+++
 
 `xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]` [tag greenBackground]#New#
 
 Deletes a user account.
 
----
++++<p class="divider"> </p>+++
+
 `xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]`
 
 Gets all users, groups, and their inter-dependencies.
 
----
++++<p class="divider"> </p>+++
+
 `xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]`
 
 Modifies a user profile.
 
----
++++<p class="divider"> </p>+++
+
 `xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]` [tag orangeBackground]#Modified#
 
 Transfers the ownership of objects from one user to another.
 
----
++++<p class="divider"> </p>+++
+
 `xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`
 
 Changes the password of a user account.
 
----
++++<p class="divider"> </p>+++
+
 `xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`
 
 Synchronizes user details and attributes from an external database with the user data in the ThoughtSpot system.

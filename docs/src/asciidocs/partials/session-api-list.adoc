@@ -5,35 +5,38 @@
 
 Authenticates and logs in a user.
 
----
++++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 
 Obtains an authentication token for a user.
 
----
++++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
 Gets a  log in session for authenticated users  when trusted authentication is enabled.
 
----
++++<p class="divider"> </p>+++
+
 `xref:session-api.adoc#session-logout[*POST* /tspublic/v1/session/logout]`
 
 Logs out a user from an existing session.
 
----
++++<p class="divider"> </p>+++
+
 `xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`
 
 Sets a specific pinboard as a home pinboard.
 
----
++++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#get-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`
 
 Returns the GUID of the pinboard that is set as a home pinboard for the current logged-in user.
 
----
++++<p class="divider"> </p>+++
+
 `xref:session-api.adoc#del-home-pinboard[**DELETE** /tspublic/v1/session/homepinboard]`
 
 Removes the home pinboard settings for the current logged-in user.

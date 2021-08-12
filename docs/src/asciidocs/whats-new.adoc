@@ -85,7 +85,10 @@ The ThoughtSpot 7 Cloud August release introduces several new APIs to xref:user-
 
 For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference].
 
----
+++++
+<div class="divider"> </div>
+++++
+
 == June 2021
 
 The ThoughtSpot 7 Cloud June release introduces the following features and enhancements:
@@ -167,7 +170,10 @@ Use this API to remove the home pinboard. For more information, see xref:session
 The `POST /tspublic/v1/user/updatepreference` API now includes the optional `username` parameter to allow API users to specify the `username` of the ThoughtSpot user whose profile is being modified. 
 For more information, see xref:user-api.adoc#updatepreference-api[Update a user profile].
 
----
+++++
+<div class="divider"> </div>
+++++
+
 == May 2021
 The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 

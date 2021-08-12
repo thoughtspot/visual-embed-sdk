@@ -31,4 +31,3 @@ If the embedded content is not rendered despite these configuration changes, con
 Google Chrome 80 or later versions use the `SameSite` cookie attribute to disable the use of third-party content.  
 For third-party application integrations that rely on cookies, the SameSite cookie attribute must be set to `None`. This setting is enabled by default on ThoughtSpot cloud instances.
  
-  

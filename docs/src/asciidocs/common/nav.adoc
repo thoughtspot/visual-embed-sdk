@@ -18,6 +18,7 @@
 ** link:{{navprefix}}=dev-playground[Explore APIs in Playground]
 
 * Authentication and security
+** link:{{navprefix}}=auth-overview[Overview]
 ** link:{{navprefix}}=developer-access[Developer access]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
@@ -52,11 +53,11 @@
 ** link:{{navprefix}}=customize-links[Customize links] 
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
-* Runtime filters
-** link:{{navprefix}}=runtime-filters[Runtime filters]
+
+* link:{{navprefix}}=runtime-filters[Runtime filters]
 
 * REST API fundamentals
-** link:{{navprefix}}=rest-apis[Overview]
+** link:{{navprefix}}=rest-apis[About REST APIs]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users and user groups]

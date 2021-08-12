@@ -5,7 +5,7 @@
 
 Imports scriptable in TML that represents objects in an editable and reusable format.
 
----
++++<p class="divider"> </p>+++
 
 `xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]`
 

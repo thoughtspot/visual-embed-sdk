@@ -7,7 +7,7 @@
 
 ThoughtSpot allows you to customize welcome emails, system-generated email notifications, and the onboarding experience for new users. 
 
-If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications, product name, and the sign-up experience.
+If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications and product name.
 
 [NOTE]
 ====
@@ -55,7 +55,8 @@ A link to allow users to get started with the product. By default, this link poi
 
 Custom message::
 The message text to use in the email notifications.
-
++
+////
 Signup experience::
 The signup experience for new ThoughtSpot users. To customize the sign-up experience, turn on the *Signup* toggle and configure the following parameters: 
 
@@ -64,6 +65,7 @@ Specify the text for the sign-up button.
 
 Signup button link;;
 Enter the URL that you want to use as a sign-up button link.  
+////
 
-+
++ 
 . Click *Save changes*.

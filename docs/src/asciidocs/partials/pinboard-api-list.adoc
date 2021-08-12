@@ -4,7 +4,7 @@
 
 Downloads a pinboard or specific visualizations from a pinboard as a PDF file.
 
----
++++<p class="divider"> </p>+++
 
 `xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  
 

@@ -45,11 +45,8 @@ The custom actions available for your instance are displayed.
 +
 Sets the custom action as a primary menu action.
 +
-[NOTE]
-====
-ThoughtSpot allows only one  primary action on a visualization page.
-====
 
++
 [NOTE]
 ====
 ThoughtSpot allows only one primary action on a visualization page. If you already have a primary action, you need to select another option, or override your current primary action setting. 
