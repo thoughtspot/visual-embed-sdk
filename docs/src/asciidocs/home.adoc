@@ -52,12 +52,12 @@
 <div class="row">
  <h2 align="center">Embedding and customization</h2> 
 	<div class="col-md-4">
-		<div class="boxDiv">
+	<a href="?pageid=search-embed">	<div class="boxDiv">
 			<h5>Embed search</h5>
 			<p>Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p> 
 			<img src="../doc-images/images/search.png" alt="Embed Search">
 			<p><a href="?pageid=search-embed">Learn more about embedding search -> </a></p>
-		</div>
+		</div></a>
 	</div>
 	<div class="col-md-4">
 		<div class="boxDiv">

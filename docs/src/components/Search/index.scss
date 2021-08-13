@@ -3,6 +3,7 @@
 .searchWrapper {
     padding: $padding-md;
     border-bottom: 1px var(--border-color) solid;
+    box-shadow: var(--box-shadow);
     position: fixed;
     width: calc(100% - 250px);
     background: var(--body-background-color);
