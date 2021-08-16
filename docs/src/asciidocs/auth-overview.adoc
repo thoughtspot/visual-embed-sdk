@@ -1,7 +1,7 @@
-= Authentication overview
+= Authentication and security
 :toc: true
 
-:page-title: ThoughtSpot authentication overview 
+:page-title: Authentication and security overview
 :page-pageid: auth-overview
 :page-description: You can configure SAML SSO, trusted authentication method and security settings to authenticate embed users and authorize cross-origin content requests.
  

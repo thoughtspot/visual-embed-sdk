@@ -1,7 +1,7 @@
-= Visual Embed SDK overview
+= Visual Embed SDK
 :toc: true
 
-:page-title: What is Visual Embed SDK
+:page-title: Visual Embed SDK overview
 :page-pageid: visual-embed-sdk
 :page-description: What is Visual Embed SDK
 

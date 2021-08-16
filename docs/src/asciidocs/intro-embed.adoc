@@ -1,7 +1,7 @@
-= ThoughtSpot Everywhere
+= ThoughtSpot Everywhere for embedded analytics
 :toc: true
 
-:page-title: Embedded Analytics with ThoughtSpot
+:page-title: Embedded Analytics with ThoughtSpot Everywhere
 :page-pageid: embed-analytics
 :page-description: Embedded Analytics with ThoughtSpot
 
