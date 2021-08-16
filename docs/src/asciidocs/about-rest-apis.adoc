@@ -1,7 +1,7 @@
 = About REST APIs
 :toc: true
 
-:page-title: About rest APIs
+:page-title: About REST APIs
 :page-pageid: rest-apis
 :page-description: About REST APIs
 

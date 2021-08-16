@@ -1,4 +1,4 @@
-= Explore APIs in Playground
+= Developer Playground
 :toc: true
 
 :page-title: ThoughtSpot Developer Playground

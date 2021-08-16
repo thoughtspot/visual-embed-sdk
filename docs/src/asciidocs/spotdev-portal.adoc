@@ -1,4 +1,4 @@
-= Access Developer portal
+= ThoughtSpot Developer portal
 :toc: true
 
 :page-title: ThoughtSpot Developer Portal

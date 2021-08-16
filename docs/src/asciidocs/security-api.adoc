@@ -37,7 +37,7 @@ POST /tspublic/v1/security/share
 |`permission`|string a|A string with the GUIDs of the user or user group, and the type of access privilege.
 
 * The format of the permission string is `{"permissions":{"<GUID of the user or user group>":{"shareMode":"<type-of-access>"}}}`.
-* You can provide `READ_ONLY` or `FULL` access to the objects. With `READ_ONLY` access, the user or user group can view the shared object, whereas `FULL` access enables users to modify the object. 
+* You can provide `READ_ONLY` or `MODIFY` access to the objects. With `READ_ONLY` access, the user or user group can view the shared object, whereas `MODIFY` access enables users to modify the object. 
 
 For example, to provide read-only access to a user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, specify the string as `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"READ_ONLY"}}}`
 
@@ -47,7 +47,7 @@ The following example shows how to set the permission string to provide read-onl
 
 [IMPORTANT]
 ====
-You can set the `shareMode` in the permission string to `NO_ACCESS` to remove a user or user group's access to a shared object. For example, if you send a POST request with the permission string as  `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"NO_ACCESS"}}}`, the user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd` cannot access the shared object.
+To remove a user or user group's access to a shared object, you can set the `shareMode` in the permission string to `NO_ACCESS`. For example, if you send a POST request with the permission string as  `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"NO_ACCESS"}}}`, the user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd` cannot access the shared object.
 ====
 
 |`emailshares`|string|The email address of the user accounts with whom you want to share the objects. 

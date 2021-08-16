@@ -5,20 +5,13 @@
 
 [navSection]
 * link:{{navprefix}}=introduction[Home]
-
-* Release Notes
-** link:{{navprefix}}=whats-new[What's new]
-
-* Embedded analytics
-** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
+* link:{{navprefix}}=whats-new[What's new]
+* link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
+** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=dev-playground[Developer Playground]
 
-* ThoughtSpot Developer portal
-** link:{{navprefix}}=spotdev-portal[Access Developer portal]
-** link:{{navprefix}}=dev-playground[Explore APIs in Playground]
-
-* Authentication and security
-** link:{{navprefix}}=auth-overview[Overview]
+* link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
@@ -27,8 +20,7 @@
 ** link:{{navprefix}}=browser-settings[Browser settings for embedding]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 
-* Visual Embed SDK
-** link:{{navprefix}}=visual-embed-sdk[Overview]
+* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
 ** link:{{navprefix}}=embed-auth[Embed user authentication]
 ** link:{{navprefix}}=search-embed[Embed search]
@@ -38,8 +30,7 @@
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
-* Custom actions
-** link:{{navprefix}}=custom-action-intro[Overview]
+* link:{{navprefix}}=custom-action-intro[Custom actions]
 ** link:{{navprefix}}=customize-actions[Custom actions page]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
@@ -48,16 +39,14 @@
 ** link:{{navprefix}}=push-data[Callback custom action example]
 ** link:{{navprefix}}=custom-action-payload[Custom action response payload]
 
-* Customization and rebranding
+* link:{{navprefix}}=customization-intro[Customization and rebranding]
 ** link:{{navprefix}}=customize-style[Customize layout and styles]
 ** link:{{navprefix}}=customize-links[Customize links] 
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
-
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 
-* REST API fundamentals
-** link:{{navprefix}}=rest-apis[About REST APIs]
+* link:{{navprefix}}=rest-apis[REST API fundamentals]
 ** link:{{navprefix}}=rest-api-getstarted[Get started]
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users and user groups]

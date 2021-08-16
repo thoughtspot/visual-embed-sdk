@@ -185,6 +185,16 @@ button {
     margin: 0 auto;
 }
 
+.boxBody {
+    font-weight: $font-size-doc;
+    font-size: $font-size-normal;
+    line-height: $line-height-doc;
+    color: var(--primary-color);
+
+}
+
+
+
 /* Div box style end */
 
 /*Scrollbar styling start*/

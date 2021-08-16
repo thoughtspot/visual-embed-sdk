@@ -5,13 +5,13 @@
 :page-pageid: customize-emails
 :page-description: You can rebrand system-generated notifications and customize onboarding experience
 
-ThoughtSpot allows you to customize welcome emails, system-generated email notifications, and the onboarding experience for new users. 
-
-If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the content of scheduled email notifications and product name.
+If you have embedded Thoughtspot in your host application, you can rebrand the welcome email text, customize the product name in scheduled email notifications, and onboarding experience for new users.
 
 [NOTE]
 ====
 If you want your ThoughtSpot instance to send email notifications with a custom domain name and a specific sender ID, contact ThoughtSpot Support.
+
+To send email notifications from a specific email account with your domain, update the *Custom admin email* and *From ID* fields in the *Admin* > *Application settings* > *Onboarding* page, and contact ThoughtSpot Support to enable these settings for your application instance.
 ====
 
 To customize email settings and the onboarding experience, follow these steps:
