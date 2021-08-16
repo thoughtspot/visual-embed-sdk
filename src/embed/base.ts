@@ -307,7 +307,9 @@ export class TsEmbed {
      */
     protected getBaseQueryParams() {
         const queryParams = {};
-        queryParams[Param.HostAppUrl] = window?.location?.origin || '';
+        queryParams[Param.HostAppUrl] = encodeURIComponent(
+            window?.location?.host || '',
+        );
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;

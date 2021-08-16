@@ -32,7 +32,7 @@ function processAuthInit(e: any) {
     return {
         ...e,
         data: {
-            userGUID: e.data.userGUID,
+            userGUID: e.data?.userGUID || e.payload?.userGUID,
         },
     };
 }
