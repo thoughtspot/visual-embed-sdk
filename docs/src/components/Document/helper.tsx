@@ -57,7 +57,7 @@ export const customizeDocContent = () => {
     });
 };
 
-//Checks if the HTML element is in viewport.
+// Checks if the HTML element is in viewport.
 const isInViewport = (el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
     return rect.top >= 0 && rect.left >= 0;

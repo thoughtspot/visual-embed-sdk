@@ -3,6 +3,7 @@ import './index.scss';
 import { customizeDocContent, addScrollListener } from './helper';
 import Footer from '../Footer';
 import Breadcrums from '../Breadcrums';
+import { HOME_PAGE_ID } from '../../configs/doc-configs';
 
 const Document = (props: {
     pageid?: string;
@@ -27,10 +28,12 @@ const Document = (props: {
                 width: !props.shouldShowRightNav ? '100%' : null,
             }}
         >
-            <Breadcrums
-                breadcrumsData={props.breadcrumsData}
-                pageid={props.pageid}
-            />
+            {props.pageid !== HOME_PAGE_ID && (
+                <Breadcrums
+                    breadcrumsData={props.breadcrumsData}
+                    pageid={props.pageid}
+                />
+            )}
             <div
                 id={props.docTitle}
                 className="documentView"
