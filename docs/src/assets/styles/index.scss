@@ -188,7 +188,7 @@ button {
 .boxBody {
     font-weight: $font-size-doc;
     font-size: $font-size-normal;
-    line-height: 1.6rem;
+    line-height: $line-height-doc;
     color: var(--primary-color);
 
 }
