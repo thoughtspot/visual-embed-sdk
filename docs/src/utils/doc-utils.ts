@@ -28,16 +28,29 @@ export const fetchChild = (html: string) => {
     return data;
 };
 
+const getParentHref = (current) => {
+    if (current.href) {
+        return current.href;
+    }
+    if (current?.children?.length > 1) {
+        return current.children[0]?.href;
+    }
+    return null;
+};
+
 export const getBreadcrumsPath = (data: any, pageid?: string) => {
     if (!pageid) {
         return [];
     }
     return data.reduce((previous, current) => {
-        const parentObj = [{ name: current.name, href: current.href }];
         if (current.href === `?pageid=${pageid}`) {
-            return parentObj;
+            // To avoid having link for the same page we are setting href to null
+            return [{ name: current.name, href: null }];
         }
         if (current.children) {
+            const parentObj = [
+                { name: current.name, href: getParentHref(current) },
+            ];
             const childObj = getBreadcrumsPath(current.children, pageid);
             if (childObj.length) {
                 return [...parentObj, ...childObj];
