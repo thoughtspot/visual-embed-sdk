@@ -32,7 +32,7 @@ The domain URL customization does not update the email domain name in ThoughtSpo
 
 ThoughtSpot supports customizing the email domain, sender ID welcome email message text, and product name in system-generated notifications such as the pinboard and answer sharing notifications, pinboard job scheduled emails, and so on. 
 
-[width="100%" cols="2,4"]
+[width="100%" cols="3,6"]
 [options='header']
 |====
 |To customize|Steps to configure

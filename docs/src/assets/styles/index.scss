@@ -185,6 +185,15 @@ button {
     margin: 0 auto;
 }
 
+.boxBody {
+    font-weight: $font-size-doc;
+    font-size: $font-size-normal;
+    line-height: 1.6rem;
+    color: var(--primary-color);
+
+}
+
+
 
 /* Div box style end */
 

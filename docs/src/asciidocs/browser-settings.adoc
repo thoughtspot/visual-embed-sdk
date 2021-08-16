@@ -15,7 +15,7 @@ ThoughtSpot supports rendering embedded content in the following web browsers:
 
 == Embedded content and browser cookies
 
-For security purposes, most browsers allow cookies only when they originate from the same domain name as the main application URL. Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. 
+As a security measure, most browsers allow cookies only when they originate from the same domain name as the main application URL. Some browsers like Safari and Firefox block cookies from third-party content provider sites by default. 
 
 To avoid this issue, you might want to host your embedded ThoughtSpot instance in the same domain as its parent application. To customize the ThoughtSpot domain URL for your instance, contact ThoughtSpot Support.  
 
