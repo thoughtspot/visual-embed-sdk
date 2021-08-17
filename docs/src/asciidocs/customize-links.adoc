@@ -30,7 +30,7 @@ These links provide access to answers from a search query. ThoughtSpot sends the
 
 * Links to the SpotIQ analyses page
 +
-ThoughtSpot generates this link when a user runs the SpotIQ analysis on a saved answer or visualization in a pinboard. This link points users to the *SpotIQ Analyses* page and is sent in email notifications.
+ThoughtSpot generates this link when a user runs the SpotIQ analysis on the data obtained from a search query, saved answer, or a visualization in a pinboard. This link points users to the *SpotIQ Analyses* page and is sent in email notifications.
 
 * Links to unsubscribe from notifications
 +
