@@ -6,7 +6,7 @@
 :page-pageid: metadata-api
 :page-description: Metadata API
 
-The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include search answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot. 
+The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
 
 == Supported operations
 
@@ -14,9 +14,9 @@ include::{path}/metadata-api-list.adoc[]
 
 [#assign-tag]
 == Assign tags to metadata objects
-Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or search answer. You can use tags to find and filter your answers, pinboards, and data objects. 
+Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or answer. You can use tags to find and filter your answers, pinboards, and data objects.
 
-To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API.  
+To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API.
 
 Before you apply a tag, make sure the tags are created and available for assignment.
 [NOTE]
@@ -37,7 +37,7 @@ POST /tspublic/v1/metadata/assigntag
 |`id`|string|The GUID of the metadata object to tag. For example, a pinboard or visualization. If you want to assign the same tag to several objects, specify the GUID of the metadata objects.
 |`type` __Optional__ |string a|Type of the metadata object. Specify one of the following values as a metadata object type:
 
-* `QUESTION_ANSWER_BOOK` for search answers.
+* `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
@@ -58,7 +58,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag
 ----
 
 === Example response
- 
+
 ----
 Response code
 
@@ -74,7 +74,7 @@ Response code
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
 |===
- 
+
 [#metadata-details]
 == Get metadata details
 To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.
@@ -90,19 +90,19 @@ GET /tspublic/v1/metadata/details
 |Query Parameter|Data Type|Description
 |`type`|string a|Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
-* `QUESTION_ANSWER_BOOK` for search answers.
+* `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values. 
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `TAG` for tag objects.
 * `USER` for user objects.
 * `USER_GROUP` for user group objects.
 |`id`|string|A JSON array of GUIDs of the objects.
 |`showhidden` |boolean|When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
 |`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
-|`version` __Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.   
-|==== 
+|`version` __Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.
+|====
 
 === Example request
 
@@ -433,7 +433,7 @@ The following example shows the metadata details of a pinboard object:
 [#headers-metadata-users]
 == Get metadata objects for a user or user group
 
-Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects available for a user or user group. 
+Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects available for a user or user group.
 
 === Resource URL
 ----
@@ -446,26 +446,26 @@ GET /tspublic/v1/metadata/listas
 |Query Parameter|Data Type|Description
 |`offset` __Optional__|integer| The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
 |`batchsize` __Optional__|integer|The batch size of the objects. A value of `-1` implies no pagination.
-|`pattern` __Optional__|string|A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
-|`principalid` __Optional__|string a|ID of the user or user group. 
+|`pattern` __Optional__|string|A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
+|`principalid` __Optional__|string a|ID of the user or user group.
 
-* If you specify a userID and set the `type` parameter to `USER`, the API returns metadata objects associated with the user ID. 
+* If you specify a userID and set the `type` parameter to `USER`, the API returns metadata objects associated with the user ID.
 * If you specify a user group ID and set the type parameter to `USER_GROUP`, the API returns metadata objects for all the users mapped to the specified user group.
 * If the `principalID` parameter is not defined, but the `type` attribute is set to `USER`, the API returns metadata objects for the current logged-in user.
 * If the `principalID` parameter is not defined, but the `type` attribute is set to `USER_GROUP`, the API returns metadata objects for all user groups.
 * If both `principalID` and `type` parameters are not defined, the API returns headers for all users.
 
-|`minimumaccesslevel` __Optional__|string a| Minimum access level that the specified user or user group has. 
+|`minimumaccesslevel` __Optional__|string a| Minimum access level that the specified user or user group has.
 Valid values are:
 
 * `NO_ACCESS`
-* `READ_ONLY` 
+* `READ_ONLY`
 * `MODIFY`
 
 The default value is `NO_ACCESS`.
 |`type` __Optional__|string|Type of principal. The allowed values are `USER` and `USER_GROUP`.
 |====
- 
+
 === Example request
 
 .cURL
@@ -603,7 +603,7 @@ The following example shows the headers returned for a user:
       "isExternal": false,
       "isDeprecated": false
     },
- 
+
     {
       "id": "7e4071e5-6223-4ccd-a839-2621e5d8201e",
       "indexVersion": 1230,
@@ -641,7 +641,7 @@ The following example shows the headers returned for a user:
       "isExternal": false,
       "isDeprecated": false
     },
-   
+
   ],
   "isLastBatch": true,
   "debugInfo": {}
@@ -673,13 +673,13 @@ GET /tspublic/v1/metadata/listobjectheaders
 |Query Parameter|Data Type|Description
 |`type` __Optional__|string a|Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
-* `QUESTION_ANSWER_BOOK` for search answers.
+* `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values. 
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `TAG` for tags assigned to a metadata object.
-* `DATA_SOURCE` for data source from which the metadata objects were loaded.  
+* `DATA_SOURCE` for data source from which the metadata objects were loaded.
 * `USER` for data objects associated with a user.
 * `USER_GROUP` for data objects associated with a user group.
 
@@ -688,28 +688,28 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype. 
+|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype.
 
 * `ONE_TO_ONE_LOGICAL` for tables
 * `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
 * `USER_DEFINED` for tables uploaded from a CSV file.
-* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a search answer that was saved as a view by a user. 
+* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
 
 [IMPORTANT]
 ====
 The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 ====
-|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as search answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:    
+|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
 
-* `ALL` to get all objects for a given metadata type, for example, search answers or pinboards.
+* `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
 * `MY` to get the objects created or saved by the current logged-in user.
 * `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
 * `REQUESTED` to get only the objects requested by the current logged-in user.
 |`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
 
-* `DEFAULT` 
-* `NAME` 
-* `DISPLAY_NAME` 
+* `DEFAULT`
+* `NAME`
+* `DISPLAY_NAME`
 * `AUTHOR`
 * `CREATED`
 * `MODIFIED`
@@ -791,8 +791,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 
 [#viz-header]
 == Get visualization headers
-To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API. 
-The API returns a list of visualizations for a given pinboard or search answer.
+To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API.
+The API returns a list of visualizations for a given pinboard or answer.
 
 === Resource URL
 ----
@@ -803,7 +803,7 @@ GET /tspublic/v1/metadata/listvizheaders
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`id`|string|ID of a search answer or a pinboard.
+|`id`|string|ID of a saved answer or a pinboard.
 |====
 === Example request
 
@@ -864,7 +864,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97
 
 [#set-favorite]
 == Set objects as favorites
-To add a pinboard or search answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+To add a pinboard or answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
 
 === Resource URL
 ----
@@ -878,7 +878,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 |`type`|string a|Type of metadata object. Specify one of the following types:
 
 * `PINBOARD_ANSWER_BOOK` for pinboards
-* `QUESTION_ANSWER_BOOK` for search answers
+* `QUESTION_ANSWER_BOOK` for answers
 |`ids`|string|A JSON array of the GUIDs of objects to be set as favorites.
 |`userid`|string|The GUID of the user account for which you want to add the object to the favorites list.
 |====
@@ -914,9 +914,9 @@ Response Code
 |===
 
 [#del-object-fav]
-== Remove objects from favorites 
+== Remove objects from favorites
 
-To remove a pinboard or search answer from the favorites list in a ThoughtSpot user account, send a DELETE request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+To remove a pinboard or answer from the favorites list in a ThoughtSpot user account, send a DELETE request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
 
 === Resource URL
 ----

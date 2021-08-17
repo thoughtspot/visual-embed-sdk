@@ -10,12 +10,12 @@ To programmatically construct a search query string and retrieve data from Thoug
 
 == Search query
 
-When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search bar. Because the selection is not possible with an API approach, the API query language is modified to include query disambiguation. 
+When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search bar. Because the selection is not possible with an API approach, the API query language is modified to include query disambiguation.
 
 [#components]
 === Components of a search query
 
-In ThoughtSpot Query Language, the components of a query are classified into various types of tokens: 
+In ThoughtSpot Query Language, the components of a query are classified into various types of tokens:
 
 * xref:Column[Column]
 * xref:Operator[Operator]
@@ -248,7 +248,7 @@ curl -X POST --header 'Accept-Language: en-US' --header 'Content-Type: applicati
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
- 
+
 .Request URL (FULL)
 [source,html]
 ----
@@ -257,14 +257,14 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsa
 
 === Example response
 
-The search answer data returned in the API response contains four components:
+The search data returned in the API response contains four components:
 
 . The `columnNames` array that contains a list of all column headers.
 . The `data` array that contains a list of sub-arrays. Each sub-array represents a new row of data.
 . A sampling ratio.
 +
 The sampling ratio tells you the percentage of total data returned.
-A sampling ratio of `1` indicates that all data in the search answer object was returned in the API response.
+A sampling ratio of `1` indicates that all the data in the answer object was returned in the API response.
 
 [source,JSON]
 ----

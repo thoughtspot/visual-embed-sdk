@@ -8,7 +8,7 @@
 :page-description: Trusted Authentication
 
 
-The trusted authentication method is a token-based authentication service, which uses a security token to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
+The trusted authentication method is a token-based authentication service, which uses a security token to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content.
 
 Trusted authentication requires you to have an authenticator server / service which can securely authenticate the users of the embedding application - **you** must implement secure authentication within the process that requests the login token from the authenticator server.
 
@@ -26,14 +26,14 @@ The trusted authentication workflow involves several entities, such as the web b
 
 
 
-If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content. 
+If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content.
 
 The authenticator server performs the following functions:
 
 * provide token-based authentication service
 * Authenticate users who request access to the embedded content
 * Request a token from ThoughtSpot on a user’s behalf
-* Return the token to the user's web browser 
+* Return the token to the user's web browser
 
 +
 [NOTE]
@@ -47,16 +47,16 @@ The trusted authenticator server also uses this secret key to obtain a security 
 
 === Security token
 
-The security token, also referred to as the authentication token, allows user to access the requested object. 
+The security token, also referred to as the authentication token, allows user to access the requested object.
 
 Note the following points about token validity:
 
-* The token stays valid until another token is generated. 
+* The token stays valid until another token is generated.
 * When a new token is generated using the same secret key, the old token expires after five minutes.
 * When you generate a new token using the new secret key, the old token immediately becomes invalid.
 * If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
- 
-== Trusted authentication workflow 
+
+== Trusted authentication workflow
 The embed user authentication workflow with a trusted authentication service involves the following steps:
 
 . A user logs into the host application and requests access to the embedded ThoughtSpot content.
@@ -68,7 +68,7 @@ To proceed with authentication, the authentication server must determine the fol
  * which user (`username`) is making the request.
  * what is being requested: an object, page, or the entire ThoughtSpot application.
  * whether the requesting `username` matches a `username` added in ThoughtSpot.
-. The trusted authenticator service then sends a `POST` request to the `/tspublic/v1/session/login` endpoint. This step creates a session cookie that persists in subsequent API calls. 
+. The trusted authenticator service then sends a `POST` request to the `/tspublic/v1/session/login` endpoint. This step creates a session cookie that persists in subsequent API calls.
 . After establishing a session, the trusted authentication service sends a POST request to the ThoughtSpot server with the `secret_key` and `username` attributes to obtain an authentication token on the user's behalf.
 +
 ----
@@ -80,17 +80,17 @@ This POST request body includes the following `formData` attributes:
 * `secret_key`
 +
 
-__String__. The secret key obtained from ThoughtSpot.  
+__String__. The secret key obtained from ThoughtSpot.
 
 * `username`
 +
-__String__. The `username` of the ThoughtSpot user.  
+__String__. The `username` of the ThoughtSpot user.
 
 * `access_level`
 +
 __String__. Mode of access. Valid values are:
 
-** `FULL` 
+** `FULL`
 +
 
 Allows access to the entire ThoughtSpot application. When a token has been requested in `FULL` mode, it will create a full ThoughtSpot session in the browser and application. The token for `Full` access mode persists through several sessions and stays valid until another token is generated.
@@ -98,11 +98,11 @@ Allows access to the entire ThoughtSpot application. When a token has been reque
 
 ** `REPORT_BOOK_VIEW`
 +
-Allows access to only one object at a time. The token request for this access mode requires you to specify the GUID of the pinboard or search answer. If your application user requires access to another object, a new token request must be sent. 
+Allows access to only one object at a time. The token request for this access mode requires you to specify the GUID of the pinboard or answer. If your application user requires access to another object, a new token request must be sent.
 
-* `id` 
+* `id`
 +
-__String__. The GUID of the pinboard or search answer. 
+__String__. The GUID of the pinboard or answer.
 This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
 . ThoughtSpot verifies the authentication server's request and returns a token.
@@ -141,12 +141,12 @@ The request URL includes the `auth_token` attribute and the redirect URL uses th
 
 == Trusted authentication workflow with Visual Embed SDK
 
-The Visual Embed SDK simplifies and automates the trusted authentication workflow. 
+The Visual Embed SDK simplifies and automates the trusted authentication workflow.
 
 . The SDK checks for an existing user session in the browser.
-. If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method. 
+. If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method.
 . The SDK uses the obtained token and `username` in the GET request to the `/tspublic/v1/session/login/token` endpoint.
-. If the request is successful, the SDK renders the embedded content. 
+. If the request is successful, the SDK renders the embedded content.
 
 For more information, see xref:embed-authentication.adoc[Embed user authentication].
 

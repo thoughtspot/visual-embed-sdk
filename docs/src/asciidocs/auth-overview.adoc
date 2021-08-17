@@ -4,10 +4,10 @@
 :page-title: Authentication and security overview
 :page-pageid: auth-overview
 :page-description: You can configure SAML SSO, trusted authentication method and security settings to authenticate embed users and authorize cross-origin content requests.
- 
+
 To allow your application users to access ThoughtSpot content, make sure you configure security settings for CORS and CSP.
 
-To authenticate and authorize embed users, you must also configure an authentication method in ThoughtSpot. 
+To authenticate and authorize embed users, you must also configure an authentication method in ThoughtSpot.
 
 
 == User authentication
@@ -23,7 +23,7 @@ xref:user-roles.adoc[Create a user group with Developer privilege and assign it 
 --
 +++<h5>SAML SSO authentication</h5>+++
 
-If you plan to use an external directory service for authenticating your application users, you need to xref:configure-saml.adoc[enable SAML SSO on ThoughtSpot and add SAML redirect domains to the allowed list].  
+If you plan to use an external directory service for authenticating your application users, you need to xref:configure-saml.adoc[enable SAML SSO on ThoughtSpot and add SAML redirect domains to the allowed list].
 --
 
 [div boxDiv boxFullWidth]
@@ -46,11 +46,9 @@ xref:security-settings.adoc[Add your application domain to the CORS and CSP allo
 --
 +++<h5>Custom domain configuration</h5>+++
 
-To ensure that embedding works on browsers that don't allow third-party cookies, xref:custom-domain-configuration.adoc[you can set the domain name of the ThoughtSpot instance to the same domain as your host application]. 
+To ensure that embedding works on browsers that don't allow third-party cookies, xref:custom-domain-configuration.adoc[you can set the domain name of the ThoughtSpot instance to the same domain as your host application].
 
 You can also xref:custom-domain-configuration.adoc[customize the email domain name] for system-generated notifications.
-
-For more information on supported web browsers and cookie settings for an embedded ThoughtSpot instance, see xref:browser-settings.adoc[Browser settings for embedding].
 --
 
 == Access control and data security
@@ -59,5 +57,5 @@ For more information on supported web browsers and cookie settings for an embedd
 --
 +++<h5>User and data access control</h5>+++
 
-Learn how to use various ThoughtSpot features, such as group privileges, object sharing, Row-level security (RLS), and Column-level security (CLS), to xref:configure-user-access.adoc[control user access to ThoughtSpot application workflows and data]. 
+Learn how to use various ThoughtSpot features, such as group privileges, object sharing, Row-level security (RLS), and Column-level security (CLS), to xref:configure-user-access.adoc[control user access to ThoughtSpot application workflows and data].
 --

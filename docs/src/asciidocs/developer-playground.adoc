@@ -5,7 +5,7 @@
 :page-pageid: dev-playground
 :page-description: ThoughtSpot Developer playground
 
-The *Playground* allows developers to try Visual Embed APIs, play with the code, and view results instantly. 
+The *Playground* allows developers to try Visual Embed APIs, play with the code, and view results instantly.
 
 You can explore the following SDK components in the Playground.
 
@@ -16,10 +16,10 @@ You can explore the following SDK components in the Playground.
 
 [#playground-search]
 == Search
-To explore the Search embed function: 
+To explore the Search embed function:
 
 . Go to *Playground* > *Search*.
-. Select a data source or a saved search answer.
+. Select a data source or a saved answer.
 . Try using any of the following customization settings and click *Run* to preview the result.
 
 [width="100%"]
@@ -43,13 +43,13 @@ Hides the default data panel. You can use this function to create a custom data 
 
 |**Hide chart or table**
 
-Hides the charts and tables that appear beneath the search bar. For example, if you want to create a custom visualization using raw data from an existing search answer, you can enable this checkbox to hide the chart or table. 
+Hides the charts and tables that appear beneath the search bar. For example, if you want to create a custom visualization using raw data from an existing answer, you can enable this checkbox to hide the chart or table.
 
 +++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 +++
 
-a|**Modify available actions** 
+a|**Modify available actions**
 
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar in the search results page. You can use this function to restrict user access to certain features or remove the menu items that are not required in your application context.
 
@@ -123,7 +123,7 @@ Disables or hides the specified action menu items in the **More** menu image:./i
 ----
 disabledActions: [Action.Download]
 ----
- 
+
 +
 ++++
 <a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -205,7 +205,7 @@ disabledActions: [Action.DownloadAsPdf]
 ----
 hiddenActions: [Action.DownloadAsPdf]
 ----
- 
+
 +
 +++
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
@@ -254,7 +254,7 @@ To explore the full ThoughtSpot embedding function:
 . Try using any of the following customization settings and click *Run* to preview the result.
 
 |====
-a|**Modify available actions** 
+a|**Modify available actions**
 
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar on the ThoughtSpot application pages. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
@@ -286,7 +286,7 @@ include::{path}/custom-action-note.adoc[]
 For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
-|*Show navigation bar* 
+|*Show navigation bar*
 
 Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
 
