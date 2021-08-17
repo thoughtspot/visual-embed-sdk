@@ -1,7 +1,7 @@
 import React from 'react';
 import TSLogo from '../../assets/svg/ts-logo-white.svg';
 import t from '../../utils/lang-utils';
-import Dropdown from '../Dropdown';
+// import Dropdown from '../Dropdown';
 import './index.scss';
 
 const Header = (props: { location: Location }) => {
@@ -45,7 +45,7 @@ const Header = (props: { location: Location }) => {
 
                         </div>
                     </div>
-                    <Dropdown location={props.location} />
+                    {/*  <Dropdown location={props.location} /> */}
                 </div>
             </section>
         </header>
