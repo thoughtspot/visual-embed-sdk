@@ -40,7 +40,7 @@ export const addExpandCollapseImages = (
                 paragraphElement.classList.add('linkTitle');
                 const text = (paragraphElement as HTMLParagraphElement)
                     .innerText;
-                //Creating arrow icons to be added
+                // Creating arrow icons to be added
                 const spanElementParent = document.createElement('span');
                 spanElementParent.classList.add('iconSpan');
                 const spanElementChild = document.createElement('span');
@@ -51,7 +51,7 @@ export const addExpandCollapseImages = (
                     el.children[1].classList.add('displayNone');
                 }
 
-                //Checking if this div contains the active link
+                // Checking if this div contains the active link
                 const allLinks = el.children[1].querySelectorAll('a');
                 for (let i = 0; i < allLinks.length; i++) {
                     const splitArr = allLinks[i].href.split('=');
@@ -78,7 +78,7 @@ export const collapseAndExpandLeftNav = (
     setLeftNavOpen: Function,
     toggleExpandOnTab: Function,
 ) => {
-    //Adding click listener to close left nav when in mobile resolution
+    // Adding click listener to close left nav when in mobile resolution
     doc.querySelectorAll(selectors.links).forEach((link) => {
         link.addEventListener('click', () => {
             setLeftNavOpen(false);
@@ -92,7 +92,7 @@ export const collapseAndExpandLeftNav = (
                     ? el.children[0].children[1]
                     : el.children[0].children[0];
             if (spanElement) {
-                //Adding click listener to the headings
+                // Adding click listener to the headings
                 spanElement.addEventListener('click', () => {
                     const divElement = el.children[1];
                     toggleExpandOnTab(
@@ -101,10 +101,10 @@ export const collapseAndExpandLeftNav = (
                     divElement.classList.toggle('displayNone');
                     (spanElement
                         .children[0] as HTMLImageElement).innerHTML = divElement.classList.contains(
-                        'displayNone',
-                    )
-                        ? ArrowForwardHTML
-                        : ArrowDownHTML;
+                            'displayNone',
+                        )
+                            ? ArrowForwardHTML
+                            : ArrowDownHTML;
                 });
             }
         }
@@ -128,7 +128,7 @@ export const getAllPageIds = (navContent: string): string[] => {
     return allPageIds;
 };
 
-//Adding external icon to the external links
+// Adding external icon to the external links
 const addExternalLinkIcon = (navContent: string): string => {
     const divElement = document.createElement('div');
     divElement.innerHTML = navContent;
