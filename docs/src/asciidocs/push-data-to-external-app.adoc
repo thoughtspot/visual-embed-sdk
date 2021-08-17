@@ -5,12 +5,12 @@
 :page-pageid: push-data
 :page-description: Push data to an external application
 
-ThoughtSpot allows you to create custom actions to push data to a third-party application from the ThoughtSpot application context. 
+ThoughtSpot allows you to create custom actions to push data to a third-party application from the ThoughtSpot application context.
 You can configure this custom menu item to initiate an action or a callback to the parent application.
-For example, if you have embedded the ThoughtSpot search functionality in your application, you can add a custom menu item in the *Answers* page to send the search answer data to an external application or a workflow.  
-//// 
-You can also use the REST APIs to query data and automatically trigger the custom action workflow.   
-//// 
+For example, if you have embedded the ThoughtSpot search functionality in your application, you can add an action to send the data obtained from a search query to an external application or a workflow.
+////
+You can also use the REST APIs to query data and automatically trigger the custom action workflow.
+////
 [NOTE]
 The data is available to the external application in the JavaScript Object Notation (JSON) format. You must parse the JSON data to get the values you need using JavaScript in the receiving application.
 
@@ -24,7 +24,7 @@ To push data to an external app through a callback custom action, follow these s
 
 [#add-callback]
 === Add a callback custom action in the ThoughtSpot
-You can create a custom action in the ThoughtSpot to register a callback for sending data. To add a custom action for callback, go to *Develop* > *Customization* > *Actions* > *Create action*. 
+You can create a custom action in the ThoughtSpot to register a callback for sending data. To add a custom action for callback, go to *Develop* > *Customization* > *Actions* > *Create action*.
 
 For more information, see xref:custom-actions-callback.adoc[Configure a callback custom action].
 
@@ -59,7 +59,7 @@ This example shows how to handle the `show-data` callback custom action and the 
   if (data.id === 'show-data') {
     // Display the data as a table.
     const actionData = ActionData.createFromJSON(payload);
-  
+
     const html = actionDataToHTML(actionData);
     const dataContentElement = document.getElementById('modal-data-content');
     dataContentElement.innerHTML = html;
@@ -74,7 +74,7 @@ This example shows how to handle the `show-data` callback custom action and the 
 ----
 
 [#large-dataset]
-ThoughtSpot visualization objects can include several rows of records. For callback custom action payloads, the Visual Embed SDK supports retrieving data in batches. 
+ThoughtSpot visualization objects can include several rows of records. For callback custom action payloads, the Visual Embed SDK supports retrieving data in batches.
 
 The following example shows how to handle large datasets in custom action payloads:
 
@@ -84,7 +84,7 @@ The following example shows how to handle large datasets in custom action payloa
   if (data.id === 'show-data') {
       const fetchAnswerData = await payload.answerService.fetchData(1, 5);  //where the first integer is the offset value and second integer is batchsize
       console.log('fetchAnswerData:::', fetchAnswerData);
- 
+
   }
 ----
 
@@ -133,7 +133,7 @@ class ActionData {
    for (let colCnt = 0; colCnt < nbrCols; colCnt += 1) {
      actionData._columnNames.push(jsonData.data.embedAnswerData.columns[colCnt].column.name);
    }
- 
+
    let dataSet;
    dataSet = (Array.isArray(jsonData.data.embedAnswerData.data))
      ? jsonData.data.embedAnswerData.data[0].columnDataLite

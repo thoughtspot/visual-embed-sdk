@@ -7,7 +7,7 @@
 
 ThoughtSpot Everywhere provides a low-code embedded analytics platform for developers and product owners to build interactive data apps and incorporate ThoughtSpot functions and services directly into their apps, products, or services. Using ThoughtSpot Everywhere, you can embed search-driven analytics, infuse insights into your application, and enrich your website, portal, or product with ThoughtSpot's analytical capabilities.
 
-The ThoughtSpot Everywhere platform provides the Visual Embed SDK to allow your application users to  programmatically embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot application. ThoughtSpot also provides REST API services to programmatically query data, manage users and user sessions, push data to an external application, and automate deployments. 
+The ThoughtSpot Everywhere platform provides the Visual Embed SDK to allow your application users to  programmatically embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot application. ThoughtSpot also provides REST API services to programmatically query data, manage users and user sessions, push data to an external application, and automate deployments.
 
 == Embedding methods
 You can use one of the following methods to embed ThoughtSpot into your host application:
@@ -26,14 +26,14 @@ For more information, see xref:about-rest-apis.adoc[REST APIs].
 
 == ThoughtSpot Developer portal
 
-To allow your application developers to experiment with the Visual Embed APIs, ThoughtSpot provides the Developer portal. 
+To allow your application developers to experiment with the Visual Embed APIs, ThoughtSpot provides the Developer portal.
 
-If you are a ThoughtSpot user, you can access this portal by clicking the *Develop* tab in your ThoughtSpot application instance. To access the portal, you need administrator or developer privileges. 
+If you are a ThoughtSpot user, you can access this portal by clicking the *Develop* tab in your ThoughtSpot application instance. To access the portal, you need administrator or developer privileges.
 
-If you want to try the Developer playground and evaluate ThoughtSpot embedding experience, you can access the Playground from the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website, window=_blank]. 
+If you want to try the Developer playground and evaluate ThoughtSpot embedding experience, you can access the Playground from the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website, window=_blank].
 
 The portal includes a playground for developers to learn and explore the Visual Embed SDK components. Developers can interact with the embed modules, try integrating ThoughtSpot content in a fictional app, and view results instantly.
-For authenticated users, the portal provides a set of customization controls to rebrand the look and feel of your application, insert custom buttons and actions, customize link format and URLs, and so on. 
+For authenticated users, the portal provides a set of customization controls to rebrand the look and feel of your application, insert custom buttons and actions, customize link format and URLs, and so on.
 
 For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
 
@@ -62,13 +62,13 @@ For more information, see xref:customize-style.adoc[Style customization].
 
 ThoughtSpot allows you to add custom actions to the embedded pinboards and visualizations.
 
-For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.  
+For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.
 
 For more information, see xref:customize-actions-menu.adoc[Actions customization].
 
 == Custom link format
 
-When a user shares an object with another user or follows a pinboard to receive periodic notifications, ThoughtSpot generates links to access objects, such as pinboards, visualizations, and search answers. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
+When a user shares an object with another user or follows a pinboard to receive periodic notifications, ThoughtSpot generates links to access objects, such as pinboards, visualizations, and answers. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
 
 ThoughtSpot allows you to customize the format of the links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
 

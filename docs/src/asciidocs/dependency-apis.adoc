@@ -12,7 +12,7 @@ Note the naming convention of object headers in the API response:
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
 
-* `QUESTION_ANSWER_BOOK` for search answers.
+* `QUESTION_ANSWER_BOOK` for answers.
 
 * `PINBOARD_ANSWER_BOOK` for pinboard visualizations.
 
@@ -161,7 +161,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%
 ----
 
 === Example response
-If the GET operation is successful, the API returns a list of dependent objects such as worksheets, pinboard objects, and search answers.
+If the GET operation is successful, the API returns a list of dependent objects such as worksheets, pinboard objects, and answers.
 
 
 [source,JSON]

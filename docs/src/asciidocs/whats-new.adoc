@@ -17,25 +17,25 @@ The ThoughtSpot 7 Cloud August release introduces the following features and enh
 
 The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items for the new visualizations built from that worksheet.
 
-This feature is available to all ThoughtSpot users with edit privileges to modify a worksheet. 
+This feature is available to all ThoughtSpot users with edit privileges to modify a worksheet.
 
 For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
 === Query parameters for URL-based custom actions
 
-The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL-based custom action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot. 
+The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL-based custom action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot.
 
 For more information, see xref:custom-actions-url.adoc[Configure a custom URL action].
 
 === Visual Embed SDK enhancements
- 
-The ThoughtSpot 7 Cloud August release supports Visual Embed SDK version 1.3.0, which includes the following enhancements.  
+
+The ThoughtSpot 7 Cloud August release supports Visual Embed SDK version 1.3.0, which includes the following enhancements.
 
 ==== New parameter to set search tokens [tag blueBackground]#major#
 
 The `searchEmbed` SDK package introduces the `searchOptions` parameter for setting search tokens. The `searchOptions` parameter includes the following attributes:
 
-* `searchTokenString` 
+* `searchTokenString`
 +
 Supports an easy-to-use TML query string to define search tokens.
 
@@ -51,19 +51,19 @@ The `searchQuery` parameter in the `searchEmbed` SDK package is deprecated in th
 
 For more information about `searchOptions`, see xref:embed-search.adoc#search-query[Embed ThoughtSpot search].
 
-==== JSON data structure changes in custom action response [tag redBackground]#Breaking change# 
+==== Data structure changes in custom action response [tag redBackground]#Breaking change#
 
-The JSON data structure passed in custom action response for search answers now shows as  `payload.data.embedAnswerData`. 
+* The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
-The answer payload for custom actions now includes the following metadata:
+* The answer payload for custom actions includes the following metadata:
 
-* `reportBookmetadata`
+** `reportBookmetadata`
 +
-Visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
 
-* user data
+** user data
 +
-User information such as username, GUID of the user, and email address.
+Includes user information such as username, GUID of the user, and email address.
 
 To view a sample response payload, see xref:callback-response-pagination.adoc#search-answer-payload[Custom action response payload].
 
@@ -73,12 +73,12 @@ The `pinboardEmbed` SDK package now includes the `preventPinboardFilterRemoval` 
 
 For more information, see xref:embed-pinboard.adoc[Embed a pinboard] and xref:embed-a-viz.adoc[Embed a visualization].
 
-==== Support for fetching callback custom action payload in batches [tag orangeBackground]#minor# 
-The Visual Embed SDK supports processing data in batches for callback custom action responses. 
+==== Support for fetching callback custom action payload in batches [tag orangeBackground]#minor#
+The Visual Embed SDK supports processing data in batches for callback custom action responses.
 The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
 
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
- 
+
 === REST APIs
 
 The ThoughtSpot 7 Cloud August release introduces several new APIs to xref:user-api.adoc[manage users], xref:group-api.adoc[user groups], xref:admin-api.adoc[cluster configuration], xref:dependent-apis.adoc[object dependencies], and so on.
@@ -93,11 +93,11 @@ For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference
 
 The ThoughtSpot 7 Cloud June release introduces the following features and enhancements:
 
-=== Global and local custom actions 
+=== Global and local custom actions
 
 The ThoughtSpot developer portal now supports configuring a custom action as a __global__ or __local__ action. This feature allows you to determine and control the placement of custom actions in the ThoughtSpot UI. Developers can now choose to create a custom action that will appear on all visualizations, or a specific custom action that can be added to a visualization by a ThoughtSpot user. The custom actions panel in the visualization page allows ThoughtSpot users to view the available custom actions and add an action to any visualization.
 
-For example, if you want an action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add a custom action globally to all visualizations. Similarly, if you want to send the data obtained from a specific visualization to a URL, you can associate a custom action locally to that visualization. 
+For example, if you want an action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add a custom action globally to all visualizations. Similarly, if you want to send the data obtained from a specific visualization to a URL, you can associate a custom action locally to that visualization.
 
 For more information, see xref:customize-actions-menu.adoc[Custom actions] and xref:custom-actions-viz.adoc[Add a custom action to a specific visualization].
 
@@ -116,7 +116,7 @@ For more information, see xref:custom-actions-viz.adoc[Add a custom action to a 
 
 === Custom link format for ThoughtSpot embedded instances
 
-ThoughtSpot generates links to access objects, such as pinboards, visualizations, and search answers, when a user shares an object with another user or follows a pinboard to receive periodic notifications. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context. 
+ThoughtSpot generates links to access objects, such as pinboards, visualizations, and answers, when a user shares an object with another user or follows a pinboard to receive periodic notifications. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
 
 For embedded instances, ThoughtSpot now allows you to customize the format of these links in the Developer portal. The *Link Settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
 
@@ -130,7 +130,7 @@ The ThoughtSpot 7 Cloud June release introduces the following REST API endpoints
 +
 Use this API to share ThoughtSpot objects with another user or user group. For more information, see xref:security-api.adoc#share-object[Share objects with another user].
 
-* `POST /tspublic/v1/security/shareviz` 
+* `POST /tspublic/v1/security/shareviz`
 +
 Use this API to share a specific ThoughtSpot visualization with another user or user group. For more information, see xref:security-api.adoc#shareviz[Share a visualization with another user or user group].
 
@@ -140,15 +140,15 @@ Use this API to get a login token for a ThoughtSpot user when trusted authentica
 
 * `POST /tspublic/v1/metadata/assigntag`
 +
-Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, search answer, table, or  worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, answer, table, or  worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
 
 * `POST /tspublic/v1/metadata/details`
 +
-Use this API to query metadata details for a specific data object such as a pinboard, search answer, or a worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
+Use this API to query metadata details for a specific data object such as a pinboard, answer, or a worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
 
 * `POST /tspublic/v1/metadata/markunmarkfavoritefor`
 +
-Use this API to add pinboards and search answers to a user's favorites list. For more information, see xref:metadata-api.adoc#set-favorite[Set objects as favorites].
+Use this API to add pinboards and answers to a user's favorites list. For more information, see xref:metadata-api.adoc#set-favorite[Set objects as favorites].
 
 * `DELETE /tspublic/v1/metadata/markunmarkfavoritefor`
 +
@@ -167,7 +167,7 @@ Use this API to get the GUID of the pinboard set as a home pinboard. For more in
 Use this API to remove the home pinboard. For more information, see xref:session-api.adoc#del-home-pinboard[Remove a home pinboard].
 
 ==== Other API enhancements
-The `POST /tspublic/v1/user/updatepreference` API now includes the optional `username` parameter to allow API users to specify the `username` of the ThoughtSpot user whose profile is being modified. 
+The `POST /tspublic/v1/user/updatepreference` API now includes the optional `username` parameter to allow API users to specify the `username` of the ThoughtSpot user whose profile is being modified.
 For more information, see xref:user-api.adoc#updatepreference-api[Update a user profile].
 
 ++++
@@ -178,15 +178,15 @@ For more information, see xref:user-api.adoc#updatepreference-api[Update a user 
 The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu
-You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Search Answers* or *Pinboards* page.
+You can now add a custom action to the contextual menu to send data or initiate an action from an embedded visualization. The *Customization* > *Actions* page in the *Develop* tab allows you to add a custom action to the contextual menu for visualizations in the *Answers* or *Pinboards* page.
 
 [NOTE]
-This feature is available only if the  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your ThoughtSpot instance.  
+This feature is available only if the  link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[New Answer experience, window=_blank] is enabled on your ThoughtSpot instance.
 
-For more information, see xref:customize-actions-menu.adoc[Add custom actions]. 
+For more information, see xref:customize-actions-menu.adoc[Add custom actions].
 
 === Visual Embed SDK 1.2.0
-The ThoughtSpot 7 Cloud May release introduces the Visual Embed SDK 1.2.0 version with minor updates and backward-compatible improvements. 
+The ThoughtSpot 7 Cloud May release introduces the Visual Embed SDK 1.2.0 version with minor updates and backward-compatible improvements.
 
 ==== SAML authentication
 The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the `SSO` `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
@@ -195,18 +195,18 @@ For more information, see the instructions for embedding xref:full-embed.adoc[Th
 
 ==== Visual Embed SDK notification when third-party cookies are disabled
 When a user accesses the embedded application from a web browser that has third-party cookies disabled, the Visual Embed SDK emits the `NoCookieAccess` event to notify the developer. Cookies are disabled by default in Safari. Users can enable third-party cookies in Safari’s Preferences setting page or use another web browser.
-To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.  
+To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.
 
-For more information on allowing third-party cookies on Safari, see xref:browser-settings.adoc[Browser settings for embedding].
+For more information on allowing third-party cookies on Safari, see xref:security-settings.adoc[Browser settings for embedding].
 
 ==== Pinboard embed enhancements
-The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations. 
+The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations.
 
 Pinboard::
-* Save 
+* Save
 * Make a copy
-* Add filters  
-* Configure filters  
+* Add filters
+* Configure filters
 * Present
 * Download as PDF
 * Pinboard info
@@ -214,15 +214,15 @@ Pinboard::
 
 [NOTE]
 Users with edit permissions can view and access the *Save*, *Add filters*, *Configure filters*, and *Manage schedules* actions.
- 
+
 Visualizations on a pinboard::
 * Pin
 * Download
 * Edit
 * Present
 * Download as CSV
-* Download as XLSX  
-* Download as PDF 
+* Download as XLSX
+* Download as PDF
 
 [NOTE]
 Users with edit permissions can view and access the *Edit* action. The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations. The *Download* action is available for chart visualizations.
@@ -231,8 +231,8 @@ Users with edit permissions can view and access the *Edit* action. The *Download
 This release introduces the following performance improvements for ThoughtSpot embedded applications:
 
 * Faster loading of embedded objects and application pages.
-* Faster loading of preview results in the Playground. 
- 
+* Faster loading of preview results in the Playground.
+
 === REST APIs
 The ThoughtSpot 7 Cloud May release introduces the following REST APIs:
 
@@ -240,6 +240,6 @@ The ThoughtSpot 7 Cloud May release introduces the following REST APIs:
 +
 You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience. For more information, see xref:user-api.adoc#updatepreference-api[User API].
 
-* `*GET* /tspublic/v1/metadata/listas` 
+* `*GET* /tspublic/v1/metadata/listas`
 +
 You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].

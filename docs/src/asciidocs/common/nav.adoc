@@ -17,7 +17,6 @@
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
-** link:{{navprefix}}=browser-settings[Browser settings for embedding]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 
 * link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]

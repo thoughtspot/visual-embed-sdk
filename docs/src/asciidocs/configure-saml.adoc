@@ -1,5 +1,6 @@
 = SAML SSO authentication
 :toc: true
+:toclevels: 1
 
 :page-title: SAML SSO Authentication
 :page-pageid: saml-sso

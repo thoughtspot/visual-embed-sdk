@@ -1009,7 +1009,7 @@ On successful deletion of the action, the API returns a response body indicating
 [#custom-action-assoc]
 == Associate a custom action to ThoughtSpot objects
 
-ThoughtSpot supports associating custom actions to pinboards, search answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
+ThoughtSpot supports associating custom actions to pinboards, answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
 
 === Resource URL
 ----

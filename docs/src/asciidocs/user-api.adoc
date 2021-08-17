@@ -10,7 +10,7 @@ The User APIs allow you to programmatically manage ThoughtSpot users.
 
 == Supported operations
 include::{path}/user-api-list.adoc[]
- 
+
 [#create-user]
 == Create a user
 
@@ -18,7 +18,7 @@ To programmatically create a user account in the ThoughtSpot system, send a POST
 
 [NOTE]
 ====
-* To create a user, you require admin user privileges. 
+* To create a user, you require admin user privileges.
 * All users created in the ThoughtSpot system are added to ALL_GROUP.
 ====
 
@@ -33,12 +33,12 @@ POST /tspublic/v1/user/
 [options='header']
 |===
 |Form Parameter|Description
-|`name` |__String__.  Name of the user. The username string must be unique.  
-|`password`|__String__.Password for the user account. 
-|`displayname`|__String__. A unique display name string for the user, usually their first and last name. 
+|`name` |__String__.  Name of the user. The username string must be unique.
+|`password`|__String__.Password for the user account.
+|`displayname`|__String__. A unique display name string for the user, usually their first and last name.
 |`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
 |`groups` __Optional__|__Array of strings__. A JSON array of the GUIDs of groups to which you want to assign the user. The user privileges are determined by the group to which you assign the user. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
-|`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.    
+|`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
 |`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
 |===
@@ -122,14 +122,14 @@ If the user is successfully created in ThoughtSpot, the API returns the user GUI
 
 == Update user details
 
-If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` API to programmatically modify an existing user account. 
+If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` API to programmatically modify an existing user account.
 
 This API allows the following modifications to a user profile:
 
 * Group assignment
 * Password reset
 * User visibility for sharing objects
-* User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications. 
+* User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications.
 
 === Resource URL
 ----
@@ -143,7 +143,7 @@ PUT /tspublic/v1/user/{userid}
 |Form Parameter|Description
 |`userid`|__String__. GUID of the user.
 |`content`|__String__. A JSON map of strings with the user profile attributes.
-|`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account. 
+|`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account.
 |===
 
 === Example request
@@ -170,7 +170,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
          "analystOnboardingComplete":false
       },
       "userProperties":{
-         
+
       },
       "userActivityProto":{
          "first_login":-1,
@@ -186,7 +186,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
       "b25ee394-9d13-49e3-9385-cd97f5b253b4"
    ],
    "privileges":[
-      
+
    ],
    "type":"LOCAL_USER",
    "parenttype":"USER",
@@ -204,14 +204,14 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
       "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",
       "owner":"d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286",
       "tags":[
-         
+
       ],
       "isExternal":false,
       "isDeprecated":false
    },
    "complete":true,
    "incompleteDetail":[
-      
+
    ],
    "isSuperUser":false,
    "isSystemPrincipal":false
@@ -348,13 +348,13 @@ If no `userid` or `name` attribute is specified, the API returns a response with
 [options='header']
 |===
 |HTTP status code|Description
-|**200** | Successful retrieval of user details 
+|**200** | Successful retrieval of user details
 |**400**| Invalid username string
 |**500**| Invalid user ID
 |===
 
 [#delete-user]
-== Delete a user account 
+== Delete a user account
 To remove a user from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/user/{userid}` API endpoint.
 
 === Resource URL
@@ -397,7 +397,7 @@ Response Code
 |HTTP status code|Description
 |**204** | Successful operation
 |**403**| Unauthorized request
-|**500**| Invalid  user ID 
+|**500**| Invalid  user ID
 |===
 
 [#user-list]
@@ -459,25 +459,25 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
 ==== Object properties
 A typical principal object contains the following properties:
 
-* `name`                   
+* `name`
 
 +
 Name of the principal. This field, in conjunction with whether the object is a user or group, is used to identify a user or group. The name of the principal must be unique.
- 
-* `displayName` 
+
+* `displayName`
 
 +
 Display name of the principal.
 
-* `description`  
+* `description`
 +
 Description of the principal.
 
-* `mail` 
+* `mail`
 +
 The email address of the user. This field is populated only for the user objects. It is ignored if the object type is a group.
 
-* `principalTypeEnum` 
+* `principalTypeEnum`
 +
 Type of the user created in the ThoughtSpot system.
 Valid values are:
@@ -485,9 +485,9 @@ Valid values are:
 ** `LOCAL_USER`
 ** `LOCAL_GROUP`
 
-* `password` 
+* `password`
 +
-The password of the user. This field is populated only for the user object. It is ignored in the case of groups. 
+The password of the user. This field is populated only for the user object. It is ignored in the case of groups.
 
 +
 Password is only required:
@@ -495,7 +495,7 @@ Password is only required:
 ** if the user is of `LOCAL_USER` type
 ** when the user is created for the first time. In subsequent updates, the user password is not modified even if it changes in the source system.
 
-* `groupNames` 
+* `groupNames`
 +
 Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Users can belong to multiple groups.
 
@@ -555,28 +555,28 @@ To update the profile settings of a ThoughtSpot user  programmatically, you can 
 
 The `/tspublic/v1/user/updatepreference` API allows you to modify the following attributes of a ThoughtSpot user profile:
 
-* Email address 
+* Email address
 +
 The email address of the user.
 
-* Language preference 
+* Language preference
 +
-The system locale setting. The locale setting determines the language of the ThoughtSpot UI, date, number, and currency format. 
+The system locale setting. The locale setting determines the language of the ThoughtSpot UI, date, number, and currency format.
 
-* Notification setting 
+* Notification setting
 +
-User preference for receiving email notifications when another ThoughtSpot user shares search answers or pinboards. 
+User preference for receiving email notifications when another ThoughtSpot user shares answers or pinboards.
 
 * Settings for revisiting the onboarding experience
 +
-The user preference for revisiting the onboarding experience. 
+The user preference for revisiting the onboarding experience.
 
 +
-ThoughtSpot provides an interactive guided walkthrough to onboard new users. The onboarding experience leads users through a set of actions to help users get started and accomplish their tasks quickly. The users can turn off the Onboarding experience and access it again when they need assistance with the ThoughtSpot UI. 
+ThoughtSpot provides an interactive guided walkthrough to onboard new users. The onboarding experience leads users through a set of actions to help users get started and accomplish their tasks quickly. The users can turn off the Onboarding experience and access it again when they need assistance with the ThoughtSpot UI.
 
 [NOTE]
 ====
-The `/tspublic/v1/user/updatepreference` API does not support modifying the profile picture of a user, the password of a user account, and the Answer experience preference settings in a user profile.  
+The `/tspublic/v1/user/updatepreference` API does not support modifying the profile picture of a user, the password of a user account, and the Answer experience preference settings in a user profile.
 ====
 
 === Resource URL
@@ -589,16 +589,16 @@ POST /tspublic/v1/user/updatepreference
 [options="header"]
 |===
 |Form Parameter|Description
-|`userid` 
+|`userid`
  __Optional__
-|__String__. The GUID of the user. 
-|`username` __Optional__|__String__. Username of the user.  
+|__String__. The GUID of the user.
+|`username` __Optional__|__String__. Username of the user.
 |`preferences` a|__String__. The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
-* receive email notifications when another user shares a search answer or a pinboard
-* enable the onboarding experience 
-|`preferencesProto` __Optional__|__String__. A 64-bit encoded string for setting user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`. 
+* receive email notifications when another user shares an answer or pinboard
+* enable the onboarding experience
+|`preferencesProto` __Optional__|__String__. A 64-bit encoded string for setting user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
 |===
 
 [NOTE]
@@ -611,7 +611,7 @@ If your browser or OS locale is set to a xref:user-api.adoc#locale-setting[Thoug
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&preferences=%7B%22showWalkMe%22%3Atrue%2C%22notifyOnShare%22%3Atrue%2C%22analystOnboardingComplete%22%3Afalse%2C%22preferredLocale%22%3A%22en-IN%22%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference' 
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&preferences=%7B%22showWalkMe%22%3Atrue%2C%22notifyOnShare%22%3Atrue%2C%22analystOnboardingComplete%22%3Afalse%2C%22preferredLocale%22%3A%22en-IN%22%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference'
 ----
 
 .Request URL
@@ -619,9 +619,9 @@ curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference
 ----
 
-.Example JSON String 
+.Example JSON String
 
-This example shows the following preference settings that you can pass as a JSON string. 
+This example shows the following preference settings that you can pass as a JSON string.
 
 [source,JSON]
 ----
@@ -638,11 +638,11 @@ Enables or disables the guided onboarding walkthrough. When set to `true`, the u
 
 * `notifyOnShare` __Boolean__
 +
-Sets a notification preference for receiving emails when another user shares search answers or pinboards. 
+Sets a notification preference for receiving emails when another user shares answers or pinboards.
 
 * `analystOnboardingComplete` __Boolean__
 +
-Indicates if the user is onboarded. 
+Indicates if the user is onboarded.
 
 * `preferredLocale` __String__
 +
@@ -655,26 +655,26 @@ The allowed values are:
 [options="header"]
 |====================
 | Locale | Language
-| `da-DK` | Dansk  
-| `de-DE` | Deutsche  
-| `en-AU` | English (Australia)  
-| `en-CA` | English (Canada) 
-| `en-IN` | English (India) 
-| `en-GB` | English (United Kingdom) 
-| `en-US` | English (United States) 
-| `es-US` | Español (Latinoamérica) 
-| `es-ES` | Español (España) 
-| `fr-CA` | Français (Canada) 
-| `fr-FR` | Français (France) 
-| `it-IT` | Italiano 
+| `da-DK` | Dansk
+| `de-DE` | Deutsche
+| `en-AU` | English (Australia)
+| `en-CA` | English (Canada)
+| `en-IN` | English (India)
+| `en-GB` | English (United Kingdom)
+| `en-US` | English (United States)
+| `es-US` | Español (Latinoamérica)
+| `es-ES` | Español (España)
+| `fr-CA` | Français (Canada)
+| `fr-FR` | Français (France)
+| `it-IT` | Italiano
 | `nl-NL` | Nederland
-| `nb-NO` | Norsk 
-| `pt-BR` | Português (Brasil) 
-| `pt-PT` | Português (Portugal) 
+| `nb-NO` | Norsk
+| `pt-BR` | Português (Brasil)
+| `pt-PT` | Português (Portugal)
 | `fi-FI` | Suomi
-| `sv-SE` | Svenska 
+| `sv-SE` | Svenska
 | `zh-CN` | 中文(简体)
-| `ja-JP` | 日本語 
+| `ja-JP` | 日本語
 |====================
 
 === Response codes
@@ -690,7 +690,7 @@ The allowed values are:
 [#transfer-ownership]
 == Transfer ownership
 
-When a user is removed from the ThoughtSpot application, you may want to transfer objects from the deleted user account to the account. If you are an admin user, you can programmatically transfer the ownership of one or several objects from one ThoughtSpot user account to another, use the `/tspublic/v1/user/transfer/ownership` API. 
+When a user is removed from the ThoughtSpot application, you may want to transfer objects from the deleted user account to the account. If you are an admin user, you can programmatically transfer the ownership of one or several objects from one ThoughtSpot user account to another, use the `/tspublic/v1/user/transfer/ownership` API.
 
 === Resource URL
 ----
@@ -703,7 +703,7 @@ POST /tspublic/v1/user/transfer/ownership
 |Query Parameter|Description
 |`fromUserName`|__String__. Username to transfer from.
 |`toUserName`|__String__. Username to transfer to.
-|`objectid`|__String__. A JSON array of ThoughtSpot object IDs. 
+|`objectid`|__String__. A JSON array of ThoughtSpot object IDs.
 |====
 
 === Example request
@@ -747,7 +747,7 @@ POST /tspublic/v1/user/sync
 ----
 === Request parameters
 
-This API uses `multipart/form-data` content-type. 
+This API uses `multipart/form-data` content-type.
 
 [NOTE]
 ====
@@ -764,11 +764,11 @@ Make sure you use a JSON file encoded as `application/json` or `text/json` for t
 |`applyChanges`|
 __Boolean__.
 Specifies whether to sync the users and groups to the system and apply the difference evaluated.
- By default, this attribute is set to `false`. 
+ By default, this attribute is set to `false`.
 
 |`removeDeleted`|
 __Boolean__.
-Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`. 
+Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`.
 
 |`password`
 |__String__. The password of the admin user.
@@ -779,12 +779,12 @@ Specifies whether to remove the deleted users and user groups. By default, this 
 .cURL
 [source, cURL]
 ----
-curl -X POST \   
+curl -X POST \
 --header 'X-Requested-By : ThoughtSpot' \
 --header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
 --header 'Accept: application/json' \
 -F 'applyChanges=false' \
--F 'removeDeleted=false' 
+-F 'removeDeleted=false'
 -F 'principals=@principals.json;type=application/json' \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
@@ -794,9 +794,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
 
-==== JSON request 
+==== JSON request
 
-The `principals.json` file contains the JSON request to be sent for synchronizing users. Make sure the JSON file is encoded as `application/json` in the API request. 
+The `principals.json` file contains the JSON request to be sent for synchronizing users. Make sure the JSON file is encoded as `application/json` in the API request.
 
 Use the example format for the JSON requests:
 
@@ -848,13 +848,13 @@ Use the example format for the JSON requests:
     "groupNames": [ "Administrator", "All" ],
     "visibility": "DEFAULT" }
 ]
----- 
+----
 [IMPORTANT]
 ====
 The above example covers user objects (with emails), group objects, and their relationships.
 
 * You can leave the `created` and `modified` dates blank for new users.
-* You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.  
+* You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.
 * In the example JSON request, the `test1` user belongs to two groups, `Customer Success` and `Marketing`, and the
 `test2` user belongs to the group `Administrator`.
 * `All` is a default group to which every user belongs; you may omit it from the input.

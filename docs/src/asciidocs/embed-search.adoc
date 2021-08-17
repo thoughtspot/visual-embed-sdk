@@ -51,7 +51,7 @@ Create an instance of the SearchEmbed object and customize your search page view
 
 ----
 const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'), 
+    document.getElementById('ts-embed'),
     {
 	    frameParams: {
 		width: '100%',
@@ -69,16 +69,16 @@ const searchEmbed = new SearchEmbed(
             searchTokenString: '<TML-query-string>',
             executeSearch: true,
      },
-    	
+
     },
 });
 ----
- 
+
 frameParams::
-Sets the `width` and `height` dimensions to render the iframe in the web browser. You can set the `width` and `height` attribute values in pixels or as a percentage. 
+Sets the `width` and `height` dimensions to render the iframe in the web browser. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 answerID [small]#__Optional__#::
-_String_. The Global Unique Identifiers (GUID) of the search answers saved in a user profile.
+_String_. The Global Unique Identifiers (GUID) of the answers saved in a user profile.
 
 dataSources::
 _Array of strings_. The GUIDs of the data sources for running a search query on.
@@ -93,7 +93,7 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 
 
 disabledActions [small]#__Optional__#::
-_Array of strings_. Disables the specified menu items from the list of actions on a  search answer page. You can use this attribute to restrict user access to certain features.
+_Array of strings_. Disables the specified menu items from the list of actions on a search results page. You can use this attribute to restrict user access to certain features.
 +
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `ShowUnderlyingData` action menu string in the `disabledActions` attribute.
 
@@ -112,13 +112,13 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 [NOTE]
 ====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. 
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
 
 For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search results page.
 ====
 
 disabledActionReason [small]#__Optional__#::
-_String_. Indicates the reason for disabling an action on a search answer page.
+_String_. Indicates the reason for disabling an action on search data.
 
 
 hideDataSources [small]#__Optional__#::
@@ -131,7 +131,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 
 hideResults [small]#__Optional__#::
-_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a search answer.
+_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a search data.
 +
 ++++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
@@ -148,7 +148,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 
 hiddenActions [small]#__Optional__#::
-_Array of strings_. Hides the specified action menu items on a search answer page. You can use this attribute to remove actions that are not relevant to your application context.
+_Array of strings_. Hides the specified action menu items on an answer page. You can use this attribute to remove actions that are not relevant to your application context.
 
 +
 ++++
@@ -169,21 +169,21 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 [NOTE]
 ====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. 
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
 
 For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the search results page.
 ====
 
 [#search-query]
 searchOptions [small]#__Optional__#::
-Attribute for defining search tokens and executing search. 
+Attribute for defining search tokens and executing search.
 
 * `searchTokenString`
 +
 __String__. The ThoughtSpot Modeling Language (TML) query string. For example, to use the `product` and `sales` keywords, you can set the search token as shown here:
 
 +
- 
+
     searchTokenString: '[sales][product name]'
 
 * `executeSearch`
@@ -263,7 +263,7 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 * Load your application.
 * Search for data from a data source.
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
-* If you have disabled a menu item on a search answer page, verify if the menu command is disabled.
+* If you have disabled an action for search data obtained from a query, verify if the menu command shows as disabled.
 
 == Code sample
 

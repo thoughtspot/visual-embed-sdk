@@ -20,9 +20,9 @@ ThoughtSpot supports SAML SSO and trusted authentication services.
 * If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to the ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
 
 == Prepare your project environment
-The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package. Make sure the link:https://www.npmjs.com/get-npm[NPM is installed, window=_blank] in your environment. 
+The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package. Make sure the link:https://www.npmjs.com/get-npm[NPM is installed, window=_blank] in your environment.
 
-You can also access Visual Embed SDK, including information about how to install from NPM or run from a web repository, in the link:https://github.com/thoughtspot/visual-embed-sdk[ThoughtSpot Visual Embed SDK GitHub repository, window=_blank]. 
+You can also access Visual Embed SDK, including information about how to install from NPM or run from a web repository, in the link:https://github.com/thoughtspot/visual-embed-sdk[ThoughtSpot Visual Embed SDK GitHub repository, window=_blank].
 
 == Install the Visual Embed SDK
 The latest version of the Visual Embed SDK is available at link:https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk[https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk, window=_blank].
@@ -39,7 +39,7 @@ Based on integration requirements, import any of the following embed modules and
 
 * *SearchEmbed*
 +
-To xref:embed-search.adoc[embed the ThoughtSpot search] functionality. 
+To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
 +
 The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer.
 +
@@ -47,12 +47,12 @@ In all cases, the search bar will appear along with full capabilities to edit an
 
 * *PinboardEmbed*
 +
-To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards]. 
+To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards].
 +
 You can use the **PinboardEmbed** component to embed a full pinboard with multiple answers, as well as a specific answer on a pinboard without the search bar. These answers are referred to as pinboard visualizations.
 +
-Although you can use a saved search answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a pinboard using the `pinboardId` and `vizId` properties of PinboardEmbed.
+Although you can use a saved answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a pinboard using the `pinboardId` and `vizId` properties of PinboardEmbed.
 
 * *AppEmbed*
 +
-To embed xref:full-embed.adoc[the full ThoughtSpot application]. 
+To embed xref:full-embed.adoc[the full ThoughtSpot application].

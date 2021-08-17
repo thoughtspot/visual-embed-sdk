@@ -6,11 +6,11 @@
 :page-pageid: action-config
 :page-description: Show or hide actions in embedded pinboards and visualizations
 
-ThoughtSpot pinboards and search answer pages include menu actions that perform various operations. Some of these actions are presented as primary actions on a pinboard or search answer page, whereas some appear as menu items in the *More* menu image:./images/icon-more-10px.png[the more options menu], or the contextual menu that appears when a user right-clicks on a visualization.
+ThoughtSpot visualization, pinboards, and answer pages include menu actions that perform various operations. Some of these actions are presented as primary actions on a pinboard or answer page, whereas some appear as menu items in the *More* menu image:./images/icon-more-10px.png[the more options menu], or the contextual menu that appears when a user right-clicks on a visualization.
 
 == Disable or hide actions in Visual Embed SDK
 
-The Visual Embed SDK allows you to configure menu components for embedded pinboard and visualization pages. By default, the standard menu actions are *enabled* on all embedded instances. You can disable or hide specific menu actions in the *More* menu image:./images/icon-more-10px.png[the more options menu] or primary action bar in the visualization or pinboard page. 
+The Visual Embed SDK allows you to configure menu components for embedded pinboard and visualization pages. By default, the standard menu actions are *enabled* on all embedded instances. You can disable or hide specific menu actions in the *More* menu image:./images/icon-more-10px.png[the more options menu] or primary action bar in the visualization or pinboard page.
 
 The SDK packages include the `disabledActions` and `hiddenActions` attributes and action enumerators that disable or hide the specified actions.
 
@@ -18,9 +18,9 @@ For a complete list of menu actions and the corresponding strings to use for dis
 
 === Disable actions
 
-If you want to restrict user access to certain actions in the embedded ThoughtSpot pinboard, visualization, or a search answer page, you can disable these actions in the embed config view. 
+If you want to restrict user access to certain actions in the embedded ThoughtSpot pinboard, visualization, or search results page, you can disable these actions in the embed config view.
 
-The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions  and disable these actions on a pinboard, search answer, or visualization page.
+The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions  and disable these actions on a pinboard, answer, or visualization page.
 
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], you can specify the `ShowUnderlyingData` action string in the `disabledActions` attribute.
 
@@ -49,7 +49,7 @@ disabledActions: [Action.AddFilter, Action.Present]
 
 === Disable a custom action
 
-ThoughtSpot allows you to create custom actions for your embedded instance in the Developer portal. If you want to disable a custom action, you can specify the ID of the custom action in the `disabledActions` attribute.  
+ThoughtSpot allows you to create custom actions for your embedded instance in the Developer portal. If you want to disable a custom action, you can specify the ID of the custom action in the `disabledActions` attribute.
 
 For example, if a custom action is labeled as *Send Email* and its ID is set as *send-email*, specify `send-email` in the `disabledActions` attribute.
 
@@ -75,11 +75,11 @@ disabledActionReason: "Contact your administrator to enable this action"
 
 === Hide actions
 
-The Visual Embed SDK allows you to hide the actions that are not required for your application context. 
+The Visual Embed SDK allows you to hide the actions that are not required for your application context.
 
 To hide an action, specify the action string in the `hiddenActions` attribute.
 
-For example: 
+For example:
 
 [source,JavaScript]
 ----
@@ -91,10 +91,10 @@ hiddenActions: [Action.AddFilter, Action.Share]
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
- 
+
 === Hide a custom action
 
-To hide a custom action, specify the ID of the custom action in the `disabledActions` attribute.  
+To hide a custom action, specify the ID of the custom action in the `disabledActions` attribute.
 For example, if a custom action is labeled as *Send Email* and its ID is set as *send-email*, specify `send-email` in the `hiddenActions` attribute.
 
 [source,JavaScript]
@@ -156,7 +156,7 @@ Adds filters to all visualizations in a pinboard.
 |*Description* | Allows you to add a description to a pinboard.|`Action.Describe`
 ////
 
-=== Actions on search results page 
+=== Actions on search results page
 
 [width="100%" cols="2,4,2"]
 [options='header']
@@ -180,4 +180,3 @@ Adds filters to all visualizations in a pinboard.
 |*Copy to clipboard*| Copies data to clipboard. Available for tables.| `Action.CopyToClipboard`
 
 |===
-
