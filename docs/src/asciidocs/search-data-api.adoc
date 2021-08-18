@@ -196,6 +196,26 @@ The search data API supports the search query string or keywords in `en-US` lang
 Accept-Language: en-US
 ----
 
+When making REST API call from a browser, you can set the Accept-Language header directly to override the browser locale for that request.
+
+[source,javascript]
+----
+// Using XMLHttpRequest
+var xhr = XMLHttpRequest();
+xhr.setRequestHeader('Accept-Language', 'en-US');
+// ...
+
+// Using Fetch
+const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'Accept-Language': 'en-US',
+      'Content-Type': 'application/json',
+      // ...
+    },
+    // ...
+}
+----
 
 === Resource URL
 ----
