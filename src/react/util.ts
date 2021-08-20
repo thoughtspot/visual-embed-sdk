@@ -1,5 +1,5 @@
 import { EmbedEvent, MessageCallback } from '../types';
-import { ViewConfig } from '../embed/base';
+import { ViewConfig } from '../embed/ts-embed';
 
 // eslint-disable-next-line prettier/prettier
 export type EmbedEventHandlers = { [key in EmbedEvent as `on${Capitalize<key>}`]?: MessageCallback };

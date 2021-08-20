@@ -18,7 +18,7 @@ import {
     HostEvent,
 } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { V1Embed, ViewConfig } from './base';
+import { V1Embed, ViewConfig } from './ts-embed';
 
 /**
  * The configuration for the embedded pinboard or visualization page view.

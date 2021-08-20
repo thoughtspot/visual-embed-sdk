@@ -9,7 +9,7 @@
 
 import { DataSourceVisualMode, DOMSelector, Param } from '../types';
 import { getQueryParamString } from '../utils';
-import { ViewConfig, TsEmbed } from './base';
+import { ViewConfig, TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
 
 /**

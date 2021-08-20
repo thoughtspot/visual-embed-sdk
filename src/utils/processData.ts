@@ -1,3 +1,4 @@
+import { getEmbedConfig, handleAuth } from '../embed/base';
 import { initSession } from '../auth';
 import { EmbedEvent, OperationType } from '../types';
 import { getAnswerServiceInstance } from './answerService';
@@ -37,6 +38,14 @@ function processAuthInit(e: any) {
     };
 }
 
+function processAuthExpire(e: any) {
+    const { autoLogin = true } = getEmbedConfig(); // Set default to true
+    if (autoLogin) {
+        handleAuth();
+    }
+    return e;
+}
+
 export function getProcessData(
     type: EmbedEvent,
     e: any,
@@ -47,6 +56,8 @@ export function getProcessData(
             return processCustomAction(e, thoughtSpotHost);
         case EmbedEvent.AuthInit:
             return processAuthInit(e);
+        case EmbedEvent.AuthExpire:
+            return processAuthExpire(e);
         default:
     }
     return e;

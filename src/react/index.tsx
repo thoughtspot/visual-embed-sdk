@@ -5,7 +5,7 @@ import {
     PinboardEmbed as _PinboardEmbed,
     PinboardViewConfig,
 } from '../embed/pinboard';
-import { TsEmbed, ViewConfig } from '../embed/base';
+import { TsEmbed, ViewConfig } from '../embed/ts-embed';
 
 import { EmbedEvent, MessageCallback } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
