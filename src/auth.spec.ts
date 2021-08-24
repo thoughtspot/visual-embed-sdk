@@ -135,10 +135,10 @@ describe('Unit test for auth', () => {
             'fetchAuthTokenService',
         ).mockImplementation(() => ({ text: () => true }));
         jest.spyOn(authService, 'fetchAuthService');
-        executeAfterWait(async () => {
-            await authInstance.doTokenAuth(
-                embedConfig.doTokenAuthFailureWithoutGetAuthToken,
-            );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthFailureWithoutGetAuthToken,
+        );
+        executeAfterWait(() => {
             expect(authInstance.loggedInStatus).toBe(true);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(authService.fetchAuthService).toBeCalled();

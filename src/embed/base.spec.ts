@@ -21,18 +21,6 @@ describe('Base TS Embed', () => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test('should clear previous content from the container node when rendering iframe', async () => {
-        const tsEmbed = new SearchEmbed(getRootEl(), {});
-        tsEmbed.render();
-
-        const tsEmbed2 = new SearchEmbed(getRootEl(), {});
-        tsEmbed2.render();
-
-        await executeAfterWait(() => {
-            expect(getAllIframeEl().length).toBe(1);
-        });
-    });
-
     test('Should show an alert when third party cookie access is blocked', (done) => {
         const tsEmbed = new SearchEmbed(getRootEl(), {});
         const iFrame: any = document.createElement('div');
@@ -47,6 +35,9 @@ describe('Base TS Embed', () => {
             '*',
         );
         jest.spyOn(window, 'alert').mockImplementation(() => {
+            expect(window.alert).toBeCalledWith(
+                'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',
+            );
             done();
         });
     });
