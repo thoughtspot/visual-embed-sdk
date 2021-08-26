@@ -73,5 +73,5 @@
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
 ** +++<a href="{{tshost}}/external/swagger" target="_blank">REST API Explorer (Requires login)</a>+++
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
-** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank] 
+** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]

@@ -13,10 +13,9 @@ This section lists the tasks you need to complete before embedding ThoughtSpot c
 
 * Verify if the ThoughtSpot admin has enabled the authentication service.
 +
-ThoughtSpot supports SAML SSO and trusted authentication services.
+ThoughtSpot supports xref:configure-saml.adoc[SAML SSO] and xref:trusted-authentication.adoc[trusted authentication] services.
 
 * Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
-* Verify if the same-site cookie setting is set to `none`.
 * If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to the ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
 
 == Prepare your project environment
@@ -55,4 +54,4 @@ Although you can use a saved answer as a data source in SearchEmbed, ThoughtSpot
 
 * *AppEmbed*
 +
-To embed xref:full-embed.adoc[the full ThoughtSpot application].
+To embed xref:full-embed.adoc[the full ThoughtSpot application experience].

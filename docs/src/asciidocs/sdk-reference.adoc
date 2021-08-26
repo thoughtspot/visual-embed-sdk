@@ -10,11 +10,20 @@ The ThoughtSpot Visual Embed SDK is an open source Javascript library used for e
 == Visual Embed SDK libraries
 The link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK, window=_blank] is available for download as `@thoughtspot/visual-embed-sdk` through link:https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk[NPM, window=_blank]. It exports the following classes:
 
+* link:https://visual-embed-sdk.vercel.app/docs/typedoc/classes/appembed.html[AppEmbed^, window=_blank]
+* link:https://visual-embed-sdk.vercel.app/docs/typedoc/classes/pinboardembed.html[PinboardEmbed, window=_blank]
+* link:https://visual-embed-sdk.vercel.app/docs/typedoc/classes/searchembed.html[SearchEmbed, window=_blank]
+
+For more specific information on Embed options and functions, see the  link:https://visual-embed-sdk.vercel.app/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+
+
+////
 * link:{{visualEmbedSDKPrefix}}/classes/appembed.html[AppEmbed^, window=_blank]
 * link:{{visualEmbedSDKPrefix}}/classes/pinboardembed.html[PinboardEmbed, window=_blank]
 * link:{{visualEmbedSDKPrefix}}/classes/searchembed.html[SearchEmbed, window=_blank]
 
 For more specific information on Embed options and functions, see the  link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+////
 
 == Additional resources
  
