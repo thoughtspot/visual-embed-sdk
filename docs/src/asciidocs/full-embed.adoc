@@ -57,16 +57,41 @@ import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 import { AppEmbed, Page, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-=== Add the embed domain
+== Add the embed domain
 
-To allow your client application to connect to ThoughtSpot:
+To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
 
-. Configure the URL with ThoughtSpot hostname or IP address.
-. Specify the authentication method to use for authenticating application users.
+[source,javascript]
+----
+init
+    ({
+        thoughtSpotHost:"https://<hostname>:<port>",
+    });
+----
+
+
+thoughtSpotHost::
+_String_. Hostname or IP address of the ThoughtSpot application.
+
+== Configure an authentication method
+
+Define an authentication method. 
+
+In the following example, the authentication method is set to SSO.
+
+[source,javascript]
+----
+init
+    ({
+        authType: AuthType.SSO,
+    });
+----
 
 include::{path}/embed-auth-config.adoc[]
 
-For more information, see xref:embed-authentication.adoc[Embed user authentication].
+== Configure security parameters 
+
+include::{path}/embed-config.adoc[]
 
 === Create an instance of the AppEmbed object
 Create an instance of the AppEmbed object and pass the parameters for the application page view.
@@ -114,7 +139,7 @@ disabledActions: Action.Download
 ++++
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -146,7 +171,7 @@ hiddenActions: Action.Download
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
 
 [NOTE]
 ====
@@ -253,7 +278,7 @@ appEmbed.on(EmbedEvent.customAction, payload => {
 	}
 })
 ----
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
+For a complete list of event types that you can register, see  link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/embedevent.html[EmbedEvent, window=_blank].
 
 === Test the embedded workflow
 
@@ -265,10 +290,7 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item on a ThoughtSpot application page, verify if the menu command is disabled.
 
-
-== Code sample
-
-See xref:code-samples.adoc[Code samples].
-
 == Additional resources
-For more information on AppEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+
+* For example code, see xref:code-samples.adoc[Code samples].
+* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

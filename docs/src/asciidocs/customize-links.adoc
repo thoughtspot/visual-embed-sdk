@@ -40,7 +40,7 @@ The *Unsubscribe* link is included in system-generated emails to allow users to 
 
 By default, ThoughtSpot generates links that point users to a standalone ThoughtSpot application URL. If you have embedded ThoughtSpot in your application, you might want to generate links in the format that suits your host application context. For embedded instances, ThoughtSpot allows you to customize the format of these links in the Developer portal.
 
-The *Link Settings* page in the Developer portal displays the default link format for the system-generated links. You can either prefix your application domain URL to the default link format or customize the entire URL. ThoughtSpot recommends that you use the following variables when you customize a link format:
+The *Links* page in the Developer portal displays the default link format for the system-generated links. You can either prefix your application domain URL to the default link format or customize the entire URL. ThoughtSpot recommends that you use the following variables when you customize a link format:
 
 * `{object-id}` to represent the ID of a pinboard, answer, or the SpotIQ analyses. In  pinboard, answer, and spotIQ analyses links, this variable is substituted by the GUID of the object.
 * `{sub-object-id}` to represent the ID of a visualization. In pinboard visualization links, this variable is substituted by the GUID of the visualization.

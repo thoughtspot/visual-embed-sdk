@@ -79,6 +79,7 @@ Learn how to xref:full-embed.adoc[embed full ThoughtSpot experience] in your app
 
 [div boxDiv boxFullWidth]
 --
+
 * link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] 
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
 * link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK GitHub repository, window=_blank]

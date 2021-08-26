@@ -6,7 +6,7 @@
 :page-pageid: embed-auth
 :page-description: Embed authentication
 
-You can use any of the following authentication methods to authenticate your application users and allow  access to the embedded ThoughtSpot content.
+You can use any of the following authentication methods to authenticate your application users and allow access to the embedded ThoughtSpot content.
 
 * xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication]
 * xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]
@@ -18,14 +18,16 @@ You can use any of the following authentication methods to authenticate your app
 ThoughtSpot recommends that you use the SAML SSO or trusted authentication method to authenticate embed users in production environments.
 ====
 
-[#saml-sso-embed]
-== SAML SSO authentication
-To allow federated users to sign in to ThoughtSpot with their SSO credentials, you can enable SAML authentication on ThoughtSpot. With SSO, you can use your host application, or an external service as the identity provider, and allow authenticated users to access ThoughtSpot content.
+== Authentication methods
 
-=== Prerequisites
+[#saml-sso-embed]
+=== SAML SSO authentication
+To allow federated users to sign in to ThoughtSpot with their SSO credentials, you can enable SAML authentication on ThoughtSpot. With SSO, you can use your host application or an external service as the identity provider, and allow authenticated users to access ThoughtSpot content.
+
+==== Prerequisites
 To use SAML SSO authentication, the ThoughtSpot administrator must enable SAML authentication and add the SAML redirect domains to the allowed list. For more information, see xref:configure-saml.adoc[SAML SSO].
 
-=== Enable SSO authentication in Visual Embed SDK
+==== Enable SSO authentication in Visual Embed SDK
 
 To configure SAML SSO authentication for embed users, set the `authType` attribute to `SSO`. 
 
@@ -54,11 +56,11 @@ init
 ----
 
 [#trusted-auth-embed]
-== Trusted authentication
+=== Trusted authentication
 
 This method requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable trusted authentication] on ThoughtSpot. In this method, ThoughtSpot users are required to obtain an authentication token to access ThoughtSpot content. 
  
-=== Key attributes
+==== Key attributes
 
 * Secret key
 +
@@ -72,7 +74,7 @@ The URL endpoint of the server that provides the authentication token.
 +
 The `username` of the user for which the token must be obtained.  
 
-=== Configure trusted authentication method in Visual Embed SDK
+==== Configure trusted authentication method in Visual Embed SDK
 
 To configure trusted authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`. You can either use the `authEndpoint` attribute or the `getAuthToken` function to get token.
 
@@ -110,7 +112,7 @@ init
 After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content. 
 
 [#basic-auth-embed]
-== Basic authentication with ThoughtSpot login API
+=== Basic authentication with ThoughtSpot login API
 
 In this method, users can log in to ThoughtSpot by sending a POST request to `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. Users can pass their `username` and `password` in the API `POST` request to authenticate and access ThoughtSpot content.  `/tspublic/v1/session/login` API. For more information, see xref:session-api.adoc[Session API]. 
 
@@ -130,7 +132,7 @@ init
 You can use this authentication method for initial development and testing. ThoughtSpot does not recommend this authentication method for production environments.
 
 [#no-auth-embed]
-== No authentication
+=== No authentication
 You can choose to specify no authentication method for your users. The local ThoughtSpot users  who are already logged into your application can access the embedded ThoughtSpot content.   
 
 To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
@@ -150,4 +152,6 @@ init
 Do not use this authentication method in production environments.
 ====
 
+== Session security
 
+include::{path}/embed-config.adoc[]

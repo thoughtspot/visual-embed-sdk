@@ -23,11 +23,11 @@ ThoughtSpot admin::
 ThoughtSpot administrators who define the authentication workflow and create user groups. +
 Access control in ThoughtSpot is managed through the users and groups that are stored locally on ThoughtSpot, even if the users are authenticated using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot.
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing users, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing Groups, window=_blank].
+For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/users.html[Managing users, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing Groups, window=_blank].
 
 Developer::
 Application developers with privileges to use the Developer portal and embed ThoughtSpot components in their host application. +
-Developer users can also customize the look and feel of the UI, add custom actions to an embedded visualization or pinboard, and modify security settings such as CORS and CSP. For more information, see xref:user-roles.adoc[User configuration].
+Developer users can also customize the look and feel of the UI, add custom actions to an embedded visualization or pinboard, and modify security settings such as CORS and CSP. For more information, see xref:user-roles.adoc[Developer access].
 
 Host application admin::
 The host application owners or users with admin privileges to modify the application interface. +
@@ -35,25 +35,24 @@ For example, to embed ThoughtSpot components in a business application or web pa
 
 == Define an authentication method
 
-For initial development and testing purposes, you can use the xref:api-auth-session.adoc[session REST API] to manage ThoughtSpot user logins and sessions. However, ThoughtSpot does not recommend using the session REST API to manage user sessions in production environments. Instead, you can use the SAML SSO or trusted authentication service to authenticate users.
+For initial development and testing purposes, you can use the basic authentication method with xref:api-auth-session.adoc[session REST APIs] to manage ThoughtSpot user logins and sessions. However, ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users in production environments.
 
 SAML SSO::
-To provide a seamless login experience for your application users, you can configure SSO and enable SAML authentication, so that the federated users are automatically authenticated to ThoughtSpot.
-With SSO, you can use your host application, or an external service as the identity provider, and allow authenticated users to access the ThoughtSpot service.
-ThoughtSpot administrators can set up SAML SSO either using the *Admin* console in the ThoughtSpot application.
+To provide a seamless login experience for your application users, you can configure SSO and enable SAML authentication.
+With the SAML authentication method, you can use your host application or an external service as the identity provider, and allow authenticated users to access ThoughtSpot content with their SSO credentials.
++
+ThoughtSpot administrators can set up SAML SSO using the *Admin* UI in the ThoughtSpot application.
 
 +
-To use SSO authentication, you must add the identity provider domain as a SAML redirect domain in the *Security Settings* page of the Developer portal.
-
-+
-For more information, see xref:configure-saml.adoc[Configure SAML].
+To use SSO authentication for an embedded instance, you must add the identity provider domain as a SAML redirect domain in the *Security Settings* page of the Developer portal.
+For more information, see xref:configure-saml.adoc[SAML SSO authentication].
 
 Trusted Authentication::
-Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication service with a token for a given ThoughtSpot user. This token is used for obtaining trust from the client applications before granting  access to ThoughtSpot content.
+Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication server with a token for a given ThoughtSpot user. This token is used for obtaining trust from the client applications before granting access to ThoughtSpot content.
 +
 ThoughtSpot users with administrator privileges can generate a trusted authentication token in the *Security Settings* page of the Developer portal.
 +
-For more information, see xref:trusted-authentication.adoc[Configure trusted authentication].
+For more information, see xref:trusted-authentication.adoc[Trusted authentication].
 
 == Define security settings
 
@@ -80,17 +79,3 @@ The ThoughtSpot Developer portal provides a playground for developers to explore
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Go to Playground</a>
 ++++
 
-////
-== Identify the UI elements to rebrand
-
-ThoughtSpot has an automated feature that collects feedback from users and sends it to ThoughtSpot Support.
-Depending on what and how you embed, user actions with your embedded application can trigger feedback.
-You can continue to forward feedback in this manner or direct the feedback to another email.
-To learn how to change the feedback email, see link:{{site.baseurl }}/admin/setup/work-with-ts-support.html#manage-the-feedback-contact[Manage the feedback contact].
-
-== Remove the ThoughtSpot branded footer
-
-The ThoughtSpot footer appears by default in the ThoughtSpot application.
-It also appears with an embed application that encompasses an individual Pinboard, or a full application.
-In embed applications that are have a single visualization, you can ask your ThoughtSpot support engineer to disable the footer.
-////

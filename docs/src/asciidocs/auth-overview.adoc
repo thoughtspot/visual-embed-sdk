@@ -16,7 +16,7 @@ To authenticate and authorize embed users, you must also configure an authentica
 --
 +++<h5>Developer access</h5>+++
 
-xref:user-roles.adoc[Create a user group with Developer privilege and assign it to developer users] who require access to the *Develop* tab in the ThoughtSpot UI.
+xref:user-roles.adoc[Create a user group with Developer privilege and assign developer users to this group] to enable access to the *Develop* tab in the ThoughtSpot UI.
 --
 
 [div boxDiv boxFullWidth]

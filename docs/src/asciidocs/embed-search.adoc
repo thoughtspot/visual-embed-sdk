@@ -1,23 +1,15 @@
 = Embed ThoughtSpot search
 :toc: true
+:toclevels: 1
 
 :page-title: Embed Search
 :page-pageid: search-embed
 :page-description: Embed Search
 
 This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
-
-////
-== Import the JavaScript library
-In your .html page, include the JavaScript file in the `<script>` tag under `<head>`:
-[source,javascript]
-----
-<script type="text/javascript" src="<file-location>/<file-name>.js"></script>
-----
-////
+ 
 == Import the SearchEmbed package
 Import the SearchEmbed SDK library to your application environment:
-
 
 **npm**
 [source,javascript]
@@ -34,14 +26,39 @@ import { SearchEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoug
 
 == Add the embed domain
 
-To allow your client application to connect to ThoughtSpot:
+To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
 
-. Configure the URL with ThoughtSpot hostname or IP address.
-. Specify the authentication method to use for authenticating application users.
+[source,javascript]
+----
+init
+    ({
+        thoughtSpotHost:"https://<hostname>:<port>",
+    });
+----
+
+
+thoughtSpotHost::
+_String_. Hostname or IP address of the ThoughtSpot application.
+
+== Configure an authentication method
+
+Define an authentication method. 
+
+In the following example, the authentication method is set to SSO.
+
+[source,javascript]
+----
+init
+    ({
+        authType: AuthType.SSO,
+    });
+----
 
 include::{path}/embed-auth-config.adoc[]
 
-For more information, see xref:embed-authentication.adoc[Embed user authentication].
+== Configure security parameters 
+
+include::{path}/embed-config.adoc[]
 
 == Create an instance of the SearchEmbed class
 
@@ -107,7 +124,7 @@ disabledActions: Action.ShowUnderlyingData
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -164,7 +181,7 @@ hiddenActions: ['Action.Share']
 ----
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -256,6 +273,8 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register an
  searchEmbed.render();
 ----
 
+For a complete list of event types that you can register, see  link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/embedevent.html[EmbedEvent, window=_blank].
+
 == Test the embedded workflow
 
 To verify the ThoughtSpot Search integration, perform the following tasks:
@@ -265,10 +284,8 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled an action for search data obtained from a query, verify if the menu command shows as disabled.
 
-== Code sample
-
-See xref:code-samples.adoc[Code samples].
 
 == Additional resources
 
-For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For example code, see xref:code-samples.adoc[Code samples].
+* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

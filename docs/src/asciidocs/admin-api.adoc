@@ -272,11 +272,11 @@ The following example shows a snippet of the configuration information:
 [#get-config-overrides]
 == Get details of configuration overrides
 
-To get the details of configuration overrides, send a GET request to the `/tspublic/v1/admin/configinfo/override` API endpoint.
+To get the details of configuration overrides, send a GET request to the `/tspublic/v1/admin/configinfo/overrides` API endpoint.
 
 === Resource URL
 ----
-GET /tspublic/v1/admin/configinfo/override
+GET /tspublic/v1/admin/configinfo/overrides
 ----
 
 === Request parameters
