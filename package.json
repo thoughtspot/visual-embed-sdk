@@ -34,7 +34,7 @@
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
         "publish-dev": "npm publish --tag dev",
-        "publish-prod": "npm publish --tag prod"
+        "publish-prod": "npm publish --tag latest"
     },
     "peerDependencies": {
         "react": "> 16.8.0",
