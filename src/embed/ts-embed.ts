@@ -281,7 +281,7 @@ export class TsEmbed {
         // The below check is needed because TS Cloud firewall, blocks localhost/127.0.0.1
         // in any url param.
         if (
-            hostAppUrl.includes('locahost') ||
+            hostAppUrl.includes('localhost') ||
             hostAppUrl.includes('127.0.0.1')
         ) {
             hostAppUrl = 'local-host';
