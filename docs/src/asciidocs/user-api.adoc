@@ -126,10 +126,11 @@ If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` 
 
 This API allows the following modifications to a user profile:
 
-* Group assignment
+* User name modifications
 * Password reset
+* Group assignment
 * User visibility for sharing objects
-* User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications.
+* User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications, and so on.
 
 === Resource URL
 ----
@@ -150,7 +151,14 @@ PUT /tspublic/v1/user/{userid}
 
 .cURL
 ----
-curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'userid=d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286&content=%7B%20%20%20%22userContent%22%3A%20%7B%20%20%20%20%20%22userPreferences%22%3A%20%7B%20%20%20%20%20%20%20%22notifyOnShare%22%3A%20false%2C%20%20%20%20%20%20%20%22showWalkMe%22%3A%20true%2C%20%20%20%20%20%20%20%22analystOnboardingComplete%22%3A%20false%20%20%20%20%20%7D%2C%20%20%20%20%20%22userProperties%22%3A%20%7B%7D%2C%20%20%20%20%20%22userActivityProto%22%3A%20%7B%20%20%20%20%20%20%20%22first_login%22%3A%20-1%2C%20%20%20%20%20%20%20%22welcome_email_sent%22%3A%20false%20%20%20%20%20%7D%20%20%20%7D%2C%20%20%20%22state%22%3A%20%22ACTIVE%22%2C%20%20%20%22assignedGroups%22%3A%20%20%5B%20%09%22d0326b56-ef23-4c8a-8327-a30e99bcc72b%22%2C%20%20%20%20%20%20%20%09%22b25ee394-9d13-49e3-9385-cd97f5b253b4%22%20%20%20%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%20%20%20%20%20%22b25ee394-9d13-49e3-9385-cd97f5b253b4%22%20%20%20%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_USER%22%2C%20%20%20%22parenttype%22%3A%20%22USER%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20User2%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%22d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20User2%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624846987754%2C%20%20%20%20%20%22modified%22%3A%201624846987754%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%22d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSuperUser%22%3A%20false%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}'
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'userid=4391d676-2dd8-4248-b6db-d973811f0122' \
+-d 'content={"displayName": "Guest", "header": {"id": "4391d676-2dd8-4248-b6db-d973811f0122", "name": "guest1234", "displayName": "Guest", "owner": "4391d676-2dd8-4248-b6db-d973811f0122"}}' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}' \
+-b 'JSESSIONID=0e97a2a6-7e9a-496a-b48b-2d66ec8b1e15'
 ----
 
 .Request URL

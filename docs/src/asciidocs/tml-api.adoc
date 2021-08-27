@@ -22,7 +22,7 @@ POST /tspublic/v1/metadata/tml/import
 ----
 
 === Request parameters
-[width="100%" cols="1,1,2,1"]
+[width="100%" cols="2,1,4,1"]
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default

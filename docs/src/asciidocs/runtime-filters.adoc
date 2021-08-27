@@ -35,7 +35,7 @@ You can use runtime filters on these data types:
 
 [IMPORTANT]
 ====
-For the `DATE` and `DATE_TIME` data types, you must provide the date and time values in the Epoch time format. The Epoch time is also referred POSIX or Unix time. Epoch time is an integer value representing the number of seconds elapsed since 1 JAN 1970 00:00:00 UTC. You may have to convert time zones to calculate the appropriate timestamp.
+For the `DATE` and `DATE_TIME` data types, you must provide the date and time values in the Epoch time format. The Epoch time is also referred to as POSIX or Unix time. Epoch time is an integer value representing the number of seconds elapsed since 1 JAN 1970 00:00:00 UTC. You may have to convert time zones to calculate the appropriate timestamp.
 
 For example, if you want to filter data for 2020-05-22, you can specify the date value in the Epoch time format as `1590192000`, or use the following JavaScript method to calculate the timestamp:
 

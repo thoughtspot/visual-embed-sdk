@@ -5,7 +5,7 @@
 :page-pageid: integration-guidelines
 :page-description: ThoughtSpot Embedded Analytics
 
-ThoughtSpot recommends that you browse through the following guidelines before you begin embedding.
+ThoughtSpot recommends that you browse through the following guidelines before embedding ThoughtSpot in your application.
 
 == Define application workflows
 

@@ -152,6 +152,7 @@ init
 Do not use this authentication method in production environments.
 ====
 
+[#embed-session-sec]
 == Session security
 
 include::{path}/embed-config.adoc[]

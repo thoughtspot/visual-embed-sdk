@@ -124,7 +124,7 @@ disabledActions: Action.ShowUnderlyingData
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -181,7 +181,7 @@ hiddenActions: ['Action.Share']
 ----
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -266,14 +266,14 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register an
 })
 ----
 
+For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}enums/embedevent.html[EmbedEvent, window=_blank].
+
 == Render the embedded search
 
 [source, javascript]
 ----
  searchEmbed.render();
 ----
-
-For a complete list of event types that you can register, see  link:https://visual-embed-sdk.vercel.app/docs/typedoc/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
