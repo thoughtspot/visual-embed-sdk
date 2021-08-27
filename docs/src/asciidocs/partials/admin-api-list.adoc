@@ -13,8 +13,7 @@ Updates the configuration settings of the current ThoughtSpot cluster
 
 +++<p class="divider"> </p>+++
 
-`xref:admin-api.adoc#get-config-overrides[*GET* /tspublic/v1/admin/configinfo/override]` [tag greenBackground]#New# 
-
+`xref:admin-api.adoc#get-config-overrides[*GET* /tspublic/v1/admin/configinfo/overrides]` [tag greenBackground]#New# 
 Gets details of configuration overrides on the current ThoughtSpot cluster 
 
 +++<p class="divider"> </p>+++

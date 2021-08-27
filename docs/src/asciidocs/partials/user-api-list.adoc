@@ -1,7 +1,7 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:group-api.adoc#create-group[*POST* /tspublic/v1/user/]` [tag greenBackground]#New#
+`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` [tag greenBackground]#New#
 
 Creates a user account.
 

@@ -12,7 +12,7 @@ To ensure that embedding works on browsers that don't allow third-party cookies,
 
 Similarly, you might want to include your business domain name instead of `thoughtspot.com` in all system-generated notifications. For example, you might want your pinboard schedule notifications to show the sender's address as `<user-name>@<your-domain-name>`, instead of the default `TS Admin no-reply@notifications.thoughtspot.com`. 
 
-For all such domain-related customizations, we recommend that you contact the ThoughtSpot Support team. We also recommend that you read the following guidelines before initiating a request for the domain name or URL change.
+For all such domain-related customizations, we recommend that you contact ThoughtSpot Support. We also recommend that you read the following guidelines before initiating a request for the domain name or URL change.
 
 == Domain URL customization
 

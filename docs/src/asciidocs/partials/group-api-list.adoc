@@ -20,7 +20,6 @@ Gets details of a user group.
 
 +++<p class="divider"> </p>+++
 
-
 `xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]` [tag greenBackground]#New# 
 
 Assigns a user to a group.
