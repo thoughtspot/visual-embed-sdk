@@ -41,7 +41,7 @@ The `searchEmbed` SDK package introduces the `searchOptions` parameter for setti
 
 * `searchTokenString`
 +
-Supports an easy-to-use TML query string to define search tokens.
+A TML query string to define search tokens.
 
 * `executeSearch`
 +
