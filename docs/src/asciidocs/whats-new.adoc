@@ -11,9 +11,15 @@ This page lists the new features and enhancements introduced in the ThoughtSpot 
 
 == August 2021
 
-The ThoughtSpot 7 Cloud August release introduces the following features and enhancements:
 
-=== Custom actions for worksheets
+=== Custom actions
+
+The ThoughtSpot 7 Cloud August release introduces the following features:
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#New feature# a| *Custom actions for worksheets*
 
 The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
 
@@ -21,18 +27,18 @@ This feature is available to all ThoughtSpot users with edit privileges to modif
 
 For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
-=== Query parameters for URL-based custom actions
+|[tag greenBackground]#New feature# a|**Query parameters for URL-based custom actions**
 
 The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot.
 
 For more information, see xref:custom-actions-url.adoc[Configure a custom URL action].
+|====
 
-=== Visual Embed SDK enhancements
+=== Visual Embed SDK
 
 The ThoughtSpot 7 Cloud August release supports Visual Embed SDK version 1.3.1, which includes the following features and enhancements.
 
 [width="100%" cols="1,4"]
-[options='header']
 |====
 ||
 | [tag greenBackground]#New feature#  a| *searchOptions*

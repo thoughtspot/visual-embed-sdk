@@ -7,7 +7,7 @@
 :page-description: Embed Search
 
 This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
- 
+
 == Import the SearchEmbed package
 Import the SearchEmbed SDK library to your application environment:
 
@@ -42,7 +42,7 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 
 == Configure an authentication method
 
-Define an authentication method. 
+Define an authentication method.
 
 In the following example, the authentication method is set to SSO.
 
@@ -56,7 +56,7 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
-== Configure security parameters 
+== Configure security parameters
 
 include::{path}/embed-config.adoc[]
 
@@ -261,7 +261,7 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register an
  searchEmbed.on(EmbedEvent.customAction, payload => {
 	const data = payload.data;
 	if(data.id === 'insert Custom Action ID here') {
-		console.log('Custom Action event:', data.columnsAndData);
+		console.log('Custom Action event:', data.embedAnswerData);
 	}
 })
 ----
