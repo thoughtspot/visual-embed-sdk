@@ -6,7 +6,7 @@
 :page-description: Embed charts and tables
 
 
-This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization. 
+This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization.
 
 You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *PinboardEmbed* must exist on a pinboard object in ThoughtSpot.
 
@@ -44,7 +44,7 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 
 == Configure an authentication method
 
-Define an authentication method. 
+Define an authentication method.
 
 In the following example, the authentication method is set to SSO.
 
@@ -58,7 +58,7 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
-== Configure security parameters 
+== Configure security parameters
 
 include::{path}/embed-config.adoc[]
 
@@ -105,7 +105,7 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 [NOTE]
 ====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. 
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
 
 For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the visualization page.
 ====
@@ -134,7 +134,7 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 [NOTE]
 ====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. 
+If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
 
 For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the visualization page.
 ====
@@ -152,7 +152,7 @@ enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
 preventPinboardFilterRemoval::
-_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter applied to a visualization. 
+_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter applied to a visualization.
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
@@ -208,7 +208,7 @@ If you have added a xref:customize-actions-menu.adoc[custom action], register an
  pinboardEmbed.on(EmbedEvent.customAction, payload => {
       const data = payload.data;
       if (data.id === 'insert Custom Action ID here') {
-          console.log('Custom Action event:', data.columnsAndData);
+          console.log('Custom Action event:', data.embedAnswerData);
       }
   })
 
