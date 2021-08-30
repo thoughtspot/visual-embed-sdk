@@ -284,7 +284,16 @@ export enum EmbedEvent {
      * @return data - The height of the embedded pinboard or visualization
      */
     EmbedHeight = 'EMBED_HEIGHT',
+    /**
+     * The center of visible iframe viewport is calculated.
+     * @return data - The center of the visible Iframe viewport.
+     */
     EmbedIframeCenter = 'EmbedIframeCenter',
+    /**
+     * Detects the route change.
+     * @hidden
+     */
+    RouteChange = 'ROUTE_CHANGE',
     /**
      * The v1 event type for Data
      * @hidden
