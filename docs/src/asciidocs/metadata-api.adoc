@@ -688,7 +688,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__|string a|Specifies the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of a specific subtype.
+|`subtypes` __Optional__|string a|A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
 
 * `ONE_TO_ONE_LOGICAL` for tables
 * `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
@@ -730,12 +730,12 @@ The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1'
+curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=LOGICAL_TABLE&subtypes=%5B'WORKSHEET'%5D&category=ALL&sort=CREATED&offset=-1'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=PINBOARD_ANSWER_BOOK&subtypes=WORKSHEET&category=ALL&sort=CREATED&offset=-1
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=LOGICAL_TABLE&subtypes=%5B'WORKSHEET'%5D&category=ALL&sort=CREATED&offset=-1
 ----
 
 === Example response
