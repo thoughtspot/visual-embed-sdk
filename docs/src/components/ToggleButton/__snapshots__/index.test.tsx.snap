@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleButton should renders correctly 1`] = `
+<div>
+  <label
+    class="switch"
+  >
+    <input
+      data-testid="toggle-btn"
+      id="togBtn"
+      type="checkbox"
+    />
+    <div
+      class="slider round"
+      data-testid="slider"
+    />
+  </label>
+</div>
+`;

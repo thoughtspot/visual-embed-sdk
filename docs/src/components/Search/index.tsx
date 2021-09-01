@@ -97,6 +97,7 @@ const Search: React.FC<SearchProps> = (props) => {
             case 'html':
                 return (
                     <a
+                        data-testid="result-link"
                         key={option.pageid}
                         className="result"
                         href={option.link}
@@ -170,6 +171,7 @@ const Search: React.FC<SearchProps> = (props) => {
                         <BiSearch />
                     </IconContext.Provider>
                     <input
+                        data-testid="search-input"
                         type="Search"
                         placeholder={t('SEARCH_PLACEHOLDER')}
                         onFocus={onFocus}
@@ -179,7 +181,7 @@ const Search: React.FC<SearchProps> = (props) => {
                     />
                 </div>
                 {showSearchResult && props.options?.length ? (
-                    <div ref={node} className="resultContainer">
+                    <div ref={node} className="resultContainer" data-testid="resultContainer">
                         {props.options.map(
                             (option: SearchQueryResult, index: number) => {
                                 return renderOption(option, index);
@@ -187,8 +189,8 @@ const Search: React.FC<SearchProps> = (props) => {
                         )}
                     </div>
                 ) : (
-                    ''
-                )}
+                        ''
+                    )}
             </div>
             {props.isMaxMobileResolution && (
                 <div className="ml-4">

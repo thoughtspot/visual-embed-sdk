@@ -6,7 +6,7 @@ const Footer = () => (
     <footer>
         <section className="containerWrapper">
             <div className="footerWrapper">
-                <span>{t('COPYRIGHT_TEXT')}</span>
+                <span data-testid="footer-text">{t('COPYRIGHT_TEXT')}</span>
             </div>
         </section>
     </footer>

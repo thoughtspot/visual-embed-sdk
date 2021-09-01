@@ -37,7 +37,7 @@ const Dropdown = (props: { location: Location }) => {
                 <div className="dropdownContent">
                     {options.map(({ label, link }) => {
                         return (
-                            <div key={link} onClick={() => handelClick(link)}>
+                            <div data-testid={`option-${label}`} key={link} onClick={() => handelClick(link)}>
                                 {label}
                             </div>
                         );

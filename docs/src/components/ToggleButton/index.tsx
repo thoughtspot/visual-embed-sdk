@@ -8,12 +8,13 @@ const ToggleButton = (props: {
     return (
         <label className="switch">
             <input
+                data-testid="toggle-btn"
                 type="checkbox"
                 id="togBtn"
                 onChange={(e) => props.setDarkMode(e.target.checked)}
                 checked={props.isDarkMode}
             />
-            <div className="slider round"></div>
+            <div data-testid="slider" className="slider round"></div>
         </label>
     );
 };

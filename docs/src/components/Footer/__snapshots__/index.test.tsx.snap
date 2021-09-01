@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should renders correctly 1`] = `
+<div>
+  <footer>
+    <section
+      class="containerWrapper"
+    >
+      <div
+        class="footerWrapper"
+      >
+        <span
+          data-testid="footer-text"
+        >
+          COPYRIGHT_TEXT
+        </span>
+      </div>
+    </section>
+  </footer>
+</div>
+`;

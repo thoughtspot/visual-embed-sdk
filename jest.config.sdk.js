@@ -4,7 +4,7 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['src/**'],
     coverageDirectory: 'coverage/sdk/',
-    coverageReporters: ['lcov', 'text', 'cobertura'],
+    // coverageReporters: ['lcov', 'text', 'cobertura'],
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
     coverageThreshold: {
         './src/': {
