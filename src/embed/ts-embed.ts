@@ -518,12 +518,16 @@ export class TsEmbed {
      * eg: appEmbed.navigateToPage('pinboards')
      */
     public navigateToPage(path: string): void {
-        const iframeSrc = this.iFrame.src;
-        const embedPath = '#/embed';
-        const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
-        this.iFrame.src = `${
-            iframeSrc.split(currentPath)[0]
-        }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
+        const iframeSrc = this.iFrame?.src;
+        if (iframeSrc) {
+            const embedPath = '#/embed';
+            const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
+            this.iFrame.src = `${
+                iframeSrc.split(currentPath)[0]
+            }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
+        } else {
+            console.log('Please call render before invoking this method');
+        }
     }
 
     /**
