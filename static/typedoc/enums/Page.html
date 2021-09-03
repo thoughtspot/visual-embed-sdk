@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>HostEvent | @thoughtspot/visual-embed-sdk
+	<title>Page | @thoughtspot/visual-embed-sdk
 	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,10 +57,10 @@
 					<a href="../modules.html">@thoughtspot/visual-embed-sdk</a>
 				</li>
 				<li>
-					<a href="HostEvent.html">HostEvent</a>
+					<a href="Page.html">Page</a>
 				</li>
 			</ul>
-			<h1>Enumeration HostEvent</h1>
+			<h1>Enumeration Page</h1>
 		</div>
 	</div>
 </header>
@@ -88,21 +88,33 @@
 					<li class=" tsd-kind-enum">
 						<a href="EmbedEvent.html" class="tsd-kind-icon">Embed<wbr>Event</a>
 					</li>
+					<li class=" tsd-kind-enum">
+						<a href="HostEvent.html" class="tsd-kind-icon">Host<wbr>Event</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum">
-						<a href="HostEvent.html" class="tsd-kind-icon">Host<wbr>Event</a>
+						<a href="Page.html" class="tsd-kind-icon">Page</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="HostEvent.html#Search" class="tsd-kind-icon">Search</a>
+								<a href="Page.html#Answers" class="tsd-kind-icon">Answers</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="Page.html#Data" class="tsd-kind-icon">Data</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="Page.html#Home" class="tsd-kind-icon">Home</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="Page.html#Pinboards" class="tsd-kind-icon">Pinboards</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="Page.html#Search" class="tsd-kind-icon">Search</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-enum">
-						<a href="Page.html" class="tsd-kind-icon">Page</a>
-					</li>
 					<li class=" tsd-kind-enum">
 						<a href="RuntimeFilterOp.html" class="tsd-kind-icon">Runtime<wbr>Filter<wbr>Op</a>
 					</li>
@@ -140,8 +152,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Event types that can be triggered by the host application
-						to the embedded ThoughtSpot app</p>
+						<p>Pages within the ThoughtSpot app that can be embedded.</p>
 					</div>
 				</div>
 			</section>
@@ -152,7 +163,11 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#Search" class="tsd-kind-icon">Search</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Page.html#Answers" class="tsd-kind-icon">Answers</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Page.html#Data" class="tsd-kind-icon">Data</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Page.html#Home" class="tsd-kind-icon">Home</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Page.html#Pinboards" class="tsd-kind-icon">Pinboards</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Page.html#Search" class="tsd-kind-icon">Search</a></li>
 							</ul>
 						</section>
 					</div>
@@ -161,26 +176,78 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="Answers" class="tsd-anchor"></a>
+					<h3>Answers</h3>
+					<div class="tsd-signature tsd-kind-icon">Answers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;answers&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/app.ts#L32">embed/app.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Saved answers listing page</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="Data" class="tsd-anchor"></a>
+					<h3>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/app.ts#L40">embed/app.ts:40</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Data management page</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="Home" class="tsd-anchor"></a>
+					<h3>Home</h3>
+					<div class="tsd-signature tsd-kind-icon">Home<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;home&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/app.ts#L24">embed/app.ts:24</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Home page</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="Pinboards" class="tsd-anchor"></a>
+					<h3>Pinboards</h3>
+					<div class="tsd-signature tsd-kind-icon">Pinboards<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pinboards&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/app.ts#L36">embed/app.ts:36</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pinboards listing page</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Search" class="tsd-anchor"></a>
 					<h3>Search</h3>
 					<div class="tsd-signature tsd-kind-icon">Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;search&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/996b681/src/types.ts#L319">types.ts:319</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/app.ts#L28">embed/app.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Trigger a search</p>
+							<p>Search page</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt class="param">param</dt>
-							<dd><p>The list of data source GUIDs</p>
-							</dd>
-							<dt class="param">param</dt>
-							<dd><p>The search query</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 			</section>
