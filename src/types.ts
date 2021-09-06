@@ -113,6 +113,12 @@ export interface EmbedConfig {
      * @default true
      */
     autoLogin?: boolean;
+
+    /**
+     * Calls the prefetch method internally when set to true
+     * @default false
+     */
+    callPrefetch?: boolean;
 }
 
 export type MessagePayload = { type: string; data: any };

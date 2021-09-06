@@ -32,6 +32,26 @@ export const getEmbedConfig = (): EmbedConfig => config;
 export const getAuthPromise = (): Promise<void> => authPromise;
 
 /**
+ * Create a dummy iframe that prefetches the data from given cluster
+ * authentication if applicable.
+ * @param url The URL provided for prefetch
+ */
+export const prefetch = (url?: string): void => {
+    if (url === '') {
+        // eslint-disable-next-line no-console
+        console.warn('The prefetch method does not have a valid URL');
+    } else {
+        const iFrame = document.createElement('iframe');
+        iFrame.src = url || config.thoughtSpotHost;
+        iFrame.style.width = '0';
+        iFrame.style.height = '0';
+        iFrame.style.border = '0';
+        iFrame.classList.add('prefetchIframe');
+        document.body.appendChild(iFrame);
+    }
+};
+
+/**
  * Initialize the ThoughtSpot embed settings globally and perform
  * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
@@ -45,4 +65,8 @@ export const init = (embedConfig: EmbedConfig): void => {
         authType: config.authType,
         host: config.thoughtSpotHost,
     });
+
+    if (config.callPrefetch) {
+        prefetch(config.thoughtSpotHost);
+    }
 };

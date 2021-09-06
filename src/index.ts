@@ -9,7 +9,7 @@
  */
 
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
-import { init } from './embed/base';
+import { init, prefetch } from './embed/base';
 import { PinboardEmbed, PinboardViewConfig } from './embed/pinboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import {
@@ -25,6 +25,7 @@ import {
 
 export {
     init,
+    prefetch,
     SearchEmbed,
     PinboardEmbed,
     AppEmbed,

@@ -1,4 +1,4 @@
-import { AuthType, init, SearchEmbed, EmbedEvent } from '../index';
+import * as index from '../index';
 import {
     executeAfterWait,
     getAllIframeEl,
@@ -11,9 +11,9 @@ const thoughtSpotHost = 'tshost';
 
 describe('Base TS Embed', () => {
     beforeAll(() => {
-        init({
+        index.init({
             thoughtSpotHost,
-            authType: AuthType.None,
+            authType: index.AuthType.None,
         });
     });
 
@@ -22,7 +22,7 @@ describe('Base TS Embed', () => {
     });
 
     test('Should show an alert when third party cookie access is blocked', (done) => {
-        const tsEmbed = new SearchEmbed(getRootEl(), {});
+        const tsEmbed = new index.SearchEmbed(getRootEl(), {});
         const iFrame: any = document.createElement('div');
         iFrame.contentWindow = null;
         tsEmbed.test_setIframe(iFrame);
@@ -30,7 +30,7 @@ describe('Base TS Embed', () => {
 
         window.postMessage(
             {
-                __type: EmbedEvent.NoCookieAccess,
+                __type: index.EmbedEvent.NoCookieAccess,
             },
             '*',
         );
@@ -40,5 +40,38 @@ describe('Base TS Embed', () => {
             );
             done();
         });
+    });
+
+    test('Should add the prefetch iframe when prefetch is called. Should remove it once init is called.', async () => {
+        const url = 'https://10.87.90.95/';
+        index.prefetch(url);
+        expect(getAllIframeEl().length).toBe(1);
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
+            '.prefetchIframe',
+        );
+        expect(prefetchIframe.length).toBe(1);
+        const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
+        expect(firstIframe.src).toBe(url);
+    });
+
+    test('Should not generate a prefetch iframe when url is empty string', async () => {
+        const url = '';
+        index.prefetch(url);
+        expect(getAllIframeEl().length).toBe(0);
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
+            '.prefetchIframe',
+        );
+        expect(prefetchIframe.length).toBe(0);
+    });
+
+    test('Should not call prefetch inside init when callPrefetch is set to false', async () => {
+        const prefetch = jest.spyOn(index, 'prefetch');
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            callPrefetch: false,
+        });
+
+        expect(prefetch).toHaveBeenCalledTimes(0);
     });
 });

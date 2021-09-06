@@ -321,7 +321,6 @@ export class TsEmbed {
         if (!isAppEmbed) {
             path = `${path}/embed`;
         }
-
         return path;
     }
 
@@ -394,6 +393,14 @@ export class TsEmbed {
                 });
                 this.el.innerHTML = '';
                 this.el.appendChild(this.iFrame);
+                const prefetchIframe = document.querySelectorAll(
+                    '.prefetchIframe',
+                );
+                if (prefetchIframe.length) {
+                    prefetchIframe.forEach((el) => {
+                        el.remove();
+                    });
+                }
                 this.subscribeToEvents();
             })
             .catch((error) => {

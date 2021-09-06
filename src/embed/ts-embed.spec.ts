@@ -75,6 +75,13 @@ describe('Unit test case for ts embed', () => {
                 MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
             );
         });
+
+        test('Should remove prefetch iframe', async () => {
+            const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
+                '.prefetchIframe',
+            );
+            expect(prefetchIframe.length).toBe(0);
+        });
     });
 
     describe('when thoughtSpotHost have value and authPromise return error', () => {
