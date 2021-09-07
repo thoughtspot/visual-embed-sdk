@@ -165,6 +165,8 @@ runtimeFilters [small]_optional_::
 Runtime filters to be applied when the pinboard page loads.
 Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
 +
+Runtime filters do not appear to the user in the pinboard UI. They do not adjust the values of visible pinboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
++
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
 [source,javascript]
