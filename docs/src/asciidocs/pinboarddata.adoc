@@ -17,7 +17,7 @@ Using this API, you can fetch the following information:
 ----
 POST /tspublic/v1/pinboarddata
 ----
-=== Request Parameters
+=== Request parameters
 
 [width="100%" cols="1,1,4"]
 [options='header']
@@ -31,6 +31,9 @@ POST /tspublic/v1/pinboarddata
          `1-based indexingOffset = (pageNumber - 1)` * batchSize
 |`formattype`|string|Valid values are `COMPACT` or `FULL JSON`. The system default is `COMPACT`.
 |====
+
+=== Runtime filters
+The pinboarddata REST API accept runtime filters as parameters in the request URL. Please see the full documentation of runtime filters link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[here, window=_blank].
 
 === Example requests
 
