@@ -113,13 +113,8 @@ export class SearchEmbed extends TsEmbed {
      * loaded in the iframe
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
-     * @param searchQuery A search query to be generated on load
      */
-    private getIFrameSrc(
-        answerId: string,
-        dataSources?: string[],
-        searchQuery?: string,
-    ) {
+    private getIFrameSrc(answerId: string, dataSources?: string[]) {
         const {
             disabledActions,
             disabledActionReason,
@@ -142,9 +137,6 @@ export class SearchEmbed extends TsEmbed {
             if (searchOptions.executeSearch) {
                 queryParams[Param.executeSearch] = true;
             }
-        }
-        if (searchQuery) {
-            queryParams[Param.SearchQuery] = encodeURIComponent(searchQuery);
         }
         if (enableSearchAssist) {
             queryParams[Param.EnableSearchAssist] = true;
@@ -181,9 +173,9 @@ export class SearchEmbed extends TsEmbed {
      */
     public render(): SearchEmbed {
         super.render();
-        const { answerId, dataSources, searchQuery } = this.viewConfig;
+        const { answerId, dataSources } = this.viewConfig;
 
-        const src = this.getIFrameSrc(answerId, dataSources, searchQuery);
+        const src = this.getIFrameSrc(answerId, dataSources);
         this.renderIFrame(src, this.viewConfig.frameParams);
         return this;
     }

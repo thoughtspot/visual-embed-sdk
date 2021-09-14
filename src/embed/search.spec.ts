@@ -57,15 +57,18 @@ describe('Search embed tests', () => {
 
     test('should pass in search query', async () => {
         const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             dataSources,
-            searchQuery: '[commit date][revenue]',
+            searchOptions,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
@@ -105,49 +108,58 @@ describe('Search embed tests', () => {
 
     test('should collapse data sources', async () => {
         const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             collapseDataSources: true,
             dataSources,
-            searchQuery: '[commit date][revenue]',
+            searchOptions,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=collapse&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=collapse&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
 
     test('should hide data sources', async () => {
         const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             hideDataSources: true,
             dataSources,
-            searchQuery: '[commit date][revenue]',
+            searchOptions,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
 
     test('should disable actions', async () => {
         const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             disabledActions: [Action.Download, Action.Edit],
             disabledActionReason: 'Permission denied',
             dataSources,
-            searchQuery: '[commit date][revenue]',
+            searchOptions,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchQuery=%5Bcommit%20date%5D%5Brevenue%5D&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
