@@ -333,6 +333,14 @@ export enum HostEvent {
      */
     Search = 'search',
     /**
+     * Trigger a drill on certain points by certain column
+     * @param points - an object containing selectedPoints/clickedPoints
+     *              eg. { selectedPoints: []}
+     * @param columnGuid - a string guid of the column to drill by. This is optional,
+     *                     if not provided it will auto drill by the configured column.
+     */
+    DrillDown = 'triggerDrillDown',
+    /**
      * Apply filters
      * @hidden
      */
