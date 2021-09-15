@@ -55,7 +55,7 @@ export interface SearchViewConfig extends ViewConfig {
     enableSearchAssist?: boolean;
     /**
      * If set to true, the tabular view is set as 
-     * the default format for presenting search data.
+     * the default format for presenting search data
      */
     forceTable?: boolean;
     /**
