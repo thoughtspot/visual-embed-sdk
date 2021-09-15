@@ -55,6 +55,7 @@ Disables or hides the specified action menu items in the **More** menu image:./i
 
 
 * To disable an action, specify the action string in the  `disabledActions` attribute. For example, to disable **Configure filters** in the **More** menu image:./images/icon-more-10px.png[the more options menu], specify the **ConfigureFilter** menu string in the `disabledActions` attribute as shown here:
+
 +
 ----
 disabledActions: [Action.ConfigureFilter]
@@ -184,6 +185,18 @@ To explore the pinboard embedding SDK functions:
 
 [width="100%"]
 |====
+
+a|**Full Height**
+
+Dynamically resizes the embedded pinboard frame according to the height of the pinboard.
+
+If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When **Full Height** is selected, the embedded pinboard frame is automatically adjusted according to the height of the pinboard.
+
++++
+<a href="{{previewPrefix}}/playground/pinboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
++++
+
+
 a|**Modify available actions **
 
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar on the *Pinboards* page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.

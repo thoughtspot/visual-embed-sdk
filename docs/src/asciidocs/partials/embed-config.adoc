@@ -3,9 +3,20 @@ autoLogin [small]#__Optional__#::
 
 __Boolean__. When set to `true`, an expired or timed-out user session is renewed automatically based on the authentication information from the previous session. This allows users to log in automatically without entering their credentials again. By default, the `autoLogin` attribute is set to `true`.
 
++
+[source,javascript]
+----
+ autoLogin: true
+----
 shouldEncodeUrlQueryParams [small]#__Optional__#::
 
 __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generated URLs are converted into the base64-encoded format. This attribute secures your ThoughtSpot clusters against cross-site scripting attacks. By default, the `shouldEncodeUrlQueryParams` is set to `false`.
+
++
+[source,javascript]
+----
+ shouldEncodeUrlQueryParams: true
+----
 
 suppressNoCookieAccessAlert [small]#__Optional__#::
 
@@ -13,4 +24,9 @@ __Boolean__. When set to `true`, it suppresses the `noCookieAccess` alert.
 
 +
 For enhanced security, most browsers allow cookies only if they originate from the same domain name as the main application URL. By default, Safari and Firefox block cookies from third-party content provider sites. If third-party cookies are blocked by a user's browser, the SDK triggers a `noCookieAccess` event that generates an alert. If you want to set your own alerts, you can set the `suppressNoCookieAccessAlert` attribute to `true`. 
- 
+
++
+[source,javascript]
+----
+ suppressNoCookieAccessAlert: true
+----

@@ -16,19 +16,19 @@ Import the visualization SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
 <script type='module'>
-import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { PinboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-== Add the embed domain
+== Initialize the SDK
 
-To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
+Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
@@ -58,6 +58,10 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
+== Prefetch static resources (Optional)
+
+include::{path}/prefetch-api.adoc[] 
+
 == Configure security parameters
 
 include::{path}/embed-config.adoc[]
@@ -83,7 +87,7 @@ include::{path}/embed-config.adoc[]
     },
 });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization. You can set the `width` and `height` attribute values in pixels or as a percentage.
+frameParams:: Sets the `width` and `height` dimensions to render the visualization object. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 disabledActions [small]_optional_::
 _Array of strings_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -164,18 +168,26 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'color',
+  columnName: 'Product Type',
   operator: RuntimeFilterOp.EQ,
-  values: [ 'red' ]
+  values: ['Jackets']
   }]
 ----
 
 
+columnName;;
+__String__. Name of the column to filter by. 
+
+operator;;
+__String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+
+values;;
+__String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
+
++
 ++++
 <a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
-
-include::{path}/runtime-filter.adoc[]
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
@@ -199,6 +211,7 @@ Register event handlers to subscribe to events triggered by the embedded visuali
  pinboardEmbed.on(EmbedEvent.init, showLoader)
  pinboardEmbed.on(EmbedEvent.load, hideLoader)
  pinboardEmbed.on(EmbedEvent.Error)
+ pinboardEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:

@@ -9,6 +9,47 @@
 
 This page lists the new features and enhancements introduced in the ThoughtSpot Developer portal, Visual Embed SDK, and REST APIs.
 
+== September 2021
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#New feature# a| *ThoughtSpot Everywhere License*
+
+ThoughtSpot now offers the ThoughtSpot Everywhere Edition license that grants access to ThoughtSpot Everywhere features. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. 
+
+The ThoughtSpot Everywhere Edition license can be used along with the ThoughtSpot Enterprise Cloud Service subscription. To activate ThoughtSpot Everywhere features on your ThoughtSpot Cloud cluster, you must purchase the ThoughtSpot Everywhere Edition license.
+
+The new licensing model introduces the following workflows in the ThoughtSpot UI:
+
+* By default, the ThoughtSpot Developer Portal displays a locked icon for the customization features on clusters that do not have the ThoughtSpot Everywhere Edition license. When you click the locked icon, the UI displays a page that prompts you to sign up for a free trial or upgrade your license.
+
+* The ThoughtSpot Enterprise Cloud service subscribers can start a 30-day free trial or initiate a license upgrade request from the UI.
+
+* Free trial users can now initiate a license upgrade request by clicking **Upgrade Now** at any time during the evaluation period or when the trial expires.
+
+For more information about the licensing model and upgrade process, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
+|====
+
+== Visual Embed SDK
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#New feature# a|**Prefetch API**
+
+The Visual Embed SDK now includes a prefetch API that helps prefetch static resources from a given cluster URL. The prefetched resources are cached locally on web browsers to provide faster access. You can enable the prefetch API call to reduce the response time in rendering embedded objects.
+
+| |
+
+|====
+
+
+
+
+
+
+
 == August 2021
 
 === Custom actions

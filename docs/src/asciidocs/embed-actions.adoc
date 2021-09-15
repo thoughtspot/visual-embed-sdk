@@ -29,6 +29,7 @@ For example, to disable the *Show underlying data* action from the *More* menu i
 disabledActions: [Action.ShowUnderlyingData]
 ----
 
+
 ++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
@@ -37,7 +38,6 @@ Similarly, to disable multiple actions, you can specify the action strings in th
 
 [source,JavaScript]
 ----
-
 disabledActions: [Action.AddFilter, Action.Present]
 ----
 

@@ -28,6 +28,7 @@
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
+** link:{{navprefix}}=events[Event subscription and handling]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]

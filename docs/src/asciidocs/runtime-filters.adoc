@@ -15,6 +15,7 @@ You can use runtime filters alongside the REST API and Visual Embed SDK to creat
 Runtime filters are passed as URL query parameters in the `GET` request methods. Make sure the filter values are URL encoded before passing them as parameters.
 ====
 
+[#runtimeFilterOp]
 == Runtime filter operators
 
 include::{path}/runtime-filter.adoc[]

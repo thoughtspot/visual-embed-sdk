@@ -49,7 +49,7 @@ The *Playground* allows you to explore the following Visual Embed SDK components
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the  Playground</a>
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the Playground</a>
 ++++
 
 

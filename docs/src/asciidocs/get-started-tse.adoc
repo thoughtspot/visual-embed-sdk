@@ -92,22 +92,21 @@ image::./images/trial-cluster-tse-license.png[]
 
 If you already have a ThoughtSpot Enterprise Cloud service subscription::
 
-You can upgrade your license to ThoughtSpot Everywhere Edition to start using ThoughtSpot Everywhere features on your cluster. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, playground, create custom actions, and get access to the Visual Embed SDK and REST APIs. 
+You can upgrade your license to ThoughtSpot Everywhere Edition to start using ThoughtSpot Everywhere features on your cluster. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, Playground, custom action workflows, Visual Embed SDK, and REST APIs. 
 
 +
 If the ThoughtSpot Developer portal is enabled on your cluster, but you do not have the ThoughtSpot Everywhere license, the **Customization** features such as *Custom actions*, *Security settings*, and *Link settings* are locked. To unlock these features, you must obtain the ThoughtSpot Everywhere Edition license. 
 
 If you do not have a ThoughtSpot Enterprise Cloud Service subscription::
 
-We recommend that you sign up for a free trial, try out ThoughtSpot features, and then upgrade your license. If you want to avail ThoughtSpot Everywhere   
-features, you will require the ThoughtSpot Everywhere Edition license along with the ThoughtSpot Enterprise Cloud service subscription. 
+We recommend that you sign up for a free trial, try out ThoughtSpot features, and then upgrade your license. To avail ThoughtSpot Everywhere features, you will require the ThoughtSpot Everywhere Edition license along with a ThoughtSpot Enterprise Cloud service subscription. 
 
 For more information about the licensing model, visit link:https://www.thoughtspot.com/pricing[https://www.thoughtspot.com/pricing, window=_blank].
 
 [#upgrade-license]
 == Initiate license upgrade from the UI
 
-ThoughtSpot users can trigger an upgrade request from the UI and enable ThoughtSpot Everywhere features on their cluster. When a ThoughtSpot user clicks on a locked customization menu action in the UI, the UI prompts them to upgrade or sign up for a free trial. 
+ThoughtSpot users can trigger an upgrade request from the UI and enable ThoughtSpot Everywhere features on their cluster. When a ThoughtSpot user clicks on a locked customization menu in the UI, the UI prompts them to upgrade or sign up for a free trial. 
 
 image::./images/paid-cluster-tse-license.png[]
 
