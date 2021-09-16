@@ -5,8 +5,10 @@ import {
     EmbedEvent,
     SearchEmbed,
     PinboardEmbed,
+    PinboardViewConfig,
     AppEmbed,
 } from '../index';
+import { Action } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
@@ -21,6 +23,7 @@ const defaultViewConfig = {
         height: 720,
     },
 };
+const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 
@@ -112,6 +115,32 @@ describe('Unit test case for ts embed', () => {
             expect(mockMixPanelEvent).toBeCalledWith(
                 MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
             );
+        });
+    });
+
+    describe('when visible actions are set', () => {
+        test('should throw error when there are both visible and hidden actions', async () => {
+            spyOn(console, 'log');
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                hiddenActions: [Action.DownloadAsCsv],
+                visibleActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                pinboardId,
+            } as PinboardViewConfig);
+            await pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(true);
+            expect(console.log).toHaveBeenCalledWith(
+                'You cannot have both hidden actions and visible actions',
+            );
+        });
+        test('should not throw error when there are only visible or hidden actions', async () => {
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                hiddenActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                pinboardId,
+            } as PinboardViewConfig);
+            pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(false);
         });
     });
 

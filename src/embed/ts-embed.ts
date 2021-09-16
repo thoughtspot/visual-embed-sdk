@@ -97,6 +97,13 @@ export interface ViewConfig {
      */
     hiddenActions?: Action[];
     /**
+     * The list of actions to display from the primary menu, more menu
+     * (...), and the contextual menu.
+     *
+     * @version 1.5.0
+     */
+    visibleActions?: Action[];
+    /**
      * The list of runtime filters to apply to a search answer,
      * visualization, or pinboard.
      */
@@ -290,6 +297,33 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
+
+        const {
+            disabledActions,
+            disabledActionReason,
+            hiddenActions,
+            visibleActions,
+        } = this.viewConfig;
+
+        if (visibleActions?.length && hiddenActions?.length) {
+            this.handleError(
+                'You cannot have both hidden actions and visible actions',
+            );
+            return queryParams;
+        }
+
+        if (disabledActions?.length) {
+            queryParams[Param.DisableActions] = disabledActions;
+        }
+        if (disabledActionReason) {
+            queryParams[Param.DisableActionReason] = disabledActionReason;
+        }
+        if (hiddenActions?.length) {
+            queryParams[Param.HideActions] = hiddenActions;
+        }
+        if (visibleActions?.length) {
+            queryParams[Param.VisibleActions] = visibleActions;
+        }
         return queryParams;
     }
 

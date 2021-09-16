@@ -82,6 +82,24 @@ describe('Pinboard/viz embed tests', () => {
         });
     });
 
+    test('should set visible actions', async () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            visibleActions: [
+                Action.DownloadAsCsv,
+                Action.DownloadAsPdf,
+                Action.DownloadAsXlsx,
+            ],
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleActions=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]#/embed/viz/${pinboardId}`,
+            );
+        });
+    });
+
     test('should enable viz transformations true', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,

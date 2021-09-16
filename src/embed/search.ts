@@ -117,9 +117,6 @@ export class SearchEmbed extends TsEmbed {
      */
     private getIFrameSrc(answerId: string, dataSources?: string[]) {
         const {
-            disabledActions,
-            disabledActionReason,
-            hiddenActions,
             hideResults,
             enableSearchAssist,
             forceTable,
@@ -144,15 +141,6 @@ export class SearchEmbed extends TsEmbed {
         }
         if (hideResults) {
             queryParams[Param.HideResult] = true;
-        }
-        if (disabledActions?.length) {
-            queryParams[Param.DisableActions] = disabledActions;
-        }
-        if (disabledActionReason) {
-            queryParams[Param.DisableActionReason] = disabledActionReason;
-        }
-        if (hiddenActions?.length) {
-            queryParams[Param.HideActions] = hiddenActions;
         }
         if (forceTable) {
             queryParams[Param.ForceTable] = true;

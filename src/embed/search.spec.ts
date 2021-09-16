@@ -159,7 +159,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&disableAction=[%22download%22,%22edit%22]&disableHint=Permission%20denied&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
             );
         });
     });
