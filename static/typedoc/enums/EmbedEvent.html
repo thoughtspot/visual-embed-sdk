@@ -94,6 +94,9 @@
 								<a href="EmbedEvent.html#Alert" class="tsd-kind-icon">Alert</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#AuthExpire" class="tsd-kind-icon">Auth<wbr>Expire</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="EmbedEvent.html#AuthInit" class="tsd-kind-icon">Auth<wbr>Init</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -109,12 +112,6 @@
 								<a href="EmbedEvent.html#Drilldown" class="tsd-kind-icon">Drilldown</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="EmbedEvent.html#EmbedHeight" class="tsd-kind-icon">Embed<wbr>Height</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="EmbedEvent.html#EmbedIframeCenter" class="tsd-kind-icon">Embed<wbr>Iframe<wbr>Center</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="EmbedEvent.html#Error" class="tsd-kind-icon">Error</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -125,6 +122,9 @@
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="EmbedEvent.html#NoCookieAccess" class="tsd-kind-icon">No<wbr>Cookie<wbr>Access</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#QueryChanged" class="tsd-kind-icon">Query<wbr>Changed</a>
 							</li>
 						</ul>
 					</li>
@@ -166,6 +166,9 @@
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
 					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#prefetch" class="tsd-kind-icon">prefetch</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -185,17 +188,17 @@
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Alert" class="tsd-kind-icon">Alert</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#AuthExpire" class="tsd-kind-icon">Auth<wbr>Expire</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#AuthInit" class="tsd-kind-icon">Auth<wbr>Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#CustomAction" class="tsd-kind-icon">Custom<wbr>Action</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Data" class="tsd-kind-icon">Data</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#DataSourceSelected" class="tsd-kind-icon">Data<wbr>Source<wbr>Selected</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Drilldown" class="tsd-kind-icon">Drilldown</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#EmbedHeight" class="tsd-kind-icon">Embed<wbr>Height</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#EmbedIframeCenter" class="tsd-kind-icon">Embed<wbr>Iframe<wbr>Center</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Error" class="tsd-kind-icon">Error</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Init" class="tsd-kind-icon">Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Load" class="tsd-kind-icon">Load</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#NoCookieAccess" class="tsd-kind-icon">No<wbr>Cookie<wbr>Access</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#QueryChanged" class="tsd-kind-icon">Query<wbr>Changed</a></li>
 							</ul>
 						</section>
 					</div>
@@ -209,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;alert&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L276">types.ts:276</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L280">types.ts:280</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -224,12 +227,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="AuthExpire" class="tsd-anchor"></a>
+					<h3>Auth<wbr>Expire</h3>
+					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Expire<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ThoughtspotAuthExpired&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L284">types.ts:284</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The ThoughtSpot auth session has expired.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="AuthInit" class="tsd-anchor"></a>
 					<h3>Auth<wbr>Init</h3>
 					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;authInit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L227">types.ts:227</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L233">types.ts:233</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;customAction&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L266">types.ts:266</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L270">types.ts:270</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -272,7 +290,7 @@
 					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L238">types.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L243">types.ts:243</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -292,7 +310,7 @@
 					<div class="tsd-signature tsd-kind-icon">Data<wbr>Source<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dataSourceSelected&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L260">types.ts:260</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L264">types.ts:264</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -312,7 +330,7 @@
 					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;drillDown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L255">types.ts:255</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L259">types.ts:259</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -333,52 +351,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="EmbedHeight" class="tsd-anchor"></a>
-					<h3>Embed<wbr>Height</h3>
-					<div class="tsd-signature tsd-kind-icon">Embed<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EMBED_HEIGHT&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L286">types.ts:286</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The height of the embedded pinboard or visualization has been computed.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt class="returns">returns</dt>
-							<dd><p>data - The height of the embedded pinboard or visualization</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="EmbedIframeCenter" class="tsd-anchor"></a>
-					<h3>Embed<wbr>Iframe<wbr>Center</h3>
-					<div class="tsd-signature tsd-kind-icon">Embed<wbr>Iframe<wbr>Center<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EmbedIframeCenter&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L291">types.ts:291</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The center of visible iframe viewport is calculated.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt class="returns">returns</dt>
-							<dd><p>data - The center of the visible Iframe viewport.</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Error" class="tsd-anchor"></a>
 					<h3>Error</h3>
 					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Error&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L271">types.ts:271</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L275">types.ts:275</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -398,7 +376,7 @@
 					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L222">types.ts:222</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L228">types.ts:228</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -418,13 +396,12 @@
 					<div class="tsd-signature tsd-kind-icon">Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;load&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L233">types.ts:233</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L238">types.ts:238</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The iFrame has loaded. This only refers to the iFrame load event
-							and does not mean the ThoughtSpot app has completed loading.</p>
+							<p>The embed object container has loaded.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="returns">returns</dt>
@@ -439,7 +416,7 @@
 					<div class="tsd-signature tsd-kind-icon">No<wbr>Cookie<wbr>Access<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;noCookieAccess&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L308">types.ts:308</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L313">types.ts:313</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -452,6 +429,21 @@
 							<dd><p>1.1.0</p>
 							</dd>
 						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="QueryChanged" class="tsd-anchor"></a>
+					<h3>Query<wbr>Changed</h3>
+					<div class="tsd-signature tsd-kind-icon">Query<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;queryChanged&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L252">types.ts:252</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Search query has been updated</p>
+						</div>
 					</div>
 				</section>
 			</section>

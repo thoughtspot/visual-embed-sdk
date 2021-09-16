@@ -121,9 +121,6 @@
 								<a href="SearchEmbed.html#render" class="tsd-kind-icon">render</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="SearchEmbed.html#test_setIframe" class="tsd-kind-icon">test_<wbr>set<wbr>Iframe</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="SearchEmbed.html#trigger" class="tsd-kind-icon">trigger</a>
 							</li>
 						</ul>
@@ -147,6 +144,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#prefetch" class="tsd-kind-icon">prefetch</a>
 					</li>
 				</ul>
 			</nav>
@@ -188,7 +188,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="SearchEmbed.html#navigateToPage" class="tsd-kind-icon">navigate<wbr>ToPage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="SearchEmbed.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="SearchEmbed.html#render" class="tsd-kind-icon">render</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="SearchEmbed.html#test_setIframe" class="tsd-kind-icon">test_<wbr>set<wbr>Iframe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="SearchEmbed.html#trigger" class="tsd-kind-icon">trigger</a></li>
 							</ul>
 						</section>
@@ -208,7 +207,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides TsEmbed.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/search.ts#L90">embed/search.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/embed/search.ts#L91">embed/search.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,13 +237,12 @@
 							<aside class="tsd-sources">
 								<p>Inherited from TsEmbed.navigateToPage</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/ts-embed.ts#L520">embed/ts-embed.ts:520</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/embed/ts-embed.ts#L560">embed/ts-embed.ts:560</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Navigate to particular page. eg:answers/pinboards/home
-									This is used for embedding answers, pinboards, visualizations and full application.</p>
+									<p>Navigates users to the specified application page. Use this method to navigate users from the embedded ThoughtSpot context to a specific page in your app.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -252,8 +250,7 @@
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The string, set to iframe src and navigate to new page
-										eg: appEmbed.navigateToPage(&#39;pinboards&#39;)</p>
+										<p>The page path string. For example, to navigate users to a pinboard page, define the method as navigateToPage(&#39;pinboard/&lt;pinboardId&gt;&#39;).</p>
 									</div>
 								</li>
 							</ul>
@@ -272,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from TsEmbed.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/ts-embed.ts#L498">embed/ts-embed.ts:498</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/embed/ts-embed.ts#L540">embed/ts-embed.ts:540</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,7 +308,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides TsEmbed.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/search.ts#L182">embed/search.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/embed/search.ts#L163">embed/search.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,30 +317,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="SearchEmbed.html" class="tsd-signature-type" data-tsd-kind="Class">SearchEmbed</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="test_setIframe" class="tsd-anchor"></a>
-					<h3>test_<wbr>set<wbr>Iframe</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">test_<wbr>set<wbr>Iframe<span class="tsd-signature-symbol">(</span>iframe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from TsEmbed.test_setIframe</p>
-								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/ts-embed.ts#L585">embed/ts-embed.ts:585</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>iframe: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -358,7 +331,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from TsEmbed.trigger</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/embed/ts-embed.ts#L560">embed/ts-embed.ts:560</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/embed/ts-embed.ts#L600">embed/ts-embed.ts:600</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

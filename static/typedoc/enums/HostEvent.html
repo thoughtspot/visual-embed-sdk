@@ -94,6 +94,9 @@
 						<a href="HostEvent.html" class="tsd-kind-icon">Host<wbr>Event</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="HostEvent.html#DrillDown" class="tsd-kind-icon">Drill<wbr>Down</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="HostEvent.html#Search" class="tsd-kind-icon">Search</a>
 							</li>
 						</ul>
@@ -133,6 +136,9 @@
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
 					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#prefetch" class="tsd-kind-icon">prefetch</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -152,6 +158,7 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DrillDown" class="tsd-kind-icon">Drill<wbr>Down</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#Search" class="tsd-kind-icon">Search</a></li>
 							</ul>
 						</section>
@@ -161,12 +168,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="DrillDown" class="tsd-anchor"></a>
+					<h3>Drill<wbr>Down</h3>
+					<div class="tsd-signature tsd-kind-icon">Drill<wbr>Down<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;triggerDrillDown&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L341">types.ts:341</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Trigger a drill on certain points by certain column</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="param">param</dt>
+							<dd><p>an object containing selectedPoints/clickedPoints
+								eg. { selectedPoints: []}</p>
+							</dd>
+							<dt class="param">param</dt>
+							<dd><p>a string guid of the column to drill by. This is optional,
+								if not provided it will auto drill by the configured column.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Search" class="tsd-anchor"></a>
 					<h3>Search</h3>
 					<div class="tsd-signature tsd-kind-icon">Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;search&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/1ada9a1/src/types.ts#L328">types.ts:328</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L333">types.ts:333</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
