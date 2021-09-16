@@ -140,6 +140,7 @@ Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share
 |tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
 |===
 
+image::./images/multi-tenant-database-model.png[Multi-tenant database model]
 === Single-tenant databases model
 The "single-tenant databases model" is designed on the following principles:
 
@@ -177,6 +178,7 @@ Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share
 |tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
 |===
 
+image::./images/single-tenant-database-model.png[Single-tenant database model]
 == Development and test content groups
 Most software development processes involve creating content in a restricted “development” environment, and then once the changes are finished, placing it in a “test” environment. Within a single ThoughtSpot instance, development and test content can be considered as another tenant's, with access restricted to only app developer users.
 
