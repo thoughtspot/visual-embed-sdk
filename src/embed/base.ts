@@ -32,8 +32,7 @@ export const getEmbedConfig = (): EmbedConfig => config;
 export const getAuthPromise = (): Promise<void> => authPromise;
 
 /**
- * Create a dummy iframe that prefetches the data from given cluster
- * authentication if applicable.
+ * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
  * @param url The URL provided for prefetch
  */
 export const prefetch = (url?: string): void => {

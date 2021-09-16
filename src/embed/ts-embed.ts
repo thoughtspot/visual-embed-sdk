@@ -70,7 +70,7 @@ export interface ViewConfig {
      */
     layoutConfig?: LayoutConfig;
     /**
-     * The height and width of the iFrame.
+     * The <b>width</b> and <b>height</b> dimensions to render an embedded object inside your app.  Specify the values in pixels or percentage.
      */
     frameParams?: FrameParams;
     /**
@@ -390,6 +390,7 @@ export class TsEmbed {
                 uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
 
                 this.iFrame = this.iFrame || document.createElement('iframe');
+
                 this.iFrame.src = url;
 
                 // according to screenfull.js documentation
@@ -553,10 +554,8 @@ export class TsEmbed {
     }
 
     /**
-     * Navigate to particular page. eg:answers/pinboards/home
-     * This is used for embedding answers, pinboards, visualizations and full application.
-     * @param path The string, set to iframe src and navigate to new page
-     * eg: appEmbed.navigateToPage('pinboards')
+     * Navigates users to the specified application page. Use this method to navigate users from the embedded ThoughtSpot context to a specific page in your app.
+     * @param path The page path string. For example, to navigate users to a pinboard page, define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
      */
     public navigateToPage(path: string): void {
         const iframeSrc = this.iFrame?.src;
@@ -619,12 +618,6 @@ export class TsEmbed {
         this.isRendered = true;
 
         return this;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    // eslint-disable-next-line camelcase
-    public test_setIframe(iframe: any): void {
-        this.iFrame = iframe;
     }
 }
 

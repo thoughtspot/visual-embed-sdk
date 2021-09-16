@@ -25,7 +25,10 @@ describe('Base TS Embed', () => {
         const tsEmbed = new index.SearchEmbed(getRootEl(), {});
         const iFrame: any = document.createElement('div');
         iFrame.contentWindow = null;
-        tsEmbed.test_setIframe(iFrame);
+        /* This will return a div instead of HTMLIframeElement in ts-embed.ts
+         * so that the promise doesn't fail on url assigment
+         */
+        jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
         tsEmbed.render();
 
         window.postMessage(
@@ -34,6 +37,7 @@ describe('Base TS Embed', () => {
             },
             '*',
         );
+
         jest.spyOn(window, 'alert').mockImplementation(() => {
             expect(window.alert).toBeCalledWith(
                 'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',

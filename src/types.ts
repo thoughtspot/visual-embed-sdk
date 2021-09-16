@@ -232,8 +232,7 @@ export enum EmbedEvent {
      */
     AuthInit = 'authInit',
     /**
-     * The iFrame has loaded. This only refers to the iFrame load event
-     * and does not mean the ThoughtSpot app has completed loading.
+     * The embed object container has loaded.
      * @return timestamp - The timestamp when the event was generated.
      */
     Load = 'load',
@@ -249,7 +248,6 @@ export enum EmbedEvent {
     FiltersChanged = 'filtersChanged',
     /**
      * Search query has been updated
-     * @hidden
      */
     QueryChanged = 'queryChanged',
     /**
@@ -282,17 +280,18 @@ export enum EmbedEvent {
     Alert = 'alert',
     /**
      * The ThoughtSpot auth session has expired.
-     * @hidden
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
      * The height of the embedded pinboard or visualization has been computed.
      * @return data - The height of the embedded pinboard or visualization
+     * @hidden
      */
     EmbedHeight = 'EMBED_HEIGHT',
     /**
      * The center of visible iframe viewport is calculated.
      * @return data - The center of the visible Iframe viewport.
+     * @hidden
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**

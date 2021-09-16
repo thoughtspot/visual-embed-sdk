@@ -66,7 +66,7 @@ describe('Unit test case for ts embed', () => {
                     handler({});
                 },
             );
-            tsEmbed.test_setIframe(iFrame);
+            jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
             tsEmbed.render();
         });
 
@@ -104,7 +104,7 @@ describe('Unit test case for ts embed', () => {
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
-            tsEmbed.test_setIframe(iFrame);
+            jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
             tsEmbed.render();
         });
 
