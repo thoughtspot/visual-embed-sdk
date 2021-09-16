@@ -5,7 +5,6 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-
 This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization.
 
 You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *PinboardEmbed* must exist on a pinboard object in ThoughtSpot.
@@ -125,16 +124,14 @@ For example, to hide *Download As PDF* action from the *More* menu image:./image
 ----
 hiddenActions: Action.DownloadAsPdf
 ----
-
-
 +
 ++++
 <a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
+
 +
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
 
 [NOTE]
 ====
