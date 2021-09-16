@@ -42,7 +42,12 @@ When a group is *NOT SHAREABLE*, the users within that group cannot share to tha
 
 When a user is set to *SHAREABLE*, other users within the same *SHAREABLE* group as that user can share content to them individually.
 
-An administrator account can share objects with any group, regardless of the shareable property. The non-admin users can only share to (1) *SHAREABLE* groups they belong to and (2) *SHAREABLE* users within those groups. *SHAREABLE* users' names are never seen by other users unless both users belong to the same *SHAREABLE* group.
+An administrator account can share objects with any group, regardless of the shareable property. The non-admin users can only share to:
+
+. *SHAREABLE* groups they belong to 
+. *SHAREABLE* users within those groups. 
+
+*SHAREABLE* users' names are never seen by other users unless both users belong to the same *SHAREABLE* group.
 
 To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable is up to you; if you prefer all sharing to be done at the group level, you can set all users to *NOT SHAREABLE*.
 
