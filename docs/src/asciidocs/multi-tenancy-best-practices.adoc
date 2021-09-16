@@ -51,9 +51,9 @@ We will call a database multi-tenanted when a single set of credentials can see 
 
 If the rules of multi-tenancy are more complex than a simple tenant key on each row of data, there should at least be one table which defines the tenants and can be joined in a way to filter the other tables appropriately.
 
-If the cloud data warehouse you are connecting to is multi-tenanted as described above, then you will only need one set of data objects in ThoughtSpot. The tables will be configured with row-level security (RLS), so that every query will filter against the tenant key in the database.
+If the cloud data warehouse you are connecting to is multi-tenanted as described above, then you will only need one set of data objects in ThoughtSpot. The tables will be configured with link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[row-level security (RLS), window=_blank], so that every query will filter against the tenant key in the database.
 
-If there is a separate database connection for each customer organization, then the database pattern is single-tenant, and you will need to create objects for each tenant. ThoughtSpot provides APIs and the TML document language for automating the creation / deployment of each tenant’s objects.
+If there is a separate database connection for each customer organization, then the database pattern is single-tenant, and you will need to create objects for each tenant. ThoughtSpot represents all data and content objects using the link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language, window=_blank], with xref:tml-api.adoc[REST APIs] for automating the creation / deployment of each tenant’s data and content objects via TML.
 
 === Access controls on content
 ThoughtSpot controls content access through the concept of sharing. Content in ThoughtSpot belongs to its creator (owner), and by default they are the only user who knows the content exists. This allows for self-service creation of new searches and pinboards.
@@ -68,7 +68,7 @@ When content is shared to a group, all of the members of that group will have ac
 
 Content can be shared as *Can View* / *READ_ONLY* or *Can Edit* / *MODIFY* (UI / REST API). In general, all content provided to end users from the app developer would be shared as *Can View* / *READ_ONLY*.
 
-Sharing can occur through the UI (including when embedded) or via the xref:user-api.adoc[security REST APIs]. 
+Sharing can occur through the UI (including when embedded) or via the xref:security-api.adoc[security REST APIs]. 
 
 === What content should be shared?
 While you can share individual tables from connections to users, the best practice is to create link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/worksheet-create.html[worksheets, window=_blank] and only share the relevant worksheets to end users. Any pinboards and saved answers shared to users should only connect to worksheets.
@@ -92,7 +92,8 @@ RLS can be considerably more complex than just splitting at the tenant level and
 ==== Column level security (CLS) groups 
 link:https://cloud-docs.thoughtspot.com/admin/data-security/share-source-tables.html[Column level security, window=_blank] (CLS) can be configured at the individual table level through sharing. As with row level security groups, the best practice is creating separate groups specifically for the CLS groups.
 
-== Best practices for multi-tenant and single-tenant data models
+== Best practices for multi-tenant database and single-tenant databases models
+There are two basic architectures for storing different tenants data within cloud data warehouses. The following sections describe a best practice starting point for deploying in ThoughtSpot depending on which of the architectures you have chosen for your CDW. REST APIs are available to deploy these patterns at scale. You can xref:group-api.adoc#create-group[create groups], xref:user-api.adoc#create-user[create users], xref:group-api.adoc#add-user-to-group[add users to groups], xref:tml-api.adoc[publish content from TML objects], and xref:security-api.adoc#share-object[share that content with the appropriate groups]. 
 
 === Multi-tenant database model
 The "multi-tenant database model" is designed on the following principles:
@@ -150,8 +151,6 @@ The template content itself will be built by the app developer, but will not be 
 ==== Content provided by app developer to each tenant group
 Each tenant should have a group used to give access to the content provided by the app developer - a tenant application group. Only the application developer would publish content to this group, and it should be set to *NOT SHAREABLE*.
 
-The process for deploying the content for each tenant from the template content is covered in the separate guide (Data Source and Content Templates with TML + REST API).
-
 ==== Content belonging to individual tenants
 To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHAREABLE*, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHAREABLE*. 
 
@@ -200,10 +199,11 @@ Tags can be used as part of searches using the Metadata REST APIs, with the cave
 
 === Tags do not provide tenant separation
 Tags have no ownership and exist at the Server level, and all tags that exist are visible to all users at any time. Tags are visible in many places within the UI, particularly in the following places:
-Data Source selector within Search
-List views of existing Answers, Pinboards, Worksheets and Tables.
 
-Why does this matter, even if you are only embedding Pinboards? SSO into ThoughtSpot creates a session that allows the user to go directly into the ThoughtSpot web UI if they find the underlying URL. While the URL is not obvious when embedding ThoughtSpot content, it is also not difficult to determine with basic knowledge of the web development tools built into web browsers.
+** Data Source selector within search 
+** Pages that list the existing answers, pinboards, worksheets and tables.
+
+Why does this matter, even if you are only embedding pinboards? SSO into ThoughtSpot creates a session that allows the user to go directly into the ThoughtSpot web UI if they find the underlying URL. While the URL is not obvious when embedding ThoughtSpot content, it is also not difficult to determine with basic knowledge of the web development tools built into web browsers.
 
 === Tags can be used for other distinctions and filtering
 A good use case for tags would be a “standard reports” tag, to identify content provided by the app developer. When using the REST API to determine the content a given user has access to, the “standard reports” tag would allow you to divide between content created by the app developer and content created by the tenants themselves. 
