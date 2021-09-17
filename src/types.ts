@@ -269,6 +269,11 @@ export enum EmbedEvent {
      */
     CustomAction = 'customAction',
     /**
+     * A double click has been triggered on table/chart
+     * @return ContextMenuInputPoints - data point that is double clicked
+     */
+    VizPointDoubleClick = 'vizPointDoubleClick',
+    /**
      * An error has occurred.
      * @return error - An error object or message
      */
