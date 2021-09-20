@@ -9,4 +9,23 @@ Shares ThoughtSpot objects with another user or user group.
 `xref:security-api.adoc#shareviz[**POST** /tspublic/v1/security/shareviz]`
 
 Shares a specific visualization with another user or user group.
+
++++<p class="divider"> </p>+++
+ 
+`xref:security-api.adoc#obj-permission-all[**GET** /tspublic/v1/security/metadata/permissions]`  [tag greenBackground]#New#
+
+Gets object permission details for a specific object type.
+
++++<p class="divider"> </p>+++
+ 
+`xref:security-api.adoc#obj-permission-id[**GET** /tspublic/v1/security/metadata/{id}/permissions]`  [tag greenBackground]#New#
+
+Gets object permission details for a specific object ID.
+
++++<p class="divider"> </p>+++
+ 
+`xref:security-api.adoc#get-obj-perm-bulk[**GET** /tspublic/v1/security/effectivepermissionbulk]`  [tag greenBackground]#New#
+
+Gets object permission details for multiple object types and IDs.
+
 --

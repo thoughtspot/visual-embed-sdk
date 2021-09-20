@@ -97,10 +97,17 @@ _Boolean_. Dynamically resizes the embedded pinboard frame according to the heig
 +
 If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded pinboard frame is automatically adjusted according to the height of the pinboard, and the second scroll bar does not appear.
 
+
+defaultHeight::
+
+_Integer_. Minimum height to set for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to from the pinboard page. The default value is `500` pixels.
+
+
 +
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
 
 disabledActions::
 _Array of strings_. The action menu items to be disabled on the pinboards page.

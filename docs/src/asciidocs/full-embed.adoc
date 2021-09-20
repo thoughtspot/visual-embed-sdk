@@ -21,7 +21,7 @@ The full embedded ThoughtSpot content gives your users the ability to perform ma
 
 
 === Limitations
-Users in a fully  embedded application cannot perform the following tasks:
+Users in a fully embedded application cannot perform the following tasks:
 
 * create worksheets
 * create views
@@ -165,6 +165,7 @@ _Boolean_. When set to `true`, the help and user profile buttons are hidden on t
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on a pinboard or visualization page.

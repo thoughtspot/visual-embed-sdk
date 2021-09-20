@@ -86,7 +86,6 @@ To obtain full access to ThoughtSpot Everywhere features, click on a locked menu
 
 image::./images/trial-cluster-tse-license.png[]
  
-
 [#purchase-license]
 == Get ThoughtSpot Everywhere license
 
@@ -112,7 +111,7 @@ image::./images/paid-cluster-tse-license.png[]
 
 * To upgrade your subscription, click **Upgrade**.
 +
-A chat widget to appears. You can start a conversation with a ThoughtSpot Sales representative to initiate the upgrade.
+A Live Chat Support widget appears. You can connect to a ThoughtSpot Sales representative to initiate the license upgrade.
 * To evaluate ThoughtSpot Everywhere features, click **Try for free**.
 +
 A 30-day free trial is activated on your cluster. You can click **Upgrade now** to upgrade your license at any time during the trial period or when the trial expires.

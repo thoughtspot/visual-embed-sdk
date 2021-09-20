@@ -1,15 +1,20 @@
-== Customize page navigation
-
+== Add a custom action for in-app navigation
 
 :page-title: Customize page navigation
-:page-pageid: page-navigation
+:page-pageid: in-app-navigation
 :page-description: Customized page navigation
 
 To provide quick access to a related report or saved answer within the context of an embedded pinboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app.  
 
 The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.  
 
-In this example, the **View report ** action on a pinboard page triggers a callback function and navigates users to a specific saved answer page within the context of an app. 
+To add a custom action for in-app navigation, follow these steps:
+
+. xref:custom-actions-callback.adoc[Add a custom action].
+. Register the callback in the Visual Embed SDK
+. Define the page path 
+ 
+In this example, the **view-report ** action on a pinboard page calls the `navigateTo` method to open a specific saved answer page when a user clicks the **View report** button in the embedded app. 
 
 [source,javascript]
 ----
@@ -21,4 +26,3 @@ pinboardEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
     }
 })
 ----
-

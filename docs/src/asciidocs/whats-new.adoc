@@ -11,82 +11,114 @@ This page lists the new features and enhancements introduced in the ThoughtSpot 
 
 == September 2021
 
-=== ThoughtSpot Everywhere Edition License
-
+=== ThoughtSpot Developer Portal
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#New feature# a| *ThoughtSpot Everywhere License*
+|[tag greenBackground]#New feature# a| +++<h5>+++New ThoughtSpot Everywhere Edition license+++</h5>+++
 
-ThoughtSpot now offers the ThoughtSpot Everywhere Edition license that grants access to ThoughtSpot Everywhere features. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. 
+ThoughtSpot now offers the ThoughtSpot Everywhere Edition license that grants full access to ThoughtSpot Everywhere features such as the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. If you have a ThoughtSpot Enterprise Cloud Service subscription and you want to avail the benefits of ThoughtSpot Everywhere, you can upgrade your license.
 
-The ThoughtSpot Everywhere Edition license can be used along with the ThoughtSpot Enterprise Cloud Service subscription. To activate ThoughtSpot Everywhere features on your ThoughtSpot Cloud cluster, you must purchase the ThoughtSpot Everywhere Edition license. 
+The ThoughtSpot Developer Portal displays a locked icon next to the customization menu actions on clusters that _do not_ have the ThoughtSpot Everywhere Edition license. When you clicked the locked icon, ThoughtSpot prompts you to sign up for a free trial or upgrade your license. 
 
-For more information, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
-
-|[tag greenBackground]#New feature# a| *License workflows* 
-
-The new licensing model introduces the following workflows in the ThoughtSpot Developer portal:
-
-* By default, the ThoughtSpot Developer Portal displays a locked icon for the customization features on clusters that _do not_ have the ThoughtSpot Everywhere Edition license. When you click the locked icon, the UI displays a page that prompts you to sign up for a free trial or upgrade your license.
-
-* The ThoughtSpot Enterprise Cloud service subscribers can start a 30-day free trial or initiate license upgrade from the UI.  
-
-* Free trial users can now initiate a license upgrade request by clicking **Upgrade Now** at any time during the evaluation period or when the trial expires.
-
-* On clicking *Upgrade*, ThoughtSpot opens the Live Chat widget to initiate a conversation with the Sales personnel who can assist you with the license upgrade.  
+* The Live Playground users can sign up for a free trial and evaluate ThoughtSpot Everywhere features.
+* The ThoughtSpot Enterprise Cloud service subscribers can either start a 30-day free trial or initiate a license upgrade from the UI.  
+* Free trial users can initiate a license upgrade request by clicking **Upgrade Now** at any time during the evaluation period or when the trial expires.
+* If you click *Upgrade* or **Upgrade Now**, ThoughtSpot opens the Live Chat Support widget. You can start a conversation with the Sales personnel and initiate the license upgrade.  
 
 For more information about the licensing model and upgrade process, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
+
+|[tag greenBackground]#New feature#  a| +++<h5>+++Developer Playground enhancements+++</h5>+++
+
+* The *Full app* Playground page includes the *Hide profile and help* checkbox to provide a preview of the `disableHelpAndProfile`  function that can hide the Help and Profile icons in the navigation bar.
+
+* The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.  
+
+For more information, see xref:developer.playground.adoc[Developer Playground].
 |====
 
-=== Developer Playground
-
-[width="100%" cols="1,4"]
-|====
-|[tag greenBackground]#New feature#  a| Full app 
-
-The Playground for full app now includes the *Hide profile and help* checkbox. When you select this  checkbox, the `disableProfileAndHelp` attribute is 
-Full app - Hide profile and help
-Pinboard - Full height
-|====
-
-=== Visual Embed SDK enhancements
+=== Visual Embed SDK Version 1.4.0
 
 The ThoughtSpot 7 Cloud September release supports Visual Embed SDK version 1.4.0, which includes the following  features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#New feature# a|**Prefetch API**
+|[tag greenBackground]#New feature# a|+++<h5>+++Prefetch API+++</h5>+++
 
-The Visual Embed SDK now includes a prefetch API that helps prefetch static resources from a given cluster URL. The prefetched resources are cached locally on web browsers to provide faster access. You can enable the prefetch API call to reduce the response time in rendering embedded objects.
+The `prefetch` API  fetches static resources from a given URL before your application loads. Web browsers can cache the prefetched resources locally and serve them from a user's local disk. You can use this API for the faster loading of embedded objects. 
 
-|[tag greenBackground]#New feature# a| *Custom page navigation*
+|[tag greenBackground]#New feature# a|+++<h5>+++In-app page navigation+++</h5>+++
 
-disableProfileAndHelp
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI to call the `navigateToPage` method and lead your users to the page specified in the `path` parameter.
 
-forceTable
+For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
-hideObjects
+|[tag greenBackground]#New feature# a|+++<h5>+++Full application embedding+++</h5>+++
 
-QueryChanged
+The `appEmbed` SDK package includes the following new attributes: 
 
-AuthExpired
+* The `disableProfileAndHelp` attribute to show or hide the Help (?) and the user profile menu in the navigation bar of your embedded app. If you have embedded full ThoughtSpot application with the naviagtion bar, the Help (?) and the user profile menu icons are enabled by default.
 
-Drilldown
+* The `hideObjects` attribute to hide specific objects from a users' page view.  
 
-defaultHeight
+For more information, see xref:full-embed.adoc[Embed full application].
 
+|[tag greenBackground]#New feature# |+++<h5>+++Search embed +++</h5>+++
 
+The `searchEmbed` package includes the `forceTable` attribute that sets the tabular view as the default format for presenting search data. You can use set this attribute to `true` to force search results to display in the table view. 
+
+For more information, see xref:embed-search.adoc[Embed ThoughtSpot search].
+
+|[tag redBackground]#Removed# | 
+
+The `searchQuery` parameter is no longer supported and is removed from the `searchEmbed` SDK package.  
+
+|[tag greenBackground]#New feature# a|+++<h5>+++Pinboard embed +++</h5>+++
+
+The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to. 
+ 
+For more information, see xref:embed-search.adoc[Embed a pinboard].
+
+|[tag greenBackground]#New feature# a|+++<h5>+++Embed events +++</h5>+++
+The SDK EmbedEvent library includes the following events: 
+
+* `QueryChanged`
+* `AuthExpired`
+* `Drilldown`
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 |====
 
+=== REST APIs
+
+The ThoughtSpot 7 Cloud September release includes the following new endpoints and modifications to the REST APIs. For more information, see xref:rest-api-reference.adoc[REST API Reference].
+
+[width="100%" cols="1,4"]
+|===
+||
+|[tag greenBackground]#New endpoints# a| 
+* `POST /tspublic/v1/connection/create`
+* `POST /tspublic/v1/connection/update`
+* `POST /tspublic/v1/connection/export`
+* `POST /tspublic/v1/connection/delete`
+* `POST /tspublic/v1/metadata/unassigntag`
+* `GET /tspublic/v1/metadata/list`
+* `GET /tspublic/v1/security/metadata/permissions`
+* `GET /tspublic/v1/security/metadata/{id}/permissions`  
+* `GET /tspublic/v1/security/effectivepermissionbulk` 
+* `GET /tspublic/v1/session/info`
+
+|[tag orangeBackground]#Modified#  a| * `POST /tspublic/v1/metadata/assigntag`
+|===
 
 
+[div divider]
 
+--
 
-
-
+--
 == August 2021
 
 === Custom actions
@@ -186,9 +218,9 @@ The ThoughtSpot 7 Cloud August release introduces several new APIs to xref:user-
 
 For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference].
 
-++++
-<div class="divider"> </div>
-++++
+[div divider]
+--
+--
 
 == June 2021
 

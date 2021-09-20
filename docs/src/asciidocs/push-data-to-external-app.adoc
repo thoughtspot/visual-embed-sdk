@@ -24,9 +24,7 @@ To push data to an external app through a callback custom action, follow these s
 
 [#add-callback]
 === Add a callback custom action in the ThoughtSpot
-You can create a custom action in the ThoughtSpot to register a callback for sending data. To add a custom action for callback, go to *Develop* > *Customization* > *Actions* > *Create action*.
-
-For more information, see xref:custom-actions-callback.adoc[Configure a callback custom action].
+You can xref:custom-actions-callback.adoc[Create a callback custom action] in the ThoughtSpot Developer portal (*Develop* > *Customization* > *Actions* > *Create action*) or using the xref:admin-api.adoc#create-custom-action[/tspublic/v1/admin/embed/actions] REST API. 
 
 [#register-callback]
 === Register the callback through the Visual Embed SDK
