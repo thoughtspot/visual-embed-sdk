@@ -30,7 +30,7 @@
 ** link:{{navprefix}}=full-embed[Embed full application]
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
 ** link:{{navprefix}}=events[Event subscription and handling]
-** link:{{navprefix}}=page-navigation[Customize page navigation]
+** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
 
