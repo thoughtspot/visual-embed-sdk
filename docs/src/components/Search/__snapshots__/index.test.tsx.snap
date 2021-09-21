@@ -50,13 +50,11 @@ exports[`Search should highlight text on key down arrow down and arrow up  1`] =
             <p
               class="title"
             >
-              test
+              test title
             </p>
             <p
               class="footer"
-            >
-              test title
-            </p>
+            />
           </div>
         </a>
         <a
@@ -73,13 +71,11 @@ exports[`Search should highlight text on key down arrow down and arrow up  1`] =
             <p
               class="title"
             >
-              test
+              test title
             </p>
             <p
               class="footer"
-            >
-              test title
-            </p>
+            />
           </div>
         </a>
         <div
@@ -158,13 +154,11 @@ exports[`Search should render correctly with options 1`] = `
             <p
               class="title"
             >
-              test
+              test title
             </p>
             <p
               class="footer"
-            >
-              test title
-            </p>
+            />
           </div>
         </a>
         <a
@@ -181,13 +175,11 @@ exports[`Search should render correctly with options 1`] = `
             <p
               class="title"
             >
-              test
+              test title
             </p>
             <p
               class="footer"
-            >
-              test title
-            </p>
+            />
           </div>
         </a>
         <div

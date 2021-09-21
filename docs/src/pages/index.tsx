@@ -34,6 +34,7 @@ import {
 import { SearchQueryResult } from '../interfaces';
 import { getAllPageIds } from '../components/LeftSidebar/helper';
 import t from '../utils/lang-utils';
+import algoliasearch from 'algoliasearch';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -163,7 +164,6 @@ const IndexPage = ({ location }) => {
     // fetch adoc translated doc edges using graphql
     const {
         allAsciidoc: { edges },
-        localSearchPages: { index, store },
     } = useStaticQuery(
         graphql`
             query {
@@ -187,10 +187,6 @@ const IndexPage = ({ location }) => {
                         }
                     }
                 }
-                localSearchPages {
-                    index
-                    store
-                }
             }
         `,
     );
@@ -198,20 +194,48 @@ const IndexPage = ({ location }) => {
     useEffect(() => {
         setAllPageIds(getAllPageIds(navContent));
     }, [navContent]);
+    const [results,setResults]=useState([]);
 
-    const results = useFlexSearch(keyword, index, store).reduce((acc, cur) => {
-        if (
-            !acc.some((data) => data.pageid === cur.pageid) &&
-            allPageIds.includes(cur.pageid)
-        ) {
-            acc.push(cur);
+    const searchClient = React.useMemo(
+        () =>
+          algoliasearch(
+            process.env.GATSBY_ALGOLIA_APP_ID,
+            process.env.GATSBY_ALGOLIA_SEARCH_KEY
+          ),
+        []
+      );
+    const searchIndex = searchClient.initIndex('Pages');
+
+    useEffect(()=>{
+        if(keyword) {
+            searchIndex
+            .search(keyword)
+            .then(({ hits }) => {
+                const t = hits.reduce((acc, cur:any) => {
+                    if(cur.typedoc) {
+                        acc.push(cur);
+                    }
+                    else if(cur.pageid) {
+                        if (
+                            !acc.some((data) => data.pageid === cur.pageid) &&
+                            allPageIds.includes(cur.pageid)
+                        ) {
+                            acc.push(cur);
+                        }
+                    }
+                    return acc;
+                },[]);
+                setResults(t);
+            })
+            .catch(err => {
+                console.log(err);
+            });
         }
-        return acc;
-    }, []);
-
-    const optionSelected = (pageid: string) => {
+    },[keyword]);
+    
+    const optionSelected = (pageid: string, sectionId: string) => {
         updateKeyword('');
-        navigate(`${params[NAV_PREFIX]}=${pageid}`);
+        navigate(`${params[NAV_PREFIX]}=${pageid}#${sectionId}`);
     };
 
     const isMaxMobileResolution = !(width < MAX_MOBILE_RESOLUTION);

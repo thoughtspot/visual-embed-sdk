@@ -18,7 +18,7 @@ type SearchProps = {
     keyword: string;
     isMaxMobileResolution: boolean;
     isDarkMode: boolean;
-    optionSelected: (pageid: string) => void;
+    optionSelected: (pageid: string, sectionId:string) => void;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
     updateKeyword: Function;
     setDarkMode: Function;
@@ -33,10 +33,12 @@ const Search: React.FC<SearchProps> = (props) => {
     const [highlightedIndex, setHighlightedIndex] = useState(0);
 
     useEffect(() => {
-        if (props.options.length > 0) {
+        if (props.options.length > 0 && props.keyword) {
             updateShowSearchResult(true);
+        } else {
+            updateShowSearchResult(false) 
         }
-    }, [props.options]);
+    }, [props.keyword, props.options]);
 
     // This handles the mouse click events for suggestion list
     const handleClick = (event: Event) => {
@@ -81,9 +83,10 @@ const Search: React.FC<SearchProps> = (props) => {
                     }
                     props.updateKeyword('');
                 } else {
-                    props.optionSelected(
+                     props.optionSelected(
                         props.options[highlightedIndex].pageid,
-                    );
+                        props.options[highlightedIndex].sectionId,
+                     );
                 }
                 setHighlightedIndex(0);
                 return;
@@ -108,8 +111,8 @@ const Search: React.FC<SearchProps> = (props) => {
                         <SearchResult
                             highlightedIndex={highlightedIndex}
                             index={index}
-                            keyword={props.keyword}
-                            title={option.title}
+                            keyword={option.title}
+                            title={option._snippetResult && option._snippetResult.body.value}
                         />
                     </a>
                 );
@@ -136,7 +139,7 @@ const Search: React.FC<SearchProps> = (props) => {
                     <div
                         key={option.pageid}
                         className="result"
-                        onClick={() => props.optionSelected(option.pageid)}
+                        onClick={() => props.optionSelected(option.pageid,option.sectionId)}
                         ref={(el: HTMLDivElement) => {
                             optionListRef.current[index] = el;
                         }}
@@ -144,8 +147,8 @@ const Search: React.FC<SearchProps> = (props) => {
                         <SearchResult
                             highlightedIndex={highlightedIndex}
                             index={index}
-                            keyword={props.keyword}
-                            title={option.title}
+                            keyword={option.sectionTitle}
+                            title={option._snippetResult && option._snippetResult.body.value}
                         />
                     </div>
                 );

@@ -1,5 +1,5 @@
+require("dotenv").config();
 const asciidoc = require('asciidoctor')();
-const { htmlToText } = require('html-to-text');
 const config = require('./docs/src/configs/doc-configs');
 
 const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default build env
@@ -7,20 +7,6 @@ const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default bu
 const getPathPrefix = () => {
     return 'docs';
 };
-
-const stripLinks = (text) => {
-    if (text) {
-        const re = /<a\s.*?href=[\"\'](.*?)[\"\']*?>(.*?)<\/a>/g;
-        const str = text;
-        const subst = '$2';
-        const result = str.replace(re, subst);
-        return result;
-    }
-    return '';
-};
-
-const getTextFromHtml = (html) =>
-    htmlToText(stripLinks(html)).replace(/\r?\n|\r/g, ' ');
 
 const getPath = (path) =>
     getPathPrefix() ? `${path}/${getPathPrefix()}` : path;
@@ -161,105 +147,6 @@ module.exports = {
             },
         },
         {
-            resolve: 'gatsby-plugin-local-search',
-            options: {
-                name: 'pages',
-                engine: 'flexsearch',
-                engineOptions: {
-                    encode: 'icase',
-                    tokenize: 'forward',
-                    threshold: 8,
-                    resolution: 9,
-                    depth: 1,
-                },
-                query: `
-                query {
-                    allAsciidoc(sort: { fields: [document___title], order: ASC }) {
-                        edges {
-                            node {
-                                document {
-                                    title
-                                }
-                                pageAttributes {
-                                    pageid
-                                    title
-                                    description
-                                }
-                                html
-                            }
-                        }
-                    }
-                    allFile(filter: {sourceInstanceName: {eq: "htmlFiles"}}) {
-                        edges {
-                          node {
-                            extension
-                            dir
-                            name
-                            relativePath
-                            childHtmlRehype {
-                              html
-                              htmlAst
-                            }
-                          }
-                        }
-                    }
-                }
-                `,
-                ref: 'pageid',
-                index: ['title', 'body', 'pageid'],
-                store: ['title', 'pageid', 'type', 'link'],
-                normalizer: ({ data }) => {
-                    return [
-                        ...data.allAsciidoc.edges
-                            .filter(
-                                (edge) =>
-                                    edge.node.pageAttributes.pageid &&
-                                    edge.node.pageAttributes.pageid !== 'nav',
-                            )
-                            .map((edge) => {
-                                const pageid = edge.node.pageAttributes.pageid;
-                                const body =
-                                    edge && edge.node
-                                        ? getTextFromHtml(edge.node.html)
-                                        : '';
-                                return {
-                                    pageid,
-                                    body,
-                                    type: 'ASCII',
-                                    link: '',
-                                    title: edge.node.document.title,
-                                };
-                            }),
-                        ...data.allFile.edges
-                            .filter((edge) => edge.node.extension === 'html')
-                            .map((edge) => {
-                                const pageid = edge.node.name;
-                                const body =
-                                    edge &&
-                                    edge.node &&
-                                    edge.node.childHtmlRehype
-                                        ? getTextFromHtml(
-                                              edge.node.childHtmlRehype.html,
-                                          )
-                                        : '';
-                                return {
-                                    body,
-                                    pageid,
-                                    type: edge.node.extension,
-                                    title: edge.node.childHtmlRehype.htmlAst.children.find(
-                                        (children) =>
-                                            children.tagName === 'title',
-                                    ).children[0].value,
-                                    link: `${getPath(config.DOC_REPO_NAME)}/${
-                                        config.TYPE_DOC_PREFIX
-                                    }/${edge.node.relativePath}`,
-                                };
-                            }),
-                    ];
-                },
-            },
-        },
-        {
             resolve: 'gatsby-transformer-rehype',
             options: {
                 mediaType: 'text/html',
@@ -283,5 +170,13 @@ module.exports = {
             },
         },
         'gatsby-plugin-output',
+        {
+            resolve: `gatsby-plugin-algolia`,
+            options: {
+              appId: process.env.GATSBY_ALGOLIA_APP_ID,
+              apiKey: process.env.ALGOLIA_ADMIN_KEY,
+              queries: require(`${__dirname}/docs/src/utils/algolia-queries`)
+            },
+        }
     ],
 };

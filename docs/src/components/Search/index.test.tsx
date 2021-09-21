@@ -129,7 +129,7 @@ describe('Search', () => {
             fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
         })
 
-        expect(queryAllByTestId('search-result')[0].firstChild.textContent).toBe('test');
+        expect(queryAllByTestId('search-result')[0].firstChild.textContent).toBe('test title');
         expect(input.value).toBe('test');
     })
 
