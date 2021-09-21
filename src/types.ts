@@ -117,6 +117,7 @@ export interface EmbedConfig {
     /**
      * Calls the prefetch method internally when set to true
      * @default false
+     * @since 1.5.0_
      */
     callPrefetch?: boolean;
 }
@@ -343,6 +344,7 @@ export enum HostEvent {
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column.
+     * @since 1.5.0_
      */
     DrillDown = 'triggerDrillDown',
     /**

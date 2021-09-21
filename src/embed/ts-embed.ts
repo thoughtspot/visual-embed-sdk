@@ -100,7 +100,7 @@ export interface ViewConfig {
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
      *
-     * @version 1.5.0
+     * @since 1.5.0
      */
     visibleActions?: Action[];
     /**
@@ -554,8 +554,13 @@ export class TsEmbed {
     }
 
     /**
-     * Navigates users to the specified application page. Use this method to navigate users from the embedded ThoughtSpot context to a specific page in your app.
-     * @param path The page path string. For example, to navigate users to a pinboard page, define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
+     * Navigates users to the specified application page.
+     * Use this method to navigate users from the embedded
+     * ThoughtSpot context to a specific page in your app.
+     * @param path The page path string. 
+     * For example, to navigate users to a pinboard page,
+     * define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
+     * @since 1.5.0_
      */
     public navigateToPage(path: string): void {
         const iframeSrc = this.iFrame?.src;
