@@ -510,7 +510,7 @@ The following example shows the metadata details of a pinboard object:
 [#metadata-list]
 == Get a list of metadata objects
 
-To get a list metadata objects from the ThoughtSpot resource repository, send a `GET` request to the `/tspublic/v1/metadata/list` API endpoint.
+To get a list of metadata objects from the ThoughtSpot resource repository, send a `GET` request to the `/tspublic/v1/metadata/list` API endpoint.
 
 === Resource URL
 ----
@@ -550,7 +550,7 @@ The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types ar
 ====
 The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 ====
-|`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object sub types such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
+|`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object subtypes such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
 |`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To filter data by category, specify one of the following values:
 
 * `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
