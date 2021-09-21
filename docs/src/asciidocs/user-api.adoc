@@ -359,7 +359,7 @@ If no `userid` or `name` attribute is specified, the API returns a response with
 |**500**| Invalid user ID
 |===
 
-////
+[#activate-user]
 == Activate a user account
 
 To activate a user account, send a `POST` request to the `/tspublic/v1/user/activate` API endpoint. 
@@ -376,15 +376,156 @@ POST /tspublic/v1/user/activate
 |===
 |Form Parameter|Description
 |`userid`|__String__. The GUID of the user account to activate.
-|`auth_token`|__String__. The authentication token for user sessions.
-|`password`|__String__. Password of the user account.
-|`properties`|__Array of Strings__. A JSON map of the user properties to update the user account.
+|`auth_token`|__String__. The authentication token to renew user sessions.
+|`password` __Optiona__.|__String__. New password of the user account.
+|`properties`|__Array of Strings__.  A JSON map of the user properties to update the user account.
 |===
 
 === Example request
 
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
+-d 'userid=fd91f861-3ae6-4bf5-b831-25131b402389&auth_token=gv4HjljdCZKbN4LMEHNn0p7ct12%2F4KSaCwKDfu%2FUVnA%3D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate'
+----
 
-////
+.Request URL
+
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d
+----
+
+=== Example response
+
+If the user account activation is successful, the API returns the following response:
+
+----
+Response Code
+200
+----
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**200** |Successful operation
+|**403**| Unauthorized request
+|**500**| Invalid  user ID
+|===
+
+[#deactivate-user]
+== Deactivate a user account
+
+To deactivate a user account, send a `POST` request to the `/tspublic/v1/user/inactivate` API endpoint. 
+
+=== Resource URL
+----
+POST /tspublic/v1/user/inactivate
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`username`|__String__. Username or the GUID of the user account to deactivate.
+|`url`|__String__.The URL of the cluster on which the user account is currently active.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' \
+-d 'username=usr1&url=https%3A%2F%2Fsep-us-west-10.thoughtspotstaging.cloud%2F' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate'
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate
+----
+
+=== Example response
+
+If the user deactivation operation is successful, the API returns the following response:
+
+----
+Response Code
+200
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**200** |Successful operation
+|**403**| Unauthorized request
+|**500**| Invalid  user ID
+|===
+
+[#invalidate-user-session]
+== Invalidate a user session
+
+To invalidate and revoke a user session, send a `POST` request to the `/tspublic/v1/user/session/invalidate` API endpoint. When you invalidate a user session, users are logged out and are forced to log in again. 
+
+ 
+=== Resource URL
+----
+POST /tspublic/v1/user/session/invalidate
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`username`|__Array of strings__. A JSON array of usernames of the users whose sessions you want to revoke.
+|`userid`|__Array of strings__. A JSON array of the GUIDs of the user account.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' -d 'username=%5B%22tsadmin%22%5D' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/session/invalidate'
+Request URL
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/session/invalidate
+----
+
+=== Example response
+
+If the user deactivation operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|====
+|HTTP status code|Description
+|**200** |Successful operation
+|**403**| Unauthorized request
+|**500**| Invalid  user ID
+|====
 
 [#delete-user]
 == Delete a user account
@@ -566,7 +707,12 @@ POST /tspublic/v1/user/updatepassword
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=guest&currentpassword=test&password=foobarfoobar' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'name=guest&currentpassword=test&password=foobarfoobar' 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
@@ -580,6 +726,54 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 |===
 |HTTP status code|Description
 |**200**|Password update is successful.
+|===
+
+[#resetpassword]
+== Reset a user's password
+
+To reset the password of a ThoughtSpot user account, send a `POST` request to the `/tspublic/v1/user/resetpassword` API endpoint.
+
+
+=== Resource URL
+----
+POST /tspublic/v1/user/resetpassword
+----
+=== Request parameters
+
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Form Parameter|Description
+|`userid` |__String__. GUID of the user account for which you want to reset the password.
+|`auth_token`|__String__. The authentication token used for the user session.
+|`password`|__String__. A new password string for the user account.
+|====
+
+=== Example request
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**200**|Password reset is successful.
+|**401**|Unauthorized request
+|**500**|Invalid parameter.
 |===
 
 [#updatepreference-api]

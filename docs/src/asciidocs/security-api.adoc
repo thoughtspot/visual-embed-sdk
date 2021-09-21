@@ -266,7 +266,7 @@ POST /tspublic/v1/security/effectivepermissionbulk
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
-For example, to get permission details for specific pinboard and answers, specify the value of `idsbytype` as shown below:
+For example, to get permission details for specific pinboards and answers, specify the value of `idsbytype` as shown here:
 ----
 {"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
 ----

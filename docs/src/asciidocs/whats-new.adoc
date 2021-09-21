@@ -109,6 +109,10 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 * `GET /tspublic/v1/security/metadata/{id}/permissions`  
 * `GET /tspublic/v1/security/effectivepermissionbulk` 
 * `GET /tspublic/v1/session/info`
+* `POST /tspublic/v1/user/activate`
+* `POST /tspublic/v1/user/inactivate`
+* `POST /tspublic/v1/user/session/invalidate`
+* `POST /tspublic/v1/user/resetpassword`
 
 |[tag orangeBackground]#Modified#  a| * `POST /tspublic/v1/metadata/assigntag`
 |===
