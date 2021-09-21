@@ -560,7 +560,6 @@ export class TsEmbed {
      * @param path The page path string. 
      * For example, to navigate users to a pinboard page,
      * define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
-     * @since 1.5.0_
      */
     public navigateToPage(path: string): void {
         const iframeSrc = this.iFrame?.src;

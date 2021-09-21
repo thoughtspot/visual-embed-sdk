@@ -34,7 +34,6 @@ export const getAuthPromise = (): Promise<void> => authPromise;
 /**
  * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
  * @param url The URL provided for prefetch
- * @since 1.5.0_
  */
 export const prefetch = (url?: string): void => {
     if (url === '') {

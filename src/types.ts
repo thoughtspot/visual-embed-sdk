@@ -117,7 +117,6 @@ export interface EmbedConfig {
     /**
      * Calls the prefetch method internally when set to true
      * @default false
-     * @since 1.5.0_
      */
     callPrefetch?: boolean;
 }
