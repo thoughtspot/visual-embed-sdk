@@ -26,8 +26,8 @@ import { V1Embed, ViewConfig } from './ts-embed';
  */
 export interface PinboardViewConfig extends ViewConfig {
     /**
-     * If set to true, the iFrame will adjust to the full height
-     * of the pinboard after loading.
+     * If set to true, the embedded object container dynamically resizes
+     * according to the height of the pinboard.
      */
     fullHeight?: boolean;
     /**
