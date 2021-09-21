@@ -343,7 +343,7 @@ export enum HostEvent {
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column.
-     * @since 1.5.0_
+     * _since: 1.5.0_
      */
     DrillDown = 'triggerDrillDown',
     /**
