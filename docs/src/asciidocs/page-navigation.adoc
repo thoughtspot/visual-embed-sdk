@@ -1,4 +1,4 @@
-== Add a custom action for in-app navigation
+= Add a custom action for in-app navigation
 
 :page-title: Customize page navigation
 :page-pageid: in-app-navigation
