@@ -649,42 +649,6 @@ Response Code
 |**500**| Invalid group or user ID 
 |===
 
-[#addMembers]
-== Add members to a group
-
-[#assign-group]
-== Assign groups to another group
-
-[#modify-group-hierarchy]
-== Update the groups assigned to a parent group
-
-[#]
-
-
-
-
-
-
-[#removeMembers]
-
-== Remove members from a group
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 [#delete-group]
 == Delete a user group
