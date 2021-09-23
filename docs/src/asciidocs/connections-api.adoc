@@ -72,7 +72,6 @@ _String_.The schema of the tables associated with the database.
 __String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your Snowflake account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
 ////
 
-
 ====
 --
 
@@ -358,7 +357,7 @@ include::{path}/connection-apis.adoc[]
 [#cre-connection]
 == Add a data connection for live query service
 
-ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data sources and set up a live query service, use the `/tspublic/v1/connection/create` API. 
+ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
 
 === Resource URL
 ----
@@ -1123,7 +1122,7 @@ Gets all live query objects set up on the cluster
 
 * `MY`
 +
-Gets a list of live query objects that are set up in the current logged-in user's account.
+Gets a list of live query objects that are set up on your cluster.
 
 |`sort` __Optional__ a|__String__. Sort order for the headers. Valid values are:
 
@@ -1278,7 +1277,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 [export-connections]
 == Export a connection map
 
-To export metada of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
+To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
 
 === Resource URL
 ----
@@ -1333,7 +1332,6 @@ Click the link in the `Response body` to download the YAML file.
 | The connection could not be deleted.
 |===
 
-
 [del-connection]
 == Delete a data connection
 
@@ -1341,7 +1339,7 @@ To delete a data connection, send a `POST` request to the `/tspublic/v1/connecti
 
 [IMPORTANT]
 ====
-A connection can be used in multiple data sources or visualizations. If the data connection has dependent objects, make sure you remove its associations before deleting. 
+A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation. 
 ====
  
 === Resource URL
