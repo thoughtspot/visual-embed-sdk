@@ -271,7 +271,7 @@ export enum EmbedEvent {
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * @since version 1.5.0
+     * _since: 1.5.0_
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
