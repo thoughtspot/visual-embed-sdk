@@ -61,7 +61,7 @@ Resets the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]`  [tag greenBackground]#New#
+`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` [tag greenBackground]#New#
 
 Invalidates a user session.
 
