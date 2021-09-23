@@ -188,6 +188,22 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
+== Define a method to process callback custom actions payload
+
+include::{path}/callback-payload.adoc[]
+
+== Subscribe to events
+
+Register event handlers to subscribe to events:
+
+[source,javascript]
+----
+ pinboardEmbed.on(EmbedEvent.init, showLoader)
+ pinboardEmbed.on(EmbedEvent.load, hideLoader)
+----
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
+
 == Render the embedded visualization
 Construct the URL for the embedded visualization and render the embedded content:
 
@@ -195,35 +211,6 @@ Construct the URL for the embedded visualization and render the embedded content
 ----
 pinboardEmbed.render();
 ----
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
-
-== Subscribe to events
-Register event handlers to subscribe to events triggered by the embedded visualizations:
-
-[source,javascript]
-----
- pinboardEmbed.on(EmbedEvent.init, showLoader)
- pinboardEmbed.on(EmbedEvent.load, hideLoader)
- pinboardEmbed.on(EmbedEvent.Error)
- pinboardEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
-----
-
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
-
-[source, javascript]
-----
- pinboardEmbed.on(EmbedEvent.customAction, payload => {
-      const data = payload.data;
-      if (data.id === 'insert Custom Action ID here') {
-          console.log('Custom Action event:', data.embedAnswerData);
-      }
-  })
-
-----
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
@@ -235,5 +222,5 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

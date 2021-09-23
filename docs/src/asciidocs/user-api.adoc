@@ -462,7 +462,7 @@ curl -X POST \
 .Request URL
 
 ----
-https://sep-eu-central-41.thoughtspotstaging.cloud/callosum/v1/tspublic/v1/user/activate
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate
 ----
 
 === Example response

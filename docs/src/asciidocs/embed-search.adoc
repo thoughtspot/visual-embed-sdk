@@ -161,7 +161,7 @@ _Boolean_. When set to `true`, the tabular view is set as the default format for
 ++++
 
 hideResults [small]#__Optional__#::
-_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a search data.
+_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved answer.
 
 +
 ++++
@@ -241,29 +241,15 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function:
+Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function. 
 
 [source, javascript]
 ----
  searchEmbed.on(EmbedEvent.Init, showLoader) 
  searchEmbed.on(EmbedEvent.Load, hideLoader) 
- searchEmbed.on(EmbedEvent.Error)
- searchEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
 ----
-
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
-
-[source, javascript]
-----
- searchEmbed.on(EmbedEvent.customAction, payload => {
-	const data = payload.data;
-	if(data.id === 'insert Custom Action ID here') {
-		console.log('Custom Action event:', data.embedAnswerData);
-	}
-})
-----
-
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}enums/embedevent.html[EmbedEvent, window=_blank].
+ 
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 == Render the embedded search
 
@@ -284,5 +270,5 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

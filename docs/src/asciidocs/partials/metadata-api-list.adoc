@@ -52,5 +52,4 @@ Adds objects to favorites for a given user account.
 `xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
 
 Removes the objects from a user's favorites list.
-
 --

@@ -67,7 +67,7 @@ Invalidates a user session.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#deactivate-user[**POST **/tspublic/v1/user/inactivate]`  [tag greenBackground]#New#
+`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  [tag greenBackground]#New#
 
 Deactivates a user account.
 
