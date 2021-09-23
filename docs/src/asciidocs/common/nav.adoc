@@ -8,6 +8,7 @@
 * link:{{navprefix}}=whats-new[What's new]
 * link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
+** link:{{navprefix}}=get-started-tse[Get started]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Developer Playground]
 
@@ -28,7 +29,10 @@
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
+** link:{{navprefix}}=events[Event subscription and handling]
+** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
+
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
 ** link:{{navprefix}}=customize-actions[Custom actions page]

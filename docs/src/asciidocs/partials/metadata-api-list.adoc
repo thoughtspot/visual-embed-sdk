@@ -1,21 +1,33 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]`
+`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` [tag orangeBackground]#Modified#
 
 Assigns tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
 
 +++<p class="divider"> </p>+++
 
-`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]`
+`xref:metadata-api.adoc#unassign-tags [*POST* /tspublic/v1/metadata/unassigntag]` [tag greenBackground]#New#
+
+Removes tag associations to metadata objects.
+
++++<p class="divider"> </p>+++
+
+`xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]` 
 
 Gets metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
 
 +++<p class="divider"> </p>+++
 
+`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` [tag greenBackground]#New#
+
+Gets a list of all metadata objects from the ThoughtSpot resource repository.
+
++++<p class="divider"> </p>+++
+
 `xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]` 
 
-Gets a list of metadata objects for a user or user group.
+Gets a list of metadata objects that are available to a user or user group.
 
 +++<p class="divider"> </p>+++
 
@@ -40,5 +52,4 @@ Adds objects to favorites for a given user account.
 `xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]`
 
 Removes the objects from a user's favorites list.
-
 --

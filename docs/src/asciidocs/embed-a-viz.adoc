@@ -5,7 +5,6 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-
 This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization.
 
 You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *PinboardEmbed* must exist on a pinboard object in ThoughtSpot.
@@ -16,19 +15,19 @@ Import the visualization SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
 <script type='module'>
-import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { PinboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-== Add the embed domain
+== Initialize the SDK
 
-To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
+Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
@@ -58,6 +57,10 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
+== Prefetch static resources (Optional)
+
+include::{path}/prefetch-api.adoc[] 
+
 == Configure security parameters
 
 include::{path}/embed-config.adoc[]
@@ -83,7 +86,7 @@ include::{path}/embed-config.adoc[]
     },
 });
 ----
-frameParams:: Sets the `width` and `height` dimensions to render the iframe containing the visualization. You can set the `width` and `height` attribute values in pixels or as a percentage.
+frameParams:: Sets the `width` and `height` dimensions to render the visualization object. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 disabledActions [small]_optional_::
 _Array of strings_. Disables the specified action menu items from the *More* menu image:./images/icon-more-10px.png[the more options menu] on the visualization page.
@@ -121,16 +124,14 @@ For example, to hide *Download As PDF* action from the *More* menu image:./image
 ----
 hiddenActions: Action.DownloadAsPdf
 ----
-
-
 +
 ++++
 <a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
+
 +
 For a complete list of action menu items and the corresponding strings to use for hiding menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
 
 [NOTE]
 ====
@@ -152,7 +153,7 @@ enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
 preventPinboardFilterRemoval::
-_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter applied to a visualization.
+_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a pinboard visualization.
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
@@ -164,20 +165,44 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'color',
+  columnName: 'Product Type',
   operator: RuntimeFilterOp.EQ,
-  values: [ 'red' ]
+  values: ['Jackets']
   }]
 ----
 
 
+columnName;;
+__String__. Name of the column to filter by. 
+
+operator;;
+__String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+
+values;;
+__String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
+
++
 ++++
 <a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
-include::{path}/runtime-filter.adoc[]
-
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
+
+== Define a method to process callback custom actions payload
+
+include::{path}/callback-payload.adoc[]
+
+== Subscribe to events
+
+Register event handlers to subscribe to events:
+
+[source,javascript]
+----
+ pinboardEmbed.on(EmbedEvent.init, showLoader)
+ pinboardEmbed.on(EmbedEvent.load, hideLoader)
+----
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 == Render the embedded visualization
 Construct the URL for the embedded visualization and render the embedded content:
@@ -186,34 +211,6 @@ Construct the URL for the embedded visualization and render the embedded content
 ----
 pinboardEmbed.render();
 ----
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
-
-== Subscribe to events
-Register event handlers to subscribe to events triggered by the embedded visualizations:
-
-[source,javascript]
-----
- pinboardEmbed.on(EmbedEvent.init, showLoader)
- pinboardEmbed.on(EmbedEvent.load, hideLoader)
- pinboardEmbed.on(EmbedEvent.Error)
-----
-
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
-
-[source, javascript]
-----
- pinboardEmbed.on(EmbedEvent.customAction, payload => {
-      const data = payload.data;
-      if (data.id === 'insert Custom Action ID here') {
-          console.log('Custom Action event:', data.embedAnswerData);
-      }
-  })
-
-----
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
@@ -225,5 +222,5 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

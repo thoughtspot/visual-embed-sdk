@@ -120,12 +120,10 @@ If the user group is successfully created in ThoughtSpot, the API returns the us
 |HTTP status code|Description
 |**200**| Successful operation
 |**401**| Unauthorized request
-|**403**| Forbidden client
 |**500**| Incorrect password format
 |===
 
 [#update-group]
-
 == Update a user group
 
 If you have admin user privileges, you can programmatically modify the properties of a group using the `/tspublic/v1/group/{groupid}` API. Using this API, you can assign also privileges and modify group visibility.
@@ -148,7 +146,11 @@ PUT /tspublic/v1/group/{groupid}
 
 .cURL
 ----
-curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content=%7B%20%20%20%22userGroupContent%22%3A%20%7B%20%20%20%20%20%22schemaVersion%22%3A%20%224%22%20%20%20%7D%2C%20%20%20%22groupIdx%22%3A%202%2C%20%20%20%22metadataVersion%22%3A%20-1%2C%20%20%20%22assignedPinboards%22%3A%20%5B%5D%2C%20%20%20%22assignedGroups%22%3A%20%5B%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_GROUP%22%2C%20%20%20%22parenttype%22%3A%20%22GROUP%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20Group%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20Group%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624882497992%2C%20%20%20%20%20%22modified%22%3A%201624882497992%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content=%7B%20%20%20%22userGroupContent%22%3A%20%7B%20%20%20%20%20%22schemaVersion%22%3A%20%224%22%20%20%20%7D%2C%20%20%20%22groupIdx%22%3A%202%2C%20%20%20%22metadataVersion%22%3A%20-1%2C%20%20%20%22assignedPinboards%22%3A%20%5B%5D%2C%20%20%20%22assignedGroups%22%3A%20%5B%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_GROUP%22%2C%20%20%20%22parenttype%22%3A%20%22GROUP%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20Group%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20Group%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624882497992%2C%20%20%20%20%20%22modified%22%3A%201624882497992%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
 ----
 
 .Request URL
@@ -212,7 +214,6 @@ Response Code
 |HTTP status code|Description
 |**204**| Successful operation
 |**403**| Unauthorized request
-|**403**| Forbidden client
 |**500**| Invalid content format
 |===
 
@@ -300,9 +301,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-
 [options='header']
 |===
 |HTTP status code|Description
-|**200** | Successful retrieval of user group details 
-|**400**| Invalid group name string
-|**500**| Invalid group ID
+|**200**| Successful retrieval of user group details 
+|**400**| Invalid parameter
 |===
 
 [#add-privilege]
@@ -322,7 +322,7 @@ POST /tspublic/v1/group/addprivilege
 ----
 === Request parameters
 
-This API uses `multipart/form-data` content-type. 
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
 
 [width="100%" cols="2,4"] 
 [options='header']
@@ -365,15 +365,21 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
+=== Example response
+
+If the privilege assignment is successful, the API returns the group metadata with the updated privilege details.
+
 === Response codes
 
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|Privilege added
-|**204**|Successful operation
-|**401**|Failure/Unauthorized request
+|**200**
+
+**204**|Successful operation
+|**415**|Invalid content type
+|**401**|Unauthorized request
 |===
 
 [#remove-privilege]
@@ -386,6 +392,8 @@ To programmatically delete a privilege assigned to a user group, use the `/tspub
 POST /tspublic/v1/group/removeprivilege
 ----
 === Request parameters
+
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -433,9 +441,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|Privilege removed
-|**204**|Successful operation
-|**401**|Failure/Unauthorized request
+|**200**
+
+ **204**|Successful operation
+|**400**|Invalid parameter type
+|**415**|Invalid content type
 |===
 
 [#add-user-to-group]
@@ -463,11 +473,14 @@ POST /tspublic/v1/group/{groupid}/user/{userid}
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
 ----
 
 .Request URL
-
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6
 ----
@@ -485,9 +498,8 @@ Response Code
 [options='header']
 |===
 |HTTP status code|Description
-|**204** | Successful operation
-|**403**| Forbidden client
-|**500**| Invalid group or user ID 
+|**204** |Successful operation
+|**400**| Invalid parameter
 |===
 
 [#get-users-group]
@@ -495,7 +507,6 @@ Response Code
 To get the details of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/listuser/{groupid}` API endpoint. 
 
 === Resource URL
-
 ----
 GET /tspublic/v1/group/listuser/{groupid}
 ----
@@ -592,6 +603,461 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
   }
 ]
 ----
+[#editusersInGroup]
+== Update users assigned to a group
+
+To add or update the list of users assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/users`.
+
+=== Resource URL
+----
+PUT /tspublic/v1/group/{groupid}/users
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Parameter|Description
+|`groupid`|__String__. The GUID of the user group to which you want to add the user.
+|`userids`|__String__. A JSON array of the user GUIDs that you want to add or modify.
+|====
+ 
+=== Example request
+
+.cURL
+----
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'groupid=876b3cf1-8a20-4210-b671-506eaaa5005e&userids=%5B%22d02210b1-f836-4f84-a0dd-5f555f0a65d1%22%2C%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%5D' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/users'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/users
+----
+
+=== Example response
+
+If the group update operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|===
+
+[#addMembers]
+== Add members to a group
+
+To add users to one or several groups, send a `POST` request to the `/tspublic/v1/group/addmemberships` endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/group/addmemberships
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`userids`|__String__. The GUIDs of the users to add to the specified groups.
+|`groupids`|__String__. The GUID of the user groups to which you want to add the specified `userids`.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST \   
+--header 'Content-Type: multipart/form-data'
+--header 'X-Requested-By : ThoughtSpot' \
+--header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+--header 'Accept: application/json' \
+-F 'userids=%20%7B%20%20%22id%22%3A%20%22630ff91e-059d-4a43-b3b6-4f7d311399c3%22%2C%20%20%22id%22%3A%20%22f3794755-f09b-486d-8a6a-4d64a14ca707%22%7D%20' \
+-F 'groupids=%5B%22ccd2edcc-a1b8-4ea4-8edc-8e06ff2aa920%22%5D;type=application/json' \
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**|Invalid parameter
+|**415**|Invalid content type
+|===
+
+[#assign-group]
+== Assign groups to another group
+
+ThoughtSpot allows you to configure hierarchical groups. You can create a master group and assign other groups to it. For example, you can create a master group called `Site` and assign your tenant or ThoughtSpot user groups to this group. The subgroups inherit the privileges from their parent group. 
+
+To assign groups to a specific group, send a `POST` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/group/{groupid}/groups
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`principalids`|__String__. A JSON array of the GUIDs of the groups to assign.
+|`groupid`|__String__. The GUID of the group to which you want to assign the group IDs specified in the `principalids` attribute.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'principalids=%5B%22b9541f8f-06cc-4295-8acc-cb57cfba8ced%22%2C%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%5D&groupid=27ffc229-a3e7-4c46-aed8-26cad6b395ed' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups
+----
+
+=== Example response
+
+If the group assignment is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#modifySubgroup]
+== Update subgroup objects of a group
+
+To update the subgroups assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
+
+=== Resource URL
+----
+PUT /tspublic/v1/group/{groupid}/groups
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`principalids`|__String__. A JSON array of the subgroup GUIDs.
+|`groupid`|__String__. The GUID of the group that you want to update.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X PUT  \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'principalids=%5B%22b9541f8f-06cc-4295-8acc-cb57cfba8ced%22%2C%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%5D&groupid=27ffc229-a3e7-4c46-aed8-26cad6b395ed' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups
+----
+
+=== Example response
+
+If the group update operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#get-children]
+== Get a list of subgroups from a group object
+
+To get a list subgroups associated with a group object, send a `GET` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/group/{groupid}/groups
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Path Parameter|Description
+|`groupid`|__String__. The GUID of the group that you want to query.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/982d6da9-9cd1-479e-b9a6-35aa05f9282a/groups'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/982d6da9-9cd1-479e-b9a6-35aa05f9282a/groups
+----
+
+=== Example response
+
+If the GET operation is successful, the API returns the details of the subgroups mapped to the specified group ID.
+
+[Source,JSON]
+----
+[
+  {
+    "userGroupContent": {},
+    "groupIdx": 2,
+    "metadataVersion": -1,
+    "assignedPinboards": [],
+    "assignedGroups": [
+      "982d6da9-9cd1-479e-b9a6-35aa05f9282a"
+    ],
+    "inheritedGroups": [
+      "982d6da9-9cd1-479e-b9a6-35aa05f9282a"
+    ],
+    "privileges": [
+      "DATADOWNLOADING",
+      "USERDATAUPLOADING"
+    ],
+    "type": "LOCAL_GROUP",
+    "parenttype": "GROUP",
+    "visibility": "DEFAULT",
+    "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "displayName": "user group 2",
+    "header": {
+      "id": "fc883cd4-edd9-47c5-80c3-09f8af3a17fc",
+      "indexVersion": 305,
+      "generationNum": 305,
+      "name": "user_group2",
+      "displayName": "user group 2",
+      "description": "",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created": 1632296030814,
+      "modified": 1632296031005,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "fc883cd4-edd9-47c5-80c3-09f8af3a17fc",
+      "isDeleted": false,
+      "isHidden": false,
+      "tags": [],
+      "type": "LOCAL_GROUP",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": [],
+    "isSystemPrincipal": false
+  },
+  {
+    "userGroupContent": {},
+    "groupIdx": 2,
+    "metadataVersion": -1,
+    "assignedPinboards": [],
+    "assignedGroups": [
+      "982d6da9-9cd1-479e-b9a6-35aa05f9282a"
+    ],
+    "inheritedGroups": [
+      "982d6da9-9cd1-479e-b9a6-35aa05f9282a"
+    ],
+    "privileges": [
+      "DATADOWNLOADING",
+      "USERDATAUPLOADING"
+    ],
+    "type": "LOCAL_GROUP",
+    "parenttype": "GROUP",
+    "visibility": "DEFAULT",
+    "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "displayName": "User Group",
+    "header": {
+      "id": "24ac76b8-c1ec-43ee-84d4-3974b95bf163",
+      "indexVersion": 305,
+      "generationNum": 305,
+      "name": "UserGroup",
+      "displayName": "User Group",
+      "description": "",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created": 1632295966888,
+      "modified": 1632295967093,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "24ac76b8-c1ec-43ee-84d4-3974b95bf163",
+      "isDeleted": false,
+      "isHidden": false,
+      "tags": [],
+      "type": "LOCAL_GROUP",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": [],
+    "isSystemPrincipal": false
+  }
+]
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#del-child-groups]
+== Remove subgroups from a group
+
+To delete subgroup from a group object, send a `DELETE` request to the `/tspublic/v1/group/{groupid}/groups` endpoint. 
+
+[NOTE]
+====
+The `DELETE /tspublic/v1/group/{groupid}/groups` operation removes only the group associations. If you want to delete the remove the group from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/group/{groupid}` endpoint. 
+====
+
+=== Resource URL
+----
+DELETE /tspublic/v1/group/{groupid}/groups
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`principalids`|__String__. A JSON array of the subgroup GUIDs that you want to delete.
+|`groupid`|__String__. The GUID of the group from which you want remove the group association. 
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X DELETE \
+--header 'Accept: application/json' \ 
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'principalids=%5B%2224ac76b8-c1ec-43ee-84d4-3974b95bf163%22%5D&groupid=982d6da9-9cd1-479e-b9a6-35aa05f9282a' 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups
+----
+
+=== Example response
+
+If the delete operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#removeMembers]
+== Remove members from a group
+
+To remove users from groups, send a `POST` request to the `/tspublic/v1/group/removememberships` endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/group/removememberships
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`userids`|__String__. The GUID of the user that you want to remove from the specified `groupids`.
+|`groupids`|__String__. The GUID of the user group from which you want to remove the sepcified `userids`.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X POST \   
+--header 'Content-Type: multipart/form-data'
+--header 'X-Requested-By : ThoughtSpot' \
+--header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+--header 'Accept: application/json' \
+-F 'userids=%20%7B%20%20%22id%22%3A%20%22630ff91e-059d-4a43-b3b6-4f7d311399c3%22%2C%20%20%22id%22%3A%20%22f3794755-f09b-486d-8a6a-4d64a14ca707%22%7D%20' \
+-F 'groupids=%5B%22ccd2edcc-a1b8-4ea4-8edc-8e06ff2aa920%22%5D;type=application/json' \
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|**415**| Invalid content type
+|===
 
 [#delete-user-assoc]
 == Delete a user from a user group
@@ -604,7 +1070,6 @@ The API removes only the user association. It does not delete the user from the 
 ====
 
 === Resource URL
-
 ----
 DELETE /tspublic/v1/group/{groupid}/user/{userid}
 ----
@@ -614,15 +1079,17 @@ DELETE /tspublic/v1/group/{groupid}/user/{userid}
 [options='header']
 |===
 |Path Parameter|Description
-|`groupid`|__String__. The GUID of the user group from which you want to remove the user.
 |`userid`|__String__. The GUID of the user that you want to remove from the group.
+|`groupid`|__String__. The GUID of the user group from which you want to remove the user.
 |===
 
 === Example request
 
 .cURL
 ----
-curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
 ----
 
 .Request URL
@@ -645,7 +1112,7 @@ Response Code
 |===
 |HTTP status code|Description
 |**204** | Successful operation
-|**403**| Forbidden client
+|**403**| Unauthorized request
 |**500**| Invalid group or user ID 
 |===
 
@@ -671,11 +1138,12 @@ DELETE /tspublic/v1/group/{groupid}
 
 .cURL
 ----
-curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
 ----
 
 .Request URL
-
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/0f7af46f-e48c-4cca-b60f-d63d5ddbe59f
 ----

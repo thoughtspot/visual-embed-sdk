@@ -21,7 +21,7 @@ To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspub
 Before you apply a tag, make sure the tags are created and available for assignment.
 [NOTE]
 ====
-Only ThoughtSpot admin users can create a tag. Any ThoughtSpot user with edit permissions can assign a tag to an object.
+Only ThoughtSpot admin users can create a tag. ThoughtSpot users with edit permissions can assign a tag to an object.
 ====
 
 === Resource URL
@@ -30,18 +30,22 @@ POST /tspublic/v1/metadata/assigntag
 ----
 
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`id`|string|The GUID of the metadata object to tag. For example, a pinboard or visualization. If you want to assign the same tag to several objects, specify the GUID of the metadata objects.
-|`type` __Optional__ |string a|Type of the metadata object. Specify one of the following values as a metadata object type:
+|Form Parameter|Description
+|`id`|__String__. A JSON array of the metadata object GUIDs. For example, a pinboard or answer.
+|`type` __Optional__  a|__String__. Type of the metadata object. Specify any of following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-|`tagid`|string|The GUID of the tag to assign.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+
+For example, if you want to assign a tag named `Sales` to a pinboard and answer, specify a JSON array of the pinboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
+
+|`tagid`|__String__. A JSON array of the GUIDs of the tags that you want to apply to the specified objects. The `tagid` attribute is optional if the `tagname` attribute is specified.
+|`tagname`|__String__. A JSON array of the names of tags that you want to apply to the specified objects. The `tagname` attribute is optional if `tagid` is specified.
 |====
 
 === Example request
@@ -49,7 +53,10 @@ POST /tspublic/v1/metadata/assigntag
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
+-d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
 ----
 
 .Request URL
@@ -75,6 +82,73 @@ Response code
 |**500**|Invalid metadata object ID
 |===
 
+[#unassign-tags]
+== Unassign tags
+
+To remove the tags assigned to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/metadata/unassigntag` endpoint.
+
+=== Resource URL
+----
+POST /tspublic/v1/metadata/unassigntag
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Parameter|Description
+|`id`|__String__. A JSON array of the pinboard and answer GUIDs for which you want to remove the tags.
+|`type` __Optional__  a|__String__. Type of the metadata object. Specify any of the following values as a metadata object type:
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+
+For example, if you want to remove a tag named `Sales` from a pinboard and answer, specify a JSON array of the pinboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
+
+|`tagid`|__String__. A JSON array of the GUIDs of the tags assigned to the specified object.
+|`tagname`|__String__. A JSON array of the names of the tags assigned to the specified objects.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot'
+-d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \ 'https:/<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag
+----
+
+=== Example response
+
+If the tag removal operation is successful, the API returns the following repsonse:
+
+----
+Response code
+
+204
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP code|Description
+|**204**|Successful application of tag to a metadata object
+|**400**|Invalid parameter value
+|**500**|Invalid metadata object ID
+|===
+
+
 [#metadata-details]
 == Get metadata details
 To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.
@@ -84,24 +158,25 @@ To get the metadata details of one or several objects, use the `/tspublic/v1/met
 GET /tspublic/v1/metadata/details
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`type`|string a|Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
+|Query Parameter|Description
+|`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `TAG` for tag objects.
+* `DATA_SOURCE` for data source connections from which the metadata objects were loaded.
 * `USER` for user objects.
 * `USER_GROUP` for user group objects.
-|`id`|string|A JSON array of GUIDs of the objects.
-|`showhidden` |boolean|When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
-|`dropquestiondetails`|boolean|When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
-|`version` __Optional__|long integer|Object version. By default, the API returns metadata for all versions of the object.
+|`id`|__String__. A JSON array of GUIDs of the objects.
+|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
+|`dropquestiondetails`|__Boolean__. When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
+|`version` __Optional__|__Long integer__. Object version. By default, the API returns metadata for all versions of the object.
 |====
 
 === Example request
@@ -109,7 +184,10 @@ GET /tspublic/v1/metadata/details
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/details?type=QUESTION_ANSWER_BOOK&id=%5B%22999edb43-7957-495c-bfdf-d2a9de2a4fd6%22%5D&showhidden=false&dropquestiondetails=false'
+curl -X GET
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/details?type=QUESTION_ANSWER_BOOK&id=%5B%22999edb43-7957-495c-bfdf-d2a9de2a4fd6%22%5D&showhidden=false&dropquestiondetails=false'
 ----
 
 .Request URL
@@ -429,6 +507,226 @@ The following example shows the metadata details of a pinboard object:
 |*400*|Invalid request
 |===
 
+[#metadata-list]
+== Get a list of metadata objects
+
+To get a list of metadata objects from the ThoughtSpot resource repository, send a `GET` request to the `/tspublic/v1/metadata/list` API endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/metadata/list
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Query Parameter|Description
+|`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, specify one of the following values as the metadata object `type`:
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
+* `DATA_SOURCE` for external data source connections that are mapped in ThoughtSpot to support live query of data.
+* `TAG` for tag objects.
+* `USER` for user objects.
+* `USER_GROUP` for user group objects.
+
+[IMPORTANT]
+====
+The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
+====
+|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
+
+* `ONE_TO_ONE_LOGICAL` for tables
+* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+* `USER_DEFINED` for tables uploaded from a CSV file.
+* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+
+[IMPORTANT]
+====
+The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
+====
+|`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object subtypes such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
+|`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To filter data by category, specify one of the following values:
+
+* `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
+* `MY` to get the objects created or saved by the current logged-in user.
+* `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
+* `REQUESTED` to get only the objects requested by the current logged-in user.
+|`sort` __Optional__ a|__String__. The sort order for the headers returned by the API. Valid values are:
+
+* `DEFAULT`
+* `NAME`
+* `DISPLAY_NAME`
+* `AUTHOR`
+* `CREATED`
+* `MODIFIED`
+|`sortascending` __Optional__  a|__Boolean__. A flag to specify the sort order. A null value defines the default order.
+
+* To set an ascending order, specify `true`.
+* To set a descending order, specify `false`.
+|`offset` __Optional__|__Integer__. The batch offset to fetch the object headers. The system default is  `-1`, which  implies first page.
+|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
+|`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
+|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
+|`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.
+|`fetchids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to fetch.
+|`auto_created` __Optional__|__Boolean__. A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
+|====
+
+=== Example request
+
+.cURL
+[source,cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/list?type=PINBOARD_ANSWER_BOOK&category=ALL&sort=DEFAULT&offset=-1&showhidden=false'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/list?type=PINBOARD_ANSWER_BOOK&category=ALL&sort=DEFAULT&offset=-1&showhidden=false
+----
+
+=== Example response
+
+[source, JSON]
+----
+{
+  "headers": [
+    {
+      "hasTabs": false,
+      "modelVersion": "V1",
+      "id": "3dd38ec0-083c-41c3-b0c3-f5c25341e1de",
+      "indexVersion": 185,
+      "generationNum": 185,
+      "name": "y_pin",
+      "description": "",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1631788734680,
+      "modified": 1631788736425,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "3dd38ec0-083c-41c3-b0c3-f5c25341e1de",
+      "isDeleted": false,
+      "isHidden": false,
+      "isAutoCreated": false,
+      "isAutoDelete": false,
+      "resolvedObjects": {},
+      "tags": [
+        {
+          "id": "53a10282-42be-492e-9560-66d5c5f6657d",
+          "indexVersion": 0,
+          "generationNum": 0,
+          "name": "stick me",
+          "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "created": 1412881354020,
+          "modified": 1412881354020,
+          "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "owner": "53a10282-42be-492e-9560-66d5c5f6657d",
+          "isDeleted": false,
+          "isHidden": false,
+          "clientState": {
+            "color": "#ff78a9"
+          },
+          "tags": [],
+          "isExternal": false,
+          "isDeprecated": false
+        }
+      ],
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    {
+      "hasTabs": false,
+      "modelVersion": "V1",
+      "id": "b4851888-e572-4ac8-ad1a-ffad5899795c",
+      "indexVersion": 172,
+      "generationNum": 172,
+      "name": "p2",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1631785984607,
+      "modified": 1631785984607,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "b4851888-e572-4ac8-ad1a-ffad5899795c",
+      "isDeleted": false,
+      "isHidden": false,
+      "isAutoCreated": false,
+      "isAutoDelete": false,
+      "resolvedObjects": {},
+      "tags": [
+        {
+          "id": "7840759b-2cbf-4dca-aaa4-f8b86a8b9dcd",
+          "indexVersion": 0,
+          "generationNum": 0,
+          "name": "try me",
+          "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "created": 1412881252884,
+          "modified": 1412881252884,
+          "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "owner": "7840759b-2cbf-4dca-aaa4-f8b86a8b9dcd",
+          "isDeleted": false,
+          "isHidden": false,
+          "clientState": {
+            "color": "#fbc17c"
+          },
+          "tags": [],
+          "isExternal": false,
+          "isDeprecated": false
+        }
+      ],
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    {
+      "hasTabs": false,
+      "modelVersion": "V1",
+      "id": "2ff57a24-cf90-485f-8b4b-45fc17474c6f",
+      "indexVersion": 2,
+      "generationNum": 2,
+      "name": "Learn how to use ThoughtSpot",
+      "description": "This pinboard is to enable learning",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1494392331242,
+      "modified": 1494392331242,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "2ff57a24-cf90-485f-8b4b-45fc17474c6f",
+      "isDeleted": false,
+      "isHidden": false,
+      "isAutoCreated": false,
+      "isAutoDelete": false,
+      "resolvedObjects": {},
+      "tags": [],
+      "isExternal": false,
+      "isDeprecated": false
+    }
+  ],
+  "isLastBatch": true,
+  "debugInfo": {}
+}
+----
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**
+**204**|Successful retrieval of metadata objects
+|*400*|Invalid parameter
+|*500*|Invalid metadata type
+|===
 
 [#headers-metadata-users]
 == Get metadata objects for a user or user group
@@ -440,14 +738,15 @@ Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects ava
 GET /tspublic/v1/metadata/listas
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`offset` __Optional__|integer| The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
-|`batchsize` __Optional__|integer|The batch size of the objects. A value of `-1` implies no pagination.
-|`pattern` __Optional__|string|A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
-|`principalid` __Optional__|string a|ID of the user or user group.
+|Query Parameter|Description
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects. A value of `-1` implies no pagination.
+|`pattern` __Optional__|__String__. A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
+|`principalid` __Optional__ a|__String__. The GUID of the user or user group.
+
 
 * If you specify a userID and set the `type` parameter to `USER`, the API returns metadata objects associated with the user ID.
 * If you specify a user group ID and set the type parameter to `USER_GROUP`, the API returns metadata objects for all the users mapped to the specified user group.
@@ -455,7 +754,7 @@ GET /tspublic/v1/metadata/listas
 * If the `principalID` parameter is not defined, but the `type` attribute is set to `USER_GROUP`, the API returns metadata objects for all user groups.
 * If both `principalID` and `type` parameters are not defined, the API returns headers for all users.
 
-|`minimumaccesslevel` __Optional__|string a| Minimum access level that the specified user or user group has.
+|`minimumaccesslevel` __Optional__ a|__String__. Minimum access level that the specified user or user group has.
 Valid values are:
 
 * `NO_ACCESS`
@@ -463,7 +762,7 @@ Valid values are:
 * `MODIFY`
 
 The default value is `NO_ACCESS`.
-|`type` __Optional__|string|Type of principal. The allowed values are `USER` and `USER_GROUP`.
+|`type` __Optional__|__String__. Type of principal. The allowed values are `USER` and `USER_GROUP`.
 |====
 
 === Example request
@@ -471,7 +770,9 @@ The default value is `NO_ACCESS`.
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listas?offset=-1&pattern=%25&principalid=13bb9aec-aad0-4075-adb9-bd0569351393&minimumaccesslevel=READ_ONLY&type=USER'
+curl -X GET
+--header 'Accept: application/json'
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listas?offset=-1&pattern=%25&principalid=13bb9aec-aad0-4075-adb9-bd0569351393&minimumaccesslevel=READ_ONLY&type=USER'
 ----
 
 .Request URL
@@ -640,11 +941,12 @@ The following example shows the headers returned for a user:
       "tags": [],
       "isExternal": false,
       "isDeprecated": false
-    },
+    }
 
   ],
   "isLastBatch": true,
   "debugInfo": {}
+}]
 }
 ----
 
@@ -667,19 +969,19 @@ To query metadata objects headers for a data type in the Thoughtspot system, use
 GET /tspublic/v1/metadata/listobjectheaders
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`type` __Optional__|string a|Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
+|Query Parameter|Description
+|`type` __Optional__  a|__String__. Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for pinboards.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `TAG` for tags assigned to a metadata object.
-* `DATA_SOURCE` for data source from which the metadata objects were loaded.
+* `DATA_SOURCE` for data source connections from which the metadata objects were loaded.
 * `USER` for data objects associated with a user.
 * `USER_GROUP` for data objects associated with a user group.
 
@@ -688,7 +990,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__|string a|A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
+|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
 
 * `ONE_TO_ONE_LOGICAL` for tables
 * `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
@@ -699,13 +1001,13 @@ The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types ar
 ====
 The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 ====
-|`category` __Optional__|string a|The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
+|`category` __Optional__ a|__String__.The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
 
 * `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
 * `MY` to get the objects created or saved by the current logged-in user.
 * `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
 * `REQUESTED` to get only the objects requested by the current logged-in user.
-|`sort` __Optional__|string a|The sort order for the headers returned by the API. Valid values are:
+|`sort` __Optional__ a|__String__. The sort order for the headers returned by the API. Valid values are:
 
 * `DEFAULT`
 * `NAME`
@@ -713,24 +1015,27 @@ The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
 * `AUTHOR`
 * `CREATED`
 * `MODIFIED`
-|`sortascending` __Optional__| boolean a|A flag to specify the sort order. A null value defines the default order.
+|`sortascending` __Optional__ a|__Boolean__. A flag to specify the sort order. A null value defines the default order.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|integer|The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|integer|The batch size of the object. A value of `-1` implies no pagination.
-|`tagname` __Optional__|string|A JSON array containing a set of tag names to filter headers by.
-|`pattern` __Optional__|string|A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
-|`skipids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to exclude.
-|`fetchids` __Optional__|string|A JSON array containing the GUIDs of the metadata objects that you want to fetch.
-|`auto_created` __Optional__| boolean|A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
+|`offset` __Optional__|__Integer__. The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
+|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
+|`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
+|`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.
+|`fetchids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to fetch.
+|`auto_created` __Optional__|__Boolean__. A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
 |====
 === Example request
 
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=LOGICAL_TABLE&subtypes=%5B'WORKSHEET'%5D&category=ALL&sort=CREATED&offset=-1'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?type=LOGICAL_TABLE&subtypes=%5B'WORKSHEET'%5D&category=ALL&sort=CREATED&offset=-1'
 ----
 
 .Request URL
@@ -915,18 +1220,21 @@ The API returns a list of visualizations for a given pinboard or answer.
 GET /tspublic/v1/metadata/listvizheaders
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`id`|string|ID of a saved answer or a pinboard.
+|Query Parameter|Description
+|`id`|__String__. ID of a saved answer or a pinboard.
 |====
 === Example request
 
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97begg839e-71b6-42ad-a980-20c38b4d6db5'
 ----
 
 .Request URL
@@ -987,16 +1295,16 @@ To add a pinboard or answer to a user's favorites list in ThoughtSpot, send a PO
 POST /tspublic/v1/metadata/markunmarkfavoritefor
 ----
 === Request parameters
-[width="100%" cols="1,1,3"]
+[width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`type`|string a|Type of metadata object. Specify one of the following types:
+|Form Parameter|Description
+|`type` a|__String__. Type of metadata object. Specify one of the following types:
 
 * `PINBOARD_ANSWER_BOOK` for pinboards
 * `QUESTION_ANSWER_BOOK` for answers
-|`ids`|string|A JSON array of the GUIDs of objects to be set as favorites.
-|`userid`|string|The GUID of the user account for which you want to add the object to the favorites list.
+|`ids`|__String__. A JSON array of the GUIDs of objects to be set as favorites.
+|`userid`|__String__. The GUID of the user account for which you want to add the object to the favorites list.
 |====
 
 === Example request
@@ -1004,7 +1312,10 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
+-d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 .Request URL
 ----
@@ -1020,7 +1331,7 @@ Response Code
 204
 ----
 === Response codes
-
+[width="100%"]
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
@@ -1039,12 +1350,12 @@ To remove a pinboard or answer from the favorites list in a ThoughtSpot user acc
 DELETE /tspublic/v1/metadata/markunmarkfavoritefor
 ----
 === Request parameters
-[width="100%" cols="1,1,3"]
+[width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`ids`|string|A JSON array of the GUIDs of objects to remove from the favorites list.
-|`userid`|string|The GUID of the user account for which you want to run the delete operation.
+|Form Parameter|Description
+|`ids`|__String__. A JSON array of the GUIDs of objects to remove from the favorites list.
+|`userid`|__String__. The GUID of the user account for which you want to run the delete operation.
 |====
 
 === Example request
@@ -1052,7 +1363,10 @@ DELETE /tspublic/v1/metadata/markunmarkfavoritefor
 .cURL
 [source, cURL]
 ----
-curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://10.87.89.232/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 'https://10.87.89.232/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 
 .Request URL
@@ -1069,10 +1383,10 @@ Response Code
 204
 ----
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
+[width="100%" cols="2,4"]
+[options="header"]
+|====
 |HTTP status code|Description
 |*204*|The object is successfully added to favorites
 |*400*|Invalid object or user ID
-|===
+|====

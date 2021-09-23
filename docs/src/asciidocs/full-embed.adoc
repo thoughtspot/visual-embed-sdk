@@ -6,7 +6,7 @@
 :page-description: Embed Full Application
 
 
-Full embedding allows you to integrate the full ThoughtSpot content in an application.
+Full embedding allows you to integrate the full ThoughtSpot content into an application.
 
 == Full application embedding
 
@@ -21,24 +21,14 @@ The full embedded ThoughtSpot content gives your users the ability to perform ma
 
 
 === Limitations
-Users in a fully  embedded application cannot perform the following tasks:
+Users in a fully embedded application cannot perform the following tasks:
 
 * create worksheets
 * create views
 * modify profiles
 * view the Help Center
 
-////
-=== Error messages and full embed
 
-In ThoughtSpot, you can disable error messages within the ThoughtSpot embedded context.
-We provide APIs so you can access error messages and display them in your application UI appropriately.
-
-This approach of suppressing error messages inside the `<iframe>` uses the `window.postMessage` function to pass them through to the parent application, which acts as the listener.
-
-You can view these 'hidden' messages in the console logs.
-Contact ThoughtSpot Support to enable this feature.
-////
 == Full application embedding workflow
 
 === Import the AppEmbed package
@@ -47,7 +37,7 @@ Import the AppEmbed SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
@@ -57,7 +47,7 @@ import { AppEmbed, Page, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 import { AppEmbed, Page, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-== Add the embed domain
+=== Initialize the SDK
 
 To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
 
@@ -73,7 +63,7 @@ init
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
-== Configure an authentication method
+=== Configure an authentication method
 
 Define an authentication method.
 
@@ -89,7 +79,11 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
-== Configure security parameters
+=== Prefetch static resources (Optional)
+
+include::{path}/prefetch-api.adoc[] 
+
+=== Configure security parameters
 
 include::{path}/embed-config.adoc[]
 
@@ -108,12 +102,15 @@ Create an instance of the AppEmbed object and pass the parameters for the applic
      },
      disabledActions: [],
      disabledActionReason: '<reason for disabling>'
+     disableHelpAndProfile: false,
+     hideObjects: ['<object-id>'],
      hiddenActions: [],
      showPrimaryNavbar: true,
      pageId: Page.Data,
      path: '<url-string>',
      runtimeFilters: [],
-
+     tag: '<tag-name>',
+     
      },
 
   });
@@ -152,6 +149,14 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 
+disableProfileAndHelp::
+_Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` is set to `true`.
+
+++++
+<a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+++++
+
+
 hiddenActions::
 _Array of strings_. The action menu items to hide on a pinboard or visualization page.
 +
@@ -162,9 +167,7 @@ For example, to hide the *Download* action from the *More* menu image:./images/i
 [source,JavaScript]
 +
 ----
-
 hiddenActions: Action.Download
-
 ----
 +
 ++++
@@ -180,6 +183,14 @@ If you have xref:customize-actions-menu.adoc[added a custom action] and you want
 For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a pinboard or answer page.
 ====
 
+hideObjects [small]_optional_::
+__Array of Strings__. Hides the specified objects. For example, if you do not your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.
+
+[source,JavaScript]
+----
+hideObjects: ['11f5d5e8-2328-4817-a106-9eff17531e77','e2f49cdd-4d54-466a-841a-e7ecbd9b4400']
+----
+
 showPrimaryNavbar::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
@@ -187,6 +198,8 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
+
 path::
 _String_. The URL path of the ThoughtSpot application page to embed.
 
@@ -197,7 +210,7 @@ pageId::
 The unique identifier for the ThoughtSpot application page. The following values are valid.
 * `*Page.Search*`
 +
-Displays the page with search bar when the application loads.
+Displays the page showing the ThoughtSpot search bar when the application loads.
 
 * `*Page.Answers*`
 +
@@ -219,6 +232,8 @@ Displays the *Home* page when the application loads.
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
+
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the pinboard or visualization page loads.
 Runtime filters provide the ability to pass filter specifications in the URL query parameters and filter data at the time of retrieval.
@@ -246,11 +261,15 @@ include::{path}/runtime-filter.adoc[]
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
-=== Render the embedded application
-Render the embedded content.
+tag [small]_optional_::
+__String__. Filters objects by the specified tag. If the pinboards and answers in your application are tagged as `Sales`, you can specify the tag string as `Sales` to show only those objects that have the `Sales` tag assigned. 
++
+This attribute applies the tag filter at the application level. All metadata objects in the application, such as pinboards and answers, would be filtered by the tag.
+
++
 [source, javascript]
 ----
-appEmbed.render();
+tag: 'sales'
 ----
 
 === Define a method to process callback custom actions payload
@@ -264,21 +283,16 @@ Register event handlers to subscribe to the events triggered by the ThoughtSpot 
 ----
  appEmbed.on(EmbedEvent.init, showLoader)
  appEmbed.on(EmbedEvent.load, hideLoader)
- appEmbed.on(EmbedEvent.Error)
 ----
 
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the event triggered by the custom action:
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
+=== Render the embedded application
+Render the embedded content.
 [source, javascript]
 ----
-appEmbed.on(EmbedEvent.customAction, payload => {
-	const data = payload.data;
-	if(data.id === 'insert Custom Action ID here') {
-		console.log('Custom Action event:', data.embedAnswerData);
-	}
-})
+appEmbed.render();
 ----
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 === Test the embedded workflow
 
@@ -292,5 +306,5 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

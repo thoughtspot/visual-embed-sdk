@@ -9,24 +9,25 @@
 This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
 
 == Import the SearchEmbed package
+
 Import the SearchEmbed SDK library to your application environment:
 
 **npm**
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
 <script type='module'>
-import { SearchEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-== Add the embed domain
+== Initialize the SDK
 
-To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
+Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
@@ -36,9 +37,9 @@ init
     });
 ----
 
-
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
+
 
 == Configure an authentication method
 
@@ -55,6 +56,10 @@ init
 ----
 
 include::{path}/embed-auth-config.adoc[]
+
+== Prefetch static resources (Optional)
+
+include::{path}/prefetch-api.adoc[] 
 
 == Configure security parameters
 
@@ -79,6 +84,7 @@ const searchEmbed = new SearchEmbed(
     	collapseDataSources: false,
     	disabledActions: [],
     	disabledActionReason: '<reason for disabling>',
+    	forceTable: false,
     	hiddenActions: [],
     	hideDataSources: false,
     	hideResults: false,
@@ -90,9 +96,8 @@ const searchEmbed = new SearchEmbed(
     },
 });
 ----
-
 frameParams::
-Sets the `width` and `height` dimensions to render the iframe in the web browser. You can set the `width` and `height` attribute values in pixels or as a percentage.
+Sets the `width` and `height` dimensions to render the search object in a web browser. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 answerID [small]#__Optional__#::
 _String_. The Global Unique Identifiers (GUID) of the answers saved in a user profile.
@@ -147,23 +152,33 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 ++++
 
 
+forceTable  [small]#__Optional__#:::
+_Boolean_. When set to `true`, the tabular view is set as the default format for presenting search data. 
+
++
+++++
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+++++
+
 hideResults [small]#__Optional__#::
-_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a search data.
+_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved answer.
+
 +
 ++++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
 ////
 enableSearchAssist [small]_optional_::
 _Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+
 
 +
 ++++
 <a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
 ////
-
-
 hiddenActions [small]#__Optional__#::
 _Array of strings_. Hides the specified action menu items on an answer page. You can use this attribute to remove actions that are not relevant to your application context.
 
@@ -220,53 +235,21 @@ searchOptions: {
 <a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
-////
-searchQuery::
-_String_. The search query string to use when the application loads. You can use the following types of search tokens to construct a search query:
-* xref:search-data-api.adoc#Column[Column]
-* xref:search-data-api.adoc#Operator[Operator]
-* xref:search-data-api.adoc#Value[Value]
-* xref:search-data-api.adoc#Date-Bucket[Date Bucket]
-* xref:search-data-api.adoc#Keyword[Keyword]
-* xref:search-data-api.adoc#Calendar[Calendar]
-
-For example, to fetch revenue data by shipping mode, you can use the following search query string:
-
-----
-searchQuery: "[Revenue] by [Shipmode]"
-----
-
-
-++++
-<a href="{{previewPrefix}}/playground/search/searchQuery=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
-++++
-////
 == Define a method to process callback custom action payloads
 
 include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
-Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function:
-[source, javascript]
-----
- searchEmbed.on(EmbedEvent.init, showLoader)
- searchEmbed.on(EmbedEvent.load, hideLoader)
- searchEmbed.on(EmbedEvent.Error)
-----
 
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
+Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function. 
 
 [source, javascript]
 ----
- searchEmbed.on(EmbedEvent.customAction, payload => {
-	const data = payload.data;
-	if(data.id === 'insert Custom Action ID here') {
-		console.log('Custom Action event:', data.embedAnswerData);
-	}
-})
+ searchEmbed.on(EmbedEvent.Init, showLoader) 
+ searchEmbed.on(EmbedEvent.Load, hideLoader) 
 ----
-
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}enums/embedevent.html[EmbedEvent, window=_blank].
+ 
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 == Render the embedded search
 
@@ -287,5 +270,5 @@ To verify the ThoughtSpot Search integration, perform the following tasks:
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

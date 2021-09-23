@@ -25,6 +25,12 @@ Logs out a user from an existing session.
 
 +++<p class="divider"> </p>+++
 
+`xref:session-api.adoc#session-info[*POST* /tspublic/v1/session/info]`  [tag greenBackground]#New#
+
+Gets session information.
+
++++<p class="divider"> </p>+++
+
 `xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`
 
 Sets a specific pinboard as a home pinboard.

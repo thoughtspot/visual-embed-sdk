@@ -1,0 +1,117 @@
+= Get started with ThoughtSpot Everywhere 
+:toc: true
+
+:page-title: Get Started with ThoughtSpot Everywhere
+:page-pageid: get-started-tse
+:page-description: Getting Started
+
+You can explore the APIs, evaluate embedding workflows with your data, or obtain full access to the ThoughtSpot Developer portal and its features. 
+
+* To explore the APIs and embed ThoughtSpot features in a fictional app, xref:get-started-tse.adoc#live-playground[use the Live Playground].
+* To load your data and evaluate the workflows for embedding ThoughtSpot content in your app, xref:get-started-tse.adoc#free-trial[sign up for a free trial].
+* To get full access to ThoughtSpot Everywhere features, you can xref:get-started-tse.adoc#purchase-license[purchase the ThoughtSpot Everywhere Edition license].
+* If you already have a ThoughtSpot Enterprise Cloud service subscription, you can xref:get-started-tse.adoc#upgrade-license[upgrade your license] to avail the benefits of ThoughtSpot Everywhere features.
+
+The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
+
+[div boxDiv]
+--
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./images/license-workflow.png",width=auto]
+--
+ 
+== Feature availability
+
+[width="100%" cols="5,^3,^2,^3"]
+[options='header']
+|===
+|Feature|Live Playground|Free Trial license|ThoughtSpot Everywhere Edition
+|ThoughtSpot Developer portal |[tag greenBackground]#✓# |  [tag greenBackground]#✓#  |[tag greenBackground]#✓#  
+|Developer playground |[tag greenBackground]#✓# |[tag greenBackground]#✓# | [tag greenBackground]#✓#
+|Automated user authentication  | [tag greyBackground]#–# | [tag greyBackground]#–#  | [tag greenBackground]#✓#
+a|Embedding workflows
+
+* Embed Search
+* Embed charts and tables
+* Embed pinboards
+* Embed full ThoughtSpot experience
+
+|[tag orangeBackground]#✓#  
+(in a fictional app) | [tag greenBackground]#✓# | [tag greenBackground]#✓#
+|Custom actions| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
+|UI styles, font, and layout customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
+|Link customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
+|REST APIs to query data | [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓# 
+|Administration APIs to manage users, group privileges, sessions, data objects, and connections| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓# 
+|TML APIs to programmatically update charts, pinboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#
+|REST APIs to programmatically download a PDF report| [tag greenBackground]#✓# | [tag greenBackground]#✓# | [tag greenBackground]#✓# 
+|===
+
+[#live-playground]
+== Try Live Playground
+
+If you are new to ThoughtSpot, we recommend that you visit our Live Playground. The Live Playground allows you to play with the Visual Embed SDK APIs and offers an interactive embedding experience. You can embed search, charts and tables, pinboards, or the ThoughtSpot app in a fictional app and preview the results instantly.  
+
+To access the Live Playground:
+
+. Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
+. From the header bar, click *Playground*.
+. Enter your name and email address.
+. Click *Try Live Playground*. 
+. Click *Playground* and explore the APIs.
+ 
+If you want to try out the APIs in your environment, sign up for a free trial.
+
+To start a free trial, click on a locked menu action under **Customization**, and then click **Sign up for free trial**.
+
+image::./images/public-cluster-tse-license.png[]
+
+[#free-trial]
+== Sign up for a free trial
+ 
+With the free trial license, you can access the Playground, embedding workflows, and REST APIs for 30 days. The free trial license allows you to load your data, embed ThoughtSpot search, charts, tables, pinboards or the full ThoughtSpot experience in your app, and also use the REST APIs to query data and manage ThoughtSpot objects.
+
+To sign up for a free trial:
+
+. Go to link:https://www.thoughtspot.com/[www.thoughtspot.com, window=_blank].
+. Click **Free Trial**.
+. Enter your business email, phone number, and other details.
+. Click **Sign up**.
++
+You will receive an email notification from ThoughtSpot with the activation link. Click the link to verify your email address and access the trial instance.
+
++
+. Log in to the trial cluster and try out the APIs and embedding workflows.
+ 
+To obtain full access to ThoughtSpot Everywhere features, click on a locked menu action under **Customization**, and then click **Upgrade**.
+
+image::./images/trial-cluster-tse-license.png[]
+ 
+[#purchase-license]
+== Get ThoughtSpot Everywhere license
+
+If you already have a ThoughtSpot Enterprise Cloud service subscription::
+
+You can upgrade your license to ThoughtSpot Everywhere Edition to start using ThoughtSpot Everywhere features on your cluster. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, Playground, custom action workflows, Visual Embed SDK, and REST APIs. 
+
++
+If the ThoughtSpot Developer portal is enabled on your cluster, but you do not have the ThoughtSpot Everywhere license, the **Customization** features such as *Custom actions*, *Security settings*, and *Link settings* are locked. To unlock these features, you must obtain the ThoughtSpot Everywhere Edition license. 
+
+If you do not have a ThoughtSpot Enterprise Cloud Service subscription::
+
+We recommend that you sign up for a free trial, try out ThoughtSpot features, and then upgrade your license. To avail ThoughtSpot Everywhere features, you will require the ThoughtSpot Everywhere Edition license along with a ThoughtSpot Enterprise Cloud service subscription. 
+
+For more information about the licensing model, visit link:https://www.thoughtspot.com/pricing[https://www.thoughtspot.com/pricing, window=_blank].
+
+[#upgrade-license]
+== Initiate license upgrade from the UI
+
+ThoughtSpot users can trigger an upgrade request from the UI and enable ThoughtSpot Everywhere features on their cluster. When a ThoughtSpot user clicks on a locked customization menu in the UI, the UI prompts them to upgrade or sign up for a free trial. 
+
+image::./images/paid-cluster-tse-license.png[]
+
+* To upgrade your subscription, click **Upgrade**.
++
+A Live Chat Support widget appears. You can connect to a ThoughtSpot Sales representative to initiate the license upgrade.
+* To evaluate ThoughtSpot Everywhere features, click **Try for free**.
++
+A 30-day free trial is activated on your cluster. You can click **Upgrade now** to upgrade your license at any time during the trial period or when the trial expires.

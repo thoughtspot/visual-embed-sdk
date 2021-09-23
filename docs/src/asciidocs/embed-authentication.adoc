@@ -49,7 +49,7 @@ init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
         authType: AuthType.SSO,
-        noRedirect: true
+        noRedirect: true,
         
     });
 
@@ -87,7 +87,7 @@ init
         thoughtSpotHost:"https://<hostname>:<port>",
         authType: AuthType.AuthServer,
 	    username: "<username>",
-        authEndpoint: "https://authenticator-server:<port>/endpoint"
+        authEndpoint: "https://authenticator-server:<port>/endpoint",
     });
 ----
 
@@ -105,7 +105,7 @@ init
         thoughtSpotHost:"https://<hostname>:<port>",
         authType: AuthType.AuthServer,
 	    username: "<username>",
-        getAuthToken: () => Promise.resolve(token)
+        getAuthToken: () => Promise.resolve(token),
     });
 ----
 

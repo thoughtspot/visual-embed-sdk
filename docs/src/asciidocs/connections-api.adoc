@@ -15,16 +15,978 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 * Oracle ADW
 * Starburst
 * Databricks
+* Teradata
+* SAP HANA
+
+The connection APIs allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster. 
+
+This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
+
+[#connection-attr]
+== Connection attributes
+
+To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as metadata. These attributes vary based on the type of connection.
+
+[div boxDiv boxFullWidth]
+--
+.Snowflake Connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+* `description`
++
+__String__. A short description of the connection.
+
+* `accountName`
++
+__String__. The account name associated with the Snowflake connection.
+* `user`
++
+_String_. The Snowflake account username.
+
+* `password`
++
+_String_. The password of your Snowflake account.
+
+* `role`
++
+_String_. Role or the group privilege assigned to your user account in ThoughtSpot. For example, DEVELOPER.
+* `warehouse`
++
+__String__. The warehouse associated with the connection. 
+* `database`
++
+__String__. The database associated with the account.
+
+* `schema`
++
+_String_.The schema of the tables associated with the database.
+
+////
+* `state`
+
++
+__String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your Snowflake account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
+////
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Amazon Redshift connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `port`
++
+_Integer_. Enter the port number associated with the database. The default port is 5439.
+
+* `user`
++
+_String_. The user name of your Redshift account.
+
+* `password`
++
+__String__. Password of your Redshift account.
+
+* `database`
++
+__String__. Specify the database associated with the account.
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Google BigQuery connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+* `description`
++
+__String__. A short description of the connection.
+
+* `project`
++
+__String__. ID of the project associated with your BigQuery account.
+
+* `accountName`
++
+__String__. The account name associated with the BigQuery project.
+
+////
+* `state`
+
++
+__String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your BigQuery account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
+//// 
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Azure Synapse connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `port`
++
+_Integer_. Enter the port number associated with the database. 
+
+* `user`
++
+_String_. The user name of your Azure Synapse account.
+
+* `password`
++
+__String__. Password of your Azure Synapse account.
+
+* `database`
++
+__String__. Specify the database associated with the account.
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Teradata connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `user`
++
+_String_. The user name of your Teradata account.
+
+* `password`
++
+__String__. Password of your Teradata account.
+
+* `database`
++
+__String__. The database associated with the account.
+
+====
+--
 
 
-If you want to get a list of data connections that are currently used by your ThoughtSpot cluster, you can use the connection APIs.
+[div boxDiv boxFullWidth]
 
-Before using these APIs, make sure the data connection is set up. For information about how to set up a data connection to an external database and link it as a data source, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
+--
+.Oracle ADW connection attributes
 
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+
+* `description`
++
+__String__. A short description of the connection.
+
+* `user`
++
+_String_. The user name of your Oracle ADW account.
+
+* `accountName`
++
+_String_. The Net Service Name user name of your Oracle ADW account.
+
+* `password`
++
+__String__. Password of your Oracle ADW account.
+
+* `schema`
++
+_String_.The schema of the tables associated with the database.
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Starburst connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `user`
++
+_String_. The user name of your Starburst account.
+
+* `password`
++
+__String__. Password of your Starburst account.
+
+* `database`
++
+__String__. The database associated with the account.
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.Databricks connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the database connection. For example, `dbs.example.cloud.databricks.com`.
+
+* `http`
+
++__String__. The HTTP path of your Databricks connection host.
+
+* `user`
++
+_String_. The user name of your Databricks account.
+
+* `password`
++
+__String__. Password of your Databricks account.
+
+====
+--
+
+[div boxDiv boxFullWidth]
+
+--
+.SAP HANA connection attributes
+
+[%collapsible]
+====
+* `name` 
++
+__String__. Name of the connection.
+
+* `description`
++
+__String__. A short description of the connection.
+
+* `host`
++
+__String__. The hostname of the SAP HANA database connection. For example, if your host is 192.168.1.1, and your port is 8080, specify `192.168.1.1:8080`.
+
+* `user`
++
+_String_. The user name of your SAP HANA database account.
+
+* `password`
++
+__String__. Password of your SAP HANA database account.
+
+* `database`
++
+__String__. The database associated with the account.
+====
+--
 
 == Supported operations
 
 include::{path}/connection-apis.adoc[]
+
+[#cre-connection]
+== Add a data connection for live query service
+
+ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
+
+=== Resource URL
+----
+POST /tspublic/v1/connection/create
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Parameter|Description 
+|`name` |__String__. Name of the connection.
+|`description` |__String__ A short description of data connection.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
+|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
+|`state`|_Integer_. Indicates the OAuth authentication setup.
+|====
+
+=== Example request 
+
+ 
+.cURL
+[source,cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded'  \
+--header 'Accept: application/json'  \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'name=Snowflake&description=Snowflake_connection&type=RDBMS_SNOWFLAKE&metadata=<metadata-JSON-map>' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
+----
+==== Example JSON map for metadata creation
+
+The following example shows the metadata JSON map for creating a Snowflake data connection:
+
+[source, JSON]
+----
+{
+   "configuration":{
+      "accountName":"thoughtspot_partner",
+      "user":"tsadmin",
+      "password":"Embrace123",
+      "role":"DEVELOPER",
+      "warehouse":"MEDIUM_WH"
+   },
+   "externalDatabases":[
+      {
+         "name":"AllDatatypes",
+         "isAutoCreated":false,
+         "schemas":[
+            {
+               "name":"alldatatypes",
+               "tables":[
+                  {
+                     "name":"allDatatypes",
+                     "type":"TABLE",
+                     "description":"",
+                     "selected":true,
+                     "linked":true,
+                     "columns":[
+                        {
+                           "name":"CNUMBER",
+                           "type":"INT64",
+                           "canImport":true,
+                           "selected":true,
+                           "isLinkedActive":true,
+                           "isImported":false,
+                           "tableName":"allDatatypes",
+                           "schemaName":"alldatatypes",
+                           "dbName":"AllDatatypes"
+                        },
+                        {
+                           "name":"CDECIMAL",
+                           "type":"INT64",
+                           "canImport":true,
+                           "selected":true,
+                           "isLinkedActive":true,
+                           "isImported":false,
+                           "tableName":"allDatatypes",
+                           "schemaName":"alldatatypes",
+                           "dbName":"AllDatatypes"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+----
+
+
+=== Example response
+
+If the connection creation is successful, the API returns a response body with the connection metadata header:
+
+[source,JSON]
+----
+{
+  "header": {
+    "id": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+    "indexVersion": 0,
+    "generationNum": 0,
+    "name": "TEST_conn_1",
+    "description": "TEST_conn_private_1",
+    "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "created": 1632118531177,
+    "modified": 1632118531177,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+    "tags": [],
+    "isExternal": false,
+    "isDeprecated": false
+  },
+  "type": "RDBMS_SNOWFLAKE",
+  "authenticationType": "SERVICE_ACCOUNT",
+  "logicalTableList": [
+    {
+      "columns": [
+        {
+          "physicalColumnGUID": "61d10324-ac22-43e2-8623-fa96f503bab5",
+          "position": 0,
+          "header": {
+            "id": "fd718c83-5e9c-45ae-a4cd-1cb13b03db2f",
+            "indexVersion": 381,
+            "generationNum": 384,
+            "name": "CNUMBER",
+            "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "created": 1632118531988,
+            "modified": 1632118532985,
+            "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "owner": "b0248372-5e68-4815-8682-67715456efb2",
+            "isDeleted": false,
+            "isHidden": false,
+            "schemaStripe": "AllDatatypes_alldatatypes_dMSAHvi",
+            "databaseStripe": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": [],
+          "isDerived": false,
+          "dataType": "INT64",
+          "type": "MEASURE",
+          "defaultAggrType": "SUM",
+          "physicalColumnName": "CNUMBER",
+          "ownerName": "allDatatypes",
+          "ownerType": "ONE_TO_ONE_LOGICAL",
+          "entityCategory": "DEFAULT",
+          "columnMappingInfo": {
+            "columnName": "CNUMBER"
+          },
+          "spotiqPreference": "DEFAULT",
+          "isAdditive": true,
+          "indexType": "DONT_INDEX",
+          "indexPriority": 1,
+          "sources": [],
+          "synonyms": [],
+          "customActionTags": [],
+          "injectedInlineValues": [],
+          "precision": -1,
+          "scale": 0,
+          "schemaVersion": "4",
+          "isPrimaryKey": false,
+          "isAttributionDimension": true
+        },
+        {
+          "physicalColumnGUID": "86c34243-9637-4737-993f-6ed30d3e682c",
+          "position": 1,
+          "header": {
+            "id": "6eed0b58-d195-4236-a376-f135f9b24204",
+            "indexVersion": 381,
+            "generationNum": 384,
+            "name": "CDECIMAL",
+            "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "created": 1632118531988,
+            "modified": 1632118532985,
+            "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "owner": "b0248372-5e68-4815-8682-67715456efb2",
+            "isDeleted": false,
+            "isHidden": false,
+            "schemaStripe": "AllDatatypes_alldatatypes_dMSAHvi",
+            "databaseStripe": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": [],
+          "isDerived": false,
+          "dataType": "INT64",
+          "type": "MEASURE",
+          "defaultAggrType": "SUM",
+          "physicalColumnName": "CDECIMAL",
+          "ownerName": "allDatatypes",
+          "ownerType": "ONE_TO_ONE_LOGICAL",
+          "entityCategory": "DEFAULT",
+          "columnMappingInfo": {
+            "columnName": "CDECIMAL"
+          },
+          "spotiqPreference": "DEFAULT",
+          "isAdditive": true,
+          "indexType": "DONT_INDEX",
+          "indexPriority": 1,
+          "sources": [],
+          "synonyms": [],
+          "customActionTags": [],
+          "injectedInlineValues": [],
+          "precision": -1,
+          "scale": 0,
+          "schemaVersion": "4",
+          "isPrimaryKey": false,
+          "isAttributionDimension": true
+        }
+      ],
+      "tableFilters": [],
+      "physicalTableVersion": 0,
+      "logicalTableContent": {
+        "joinType": "INNER",
+        "joinOverrides": {},
+        "physicalTableName": "allDatatypes",
+        "worksheetType": "VIEW",
+        "isAggregatedWorksheet": false,
+        "bypassRLS": false,
+        "shardingInfo": {
+          "primaryKeyColumns": [],
+          "shardingKeyColumns": [],
+          "numberOfShards": 0
+        },
+        "tableMappingInfo": {
+          "databaseName": "AllDatatypes",
+          "schemaName": "alldatatypes",
+          "tableName": "allDatatypes",
+          "tableType": "TABLE",
+          "cachingInfo": {
+            "isCached": false,
+            "lastLoadTime": 0,
+            "type": "UNKNOWN"
+          }
+        },
+        "isOptimized": false,
+        "schemaVersion": "4"
+      },
+      "type": "ONE_TO_ONE_LOGICAL",
+      "generationType": "DEFAULT",
+      "physicalTableGUID": "14b7589b-8a98-4786-a0c5-0396e05b91ba",
+      "relationships": [],
+      "dataSourceId": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+      "dataSourceTypeEnum": "DEFAULT",
+      "header": {
+        "id": "b0248372-5e68-4815-8682-67715456efb2",
+        "indexVersion": 381,
+        "generationNum": 382,
+        "name": "allDatatypes",
+        "description": "",
+        "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "authorName": "su",
+        "authorDisplayName": "Administrator Super-User",
+        "created": 1632118531988,
+        "modified": 1632118532985,
+        "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "owner": "b0248372-5e68-4815-8682-67715456efb2",
+        "isDeleted": false,
+        "isHidden": false,
+        "schemaStripe": "AllDatatypes_alldatatypes_dMSAHvi",
+        "databaseStripe": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+        "tags": [],
+        "type": "ONE_TO_ONE_LOGICAL",
+        "isExternal": true,
+        "isDeprecated": false
+      },
+      "complete": true,
+      "incompleteDetail": [],
+      "destinationRelationships": [],
+      "relationshipsWithin": "",
+      "isCached": false
+    }
+  ],
+  "dataSourceContent": {
+    "statistics": {},
+    "dataLoadInfo": {
+      "tableToTaskIdMap": {}
+    },
+    "schemaVersion": "4",
+    "configuration": {
+      "password": "",
+      "role": "DEVELOPER",
+      "warehouse": "MEDIUM_WH",
+      "accountName": "thoughtspot_partner",
+      "user": "tsadmin"
+    }
+  }
+}
+
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+
+**204**
+
+| Successful creation of the connection object
+
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| The connection could not be created
+|===
+
+[#edit-connection]
+== Edit an existing data connection
+
+To update or modify the connection attributes of a data connection, use the `/tspublic/v1/connection/update` API. 
+
+=== Resource URL
+----
+POST /tspublic/v1/connection/update
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Parameter|Description 
+|`name` |__String__. Name of the connection.
+|`description` |__String__. The description of the data connection.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
+|`id`|__String__. The GUID of the data connection that you want to modify.
+|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
+|`state`|_Integer_. Indicates the OAuth authentication setup.
+|====
+
+=== Example request 
+ 
+.cURL
+[source,cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'name=Snow_TEST&description=Test_connection&type=RDBMS_SNOWFLAKE&id=9114f105-fc9e-48c9-a8f1-57f2fda4f056&metadata=<metadata-JSON-map>' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
+----
+
+==== Example JSON map for metadata update
+
+[Source, JSON]
+----
+{
+   "configuration":{
+      "accountName":"thoughtspot_partner",
+      "user":"tsadmin",
+      "password":"Embrace123",
+      "role":"DEVELOPER",
+      "warehouse":"MEDIUM_WH"
+   },
+   "externalDatabases":[
+      {
+         "name":"AllDatatypes",
+         "isAutoCreated":false,
+         "schemas":[
+            {
+               "name":"alldatatypes",
+               "tables":[
+                  {
+                     "name":"allDatatypes",
+                     "type":"TABLE",
+                     "description":"",
+                     "selected":true,
+                     "linked":true,
+                     "columns":[
+                        {
+                           "name":"CDECIMAL",
+                           "type":"INT64",
+                           "canImport":true,
+                           "selected":true,
+                           "isLinkedActive":true,
+                           "isImported":false,
+                           "tableName":"allDatatypes",
+                           "schemaName":"alldatatypes",
+                           "dbName":"AllDatatypes"
+                        },
+                        {
+                           "name":"CBIGINT",
+                           "type":"INT64",
+                           "canImport":true,
+                           "selected":false,
+                           "isLinkedActive":true,
+                           "isImported":false,
+                           "tableName":"allDatatypes",
+                           "schemaName":"alldatatypes",
+                           "dbName":"AllDatatypes"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+----
+
+=== Example response
+
+If the connection modification is successful, the API returns a response body with the updated details:
+
+[source,JSON]
+----
+{
+  "dataSource": {
+    "header": {
+      "id": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+      "indexVersion": 385,
+      "generationNum": 385,
+      "name": "TEST_conn_1",
+      "description": "TEST_conn_private_1",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "authorName": "tsadmin",
+      "authorDisplayName": "Administrator",
+      "created": 1632118531177,
+      "modified": 1632118751633,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+      "isDeleted": false,
+      "isHidden": false,
+      "isAutoCreated": false,
+      "statistics": {
+        "dataLoadStatistics": {
+          "scheduled": false,
+          "connectionType": "",
+          "connectionDisplayName": "",
+          "dataLoadStatusList": [],
+          "header": {
+            "id": "a2352b8c-e85e-4d58-8f6a-ac42c0252f2d",
+            "indexVersion": 385,
+            "generationNum": 385,
+            "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+            "owner": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+            "isDeleted": false,
+            "isHidden": false,
+            "tags": [],
+            "isExternal": false,
+            "isDeprecated": false
+          },
+          "complete": true,
+          "incompleteDetail": []
+        }
+      },
+      "tags": [],
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "type": "RDBMS_SNOWFLAKE",
+    "authenticationType": "SERVICE_ACCOUNT",
+    "logicalTableList": [
+      {
+        "columns": [
+          {
+            "physicalColumnGUID": "86c34243-9637-4737-993f-6ed30d3e682c",
+            "position": 1,
+            "header": {
+              "id": "6eed0b58-d195-4236-a376-f135f9b24204",
+              "indexVersion": 382,
+              "generationNum": 382,
+              "name": "CDECIMAL",
+              "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+              "created": 1632118531988,
+              "modified": 1632118532985,
+              "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+              "owner": "b0248372-5e68-4815-8682-67715456efb2",
+              "isDeleted": false,
+              "isHidden": false,
+              "schemaStripe": "AllDatatypes_alldatatypes_dMSAHvi",
+              "databaseStripe": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+              "tags": [],
+              "isExternal": false,
+              "isDeprecated": false
+            },
+            "complete": true,
+            "incompleteDetail": [],
+            "isDerived": false,
+            "dataType": "INT64",
+            "type": "MEASURE",
+            "defaultAggrType": "SUM",
+            "physicalColumnName": "CDECIMAL",
+            "ownerName": "allDatatypes",
+            "ownerType": "ONE_TO_ONE_LOGICAL",
+            "entityCategory": "DEFAULT",
+            "columnMappingInfo": {
+              "columnName": "CDECIMAL"
+            },
+            "spotiqPreference": "DEFAULT",
+            "isAdditive": true,
+            "indexType": "DONT_INDEX",
+            "indexPriority": 1,
+            "sources": [],
+            "synonyms": [],
+            "customActionTags": [],
+            "injectedInlineValues": [],
+            "precision": -1,
+            "scale": 0,
+            "isPrimaryKey": false,
+            "isAttributionDimension": true
+          }
+        ],
+        "tableFilters": [],
+        "physicalTableVersion": 0,
+        "logicalTableContent": {
+          "joinType": "INNER",
+          "joinOverrides": {},
+          "physicalTableName": "allDatatypes",
+          "worksheetType": "VIEW",
+          "isAggregatedWorksheet": false,
+          "bypassRLS": false,
+          "shardingInfo": {
+            "primaryKeyColumns": [],
+            "shardingKeyColumns": [],
+            "numberOfShards": 0
+          },
+          "tableMappingInfo": {
+            "databaseName": "AllDatatypes",
+            "schemaName": "alldatatypes",
+            "tableName": "allDatatypes",
+            "tableType": "TABLE",
+            "cachingInfo": {
+              "isCached": false,
+              "lastLoadTime": 0,
+              "type": "UNKNOWN"
+            }
+          },
+          "isOptimized": false
+        },
+        "type": "ONE_TO_ONE_LOGICAL",
+        "generationType": "DEFAULT",
+        "physicalTableGUID": "14b7589b-8a98-4786-a0c5-0396e05b91ba",
+        "relationships": [],
+        "dataSourceId": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+        "dataSourceTypeEnum": "RDBMS_SNOWFLAKE",
+        "header": {
+          "id": "b0248372-5e68-4815-8682-67715456efb2",
+          "indexVersion": 384,
+          "generationNum": 384,
+          "name": "allDatatypes",
+          "description": "",
+          "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "authorName": "tsadmin",
+          "authorDisplayName": "Administrator",
+          "created": 1632118531988,
+          "modified": 1632118532985,
+          "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "owner": "b0248372-5e68-4815-8682-67715456efb2",
+          "isDeleted": false,
+          "isHidden": false,
+          "schemaStripe": "AllDatatypes_alldatatypes_dMSAHvi",
+          "databaseStripe": "d19bec78-4e10-446a-b531-2a0e69c5e62f",
+          "tags": [],
+          "type": "ONE_TO_ONE_LOGICAL",
+          "isExternal": true,
+          "isDeprecated": false
+        },
+        "complete": true,
+        "incompleteDetail": [],
+        "destinationRelationships": [],
+        "relationshipsWithin": "",
+        "isCached": false
+      }
+    ],
+    "dataSourceContent": {
+      "statistics": {},
+      "dataLoadInfo": {
+        "tableToTaskIdMap": {}
+      },
+      "configuration": {
+        "password": "",
+        "role": "DEVELOPER",
+        "warehouse": "MEDIUM_WH",
+        "accountName": "thoughtspot_partner",
+        "user": "tsadmin"
+      }
+    }
+  },
+  "deletedObjects": {
+    "deleteStatus": "SUCCESS",
+    "deleteFailTables": [],
+    "deleteFailColumns": {}
+  }
+}
+
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+**204**
+
+| Successful update of the connection object.
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| The connection could not be created
+|===
+
 
 [#connection-types]
 == Get a list of data connections
@@ -44,7 +1006,10 @@ None
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types'
 ----
 
 .Request URL
@@ -157,7 +1122,7 @@ Gets all live query objects set up on the cluster
 
 * `MY`
 +
-Gets a list of live query objects that are set up in the current logged-in user's account.
+Gets a list of live query objects that are set up on your cluster.
 
 |`sort` __Optional__ a|__String__. Sort order for the headers. Valid values are:
 
@@ -183,7 +1148,10 @@ Gets a list of live query objects that are set up in the current logged-in user'
 
 [source,curl]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list'
 ----
 
 .Request URL
@@ -295,6 +1263,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 |HTTP status code | Description
 
 | **200**
+
+**204**
 | Successful retrieval of live query connections list
 
 | **401**
@@ -303,3 +1273,131 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 | **500**
 | No live query connections on the cluster
 |===
+
+[export-connections]
+== Export a connection map
+
+To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
+
+=== Resource URL
+----
+POST /tspublic/v1/connection/export
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Query Parameter|Description 
+|`id`|__String__. The GUID of the data connection you want to export. 
+|====
+
+=== Example request 
+ 
+.cURL
+[source,cURL]
+----
+curl -X GET 
+--header 'Accept: text/yaml' 
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82
+----
+=== Example response
+
+If the specified GUID is valid and points to an existing data connection on your cluster, the API returns a YAML file containing the connection mapping data. 
+
+Click the link in the `Response body` to download the YAML file. 
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+
+**204**
+
+| Successful deletion of the connection object.
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| The connection could not be deleted.
+|===
+
+[del-connection]
+== Delete a data connection
+
+To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API. 
+
+[IMPORTANT]
+====
+A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation. 
+====
+ 
+=== Resource URL
+----
+POST /tspublic/v1/connection/delete
+----
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Parameter|Description 
+|`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete. 
+|====
+
+=== Example request 
+ 
+.cURL
+[source,cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'ids=%5B%229114f105-fc9e-48c9-a8f1-57f2fda4f056%22%5D' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/delete'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/delete
+----
+
+=== Example response
+
+If the connection deletion is successful, the following response code is returned:
+
+[source,JSON]
+----
+Response Code
+204
+----
+
+=== Response codes
+
+[width="100%" cols="1,3"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+
+**204**  |Successful deletion of the connection object.
+
+| **401**
+| Unauthorized or wrong credentials
+
+| **500**
+| The connection could not be deleted due to table dependencies.
+|===
+

@@ -29,6 +29,165 @@ include::{path}/auth-token-api.adoc[]
 == Authenticate and log in a user 
 include::{path}/login-token-api.adoc[]
 
+[#session-info]
+== Get session information
+
+To get the session information for the current logged-in user on a given ThoughtSpot cluster, send a `GET` request to the `/tspublic/v1/session/info` endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/session/info
+----
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/info'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/info
+----
+
+=== Example response
+
+If the operation is successful, the API returns a response with the session information and the current configuration of the cluster.
+
+[source,JSON]
+----
+{
+  "userName": "tsuser1",
+  "userDisplayName": "Administrator",
+  "userEmail": "tsuser1@thoughtspot.com",
+  "userCreatedTime": 1354006445722,
+  "userExpirationTime": 1634345144438,
+  "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
+  "apiVersion": "v1",
+  "canChangePassword": true,
+  "isSystemUser": false,
+  "logicalModelVersion": 401,
+  "userGroupMask": 6,
+  "privileges": [
+    "ADMINISTRATION",
+    "USERDATAUPLOADING",
+    "DATADOWNLOADING",
+    "DATAMANAGEMENT",
+    "SHAREWITHALL",
+    "A3ANALYSIS"
+  ],
+  "expirationTime": 1632154574,
+  "authToken": "gv4HjljdCZKbN4LMEHNn0p7ct12/4KSaCwKDfu/UVnA=",
+  "locale": "en_GB",
+  "timezone": "UTC",
+  "dateFormat": {
+    "formatPattern": "dd/MM/yyyy"
+  },
+  "timeFormat": {
+    "formatPattern": "HH:mm:ss"
+  },
+  "dateTimeFormat": {
+    "formatPattern": "dd/MM/yyyy HH:mm"
+  },
+  "integerFormat": {},
+  "decimalFormat": {},
+  "clientState": {
+    "preferences": {
+      "HOMEPAGE_EUREKA": true,
+      "PANEL_STATE": "EXPANDED",
+      "sageDataSource": [
+        "8eaf2704-9754-4c48-830d-27e5317b2c64",
+        "b0248372-5e68-4815-8682-67715456efb2"
+      ],
+      "OPEN_ANSWER_EDIT_PANEL": "VIZ_EDITOR"
+    },
+    "tips": {
+      "chartConfigChipTip": true
+    }
+  },
+  "configInfo": {
+    "highCardinalityMaxDataSize": 20000,
+    "fetchPivotSummaryFromBackend": true,
+    "vizRenderingQueueTimeoutMS": 30000,
+    "enableColumnSummariesByDefault": true,
+    "isAnswerV2OnByDefault": false,
+    "defaultChartDataSize": 5000,
+    "maxFilterValues": 10000,
+    "useDomainQualifiedName": true,
+    "enableInstantSearch": false,
+    "defaultFilterNonCascading": false,
+    "pinboardFilterConfiguratorDisabled": false,
+    "isAnswerUndoStackEnabled": false,
+    "answerV2Experience": true,
+    "enablePinboardV2": false,
+    "enableCJA": false,
+    "blinkHelpConfigList": [
+      {
+        "enabled": true,
+        "title": "Keywords",
+        "id": "BLINK_KEYWORDS",
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html",
+        "iconFilePath": ""
+      },
+      {
+        "enabled": true,
+        "title": "Release notes",
+        "id": "BLINK_RELEASE_NOTES",
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/release/notes.html",
+        "iconFilePath": ""
+      },
+      {
+        "enabled": true,
+        "title": "Documentation",
+        "id": "BLINK_DOCUMENTATION",
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}",
+        "iconFilePath": ""
+      }
+    ],
+    "blinkActionConfigList": [],
+    "embedActionConfigList": [
+      {
+        "id": "598450a5-c402-4dcb-a127-8797bcda378f",
+        "name": "view report",
+        "version": "v2",
+        "type": "CALLBACK",
+        "detail": {
+          "link": "",
+          "function": "view-report",
+          "authSelect": "NONE",
+          "authToken": "",
+          "encodeUser": "",
+          "apiKey": "X-API-KEY",
+          "apiValue": "",
+          "additionalUrlHeaders": "{}"
+        },
+        "actionAssociationMap": {
+          "ANSWER": {
+            "087f51a0-f352-4497-b39a-e69ea8b4d5a1": {
+              "enabled": "true",
+              "context": "NONE"
+            }
+          }
+        },
+        "context": "NONE",
+        "availability": [
+          "GLOBAL"
+        ]
+      },
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation.
+|===
+
 [#set-home-pinboard]
 == Set a pinboard as a home pinboard
 To set a pinboard as a home pinboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home pinboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.  

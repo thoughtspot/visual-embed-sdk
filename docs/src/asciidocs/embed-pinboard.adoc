@@ -14,19 +14,19 @@ Import the PinboardEmbed SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
 <script type='module'>
-import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { PinboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-== Add the embed domain
+== Initialize the SDK
 
-To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
+Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
@@ -56,6 +56,10 @@ init
 
 include::{path}/embed-auth-config.adoc[]
 
+== Prefetch static resources (Optional)
+
+include::{path}/prefetch-api.adoc[] 
+
 == Configure security parameters
 
 include::{path}/embed-config.adoc[]
@@ -82,16 +86,25 @@ include::{path}/embed-config.adoc[]
 
 });
 ----
-frameParams::
-
-Sets the `width` and `height` dimensions to render the iframe containing the pinboard. You can set the `width` and `height` attribute values in pixels or as a percentage.
+frameParams:: 
+Sets the `width` and `height` dimensions to render the pinboard object. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 fullHeight __Optional__::
-
 _Boolean_. Dynamically resizes the embedded pinboard frame according to the height of the pinboard.
 
 +
 If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded pinboard frame is automatically adjusted according to the height of the pinboard, and the second scroll bar does not appear.
+
+
+defaultHeight::
+_Integer_. Minimum height to set for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to from the pinboard page. The default value is `500` pixels.
+
+
++
+++++
+<a href="{{previewPrefix}}/playground/pinboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+++++
+
 
 disabledActions::
 _Array of strings_. The action menu items to be disabled on the pinboards page.
@@ -159,7 +172,7 @@ _Boolean_. When set to `true`, it displays the contextual menu for visualization
 
 [#filter-removal]
 preventPinboardFilterRemoval::
-_Boolean_. When set to `true`, it disables filter actions, such as editing and removing a filter that is applied to a visualization.
+_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a pinboard visualization.
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the pinboard page loads.
@@ -168,25 +181,49 @@ Runtime filters provide the ability to filter data at the time of retrieval. Run
 Runtime filters do not appear to the user in the pinboard UI. They do not adjust the values of visible pinboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
+
 +
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'color',
-  operator: RuntimeFilterOp.EQ,
-  values: [ 'red' ]
+  columnName: 'Region',
+  operator: RuntimeFilterOp.IN,
+  values: ['Midwest', 'East', 'West']
   }]
 ----
 
 
+columnName;;
+__String__. Name of the column to filter by. 
+
+operator;;
+__String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+
+values;;
+__String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
+
++
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 
-
-include::{path}/runtime-filter.adoc[]
-
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
+
+== Define a method to process callback custom actions payload
+
+include::{path}/callback-payload.adoc[]
+
+== Subscribe to events
+
+Register event handlers to subscribe to the events triggered by the embedded pinboard.
+
+[source,javascript]
+----
+  pinboardEmbed.on(EmbedEvent.init, showLoader)
+  pinboardEmbed.on(EmbedEvent.load, hideLoader)
+----
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 == Render the embedded pinboard
 
@@ -196,33 +233,6 @@ Construct the URL for the embedded pinboard and render the embedded content:
 ----
 pinboardEmbed.render();
 ----
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
-
-== Subscribe to events
-Register event handlers to subscribe to the events triggered by the embedded pinboard.
-
-[source,javascript]
-----
-  pinboardEmbed.on(EmbedEvent.init, showLoader)
-  pinboardEmbed.on(EmbedEvent.load, hideLoader)
-  pinboardEmbed.on(EmbedEvent.Error)
-----
-
-If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
-
-[source, javascript]
-----
-    pinboardEmbed.on(EmbedEvent.customAction, payload => {
-    	const data = payload.data;
-    	if(data.id === 'insert Custom Action ID here') {
-    		console.log('Custom Action event:', data.embedAnswerData);
-    	}
-    })
-----
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
@@ -234,5 +244,5 @@ For a complete list of event types that you can register, see  link:{{visualEmbe
 
 == Additional resources
 
-* For example code, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc[Code samples].
 * For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

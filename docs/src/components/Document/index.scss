@@ -127,7 +127,7 @@
 
         td {
             font-size: $font-size-table;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-tr);
             padding: $padding-sm;
             text-align: left;
             font-weight: $font-weight-normal;
@@ -138,12 +138,15 @@
         }
 
         tr {
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-tr);
         }
     }
 
     h2 {
         margin-top: $margin-lg;
+        padding-bottom: $padding-sm;
+        border-bottom: 1px solid var(--border-color);
+        font-size:$font-size-h2;
     }
 
     h3 {

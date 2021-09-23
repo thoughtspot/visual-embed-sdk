@@ -1,25 +1,31 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` [tag greenBackground]#New#
+`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` 
 
 Creates a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]` [tag greenBackground]#New#
+`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]`  [tag greenBackground]#New#
+
+Activates a user account.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]`  
 
 Modifies a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]` [tag greenBackground]#New#
+`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]`  
 
 Gets details of the users in a ThoughtSpot system.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]` [tag greenBackground]#New#
+`xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]`
 
 Deletes a user account.
 
@@ -37,7 +43,7 @@ Modifies a user profile.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]` [tag orangeBackground]#Modified#
+`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`  
 
 Transfers the ownership of objects from one user to another.
 
@@ -46,6 +52,24 @@ Transfers the ownership of objects from one user to another.
 `xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`
 
 Changes the password of a user account.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#get-user-details#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  [tag greenBackground]#New#
+
+Resets the password of a user account.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` [tag greenBackground]#New#
+
+Invalidates a user session.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  [tag greenBackground]#New#
+
+Deactivates a user account.
 
 +++<p class="divider"> </p>+++
 
