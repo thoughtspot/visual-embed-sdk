@@ -2,7 +2,8 @@
  * Copyright (c) 2021
  *
  * Embed a ThoughtSpot pinboard or visualization
- * https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=embed-a-viz
+ * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard
+ * https://developers.thoughtspot.com/docs/?pageid=embed-a-viz
  *
  * @summary Pinboard & visualization embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>

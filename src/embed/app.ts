@@ -2,7 +2,7 @@
  * Copyright (c) 2021
  *
  * Full application embedding
- * https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=full-embed
+ * https://developers.thoughtspot.com/docs/?pageid=full-embed
  *
  * @summary Full app embed
  * @module

@@ -44,7 +44,7 @@ Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everyw
 ## Full API Reference
 
 - Detailed [developer guide](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started).
-- Please visit our [API reference docs](https://docs.thoughtspot.com/visual-embed-sdk/release/typedoc/modules.html). 
+- Please visit our [API reference docs](https://developers.thoughtspot.com/docs/typedoc/modules.html). 
 
 <br/>
 
