@@ -175,7 +175,7 @@ module.exports = {
             options: {
               appId: process.env.GATSBY_ALGOLIA_APP_ID,
               apiKey: process.env.ALGOLIA_ADMIN_KEY,
-              queries: require(`${__dirname}/docs/src/utils/algolia-queries`)
+              queries: require(`${__dirname}/docs/src/utils/algolia-queries`).queries
             },
         }
     ],
