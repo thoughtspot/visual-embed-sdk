@@ -23,9 +23,9 @@
 
 * link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
-** link:{{navprefix}}=embed-auth[Embed user authentication]
+** link:{{navprefix}}=embed-auth[Authentication and security attributes]
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
-** link:{{navprefix}}=search-embed[Embed search]
+** link:{{navprefix}}=search-embed[Embed search component]
 ** link:{{navprefix}}=embed-pinboard[Embed a pinboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
