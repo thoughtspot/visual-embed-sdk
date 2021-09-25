@@ -59,7 +59,7 @@ include::{path}/security-api-list.adoc[]
 
 [div boxDiv boxFullWidth]
 --
-`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]` [tag greenBackground]#New#
+`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`
 
 Gets security audit logs from the ThoughtSpot system.
 --

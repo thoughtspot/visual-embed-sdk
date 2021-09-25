@@ -1,11 +1,11 @@
 = Add a custom action for in-app navigation
+:toc: true
 
 :page-title: Customize page navigation
 :page-pageid: in-app-navigation
 :page-description: Customized page navigation
 
 To provide quick access to a related report or saved answer within the context of an embedded pinboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app.  
-
 The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.  
 
 To add a custom action for in-app navigation, follow these steps:

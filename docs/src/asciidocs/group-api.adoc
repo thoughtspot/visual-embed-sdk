@@ -320,6 +320,7 @@ ThoughtSpot also has a default group called `ALL_GROUP`. When you create new use
 ----
 POST /tspublic/v1/group/addprivilege
 ----
+
 === Request parameters
 
 Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
@@ -351,12 +352,11 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [source, cURL]
 ----
 curl -X POST \   
---header 'Content-Type: multipart/form-data'
---header 'X-Requested-By : ThoughtSpot' \
---header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+--header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATADOWNLOADING' \
--F 'groupNames=%5B%22TS%20Group%22%2C%20%22ALL_GROUP%22%5D;type=application/json' \
+-F 'groupNames=["Analyst"]' \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
@@ -422,13 +422,12 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [source, cURL]
 ----
 curl -X POST \   
---header 'Content-Type: multipart/form-data'
---header 'X-Requested-By : ThoughtSpot' \
---header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+--header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
--F 'privilege=DATADOWNLOADING' \
--F 'groupNames=%5B%22TS%20Group%22%2C%20%22ALL_GROUP%22%5D;type=application/json' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
+--header 'X-Requested-By: ThoughtSpot' \
+-F 'privilege=DATAUPLOADING' \
+-F 'groupNames=["Analyst"]' \
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
 .Request URL
@@ -667,6 +666,9 @@ POST /tspublic/v1/group/addmemberships
 ----
 
 === Request parameters
+
+Make sure you set the `Content-Type` header as `multipart/form-data`. 
+
 [width="100%" cols="1,4"]
 [options='header']
 |===
@@ -679,14 +681,13 @@ POST /tspublic/v1/group/addmemberships
 
 .cURL
 ----
-curl -X POST \   
---header 'Content-Type: multipart/form-data'
---header 'X-Requested-By : ThoughtSpot' \
---header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+curl -X POST \
+--header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
--F 'userids=%20%7B%20%20%22id%22%3A%20%22630ff91e-059d-4a43-b3b6-4f7d311399c3%22%2C%20%20%22id%22%3A%20%22f3794755-f09b-486d-8a6a-4d64a14ca707%22%7D%20' \
--F 'groupids=%5B%22ccd2edcc-a1b8-4ea4-8edc-8e06ff2aa920%22%5D;type=application/json' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
+--header 'X-Requested-By: ThoughtSpot' \
+--header 'Cookie: JSESSIONID=a7b4945a-fb77-4e9b-bd46-bf7d47be89ec' \
+-F 'userids=['b5f53b17-0649-4107-bb97-5c7b01e4773b']' \
+-F 'groupids=['dc1cd425-96b4-42a2-8ea6-cbf4379cba04']' 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships'
 ----
 
 .Request URL
@@ -718,6 +719,9 @@ POST /tspublic/v1/group/{groupid}/groups
 ----
 
 === Request parameters
+
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
+
 [width="100%" cols="1,4"]
 [options='header']
 |===
@@ -1015,8 +1019,8 @@ Response Code
 
 To remove users from groups, send a `POST` request to the `/tspublic/v1/group/removememberships` endpoint.
 
-=== Resource URL
 
+=== Resource URL
 ----
 POST /tspublic/v1/group/removememberships
 ----
@@ -1034,14 +1038,13 @@ POST /tspublic/v1/group/removememberships
 
 .cURL
 ----
-curl -X POST \   
---header 'Content-Type: multipart/form-data'
---header 'X-Requested-By : ThoughtSpot' \
---header 'Cookie : JSESSIONID=0f534ede-f096-44d0-966a-f02be91dcb68; clientId=5ea75049-cbc9-4443-b083-2d148059c235; userGUID=a0d4311a-d123-48e5-806b-8bdc35e3e835' \
+curl -X POST \
+--header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
--F 'userids=%20%7B%20%20%22id%22%3A%20%22630ff91e-059d-4a43-b3b6-4f7d311399c3%22%2C%20%20%22id%22%3A%20%22f3794755-f09b-486d-8a6a-4d64a14ca707%22%7D%20' \
--F 'groupids=%5B%22ccd2edcc-a1b8-4ea4-8edc-8e06ff2aa920%22%5D;type=application/json' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships
+--header 'X-Requested-By: ThoughtSpot' \
+--header 'Cookie: JSESSIONID=a7b4945a-fb77-4e9b-bd46-bf7d47be89ec' \
+-F 'userids=['b5f53b17-0649-4107-bb97-5c7b01e4773b']' \
+-F 'groupids=['dc1cd425-96b4-42a2-8ea6-cbf4379cba04']' \ 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships'
 ----
 
 .Request URL

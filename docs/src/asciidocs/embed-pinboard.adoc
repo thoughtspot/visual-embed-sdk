@@ -35,16 +35,12 @@ init
         thoughtSpotHost:"https://<hostname>:<port>",
     });
 ----
-
-
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
 == Configure an authentication method
 
-Define an authentication method.
-
-In the following example, the authentication method is set to SSO.
+Define an authentication method. In the following example, the authentication method is set to SSO.
 
 [source,javascript]
 ----
@@ -58,7 +54,9 @@ include::{path}/embed-auth-config.adoc[]
 
 == Prefetch static resources (Optional)
 
-include::{path}/prefetch-api.adoc[] 
+To prefetch static resources and load your application fast, set the `callPrefetch` to `true`.
+
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
 == Configure security parameters
 

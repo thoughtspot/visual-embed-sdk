@@ -58,9 +58,9 @@ init
 [#trusted-auth-embed]
 === Trusted authentication
 
-In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate users your application users. 
+In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate your application users. 
 
-The following attributes are required for obtaining a login token for an embedded application user:
+For token-based authentication, the following attributes are required:
 
 * Secret key
 +
@@ -104,8 +104,7 @@ You can call the `getAuthToken` function to invoke your login endpoint. The logi
 +
 [NOTE]
 ====
-* The generated authentication token is valid for only five minutes.  
-* Make sure the `getAuthToken` function returns a fresh token for each re-login.
+The generated authentication token is valid for only five minutes. Make sure the `getAuthToken` function returns a fresh token for each re-login.
 ====
 
 +
