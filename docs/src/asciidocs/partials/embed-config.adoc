@@ -23,7 +23,7 @@ suppressNoCookieAccessAlert [small]#__Optional__#::
 __Boolean__. When set to `true`, it suppresses the `noCookieAccess` alert. 
 
 +
-For enhanced security, most browsers allow cookies only if they originate from the same domain name as the main application URL. By default, Safari and Firefox block cookies from third-party content provider sites. If third-party cookies are blocked by a user's browser, the SDK triggers a `noCookieAccess` event that generates an alert. If you want to set your own alerts, you can set the `suppressNoCookieAccessAlert` attribute to `true`. 
+For enhanced security, most browsers allow cookies only if they originate from the same domain name as the main application URL. By default, Safari and Firefox block cookies from third-party content provider sites. If third-party cookies are blocked by a user's browser, the SDK triggers a `noCookieAccess` event that generates an alert. If you want to set custom alerts, you can set the `suppressNoCookieAccessAlert` attribute to `true`. 
 
 +
 [source,javascript]
