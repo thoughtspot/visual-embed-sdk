@@ -46,6 +46,8 @@ The ThoughtSpot 7 Cloud September release supports Visual Embed SDK version 1.4.
 
 The `prefetch` API  fetches static resources from a given URL before your application loads. Web browsers can cache the prefetched resources locally and serve them from a user's local disk. You can use this API for the faster loading of embedded objects. 
 
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
+
 |[tag greenBackground]#New feature# a|+++<h5>+++In-app page navigation+++</h5>+++
 
 The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI to call the `navigateToPage` method and lead your users to the page specified in the `path` parameter.
