@@ -1,4 +1,4 @@
-= Embed user authentication
+= Authentication and security attributes
 :toc: true
 :toclevels: 1
 
@@ -15,7 +15,7 @@ You can use any of the following authentication methods to authenticate your app
 
 [IMPORTANT]
 ====
-ThoughtSpot recommends that you use the SAML SSO or trusted authentication method to authenticate embed users in production environments.
+ThoughtSpot recommends that you use the SAML SSO or trusted authentication method in production environments.
 ====
 
 == Authentication methods
@@ -58,28 +58,33 @@ init
 [#trusted-auth-embed]
 === Trusted authentication
 
-This method requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable trusted authentication] on ThoughtSpot. In this method, ThoughtSpot users are required to obtain an authentication token to access ThoughtSpot content. 
- 
-==== Key attributes
+In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate users your application users. 
+
+The following attributes are required for obtaining a login token for an embedded application user:
 
 * Secret key
 +
-When ThoughtSpot administrator enables trusted authentication in the *Develop* > *Customization* > *Security Settings* page, ThoughtSpot server obtains a `secret_key` from the authentication server. Administrators can use this key to obtain an authentication token for a ThoughtSpot user. 
+The token-based authentication requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable trusted authentication] on ThoughtSpot to ensure that your authenticator server has access to a ThoughtSpot secret key. This secret key allows the authenticator server to request a login token __for any user__ on the ThoughtSpot Server. The login token is then sent to the user's web browser, where it is used in the login process.
+
+* Username
++
+The `username` of the user for whom the token is required.  
 
 * Authentication endpoint
 +
 The URL endpoint of the server that provides the authentication token.
 
-* Username
+==== Configure token-based authentication method in Visual Embed SDK
+
+To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`. 
+
+To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:  
+
+* `**authEndpoint**`
 +
-The `username` of the user for which the token must be obtained.  
+Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.  
 
-==== Configure trusted authentication method in Visual Embed SDK
-
-To configure trusted authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`. You can either use the `authEndpoint` attribute or the `getAuthToken` function to get token.
-
-If `authEndpoint` is defined, a GET request is sent to the specified authentication endpoint URL. The authentication server sends the token as a plain text in response.
-
++
 [source,javascript]
 ----
 init
@@ -91,13 +96,19 @@ init
     });
 ----
 
-You can also use the `getAuthToken` function, which invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. 
+* `**getAuthToken**`
 
-[source,javascript]
-----
-getAuthToken: () => Promise.resolve(token) 
-----
++
+You can call the `getAuthToken` function to invoke your login endpoint. The login endpoint then returns a `Promise` string that resolves to an authentication token.
 
++
+[NOTE]
+====
+* The generated authentication token is valid for only five minutes.  
+* Make sure the `getAuthToken` function returns a fresh token for each re-login.
+====
+
++
 [source,javascript]
 ----
 init
@@ -109,6 +120,7 @@ init
     });
 ----
 
++
 After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content. 
 
 [#basic-auth-embed]
@@ -133,7 +145,7 @@ You can use this authentication method for initial development and testing. Thou
 
 [#no-auth-embed]
 === No authentication
-You can choose to specify no authentication method for your users. The local ThoughtSpot users  who are already logged into your application can access the embedded ThoughtSpot content.   
+You can choose to specify no authentication method for your users. The local ThoughtSpot users who are already logged into your application can access the embedded ThoughtSpot content.   
 
 To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
 
