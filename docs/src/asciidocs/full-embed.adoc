@@ -28,7 +28,6 @@ Users in a fully embedded application cannot perform the following tasks:
 * modify profiles
 * view the Help Center
 
-
 == Full application embedding workflow
 
 === Import the AppEmbed package
@@ -65,9 +64,7 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 
 === Configure an authentication method
 
-Define an authentication method.
-
-In the following example, the authentication method is set to SSO.
+Define an authentication method. In the following example, the authentication method is set to SSO.
 
 [source,javascript]
 ----
@@ -81,11 +78,9 @@ include::{path}/embed-auth-config.adoc[]
 
 === Prefetch static resources (Optional)
 
-include::{path}/prefetch-api.adoc[] 
+To prefetch static resources and load your application fast, set the `callPrefetch` to `true`.
 
-=== Configure security parameters
-
-include::{path}/embed-config.adoc[]
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
 === Create an instance of the AppEmbed object
 Create an instance of the AppEmbed object and pass the parameters for the application page view.
