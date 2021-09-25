@@ -43,6 +43,7 @@
     },
     "dependencies": {
         "algoliasearch": "^4.10.5",
+        "gatsby-plugin-sitemap": "^4.10.0",
         "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {

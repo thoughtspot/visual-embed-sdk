@@ -1,4 +1,5 @@
 module.exports = {
+    SITE_URL: 'https://developers.thoughtspot.com/docs/',
     DOC_REPO_NAME: '',
     DOC_NAV_PAGE_ID: 'nav',
     TS_HOST_PARAM: 'tshost',
