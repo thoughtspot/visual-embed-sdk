@@ -55,7 +55,7 @@ Changes the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#get-user-details#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  [tag greenBackground]#New#
+`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  [tag greenBackground]#New#
 
 Resets the password of a user account.
 

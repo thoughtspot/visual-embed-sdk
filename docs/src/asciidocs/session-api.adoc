@@ -10,24 +10,29 @@ The Session APIs allow ThoughtSpot users to authenticate and manage their sessio
 
 include::{path}/session-api-list.adoc[]
 
+
 [#session-login]
 == Sign in as a ThoughtSpot user
 
 include::{path}/log-in-api.adoc[]
+
 
 [#session-logout]
 == Log out of a user session
 
 include::{path}/log-out-api.adoc[]
 
+
 [#session-authToken]
 == Obtain an authentication token
 
 include::{path}/auth-token-api.adoc[]
 
+
 [#session-loginToken]
 == Authenticate and log in a user 
 include::{path}/login-token-api.adoc[]
+
 
 [#session-info]
 == Get session information

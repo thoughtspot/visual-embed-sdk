@@ -123,6 +123,7 @@ If the user group is successfully created in ThoughtSpot, the API returns the us
 |**500**| Incorrect password format
 |===
 
+
 [#update-group]
 == Update a user group
 
@@ -217,8 +218,8 @@ Response Code
 |**500**| Invalid content format
 |===
 
-[#get-ug-details]
 
+[#get-ug-details]
 == Get details of a user group
 
 To get the details of a specific user group or all user groups in the ThoughtSpot system, send a `GET` request to `/tspublic/v1/group/` API endpoint.
@@ -382,6 +383,7 @@ If the privilege assignment is successful, the API returns the group metadata wi
 |**401**|Unauthorized request
 |===
 
+
 [#remove-privilege]
 == Remove a privilege assigned to a group
 
@@ -447,6 +449,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 |**415**|Invalid content type
 |===
 
+
 [#add-user-to-group]
 == Add a user to a group
 To programmatically add an existing ThoughtSpot user to a user group, send a `POST` request to the `/tspublic/v1/group/{groupid}/user/{userid}` API endpoint. 
@@ -500,6 +503,7 @@ Response Code
 |**204** |Successful operation
 |**400**| Invalid parameter
 |===
+
 
 [#get-users-group]
 == Get a list of users assigned to a group
@@ -602,8 +606,10 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
   }
 ]
 ----
+
+
 [#editusersInGroup]
-== Update users assigned to a group
+== Update user data for a group
 
 To add or update the list of users assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/users`.
 
@@ -653,6 +659,7 @@ Response Code
 |**204** |Successful operation
 |**400**| Invalid parameter
 |===
+
 
 [#addMembers]
 == Add members to a group
@@ -704,6 +711,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
 |**400**|Invalid parameter
 |**415**|Invalid content type
 |===
+
 
 [#assign-group]
 == Assign groups to another group
@@ -765,8 +773,9 @@ Response Code
 |**400**| Invalid parameter
 |===
 
+
 [#modifySubgroup]
-== Update subgroup objects of a group
+== Update the subgroup objects of a group
 
 To update the subgroups assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
 
@@ -818,6 +827,7 @@ Response Code
 |**204**| Successful operation
 |**400**| Invalid parameter
 |===
+
 
 [#get-children]
 == Get a list of subgroups from a group object
@@ -956,6 +966,7 @@ If the GET operation is successful, the API returns the details of the subgroups
 |**400**| Invalid parameter
 |===
 
+
 [#del-child-groups]
 == Remove subgroups from a group
 
@@ -1014,6 +1025,7 @@ Response Code
 |**400**| Invalid parameter
 |===
 
+
 [#removeMembers]
 == Remove members from a group
 
@@ -1061,6 +1073,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships
 |**400**| Invalid parameter
 |**415**| Invalid content type
 |===
+
 
 [#delete-user-assoc]
 == Delete a user from a user group
@@ -1118,6 +1131,7 @@ Response Code
 |**403**| Unauthorized request
 |**500**| Invalid group or user ID 
 |===
+
 
 [#delete-group]
 == Delete a user group

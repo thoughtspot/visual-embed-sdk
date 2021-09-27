@@ -33,7 +33,7 @@ Gets a list of users assigned to a group.
 
 `xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#New# 
 
-Updates user data for a given group.
+Updates user data for a group.
 
 +++<p class="divider"> </p>+++
 

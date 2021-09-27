@@ -487,12 +487,13 @@ Response Code
 [#invalidate-user-session]
 == Invalidate a user session
 
-To invalidate and revoke a user session, send a `POST` request to the `/tspublic/v1/user/session/invalidate` API endpoint. When you invalidate a user session, the specified users are logged out and are forced to log in again. 
+After a password of a user account is reset, you may want to invalidate a user session and force the user to re-login with the new password. To invalidate a user session, you can send a `POST` request to the `/tspublic/v1/user/session/invalidate` endpoint. 
+
 
 [WARNING]
 ====
-* Use this API with caution as it may invalidate active user sessions and force users to relogin. 
-* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster becomes invalid and users are forced to relogin. 
+* Use this API with caution as it may invalidate active user sessions and force users to re-login. 
+* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster becomes invalid and users are forced to re-login. 
 ====
  
 === Resource URL
@@ -544,6 +545,7 @@ Response Code
 |====
 |HTTP status code|Description
 |**200**
+
 **204**|Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid username or userID

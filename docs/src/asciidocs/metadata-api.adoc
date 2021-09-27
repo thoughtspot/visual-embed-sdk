@@ -1,5 +1,6 @@
 = Metadata APIs
 :toc: true
+:linkattrs:
 :toclevels: 1
 
 :page-title: Get metadata
@@ -11,6 +12,7 @@ The metadata APIs allow you to query metadata objects from the ThoughtSpot syste
 == Supported operations
 
 include::{path}/metadata-api-list.adoc[]
+
 
 [#assign-tag]
 == Assign tags to metadata objects
@@ -82,6 +84,8 @@ Response code
 |**500**|Invalid metadata object ID
 |===
 
+
+
 [#unassign-tags]
 == Unassign tags
 
@@ -147,6 +151,7 @@ Response code
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
 |===
+
 
 
 [#metadata-details]
@@ -498,6 +503,7 @@ The following example shows the metadata details of a pinboard object:
   "debugInfo": {}
 }
 ----
+
 === Response codes
 
 [options="header", cols=".^2a,.^14a"]
@@ -506,6 +512,7 @@ The following example shows the metadata details of a pinboard object:
 |**200**|Successful retrieval of metadata deatils
 |*400*|Invalid request
 |===
+
 
 [#metadata-list]
 == Get a list of metadata objects
@@ -539,17 +546,25 @@ GET /tspublic/v1/metadata/list
 ====
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
-|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
+|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
 
-* `ONE_TO_ONE_LOGICAL` for tables
-* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
-* `USER_DEFINED` for tables uploaded from a CSV file.
-* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+* For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
+** `ONE_TO_ONE_LOGICAL` for tables
+** `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+** `USER_DEFINED` for imported data; For example, the tables uploaded from a CSV file.
+** `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+
++
 [IMPORTANT]
 ====
-The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
+The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ====
+* For `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata object types, the valid `subtypes` include:
+** `FORMULA` to query a list of formulas applied to a worksheet column.
+** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet.
+** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
+
 |`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object subtypes such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
 |`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To filter data by category, specify one of the following values:
 
@@ -727,6 +742,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/list?type=PINBOARD_A
 |*400*|Invalid parameter
 |*500*|Invalid metadata type
 |===
+
 
 [#headers-metadata-users]
 == Get metadata objects for a user or user group
@@ -960,6 +976,7 @@ The following example shows the headers returned for a user:
 |**404**|The requested resource could not be found
 |===
 
+
 [#object-header]
 == Get object headers
 To query metadata objects headers for a data type in the Thoughtspot system, use the `/tspublic/v1/metadata/listobjectheaders` API.
@@ -990,17 +1007,25 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. If you have specified the metadata object `type` as `LOGICAL_TABLE`, you can query data objects of specific subtypes.
+|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
 
-* `ONE_TO_ONE_LOGICAL` for tables
-* `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
-* `USER_DEFINED` for tables uploaded from a CSV file.
-* `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+* For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
+** `ONE_TO_ONE_LOGICAL` for tables
+** `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+** `USER_DEFINED` for imported data; For example, the tables uploaded from a CSV file.
+** `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+
++
 [IMPORTANT]
 ====
-The `PRIVATE_WORKSHEET` metadata sub-type is deprecated.
+The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ====
+* For `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata object types, the valid `subtypes` include:
+** `FORMULA` to query a list of formulas applied to a worksheet column.
+** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet.
+** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
+
 |`category` __Optional__ a|__String__.The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
 
 * `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
@@ -1210,6 +1235,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 |*500*|Invalid metadata type
 |===
 
+
 [#viz-header]
 == Get visualization headers
 To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API.
@@ -1286,6 +1312,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97
 |**400**|Invalid object ID
 |===
 
+
 [#set-favorite]
 == Set objects as favorites
 To add a pinboard or answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
@@ -1339,6 +1366,7 @@ Response Code
 |*400*|Invalid object or user ID
 |*500*| Invalid metadata type
 |===
+
 
 [#del-object-fav]
 == Remove objects from favorites

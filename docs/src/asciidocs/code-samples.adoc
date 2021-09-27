@@ -240,6 +240,24 @@ export const getPinboardList = async () => {
 }
 ----
 
+== Event trigger
+
+The following example shows how to trigger an event from the embedded ThoughtSpot interface:
+
+[source,JAVASCRIPT]
+----
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
+    const {
+        payload: clickedPointData
+    } = data;
+    console.log('>>> called', clickedPointData);
+    embed.trigger(HostEvent.DrillDown, {
+        points: clickedPointData,
+        autoDrillDown: true,
+    });
+})
+----
+
 == Custom actions
 
 See the following articles:
