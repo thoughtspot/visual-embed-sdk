@@ -18,9 +18,10 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 * Teradata
 * SAP HANA
 
-The connection APIs allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster. 
+The connection APIs allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
+
 
 [#connection-attr]
 == Connection attributes
@@ -354,6 +355,7 @@ __String__. The database associated with the account.
 
 include::{path}/connection-apis.adoc[]
 
+
 [#cre-connection]
 == Add a data connection for live query service
 
@@ -680,6 +682,7 @@ If the connection creation is successful, the API returns a response body with t
 | **500**
 | The connection could not be created
 |===
+
 
 [#edit-connection]
 == Edit an existing data connection
@@ -1098,6 +1101,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types
 | No data connections set up on the cluster
 |===
 
+
 [#live-query-connections]
 == Get a list of live query connections
 
@@ -1331,6 +1335,7 @@ Click the link in the `Response body` to download the YAML file.
 | **500**
 | The connection could not be deleted.
 |===
+
 
 [del-connection]
 == Delete a data connection
