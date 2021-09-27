@@ -1,0 +1,65 @@
+= Development and deployment
+:toc: true
+:toclevels: 1
+
+:page-title: Development and deployment using TML and REST API
+:page-pageid: development-and-deployment
+:page-description: Development and deployment following SDLC practices can be achieved using TML and REST API
+
+When developing data apps for customers (whether internal or external to your organization), it is normal to follow some pattern for development and deployment of content.
+
+This article assumes an understanding of how ThoughtSpot uses groups and sharing to control visibility of content to different groups. Please see the xref:multi-tenancy-best-practices[multi-tenancy best practices guide] for a thorough explanation of how to control object access using ThoughtSpot groups.
+
+== ThoughtSpot modeling language (TML)
+Every object type in ThoughtSpot has a representation in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot modeling language (TML), window=_blank]. TML documents are available by default in the easy-to-read link:https://en.wikipedia.org/wiki/YAML[YAML, window=_blank] format, and can also be requested in JSON format from the ThoughtSpot REST API.
+
+Almost every aspect of an object can be defined or modified via TML, with a few limitations around making updates to very complicated data modeling features. While most development work in ThoughtSpot is most easily achieved via the web-based UI, TML allows for integrating into common SDLC processes, deploying changes across a whole environment, and scripting complex SaaS deployments.
+
+=== REST API endpoints for TML
+There are two REST API endpoints for working with TML, one to export (download) and one to import (upload). The APIs can retrieve and upload multiple TML files at a time, at which time references are
+
+The TML import REST API endpoint does not allow for specifying individual objects through the API call itself. To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, then update the TML document's *guid* property. To create a new object on the server, you call the import API with the *force_create* property set to *true*. Even if the TML document has a GUID, *force_create=true* should result in a new object on the server with a new GUID. That said, it is easy to remove the TML guid property prior to publish along with the *force_create=true* command in the API, and you will see both in many examples.
+
+== Names and GUIDs
+ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, pinboards, etc.). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the ThoughtSpot Modelling Language (TML) specification (LINK), the *fqdn* property is available to specify a GUID when names might be ambiguous.
+
+Even though ThoughtSpot allows naming things the same, you can simplify some processes by setting your own best practice rules for object naming. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML.
+
+== Copying from one server to another
+When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the connection name property within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
+
+
+
+== Dev -> test -> prod
+A standard pattern for software development lifecyle (SDLC) is moving content from a development (dev) environment to a test environment then eventually to production (prod) where end customers can see it.
+
+=== "Namespacing" prefixes on content names
+The easiest way to avoid name collisions is by adding "dev_" or "test_" before the name of any object. By using a consistent "namespace prefix", deployment scripts an easily find and replace when moving from "dev" to "test", or remove the prefix entirely when copying the content to prod where end customers can see it.
+
+Example:
+dev_Connection A
+test_Connection A
+dev_Table A
+dev_Table B
+dev_Worksheet 1
+
+Using this namespace prefix scheme, you can export the TML files related to "dev_Connection A" and simply update any name references by replacing "dev_" with "test_".
+
+
+=== Access control
+Dev and test content should be shared only to specific groups designed to give access to the correct app developer users.
+
+=== Change tracking / source control
+In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and pinboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
+
+== Single-tenant databases deployment model
+As described in the multi-tenancy best practices article, the single-tenant databases model requires separate connections for each tenant, along with replicas of all other standardized objects. In this model, there is one additional tier of deployment: dev, test, prod template, and prod tenant content.
+
+Prod template content is the finalized data model and other content for a given prod release, prior to being published out to each tenant with the necessary changes to their tenant connection.
+
+=== Namespacing in the single-tenant databases model
+dev_
+test_
+prod_
+
+Each prod tenant copy will have the same name so that each tenant will not see their own customer name / ID listed out. Access control through sharing will ensure they never have any awareness of the other objects that exist with the same name for the other tenants.
