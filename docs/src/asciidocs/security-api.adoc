@@ -16,7 +16,7 @@ include::{path}/security-api-list.adoc[]
 [#obj-permission-all]
 == Get object permission details for a specific object type
 
-ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFEECTIVE`.
+ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFFECTIVE`.
 
 Users can also access objects when another user shares a pinboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`. 
 
