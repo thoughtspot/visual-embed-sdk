@@ -32,7 +32,7 @@ For more information about the licensing model and upgrade process, see xref:get
 
 * The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.  
 
-For more information, see xref:developer.playground.adoc[Developer Playground].
+For more information, see xref:developer-playground.adoc[Developer Playground].
 |====
 
 === Visual Embed SDK Version 1.4.0
