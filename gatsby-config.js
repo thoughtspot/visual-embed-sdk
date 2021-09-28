@@ -5,6 +5,9 @@ const config = require('./docs/src/configs/doc-configs');
 const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default build env
 
 const getPathPrefix = () => {
+    if(buildEnv === config.BUILD_ENVS.LOCAL) {
+        return null;
+    }
     return 'docs';
 };
 
@@ -177,6 +180,44 @@ module.exports = {
               apiKey: process.env.ALGOLIA_ADMIN_KEY,
               queries: require(`${__dirname}/docs/src/utils/algolia-queries`).queries
             },
-        }
+        },
+        {
+            resolve:'gatsby-plugin-sitemap',
+            options: {
+                query: `
+                {   
+                    allAsciidoc {
+                        edges {
+                            node {
+                                pageAttributes {
+                                    pageid
+                                }
+                            }
+                        }
+                    }
+                }`,
+                resolveSiteUrl: () => config.SITE_URL,
+                resolvePages: ({
+                    allAsciidoc: { edges },
+                }) => {
+                    const asciiNodeSet = new Set();
+                    edges.forEach(edge => {
+                        if(edge.node && edge.node.pageAttributes && edge.node.pageAttributes.pageid) {
+                            asciiNodeSet.add(edge.node.pageAttributes.pageid);
+                        }
+                    });
+                    let paths = [];
+                    for (let item of asciiNodeSet) {
+                        paths.push({path:`?pageid=${item}`});
+                    }
+                    return paths;
+                },
+                serialize: ({ path }) => {
+                    return {
+                      url: path,
+                    }
+                },
+            }
+        },
     ],
 };
