@@ -101,4 +101,4 @@ The host events are triggered by the host application that the embedded ThoughtS
 
 == Related resources
 
-For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}enums/embedevent.html[EmbedEvent, window=_blank].
+For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
