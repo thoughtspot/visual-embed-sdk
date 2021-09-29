@@ -17,7 +17,7 @@ This page lists the new features and enhancements introduced in the ThoughtSpot 
 
 ThoughtSpot now offers the ThoughtSpot Everywhere Edition license that grants full access to ThoughtSpot Everywhere features such as the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. If you have a ThoughtSpot Enterprise Cloud Service subscription and you want to avail the benefits of ThoughtSpot Everywhere, you can upgrade your license.
 
-The ThoughtSpot Developer Portal displays a locked icon next to the customization menu actions on clusters that _do not_ have the ThoughtSpot Everywhere Edition license. When you clicked the locked icon, ThoughtSpot prompts you to sign up for a free trial or upgrade your license. 
+The ThoughtSpot Developer Portal displays a locked icon next to the customization menu actions on clusters that _do not_ have the ThoughtSpot Everywhere Edition license. When you click the locked icon, ThoughtSpot prompts you to sign up for a free trial or upgrade your license. 
 
 * The Live Playground users can sign up for a free trial and evaluate ThoughtSpot Everywhere features.
 * The ThoughtSpot Enterprise Cloud service subscribers can either start a 30-day free trial or initiate a license upgrade from the UI.  
@@ -32,7 +32,7 @@ For more information about the licensing model and upgrade process, see xref:get
 
 * The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.  
 
-For more information, see xref:developer.playground.adoc[Developer Playground].
+For more information, see xref:developer-playground.adoc[Developer Playground].
 |====
 
 === Visual Embed SDK Version 1.4.0
