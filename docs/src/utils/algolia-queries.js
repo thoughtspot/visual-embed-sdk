@@ -1,7 +1,6 @@
 const config = require('../configs/doc-configs');
-const { htmlToText } = require('html-to-text');
 const { JSDOM }  = require("jsdom");
-
+const { htmlToText } = require("html-to-text");
 const Pages = `Pages`
 
 const getPathPrefix = () => {
@@ -22,8 +21,17 @@ const stripLinks = (text) => {
   return '';
 };
 
-const getTextFromHtml = (html) =>
-  htmlToText(stripLinks(html)).replace(/\r?\n|\r/g, ' ');
+const getTextFromHtml = (html) => {
+    const text = htmlToText(`${html}`, {
+        selectors: [
+            { selector: "a", options: { ignoreHref: true } },
+            { selector: "h1", format: "skip" },
+            { selector: "h2", format: "skip" },
+            { selector: "h3", format: "skip" },
+        ]
+    });
+    return text;
+}
 
 const pageQuery = `
 query {
@@ -59,7 +67,7 @@ query {
     }
   }
 }
-`
+`;
 
 const pageToAlgoliaRecordForASCII = (ele, type , node) => {
     const pageid = node.pageAttributes.pageid;
@@ -134,8 +142,7 @@ const queries = [
       ];
     },
     indexName: Pages,
-    settings: { attributesToSnippet: ['body:15',
-    'title'],
+    settings: { attributesToSnippet: ['body:7'],
     highlightPreTag: '<em style="color:blue;">',
     highlightPostTag: '</em>'
   },

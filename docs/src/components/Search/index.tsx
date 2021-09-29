@@ -147,7 +147,7 @@ const Search: React.FC<SearchProps> = (props) => {
                         <SearchResult
                             highlightedIndex={highlightedIndex}
                             index={index}
-                            keyword={`${option.sectionTitle} | ${option.title}`}
+                            keyword={`${option.title} | ${option.sectionTitle}`}
                             title={option._snippetResult && option._snippetResult.body.value}
                         />
                     </div>

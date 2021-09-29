@@ -45,7 +45,7 @@ const dummySectionEle = divForSection.querySelector('.sect1');
 const htmlForPreambleEle = `
 <div id="preamble">
     <div class="sectionbody">
-        <p>ThoughtSpot REST APIs let you programmatically create, access, and manage ThoughtSpot objects.</p>
+        <p>ThoughtSpot REST APIs let you programmatically create ThoughtSpot objects.</p>
     </div>
 </div>
 `;
@@ -63,7 +63,7 @@ const asciiNode = {
 };
 
 const asciiAlgoliaObj = {
-    body: 'RESOURCE ENDPOINTS  ThoughtSpot API components or resources are represented by the URI endpoints.',
+    body: 'ThoughtSpot API components or resources are represented by the URI endpoints.',
     objectID: 'fa556896-4e38-5e7a-ab35-a45ee93d58ee_resource_endpoints',
     pageid: 'rest-apis',
     sectionId: '_resource_endpoints',
@@ -73,7 +73,7 @@ const asciiAlgoliaObj = {
 };
 
 const asciiPremableAlgoliaObj = {
-    body: 'ThoughtSpot REST APIs let you programmatically create, access, and manage ThoughtSpot objects.',
+    body: 'ThoughtSpot REST APIs let you programmatically create ThoughtSpot objects.',
     objectID: 'fa556896-4e38-5e7a-ab35-a45ee93d58eepreamble',
     pageid: 'rest-apis',
     sectionId: 'preamble',
