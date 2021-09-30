@@ -6,7 +6,17 @@
 :page-pageid: api-auth-session
 :page-description: Manage user sessions with REST APIs
 
-To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. If trusted authentication is enabled on your instance, you must obtain an authentication token to log in and include the authorization token when making subsequent requests from that session. 
+To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
+
+When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful log-in using the Visual Embed SDK via either of those two methods will establish the session within the web browser. 
+
+Once the session is established in the browser, the *withCredentials* property tells any XMLHttpRequest object to pass the cookies along when making REST API requests:
+----
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+----
+
+If accessing the REST API outside of a web browser, create a long-lived session object in your code, then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
 
 ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
 
