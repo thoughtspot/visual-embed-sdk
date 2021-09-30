@@ -44,7 +44,7 @@ With the SAML authentication method, you can use your host application or an ext
 ThoughtSpot administrators can set up SAML SSO using the *Admin* UI in the ThoughtSpot application.
 
 +
-To use SSO authentication for an embedded instance, you must add the identity provider domain as a SAML redirect domain in the *Security Settings* page of the Developer portal.
+To use SSO authentication for an embedded instance, you must add the identity provider domain as a SAML redirect domain in the *Security settings* page of the Developer portal.
 For more information, see xref:configure-saml.adoc[SAML SSO authentication].
 
 Trusted Authentication::

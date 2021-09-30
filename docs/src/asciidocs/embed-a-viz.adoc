@@ -158,9 +158,9 @@ _Boolean_. When set to true, it disables the filter removal action and thus prev
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
 +
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization by passing filter specifications in the URL query parameters.
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization by passing filter specifications as URL query parameters.
 +
-For example, to sort values equal to `red` in the `Color` column for a visualization, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to sort values equal to `red` in the `Color` column for a visualization, you can pass the runtime filters as shown here:
 +
 [source,javascript]
 ----

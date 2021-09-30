@@ -40,7 +40,7 @@ GET /tspublic/v1/security/metadata/permissions
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 |`id`| Query parameter|__String__. A JSON array of the GUIDs of the objects.
-|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the depenedent objects. When set to `true`, the API returns the permission details for the depenedent objects for the specified GUIDs.
+|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUIDs.
 |`permissiontype`|Query parameter  a|__String__. Valid values are:
 
 * `EFFECTIVE` for object permissions inherited from group privileges. 
@@ -162,7 +162,7 @@ GET /tspublic/v1/security/metadata/{id}/permissions
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 |`id`| Path parameter|__String__. The GUID of the object to query.
-|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the depenedent objects. When set to `true`, the API returns the permission details for the depenedent objects for the specified GUID.
+|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUID.
 |`permissiontype`|Query parameter  a|__String__. Valid values are:
 
 * `EFFECTIVE` for object permissions inherited from group privileges.
@@ -270,7 +270,7 @@ For example, to get permission details for specific pinboards and answers, speci
 ----
 {"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
 ----
-|`dependentshare` __Optional__|__Boolean__. Object permission details for the depenedent objects. When set to `true`, the API returns the permission details for the depenedent objects for the specified object types and IDs.
+|`dependentshare` __Optional__|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified object types and IDs.
 |====
 
 === Example request

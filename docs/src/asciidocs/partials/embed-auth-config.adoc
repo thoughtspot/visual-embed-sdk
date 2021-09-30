@@ -32,7 +32,7 @@ Enables trusted authentication method. To use the trusted authentication method,
 +
 * `authEndpoint` [small]#__Optional__# 
 +
-_String_. The endpoint URL of the authentication server. When the `authEndPoint` attribute is defined, a GET  request is sent to the authentication endpoint, which returns the authentication token as plain text in its API response. This attribute is not required if `getAuthToken` is used.
+_String_. The endpoint URL of the authentication server. If the `authEndPoint` attribute is defined, a `GET`   request is sent to the authentication endpoint, which returns the authentication token as plain text in its API response. This attribute is not required if `getAuthToken` is used.
 
 * `username`
 +

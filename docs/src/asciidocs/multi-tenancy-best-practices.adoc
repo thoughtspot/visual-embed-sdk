@@ -42,7 +42,7 @@ When a group is *NOT SHAREABLE*, the users within that group cannot share to tha
 
 When a user is set to *SHAREABLE*, other users within the same *SHAREABLE* group as that user can share content to them individually.
 
-Any user with "Share with all" privilege (including administrators) can share objects with any group, regardless of the shareable property. The non-admin users can only share to:
+Any user with "Share with all" privilege, including administrators, can share objects with any group  regardless of the shareable property. The non-admin users can only share to:
 
 . *SHAREABLE* groups they belong to 
 . *SHAREABLE* users within those groups. 

@@ -39,13 +39,13 @@ To use the trusted authentication method, you must add the authentication server
 
 === ThoughtSpot server
 
-For token-based authentication method, ThoughtSpot administrators must  xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security Settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
+For a token-based authentication method, ThoughtSpot administrators must  xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
 
 The trusted authenticator server also uses this secret key to obtain a security token.
 
 === Security token
 
-The security token, also referred to as the authentication token, allows user to access the requested object.
+The security token, also referred to as the authentication token, allows users to access the requested object.
 
 Note the following points about token validity:
 

@@ -179,7 +179,7 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 ====
 
 hideObjects [small]_optional_::
-__Array of Strings__. Hides the specified objects. For example, if you do not your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.
+__Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.
 
 [source,JavaScript]
 ----

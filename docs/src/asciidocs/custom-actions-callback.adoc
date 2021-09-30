@@ -16,7 +16,7 @@ ThoughtSpot allows you to set up a callback function from the parent application
 
 To add a callback custom action:
 
-. Go to *Develop* > *Customizations* > *Actions*.
+. Go to *Develop* > *Customizations* > *Custom actions*.
 . Click *Create action*.
 . Add a label for the custom action.
 . Select the *Callback* option.

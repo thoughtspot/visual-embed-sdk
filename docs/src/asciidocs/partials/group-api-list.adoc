@@ -63,7 +63,7 @@ Updates subgroup objects for a given group.
 
 `xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]`  [tag greenBackground]#New# 
 
-Gets a list of subgroups from a given group object.
+Gets a list of subgroups for a given group object.
 
 +++<p class="divider"> </p>+++
 
