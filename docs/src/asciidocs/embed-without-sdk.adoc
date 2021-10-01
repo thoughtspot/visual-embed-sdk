@@ -1,0 +1,16 @@
+= Embedding pinboards without the Visual Embed SDK
+
+:page-title: Embedding pinboards without Visual Embed SDK
+:page-pageid: embed-without-sdk
+:page-description: Embedding pinboards without the Visual Embed SDK
+
+The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
+
+In these situations, you can embed ThoughtSpot pinboards or individual visualizations (answers) from a pinboard using an iframe tag.
+
+== SSO considerations
+
+== Embedding in Salesforce
+
+== Mobile apps
+Rather than using a direct iframe embed, it is easier on mobile devices to use the pinboarddata REST API to pull only the data values and then render them using a native table or charting library.
