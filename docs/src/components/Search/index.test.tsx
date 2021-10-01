@@ -1,5 +1,5 @@
 import React from "react"
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, waitFor } from "@testing-library/react"
 import { act } from 'react-dom/test-utils';
 
 import Search from './index';
@@ -119,6 +119,8 @@ describe('Search', () => {
             fireEvent.keyDown(input, { key: 'ArrowUp', code: 'ArrowUp' });
         })
         expect(queryAllByTestId('search-result')[0]).toHaveClass('active');
+        expect(queryAllByTestId('search-result')[0].firstChild.textContent).toBe('test title');
+        expect(input.value).toBe('test');
     })
 
     it('should keyword and input value on enter', async () => {
@@ -129,8 +131,8 @@ describe('Search', () => {
             fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
         })
 
-        expect(queryAllByTestId('search-result')[0].firstChild.textContent).toBe('test title');
-        expect(input.value).toBe('test');
+        expect(queryAllByTestId('search-result').length).toBe(0);
+        //hiding search suggestions once the user clicks enter
     })
 
     it('should do nothing if any key other than arrow up, down and enter is pressed', async () => {

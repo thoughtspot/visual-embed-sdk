@@ -36,7 +36,7 @@ const Search: React.FC<SearchProps> = (props) => {
         if (props.options.length > 0 && props.keyword) {
             updateShowSearchResult(true);
         } else {
-            updateShowSearchResult(false) 
+            updateShowSearchResult(false); 
         }
     }, [props.keyword, props.options]);
 
@@ -47,7 +47,13 @@ const Search: React.FC<SearchProps> = (props) => {
         }
         updateShowSearchResult(false);
     };
-
+    const onSearchOptionSelected = () => {
+        props.updateKeyword('');
+        if(searchInput.current) {
+            searchInput.current.blur();
+        }
+        updateShowSearchResult(false);  
+    }
     useEffect(() => {
         document.addEventListener('mousedown', handleClick);
         return () => {
@@ -56,9 +62,9 @@ const Search: React.FC<SearchProps> = (props) => {
     }, [node]);
 
     const onFocus = () => updateShowSearchResult(true);
-
+    const searchInput = useRef<HTMLInputElement>();
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!props.keyword || props.options.length === 0) return;
+        if (props.options.length === 0) return;
 
         const optionSize = props.options.length;
 
@@ -81,13 +87,13 @@ const Search: React.FC<SearchProps> = (props) => {
                     if (anchor?.current) {
                         anchor.current.click();
                     }
-                    props.updateKeyword('');
                 } else {
-                     props.optionSelected(
+                    props.optionSelected(
                         props.options[highlightedIndex].pageid,
                         props.options[highlightedIndex].sectionId,
-                     );
+                    );
                 }
+                onSearchOptionSelected();
                 setHighlightedIndex(0);
                 return;
             default:
@@ -106,7 +112,7 @@ const Search: React.FC<SearchProps> = (props) => {
                         href={option.link}
                         target="_blank"
                         ref={anchor}
-                        onClick={() => props.updateKeyword('')}
+                        onClick={onSearchOptionSelected}
                     >
                         <SearchResult
                             highlightedIndex={highlightedIndex}
@@ -139,7 +145,10 @@ const Search: React.FC<SearchProps> = (props) => {
                     <div
                         key={option.pageid}
                         className="result"
-                        onClick={() => props.optionSelected(option.pageid,option.sectionId)}
+                        onClick={() => {
+                            props.optionSelected(option.pageid,option.sectionId);
+                            onSearchOptionSelected();
+                        }}
                         ref={(el: HTMLDivElement) => {
                             optionListRef.current[index] = el;
                         }}
@@ -174,6 +183,7 @@ const Search: React.FC<SearchProps> = (props) => {
                         <BiSearch />
                     </IconContext.Provider>
                     <input
+                        ref={searchInput}
                         data-testid="search-input"
                         type="Search"
                         placeholder={t('SEARCH_PLACEHOLDER')}
