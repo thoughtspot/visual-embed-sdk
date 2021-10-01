@@ -1,0 +1,10 @@
+= Create custom visualization using REST APIs
+:toc: true
+
+:page-title: Create custom visualization using REST APIs
+:page-pageid: custom-viz-rest-api
+:page-description: Create custom visualization using REST APIs
+
+ThoughtSpot REST APIs can be accessed within the browser to retrieve data in a JSON format, which can then be used to render a custom visualization using any front-end library.
+
+== Mobile apps
