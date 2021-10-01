@@ -16,7 +16,7 @@ The following figure illustrates the steps required for getting started with Tho
 
 [div boxDiv]
 --
-image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./images/license-workflow.png",width=auto]
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow, width=auto]
 --
  
 == Feature availability
