@@ -1,5 +1,5 @@
 
-When trusted authentication is enabled on ThoughtSpot, trusted client applications can obtain an authentication token from the authentication server for ThoughtSpot user. The `/tspublic/v1/session/login/token` API allows you to log in to ThoughtSpot with the authentication token obtained from the trusted authentication server.
+When trusted authentication is enabled on ThoughtSpot, trusted client applications can obtain an authentication token from the authentication server for a ThoughtSpot user. The `/tspublic/v1/session/login/token` API allows you to log in to ThoughtSpot with the authentication token obtained from the trusted authentication server.
 
 === Resource URL
 ----
@@ -27,7 +27,9 @@ For example, if the user has requested access to a specific visualization on a p
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+curl -X GET \
+--header 'Accept: text/html' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
 
 .Request URL
