@@ -16,7 +16,7 @@ To add a visual embed host:
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
-. Go to *Customizations*, click *Settings*.
+. Go to *Customizations*, click *Security settings*.
 . In the *CSP visual embed hosts* text box, add one or several domains that you want to use to set `frame-ancestors` CSP policy header.
 +
 You can add multiple domains as comma-separated values.
@@ -28,7 +28,7 @@ If you plan to create custom actions with URL targets, you must add these URLs t
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
-. Go to *Customizations*, click *Settings*.
+. Go to *Customizations*, click *Security settings*.
 . In the *CSP connect-src domains* text box, add one or several domains for the URLs that you want to invoke when triggering custom actions.
 +
 You can add multiple domains as comma-separated values.
@@ -44,7 +44,7 @@ To whitelist client application domains for CORS, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
+. Under *Customizations*, click *Security settings*.
 . In the *CORS whitelisted domains* text box, add the domains to the CORS whitelist.
 +
 * You can add multiple domains as comma-separated values.

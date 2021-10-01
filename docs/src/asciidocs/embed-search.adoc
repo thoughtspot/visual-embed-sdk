@@ -208,7 +208,7 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 
 [#search-query]
 searchOptions [small]#__Optional__#::
-Attribute for defining search tokens and executing search.
+Allows you to specifiy a search token string and execute search.
 
 * `searchTokenString`
 +

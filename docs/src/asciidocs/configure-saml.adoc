@@ -116,11 +116,11 @@ The allowed skew time, after which the authentication response is rejected and s
 Protocol::
 The connection protocol for ThoughtSpot. For example, `https`.
 IDP Metadata XML File::
-The IDP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider’s metadata file provided by your IDP. You need this file so that the configuration persists over upgrades.The best practice is to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IdP needs an ACS URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
+The IDP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider’s metadata file provided by your IDP. You need this file so that the configuration persists over upgrades. The best practice is to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IdP needs an ACS URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
 +
 Automatically add SAML users to ThoughtSpot upon first authentication::
-Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to  ThoughtSpot upon their first successful SSO login.
-If you select *no*, the SAML users will not be added in ThoughtSpot upon first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
+Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to ThoughtSpot upon their first successful SSO login.
+If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 +
 . Click *Save*.
 

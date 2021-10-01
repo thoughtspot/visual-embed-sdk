@@ -43,7 +43,7 @@ Hides the default data panel. You can use this function to create a custom data 
 
 |**Hide chart or table**
 
-Hides the charts and tables that appear beneath the search bar. For example, if you want to create a custom visualization using raw data from an existing answer, you can enable this checkbox to hide the chart or table.
+Hides the charts and tables that appear beneath the search bar by default. For example, if you want to create a custom visualization using raw data from an existing answer, you can enable this checkbox.
 
 +++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
@@ -82,9 +82,9 @@ For a complete list of action menu items and the corresponding text strings to u
 
 a|**Add search tokens**
 
-Allows constructing a TML-based search query string to set search tokens. You can also execute search to view the search results.
+Allows constructing a TML-based search query string to set search tokens and execute search.  
 
-The following example shows how to create a search a searchTokenString and execute search:
+The following example shows how to create a search a `searchTokenString` and execute search:
 
 [source, Javascript]
 ----
@@ -118,7 +118,7 @@ a|*Modify available actions*
 
 Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
 
-* To disable an action menu item, specify the menu string in `disabledActions` attribute. For example, to disable the **Download** action in the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `Action.Download`:
+* To disable an action menu item, specify the menu string in the `disabledActions` attribute. For example, to disable the **Download** action in the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `Action.Download`:
 
 +
 ----
@@ -190,7 +190,7 @@ a|**Full Height**
 
 Dynamically resizes the embedded pinboard frame according to the height of the pinboard.
 
-If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When **Full Height** is selected, the embedded pinboard frame is automatically adjusted according to the height of the pinboard.
+If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When **Full Height** is selected, the embedded pinboard container is automatically adjusted according to the height of the pinboard.
 
 +++
 <a href="{{previewPrefix}}/playground/pinboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>

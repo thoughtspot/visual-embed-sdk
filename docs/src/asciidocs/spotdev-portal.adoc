@@ -62,15 +62,15 @@ Provides a set of style customization controls for rebranding the embedded Thoug
 +
 For more information, see xref:customize-style.adoc[Customize styles].
 
-* *Actions*
+* *Custom actions*
 +
 Provides UI workflows to create custom actions in the ThoughtSpot UI. For example, you can create an action that triggers a callback to your host application, or invoke a URL to send ThoughtSpot data. For more information, see xref:custom-actions.adoc[Custom actions].
 
-* *Settings*
+* *Security settings*
 +
 
-Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security Settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
+Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
 
-* *Links*
+* *Links settings*
 +
 Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 

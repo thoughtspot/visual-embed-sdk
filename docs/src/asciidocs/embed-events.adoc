@@ -6,11 +6,11 @@
 :page-pageid: events
 :page-description: ThoughtSpot Events 
 
-ThoughtSpot supports a range of events that your app can listen to and respond. The embedded ThoughtSpot components emit events when they initialize and load, and when a user executes an action inside these components. The embedded ThoughtSpot objects can also listen to the events triggered by their host application and trigger an alert or action. 
+ThoughtSpot supports a range of events that your app can listen to and respond with an appropriate action. The embedded ThoughtSpot components emit events when they initialize and load, and when a user executes an action inside these components. The embedded ThoughtSpot objects can also listen to the events triggered by their host application and trigger an alert or action. 
 
 == How to register and handle events
 
-Before you begin, make sure to import the events library from the Visual Embed SDK.
+Before you begin, make sure you import the events library from the Visual Embed SDK package.
 
 [source,javascript]
 ----

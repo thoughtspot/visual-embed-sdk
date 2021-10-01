@@ -42,7 +42,7 @@ If you have embedded the ThoughtSpot application in your host application, you c
 == Custom actions
 The ThoughtSpot embedding solution allows you to build additional actions to your embedded content, such as pinboards and visualizations. For example, if you want to email a pinboard, you can create a custom action and add it to your menu component on the pinboards.
 
-== ThoughtSpot SpotDev portal
+== ThoughtSpot Developer portal
 To enable your developers with API-related tools and to facilitate faster application integration, ThoughtSpot provides the SpotDev developer portal.
-The SpotDev portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs and build sample content.
+The Developer portal includes a playground for application developers to learn, explore, and interact with the Visual Embed APIs and build sample content.
 The portal also allows developers to customize the ThoughtSpot UI and configure custom actions.

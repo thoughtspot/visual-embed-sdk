@@ -47,7 +47,12 @@ POST /tspublic/v1/user/
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=TS%20User&password=testy1%4022&displayname=TS%20User&usertype=LOCAL_USER&visibility=DEFAULT' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'name=TS%20User&password=testy1%4022&displayname=TS%20User&usertype=LOCAL_USER&visibility=DEFAULT' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/'
 ----
 
 .Request URL
@@ -125,7 +130,7 @@ If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` 
 
 This API allows the following modifications to a user profile:
 
-* User name modifications
+* Username modifications
 * Password reset
 * Group assignment
 * User visibility for sharing objects
@@ -278,7 +283,10 @@ You can use either `userid` or `name` to query data for a specific user. If usin
 .cURL
 
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
 ----
 .Request URL
 
@@ -493,7 +501,7 @@ After a password of a user account is reset, you may want to invalidate a user s
 [WARNING]
 ====
 * Use this API with caution as it may invalidate active user sessions and force users to re-login. 
-* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster becomes invalid and users are forced to re-login. 
+* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster become invalid and users are forced to re-login. 
 ====
  
 === Resource URL
@@ -785,7 +793,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' \
+-d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' 
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword'
 ----
 
@@ -866,7 +874,12 @@ If your browser or OS locale is set to a xref:user-api.adoc#locale-setting[Thoug
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&preferences=%7B%22showWalkMe%22%3Atrue%2C%22notifyOnShare%22%3Atrue%2C%22analystOnboardingComplete%22%3Afalse%2C%22preferredLocale%22%3A%22en-IN%22%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&preferences=%7B%22showWalkMe%22%3Atrue%2C%22notifyOnShare%22%3Atrue%2C%22analystOnboardingComplete%22%3Afalse%2C%22preferredLocale%22%3A%22en-IN%22%7D' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference'
 ----
 
 .Request URL
@@ -945,7 +958,7 @@ The allowed values are:
 [#transfer-ownership]
 == Transfer ownership
 
-When a user is removed from the ThoughtSpot application, you may want to transfer objects from the deleted user account to the account. If you are an admin user, you can programmatically transfer the ownership of one or several objects from one ThoughtSpot user account to another, use the `/tspublic/v1/user/transfer/ownership` API.
+When a user is removed from the ThoughtSpot application, you may want to transfer objects from the deleted user account to the account. If you are an admin user, you can programmatically transfer the ownership of one or several objects from one ThoughtSpot user account to another, using the `/tspublic/v1/user/transfer/ownership` API.
 
 === Resource URL
 ----
@@ -965,7 +978,10 @@ POST /tspublic/v1/user/transfer/ownership
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot'  \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
 ----
 
 .Request URL

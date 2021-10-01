@@ -58,7 +58,8 @@ For example, if you want to assign a tag named `Sales` to a pinboard and answer,
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
+-d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \ 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
 ----
 
 .Request URL
@@ -124,7 +125,8 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot'
--d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \ 'https:/<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag'
+-d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \ 
+'https:/<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag'
 ----
 
 .Request URL
@@ -134,7 +136,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag
 
 === Example response
 
-If the tag removal operation is successful, the API returns the following repsonse:
+If the tag removal operation is successful, the API returns the following response:
 
 ----
 Response code
@@ -509,7 +511,7 @@ The following example shows the metadata details of a pinboard object:
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|**200**|Successful retrieval of metadata deatils
+|**200**|Successful retrieval of metadata details
 |*400*|Invalid request
 |===
 
@@ -1342,7 +1344,8 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
+-d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 .Request URL
 ----
@@ -1394,7 +1397,8 @@ DELETE /tspublic/v1/metadata/markunmarkfavoritefor
 curl -X DELETE \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 'https://10.87.89.232/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
+-d 'ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \
+'https://10.87.89.232/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 
 .Request URL

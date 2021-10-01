@@ -17,7 +17,7 @@ ThoughtSpot allows you to add a custom action to trigger a data payload to a spe
 
 To add a custom menu item to send data to a specific URL, follow these steps:
 
-. Go to *Develop* > *Customizations* > *Actions*.
+. Go to *Develop* > *Customizations* > *Custom actions*.
 . Click *Create action*.
 . Add a label for the custom action. For example, Send Survey.
 . Make sure the *URL* option is selected.

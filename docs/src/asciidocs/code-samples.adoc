@@ -128,6 +128,24 @@ document.getElementById('ts-embed'), {
 appEmbed.render();
 ----
 
+== Event trigger
+
+The following example shows how to trigger an event from the embedded ThoughtSpot interface:
+
+[source,JAVASCRIPT]
+----
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
+    const {
+        payload: clickedPointData
+    } = data;
+    console.log('>>> called', clickedPointData);
+    embed.trigger(HostEvent.DrillDown, {
+        points: clickedPointData,
+        autoDrillDown: true,
+    });
+})
+----
+
 == REST APIs
 
 The following examples show how to call REST APIs to query and import data using Javascript. 
@@ -238,24 +256,6 @@ export const getPinboardList = async () => {
 			console.error("Unable to get the pinboard list: " + error)
 		});
 }
-----
-
-== Event trigger
-
-The following example shows how to trigger an event from the embedded ThoughtSpot interface:
-
-[source,JAVASCRIPT]
-----
-searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
-    const {
-        payload: clickedPointData
-    } = data;
-    console.log('>>> called', clickedPointData);
-    embed.trigger(HostEvent.DrillDown, {
-        points: clickedPointData,
-        autoDrillDown: true,
-    });
-})
 ----
 
 == Custom actions

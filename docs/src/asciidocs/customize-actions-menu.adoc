@@ -6,7 +6,7 @@
 :page-pageid: customize-actions
 :page-description: Overview of custom actions
 
-ThoughtSpot users with developer privileges can access the *Custom actions* page by clicking *Develop*  > *Customizations* > *Actions*. The *Custom actions* page includes the following features:
+ThoughtSpot users with developer privileges can access the *Custom actions* page by clicking *Develop*  > *Customizations* > *Custom actions*. The *Custom actions* page includes the following features:
 
 Create action::
 The *Create action* button allows you to create a custom action  xref:custom-actions-url.adoc[to send data to a URL] or xref:custom-actions-callback.adoc[trigger a callback to the parent application]. Your application users can access these custom actions by clicking the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions icon] on a visualization page.

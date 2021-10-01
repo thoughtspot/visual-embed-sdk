@@ -15,7 +15,7 @@ Obtains an authentication token for a user.
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Gets a log in session for authenticated users when trusted authentication is enabled.
+Gets a login token and a fully encoded URL for authenticated users.
 
 +++<p class="divider"> </p>+++
 

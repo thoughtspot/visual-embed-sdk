@@ -214,7 +214,11 @@ POST /tspublic/v1/session/homepinboard
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=7a9a6715-e154-431b-baaf-7b58246c13dd&userid=59481331-ee53-42be-a548-bd87be6ddd4a' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+curl -X POST `
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'id=7a9a6715-e154-431b-baaf-7b58246c13dd&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
 ----
 
 .Request URL
@@ -235,7 +239,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 
 [#get-home-pinboard]
 == Get details of the home pinboard
-To get the pinboard GUID that is set as home pinboard in the current logged in user account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
+To get the pinboard GUID that is set as `home pinboard` in the currently logged-in user's account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -256,7 +260,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 ----
 
 === Example response
-If the home pinboard is set in the current logged-in user's account, the API returns the GUID of the pinboard set as a home pinboard:
+If the home pinboard is set in the currently logged-in user's account, the API returns the GUID of the pinboard set as a home pinboard:
 
 ----
 7a9a6715-e154-431b-baaf-7b58246c13dd
@@ -271,7 +275,7 @@ If the home pinboard is set in the current logged-in user's account, the API ret
 
 [#del-home-pinboard]
 == Remove a home pinboard
-To remove the home pinboard setting from current logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
+To remove the home pinboard setting from the currently logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -292,7 +296,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 ----
 
 === Example response
-If the home pinboard is set in the current logged-in user's account, the API returns the following response:
+If the home pinboard is set in the currently logged-in user's account, the API returns the following response:
 
 ----
 Response Code

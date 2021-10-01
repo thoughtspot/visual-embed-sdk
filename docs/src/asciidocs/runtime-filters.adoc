@@ -6,10 +6,10 @@
 :page-pageid: runtime-filters
 :page-description: Apply filters to visualizations at runtime and pass them as URL parameters
 
-Runtime filters provide the ability to filter data using URL query parameters at the time of retrieval. Runtime filters allow you to apply filters to the data returned by the REST APIs, or the visualization and pinboard you are embedding in your host application. 
-
+Runtime filters provide the ability to apply filters to data and pass them as URL query parameters at the time of data retrieval. Runtime filters allow you to apply filters to the data returned by the REST APIs, or to the visualization and pinboard embedded in your host application. 
+////
 You can use runtime filters alongside the REST API and Visual Embed SDK to create dynamic controls in your application. For example, you could use the REST API to get a list of possible filters for a visualization. Then use that data to populate a select list on your application instance. When a user makes a selection, you would then pass it as a runtime filter, and the result returned will apply the filter.
-
+////
 [IMPORTANT]
 ====
 Runtime filters are passed as URL query parameters in the `GET` request methods. Make sure the filter values are URL encoded before passing them as parameters.
@@ -120,7 +120,7 @@ You can also use the `IN` operator for multiple values, as shown in this example
 col1=<column_name>&op1=IN&val1=<value>&val1=<value>
 ----
 
-The following example passes multiple variables to a single column as well as multiple columns. It shows that the data values are returned as epoch.
+The following example passes multiple variables to a single column as well as multiple columns. It shows that the data values are returned as epochs.
 
 ----
 col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2=<epoch_start>&val2=<epoch_end>

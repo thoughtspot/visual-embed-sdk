@@ -51,6 +51,6 @@ For more information, see xref:custom-actions.adoc[Custom actions].
 
 When a user shares an object with another user or follows a pinboard to receive periodic notifications, ThoughtSpot generates links to objects, such as pinboards, visualizations, and answers. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
 
-ThoughtSpot allows you to customize the format of the links in the Developer portal. The *Links* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
+ThoughtSpot allows you to customize the format of the links in the Developer portal. The *Links settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
 
 For more information, see xref:customize-links.adoc[Customize links].

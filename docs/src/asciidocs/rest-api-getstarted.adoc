@@ -55,7 +55,7 @@ Request headers::
 * Some complex POST operations, such as sharing an object with another user, require the URL-encoded objects to be passed as parameters in the URL. For such API requests, use the `application/x-www-form-urlencoded` header. 
 
 Multipart/Form-data::
-For some APIs, you must send the request body as separate blocks of data or as a separate JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure you set the `Content-Type` as `multipart/form-data`. To know if an API uses `multipart/form-data` content-type, see the example requests on the xref:rest-api-reference.adoc[respective API reference page]. 
+For some APIs, you must send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure you set the `Content-Type` as `multipart/form-data`. To know if an API uses `multipart/form-data` content-type, see the example requests on the xref:rest-api-reference.adoc[respective API reference page]. 
  
 Response body::
 For each API request, ThoughtSpot sends a response. The API response includes either an HTTP status code or a response body in the JSON or plain text format. 

@@ -5,18 +5,18 @@
 :page-pageid: get-started-tse
 :page-description: Getting Started
 
-You can explore the APIs, evaluate embedding workflows with your data, or obtain full access to the ThoughtSpot Developer portal and its features. 
+You can explore the APIs, load your data and evaluate embedding workflows, or get full access to the ThoughtSpot Developer portal and its features. 
 
 * To explore the APIs and embed ThoughtSpot features in a fictional app, xref:get-started-tse.adoc#live-playground[use the Live Playground].
 * To load your data and evaluate the workflows for embedding ThoughtSpot content in your app, xref:get-started-tse.adoc#free-trial[sign up for a free trial].
 * To get full access to ThoughtSpot Everywhere features, you can xref:get-started-tse.adoc#purchase-license[purchase the ThoughtSpot Everywhere Edition license].
-* If you already have a ThoughtSpot Enterprise Cloud service subscription, you can xref:get-started-tse.adoc#upgrade-license[upgrade your license] to avail the benefits of ThoughtSpot Everywhere features.
+* If you already have a ThoughtSpot Enterprise Cloud service subscription, you can xref:get-started-tse.adoc#upgrade-license[upgrade your license] to avail the full benefits of ThoughtSpot Everywhere.
 
 The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
 
 [div boxDiv]
 --
-image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./images/license-workflow.png",width=auto]
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png",width=auto]
 --
  
 == Feature availability

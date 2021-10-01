@@ -54,7 +54,7 @@ Make sure the {object-id} and {sub-object-id} variables are used only for Though
 
 To customize the link format, follow these steps:
 
-. Go to *Develop* > *Customizations* > *Links*.
+. Go to *Develop* > *Customizations* > *Links settings*.
 . In the *Links Settings* page, specify the link format.
 +
 
