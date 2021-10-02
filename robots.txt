@@ -1,0 +1,5 @@
+# Algolia-Crawler-Verif: 6BCDEB25A13C420A979
+
+User-agent: *
+Allow: /
+Sitemap: https://developers.thoughtspot.com/docs/sitemap/sitemap-0.xml
