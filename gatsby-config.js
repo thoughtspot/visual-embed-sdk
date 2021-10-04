@@ -2,10 +2,8 @@ require("dotenv").config();
 const asciidoc = require('asciidoctor')();
 const config = require('./docs/src/configs/doc-configs');
 
-const buildEnv = process.env.BUILD_ENV || config.BUILD_ENVS.LOCAL; // Default build env
-
 const getPathPrefix = () => {
-    if(buildEnv === config.BUILD_ENVS.LOCAL) {
+    if(process.env.BUILD_ENV === config.BUILD_ENVS.LOCAL) {
         return null;
     }
     return 'docs';
