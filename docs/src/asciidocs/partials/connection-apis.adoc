@@ -2,37 +2,37 @@
 [div boxDiv boxFullWidth]
 --
 
-`xref:connection-apis.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]`  [tag greenBackground]#New#
+`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]`  [tag greenBackground]#New#
 
 Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`xref:connection-apis.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` [tag greenBackground]#New#
+`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` [tag greenBackground]#New#
 
 Modifies a data connection.
 
 +++<p class="divider"> </p>+++
 
-`xref:connection-apis.adoc#connection-types[*GET* /tspublic/v1/connection/types]`  
+`xref:connections-api.adoc#connection-types[*GET* /tspublic/v1/connection/types]`  
 
 Gets a list of data connections that are currently operational on the ThoughtSpot cluster.
 
 +++<p class="divider"> </p>+++
 
-`xref:connection-apis.adoc#live-query-connections[*GET*  /tspublic/v1/connection/list]`  
+`xref:connections-api.adoc#live-query-connections[*GET*  /tspublic/v1/connection/list]`  
 
 Gets a list of data connections set up for a live query service on the ThoughtSpot cluster.  
 
 +++<p class="divider"> </p>+++
 
-`xref:connection-apis.adoc#export-connection[**POST** /tspublic/v1/connection/export]` [tag greenBackground]#New#
+`xref:connections-api.adoc#export-connection[**POST** /tspublic/v1/connection/export]` [tag greenBackground]#New#
 
 Exports a data connection map.
 
 +++<p class="divider"> </p>+++
 
-`xref:connection-apis.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` [tag greenBackground]#New#
+`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` [tag greenBackground]#New#
 
 Deletes the specified data connections.
 --
