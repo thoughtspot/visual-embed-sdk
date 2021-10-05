@@ -374,7 +374,7 @@ POST /tspublic/v1/connection/create
 |Form Parameter|Description 
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
-|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
 |`state`|_Integer_. Indicates the OAuth authentication setup.
 |====
@@ -396,6 +396,12 @@ curl -X POST \
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
 ----
+
+[NOTE]
+====
+Creating a new connection requires defining at least one table in the metadata JSON map.
+====
+
 ==== Example JSON map for metadata creation
 
 The following example shows the metadata JSON map for creating a Snowflake data connection:
@@ -702,7 +708,7 @@ POST /tspublic/v1/connection/update
 |Form Parameter|Description 
 |`name` |__String__. Name of the connection.
 |`description` |__String__. The description of the data connection.
-|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`id`|__String__. The GUID of the data connection that you want to modify.
 |`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
 |`state`|_Integer_. Indicates the OAuth authentication setup.
