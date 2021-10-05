@@ -127,6 +127,13 @@ export interface EmbedConfig {
      * @default false
      */
     queueMultiRenders?: boolean;
+
+    /**
+     * Dynamic CSS Url to be injected in the loaded application.
+     * _Since: 1.6.0_
+     * @default ''
+     */
+    customCssUrl?: string;
 }
 
 export type MessagePayload = { type: string; data: any };
@@ -424,6 +431,7 @@ export enum Param {
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
     VisibleActions = 'visibleActions',
+    CustomCSSUrl = 'customCssUrl',
 }
 
 /**
