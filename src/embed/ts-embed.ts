@@ -237,6 +237,21 @@ export class TsEmbed {
     }
 
     /**
+     * fix for ts7.sep.cl
+     * will be removed for ts7.oct.cl
+     * @hidden
+     */
+    private formatEventData(event: MessageEvent) {
+        const eventData = {
+            ...event.data,
+        };
+        if (!eventData.data) {
+            eventData.data = event.data.payload;
+        }
+        return eventData;
+    }
+
+    /**
      * Adds a global event listener to window for "message" events.
      * ThoughtSpot detects if a particular event is targeted to this
      * embed instance through an identifier contained in the payload,
@@ -246,10 +261,11 @@ export class TsEmbed {
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
+            const eventData = this.formatEventData(event);
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    getProcessData(eventType, event.data, this.thoughtSpotHost),
+                    getProcessData(eventType, eventData, this.thoughtSpotHost),
                     eventPort,
                 );
             }
