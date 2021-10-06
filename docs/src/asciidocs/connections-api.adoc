@@ -3,7 +3,7 @@
 :toclevels: 1
 
 :page-title: Connection APIs
-:page-pageid: connection-api
+:page-pageid: connections-api
 :page-description: Live data connections API
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. ThoughtSpot users can run a live query of the data directly from the following external data sources to generate the information they need:
@@ -353,7 +353,7 @@ __String__. The database associated with the account.
 
 == Supported operations
 
-include::{path}/connection-apis.adoc[]
+include::{path}/data-connection-apis.adoc[]
 
 
 [#cre-connection]
@@ -1278,7 +1278,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 | No live query connections on the cluster
 |===
 
-[export-connections]
+[#export-connections]
 == Export a connection map
 
 To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
@@ -1337,7 +1337,7 @@ Click the link in the `Response body` to download the YAML file.
 |===
 
 
-[del-connection]
+[#del-connection]
 == Delete a data connection
 
 To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API. 

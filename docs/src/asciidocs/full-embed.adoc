@@ -78,7 +78,7 @@ include::{path}/embed-auth-config.adoc[]
 
 === Prefetch static resources (Optional)
 
-To prefetch static resources and load your application fast, set the `callPrefetch` to `true`.
+To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
@@ -145,7 +145,7 @@ disabledActionReason::
 _String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 
 disableProfileAndHelp::
-_Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` is set to `true`.
+_Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
 
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Preview in Playground</a>

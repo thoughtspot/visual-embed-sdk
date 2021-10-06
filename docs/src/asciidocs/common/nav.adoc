@@ -61,7 +61,7 @@
 ** link:{{navprefix}}=user-api[User APIs]
 ** link:{{navprefix}}=group-api[Group APIs]
 ** link:{{navprefix}}=session-api[Session APIs]
-** link:{{navprefix}}=connection-api[Data connection APIs]
+** link:{{navprefix}}=connections-api[Data connection APIs]
 ** link:{{navprefix}}=metadata-api[Metadata APIs]
 ** link:{{navprefix}}=admin-api[Admin APIs]
 ** link:{{navprefix}}=tml-api[TML APIs]
