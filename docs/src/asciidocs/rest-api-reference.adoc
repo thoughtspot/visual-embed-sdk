@@ -29,7 +29,7 @@ include::{path}/admin-api-list.adoc[]
 
 == Data connections 
 
-include::{path}/connection-apis.adoc[]
+include::{path}/data-connection-apis.adoc[]
 
 == TML objects
 
