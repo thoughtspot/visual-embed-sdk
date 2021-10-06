@@ -54,7 +54,7 @@ include::{path}/embed-auth-config.adoc[]
 
 == Prefetch static resources (Optional)
 
-To prefetch static resources and load your application fast, set the `callPrefetch` to `true`.
+To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
