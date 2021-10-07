@@ -42,7 +42,14 @@ When a group is *NOT SHAREABLE*, the users within that group cannot share to tha
 
 When a user is set to *SHAREABLE*, other users within the same *SHAREABLE* group as that user can share content to them individually.
 
-Any user with "Share with all" privilege, including administrators, can share objects with any group  regardless of the shareable property. The non-admin users can only share to:
+[NOTE]
+====
+Any user with *Share with all* privilege, including administrators, can share objects with any group regardless of the shareable property. Every user is automatically added to the *NOT SHAREABLE* "All" group within ThoughtSpot.
+
+*Only grant the separate "Share with all privilege" to app developer / system level users, not to end customer users*
+====
+
+The non-admin users can only share to:
 
 . *SHAREABLE* groups they belong to 
 . *SHAREABLE* users within those groups. 
@@ -51,10 +58,12 @@ Any user with "Share with all" privilege, including administrators, can share ob
 
 To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable is up to you; if you prefer all sharing to be done at the group level, you can set all users to *NOT SHAREABLE*.
 
+
 [NOTE]
 ====
 Avoid using the same group for access control and other privileges. Because a user can share with anyone in a group they belong to, they can potentially share restricted data.
 ====
+
 
 == Multi-Tenancy at the data level
 We will call a database multi-tenanted when a single set of credentials can see all of the data for all customer organizations. In a multi-tenanted database, there is typically a column named “customer_id” or “tenant_id” on every row of data within the database; we’ll call it the tenant key. Filtering against this tenant key splits the data for each customer organization.
@@ -85,21 +94,18 @@ While you can share individual tables from connections to users, the best practi
 
 Remember to share the worksheet as *READ_ONLY* along with the pinboards and answers so the users can access self-service features such as changing filter values.
 
-=== Data security groups
-Another use of groups is to control what data a given user can see. The two primary categories of data security groups are row level security (RLS) groups and column level security (CLS) groups
-
-==== Row level security (RLS) groups
+=== Row level security (RLS) groups
 link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row level security , window=_blank] (RLS) is used to filter the results of database queries to only show a user the data they should have access to.
 
 RLS link:https://cloud-docs.thoughtspot.com/admin/data-security/row-level-security.html[rules, window=_blank] in ThoughtSpot use the username or the group names of the groups the user belongs to as part of all queries.
 
-RLS groups must have names that exactly match values in the database. When RLS rules are in place, a user's set of groups is placed into the WHERE clauses of queries in the form of `WHERE [field] IN ('group_1, 'group_2', ...)`.
+RLS groups must have names that exactly match values in the database. When RLS rules are in place, a user's set of groups is placed into the WHERE clauses of queries in the form of `WHERE [field] IN ('group_1', 'group_2', ...)`.
 
 RLS groups should be set to *NOT SHAREABLE*. This way you know that content sharing only occurs via the content access groups. It is much simpler to audit content access by using separate groups for each functionality.
 
 RLS can be considerably more complex than just splitting at the tenant level and ThoughtSpot does facilitate these more complex models (see the link:https://community.thoughtspot.com/s/article/How-to-secure-your-data-in-ThoughtSpot-Examples-and-Best-Practices[comprehensive examples and best practices guide, window=_blank]). However, the basics of RLS to split at the tenant key level are always present and require the creation of the RLS groups.
 
-==== Column level security (CLS) groups 
+=== Column level security (CLS) groups 
 link:https://cloud-docs.thoughtspot.com/admin/data-security/share-source-tables.html[Column level security, window=_blank] (CLS) can be configured at the individual table level through sharing. As with row level security groups, the best practice is to create separate groups specifically for the CLS groups.
 
 == Best practices for multi-tenant database and single-tenant databases models
