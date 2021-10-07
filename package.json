@@ -12,7 +12,7 @@
     ],
     "exports": {
         ".": "./lib/src/index.js",
-        "./react": "./src/react/index.js"
+        "./react": "./lib/src/react/index.js"
     },
     "scripts": {
         "lint": "eslint 'src/**'",
