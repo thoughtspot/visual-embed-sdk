@@ -140,6 +140,10 @@ The constructor options are passed as props and the event listeners can be attac
 import { init } from '@thoughtspot/visual-embed-sdk';
 import { SearchEmbed } from '@thoughtspot/visual-embed-sdk/react';
 
+// If you are using Webpack 4 (which is the default when using create-react-app v4), you would need to import
+// the React components using the below:
+import { SearchEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: AuthType.None,
