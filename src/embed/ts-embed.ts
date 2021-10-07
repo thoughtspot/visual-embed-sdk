@@ -32,7 +32,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import { version } from '../../package.json';
-import { getAuthPromise, getEmbedConfig } from './base';
+import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -391,73 +391,85 @@ export class TsEmbed {
             // warn: The URL is too long
         }
 
-        const initTimestamp = Date.now();
+        renderInQueue((nextInQueue) => {
+            const initTimestamp = Date.now();
 
-        this.executeCallbacks(EmbedEvent.Init, {
-            data: {
-                timestamp: initTimestamp,
-            },
-        });
-
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-
-        getAuthPromise()
-            ?.then(() => {
-                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
-
-                this.iFrame = this.iFrame || document.createElement('iframe');
-
-                this.iFrame.src = url;
-
-                // according to screenfull.js documentation
-                // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
-                this.iFrame.allowFullscreen = true;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                this.iFrame.webkitallowfullscreen = true;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                this.iFrame.mozallowfullscreen = true;
-                const width = getCssDimension(
-                    frameOptions?.width || DEFAULT_EMBED_WIDTH,
-                );
-                const height = getCssDimension(
-                    frameOptions?.height || DEFAULT_EMBED_HEIGHT,
-                );
-                this.iFrame.style.width = `${width}`;
-                this.iFrame.style.height = `${height}`;
-                this.iFrame.style.border = '0';
-                this.iFrame.name = 'ThoughtSpot Embedded Analytics';
-                this.iFrame.addEventListener('load', () => {
-                    const loadTimestamp = Date.now();
-                    this.executeCallbacks(EmbedEvent.Load, {
-                        data: {
-                            timestamp: loadTimestamp,
-                        },
-                    });
-                    uploadMixpanelEvent(
-                        MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
-                        {
-                            timeTookToLoad: loadTimestamp - initTimestamp,
-                        },
-                    );
-                });
-                this.el.innerHTML = '';
-                this.el.appendChild(this.iFrame);
-                const prefetchIframe = document.querySelectorAll(
-                    '.prefetchIframe',
-                );
-                if (prefetchIframe.length) {
-                    prefetchIframe.forEach((el) => {
-                        el.remove();
-                    });
-                }
-                this.subscribeToEvents();
-            })
-            .catch((error) => {
-                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED);
-                this.handleError(error);
+            this.executeCallbacks(EmbedEvent.Init, {
+                data: {
+                    timestamp: initTimestamp,
+                },
             });
+
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+
+            getAuthPromise()
+                ?.then(() => {
+                    uploadMixpanelEvent(
+                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
+                    );
+
+                    this.iFrame =
+                        this.iFrame || document.createElement('iframe');
+
+                    this.iFrame.src = url;
+
+                    // according to screenfull.js documentation
+                    // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
+                    this.iFrame.allowFullscreen = true;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.iFrame.webkitallowfullscreen = true;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.iFrame.mozallowfullscreen = true;
+                    const width = getCssDimension(
+                        frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                    );
+                    const height = getCssDimension(
+                        frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                    );
+                    this.iFrame.style.width = `${width}`;
+                    this.iFrame.style.height = `${height}`;
+                    this.iFrame.style.border = '0';
+                    this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+                    this.iFrame.addEventListener('load', () => {
+                        nextInQueue();
+                        const loadTimestamp = Date.now();
+                        this.executeCallbacks(EmbedEvent.Load, {
+                            data: {
+                                timestamp: loadTimestamp,
+                            },
+                        });
+                        uploadMixpanelEvent(
+                            MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
+                            {
+                                timeTookToLoad: loadTimestamp - initTimestamp,
+                            },
+                        );
+                    });
+                    this.iFrame.addEventListener('error', () => {
+                        nextInQueue();
+                    });
+                    this.el.innerHTML = '';
+                    this.el.appendChild(this.iFrame);
+                    const prefetchIframe = document.querySelectorAll(
+                        '.prefetchIframe',
+                    );
+                    if (prefetchIframe.length) {
+                        prefetchIframe.forEach((el) => {
+                            el.remove();
+                        });
+                    }
+                    this.subscribeToEvents();
+                })
+                .catch((error) => {
+                    nextInQueue();
+                    uploadMixpanelEvent(
+                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                    );
+                    this.handleError(error);
+                });
+        });
     }
 
     /**

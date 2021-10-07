@@ -119,6 +119,14 @@ export interface EmbedConfig {
      * @default false
      */
     callPrefetch?: boolean;
+
+    /**
+     * When there are multiple embeds, queue the render of embed to start
+     *  after the previous embed's render is complete. This helps in the load performance
+     *  by decreasing the load on the browser.
+     * @default false
+     */
+    queueMultiRenders?: boolean;
 }
 
 export type MessagePayload = { type: string; data: any };
