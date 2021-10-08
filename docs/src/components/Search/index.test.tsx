@@ -16,18 +16,33 @@ describe('Search', () => {
         options: [{
             pageid: 'page1',
             title: 'test title',
+            _snippetResult: {
+                body: {
+                    value: 'test content',
+                }
+            },
             type: 'html',
             link: '/',
         },
         {
             pageid: 'page2',
             title: 'test title',
+            _snippetResult: {
+                body: {
+                    value: 'test content',
+                }
+            },
             type: 'html',
             link: '/',
         },
         {
             pageid: 'page3',
             title: 'test title',
+            _snippetResult: {
+                body: {
+                    value: 'test content',
+                }
+            },
             type: 'text',
             link: '/',
         }] as SearchQueryResult[],
@@ -155,6 +170,6 @@ describe('Search', () => {
             fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
         })
 
-        expect(queryAllByTestId('search-result')[2]).toHaveClass('false active');
+        expect(queryAllByTestId('search-result')[2]).toHaveClass('active');
     })
 })

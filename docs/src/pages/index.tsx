@@ -209,7 +209,10 @@ const IndexPage = ({ location }) => {
     useEffect(()=>{
         if(keyword) {
             searchIndex
-            .search(keyword)
+            .search(keyword,{
+                highlightPreTag: '<em class="searchResultHighlightColor">',
+                highlightPostTag: '</em>'
+            })
             .then(({ hits }) => {
                 const t = hits.reduce((acc, cur:any) => {
                     if(cur.typedoc) {

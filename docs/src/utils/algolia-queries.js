@@ -142,10 +142,9 @@ const queries = [
       ];
     },
     indexName: Pages,
-    settings: { attributesToSnippet: ['body:7'],
-    highlightPreTag: '<em style="color:blue;">',
-    highlightPostTag: '</em>'
-  },
+    settings: {
+        attributesToSnippet: ['body:10'],
+    },
   },
 ]
 

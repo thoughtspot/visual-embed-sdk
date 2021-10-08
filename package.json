@@ -43,6 +43,7 @@
     },
     "dependencies": {
         "algoliasearch": "^4.10.5",
+        "classnames": "^2.3.1",
         "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {
