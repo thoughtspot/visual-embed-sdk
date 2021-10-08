@@ -3,19 +3,19 @@
 --
 `xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
 
-Authenticates and logs in a user.
+Obtains an authentication token for a user.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 
-Obtains an authentication token for a user.
+Authenticates and logs in a user.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Gets a login token and a fully encoded URL for authenticated users.
+Authenticates and logs in a user using token. Unnecessary to call directly when using Visual Embed SDK.
 
 +++<p class="divider"> </p>+++
 
