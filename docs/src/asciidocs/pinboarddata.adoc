@@ -13,6 +13,8 @@ Using this API, you can fetch the following information:
 * All the visualization objects on a pinboard.
 * A specific or a group of visualizations on a pinboard.
 
+Pinboard data API is the current recommendeded way to use ThoughtSpot content within a native mobile app.
+
 === Request URL
 ----
 POST /tspublic/v1/pinboarddata
