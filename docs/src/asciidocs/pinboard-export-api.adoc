@@ -8,6 +8,7 @@
 
 To programmatically download a pinboard or specific visualizations from a pinboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
 
+To remove ThoughtSpot logos from the exported PDFs, please contact your ThoughtSpot team.
 == Resource URL
 
 ----
