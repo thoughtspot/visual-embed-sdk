@@ -1,0 +1,90 @@
+= REST API v1 and v2 Comparison
+:toc: true
+:toclevels: 1
+
+:page-title: Difference between REST API v1 and v2
+:page-pageid: v1v2-comparison
+:page-description: Difference between REST API v1 and v2
+
+There are many differences between Version 1 and Version 2 of REST APIs provided by ThoughtSpot. We recommend that you understand these differences before you start using the API endpoints.
+
+[width="100%" cols="3,4,4"]
+[options='header']
+|=====
+||REST API v1| REST API v2
+|Developer SDK|[tag greyBackground]#–# Not available| [tag greenBackground]#✓# Available
+|Licensing|Requires ThoughtSpot Everywhere Edition license | Requires ThoughtSpot Everywhere Edition license |Developer Playground |Swagger API explorer|Intuitive Playground in the Developer Portal
+|Code sample availability|[tag greyBackground]#–# Not available|[tag greenBackground]#✓# Available
+|Authentication methods a| [tag greenBackground]#✓# Basic authentication
+
+[tag greenBackground]#✓# Trusted authentication 
+
+[tag greyBackground]#–# Bearer token authentication a| [tag greenBackground]#✓# Basic authentication
+
+[tag greenBackground]#✓# Trusted authentication 
+
+[tag greenBackground]#✓# Bearer token authentication
+|Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
+|Standardized parameters in API requests and responses|[tag greyBackground]#–# No|[tag greenBackground]#✓# Yes
+|API services a|[tag greenBackground]#✓# User APIs 
+
+[tag greenBackground]#✓# Group APIs
+
+[tag greenBackground]#✓# Session APIs
+
+[tag greenBackground]#✓# Data connection APIs
+
+[tag greenBackground]#✓# Metadata APIs
+
+[tag greenBackground]#✓# Admin APIs
+
+[tag greenBackground]#✓# TML APIs 
+
+[tag greenBackground]#✓# APIs for dependent objects
+
+[tag greenBackground]#✓# Search data API
+
+[tag greenBackground]#✓# Pinboard data API
+
+[tag greenBackground]#✓# Pinboard export API
+
+[tag greenBackground]#✓# Security APIs
+
+[tag greenBackground]#✓# Log Streaming Service API
+
+a|[tag greenBackground]#✓# User APIs 
+
+[tag greenBackground]#✓# Group APIs
+
+[tag greyBackground]#–# Session APIs
+
+[tag greyBackground]#–# Data connection APIs
+
+[tag greyBackground]#–# Metadata APIs
+
+[tag greyBackground]#–# Admin APIs
+
+[tag greyBackground]#–# TML APIs
+
+[tag greyBackground]#–# APIs for dependent objects
+
+[tag greyBackground]#–# Search data API
+
+[tag greyBackground]#–# Pinboard data API
+
+[tag greyBackground]#–# Pinboard export API
+
+[tag greyBackground]#–# Security APIs
+
+[tag greyBackground]#–# Log Streaming Service API |  
+
+|====
+
+
+
+
+
+
+
+
+
