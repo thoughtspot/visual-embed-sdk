@@ -177,7 +177,7 @@ The Visual Embed SDK simplifies and automates the trusted authentication workflo
 
 . A user logs into the host application and requests access to the embedded ThoughtSpot content.
 . The SDK checks for an existing user session in the browser.
-. If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method.
+. If there is no session, it obtains a token either from the specified `authEndpoint` URL or by using the `getAuthToken` callback method.
 . The SDK uses the obtained auth token and `username` in the `GET` request to the `/tspublic/v1/session/login/token` endpoint.
 . If the request is successful, the SDK renders the embedded content.
 
