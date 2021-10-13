@@ -154,7 +154,7 @@ When configuring SAML 2.0, make sure you map the SAML user attributes to appropr
 ====
 
 ==== Configuring IdP to allow iframe embedding
-The Visual Embed SDK creates an iframe to display the embedded ThoughtSpot content. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow. 
+Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow. 
 
 An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe initiated workflow.
 
