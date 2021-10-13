@@ -99,8 +99,7 @@ export interface ViewConfig {
     /**
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
-     *
-     * _since 1.5.0_
+     * * _since 1.6.0_
      */
     visibleActions?: Action[];
     /**

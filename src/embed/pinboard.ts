@@ -36,7 +36,7 @@ export interface PinboardViewConfig extends ViewConfig {
      * Setting this height helps resolves issues with empty pinboards and
      * other screens navigable from a pinboard.
      * @default 500
-     * _since 1.5.0_
+     * * _since 1.5.0_
      */
     defaultHeight?: number;
     /**
