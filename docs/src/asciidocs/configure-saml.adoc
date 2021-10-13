@@ -125,11 +125,7 @@ If you select *no*, the SAML users will not be added in ThoughtSpot upon their f
 . Click *Save*.
 
 ==== Configuring ThoughtSpot for automatic SAML redirect
-By default, ThoughtSpot will display a login box with a link at the bottom that says "Login using Single Sign On", even when embedding using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. 
-
-The necessary configuration below can be run by your own ThoughtSpot system administrator or you can make a support request to have it enabled:
-
-`tscli --adv service add-javaopt tomcat.tomcat D orion.samlConfiguration.samlLoginPageRedirect true`
+By default, ThoughtSpot will display a login box with a link at the bottom that says "Login using Single Sign On", even when embedding using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. To enable this feature, contact ThoughtSpot Support.
 
 Once automatic SAML redirect has been enabled, you can override it when necessary by appending the following parameter to a ThoughtSpot URL:
 
