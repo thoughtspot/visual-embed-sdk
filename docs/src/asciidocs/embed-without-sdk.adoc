@@ -6,11 +6,17 @@
 
 The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
 
-In these situations, you can embed ThoughtSpot pinboards or individual visualizations (answers) from a pinboard using an iframe tag.
+In these situations, you can embed ThoughtSpot pinboards or individual visualizations from a pinboard using a directly created iframe tag.
+
+== Constructing URL for direct iframe embed
 
 == SSO considerations
+When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
+
+If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iframe embed of a pinboard is, then it may be a viable SSO mechanism.
 
 == Embedding in Salesforce
+
 
 == Mobile apps
 Rather than using a direct iframe embed, it is easier on mobile devices to use the pinboarddata REST API to pull only the data values and then render them using a native table or charting library.
