@@ -333,10 +333,12 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
+     * * _since: 1.6.0_
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
+     * * _since: 1.6.0_
      */
     DialogClose = 'dialog-close',
 }
