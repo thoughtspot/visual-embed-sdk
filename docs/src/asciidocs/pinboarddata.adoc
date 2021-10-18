@@ -13,13 +13,16 @@ Using this API, you can fetch the following information:
 * All the visualization objects on a pinboard.
 * A specific or a group of visualizations on a pinboard.
 
-Pinboard data API is the current recommendeded way to use ThoughtSpot content within a native mobile app.
+[NOTE]
+====
+Pinboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
+====
 
-=== Request URL
+== Request URL
 ----
 POST /tspublic/v1/pinboarddata
 ----
-=== Request parameters
+== Request parameters
 
 [width="100%" cols="1,1,4"]
 [options='header']
@@ -34,9 +37,9 @@ POST /tspublic/v1/pinboarddata
 |`formattype`|string|Valid values are `COMPACT` or `FULL JSON`. The system default is `COMPACT`.
 |====
 
-=== Example requests
+== Example requests
 
-==== Pinboard data
+=== Pinboard data
 
 .CURL
 
@@ -50,7 +53,7 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
-==== Visualization data
+=== Visualization data
 
 .CURL
 
@@ -66,7 +69,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=%5B'fa934657-e347-4de7-b02d-3b46609233cc'%2C'62f98ad3-6ddd-4aed-8f13-58054295b7e3'%2C'eb77ba14-15de-4d4d-aac4-625ebd58b1c6'%5D&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
-=== Example response
+== Example response
 Each data object returned in the API response contains four components:
 
 . The `columnNames` array that contains a list of all column headers.
@@ -77,7 +80,7 @@ Each data object returned in the API response contains four components:
 The sampling ratio tells you the percentage of total data returned.
 A sampling ratio of `1` indicates that all data in the visualization object was returned in the API response.
 
-==== Pinboard data
+=== Pinboard data
 
 [source,JSON]
 ----
@@ -109,7 +112,7 @@ A sampling ratio of `1` indicates that all data in the visualization object was 
   }
 }
 ----
-==== Visualization data
+=== Visualization data
 The returned JSON data includes one object for every visualization on the pinboard.
 If you make a call to obtain data for a specific visualization on a pinboard, The API returns data for only that visualization.
 
@@ -276,7 +279,7 @@ These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have th
 | multiple
 |===
 
-=== Response codes
+== Response codes
 
 [options="header", cols="1,2"]
 |===

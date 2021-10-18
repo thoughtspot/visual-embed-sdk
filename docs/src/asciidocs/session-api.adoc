@@ -183,7 +183,8 @@ If the operation is successful, the API returns a response with the session info
         "availability": [
           "GLOBAL"
         ]
-      },
+       },
+}
 ----
 
 === Response codes

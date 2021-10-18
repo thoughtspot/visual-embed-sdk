@@ -24,7 +24,7 @@ To programmatically create a user account in the ThoughtSpot system, send a POST
 
 === Resource URL
 ----
-POST /tspublic/v1/user/
+POST /tspublic/v1/user/
 ----
 
 === Request parameters
@@ -760,8 +760,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
     "activate": false
   },
   {
-    "name": "jptest",
-    "displayName": "jptest",
+    "name": "aptest",
+    "displayName": "APtest",
     "created": 1634265580100,
     "modified": 1634269380481,
     "mail": "user15@thoughtspot.com",
@@ -772,7 +772,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
     ],
     "visibility": "DEFAULT",
     "activate": false
-  },
+  }
 ]
 ----
 ==== Object properties

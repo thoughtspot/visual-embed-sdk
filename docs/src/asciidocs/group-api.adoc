@@ -17,14 +17,13 @@ include::{path}/group-api-list.adoc[]
 
 include::{path}/group-privileges.adoc[]
 
-
 [#create-group]
 == Create a user group
 To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.  
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to `ALL_GROUP`. You cannot delete the ALL_GROUP or remove members from it.
+ThoughtSpot also has a default group called `ALL`. When you create new users in ThoughtSpot, they are automatically added to `ALL`. You cannot delete the ALL_GROUP or remove members from it.
 ====
 
 === Resource URL
@@ -218,7 +217,6 @@ Response Code
 |**500**| Invalid content format
 |===
 
-
 [#get-ug-details]
 == Get details of a user group
 
@@ -314,7 +312,7 @@ If you have admin user credentials, you can programmatically assign a privilege 
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically assigned to the `ALL_GROUP` group. By default, the members of `ALL_GROUP` do not have permissions to download or upload data. You can use this API to add these privileges to the `ALL_GROUP` group.
+ThoughtSpot also has a default group called `ALL` group. When you create new users in ThoughtSpot, they are automatically assigned to the `ALL` group. By default, the members of `ALL_GROUP` do not have permissions to download or upload data. You can use this API to add these privileges to the `ALL` group.
 ====
 
 === Resource URL

@@ -1,13 +1,13 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` [tag orangeBackground]#Modified#
+`xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` 
 
 Assigns tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
 
 +++<p class="divider"> </p>+++
 
-`xref:metadata-api.adoc#unassign-tags [*POST* /tspublic/v1/metadata/unassigntag]` [tag greenBackground]#New#
+`xref:metadata-api.adoc#unassign-tags [*POST* /tspublic/v1/metadata/unassigntag]` 
 
 Removes tag associations to metadata objects.
 
@@ -19,7 +19,7 @@ Gets metadata details for a specific data object such as a pinboard, search answ
 
 +++<p class="divider"> </p>+++
 
-`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` [tag greenBackground]#New#
+`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` 
 
 Gets a list of all metadata objects from the ThoughtSpot resource repository.
 

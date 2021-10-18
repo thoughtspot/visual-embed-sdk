@@ -24,7 +24,7 @@ xref:api-user-management.adoc#group-privileges[Group privileges] are set directl
 == User association to groups
 Users can can be added to specific groups when the user is being created, or you can use the xref:group-api.adoc#add-user-to-group[add a user to a group endpoint]. 
 
-The xref:group-api.adoc#addMembers[add memembers endpoint] allows adding multiple users to multiple groups in a single request. 
+The xref:group-api.adoc#addMembers[group/addmemberships] endpoint allows adding multiple users to multiple groups in a single request.
 
 The set of members within a group can be requested using the xref:group-api.adoc#get-users-group[/group/listuser/{groupid}] or xref:group-api.adoc#get-usersInGroup[/group/{groupid}/users] endpoints. 
 
