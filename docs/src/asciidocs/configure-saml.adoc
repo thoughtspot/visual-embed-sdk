@@ -145,7 +145,7 @@ To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot sup
 ////
 [NOTE]
 ====
-When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
+When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
 ====
 
 [#auth-config-sdk]
@@ -162,9 +162,16 @@ To whitelist a SAML redirect domain, follow these steps:
 
 . Log in to your ThoughtSpot application instance as an admin user.
 . Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
-. In SAML redirect domains, add the domains to whitelist.
+. Under *Customizations*, click *Security settings*.
+. Click *Edit*.
+. In the *SAML redirect domains* text box, add the domain names. Valid values are:
 +
-You can add multiple domains as comma-separated values.
+
+* Domain name strings without port and protocol. For example, `thoughtspot.com`, `www.thoughtspot.com`
+* Domain name strings with HTTP or HTTPS protocol. For example, `\http://thoughtspot.com`,  `\https://www.thoughtspot.com`, `\https://www.thoughtspot.com`
+* Domain name strings with wildcard (+++*+++). For example, 
+`\https://+++*+++.thoughtspot.com`, `*.thoughtspot.com`
+* Comma-separated values. For example, `thoughtspot.com, thoughtspot.com`
+* IPv4 addresses. For example, `255.255.255.255`
 
 . Click *Save changes*.

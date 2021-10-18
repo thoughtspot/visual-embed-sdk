@@ -45,7 +45,7 @@ include::{path}/pinboard-api-list.adoc[]
 --
 `xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`  
 
-Allows searching for data from a specific data source in the ThoughtSpot application.
+Allows searching for data from a specific data source in the ThoughtSpot application. [tag greenBackground]#New in ts7.sep.cl#
 --
 == Object dependencies
 

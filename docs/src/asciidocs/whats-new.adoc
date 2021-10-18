@@ -9,8 +9,68 @@
 
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== October 2021, _version ts7.oct.cl_
 
-== September 2021
+[width="100%" cols="1,4"]
+|====
+|[tag orangeBackground]#MODIFIED# a|+++<h5> Custom actions feature availability</h5>+++
+
+Starting from ThoughtSpot 7 Cloud October release, the *Custom actions* feature will be available for all ThoughtSpot cloud service users. You _do not_ require a separate ThoughtSpot Everywhere Edition license to create, manage, and assign custom actions to pinboard visualizations, charts and tables on clusters that have a valid ThoughtSpot Enterprise Cloud service subscription. You may also notice that the *Custom action* command under the *Customization* menu in the *Develop* tab no longer shows a locked icon. 
+
+For more information about custom actions, see xref:custom-actions.adoc[Custom actions].
+
+|[tag redBackground]#Removed# a|+++<h5>Removal of Only allow in context menu checkbox</<h5> +++
+
+The *Only allow in context menu* checkbox in the custom action creation dialog is removed from the UI. This checkbox was available in previous releases to allow users to make the newly created custom action appear only in the contextual menu for charts and tables.
+
+If you have configured a __global__ custom action to appear only in the context menu, it will now show as a menu action under the **More** image:./images/icon-more-10px.png[the more options menu] menu. To place this action on a context menu, click the edit icon and select **Context menu**.
+
+For more information, see xref:custom-actions.adoc[Custom actions].
+|====
+
+==== Visual Embed SDK
+
+The ThoughtSpot 7 Cloud October release  introduces the Visual Embed SDK version 1.5.0, which includes the following new features and enhancements.
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#New feature# a|+++<h5>+++Pinboard embed +++</h5>+++
+
+The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to. 
+ 
+For more information, see xref:embed-search.adoc[Embed a pinboard].
+
+|[tag greenBackground]#New feature# a|+++<h5>+++Embed events +++</h5>+++
+
+The SDK EmbedEvent library includes the following new events: 
+
+* `VizPointDoubleClick`
+* `Drilldown` 
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
+
+|====
+
+==== REST APIs
+
+The ThoughtSpot 7 Cloud October release includes the following new endpoints. For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].
+
+[div boxDiv boxFullWidth]
+--
+
+* `POST /tspublic/v1/group/{groupid}/users`
+* `GET /tspublic/v1/group/{groupid}/users`
+* `DELETE /tspublic/v1/group/{groupid}/users`
+* `PUT /tspublic/v1/user/email`
+* `POST /tspublic/v1/user/{userid}/groups`
+* `GET /tspublic/v1/user/{userid}/groups`
+* `PUT /tspublic/v1/user/{userid}/groups`
+* `DELETE /tspublic/v1/user/{userid}/groups`
+
+--
+
+== September 2021, _version ts7.sep.cl_
 
 [width="100%" cols="1,4"]
 |====
@@ -36,9 +96,9 @@ For more information about the licensing model and upgrade process, see xref:get
 For more information, see xref:developer-playground.adoc[Developer Playground].
 |====
 
-=== Visual Embed SDK Version 1.4.0
+==== Visual Embed SDK
 
-The ThoughtSpot 7 Cloud September release introduces the Visual Embed SDK version 1.4.0, which includes the following new features and enhancements.
+The ThoughtSpot 7 Cloud September release introduces the Visual Embed SDK version 1.4.0, which includes the following  new features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
@@ -74,24 +134,16 @@ For more information, see xref:embed-search.adoc[Embed ThoughtSpot search].
 |[tag redBackground]#Removed# | 
 
 The `searchQuery` parameter is no longer supported and is removed from the `searchEmbed` SDK package.  
-|[tag greenBackground]#New feature# a|+++<h5>+++Pinboard embed +++</h5>+++
-
-The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to. 
- 
-For more information, see xref:embed-search.adoc[Embed a pinboard].
-
 |[tag greenBackground]#New feature# a|+++<h5>+++Embed events +++</h5>+++
 The SDK EmbedEvent library includes the following events: 
 
 * `QueryChanged`
 * `AuthExpired`
-* `Drilldown`
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
-
 |====
 
-=== REST APIs
+==== REST APIs
 
 The ThoughtSpot 7 Cloud September release includes the following new endpoints and modifications to the REST APIs. For more information, see xref:rest-api-reference.adoc[REST API Reference].
 
@@ -134,7 +186,7 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 ====
 --
 
-== August 2021
+== August 2021, _version ts7.aug.cl_
 
 === Custom actions
 
@@ -237,7 +289,7 @@ For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference
 --
 --
 
-== June 2021
+== June 2021, __version ts7.jun.cl__
 
 The ThoughtSpot 7 Cloud June release introduces the following features and enhancements:
 
@@ -322,7 +374,7 @@ For more information, see xref:user-api.adoc#updatepreference-api[Update a user 
 <div class="divider"> </div>
 ++++
 
-== May 2021
+== May 2021, _version ts7.may.cl_
 The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu

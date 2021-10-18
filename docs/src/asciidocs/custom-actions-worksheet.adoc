@@ -57,12 +57,15 @@ Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[t
 Adds the custom action as a menu item in the contextual menu. If you want to send only a single row of data instead of the entire data set from a visualization, you can place the custom action in the contextual menu. Users can access this action in the contextual menu by right-clicking on a visualization.
 
 +
+////
++
 [NOTE]
 ====
 The ThoughtSpot Developer portal allows developers to set a custom action to appear only in the contextual menu. If the *Only allow in context menu* setting is enabled for a custom action in the Developer portal, ThoughtSpot users cannot modify the position of this action on visualization pages.
 ====
+////
 
-+ 
+
 . Preview  the position of the custom action.
 
 . Click *Save*.
