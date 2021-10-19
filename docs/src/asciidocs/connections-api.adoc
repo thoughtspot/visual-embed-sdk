@@ -22,11 +22,15 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
-
 [#connection-attr]
 == Connection configuration parameters
 
 To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as metadata. These attributes vary based on the type of connection.
+
+[IMPORTANT]
+====
+When you create or update a data connection using the connection API endpoints, you must provide a JSON metadata content map with at least one table.  
+====
 
 [div boxDiv boxFullWidth]
 --
@@ -34,37 +38,43 @@ To create or modify data connections through REST APIs, you need to provide a ma
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-* `description`
-+
-__String__. A short description of the connection.
 
-* `accountName`
+* `configuration` attributes
++
+The following parameters must be defined as `configuration` parameters in the JSON metadata:
+
+** `accountName`
 +
 __String__. The account name associated with the Snowflake connection.
-* `user`
+
+** `user`
 +
 _String_. The Snowflake account username.
 
-* `password`
+** `password`
 +
 _String_. The password of your Snowflake account.
 
-* `role`
+** `role`
 +
 _String_. Role or the group privilege assigned to your user account in ThoughtSpot. For example, DEVELOPER.
-* `warehouse`
+
+** `warehouse`
 +
 __String__. The warehouse associated with the connection. 
-* `database`
+
+* `externalDatabase` attributes
 +
 __String__. The database associated with the account.
 
 * `schema`
 +
 _String_.The schema of the tables associated with the database.
+
+
+"name":"AllDatatypes",
+         "isAutoCreated":false,
+         "schemas"
 
 ////
 * `state`
