@@ -16,7 +16,7 @@ To allow your application to call ThoughtSpot, access its resources, and render 
 
 ** Trusted hosts for CSP
 +
-To allow your application to embed ThoughtSpot and access its content via web browsers, add your application domain as a trusted host in the CSP allowed list. You need to also add the domain URLs to the `connect-src` allowed list to load script interfaces and Javascript events.
+To allow your application to embed ThoughtSpot and access its content via web browsers, add your application domain as a trusted host in the CSP allowlist. You need to also add the domain URLs to the `connect-src` allowlist to load script interfaces and allow Javascript events.
 
 +
 Users with admin or developer privileges can configure the CORS and CSP allowed list on the *Security Settings* page in the *Develop* tab of the ThoughtSpot UI.
@@ -33,8 +33,8 @@ To allow your host domain to set the `frame-ancestors` CSP policy header and emb
 . Click *Save changes*.
 
 [#csp-connect-src]
-== Add URLs to CSP connect-src list
-If you plan to create custom actions with URL targets, you must add these URLs to the `CSP connect-src` list. This allows JavaScript events that the custom action URL triggers when a user clicks the action in the ThoughtSpot UI. 
+== Add URLs to CSP connect-src allowlist
+If you plan to create custom actions with URL targets, you must add the domain names of these URLs to the `CSP connect-src` allowlist. This allows JavaScript events triggered by the custom action URLs. 
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
@@ -46,13 +46,11 @@ If you plan to create custom actions with URL targets, you must add these URLs t
 [#cors-hosts]
 == Enable CORS
 
-The CORS configuration for your cluster controls which domains can access and modify your embedded content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. 
+The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `\http://localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
 
-After you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends an API request to ThoughtSpot. 
+If you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends a request to ThoughtSpot. 
 
-You can add `\http://localhost:8080` to test your deployments locally. However, we recommend you disable the `localhost` access in production environments.
-
-To add a domain to the CORS allowlist, follow these steps:
+To add domain names to the CORS allowlist, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
@@ -60,11 +58,10 @@ To add a domain to the CORS allowlist, follow these steps:
 . Click *Edit*.
 . In the *CORS whitelisted domains* text box, add the domain names. For valid domain name formats, See xref:security-settings.adoc#csp-cors-hosts[Domain name format for CSP and CORS configuration].
 
-
 [#csp-cors-hosts]
 == Domain name format for CSP and CORS configuration
 
-The following table shows the valid domain name strings to use in the CORS and CSP allowed list. Note that the CORS allowed list ignores the port and protocol in the hostname strings. 
+The following table shows the valid domain name strings to use in the CORS and CSP allowlists. Note that the CORS allowlist ignores the port and protocol in the hostname strings. 
 
 [width="100%" cols="4,2,2,2"]
 [options='header']
@@ -88,16 +85,21 @@ a|Domain URL strings for localhost with or without port and protocol.
 a|Domain URL strings with or without the protocol. 
 
 * `thoughtspot.com` 
-* `+++.*.thoughtspot.com +++` +
 * `\http://thoughtspot.com` +
 * `\https://thoughtspot.com` +
 * `\https://www.thoughtspot.com` +
 * `www.thoughtspot.com` +
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
-a|Wildcard before the domain name
+
+|Domain name with wildcard (*) and leading dot +
+
+`+++.*.thoughtspot.com +++` |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
+
+a|Wildcard before the domain name +
 
 * `+++*+++.thoughtspot.com`
 * `\https://*.thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+
 
 a| Domain names with space, backslash (\), and wildcard (*). 
 
@@ -109,15 +111,18 @@ a| Domain names with space, backslash (\), and wildcard (*).
 |URLs with query parameters
 `\http://thoughtspot.com?2rjl6`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |URLs with path parameters
+`thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+|URLs with path and query parameters
 `thoughtspot.com/products?id=1&page=2`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |IPv4 addresses +
 `255.255.255.255`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
-|Semicolons as separators
+|Semicolons as separators +
 `thoughtspot.com; thoughtspot.com;`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-|Comma-separated values 
+|Comma-separated values +
 `thoughtspot.com, thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |`mail://xyz.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-a|+++Wildcard (*) for port+++.  
+a|+++Wildcard (*) for port+++ 
+
 `thoughtspot:*`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |====
 

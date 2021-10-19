@@ -14,19 +14,21 @@ This article provides information about new features, enhancements, and deprecat
 |====
 |[tag orangeBackground]#MODIFIED# a|+++<h5> Custom actions feature availability</h5>+++
 
-Starting from ThoughtSpot 7 Cloud October release, the *Custom actions* feature will be available for all ThoughtSpot cloud service users. You _do not_ require a separate ThoughtSpot Everywhere Edition license to create or manage custom actions on clusters that have a valid ThoughtSpot Enterprise Cloud service subscription. You may also notice that the *Custom action* command under the *Customization* menu in the *Develop* tab no longer displays a locked icon and is available for users with Developer or Admin privileges.
+Starting from ThoughtSpot 7 Cloud October release, you _do not_ require a separate ThoughtSpot Everywhere Edition license to create or manage custom actions. The *Custom action* feature is unlocked on all clusters that have a valid ThoughtSpot Enterprise Cloud service subscription. ThoughtSpot Cloud service users with Developer or Admin privileges can access the *Custom actions* feature in the *Develop* tab.
 
-|[tag redBackground]#BREAKING CHANGE# a|+++<h5>Removal of the Only allow in context menu checkbox</<h5> +++
+|[tag redBackground]#REMOVED# a|+++<h5>The Only allow in context menu checkbox</<h5> +++
 
-The *Only allow in context menu* checkbox in the custom action creation dialog is removed from the UI. This checkbox was available in previous releases to allow users to set a custom action to appear only in the contextual menu on pinboard visualizations, charts, or tables. 
+The *Only allow in context menu* checkbox in the custom action creation dialog is removed from the UI. This checkbox was available in previous releases to allow developers to set a custom action to appear only in the contextual menu on pinboard visualizations, charts, or tables. 
 
-Note that if you have a *Global* custom action that was configured to appear only in the contextual menu in earlier releases, it will now show as a menu action under the **More** image:./images/icon-more-10px.png[the more options menu] menu. You can modify the position of the *Global* custom action by using the *Edit* option in the *Custom actions* panel on a visualization page, chart, or table. For more information, see xref:custom-actions-edit.adoc[Set the position of a custom action].
+If you have created custom actions with the *Only allow in context menu* setting enabled on your instance, note these custom action workflow changes:
 
-////
-*  If you have a *Local* custom action that was configured to appear only in the contextual menu and was assigned to visualization, chart, or table in the earlier releases, the custom action is placed in the contextual menu. 
+* If you have a *Global* custom action with the *Only allow in context menu* setting enabled, the configuration setting _is not_ preserved and the actions are placed in the **More** image:./images/icon-more-10px.png[the more options menu] menu instead of the contextual menu. 
++
+You can modify the position of this action by using the *Edit* option in the *Custom actions* panel on a visualization or search results page. For more information, see xref:custom-actions-edit.adoc[Set the position of a custom action].
 
-*  If you have a *Local* custom action that was configured to appear only in the contextual menu, but was not assigned to any visualization, chart, or table in earlier releases, the custom action does not show up in the contextual menu.
-////
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, and the action is already assigned to a visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
+
+* If your instance has a *Local* custom action with the *Only allow in context menu* setting enabled and it is not assigned to any visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and modify its position as required.
 
 |====
 
