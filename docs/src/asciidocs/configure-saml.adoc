@@ -126,6 +126,13 @@ ThoughtSpot can also add users to groups sent within the SAML assertion. You mus
 +
 . Click *Save*.
 
+==== Configuring ThoughtSpot for automatic SAML redirect
+By default, ThoughtSpot will display a login box with a link at the bottom that says "Login using Single Sign On", even when embedding using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. To enable this feature, contact ThoughtSpot Support.
+
+Once automatic SAML redirect has been enabled, you can override it when necessary by appending the following parameter to a ThoughtSpot URL:
+
+`disableSAMLAutoRedirect=true`
+
 [#idp-config]
 === Configure the IdP server for SAML authentication
 To enable IdP to recognize your host application and ThoughtSpot as a valid service provider, you must configure the IdP with the required attributes and metadata. 
@@ -147,6 +154,11 @@ To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot sup
 ====
 When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
 ====
+
+==== Configuring IdP to allow iframe embedding
+Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow. 
+
+An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe initiated workflow.
 
 [#auth-config-sdk]
 === Enable SSO authentication in the Visual Embed SDK
