@@ -39,7 +39,7 @@ To use the trusted authentication method, you must add the authentication server
 
 === ThoughtSpot server
 
-For a token-based authentication method, ThoughtSpot administrators must  xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
+For a token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
 
 The trusted authenticator server also uses this secret key to obtain a security token.
 
@@ -54,8 +54,34 @@ Note the following points about token validity:
 * When you generate a new token using the new secret key, the old token immediately becomes invalid.
 * If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
 
-== Trusted authentication workflow
-The embed user authentication workflow with a trusted authentication service involves the following steps:
+[#trusted-auth-enable]
+== Enable trusted authentication
+You need ThoughtSpot admin privileges to enable trusted authentication.
+
+. Log in to the ThoughtSpot.
+. Click the *Develop* tab.
+. Under *Customizations*, click *Settings*.
+. To enable trusted authentication, turn on the toggle.
++
+A secret key for trusted authentication is generated. This secret key is required for obtaining an authentication token for a ThoughtSpot user.
+
+. Click the clipboard icon to copy the token.
++
+The following example shows a ThoughtSpot-generated secret key string.
+
++
+----
+b0cb26a0-351e-40b4-9e42-00fa2265d50c
+----
+This key is required for making API calls to get a token for ThoughtSpot users.
+
+. Store the key in a secure location.
+. Click *Save Changes*.
+
+
+== How it works
+
+The user authentication workflow with a trusted authentication service involves the following steps:
 
 . A user logs into the host application and requests access to the embedded ThoughtSpot content.
 . The host application sends a request for a user token to the trusted authentication server.
@@ -66,7 +92,7 @@ To proceed with authentication, the authentication server must determine the fol
  * which user (`username`) is making the request.
  * what is being requested: an object, page, or the entire ThoughtSpot application.
  * whether the requesting `username` matches a `username` added in ThoughtSpot.
-. The trusted authenticator service then sends a `POST` request to the `/tspublic/v1/session/login` endpoint. This step creates a session cookie that persists in subsequent API calls.
+. The trusted authenticator service then calls the `/tspublic/v1/session/login` API  to log in, using a service account that has admin privileges. This step creates a session cookie that persists in subsequent API calls.
 . After establishing a session, the trusted authentication service sends a POST request to the ThoughtSpot server with the `secret_key` and `username` attributes to obtain an authentication token on the user's behalf.
 +
 ----
@@ -104,8 +130,12 @@ This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
 . ThoughtSpot verifies the authentication server's request and returns a token.
 . The authentication server returns the token to the user's web browser.
+
 +
-Note that the following steps are handled automatically if you are using the Visual Embed SDK. For more information, see xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK].
+[NOTE]
+====
+If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically. For more information, see xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK].
+====
 
 +
 . The client application constructs a fully encoded URL with the authentication token and the embedded resource endpoint and sends it as a query parameter in the GET request to the ThoughtSpot application server.
@@ -138,45 +168,20 @@ https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavH
 [NOTE]
 The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
 
-
 . ThoughtSpot validates the request and allows access to the requested content.
 
 [#trusted-auth-sdk]
-== Trusted authentication workflow with Visual Embed SDK
+=== Trusted authentication workflow with Visual Embed SDK
 
 The Visual Embed SDK simplifies and automates the trusted authentication workflow.
 
+. A user logs into the host application and requests access to the embedded ThoughtSpot content.
 . The SDK checks for an existing user session in the browser.
-. If there is no session, it obtains a token either from the specified `authEndpoint` URL, or by using the `getAuthToken` callback method.
-. The SDK uses the obtained token and `username` in the GET request to the `/tspublic/v1/session/login/token` endpoint.
+. If there is no session, it obtains a token either from the specified `authEndpoint` URL or by using the `getAuthToken` callback method.
+. The SDK uses the obtained auth token and `username` in the `GET` request to the `/tspublic/v1/session/login/token` endpoint.
 . If the request is successful, the SDK renders the embedded content.
 
 For more information, see xref:embed-authentication.adoc[Embed user authentication].
-
-[#trusted-auth-enable]
-== Enable trusted authentication
-You need ThoughtSpot admin privileges to enable trusted authentication.
-
-. Log in to the ThoughtSpot.
-. Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
-. To enable trusted authentication, turn on the toggle.
-+
-A secret key for trusted authentication is generated. This secret key is required for obtaining an authentication token for a ThoughtSpot user.
-
-. Click the clipboard icon to copy the token.
-+
-The following example shows a ThoughtSpot-generated secret key string.
-
-+
-----
-b0cb26a0-351e-40b4-9e42-00fa2265d50c
-----
-This key is required for making API calls to get a token for ThoughtSpot users.
-
-. Store the key in a secure location.
-. Click *Save Changes*.
-
 
 == Disable trusted authentication
 
