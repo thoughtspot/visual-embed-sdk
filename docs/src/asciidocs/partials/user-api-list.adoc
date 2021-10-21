@@ -99,7 +99,7 @@ Gets details of the user groups associated with a specific user.
 
 `xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
 
-update the user group data for a specific user.
+Updates the user group data for a specific user.
 
 +++<p class="divider"> </p>+++
 

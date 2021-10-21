@@ -24,29 +24,32 @@ If you have created custom actions with the *Only allow in context menu* setting
 
 * If you have a *Global* custom action with the *Only allow in context menu* setting enabled, the configuration setting _is not_ preserved and the action is placed in the **More** image:./images/icon-more-10px.png[the more options menu] menu instead of the contextual menu. 
 +
-You can modify the position of this action by using the *Edit* option in the *Custom actions* panel on a visualization or search results page. For more information, see xref:custom-actions-edit.adoc[Set the position of a custom action].
+You can xref:custom-actions-edit.adoc[modify the position of this action] by using the *Edit* option in the *Custom actions* panel on a visualization or search results page.
 
-* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, and the action is already assigned to a worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
 
-* If your instance has a *Local* custom action with the *Only allow in context menu* setting enabled and it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and modify its position as required. 
-For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
 |====
 
 === Visual Embed SDK
 
-The ThoughtSpot 7 Cloud October release  introduces the Visual Embed SDK version 1.5.0, which includes the following new features and enhancements.
+The ThoughtSpot 7 Cloud October release introduces the Visual Embed SDK version 1.5.0, which includes the following new features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Pinboard embed +++</h5>+++
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Render embedded objects in queue</h5>+++
+
+The SDK now supports rendering embedded objects in a queue. If you have multiple embedded objects, you can enable the `queueMultiRenders` parameter to queue your embedded objects and render them one after another. This feature helps in decreasing the load on the web browsers and improving your application loading experience. By default, this attribute is set to `false`. 
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard embed</h5>+++
 
 The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to.
 
 For more information, see xref:embed-search.adoc[Embed a pinboard].
 
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Embed events +++</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Embed events</h5>+++
 
 The SDK EmbedEvent library includes the following new events:
 
@@ -59,7 +62,7 @@ For more information, see xref:embed-events.adoc[Event subscription and handling
 
 === REST APIs
 
-The ThoughtSpot 7 Cloud October release includes the following new endpoints. For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].
+The ThoughtSpot 7 Cloud October release includes the following new REST API endpoints. For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].
 
 * `POST /tspublic/v1/group/{groupid}/users`
 * `GET /tspublic/v1/group/{groupid}/users`
