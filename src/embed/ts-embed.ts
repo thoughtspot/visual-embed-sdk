@@ -27,6 +27,7 @@ import {
     Action,
     RuntimeFilter,
     Param,
+    EmbedConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
@@ -99,8 +100,7 @@ export interface ViewConfig {
     /**
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
-     *
-     * _since 1.5.0_
+     * * _since 1.6.0_
      */
     visibleActions?: Action[];
     /**
@@ -128,6 +128,8 @@ export class TsEmbed {
     protected iFrame: HTMLIFrameElement;
 
     protected viewConfig: ViewConfig;
+
+    protected embedConfig: EmbedConfig;
 
     /**
      * The ThoughtSpot hostname or IP address
@@ -167,14 +169,14 @@ export class TsEmbed {
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
-        const config = getEmbedConfig();
-        this.thoughtSpotHost = getThoughtSpotHost(config);
-        this.thoughtSpotV2Base = getV2BasePath(config);
+        this.embedConfig = getEmbedConfig();
+        this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
+        this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
-        this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
-        if (!config.suppressNoCookieAccessAlert) {
+        this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        if (!this.embedConfig.suppressNoCookieAccessAlert) {
             this.on(EmbedEvent.NoCookieAccess, () => {
                 // eslint-disable-next-line no-alert
                 alert(
@@ -313,6 +315,10 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
+
+        if (this.embedConfig.customCssUrl) {
+            queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
+        }
 
         const {
             disabledActions,

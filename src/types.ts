@@ -127,6 +127,13 @@ export interface EmbedConfig {
      * @default false
      */
     queueMultiRenders?: boolean;
+
+    /**
+     * Dynamic CSS Url to be injected in the loaded application.
+     * _Since: 1.6.0_
+     * @default ''
+     */
+    customCssUrl?: string;
 }
 
 export type MessagePayload = { type: string; data: any };
@@ -279,7 +286,7 @@ export enum EmbedEvent {
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * _since: 1.5.0_
+     * * _since: 1.5.0_
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -331,6 +338,16 @@ export enum EmbedEvent {
      * @hidden
      */
     SAMLComplete = 'samlComplete',
+    /**
+     * Emitted when any modal is opened in the app
+     * * _since: 1.6.0_
+     */
+    DialogOpen = 'dialog-open',
+    /**
+     * Emitted when any modal is closed in the app
+     * * _since: 1.6.0_
+     */
+    DialogClose = 'dialog-close',
 }
 
 /**
@@ -350,8 +367,8 @@ export enum HostEvent {
      * @param points - an object containing selectedPoints/clickedPoints
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
-     *                     if not provided it will auto drill by the configured column.
-     * _since: 1.5.0_
+     *                     if not provided it will auto drill by the configured column. \
+     * * _since: 1.5.0_
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -413,7 +430,8 @@ export enum Param {
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
-    VisibleActions = 'visibleActions',
+    VisibleActions = 'visibleAction',
+    CustomCSSUrl = 'customCssUrl',
 }
 
 /**
