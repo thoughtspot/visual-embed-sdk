@@ -161,7 +161,7 @@
 				</a>
 				<ul>
 					<li>Detailed <a href="https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started">developer guide</a>.</li>
-					<li>Please visit our <a href="https://docs.thoughtspot.com/visual-embed-sdk/release/typedoc/modules.html">API reference docs</a>. </li>
+					<li>Please visit our <a href="https://developers.thoughtspot.com/docs/typedoc/modules.html">API reference docs</a>. </li>
 				</ul>
 				<br/>
 				<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
@@ -253,6 +253,10 @@
 				</a>
 				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk/react&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// If you are using Webpack 4 (which is the default when using create-react-app v4), you would need to import</span>
+<span style="color: #008000">// the React components using the below:</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">SearchEmbed</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk/lib/src/react&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #795E26">init</span><span style="color: #000000">({</span>
 <span style="color: #000000">    </span><span style="color: #001080">thoughtSpotHost:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;&lt;%=tshost%&gt;&#039;</span><span style="color: #000000">,</span>

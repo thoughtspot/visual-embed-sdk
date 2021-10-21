@@ -1,7 +1,7 @@
-const config = require('../configs/doc-configs');
 const { JSDOM }  = require("jsdom");
 const { htmlToText } = require("html-to-text");
-const Pages = `Pages`
+const config = require('../configs/doc-configs');
+const { getAlgoliaIndex } = require('../configs/algolia-search-config');
 
 const getPathPrefix = () => {
   return 'docs';
@@ -141,7 +141,7 @@ const queries = [
             }),
       ];
     },
-    indexName: Pages,
+    indexName: getAlgoliaIndex(),
     settings: {
         attributesToSnippet: ['body:10'],
     },

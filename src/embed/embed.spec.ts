@@ -65,3 +65,27 @@ describe('test view config', () => {
         }, EVENT_WAIT_TIME);
     });
 });
+
+describe('Custom CSS Url', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test.only('passing customCssUrl should set the correct query params on the iframe', async (done) => {
+        init({
+            thoughtSpotHost,
+            authType: AuthType.None,
+            customCssUrl: 'bla.com/foo.css',
+        });
+
+        const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        embed.render();
+        executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            expect(iframe.src.includes('customCssUrl=bla.com/foo.css')).toBe(
+                true,
+            );
+            done();
+        });
+    });
+});
