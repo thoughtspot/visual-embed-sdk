@@ -430,7 +430,7 @@ export enum Param {
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
-    VisibleActions = 'visibleActions',
+    VisibleActions = 'visibleAction',
     CustomCSSUrl = 'customCssUrl',
 }
 
