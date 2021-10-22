@@ -22,7 +22,7 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
-[#connection-attr]
+[#connection-metadata]
 == Connection metadata
 
 To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. To create a new data connection, the metadata JSON map should include at least one table object. 
@@ -31,6 +31,7 @@ Here is an example of the metadata JSON file:
 
 image::./images/connection_metadata_json.png[Connection metadata] 
 
+[#connection-attr]
 === Configuration attributes in connection metadata
 
 The configuration attributes in the connection vary based on the type of connection.
@@ -316,7 +317,7 @@ POST /tspublic/v1/connection/create
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
 
 Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
-|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[connection attributes], database, schema, and table objects. 
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. 
 |`state`|_Integer_. Indicates the OAuth authentication setup.
 |====
 
