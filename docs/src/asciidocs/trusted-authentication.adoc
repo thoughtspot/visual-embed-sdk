@@ -8,11 +8,12 @@
 :page-description: Trusted Authentication
 
 
-The trusted authentication method is a token-based authentication service, which uses a security token to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content.
+The trusted authentication method of single sign-on specifies a method for an *authenticator service* to programmatically request *login tokens* from ThoughtSpot, which can then be used to sign-in a user to the ThoughtSpot instance. The login token is only necessary during the login process, after which ThoughtSpot establishes a user session using cookies.
 
-Trusted authentication requires you to have an authenticator server or service, which can securely authenticate the users of the embedding application. __You__ must implement secure authentication within the process that requests the login token from the authenticator server.
+*You* must implement the actual authentication of the inbound request for a token within the authenticator service. This is why the method is called trusted authentication &#8212; ThoughtSpot trusts the authenticator service to request a login token for any user. 
 
-The authenticator server has access to a ThoughtSpot secret key, allowing the authenticator server to request a login token __for any user__ on the ThoughtSpot Server. This login token is then sent to the user's web browser, where it is used in the login process.
+The authenticator service must have secure access to the *secret_key* for the ThoughtSpot instance. With that *secret_key*, the authenticator service can make a REST API request for a *login token* for any existing user within ThoughtSpot. This login token is then sent to the user's web browser, where it is used in the login process.
+
 
 The following illustration depicts the trusted authentication workflow:
 
@@ -20,32 +21,28 @@ image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 == Key components
 
-The trusted authentication workflow involves several entities, such as the web browser, host application, authenticator server, and the ThoughtSpot application server.
+The trusted authentication workflow involves several entities, such as the web browser, web application, authenticator service, and the ThoughtSpot application server.
 
-=== Authenticator server
+=== Authenticator service
 
-If your organization has an authentication server, you can use it as a trusted authenticator server to authenticate ThoughtSpot users who request access to the embedded ThoughtSpot content.
+The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot secret_key. It performs the following functions:
 
-The authenticator server performs the following functions:
-
-* provide token-based authentication service
 * Authenticate users who request access to the embedded content
-* Request a token from ThoughtSpot on a user’s behalf
+* Request a token from ThoughtSpot on a user’s behalf, using the secret_key for the ThoughtSpot instance
 * Return the token to the user's web browser
 
-+
-[NOTE]
-To use the trusted authentication method, you must add the authentication server domain to the allowed list for CORS. For more information, see xref:security-settings.adoc[Security settings].
+There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instnace and having access to the secret_key. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot Cloud instance.
+
 
 === ThoughtSpot server
 
 For a token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
 
-The trusted authenticator server also uses this secret key to obtain a security token.
+The `secret key` must be stored in a secure fashion such that only the trusted authenticator service can use it.
 
-=== Security token
+=== Login token
 
-The security token, also referred to as the authentication token, allows users to access the requested object.
+The login token, also referred to as the authentication token, allows users to access the requested object.
 
 Note the following points about token validity:
 
