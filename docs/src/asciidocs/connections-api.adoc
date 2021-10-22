@@ -23,14 +23,21 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
 [#connection-attr]
-== Connection attributes 
+== Connection metadata
 
-To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`.
-The  metadata JSON includes configuration attributes and a map of the database schema with tables. The configuration attributes vary based on the type of connection. To create a new data connection, the metadata JSON map should include at least one table object. 
+To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. To create a new data connection, the metadata JSON map should include at least one table object. 
+
+Here is an example of the metadata JSON file:
+
+image::./images/connection_metadata_json.png[Connection metadata] 
+
+=== Configuration attributes in connection metadata
+
+The configuration attributes in the connection vary based on the type of connection.
 
 [div boxDiv boxFullWidth]
 --
-.Snowflake connection metadata 
+.Snowflake connection
 
 [%collapsible]
 ====
@@ -48,7 +55,7 @@ _String_. The password of your Snowflake account.
 
 * `role`
 +
-_String_. Role or the group privilege assigned to your user account in ThoughtSpot. For example, `sysadmin`.
+_String_. The role assigned to your user account. For example, `sysadmin`.
 
 +
 Make sure the role you specify for this attribute has privileges to access the database, schema, and tables that you want to use for the live query service.
@@ -61,7 +68,7 @@ __String__. The warehouse associated with the connection.
 
 [div boxDiv boxFullWidth]
 --
-.Amazon Redshift connection metadata
+.Amazon Redshift connection
 
 [%collapsible]
 ====
@@ -92,7 +99,7 @@ __String__. Specify the name of the database that you want to use for live query
 [div boxDiv boxFullWidth]
 
 --
-.Google BigQuery connection metadata
+.Google BigQuery connection
 
 [%collapsible]
 ====
@@ -117,7 +124,7 @@ __String__. A JSON map of The OAuth client ID and OAuth client secret to authent
 [div boxDiv boxFullWidth]
 
 --
-.Azure Synapse connection metadata
+.Azure Synapse connection
 
 [%collapsible]
 ====
@@ -147,7 +154,7 @@ __String__. Specify the database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Teradata connection metadata
+.Teradata connection
 
 [%collapsible]
 ====
@@ -175,7 +182,7 @@ __String__. The database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Oracle ADW connection metadata
+.Oracle ADW connection
 
 [%collapsible]
 ====
@@ -193,7 +200,7 @@ __String__. Password of your Oracle ADW account.
 _String_. The Net Service Name of your Oracle ADW account.
 
 * `tns_admin`
-
++
 _String_. The ID of the directory specified by the `TNS_ADMIN` environment variable.
 
 * `schema`
@@ -206,7 +213,7 @@ _String_. The schema of the database.
 [div boxDiv boxFullWidth]
 
 --
-.Starburst connection metadata
+.Starburst connection 
 
 [%collapsible]
 ====
@@ -233,7 +240,7 @@ __String__. The database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Databricks connection metadata
+.Databricks connection
 
 [%collapsible]
 ====
@@ -243,8 +250,8 @@ __String__. The database associated with the account.
 __String__. The hostname of the database connection. For example, `dbs.example.cloud.databricks.com`.
 
 * `http_path`
-
-+__String__. The HTTP path of your Databricks connection host.
++
+__String__. The HTTP path of your Databricks connection host.
 
 * `user`
 +
@@ -260,7 +267,7 @@ __String__. Password of your Databricks account.
 [div boxDiv boxFullWidth]
 
 --
-.SAP HANA connection metadata
+.SAP HANA connection
 
 [%collapsible]
 ====
@@ -346,8 +353,8 @@ The following example shows the metadata JSON map for creating a Snowflake data 
    "configuration":{
       "accountName":"thoughtspot_partner",
       "user":"tsadmin",
-      "password":"Embrace123",
-      "role":"DEVELOPER",
+      "password":"TestConn123",
+      "role":"sysadmin",
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
@@ -673,7 +680,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
       "accountName":"thoughtspot_partner",
       "user":"tsadmin",
       "password":"Embrace123",
-      "role":"DEVELOPER",
+      "role":"sysadmin",
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
