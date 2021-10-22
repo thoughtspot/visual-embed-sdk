@@ -301,6 +301,11 @@ include::{path}/data-connection-apis.adoc[]
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
 
+[NOTE]
+====
+Creating a new connection requires defining at least one table in the metadata JSON map.
+====
+
 === Resource URL
 ----
 POST /tspublic/v1/connection/create
@@ -317,8 +322,8 @@ POST /tspublic/v1/connection/create
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
 
 Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
-|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. 
-|`state`|_Integer_. Indicates the OAuth authentication setup.
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. Make sure the database object includes at least one table.
+|`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
 === Example request 
@@ -339,10 +344,6 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
 ----
 
-[NOTE]
-====
-Creating a new connection requires defining at least one table in the metadata JSON map.
-====
 
 ==== Example JSON map for metadata creation
 
@@ -652,7 +653,7 @@ POST /tspublic/v1/connection/update
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`id`|__String__. The GUID of the data connection that you want to modify.
 |`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
-|`state`|_Integer_. Indicates the OAuth authentication setup.
+|`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
 === Example request 
@@ -673,6 +674,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
 ----
 
 ==== Example JSON map for metadata update
+
+The following example shows the metadata JSON map for modifying a Snowflake data connection. Note that the example shows the configuration attributes to authenticate to the data source, tables, and column data for connection modification.
 
 [Source, JSON]
 ----
@@ -702,7 +705,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
                         {
                            "name":"CDECIMAL",
                            "type":"INT64",
-                           "canImport":true,
+                           "canImport":false,
                            "selected":true,
                            "isLinkedActive":true,
                            "isImported":false,
@@ -713,7 +716,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
                         {
                            "name":"CBIGINT",
                            "type":"INT64",
-                           "canImport":true,
+                           "canImport":false,
                            "selected":false,
                            "isLinkedActive":true,
                            "isImported":false,
