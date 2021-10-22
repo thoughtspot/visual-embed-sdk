@@ -57,15 +57,24 @@ To add domain names to the CORS allowlist, follow these steps:
 . Under *Customizations* > *Security settings*.
 . Click *Edit*.
 . In the *CORS whitelisted domains* text box, add the domain names. For valid domain name formats, See xref:security-settings.adoc#csp-cors-hosts[Domain name format for CSP and CORS configuration].
+. Click *Save changes*.
 
 [#csp-cors-hosts]
 == Domain name format for CSP and CORS configuration
 
+[IMPORTANT]
+====
+[#port-protocol]
+Note the following points if using port or protocol in the domain name string:
+
+* Although the UI allows a domain URL without the protocol (`http/https`) in the CSP allowlist, do include the protocol in the domain name string for the CSP allowlist to avoid configuration errors.
+* Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings. 
+* If your domain URL has a non-standard port such as 8080, specify the port number in the domain name string.
+====
+
 The following table shows the valid domain name strings to use in the CORS and CSP allowlists. 
 
-Although you can add a domain name string with protocol and port to the CORS allowlist, ThoughtSpot ignores the port and protocol (`http/https`) in the domain names of CORS hosts.
-
-[width="100%" cols="4,2,2,2"]
+[width="100%" cols="5,2,2,2"]
 [options='header']
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
@@ -75,11 +84,17 @@ a|Domain URL strings with protocol
 * `\http://thoughtspot.com` +
 * `\https://thoughtspot.com` +
 * `\https://www.thoughtspot.com` +
+
+See the xref:security-settings.adoc#port-protocol[note about excluding protocol] in the CORS allowlist.
+
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without protocol + 
 
 * `thoughtspot.com` 
 * `www.thoughtspot.com` +
+
+See the xref:security-settings.adoc#port-protocol[note about including protocol] in the CSP allowlists.
+
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 
 a|Domain URL strings for localhost 
@@ -89,6 +104,15 @@ a|Domain URL strings for localhost
 * `\http://localhost:3000` 
 * `localhost:3000` 
 * `\https://localhost:3000` 
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
+a|Domain URL strings without port
+
+* `thoughtspot.com`
+* `\https://thoughtspot.com`
+* `\http://mysite.com`
+
+If your domain URL has a non-standard port, for example `http://mysite.com:8080`, make sure you add the port number in the domain name string. 
+
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
 |Wildcard +++(*)+++ before the domain name extension +
@@ -112,11 +136,11 @@ a| Domain names with space, backslash (\), and wildcard (*).
 * `\https://\*.thoughtspot.com` 
 * `thoughtspot  .com` +
 |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-|URLs with query parameters
+|URLs with query parameters +
 `\http://thoughtspot.com?2rjl6`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-|URLs with path parameters
+|URLs with path parameters +
 `thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
-|URLs with path and query parameters
+|URLs with path and query parameters +
 `thoughtspot.com/products?id=1&page=2`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |IPv4 addresses +
 `255.255.255.255`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
