@@ -135,7 +135,7 @@ This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 +
 [NOTE]
 ====
-If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically. For more information, see xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK].
+If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically by the *init* function, where you specify the authenticator service via a URL (authEndpoint) or a callback function (getAuthToken). For more information, see xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK]. 
 ====
 
 +
@@ -196,5 +196,5 @@ A pop-up window appears and prompts you to confirm the disable action.
 . Click *Disable*.
 
 +
-When you disable trusted authentication, the validity of your existing authentication token expires. Your application will become inoperable until you add a new token to it.
-To generate a new token, re-enable trusted authentication and obtain the security key.
+When you disable trusted authentication, the validity of your existing secret key expires. Your application will become inoperable until you add a secret key to the authenticator service.
+You must re-enable trusted authentication and then obtain a new secret key.
