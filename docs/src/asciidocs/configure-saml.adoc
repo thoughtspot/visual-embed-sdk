@@ -184,4 +184,10 @@ To add a SAML redirect domain, follow these steps:
 * Comma-separated values. For example, `thoughtspot.com, thoughtspot.com`
 * IPv4 addresses. For example, `255.255.255.255`
 
++
+[NOTE]
+====
+Although the UI allows a domain URL without the protocol (`http/https`), do include the protocol in the SAML redirect domain name string to avoid configuration errors.
+====
++
 . Click *Save changes*.
