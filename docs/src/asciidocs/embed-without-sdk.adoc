@@ -1,14 +1,14 @@
-= Embedding pinboards without the Visual Embed SDK
+= Embed pinboards without the Visual Embed SDK
 
-:page-title: Embedding pinboards without Visual Embed SDK
+:page-title: Embed pinboards without Visual Embed SDK
 :page-pageid: embed-without-sdk
-:page-description: Embedding pinboards without the Visual Embed SDK
+:page-description: Embed pinboards without the Visual Embed SDK
 
 The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
 
 In these situations, you can embed ThoughtSpot pinboards or individual visualizations from a pinboard using a directly created iframe tag.
 
-== Constructing URL for direct iframe embed
+== Construct URL for direct iframe embed
 The pattern for the URL to embed a pinboard is:
 
 `https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}`
