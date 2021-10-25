@@ -33,6 +33,7 @@
 ** link:{{navprefix}}=events[Subscribe to events]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
+** link:{{navprefix}}=embed-without-sdk[Embed without the Visual Embed SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
 ** link:{{navprefix}}=customize-actions[Custom actions page]
