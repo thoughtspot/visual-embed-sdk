@@ -27,12 +27,14 @@ This ID is used as a reference for the custom action in the Visual Embed SDK. Yo
 
 . If you want to add the custom action on all ThoughtSpot visualization pages, select the *Automatically add as global action to all visualizations* checkbox. 
 +
-If the custom action is available for all visualizations, it is marked as a __global__ action. If you do not select this checkbox, the custom action can be added to a specific visualization page locally by the ThoughtSpot users. For more information, see xref:custom-actions-viz.adoc[Custom actions for visualizations].
+If the custom action is available for all visualizations, it is marked as a *Global* action. If you do not select this checkbox, the custom action can be added to a specific visualization page locally by the ThoughtSpot users. For more information, see xref:custom-actions-viz.adoc[Custom actions for visualizations].
 
++
+////
 . To add the custom action only in the contextual menu, select the *Only allow in context menu* checkbox. 
 +
 When you select this checkbox, the custom action will be added only in the contextual menu that appears when a user right-clicks on a visualization.
-
+////
 . Click *Add action*.
 +
 The custom action is added to *My actions* in the Developer portal.

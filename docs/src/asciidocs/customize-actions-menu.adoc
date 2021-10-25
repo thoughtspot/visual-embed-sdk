@@ -13,20 +13,19 @@ The *Create action* button allows you to create a custom action  xref:custom-act
 
 * Global actions
 +
-The ThoughtSpot Developer portal allows you to add a custom action to all visualizations. If you want to create a custom action that will appear on all charts and tables, you can create a __global__ action. For example, if you want to create a custom action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add it globally to all visualizations. To add a custom action to all visualizations, you must enable the *Automatically add as global action to all visualizations* checkbox when you create a custom action in the Developer portal.
+The ThoughtSpot Developer portal allows you to add a custom action to all visualizations. If you want to create a custom action that will appear on all charts and tables, you can create a *Global* action. For example, if you want to create a custom action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add it globally to all visualizations. To add a custom action to all visualizations, you must enable the *Automatically add as global action to all visualizations* checkbox when you create a custom action in the Developer portal.
 
 * Local actions
 +
-You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a __local__ action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a visualization] or xref:custom-actions-worksheet.adoc[to all new visualizations generated from a specific worksheet]. 
+You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a *Local* action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a visualization] or xref:custom-actions-worksheet.adoc[to all new visualizations generated from a specific worksheet]. 
  
 Overview::
 
 The *Overview* tab shows the possible locations of custom actions in the ThoughtSpot UI. You can add a custom action as a primary menu, or as a menu item in the **More** image:./images/icon-more-10px.png[the more options menu] menu. You can also add the custom action to the contextual menu that appears when a user right-clicks on a visualization in the *Answers* or *Pinboards page*. 
 
 +
-By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. You can configure a custom action to appear only in the context menu when you create a custom action in the Developer portal. If you want to change the position of an existing custom action, click the *Custom actions* icon image:./images/custom-action-icon.png[custom action icon] on a visualization page, and edit the custom action. 
+By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. If you want to change the position of an existing custom action, click the *Custom actions* icon image:./images/custom-action-icon.png[custom action icon] on a visualization page, and edit the custom action. 
 
 My actions::
 The *My actions* tab lists the custom actions that are available on your ThoughtSpot instance. This page also allows you to edit or delete a custom action configured on your instance. 
-
 

@@ -17,14 +17,13 @@ include::{path}/group-api-list.adoc[]
 
 include::{path}/group-privileges.adoc[]
 
-
 [#create-group]
 == Create a user group
 To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.  
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to `ALL_GROUP`. You cannot delete the ALL_GROUP or remove members from it.
+ThoughtSpot also has a default group called `ALL`. When you create new users in ThoughtSpot, they are automatically added to `ALL`. You cannot delete the ALL_GROUP or remove members from it.
 ====
 
 === Resource URL
@@ -127,7 +126,7 @@ If the user group is successfully created in ThoughtSpot, the API returns the us
 [#update-group]
 == Update a user group
 
-If you have admin user privileges, you can programmatically modify the properties of a group using the `/tspublic/v1/group/{groupid}` API. Using this API, you can assign also privileges and modify group visibility.
+If you have admin user privileges, you can programmatically modify the properties of a group using the `/tspublic/v1/group/{groupid}` API. Using this API, you can also assign privileges and modify the group visibility.
 
 === Resource URL
 ----
@@ -159,7 +158,7 @@ curl -X PUT \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}
 ----
 
-==== JSON file example for updating user profile
+==== Example JSON for user group update
 
 [source,JSON]
 ----
@@ -200,7 +199,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}
 
 === Example response
 
-On successful update of the user group profile, the API returns the following response code:
+On successful update of the user group properties, the API returns the following response code:
 
 ----
 Response Code
@@ -218,11 +217,10 @@ Response Code
 |**500**| Invalid content format
 |===
 
-
 [#get-ug-details]
 == Get details of a user group
 
-To get the details of a specific user group or all user groups in the ThoughtSpot system, send a `GET` request to `/tspublic/v1/group/` API endpoint.
+To get the details of a specific user group or all user groups in the ThoughtSpot system, send a `GET` request to the `/tspublic/v1/group/` API endpoint.
 
 === Resource URL
 ----
@@ -310,11 +308,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-
 == Add a privilege to a user group
 For ease of user management and access control, ThoughtSpot administrators can create user groups and assign privileges to these groups. The privileges determine the actions that the users belonging to a group are allowed to do.  
 
-If you have admin user credentials, you can programmatically assign a privilege to a user group using the `/tspublic/v1/group/addprivilege` API. 
+If you have admin user credentials, you can programmatically assign a privilege to a user group using the `/tspublic/v1/group/addprivilege` API endpoint. 
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically assigned to the `ALL_GROUP` group. By default, the members of `ALL_GROUP` do not have permissions to download or upload data. You can use this API to add these privileges to the `ALL_GROUP` group.
+ThoughtSpot also has a default group called `ALL` group. When you create new users in ThoughtSpot, they are automatically assigned to the `ALL` group. By default, the members of `ALL_GROUP` do not have permissions to download or upload data. You can use this API to add these privileges to the `ALL` group.
 ====
 
 === Resource URL
@@ -468,7 +466,7 @@ POST /tspublic/v1/group/{groupid}/user/{userid}
 |===
 |Path Parameter|Description
 |`groupid`|__String__. The GUID of the user group to which you want to add the user.
-|`userid`|__String__. The GUID of the user that you want to assign to the group.
+|`userid`|__String__. The GUID of the user that you want to assign to the specified group.
 |===
 
 === Example request
@@ -607,11 +605,72 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
 ]
 ----
 
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|===
+
+[#addUserToGroup]
+== Add users to a specific group
+
+To add a list of users to a group, send a `POST` request to the `/tspublic/v1/group/{groupid}/users` API endpoint.
+
+=== Resource URL
+----
+POST /tspublic/v1/group/{groupid}/users
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Parameter|Type|Description
+|`groupid`|path parameter|__String__. The GUID of the user group to which you want to add users.
+|`userids`|query parameter|__String__. A JSON array of the user GUIDs to add to the specified group.
+|====
+ 
+=== Example request
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D
+----
+
+=== Example response
+
+If the user assignment operation is succesful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|===
 
 [#editusersInGroup]
 == Update user data for a group
 
-To add or update the list of users assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/users`.
+To add or update the list of users assigned to a group, send a `PUT` request to the `/tspublic/v1/group/{groupid}/users` API endpoint.
 
 === Resource URL
 ----
@@ -624,7 +683,7 @@ PUT /tspublic/v1/group/{groupid}/users
 [options='header']
 |====
 |Form Parameter|Description
-|`groupid`|__String__. The GUID of the user group to which you want to add the user.
+|`groupid`|__String__. The GUID of the user group to which the specified user IDs belong.
 |`userids`|__String__. A JSON array of the user GUIDs that you want to add or modify.
 |====
  
@@ -654,12 +713,167 @@ Response Code
 204
 ----
 
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
 |===
 |HTTP status code|Description
 |**204** |Successful operation
 |**400**| Invalid parameter
 |===
 
+[#get-usersInGroup]
+== Get a list of users in a group
+To get a list of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/{groupid}/users` API endpoint. 
+
+=== Resource URL
+----
+GET /tspublic/v1/group/{groupid}/users
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Path Parameter|Description
+|`groupid`|__String__. The GUID of the user group to query.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users
+----
+
+=== Example response
+
+[source, JSON]
+----
+[
+  {
+    "userContent": {
+      "userPreferences": {
+        "notifyOnShare": true,
+        "showWalkMe": true,
+        "analystOnboardingComplete": false
+      },
+      "userProperties": {},
+      "userActivityProto": {
+        "first_login": -1,
+        "welcome_email_sent": false
+      }
+    },
+    "state": "ACTIVE",
+    "assignedGroups": [
+      "b8cc6029-3749-4596-9a33-263688a2732e",
+      "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+    ],
+    "inheritedGroups": [
+      "b8cc6029-3749-4596-9a33-263688a2732e",
+      "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+    ],
+    "privileges": [
+      "DATADOWNLOADING"
+    ],
+    "type": "LOCAL_USER",
+    "parenttype": "USER",
+    "visibility": "DEFAULT",
+    "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "displayName": "Test User 2",
+    "header": {
+      "id": "fab84cbc-b7ed-4fed-b241-9af2cbb453de",
+      "indexVersion": 122,
+      "generationNum": 122,
+      "name": "TestUser2",
+      "displayName": "Test User 2",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created": 1634194734004,
+      "modified": 1634194734004,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "fab84cbc-b7ed-4fed-b241-9af2cbb453de",
+      "isDeleted": false,
+      "isHidden": false,
+      "tags": [],
+      "type": "LOCAL_USER",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": [],
+    "isSuperUser": false,
+    "isSystemPrincipal": false
+  }
+]
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|===
+
+[#deleteUsersInGroup]
+== Remove users from a specific group
+
+To remove users assigned to a specific group, send a `DELETE` request to the `/tspublic/v1/group/{groupid}/users` API endpoint.
+
+=== Resource URL
+----
+DELETE /tspublic/v1/group/{groupid}/users
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Parameter|Type|Description
+|`groupid`|path parameter|__String__. The GUID of the user group from which you want to remove users.
+|`userids`|query parameter|__String__. A JSON array of the GUIDs of users that you want to remove from the specified group.
+|====
+ 
+=== Example request
+
+.cURL
+----
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/062caeb3-8b31-4039-819b-a6c4b02b3791/users?userids=%5B%22164913ae-ee45-49ff-bcf7-4a1f893e78e5%22%2C%22692749ac-a01b-41f1-b2ac-3e38a5131590%22%5D'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/062caeb3-8b31-4039-819b-a6c4b02b3791/users?userids=%5B%22164913ae-ee45-49ff-bcf7-4a1f893e78e5%22%2C%22692749ac-a01b-41f1-b2ac-3e38a5131590%22%5D
+----
+
+=== Example response
+
+If the group update operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** |Successful operation
+|**400**| Invalid parameter
+|===
 
 [#addMembers]
 == Add members to a group
@@ -711,7 +925,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
 |**400**|Invalid parameter
 |**415**|Invalid content type
 |===
-
 
 [#assign-group]
 == Assign groups to another group
@@ -773,7 +986,6 @@ Response Code
 |**400**| Invalid parameter
 |===
 
-
 [#modifySubgroup]
 == Update the subgroup objects of a group
 
@@ -827,7 +1039,6 @@ Response Code
 |**204**| Successful operation
 |**400**| Invalid parameter
 |===
-
 
 [#get-children]
 == Get a list of subgroups from a group object
@@ -988,7 +1199,7 @@ DELETE /tspublic/v1/group/{groupid}/groups
 |===
 |Form Parameter|Description
 |`principalids`|__String__. A JSON array of the subgroup GUIDs that you want to delete.
-|`groupid`|__String__. The GUID of the group from which you want remove the group association. 
+|`groupid`|__String__. The GUID of the group from which you want to remove the group association. 
 |===
 
 === Example request
@@ -1042,8 +1253,8 @@ POST /tspublic/v1/group/removememberships
 [options='header']
 |===
 |Form Parameter|Description
-|`userids`|__String__. The GUID of the user that you want to remove from the specified `groupids`.
-|`groupids`|__String__. The GUID of the user group from which you want to remove the sepcified `userids`.
+|`userids`|__String__. A JSON array of the GUIDs of the users that you want to remove from the specified `groupids`.
+|`groupids`|__String__. A JSON array of the GUIDs of the user groups from which you want to remove the specified `userids`.
 |===
 
 === Example request

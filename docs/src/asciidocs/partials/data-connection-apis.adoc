@@ -2,13 +2,13 @@
 [div boxDiv boxFullWidth]
 --
 
-`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]`  [tag greenBackground]#New#
+`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` 
 
 Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` [tag greenBackground]#New#
+`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` 
 
 Modifies a data connection.
 
@@ -26,13 +26,13 @@ Gets a list of data connections set up for a live query service on the ThoughtSp
 
 +++<p class="divider"> </p>+++
 
-`xref:connections-api.adoc#export-connections[**POST** /tspublic/v1/connection/export]` [tag greenBackground]#New#
+`xref:connections-api.adoc#export-connections[**POST** /tspublic/v1/connection/export]` 
 
 Exports a data connection map.
 
 +++<p class="divider"> </p>+++
 
-`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` [tag greenBackground]#New#
+`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` 
 
 Deletes the specified data connections.
 --

@@ -6,89 +6,145 @@
 :page-pageid: whats-new
 :page-description: New features and enhancements
 
-
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-
-== September 2021
+== October 2021, _Version ts7.oct.cl_
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#New feature# a| +++<h5>+++New ThoughtSpot Everywhere Edition license+++</h5>+++
+|[tag orangeBackground]#MODIFIED# a|+++<h5> Custom actions feature availability</h5>+++
+
+Starting from ThoughtSpot 7 Cloud October release, you _do not_ require a separate ThoughtSpot Everywhere Edition license to create or manage custom actions. The *Custom action* feature is unlocked on all clusters that have a valid ThoughtSpot Enterprise Cloud service subscription. ThoughtSpot Cloud service users with Developer or Admin privileges can access the *Custom actions* feature in the *Develop* tab.
+
+|[tag redBackground]#REMOVED# a|+++<h5>The Only allow in context menu checkbox</<h5> +++
+
+The *Only allow in context menu* checkbox in the custom action creation dialog is removed from the UI. This checkbox was available in previous releases to allow developers to set a custom action to appear only in the contextual menu on pinboard visualizations, charts, or tables. 
+
+If you have created custom actions with the *Only allow in context menu* setting enabled on your instance, note these custom action workflow changes:
+
+* If you have a *Global* custom action with the *Only allow in context menu* setting enabled, the configuration setting _is not_ preserved and the action is placed in the **More** image:./images/icon-more-10px.png[the more options menu] menu instead of the contextual menu. 
++
+You can xref:custom-actions-edit.adoc[modify the position of this action] by using the *Edit* option in the *Custom actions* panel on a visualization or search results page.
+
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
+
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+
+|====
+
+=== Visual Embed SDK
+
+The ThoughtSpot 7 Cloud October release introduces the Visual Embed SDK version 1.5.0, which includes the following new features and enhancements.
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Render embedded objects in queue</h5>+++
+
+The SDK now supports rendering embedded objects in a queue. If you have multiple embedded objects, you can enable the `queueMultiRenders` parameter to queue your embedded objects and render them one after another. This feature helps in decreasing the load on the web browsers and improving your application loading experience. By default, this attribute is set to `false`. 
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard embed</h5>+++
+
+The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to.
+
+For more information, see xref:embed-search.adoc[Embed a pinboard].
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Embed events</h5>+++
+
+The SDK EmbedEvent library includes the following new events:
+
+* `VizPointDoubleClick`
+* `Drilldown`
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
+
+|====
+
+=== REST APIs
+
+The ThoughtSpot 7 Cloud October release includes the following new REST API endpoints. For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].
+
+* `POST /tspublic/v1/group/{groupid}/users`
+* `GET /tspublic/v1/group/{groupid}/users`
+* `DELETE /tspublic/v1/group/{groupid}/users`
+* `PUT /tspublic/v1/user/email`
+* `POST /tspublic/v1/user/{userid}/groups`
+* `GET /tspublic/v1/user/{userid}/groups`
+* `PUT /tspublic/v1/user/{userid}/groups`
+* `DELETE /tspublic/v1/user/{userid}/groups`
+
+
+== September 2021, _Version ts7.sep.cl_
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>+++New ThoughtSpot Everywhere Edition license+++</h5>+++
 
 ThoughtSpot introduces the ThoughtSpot Everywhere Edition license that grants access to ThoughtSpot Everywhere features, such as the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. If you have a ThoughtSpot Enterprise Cloud Service subscription and you want to avail the benefits of ThoughtSpot Everywhere, you can now request for a license upgrade.
 
 The new licensing model introduces several notable changes in the ThoughtSpot Developer portal:
 
-* On clusters that _do not_ have the ThoughtSpot Everywhere Edition license, the ThoughtSpot Developer Portal displays a locked icon next to the customization menu actions. When you click the locked icon, the UI prompts you to sign up for a free trial or upgrade your license. 
-* The ThoughtSpot Enterprise Cloud service subscribers can either start a 30-day free trial or initiate a license upgrade from the UI.  
+* On clusters that _do not_ have the ThoughtSpot Everywhere Edition license, the ThoughtSpot Developer Portal displays a locked icon next to the customization menu actions. When you click the locked icon, the UI prompts you to sign up for a free trial or upgrade your license.
+* The ThoughtSpot Enterprise Cloud service subscribers can either start a 30-day free trial or initiate a license upgrade from the UI.
 * Free trial users can initiate a license upgrade request by clicking **Upgrade Now** at any time during the evaluation period, or when the trial expires.
-* If you click *Upgrade* or **Upgrade Now**, ThoughtSpot opens the Live Chat Support widget. You can start a conversation with the Sales personnel to initiate the license upgrade.  
+* If you click *Upgrade* or **Upgrade Now**, ThoughtSpot opens the Live Chat Support widget. You can start a conversation with the Sales personnel to initiate the license upgrade.
 
 For more information about the licensing model and upgrade process, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
 
-|[tag greenBackground]#New feature#  a| +++<h5>+++Developer Playground enhancements+++</h5>+++
+|[tag greenBackground]#NEW FEATURE#  a| +++<h5>+++Developer Playground enhancements+++</h5>+++
 
 * The *Full app* Playground page includes the *Hide profile and help* checkbox to provide a preview of the `disableHelpAndProfile` function that can hide the Help and Profile icons in the ThoughtSpot navigation bar.
 
-* The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.  
+* The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.
 
 For more information, see xref:developer-playground.adoc[Developer Playground].
 |====
 
-=== Visual Embed SDK Version 1.4.0
+=== Visual Embed SDK
 
-The ThoughtSpot 7 Cloud September release introduces the Visual Embed SDK version 1.4.0, which includes the following new features and enhancements.
+The ThoughtSpot 7 Cloud September release introduces the Visual Embed SDK version 1.4.0, which includes the following  new features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#New feature# a|+++<h5>+++Prefetch API+++</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Prefetch API+++</h5>+++
 
-The `prefetch` API fetches static resources from a given URL before your application loads. Web browsers can then cache the prefetched resources locally and serve them from a user's local disk. You can use this API to load the embedded objects faster and improve your application response time. 
+The `prefetch` API fetches static resources from a given URL before your application loads. Web browsers can then cache the prefetched resources locally and serve them from a user's local disk. You can use this API to load the embedded objects faster and improve your application response time.
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-|[tag greenBackground]#New feature# a|+++<h5>+++In-app page navigation+++</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
 
 The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
 
 For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
-|[tag greenBackground]#New feature# a|+++<h5>+++Full application embedding+++</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Full application embedding+++</h5>+++
 
-The `appEmbed` SDK package includes the following new attributes: 
+The `appEmbed` SDK package includes the following new attributes:
 
-* The `disableProfileAndHelp` attribute to show or hide the `Help (?)` and the user profile menu in the navigation bar of your embedded app. 
+* The `disableProfileAndHelp` attribute to show or hide the `Help (?)` and the user profile menu in the navigation bar of your embedded app.
 
-* The `hideObjects` attribute to hide specific objects from a user's page view.  
+* The `hideObjects` attribute to hide specific objects from a user's page view.
 
 For more information, see xref:full-embed.adoc[Embed full application].
 
-|[tag greenBackground]#New feature# |+++<h5>+++Search embed +++</h5>+++
+|[tag greenBackground]#NEW FEATURE# |+++<h5>+++Search embed +++</h5>+++
 
-The `searchEmbed` package includes the `forceTable` attribute that sets tabular view as the default format for presenting search data. You can use set this attribute to `true` to force search results to appear in the table view. 
+The `searchEmbed` package includes the `forceTable` attribute that sets tabular view as the default format for presenting search data. You can use set this attribute to `true` to force search results to appear in the table view.
 
 For more information, see xref:embed-search.adoc[Embed ThoughtSpot search].
 
-|[tag redBackground]#Removed# | 
+|[tag redBackground]#REMOVED# |
 
-The `searchQuery` parameter is no longer supported and is removed from the `searchEmbed` SDK package.  
-|[tag greenBackground]#New feature# a|+++<h5>+++Pinboard embed +++</h5>+++
-
-The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to. 
- 
-For more information, see xref:embed-search.adoc[Embed a pinboard].
-
-|[tag greenBackground]#New feature# a|+++<h5>+++Embed events +++</h5>+++
-The SDK EmbedEvent library includes the following events: 
+The `searchQuery` parameter is no longer supported and is removed from the `searchEmbed` SDK package.
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Embed events +++</h5>+++
+The SDK EmbedEvent library includes the following events:
 
 * `QueryChanged`
 * `AuthExpired`
-* `Drilldown`
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
-
 |====
 
 === REST APIs
@@ -109,8 +165,8 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 * `POST /tspublic/v1/metadata/unassigntag`
 * `GET /tspublic/v1/metadata/list`
 * `GET /tspublic/v1/security/metadata/permissions`
-* `GET /tspublic/v1/security/metadata/{id}/permissions`  
-* `GET /tspublic/v1/security/effectivepermissionbulk` 
+* `GET /tspublic/v1/security/metadata/{id}/permissions`
+* `GET /tspublic/v1/security/effectivepermissionbulk`
 * `GET /tspublic/v1/session/info`
 * `POST /tspublic/v1/user/activate`
 * `POST /tspublic/v1/user/inactivate`
@@ -134,7 +190,7 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 ====
 --
 
-== August 2021
+== August 2021, _Version ts7.aug.cl_
 
 === Custom actions
 
@@ -143,7 +199,7 @@ The ThoughtSpot 7 Cloud August release introduces the following features:
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#New feature# a| *Custom actions for worksheets*
+|[tag greenBackground]#NEW FEATURE# a| *Custom actions for worksheets*
 
 The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
 
@@ -151,7 +207,7 @@ This feature is available to all ThoughtSpot users who have edit privileges to a
 
 For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
-|[tag greenBackground]#New feature# a|**Query parameters for URL-based custom actions**
+|[tag greenBackground]#NEW FEATURE# a|**Query parameters for URL-based custom actions**
 
 The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot.
 
@@ -165,7 +221,7 @@ The ThoughtSpot 7 Cloud August release supports Visual Embed SDK version 1.3.1, 
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#New feature#  a| *searchOptions*
+|[tag greenBackground]#NEW FEATURE#  a| *searchOptions*
 
 The `searchEmbed` SDK package introduces the `searchOptions` parameter for setting search tokens. The `searchOptions` parameter includes the following attributes:
 
@@ -179,22 +235,22 @@ When set to `true`, it executes search and shows the search results.
 
 For more information, see xref:embed-search.adoc#search-query[Embed ThoughtSpot search].
 
-|[tag redBackground]#Deprecated# a|**searchQuery**
+|[tag redBackground]#DEPRECATED# a|**searchQuery**
 
 The `searchQuery` parameter in the `searchEmbed` SDK package is deprecated in the Visual Embed SDK version 1.3.1. Instead, you can use the `searchOptions` parameter to define the search token string.
 
 For more information about `searchOptions`, see xref:embed-search.adoc#search-query[Embed ThoughtSpot search].
 
-|[tag greenBackground]#New feature# a|**autoLogin**
+|[tag greenBackground]#NEW FEATURE# a|**autoLogin**
 
 The SDK now supports logging in users automatically after a user session has expired.
 
-For more information, see xref:embed-authentication.adoc##embed-session-sec[Embed user authentication]. 
+For more information, see xref:embed-authentication.adoc##embed-session-sec[Embed user authentication].
 
-|[tag greenBackground]##New feature## a|**shouldEncodeUrlQueryParams**
+|[tag greenBackground]#NEW FEATURE# a|**shouldEncodeUrlQueryParams**
 
 You can now convert query parameters in the ThoughtSpot generated URLs to base64-encoded format. You can enable this attribute to secure your cluster from cross-site scripting attacks.
-|[tag redBackground]#Breaking change# a|**Data structure changes in custom action response payloads**
+|[tag redBackground]#BREAKING CHANGE# a|**Data structure changes in custom action response payloads**
 
 * The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
@@ -210,16 +266,16 @@ Includes user information such as username, GUID of the user, and email address.
 
 To view a sample response payload, see xref:callback-response-payload.adoc#search-data-payload[Custom action response payload].
 
-|[tag greenBackground]#New feature# a|**preventPinboardFilterRemoval**
+|[tag greenBackground]#NEW FEATURE# a|**preventPinboardFilterRemoval**
 
 The `pinboardEmbed` SDK package now includes the `preventPinboardFilterRemoval` attribute. You can use this attribute to disable the filter removal action and thus prevent users from removing the filter chips added on a pinboard page.
 
 For more information, see xref:embed-pinboard.adoc[Embed a pinboard] and xref:embed-a-viz.adoc[Embed a visualization].
-|[tag greenBackground]#New feature# a|**suppressNoCookieAccessAlert**
+|[tag greenBackground]#NEW FEATURE# a|**suppressNoCookieAccessAlert**
 
-You can now set custom alerts for `noCookieAccess` events. By default, the SDK triggers a `noCookieAcess` event and generates an alert when a user's browser blocks third-party cookies. The `suppressNoCookieAccessAlert` allows you to disable this alert. 
+You can now set custom alerts for `noCookieAccess` events. By default, the SDK triggers a `noCookieAccess` event and generates an alert when a user's browser blocks third-party cookies. The `suppressNoCookieAccessAlert` allows you to disable this alert.
 
-|[tag greenBackground]#New feature# a|**Support for fetching callback custom action payload in batches**
+|[tag greenBackground]#NEW FEATURE# a|**Support for fetching callback custom action payload in batches**
 
 The Visual Embed SDK now supports processing data in batches for callback custom action responses.
 The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
@@ -229,7 +285,7 @@ For more information, see xref:push-data-to-external-app.adoc#large-dataset[Call
 
 === REST APIs
 
-The ThoughtSpot 7 Cloud August release introduces several new APIs to xref:user-api.adoc[manage users], xref:group-api.adoc[user groups], xref:admin-api.adoc[cluster configuration], xref:dependent-apis.adoc[object dependencies], and so on.
+The ThoughtSpot 7 Cloud August release introduces several new APIs to xref:user-api.adoc[manage users], xref:group-api.adoc[user groups], xref:admin-api.adoc[cluster configuration], xref:dependency-apis.adoc[object dependencies], and so on.
 
 For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference].
 
@@ -237,7 +293,7 @@ For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference
 --
 --
 
-== June 2021
+== June 2021, __Version ts7.jun.cl__
 
 The ThoughtSpot 7 Cloud June release introduces the following features and enhancements:
 
@@ -322,7 +378,7 @@ For more information, see xref:user-api.adoc#updatepreference-api[Update a user 
 <div class="divider"> </div>
 ++++
 
-== May 2021
+== May 2021, _Version ts7.may.cl_
 The ThoughtSpot 7 Cloud May consists of several new and enhanced features for the  ThoughtSpot Developer users.
 
 === Custom actions in the context menu

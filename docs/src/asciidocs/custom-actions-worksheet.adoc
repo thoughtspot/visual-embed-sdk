@@ -10,13 +10,14 @@ ThoughtSpot supports adding custom actions to the visualizations built from work
 
 [NOTE]
 ====
-ThoughtSpot does not support adding custom actions to a saved search answer built from a worksheet. 
+When you add a custom action to a worksheet, ThoughtSpot adds the action only to the new visualizations built from that worksheet. The existing saved answers generated using that worksheet do not show the custom actions assigned to the worksheet.
 ====
 
 == Before you begin
-* Make sure your application instance has __local__ custom actions. If you have the `Developer` privilege, you can create custom actions in the Developer portal. 
+
+* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view the custom action availability in the *Custom actions* > *Actions* dashboard.
 * Make sure you have edit permissions to modify the worksheet.
-* Verify if the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+* Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
 
 == Associate a custom action to a worksheet
 
@@ -31,7 +32,7 @@ A list of __Global__ actions is displayed.
 +
 [NOTE]
 ====
-The __global__ custom actions appear on all visualizations by default. To add a specific action locally to a worksheet, the __local__ custom actions must be created in the Developer portal.
+The *Global* custom actions appear on all visualizations by default. To add a specific action locally to a worksheet, the *Local* custom actions must be created in the Developer portal.
 ====
 
 . Click *Add action*.
@@ -57,12 +58,7 @@ Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[t
 Adds the custom action as a menu item in the contextual menu. If you want to send only a single row of data instead of the entire data set from a visualization, you can place the custom action in the contextual menu. Users can access this action in the contextual menu by right-clicking on a visualization.
 
 +
-[NOTE]
-====
-The ThoughtSpot Developer portal allows developers to set a custom action to appear only in the contextual menu. If the *Only allow in context menu* setting is enabled for a custom action in the Developer portal, ThoughtSpot users cannot modify the position of this action on visualization pages.
-====
-
-+ 
+ 
 . Preview  the position of the custom action.
 
 . Click *Save*.
@@ -77,7 +73,7 @@ The custom action is added to the visualization page.
 . Verify if the action is added to the visualization page. 
 
 +
-When you save this visualization in search answers or pin it to a pinboard, all users who can access the visualization can use this action.
+When you save this visualization in answers or pin it to a pinboard, all users that can access the visualization can use this action.
 
 == Edit a custom action association
 

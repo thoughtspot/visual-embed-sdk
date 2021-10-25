@@ -9,32 +9,33 @@ The user access control in ThoughtSpot is applied based on the users and groups 
 
 To provide access to ThoughtSpot content or define role-based privileges, you need to add users and groups in ThoughtSpot. You can create link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[user accounts, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[user groups, window=_blank] in the UI or by using xref:rest-api-reference.adoc[REST APIs].
 
-== Creating and updating users
-Users can by created using the xref:user-api.adoc#create-user[/user/ REST API endpoint] and they can be updated via a xref:user-api.adoc#update-user[PUT call]. While you can xref:user-api.adoc#delete-user[delete users], it is preferable to xref:user-api.adoc#deactivate-user[deactivate the user] instead, which maintains the user's references within the system. 
+== User creation and update
+You can create users using the xref:user-api.adoc#create-user[/tspublic/v1/user/] REST API endpoint and update user profiles via a xref:user-api.adoc#update-user[PUT call]. While you can xref:user-api.adoc#delete-user[delete users], it is preferable to xref:user-api.adoc#deactivate-user[deactivate the user] instead, which maintains the user's references within the system. 
 
-When using xref:configure-saml.adoc[SAML SSO], there is an option called "Automatically add SAML users to ThoughtSpot upon first authentication" which will use the values in the SAML assertion to create a user if they do not exist. ThoughtSpot can also add users to groups sent within the SAML assertion. You must ask your ThoughtSpot team to enable and configure the SAML groups capabilities.
+When configuring xref:configure-saml.adoc[SAML SSO] in ThoughtSpot UI, you can select the *Automatically add SAML users to ThoughtSpot upon first authentication* option, which will use the values in the SAML assertion to create a user if they do not exist. ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
-By default, ThoughtSpot sends e-mail messages to a new user and enables on-boarding workflows when they first log in, even when you are embedding ThoughtSpot views. To alter this behavior at a system-wide level, please see xref:customize-email-settings.adoc[Customize onboarding settings]. The xref:user-api.adoc#update-user[update user REST API] also allows settings on-boarding experience values for an individual user through the JSON object of the `content` argument. If you need to alter default behaviors beyond the available UI options, please contact your ThoughtSpot team for additional options.
+By default, ThoughtSpot sends e-mail messages to a new user and enables onboarding workflows when they first log in, even when you are embedding ThoughtSpot content. To alter this behavior at a system-wide level, you need to xref:customize-email-settings.adoc[Customize the onboarding settings]. The xref:user-api.adoc#update-user[update user REST API] also allows setting onboarding experience values for an individual user through the JSON object of the `content` argument. If you need to modify the  default behavior beyond the available UI options, contact your ThoughtSpot team.
 
-== Creating and updating groups
-Groups can be created via the xref:group-api.adoc#create-group[/group/] REST API endpoint. 
+== User group creation and update
+Groups can be created via the xref:group-api.adoc#create-group[/tspublic/v1/group/] REST API endpoint. 
 
-Group privileges are set directly on groups (see below), either at group creation time, an xref:group-api.adoc#update-group[update call], or through the xref:group-api.adoc#add-privilege[add privilege] and xref:group-api.adoc#remove-privilege[remove privilege] methods.
+xref:api-user-management.adoc#group-privileges[Group privileges] are set directly on groups, either at group creation time, an xref:group-api.adoc#update-group[update call], or through the xref:group-api.adoc#add-privilege[add privilege] and xref:group-api.adoc#remove-privilege[remove privilege] methods.
 
-== Adding and removing users to groups
+== User association to groups
 Users can can be added to specific groups when the user is being created, or you can use the xref:group-api.adoc#add-user-to-group[add a user to a group endpoint]. 
 
-The xref:group-api.adoc#addMembers[add memembers endpoint] allows adding multiple users to multiple groups in a single request. 
+The xref:group-api.adoc#addMembers[group/addmemberships] endpoint allows adding multiple users to multiple groups in a single request.
 
-The set of members within a group can be requested using the xref:group-api.adoc#get-users-group[/group/listuser/{groupid}] endpoint. 
+The set of members within a group can be requested using the xref:group-api.adoc#get-users-group[/group/listuser/{groupid}] or xref:group-api.adoc#get-usersInGroup[/group/{groupid}/users] endpoints. 
 
-You can remove a user from a group xref:group-api.adoc#delete-user-assoc[individually] or xref:group-api.adoc#removeMembers[remove a list of users] from many groups at once
+You can remove a user from a group xref:group-api.adoc#delete-user-assoc[individually] or xref:group-api.adoc#removeMembers[remove a list of users] from many groups at once.
 
 == Access control (sharing)
 The content a user can access is determined by content *shared* directly to the user or the groups they belong to. It is easier to manage and audit sharing through groups rather than at the individual user level. 
 
 Sharing can be accomplished through the UI or the xref:security-api.adoc#share-object[/security/share REST API endpoint], including removing sharing from a user or group.  
 
+[#group-privileges]
 == Group privileges
 
 Each user group includes a set of privileges for its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. The group privileges allow users belonging to a group to perform specific operations and access workflows. If a user belongs to more than one group, they will have the highest level of privileges from all the groups they belong to. 

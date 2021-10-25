@@ -24,7 +24,7 @@ Learn more about xref:customize-actions-menu.adoc[the *Custom action* page in th
 
 Learn how to xref:custom-actions-url.adoc[create a custom action to send ThoughtSpot data to a specific URL target].
 
-_Requires Developer privilege_.
+_Requires Developer or Admin privilege_.
 --
 
 [div boxDiv boxFullWidth]
@@ -33,8 +33,16 @@ _Requires Developer privilege_.
 
 Learn how to xref:custom-actions-callback.adoc[create a custom action that can trigger a callback from your host application] to send ThoughtSpot data.
 
-_Requires Developer privilege_.
+_Requires Developer or Admin privilege_.
 --
+
+[div boxDiv boxFullWidth]
+--
++++<h5>Modify the position of a custom action</h5>+++
+
+Learn how to xref:custom-actions-edit.adoc[modify the position of a custom action and place it as a menu action or a primary button] on a visualization page.
+--
+
 
 [div boxDiv boxFullWidth]
 --

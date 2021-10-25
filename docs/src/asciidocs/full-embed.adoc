@@ -19,7 +19,6 @@ The full embedded ThoughtSpot content gives your users the ability to perform ma
 * use saved answers
 * use SpotIQ
 
-
 === Limitations
 Users in a fully embedded application cannot perform the following tasks:
 

@@ -7,7 +7,7 @@ Creates a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]`  [tag greenBackground]#New#
+`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]` 
 
 Activates a user account.
 
@@ -16,6 +16,12 @@ Activates a user account.
 `xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]`  
 
 Modifies a user account.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Add or modifies the email address of a user.
 
 +++<p class="divider"> </p>+++
 
@@ -55,19 +61,19 @@ Changes the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  [tag greenBackground]#New#
+`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  
 
 Resets the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` [tag greenBackground]#New#
+`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` 
 
 Invalidates a user session.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  [tag greenBackground]#New#
+`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  
 
 Deactivates a user account.
 
@@ -76,4 +82,28 @@ Deactivates a user account.
 `xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`
 
 Synchronizes user details and attributes from an external database with the user data in the ThoughtSpot system.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Assigns a user to the specified user groups.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Gets details of the user groups associated with a specific user.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Updates the user group data for a specific user.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Removes a user from the specified user groups.
 --

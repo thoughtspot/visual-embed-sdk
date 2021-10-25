@@ -22,28 +22,30 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
+[#connection-metadata]
+== Connection metadata
+
+To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. To create a new data connection, the metadata JSON map should include at least one table object. 
+
+Here is an example of the metadata JSON file:
+
+image::./images/connection_metadata_json.png[Connection metadata] 
 
 [#connection-attr]
-== Connection attributes
+=== Configuration attributes in connection metadata
 
-To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as metadata. These attributes vary based on the type of connection.
+The configuration attributes in the connection vary based on the type of connection.
 
 [div boxDiv boxFullWidth]
 --
-.Snowflake Connection attributes
+.Snowflake connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-* `description`
-+
-__String__. A short description of the connection.
-
 * `accountName`
 +
 __String__. The account name associated with the Snowflake connection.
+
 * `user`
 +
 _String_. The Snowflake account username.
@@ -54,41 +56,23 @@ _String_. The password of your Snowflake account.
 
 * `role`
 +
-_String_. Role or the group privilege assigned to your user account in ThoughtSpot. For example, DEVELOPER.
+_String_. The role assigned to your user account. For example, `sysadmin`.
+
++
+Make sure the role you specify for this attribute has privileges to access the database, schema, and tables that you want to use for the live query service.
+
 * `warehouse`
 +
 __String__. The warehouse associated with the connection. 
-* `database`
-+
-__String__. The database associated with the account.
-
-* `schema`
-+
-_String_.The schema of the tables associated with the database.
-
-////
-* `state`
-
-+
-__String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your Snowflake account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
-////
-
 ====
 --
 
 [div boxDiv boxFullWidth]
-
 --
-.Amazon Redshift connection attributes
+.Amazon Redshift connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-* `description`
-+
-__String__. A short description of the connection.
 
 * `host`
 +
@@ -108,7 +92,7 @@ __String__. Password of your Redshift account.
 
 * `database`
 +
-__String__. Specify the database associated with the account.
+__String__. Specify the name of the database that you want to use for live query..
 
 ====
 --
@@ -116,24 +100,18 @@ __String__. Specify the database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Google BigQuery connection attributes
+.Google BigQuery connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-* `description`
-+
-__String__. A short description of the connection.
 
-* `project`
+* `project_id`
 +
 __String__. ID of the project associated with your BigQuery account.
 
-* `accountName`
+* `oauth_pvt_key`
 +
-__String__. The account name associated with the BigQuery project.
+__String__. The secret key obtained for your BigQuery service account. To obtain the secret key, you must create a custom role in BigQuery and set up your service account. For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/ts-cloud-embrace-gbq-prerequisites.html#custom-role[BigQuery prerequisites, window=_blank].
 
 ////
 * `state`
@@ -147,17 +125,10 @@ __String__. A JSON map of The OAuth client ID and OAuth client secret to authent
 [div boxDiv boxFullWidth]
 
 --
-.Azure Synapse connection attributes
+.Azure Synapse connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-* `description`
-+
-__String__. A short description of the connection.
-
 * `host`
 +
 __String__. The hostname of the database connection.
@@ -184,17 +155,10 @@ __String__. Specify the database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Teradata connection attributes
+.Teradata connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-
-* `description`
-+
-__String__. A short description of the connection.
 
 * `host`
 +
@@ -219,33 +183,30 @@ __String__. The database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Oracle ADW connection attributes
+.Oracle ADW connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-
-* `description`
-+
-__String__. A short description of the connection.
 
 * `user`
 +
 _String_. The user name of your Oracle ADW account.
 
-* `accountName`
-+
-_String_. The Net Service Name user name of your Oracle ADW account.
-
 * `password`
 +
 __String__. Password of your Oracle ADW account.
 
+* `net_service_name`
++
+_String_. The Net Service Name of your Oracle ADW account.
+
+* `tns_admin`
++
+_String_. The ID of the directory specified by the `TNS_ADMIN` environment variable.
+
 * `schema`
 +
-_String_.The schema of the tables associated with the database.
+_String_. The schema of the database.
 
 ====
 --
@@ -253,17 +214,10 @@ _String_.The schema of the tables associated with the database.
 [div boxDiv boxFullWidth]
 
 --
-.Starburst connection attributes
+.Starburst connection 
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-
-* `description`
-+
-__String__. A short description of the connection.
 
 * `host`
 +
@@ -287,25 +241,18 @@ __String__. The database associated with the account.
 [div boxDiv boxFullWidth]
 
 --
-.Databricks connection attributes
+.Databricks connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-
-* `description`
-+
-__String__. A short description of the connection.
 
 * `host`
 +
 __String__. The hostname of the database connection. For example, `dbs.example.cloud.databricks.com`.
 
-* `http`
-
-+__String__. The HTTP path of your Databricks connection host.
+* `http_path`
++
+__String__. The HTTP path of your Databricks connection host.
 
 * `user`
 +
@@ -321,17 +268,10 @@ __String__. Password of your Databricks account.
 [div boxDiv boxFullWidth]
 
 --
-.SAP HANA connection attributes
+.SAP HANA connection
 
 [%collapsible]
 ====
-* `name` 
-+
-__String__. Name of the connection.
-
-* `description`
-+
-__String__. A short description of the connection.
 
 * `host`
 +
@@ -361,6 +301,11 @@ include::{path}/data-connection-apis.adoc[]
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
 
+[NOTE]
+====
+Creating a new connection requires defining at least one table in the metadata JSON map.
+====
+
 === Resource URL
 ----
 POST /tspublic/v1/connection/create
@@ -374,9 +319,11 @@ POST /tspublic/v1/connection/create
 |Form Parameter|Description 
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
-|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
-|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
-|`state`|_Integer_. Indicates the OAuth authentication setup.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
+
+Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. Make sure the database object includes at least one table.
+|`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
 === Example request 
@@ -397,14 +344,10 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
 ----
 
-[NOTE]
-====
-Creating a new connection requires defining at least one table in the metadata JSON map.
-====
 
 ==== Example JSON map for metadata creation
 
-The following example shows the metadata JSON map for creating a Snowflake data connection:
+The following example shows the metadata JSON map for creating a Snowflake data connection. Note that the example shows the configuration attributes required to authenticate to the data source, and the object metadata (database, schema, and tables) to add to the connection.
 
 [source, JSON]
 ----
@@ -412,8 +355,8 @@ The following example shows the metadata JSON map for creating a Snowflake data 
    "configuration":{
       "accountName":"thoughtspot_partner",
       "user":"tsadmin",
-      "password":"Embrace123",
-      "role":"DEVELOPER",
+      "password":"TestConn123",
+      "role":"sysadmin",
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
@@ -462,7 +405,6 @@ The following example shows the metadata JSON map for creating a Snowflake data 
    ]
 }
 ----
-
 
 === Example response
 
@@ -711,7 +653,7 @@ POST /tspublic/v1/connection/update
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`id`|__String__. The GUID of the data connection that you want to modify.
 |`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
-|`state`|_Integer_. Indicates the OAuth authentication setup.
+|`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
 === Example request 
@@ -733,6 +675,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
 
 ==== Example JSON map for metadata update
 
+The following example shows the metadata JSON map for modifying a Snowflake data connection. Note that the example shows the configuration attributes to authenticate to the data source, tables, and column data for connection modification.
+
 [Source, JSON]
 ----
 {
@@ -740,7 +684,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
       "accountName":"thoughtspot_partner",
       "user":"tsadmin",
       "password":"Embrace123",
-      "role":"DEVELOPER",
+      "role":"sysadmin",
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
@@ -761,7 +705,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
                         {
                            "name":"CDECIMAL",
                            "type":"INT64",
-                           "canImport":true,
+                           "canImport":false,
                            "selected":true,
                            "isLinkedActive":true,
                            "isImported":false,
@@ -772,7 +716,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
                         {
                            "name":"CBIGINT",
                            "type":"INT64",
-                           "canImport":true,
+                           "canImport":false,
                            "selected":false,
                            "isLinkedActive":true,
                            "isImported":false,
@@ -1107,7 +1051,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types
 | No data connections set up on the cluster
 |===
 
-
 [#live-query-connections]
 == Get a list of live query connections
 
@@ -1341,7 +1284,6 @@ Click the link in the `Response body` to download the YAML file.
 | **500**
 | The connection could not be deleted.
 |===
-
 
 [#del-connection]
 == Delete a data connection

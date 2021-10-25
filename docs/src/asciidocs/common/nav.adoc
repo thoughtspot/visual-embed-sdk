@@ -30,7 +30,7 @@
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
 ** link:{{navprefix}}=action-config[Disable or hide menu actions]
-** link:{{navprefix}}=events[Event subscription and handling]
+** link:{{navprefix}}=events[Subscribe to events]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
@@ -38,6 +38,7 @@
 ** link:{{navprefix}}=customize-actions[Custom actions page]
 ** link:{{navprefix}}=custom-action-url[Configure a URL action]
 ** link:{{navprefix}}=custom-action-callback[Configure a callback action]
+** link:{{navprefix}}=edit-custom-action[Set the position of the custom action]
 ** link:{{navprefix}}=add-action-viz[Add a custom action to a visualization] 
 ** link:{{navprefix}}=add-action-worksheet[Add custom actions to a worksheet]
 ** link:{{navprefix}}=push-data[Callback custom action example]

@@ -25,7 +25,7 @@ Logs out a user from an existing session.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-info[*POST* /tspublic/v1/session/info]`  [tag greenBackground]#New#
+`xref:session-api.adoc#session-info[*POST* /tspublic/v1/session/info]` 
 
 Gets session information.
 

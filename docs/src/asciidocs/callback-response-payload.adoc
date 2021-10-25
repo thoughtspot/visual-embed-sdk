@@ -9,7 +9,7 @@ The examples in this section show the contents of the payload sent from ThoughtS
 
 == Sample response payload for callback custom actions
 
-[#search-answer-payload]
+[#search-data-payload]
 === Search data payload
 
 The following example shows the visualization data payload passed in a callback custom action for search:

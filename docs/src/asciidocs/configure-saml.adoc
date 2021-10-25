@@ -121,17 +121,20 @@ The IDP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to ThoughtSpot upon their first successful SSO login.
 If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
++
+ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
-ThoughtSpot can also add users to groups sent within the SAML assertion. You must ask your ThoughtSpot team to enable and configure the SAML groups capabilities.
 +
 . Click *Save*.
 
-==== Configuring ThoughtSpot for automatic SAML redirect
-By default, ThoughtSpot will display a login box with a link at the bottom that says "Login using Single Sign On", even when embedding using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. To enable this feature, contact ThoughtSpot Support.
+==== Configure ThoughtSpot for automatic SAML redirect
+By default, ThoughtSpot displays a login box with a link at the bottom that says *Login using Single Sign On*, even when embedding  using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. To enable this feature, contact ThoughtSpot Support.
 
-Once automatic SAML redirect has been enabled, you can override it when necessary by appending the following parameter to a ThoughtSpot URL:
+When automatic SAML redirect is enabled, you can override it when necessary by appending the following query parameter to a ThoughtSpot URL:
 
-`disableSAMLAutoRedirect=true`
+----
+disableSAMLAutoRedirect=true
+----
 
 [#idp-config]
 === Configure the IdP server for SAML authentication
@@ -142,23 +145,17 @@ If you want to use one of these providers as your IdP, make sure you follow the 
 
 To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot support. 
 
-////
-
-* PingFederate
-* OneLogin 
-* Microsoft ADFS
-* Microsoft Azure Active Directory
-* link:https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-General-Information.html[Okta, window=_blank]
-////
 [NOTE]
 ====
-When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
+When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
 ====
 
-==== Configuring IdP to allow iframe embedding
+
+==== Configure IdP to allow iframe embedding
 Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow. 
 
-An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe initiated workflow.
+An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe-initiated workflow.
+
 
 [#auth-config-sdk]
 === Enable SSO authentication in the Visual Embed SDK
@@ -168,15 +165,29 @@ For more information, see the instructions for embedding xref:full-embed.adoc[Th
 
 [#saml-redirect]
 === Allow SAML Redirect Domains
-If you have to redirect SAML users to a host URL in a different domain, make sure you add the SAML redirect domains to the  list of allowed domains in ThoughtSpot.
+If you have to redirect SAML users to a URL hosted on a different domain, make sure you add this URL to the list of allowed domains in ThoughtSpot.
 
-To whitelist a SAML redirect domain, follow these steps:
+To add a SAML redirect domain, follow these steps:
 
 . Log in to your ThoughtSpot application instance as an admin user.
 . Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
-. In SAML redirect domains, add the domains to whitelist.
+. Under *Customizations*, click *Security settings*.
+. Click *Edit*.
+. In the *SAML redirect domains* text box, add the domain names. Valid values are:
 +
-You can add multiple domains as comma-separated values.
 
+* Domain name strings with HTTP or HTTPS protocol. For example, `\http://thoughtspot.com`, 
+`\https://www.thoughtspot.com`, `\https://www.thoughtspot.com`
+* Domain name strings without port and protocol. For example, `thoughtspot.com`, `www.thoughtspot.com`
+* Domain name strings with wildcard (+++*+++). For example, 
+`\https://+++*+++.thoughtspot.com`, `*.thoughtspot.com`
+* Comma-separated values. For example, `thoughtspot.com, thoughtspot.com`
+* IPv4 addresses. For example, `255.255.255.255`
+
++
+[NOTE]
+====
+Although the UI allows a domain URL without the protocol (`http/https`), do include the protocol in the SAML redirect domain name string to avoid configuration errors.
+====
++
 . Click *Save changes*.

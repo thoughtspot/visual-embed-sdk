@@ -31,9 +31,27 @@ Gets a list of users assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#New# 
+`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl# 
 
-Updates user data for a group.
+Adds users to a specific group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]` 
+
+Updates user data for a given group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  [tag greenBackground]#NEW in ts7.oct.cl#
+
+Gets details of the users that are currently assigned to a group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl#
+
+Removes users from a group.
 
 +++<p class="divider"> </p>+++
 
@@ -49,37 +67,37 @@ Removes the privilege assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]` 
 
 Assigns groups to a parent group. 
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]` 
 
 Updates subgroup objects for a given group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]` 
 
 Gets a list of subgroups for a given group object.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]` 
 
 Adds members to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]` 
 
 Removes members from a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]`  [tag greenBackground]#New# 
+`xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]`
 
 Removes subgroups from a group.
 

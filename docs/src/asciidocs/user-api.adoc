@@ -24,7 +24,7 @@ To programmatically create a user account in the ThoughtSpot system, send a POST
 
 === Resource URL
 ----
-POST /tspublic/v1/user/
+POST /tspublic/v1/user/
 ----
 
 === Request parameters
@@ -135,6 +135,11 @@ This API allows the following modifications to a user profile:
 * Group assignment
 * User visibility for sharing objects
 * User preferences, such as viewing onboarding experience, subscribing to or unsubscribing from email notifications, and so on.
+
+[NOTE]
+====
+To add or modify the email address of a user, use the `/tspublic/v1/user/email` API endpoint.
+====
 
 === Resource URL
 ----
@@ -247,6 +252,63 @@ Response Code
 |**204** | Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid content format
+|===
+
+[#addEmail]
+
+== Add or modify the email address of a user
+
+To add or modify the email address of a user, send a `PUT` request to the `/tspublic/v1/user/email` API endpoint.
+
+
+=== Resource URL
+
+----
+PUT /tspublic/v1/user/email
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form Parameter|Description
+|`userid`|__String__. GUID of the user.
+|`emailid`|__String__. Email address of the user.
+|===
+
+=== Example request
+
+.cURL
+----
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'userid=a8aeda00-dc3c-4485-b8d1-fd6ac701a819&emailid=user123%40thoughtspot.com' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email
+----
+
+=== Example response
+
+If the email address is added successfully, the API returns the following response code:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**400**| Invalid user ID
+|**500**| Invalid email format
 |===
 
 [#get-user-details]
@@ -412,7 +474,7 @@ If the user deactivation operation is successful, the API returns the following 
 https://<ThoughtSpot-host>/#/activate?id=5fe00a84-e7eb-4a8b-b58d-ec205de9c645&token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCR1WUlOQ0VLbGtWMXZyMWtXUGdKSG9nPT0kTjY3Znd2STA1bURMMXNVMDMzVUkvK2tybllaZUUwUktTUWNEUEJZNWQwbz0
 ----
 
-Note the user ID and auth token string. You will need this information to reactivate a user account.
+Note the user ID and auth token string. You will need this information to re-activate a user account.
 
 === Response codes
 [width="100%" cols="2,4"]
@@ -611,7 +673,8 @@ Response Code
 
 [#user-list]
 == Get a list of users and groups
-To get a list of all users, groups, and their inter-dependencies in the form of principal objects, use the  `/tspublic/v1/user/list` API.
+
+To get a list of users and groups available in the ThoughtSpot system and view details of their inter-dependencies, use the `/tspublic/v1/user/list` API endpoint.
 
 === Resource URL
 ----
@@ -641,31 +704,76 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
     "name": "Administrator",
     "displayName": "Administration Group",
     "created": 1354006445722,
-    "modified": 1354006445987,
+    "modified": 1354006445722,
     "principalTypeEnum": "LOCAL_GROUP",
     "groupNames": [],
-    "visibility": "DEFAULT"
+    "visibility": "DEFAULT",
+    "activate": false
   },
   {
-    "name": "Analyst",
-    "displayName": "Analyst Group",
+    "name": "All",
+    "displayName": "All Group",
     "created": 1354006445722,
-    "modified": 1354006445987,
+    "modified": 1354006445722,
     "principalTypeEnum": "LOCAL_GROUP",
     "groupNames": [],
-    "visibility": "DEFAULT"
+    "visibility": "DEFAULT",
+    "activate": false
   },
   {
-    "name": "rls-group-3",
-    "displayName": "rls-group-3",
-    "description": "Contains directly rls-group-1, rls-group-2 and belongs directly to rls-group-5",
-    "created": 1459376495060,
-    "modified": 1459376590681,
+    "name": "System",
+    "displayName": "System Management Group",
+    "created": 1354006445722,
+    "modified": 1354006445722,
     "principalTypeEnum": "LOCAL_GROUP",
-    "groupNames": "rls-group-5",
-    "visibility": "DEFAULT"
+    "groupNames": [],
+    "visibility": "DEFAULT",
+    "activate": false
+  },
+  {
+    "name": "su",
+    "displayName": "Administrator Super-User",
+    "created": 1354006445722,
+    "modified": 1354006445722,
+    "mail": "",
+    "principalTypeEnum": "LOCAL_USER",
+    "groupNames": [
+      "Administrator",
+      "All",
+      "System"
+    ],
+    "visibility": "DEFAULT",
+    "activate": false
+  },
+  {
+    "name": "system",
+    "displayName": "System User",
+    "created": 1354006445722,
+    "modified": 1354006445722,
+    "mail": "",
+    "principalTypeEnum": "LOCAL_USER",
+    "groupNames": [
+      "All",
+      "System"
+    ],
+    "visibility": "DEFAULT",
+    "activate": false
+  },
+  {
+    "name": "aptest",
+    "displayName": "APtest",
+    "created": 1634265580100,
+    "modified": 1634269380481,
+    "mail": "user15@thoughtspot.com",
+    "principalTypeEnum": "LOCAL_USER",
+    "groupNames": [
+      "Administrator",
+      "All"
+    ],
+    "visibility": "DEFAULT",
+    "activate": false
   }
-  ]
+]
 ----
 ==== Object properties
 A typical principal object contains the following properties:
@@ -690,11 +798,10 @@ The email address of the user. This field is populated only for the user objects
 
 * `principalTypeEnum`
 +
-Type of the user created in the ThoughtSpot system.
-Valid values are:
+Type of the user created in the ThoughtSpot system. For example:
 
-** `LOCAL_USER`
-** `LOCAL_GROUP`
+** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system.  
+** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system.
 
 * `password`
 +
@@ -708,11 +815,15 @@ Password is only required:
 
 * `groupNames`
 +
-Name of the groups to which a principal belongs. For example, `Administrator`, `ALL_GROUP`, and so on. Users can belong to multiple groups.
+Name of the groups to which a principal belongs. For example, `Administrator`, `ALL`, and so on. Users can belong to multiple groups.
 
 * `visibility`
 +
 If the user is visible to the other ThoughtSpot users or user groups who might want to  share objects.
+
+* `activate`
+
+Indicates if the user or user group needs to be activated. If the user or user group is already active, the `activate` property is set to `false`. 
 
 === Response codes
 [width="100%" cols="2,4"]
@@ -861,7 +972,7 @@ POST /tspublic/v1/user/updatepreference
 * change the display language of the ThoughtSpot UI
 * receive email notifications when another user shares an answer or pinboard
 * enable the onboarding experience
-|`preferencesProto` __Optional__|__String__. A 64-bit encoded string for setting user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
+|`preferencesProto` __Optional__|__String__. A 64-bit encoded string to set user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
 |===
 
 [NOTE]
@@ -1018,7 +1129,7 @@ POST /tspublic/v1/user/sync
 ----
 === Request parameters
 
-This API uses `multipart/form-data` content-type.
+This API uses the `multipart/form-data` content-type.
 
 [NOTE]
 ====
@@ -1138,4 +1249,295 @@ The above example covers user objects (with emails), group objects, and their re
 |===
 |HTTP status code|Description
 |**200**| The user sync operation is successful.
+|===
+
+[#assignUserToGroups]
+== Assign a user to groups
+
+To assign a user to groups that exist in the Thoughtspot system, send a `POST` request to the `/tspublic/v1/user/{userid}/groups` API endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/user/{userid}/groups
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Parameter|Parameter Type|Description
+|`userid`|path|__String__. The GUID of the user that you want to assign to the specified groups.
+|`groupids`|query|__String__. A JSON array of the GUIDs of the user groups to which you want to add the user.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%2C%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%5D'
+ 
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%2C%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%5D
+----
+
+=== Example response
+
+If the user group assignment is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#getGroupsUser]
+== Get user group details for a specific user
+
+To get a list of user groups associated with a user, send a `GET` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+
+=== Resource URL
+
+----
+GET /tspublic/v1/user/{userid}/groups
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Path parameter||Description
+|`userid`|__String__. The GUID of the user that you want to query.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups
+----
+
+=== Example response
+
+If the GET operation is successful, the API returns the following response:
+
+[source,JSON]
+----
+[
+  {
+    "userGroupContent": {},
+    "groupIdx": 2,
+    "metadataVersion": -1,
+    "assignedPinboards": [],
+    "assignedGroups": [],
+    "inheritedGroups": [],
+    "privileges": [],
+    "type": "LOCAL_GROUP",
+    "parenttype": "GROUP",
+    "visibility": "DEFAULT",
+    "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "displayName": "Test Group3",
+    "header": {
+      "id": "2364bf7c-7eec-4839-ac4b-e0cbb27aec37",
+      "indexVersion": 95,
+      "generationNum": 95,
+      "name": "TestGroup3",
+      "displayName": "Test Group3",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created": 1634527727318,
+      "modified": 1634527727318,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "2364bf7c-7eec-4839-ac4b-e0cbb27aec37",
+      "isDeleted": false,
+      "isHidden": false,
+      "tags": [],
+      "type": "LOCAL_GROUP",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": [],
+    "isSystemPrincipal": false
+  },
+  {
+    "userGroupContent": {},
+    "groupIdx": 2,
+    "metadataVersion": -1,
+    "assignedPinboards": [],
+    "assignedGroups": [],
+    "inheritedGroups": [],
+    "privileges": [],
+    "type": "LOCAL_GROUP",
+    "parenttype": "GROUP",
+    "visibility": "DEFAULT",
+    "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "displayName": "Test Group2",
+    "header": {
+      "id": "2e3f697a-e38d-4d50-b5c5-e2514e85d90e",
+      "indexVersion": 94,
+      "generationNum": 94,
+      "name": "TestGroup2",
+      "displayName": "Test Group2",
+      "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "created": 1634527708775,
+      "modified": 1634527708775,
+      "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+      "owner": "2e3f697a-e38d-4d50-b5c5-e2514e85d90e",
+      "isDeleted": false,
+      "isHidden": false,
+      "tags": [],
+      "type": "LOCAL_GROUP",
+      "isExternal": false,
+      "isDeprecated": false
+    },
+    "complete": true,
+    "incompleteDetail": [],
+    "isSystemPrincipal": false
+  }
+]
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#editGroupsforUser]
+== Update group association for a user
+
+To update the user group data for a specific user, send a `PUT` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+
+=== Resource URL
+
+----
+PUT /tspublic/v1/user/{userid}/groups
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Parameter|Parameter Type|Description
+|`userid`|path|__String__. The GUID of the user that you want to modify.
+|`groupids`|query|__String__. A JSON array of the GUIDs of the user groups that you want to add or modify for the specified user.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X PUT \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json'  \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%2C%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%5D' 
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%2C%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%5D
+----
+
+=== Example response
+
+If the user group update operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
+|===
+
+[#removeUserGroupAssoc]
+
+== Remove a user from user groups
+
+To remove the existing group assignments for a user, send a `DELETE` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+
+=== Resource URL
+
+----
+DELETE /tspublic/v1/user/{userid}/groups
+----
+
+=== Request parameters
+
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Parameter|Parameter Type|Description
+|`userid`|path|__String__. The GUID of the user from which you want to delete the user group association.
+|`groupids`|query|__String__. A JSON array of the GUIDs of the user groups from which you want to remove the specified user object.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%5D'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%5D
+----
+
+=== Example response
+
+If the user is removed from specified user groups, the API returns the following response:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[width="100%" cols="2,4"]
+[options='header']
+|===
+|HTTP status code|Description
+|**204**| Successful operation
+|**400**| Invalid parameter
 |===
