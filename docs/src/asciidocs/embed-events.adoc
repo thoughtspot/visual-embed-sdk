@@ -1,4 +1,4 @@
-= Event subscription and handling
+= Subscribe to events
 :toc: true
 :toclevels: 1
 
