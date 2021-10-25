@@ -381,6 +381,13 @@ export enum HostEvent {
      * @hidden
      */
     Reload = 'reload',
+    /**
+     * Set the visible Vizs on a pinboard/liveboard.
+     * @param - an array of ids of vizs to show, the ids not passed
+     *          will be hidden.
+     * _since: 1.6.0_
+     */
+    SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
 
 /**
