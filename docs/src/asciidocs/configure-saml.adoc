@@ -123,6 +123,8 @@ Specify if you want to add SAML users to ThoughtSpot when they first authenticat
 If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 +
 ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
++
+For additional authorization settings beyond user creation and adding users to groups, please see the xref:auth-overview.adoc[authentication and security documentation].
 
 +
 . Click *Save*.
