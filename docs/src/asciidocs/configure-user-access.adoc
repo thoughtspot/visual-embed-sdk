@@ -79,3 +79,20 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-sec
 If you are using Visual Embed SDK to embed ThoughtSpot objects and you want to restrict user access to certain menu actions, you can use the `disableActions` and `hideActions` parameters. 
 
 For more information on disabling or hiding an action, see xref:embed-actions.adoc[Disable or hide menu actions].
+
+== Sync authorization from other systems
+SSO in ThoughtSpot is mostly concerned with determining who the user is (authentication). To set what a user can see and do (authorization), you will need to set the various features listed above. While an administrator can set all of these values within the ThoughtSpot UI or through direct REST API commands, you may want or need to sync authorization settings automatically from other systems within your environment. 
+
+There are three general ways to configure syncing with external systems:
+
+- Schedule batch sync processes to ThoughtSpot 
+- Integrate ThoughtSpot sync commands into existing system processes
+- Send ThoughtSpot sync commands when user session is created (SSO)
+
+=== Authentication and authorization when user session is created
+If using xref:configure-saml.adoc[SAML] for SSO, ThoughtSpot can create users automatically from the SAML assertion, and add the user to existing ThoughtSpot groups. 
+
+When using xref:trusted-authentication.adoc[trusted authentication], the authenticator service will use a service account with server administrator privileges. The service account can send the REST API commands to create the user and add them to the appropriate groups prior to requesting the login token.
+
+=== REST API commands to set authorization 
+Additional REST API commands can be sent to ThoughtSpot to set all of the other authorization properties beyond group membership. 
