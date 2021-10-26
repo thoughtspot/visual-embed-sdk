@@ -79,6 +79,7 @@
         "gatsby": "3.1.0",
         "gatsby-plugin-algolia": "^0.22.2",
         "gatsby-plugin-catch-links": "^3.1.0",
+        "gatsby-plugin-env-variables": "^2.1.0",
         "gatsby-plugin-intl": "^0.3.3",
         "gatsby-plugin-manifest": "^3.2.0",
         "gatsby-plugin-output": "^0.1.3",

@@ -217,5 +217,11 @@ module.exports = {
                 },
             }
         },
+        {		
+            resolve: `gatsby-plugin-env-variables`,
+            options: {
+                allowList: ["BUILD_ENV"]
+            },
+        },
     ],
 };
