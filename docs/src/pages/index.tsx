@@ -10,6 +10,7 @@ import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import Search from '../components/Search';
 import '../assets/styles/index.scss';
+import { getAlgoliaIndex } from '../configs/algolia-search-config';
 import {
     DOC_NAV_PAGE_ID,
     TS_HOST_PARAM,
@@ -204,7 +205,7 @@ const IndexPage = ({ location }) => {
           ),
         []
       );
-    const searchIndex = searchClient.initIndex('Pages');
+    const searchIndex = searchClient.initIndex(getAlgoliaIndex());
 
     useEffect(()=>{
         if(keyword) {
