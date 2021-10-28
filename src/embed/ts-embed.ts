@@ -343,7 +343,7 @@ export class TsEmbed {
         if (hiddenActions?.length) {
             queryParams[Param.HideActions] = hiddenActions;
         }
-        if (visibleActions?.length) {
+        if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
         return queryParams;

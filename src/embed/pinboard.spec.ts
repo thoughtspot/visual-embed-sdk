@@ -100,6 +100,20 @@ describe('Pinboard/viz embed tests', () => {
         });
     });
 
+    test('should set visible actions as empty array', async () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            visibleActions: [],
+            ...defaultViewConfig,
+            pinboardId,
+        } as PinboardViewConfig);
+        pinboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[]#/embed/viz/${pinboardId}`,
+            );
+        });
+    });
+
     test('should enable viz transformations true', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             enableVizTransformations: true,
