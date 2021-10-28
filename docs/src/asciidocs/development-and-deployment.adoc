@@ -7,9 +7,9 @@
 :page-description: Development and deployment following SDLC practices can be achieved using TML and REST API
 
 == Overview
-When developing data apps or integrating embedded analytics into your existing applications, there is typically a set of defined practices for development, testing, and deployment of content. 
+When an deploying embedded analytics, there is typically a set of defined practices for development, testing, and deployment of content similar to the processes used for development of code for integration between the systems. 
 
-The ThoughtSpot system contains many types of objects which link together. All of the objects can be retrieved in the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot modeling language (TML), window=_blank], both through the UI and via REST APIs. With the proper understanding of TML and how the APIs work, you can integrate ThoughtSpot into your source control system and programmatically move content through your development and deployment phases.  
+The ThoughtSpot system contains many types of objects which link together. All of the objects are modeled using the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot modeling language (TML), window=_blank]. The TML for an object can be viewed and edited through the UI and via REST APIs. With the proper understanding of TML and how the APIs work, you can integrate ThoughtSpot into your source control system and programmatically move content through your development and deployment phases.  
 
 [NOTE]
 ====
@@ -22,14 +22,23 @@ Every object type in ThoughtSpot has a representation in link:https://cloud-docs
 Almost every aspect of an object can be defined or modified via TML, with a few limitations around making updates to very complicated data modeling features. While building content in ThoughtSpot is most easily achieved via the web-based UI, TML allows for integrating into common SDLC processes, deploying changes across a whole environment, and scripting complex SaaS deployments.
 
 === REST API endpoints for TML
-There are two REST API endpoints for working with TML, one to xref:tml-api.adoc#export[export (download)] and one to xref:tml-api#import[import (upload)]. The APIs can retrieve and upload multiple TML files at a time, at which tells the system to look at name references within the set of uploaded TML files first, before looking to existing objects on the ThoughtSpot server.
+There are two REST API endpoints for working with TML, one to xref:tml-api.adoc#export[export (download)] and one to xref:tml-api#import[import (upload)]. The APIs can retrieve and upload multiple TML files at a time, which tells the system to look at name references within the set of uploaded TML files first, before looking to existing objects on the ThoughtSpot server. If you are importing TML files one-at-a-time, you will often need to include the `fqn` property to specify between objects with the same name.
 
-The TML import REST API call does not allow for specifying individual objects through arguments of the API call itself. All details of the object to be created or modified are specified within the uploaded TML file, including the GUID of an object you wish to update. 
+The TML import REST API call itself does not specify any objects. All details of the object to be created or modified are specified *within the uploaded TML file*, including the GUID of an object you wish to update. 
 
-==== Creating new objects
+==== Download object TML
+If you want to store TML within Git or any other version control system, you'll use the xref:tml-api.adoc#export[export REST API endpoint] to retrieve the TML representations of the objects on the ThoughtSpot server. Alternatively, you might use the ThoughtSpot server itself as your system of record, but export TML and apply changes programmatically prior to importing these modified TML files as new objects. 
+ 
+You can pass any number of GUIDs in the `export_ids` argument, although it may be simpler to retrieve one at a time. 
+ 
+The `formattype` argument can be set to `YAML` or `JSON`. YAML is more human-readable and matches the view when you edit TML within the ThoughtSpot UI, while JSON may be easier to process for programmatic manipulation. 
+ 
+The `export_associated` argument retrieves the TML objects for all related objects when used. This can be used for grabbing a full set of dependencies, but generates a more complex response that must be parsed into individual elements.
+ 
+==== Create new objects
 To create a new object on the server, you call the import API with the *force_create* property set to *true*. Even if the TML document has a GUID, *force_create=true* should result in a new object on the server with a new GUID. That said, it is easy to remove the TML guid property prior to publish along with the *force_create=true* command in the API, and you will see both in many examples.
 
-==== Updating existing objects
+==== Update existing objects
 To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, then update the TML document's *guid* property. The xref:metadata-api.adoc[metadata APIs], in particular xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to determine the GUID of an existing object. 
 
 
