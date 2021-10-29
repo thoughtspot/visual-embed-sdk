@@ -434,6 +434,7 @@ export enum Param {
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
+    livedBoardEmbed = 'isLiveboardEmbed',
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',

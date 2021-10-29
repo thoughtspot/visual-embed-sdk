@@ -99,7 +99,7 @@ export class PinboardEmbed extends V1Embed {
         if (preventPinboardFilterRemoval) {
             params[Param.preventPinboardFilterRemoval] = true;
         }
-
+        params[Param.livedBoardEmbed] = true;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

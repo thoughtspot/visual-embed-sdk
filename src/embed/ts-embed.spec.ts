@@ -194,7 +194,7 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             pinboardEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}#/embed/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
             );
         });
 
