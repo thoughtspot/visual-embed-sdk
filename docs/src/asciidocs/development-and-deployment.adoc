@@ -152,7 +152,10 @@ The `layout` section is an ordered list with a `size` property for each visualiz
 
 = Deployment patterns
 
-== Copying from one server to another
+== Change tracking / source control
+In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and pinboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
+
+== Copy from one server to another
 When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the `name` property under the `connection` (value labeled `connection_name` below) within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
 
 [source,yaml]
@@ -170,7 +173,7 @@ table:
 == Dev -> test -> prod
 A standard pattern for software development lifecyle (SDLC) is moving content from a development (dev) environment to a test environment then eventually to production (prod) where end customers can see it.
 
-=== "Namespacing" prefixes on content names
+=== Prefixes on content names as namespaces
 The easiest way to avoid name collisions is by adding "dev_" or "test_" before the name of any object. By using a consistent "namespace prefix", deployment scripts an easily find and replace when moving from "dev" to "test", or remove the prefix entirely when copying the content to prod where end customers can see it.
 
 Example pattern:
@@ -189,8 +192,7 @@ Using this namespace prefix scheme, you can export the TML files related to "dev
 === Access control
 Dev and test content should be xref:multi-tenancy-best-practices.adoc[shared only to specific groups] designed to give access to the correct app developer users. Individual tenant users will never see content that is not shared to them.
 
-=== Change tracking / source control
-In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and pinboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
+
 
 == Single-tenant databases deployment model
 As described in the multi-tenancy best practices article, the single-tenant databases model requires separate connections for each tenant, along with replicas of all other standardized objects. In this model, there is one additional tier of deployment: dev, test, prod template, and prod tenant content.
