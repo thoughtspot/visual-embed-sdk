@@ -59,11 +59,25 @@ Connections do not have a TML representation, but can be created and modified vi
 Connections *must have unique names* within the entire ThoughtSpot server. Connections do have GUIDs, but *only name is necessary in TML* files due to this uniqueness constraint. 
 
 === Tables
-Table objects represent an actual table (or view) within a database. 
+link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[Table objects] represent an actual table (or view) within a database. 
 
 Within ThoughtSpot, the display names for tables *do not have uniqueness constraints*. You can create or import tables with the same display names. 
 
-When importing a table through the ThoughtSpot UI, a table's display name will default to the table's name in the data warehouse, but you can change the display name to whatever you'd like. You can specify the display name within the TML document when creating a table via TML import.
+When importing a table through the ThoughtSpot UI, a table's display name will default to the table's name in the data warehouse, but you can change the display name to whatever you'd like. You can specify the display name within the TML document when creating a table via TML import by changing the `name` property, while leaving the `db_table` property as it was originally imported.
+
+[source,yaml]
+----
+guid: <table_guid>
+table:
+  name: <table_name>
+  db: <database_name>
+  schema: <schema_name>
+  db_table: <database_table_name>
+  connection:
+    name: <connection_name>
+    type: <connection_type>
+ ...
+----
 
 ==== Join relationships and row level security rules
 ThoughtSpot will import join relationships between tables when adding the table through the UI if the relationships are defined within the database. You can also manually define join relationships through the UI or table TML. 
@@ -104,6 +118,7 @@ answer:
   - id: <table_id>
     name: <table_name_1>
     fqn : <optional_GUID_of_table_name>
+ ...
 ----
 
 === Liveboards
@@ -121,6 +136,7 @@ pinboard:
   visualizations:
   - id: <viz_id_1>
     answer:
+ ...
 ----
 
 The `layout` section is an ordered list with a `size` property for each visualization tile. If a visualization is added programmatically, it needs a matching entry in the layout section to determine how it appears within the liveboard. Adjustments to the order within the liveboard can be made by reordering the layout list. The `visualization_id` property must match to an existing `id` value in the `visualizations` list.
@@ -148,6 +164,7 @@ table:
   db_table: <database_table_name>
   connection:
     name: <connection_name>
+ ...
 ----
 
 == Dev -> test -> prod
