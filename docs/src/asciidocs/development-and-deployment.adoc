@@ -173,15 +173,17 @@ A standard pattern for software development lifecyle (SDLC) is moving content fr
 === "Namespacing" prefixes on content names
 The easiest way to avoid name collisions is by adding "dev_" or "test_" before the name of any object. By using a consistent "namespace prefix", deployment scripts an easily find and replace when moving from "dev" to "test", or remove the prefix entirely when copying the content to prod where end customers can see it.
 
-Example:
+Example pattern:
 
-- dev_Connection A
-- test_Connection A
-- dev_Table A
-- dev_Table B
-- dev_Worksheet 1
+[width="100%" cols="3,3,3"]
+[options='header']
+|===
+|dev name|test name|prod name
+|dev_Connection A|test_Connection A|Connection A
+|dev_Table A|test_Table A|Table A
+|===
 
-Using this namespace prefix scheme, you can export the TML files related to "dev_Connection A" and simply update any name references by replacing "dev_" with "test_".
+Using this namespace prefix scheme, you can export the TML files related to "dev_Connection A" and simply update any name references by replacing "dev_" with "test_". Moving from test to prod, you remove the prefix from the names entirely.
 
 
 === Access control
@@ -196,9 +198,16 @@ As described in the multi-tenancy best practices article, the single-tenant data
 Prod template content is the finalized data model and other content for a given prod release, prior to being published out to each tenant with the necessary changes to their tenant connection.
 
 === Namespacing in the single-tenant databases model
+When you have a different database for each of your tenants, you'll programmatically build a connection for each tenant, and then copy your prod template for each tenant. In this pattern, you namespace dev, test, and prod template content, and remove the namespace for the tenant specific content.
 
-- dev_
-- test_
-- prod_
+Example pattern:
+
+[width="100%" cols="3,3,3,3"]
+[options='header']
+|===
+|dev name|test name|prod name|tenant name (per tenant)
+|dev_Connection A|test_Connection A|prod_Connection A|Connection A
+|dev_Table A|test_Table A|prod_Table A|Table A
+|===
 
 Each prod tenant copy will have the same name so that each tenant will not see their own customer name / ID listed out. Access control through sharing will ensure they never have any awareness of the other objects that exist with the same name for the other tenants.
