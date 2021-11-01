@@ -42,7 +42,7 @@ To create a new object on the server, you call the xref:tml-api#import[import RE
 To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, then update the TML document's *guid* property. The xref:metadata-api.adoc[metadata APIs], in particular xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to determine the GUID of an existing object. 
 
 === Name uniqueness constraints and GUIDs
-ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, pinboards, etc.). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modelling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
+ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, pinboards, etc.). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
 
 You can simplify some processes by setting your own best practice rules for given objects unique names. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML. For some multi-tenanted use cases, you will want many objects with the same display name, with access control rules determining which objects a given user sees, and then you will need to use GUIDs to differentiate those objects when uploading TML.
 
@@ -59,7 +59,7 @@ Connections do not have a TML representation, but can be created and modified vi
 Connections *must have unique names* within the entire ThoughtSpot server. Connections do have GUIDs, but *only name is necessary in TML* files due to this uniqueness constraint. 
 
 === Tables
-link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[Table objects] represent an actual table (or view) within a database. 
+link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[Table objects, window=_blank] represent an actual table (or view) within a database. 
 
 Within ThoughtSpot, the display names for tables *do not have uniqueness constraints*. You can create or import tables with the same display names. 
 
@@ -92,11 +92,78 @@ If you are in the process of uploading many different tables, you should either 
  2. Check that all table objects have been created successfully on the ThoughtSpot server
  3. Do a second import of the TML documents with the `rls_rules` and `joins_with` sections. Subsitute in the GUIDs of the newly created table objects on the server into the TML documents' `guid` property to update the new objects rather than the original objects
 
-=== Views
-link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet.
-
 === Worksheets
-Worksheets combine a number of tables into a coherent data model optimized for searches. 
+Worksheets combine a number of tables into a coherent data model optimized for searches. The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-worksheets[TML syntax for worksheets, window=_blank] defines all of the aspects of the worksheet, including the tables it joins together, the columns and their properties, filters, etc.
+
+For the purposes of development and deployment, the `tables`, `joins` and `table_paths` sections are the most important. 
+
+The `tables` section is a list of table objects that exist on the ThoughtSpot Server. The `name` property is all that is included in an exported TML file, and this matches the `name` property of the table object. If there is more than one table object on the server with identical name properties, you must use the `fqn` property to specify the GUID of the particular table you want. However, the string value of `name` is used in the `joins` section, so the correct process for adding in an `fqn` property is as follows:
+
+1. Find the GUID of the specific table from the ThoughtSpot server
+2. Add the `fqn` element. Set the GUID as the value
+3. Copy the value from the `name` element
+4. Create an `id` property and set the value as the `name` value
+5. Remove the `name` element entirely
+
+So you go from
+[source,yaml]
+----
+  tables:
+  - name: <table_name_1>
+----
+
+to 
+
+[source, yaml]
+----
+  tables:
+  - id : <table_name_1>
+    fqn : <GUID_of_table_name>
+----
+
+
+
+=== Views
+link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. 
+
+The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server, as well as join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
+
+[source,yaml]
+----
+guid: <view_guid>
+view:
+  name: <view_name>
+  description:
+    This is a multi-line description of the View.
+    Description line 2
+  tables:
+  - name: <table_name_1>
+    id : <optional_table_id>
+    fqn : <optional_GUID_of_table_name>
+  - name: <table_name_2>
+  - name: <table_name_n>
+  joins:
+  - name: <join_name_1>
+    source: <source_table_name>
+    destination: <destination_table_name>
+    type: [RIGHT_OUTER | LEFT_OUTER | INNER | OUTER]
+    on: <join_expression_string>
+    is_one_to_one: [ false | true ]
+  table_paths:
+  - id: <table_path_name_1>
+    table: <table_name_1>
+    join_path:
+    - join:
+      - <join_name_1>
+      - <join_name_n>
+ ...
+  search_query: <query_string>
+ ... 
+----
+
+Views can be joined with other data objects in a worksheet
+
+
 
 == Content objects
 Content objects are *answers* (saved searches) and *liveboards* (formerly pinboards). An answer on a liveboard is not linked in any way to an answer outside of a liveboard. When you pin an answer to a liveboard, the full definition of the answer is copied into the liveboard definition at that time.  However, the capabilities and definitions for answers stored separately or on a liveboard are identical.
@@ -104,7 +171,7 @@ Content objects are *answers* (saved searches) and *liveboards* (formerly pinboa
 Best practice is to *only connect answers and liveboards to worksheets*. Although they can connect directly to tables, it is far simpler to adjust references within the answer and liveboard TML to worksheets than many individual tables.
 
 === Answers
-The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax] syntax defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view* or *worksheet* objects, whichever the answer is connected to. As mentioned before, it is simplest to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
+The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] syntax defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view* or *worksheet* objects, whichever the answer is connected to. As mentioned before, it is simplest to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
 
 [source,yaml]
 ----
@@ -122,7 +189,7 @@ answer:
 ----
 
 === Liveboards
-link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Liveboards (formerly pinboards)] combine together many different answers and define a layout of the answer elements. 
+link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Liveboards (formerly pinboards), window=_blank] combine together many different answers and define a layout of the answer elements. 
 
 Answers are defined in the `visualizations` section, which is a list of answers. The answer syntax here matches exactly as a separate answer stored on its own, with the `guid` property of an individual answer replaced by an `id` property. The `id` property is typically the word "Viz" and a number: "Viz 1", "Viz 10":
 
