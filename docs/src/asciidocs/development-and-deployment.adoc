@@ -65,14 +65,18 @@ Within ThoughtSpot, the display names for tables *do not have uniqueness constra
 
 When importing a table through the ThoughtSpot UI, a table's display name will default to the table's name in the data warehouse, but you can change the display name to whatever you'd like. You can specify the display name within the TML document when creating a table via TML import.
 
-Row level security (RLS) rules are defined in the `rls_rules` section of the table TML. Similar to the `joins_with` section (see below), RLS rules must reference existing table objects for the TML to validate. If you are in the process of uploading many different tables, you should either import all the tables in the same import REST API call, or remove the `rls_rules` section from the TML document on the initial import of each table TML, and then do a second import of the TML documents with the `rls_rules` and `joins_with` sections to update, after you know all table objects have been created successfully on the ThoughtSpot server. You will need to subsitute in the GUIDs of the newly created table objects on the server into the TML documents' `guid` property to update the new objects rather than the original objects.
-
-=== Join relationships
+==== Join relationships and row level security rules
 ThoughtSpot will import join relationships between tables when adding the table through the UI if the relationships are defined within the database. You can also manually define join relationships through the UI or table TML. 
 
-Joins do not have separate TML representations, but are defined in table objects. Worksheets can also have join definitions, but these joins modify existing joins between tables as defined in the table objects.
+Joins do not have separate TML representations, but are defined in table objects in the `joins_with` section.
 
-To define joins, all tables being referenced must exist as table objects in ThoughtSpot. When importing a TML table definition with joins, you must either import all tables at the same time, or remove the `joins_with` section of the tables on initial import, then do a second import of the TML objects to update the tables with TML files that contain the `joins_with` section. You will need to subsitute in the GUIDs of the newly created table objects on the server into the TML documents' `guid` property to update the new objects rather than the original objects.
+Row level security (RLS) rules are defined in the `rls_rules` section of the table TML. Similar to the `joins_with` section, RLS rules must reference existing table objects for the TML to validate. 
+
+If you are in the process of uploading many different tables, you should either import all the tables in the same import REST API call, or do the following:
+
+ 1. Remove the `rls_rules` and `joins_with` sections from the TML document on the initial import of each table TML. Save the GUID of each newly created object where it can be referenced to the original GUID
+ 2. Check that all table objects have been created successfully on the ThoughtSpot server
+ 3. Do a second import of the TML documents with the `rls_rules` and `joins_with` sections. Subsitute in the GUIDs of the newly created table objects on the server into the TML documents' `guid` property to update the new objects rather than the original objects
 
 === Views
 link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet.
