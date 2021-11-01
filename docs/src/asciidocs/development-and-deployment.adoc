@@ -103,7 +103,32 @@ answer:
 ----
 
 === Liveboards
+link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Liveboards (formerly pinboards)] combine together many different answers and define a layout of the answer elements. 
 
+Answers are defined in the `visualizations` section, which is a list of answers. The answer syntax here matches exactly as a separate answer stored on its own, with the `guid` property of an individual answer replaced by an `id` property. The `id` property is typically the word "Viz" and a number: "Viz 1", "Viz 10":
+
+[source,yaml]
+----
+pinboard:
+  name: <pinboard_name>
+  description:
+    This is a multi-line description of the pinboard
+    Description line 2
+  visualizations:
+  - id: <viz_id_1>
+    answer:
+----
+
+The `layout` section is an ordered list with a `size` property for each visualization tile. If a visualization is added programmatically, it needs a matching entry in the layout section to determine how it appears within the liveboard. Adjustments to the order within the liveboard can be made by reordering the layout list. The `visualization_id` property must match to an existing `id` value in the `visualizations` list.
+
+[source,yaml]
+----
+  layout:
+    tiles:
+    - visualization_id: <visualization_id_1>
+      size: <viz_id_1_size>
+    - visualization_id: <visualization_id_2>
+----
 
 = Deployment patterns
 
