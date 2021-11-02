@@ -243,6 +243,10 @@ The `layout` section is an ordered list with a `size` property for each visualiz
 == Change tracking / source control
 In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and pinboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
 
+The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to retrieve the GUIDs for the various objects on the ThoughtSpot server. Looping through those GUIDs with the xref:tml-api.adoc#export[export TML REST API endpoint] allows for saving the current state of all objects to disk. A simple form of Git (or other source control) integration can be achieved simply by exporting all the TML files to a Git-enabled directory, with Git determining if there are any changes. 
+
+The `metadata/listobjectheaders` endpoint can be sorted by the `MODIFIED` keyword and then retrived in batches, allowing a TML retrieval script to only retrieve objects modified since the last run date or some other reasonable time period.
+
 == Copy from one server to another
 When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the `name` property under the `connection` (value labeled `connection_name` below) within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
 
@@ -279,7 +283,6 @@ Using this namespace prefix scheme, you can export the TML files related to "dev
 
 === Access control
 Dev and test content should be xref:multi-tenancy-best-practices.adoc[shared only to specific groups] designed to give access to the correct app developer users. Individual tenant users will never see content that is not shared to them.
-
 
 
 == Single-tenant databases deployment model
