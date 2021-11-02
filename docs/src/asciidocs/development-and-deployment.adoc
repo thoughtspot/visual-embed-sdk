@@ -114,14 +114,35 @@ So you go from
 
 to 
 
-[source, yaml]
+[source,yaml]
 ----
   tables:
   - id : <table_name_1>
     fqn : <GUID_of_table_name>
 ----
 
+The `name` property, which is now transformed into the `id` property, is used in the `joins` and `table_paths` sections that follow. Under `joins`, the `source` and `destination` properties take the string `id` property of a table in the tables list. In a TML file exported from ThoughtSpot, you won't have to make any changes, because this value will already be set to what was the `name` property, and we've maintained that value by switching it to the `id` property. 
 
+Under `table_paths`, the `table` property also uses the values we moved to `id`. The list of join names under `join_path` will need to match the text value of the `name` element of an item in the `joins`. This should be valid as exported and not require any changes, but if you do change the `name` value of a join, you will need to update the value in the `join_path` list in `table_paths`.
+
+[source,yaml]
+----
+  joins:
+  - name: <join_name_1>
+    source: <source_table_name>
+    destination: <destination_table_name>
+    type: [RIGHT_OUTER | LEFT_OUTER | INNER | OUTER]
+    on: <join_expression_string>
+    is_one_to_one: [ false | true ]
+  - ...
+  table_paths:
+  - id: <table_path_name_1>
+    table: <table_name_1>
+    join_path:
+    - join:
+      - <join_name_1>
+      - <join_name_n>
+----
 
 === Views
 link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. 
