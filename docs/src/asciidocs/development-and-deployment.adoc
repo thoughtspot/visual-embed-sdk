@@ -145,7 +145,7 @@ Under `table_paths`, the `table` property also uses the values we moved to `id`.
 ----
 
 === Views
-link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. 
+link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet, and it is best practice to make views available to answers and liveboards through a worksheet.
 
 The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server, as well as join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
 
@@ -181,10 +181,6 @@ view:
   search_query: <query_string>
  ... 
 ----
-
-Views can be joined with other data objects in a worksheet
-
-
 
 == Content objects
 Content objects are *answers* (saved searches) and *liveboards* (formerly pinboards). An answer on a liveboard is not linked in any way to an answer outside of a liveboard. When you pin an answer to a liveboard, the full definition of the answer is copied into the liveboard definition at that time.  However, the capabilities and definitions for answers stored separately or on a liveboard are identical.
