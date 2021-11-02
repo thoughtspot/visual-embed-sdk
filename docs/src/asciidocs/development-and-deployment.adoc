@@ -300,3 +300,8 @@ Example pattern:
 |===
 
 Each prod tenant copy will have the same name so that each tenant will not see their own customer name / ID listed out. Access control through sharing will ensure they never have any awareness of the other objects that exist with the same name for the other tenants.
+
+= Additional Resources
+The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides a `tml.py` module with Python objects that model the TML objects and the actions described within. This library is intended as a working example and guide and is not maintained or supported by ThoughtSpot.
+
+Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_changes_monitor.py[tml_changes_monitor.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system. The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_create_new_from_existing.py[tml_create_new_from_existing.py, window=_blank] script combines REST API commands with the TML changes necessary to copy content from one connection to another.
