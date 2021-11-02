@@ -11,6 +11,7 @@
 ** link:{{navprefix}}=get-started-tse[Get started]
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Developer Playground]
+** link:{{navprefix}}=development-and-deployment[Development and deployment]
 
 * link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]
