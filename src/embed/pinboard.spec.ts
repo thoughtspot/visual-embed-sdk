@@ -110,7 +110,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[]#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
