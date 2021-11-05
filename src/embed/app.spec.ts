@@ -76,6 +76,7 @@ describe('App embed tests', () => {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
             [Page.Pinboards]: 'pinboards',
+            [Page.Liveboards]: 'pinboards',
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
         };

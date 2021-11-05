@@ -15,7 +15,7 @@ import {
     getRootEl2,
     postMessageToParent,
 } from '../test/test-utils';
-import { PinboardViewConfig } from './pinboard';
+import { LiveboardViewConfig } from './liveboard';
 
 const thoughtSpotHost = 'tshost';
 const defaultViewConfig = {
@@ -119,7 +119,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         const embedTwo = new PinboardEmbed(getRootEl2(), {
             ...defaultViewConfig,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         embedTwo.on(EmbedEvent.CustomAction, spyTwo).render();
 
         await executeAfterWait(() => {
@@ -141,7 +141,7 @@ describe('test communication between host app and ThoughtSpot', () => {
             ...defaultViewConfig,
             fullHeight: true,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         const spy1 = jest.spyOn(global.console, 'log');
 
@@ -160,7 +160,7 @@ describe('test communication between host app and ThoughtSpot', () => {
             ...defaultViewConfig,
             fullHeight: true,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         const mockPort: any = {
             postMessage: jest.fn(),

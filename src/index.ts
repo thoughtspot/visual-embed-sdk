@@ -10,7 +10,11 @@
 
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import { init, prefetch } from './embed/base';
-import { PinboardEmbed, PinboardViewConfig } from './embed/pinboard';
+import {
+    PinboardEmbed,
+    LiveboardViewConfig,
+    LiveboardEmbed,
+} from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import {
     AuthType,
@@ -28,6 +32,7 @@ export {
     prefetch,
     SearchEmbed,
     PinboardEmbed,
+    LiveboardEmbed,
     AppEmbed,
     // types
     Page,
@@ -40,6 +45,6 @@ export {
     Action,
     EmbedConfig,
     SearchViewConfig,
-    PinboardViewConfig,
+    LiveboardViewConfig,
     AppViewConfig,
 };

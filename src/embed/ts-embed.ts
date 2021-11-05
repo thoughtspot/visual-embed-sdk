@@ -105,7 +105,7 @@ export interface ViewConfig {
     visibleActions?: Action[];
     /**
      * The list of runtime filters to apply to a search answer,
-     * visualization, or pinboard.
+     * visualization, or liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
 }
@@ -351,7 +351,7 @@ export class TsEmbed {
 
     /**
      * Constructs the base URL string to load v1 of the ThoughtSpot app.
-     * This is used for embedding pinboards, visualizations, and full application.
+     * This is used for embedding liveboards, visualizations, and full application.
      * @param queryString The query string to append to the URL.
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
@@ -592,8 +592,8 @@ export class TsEmbed {
      * Use this method to navigate users from the embedded
      * ThoughtSpot context to a specific page in your app.
      * @param path The page path string.
-     * For example, to navigate users to a pinboard page,
-     * define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
+     * For example, to navigate users to a liveboard page,
+     * define the method as navigateToPage('liveboard/&lt;liveboardId&gt;').
      */
     public navigateToPage(path: string): void {
         const iframeSrc = this.iFrame?.src;

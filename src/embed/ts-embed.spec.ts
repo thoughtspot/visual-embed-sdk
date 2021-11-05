@@ -5,7 +5,7 @@ import {
     EmbedEvent,
     SearchEmbed,
     PinboardEmbed,
-    PinboardViewConfig,
+    LiveboardViewConfig,
     AppEmbed,
 } from '../index';
 import { Action } from '../types';
@@ -126,7 +126,7 @@ describe('Unit test case for ts embed', () => {
                 visibleActions: [Action.DownloadAsCsv],
                 ...defaultViewConfig,
                 pinboardId,
-            } as PinboardViewConfig);
+            } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
             expect(console.log).toHaveBeenCalledWith(
@@ -138,7 +138,7 @@ describe('Unit test case for ts embed', () => {
                 hiddenActions: [Action.DownloadAsCsv],
                 ...defaultViewConfig,
                 pinboardId,
-            } as PinboardViewConfig);
+            } as LiveboardViewConfig);
             pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(false);
         });

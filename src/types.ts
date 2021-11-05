@@ -212,7 +212,7 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * A filter that can be applied to ThoughtSpot answers, pinboards, or
+ * A filter that can be applied to ThoughtSpot answers, liveboards, or
  * visualizations at runtime.
  */
 export interface RuntimeFilter {
@@ -252,12 +252,12 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to answer or pinboard is received
-     * @return data - The answer or pinboard data
+     * Data pertaining to answer or liveboard is received
+     * @return data - The answer or liveboard data
      */
     Data = 'data',
     /**
-     * Search/answer/pinboard filters have been applied/updated
+     * Search/answer/liveboard filters have been applied/updated
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
@@ -280,7 +280,7 @@ export enum EmbedEvent {
     /**
      * A custom action has been triggered
      * @return actionId - The id of the custom action
-     * @return data - The answer or pinboard data
+     * @return data - The answer or liveboard data
      */
     CustomAction = 'customAction',
     /**
@@ -304,8 +304,8 @@ export enum EmbedEvent {
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
-     * The height of the embedded pinboard or visualization has been computed.
-     * @return data - The height of the embedded pinboard or visualization
+     * The height of the embedded liveboard or visualization has been computed.
+     * @return data - The height of the embedded liveboard or visualization
      * @hidden
      */
     EmbedHeight = 'EMBED_HEIGHT',
@@ -421,7 +421,7 @@ export enum Param {
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
     ForceTable = 'forceTable',
-    preventPinboardFilterRemoval = 'preventPinboardFilterRemoval',
+    preventLiveboardFilterRemoval = 'preventPinboardFilterRemoval', // update-TSCB
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     HideObjects = 'hideObjects',
@@ -444,7 +444,7 @@ export enum Param {
 
 /**
  * The list of actions that can be performed on visual ThoughtSpot
- * entities, such as answers and pinboards.
+ * entities, such as answers and liveboards.
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
@@ -455,7 +455,11 @@ export enum Action {
     MakeACopy = 'makeACopy',
     EditACopy = 'editACopy',
     CopyLink = 'embedDocument',
+    /**
+     * @hidden
+     */
     PinboardSnapshot = 'pinboardSnapshot',
+    LiveboardSnapshot = 'liveboardSnapshot', // update-TSCB
     ResetLayout = 'resetLayout',
     Schedule = 'schedule',
     SchedulesList = 'schedule-list',
@@ -488,7 +492,11 @@ export enum Action {
     Describe = 'describe',
     Relate = 'relate',
     CustomizeHeadlines = 'customizeHeadlines',
+    /**
+     * @hidden
+     */
     PinboardInfo = 'pinboardInfo',
+    LiveboardInfo = 'liveboardInfo', // update-TSCB
     SendAnswerFeedback = 'sendFeedback',
     /**
      * @deprecated Will be removed in next version
