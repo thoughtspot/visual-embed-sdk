@@ -10,7 +10,7 @@ The trusted authentication mode of single sign-on specifies a method for an *aut
 
 _You_ must implement the actual authentication of the inbound request for a token within the authenticator service. This is why the method is called trusted authentication&#8212;ThoughtSpot trusts the authenticator service to request a login token for any user. 
 
-The authenticator service must have secure access to the `secret_key` for the ThoughtSpot instance. With that `secret_key`, the authenticator service can make a REST API request for a __login token__ for any existing user within ThoughtSpot. This login token is then sent to the user's web browser, where it is used in the login process.
+The authenticator service must have secure access to the `secret_key` for the ThoughtSpot instance. With that `secret_key`, the authenticator service can make a REST API request for a login token for any existing user within ThoughtSpot. This login token is then sent to the user's web browser, where it is used in the login process.
 
 == Key components
 
@@ -36,12 +36,14 @@ The `secret_key` must be stored in a secure fashion such that only the trusted a
 
 The login token, also referred to as the authentication token, allows users to access the requested object.
 
-Note the following points about token validity:
+Tokens stay valid for a length of time based on the following rules:
 
-* The token stays valid until another token is generated.
-* When a new token is generated using the same `secret_key`, the old token expires after five minutes.
-* When you generate a new token using the new `secret_key`, the old token immediately becomes invalid.
+* A token stays valid indefinitely until another token for any user is generated.
+* When a new token is generated using the same `secret_key`, the previous token will expire after five minutes.
+* When a new `secret_key` is generated for the ThoughtSpot server and the first new login token is obtained using the new `secret_key`, all tokens generated using the previous `secret_key` become invalid.
 * If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
+
+To set a consistent five minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
 
 [#trusted-auth-enable]
 == Enable trusted authentication
