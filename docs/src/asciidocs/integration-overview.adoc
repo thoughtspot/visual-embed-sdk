@@ -15,6 +15,15 @@ In addition to the Visual Embed SDK, ThoughtSpot provides REST APIs to query dat
 
 Irrespective of the method you use for embedding, make sure you define your application workflows and authentication criteria to enable seamless navigation between the host and embedded interfaces.
 
+== Determine the hosting domain
+
+When you embed ThoughtSpot into your app, the application URL will be set as `<your-company-name>.thoughtspot.cloud` by default. Most web browsers, including Safari and Firefox, block third-party cookies by default. To ensure that embedding works on browsers that don’t allow third-party cookies and cross-domain requests, you can customize the domain name of the embedded ThoughtSpot instance. For more information, see xref:custom-domain-configuration.adoc[Custom domain configuration].
+ 
+[NOTE]
+====
+If your deployment requires both ThoughtSpot standalone application and the embedded ThoughtSpot instance, we recommend that you host these instances on separate domains or non-overlapping sub-domains.
+====
+
 == Define user roles and privileges
 
 The ThoughtSpot application integration involves several workflows that require users to have specific privileges:
