@@ -1,6 +1,5 @@
 = Customize onboarding settings
 
-
 :page-title: Customize email settings and onboarding experience
 :page-pageid: customize-emails
 :page-description: You can rebrand system-generated notifications and customize onboarding experience
@@ -40,11 +39,11 @@ Learn More link::
 A link for users to learn more about ThoughtSpot, or your organization’s implementation of ThoughtSpot. The default link is `\https://docs.thoughtspot.com`.
 
 Product name::
-The name of the product to use in email notifications; for example, pinboard sharing, pinboard job schedule, or pinboard subscription notifications. If you specify a product name, these email notifications will show the product name as shown here: 
+The name of the product to use in email notifications; for example, Liveboard sharing, Liveboard job schedule, or Liveboard subscription notifications. If you specify a product name, these email notifications will show the product name as shown here:
 
 +
 ----
-Visit <product-name> to view this pinboard
+Visit <product-name> to view this Liveboard.
 ----
 
 +

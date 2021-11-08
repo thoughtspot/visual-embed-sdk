@@ -71,7 +71,7 @@ With SAML SSO authentication, your host applications can allow federated users t
 
 A typical SP-initiated SSO authentication workflow consists of the following steps: 
 
-. A federated user tries to access a ThoughtSpot page, pinboard, or visualization in the host application.
+. A federated user tries to access a ThoughtSpot page, Liveboard, or visualization in the host application.
 . The host application sends the authentication request to ThoughtSpot. 
 . If the SAML SSO authentication method is configured for the ThoughtSpot embedded instance, the browser sends the SAML request to the IdP. 
 * If the user has already authenticated to the IdP, the login request is redirected to the host application. 
@@ -161,7 +161,7 @@ An example of this setting is the link:https://help.okta.com/en/prod/Content/Top
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
 
-For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and  xref:embed-a-viz.adoc[visualizations].
+For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[Liveboard], and  xref:embed-a-viz.adoc[visualizations].
 
 [#saml-redirect]
 === Allow SAML Redirect Domains

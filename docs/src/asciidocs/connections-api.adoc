@@ -1,8 +1,8 @@
-= Connection APIs
+= Data connection APIs
 :toc: true
 :toclevels: 1
 
-:page-title: Connection APIs
+:page-title: Data connection APIs
 :page-pageid: connections-api
 :page-description: Live data connections API
 
@@ -1234,7 +1234,7 @@ To export the metadata of an active connection map, send a `GET` request to the 
 
 === Resource URL
 ----
-GET /tspublic/v1/connection/export
+POST /tspublic/v1/connection/export
 ----
 
 === Request parameters

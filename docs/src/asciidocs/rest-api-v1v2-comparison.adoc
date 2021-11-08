@@ -44,9 +44,9 @@ There are many differences between Version 1 and Version 2 of REST APIs provided
 
 [tag greenBackground]#✓# Search data API
 
-[tag greenBackground]#✓# Pinboard data API
+[tag greenBackground]#✓# Liveboard data API
 
-[tag greenBackground]#✓# Pinboard export API
+[tag greenBackground]#✓# Liveboard export API
 
 [tag greenBackground]#✓# Security APIs
 
@@ -70,9 +70,9 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greyBackground]#–# Search data API
 
-[tag greyBackground]#–# Pinboard data API
+[tag greyBackground]#–# Liveboard data API
 
-[tag greyBackground]#–# Pinboard export API
+[tag greyBackground]#–# Liveboard export API
 
 [tag greyBackground]#–# Security APIs
 

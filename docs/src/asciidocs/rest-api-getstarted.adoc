@@ -14,7 +14,7 @@ After you add your host domain for CORS, ThoughtSpot adds the `access-control-al
 
 * You have valid login credentials and access privileges to run the operations.  
 
-* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
+* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests.
 
 == Swagger UI
 To access REST APIs on Swagger:

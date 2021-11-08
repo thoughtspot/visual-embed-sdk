@@ -73,7 +73,7 @@ The custom action is added to the visualization page.
 . Verify if the action is added to the visualization page. 
 
 +
-When you save this visualization in answers or pin it to a pinboard, all users that can access the visualization can use this action.
+When you save this visualization in answers or pin it to a Liveboard, all users that can access the visualization can use this action.
 
 == Edit a custom action association
 

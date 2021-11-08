@@ -29,7 +29,7 @@ Note that the custom action ID is generated automatically.
 . From the *Authorization* drop-down, select an authentication method. ThoughtSpot will use the specified authentication method to invoke the URL or make an API call.
 +
 [IMPORTANT]
-The authentication information you enter in these fields is visible to other authenticated users, even if they do not have Developer or Admin privileges.
+The authentication information you specify in these fields is visible to other authenticated users, even if they do not have Developer or Admin privileges.
 
 * *None*
 +

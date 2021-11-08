@@ -1,12 +1,12 @@
-= Embed a pinboard
+= Embed a Liveboard
 :toc: true
 
-:page-title: Embed Pinboards
-:page-pageid: embed-pinboard
-:page-description: Embed Pinboards
+:page-title: Embed Liveboards
+:page-pageid: embed-liveboard
+:page-description: Embed Liveboards
 
 
-This page explains, through an example, how to embed a ThoughtSpot Pinboard in your Web page, portal, or application.
+This page explains, through an example, how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
 
 == Import the PinboardEmbed package
 Import the PinboardEmbed SDK library to your application environment:
@@ -85,17 +85,17 @@ include::{path}/embed-config.adoc[]
 });
 ----
 frameParams:: 
-Sets the `width` and `height` dimensions to render the pinboard object. You can set the `width` and `height` attribute values in pixels or as a percentage.
+Sets the `width` and `height` dimensions to render the Liveboard object. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
 fullHeight __Optional__::
-_Boolean_. Dynamically resizes the embedded pinboard frame according to the height of the pinboard.
+_Boolean_. Dynamically resizes the embedded Liveboard frame according to the height of the Liveboard.
 
 +
-If the embedded pinboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded pinboard frame is automatically adjusted according to the height of the pinboard, and the second scroll bar does not appear.
+If the embedded Liveboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded Liveboard frame is automatically adjusted according to the height of the Liveboard, and the second scroll bar does not appear.
 
 
 defaultHeight::
-_Integer_. Minimum height to set for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to from the pinboard page. The default value is `500` pixels.
+_Integer_. Minimum height to set for embedded objects on a Liveboard page and the corresponding visualization pages that a user can navigate to from the Liveboard page. The default value is `500` pixels.
 
 
 +
@@ -105,7 +105,7 @@ _Integer_. Minimum height to set for embedded objects on a pinboard page and the
 
 
 disabledActions::
-_Array of strings_. The action menu items to be disabled on the pinboards page.
+_Array of strings_. The action menu items to be disabled on the Liveboards page.
 +
 
 For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Present` action menu string in the `disabledActions` attribute.
@@ -127,15 +127,15 @@ For a complete list of action menu items and the corresponding strings to use fo
 ====
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a pinboard page.
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a Liveboard page.
 ====
 
 disabledActionReason::
-_String_. Reason for disabling an action on a pinboard page.
+_String_. Reason for disabling an action on a Liveboard page.
 
 
 hiddenActions::
-_Array of strings_. The action menu items to hide on the Pinboards page.
+_Array of strings_. The action menu items to hide on the Liveboards page.
 +
 
 For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `AddFilter` action menu string in the `hiddenActions` attribute.
@@ -156,29 +156,29 @@ For a complete list of action menu items and the corresponding strings to use fo
 ====
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a pinboard page.
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a Liveboard page.
 ====
 
 pinboardId::
-_String_. The GUID of the pinboard.
+_String_. The GUID of the Liveboard.
 ////
 vizId [small]_optional_::
-_String_. The Global Unique Identifier (GUID) of a visualization added to the pinboard.
+_String_. The GUID of a visualization added to the Liveboard.
 ////
 enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
 [#filter-removal]
 preventPinboardFilterRemoval::
-_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a pinboard visualization.
+_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the pinboard page loads.
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
+Runtime filters to be applied when the Liveboard page loads.
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a Liveboard and pass filter specifications in the URL query parameters.
 +
-Runtime filters do not appear to the user in the pinboard UI. They do not adjust the values of visible pinboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
+Runtime filters do not appear to the user in the Liveboard UI. They do not adjust the values of visible Liveboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
 +
-For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to sort values equal to `red` in the `Color` column for a visualization in a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 
 +
 [source,javascript]
@@ -213,7 +213,7 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to the events triggered by the embedded pinboard.
+Register event handlers to subscribe to the events triggered by the embedded Liveboard.
 
 [source,javascript]
 ----
@@ -223,9 +223,9 @@ Register event handlers to subscribe to the events triggered by the embedded pin
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
 
-== Render the embedded pinboard
+== Render the embedded Liveboard
 
-Construct the URL for the embedded pinboard and render the embedded content:
+Construct the URL for the embedded Liveboard and render the embedded content:
 
 [source,JavaScript]
 ----
@@ -235,9 +235,9 @@ pinboardEmbed.render();
 == Test the embedded workflow
 
 * Load the client application.
-* Try accessing a pinboard embedded in your application.
+* Try accessing a Liveboard embedded in your application.
 * Verify the rendition.
-* If you have disabled a menu item, verify if the menu command is disabled on the pinboards page.
+* If you have disabled a menu item, verify if the menu command is disabled on the Liveboards page.
 * Verify the runtime filters.
 
 == Additional resources

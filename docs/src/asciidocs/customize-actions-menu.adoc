@@ -21,7 +21,7 @@ You may want to add a custom action to only a specific visualization. To do this
  
 Overview::
 
-The *Overview* tab shows the possible locations of custom actions in the ThoughtSpot UI. You can add a custom action as a primary menu, or as a menu item in the **More** image:./images/icon-more-10px.png[the more options menu] menu. You can also add the custom action to the contextual menu that appears when a user right-clicks on a visualization in the *Answers* or *Pinboards page*. 
+The *Overview* tab shows the possible locations of custom actions in the ThoughtSpot UI. You can add a custom action as a primary menu, or as a menu item in the **More** image:./images/icon-more-10px.png[the more options menu] menu. You can also add the custom action to the contextual menu that appears when a user right-clicks on a visualization in the *Answers* or *Liveboards page*.
 
 +
 By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. If you want to change the position of an existing custom action, click the *Custom actions* icon image:./images/custom-action-icon.png[custom action icon] on a visualization page, and edit the custom action. 

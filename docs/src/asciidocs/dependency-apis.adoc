@@ -14,7 +14,7 @@ Note the naming convention of object headers in the API response:
 
 * `QUESTION_ANSWER_BOOK` for answers.
 
-* `PINBOARD_ANSWER_BOOK` for pinboard visualizations.
+* `PINBOARD_ANSWER_BOOK` for Liveboard visualizations.
 
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
 
@@ -41,7 +41,6 @@ Make sure your API request has the following headers:
 * the `Accept` header is set as `Accept: application/json`
 * the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
 * the `Content-Type` in `POST` request is set as `application/x-www-form-urlencoded`
-
 
 [#add-dependents]
 == Create dependent objects
@@ -161,7 +160,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%
 ----
 
 === Example response
-If the GET operation is successful, the API returns a list of dependent objects such as worksheets, pinboard objects, and answers.
+If the GET operation is successful, the API returns a list of dependent objects such as worksheets, Liveboard objects, and answers.
 
 
 [source,JSON]
@@ -198,7 +197,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
         "indexVersion": 15,
         "generationNum": 2271,
         "name": "Stats and Trends for Search on Answers",
-        "description": "This pinboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
+        "description": "This Liveboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
         "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
         "authorName": "system",
         "authorDisplayName": "System User",
@@ -240,7 +239,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
         "isDeprecated": false
       }
     ],
-    "PINBOARD_ANSWER_BOOK": [
+    "Liveboard_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -248,7 +247,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
         "indexVersion": 15,
         "generationNum": 2271,
         "name": "Stats and Trends for Search on Answers",
-        "description": "This pinboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
+        "description": "This Liveboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
         "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
         "authorName": "system",
         "authorDisplayName": "System User",
@@ -367,7 +366,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
     ]
   },
   "2b9d083a-275c-4984-9cfe-90b036affa17": {
-    "PINBOARD_ANSWER_BOOK": [
+    "Liveboard_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -375,7 +374,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
         "indexVersion": 15,
         "generationNum": 552,
         "name": "Stats and Trends for Search on Answers",
-        "description": "This pinboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
+        "description": "This Liveboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
         "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
         "authorName": "system",
         "authorDisplayName": "System User",
@@ -541,7 +540,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
         "isDeprecated": false
       }
     ],
-    "PINBOARD_ANSWER_BOOK": [
+    "Liveboard_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -549,7 +548,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
         "indexVersion": 15,
         "generationNum": 2271,
         "name": "Stats and Trends for Search on Answers",
-        "description": "This pinboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
+        "description": "This Liveboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
         "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
         "authorName": "system",
         "authorDisplayName": "System User",
@@ -699,9 +698,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 |**400**|Invalid object ID
 |===
 
-[#get-dependents-pinboard]
-== Get dependent details for pinboards
-To get the details of dependent objects for a pinboard, send a `GET` request to the `GET /tspublic/v1/dependency/pinboard` API endpoint.
+[#get-dependent-liveboard]
+== Get dependent details for Liveboards
+To get the details of dependent objects for a Liveboard, send a `GET` request to the `GET /tspublic/v1/dependency/pinboard` API endpoint.
 
 === Resource URL
 ----
@@ -712,7 +711,7 @@ GET /tspublic/v1/dependency/pinboard
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__Array of strings__. A JSON array of the GUIDs of the pinboard.
+|`id`|__Array of strings__. A JSON array of the GUIDs of the Liveboard.
 |====
 
 === Example request

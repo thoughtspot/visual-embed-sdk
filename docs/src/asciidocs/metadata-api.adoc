@@ -7,7 +7,7 @@
 :page-pageid: metadata-api
 :page-description: Metadata API
 
-The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
+The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, Liveboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
 
 == Supported operations
 
@@ -16,7 +16,7 @@ include::{path}/metadata-api-list.adoc[]
 
 [#assign-tag]
 == Assign tags to metadata objects
-Tags are labels that you can apply to a Thoughtspot object, such as a pinboard or answer. You can use tags to find and filter your answers, pinboards, and data objects.
+Tags are labels that you can apply to a Thoughtspot object, such as a Liveboard or answer. You can use tags to find and filter your answers, Liveboards, and data objects.
 
 To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API.
 
@@ -36,15 +36,15 @@ POST /tspublic/v1/metadata/assigntag
 [options='header']
 |====
 |Form Parameter|Description
-|`id`|__String__. A JSON array of the metadata object GUIDs. For example, a pinboard or answer.
+|`id`|__String__. A JSON array of the metadata object GUIDs. For example, a Liveboard or answer.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
-For example, if you want to assign a tag named `Sales` to a pinboard and answer, specify a JSON array of the pinboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
+For example, if you want to assign a tag named `Sales` to a Liveboard and answer, specify a JSON array of the Liveboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
 
 |`tagid`|__String__. A JSON array of the GUIDs of the tags that you want to apply to the specified objects. The `tagid` attribute is optional if the `tagname` attribute is specified.
 |`tagname`|__String__. A JSON array of the names of tags that you want to apply to the specified objects. The `tagname` attribute is optional if `tagid` is specified.
@@ -102,15 +102,15 @@ POST /tspublic/v1/metadata/unassigntag
 [options='header']
 |====
 |Form Parameter|Description
-|`id`|__String__. A JSON array of the pinboard and answer GUIDs for which you want to remove the tags.
+|`id`|__String__. A JSON array of the Liveboard and answer GUIDs for which you want to remove the tags.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of the following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `Liveboard_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
-For example, if you want to remove a tag named `Sales` from a pinboard and answer, specify a JSON array of the pinboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
+For example, if you want to remove a tag named `Sales` from a Liveboard and answer, specify a JSON array of the Liveboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
 
 |`tagid`|__String__. A JSON array of the GUIDs of the tags assigned to the specified object.
 |`tagname`|__String__. A JSON array of the names of the tags assigned to the specified objects.
@@ -172,7 +172,7 @@ GET /tspublic/v1/metadata/details
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
@@ -204,7 +204,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/details?type=QUESTIO
 
 === Example response
 
-The following example shows the metadata details of a pinboard object:
+The following example shows the metadata details of a Liveboard object:
 
 [source,JSON]
 ----
@@ -535,7 +535,7 @@ GET /tspublic/v1/metadata/list
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, specify one of the following values as the metadata object `type`:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
@@ -568,9 +568,9 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
 
 |`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object subtypes such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
-|`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To filter data by category, specify one of the following values:
+|`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and Liveboards are categorized under *All*, *Yours*, and *Favorites*. To filter data by category, specify one of the following values:
 
-* `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
+* `ALL` to get all objects for a given metadata type, for example, answers or Liveboards.
 * `MY` to get the objects created or saved by the current logged-in user.
 * `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
 * `REQUESTED` to get only the objects requested by the current logged-in user.
@@ -712,7 +712,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/list?type=PINBOARD_A
       "indexVersion": 2,
       "generationNum": 2,
       "name": "Learn how to use ThoughtSpot",
-      "description": "This pinboard is to enable learning",
+      "description": "This Liveboard is to enable learning",
       "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
       "authorName": "tsadmin",
       "authorDisplayName": "Administrator",
@@ -811,7 +811,7 @@ The following example shows the headers for user groups:
       "indexVersion": 5,
       "generationNum": 1471,
       "name": "Stats and Trends for Search on Answers",
-      "description": "This pinboard describes how users are searching for existing answers.",
+      "description": "This Liveboard describes how users are searching for existing answers.",
       "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
       "authorName": "system",
       "authorDisplayName": "System User",
@@ -906,7 +906,7 @@ The following example shows the headers returned for a user:
       "indexVersion": 5,
       "generationNum": 1471,
       "name": "Stats and Trends for Search on Answers",
-      "description": "This pinboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
+      "description": "This Liveboard describes how users are searching for existing answers. It provides what users are searching for, where users are successful and where they are not.",
       "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
       "authorName": "system",
       "authorDisplayName": "System User",
@@ -995,7 +995,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 |`type` __Optional__  a|__String__. Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
@@ -1028,9 +1028,9 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet.
 ** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
 
-|`category` __Optional__ a|__String__.The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
+|`category` __Optional__ a|__String__.The metadata object classification. In ThoughtSpot, metadata objects such as answers and Liveboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
 
-* `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
+* `ALL` to get all objects for a given metadata type, for example, answers or Liveboards.
 * `MY` to get the objects created or saved by the current logged-in user.
 * `FAVORITE` to get a list of objects marked as favorites by the current logged-in user.
 * `REQUESTED` to get only the objects requested by the current logged-in user.
@@ -1241,7 +1241,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listobjectheaders?ty
 [#viz-header]
 == Get visualization headers
 To get a list of visualization headers from the ThoughtSpot system, you can use the `/tspublic/v1/metadata/listvizheaders` API.
-The API returns a list of visualizations for a given pinboard or answer.
+The API returns a list of visualizations for a given Liveboard or answer.
 
 === Resource URL
 ----
@@ -1252,7 +1252,7 @@ GET /tspublic/v1/metadata/listvizheaders
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__String__. ID of a saved answer or a pinboard.
+|`id`|__String__. ID of a saved answer or a Liveboard.
 |====
 === Example request
 
@@ -1317,7 +1317,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97
 
 [#set-favorite]
 == Set objects as favorites
-To add a pinboard or answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+To add a Liveboard or answer to a user's favorites list in ThoughtSpot, send a POST request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
 
 === Resource URL
 ----
@@ -1330,7 +1330,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 |Form Parameter|Description
 |`type` a|__String__. Type of metadata object. Specify one of the following types:
 
-* `PINBOARD_ANSWER_BOOK` for pinboards
+* `PINBOARD_ANSWER_BOOK` for Liveboards
 * `QUESTION_ANSWER_BOOK` for answers
 |`ids`|__String__. A JSON array of the GUIDs of objects to be set as favorites.
 |`userid`|__String__. The GUID of the user account for which you want to add the object to the favorites list.
@@ -1374,7 +1374,7 @@ Response Code
 [#del-object-fav]
 == Remove objects from favorites
 
-To remove a pinboard or answer from the favorites list in a ThoughtSpot user account, send a DELETE request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
+To remove a Liveboard or answer from the favorites list in a ThoughtSpot user account, send a DELETE request to the  `/tspublic/v1/metadata/markunmarkfavoritefor` API endpoint.
 
 === Resource URL
 ----

@@ -75,7 +75,7 @@ If the cloud data warehouse you are connecting to is multi-tenanted as described
 If there is a separate database connection for each customer organization, then the database pattern is single-tenant, and you will need to create objects for each tenant. ThoughtSpot represents all data and content objects using the link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language, window=_blank], with xref:tml-api.adoc[REST APIs] for automating the creation or  deployment of each tenant’s data and content objects via TML.
 
 === Access controls on content
-ThoughtSpot controls content access through the concept of sharing. Content in ThoughtSpot belongs to its creator (owner), and by default they are the only user who knows the content exists. This allows for self-service creation of new searches and pinboards.
+ThoughtSpot controls content access through the concept of sharing. Content in ThoughtSpot belongs to its creator (owner), and by default they are the only user who knows the content exists. This allows for self-service creation of new searches and Liveboards.
 
 A user only sees content when it is:
 
@@ -90,9 +90,9 @@ Content can be shared as *Can View* / *READ_ONLY* or *Can Edit* / *MODIFY* (UI /
 Sharing can occur through the UI (including when embedded) or via the xref:security-api.adoc[security REST APIs]. 
 
 === What content should be shared?
-While you can share individual tables from connections to users, the best practice is to create link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/worksheet-create.html[worksheets, window=_blank] and only share the relevant worksheets to end users. Any pinboards and saved answers shared to users should only connect to worksheets.
+While you can share individual tables from connections to users, the best practice is to create link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/worksheet-create.html[worksheets, window=_blank] and only share the relevant worksheets to end users. Any Liveboards and saved answers shared to users should only connect to worksheets.
 
-Remember to share the worksheet as *READ_ONLY* along with the pinboards and answers so the users can access self-service features such as changing filter values.
+Remember to share the worksheet as *READ_ONLY* along with the Liveboards and answers so the users can access self-service features such as changing filter values.
 
 === Row level security (RLS) groups
 link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row level security , window=_blank] (RLS) is used to filter the results of database queries to only show a user the data they should have access to.
@@ -116,13 +116,13 @@ The "multi-tenant database model" is designed on the following principles:
 
 * A single database to connect to, with a tenant key value that can be filtered on to retrieve data just for a single customer organization
 * Multiple customer organizations in ThoughtSpot
-* Content (answers and pinboards) provided by the app developer
+* Content (answers and Liveboards) provided by the app developer
 * Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
 
 The multi-tenant database model is simpler to implement within ThoughtSpot than the single-tenant databases model. Because data security is enforced via RLS in the multi-tenant database model, ThoughtSpot only requires a single version of any object to serve all tenants. Even if your production databases are split as single tenants, you may choose to bring everything into a single database within your cloud data warehouse to enable this model.
 
 ==== Content provided by app developer
-The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and pinboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same pinboards and worksheets.
+The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and Liveboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same Liveboards and worksheets.
 
 Objects created by the application developer to be shared with all users can be published by a single group that all users belong to; we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as *NOT SHAREABLE*, because every user will belong to this group.
 
@@ -142,8 +142,8 @@ Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share
 |===
 |Group type|Content shared to group|Users in group|Sharability
 |prod data model group|tables|app developer|NOT SHAREABLE
-|standard content group|worksheets, answers, pinboards|all users|NOT SHAREABLE
-|tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
+|standard content group|worksheets, answers, Liveboards|all users|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHAREABLE
 |===
 
 image::./images/multi-tenant-database-model.png[Multi-tenant database model]
@@ -152,7 +152,7 @@ The "single-tenant databases model" is designed on the following principles:
 
 * Each customer organization has its own database to connect to, with only that customer organization’s data present when making the database connection. Every database is similar in structure (table names and column names / data types).
 * Multiple customer organizations in ThoughtSpot
-* Content (answers and pinboards) are provided by the app developer in the form of templates
+* Content (answers and Liveboards) are provided by the app developer in the form of templates
 * Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
 
 If you have the choice between designing your cloud data warehouse along single-tenant or multi-tenant model, it will be simpler to implement in ThoughtSpot using the multi-tenant model.
@@ -178,10 +178,10 @@ Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share
 [options='header']
 |===
 |Group type|Content shared to group|Users in group|Sharability
-|prod template group|Template tables, worksheets, answers, pinboards|app developer|SHAREABLE
+|prod template group|Template tables, worksheets, answers, Liveboards|app developer|SHAREABLE
 |standard data groups (1 per tenant)|tables (connected to tenant connection)|app developer|NOT SHAREABLE
-|standard content groups (1 per tenant)|worksheets, answers, pinboards|tenant users per group|NOT SHAREABLE
-|tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
+|standard content groups (1 per tenant)|worksheets, answers, Liveboards|tenant users per group|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHAREABLE
 |===
 
 image::./images/single-tenant-database-model.png[Single-tenant database model]
@@ -218,9 +218,9 @@ Tags can be used as part of searches using the Metadata REST APIs, with the cave
 Tags have no ownership and exist at the Server level, and all tags that exist are visible to all users at any time. Tags are visible in many places within the UI, particularly in the following places:
 
 * Data Source selector within search 
-* Pages that list the existing answers, pinboards, worksheets, and tables.
+* Pages that list the existing answers, Liveboards, worksheets, and tables.
 
-Why does this matter, even if you are only embedding pinboards? SSO into ThoughtSpot creates a session that allows the user to go directly into the ThoughtSpot web UI if they find the underlying URL. While the URL is not obvious when embedding ThoughtSpot content, it is also not difficult to determine with basic knowledge of the web development tools built into web browsers.
+Why does this matter, even if you are only embedding Liveboards? SSO into ThoughtSpot creates a session that allows the user to go directly into the ThoughtSpot web UI if they find the underlying URL. While the URL is not obvious when embedding ThoughtSpot content, it is also not difficult to determine with basic knowledge of the web development tools built into web browsers.
 
 === Tags can be used for other distinctions and filtering
 A good use case for tags would be a “standard reports” tag, to identify content provided by the app developer. When using the REST API to determine the content a given user has access to, the “standard reports” tag would allow you to divide between content created by the app developer and content created by the tenants themselves. 

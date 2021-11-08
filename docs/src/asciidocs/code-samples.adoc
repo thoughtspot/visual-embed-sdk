@@ -7,7 +7,7 @@
 
 This page contains code samples to help you embed ThoughtSpot features and data and build your applications.
 
-== Visual Embed SDK 
+== Visual Embed SDK
 
 You can use the following code snippets to build your code and embed ThoughtSpot content in your host  application.
 
@@ -67,7 +67,7 @@ const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), {
 pinboardEmbed.render();
 ----
 
-=== Embed a pinboard
+=== Embed a Liveboard
 
 [source,javascript]
 ----
@@ -148,7 +148,7 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
 
 == REST APIs
 
-The following examples show how to call REST APIs to query and import data using Javascript. 
+The following examples show how to call REST APIs to query and import data using Javascript.
 
 === Search data API
 
@@ -173,7 +173,7 @@ export const getSearchData = async (worksheetId, search) => {
 		.catch(error => console.error(`Error getting search data ${error}`));
 }
 ----
-=== Embed visualization data from a pinboard
+=== Embed visualization data from a Liveboard
 
 [source,javascript]
 ----
@@ -207,7 +207,7 @@ export const getPinboardData = async (pinboardId, vizIds) => {
 		});
 }
 ----
-=== Get a list of visualizations on a pinboard
+=== Get a list of visualizations on a Liveboard
 
 [source,javascript]
 ----
@@ -231,12 +231,12 @@ export const getVisualizationList = async (pinboardId) => {
 }
 ----
 
-=== Get a list of pinboards for a user
+=== Get a list of Liveboards for a user
 
 [source,javascript]
 ----
 export const getPinboardList = async () => {
-	// Returns the list of pinboards so the user can display them.
+	// Returns the list of Liveboards so the user can display them.
 	const pinboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
 		"type=PINBOARD_ANSWER_BOOK" +
 		"&batchsize=-1";
@@ -281,4 +281,3 @@ See the following articles:
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank]
 
 * link:https://github.com/thoughtspot/ts_everywhere_resources[Visual Embed SDK examples, window=_blank]
-

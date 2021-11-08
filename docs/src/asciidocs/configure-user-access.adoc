@@ -24,7 +24,7 @@ ThoughtSpot allows you to define several types of privileges for a given user gr
 
 * Role-specific privileges for administrators, developers, and other user personas.
 * Data-related privileges to allow or prevent access to upload, download, or manage data.
-* Workflow-specific privileges to enable or disable access to features such as SpotIQ analysis, scheduling pinboards, or the experimental features available for evaluation and early adoption.
+* Workflow-specific privileges to enable or disable access to features such as SpotIQ analysis, scheduling Liveboards, or the experimental features available for evaluation and early adoption.
 * Sharing privilege to control a user's or group's visibility in the *Share* dialog. 
 
 For more information about system privileges, see  link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Understand groups and privileges, window=_blank].
@@ -44,13 +44,13 @@ Avoid using the same group for sharing permissions and other privileges. Because
 
 == Object-level permissions
 
-ThoughtSpot users can share objects such as pinboards, answers, tables, worksheets, and table columns. Users can set either `read-only` or `edit` permissions at the individual object level when sharing an object with another user or a user group. A user can automatically share objects with anyone else in the groups to which they belong. 
+ThoughtSpot users can share objects such as Liveboards, answers, tables, worksheets, and table columns. Users can set either `read-only` or `edit` permissions at the individual object level when sharing an object with another user or a user group. A user can automatically share objects with anyone else in the groups to which they belong.
 
-When an object is shared, users can view all the data regardless of the permissions set at the parent object level. For example, a user can view a shared pinboard without having access to its underlying worksheet or table from which the visualizations in the pinboard are built. 
+When an object is shared, users can view all the data regardless of the permissions set at the parent object level. For example, a user can view a shared Liveboard without having access to its underlying worksheet or table from which the visualizations in the Liveboard are built.
 
 [NOTE]
 ====
-If your application instance has classic Answer Experience enabled, administrators can restrict user access to pinboards by selecting the *Cannot create or update Pinboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disableActions` and `hideActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
+If your application instance has classic Answer Experience enabled, administrators can restrict user access to Liveboards by selecting the *Cannot create or update Liveboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disableActions` and `hideActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
 ====
 
 == Data access control with RLS and CLS
@@ -59,7 +59,7 @@ When a user shares an object with a user group, all users in that group can view
 
 Row-level Security::
 RLS defines which groups or users can access the rows of a table. Administrators and owners can define rules on table rows to allow or prevent access to data based on group membership or user authentication. With RLS, even if a user has access to a worksheet, they can only view the rows to which they have access. 
-Using RLS, you can restrict access to sensitive data and filter tables to show only relevant data. RLS controls are applied at the table level, so it automatically extends to all worksheets, saved answers, and pinboards based on that table, every time. 
+Using RLS, you can restrict access to sensitive data and filter tables to show only relevant data. RLS controls are applied at the table level, so it automatically extends to all worksheets, saved answers, and Liveboards based on that table, every time.
 
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank].

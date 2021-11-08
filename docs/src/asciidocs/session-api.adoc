@@ -194,9 +194,9 @@ If the operation is successful, the API returns a response with the session info
 |**200**|Successful operation.
 |===
 
-[#set-home-pinboard]
-== Set a pinboard as a home pinboard
-To set a pinboard as a home pinboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home pinboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.  
+[#set-home-liveboard]
+== Set a home Liveboard
+To set a Liveboard as a home Liveboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home Liveboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.
 
 === Resource URL
 ----
@@ -207,8 +207,8 @@ POST /tspublic/v1/session/homepinboard
 [options='header']
 |===
 |Form Parameter|Data Type|Description
-|`id`|string|GUID of the pinboard to be set as a home pinboard.
-|`userid` __Optional__|string|GUID of the user account for which you want to set the home pinboard. If the `userid` attribute is not defined, ThoughtSpot sets the home pinboard of the current logged-in user.
+|`id`|string|GUID of the Liveboard to be set as a home Liveboard.
+|`userid` __Optional__|string|GUID of the user account for which you want to set the home Liveboard. If the `userid` attribute is not defined, ThoughtSpot sets the home Liveboard of the current logged-in user.
 |===
 === Example request
 
@@ -232,15 +232,15 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 |===
 |HTTP status code|Description
 |**200**|Successful operation.
-|**204**|The specified pinboard is set as a home pinboard. 
-|**403**|The pinboard with the given ID is not accessible.
+|**204**|The specified Liveboard is set as a home Liveboard.
+|**403**|The Liveboard with the given ID is not accessible.
 |**401**|Unauthorized request or invalid token.
-|**404**|The specified pinboard was not found.
+|**404**|The specified Liveboard was not found.
 |===
 
-[#get-home-pinboard]
-== Get details of the home pinboard
-To get the pinboard GUID that is set as `home pinboard` in the currently logged-in user's account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
+[#get-home-liveboard]
+== Get details of the home Liveboard
+To get the Liveboard GUID that is set as `home Liveboard` in the currently logged-in user's account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -261,7 +261,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 ----
 
 === Example response
-If the home pinboard is set in the currently logged-in user's account, the API returns the GUID of the pinboard set as a home pinboard:
+If the home Liveboard is set in the currently logged-in user's account, the API returns the GUID of the Liveboard set as a home Liveboard:
 
 ----
 7a9a6715-e154-431b-baaf-7b58246c13dd
@@ -274,9 +274,9 @@ If the home pinboard is set in the currently logged-in user's account, the API r
 |**200**|Successful operation.
 |===
 
-[#del-home-pinboard]
-== Remove a home pinboard
-To remove the home pinboard setting from the currently logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
+[#del-home-liveboard]
+== Remove a home Liveboard
+To remove the home Liveboard setting from the currently logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -297,7 +297,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 ----
 
 === Example response
-If the home pinboard is set in the currently logged-in user's account, the API returns the following response:
+If the home Liveboard is set in the currently logged-in user's account, the API returns the following response:
 
 ----
 Response Code

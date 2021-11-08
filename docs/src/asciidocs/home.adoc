@@ -67,11 +67,11 @@
 			<p> <a href="?pageid=embed-a-viz"> Learn more about embedding visualizations -></a> </p></div></a>
 	</div>
 	<div class="col-md-4">
-		<a href="?pageid=embed-pinboard"><div class="boxDiv">
-			<h5>Embed pinboards</h5>
-			<p class="boxBody"> Embed ThoughtSpot pinboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p> 
-			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
-			<p> <a href="?pageid=embed-pinboard"> Learn more about embedding pinboards -></a></p>
+		<a href="?pageid=embed-liveboard"><div class="boxDiv">
+			<h5>Embed Liveboards</h5>
+			<p class="boxBody"> Embed ThoughtSpot Liveboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p>
+			<img src="../doc-images/images/pinboard.png" alt="Embed Liveboards">
+			<p> <a href="?pageid=embed-liveboard> Learn more about embedding Liveboards -></a></p>
 		</div></a>
 	</div>
 	</div>
@@ -83,10 +83,10 @@
   <div class="col-md-4">
      <a href="?pageid=full-embed"><div class="boxDiv">
       <h5>Embed ThoughtSpot app</h5>
-      <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and pinboards. </p>
+      <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and Liveboards. </p>
       <img src="../doc-images/images/full-app.png" alt="Embed full ThoughtSpot app">
       <p>
-        <a href="?pageid=full-embed"> Learn more about embedding pinboards -></a>
+        <a href="?pageid=full-embed"> Learn more about embedding Liveboards -></a>
       </p>
     </div></a>
   </div>

@@ -1,4 +1,4 @@
-You can use the following operators when applying runtime filters on a visualization or pinboard.
+You can use the following operators when applying runtime filters on a visualization or Liveboard.
 
 [width="80%" cols="1,2,2"]
 [options='header']

@@ -26,7 +26,7 @@ Gets a list of data connections set up for a live query service on the ThoughtSp
 
 +++<p class="divider"> </p>+++
 
-`xref:connections-api.adoc#export-connections[**GET** /tspublic/v1/connection/export]` 
+`xref:connections-api.adoc#export-connections[**POST** /tspublic/v1/connection/export]` 
 
 Exports a data connection map.
 

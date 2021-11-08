@@ -48,9 +48,9 @@ Learn how to xref:custom-actions-edit.adoc[modify the position of a custom actio
 --
 +++<h5>Assign a custom action to a specific visualization</h5>+++
 
-Learn how to xref:custom-actions-viz.adoc[assign a custom action to a specific visualization] in an answer or pinboard.
+Learn how to xref:custom-actions-viz.adoc[assign a custom action to a specific visualization] in an answer or Liveboard.
 
-_Requires edit privileges to modify an answer or a visualization in a pinboard_.
+_Requires edit privileges to modify an answer or a visualization in a Liveboard_.
 --
 
 [div boxDiv boxFullWidth]
@@ -76,5 +76,5 @@ Learn more about the callback custom action workflow, the steps required to xref
 --
 +++<h5>Custom action response payload</h5>+++
 
-View examples of the xref:callback-response-payload.adoc[custom action response payload] with search and pinboard data.
+View examples of the xref:callback-response-payload.adoc[custom action response payload] with search and Liveboard data.
 --
