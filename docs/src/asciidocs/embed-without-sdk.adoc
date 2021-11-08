@@ -13,9 +13,9 @@ The pattern for the URL to embed a pinboard is:
 
 `https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}`
 
-If you want to embed an individual visualization from a pinboard, the pattern is:
+If you want to embed an individual visualization from a pinboard, use the following URL pattern:
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}/{answer_id}`
+`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}/{visualization_id}`
 
 You can specify link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[runtime filters, window=_blank] in the URL.
 
@@ -36,7 +36,7 @@ The following code example can be used to define the new page. It defines the if
 ----
 <apex:page standardController="Account" tabStyle="Account">
 <apex:pageBlock title="ThoughtSpot">
-<apex:iframe src="https://{thoughtspot-server}/?embedApp=true#/embed/viz/{pinboard_id}/{pinboard_id}/?col1={field_name}&op1=EQ&val1={!account.Name}" frameborder="0" height="690" width="100%">
+<apex:iframe src="https://{thoughtspot-server}/?embedApp=true#/embed/viz/{pinboard_id}/{visualization_id}/?col1={field_name}&op1=EQ&val1={!account.Name}" frameborder="0" height="690" width="100%">
 </apex:iframe>
 </apex:pageBlock>
 </apex:page>
