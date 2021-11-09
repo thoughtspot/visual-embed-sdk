@@ -12,14 +12,17 @@
 ** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Developer Playground]
 
+* link:{{navprefix}}=deploy-overview[Deployment and administration] 
+** link:{{navprefix}}=development-and-deployment[Development and deployment]
+** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy best practices]
+** link:{{navprefix}}=embed-object-access[Access control and data security]
+** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
+
 * link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
-** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
-** link:{{navprefix}}=embed-object-access[Access control and data security]
-** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy best practices]
 
 * link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]

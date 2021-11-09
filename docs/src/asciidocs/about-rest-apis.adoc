@@ -1,11 +1,11 @@
-= About REST APIs
+= ThoughtSpot REST API
 :toc: true
 
-:page-title: About REST APIs
+:page-title: About REST API
 :page-pageid: rest-apis
-:page-description: About REST APIs
+:page-description: ThoughtSpot REST API provides service endpoints for administration, embedding, and data management.
 
-ThoughtSpot REST APIs let you programmatically create, access, and manage ThoughtSpot objects and resources. Using REST APIs, your client application can perform the following operations:
+ThoughtSpot REST API lets you programmatically create, access, and manage ThoughtSpot objects and resources. The REST API endpoints support the following operations:
 
 * get pinboard and visualization data from the ThoughtSpot application
 * embed data from visualizations and pinboards in a web page, portal, or application
@@ -31,7 +31,7 @@ For example, in the `\https://<your-thoughtspot-hostname:port>/callosum/v1/tspub
 
 == HTTP request methods
 
-ThoughtSpot REST APIs support Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests:
+ThoughtSpot REST API endpoints support Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests:
  
 * **GET** to query information, such as getting a list of users, objects, or metadata headers
 * **POST** to create, add, or exchange data
