@@ -17,6 +17,7 @@
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
+** link:{{navprefix}}=authorization-settings[Authentication and authorization]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy best practices]
