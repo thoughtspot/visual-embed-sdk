@@ -1234,7 +1234,7 @@ To export the metadata of an active connection map, send a `GET` request to the 
 
 === Resource URL
 ----
-POST /tspublic/v1/connection/export
+GET /tspublic/v1/connection/export
 ----
 
 === Request parameters

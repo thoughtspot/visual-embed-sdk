@@ -1,4 +1,4 @@
-import { PinboardEmbed, PinboardViewConfig } from './pinboard';
+import { PinboardEmbed, LiveboardViewConfig } from './liveboard';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
 import {
@@ -19,6 +19,7 @@ const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const vizId = '6e73f724-660e-11eb-ae93-0242ac130002';
 const thoughtSpotHost = 'tshost';
 const defaultParams = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const prefixParams = '&isLiveboardEmbed=true';
 
 beforeAll(() => {
     init({
@@ -36,11 +37,11 @@ describe('Pinboard/viz embed tests', () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -55,11 +56,11 @@ describe('Pinboard/viz embed tests', () => {
             disabledActionReason: 'Action denied',
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -73,11 +74,11 @@ describe('Pinboard/viz embed tests', () => {
             ],
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&hideAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&hideAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -91,11 +92,25 @@ describe('Pinboard/viz embed tests', () => {
             ],
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
+            );
+        });
+    });
+
+    test('should set visible actions as empty array', async () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            visibleActions: [],
+            ...defaultViewConfig,
+            pinboardId,
+        } as LiveboardViewConfig);
+        pinboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -105,11 +120,11 @@ describe('Pinboard/viz embed tests', () => {
             enableVizTransformations: true,
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=true#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=true${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -119,11 +134,11 @@ describe('Pinboard/viz embed tests', () => {
             enableVizTransformations: false,
             ...defaultViewConfig,
             pinboardId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=false#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=false${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -133,11 +148,11 @@ describe('Pinboard/viz embed tests', () => {
             ...defaultViewConfig,
             pinboardId,
             vizId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
@@ -154,11 +169,11 @@ describe('Pinboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000${defaultParams}#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000${defaultParams}${prefixParams}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
@@ -169,7 +184,7 @@ describe('Pinboard/viz embed tests', () => {
             fullHeight: true,
             pinboardId,
             vizId,
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
 
         const onSpy = jest.spyOn(pinboardEmbed, 'on');
         pinboardEmbed.render();

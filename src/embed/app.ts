@@ -31,7 +31,11 @@ export enum Page {
      */
     Answers = 'answers',
     /**
-     * Pinboards listing page
+     * Liveboards listing page
+     */
+    Liveboards = 'liveboards',
+    /**
+     * @hidden
      */
     Pinboards = 'pinboards',
     /**
@@ -68,7 +72,7 @@ export interface AppViewConfig extends ViewConfig {
     pageId?: Page;
     /**
      * This puts a filter tag on the application. All metadata lists in the application, such as
-     * pinboards and answers, would be filtered by this tag.
+     * liveboards and answers, would be filtered by this tag.
      */
     tag?: string;
     /**
@@ -91,7 +95,7 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Constructs a map of parameters to be passed on to the
-     * embedded pinboard or visualization.
+     * embedded liveboard or visualization.
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
@@ -139,6 +143,8 @@ export class AppEmbed extends V1Embed {
                 return 'answer';
             case Page.Answers:
                 return 'answers';
+            case Page.Liveboards:
+                return 'pinboards';
             case Page.Pinboards:
                 return 'pinboards';
             case Page.Data:
