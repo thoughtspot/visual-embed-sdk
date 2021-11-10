@@ -10,7 +10,7 @@ To allow your application users to access ThoughtSpot content, make sure you con
 To authenticate and authorize embed users, you must also configure an authentication method in ThoughtSpot.
 
 
-== User authentication
+== User configuration
 
 [div boxDiv boxFullWidth]
 --
@@ -18,6 +18,8 @@ To authenticate and authorize embed users, you must also configure an authentica
 
 xref:user-roles.adoc[Create a user group with Developer privilege and assign developer users to this group] to enable access to the *Develop* tab in the ThoughtSpot UI.
 --
+
+== Authentication methods
 
 [div boxDiv boxFullWidth]
 --
@@ -33,6 +35,15 @@ If you plan to use an external directory service for authenticating your applica
 If you plan to use a token-based authentication service to authenticate user sessions,  xref:trusted-authentication.adoc[enable trusted authentication] on ThoughtSpot.
 --
 
+== Authorization and access control
+
+[div boxDiv boxFullWidth]
+--
++++ <h5>Authentication and authorization</h5>+++
+
+Use xref:authentication-authorization.adoc[REST APIs or the ThoughtSpot UI to define authorization settings] for object-level access and sharing privileges.
+--
+
 == Application security and browser setting
 
 [div boxDiv boxFullWidth]
@@ -42,20 +53,11 @@ If you plan to use a token-based authentication service to authenticate user ses
 xref:security-settings.adoc[Add your application domain to the CORS and CSP allowed list] and set your application as a trusted host for secure data exchange.
 --
 
-[div boxDiv boxFullWidth]
---
-+++<h5>Custom domain configuration</h5>+++
-
-To ensure that embedding works on browsers that don't allow third-party cookies, xref:custom-domain-configuration.adoc[you can set the domain name of the ThoughtSpot instance to the same domain as your host application].
-
-You can also xref:custom-domain-configuration.adoc[customize the email domain name] for system-generated notifications.
---
-
-== Access control and data security
+== Additional resources
 
 [div boxDiv boxFullWidth]
 --
-+++<h5>User and data access control</h5>+++
-
-Learn how to use various ThoughtSpot features, such as group privileges, object sharing, Row-level security (RLS), and Column-level security (CLS), to xref:configure-user-access.adoc[control user access to ThoughtSpot application workflows and data].
+* xref:configure-user-access.adoc[Access control and data security for ThoughtSpot deployments]
+* xref:embed-authentication.adoc[Authentication and security attributes for embedded ThoughtSpot instances] 
+* xref:api-user-management.adoc[Managing users and groups with REST APIs]
 --

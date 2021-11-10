@@ -125,6 +125,9 @@ If you select *no*, the SAML users will not be added in ThoughtSpot upon their f
 ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
 +
+For additional authorization settings beyond user creation and group assignment, see xref:auth-overview.adoc[Authentication and security].
+
++
 . Click *Save*.
 
 ==== Configure ThoughtSpot for automatic SAML redirect
