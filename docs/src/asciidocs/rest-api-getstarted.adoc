@@ -44,7 +44,7 @@ The portal displays a list of REST API services available for the logged-in Thou
 To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
 
 Request method::
-Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) operation in your request to the API endpoint. For example, GET, POST, PUT, or DELETE. 
+Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) operation in your request to the API endpoint. For example, GET, POST, PUT, or DELETE.
 
 Query string::
 A query string consists of additional parameters that are passed in the URL. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.  
