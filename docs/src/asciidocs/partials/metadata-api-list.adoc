@@ -3,7 +3,7 @@
 --
 `xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` 
 
-Assigns tags to a metadata object, such as a pinboard, search answer, table, worksheet, or view.
+Assigns tags to a metadata object, such as a Liveboard, search answer, table, worksheet, or view.
 
 +++<p class="divider"> </p>+++
 
@@ -15,7 +15,7 @@ Removes tag associations to metadata objects.
 
 `xref:metadata-api.adoc#metadata-details[**GET** /tspublic/v1/metadata/details]` 
 
-Gets metadata details for a specific data object such as a pinboard, search answer, or a worksheet.
+Gets metadata details for a specific data object such as a Liveboard, search answer, or a worksheet.
 
 +++<p class="divider"> </p>+++
 

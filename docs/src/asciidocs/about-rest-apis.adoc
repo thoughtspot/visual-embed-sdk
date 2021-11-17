@@ -7,8 +7,8 @@
 
 ThoughtSpot REST API lets you programmatically create, access, and manage ThoughtSpot objects and resources. The REST API endpoints support the following operations:
 
-* get pinboard and visualization data from the ThoughtSpot application
-* embed data from visualizations and pinboards in a web page, portal, or application
+* get Liveboard and visualization data from the ThoughtSpot application
+* embed data from visualizations and Liveboards in a web page, portal, or application
 * view metadata details for various types of ThoughtSpot objects
 * construct a search query to get ThoughtSpot data
 * manage ThoughtSpot user profiles and group privileges

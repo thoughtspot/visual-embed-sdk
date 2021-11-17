@@ -8,7 +8,7 @@
 
 The trusted authentication mode of single sign-on specifies a method for an *authenticator service* to programmatically request __login tokens__ from ThoughtSpot, which can then be used to sign in a user to the ThoughtSpot instance. The login token is only necessary during the login process, after which ThoughtSpot establishes a user session using cookies.
 
-_You_ must implement the actual authentication of the inbound request for a token within the authenticator service. This is why the method is called trusted authentication&#8212;ThoughtSpot trusts the authenticator service to request a login token for any user. 
+_You_ must implement the actual authentication of the inbound request for a token within the authenticator service. This is why the method is called trusted authentication&#8212;ThoughtSpot trusts the authenticator service to request a login token for any user.
 
 The authenticator service must have secure access to the `secret_key` for the ThoughtSpot instance. With that `secret_key`, the authenticator service can make a REST API request for a login token for any existing user within ThoughtSpot. This login token is then sent to the user's web browser, where it is used in the login process.
 
@@ -122,11 +122,11 @@ Allows access to the entire ThoughtSpot application. When a token has been reque
 
 ** `REPORT_BOOK_VIEW`
 +
-Allows access to only one object at a time. The token request for this access mode requires you to specify the GUID of the pinboard or answer. If your application user requires access to another object, a new token request must be sent.
+Allows access to only one object at a time. The token request for this access mode requires you to specify the GUID of the Liveboard or answer. If your application user requires access to another object, a new token request must be sent.
 
 * `id`
 +
-__String__. The GUID of the pinboard or answer.
+__String__. The GUID of the Liveboard or answer.
 This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
 . ThoughtSpot verifies the authentication server's request and returns a token.
@@ -135,7 +135,7 @@ This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 +
 [NOTE]
 ====
-If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically by the *init* function, where you specify the authenticator service via a URL (`authEndpoint`) or a callback function (`getAuthToken`). For more information, see  xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK]. 
+If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically by the *init* function, where you specify the authenticator service via a URL (`authEndpoint`) or a callback function (`getAuthToken`). For more information, see  xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK].
 ====
 
 +
@@ -160,11 +160,11 @@ _String_. The authentication token obtained for the user in step 5.
 +
 _String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
 +
-For example, if the user has requested access to a specific visualization on a pinboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and pinboard ID.
+For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and Liveboard ID.
 +
 [source, HTML]
 ----
-https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>
+https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
 ----
 [NOTE]
 The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.

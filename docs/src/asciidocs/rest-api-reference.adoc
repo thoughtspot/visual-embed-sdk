@@ -35,7 +35,7 @@ include::{path}/data-connection-apis.adoc[]
 
 include::{path}/tml-api-list.adoc[]
 
-== Pinboard data
+== Liveboard data
 
 include::{path}/pinboard-api-list.adoc[]
 

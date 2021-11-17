@@ -1,12 +1,12 @@
-= Pinboard export API
+= Liveboard export API
 :toc: true
 :toclevels: 1
 
-:page-title: Export Pinboard as PDF
-:page-pageid: pinboard-export-api
-:page-description: Pinboard Export API
+:page-title: Export Liveboard as PDF
+:page-pageid: liveboard-export-api
+:page-description: Liveboard Export API
 
-To programmatically download a pinboard or specific visualizations from a pinboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
+To programmatically download a Liveboard or specific visualizations from a Liveboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
 
 [NOTE]
 ====
@@ -25,16 +25,16 @@ POST /tspublic/v1/export/pinboard/pdf
 [options='header']
 |====
 |Form Parameter|Data Type|Description|Default
-|`id`|string|GUID of the Pinboard to download|none
+|`id`|string|GUID of the Liveboard to download|none
 |`visualization_ids`|string|GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
-|`transient_pinboard_content`|string|If the Pinboard has unsaved changes, pass this parameter.|none
-|`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the pinboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
+|`transient_pinboard_content`|string|If the Liveboard has unsaved changes, pass this parameter.|none
+|`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the Liveboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
 |`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
 |`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
 |`include_logo`|boolean|Include customized wide logo if available in the footer|`true`
 |`footer_text` _Optional_|string|Footer text to include in the footer of each page of the PDF.|none
 |`include_page_number`|boolean|When set to `true`, the page number is included in the footer of each page.|`true`
-|`include_cover_page`|boolean|When set to `true`, a cover page with the Pinboard title is added in the PDF.|`true`
+|`include_cover_page`|boolean|When set to `true`, a cover page with the Liveboard title is added in the PDF.|`true`
 |`include_filter_page`|boolean|When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
 |====
 
@@ -168,16 +168,16 @@ These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have th
 |===
 ////
 [#embed]
-== Embedded Pinboard with unsaved changes
+== Embedded Liveboard with unsaved changes
 
-If you have embedded ThoughtSpot in your host application, and you want to download Pinboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
+If you have embedded ThoughtSpot in your host application, and you want to download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
 
 [source,javascript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves to  a string that contains the transient pinboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Pinboard as is, including any changes, saved or not.
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including any changes, saved or not.
 
 === Sample browser fetch request
 [source,javascript]
@@ -210,13 +210,13 @@ async function downloadPDF() {
 | HTTP status code | Description
 
 | **200**
-| Streaming output for pinboard pdf
+| Streaming output for Liveboard pdf
 
 | **400**
 | Invalid parameter values
 
 | **403**
-| No read access for pinboard
+| No read access for Liveboard
 
 | **404**
 | Object not found

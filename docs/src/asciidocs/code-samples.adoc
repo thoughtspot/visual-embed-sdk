@@ -7,7 +7,7 @@
 
 This page contains code samples to help you embed ThoughtSpot features and data and build your applications.
 
-== Visual Embed SDK 
+== Visual Embed SDK
 
 You can use the following code snippets to build your code and embed ThoughtSpot content in your host  application.
 
@@ -44,7 +44,7 @@ searchEmbed.render();
 [source,javascript]
 ----
 import {
-	PinboardEmbed,
+	LiveboardEmbed,
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
@@ -55,24 +55,24 @@ init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.SSO,
 });
-const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), {
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
-	pinboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
+	liveboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
 	vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
 },
 });
-pinboardEmbed.render();
+liveboardEmbed.render();
 ----
 
-=== Embed a pinboard
+=== Embed a Liveboard
 
 [source,javascript]
 ----
 import {
-	PinboardEmbed,
+	LiveboardEmbed,
 	AuthType,
 	init
 } from '@thoughtspot/visual-embed-sdk';
@@ -84,17 +84,17 @@ init({
 	authType: AuthType.SSO,
 });
 
-const pinboardEmbed = new PinboardEmbed(
+const liveboardEmbed = new LiveboardEmbed(
 document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
-	pinboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
+	liveboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
 },
 });
 
-pinboardEmbed.render();
+liveboardEmbed.render();
 ----
 
 === Embed full application
@@ -148,7 +148,7 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
 
 == REST APIs
 
-The following examples show how to call REST APIs to query and import data using Javascript. 
+The following examples show how to call REST APIs to query and import data using Javascript.
 
 === Search data API
 
@@ -173,13 +173,13 @@ export const getSearchData = async (worksheetId, search) => {
 		.catch(error => console.error(`Error getting search data ${error}`));
 }
 ----
-=== Embed visualization data from a pinboard
+=== Embed visualization data from a Liveboard
 
 [source,javascript]
 ----
-export const getPinboardData = async (pinboardId, vizIds) => {
-	console.log(`Getting data from pinboard ${pinboardId} and visualization(s) ${vizIds}`)
-	let getPinboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${pinboardId}`;
+export const getLiveboardData = async (liveboardId, vizIds) => {
+	console.log(`Getting data from Liveboard ${liveboardId} and visualization(s) ${vizIds}`)
+	let getLiveboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${liveboardId}`;
 
 	if (vizIds) { // if vizIds were specified, they are optional
 		if (!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
@@ -188,11 +188,11 @@ export const getPinboardData = async (pinboardId, vizIds) => {
 
 		// TODO add handling for invalid types.  Currently only support string and array.
 		const formattedVizIds = `["${vizIds.join('","')}"]`;
-		getPinboardDataURL += '&vizid=' + formattedVizIds;
+		getLiveboardDataURL += '&vizid=' + formattedVizIds;
 	}
 
 	return await fetch(
-			encodeURI(getPinboardDataURL), {
+			encodeURI(getLiveboardDataURL), {
 				method: 'POST',
 				headers: {
 					"Accept": "application/json",
@@ -203,16 +203,16 @@ export const getPinboardData = async (pinboardId, vizIds) => {
 		.then(response => response.json())
 		.then(data => data)
 		.catch(error => {
-			console.error(`Unable to get the visualization list for pinboard ${pinboardId}: ${error}`);
+			console.error(`Unable to get the visualization list for Liveboard ${liveboardId}: ${error}`);
 		});
 }
 ----
-=== Get a list of visualizations on a pinboard
+=== Get a list of visualizations on a Liveboard
 
 [source,javascript]
 ----
-export const getVisualizationList = async (pinboardId) => {
-	const vizMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + pinboardId;
+export const getVisualizationList = async (liveboardId) => {
+	const vizMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + liveboardId;
 
 	return await fetch(
 			vizMetadataListURL, {
@@ -226,23 +226,23 @@ export const getVisualizationList = async (pinboardId) => {
 		.then(response => response.json())
 		.then(data => data)
 		.catch(error => {
-			console.error("Unable to get the visualization list for pinboard " + pinboardId + ": " + error)
+			console.error("Unable to get the visualization list for Liveboard " + liveboardId + ": " + error)
 		});
 }
 ----
 
-=== Get a list of pinboards for a user
+=== Get a list of Liveboards for a user
 
 [source,javascript]
 ----
-export const getPinboardList = async () => {
-	// Returns the list of pinboards so the user can display them.
-	const pinboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
+export const getLiveboardList = async () => {
+	// Returns the list of Liveboards so the user can display them.
+	const liveboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
 		"type=PINBOARD_ANSWER_BOOK" +
 		"&batchsize=-1";
 
 	return await fetch(
-			pinboardMetadataListURL, {
+			liveboardMetadataListURL, {
 				method: 'GET',
 				headers: {
 					"Accept": "application/json",
@@ -253,7 +253,7 @@ export const getPinboardList = async () => {
 		.then(response => response.json())
 		.then(data => data)
 		.catch(error => {
-			console.error("Unable to get the pinboard list: " + error)
+			console.error("Unable to get the Liveboard list: " + error)
 		});
 }
 ----
@@ -281,4 +281,3 @@ See the following articles:
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank]
 
 * link:https://github.com/thoughtspot/ts_everywhere_resources[Visual Embed SDK examples, window=_blank]
-

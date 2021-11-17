@@ -1,21 +1,21 @@
-= Pinboard data API
+= Liveboard data API
 :toc: true
 :toclevels: 1
 
-:page-title: Get Pinboard Data
-:page-pageid: pinboard-api
-:page-description: Pinboard Data API
+:page-title: Get Liveboard Data
+:page-pageid: liveboard-data-api
+:page-description: Liveboard Data API
 
-To retrieve data related to a pinboard or visualization from the ThoughtSpot system, you can use the pinboard data API.
+To retrieve data related to a Liveboard or visualization from the ThoughtSpot system, you can use the Liveboard data API.
 
 Using this API, you can fetch the following information:
 
-* All the visualization objects on a pinboard.
-* A specific or a group of visualizations on a pinboard.
+* All the visualization objects on a Liveboard.
+* A specific or a group of visualizations on a Liveboard.
 
 [NOTE]
 ====
-Pinboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
+Liveboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
 ====
 
 == Request URL
@@ -28,9 +28,9 @@ POST /tspublic/v1/pinboarddata
 [options='header']
 |====
 |Query Parameter|Data Type|Description
-|`id`|string|GUID of pinboard.
+|`id`|string|The GUID of the Liveboard.
 |`vizid` __Optional__|string|A JSON array of GUIDs of the visualizations. 
-|`batchsize`|integer|The batch size for loading pinboard objects. The system default is -1.
+|`batchsize`|integer|The batch size for loading Liveboard objects. The system default is -1.
 |`pagenumber`|integer|The system default is -1.
 |`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
          `1-based indexingOffset = (pageNumber - 1)` * batchSize
@@ -39,7 +39,7 @@ POST /tspublic/v1/pinboarddata
 
 == Example requests
 
-=== Pinboard data
+=== Liveboard data
 
 .CURL
 
@@ -80,7 +80,7 @@ Each data object returned in the API response contains four components:
 The sampling ratio tells you the percentage of total data returned.
 A sampling ratio of `1` indicates that all data in the visualization object was returned in the API response.
 
-=== Pinboard data
+=== Liveboard data
 
 [source,JSON]
 ----
@@ -113,8 +113,8 @@ A sampling ratio of `1` indicates that all data in the visualization object was 
 }
 ----
 === Visualization data
-The returned JSON data includes one object for every visualization on the pinboard.
-If you make a call to obtain data for a specific visualization on a pinboard, The API returns data for only that visualization.
+The returned JSON data includes one object for every visualization on the Liveboard.
+If you make a call to obtain data for a specific visualization on a Liveboard, The API returns data for only that visualization.
 
 [source,JSON]
 ----
@@ -167,7 +167,7 @@ If you make a call to obtain data for a specific visualization on a pinboard, Th
     "rowCount": 5,
     "pageSize": 100000,
     "offset": 0,
-    "name": "Top 10 Pinboard Consumers Last 30 days"
+    "name": "Top 10 Liveboard Consumers Last 30 days"
   },
   "62f98ad3-6ddd-4aed-8f13-58054295b7e3": {
     "columnNames": [
@@ -284,6 +284,6 @@ These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have th
 [options="header", cols="1,2"]
 |===
 |HTTP Code|Description
-|**200**|Successful retrieval of pinboard or visualization data
-|**400**|Invalid pinboard ID
+|**200**|Successful retrieval of Liveboard or visualization data
+|**400**|Invalid Liveboard ID
 |===

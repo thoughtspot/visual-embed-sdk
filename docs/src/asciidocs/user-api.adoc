@@ -939,7 +939,7 @@ The system locale setting. The locale setting determines the language of the Tho
 
 * Notification setting
 +
-User preference for receiving email notifications when another ThoughtSpot user shares answers or pinboards.
+User preference for receiving email notifications when another ThoughtSpot user shares answers or Liveboards.
 
 * Settings for revisiting the onboarding experience
 +
@@ -970,7 +970,7 @@ POST /tspublic/v1/user/updatepreference
 |`preferences` a|__String__. The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
-* receive email notifications when another user shares an answer or pinboard
+* receive email notifications when another user shares an answer or Liveboard
 * enable the onboarding experience
 |`preferencesProto` __Optional__|__String__. A 64-bit encoded string to set user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
 |===
@@ -1017,7 +1017,7 @@ Enables or disables the guided onboarding walkthrough. When set to `true`, the u
 
 * `notifyOnShare` __Boolean__
 +
-Sets a notification preference for receiving emails when another user shares answers or pinboards.
+Sets a notification preference for receiving emails when another user shares answers or Liveboards.
 
 * `analystOnboardingComplete` __Boolean__
 +

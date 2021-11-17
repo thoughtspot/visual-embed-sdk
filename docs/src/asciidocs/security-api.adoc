@@ -6,7 +6,7 @@
 :page-pageid: security-api
 :page-description: security API
 
-The Security APIs allow you to share ThoughtSpot objects, such as pinboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group.
+The Security APIs allow you to share ThoughtSpot objects, such as Liveboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group.
 
 == Supported operations
 
@@ -18,7 +18,7 @@ include::{path}/security-api-list.adoc[]
 
 ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFFECTIVE`.
 
-Users can also access objects when another user shares a pinboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`. 
+Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
 To view the details of object permissions for the current logged user, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
@@ -35,7 +35,7 @@ GET /tspublic/v1/security/metadata/permissions
 |`type`|Query parameter  a|__String__. Type of the object. Valid values are:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
@@ -157,7 +157,7 @@ GET /tspublic/v1/security/metadata/{id}/permissions
 |`type`|Query parameter  a|__String__. Type of the object. Valid values are:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
@@ -262,11 +262,11 @@ POST /tspublic/v1/security/effectivepermissionbulk
 |`idsbytype`  a|__Array of Strings__. A JSON array of the object IDs for each object type. Valid object types are:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for pinboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
-For example, to get permission details for specific pinboards and answers, specify the value of `idsbytype` as shown here:
+For example, to get permission details for specific Liveboards and answers, specify the value of `idsbytype` as shown here:
 ----
 {"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
 ----
@@ -379,7 +379,7 @@ If the data query operation is successful, the API returns the object permission
 
 To programmatically share ThoughtSpot objects with another user or user group, use the `/tspublic/v1/security/share` API.
 
-When you share an object like a pinboard or visualization, a notification with a live link is sent to the user. When the users access this object, they can view the last saved version of the object.
+When you share an object like a Liveboard or visualization, a notification with a live link is sent to the user. When the users access this object, they can view the last saved version of the object.
 
 === Resource URL
 ----
@@ -394,7 +394,7 @@ POST /tspublic/v1/security/share
 |`type` a|__String__. Type of metadata object. Specify one of the following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` to share answers.
-* `PINBOARD_ANSWER_BOOK` to share pinboards.
+* `PINBOARD_ANSWER_BOOK` to share Liveboards.
 * `LOGICAL_TABLE` to share a data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` to share a column of any data object such as tables, worksheets, or views.
 
@@ -432,9 +432,9 @@ To remove a user or user group's access to a shared object, you can set the `sha
 
 [source, cURL]
 ----
-curl -X POST 
---header 'Content-Type: application/x-www-form-urlencoded' 
---header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 
+curl -X POST  \
+--header 'Content-Type: application/x-www-form-urlencoded'  \
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
 -d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9CshareMode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' 
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/share'
 
@@ -464,7 +464,7 @@ Response code
 
 [#shareviz]
 == Share a visualization with another user or user group
-If you want to share a specific visualization from a pinboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide a read-only access.
+If you want to share a specific visualization from a Liveboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide a read-only access.
 
 === Resource URL
 ----
@@ -477,7 +477,7 @@ POST /tspublic/v1/security/shareviz
 |====
 |Form Parameter|Description
 |`type`|__String__. Type of the metadata object. The valid value is `PINBOARD_ANSWER_BOOK`.
-|`pinboardId`|__String__.The GUID of the pinboard to which the visualization belongs.
+|`pinboardId`|__String__.The GUID of the Liveboard to which the visualization belongs.
 |`principalids`|__String__.The GUID of the users with whom you want to share the visualization.
 |`vizid`|__String__.The GUID of visualization.
 |`emailshares`|__Sring__. The email address of the user account with whom you want to share the visualization. If no email address is specified, the visualization is shared only with the user IDs specified in `principalids`.
@@ -491,7 +491,10 @@ POST /tspublic/v1/security/shareviz
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'type=PINBOARD_ANSWER_BOOK&pinboardId=7a9a6715-e154-431b-baaf-7b58246c13dd&principalids=%5B%2259481331-ee53-42be-a548-bd87be6ddd4a%22%5D&vizid=e9753523-5de5-41ef-8d8c-b840f0260ea0&emailshares=%5Btsuser%40thoughtspot.com%5D&notify=true&useCustomEmbedUrls=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
+-d 'type=PINBOARD_ANSWER_BOOK&pinboardId=7a9a6715-e154-431b-baaf-7b58246c13dd&principalids=%5B%2259481331-ee53-42be-a548-bd87be6ddd4a%22%5D&vizid=e9753523-5de5-41ef-8d8c-b840f0260ea0&emailshares=%5Btsuser%40thoughtspot.com%5D&notify=true&useCustomEmbedUrls=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz'
 ----
 
 .Request URL

@@ -13,7 +13,7 @@ By default, the members of `ALL_GROUP` do not have the permission to download or
 
 * `DATADOWNLOADING`
 +
-Allows users to download data from search results and pinboards. When the `DATADOWNLOADING` privilege is applied, the users can download all the data sources that a group can access.
+Allows users to download data from search results and Liveboards. When the `DATADOWNLOADING` privilege is applied, the users can download all the data sources that a group can access.
 
 * `USERDATAUPLOADING`
 +

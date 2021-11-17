@@ -1,34 +1,34 @@
-= Embed pinboards without the Visual Embed SDK
+= Embed Liveboards without the Visual Embed SDK
 
-:page-title: Embed pinboards without Visual Embed SDK
+:page-title: Embed Liveboards without Visual Embed SDK
 :page-pageid: embed-without-sdk
-:page-description: Embed pinboards without the Visual Embed SDK
+:page-description: Embed Liveboards without the Visual Embed SDK
 
 The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
 
-In these situations, you can embed ThoughtSpot pinboards or individual visualizations from a pinboard using a directly created iframe tag.
+In these situations, you can embed ThoughtSpot Liveboards or individual visualizations from a Liveboard using a directly created iframe tag.
 
 == Construct URL for direct iframe embed
-The pattern for the URL to embed a pinboard is:
+The pattern for the URL to embed a Liveboard is:
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}`
+`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}`
 
-If you want to embed an individual visualization from a pinboard, use the following URL pattern:
+If you want to embed an individual visualization from a Liveboard, use the following URL pattern:
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{pinboard_id}/{visualization_id}`
+`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
 
 You can specify link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[runtime filters, window=_blank] in the URL.
 
 
 == SSO considerations
-When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
+When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
 
-If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iframe embed of a pinboard is, then it may be a viable SSO mechanism.
+If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iframe embed of a Liveboard is, then it may be a viable SSO mechanism.
 
 == Simple embedding in Salesforce
-If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot pinboards or individual visualizations. 
+If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot Liveboards or individual visualizations.
 
-First, as a developer, choose 'Create a New Visualforce Page'. 
+First, as a developer, choose 'Create a New Visualforce Page'.
 
 The following code example can be used to define the new page. It defines the iframe, with the ThoughtSpot URL using a runtime filter to personalize the results to the Salesforce user:
 
@@ -36,7 +36,7 @@ The following code example can be used to define the new page. It defines the if
 ----
 <apex:page standardController="Account" tabStyle="Account">
 <apex:pageBlock title="ThoughtSpot">
-<apex:iframe src="https://{thoughtspot-server}/?embedApp=true#/embed/viz/{pinboard_id}/{visualization_id}/?col1={field_name}&op1=EQ&val1={!account.Name}" frameborder="0" height="690" width="100%">
+<apex:iframe src="https://{thoughtspot-server}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}/?col1={field_name}&op1=EQ&val1={!account.Name}" frameborder="0" height="690" width="100%">
 </apex:iframe>
 </apex:pageBlock>
 </apex:page>

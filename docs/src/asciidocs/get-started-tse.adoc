@@ -32,7 +32,7 @@ a|Embedding workflows
 
 * Embed Search
 * Embed charts and tables
-* Embed pinboards
+* Embed Liveboards
 * Embed full ThoughtSpot experience
 
 |[tag orangeBackground]#✓#  
@@ -42,14 +42,14 @@ a|Embedding workflows
 |Link customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
 |REST APIs to query data | [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓# 
 |Administration APIs to manage users, group privileges, sessions, data objects, and connections| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓# 
-|TML APIs to programmatically update charts, pinboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#
+|TML APIs to programmatically update charts, Liveboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#
 |REST APIs to programmatically download a PDF report| [tag greenBackground]#✓# | [tag greenBackground]#✓# | [tag greenBackground]#✓# 
 |===
 
 [#live-playground]
 == Try Live Playground
 
-If you are new to ThoughtSpot, we recommend that you visit our Live Playground. The Live Playground allows you to play with the Visual Embed SDK APIs and offers an interactive embedding experience. You can embed search, charts and tables, pinboards, or the ThoughtSpot app in a fictional app and preview the results instantly.  
+If you are new to ThoughtSpot, we recommend that you visit our Live Playground. The Live Playground allows you to play with the Visual Embed SDK APIs and offers an interactive embedding experience. You can embed search, charts and tables, Liveboards, or the ThoughtSpot app in a fictional app and preview the results instantly.
 
 To access the Live Playground:
 
@@ -68,7 +68,7 @@ image::./images/public-cluster-tse-license.png[]
 [#free-trial]
 == Sign up for a free trial
  
-With the free trial license, you can access the Playground, embedding workflows, and REST APIs for 30 days. The free trial license allows you to load your data, embed ThoughtSpot search, charts, tables, pinboards or the full ThoughtSpot experience in your app, and also use the REST APIs to query data and manage ThoughtSpot objects.
+With the free trial license, you can access the Playground, embedding workflows, and REST APIs for 30 days. The free trial license allows you to load your data, embed ThoughtSpot search, charts, tables, Liveboards or the full ThoughtSpot experience in your app, and also use the REST APIs to query data and manage ThoughtSpot objects.
 
 To sign up for a free trial:
 

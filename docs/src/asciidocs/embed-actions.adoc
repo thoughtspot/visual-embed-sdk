@@ -2,15 +2,15 @@
 :toc: true
 :toclevels: 1
 
-:page-title: Configure menu options for embedded pinboards and visualizations
+:page-title: Configure menu options for embedded Liveboards and visualizations
 :page-pageid: action-config
-:page-description: Show or hide actions in embedded pinboards and visualizations
+:page-description: Show or hide actions in embedded Liveboards and visualizations
 
-ThoughtSpot visualization, pinboards, and answer pages include menu actions that perform various operations. Some of these actions are presented as primary actions on a pinboard or answer page, whereas some appear as menu items in the *More* menu image:./images/icon-more-10px.png[the more options menu], or the contextual menu that appears when a user right-clicks on a visualization.
+ThoughtSpot visualization, Liveboards, and answer pages include menu actions that perform various operations. Some of these actions are presented as primary actions on a Liveboard or answer page, whereas some appear as menu items in the *More* menu image:./images/icon-more-10px.png[the more options menu], or the contextual menu that appears when a user right-clicks on a visualization.
 
 == Disable or hide actions in Visual Embed SDK
 
-The Visual Embed SDK allows you to configure menu components for embedded pinboard and visualization pages. By default, the standard menu actions are *enabled* on all embedded instances. You can disable or hide specific menu actions in the *More* menu image:./images/icon-more-10px.png[the more options menu] or primary action bar in the visualization or pinboard page.
+The Visual Embed SDK allows you to configure menu components for embedded Liveboard and visualization pages. By default, the standard menu actions are *enabled* on all embedded instances. You can disable or hide specific menu actions in the *More* menu image:./images/icon-more-10px.png[the more options menu] or primary action bar in the visualization or Liveboard page.
 
 The SDK packages include the `disabledActions` and `hiddenActions` attributes and action enumerators that disable or hide the specified actions.
 
@@ -18,9 +18,9 @@ For a complete list of menu actions and the corresponding strings to use for dis
 
 === Disable actions
 
-If you want to restrict user access to certain actions in the embedded ThoughtSpot pinboard, visualization, or search results page, you can disable these actions in the embed config view.
+If you want to restrict user access to certain actions in the embedded ThoughtSpot Liveboard, visualization, or search results page, you can disable these actions in the embed config view.
 
-The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions  and disable these actions on a pinboard, answer, or visualization page.
+The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions  and disable these actions on a Liveboard, answer, or visualization page.
 
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], you can specify the `ShowUnderlyingData` action string in the `disabledActions` attribute.
 
@@ -44,7 +44,7 @@ disabledActions: [Action.AddFilter, Action.Present]
 
 ++++
 
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Disable a custom action
@@ -70,7 +70,7 @@ disabledActionReason: "Contact your administrator to enable this action"
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Hide actions
@@ -89,7 +89,7 @@ hiddenActions: [Action.AddFilter, Action.Share]
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Hide a custom action
@@ -105,31 +105,31 @@ hiddenActions: [Action.send-email]
 
 == Supported menu actions
 
-ThoughtSpot embedded instances support the following actions on pinboards and visualizations.
+ThoughtSpot embedded instances support the following actions on Liveboards and visualizations.
 
-=== Pinboard actions
+=== Liveboard actions
 
 [width="100%" cols="2,4,2"]
 [options='header']
 |===
 |Action|Description|Corresponding action string in SDK
-|*Share*|Allows sharing a pinboard with another user or user group.|`Action.Share`
-|*Follow*|Allows you to follow a pinboard and receive email notifications about the pinboard status.|`Action.Subscription`
+|*Share*|Allows sharing a Liveboard with another user or user group.|`Action.Share`
+|*Follow*|Allows you to follow a Liveboard and receive email notifications about the Liveboard status.|`Action.Subscription`
 |*Add filters*|
-Adds filters to all visualizations in a pinboard.
+Adds filters to all visualizations in a Liveboard.
 |`Action.AddFilter`
-|*Configure filters*|Applies filters to a specific visualization in a pinboard.|`Action.ConfigureFilter`
-|*Copy link*| Copies pinboard link to clipboard.| `Action.CopyLink`
-|*Download as PDF*|Downloads the pinboard or visualizations in a pinboard as a PDF file.|`Action.DownloadAsPdf`
-|*Make a copy*| Creates a copy of the pinboard.| `Action.MakeACopy`
-|*Add schedule*| Adds a pinboard job schedule.|`Action.SchedulesList`
-|*Manage schedules*|Allows scheduling and monitoring pinboard jobs.|`Action.Schedule`
-|*Present*|Presents the pinboard in fullscreen mode.| `Action.Present`
-|*Pinboard info*|Displays information about the pinboard.|`Action.PinboardInfo`
-|*Save*| Saves the pinboard.| `Action.Save`
+|*Configure filters*|Applies filters to a specific visualization in a Liveboard.|`Action.ConfigureFilter`
+|*Copy link*| Copies Liveboard link to clipboard.| `Action.CopyLink`
+|*Download as PDF*|Downloads the Liveboard or visualizations in a Liveboard as a PDF file.|`Action.DownloadAsPdf`
+|*Make a copy*| Creates a copy of the Liveboard.| `Action.MakeACopy`
+|*Add schedule*| Adds a Liveboard job schedule.|`Action.SchedulesList`
+|*Manage schedules*|Allows scheduling and monitoring Liveboard jobs.|`Action.Schedule`
+|*Present*|Presents the Liveboard in fullscreen mode.| `Action.Present`
+|*Liveboard info*|Displays information about the Liveboard.|`Action.LiveboardInfo`
+|*Save*| Saves the Liveboard.| `Action.Save`
 |===
 
-=== Pinboard visualization actions
+=== Liveboard visualization actions
 
 [width="100%" cols="2,4,2"]
 [options='header']
@@ -137,7 +137,7 @@ Adds filters to all visualizations in a pinboard.
 |Action|Description|Corresponding action string in SDK
 |*Explore*|Allows you to explore a visualization.|`Action.Explore`
 |*Share*|Allows you to share a visualization with another user or a user group.|`Action.ShareViz`
-|*Pin*|Pins a visualization to a pinboard.| `Action.Pin`
+|*Pin*|Pins a visualization to a Liveboard.| `Action.Pin`
 |*Edit* |Allows you to edit a visualization. Available only if you have edit privileges to a visualization.|`Action.Edit`
 |*Change title*| Changes the title of the visualization.|`Action.EditTitle`
 |*Present*|Presents the visualization in a fullscreen mode.| `Action.Present`
@@ -153,7 +153,7 @@ Adds filters to all visualizations in a pinboard.
 |===
 
 ////
-|*Description* | Allows you to add a description to a pinboard.|`Action.Describe`
+|*Description* | Allows you to add a description to a Liveboard.|`Action.Describe`
 ////
 
 === Actions on search results page
@@ -164,7 +164,7 @@ Adds filters to all visualizations in a pinboard.
 |Action|Description|Corresponding action string in SDK
 |*Explore*|Allows you to explore a visualization.|`Action.Explore`
 |*Share*|Allows you to share a visualization with another user or a user group|`Action.ShareViz`
-|*Pin*|Pins a visualization to a pinboard.|`Action.Pin`
+|*Pin*|Pins a visualization to a Liveboard.|`Action.Pin`
 |*SpotIQ analyze*|Allows you to run SpotIQ analyses. Available as a primary action icon.|`Action.SpotIQAnalyze`
 |*Delete*|Deletes the visualization.|`Action.Remove`
 |*Download* |Downloads the visualization data. Available only for charts.| `Action.Download`

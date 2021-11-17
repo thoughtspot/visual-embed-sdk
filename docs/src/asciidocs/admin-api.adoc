@@ -14,7 +14,6 @@ To access the admin API endpoints and send API requests, you must have admin use
 
 include::{path}/admin-api-list.adoc[]
 
-
 [#get-configInfo]
 == Get configuration details
 To get details of the current configuration of a ThoughtSpot cluster, send a `GET` request to the `/tspublic/v1/admin/configinfo` API.
@@ -365,7 +364,7 @@ If the request is successful, the API returns the details of the configuration o
   "pinboardFilterConfiguratorDisabled": {
     "category": "MAIN",
     "dataType": "BOOLEAN",
-    "description": "Disables Configure Filter option on a Pinboard",
+    "description": "Disables Configure Filter option on a Liveboard",
     "current": false
   },
 
@@ -1009,7 +1008,7 @@ On successful deletion of the action, the API returns a response body indicating
 [#custom-action-assoc]
 == Associate a custom action to ThoughtSpot objects
 
-ThoughtSpot supports associating custom actions to pinboards, answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
+ThoughtSpot supports associating custom actions to Liveboards, answers, and worksheets, To programmatically associate a custom action to a ThoughtSpot object, send a `POST` request to the `/tspublic/v1/admin/embed/actions/{actionid}/associations` API endpoint.
 
 === Resource URL
 ----

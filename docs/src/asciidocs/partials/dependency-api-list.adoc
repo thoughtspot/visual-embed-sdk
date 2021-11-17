@@ -37,9 +37,9 @@ Gets a list of dependent objects for a physical table.
 
 +++<p class="divider"> </p>+++
 
-`xref:dependency-apis.adoc#get-dependents-pinboard[*GET* /tspublic/v1/dependency/pinboard]`   
+`xref:dependency-apis.adoc#get-dependent-liveboard[*GET* /tspublic/v1/dependency/pinboard]`
 
-Gets a list of dependent object headers for a pinboard.
+Gets a list of dependent object headers for a Liveboard.
 
 +++<p class="divider"> </p>+++
 

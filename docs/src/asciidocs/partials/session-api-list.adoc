@@ -33,17 +33,17 @@ Gets session information.
 
 `xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`
 
-Sets a specific pinboard as a home pinboard.
+Sets a specific Liveboard as a home Liveboard.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#get-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`
 
-Returns the GUID of the pinboard that is set as a home pinboard for the current logged-in user.
+Returns the GUID of the Liveboard that is set as a home Liveboard for the current logged-in user.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#del-home-pinboard[**DELETE** /tspublic/v1/session/homepinboard]`
 
-Removes the home pinboard settings for the current logged-in user.
+Removes the home Liveboard settings for the current logged-in user.
 --

@@ -18,7 +18,7 @@ POST /tspublic/v1/session/auth/token
 
 * `FULL` - Creates a session with full access.
 * `REPORT_BOOK_VIEW` - Allow view access to the specified visualizations.
-|`id`|string|GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the pinboard or visualization object.
+|`id`|string|GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
 |====
 
 === Example request

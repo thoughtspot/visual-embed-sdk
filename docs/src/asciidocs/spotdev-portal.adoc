@@ -7,7 +7,7 @@
 
 ThoughtSpot Developer portal lets you explore Visual Embed SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot features that are available for integration.
 
-The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
+The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or Liveboard.
 
 If you are an existing ThoughtSpot user:: 
 You can access the Developer portal from your ThoughtSpot application instance.
@@ -43,7 +43,7 @@ The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Develop
 Playground::
 The *Playground* allows you to explore the following Visual Embed SDK components that you can embed in your application:
 * xref:developer-playground.adoc#playground-search[Search]
-* xref:developer-playground.adoc#playground-pinboard[Pinboards]
+* xref:developer-playground.adoc#playground-liveboard[Liveboards]
 * xref:developer-playground.adoc#playground-visualization[Visualizations]
 * xref:developer-playground.adoc#playground-fullapp[Full application]
 

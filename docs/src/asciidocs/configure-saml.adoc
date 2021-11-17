@@ -18,29 +18,29 @@ The SAML SSO authentication involves several entities.
 
 * *Identity Provider (IdP)*
 +
-The Identity Management system that maintains the user identity information. The IdP acts as a SAML authority and authenticates SSO users. ThoughtSpot supports the SAML authentication framework with popular Identity Providers such as Okta, Azure Active Directory, PingFederate, Microsoft Active Directory Federation Services (ADFS), and Onelogin. 
+The Identity Management system that maintains the user identity information. The IdP acts as a SAML authority and authenticates SSO users. ThoughtSpot supports the SAML authentication framework with popular Identity Providers such as Okta, Azure Active Directory, PingFederate, Microsoft Active Directory Federation Services (ADFS), and Onelogin.
 
 * *Service Provider (SP)*
 +
-The provider of a business function or application service; for example, ThoughtSpot. The SP relies on the IdP to authenticate users before allowing access to its services. 
+The provider of a business function or application service; for example, ThoughtSpot. The SP relies on the IdP to authenticate users before allowing access to its services.
 
 * *Federated user*
 +
-A user whose identity information is managed by the IdP. The federated users have SSO credentials and authenticate to the IdP to access various application services. 
+A user whose identity information is managed by the IdP. The federated users have SSO credentials and authenticate to the IdP to access various application services.
 
 === SAML assertion and attributes
 
-Both SP-initiated and IdP-initiated authentication workflows rely on assertions that are exchanged between the SAML endpoints through a web browser.   
+Both SP-initiated and IdP-initiated authentication workflows rely on assertions that are exchanged between the SAML endpoints through a web browser.
 
-Some of the most commonly used elements are: 
- 
+Some of the most commonly used elements are:
+
 * *SAML assertion*
 +
 The user authentication and authorization information issued by the IdP. SAML assertions contain all the information necessary for a service provider to confirm if the user identity is valid.
 
 * *Metadata*
 +
-Data in the XML format to establish interoperability between the IdP and SP. It contains the URLs of the endpoints, entity ID, and so on. 
+Data in the XML format to establish interoperability between the IdP and SP. It contains the URLs of the endpoints, entity ID, and so on.
 
 * *Assertion Services Consumer (ACS) URL*
 +
@@ -52,7 +52,7 @@ A unique service name to identify the client application from which the SSO logi
 
 * *SAML attributes*
 +
-The attributes associated with the user; for example, username and email address.  
+The attributes associated with the user; for example, username and email address.
 
 === SSO workflows
 
@@ -67,15 +67,15 @@ In the IdP-initiated SSO authentication flow, the user authenticates to the IdP 
 
 == SAML authentication workflow for a ThoughtSpot embedded instance
 
-With SAML SSO authentication, your host applications can allow federated users to access the embedded ThoughtSpot content without the need for a separate ThoughtSpot login. 
+With SAML SSO authentication, your host applications can allow federated users to access the embedded ThoughtSpot content without the need for a separate ThoughtSpot login.
 
-A typical SP-initiated SSO authentication workflow consists of the following steps: 
+A typical SP-initiated SSO authentication workflow consists of the following steps:
 
-. A federated user tries to access a ThoughtSpot page, pinboard, or visualization in the host application.
-. The host application sends the authentication request to ThoughtSpot. 
-. If the SAML SSO authentication method is configured for the ThoughtSpot embedded instance, the browser sends the SAML request to the IdP. 
-* If the user has already authenticated to the IdP, the login request is redirected to the host application. 
-* If the user is not authenticated, the browser displays a login page to allow the user to authenticate to the IdP and then redirects. 
+. A federated user tries to access a ThoughtSpot page, Liveboard, or visualization in the host application.
+. The host application sends the authentication request to ThoughtSpot.
+. If the SAML SSO authentication method is configured for the ThoughtSpot embedded instance, the browser sends the SAML request to the IdP.
+* If the user has already authenticated to the IdP, the login request is redirected to the host application.
+* If the user is not authenticated, the browser displays a login page to allow the user to authenticate to the IdP and then redirects.
 +
 . The requested ThoughtSpot page or resource is displayed.
 
@@ -85,9 +85,9 @@ image::./images/saml-auth.png[SAML authentication]
 
 == Configuration steps
 
-To configure SAML SSO authentication on the ThoughtSpot embedded instance, complete the following steps:  
+To configure SAML SSO authentication on the ThoughtSpot embedded instance, complete the following steps:
 
-* xref:configure-saml.adoc#admin-portal[Enable SAML authentication on ThoughtSpot] 
+* xref:configure-saml.adoc#admin-portal[Enable SAML authentication on ThoughtSpot]
 * xref:configure-saml.adoc#idp-config[Configure the IdP server for SAML authentication]
 * xref:configure-saml.adoc#auth-config-sdk[Enable SSO authentication in Visual Embed SDK]
 * xref:configure-saml.adoc#saml-redirect[Add SAML redirect domain to the allowed list in ThoughtSpot]
@@ -141,21 +141,21 @@ disableSAMLAutoRedirect=true
 
 [#idp-config]
 === Configure the IdP server for SAML authentication
-To enable IdP to recognize your host application and ThoughtSpot as a valid service provider, you must configure the IdP with the required attributes and metadata. 
+To enable IdP to recognize your host application and ThoughtSpot as a valid service provider, you must configure the IdP with the required attributes and metadata.
 
-ThoughtSpot supports SAML authentication with several identity and access management providers, such as Okta, OneLogin, PingFederate, Microsoft ADFS, Microsoft Azure Active Directory, and so on. 
-If you want to use one of these providers as your IdP, make sure you follow the SAML configuration steps described in the Identity provider's documentation. 
+ThoughtSpot supports SAML authentication with several identity and access management providers, such as Okta, OneLogin, PingFederate, Microsoft ADFS, Microsoft Azure Active Directory, and so on.
+If you want to use one of these providers as your IdP, make sure you follow the SAML configuration steps described in the Identity provider's documentation.
 
-To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot support. 
+To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot support.
 
 [NOTE]
 ====
-When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually. 
+When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually.
 ====
 
 
 ==== Configure IdP to allow iframe embedding
-Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow. 
+Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow.
 
 An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe-initiated workflow.
 
@@ -164,7 +164,7 @@ An example of this setting is the link:https://help.okta.com/en/prod/Content/Top
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
 
-For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and  xref:embed-a-viz.adoc[visualizations].
+For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[Liveboard], and  xref:embed-a-viz.adoc[visualizations].
 
 [#saml-redirect]
 === Allow SAML Redirect Domains
@@ -179,10 +179,10 @@ To add a SAML redirect domain, follow these steps:
 . In the *SAML redirect domains* text box, add the domain names. Valid values are:
 +
 
-* Domain name strings with HTTP or HTTPS protocol. For example, `\http://thoughtspot.com`, 
+* Domain name strings with HTTP or HTTPS protocol. For example, `\http://thoughtspot.com`,
 `\https://www.thoughtspot.com`, `\https://www.thoughtspot.com`
 * Domain name strings without port and protocol. For example, `thoughtspot.com`, `www.thoughtspot.com`
-* Domain name strings with wildcard (+++*+++). For example, 
+* Domain name strings with wildcard (+++*+++). For example,
 `\https://+++*+++.thoughtspot.com`, `*.thoughtspot.com`
 * Comma-separated values. For example, `thoughtspot.com, thoughtspot.com`
 * IPv4 addresses. For example, `255.255.255.255`

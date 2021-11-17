@@ -12,7 +12,7 @@ Full embedding allows you to integrate the full ThoughtSpot content into an appl
 
 The full embedded ThoughtSpot content gives your users the ability to perform many essential tasks:
 
-* create answers and pinboards
+* create answers and Liveboards
 * share objects with other users
 * upload data, and refresh uploaded data
 * relate uploaded data to existing worksheets
@@ -104,7 +104,7 @@ Create an instance of the AppEmbed object and pass the parameters for the applic
      path: '<url-string>',
      runtimeFilters: [],
      tag: '<tag-name>',
-     
+
      },
 
   });
@@ -115,7 +115,7 @@ disabledActions::
 _Array of strings_. The action menu items to be disabled on the ThoughtSpot application pages.
 +
 
-For example, to disable the *download* action from the *More* (*...*) menu on the pinboard or visualization page, specify the `Download` action menu string in the `disabledActions` attribute.
+For example, to disable the *download* action from the *More* (*...*) menu on the Liveboard or visualization page, specify the `Download` action menu string in the `disabledActions` attribute.
 
 +
 [source,JavaScript]
@@ -137,11 +137,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 ====
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a pinboard or answer page.
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a Liveboard or answer page.
 ====
 
 disabledActionReason::
-_String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+_String_. Reason for disabling an action on a Liveboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
 
 disableProfileAndHelp::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
@@ -152,7 +152,7 @@ _Boolean_. When set to `true`, the help and user profile buttons are hidden on t
 
 
 hiddenActions::
-_Array of strings_. The action menu items to hide on a pinboard or visualization page.
+_Array of strings_. The action menu items to hide on a Liveboard or visualization page.
 +
 
 For example, to hide the *Download* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Download` action menu string in the `hiddenActions` attribute.
@@ -174,11 +174,11 @@ For a complete list of action menu items and the corresponding strings to use fo
 ====
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a pinboard or answer page.
+For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a Liveboard or answer page.
 ====
 
 hideObjects [small]_optional_::
-__Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.
+__Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain Liveboards, you can specify the GUIDs of the Liveboards in the `hideObjects` attribute.
 
 [source,JavaScript]
 ----
@@ -210,9 +210,9 @@ Displays the page showing the ThoughtSpot search bar when the application loads.
 +
 Displays the saved answers (*Answers*) page when the application loads.
 
-* `*Page.Pinboards*`
+* `*Page.Liveboards*`
 +
-Displays the *Pinboards* page when the application loads.
+Displays the *Liveboards* page when the application loads.
 
 * `*Page.Data*`
 +
@@ -229,10 +229,10 @@ Displays the *Home* page when the application loads.
 
 
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the pinboard or visualization page loads.
+Runtime filters to be applied when the Liveboard or visualization page loads.
 Runtime filters provide the ability to pass filter specifications in the URL query parameters and filter data at the time of retrieval.
 +
-For example, to sort values equal to `100000` in the `Revenue` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to sort values equal to `100000` in the `Revenue` column for a visualization in a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
 [source,javascript]
 ----
@@ -256,9 +256,9 @@ include::{path}/runtime-filter.adoc[]
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
 tag [small]_optional_::
-__String__. Filters objects by the specified tag. If the pinboards and answers in your application are tagged as `Sales`, you can specify the tag string as `Sales` to show only those objects that have the `Sales` tag assigned. 
+__String__. Filters objects by the specified tag. If the Liveboards and answers in your application are tagged as `Sales`, you can specify the tag string as `Sales` to show only those objects that have the `Sales` tag assigned.
 +
-This attribute applies the tag filter at the application level. All metadata objects in the application, such as pinboards and answers, would be filtered by the tag.
+This attribute applies the tag filter at the application level. All metadata objects in the application, such as Liveboards and answers, would be filtered by the tag.
 
 +
 [source, javascript]

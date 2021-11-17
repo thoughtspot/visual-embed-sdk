@@ -41,11 +41,12 @@ To create a new object on the server, you call the xref:tml-api#import[import RE
 To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, then update the TML document's *guid* property. The xref:metadata-api.adoc[metadata APIs], in particular, the  xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] endpoint can be used to determine the GUID of an existing object.
 
 ==== Naming constraints and GUIDs
-ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, pinboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
+
+ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, Liveboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
 
 You can simplify some processes by setting your own best practice rules for giving objects unique names. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML. For some multi-tenanted use cases, you will want many objects with the same display name, with access control rules determining which objects a given user sees, and then you will need to use GUIDs to differentiate those objects when uploading TML.
 
-GUIDs are randomly generated when an object is first created. If you need to track relationships between objects and you require that objects all have the same display name, you should store the relationships between various GUIDs for later reference when you first publish the child objects. For example, if you want to know which pinboards are copied from a particular template, store the returned GUIDs of the child versions when you first publish them, so that you can push future updates from the parent pinboard to its descendents.
+GUIDs are randomly generated when an object is first created. If you need to track relationships between objects and you require that objects all have the same display name, you should store the relationships between various GUIDs for later reference when you first publish the child objects. For example, if you want to know which Liveboards are copied from a particular template, store the returned GUIDs of the child versions when you first publish them, so that you can push future updates from the parent Liveboard to its descendants.
 
 === Data objects
 Data objects represent the various components of the data model within ThoughtSpot, such as *connections*, *tables*, *joins*, *views*, and *worksheets*.
@@ -147,7 +148,8 @@ Under `table_paths`, the `table` property also uses the values we moved to `id`.
 ----
 
 ==== Views
-link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet. The best practice is to make views available to answers and pinboards through a worksheet.
+
+link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet. The best practice is to make views available to answers and Liveboards through a worksheet.
 
 The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server and join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
 
@@ -185,9 +187,10 @@ view:
 ----
 
 === Content objects
-Content objects are *answers* (saved searches) and *pinboards*. An answer on a pinboard is not linked in any way to an answer outside that pinboard. When you pin an answer to a pinboard, the full definition of the answer is copied into the pinboard definition at that time. However, the capabilities and definitions for answers stored separately or on a pinboard are identical.
 
-Best practice is to __only connect answers and pinboards to worksheets__. Although they can connect directly to tables, it is far simpler to adjust references within the answer and pinboard TML to worksheets than many individual tables.
+Content objects are *answers* (saved searches) and *Liveboards*. An answer on a Liveboard is not linked in any way to an answer outside that Liveboard. When you pin an answer to a Liveboard, the full definition of the answer is copied into the Liveboard definition at that time. However, the capabilities and definitions for answers stored separately or on a Liveboard are identical.
+
+Best practice is to __only connect answers and Liveboards to worksheets__. Although they can connect directly to tables, it is far simpler to adjust references within the answer and Liveboard TML to worksheets than many individual tables.
 
 ==== Answers
 The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] syntax defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view* or *worksheet* objects, whichever the answer is connected to. As mentioned above, it is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
@@ -207,17 +210,17 @@ answer:
  ...
 ----
 
-==== Pinboards
-link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Pinboards, window=_blank] include many different answers and define a layout of the answer elements.
+==== Liveboards
+link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Liveboards, window=_blank] include many different answers and define a layout of the answer elements.
 
-The answers elements on a pinboard are referred to as visualizations and are defined in the `visualizations` section. The answer syntax here matches exactly as a separate answer stored on its own, with the `guid` property of an individual answer replaced by an `id` property. The `id` property is typically the word "Viz" and a number: "Viz 1", "Viz 10":
+The answers elements on a Liveboard are referred to as visualizations and are defined in the `visualizations` section. The answer syntax here matches exactly as a separate answer stored on its own, with the `guid` property of an individual answer replaced by an `id` property. The `id` property is typically the word "Viz" and a number: "Viz 1", "Viz 10":
 
 [source,yaml]
 ----
 pinboard:
-  name: <pinboard_name>
+  name: <Liveboard_name>
   description:
-    This is a multi-line description of the pinboard
+    This is a multi-line description of the Liveboard
     Description line 2
   visualizations:
   - id: <viz_id_1>
@@ -225,7 +228,7 @@ pinboard:
  ...
 ----
 
-The `layout` section is an ordered list with a `size` property for each visualization tile. If a visualization is added programmatically, it needs a matching entry in the layout section to determine how it appears within the pinboard. Adjustments to the order within the pinboard can be made by reordering the layout list. The `visualization_id` property must match to an existing `id` value in the `visualizations` list.
+The `layout` section is an ordered list with a `size` property for each visualization tile. If a visualization is added programmatically, it needs a matching entry in the layout section to determine how it appears within the Liveboard. Adjustments to the order within the Liveboard can be made by reordering the layout list. The `visualization_id` property must match to an existing `id` value in the `visualizations` list.
 
 [source,yaml]
 ----
@@ -239,7 +242,8 @@ The `layout` section is an ordered list with a `size` property for each visualiz
 == Deployment methods
 
 === Change tracking / source control
-In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and pinboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
+
+In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and Liveboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
 
 The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to retrieve the GUIDs for the various objects on the ThoughtSpot server. Looping through those GUIDs with the xref:tml-api.adoc#export[export TML REST API endpoint] allows for saving the current state of all objects to disk. A simple form of Git (or other source control) integration can be achieved simply by exporting all the TML files to a Git-enabled directory, with Git determining if there are any changes.
 

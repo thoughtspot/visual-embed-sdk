@@ -5,17 +5,17 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a pinboard, displayed without the search bar or other options to change the visualization.
+This page explains how to embed a single ThoughtSpot visualization, such as a table or chart, in your Web page, portal, or application. A visualization is one single answer on a Liveboard, displayed without the search bar or other options to change the visualization.
 
-You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *PinboardEmbed* must exist on a pinboard object in ThoughtSpot.
+You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *LiveboardEmbed* must exist on a Liveboard object in ThoughtSpot.
 
 [NOTE]
 ====
-* If you want to display multiple charts or tables that have been saved in a pinboard, try to embed a single pinboard rather than multiple individual visualizations. This helps in improving your application performance.
+* If you want to display multiple charts or tables that have been saved in a Liveboard, try to embed a single Liveboard rather than multiple individual visualizations. This helps in improving your application performance.
 * If you must embed multiple visualizations, xref:prefetch-and-cache.adoc[prefetch the static resources] before loading the page. We recommend that you limit the page to display not more than four visualizations at a time.
 ====
 
-== Import the PinboardEmbed package
+== Import the LiveboardEmbed package
 Import the visualization SDK library to your application environment:
 
 **npm**
@@ -28,7 +28,7 @@ import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/
 [source,javascript]
 ----
 <script type='module'>
-import { PinboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { LiveboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Initialize the SDK
@@ -74,7 +74,7 @@ include::{path}/embed-config.adoc[]
 == Construct the embed content
 [source,JavaScript]
 ----
- const pinboardEmbed = new PinboardEmbed(
+ const liveboardEmbed = new LiveboardEmbed(
     document.getElementById('ts-embed'),
     {
 	  frameParams: {
@@ -84,10 +84,10 @@ include::{path}/embed-config.adoc[]
 	  disabledActions: [],
 	  disabledActionReason: '<reason for disabling>',
 	  hiddenActions: [],
-	  pinboardId: '<%=pinboardGUID%>',
+	  liveboardId: '<%=liveboardGUID%>',
 	  vizId: '<%=vizGUID%>',
 	  enableVizTransformations: true,
-	  preventPinboardFilterRemoval: true,
+	  preventLiveboardFilterRemoval: true,
 	  runtimeFilters: [],
     },
 });
@@ -152,14 +152,14 @@ _String_. Reason for disabling an action on the visualizations page.
 vizId::
 _String_. The Global Unique Identifier (GUID) of the visualization.
 
-pinboardId::
-_String_. The GUID of the pinboard to which the visualization is pinned.
+liveboardId::
+_String_. The GUID of the Liveboard to which the visualization is pinned.
 
 enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
-preventPinboardFilterRemoval::
-_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a pinboard visualization.
+preventLiveboardFilterRemoval::
+_Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the embedded visualization loads.
@@ -179,7 +179,7 @@ runtimeFilters: [{
 
 
 columnName;;
-__String__. Name of the column to filter by. 
+__String__. Name of the column to filter by.
 
 operator;;
 __String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
@@ -204,8 +204,8 @@ Register event handlers to subscribe to events:
 
 [source,javascript]
 ----
- pinboardEmbed.on(EmbedEvent.init, showLoader)
- pinboardEmbed.on(EmbedEvent.load, hideLoader)
+ liveboardEmbed.on(EmbedEvent.init, showLoader)
+ liveboardEmbed.on(EmbedEvent.load, hideLoader)
 ----
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
@@ -215,7 +215,7 @@ Construct the URL for the embedded visualization and render the embedded content
 
 [source,javaScript]
 ----
-pinboardEmbed.render();
+liveboardEmbed.render();
 ----
 
 == Test the embedded workflow

@@ -4,7 +4,7 @@
 :page-pageid: edit-custom-action
 :page-description: You can set a custom action as a primary button or as a menu action in the More options or the contextual menu.
 
-ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. If you have Developer or Admin privileges, you can create a  *Global* or *Local* custom action. By default, the *Global* custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The *Local* custom actions are not placed anywhere in the ThoughtSpot UI until you add them to a worksheet, pinboard visualization, saved answer, or a chart or table built from a new search.
+ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. If you have Developer or Admin privileges, you can create a  *Global* or *Local* custom action. By default, the *Global* custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The *Local* custom actions are not placed anywhere in the ThoughtSpot UI until you add them to a worksheet, Liveboard visualization, saved answer, or a chart or table built from a new search.
 
 To view the custom actions available on your cluster, click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu] on any visualization or saved answer page, chart, or table. 
 
@@ -26,7 +26,7 @@ You can hide an action by clicking the hide icon  image:./images/hide-icon.png[t
 
 To modify the position of a custom action:
 
-. Navigate to a pinboard visualization or a saved answer, or create a chart or table from a new  search.
+. Navigate to a Liveboard visualization or a saved answer, or create a chart or table from a new  search.
 . Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
 +
 The custom actions available on your instance are displayed.

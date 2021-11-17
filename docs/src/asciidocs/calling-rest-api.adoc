@@ -8,15 +8,15 @@
 
 To call a REST API, you can send a  request to the endpoint URL and pass the parameters of the objects that you want to view or modify.
 
-== Pinboard or visualization objects
+== Liveboard or visualization objects
 
-For a pinboard, you can append the GUID of your pinboard as a parameter, as shown in the following example:
+For a Liveboard, you can append the GUID of your Liveboard as a parameter, as shown in the following example:
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3
 ----
 
-To retrieve data from a specific visualization within a pinboard, append the GUID number of the visualization using the `vizid` parameter:
+To retrieve data from a specific visualization within a Liveboard, append the GUID number of the visualization using the `vizid` parameter:
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=7752fa9e-db22-415e-bf34-e082c4bc41c3&vizid=%5B1e99d70f-c1dc-4a52-9980-cfd4d14ba6d6%5D
@@ -29,8 +29,8 @@ The URL encoding for the opening bracket is `%5B` and the closing bracket is `%5
 
 == Data format of objects
 
-The returned JSON data includes one object for every visualization on the pinboard.
-If you make a call to obtain data for a specific visualization on a pinboard, it will return just one object.
+The returned JSON data includes one object for every visualization on the Liveboard.
+If you make a call to obtain data for a specific visualization on a Liveboard, it will return just one object.
 
 The objects are named according to the corresponding `vizid`.
 

@@ -4,8 +4,8 @@
 :page-pageid: introduction
 :page-description: ThoughtSpot Everywhere Developer Documentation
 
- 
- 
+
+
 ++++
 <div class="row">
     <div class="container">
@@ -48,13 +48,13 @@
 
 
 ++++
- 
+
 <div class="row">
- <h2 align="center">Embedding and customization</h2> 
+ <h2 align="center">Embedding and customization</h2>
 	<div class="col-md-4">
 	<a href="?pageid=search-embed">	<div class="boxDiv">
 			<h5>Embed search</h5>
-			<p class="boxBody">Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p> 
+			<p class="boxBody">Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
 			<img src="../doc-images/images/search.png" alt="Embed Search">
 			<p><a href="?pageid=search-embed">Learn more about embedding search -> </a></p>
 		</div></a>
@@ -62,31 +62,31 @@
 	<div class="col-md-4">
 		<a href="?pageid=embed-a-viz"> <div class="boxDiv">
 			<h5>Embed charts and tables</h5>
-			<p class="boxBody"> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p> 
+			<p class="boxBody"> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
 			<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
 			<p> <a href="?pageid=embed-a-viz"> Learn more about embedding visualizations -></a> </p></div></a>
 	</div>
 	<div class="col-md-4">
 		<a href="?pageid=embed-pinboard"><div class="boxDiv">
-			<h5>Embed pinboards</h5>
-			<p class="boxBody"> Embed ThoughtSpot pinboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p> 
+			<h5>Embed Liveboards</h5>
+			<p class="boxBody"> Embed ThoughtSpot Liveboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p>
 			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
-			<p> <a href="?pageid=embed-pinboard"> Learn more about embedding pinboards -></a></p>
+			<p> <a href="?pageid=embed-liveboard"> Learn more about embedding Liveboards -></a></p>
 		</div></a>
 	</div>
 	</div>
 ++++
-	
-	
-++++	
+
+
+++++
 <div class="row">
   <div class="col-md-4">
      <a href="?pageid=full-embed"><div class="boxDiv">
       <h5>Embed ThoughtSpot app</h5>
-      <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and pinboards. </p>
+      <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and Liveboards. </p>
       <img src="../doc-images/images/full-app.png" alt="Embed full ThoughtSpot app">
       <p>
-        <a href="?pageid=full-embed"> Learn more about embedding pinboards -></a>
+        <a href="?pageid=full-embed"> Learn more about embedding full app -></a>
       </p>
     </div></a>
   </div>
@@ -112,7 +112,7 @@
   </div>
 </div>
 ++++
- 
+
 ++++
 
 <div class="row">
@@ -149,7 +149,7 @@
 
 
 ++++
- 
+
 <div class="row">
   <h2 align="center">Related resources</h2>
   <div class="col-md-4">

@@ -360,9 +360,9 @@ The following example shows the cell-level data payload for a callback custom ac
 }
 ----
 
-=== Pinboard payload
+=== Liveboard payload
 
-The following example shows the pinboard data payload for a callback custom action in a pinboard visualization page:
+The following example shows the Liveboard data payload for a callback custom action in a Liveboard visualization page:
 
 [source, JSON]
 ----
@@ -868,7 +868,7 @@ The following example shows the pinboard data payload for a callback custom acti
 
 ----
 
-The following example shows the pinboard data payload for a callback custom action set as a context menu in a pinboard visualization page:
+The following example shows the Liveboard data payload for a callback custom action set as a context menu in a Liveboard visualization page:
 
 
 [source, JSON]
