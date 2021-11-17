@@ -187,17 +187,6 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
-        test('when app is PinboardEmbed after navigateToPage function call, new path should be set to iframe', async () => {
-            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
-                pinboardId: '123',
-            });
-            await pinboardEmbed.render();
-            pinboardEmbed.navigateToPage(path);
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
-            );
-        });
-
         test('when app is AppEmbed after navigateToPage function call, new path should be set to iframe', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -209,21 +198,6 @@ describe('Unit test case for ts embed', () => {
             appEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
-            );
-        });
-
-        test('navigateToPage function use before render', async () => {
-            spyOn(console, 'log');
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                },
-            });
-            appEmbed.navigateToPage(path);
-            await appEmbed.render();
-            expect(console.log).toHaveBeenCalledWith(
-                'Please call render before invoking this method',
             );
         });
     });

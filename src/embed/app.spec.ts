@@ -8,6 +8,7 @@ import {
     getRootEl,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import * as config from '../config';
 
 const defaultViewConfig = {
     frameParams: {
@@ -17,6 +18,7 @@ const defaultViewConfig = {
 };
 const thoughtSpotHost = 'tshost';
 const defaultParams = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 
 beforeAll(() => {
     init({
@@ -165,6 +167,44 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance#/home`,
+            );
+        });
+    });
+
+    describe('Naviage to Page API', () => {
+        const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
+                () => 'http://tshost',
+            );
+        });
+
+        test('when app is AppEmbed after navigateToPage function call, new path should be set to iframe', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            appEmbed.navigateToPage(path);
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
+            );
+        });
+
+        test('navigateToPage function use before render', async () => {
+            spyOn(console, 'log');
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.navigateToPage(path);
+            await appEmbed.render();
+            expect(console.log).toHaveBeenCalledWith(
+                'Please call render before invoking this method',
             );
         });
     });

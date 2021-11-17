@@ -588,27 +588,6 @@ export class TsEmbed {
     }
 
     /**
-     * Navigates users to the specified application page.
-     * Use this method to navigate users from the embedded
-     * ThoughtSpot context to a specific page in your app.
-     * @param path The page path string.
-     * For example, to navigate users to a liveboard page,
-     * define the method as navigateToPage('liveboard/&lt;liveboardId&gt;').
-     */
-    public navigateToPage(path: string): void {
-        const iframeSrc = this.iFrame?.src;
-        if (iframeSrc) {
-            const embedPath = '#/embed';
-            const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
-            this.iFrame.src = `${
-                iframeSrc.split(currentPath)[0]
-            }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
-        } else {
-            console.log('Please call render before invoking this method');
-        }
-    }
-
-    /**
      * Triggers an event on specific Port registered against
      * for the EmbedEvent
      * @param eventType The message type

@@ -174,6 +174,25 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
+     * Navigate to particular page for app embed. eg:answers/pinboards/home
+     * This is used for embedding answers, pinboards, visualizations and full application only.
+     * @param path The string, set to iframe src and navigate to new page
+     * eg: appEmbed.navigateToPage('pinboards')
+     */
+    public navigateToPage(path: string): void {
+        if (this.iFrame) {
+            const iframeSrc = this.iFrame.src;
+            const embedPath = '#/embed';
+            const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
+            this.iFrame.src = `${
+                iframeSrc.split(currentPath)[0]
+            }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
+        } else {
+            console.log('Please call render before invoking this method');
+        }
+    }
+
+    /**
      * Renders the embedded application pages in the ThoughtSpot app.
      * @param renderOptions An object containing the page ID
      * to be embedded.
