@@ -142,7 +142,7 @@ The `searchQuery` parameter is no longer supported and is removed from the `sear
 The SDK EmbedEvent library includes the following events:
 
 * `QueryChanged`
-* `AuthExpired`
+* `AuthExpire`
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
 |====

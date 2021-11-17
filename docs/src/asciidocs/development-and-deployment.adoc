@@ -41,6 +41,7 @@ To create a new object on the server, you call the xref:tml-api#import[import RE
 To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, then update the TML document's *guid* property. The xref:metadata-api.adoc[metadata APIs], in particular, the  xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] endpoint can be used to determine the GUID of an existing object.
 
 ==== Naming constraints and GUIDs
+
 ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, Liveboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
 
 You can simplify some processes by setting your own best practice rules for giving objects unique names. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML. For some multi-tenanted use cases, you will want many objects with the same display name, with access control rules determining which objects a given user sees, and then you will need to use GUIDs to differentiate those objects when uploading TML.
@@ -147,6 +148,7 @@ Under `table_paths`, the `table` property also uses the values we moved to `id`.
 ----
 
 ==== Views
+
 link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet. The best practice is to make views available to answers and Liveboards through a worksheet.
 
 The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server and join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
@@ -185,6 +187,7 @@ view:
 ----
 
 === Content objects
+
 Content objects are *answers* (saved searches) and *Liveboards*. An answer on a Liveboard is not linked in any way to an answer outside that Liveboard. When you pin an answer to a Liveboard, the full definition of the answer is copied into the Liveboard definition at that time. However, the capabilities and definitions for answers stored separately or on a Liveboard are identical.
 
 Best practice is to __only connect answers and Liveboards to worksheets__. Although they can connect directly to tables, it is far simpler to adjust references within the answer and Liveboard TML to worksheets than many individual tables.
@@ -239,6 +242,7 @@ The `layout` section is an ordered list with a `size` property for each visualiz
 == Deployment methods
 
 === Change tracking / source control
+
 In the development phase, most content creation and updates will occur within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and Liveboards with maximum speed and control. This presents the question of when and how to track content changes for content in the "development environment".
 
 The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to retrieve the GUIDs for the various objects on the ThoughtSpot server. Looping through those GUIDs with the xref:tml-api.adoc#export[export TML REST API endpoint] allows for saving the current state of all objects to disk. A simple form of Git (or other source control) integration can be achieved simply by exporting all the TML files to a Git-enabled directory, with Git determining if there are any changes.

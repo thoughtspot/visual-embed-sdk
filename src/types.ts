@@ -124,13 +124,14 @@ export interface EmbedConfig {
      * When there are multiple embeds, queue the render of embed to start
      *  after the previous embed's render is complete. This helps in the load performance
      *  by decreasing the load on the browser.
+     * * _since: 1.5.0_
      * @default false
      */
     queueMultiRenders?: boolean;
 
     /**
      * Dynamic CSS Url to be injected in the loaded application.
-     * _Since: 1.6.0_
+     * * _since: 1.6.0_
      * @default ''
      */
     customCssUrl?: string;
@@ -385,7 +386,7 @@ export enum HostEvent {
      * Set the visible Vizs on a pinboard/liveboard.
      * @param - an array of ids of vizs to show, the ids not passed
      *          will be hidden.
-     * _since: 1.6.0_
+     * * _since: 1.6.0_
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
