@@ -43,7 +43,7 @@ The ThoughtSpot 7 Cloud October release introduces the Visual Embed SDK version 
 
 The SDK now supports rendering embedded objects in a queue. If you have multiple embedded objects, you can enable the `queueMultiRenders` parameter to queue your embedded objects and render them one after another. This feature helps in decreasing the load on the web browsers and improving your application loading experience. By default, this attribute is set to `false`.
 
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard embed</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Liveboard embed</h5>+++
 
 The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to.
 

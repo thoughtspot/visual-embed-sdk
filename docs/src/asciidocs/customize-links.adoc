@@ -47,7 +47,7 @@ The *Links* page in the Developer portal displays the default link format for th
 
 [IMPORTANT]
 ====
-Make sure the {object-id} and {sub-object-id} variables are used only for ThoughtSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/pinboard-id={object-id}`, ThoughtSpot may replace both these variables with the Liveboard GUID when it generates the Liveboard link.
+Make sure the {object-id} and {sub-object-id} variables are used only for ThoughtSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/liveboard-id={object-id}`, ThoughtSpot may replace both these variables with the Liveboard GUID when it generates the Liveboard link.
 ====
 
 == Customize link format
@@ -67,11 +67,11 @@ The default link format is `\https://<ThoughtSpot-Host>/#/pinboard/{object-id}`.
 
 +
 ----
-https://www.mysite.com/pinboard/{object-id}
+https://www.mysite.com/liveboard/{object-id}
 ----
 +
 ----
-https://www.mysite.com/?pinboard={object-id}
+https://www.mysite.com/?liveboard={object-id}
 ----
 Liveboard visualization URL::
 +
@@ -82,11 +82,11 @@ The default link format is `\https://<ThoughtSpot-Host>/#/pinboard/{object-id}/{
 
 +
 ----
-https://www.mysite.com/pinboard/{object-id}/{sub-object-id}
+https://www.mysite.com/liveboard/{object-id}/{sub-object-id}
 ----
 +
 ----
-https://www.mysite.com/?pinboard={object-id}/viz={sub-object-id}
+https://www.mysite.com/?liveboard={object-id}/viz={sub-object-id}
 ----
 Answer sharing URL::
 This URL provides a link to a shared answer from a search query.

@@ -3,7 +3,7 @@
 :toclevels: 1
 
 :page-title: Get Liveboard Data
-:page-pageid: Liveboard-api
+:page-pageid: liveboard-data-api
 :page-description: Liveboard Data API
 
 To retrieve data related to a Liveboard or visualization from the ThoughtSpot system, you can use the Liveboard data API.

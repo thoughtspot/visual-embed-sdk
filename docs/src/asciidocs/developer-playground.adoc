@@ -193,7 +193,7 @@ Dynamically resizes the embedded Liveboard frame according to the height of the 
 If the embedded Liveboard does not fit vertically within your application page, a second scroll bar may appear. When **Full Height** is selected, the embedded Liveboard container is automatically adjusted according to the height of the Liveboard.
 
 +++
-<a href="{{previewPrefix}}/playground/pinboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 +++
 
 
@@ -208,7 +208,7 @@ disabledActions: [Action.DownloadAsPdf]
 ----
 +
 +++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 +++
 
 * To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
@@ -221,7 +221,7 @@ hiddenActions: [Action.DownloadAsPdf]
 
 +
 +++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 +++
 
 
@@ -248,7 +248,7 @@ runtimeFilters: [{
 ----
 
 +++
-<a href="{{previewPrefix}}/playground/pinboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 +++
 
 For more information, see xref:runtime-filters.adoc[Runtime filters].

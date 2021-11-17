@@ -44,7 +44,7 @@ disabledActions: [Action.AddFilter, Action.Present]
 
 ++++
 
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Disable a custom action
@@ -70,7 +70,7 @@ disabledActionReason: "Contact your administrator to enable this action"
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Hide actions
@@ -89,7 +89,7 @@ hiddenActions: [Action.AddFilter, Action.Share]
 
 
 ++++
-<a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 === Hide a custom action

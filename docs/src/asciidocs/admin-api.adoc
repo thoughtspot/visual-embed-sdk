@@ -14,7 +14,6 @@ To access the admin API endpoints and send API requests, you must have admin use
 
 include::{path}/admin-api-list.adoc[]
 
-
 [#get-configInfo]
 == Get configuration details
 To get details of the current configuration of a ThoughtSpot cluster, send a `GET` request to the `/tspublic/v1/admin/configinfo` API.

@@ -13,7 +13,7 @@ To embed a Liveboard or visualization, construct the URL for the REST API call:
 . Log in to ThoughtSpot from a browser.
 . Navigate to the Liveboard from which you want to get data.
 . Find the ID number of the object you want to get the data from.
-+ 
++
 To embed a Liveboard, click the ellipses (...) icon, and then select *Copy embed link*.
 
 +
@@ -40,30 +40,30 @@ If the object is a Liveboard, copy the identifier that appears after `viz/`.
 image::./images/copy_link_pinboard.png[Copy Liveboard link, width=auto]
 
 +
-For visualizations (table or chart), copy the IDs that appear after `viz/`. 
+For visualizations (table or chart), copy the IDs that appear after `viz/`.
 +
 [.widthAuto]
 image::./images/copy_link_viz_pinboard_part.png[Copy visualization link, width=auto]
 
-. Construct the URL. 
+. Construct the URL.
 +
 For a Liveboard, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<liveboard_id>
 ----
 +
 For a visualization, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<liveboard_id>&vizid=%5B<visualization_id>%5D
 ----
 +
 [NOTE]
 ====
-Make sure you add brackets around the `vizid` parameter. The URL encoding for the opening bracket is `%5B` and the closing bracket is `%5D`. 
+Make sure you add brackets around the `vizid` parameter. The URL encoding for the opening bracket is `%5B` and the closing bracket is `%5D`.
 ====
 
 +
@@ -75,7 +75,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
-?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+?id=<liveboard_id>&vizid=%5B<visualization_id>%5D
 &col1=color&op1=EQ&val1=red
 ----
 

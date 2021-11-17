@@ -41,7 +41,7 @@ For more information, see xref:customize-style.adoc[Customize styles and layout]
 
 == Custom actions
 
-ThoughtSpot allows you to add custom actions to the embedded Liveboards and visualizations.
+ThoughtSpot allows you to add custom actions to embedded Liveboards and visualizations.
 
 For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.
 

@@ -162,7 +162,7 @@ For example, if the user has requested access to a specific visualization on a L
 +
 [source, HTML]
 ----
-https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>
+https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
 ----
 [NOTE]
 The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.

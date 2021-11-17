@@ -46,7 +46,7 @@ For a Liveboard, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>
 ----
 
 +
@@ -54,7 +54,7 @@ For a visualization, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D
 ----
 
 . To apply filters to the data, use runtime filters.
@@ -65,7 +65,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 +
 ----
 http://<base-uri>/callosum/v1/tspublic/v1/pinboarddata
-?id=<pinboard_id>&vizid=%5B<visualization_id>%5D
+?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D
 &col1=color&op1=EQ&val1=red
 ----
 
