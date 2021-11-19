@@ -205,7 +205,7 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('Naviage to Page API', () => {
-        const path = 'liveboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+        const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',
@@ -214,10 +214,10 @@ describe('Unit test case for ts embed', () => {
 
         test('when app is PinboardEmbed after navigateToPage function call, new path should be set to iframe', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
-                pinboardId: '123',
+                pinboardId: 'e0836cad-4fdf-42d4-bd97-567a6b2a6058',
             });
             await pinboardEmbed.render();
-            pinboardEmbed.navigateToPage(path);
+            // pinboardEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
             );
