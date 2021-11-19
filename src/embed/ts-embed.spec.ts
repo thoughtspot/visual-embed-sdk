@@ -7,6 +7,7 @@ import {
     PinboardEmbed,
     LiveboardViewConfig,
     AppEmbed,
+    LiveboardEmbed,
 } from '../index';
 import { Action } from '../types';
 import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
@@ -24,6 +25,7 @@ const defaultViewConfig = {
     },
 };
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 
@@ -119,7 +121,7 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('when visible actions are set', () => {
-        test('should throw error when there are both visible and hidden actions', async () => {
+        test('should throw error when there are both visible and hidden actions - pinboard', async () => {
             spyOn(console, 'log');
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
@@ -133,7 +135,21 @@ describe('Unit test case for ts embed', () => {
                 'You cannot have both hidden actions and visible actions',
             );
         });
-        test('should not throw error when there are only visible or hidden actions', async () => {
+        test('should throw error when there are both visible and hidden actions', async () => {
+            spyOn(console, 'log');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenActions: [Action.DownloadAsCsv],
+                visibleActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(true);
+            expect(console.log).toHaveBeenCalledWith(
+                'You cannot have both hidden actions and visible actions',
+            );
+        });
+        test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
                 ...defaultViewConfig,
@@ -141,6 +157,15 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(false);
+        });
+        test('should not throw error when there are only visible or hidden actions', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
         });
     });
 
@@ -180,6 +205,54 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('Naviage to Page API', () => {
+        const path = 'liveboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
+                () => 'http://tshost',
+            );
+        });
+
+        test('when app is PinboardEmbed after navigateToPage function call, new path should be set to iframe', async () => {
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                pinboardId: '123',
+            });
+            await pinboardEmbed.render();
+            pinboardEmbed.navigateToPage(path);
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
+            );
+        });
+
+        test('when app is AppEmbed after navigateToPage function call, new path should be set to iframe', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            appEmbed.navigateToPage(path);
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
+            );
+        });
+
+        test('navigateToPage function use before render', async () => {
+            spyOn(console, 'log');
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.navigateToPage(path);
+            await appEmbed.render();
+            expect(console.log).toHaveBeenCalledWith(
+                'Please call render before invoking this method',
+            );
+        });
+    });
+    describe('Naviage to Page API - Pinboard', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
