@@ -105,7 +105,7 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="AppEmbed.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="AppEmbed.html#navigateToPage" class="tsd-kind-icon">navigate<wbr>ToPage</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -185,7 +185,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="AppEmbed.html#navigateToPage" class="tsd-kind-icon">navigate<wbr>ToPage</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AppEmbed.html#navigateToPage" class="tsd-kind-icon">navigate<wbr>ToPage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="AppEmbed.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="AppEmbed.html#render" class="tsd-kind-icon">render</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="AppEmbed.html#trigger" class="tsd-kind-icon">trigger</a></li>
@@ -207,7 +207,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c446899/src/embed/app.ts#L92">embed/app.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/170af42c/src/embed/app.ts#L92">embed/app.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -226,25 +226,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="navigateToPage" class="tsd-anchor"></a>
 					<h3>navigate<wbr>ToPage</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">navigate<wbr>ToPage<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from V1Embed.navigateToPage</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c446899/src/embed/ts-embed.ts#L598">embed/ts-embed.ts:598</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/170af42c/src/embed/app.ts#L182">embed/app.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Navigates users to the specified application page.
-										Use this method to navigate users from the embedded
-									ThoughtSpot context to a specific page in your app.</p>
+									<p>Navigate to particular page for app embed. eg:answers/pinboards/home
+									This is used for embedding answers, pinboards, visualizations and full application only.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -252,9 +250,8 @@
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The page path string.
-											For example, to navigate users to a liveboard page,
-										define the method as navigateToPage(&#39;liveboard/&lt;liveboardId&gt;&#39;).</p>
+										<p>The string, set to iframe src and navigate to new page
+										eg: appEmbed.navigateToPage(&#39;pinboards&#39;)</p>
 									</div>
 								</li>
 							</ul>
@@ -273,7 +270,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c446899/src/embed/ts-embed.ts#L684">embed/ts-embed.ts:684</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/170af42c/src/embed/ts-embed.ts#L663">embed/ts-embed.ts:663</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,7 +297,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c446899/src/embed/app.ts#L181">embed/app.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/170af42c/src/embed/app.ts#L200">embed/app.ts:200</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,7 +320,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.trigger</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c446899/src/embed/ts-embed.ts#L638">embed/ts-embed.ts:638</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/170af42c/src/embed/ts-embed.ts#L617">embed/ts-embed.ts:617</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
