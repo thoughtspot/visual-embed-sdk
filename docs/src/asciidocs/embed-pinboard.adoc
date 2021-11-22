@@ -129,7 +129,7 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 ====
 
 disabledActionReason::
-_String_. Reason for disabling an action on a pinboard page.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 
 hiddenActions::
