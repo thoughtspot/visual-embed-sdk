@@ -31,21 +31,18 @@ For more information, see xref:embed-authentication.adoc[Embed user authenticati
 == Construct the embed content
 [source,JavaScript]
 ----
- const pinboardEmbed = new PinboardEmbed(
-    document.getElementById('ts-embed'),  
-    {
+const pinboardEmbed = new PinboardEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
-    disabledActions: [],
-    fullHeight: true,
-    disabledActionReason: '<reason for disabling>'
-    hiddenActions: [],
-    pinboardId: '<%=pinboardGUID%>',
-    runtimeFilters: [],
-    },
-    
+	disabledActions: [],
+	fullHeight: true,
+	disabledActionReason: '<reason for disabling>'
+	hiddenActions: [],
+	pinboardId: '<%=pinboardGUID%>',
+	runtimeFilters: [],
+},
 });
 ----
 frameParams:: 
@@ -63,12 +60,12 @@ disabledActions::
 _Array of strings_. The action menu items to be disabled on the pinboards page.
 +
 
-For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Present` action menu string in the `disabledActions` attribute.
+For example, to disable the *Present* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.Present` in the `disabledActions` attribute.
 
 +
 [source,JavaScript]
 ----
-disabledActions: Action.Present
+disabledActions: [Action.Present]
 ----
 ////
 +
@@ -77,25 +74,25 @@ disabledActions: Action.Present
 ++++
 ////
 
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the pinboards page.
 
 disabledActionReason::
-_String_. Reason for disabling an action on a pinboard page.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `DownloadAsPDF` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on the Pinboards page.
 +
 
-For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `AddFilter` action menu string in the `hiddenActions` attribute.
+For example, to hide *Add filters* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.AddFilter` in the `hiddenActions` attribute.
 
 +
 [source,JavaScript]
 ----
-hiddenActions: Action.AddFilter
+hiddenActions: [Action.AddFilter]
 ----
 ////
 +
@@ -104,30 +101,27 @@ hiddenActions: Action.AddFilter
 ++++
 +
 ////
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the  pinboards page.
 
 pinboardId::
 _String_. The GUID of the pinboard.
-////
-vizId [small]_optional_::
-_String_. The Global Unique Identifier (GUID) of a visualization added to the pinboard.
-////
+
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the Pinboard page loads.
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
+Runtime filters to apply when the Pinboard page loads.
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard by passing filter specifications as URL query parameters.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'color',
-  operator: RuntimeFilterOp.EQ,
-  values: [ 'red' ]
-  }]
+	columnName: 'color',
+	operator: RuntimeFilterOp.EQ,
+	values: ['red']
+}]
 ----
 ////
 
@@ -158,31 +152,31 @@ Register event handlers to subscribe to the events triggered by the embedded pin
 
 [source,javascript]
 ----
-  pinboardEmbed.on(EmbedEvent.init, showLoader)
-  pinboardEmbed.on(EmbedEvent.load, hideLoader)
-  pinboardEmbed.on(EmbedEvent.Error)
+pinboardEmbed.on(EmbedEvent.init, showLoader)
+pinboardEmbed.on(EmbedEvent.load, hideLoader)
+pinboardEmbed.on(EmbedEvent.Error)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the events triggered by the custom action:
 
 [source, javascript]
 ----
-    pinboardEmbed.on(EmbedEvent.customAction, payload => {
-    	const data = payload.data;
-    	if(data.id === 'insert Custom Action ID here') {
-    		console.log('Custom Action event:', data.columnsAndData);
-    	}
-    })
+pinboardEmbed.on(EmbedEvent.customAction, payload => {
+	const data = payload.data;
+	if(data.id === 'insert Custom Action ID here') {
+		console.log('Custom Action event:', data.columnsAndData);
+	}
+})
 ----
 For a complete list of event types that you can register, see  link:{{visualEmbedSDKPrefix}}/enums/embedevent.html[EmbedEvent, window=_blank].
 
 == Test the embedded workflow
 
 * Load the client application.
-* Try accessing a pinboard embedded in your application.
-* Verify the rendition.
-* If you have disabled a menu item, verify if the menu command is disabled on the pinboards page.
-* Verify the runtime filters.
+* Try accessing a Liveboard embedded in your application.
+* Verify if the embedded content renders correctly on your application page. 
+* If you have disabled an action, verify if the action appears as disabled on the *Pinboards* page.
+* If runtime filters are configured, verify if the filters are applied to the visualizations on the pinboard.
 
 == Code sample
 
@@ -190,4 +184,4 @@ See xref:code-samples.adoc[Code samples].
 
 == Additional resources
 
-For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
