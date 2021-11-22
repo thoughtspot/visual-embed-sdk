@@ -5,7 +5,7 @@
 :page-pageid: search-embed
 :page-description: Embed Search
 
-This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
+This article provides step-by-step instructions to embed ThoughtSpot search in your app. The embedded search API allows your application users to search for data from one or several data sources.
 
 ////
 == Import the JavaScript library
@@ -113,14 +113,14 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 ////
 
 disabledActions [small]#__Optional__#::
-_Array of strings_. Disables the specified menu items from the list of actions on a  search answer page. You can use this attribute to restrict user access to certain features.
+_Array of strings_. Disables the specified actions on the search results page. You can use this attribute to restrict user access to certain features.
 +
-For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `ShowUnderlyingData` action menu string in the `disabledActions` attribute.
+For example, to disable the *Show underlying data* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.ShowUnderlyingData` in the `disabledActions` attribute.
 
 +
 
 ----
-disabledActions: Action.ShowUnderlyingData
+disabledActions: [Action.ShowUnderlyingData]
 ----
 +
 
@@ -131,7 +131,7 @@ disabledActions: Action.ShowUnderlyingData
 ////
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -139,7 +139,7 @@ If you have xref:customize-actions-menu.adoc[added a custom action] and you want
 
 
 disabledActionReason [small]#__Optional__#::
-_String_. Indicates the reason for disabling an action on a search answer page.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 
 hideDataSources [small]#__Optional__#::
@@ -171,7 +171,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 
 hiddenActions [small]#__Optional__#::
-_Array of strings_. Hides the specified action menu items on a search answer page. You can use this attribute to remove actions that are not applicable to your application context.
+_Array of strings_. Hides the specified actions. You can use this attribute to remove the buttons and menu actions that are not relevant to your application context.
 
 ////
 +
@@ -183,10 +183,10 @@ _Array of strings_. Hides the specified action menu items on a search answer pag
 For example, to hide the *Share* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Share` action menu string in the `hiddenActions` attribute.
 
 ----
-hiddenActions: ['Action.Share']
+hiddenActions: [Action.Share]
 ----
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -278,9 +278,9 @@ searchEmbed.render();
 To verify the ThoughtSpot Search integration, perform the following tasks:
 
 * Load your application.
-* Search for data from a data source.
+* Perform a search operation and verify the results. 
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
-* If you have disabled a menu item on a search answer page, verify if the menu command is disabled.
+* Verify if the actions are displayed or hidden as configured in the SDK.  
 
 == Code sample
 
@@ -288,4 +288,4 @@ See xref:code-samples.adoc[Code samples].
 
 == Additional resources
 
-For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
