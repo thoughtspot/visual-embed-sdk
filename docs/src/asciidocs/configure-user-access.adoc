@@ -50,7 +50,7 @@ When an object is shared, users can view all the data regardless of the permissi
 
 [NOTE]
 ====
-If your application instance has classic Answer Experience enabled, administrators can restrict user access to pinboards by selecting the *Cannot create or update Pinboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disableActions` and `hideActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
+If your application instance has classic Answer Experience enabled, administrators can restrict user access to pinboards by selecting the *Cannot create or update Pinboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disabledActions` and `hiddenActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide actions].
 ====
 
 == Data access control with RLS and CLS
@@ -78,4 +78,4 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-sec
 
 If you are using Visual Embed SDK to embed ThoughtSpot objects and you want to restrict user access to certain menu actions, you can use the `disabledActions` and `hiddenActions` parameters. 
 
-For more information on disabling or hiding an action, see xref:embed-actions.adoc[Disable or hide menu actions].
+For more information on disabling or hiding an action, see xref:embed-actions.adoc[Disable or hide actions].
