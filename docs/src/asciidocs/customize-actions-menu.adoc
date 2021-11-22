@@ -18,6 +18,11 @@ The ThoughtSpot Developer portal allows you to add a custom action to all visual
 * Local actions
 +
 You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a *Local* action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a visualization] or xref:custom-actions-worksheet.adoc[to all new visualizations generated from a specific worksheet]. 
+
+* Access control
++
+Custom actions are visible to all users by default. However, only those users who have edit access to an answer or worksheet can view, edit, or assign a custom action to a visualization. For granular access control, you can associate a custom action to one or several user groups, and allow only users from these groups to access and use the custom action. To restrict access to a specific group, you must click *Show advanced availability settings* and select one or several user groups.  
+ 
  
 Overview::
 
