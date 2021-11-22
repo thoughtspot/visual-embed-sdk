@@ -97,21 +97,19 @@ import {
 	Page,
 	AuthType,
 	init
-} from '@thoughtspot/visual-embed-sdk';
+}
+from '@thoughtspot/visual-embed-sdk';
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.None,
 });
-const appEmbed = new AppEmbed(
-document.getElementById('ts-embed'), {
+const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
 	pageId: Page.Data,
-
 },
-
 });
 appEmbed.render();
 ----
@@ -124,80 +122,63 @@ The following examples show how to call REST APIs to query and import data using
 
 [source,javascript]
 ----
-export const getSearchData = async (worksheetId, search) => {
+export const getSearchData = async(worksheetId, search) => {
 	console.log(`Getting data from the SearchAPI from worksheet ${worksheetId} with search ${search}`);
 	let getSearchDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/searchdata?`;
 	getSearchDataURL += `"batchSize=-1&data_source_guid=${worksheetId}&query_string=${search}`;
-
-	return await fetch(
-			encodeURI(getSearchDataURL), {
-				method: 'POST',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include",
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => console.error(`Error getting search data ${error}`));
+	return await fetch(encodeURI(getSearchDataURL), {
+		method: 'POST',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include",
+	}).then(response => response.json()).then(data => data).catch(error => console.error(`Error getting search data ${error}`));
 }
 ----
 === Embed visualization data from a pinboard
 
 [source,javascript]
-----
-export const getPinboardData = async (pinboardId, vizIds) => {
+---- 
+export const getPinboardData = async(pinboardId, vizIds) => {
 	console.log(`Getting data from pinboard ${pinboardId} and visualization(s) ${vizIds}`)
 	let getPinboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${pinboardId}`;
-
-	if (vizIds) { // if vizIds were specified, they are optional
-		if (!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
+	if(vizIds) { // if vizIds were specified, they are optional
+		if(!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
 			vizIds = [vizIds];
 		}
-
 		// TODO add handling for invalid types.  Currently only support string and array.
 		const formattedVizIds = `["${vizIds.join('","')}"]`;
 		getPinboardDataURL += '&vizid=' + formattedVizIds;
 	}
-
-	return await fetch(
-			encodeURI(getPinboardDataURL), {
-				method: 'POST',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error(`Unable to get the visualization list for pinboard ${pinboardId}: ${error}`);
-		});
+	return await fetch(encodeURI(getPinboardDataURL), {
+		method: 'POST',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error(`Unable to get the visualization list for pinboard ${pinboardId}: ${error}`);
+	});
 }
 ----
 === Get a list of visualizations on a pinboard
 
 [source,javascript]
 ----
-export const getVisualizationList = async (pinboardId) => {
+export const getVisualizationList = async(pinboardId) => {
 	const vizMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + pinboardId;
-
-	return await fetch(
-			vizMetadataListURL, {
-				method: 'GET',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error("Unable to get the visualization list for pinboard " + pinboardId + ": " + error)
-		});
+	return await fetch(vizMetadataListURL, {
+		method: 'GET',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error("Unable to get the visualization list for pinboard " + pinboardId + ": " + error)
+	});
 }
 ----
 
@@ -205,26 +186,19 @@ export const getVisualizationList = async (pinboardId) => {
 
 [source,javascript]
 ----
-export const getPinboardList = async () => {
+export const getPinboardList = async() => {
 	// Returns the list of pinboards so the user can display them.
-	const pinboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
-		"type=PINBOARD_ANSWER_BOOK" +
-		"&batchsize=-1";
-
-	return await fetch(
-			pinboardMetadataListURL, {
-				method: 'GET',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error("Unable to get the pinboard list: " + error)
-		});
+	const pinboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" + "type=PINBOARD_ANSWER_BOOK" + "&batchsize=-1";
+	return await fetch(pinboardMetadataListURL, {
+		method: 'GET',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error("Unable to get the pinboard list: " + error)
+	});
 }
 ----
 
