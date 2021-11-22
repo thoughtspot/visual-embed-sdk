@@ -14,14 +14,17 @@ Import the PinboardEmbed SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
+import { PinboardEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
-<script type='module'>
-import { PinboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+< script type = 'module' >
+	import {
+		PinboardEmbed, AuthType, init, prefetch
+	}
+from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Initialize the SDK
@@ -56,7 +59,7 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-== Configure security parameters
+== Configure security and login parameters
 
 include::{path}/embed-config.adoc[]
 
@@ -100,22 +103,22 @@ _Integer_. Minimum height to set for embedded objects on a pinboard page and the
 
 
 disabledActions::
-_Array of strings_. The action menu items to be disabled on the pinboards page.
+_Array of strings_. The actions that must appear as disabled on the Pinboards page.
 +
 
-For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Present` action menu string in the `disabledActions` attribute.
+For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.Present` in the `disabledActions` attribute.
 
 +
 [source,JavaScript]
 ----
-disabledActions: Action.Present
+disabledActions: [Action.Present]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of actions and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -130,22 +133,22 @@ _String_. Reason for disabling an action on a pinboard page.
 
 
 hiddenActions::
-_Array of strings_. The action menu items to hide on the Pinboards page.
+_Array of strings_. The actions to hide on the Pinboards page.
 +
 
-For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `AddFilter` action menu string in the `hiddenActions` attribute.
+For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.AddFilter` in the `hiddenActions` attribute.
 
 +
 [source,JavaScript]
 ----
-hiddenActions: Action.AddFilter
+hiddenActions: [Action.AddFilter]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of actions and the corresponding strings, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 [NOTE]
 ====
@@ -156,10 +159,7 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 
 pinboardId::
 _String_. The GUID of the pinboard.
-////
-vizId [small]_optional_::
-_String_. The Global Unique Identifier (GUID) of a visualization added to the pinboard.
-////
+
 enableVizTransformations::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
@@ -168,8 +168,8 @@ preventPinboardFilterRemoval::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a pinboard visualization.
 
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the pinboard page loads.
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard and pass filter specifications in the URL query parameters.
+Runtime filters to apply when the pinboard page loads.
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard by passing filter specifications as URL query parameters.
 +
 Runtime filters do not appear to the user in the pinboard UI. They do not adjust the values of visible pinboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
 +
@@ -238,4 +238,4 @@ pinboardEmbed.render();
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
