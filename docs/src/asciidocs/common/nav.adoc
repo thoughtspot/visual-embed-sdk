@@ -25,7 +25,7 @@
 ** link:{{navprefix}}=embed-pinboard[Embed a pinboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
-** link:{{navprefix}}=action-config[Disable or hide menu actions]
+** link:{{navprefix}}=action-config[Disable or hide actions]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
