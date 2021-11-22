@@ -65,38 +65,33 @@ Create an instance of the AppEmbed object and pass the parameters for the applic
 
 [source,javascript]
 ----
- const appEmbed = new AppEmbed(
- document.getElementById('ts-embed'), 
-    {
-     frameParams: {
-         width: '100%',
-         height: '100%',
-    
-     },
-     disabledActions: [],
-     disabledActionReason: '<reason for disabling>'
-     hiddenActions: [],
-     showPrimaryNavbar: true,
-     pageId: Page.Data,
-     path: '<url-string>',
-     runtimeFilters: [],
-     
-     },
-  
-  });
+const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
+	frameParams: {
+		width: '100%',
+		height: '100%',
+	},
+	disabledActions: [],
+	disabledActionReason: '<reason for disabling>'
+	hiddenActions: [],
+	showPrimaryNavbar: true,
+	pageId: Page.Data,
+	path: '<url-string>',
+	runtimeFilters: [],
+},
+});
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application. You can set the `width` and `height` attribute values in pixels or as a percentage. 
 
 disabledActions::
-_Array of strings_. The action menu items to be disabled on the ThoughtSpot application pages.
+_Array of strings_. The actions that you want to show as disabled in the embedded ThoughtSpot UI.
 +
 
-For example, to disable the *download* action from the *More* (*...*) menu on the pinboard or visualization page, specify the `Download` action menu string in the `disabledActions` attribute.
+For example, to disable the *download* action from the *More* (*...*) menu on the pinboard or visualization page, specify `Action.Download` in the `disabledActions` attribute.
 
 +
 [source,JavaScript]
 ----
-disabledActions: Action.Download
+disabledActions: [Action.Download]
 ----
 
 ////
@@ -108,7 +103,7 @@ disabledActions: Action.Download
 +
 ////
 
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 
 [NOTE]
@@ -117,19 +112,19 @@ If you have xref:customize-actions-menu.adoc[added a custom action] and you want
 ====
 
 disabledActionReason::
-_String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 hiddenActions::
 _Array of strings_. The action menu items to hide on a pinboard or visualization page.
 +
 
-For example, to hide the *Download* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Download` action menu string in the `hiddenActions` attribute.
+For example, to hide the *Download* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.Download` in the `hiddenActions` attribute.
 
 +
 [source,JavaScript]
 +
 ----
-hiddenActions: Action.Download
+hiddenActions: [Action.Download]
 ----
 
 ////
@@ -140,7 +135,7 @@ hiddenActions: Action.Download
 
 +
 ////
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action menu items and the corresponding strings, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
 
 [NOTE]
 If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute. For example, if a custom action is created with the *Send Email* label and the ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a  ThoughtSpot application page.
@@ -188,21 +183,18 @@ Displays the *Home* page when the application loads.
 ++++
 ////
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the pinboard or visualization page loads.
+Runtime filters to apply when the pinboard or visualization page loads.
 Runtime filters provide the ability to pass filter specifications in the URL query parameters and filter data at the time of retrieval.  
 +
 For example, to sort values equal to `100000` in the `Revenue` column for a visualization in a pinboard, you can pass the runtime filter in the URL query parameters as shown here:
 +
 [source,javascript]
 ----
-runtimeFilters: [
-{
-      columnName: 'Revenue',
-      operator: 'EQ',
-      values: [ 100000 ]
-
-},
-]
+runtimeFilters: [{
+	columnName: 'Revenue',
+	operator: 'EQ',
+	values: [100000]
+}, ]
 ----
 
 ////
@@ -231,9 +223,9 @@ Register event handlers to subscribe to the events triggered by the ThoughtSpot 
 
 [source, javascript]
 ----
- appEmbed.on(EmbedEvent.init, showLoader)
- appEmbed.on(EmbedEvent.load, hideLoader)
- appEmbed.on(EmbedEvent.Error)
+appEmbed.on(EmbedEvent.init, showLoader)
+appEmbed.on(EmbedEvent.load, hideLoader)
+appEmbed.on(EmbedEvent.Error)
 ----
 
 If you have added a xref:customize-actions-menu.adoc[custom action], register an event handler to manage the event triggered by the custom action:
@@ -259,10 +251,7 @@ To verify the ThoughtSpot application integration, perform the following tasks:
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item on a ThoughtSpot application page, verify if the menu command is disabled.
 
-
-== Code sample
-
-See xref:code-samples.adoc[Code samples].
-
 == Additional resources
-For more information on AppEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+
+* For code examples, see xref:code-samples.adoc[Code samples].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
