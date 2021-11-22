@@ -1,4 +1,4 @@
-= Disable or hide menu actions
+= Disable or hide actions
 :toc: true
 :toclevels: 1
 
