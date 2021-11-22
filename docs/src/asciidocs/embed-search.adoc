@@ -147,7 +147,7 @@ For example, if the custom action ID is set as *send-email*, use `send-email` in
 
 disabledActionReason [small]#__Optional__#::
 _String_.
-Indicates the reason for disabling an action on search data.
+The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 
 hideDataSources [small]#__Optional__#::
@@ -234,6 +234,7 @@ For example, to use the `product` and `sales` keywords, you can set the search t
     searchTokenString: '[sales][product name]'
 
 * `executeSearch`
++
 __Boolean__.
 When set to `true`, the focus is placed on search results.
 When set to `false`, the focus is placed at the end of search tokens in the search bar.
