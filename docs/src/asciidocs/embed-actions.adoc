@@ -6,7 +6,7 @@
 :page-pageid: action-config
 :page-description: Show or hide actions in embedded Liveboards, visualizations and ThoughtSpot application
 
-ThoughtSpot visualizations, Liveboards, and saved search answers support several actions and menu commands for various user-initiated operations. These actions appear as primary buttons, menu commands in the *More* menu image:./images/icon-more-10px.png[the more options menu] or contextual menu that appears when a user right-clicks on a visualization in a Liveboard or saved answer page. When you embed a ThoughtSpot Liveboard, visualization, or the entire application experience in another app, xref:embed-actions.adoc#standard-actions[these actions] will be available to all users by default. However, your application users may not require access to all the available menu actions, or you may want to restrict access to certain features based on the user persona or group privileges. 
+ThoughtSpot visualizations, Liveboards, and saved search answers support several actions and menu commands for various user-initiated operations. These actions appear as primary buttons, or as menu commands in the *More* menu image:./images/icon-more-10px.png[the more options menu] or contextual menu. When you embed a ThoughtSpot Liveboard, visualization, or the entire application experience in another app, xref:embed-actions.adoc#standard-actions[these actions] will be available to all users by default. However, your application users may not require access to all the available menu actions, or you may want to restrict access to certain features based on the user persona or group privileges. 
 
 With Visual Embed SDK APIs, you can define a set of actions that your application users can access and use. The Visual Embed SDK packages support the following APIs to configure the visibility and availability of actions:
 
@@ -18,6 +18,8 @@ Allows you to define a list of actions that will appear as disabled. You can als
 
 hiddenActions::
 Allows you to hide the actions that you don't want your users to see. If your embedded instance requires most of the actions and you need to hide a few, you can use this API to hide only those actions.
+
+include::{path}/custom-action-note.adoc[]
 
 == Configuration recommendations
 
@@ -165,7 +167,6 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 
 [source,JavaScript]
 ----
-
 disabledActions: [Action.send-email]
 ----
 
@@ -384,7 +385,9 @@ Allows you to run SpotIQ analyses. Available as a primary button and contextual 
 `AppEmbed`|*Share* 
 
 Allows you to share an answer with another user or a user group.
-|`Action.Pin`|`AppEmbed`|*Pin*
+|`Action.Pin`|`SearchEmbed`
+
+`AppEmbed`|*Pin*
 
 Pins the answer to a Liveboard.
 

@@ -19,10 +19,10 @@ import {
 	SearchEmbed,
 	AuthType,
 	init
-} from '@thoughtspot/visual-embed-sdk';
+}
+from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
-
 init({
 	thoughtSpotHost: "<%=tshost%>",
 	authType: AuthType.SSO,
@@ -47,10 +47,10 @@ import {
 	LiveboardEmbed,
 	AuthType,
 	init
-} from '@thoughtspot/visual-embed-sdk';
+}
+from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
-
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.SSO,
@@ -75,17 +75,15 @@ import {
 	LiveboardEmbed,
 	AuthType,
 	init
-} from '@thoughtspot/visual-embed-sdk';
+}
+from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
-
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.SSO,
 });
-
-const liveboardEmbed = new LiveboardEmbed(
-document.getElementById('ts-embed'), {
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
@@ -93,7 +91,6 @@ document.getElementById('ts-embed'), {
 	liveboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
 },
 });
-
 liveboardEmbed.render();
 ----
 
@@ -106,24 +103,21 @@ import {
 	Page,
 	AuthType,
 	init
-} from '@thoughtspot/visual-embed-sdk';
+}
+from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
-
 init({
 	thoughtSpotHost: '<%=tshost%>',
 	authType: AuthType.None,
 });
-const appEmbed = new AppEmbed(
-document.getElementById('ts-embed'), {
+const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
 	pageId: Page.Data,
-
 },
-
 });
 appEmbed.render();
 ----
@@ -135,14 +129,14 @@ The following example shows how to trigger an event from the embedded ThoughtSpo
 [source,JAVASCRIPT]
 ----
 searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
-    const {
-        payload: clickedPointData
-    } = data;
-    console.log('>>> called', clickedPointData);
-    embed.trigger(HostEvent.DrillDown, {
-        points: clickedPointData,
-        autoDrillDown: true,
-    });
+	const {
+		payload: clickedPointData
+	} = data;
+	console.log('>>> called', clickedPointData);
+	embed.trigger(HostEvent.DrillDown, {
+		points: clickedPointData,
+		autoDrillDown: true,
+	});
 })
 ----
 
@@ -154,80 +148,63 @@ The following examples show how to call REST APIs to query and import data using
 
 [source,javascript]
 ----
-export const getSearchData = async (worksheetId, search) => {
+export const getSearchData = async(worksheetId, search) => {
 	console.log(`Getting data from the SearchAPI from worksheet ${worksheetId} with search ${search}`);
 	let getSearchDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/searchdata?`;
 	getSearchDataURL += `"batchSize=-1&data_source_guid=${worksheetId}&query_string=${search}`;
-
-	return await fetch(
-			encodeURI(getSearchDataURL), {
-				method: 'POST',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include",
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => console.error(`Error getting search data ${error}`));
+	return await fetch(encodeURI(getSearchDataURL), {
+		method: 'POST',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include",
+	}).then(response => response.json()).then(data => data).catch(error => console.error(`Error getting search data ${error}`));
 }
 ----
 === Embed visualization data from a Liveboard
 
 [source,javascript]
 ----
-export const getLiveboardData = async (liveboardId, vizIds) => {
+export const getLiveboardData = async(liveboardId, vizIds) => {
 	console.log(`Getting data from Liveboard ${liveboardId} and visualization(s) ${vizIds}`)
 	let getLiveboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${liveboardId}`;
-
-	if (vizIds) { // if vizIds were specified, they are optional
-		if (!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
+	if(vizIds) { // if vizIds were specified, they are optional
+		if(!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
 			vizIds = [vizIds];
 		}
-
 		// TODO add handling for invalid types.  Currently only support string and array.
 		const formattedVizIds = `["${vizIds.join('","')}"]`;
 		getLiveboardDataURL += '&vizid=' + formattedVizIds;
 	}
-
-	return await fetch(
-			encodeURI(getLiveboardDataURL), {
-				method: 'POST',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error(`Unable to get the visualization list for Liveboard ${liveboardId}: ${error}`);
-		});
+	return await fetch(encodeURI(getLiveboardDataURL), {
+		method: 'POST',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error(`Unable to get the visualization list for Liveboard ${liveboardId}: ${error}`);
+	});
 }
 ----
 === Get a list of visualizations on a Liveboard
 
 [source,javascript]
 ----
-export const getVisualizationList = async (liveboardId) => {
+export const getVisualizationList = async(liveboardId) => {
 	const vizMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + liveboardId;
-
-	return await fetch(
-			vizMetadataListURL, {
-				method: 'GET',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error("Unable to get the visualization list for Liveboard " + liveboardId + ": " + error)
-		});
+	return await fetch(vizMetadataListURL, {
+		method: 'GET',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error("Unable to get the visualization list for Liveboard " + liveboardId + ": " + error)
+	});
 }
 ----
 
@@ -235,26 +212,19 @@ export const getVisualizationList = async (liveboardId) => {
 
 [source,javascript]
 ----
-export const getLiveboardList = async () => {
+export const getLiveboardList = async() => {
 	// Returns the list of Liveboards so the user can display them.
-	const liveboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" +
-		"type=PINBOARD_ANSWER_BOOK" +
-		"&batchsize=-1";
-
-	return await fetch(
-			liveboardMetadataListURL, {
-				method: 'GET',
-				headers: {
-					"Accept": "application/json",
-					"X-Requested-By": "ThoughtSpot"
-				},
-				credentials: "include"
-			})
-		.then(response => response.json())
-		.then(data => data)
-		.catch(error => {
-			console.error("Unable to get the Liveboard list: " + error)
-		});
+	const liveboardMetadataListURL = store_state. < ThoughtSpot - Host > +"/callosum/v1/tspublic/v1/metadata/listobjectheaders?" + "type=PINBOARD_ANSWER_BOOK" + "&batchsize=-1";
+	return await fetch(liveboardMetadataListURL, {
+		method: 'GET',
+		headers: {
+			"Accept": "application/json",
+			"X-Requested-By": "ThoughtSpot"
+		},
+		credentials: "include"
+	}).then(response => response.json()).then(data => data).catch(error => {
+		console.error("Unable to get the Liveboard list: " + error)
+	});
 }
 ----
 
