@@ -21,8 +21,7 @@ You may want to add a custom action to only a specific visualization. To do this
 
 * Access control
 +
-Custom actions are visible to all users by default. However, only those users who have edit access to an answer or worksheet can view, edit, or assign a custom action to a visualization. For granular access control, you can associate a custom action to one or several user groups, and allow only users from these groups to access and use the custom action. To restrict access to a specific group, you must click *Show advanced availability settings* and select one or several user groups.  
- 
+Custom actions are visible to all users by default. However, only those users who have edit access to an answer or worksheet can view, edit, or assign a custom action to a visualization. For granular access control, you can associate a custom action to user groups so that the users belonging to the allowed groups can access and use the custom action. To restrict user access to custom actions, click *Show advanced availability settings* and select one or several user groups.    
  
 Overview::
 
