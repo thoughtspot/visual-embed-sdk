@@ -294,7 +294,7 @@ Publishes the modified TML representation of a Liveboard object.
 
 [IMPORTANT]
 ====
-The *Follow* action is deprecated in the ThoughtSpot 8 Cloud release and is replaced with the **Schedule ** button in the UI. ThoughtSpot users can now use this button to schedule Liveboard notifications. Due to this change, the `Action.Subscription` enumerator is  deprecated in the Visual Embed SDK 1.6.0 and later versions.
+The *Follow* action is deprecated in the ThoughtSpot 8 Cloud release. The corresponding action string, `Action.Subscription` is also deprecated in Visual Embed SDK version 1.6.0.
 ====
 
 [#viz-actions]
