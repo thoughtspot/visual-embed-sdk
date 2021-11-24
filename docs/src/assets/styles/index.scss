@@ -195,7 +195,15 @@ button {
     color: var(--primary-color);
 
 }
+ 
+summary.title  {
+    font-size: $font-size-h5;
+    margin-top: $margin-sm;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-doc;
+    color: var(--primary-color);
 
+}
 
 
 /* Div box style end */

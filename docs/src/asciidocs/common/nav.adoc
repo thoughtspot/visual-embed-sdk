@@ -6,6 +6,8 @@
 [navSection]
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=whats-new[What's new]
+** link:{{navprefix}}=terminology[Terminology changes]
+
 * link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
