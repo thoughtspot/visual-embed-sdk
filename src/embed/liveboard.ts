@@ -166,8 +166,8 @@ export class LiveboardEmbed extends V1Embed {
 
     private handleRouteChangeFullHeightLiveboard = (data: MessagePayload) => {
         if (
-            data.data.currentRoute !== 'EMBED' &&
-            data.data.currentRoute !== 'pinboard'
+            data.data.currentPath !== 'EMBED' &&
+            data.data.currentPath !== 'pinboard'
         ) {
             this.setIFrameHeight(this.defaultHeight);
         }
