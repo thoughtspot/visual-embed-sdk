@@ -29,7 +29,7 @@ pinboard|No change
 |Develop tab|Pinboard |Liveboard 
 |Developer playground|Pinboard|Liveboard
 |Code samples in Playground |Pinboard 
-pinboard| Liveboard. For more information, see  [Terminology changes in the Visual Embed SDK]
+pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-changes[Terminology changes in the Visual Embed SDK].
 |Embedded ThoughtSpot UI| Pinboard| Liveboard
 |====
  

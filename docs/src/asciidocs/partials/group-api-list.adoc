@@ -31,7 +31,7 @@ Gets a list of users assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl# 
+`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]`  
 
 Adds users to a specific group.
 
@@ -43,13 +43,13 @@ Updates user data for a given group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  
 
 Gets details of the users that are currently assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]`  
 
 Removes users from a group.
 

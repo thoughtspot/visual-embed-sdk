@@ -30,7 +30,7 @@ include::{path}/auth-token-api.adoc[]
 
 
 [#session-loginToken]
-== Authenticate and log in a user 
+== Authenticate and log in a user
 include::{path}/login-token-api.adoc[]
 
 

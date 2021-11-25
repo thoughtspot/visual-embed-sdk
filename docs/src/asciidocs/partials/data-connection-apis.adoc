@@ -2,13 +2,13 @@
 [div boxDiv boxFullWidth]
 --
 
-`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` 
+`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` [tag orangeBackground]#MODIFIED in ts8.nov.cl#
 
 Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` 
+`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` [tag orangeBackground]#MODIFIED in ts8.nov.cl#
 
 Modifies a data connection.
 

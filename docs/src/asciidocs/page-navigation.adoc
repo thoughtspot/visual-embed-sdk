@@ -1,4 +1,4 @@
-= Add a custom action for in-app navigation
+= Customize in-app navigation
 :toc: true
 
 :page-title: Customize page navigation
@@ -6,10 +6,12 @@
 :page-description: Customized page navigation
 
 To provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app.
-The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.  
+
+The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
 
 To add a custom action for in-app navigation, follow these steps:
 
+. Make sure you have embedded the full ThoughtSpot app in your application. The `navigateToPage` API is available only with the `AppEmbed` package.
 . xref:custom-actions-callback.adoc[Add a custom action].
 . Register the callback in the Visual Embed SDK
 . Define the page path 
