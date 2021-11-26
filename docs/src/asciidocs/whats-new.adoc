@@ -50,6 +50,9 @@ The SDK supports the following new events:
 * `SetVisibleVizs`
 * `DialogOpen`
 * `DialogClose`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+
 |====
 
 === REST API 
@@ -57,7 +60,7 @@ The SDK supports the following new events:
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW API# a|`POST /tspublic/v1/session/login/token` 
+|[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token` 
 
 This API allows you to securely send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
 
