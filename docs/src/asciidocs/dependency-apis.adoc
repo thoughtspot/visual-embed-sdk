@@ -716,7 +716,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 
 When a default Liveboard is assigned to a user group in ThoughtSpot, it is used for onboarding new users of that group. Users of this group can also mark the default Liveboard as a favorite and use its data source for a new search.
 
-If a Liveboard is set as a default Liveboard for a user group, the `/tspublic/v1/dependency/pinboard` endpoint will return the  user group as a dependent object for that Liveboard. The API request does not return data objects such as tables, views, and worksheets as dependent objects.
+If a Liveboard is set as a default Liveboard for a user group, the `/tspublic/v1/dependency/pinboard` endpoint will return the  user group as a dependent object for that Liveboard. This API endpoint does not return other dependent data objects such as tables, views, and worksheets.
  
 === Resource URL
 ----
