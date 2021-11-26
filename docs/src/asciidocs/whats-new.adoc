@@ -41,7 +41,7 @@ You can now configure a set of ThoughtSpot UI actions as visible actions and dis
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 |[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
 
-The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc[Terminology changes]. 
+The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 
 
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
 
