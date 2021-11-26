@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2021
  *
- * Embed a ThoughtSpot liveboard or visualization
+ * Embed a ThoughtSpot Liveboard or visualization
  * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard
  * https://developers.thoughtspot.com/docs/?pageid=embed-a-viz
  *
@@ -22,19 +22,19 @@ import { getFilterQuery, getQueryParamString } from '../utils';
 import { V1Embed, ViewConfig } from './ts-embed';
 
 /**
- * The configuration for the embedded liveboard or visualization page view.
+ * The configuration for the embedded Liveboard or visualization page view.
  * @Category Liveboards and Charts
  */
 export interface LiveboardViewConfig extends ViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
-     * according to the height of the liveboard.
+     * according to the height of the Liveboard.
      */
     fullHeight?: boolean;
     /**
-     * This is the minimum height(in pixels) for a full height liveboard.
-     * Setting this height helps resolves issues with empty liveboards and
-     * other screens navigable from a liveboard.
+     * This is the minimum height(in pixels) for a full height Liveboard.
+     * Setting this height helps resolves issues with empty Liveboards and
+     * other screens navigable from a Liveboard.
      * *_since 1.5.0_
      * @default 500
      */
@@ -44,7 +44,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     enableVizTransformations?: boolean;
     /**
-     * The liveboard to display in the embedded view.
+     * The Liveboard to display in the embedded view.
      * Use either of liveboardId or pinboardId to reference the Liveboard to embed.
      */
     liveboardId?: string;
@@ -54,12 +54,12 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     pinboardId?: string;
     /**
-     * The visualization within the liveboard to display.
+     * The visualization within the Liveboard to display.
      */
     vizId?: string;
     /**
      * If set to true, all filter chips from a
-     * liveboard page will be read-only (no X buttons)
+     * Liveboard page will be read-only (no X buttons)
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
@@ -70,7 +70,7 @@ export interface LiveboardViewConfig extends ViewConfig {
 }
 
 /**
- * Embed a ThoughtSpot liveboard or visualization
+ * Embed a ThoughtSpot Liveboard or visualization
  * @Category Liveboards and Charts
  */
 export class LiveboardEmbed extends V1Embed {
@@ -85,7 +85,7 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Construct a map of params to be passed on to the
-     * embedded liveboard or visualization.
+     * embedded Liveboard or visualization.
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
@@ -120,12 +120,12 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     /**
-     * Construct the URL of the embedded ThoughtSpot liveboard or visualization
+     * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iframe.
-     * @param liveboardId The GUID of the liveboard.
-     * @param vizId The optional GUID of a visualization within the liveboard.
+     * @param liveboardId The GUID of the Liveboard.
+     * @param vizId The optional GUID of a visualization within the Liveboard.
      * @param runtimeFilters A list of runtime filters to be applied to
-     * the liveboard or visualization on load.
+     * the Liveboard or visualization on load.
      */
     private getIFrameSrc(
         liveboardId: string,
@@ -174,8 +174,8 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     /**
-     * Render an embedded ThoughtSpot liveboard or visualization
-     * @param renderOptions An object specifying the liveboard ID,
+     * Render an embedded ThoughtSpot Liveboard or visualization
+     * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
      */
     public render(): LiveboardEmbed {

@@ -124,14 +124,14 @@ export interface EmbedConfig {
      * When there are multiple embeds, queue the render of embed to start
      *  after the previous embed's render is complete. This helps in the load performance
      *  by decreasing the load on the browser.
-     * * _since: 1.5.0_
+     * * _Version 1.5.0 or later _
      * @default false
      */
     queueMultiRenders?: boolean;
 
     /**
      * Dynamic CSS Url to be injected in the loaded application.
-     * * _since: 1.6.0_
+     * * _Version 1.6.0 or later _
      * @default ''
      */
     customCssUrl?: string;
@@ -213,7 +213,7 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * A filter that can be applied to ThoughtSpot answers, liveboards, or
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
  * visualizations at runtime.
  */
 export interface RuntimeFilter {
@@ -253,12 +253,12 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to answer or liveboard is received
-     * @return data - The answer or liveboard data
+     * Data pertaining to answer or Liveboard is received
+     * @return data - The answer or Liveboard data
      */
     Data = 'data',
     /**
-     * Search/answer/liveboard filters have been applied/updated
+     * Search/answer/Liveboard filters have been applied/updated
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
@@ -281,13 +281,13 @@ export enum EmbedEvent {
     /**
      * A custom action has been triggered
      * @return actionId - The id of the custom action
-     * @return data - The answer or liveboard data
+     * @return data - The answer or Liveboard data
      */
     CustomAction = 'customAction',
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * * _since: 1.5.0_
+     * * _Version 1.5.0 or later _
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -305,8 +305,8 @@ export enum EmbedEvent {
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
-     * The height of the embedded liveboard or visualization has been computed.
-     * @return data - The height of the embedded liveboard or visualization
+     * The height of the embedded Liveboard or visualization has been computed.
+     * @return data - The height of the embedded Liveboard or visualization
      * @hidden
      */
     EmbedHeight = 'EMBED_HEIGHT',
@@ -341,12 +341,12 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     * * _since: 1.6.0_
+     * * _Version 1.6.0 or later _
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     * * _since: 1.6.0_
+     * * _Version 1.6.0 or later _
      */
     DialogClose = 'dialog-close',
 }
@@ -369,7 +369,7 @@ export enum HostEvent {
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column. \
-     * * _since: 1.5.0_
+     * * _Version 1.5.0 or later _
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -383,10 +383,10 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Set the visible Vizs on a pinboard/liveboard.
-     * @param - an array of ids of vizs to show, the ids not passed
+     * Set the visible visualizations on a Liveboard.
+     * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
-     * * _since: 1.6.0_
+     * * _Version 1.6.0 or later _
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
@@ -445,7 +445,7 @@ export enum Param {
 
 /**
  * The list of actions that can be performed on visual ThoughtSpot
- * entities, such as answers and liveboards.
+ * entities, such as answers and Liveboards.
  */
 // eslint-disable-next-line no-shadow
 export enum Action {

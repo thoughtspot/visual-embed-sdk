@@ -72,7 +72,7 @@ export interface AppViewConfig extends ViewConfig {
     pageId?: Page;
     /**
      * This puts a filter tag on the application. All metadata lists in the application, such as
-     * liveboards and answers, would be filtered by this tag.
+     * Liveboards and answers, would be filtered by this tag.
      */
     tag?: string;
     /**
@@ -95,7 +95,7 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Constructs a map of parameters to be passed on to the
-     * embedded liveboard or visualization.
+     * embedded Liveboard or visualization.
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
