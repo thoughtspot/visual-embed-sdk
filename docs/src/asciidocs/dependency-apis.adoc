@@ -716,8 +716,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 
 [#get-dependents-pinboard]
 == Get dependent details for pinboards
-To get the details of dependent objects for a pinboard, send a `GET` request to the `GET /tspublic/v1/dependency/pinboard` API endpoint.
 
+When a default pinboard is assigned to a user group in ThoughtSpot, it is used for onboarding new users of that group. Users of this group can also mark the default pinboard as a favorite and use its data source for a new search.
+
+If a pinboard is set as a default pinboard for a user group, the `/tspublic/v1/dependency/pinboard` endpoint will return the  user group as a dependent object for that pinboard. This API endpoint does not return other dependent data objects such as tables, views, and worksheets.
+ 
 === Resource URL
 ----
 GET /tspublic/v1/dependency/pinboard
@@ -727,7 +730,7 @@ GET /tspublic/v1/dependency/pinboard
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__Array of strings__. A JSON array of the GUIDs of the pinboard.
+|`id`|__Array of strings__. A JSON array of pinboard GUIDs.
 |====
 
 === Example request
@@ -737,12 +740,12 @@ GET /tspublic/v1/dependency/pinboard
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%220d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0%22%2C%20%22c7e7e196-1377-4cfc-8832-9559cf3ffb71%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%220d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0%22%2C%20%22c7e7e196-1377-4cfc-8832-9559cf3ffb71%22%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D
 ----
 
 === Example response
@@ -750,8 +753,29 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 [source,JSON]
 ----
 {
-  "0d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0": {},
-  "c7e7e196-1377-4cfc-8832-9559cf3ffb71": {}
+  "d084c256-e284-4fc4-b80c-111cb606449a": {
+    "USER_GROUP": [
+      {
+        "id": "75e405e2-5bf2-4308-a3ac-e270fe288b51",
+        "indexVersion": 1074,
+        "generationNum": 1074,
+        "name": "Test",
+        "displayName": "Test",
+        "description": "",
+        "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "created": 1637582831120,
+        "modified": 1637839396188,
+        "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "owner": "75e405e2-5bf2-4308-a3ac-e270fe288b51",
+        "isDeleted": false,
+        "isHidden": false,
+        "tags": [],
+        "type": "LOCAL_GROUP",
+        "isExternal": false,
+        "isDeprecated": false
+      }
+    ]
+  }
 }
 ----
 
