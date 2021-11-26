@@ -56,7 +56,7 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 [source,JavaScript]
 ----
 
-disabledActions: [Action.send-email]
+disabledActions: ['send-email']
 ----
 
 === Add a tooltip for disabled attributes
@@ -99,7 +99,7 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 
 [source,JavaScript]
 ----
-hiddenActions: [Action.send-email]
+hiddenActions: ['send-email']
 ----
 
 
