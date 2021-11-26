@@ -45,7 +45,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     enableVizTransformations?: boolean;
     /**
      * The Liveboard to display in the embedded view.
-     * Use either of LiveboardId or pinboardId to reference the Liveboard to embed.
+     * Use either of liveboardId or pinboardId to reference the Liveboard to embed.
      */
     liveboardId?: string;
     /**

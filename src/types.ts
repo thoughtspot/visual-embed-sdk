@@ -124,14 +124,14 @@ export interface EmbedConfig {
      * When there are multiple embeds, queue the render of embed to start
      *  after the previous embed's render is complete. This helps in the load performance
      *  by decreasing the load on the browser.
-     * * _version 1.5.0 or later _
+     * * _Version 1.5.0 or later _
      * @default false
      */
     queueMultiRenders?: boolean;
 
     /**
      * Dynamic CSS Url to be injected in the loaded application.
-     * * _version 1.6.0 or later _
+     * * _Version 1.6.0 or later _
      * @default ''
      */
     customCssUrl?: string;
@@ -287,7 +287,7 @@ export enum EmbedEvent {
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * * _version 1.5.0 or later _
+     * * _Version 1.5.0 or later _
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -341,12 +341,12 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     * * _version 1.6.0 or later _
+     * * _Version 1.6.0 or later _
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     * * _version 1.6.0 or later _
+     * * _Version 1.6.0 or later _
      */
     DialogClose = 'dialog-close',
 }
@@ -369,7 +369,7 @@ export enum HostEvent {
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column. \
-     * * _version 1.5.0 or later _
+     * * _Version 1.5.0 or later _
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -386,7 +386,7 @@ export enum HostEvent {
      * Set the visible visualizations on a Liveboard.
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
-     * * _version 1.6.0 or later _
+     * * _Version 1.6.0 or later _
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
