@@ -5,7 +5,7 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
-[div]
+
 
 == User management
 
