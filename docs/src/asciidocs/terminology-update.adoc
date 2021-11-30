@@ -19,7 +19,7 @@ We are in the process of rolling out the terminology changes across all ThoughtS
 |====
 |Feature location/Text occurrence| Legacy terminology |New terminology
 |Primary navigation bar|Pinboards|Liveboards
-|Liveboard pages|Pinbaord|Liveboard
+|Liveboard pages|Pinboard|Liveboard
 |Field description and tooltips|Pinboard
 
 pinboard|Liveboard
