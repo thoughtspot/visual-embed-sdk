@@ -57,6 +57,7 @@ pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-
 |Page properties (full app embedding) 
 |`page.Pinboards`|`page.Liveboards`
 |Action enumeration| `PinboardInfo`
+
 `PinboardSnapshot`
 |`LiveboardInfo` 
 `LiveboardSnapshot`
