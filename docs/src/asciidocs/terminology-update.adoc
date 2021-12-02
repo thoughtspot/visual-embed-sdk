@@ -5,7 +5,7 @@
 :page-pageid: terminology
 :page-description: Read through this article to know the terminology changes.
 
-Starting from the ThoughtSpot 8 Cloud November release, the term *Pinboard* will appear as **Liveboard** in ThoughtSpot application UI and websites. As part of rebranding, the terminology in the ThoughtSpot system and other related interfaces has also been updated. For example, the *pinboard* instances in the ThoughtSpot UI and Visual Embed SDK now show as `Liveboard`. 
+Starting from the ThoughtSpot 8 Cloud November release, the term *Pinboard* will appear as **Liveboard** in ThoughtSpot application UI and websites. As part of rebranding, the terminology in the ThoughtSpot system and other related interfaces has also been updated. For example, the *pinboard* instances in the ThoughtSpot UI and Visual Embed SDK libraries now show as `Liveboard`. 
 
 [IMPORTANT]
 ====
