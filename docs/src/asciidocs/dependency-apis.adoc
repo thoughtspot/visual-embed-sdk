@@ -6,15 +6,31 @@
 :page-pageid: dependent-objects-api
 :page-description: Dependent Objects API
 
-ThoughtSpot categorizes the objects related to a worksheet, table, or column as dependents. Before editing or deleting a data object such as a worksheet, table, or  column, you must verify its dependent objects, and modify or remove associations if required. To query the details of dependent objects and associate objects as dependents, you can use the `tspublic/v1/dependency` APIs.
 
-Note the naming convention of object headers in the API response:
+The `tspublic/v1/dependency` endpoints allow you to query the dependency details of objects and associate objects as dependents.
+
+Dependency in ThoughtSpot is defined as a relation between the referenced and referencing objects. If the referenced object cannot be deleted without first deleting the referencing object, the referenced object is considered as a dependent object.  
+
+Consider a worksheet (`Worksheet1`) that has a derived logical column (`Column1`), which in turn has a reference to a base logical column (`Column2`). 
+
+[div boxHalfWidth] 
+--
+image::./images/dependency.png[Dependent objects, scaledwidth=25%]
+--
+
+In the above example, `Worksheet1` has a dependency on `Column2`, which means that `Worksheet1` is a referencing object and `Column2` is a referenced object. ThoughtSpot does not allow you to delete `Column2` if you have not deleted `Worksheet1`, because the deletion of `Column2` will be prevented by the relationship between `Worksheet1’s` `Column1` and `Column2`. Similarly, `Column1` has a dependency on `Column2`; that is, `Column1` is a referencing object and `Column2` is a referenced object. You cannot delete `Column2` without first deleting `Column1`.
+
+Before deleting a data object such as a worksheet, table, or column, you must check if it has any dependent objects, and remove its associations.
+
+== Data object types
+
+The `tspublic/v1/dependency` endpoint allows you to query and edit dependency for the following data object types:  
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
 
 * `QUESTION_ANSWER_BOOK` for answers.
 
-* `PINBOARD_ANSWER_BOOK` for Liveboard visualizations.
+* `PINBOARD_ANSWER_BOOK` for Liveboard.
 
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
 

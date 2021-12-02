@@ -10,7 +10,7 @@ To view the *Local* custom actions available on your cluster, create a new chart
  
 == Before you begin
 
-* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view the custom action availability in the *Custom actions* > *Actions* dashboard.
+* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view these actions in the *Custom actions* > *Actions* dashboard.
 * Make sure you have edit permissions to modify the visualization.
 * Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
 

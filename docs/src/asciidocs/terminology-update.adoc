@@ -60,6 +60,7 @@ pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-
 
 `PinboardSnapshot`
 |`LiveboardInfo` 
+
 `LiveboardSnapshot`
 |Object references in embed data structure|pinboard| No change
 |====
