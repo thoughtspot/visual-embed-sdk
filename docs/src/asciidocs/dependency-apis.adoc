@@ -6,8 +6,7 @@
 :page-pageid: dependent-objects-api
 :page-description: Dependent Objects API
 
-
-The `tspublic/v1/dependency` endpoints allow you to query the dependency details of objects and associate objects as dependents.
+The `tspublic/v1/dependency` endpoints allow you to query ThoughtSpot objects to get dependency data and associate objects as dependents.
 
 Dependency in ThoughtSpot is defined as a relation between the referenced and referencing objects. If the referenced object cannot be deleted without first deleting the referencing object, the referenced object is considered as a dependent object.  
 
