@@ -17,7 +17,7 @@ This article provides information about new features, enhancements, and deprecat
 
 Effective from the ThoughtSpot 8 November Cloud release, ThoughtSpot pinboards are rebranded as Liveboards and optimized for live analytics in cloud deployments. Along with granular insights, Liveboards offer interactive data analytics experience with enhanced capabilities. 
 
-As part of rebranding, we have made some terminology changes in the ThoughtSpot UI and Developer portal. We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. In some cases, we may even continue to use the legacy terminology for backward compatibility, and to ensure that your existing integrations work seamlessly. To familiarize yourself with terminology changes and the impacted interfaces, see  xref:terminology-update.adoc[Terminology changes].
+As part of rebranding, we have made some terminology changes in the ThoughtSpot UI and Developer portal. We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. In some cases, we may even continue to use the legacy terminology for backward compatibility, and to ensure that your existing integrations work seamlessly. For more information, see xref:terminology-update.adoc[Terminology changes].
 |====
 
 [width="100%" cols="1,4"]
