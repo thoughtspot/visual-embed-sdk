@@ -22,7 +22,6 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
-
 == Supported operations
 
 include::{path}/data-connection-apis.adoc[]
@@ -975,12 +974,12 @@ If the connection modification is successful, the API returns a response body wi
 | **200**
 **204**
 
-| Successful update of the connection object.
+| Successful update operation
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be created
+| Invalid paramters
 |===
 
 
@@ -1320,12 +1319,12 @@ Click the link in the `Response body` to download the YAML file.
 
 **204**
 
-| Successful deletion of the connection object.
+| Successful export of the connection object
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be deleted.
+| Invalid connection ID
 |===
 
 [#del-connection]
@@ -1388,12 +1387,12 @@ Response Code
 
 | **200**
 
-**204**  |Successful deletion of the connection object.
+**204**  |Successful deletion of the connection object
 
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be deleted due to table dependencies.
+| The connection could not be deleted due to table dependencies
 |===
 
