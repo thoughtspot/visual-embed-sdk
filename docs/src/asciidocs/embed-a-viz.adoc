@@ -202,7 +202,7 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to events:
+Register event listeners:
 
 [source,javascript]
 ----
