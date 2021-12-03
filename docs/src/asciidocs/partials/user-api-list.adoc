@@ -21,7 +21,7 @@ Modifies a user account.
 
 `xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` 
 
-Add or modifies the email address of a user.
+Modifies the email address of a user.
 
 +++<p class="divider"> </p>+++
 

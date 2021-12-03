@@ -29,7 +29,7 @@ The `tspublic/v1/dependency` endpoint allows you to query and edit dependency fo
 
 * `QUESTION_ANSWER_BOOK` for answers.
 
-* `PINBOARD_ANSWER_BOOK` for Liveboard.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
 
@@ -742,7 +742,7 @@ GET /tspublic/v1/dependency/pinboard
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__Array of strings__. A JSON array of the GUIDs of the Liveboard.
+|`id`|__Array of strings__. A JSON array of Liveboard GUIDs.
 |====
 
 === Example request

@@ -29,6 +29,7 @@ body {
     font-size: $font-size-normal;
 }
 
+
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -197,7 +198,7 @@ button {
 }
  
 summary.title  {
-    font-size: $font-size-h5;
+    font-size: $font-size-summ-title;
     margin-top: $margin-sm;
     font-weight: $font-weight-normal;
     line-height: $line-height-doc;
