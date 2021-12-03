@@ -246,7 +246,7 @@ Allows scheduling Liveboard notifications.
 
 |`Action.Subscription`| `AppEmbed` |**Follow** 
 
-Allows subscribing and scheduling Liveboard notifications .
+Allows subscribing and scheduling Liveboard notifications.
 
 |`Action.Remove` | `AppEmbed`| *Delete*
 Deletes a Liveboard.
@@ -261,11 +261,11 @@ Creates a copy of the Liveboard.
 `AppEmbed`|*Download as PDF* 
 
 Downloads the Liveboard as a PDF file.
-|`Action.ScheduleList`| `LiveboardEmbed`
+|`Action.SchedulesList`| `LiveboardEmbed`
 
 `AppEmbed` | *Manage schedules* 
  
- Allows scheduling and monitoring Liveboard jobs.
+ Allows you to manage Liveboard jobs.
 |`Action.Present`| `LiveboardEmbed`
 
 `AppEmbed` | *Present* 
