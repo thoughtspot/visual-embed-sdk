@@ -9,7 +9,7 @@ To integrate full ThoughtSpot experience in your application, you can use the fu
 
 The full app embedding allows you to integrate many features and pages of the ThoughtSpot application, and provide your users the ability to perform the following tasks:
 
-* create answers and pinboards
+* create answers and Liveboards
 * share objects with other users
 * upload data 
 * relate uploaded data to existing worksheets
