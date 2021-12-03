@@ -242,7 +242,7 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function. 
+Register event listeners. 
 
 [source, javascript]
 ----
@@ -261,7 +261,7 @@ searchEmbed.render();
 
 == Test the embedded workflow
 
-To verify the ThoughtSpot Search integration, perform the following tasks:
+To verify the ThoughtSpot Search integration, perform the following tests:
 
 * Load your application.
 * Perform a search operation and verify the results. 

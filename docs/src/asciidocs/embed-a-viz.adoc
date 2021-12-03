@@ -5,14 +5,16 @@
 :page-pageid: embed-a-viz
 :page-description: Embed charts and tables
 
-This page explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application. A visualization is one single answer on a Liveboard, displayed without the search bar or other options to modify the contents of the visualization.
+This article explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application. 
 
-You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options of ThoughtSpot search. Any visualization you want to show via *LiveboardEmbed* must exist on a Liveboard object in ThoughtSpot.
+A visualization is a single answer pinned to a Liveboard. Pinned visualizations appear without the search bar or the other options to change the visualization.
+
+You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options available with ThoughtSpot search. Any visualization you want to embed using *LiveboardEmbed* must exist on a Liveboard object in ThoughtSpot.
 
 [NOTE]
 ====
-* If you want to display multiple charts or tables that have been saved in a Liveboard, try to embed a single Liveboard rather than multiple individual visualizations. This helps in improving your application performance.
-* If you must embed multiple visualizations, xref:prefetch-and-cache.adoc[prefetch the static resources] before loading the page. We recommend that you limit the page to display not more than four visualizations at a time.
+* If you want to display multiple charts or tables that have been saved in a Liveboard, try to embed a single pinboard rather than multiple individual visualizations. This helps in improving your application performance.
+* If you must embed multiple visualizations, xref:prefetch-and-cache.adoc[prefetch static resources] before loading the page. We recommend that you limit the page to display not more than four visualizations at any given time.
 ====
 
 == Import the LiveboardEmbed package
@@ -155,10 +157,10 @@ _String_. The Global Unique Identifier (GUID) of the visualization.
 liveboardId::
 _String_. The GUID of the Liveboard to which the visualization is pinned.
 
-enableVizTransformations::
+enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
-preventLiveboardFilterRemoval::
+preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
 runtimeFilters [small]_optional_::

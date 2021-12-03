@@ -160,11 +160,11 @@ _String_. The text to show for disabled actions. The text string specified in `d
 liveboardId::
 _String_. The GUID of the Liveboard.
  
-enableVizTransformations::
+enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
 [#filter-removal]
-preventLiveboardFilterRemoval::
+preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
 runtimeFilters [small]_optional_::
@@ -208,7 +208,7 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to the events triggered by the embedded Liveboard.
+Register event listeners.
 
 [source,javascript]
 ----
@@ -220,14 +220,16 @@ For more information, see xref:embed-events.adoc[Event subscription and handling
 
 == Render the embedded Liveboard
 
-Construct the URL for the embedded Liveboard and render the embedded content:
+Render the embedded Liveboard.
 
 [source,JavaScript]
 ----
 liveboardEmbed.render();
 ----
 
-== Test the embedded workflow
+== Test your embedding
+
+To verify the ThoughtSpot Liveboard embed, perform the following tests:
 
 * Load the client application.
 * Try accessing a Liveboard embedded in your application.

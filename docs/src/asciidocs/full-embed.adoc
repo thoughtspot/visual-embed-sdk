@@ -3,33 +3,29 @@
 
 :page-title: Embed Full Application
 :page-pageid: full-embed
-:page-description: Embed Full Application
+:page-description: You can embed full ThoughtSpot experience in your application and allow your users to create content for live analytics.
 
+To integrate full ThoughtSpot experience in your application, you can use the full app embedding method. 
 
-Full embedding allows you to integrate the full ThoughtSpot content into an application.
+The full app embedding allows you to integrate many features and pages of the ThoughtSpot application, and provide your users the ability to perform the following tasks:
 
-== Full application embedding
-
-The full embedded ThoughtSpot content gives your users the ability to perform many essential tasks:
-
-* create answers and Liveboards
+* create answers and pinboards
 * share objects with other users
-* upload data, and refresh uploaded data
+* upload data 
 * relate uploaded data to existing worksheets
 * use saved answers
 * use SpotIQ
 
-=== Limitations
-Users in a fully embedded application cannot perform the following tasks:
+However, your application users will not have access to the following features in the embedded ThoughtSpot instance:
 
 * create worksheets
 * create views
 * modify profiles
 * view the Help Center
 
-== Full application embedding workflow
+To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
 
-=== Import the AppEmbed package
+== Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
 
 **npm**
@@ -51,7 +47,7 @@ from '@thoughtspot/visual-embed-sdk';
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
-=== Initialize the SDK
+== Initialize the SDK
 
 To allow your client application to connect to ThoughtSpot, configure the URL with ThoughtSpot hostname or IP address.
 
@@ -77,14 +73,15 @@ init({
 
 include::{path}/embed-auth-config.adoc[]
 
-=== Prefetch static resources (Optional)
+== Prefetch static resources (Optional)
 
 To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
 === Create an instance of the AppEmbed object
-Create an instance of the AppEmbed object and pass the parameters for the application page view.
+
+Create an instance of the AppEmbed object and pass parameters to set a page view.
 
 [source,javascript]
 ----
@@ -163,7 +160,7 @@ include::{path}/custom-action-note.adoc[]
 disabledActionReason __Optional__::
 _String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
-disableProfileAndHelp::
+disableProfileAndHelp __Optional__::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
 
 ++++
@@ -179,7 +176,8 @@ __Array of Strings__. Hides the specified objects. For example, if you do not wa
 hideObjects: ['11f5d5e8-2328-4817-a106-9eff17531e77','e2f49cdd-4d54-466a-841a-e7ecbd9b4400']
 ----
 
-showPrimaryNavbar::
+
+showPrimaryNavbar __Optional__::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
 +
@@ -192,33 +190,34 @@ path::
 _String_. The URL path of the ThoughtSpot application page to embed.
 
 [NOTE]
-When both `path` and `pageId` attributes are defined, the path definition takes precedence.
+If both `path` and `pageId` attributes are defined, the path definition takes precedence.
 
 pageId::
-The unique identifier for the ThoughtSpot application page. The following values are valid.
+The unique identifier for the ThoughtSpot application page. The value specified in the `pageId` attribute will be set as the active tab, which is displayed by default when the embedded ThoughtSpot UI loads. Valid values are:
+
 * `*Page.Search*`
 +
-Displays the page showing the ThoughtSpot search bar when the application loads.
+Displays the page showing ThoughtSpot search bar
 
 * `*Page.Answers*`
 +
-Displays the saved answers (*Answers*) page when the application loads.
+Displays the saved answers (*Answers*) page
 
 * `*Page.Liveboards*`
 +
-Displays the *Liveboards* page when the application loads.
+Displays the *Liveboards* page
 
 * `*Page.Data*`
 +
-Displays the *Data* page when the application loads.
+Displays the *Data* page
 
 * `*Page.Home*`
 +
-Displays the *Home* page when the application loads.
+Displays the *Home* page 
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?pageId=fullApp" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
 
 
@@ -257,12 +256,13 @@ This attribute applies the tag filter at the application level. All metadata obj
 tag: 'sales'
 ----
 
-=== Define a method to process callback custom actions payload
+== Define a method to process callback custom actions payload
 
 include::{path}/callback-payload.adoc[]
 
 === Subscribe to events
-Register event handlers to subscribe to the events triggered by the ThoughtSpot Search function; for example, application errors, and  embedded content initialization and loading.
+
+Register event listeners.
 
 [source, javascript]
 ----
@@ -272,16 +272,18 @@ appEmbed.on(EmbedEvent.load, hideLoader)
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
 
-=== Render the embedded application
-Render the embedded content.
+== Render the embedded application
+
+Render the embedded application.
+
 [source, javascript]
 ----
 appEmbed.render();
 ----
 
-=== Test the embedded workflow
+== Test your embedding
 
-To verify the ThoughtSpot application integration, perform the following tasks:
+To verify the ThoughtSpot application integration, perform the following tests:
 
 * Load your application.
 * Verify if the page you set as the active tab opens when you load the application.
