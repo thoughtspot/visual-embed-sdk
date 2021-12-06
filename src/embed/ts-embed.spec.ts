@@ -135,20 +135,6 @@ describe('Unit test case for ts embed', () => {
                 'You cannot have both hidden actions and visible actions',
             );
         });
-        test('should throw error when there are both visible and hidden actions', async () => {
-            spyOn(console, 'log');
-            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-                hiddenActions: [Action.DownloadAsCsv],
-                visibleActions: [Action.DownloadAsCsv],
-                ...defaultViewConfig,
-                liveboardId,
-            } as LiveboardViewConfig);
-            await liveboardEmbed.render();
-            expect(liveboardEmbed['isError']).toBe(true);
-            expect(console.log).toHaveBeenCalledWith(
-                'You cannot have both hidden actions and visible actions',
-            );
-        });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
@@ -158,9 +144,49 @@ describe('Unit test case for ts embed', () => {
             pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(false);
         });
+
+        async function testActionsForLiveboards(
+            hiddenActions: Array<Action>,
+            visibleActions: Array<Action>,
+        ) {
+            spyOn(console, 'log');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenActions,
+                visibleActions,
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(true);
+            expect(console.log).toHaveBeenCalledWith(
+                'You cannot have both hidden actions and visible actions',
+            );
+        }
+        test('should throw error when there are both visible and hidden action arrays', async () => {
+            await testActionsForLiveboards(
+                [Action.DownloadAsCsv],
+                [Action.DownloadAsCsv],
+            );
+        });
+        test('should throw error when there are both visible and hidden actions arrays as empty', async () => {
+            await testActionsForLiveboards([], []);
+        });
+        test('should throw error when there are both visible and hidden actions - one of them is an empty array', async () => {
+            await testActionsForLiveboards([], [Action.DownloadAsCsv]);
+        });
+
         test('should not throw error when there are only visible or hidden actions', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
+        });
+        test('should not throw error when there are only visible or hidden actions', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                visibleActions: [Action.DownloadAsCsv],
                 ...defaultViewConfig,
                 liveboardId,
             } as LiveboardViewConfig);

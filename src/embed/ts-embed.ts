@@ -327,7 +327,7 @@ export class TsEmbed {
             visibleActions,
         } = this.viewConfig;
 
-        if (visibleActions?.length && hiddenActions?.length) {
+        if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError(
                 'You cannot have both hidden actions and visible actions',
             );
