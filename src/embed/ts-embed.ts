@@ -46,7 +46,7 @@ const V1EventMap = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iFrame configuration
@@ -327,7 +327,7 @@ export class TsEmbed {
             visibleActions,
         } = this.viewConfig;
 
-        if (visibleActions?.length && hiddenActions?.length) {
+        if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError(
                 'You cannot have both hidden actions and visible actions',
             );
@@ -365,9 +365,8 @@ export class TsEmbed {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
-        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
-            isAppEmbed ? disableProfileAndHelpParam : ''
-        }${queryStringFrag}`;
+        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${isAppEmbed ? disableProfileAndHelpParam : ''
+            }${queryStringFrag}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryParams.substr(1),
