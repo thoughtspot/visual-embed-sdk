@@ -104,7 +104,7 @@ hiddenActions: []
 
 +++<p class="divider"> </p>+++
 
-If the `visibleActions` attribute is set as an empty array and the action strings are specified in `hiddenActions` attribute, no actions will appear in the embedded UI.
+If the `visibleActions` attribute is set as an empty array and the action strings are specified in the `hiddenActions` attribute, the `visibleActions` definition takes precedence. Therefore, no actions will appear in the embedded UI.
 
 [Source,Javascript]
 ----
@@ -124,6 +124,20 @@ If both `visibleActions` and `hiddenActions` attributes are defined, the SDK wil
 ----
 visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.ShowUnderlyingData,Action.Pin]
 hiddenActions: [Action.DownloadAsPDF,Action.DownloadAsCSV]
+----
+
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+If both `visibleActions` and `hiddenActions` attributes are defined as an empty array, the `visibleActions` definition takes precedence and no actions will appear in the embedded UI.
+
+[Source,Javascript]
+----
+visibleActions: []
+hiddenActions: []
 ----
 
 ++++
@@ -151,7 +165,7 @@ Similarly, to disable multiple actions, you can specify the action strings in th
 
 [source,JavaScript]
 ----
-disabledActions: [Action.AddFilter, Action.Present]
+disabledActions: [Action.AddFilter,Action.Present]
 ----
 
 ++++
@@ -192,7 +206,7 @@ For example, if you want to hide only the **Download** and *Pin* actions for an 
 
 [source,JavaScript]
 ----
-hiddenActions: [Action.Download, Action.Pin]
+hiddenActions: [Action.Download,Action.Pin]
 ----
 
 ++++
@@ -283,6 +297,7 @@ Downloads the Liveboard as a PDF file.
  *Liveboard info*
  
  Displays information about the Liveboard.|
+ 
 `Action.EditTML`|`AppEmbed` | *Edit TML*
 
 Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
@@ -294,6 +309,13 @@ Imports the TML representation of a Liveboard object to the ThoughtSpot server.
 Exports the TML representation of a Liveboard object from the ThoughtSpot server. 
 |`Action.UpdateTML`|`AppEmbed` | *Update TML*
 Publishes the modified TML representation of a Liveboard object.
+
+|`Action.RequestAcess`| `LiveboardEmbed`
+
+`AppEmbed`| 
+*Request access* 
+
+Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon. 
 
 |===
 
@@ -320,7 +342,7 @@ The following actions are available for ThoughtSpot visualizations pinned to a L
 `AppEmbed` |*Explore* 
 
 Allows users to explore a visualization.
-|`Action.ShareViz`|`AppEmbed`|*ShareViz*
+|`Action.ShareViz`|`AppEmbed`|*Share*
 
 Allows sharing visualization with another user or a user group.
 |`Action.Pin`|`LiveboardEmbed`
@@ -361,7 +383,14 @@ Downloads the visualization.
 |`Action.Remove`|`AppEmbed`|**Delete**
 
 Removes the visualization from the Liveboard.
-|`Action.DrillDown`|`LiveboardEmbed`
+|
+`Action.ToggleSize`|`LiveboardEmbed`
+
+`AppEmbed`| The *Resize* icons in the **More** actions menu.
+
+Allows resizing a visualization on a Liveboard.
+|
+`Action.DrillDown`|`LiveboardEmbed`
 
 `AppEmbed`|*Drill down* 
 
@@ -400,11 +429,12 @@ Allows you to share an answer with another user or a user group.
 
 Pins the answer to a Liveboard.
 
-|`Action.AnalysisInfo`|`SearchEmbed`
+|`Action.QueryDetailsButtons`|`SearchEmbed`
 
-`AppEmbed`|*Query details*
+a|The *Query visualizer* and *Query SQL* buttons in *Query details*
 
-Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.
+* The *Query visualizer* button displays the tables and filters used in a search query.
+* The *Query SQL* button displays the SQL statements used in a search query to fetch data.
 
 |`Action.Save`|`SearchEmbed`
 
@@ -475,7 +505,7 @@ Copies the selected data point. Available as a contextual menu action for table 
 
 `Action.EditTML`|`AppEmbed` | *Edit TML*
 
-Allows editing the TML representation of the answer object. 
+Allows editing the TML representation of the answer object.
 |`Action.ImportTML`|`AppEmbed` | *Import TML*
 
 Imports the TML representation of a Liveboard object to the ThoughtSpot server. 
