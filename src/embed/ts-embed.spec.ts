@@ -145,11 +145,14 @@ describe('Unit test case for ts embed', () => {
             expect(pinboardEmbed['isError']).toBe(false);
         });
 
-        async function testActionsForLiveboards(hiddenActions: Array<Action>, visibleActions: Array<Action>) {
+        async function testActionsForLiveboards(
+            hiddenActions: Array<Action>,
+            visibleActions: Array<Action>,
+        ) {
             spyOn(console, 'log');
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-                hiddenActions: hiddenActions,
-                visibleActions: visibleActions,
+                hiddenActions,
+                visibleActions,
                 ...defaultViewConfig,
                 liveboardId,
             } as LiveboardViewConfig);
@@ -160,7 +163,10 @@ describe('Unit test case for ts embed', () => {
             );
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
-            await testActionsForLiveboards([Action.DownloadAsCsv], [Action.DownloadAsCsv]);
+            await testActionsForLiveboards(
+                [Action.DownloadAsCsv],
+                [Action.DownloadAsCsv],
+            );
         });
         test('should throw error when there are both visible and hidden actions arrays as empty', async () => {
             await testActionsForLiveboards([], []);
