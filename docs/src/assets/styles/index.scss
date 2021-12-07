@@ -29,6 +29,7 @@ body {
     font-size: $font-size-normal;
 }
 
+
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -191,7 +192,15 @@ button {
     color: var(--primary-color);
 
 }
+ 
+summary.title  {
+    font-size: $font-size-summ-title;
+    margin-top: $margin-sm;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-doc;
+    color: var(--primary-color);
 
+}
 
 
 /* Div box style end */

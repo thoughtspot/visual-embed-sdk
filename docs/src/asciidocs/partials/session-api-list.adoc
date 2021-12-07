@@ -1,21 +1,35 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
+`xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 
-Obtains an authentication token for a user.
+Signs in a user to ThoughtSpot system.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
+`xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
 
-Authenticates and logs in a user.
+Generates an authentication token for a user session.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Authenticates and logs in a user using token. Unnecessary to call directly when using Visual Embed SDK.
+Authenticates and logs in a user to ThoughtSpot. 
+
+This request method sends authentication attributes as query string parameters in the request URL.
+
+__This API call is not required if you are using Visual Embed SDK__.
+
++++<p class="divider"> </p>+++
+
+`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` [tag greenBackground]#NEW in ts8.nov.cl#
+
+Authenticates and logs in a user to ThoughtSpot. 
+
+This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST`request method. 
+
+__This API call is not required if you are using Visual Embed SDK__.
 
 +++<p class="divider"> </p>+++
 

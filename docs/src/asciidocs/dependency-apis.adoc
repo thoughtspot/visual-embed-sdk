@@ -6,15 +6,30 @@
 :page-pageid: dependent-objects-api
 :page-description: Dependent Objects API
 
-ThoughtSpot categorizes the objects related to a worksheet, table, or column as dependents. Before editing or deleting a data object such as a worksheet, table, or  column, you must verify its dependent objects, and modify or remove associations if required. To query the details of dependent objects and associate objects as dependents, you can use the `tspublic/v1/dependency` APIs.
+The `tspublic/v1/dependency` endpoints allow you to query ThoughtSpot objects to get dependency data and associate objects as dependents.
 
-Note the naming convention of object headers in the API response:
+Dependency in ThoughtSpot is defined as a relation between the referenced and referencing objects. If the referenced object cannot be deleted without first deleting the referencing object, the referenced object is considered as a dependent object.  
+
+Consider a worksheet (`Worksheet1`) that has a derived logical column (`Column1`), which in turn has a reference to a base logical column (`Column2`).
+
+[div boxHalfWidth] 
+--
+image::./images/dependency.png[Dependent objects]
+--
+
+In the above example, `Worksheet1` has a dependency on `Column2`, which means that `Worksheet1` is a referencing object and `Column2` is a referenced object. ThoughtSpot does not allow you to delete `Column2` if you have not deleted `Worksheet1`, because the deletion of `Column2` will be prevented by the relationship between `Worksheet1’s` `Column1` and `Column2`. Similarly, `Column1` has a dependency on `Column2`; that is, `Column1` is a referencing object and `Column2` is a referenced object. You cannot delete `Column2` without first deleting `Column1`.
+
+Before deleting a data object such as a worksheet, table, or column, you must check if it has any dependent objects, and remove its associations.
+
+== Data object types
+
+The `tspublic/v1/dependency` endpoint allows you to query and edit dependency for the following data object types:  
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
 
 * `QUESTION_ANSWER_BOOK` for answers.
 
-* `PINBOARD_ANSWER_BOOK` for Liveboard visualizations.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 
 * `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
 
@@ -73,7 +88,10 @@ POST /tspublic/v1/dependency/listdependents
 .cURL
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
 ----
 
 .Request URL
@@ -151,7 +169,9 @@ GET /tspublic/v1/dependency/logicalcolumn
 
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
 ----
 
 .Request URL
@@ -299,7 +319,9 @@ GET /tspublic/v1/dependency/logicaltable
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
 ----
 
 .Request URL
@@ -426,7 +448,9 @@ GET /tspublic/v1/dependency/logicalrelationship
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
 ----
 
 .Request URL
@@ -504,7 +528,9 @@ GET /tspublic/v1/dependency/physicalcolumn
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
 ----
 
 .Request URL
@@ -611,7 +637,7 @@ To get dependent objects for a physical table, send a `GET` request to the `/tsp
 GET /tspublic/v1/dependency/physicaltable
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
 |Query Parameter|Description
@@ -622,7 +648,9 @@ GET /tspublic/v1/dependency/physicaltable
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
 ----
 
 .Request URL
@@ -700,8 +728,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 
 [#get-dependent-liveboard]
 == Get dependent details for Liveboards
-To get the details of dependent objects for a Liveboard, send a `GET` request to the `GET /tspublic/v1/dependency/pinboard` API endpoint.
 
+When a default Liveboard is assigned to a user group in ThoughtSpot, it is used for onboarding new users of that group. Users of this group can also mark the default Liveboard as a favorite and use its data source for a new search.
+
+If a Liveboard is set as a default Liveboard for a user group, the `/tspublic/v1/dependency/pinboard` endpoint will return the  user group as a dependent object for that Liveboard. This API endpoint does not return other dependent data objects such as tables, views, and worksheets.
+ 
 === Resource URL
 ----
 GET /tspublic/v1/dependency/pinboard
@@ -711,7 +742,7 @@ GET /tspublic/v1/dependency/pinboard
 [options='header']
 |====
 |Query Parameter|Description
-|`id`|__Array of strings__. A JSON array of the GUIDs of the Liveboard.
+|`id`|__Array of strings__. A JSON array of Liveboard GUIDs.
 |====
 
 === Example request
@@ -719,12 +750,14 @@ GET /tspublic/v1/dependency/pinboard
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%220d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0%22%2C%20%22c7e7e196-1377-4cfc-8832-9559cf3ffb71%22%5D'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%220d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0%22%2C%20%22c7e7e196-1377-4cfc-8832-9559cf3ffb71%22%5D
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D
 ----
 
 === Example response
@@ -732,8 +765,29 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 [source,JSON]
 ----
 {
-  "0d4f0fdc-c4ba-4e52-a6bb-da253b24b0b0": {},
-  "c7e7e196-1377-4cfc-8832-9559cf3ffb71": {}
+  "d084c256-e284-4fc4-b80c-111cb606449a": {
+    "USER_GROUP": [
+      {
+        "id": "75e405e2-5bf2-4308-a3ac-e270fe288b51",
+        "indexVersion": 1074,
+        "generationNum": 1074,
+        "name": "Test",
+        "displayName": "Test",
+        "description": "",
+        "author": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "created": 1637582831120,
+        "modified": 1637839396188,
+        "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+        "owner": "75e405e2-5bf2-4308-a3ac-e270fe288b51",
+        "isDeleted": false,
+        "isHidden": false,
+        "tags": [],
+        "type": "LOCAL_GROUP",
+        "isExternal": false,
+        "isDeprecated": false
+      }
+    ]
+  }
 }
 ----
 
@@ -764,7 +818,9 @@ None
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
 ----
 
 .Request URL

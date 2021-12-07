@@ -1,2 +1,4 @@
 [NOTE]
-If you have added a custom action and you want to disable or hide this custom action by using the *Modify available actions* checkbox, make sure you specify the ID of the custom action in the `disabledActions` and `hiddenActions` attributes. For more information about the custom action ID, see xref:customize-actions-menu.adoc[Custom actions].
+====
+ThoughtSpot automatically creates an action ID based on the name you assign to a custom action. For example, if you set the name of a custom action as `Send Email`, ThoughtSpot sets the ID for this action as `send-email`. To disable, hide, or show a custom action in the embedded UI, you must specify the ID of the custom action as the action string in the `disabledActions`, `hiddenActions`, and `visibleActions` attributes.
+====

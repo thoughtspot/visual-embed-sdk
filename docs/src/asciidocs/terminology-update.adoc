@@ -1,0 +1,77 @@
+= Terminology changes
+:toc: true
+
+:page-title: Terminology changes
+:page-pageid: terminology
+:page-description: Read through this article to know the terminology changes.
+
+Starting from the ThoughtSpot 8 Cloud November release, the term *Pinboard* will appear as **Liveboard** in ThoughtSpot application UI and websites. As part of rebranding, the `pinboard` terminology in the ThoughtSpot application and other related interfaces has been updated. For example, the *pinboard* instances in the ThoughtSpot UI and Visual Embed SDK libraries now show as `Liveboard`. 
+
+[IMPORTANT]
+====
+We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, websites, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. For detailed information about the impacted interfaces and the terminology changes, see the following sections.
+====
+
+== Terminology changes in the UI
+
+[width="100%" cols="5,^3,^2"]
+[options='header']
+|====
+|Feature location/Text occurrence| Legacy terminology |New terminology
+|Primary navigation bar|Pinboards|Liveboards
+|Liveboard pages|Pinboard|Liveboard
+|Field description and tooltips|Pinboard
+
+pinboard|Liveboard
+|User-defined titles and description|Pinboard
+
+pinboard|No change
+|Develop tab|Pinboard |Liveboard 
+|Developer playground|Pinboard|Liveboard
+|Code samples in Playground |Pinboard
+
+pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-changes[Terminology changes in the Visual Embed SDK].
+|Embedded ThoughtSpot UI| Pinboard| Liveboard
+|====
+ 
+[#sdk-changes] 
+== Terminology changes in the Visual Embed SDK Version 1.6.0
+
+[width="100%" cols="5,^3,^3"]
+[options='header']
+|====
+|Location| Legacy terminology |New terminology
+|SDK package for Liveboard embedding|`PinboardEmbed`|`LiveboardEmbed`
+|Liveboard object configuration|`PinboardEmbedViewConfig` 
+
+`pinboardID`
+
+`preventPinboardFilterRemoval`
+| 
+`LiveboardViewConfig`
+
+`liveboardID`
+
+`preventLiveboardFilterRemoval`
+
+|Page properties (full app embedding) 
+|`page.Pinboards`|`page.Liveboards`
+|Action enumeration| `PinboardInfo`
+
+`PinboardSnapshot`
+|`LiveboardInfo` 
+
+`LiveboardSnapshot`
+|Object references in embed data structure|pinboard| No change
+|====
+
+== Application components and interfaces with legacy terminology
+
+To ensure that existing customizations and integrations continue to work seamlessly, some application components and interfaces will continue to use the legacy terminology.
+
+* REST API endpoint URLs.
+* Metadata object headers and dependent object references. For example, `PINBOARD_ANSWER_BOOK` is a valid value for the metadata object `type`.
+* Query, path, and formData parameters in REST APIs.
+* Attribute values, object properties, and API responses.
+* Pinboard URLs in the application UI and system-generated links.
+* Object references in TML files.

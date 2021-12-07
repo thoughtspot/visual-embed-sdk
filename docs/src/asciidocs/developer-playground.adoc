@@ -51,34 +51,7 @@ Hides the charts and tables that appear beneath the search bar by default. For e
 
 a|**Modify available actions**
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar in the search results page. You can use this function to restrict user access to certain features or remove the menu items that are not required in your application context.
-
-
-* To disable an action, specify the action string in the  `disabledActions` attribute. For example, to disable **Configure filters** in the **More** menu image:./images/icon-more-10px.png[the more options menu], specify the **ConfigureFilter** menu string in the `disabledActions` attribute as shown here:
-
-+
-----
-disabledActions: [Action.ConfigureFilter]
-----
-
-* To display a tooltip for the disabled menu item, specify the text string in the `disabledActionReason` attribute.
-
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-
-+
-----
-hiddenActions: [Action.DrillDown]
-----
-+
-+++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-+++
-
-include::{path}/custom-action-note.adoc[]
-
-For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
-
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding these menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+include::{path}/modify-available-actions.adoc[]
 
 a|**Add search tokens**
 
@@ -116,37 +89,7 @@ To explore the visualization embedding function:
 |====
 a|*Modify available actions*
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu] on the visualizations page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-* To disable an action menu item, specify the menu string in the `disabledActions` attribute. For example, to disable the **Download** action in the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute to `Action.Download`:
-
-+
-----
-disabledActions: [Action.Download]
-----
-
-+
-++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-
-+
-----
-hiddenActions: [Action.Download]
-----
-+
-++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-+
-include::{path}/custom-action-note.adoc[]
-
-For a complete list of action menu items and the corresponding text strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
+include::{path}/modify-available-actions.adoc[]
 
 a|**Set runtime filters**
 
@@ -199,37 +142,7 @@ If the embedded Liveboard does not fit vertically within your application page, 
 
 a|**Modify available actions **
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar on the *Liveboards* page. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-* To disable an action, specify the action string in the  `disabledActions` attribute. For example, to disable the **Download As PDF**  action in the **More** menu image:./images/icon-more-10px.png[the more options menu], set the value of the `disabledActions` attribute as `Action.DownloadAsPdf`.
-+
-----
-disabledActions: [Action.DownloadAsPdf]
-----
-+
-+++
-<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-+++
-
-* To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-
-* To hide an action menu item, specify the action text string in the `hiddenActions` attribute:
-+
-----
-hiddenActions: [Action.DownloadAsPdf]
-----
-
-+
-+++
-<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-+++
-
-
-+
-include::{path}/custom-action-note.adoc[]
-
-+
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+include::{path}/modify-available-actions.adoc[]
 
 a|**Set runtime filters**
 
@@ -269,35 +182,7 @@ To explore the full ThoughtSpot embedding function:
 |====
 a|**Modify available actions**
 
-Disables or hides the specified action menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu], or the primary action bar on the ThoughtSpot application pages. You can use this function to restrict user access to certain features, or to remove the menu items that are not required in your application context.
-
-*  To disable an action, specify the action string in the  `disabledActions` attribute. For example,  to disable the  *Share* menu on a ThoughtSpot application page, set the value of the `disabledActions` attribute as `Action.Share`.
-
-+
-----
-disabledActions: [Action.Share]
-----
-
-* To display a tooltip for the disabled menu item, specify the text string in the `disabledActionReason` attribute.
-
-* To hide an action, specify the action string in the `hiddenActions` attribute:
-
-+
-----
-hiddenActions: [Action.Share]
-----
-
-+
-+++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-+++
-
-+
-include::{path}/custom-action-note.adoc[]
-
-+
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
+include::{path}/modify-available-actions.adoc[]
 
 |*Show navigation bar*
 

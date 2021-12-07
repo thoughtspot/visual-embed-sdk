@@ -6,7 +6,7 @@
 :page-pageid: search-embed
 :page-description: Embed Search
 
-This topic provides instructions for embedding the ThoughtSpot search function. The embedded Search API enables external applications to search for data from one or several data sources.
+This article provides step-by-step instructions to embed ThoughtSpot search function in your app. The embedded search API allows your application users to search for data from one or several data sources.
 
 == Import the SearchEmbed package
 
@@ -15,14 +15,20 @@ Import the SearchEmbed SDK library to your application environment:
 **npm**
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
+import {
+	SearchEmbed, AuthType, init, prefetch, EmbedEvent
+}
+from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
-<script type='module'>
-import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+< script type = 'module' >
+	import {
+		SearchEmbed, AuthType, init, prefetch, EmbedEvent
+	}
+from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Initialize the SDK
@@ -31,10 +37,9 @@ Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-    });
+init({
+	thoughtSpotHost: "https://<hostname>:<port>",
+});
 ----
 
 thoughtSpotHost::
@@ -47,10 +52,9 @@ Define an authentication method. In the following example, the authentication me
 
 [source,javascript]
 ----
-init
-    ({
-        authType: AuthType.SSO,
-    });
+init({
+	authType: AuthType.SSO,
+});
 ----
 
 include::{path}/embed-auth-config.adoc[]
@@ -61,7 +65,7 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-== Configure security parameters
+== Configure security and login parameters
 
 include::{path}/embed-config.adoc[]
 
@@ -72,40 +76,37 @@ Create an instance of the SearchEmbed object and customize your search page view
 [source,javascript]
 
 ----
-const searchEmbed = new SearchEmbed(
-    document.getElementById('ts-embed'),
-    {
-	    frameParams: {
+const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
-    	answerId: "<%=savedAnswerGUID%>",
-    	dataSources: ['<%=datasourceGUID%>'],
-    	collapseDataSources: false,
-    	disabledActions: [],
-    	disabledActionReason: '<reason for disabling>',
-    	forceTable: false,
-    	hiddenActions: [],
-    	hideDataSources: false,
-    	hideResults: false,
-    	searchOptions: {
-            searchTokenString: '<TML-query-string>',
-            executeSearch: true,
-     },
-
-    },
+	answerId: "<%=savedAnswerGUID%>",
+	dataSources: ['<%=datasourceGUID%>'],
+	collapseDataSources: false,
+	disabledActions: [],
+	disabledActionReason: '<reason for disabling>',
+	forceTable: false,
+	hiddenActions: [],
+	hideDataSources: false,
+	hideResults: false,
+	searchOptions: {
+		searchTokenString: '<TML-query-string>',
+		executeSearch: true,
+	},
+},
 });
 ----
 frameParams::
 Sets the `width` and `height` dimensions to render the search object in a web browser. You can set the `width` and `height` attribute values in pixels or as a percentage.
 
-answerID [small]#__Optional__#::
+answerID __Optional__::
 _String_. The Global Unique Identifiers (GUID) of the answers saved in a user profile.
 
 dataSources::
 _Array of strings_. The GUIDs of the data sources for running a search query on.
 
-collapseDataSources [small]#__Optional__#::
+collapseDataSources __Optional__::
 _Boolean_. When set to true, it minimizes the Data Source panel.
 
 +
@@ -114,36 +115,62 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 ++++
 
 
-disabledActions [small]#__Optional__#::
-_Array of strings_. Disables the specified menu items from the list of actions on a search results page. You can use this attribute to restrict user access to certain features.
-+
-For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `ShowUnderlyingData` action menu string in the `disabledActions` attribute.
+visibleActions __Optional__::
+_Array of strings_. Displays the specified actions on the search result page. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
 
 +
+[NOTE]
+====
+Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.doc[Show or hide UI actions].
+====
 
++
 ----
-disabledActions: Action.ShowUnderlyingData
+visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.ShowUnderlyingData]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
 ++++
+
+
+hiddenActions __Optional__::
+_Array of strings_. Hides the specified actions on the search result page. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
+
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For example, to hide the *Share* action, specify `Action.Share` in the `hiddenActions` attribute.
+
++
+----
+hiddenActions: [Action.Share]
+----
++
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+++++
 
 
-[NOTE]
-====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
+disabledActions __Optional__::
+_Array of strings_. Disables the specified actions. You can use this attribute to restrict user access to certain features.
++
+For example, to disable the *Show underlying data* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.ShowUnderlyingData` in the `disabledActions` attribute.
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on the search results page.
-====
++
+----
+disabledActions: [Action.ShowUnderlyingData]
+----
++
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+++++
 
-disabledActionReason [small]#__Optional__#::
-_String_. Indicates the reason for disabling an action on search data.
+include::{path}/custom-action-note.adoc[]
+
+disabledActionReason __Optional__::
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 
-hideDataSources [small]#__Optional__#::
+hideDataSources __Optional__::
 _Boolean_. When set to true, it hides the default Data Source panel. Use this attribute if you want to create a custom data panel.
 
 +
@@ -152,7 +179,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 ++++
 
 
-forceTable  [small]#__Optional__#:::
+forceTable __Optional__::
 _Boolean_. When set to `true`, the tabular view is set as the default format for presenting search data. 
 
 +
@@ -160,7 +187,8 @@ _Boolean_. When set to `true`, the tabular view is set as the default format for
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out in Playground</a>
 ++++
 
-hideResults [small]#__Optional__#::
+
+hideResults __Optional__::
 _Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved answer.
 
 +
@@ -179,43 +207,16 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 ++++
 
 ////
-hiddenActions [small]#__Optional__#::
-_Array of strings_. Hides the specified action menu items on an answer page. You can use this attribute to remove actions that are not relevant to your application context.
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
-+
-For example, to hide the *Share* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Share` action menu string in the `hiddenActions` attribute.
-
-+
-----
-hiddenActions: ['Action.Share']
-----
-
-+
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
-
-[NOTE]
-====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
-
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on the search results page.
-====
 
 [#search-query]
-searchOptions [small]#__Optional__#::
-Allows you to specifiy a search token string and execute search.
+searchOptions __Optional__::
+Allows you to specify a search token string and execute search.
 
 * `searchTokenString`
 +
 __String__. The ThoughtSpot Modeling Language (TML) query string. For example, to use the `product` and `sales` keywords, you can set the search token as shown here:
 
 +
-
     searchTokenString: '[sales][product name]'
 
 * `executeSearch`
@@ -225,9 +226,9 @@ __Boolean__. When set to `true`, the  focus is placed on search results. When se
 [source, javascript]
 ----
 searchOptions: {
-        searchTokenString: '[product][sales][date].daily',
-        executeSearch: true,
-    }
+	searchTokenString: '[product][sales][date].daily',
+	executeSearch: true,
+}
 ----
 
 
@@ -241,12 +242,12 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to embed events triggered by the ThoughtSpot Search function. 
+Register event listeners. 
 
 [source, javascript]
 ----
- searchEmbed.on(EmbedEvent.Init, showLoader) 
- searchEmbed.on(EmbedEvent.Load, hideLoader) 
+searchEmbed.on(EmbedEvent.Init, showLoader)
+searchEmbed.on(EmbedEvent.Load, hideLoader)
 ----
  
 For more information, see xref:embed-events.adoc[Event subscription and handling].
@@ -255,20 +256,20 @@ For more information, see xref:embed-events.adoc[Event subscription and handling
 
 [source, javascript]
 ----
- searchEmbed.render();
+searchEmbed.render();
 ----
 
 == Test the embedded workflow
 
-To verify the ThoughtSpot Search integration, perform the following tasks:
+To verify the ThoughtSpot Search integration, perform the following tests:
 
 * Load your application.
-* Search for data from a data source.
+* Perform a search operation and verify the results. 
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
-* If you have disabled an action for search data obtained from a query, verify if the menu command shows as disabled.
+* Verify if the actions are displayed or hidden as configured in the SDK.  
 
 
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

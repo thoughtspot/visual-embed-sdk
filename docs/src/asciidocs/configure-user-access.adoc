@@ -12,7 +12,7 @@ ThoughtSpot supports the following features to control user access to ThoughtSpo
 * Sharing visibility 
 * Object-level permissions
 * Row-level security (RLS) and column-level security (CLS) for data security
-* Visual Embed SDK for granular access (applicable to ThoughtSpot embedded instances)
+* Granular access to buttons and menu actions in the embedded app (applicable to embedded ThoughtSpot instances)
 
 == User groups and system privileges
 
@@ -50,7 +50,7 @@ When an object is shared, users can view all the data regardless of the permissi
 
 [NOTE]
 ====
-If your application instance has classic Answer Experience enabled, administrators can restrict user access to Liveboards by selecting the *Cannot create or update Liveboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disableActions` and `hideActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide menu actions].
+If your application instance has classic Answer Experience enabled, administrators can restrict user access to Liveboards by selecting the *Cannot create or update Liveboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disabledActions` and `hiddenActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Show or hide actions].
 ====
 
 == Data access control with RLS and CLS
@@ -76,6 +76,4 @@ For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-sec
 
 == Granular access to menu actions
 
-If you are using Visual Embed SDK to embed ThoughtSpot objects and you want to restrict user access to certain menu actions, you can use the `disableActions` and `hideActions` parameters. 
-
-For more information on disabling or hiding an action, see xref:embed-actions.adoc[Disable or hide menu actions].
+If you are using Visual Embed SDK to embed ThoughtSpot objects and you want to restrict user access to certain menu actions, you can use the `visibleActions`, `disabledActions` or `hiddenActions` attributes. For more information, see xref:embed-actions.adoc[Show or hide UI actions].

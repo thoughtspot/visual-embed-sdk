@@ -6,6 +6,8 @@
 [navSection]
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=whats-new[What's new]
+** link:{{navprefix}}=terminology[Terminology changes]
+
 * link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
@@ -33,7 +35,7 @@
 ** link:{{navprefix}}=embed-liveboard[Embed a Liveboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
-** link:{{navprefix}}=action-config[Disable or hide menu actions]
+** link:{{navprefix}}=action-config[Show or hide UI actions]
 ** link:{{navprefix}}=events[Subscribe to events]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]

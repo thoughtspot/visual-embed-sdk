@@ -22,17 +22,24 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
+== Supported operations
+
+include::{path}/data-connection-apis.adoc[]
+
 [#connection-metadata]
 == Connection metadata
 
-To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. To create a new data connection, the metadata JSON map should include at least one table object. 
+To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. 
 
-Here is an example of the metadata JSON file:
+.Example JSON for connection metadata
 
+[%collapsible]
+====
 image::./images/connection_metadata_json.png[Connection metadata] 
+====
 
 [#connection-attr]
-=== Configuration attributes in connection metadata
+=== Configuration attributes
 
 The configuration attributes in the connection vary based on the type of connection.
 
@@ -291,20 +298,12 @@ __String__. The database associated with the account.
 ====
 --
 
-== Supported operations
-
-include::{path}/data-connection-apis.adoc[]
-
 
 [#cre-connection]
 == Add a data connection for live query service
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
 
-[NOTE]
-====
-Creating a new connection requires defining at least one table in the metadata JSON map.
-====
 
 === Resource URL
 ----
@@ -320,14 +319,14 @@ POST /tspublic/v1/connection/create
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
-
+   
 Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
-|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. Make sure the database object includes at least one table.
+|`createEmpty`|__Boolean__. Allows creating a connection without tables. If you want to store only the configuration attributes and import tables later, you can set this attribute to `true`. The default value is `false`.
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, you can create a connection without tables by setting the `createEmpty` attribute to `true`. 
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
 === Example request 
-
  
 .cURL
 [source,cURL]
@@ -344,8 +343,28 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
 ----
 
+==== Example metadata JSON without tables
 
-==== Example JSON map for metadata creation
+The following example shows the metadata JSON map for creating a Snowflake data connection without tables. 
+
+[source, JSON]
+----
+{
+   "configuration":{
+      "accountName":"thoughtspot_partner",
+      "user":"tsadmin",
+      "password":"TestConn123",
+      "role":"sysadmin",
+      "warehouse":"MEDIUM_WH"
+   },
+   "externalDatabases":[
+      
+   ]
+}
+----
+ 
+
+==== Example metadata JSON with tables
 
 The following example shows the metadata JSON map for creating a Snowflake data connection. Note that the example shows the configuration attributes required to authenticate to the data source, and the object metadata (database, schema, and tables) to add to the connection.
 
@@ -651,6 +670,8 @@ POST /tspublic/v1/connection/update
 |`name` |__String__. Name of the connection.
 |`description` |__String__. The description of the data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
+|`createEmpty`|__Boolean__. Allows updating a connection without importing tables. If you want to update only the configuration attributes,  you can set this attribute to `true`. The default value is `false`.
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, if the  `createEmpty` attribute to `true`, you can update the connection attributes without importing tables. 
 |`id`|__String__. The GUID of the data connection that you want to modify.
 |`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
@@ -673,11 +694,32 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
 ----
 
-==== Example JSON map for metadata update
+==== Example metadata JSON without tables
 
-The following example shows the metadata JSON map for modifying a Snowflake data connection. Note that the example shows the configuration attributes to authenticate to the data source, tables, and column data for connection modification.
+The following example shows the metadata JSON map for modifying a Snowflake connection without importing tables. 
 
-[Source, JSON]
+[source, JSON]
+----
+{
+   "configuration":{
+      "accountName":"thoughtspot_partner",
+      "user":"tsadmin",
+      "password":"Embrace123",
+      "role":"sysadmin",
+      "warehouse":"MEDIUM_WH"
+   },
+   "externalDatabases":[
+   
+   ]
+}
+----
+ 
+
+==== Example metadata JSON with tables
+
+The following example shows the metadata JSON for modifying a Snowflake data connection. Note that the example shows the configuration attributes to authenticate to the data source, tables, and column data for connection modification.
+
+[source, JSON]
 ----
 {
    "configuration":{
@@ -932,12 +974,12 @@ If the connection modification is successful, the API returns a response body wi
 | **200**
 **204**
 
-| Successful update of the connection object.
+| Successful update operation
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be created
+| Invalid paramters
 |===
 
 
@@ -1277,12 +1319,12 @@ Click the link in the `Response body` to download the YAML file.
 
 **204**
 
-| Successful deletion of the connection object.
+| Successful export of the connection object
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be deleted.
+| Invalid connection ID
 |===
 
 [#del-connection]
@@ -1345,12 +1387,12 @@ Response Code
 
 | **200**
 
-**204**  |Successful deletion of the connection object.
+**204**  |Successful deletion of the connection object
 
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be deleted due to table dependencies.
+| The connection could not be deleted due to table dependencies
 |===
 

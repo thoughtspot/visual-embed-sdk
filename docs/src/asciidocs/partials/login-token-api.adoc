@@ -1,29 +1,44 @@
 
-When trusted authentication is enabled on ThoughtSpot, trusted client applications can obtain an authentication token from the authentication server for a ThoughtSpot user. The `/tspublic/v1/session/login/token` API allows you to log in to ThoughtSpot with the authentication token obtained from the trusted authentication server.
+To authenticate and log in a user, you must xref:session-api.doc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request. 
 
-=== Resource URL
+* `GET /tspublic/v1/session/login/token`
++
+This request method sends the user authentication attributes as query string parameters in the request URL.
+
+* `POST /tspublic/v1/session/login/token`
++
+This request method sends the user authentication attributes as `formData` parameters in the request body of the API call. For secure exchange of authentication information, we recommend using the `POST`request method. 
+ 
+=== Resource URLs
+
 ----
 GET /tspublic/v1/session/login/token
 ----
 
+----
+POST /tspublic/v1/session/login/token
+----
+
 === Request parameters
 
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`username`|string|The username of the user who requested access to ThoughtSpot.
-|`auth_token`|string a|The authentication token obtained from ThoughtSpot.
-|`redirect_url`|string|The URL to which you want to redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user.
+|Parameter|Description
+|`username`|__String__. The username of the user who requested access to ThoughtSpot.
+|`auth_token`|__String__. The authentication token obtained from ThoughtSpot.
+|`redirect_url`|__String__. The URL to which you want to redirect the user after a successful login. This URL is fully encoded and includes the authentication token obtained for the user.
 
 `\https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
 
 For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the host domain to which the user will be redirected, the authentication token, and the visualization and Liveboard IDs.
 |====
 
+=== Example requests
 
-=== Example request
+The following example shows a GET request with query parameters in the request URL:
 
+ 
 .cURL
 [source, cURL]
 ----
@@ -32,10 +47,33 @@ curl -X GET \
 --header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
 
+
+ 
 .Request URL
 [source, URL]
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+----
+
+
+The following example shows a POST request with authentication attributes in the request body:
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: text/html' \
+--header 'X-Requested-By: ThoughtSpot' 
+-d  'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCREMUlCcWV5VVJMb2lZaFpnTUhjMHVnPT0kZklpQVFGTFp0RU5QTFFwcGxOUmF5WWU4ZGtGU1d6THdlUDBEOUY4WkhSWT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token'
+----
+
+ 
+.Request URL
+[source, URL]
+----
+https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 ----
 
 === Example response

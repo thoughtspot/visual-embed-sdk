@@ -19,9 +19,9 @@ Modifies a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` 
 
-Add or modifies the email address of a user.
+Modifies the email address of a user.
 
 +++<p class="divider"> </p>+++
 
@@ -85,25 +85,25 @@ Synchronizes user details and attributes from an external database with the user
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` 
 
 Assigns a user to the specified user groups.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` 
 
 Gets details of the user groups associated with a specific user.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]`  
 
 Updates the user group data for a specific user.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]`  
 
 Removes a user from the specified user groups.
 --

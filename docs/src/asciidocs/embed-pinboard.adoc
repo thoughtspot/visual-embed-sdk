@@ -9,19 +9,26 @@
 This page explains, through an example, how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
 
 == Import the LiveboardEmbed package
-Import the LiveboardEmbed SDK library to your application environment:
+
+Import the `LiveboardEmbed` SDK library to your application environment:
 
 **npm**
 [source,javascript]
 ----
-import { SearchEmbed, AuthType, init, prefetch, EmbedEvent } from '@thoughtspot/visual-embed-sdk';
+import {
+	LiveboardEmbed, AuthType, init, prefetch, EmbedEvent
+}
+from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
 [source,javascript]
 ----
-<script type='module'>
-import { LiveboardEmbed, AuthType, init, prefetch } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+< script type = 'module' >
+	import {
+		LiveboardEmbed, AuthType, init, prefetch
+	}
+from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
 == Initialize the SDK
@@ -30,10 +37,9 @@ Specify the hostname or IP address of your ThoughtSpot application instance.
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-    });
+init({
+	thoughtSpotHost: "https://<hostname>:<port>",
+});
 ----
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
@@ -44,10 +50,9 @@ Define an authentication method. In the following example, the authentication me
 
 [source,javascript]
 ----
-init
-    ({
-        authType: AuthType.SSO,
-    });
+init({
+	authType: AuthType.SSO,
+});
 ----
 
 include::{path}/embed-auth-config.adoc[]
@@ -58,30 +63,27 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-== Configure security parameters
+== Configure security and login parameters
 
 include::{path}/embed-config.adoc[]
 
 == Construct the embed content
 [source,JavaScript]
 ----
- const liveboardEmbed = new LiveboardEmbed(
-    document.getElementById('ts-embed'),
-    {
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 	frameParams: {
 		width: '100%',
 		height: '100%',
 	},
-    disabledActions: [],
-    fullHeight: true,
-    disabledActionReason: '<reason for disabling>'
-    hiddenActions: [],
-    liveboardId: '<%=liveboardGUID%>',
-    enableVizTransformations: true,
-    preventLiveboardFilterRemoval: true,
-    runtimeFilters: [],
-    },
-
+	disabledActions: [],
+	fullHeight: true,
+	disabledActionReason: '<reason for disabling>'
+	hiddenActions: [],
+	liveboardId: '<%=liveboardGUID%>',
+	enableVizTransformations: true,
+	preventLiveboardFilterRemoval: true,
+	runtimeFilters: [],
+},
 });
 ----
 frameParams::
@@ -93,10 +95,8 @@ _Boolean_. Dynamically resizes the embedded Liveboard frame according to the hei
 +
 If the embedded Liveboard does not fit vertically within your application page, a second scroll bar may appear. When `fullHeight` is set to `true`, the embedded Liveboard frame is automatically adjusted according to the height of the Liveboard, and the second scroll bar does not appear.
 
-
 defaultHeight::
 _Integer_. Minimum height to set for embedded objects on a Liveboard page and the corresponding visualization pages that a user can navigate to from the Liveboard page. The default value is `500` pixels.
-
 
 +
 ++++
@@ -104,79 +104,74 @@ _Integer_. Minimum height to set for embedded objects on a Liveboard page and th
 ++++
 
 
-disabledActions::
-_Array of strings_. The action menu items to be disabled on the Liveboards page.
-+
-
-For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `Present` action menu string in the `disabledActions` attribute.
+visibleActions __Optional__::
+_Array of strings_. Displays the specified actions on the *Liveboards* page. These actions can appear as buttons, or as menu actions in **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
 
 +
-[source,JavaScript]
 ----
-disabledActions: Action.Present
+visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.Present]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
+
 +
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
-
 [NOTE]
 ====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to disable this custom action, make sure you specify the ID of the custom action in the `disabledActions` attribute.
-
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `disabledActions` attribute to disable this action on a Liveboard page.
+Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.doc[Show or hide UI actions].
 ====
 
-disabledActionReason::
-_String_. Reason for disabling an action on a Liveboard page.
-
-
-hiddenActions::
-_Array of strings_. The action menu items to hide on the Liveboards page.
-+
-
-For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify the `AddFilter` action menu string in the `hiddenActions` attribute.
+hiddenActions __Optional__::
+_Array of strings_. Hides specified actions from the list of available actions on the embedded *Liveboards* page. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined. 
 
 +
-[source,JavaScript]
+For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.AddFilter` in the `hiddenActions` attribute.
+
++
 ----
-hiddenActions: Action.AddFilter
+hiddenActions: [Action.AddFilter]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
 ++++
+
+
+disabledActions __Optional__::
+_Array of strings_. Disables the specified actions. You can use this attribute to restrict user access to certain features.
 +
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see  link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For example, to disable the *Present* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.Present` in the `disabledActions` attribute.
 
-[NOTE]
-====
-If you have xref:customize-actions-menu.adoc[added a custom action] and you want to hide this custom action, make sure you specify the ID of the custom action in the `hiddenActions` attribute.
++
+----
+disabledActions: [Action.Present]
+----
++
+++++
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+++++
 
-For example, if the custom action ID is set as *send-email*, use `send-email` in the `hiddenActions` attribute to hide this action on a Liveboard page.
-====
+include::{path}/custom-action-note.adoc[]
+
+disabledActionReason __Optional__::
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 liveboardId::
 _String_. The GUID of the Liveboard.
-////
-vizId [small]_optional_::
-_String_. The GUID of a visualization added to the Liveboard.
-////
-enableVizTransformations::
+ 
+enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
 
 [#filter-removal]
-preventLiveboardFilterRemoval::
+preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
 runtimeFilters [small]_optional_::
-Runtime filters to be applied when the Liveboard page loads.
-Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a Liveboard and pass filter specifications in the URL query parameters.
+Runtime filters to apply when the pinboard page loads.
+Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard by passing filter specifications as URL query parameters.
 +
-Runtime filters do not appear to the user in the Liveboard UI. They do not adjust the values of visible Liveboard filters, but act as an additional set of filters - both runtime filters and UI filters will be applied within the queries.
+Runtime filters do not appear to the user in the Liveboard UI. They do not adjust the values of visible Liveboard filters, but act as an additional set of filters — both runtime filters and UI filters will be applied within the queries.
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization in a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 
@@ -184,10 +179,10 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'Region',
-  operator: RuntimeFilterOp.IN,
-  values: ['Midwest', 'East', 'West']
-  }]
+	columnName: 'Region',
+	operator: RuntimeFilterOp.IN,
+	values: ['Midwest', 'East', 'West']
+}]
 ----
 
 
@@ -213,34 +208,36 @@ include::{path}/callback-payload.adoc[]
 
 == Subscribe to events
 
-Register event handlers to subscribe to the events triggered by the embedded Liveboard.
+Register event listeners.
 
 [source,javascript]
 ----
-  liveboardEmbed.on(EmbedEvent.init, showLoader)
-  liveboardEmbed.on(EmbedEvent.load, hideLoader)
+liveboardEmbed.on(EmbedEvent.init, showLoader)
+liveboardEmbed.on(EmbedEvent.load, hideLoader)
 ----
 
 For more information, see xref:embed-events.adoc[Event subscription and handling].
 
 == Render the embedded Liveboard
 
-Construct the URL for the embedded Liveboard and render the embedded content:
+Render the embedded Liveboard.
 
 [source,JavaScript]
 ----
 liveboardEmbed.render();
 ----
 
-== Test the embedded workflow
+== Test your embedding
+
+To verify the ThoughtSpot Liveboard embed, perform the following tests:
 
 * Load the client application.
 * Try accessing a Liveboard embedded in your application.
-* Verify the rendition.
-* If you have disabled a menu item, verify if the menu command is disabled on the Liveboards page.
-* Verify the runtime filters.
+* Verify if the embedded content renders correctly on your application page. 
+* If you have disabled an action, verify if the action appears as disabled on the *Liveboards* page.
+* If runtime filters are configured, verify if the filters are applied to the visualizations on the Liveboard.
 
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, xref:sdk-reference.adoc[Visual Embed SDK Reference].

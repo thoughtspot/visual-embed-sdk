@@ -6,7 +6,7 @@ __Boolean__. When set to `true`, an expired or timed-out user session is renewed
 +
 [source,javascript]
 ----
- autoLogin: true
+autoLogin: true
 ----
 shouldEncodeUrlQueryParams [small]#__Optional__#::
 
@@ -15,7 +15,7 @@ __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generat
 +
 [source,javascript]
 ----
- shouldEncodeUrlQueryParams: true
+shouldEncodeUrlQueryParams: true
 ----
 
 suppressNoCookieAccessAlert [small]#__Optional__#::
@@ -28,5 +28,5 @@ For enhanced security, most browsers allow cookies only if they originate from t
 +
 [source,javascript]
 ----
- suppressNoCookieAccessAlert: true
+suppressNoCookieAccessAlert: true
 ----

@@ -6,11 +6,11 @@
 
 ThoughtSpot lets you add custom actions globally to all your visualizations or locally to a specific visualization or worksheet. For example, if you want to send data from a specific visualization to a URL, you can add a custom action locally to that visualization. If you want to add a custom action to a visualization, you must set it as a *Local* action and then add it to the visualization. 
 
-To view the *Local* custom actions available on your cluster, create a new chart or table from search, or open a visualization from a Liveboard or saved answer, and then and click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. The *Custom actions* panel allows you to add, edit, and hide the actions.
+To view the *Local* custom actions available on your cluster, create a new chart or table from search, or open a visualization from a Liveboard or saved answer, and then click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. The *Custom actions* panel allows you to add, edit, and hide the actions.
  
 == Before you begin
 
-* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view the custom action availability in the *Custom actions* > *Actions* dashboard.
+* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view these actions in the *Custom actions* > *Actions* dashboard.
 * Make sure you have edit permissions to modify the visualization.
 * Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
 

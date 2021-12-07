@@ -139,12 +139,13 @@ If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically b
 ====
 
 +
-. The client application constructs a fully encoded URL with the authentication token and the embedded resource endpoint and sends it as a query parameter in the GET request to the ThoughtSpot application server.
+. The client application constructs a fully encoded URL with the authentication token and the resource endpoint, and sends these as attributes in the API request to the ThoughtSpot application server.
 +
 [source, HTML]
 ----
 GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
 ----
+
 The request URL includes the following attributes:
 
 

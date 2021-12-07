@@ -16,7 +16,6 @@ ThoughtSpot generates links during various operations:
 These links provide access to a Liveboard object and are sent in email notifications in the following scenarios:
 
 ** When a user shares a Liveboard with another user
-** When a user follows a Liveboard and subscribes to receive notifications
 ** When a user schedules a job for a Liveboard and adds recipients to receive email notification about the job status
 
 * Links to visualizations within a Liveboard
@@ -26,7 +25,6 @@ ThoughtSpot users can copy these links  and send these to another user through e
 * Links to answers
 +
 These links provide access to answers from a search query. ThoughtSpot sends these links in email notifications when a user shares an answer with another user or a user group.
-
 
 * Links to the SpotIQ analyses page
 +
@@ -38,7 +36,7 @@ The *Unsubscribe* link is included in system-generated emails to allow users to 
 
 == Link format for a ThoughtSpot embedded instance
 
-By default, ThoughtSpot generates links that point users to a standalone ThoughtSpot application URL. If you have embedded ThoughtSpot in your application, you might want to generate links in the format that suits your host application context. For embedded instances, ThoughtSpot allows you to customize the format of these links in the Developer portal.
+By default, ThoughtSpot generates links that point users to a standalone ThoughtSpot application URL. For embedded instances, you might want to generate links in the format that preserves your host application context. 
 
 The *Links* page in the Developer portal displays the default link format for the system-generated links. You can either prefix your application domain URL to the default link format or customize the entire URL. ThoughtSpot recommends that you use the following variables when you customize a link format:
 
@@ -134,4 +132,4 @@ https://www.mysite.com/?unsubscribe
 
 +
 . Click *Save changes*.
-. To verify if the links are generated in the format you configured, subscribe to a Liveboard and check the links in the email notifications.
+. To verify if the links are generated in the format you configured, share a Liveboard with another user and check the links in the email notifications.
