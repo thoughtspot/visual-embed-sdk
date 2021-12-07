@@ -164,7 +164,7 @@ export class LiveboardEmbed extends V1Embed {
         responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
     };
 
-    private handleRouteChangeFullHeightLiveboard = (data: MessagePayload) => {
+    private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
         if (!data.data.currentPath.startsWith('/embed/viz/')) {
             this.setIFrameHeight(this.defaultHeight);
         }
@@ -187,7 +187,7 @@ export class LiveboardEmbed extends V1Embed {
         if (this.viewConfig.fullHeight === true) {
             this.on(
                 EmbedEvent.RouteChange,
-                this.handleRouteChangeFullHeightLiveboard,
+                this.setIframeHeightForNonEmbedLiveboard,
             );
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
