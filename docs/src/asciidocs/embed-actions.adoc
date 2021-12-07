@@ -102,7 +102,6 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 hiddenActions: ['send-email']
 ----
 
-
 == Supported menu actions
 
 ThoughtSpot embedded instances support the following actions on pinboards and visualizations.
@@ -172,8 +171,8 @@ Adds filters to all visualizations in a pinboard.
 |*Download as CSV* |Downloads the visualization data in the CSV file format. Available only for tables.| `Action.DownloadAsCsv`
 |*Download as XLSX* |Downloads the visualization data in the XLSX file format. Available only for tables.| `Action.DownloadAsXLSX`
 |*Download as PDF* |Downloads the visualization data as a PDF file. Available only for tables.|`Action.DownloadAsPdf`
-|*Query details*| Displays information about the search query such as attributes, measures, and options to view query visualizer and SQL statements.|`Action.AnalysisInfo`
-|*Drill down*|Allows you to view additional details and granular data in a visualization.|`Action.DrillDown`
+|*Query details*| Displays query details such as attributes and measures, and the *Query visualizer* and *Query SQL* buttons to view additional details.|`Action.QueryDetailsButtons`
+|*Drill down*|Allows you to view additional details and granular data in a  visualization.|`Action.DrillDown`
 |*Exclude*|Allows you to exclude a specific data point from a visualization.| `Action.DrillExclude`
 |*Include*|Allows you to include a specific data point in a visualization.| `Action.DrillInclude`
 |*Show underlying data*|Displays detailed information and raw data for a given visualization.| `Action.ShowUnderlyingData`
