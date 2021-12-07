@@ -14,7 +14,7 @@ You cannot embed a saved answer as an individual visualization. Saved answers ca
 [NOTE]
 ====
 * If you want to display multiple charts or tables that have been saved in a Liveboard, try to embed a single Liveboard rather than multiple individual visualizations. This helps in improving your application performance.
-* If you must embed multiple visualizations, xref:prefetch-and-cache.adoc[prefetch static resources] before loading the page. We recommend that you limit the page to display not more than four visualizations at any given time.
+* If you must embed multiple visualizations, xref:prefetch-and-cache.adoc[prefetch static resources] before loading the page. We recommend that you limit the page to display not more than four visualizations at a time.
 ====
 
 == Import the LiveboardEmbed package
