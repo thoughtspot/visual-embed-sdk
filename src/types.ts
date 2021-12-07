@@ -455,11 +455,6 @@ export enum Action {
     MakeACopy = 'makeACopy',
     EditACopy = 'editACopy',
     CopyLink = 'embedDocument',
-    /**
-     * @hidden
-     */
-    PinboardSnapshot = 'pinboardSnapshot',
-    LiveboardSnapshot = 'liveboardSnapshot', // update-TSCB
     ResetLayout = 'resetLayout',
     Schedule = 'schedule',
     SchedulesList = 'schedule-list',
@@ -496,7 +491,7 @@ export enum Action {
      * @hidden
      */
     PinboardInfo = 'pinboardInfo',
-    LiveboardInfo = 'liveboardInfo', // update-TSCB
+    LiveboardInfo = 'pinboardInfo',
     SendAnswerFeedback = 'sendFeedback',
     /**
      * @deprecated Will be removed in next version
