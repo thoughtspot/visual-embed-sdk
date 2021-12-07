@@ -7,7 +7,7 @@
 
 This article explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application. 
 
-A visualization is a single answer pinned to a Liveboard. Pinned visualizations appear without the search bar or the other options to change the visualization.
+A visualization is a single answer pinned to a Liveboard. Pinned visualizations appear without the search bar or other options to change the visualization.
 
 You cannot embed a saved answer as an individual visualization. Saved answers can be used in the *SearchEmbed* component, where they will load with the search bar and other options available with ThoughtSpot search. Any visualization you want to embed using *LiveboardEmbed* must exist on a Liveboard object in ThoughtSpot.
 
