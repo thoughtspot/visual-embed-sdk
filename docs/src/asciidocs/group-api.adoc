@@ -457,7 +457,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 |**415**|Invalid content type
 |===
 
-
 [#add-user-to-group]
 == Add a user to a group
 To programmatically add an existing ThoughtSpot user to a user group, send a `POST` request to the `/tspublic/v1/group/{groupid}/user/{userid}` API endpoint. 
@@ -626,7 +625,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
 [options='header']
 |===
 |HTTP status code|Description
-|**204** |Successful operation
+|**200** |Successful operation
 |**400**| Invalid parameter
 |===
 
@@ -942,6 +941,15 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
 ----
 
+=== Example response
+
+If the group assignment is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
@@ -1205,7 +1213,7 @@ If the GET operation is successful, the API returns the details of the subgroups
 [options='header']
 |===
 |HTTP status code|Description
-|**204**| Successful operation
+|**200**| Successful operation
 |**400**| Invalid parameter
 |===
 
@@ -1309,6 +1317,15 @@ curl -X POST \
 .Request URL
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removememberships
+----
+
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
 ----
 
 === Response codes

@@ -241,7 +241,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
 
 === Example response
 
-On successful update of the user profile, the API returns the following response code:
+If the operation is successful, the API returns the following response code:
 
 ----
 Response Code
@@ -560,7 +560,7 @@ Response Code
 [options='header']
 |===
 |HTTP status code|Description
-|**200** |Successful operation
+|**204** |Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid  user ID
 |===
@@ -627,9 +627,7 @@ Response Code
 [options='header']
 |====
 |HTTP status code|Description
-|**200**
-
-**204**|Successful operation
+|**204**|Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid username or userID
 |====
@@ -934,12 +932,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword
 ----
 
+=== Example response
+
+If the password reset operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password reset is successful
+|**204**|Password reset is successful
 |**401**|Unauthorized request
 |**500**|Invalid parameter
 |===
@@ -1123,12 +1130,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
 ----
 
+=== Example response
+
+If the objects transfer operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|The ownership of objects is successfully transferred.
+|**204**|The ownership of objects is successfully transferred.
 |**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot that matches the specified username.
 |===
 
@@ -1271,7 +1287,8 @@ The above example covers user objects (with emails), group objects, and their re
 [options='header']
 |===
 |HTTP status code|Description
-|**200**| The user sync operation is successful.
+|**200**| The user sync operation is successful
+|**500**| Invalid request
 |===
 
 [#assignUserToGroups]
