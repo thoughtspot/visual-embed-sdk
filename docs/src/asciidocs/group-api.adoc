@@ -63,7 +63,11 @@ POST /tspublic/v1/group/
 .cURL
 ----
 
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'name=TS%20Group&display_name=TS%20Group&grouptype=LOCAL_GROUP&visibility=DEFAULT' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'name=TS%20Group&display_name=TS%20Group&grouptype=LOCAL_GROUP&visibility=DEFAULT' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/'
 ----
 
 .Request URL
@@ -374,9 +378,7 @@ If the privilege assignment is successful, the API returns the group metadata wi
 [options='header']
 |===
 |HTTP Code|Description
-|**200**
-
-**204**|Successful operation
+|**200**|Successful operation
 |**415**|Invalid content type
 |**401**|Unauthorized request
 |===
@@ -440,9 +442,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 [options='header']
 |===
 |HTTP Code|Description
-|**200**
-
- **204**|Successful operation
+|**204**|Successful operation
 |**400**|Invalid parameter type
 |**415**|Invalid content type
 |===
@@ -610,7 +610,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-
 [options='header']
 |===
 |HTTP status code|Description
-|**204** |Successful operation
+|**200** |Successful operation
 |**400**| Invalid parameter
 |===
 
@@ -1173,7 +1173,7 @@ If the GET operation is successful, the API returns the details of the subgroups
 [options='header']
 |===
 |HTTP status code|Description
-|**204**| Successful operation
+|**200**| Successful operation
 |**400**| Invalid parameter
 |===
 

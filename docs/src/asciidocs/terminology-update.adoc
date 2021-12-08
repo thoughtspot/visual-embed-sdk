@@ -58,11 +58,9 @@ pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-
 |`page.Pinboards`|`page.Liveboards`
 |Action enumeration| `PinboardInfo`
 
-`PinboardSnapshot`
 |`LiveboardInfo` 
 
-`LiveboardSnapshot`
-|Object references in embed data structure|pinboard| No change
+|Object references in embed data structure|`pinboard`| No change
 |====
 
 == Application components and interfaces with legacy terminology

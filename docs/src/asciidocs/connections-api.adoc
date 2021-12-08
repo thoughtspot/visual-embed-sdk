@@ -638,9 +638,6 @@ If the connection creation is successful, the API returns a response body with t
 |HTTP status code | Description
 
 | **200**
-
-**204**
-
 | Successful creation of the connection object
 
 | **401**
@@ -972,8 +969,6 @@ If the connection modification is successful, the API returns a response body wi
 |HTTP status code | Description
 
 | **200**
-**204**
-
 | Successful update operation
 | **401**
 | Unauthorized or wrong credentials
@@ -1258,8 +1253,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 |HTTP status code | Description
 
 | **200**
-
-**204**
 | Successful retrieval of live query connections list
 
 | **401**
@@ -1316,9 +1309,6 @@ Click the link in the `Response body` to download the YAML file.
 |HTTP status code | Description
 
 | **200**
-
-**204**
-
 | Successful export of the connection object
 | **401**
 | Unauthorized or wrong credentials
@@ -1385,9 +1375,8 @@ Response Code
 |===
 |HTTP status code | Description
 
-| **200**
-
-**204**  |Successful deletion of the connection object
+| **204**  
+|Successful deletion of the connection object
 
 | **401**
 | Unauthorized or wrong credentials

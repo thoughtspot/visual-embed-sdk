@@ -6,7 +6,7 @@
 :page-pageid: user-api
 :page-description: User APIs
 
-The User APIs allow you to programmatically manage ThoughtSpot users.
+The User APIs allow you to programmatically create, update, and administer ThoughtSpot users.
 
 == Supported operations
 include::{path}/user-api-list.adoc[]
@@ -549,7 +549,7 @@ Response Code
 [options='header']
 |===
 |HTTP status code|Description
-|**200** |Successful operation
+|**204** |Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid  user ID
 |===
@@ -614,9 +614,7 @@ Response Code
 [options='header']
 |====
 |HTTP status code|Description
-|**200**
-
-**204**|Successful operation
+|**204**|Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid username or userID
 |====
@@ -830,7 +828,7 @@ Indicates if the user or user group needs to be activated. If the user or user g
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|Successful operation.
+|**200**|Successful operation
 |===
 
 [#change-pwd]
@@ -868,12 +866,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password update is successful.
+|**204**|Password update is successful.
 |===
 
 [#resetpassword]
@@ -913,12 +920,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword
 ----
 
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password reset is successful
+|**204**|Password reset is successful
 |**401**|Unauthorized request
 |**500**|Invalid parameter
 |===
@@ -1061,10 +1077,9 @@ The allowed values are:
 [options='header']
 |===
 |HTTP status code|Description
-|**200**| Successful update of a user profile
+|**204**| Successful update of a user profile
 |**400**| Invalid user ID
 |===
-
 
 [#transfer-ownership]
 == Transfer ownership
@@ -1100,12 +1115,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
 ----
 
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|The ownership of objects is successfully transferred.
+|**204**|The ownership of objects is successfully transferred.
 |**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot that matches the specified username.
 |===
 
@@ -1248,7 +1272,8 @@ The above example covers user objects (with emails), group objects, and their re
 [options='header']
 |===
 |HTTP status code|Description
-|**200**| The user sync operation is successful.
+|**200**| The user sync operation is successful
+|**500**| Invalid request
 |===
 
 [#assignUserToGroups]
@@ -1427,7 +1452,7 @@ If the GET operation is successful, the API returns the following response:
 [options='header']
 |===
 |HTTP status code|Description
-|**204**| Successful operation
+|**200**| Successful operation
 |**400**| Invalid parameter
 |===
 

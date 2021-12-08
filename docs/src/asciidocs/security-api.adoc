@@ -12,7 +12,6 @@ The Security APIs allow you to share ThoughtSpot objects, such as Liveboards and
 
 include::{path}/security-api-list.adoc[]
 
-
 [#obj-permission-all]
 == Get object permission details for a specific object type
 
@@ -135,7 +134,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|**204**|Successful operation
+|**200**|Successful operation
 |**400**|Invalid parameter value
 |===
 
@@ -238,7 +237,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|**204**|Successful operation
+|**200**|Successful operation
 |**400**|Invalid parameter value
 |===
 
@@ -370,7 +369,7 @@ If the data query operation is successful, the API returns the object permission
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|**204**|Successful operation
+|**200**|Successful operation
 |**400**|Invalid parameter value
 |===
 
