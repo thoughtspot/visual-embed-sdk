@@ -259,7 +259,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
         "isDeprecated": false
       }
     ],
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -388,7 +388,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
     ]
   },
   "2b9d083a-275c-4984-9cfe-90b036affa17": {
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -566,7 +566,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
         "isDeprecated": false
       }
     ],
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
