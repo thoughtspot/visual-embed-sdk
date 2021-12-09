@@ -1154,7 +1154,7 @@ Response Code
 |===
 |HTTP Code|Description
 |**204**|The ownership of objects is successfully transferred.
-|**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot that matches the specified username.
+|**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot system that matches the specified username.
 |===
 
 [#user-sync]
