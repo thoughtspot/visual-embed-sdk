@@ -885,12 +885,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
+=== Example response
+
+If the password update is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password update is successful.
+|**204**|Password update is successful.
 |===
 
 [#resetpassword]
