@@ -36,9 +36,10 @@ For more information, see xref:customize-actions-menu.adoc#access-control[Custom
 ||
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
 
-You can now configure a set of ThoughtSpot UI actions as visible actions and display only these actions in the embedded ThoughtSpot UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to quickly add the actions that you want to show in your application UI.
+You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
 
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
+
 |[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
 
 The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 
