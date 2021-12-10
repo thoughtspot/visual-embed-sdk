@@ -2,6 +2,8 @@
 :toc: true
 :linkattrs:
 :toclevels: 1
+:description: This API reference page describes the metadata REST API endpoints
+:keywords: API reference, metadata objects, metadata API
 
 :page-title: Get metadata
 :page-pageid: metadata-api
