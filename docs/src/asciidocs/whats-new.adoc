@@ -24,8 +24,8 @@ As part of rebranding, we have made some terminology changes in the ThoughtSpot 
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++ 
 
-ThoughtSpot now allows you to restrict a custom action availability to specific user groups. Developers can configure the custom action availability settings in the Developer portal, so that only the authorized users can view and access the custom actions available for worksheets, answers, and Liveboard visualizations.
-
+ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a worksheet, answer, or visualization.
+ 
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
 
@@ -36,9 +36,10 @@ For more information, see xref:customize-actions-menu.adoc#access-control[Custom
 ||
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
 
-You can now configure a set of ThoughtSpot UI actions as visible actions and display only these actions in the embedded ThoughtSpot UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to quickly add the actions that you want to show in your application UI.
+You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
 
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
+
 |[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
 
 The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 

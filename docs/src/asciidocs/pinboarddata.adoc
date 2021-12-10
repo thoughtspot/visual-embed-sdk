@@ -31,9 +31,12 @@ POST /tspublic/v1/pinboarddata
 |`id`|string|The GUID of the Liveboard.
 |`vizid` __Optional__|string|A JSON array of GUIDs of the visualizations. 
 |`batchsize`|integer|The batch size for loading Liveboard objects. The system default is -1.
-|`pagenumber`|integer|The system default is -1.
-|`offset`|integer|The system default is -1. Alternately, set the offset using the following code:
-         `1-based indexingOffset = (pageNumber - 1)` * batchSize
+|`pagenumber`|integer|An alternate way to define the offset. The system default is -1.  The `offset` attribute definition will not apply if the `pagenumber` value is greater than 0.
+|`offset`|integer a|The system default is -1. You can set an offset value based on the following formula:
+
+`PageNumber (Offset) = PageNumber -1 * BatchSize`
+
+For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 records, and the `offset` value is set to `1`, the charts will display data from the second record onwards. If the `pagenumber` attribute is set to `3` and `batchsize` is defined as `1`, then the offset value changes to 2, and all 10 charts will display data from the third record onwards.
 |`formattype`|string|Valid values are `COMPACT` or `FULL JSON`. The system default is `COMPACT`.
 |====
 

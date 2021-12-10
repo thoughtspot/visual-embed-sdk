@@ -141,7 +141,7 @@ If the `POST` operation is successful, the API returns a response body with depe
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful addition of dependent objects
+|**200**|Successful addition of dependent objects
 |**400**|Invalid object ID
 |**500**|Null object ID
 |===
@@ -259,7 +259,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
         "isDeprecated": false
       }
     ],
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -294,7 +294,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -388,7 +388,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
     ]
   },
   "2b9d083a-275c-4984-9cfe-90b036affa17": {
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -422,7 +422,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -502,7 +502,7 @@ If the GET operation is successful, the API returns the following response:
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -566,7 +566,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
         "isDeprecated": false
       }
     ],
-    "Liveboard_ANSWER_BOOK": [
+    "PINBOARD_ANSWER_BOOK": [
       {
         "hasTabs": false,
         "modelVersion": "V1",
@@ -624,7 +624,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -722,7 +722,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -796,7 +796,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
 
@@ -863,6 +863,6 @@ If the cluster has objects with incomplete metadata details, the API returns the
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP code|Description
-|**204**|Successful retrieval of dependent objects
+|**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===

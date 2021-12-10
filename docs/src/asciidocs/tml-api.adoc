@@ -18,8 +18,9 @@ To validate and import the TML objects, use the `/tspublic/v1/metadata/tml/impor
 
 [NOTE]
 ====
-You can import single or multiple objects using the `tml/import` API. When you import a worksheet object, it may take a few seconds for the worksheet to become available in the ThoughtSpot system. We recommend that you wait for a few seconds to create answers and Liveboards after you import a worksheet. 
-If you have imported worksheets, Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use. 
+You can import single or multiple objects using the `tml/import` API. If you import only a worksheet object, it may take some time for the worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and Liveboards.
+
+However, if you import a worksheet along with Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
 ====
 
 === Resource URL

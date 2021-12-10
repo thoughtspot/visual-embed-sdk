@@ -2,6 +2,8 @@
 :toc: true
 :linkattrs:
 :toclevels: 1
+:description: This API reference page describes the metadata REST API endpoints
+:keywords: API reference, metadata objects, metadata API
 
 :page-title: Get metadata
 :page-pageid: metadata-api
@@ -106,7 +108,7 @@ POST /tspublic/v1/metadata/unassigntag
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of the following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` for answers.
-* `Liveboard_ANSWER_BOOK` for Liveboards.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
 * `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
@@ -586,8 +588,8 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|__Integer__. The batch offset to fetch the object headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects are retrieved. The system default is -1, which implies the first item in the list. 
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the API response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
@@ -760,8 +762,8 @@ GET /tspublic/v1/metadata/listas
 [options='header']
 |====
 |Query Parameter|Description
-|`offset` __Optional__|__Integer__. The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the objects. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects should be retrieved. The system default is -1, which implies the first item in the list.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`principalid` __Optional__ a|__String__. The GUID of the user or user group.
 
@@ -1046,8 +1048,8 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|__Integer__. The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of object headers should be retrieved. The system default is -1, which implies the first item in the list.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.

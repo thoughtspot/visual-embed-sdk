@@ -79,13 +79,13 @@ To add a runtime filter to your API call or the embedded object:
 The URL format for applying runtime filters to a Liveboard in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The URL format for applying runtime filters to a Liveboard visualization in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The following example shows the URL to access a Liveboard with a filter. Here the runtime filter is operating on the column `Color` and will only return values that equal (EQ) to `red`.
@@ -132,7 +132,7 @@ If the Liveboard or answer you're filtering already has one or more filters appl
 
 == Limitations of runtime filters
 
-* Runtime filter on `DATE` or `DATE_TIME` must be specified in epoch time (Unix time or POSIX time).
+* Runtime filter on `DATE` or `DATE_TIME` must be specified in EPOCH time (Unix or POSIX time).
 * Runtime filters do not work directly on top of tables. You must create a worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a worksheet.
 * If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
