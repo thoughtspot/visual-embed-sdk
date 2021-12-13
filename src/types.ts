@@ -124,14 +124,14 @@ export interface EmbedConfig {
      * When there are multiple embeds, queue the render of embed to start
      *  after the previous embed's render is complete. This helps in the load performance
      *  by decreasing the load on the browser.
-     * * _Version 1.5.0 or later _
+     * @version 1.5.0 or later
      * @default false
      */
     queueMultiRenders?: boolean;
 
     /**
      * Dynamic CSS Url to be injected in the loaded application.
-     * * _Version 1.6.0 or later _
+     * @version 1.6.0 or later
      * @default ''
      */
     customCssUrl?: string;
@@ -287,7 +287,7 @@ export enum EmbedEvent {
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * * _Version 1.5.0 or later _
+     * @version 1.5.0 or later
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -329,7 +329,7 @@ export enum EmbedEvent {
      * Emitted when the embed does not have cookie access. This
      * happens on Safari where third-party cookies are blocked by default.
      *
-     * @version 1.1.0
+     * @version 1.1.0 or later
      */
     NoCookieAccess = 'noCookieAccess',
     /**
@@ -340,12 +340,12 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     * * _Version 1.6.0 or later _
+     * @version 1.6.0 or later
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     * * _Version 1.6.0 or later _
+     * @version 1.6.0 or later
      */
     DialogClose = 'dialog-close',
 }
@@ -368,7 +368,7 @@ export enum HostEvent {
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column. \
-     * * _Version 1.5.0 or later _
+     * @version 1.5.0 or later
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -385,7 +385,7 @@ export enum HostEvent {
      * Set the visible visualizations on a Liveboard.
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
-     * * _Version 1.6.0 or later _
+     * @version 1.6.0 or later
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
