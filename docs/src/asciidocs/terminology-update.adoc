@@ -70,7 +70,7 @@ To ensure that existing customizations and integrations work seamlessly, the fol
 * REST API endpoint URLs
 * Metadata object headers and dependent object references
 +
-For example, `PINBOARD_ANSWER_BOOK` is a valid value for the metadata object `type`.
+For example, `PINBOARD_ANSWER_BOOK` is a valid metadata object `type` that represents a Liveboard object. 
 * Query, path, and formData parameters in REST APIs
 * Attribute values, object properties, and API responses
 * Pinboard URLs in the application UI and system-generated links
