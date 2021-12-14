@@ -5,7 +5,7 @@
 :page-pageid: terminology
 :page-description: Read through this article to know the terminology changes.
 
-Starting from the ThoughtSpot 8 Cloud November release, the term *Pinboard* will appear as **Liveboard** in ThoughtSpot application UI and websites. As part of rebranding, the `pinboard` terminology in the ThoughtSpot application and other related interfaces has been updated. For example, the *pinboard* instances in the ThoughtSpot UI and Visual Embed SDK libraries now show as `Liveboard`. 
+Starting from the ThoughtSpot 8 Cloud November release, the term *Pinboard* will appear as **Liveboard** in ThoughtSpot application UI and websites. As part of rebranding, the `pinboard` terminology in ThoughtSpot application and other related interfaces has been updated. For example, the *pinboard* instances in the ThoughtSpot UI and Visual Embed SDK libraries now show as `Liveboard`. 
 
 [IMPORTANT]
 ====
@@ -65,11 +65,13 @@ pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-
 
 == Application components and interfaces with legacy terminology
 
-To ensure that existing customizations and integrations continue to work seamlessly, some application components and interfaces will continue to use the legacy terminology.
+To ensure that existing customizations and integrations work seamlessly, the following application components and interfaces will continue to use the legacy terminology:
 
-* REST API endpoint URLs.
-* Metadata object headers and dependent object references. For example, `PINBOARD_ANSWER_BOOK` is a valid value for the metadata object `type`.
-* Query, path, and formData parameters in REST APIs.
-* Attribute values, object properties, and API responses.
-* Pinboard URLs in the application UI and system-generated links.
-* Object references in TML files.
+* REST API endpoint URLs
+* Metadata object headers and dependent object references
++
+For example, `PINBOARD_ANSWER_BOOK` is a valid metadata object `type` that represents a Liveboard object. 
+* Query, path, and formData parameters in REST APIs
+* Attribute values, object properties, and API responses
+* Pinboard URLs in the application UI and system-generated links
+* Object references in TML files
