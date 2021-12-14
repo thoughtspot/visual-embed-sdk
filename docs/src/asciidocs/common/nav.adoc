@@ -65,6 +65,7 @@
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users and user groups]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
+** link:{{navprefix}}=catalog-and-audit[Catalog and audit ThoughtSpot content]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 
 * link:{{navprefix}}=rest-api-reference[REST API Reference]
