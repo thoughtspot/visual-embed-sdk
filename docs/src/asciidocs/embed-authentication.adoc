@@ -34,8 +34,8 @@ To configure SAML SSO authentication for embed users, set the `authType` attribu
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.SSO,
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
 });
 ----
 
@@ -44,9 +44,9 @@ If you want the SAML SSO authentication workflow to open in a pop-up window, ins
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.SSO,
-	noRedirect: true,
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+    noRedirect: true,
 });
 ----
 
@@ -87,10 +87,10 @@ Specify the authentication endpoint URL from which you want to obtain the authen
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.AuthServer,
-	username: "<username>",
-	authEndpoint: "https://authenticator-server:<port>/endpoint",
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.AuthServer,
+    username: "<username>",
+    authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
 ----
 
@@ -109,10 +109,10 @@ The generated authentication token is valid for only five minutes. Make sure the
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.AuthServer,
-	username: "<username>",
-	getAuthToken: () => Promise.resolve(token),
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.AuthServer,
+    username: "<username>",
+    getAuthToken: () => Promise.resolve(token),
 });
 ----
 
@@ -131,10 +131,9 @@ To enable basic authentication method in the Visual Embed SDK, set the `authType
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.Basic,
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.Basic,
 });
-
 ----
 
 [WARNING]
@@ -149,8 +148,8 @@ To allow your logged-in application users to access ThoughtSpot content without 
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
-	authType: AuthType.None,
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.None,
 });
 ----
 

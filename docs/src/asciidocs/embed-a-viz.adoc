@@ -3,7 +3,7 @@
 
 :page-title: Embed visualizations
 :page-pageid: embed-a-viz
-:page-description: Embed charts and tables
+:page-description: You can use the LiveboardEmbed SDK library to embed visualizations on a Liveboard and view them in your application context.
 
 This article explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application. 
 
@@ -24,7 +24,11 @@ Import the visualization SDK library to your application environment:
 [source,javascript]
 ----
 import {
-	LiveboardEmbed, AuthType, init, prefetch, EmbedEvent
+    LiveboardEmbed,
+    AuthType,
+    init,
+    prefetch,
+    EmbedEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 ----
@@ -32,10 +36,13 @@ from '@thoughtspot/visual-embed-sdk';
 **ES6**
 [source,javascript]
 ----
-< script type = 'module' >
-	import {
-		LiveboardEmbed, AuthType, init, prefetch
-	}
+<script type = 'module'>
+    import {
+        LiveboardEmbed,
+        AuthType,
+        init,
+        prefetch
+    }
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
@@ -46,7 +53,7 @@ Specify the hostname or IP address of your ThoughtSpot application instance.
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
+    thoughtSpotHost: "https://<hostname>:<port>",
 });
 ----
 
@@ -61,7 +68,7 @@ Define an authentication method. In the following example, the authentication me
 [source,javascript]
 ----
 init({
-	authType: AuthType.SSO,
+    authType: AuthType.SSO,
 });
 ----
 
@@ -81,18 +88,18 @@ include::{path}/embed-config.adoc[]
 [source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
-	frameParams: {
-		width: '100%',
-		height: '100%',
-	},
-	disabledActions: [],
-	disabledActionReason: '<reason for disabling>',
-	hiddenActions: [],
-	liveboardId: '<%=liveboardGUID%>',
-	vizId: '<%=vizGUID%>',
-	enableVizTransformations: true,
-	preventLiveboardFilterRemoval: true,
-	runtimeFilters: [],
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    disabledActions: [],
+    disabledActionReason: '<reason for disabling>',
+    hiddenActions: [],
+    liveboardId: '<%=liveboardGUID%>',
+    vizId: '<%=vizGUID%>',
+    enableVizTransformations: true,
+    preventLiveboardFilterRemoval: true,
+    runtimeFilters: [],
 },
 });
 ----
@@ -107,7 +114,7 @@ visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.Pr
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 +
@@ -128,7 +135,7 @@ hiddenActions: [Action.Download]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -143,7 +150,7 @@ disabledActions: [Action.Present]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/answer?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 include::{path}/custom-action-note.adoc[]
@@ -173,9 +180,9 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 [source,javascript]
 ----
 runtimeFilters: [{
-	columnName: 'Product Type',
-	operator: RuntimeFilterOp.EQ,
-	values: ['Jackets']
+    columnName: 'Product Type',
+    operator: RuntimeFilterOp.EQ,
+    values: ['Jackets']
 }]
 ----
 
@@ -232,4 +239,3 @@ liveboardEmbed.render();
 
 * For code examples, see xref:code-samples.adoc[Code samples].
 * For more information about the SDK APIs and attributes, xref:sdk-reference.adoc[Visual Embed SDK Reference].
-

@@ -61,8 +61,8 @@ POST /tspublic/v1/group/
 === Example request
 
 .cURL
+[source,cURL]
 ----
-
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
@@ -79,7 +79,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/
 
 If the user group is successfully created in ThoughtSpot, the API returns the user group GUID along with the following JSON response:
 
-[Source, JSON]
+[source,JSON]
 ----
 {
   "userGroupContent": {
@@ -149,6 +149,8 @@ PUT /tspublic/v1/group/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -248,6 +250,8 @@ You can use either `groupid` or `name` to query data for a specific user group. 
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
 ----
@@ -472,6 +476,8 @@ POST /tspublic/v1/group/{groupid}/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -502,7 +508,6 @@ Response Code
 |**400**| Invalid parameter
 |===
 
-
 [#get-users-group]
 == Get a list of users assigned to a group
 To get the details of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/listuser/{groupid}` API endpoint. 
@@ -523,6 +528,8 @@ GET /tspublic/v1/group/listuser/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1'
 ----
@@ -637,6 +644,8 @@ POST /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -690,6 +699,8 @@ PUT /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -742,6 +753,8 @@ GET /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -755,7 +768,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33
 
 === Example response
 
-[source, JSON]
+[source,JSON]
 ----
 [
   {
@@ -846,6 +859,8 @@ DELETE /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -901,6 +916,8 @@ Make sure you set the `Content-Type` header as `multipart/form-data`.
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: multipart/form-data' \
@@ -954,6 +971,8 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -1008,6 +1027,8 @@ PUT /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT  \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -1061,6 +1082,8 @@ GET /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -1076,7 +1099,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/982d6da9-9cd1-479e-b9a6
 
 If the GET operation is successful, the API returns the details of the subgroups mapped to the specified group ID.
 
-[Source,JSON]
+[source,JSON]
 ----
 [
   {
@@ -1205,6 +1228,8 @@ DELETE /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \ 
@@ -1260,6 +1285,8 @@ POST /tspublic/v1/group/removememberships
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: multipart/form-data' \
@@ -1313,6 +1340,8 @@ DELETE /tspublic/v1/group/{groupid}/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -1365,6 +1394,8 @@ DELETE /tspublic/v1/group/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \

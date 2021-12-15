@@ -46,6 +46,8 @@ POST /tspublic/v1/user/
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -64,7 +66,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/
 
 If the user is successfully created in ThoughtSpot, the API returns the user GUID along with the following JSON response:
 
-[Source, JSON]
+[source,JSON]
 ----
 {
   "userContent": {
@@ -159,6 +161,8 @@ PUT /tspublic/v1/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -279,6 +283,8 @@ PUT /tspublic/v1/user/email
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -344,6 +350,7 @@ You can use either `userid` or `name` to query data for a specific user. If usin
 
 .cURL
 
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -358,7 +365,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-48
 
 === Example response
 
-[source, JSON]
+[source,JSON]
 ----
 {
   "userContent": {
@@ -452,6 +459,8 @@ POST /tspublic/v1/user/inactivate
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -520,6 +529,8 @@ POST /tspublic/v1/user/activate
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -585,6 +596,8 @@ POST /tspublic/v1/user/session/invalidate
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -639,6 +652,8 @@ DELETE /tspublic/v1/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -682,6 +697,8 @@ GET /tspublic/v1/user/list
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -906,6 +923,8 @@ POST /tspublic/v1/user/resetpassword
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -1103,6 +1122,7 @@ POST /tspublic/v1/user/transfer/ownership
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -1206,7 +1226,7 @@ The `principals.json` file contains the JSON request to be sent for synchronizin
 
 Use the example format for the JSON requests:
 
-[source, JSON]
+[source,JSON]
 ----
 [
   { "name": "Customer Success",
@@ -1537,7 +1557,7 @@ DELETE /tspublic/v1/user/{userid}/groups
 === Example request
 
 .cURL
-[source, cURL]
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \

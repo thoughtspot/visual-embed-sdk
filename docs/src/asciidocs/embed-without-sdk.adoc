@@ -2,7 +2,7 @@
 
 :page-title: Embed Liveboards without Visual Embed SDK
 :page-pageid: embed-without-sdk
-:page-description: Embed Liveboards without the Visual Embed SDK
+:page-description: Embed Liveboards without using Visual Embed SDK
 
 The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
 

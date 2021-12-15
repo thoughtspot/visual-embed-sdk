@@ -4,7 +4,7 @@
 
 :page-title: Embed Search
 :page-pageid: search-embed
-:page-description: Embed Search
+:page-description: You can use the SearchEmbed SDK library to embed ThoughtSpot search and use it for live queries.
 
 This article provides step-by-step instructions to embed ThoughtSpot search function in your app. The embedded search API allows your application users to search for data from one or several data sources.
 
@@ -16,7 +16,11 @@ Import the SearchEmbed SDK library to your application environment:
 [source,javascript]
 ----
 import {
-	SearchEmbed, AuthType, init, prefetch, EmbedEvent
+    SearchEmbed,
+    AuthType,
+    init,
+    prefetch,
+    EmbedEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 ----
@@ -24,10 +28,14 @@ from '@thoughtspot/visual-embed-sdk';
 **ES6**
 [source,javascript]
 ----
-< script type = 'module' >
-	import {
-		SearchEmbed, AuthType, init, prefetch, EmbedEvent
-	}
+<script type = 'module'>
+    import {
+        SearchEmbed,
+        AuthType,
+        init,
+        prefetch,
+        EmbedEvent
+    }
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
@@ -38,7 +46,7 @@ Specify the hostname or IP address of your ThoughtSpot application instance.
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
+    thoughtSpotHost: "https://<hostname>:<port>",
 });
 ----
 
@@ -53,7 +61,7 @@ Define an authentication method. In the following example, the authentication me
 [source,javascript]
 ----
 init({
-	authType: AuthType.SSO,
+    authType: AuthType.SSO,
 });
 ----
 
@@ -77,23 +85,23 @@ Create an instance of the SearchEmbed object and customize your search page view
 
 ----
 const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
-	frameParams: {
-		width: '100%',
-		height: '100%',
-	},
-	answerId: "<%=savedAnswerGUID%>",
-	dataSources: ['<%=datasourceGUID%>'],
-	collapseDataSources: false,
-	disabledActions: [],
-	disabledActionReason: '<reason for disabling>',
-	forceTable: false,
-	hiddenActions: [],
-	hideDataSources: false,
-	hideResults: false,
-	searchOptions: {
-		searchTokenString: '<TML-query-string>',
-		executeSearch: true,
-	},
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    answerId: "<%=savedAnswerGUID%>",
+    dataSources: ['<%=datasourceGUID%>'],
+    collapseDataSources: false,
+    disabledActions: [],
+    disabledActionReason: '<reason for disabling>',
+    forceTable: false,
+    hiddenActions: [],
+    hideDataSources: false,
+    hideResults: false,
+    searchOptions: {
+        searchTokenString: '<TML-query-string>',
+        executeSearch: true,
+    },
 },
 });
 ----
@@ -111,7 +119,7 @@ _Boolean_. When set to true, it minimizes the Data Source panel.
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -130,7 +138,7 @@ visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.Sh
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -146,7 +154,7 @@ hiddenActions: [Action.Share]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -161,7 +169,7 @@ disabledActions: [Action.ShowUnderlyingData]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 include::{path}/custom-action-note.adoc[]
@@ -175,7 +183,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -184,7 +192,7 @@ _Boolean_. When set to `true`, the tabular view is set as the default format for
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -193,7 +201,7 @@ _Boolean_. When set to true, it hides charts and tables that appear beneath the 
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 ////
@@ -203,7 +211,7 @@ _Boolean_. When set to true, it enables Search Assist. Search Assist allows you 
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 ////
@@ -226,14 +234,14 @@ __Boolean__. When set to `true`, the  focus is placed on search results. When se
 [source, javascript]
 ----
 searchOptions: {
-	searchTokenString: '[product][sales][date].daily',
-	executeSearch: true,
+    searchTokenString: '[product][sales][date].daily',
+    executeSearch: true,
 }
 ----
 
 
 ++++
-<a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 == Define a method to process callback custom action payloads
@@ -261,14 +269,11 @@ searchEmbed.render();
 
 == Test the embedded workflow
 
-To verify the ThoughtSpot Search integration, perform the following tests:
-
 * Load your application.
 * Perform a search operation and verify the results. 
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * Verify if the actions are displayed or hidden as configured in the SDK.  
-
-
+ 
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].

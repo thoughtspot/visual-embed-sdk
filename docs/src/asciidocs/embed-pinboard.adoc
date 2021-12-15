@@ -3,8 +3,7 @@
 
 :page-title: Embed Liveboards
 :page-pageid: embed-liveboard
-:page-description: Embed Liveboards
-
+:page-description: You can use the LiveboardEmbed SDK library to embed a ThoughtSpot Liveboard in your app and use it for live insights
 
 This page explains, through an example, how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
 
@@ -16,7 +15,11 @@ Import the `LiveboardEmbed` SDK library to your application environment:
 [source,javascript]
 ----
 import {
-	LiveboardEmbed, AuthType, init, prefetch, EmbedEvent
+    LiveboardEmbed,
+    AuthType,
+    init,
+    prefetch,
+    EmbedEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 ----
@@ -24,10 +27,13 @@ from '@thoughtspot/visual-embed-sdk';
 **ES6**
 [source,javascript]
 ----
-< script type = 'module' >
-	import {
-		LiveboardEmbed, AuthType, init, prefetch
-	}
+<script type = 'module'>
+    import {
+        LiveboardEmbed,
+        AuthType,
+        init,
+        prefetch
+    }
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
@@ -38,7 +44,7 @@ Specify the hostname or IP address of your ThoughtSpot application instance.
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
+    thoughtSpotHost: "https://<hostname>:<port>",
 });
 ----
 thoughtSpotHost::
@@ -51,7 +57,7 @@ Define an authentication method. In the following example, the authentication me
 [source,javascript]
 ----
 init({
-	authType: AuthType.SSO,
+    authType: AuthType.SSO,
 });
 ----
 
@@ -71,18 +77,18 @@ include::{path}/embed-config.adoc[]
 [source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
-	frameParams: {
-		width: '100%',
-		height: '100%',
-	},
-	disabledActions: [],
-	fullHeight: true,
-	disabledActionReason: '<reason for disabling>'
-	hiddenActions: [],
-	liveboardId: '<%=liveboardGUID%>',
-	enableVizTransformations: true,
-	preventLiveboardFilterRemoval: true,
-	runtimeFilters: [],
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    disabledActions: [],
+    fullHeight: true,
+    disabledActionReason: '<reason for disabling>'
+    hiddenActions: [],
+    liveboardId: '<%=liveboardGUID%>',
+    enableVizTransformations: true,
+    preventLiveboardFilterRemoval: true,
+    runtimeFilters: [],
 },
 });
 ----
@@ -100,7 +106,7 @@ _Integer_. Minimum height to set for embedded objects on a Liveboard page and th
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -113,7 +119,7 @@ visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.Pr
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 +
@@ -134,7 +140,7 @@ hiddenActions: [Action.AddFilter]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -149,7 +155,7 @@ disabledActions: [Action.Present]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 include::{path}/custom-action-note.adoc[]
@@ -179,9 +185,9 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 [source,javascript]
 ----
 runtimeFilters: [{
-	columnName: 'Region',
-	operator: RuntimeFilterOp.IN,
-	values: ['Midwest', 'East', 'West']
+    columnName: 'Region',
+    operator: RuntimeFilterOp.IN,
+    values: ['Midwest', 'East', 'West']
 }]
 ----
 
@@ -197,7 +203,7 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
@@ -227,9 +233,7 @@ Render the embedded Liveboard.
 liveboardEmbed.render();
 ----
 
-== Test your embedding
-
-To verify the ThoughtSpot Liveboard embed, perform the following tests:
+== Test the embedded workflow
 
 * Load the client application.
 * Try accessing a Liveboard embedded in your application.

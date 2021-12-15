@@ -59,8 +59,11 @@ When `fullHeight` is set to `true`, the scrollbar within the embedded Liveboard 
 [source,javascript]
 ----
 {
-  frameParams : { 'width' : '100%', 'height' : '100%' },
-  fullHeight : false
+    frameParams: {
+        'width': '100%',
+        'height': '100%'
+    },
+    fullHeight: false
 }
 ----
 
@@ -105,11 +108,10 @@ The full list events are defined in the link:https://github.com/thoughtspot/visu
 
 [source,javascript]
 ----
- // Instantiate class for embedding a Liveboard
- const embed = new LiveboardEmbed("#thoughtspot-embed", {
-     liveboardId: '<Liveboard-guid>',
- });
-
+// Instantiate class for embedding a Liveboard
+const embed = new LiveboardEmbed("#thoughtspot-embed", {
+    liveboardId: '<Liveboard-guid>',
+});
 let tsLoggedIn = false;
 embed
     .on(EmbedEvent.Init, showLoader)
@@ -119,17 +121,16 @@ embed
         tsLoggedIn = true;
         // authInit returns object -> {type: 'authInit', data: {userGuid: <guid>} } }
         let userGUID = response.data.userGuid;
-    } )
+    })
     .on(EmbedEvent.AuthExpire, (response) => {
         // Handle if session dies while content shows
-        if (tsLoggedIn == true){
+        if (tsLoggedIn == true) {
             tsSessionTimeoutCleanup();
-        }
-        else {
+        } else {
             // Display custom message if SSO issues
             showSSOFailedMsg();
         }
-    } )
+    })
     .on(EmbedEvent.Error, showGenericErrorMsg)
     .render()
 ----

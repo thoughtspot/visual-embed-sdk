@@ -571,7 +571,11 @@ Make sure the API request has the following headers:
 
 [source,curl]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'configchanges=@import-embed-objects-b.json' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/update'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'configchanges=@import-embed-objects-b.json' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo/update'
 ----
 
 .Request URL
@@ -635,7 +639,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
 === Example response
 If the cluster has custom actions, the API returns the custom action details.
 
-[Source, JSON]
+[source, JSON]
 ----
 [
   {
@@ -733,7 +737,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-
 
 If the request is successful, the API returns the JSON data for the specified action ID:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
@@ -882,7 +886,10 @@ Make sure the API request has the following headers:
 
 [source,curl]
 ----
-curl -X PUT --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'embedaction=%7B%20%20%20%22id%22%3A%20%220f1b18f9-2dbd-4742-bc70-7bfc1322ad3f%22%2C%20%20%20%22name%22%3A%20%22test-callback%22%2C%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%22type%22%3A%20%22CALLBACK%22%2C%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%22link%22%3A%20%22%22%2C%20%20%20%20%20%22function%22%3A%20%22test-callback%22%2C%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%7D%2C%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%22availability%22%3A%20%5B%20%20%20%20%20%E2%80%9CLOCAL%E2%80%9D%20%20%20%5D%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' -d 'embedaction=%7B%20%20%20%22id%22%3A%20%220f1b18f9-2dbd-4742-bc70-7bfc1322ad3f%22%2C%20%20%20%22name%22%3A%20%22test-callback%22%2C%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%22type%22%3A%20%22CALLBACK%22%2C%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%22link%22%3A%20%22%22%2C%20%20%20%20%20%22function%22%3A%20%22test-callback%22%2C%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%7D%2C%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%22availability%22%3A%20%5B%20%20%20%20%20%E2%80%9CLOCAL%E2%80%9D%20%20%20%5D%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
 ----
 
 .Request URL
@@ -958,7 +965,9 @@ Make sure the API request has the following headers:
 
 [source,curl]
 ----
-curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
 ----
 
 .Request URL
@@ -1029,7 +1038,10 @@ POST /tspublic/v1/admin/embed/actions/{actionid}/associations
 .cURL
 [source,curl]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' -d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
 ----
 
 .Request URL
@@ -1041,7 +1053,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-
 
 If the custom action is applied to a ThoughtSpot object, the API returns a response body with the action association map:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf",
@@ -1123,7 +1135,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-
 
 If the custom action is associated to a ThoughtSpot object, the API returns a response body with the action association map for the specified action ID:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "WORKSHEET": {
@@ -1182,7 +1194,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-
 
 After the custom action association is removed, the API returns a response body with the updated JSON map of the custom action:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf",

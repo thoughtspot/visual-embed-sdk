@@ -33,9 +33,9 @@ disabledActions: [Action.ShowUnderlyingData]
 hiddenActions: [Action.DownloadAsPDF]
 ----
 +
-+++
+++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
-+++
+++++
 
 include::{path}/custom-action-note.adoc[]
 
