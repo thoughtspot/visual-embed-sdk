@@ -814,7 +814,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
 
 If the request is successful, the API returns the JSON data for the custom action in the response body:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
@@ -901,7 +901,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-
 
 If the request is successful, the API returns the JSON data for the specified action ID:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
@@ -979,7 +979,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-
 
 On successful deletion of the action, the API returns a response body indicating that the specified action ID is no longer available:
 
-[Source, JSON]
+[source, JSON]
 ----
 {
   "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
