@@ -14,7 +14,7 @@ visibleActions::
 Allows you to define a list of actions that can be made visible to your application users. If your embedded instance requires only a few actions, you can use the `visibleActions` API to add only those actions to the embedded UI.
 
 disabledActions::
-Allows you to define a list of actions that will appear as disabled. You can also specify a reason for disabling the action. For example, your application user may require a specific privilege to schedule a Liveboard job, so you may want to disable this action and specify the reason as `Contact your administrator to enable this feature`.
+Allows you to define a list of actions that will appear as disabled in the UI. You can also specify a reason for disabling the action. For example, your application user may require a specific privilege to schedule a Liveboard job, so you may want to disable this action and specify a reason, such as `Contact your administrator to enable this feature`.
 
 hiddenActions::
 Allows you to hide the actions that you don't want your users to see. If your embedded instance requires most of the actions, and you need to hide a few, you can use this API to hide only those actions.
