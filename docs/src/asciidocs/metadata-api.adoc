@@ -156,8 +156,6 @@ Response code
 |**500**|Invalid metadata object ID
 |===
 
-
-
 [#metadata-details]
 == Get metadata details
 To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.

@@ -67,7 +67,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/permissions
 
 If the `GET` operation is successful, the API returns a response with the permission details for a given object:
 
-[source, cURL]
+[source, JSON]
 ----
 {
   "41a39422-2da0-4601-9d4a-59c27181c5f5": {
@@ -189,7 +189,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/d084c256-e2
 
 If the `GET` operation is successful, the API returns a response with the permission details for a given object:
 
-[source, cURL]
+[source, JSON]
 ----
 {
   "d084c256-e284-4fc4-b80c-111cb606449a": {

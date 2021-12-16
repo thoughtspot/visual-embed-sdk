@@ -171,13 +171,15 @@ export const getSearchData = async (worksheetId, search) => {
 [source,javascript]
 ----
 export const getLiveboardData = async (liveboardId, vizIds) => {
+    // Returns visualization data
     console.log(`Getting data from Liveboard ${liveboardId} and visualization(s) ${vizIds}`)
     let getLiveboardDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/pinboarddata?batchSize=-1&id=${liveboardId}`;
     if (vizIds) { // if vizIds were specified, they are optional
-        if (!(Array.isArray(vizIds))) { // assume is a string and convert to an array.
+        if (!(Array.isArray(vizIds))) {
             vizIds = [vizIds];
         }
-        // TODO add handling for invalid types.  Currently only support string and array.
+        // Supports only string and array
+        // Handle invalid types
         const formattedVizIds = `["${vizIds.join('","')}"]`;
         getLiveboardDataURL += '&vizid=' + formattedVizIds;
     }
@@ -199,6 +201,7 @@ export const getLiveboardData = async (liveboardId, vizIds) => {
 [source,javascript]
 ----
 export const getVisualizationList = async (liveboardId) => {
+    // Returns a list of visualizations pinned on a Liveboard
     const vizMetadataListURL = store_state.<ThoughtSpot-Host> + "/callosum/v1/tspublic/v1/metadata/listvizheaders?id=" + liveboardId;
     return await fetch(vizMetadataListURL, {
         method: 'GET',
@@ -218,7 +221,7 @@ export const getVisualizationList = async (liveboardId) => {
 [source,javascript]
 ----
 export const getLiveboardList = async () => {
-    // Returns the list of Liveboards so the user can display them.
+    // Returns a list of Liveboards
     const liveboardMetadataListURL = store_state.<ThoughtSpot-Host> + "/callosum/v1/tspublic/v1/metadata/listobjectheaders?" + "type=PINBOARD_ANSWER_BOOK" + "&batchsize=-1";
     return await fetch(liveboardMetadataListURL, {
         method: 'GET',

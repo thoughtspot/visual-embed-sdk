@@ -252,7 +252,9 @@ GET /tspublic/v1/session/homepinboard
 .cURL
 [source, cURL]
 ----
-curl -X GET --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+curl -X GET \
+--header 'Accept: text/plain' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
 ----
 
 .Request URL
@@ -288,7 +290,9 @@ DELETE /tspublic/v1/session/homepinboard
 .cURL
 [source, cURL]
 ----
-curl -X DELETE --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+curl -X DELETE \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
 ----
 
 .Request URL
