@@ -9,7 +9,7 @@
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
 
-== November 2021, _Version ts8.nov.cl_
+== Version ts8.nov.cl
 
 [width="100%" cols="1,4"]
 |====
@@ -70,7 +70,7 @@ For more information, see xref:connection-apis.adoc[Data connection APIs].
 |====
 
 
-==  October 2021, _Version ts7.oct.cl_
+== Version ts7.oct.cl
 
 .Custom actions
 [%collapsible]
@@ -148,7 +148,7 @@ The ThoughtSpot 7 Cloud October release includes the following new REST API endp
 ====
 
 
-== September 2021, _Version ts7.sep.cl_
+== Version ts7.sep.cl
 
 .Licensing
 [%collapsible]
@@ -277,7 +277,7 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 
 ====
 
-== August 2021, _Version ts7.aug.cl_
+== Version ts7.aug.cl
 
 .Custom actions
 [%collapsible]
@@ -387,7 +387,7 @@ For a complete list of APIs, see xref:rest-api-reference.adoc[REST API Reference
 ====
 
 
-== June 2021, __Version ts7.jun.cl__
+== Version ts7.jun.cl
 
 .Custom actions
 [%collapsible]
@@ -488,7 +488,7 @@ For more information, see xref:user-api.adoc#updatepreference-api[Update a user 
 ====
 
 
-== May 2021, _Version ts7.may.cl_
+== Version ts7.may.cl
 
 .Custom actions in the context menu
 [%collapsible]
@@ -573,3 +573,5 @@ You can use this API to programmatically update a ThoughtSpot user's profile set
 +
 You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
 ====
+
+
