@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.6.0-alpha.2",
+    "version": "1.7.0-alpha.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -125,6 +125,9 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/thoughtspot/visual-embed-sdk.git"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
     },
     "keywords": [
         "thoughtspot",
