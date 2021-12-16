@@ -456,7 +456,7 @@ export enum Action {
     EditACopy = 'editACopy',
     CopyLink = 'embedDocument',
     ResetLayout = 'resetLayout',
-    Schedule = 'schedule',
+    Schedule = 'subscription',
     SchedulesList = 'schedule-list',
     Share = 'share',
     AddFilter = 'addFilter',
