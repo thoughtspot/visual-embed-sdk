@@ -4,7 +4,7 @@
 
 :page-title: SAML SSO Authentication
 :page-pageid: saml-sso
-:page-description: SAML SSO Configuration
+:page-description: You can configure support for SAML-based SSO authentication method on ThoughtSpot to provide seamless login experience to your application users.
 
 ThoughtSpot supports the Single Sign-On (SSO) authentication method with the Security Assertion Markup Language (SAML) authentication and authorization framework. With SAML SSO, users can authenticate to the SAML identity provider to access the ThoughtSpot application or the embedded ThoughtSpot content in an external web application. It also allows them to  navigate seamlessly between different applications with their existing credentials.
 

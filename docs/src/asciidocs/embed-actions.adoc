@@ -92,7 +92,7 @@ disabledActions: [Action.Download]
 
 If you specify some action strings in the `visibleActions` attribute and define `hiddenActions` as an empty array, only the actions that are configured to be visible will appear in the embedded UI.
 
-[Source,Javascript]
+[source,Javascript]
 ----
 visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.ShowUnderlyingData,Action.Pin]
 hiddenActions: []
@@ -106,7 +106,7 @@ hiddenActions: []
 
 If the `visibleActions` attribute is set as an empty array and the action strings are specified in the `hiddenActions` attribute, the `visibleActions` definition takes precedence. Therefore, no actions will appear in the embedded UI.
 
-[Source,Javascript]
+[source,Javascript]
 ----
 visibleActions: []
 hiddenActions: [Action.DownloadAsPDF,Action.DownloadAsCSV]
@@ -120,7 +120,7 @@ hiddenActions: [Action.DownloadAsPDF,Action.DownloadAsCSV]
 
 If both `visibleActions` and `hiddenActions` attributes are defined, the SDK will return a configuration error.
 
-[Source,Javascript]
+[source,Javascript]
 ----
 visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.ShowUnderlyingData,Action.Pin]
 hiddenActions: [Action.DownloadAsPDF,Action.DownloadAsCSV]
@@ -134,7 +134,7 @@ hiddenActions: [Action.DownloadAsPDF,Action.DownloadAsCSV]
 
 If both `visibleActions` and `hiddenActions` attributes are defined as an empty array, the `visibleActions` definition takes precedence and no actions will appear in the embedded UI.
 
-[Source,Javascript]
+[source,Javascript]
 ----
 visibleActions: []
 hiddenActions: []

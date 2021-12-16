@@ -4,7 +4,7 @@
 
 :page-title: trusted authentication
 :page-pageid: trusted-auth
-:page-description: Trusted Authentication
+:page-description: You can configure support for token-based authentication service on ThoughtSpot.
 
 The trusted authentication mode of single sign-on specifies a method for an *authenticator service* to programmatically request __login tokens__ from ThoughtSpot, which can then be used to sign in a user to the ThoughtSpot instance. The login token is only necessary during the login process, after which ThoughtSpot establishes a user session using cookies.
 

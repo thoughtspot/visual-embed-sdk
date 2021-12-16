@@ -3,7 +3,7 @@
 
 :page-title: Embed Full Application
 :page-pageid: full-embed
-:page-description: You can embed full ThoughtSpot experience in your application and allow your users to create content for live analytics.
+:page-description: You can embed full ThoughtSpot experience in your application and allow your users to create content for live analytics
 
 To integrate full ThoughtSpot experience in your application, you can use the full app embedding method. 
 
@@ -32,7 +32,12 @@ Import the AppEmbed SDK library to your application environment:
 [source,javascript]
 ----
 import {
-	AppEmbed, Page, AuthType, init, prefetch, EmbedEvent
+    AppEmbed,
+    Page,
+    AuthType,
+    init,
+    prefetch,
+    EmbedEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 ----
@@ -40,10 +45,15 @@ from '@thoughtspot/visual-embed-sdk';
 **ES6**
 [source,javascript]
 ----
-< script type = 'module' >
-	import {
-		AppEmbed, Page, AuthType, init, prefetch, EmbedEvent
-	}
+<script type = 'module'>
+    import {
+        AppEmbed,
+        Page,
+        AuthType,
+        init,
+        prefetch,
+        EmbedEvent
+    }
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
@@ -54,20 +64,20 @@ To allow your client application to connect to ThoughtSpot, configure the URL wi
 [source,javascript]
 ----
 init({
-	thoughtSpotHost: "https://<hostname>:<port>",
+    thoughtSpotHost: "https://<hostname>:<port>",
 });
 ----
 thoughtSpotHost::
 _String_. Hostname or IP address of the ThoughtSpot application.
 
-=== Configure an authentication method
+== Configure an authentication method
 
 Define an authentication method. In the following example, the authentication method is set to SSO.
 
 [source,javascript]
 ----
 init({
-	authType: AuthType.SSO,
+    authType: AuthType.SSO,
 });
 ----
 
@@ -79,27 +89,27 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-=== Create an instance of the AppEmbed object
+== Create an instance of the AppEmbed object
 
 Create an instance of the AppEmbed object and pass parameters to set a page view.
 
 [source,javascript]
 ----
 const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
-	frameParams: {
-		width: '100%',
-		height: '100%',
-	},
-	disabledActions: [],
-	disabledActionReason: '<reason for disabling>'
-	disableHelpAndProfile: false,
-	hideObjects: ['<object-id>'],
-	hiddenActions: [],
-	showPrimaryNavbar: true,
-	pageId: Page.Data,
-	path: '<url-string>',
-	runtimeFilters: [],
-	tag: '<tag-name>',
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    disabledActions: [],
+    disabledActionReason: '<reason for disabling>'
+    disableHelpAndProfile: false,
+    hideObjects: ['<object-id>'],
+    hiddenActions: [],
+    showPrimaryNavbar: true,
+    pageId: Page.Data,
+    path: '<url-string>',
+    runtimeFilters: [],
+    tag: '<tag-name>',
 },
 });
 ----
@@ -121,7 +131,7 @@ visibleActions: [Action.Download,Action.Share,Action.Pin,Action.ShowUnderlyingDa
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -137,7 +147,7 @@ hiddenActions: [Action.Share]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -152,7 +162,7 @@ disabledActions: [Action.ShowUnderlyingData]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 include::{path}/custom-action-note.adoc[]
@@ -164,7 +174,7 @@ disableProfileAndHelp __Optional__::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
 
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -182,7 +192,7 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -217,7 +227,7 @@ Displays the *Home* page
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?pageId=fullApp" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?pageId=fullApp" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -230,15 +240,15 @@ For example, to sort values equal to `100000` in the `Revenue` column for a visu
 [source,javascript]
 ----
 runtimeFilters: [{
-	columnName: 'Revenue',
-	operator: 'EQ',
-	values: [100000]
-}, ]
+    columnName: 'Revenue',
+    operator: 'EQ',
+    values: [100000]
+}]
 ----
 
 
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 include::{path}/runtime-filter.adoc[]
@@ -260,7 +270,7 @@ tag: 'sales'
 
 include::{path}/callback-payload.adoc[]
 
-=== Subscribe to events
+== Subscribe to events
 
 Register event listeners.
 
@@ -281,7 +291,7 @@ Render the embedded application.
 appEmbed.render();
 ----
 
-== Test your embedding
+== Test the embedded workflows
 
 To verify the ThoughtSpot application integration, perform the following tests:
 

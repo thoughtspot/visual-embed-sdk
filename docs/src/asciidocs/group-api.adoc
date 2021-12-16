@@ -61,8 +61,8 @@ POST /tspublic/v1/group/
 === Example request
 
 .cURL
+[source,cURL]
 ----
-
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
@@ -79,7 +79,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/
 
 If the user group is successfully created in ThoughtSpot, the API returns the user group GUID along with the following JSON response:
 
-[Source, JSON]
+[source,JSON]
 ----
 {
   "userGroupContent": {
@@ -149,12 +149,15 @@ PUT /tspublic/v1/group/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content=%7B%20%20%20%22userGroupContent%22%3A%20%7B%20%20%20%20%20%22schemaVersion%22%3A%20%224%22%20%20%20%7D%2C%20%20%20%22groupIdx%22%3A%202%2C%20%20%20%22metadataVersion%22%3A%20-1%2C%20%20%20%22assignedPinboards%22%3A%20%5B%5D%2C%20%20%20%22assignedGroups%22%3A%20%5B%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_GROUP%22%2C%20%20%20%22parenttype%22%3A%20%22GROUP%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20Group%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20Group%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624882497992%2C%20%20%20%20%20%22modified%22%3A%201624882497992%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
+-d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content=%7B%20%20%20%22userGroupContent%22%3A%20%7B%20%20%20%20%20%22schemaVersion%22%3A%20%224%22%20%20%20%7D%2C%20%20%20%22groupIdx%22%3A%202%2C%20%20%20%22metadataVersion%22%3A%20-1%2C%20%20%20%22assignedPinboards%22%3A%20%5B%5D%2C%20%20%20%22assignedGroups%22%3A%20%5B%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_GROUP%22%2C%20%20%20%22parenttype%22%3A%20%22GROUP%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20Group%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20Group%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624882497992%2C%20%20%20%20%20%22modified%22%3A%201624882497992%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
 ----
 
 .Request URL
@@ -248,8 +251,12 @@ You can use either `groupid` or `name` to query data for a specific user group. 
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
 ----
 
 .Request URL
@@ -472,6 +479,8 @@ POST /tspublic/v1/group/{groupid}/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -502,7 +511,6 @@ Response Code
 |**400**| Invalid parameter
 |===
 
-
 [#get-users-group]
 == Get a list of users assigned to a group
 To get the details of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/listuser/{groupid}` API endpoint. 
@@ -523,8 +531,12 @@ GET /tspublic/v1/group/listuser/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
-curl -X GET --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1'
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1'
 ----
 
 .Request URL
@@ -637,6 +649,8 @@ POST /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -690,6 +704,8 @@ PUT /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -742,6 +758,8 @@ GET /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -755,7 +773,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33
 
 === Example response
 
-[source, JSON]
+[source,JSON]
 ----
 [
   {
@@ -846,6 +864,8 @@ DELETE /tspublic/v1/group/{groupid}/users
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -901,6 +921,8 @@ Make sure you set the `Content-Type` header as `multipart/form-data`.
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: multipart/form-data' \
@@ -954,6 +976,8 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -1008,6 +1032,8 @@ PUT /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X PUT  \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -1061,6 +1087,8 @@ GET /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -1076,7 +1104,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/982d6da9-9cd1-479e-b9a6
 
 If the GET operation is successful, the API returns the details of the subgroups mapped to the specified group ID.
 
-[Source,JSON]
+[source,JSON]
 ----
 [
   {
@@ -1205,11 +1233,13 @@ DELETE /tspublic/v1/group/{groupid}/groups
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \ 
 --header 'X-Requested-By: ThoughtSpot' \
--d 'principalids=%5B%2224ac76b8-c1ec-43ee-84d4-3974b95bf163%22%5D&groupid=982d6da9-9cd1-479e-b9a6-35aa05f9282a' 
+-d 'principalids=%5B%2224ac76b8-c1ec-43ee-84d4-3974b95bf163%22%5D&groupid=982d6da9-9cd1-479e-b9a6-35aa05f9282a'\
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups'
 ----
 
@@ -1260,6 +1290,8 @@ POST /tspublic/v1/group/removememberships
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: multipart/form-data' \
@@ -1313,6 +1345,8 @@ DELETE /tspublic/v1/group/{groupid}/user/{userid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -1365,6 +1399,8 @@ DELETE /tspublic/v1/group/{groupid}
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \

@@ -3,7 +3,7 @@
 
 :page-title: Visual Embed SDK overview
 :page-pageid: visual-embed-sdk
-:page-description: What is Visual Embed SDK
+:page-description: Visual Embed SDK provides a set of APIs to embed and customize ThoughtSpot elements in your app.
 
 The Visual Embed SDK provides a Javascript library to embed ThoughtSpot elements in your host application.
 
