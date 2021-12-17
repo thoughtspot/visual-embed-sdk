@@ -505,6 +505,7 @@ export enum Action {
     DrillInclude = 'context-menu-item-include',
     DrillExclude = 'context-menu-item-exclude',
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
+    CopyAndEdit = 'context-menu-item-copy-and-edit',
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
