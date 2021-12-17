@@ -173,7 +173,10 @@ async function samlPopupFlow(ssoURL: string) {
  * Perform SAML authentication
  * @param embedConfig The embed configuration
  */
-const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise<void> => {
+const doSSOAuth = async (
+    embedConfig: EmbedConfig,
+    ssoEndPoint: string,
+): Promise<void> => {
     const { thoughtSpotHost } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (loggedIn) {
@@ -214,7 +217,7 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
         encodeURIComponent(ssoRedirectUrl),
     )}`;
 
-    return await doSSOAuth(embedConfig, ssoEndPoint);
+    await doSSOAuth(embedConfig, ssoEndPoint);
 };
 
 export const doIODCAuth = async (embedConfig: EmbedConfig) => {
@@ -225,13 +228,12 @@ export const doIODCAuth = async (embedConfig: EmbedConfig) => {
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
         : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
 
-
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.IODC_LOGIN_TEMPLATE(
         encodeURIComponent(ssoRedirectUrl),
     )}`;
 
-    return await doSSOAuth(embedConfig, ssoEndPoint);
+    await doSSOAuth(embedConfig, ssoEndPoint);
 };
 
 /**
