@@ -32,8 +32,10 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
-import { version } from '../../package.json';
+import pkgInfo from '../../package.json';
 import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
+
+const { version } = pkgInfo;
 
 /**
  * The event id map from v2 event names to v1 event id
