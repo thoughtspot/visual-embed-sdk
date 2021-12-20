@@ -942,7 +942,7 @@ If the request is successful, the API returns the JSON data for the custom actio
 |**401** |Unauthorized request
 |===
 
-[#update-custom-action]
+[#edit-custom-action]
 == Modify a custom action
 
 You can programmatically edit an existing custom action by sending a `PUT` request to the `/tspublic/v1/admin/embed/actions/{actionid}` API endpoint.
