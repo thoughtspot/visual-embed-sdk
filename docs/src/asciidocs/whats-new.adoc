@@ -29,7 +29,7 @@ ThoughtSpot now allows you to restrict a custom action's availability to specifi
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
 
-=== Visual Embed SDK version 1.6.0
+=== Visual Embed SDK version 1.6.x
 
 [width="100%" cols="1,4"]
 |====
@@ -37,7 +37,7 @@ For more information, see xref:customize-actions-menu.adoc#access-control[Custom
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
-
+ 
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 
 |[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
@@ -62,13 +62,16 @@ For more information, see xref:embed-events.adoc[Subscribe to events].
 ||
 |[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token` 
 
-This API allows you to securely send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
+This API allows you to send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
 
 |[tag orangeBackground]#MODIFIED# a| The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
 
 For more information, see xref:connection-apis.adoc[Data connection APIs].
-|====
+|[tag orangeBackground]#MODIFIED#|You can now filter metadata objects by author GUIDs using the `authorguid` attribute in the `/tspublic/v1/metadata/list` endpoint.
 
+For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
+
+|====
 
 == Version ts7.oct.cl
 
