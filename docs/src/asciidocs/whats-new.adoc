@@ -29,7 +29,7 @@ ThoughtSpot now allows you to restrict a custom action's availability to specifi
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
 
-=== Visual Embed SDK version 1.6.0
+=== Visual Embed SDK version 1.6.x
 
 [width="100%" cols="1,4"]
 |====
@@ -67,6 +67,9 @@ This API allows you to securely send the login token and user information in the
 |[tag orangeBackground]#MODIFIED# a| The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
 
 For more information, see xref:connection-apis.adoc[Data connection APIs].
+|[tag orangeBackground]#MODIFIED#|You can now filter metadata objects by author GUIDs using the `authorguid` attribute in the `/tspublic/v1/metadata/list` endpoint.
+
+For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
 |====
 
 
