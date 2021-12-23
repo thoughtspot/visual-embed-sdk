@@ -25,6 +25,8 @@ export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
     SSO_LOGIN_TEMPLATE: (targetUrl: string) =>
         `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
+    IODC_LOGIN_TEMPLATE: (targetUrl: string) =>
+        `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
     BASIC_LOGIN: '/callosum/v1/session/login',
 };
@@ -171,7 +173,10 @@ async function samlPopupFlow(ssoURL: string) {
  * Perform SAML authentication
  * @param embedConfig The embed configuration
  */
-export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
+const doSSOAuth = async (
+    embedConfig: EmbedConfig,
+    ssoEndPoint: string,
+): Promise<void> => {
     const { thoughtSpotHost } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (loggedIn) {
@@ -190,6 +195,17 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
         return;
     }
 
+    const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
+    if (embedConfig.noRedirect) {
+        await samlPopupFlow(ssoURL);
+        return;
+    }
+
+    window.location.href = ssoURL;
+};
+
+export const doSamlAuth = async (embedConfig: EmbedConfig) => {
+    const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be loaded
     // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
@@ -201,13 +217,23 @@ export const doSamlAuth = async (embedConfig: EmbedConfig): Promise<void> => {
         encodeURIComponent(ssoRedirectUrl),
     )}`;
 
-    const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
-    if (embedConfig.noRedirect) {
-        await samlPopupFlow(ssoURL);
-        return;
-    }
+    await doSSOAuth(embedConfig, ssoEndPoint);
+};
 
-    window.location.href = ssoURL;
+export const doIODCAuth = async (embedConfig: EmbedConfig) => {
+    const { thoughtSpotHost } = embedConfig;
+    // redirect for SSO, when the SSO authentication is done, this page will be loaded
+    // again and the same JS will execute again.
+    const ssoRedirectUrl = embedConfig.noRedirect
+        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
+
+    // bring back the page to the same URL
+    const ssoEndPoint = `${EndPoints.IODC_LOGIN_TEMPLATE(
+        encodeURIComponent(ssoRedirectUrl),
+    )}`;
+
+    await doSSOAuth(embedConfig, ssoEndPoint);
 };
 
 /**
@@ -219,6 +245,8 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
     switch (authType) {
         case AuthType.SSO:
             return doSamlAuth(embedConfig);
+        case AuthType.IODC:
+            return doIODCAuth(embedConfig);
         case AuthType.AuthServer:
             return doTokenAuth(embedConfig);
         case AuthType.Basic:

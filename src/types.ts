@@ -22,6 +22,10 @@ export enum AuthType {
      */
     SSO = 'SSO_SAML',
     /**
+     * SSO using IODC
+     */
+    IODC = 'SSO_IODC',
+    /**
      * Trusted authentication server
      */
     AuthServer = 'AuthServer',
