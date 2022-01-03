@@ -23,9 +23,9 @@ export const SSO_REDIRECTION_MARKER_GUID =
 
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
-    SSO_LOGIN_TEMPLATE: (targetUrl: string) =>
+    SAML_LOGIN_TEMPLATE: (targetUrl: string) =>
         `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
-    IODC_LOGIN_TEMPLATE: (targetUrl: string) =>
+    OIDC_LOGIN_TEMPLATE: (targetUrl: string) =>
         `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
     BASIC_LOGIN: '/callosum/v1/session/login',
@@ -213,14 +213,14 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
         : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.SSO_LOGIN_TEMPLATE(
+    const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(
         encodeURIComponent(ssoRedirectUrl),
     )}`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
 };
 
-export const doIODCAuth = async (embedConfig: EmbedConfig) => {
+export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be loaded
     // again and the same JS will execute again.
@@ -229,7 +229,7 @@ export const doIODCAuth = async (embedConfig: EmbedConfig) => {
         : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.IODC_LOGIN_TEMPLATE(
+    const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(
         encodeURIComponent(ssoRedirectUrl),
     )}`;
 
@@ -245,8 +245,8 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
     switch (authType) {
         case AuthType.SSO:
             return doSamlAuth(embedConfig);
-        case AuthType.IODC:
-            return doIODCAuth(embedConfig);
+        case AuthType.OIDC:
+            return doOIDCAuth(embedConfig);
         case AuthType.AuthServer:
             return doTokenAuth(embedConfig);
         case AuthType.Basic:

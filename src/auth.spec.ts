@@ -74,8 +74,8 @@ describe('Unit test for auth', () => {
         global.fetch = window.fetch;
     });
 
-    test('endpoints, SSO_LOGIN_TEMPLATE', () => {
-        const ssoTemplateUrl = authInstance.EndPoints.SSO_LOGIN_TEMPLATE(
+    test('endpoints, SAML_LOGIN_TEMPLATE', () => {
+        const ssoTemplateUrl = authInstance.EndPoints.SAML_LOGIN_TEMPLATE(
             thoughtSpotHost,
         );
         expect(ssoTemplateUrl).toBe(
