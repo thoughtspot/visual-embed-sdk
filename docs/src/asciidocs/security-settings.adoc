@@ -79,19 +79,6 @@ The following table shows the allowed domain name strings in the CORS and CSP al
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
 
-a|
-
-////
-Domain URL strings with protocol
-
-* `\http://thoughtspot.com` +
-* `\https://thoughtspot.com` +
-* `\https://www.thoughtspot.com` +
-
-Allowed in the UI. However, we recommend that you do not specify the protocol in the domain URL string for CSP and CORS. 
-////
-|||
-
 a|Domain URL strings without protocol + 
 
 * `thoughtspot.com` 
