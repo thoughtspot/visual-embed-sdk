@@ -129,9 +129,12 @@ See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol
 a|Wildcard before the domain name +
 
 * `+++*+++.thoughtspot.com`
-* `\https://*.thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+* `\https://*.thoughtspot.com`
 
 See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol].
+
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+
 
 a| Domain names with space, backslash (\), and wildcard (*). 
 
