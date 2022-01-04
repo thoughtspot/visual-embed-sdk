@@ -14,11 +14,12 @@
     font-weight: $font-weight-bold;
 }
 
-.hljs-number,
+.hljs-number, 
 .hljs-literal,
 .hljs-variable,
 .hljs-template-variable,
-.hljs-tag .hljs-attr {
+.hljs-tag 
+.hljs-attr {
     color: var(--highlight-green);
 }
 
@@ -81,6 +82,7 @@
 
 .hljs-emphasis {
     font-style: italic;
+    font-size: $font-size-small;
 }
 
 .hljs-strong {

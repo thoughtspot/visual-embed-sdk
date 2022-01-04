@@ -42,15 +42,6 @@ If you plan to use a token-based authentication service to authenticate user ses
 xref:security-settings.adoc[Add your application domain to the CORS and CSP allowed list] and set your application as a trusted host for secure data exchange.
 --
 
-[div boxDiv boxFullWidth]
---
-+++<h5>Custom domain configuration</h5>+++
-
-To ensure that embedding works on browsers that don't allow third-party cookies, xref:custom-domain-configuration.adoc[you can set the domain name of the ThoughtSpot instance to the same domain as your host application].
-
-You can also xref:custom-domain-configuration.adoc[customize the email domain name] for system-generated notifications.
---
-
 == Access control and data security
 
 [div boxDiv boxFullWidth]

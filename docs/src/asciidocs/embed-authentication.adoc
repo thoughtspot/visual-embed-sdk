@@ -29,30 +29,25 @@ To use SAML SSO authentication, the ThoughtSpot administrator must enable SAML a
 
 ==== Enable SSO authentication in Visual Embed SDK
 
-To configure SAML SSO authentication for embed users, set the `authType` attribute to `SSO`. 
+To configure SAML SSO authentication for embed users, set the `authType` attribute to `SSO`.
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.SSO,
-    });
-
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+});
 ----
 
 If you want the SAML SSO authentication workflow to open in a pop-up window, instead of refreshing the application page to show the SAML login page, you can set the `noRedirect` parameter to `true`.
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.SSO,
-        noRedirect: true,
-        
-    });
-
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+    noRedirect: true,
+});
 ----
 
 The user should have already gone through the SAML flow when entering the embedding application, prior to encountering any ThoughtSpot content. For the SSO experience to be completely seamless, the user must already have a valid session with the IdP, so that the IdP automatically sends a SAML assertion back to ThoughtSpot.
@@ -62,7 +57,7 @@ The SAML authentication workflow occurs when the actual ThoughtSpot content is l
 [#trusted-auth-embed]
 === Trusted authentication
 
-In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate your application users. 
+In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate your application users.
 
 For token-based authentication, the following attributes are required:
 
@@ -72,7 +67,7 @@ The token-based authentication requires you to xref:trusted-authentication.adoc#
 
 * Username
 +
-The `username` of the user for whom the token is required.  
+The `username` of the user for whom the token is required.
 
 * Authentication endpoint
 +
@@ -80,24 +75,23 @@ The URL endpoint of the server that provides the authentication token.
 
 ==== Configure token-based authentication method in Visual Embed SDK
 
-To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`. 
+To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`.
 
-To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:  
+To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:
 
 * `**authEndpoint**`
 +
-Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.  
+Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.
 
 +
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.AuthServer,
-	    username: "<username>",
-        authEndpoint: "https://authenticator-server:<port>/endpoint",
-    });
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.AuthServer,
+    username: "<username>",
+    authEndpoint: "https://authenticator-server:<port>/endpoint",
+});
 ----
 
 * `**getAuthToken**`
@@ -114,35 +108,32 @@ The generated authentication token is valid for only five minutes. Make sure the
 +
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.AuthServer,
-	    username: "<username>",
-        getAuthToken: () => Promise.resolve(token),
-    });
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.AuthServer,
+    username: "<username>",
+    getAuthToken: () => Promise.resolve(token),
+});
 ----
 
 +
-After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content. 
+After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content.
 
 In contrast to the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end user, even if they fail. You can listen to the xref:embed-events.adoc[AuthInit event] using the Visual Embed SDK to detect and respond to errors in the login process.
 
 [#basic-auth-embed]
 === Basic authentication with ThoughtSpot login API
 
-In this method, users can log in to ThoughtSpot by sending a POST request to `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. Users can pass their `username` and `password` in the API `POST` request to authenticate and access ThoughtSpot content.  `/tspublic/v1/session/login` API. For more information, see xref:session-api.adoc[Session API]. 
+In this method, users can log in to ThoughtSpot by sending a POST request to `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. Users can pass their `username` and `password` in the API `POST` request to authenticate and access ThoughtSpot content.  `/tspublic/v1/session/login` API. For more information, see xref:session-api.adoc[Session API].
 
 To enable basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.Basic,
-    });
-
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.Basic,
+});
 ----
 
 [WARNING]
@@ -150,18 +141,16 @@ You can use this authentication method for initial development and testing. Thou
 
 [#no-auth-embed]
 === No authentication
-You can choose to specify no authentication method for your users. The local ThoughtSpot users who are already logged into your application can access the embedded ThoughtSpot content.   
+You can choose to specify no authentication method for your users. The local ThoughtSpot users who are already logged into your application can access the embedded ThoughtSpot content.
 
 To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
 
 [source,javascript]
 ----
-init
-    ({
-        thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.None,
-    });
-
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.None,
+});
 ----
 
 [WARNING]

@@ -49,28 +49,33 @@
         background: var(--code-block-color);
         padding: 20px 10px;
         display: flex;
-        justify-content: space-between;
         font-family: $font-family-code;
+        justify-content: space-between;
         overflow: auto;
+        font-size: $font-size-code;
+        line-height: $line-height-code;
+        
+
     }
 
     pre.highlight {
         &:hover {
             .wrapperContainer {
                 visibility: visible;
+               
             }
         }
 
         code {
-            max-width: 88%;
-            overflow-wrap: break-word;
+            max-width: 100%;
             font-family: $font-family-code;
         }
 
         .wrapperContainer {
-            max-width: 12%;
+            max-width: 15%;
             position: relative;
             visibility: hidden;
+            padding: 20px;
 
             .lang {
                 position: absolute;

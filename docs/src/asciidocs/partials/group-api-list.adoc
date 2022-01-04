@@ -1,97 +1,97 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` 
+`xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]`
 
 Creates a user group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]`  
+`xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]`
 
 Modifies a user group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]`  
+`xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]`
 
 Gets details of a user group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]`  
+`xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]`
 
 Assigns a user to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-users-group[*GET* /tspublic/v1/group/listuser/{groupid}]` 
+`xref:group-api.adoc#get-users-group[*GET* /tspublic/v1/group/listuser/{groupid}]`
 
 Gets a list of users assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl# 
+`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW#
 
 Adds users to a specific group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]` 
+`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]`
 
 Updates user data for a given group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  [tag greenBackground]#NEW#
 
 Gets details of the users that are currently assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [[tag greenBackground]#NEW# 
 
 Removes users from a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]` 
+`xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]`
 
 Assigns a privilege to a user group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]` 
+`xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]`
 
 Removes the privilege assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]` 
+`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]`
 
-Assigns groups to a parent group. 
+Assigns groups to a parent group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]` 
+`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]`
 
 Updates subgroup objects for a given group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]` 
+`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]`
 
 Gets a list of subgroups for a given group object.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]` 
+`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]`
 
 Adds members to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]` 
+`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]`
 
 Removes members from a group.
 
@@ -103,7 +103,7 @@ Removes subgroups from a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]`  
+`xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]`
 
 Removes a user from a user group.
 

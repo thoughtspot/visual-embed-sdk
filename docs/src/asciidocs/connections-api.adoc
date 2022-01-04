@@ -22,17 +22,24 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
+== Supported operations
+
+include::{path}/data-connection-apis.adoc[]
+
 [#connection-metadata]
 == Connection metadata
 
-To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. To create a new data connection, the metadata JSON map should include at least one table object. 
+To create or modify data connections through REST APIs, you must provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables.
 
-Here is an example of the metadata JSON file:
+.Example JSON for connection metadata
 
-image::./images/connection_metadata_json.png[Connection metadata] 
+[%collapsible]
+====
+image::./images/connection_metadata_json.png[Connection metadata]
+====
 
 [#connection-attr]
-=== Configuration attributes in connection metadata
+=== Configuration attributes
 
 The configuration attributes in the connection vary based on the type of connection.
 
@@ -63,7 +70,7 @@ Make sure the role you specify for this attribute has privileges to access the d
 
 * `warehouse`
 +
-__String__. The warehouse associated with the connection. 
+__String__. The warehouse associated with the connection.
 ====
 --
 
@@ -118,7 +125,7 @@ __String__. The secret key obtained for your BigQuery service account. To obtain
 
 +
 __String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your BigQuery account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
-//// 
+////
 ====
 --
 
@@ -135,7 +142,7 @@ __String__. The hostname of the database connection.
 
 * `port`
 +
-_Integer_. Enter the port number associated with the database. 
+_Integer_. Enter the port number associated with the database.
 
 * `user`
 +
@@ -214,7 +221,7 @@ _String_. The schema of the database.
 [div boxDiv boxFullWidth]
 
 --
-.Starburst connection 
+.Starburst connection
 
 [%collapsible]
 ====
@@ -291,15 +298,12 @@ __String__. The database associated with the account.
 ====
 --
 
-== Supported operations
-
-include::{path}/data-connection-apis.adoc[]
 
 
 [#cre-connection]
 == Add a data connection for live query service
 
-ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
+ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API.
 
 [NOTE]
 ====
@@ -316,19 +320,19 @@ POST /tspublic/v1/connection/create
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form Parameter|Description
 |`name` |__String__. Name of the connection.
-|`description` |__String__ A short description of data connection.
-|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
+|`description` |__String__. A short description of data connection.
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
 
 Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. Make sure the database object includes at least one table.
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
-=== Example request 
+=== Example request
 
- 
+
 .cURL
 [source,cURL]
 ----
@@ -620,8 +624,6 @@ If the connection creation is successful, the API returns a response body with t
 
 | **200**
 
-**204**
-
 | Successful creation of the connection object
 
 | **401**
@@ -635,7 +637,7 @@ If the connection creation is successful, the API returns a response body with t
 [#edit-connection]
 == Edit an existing data connection
 
-To update or modify the connection attributes of a data connection, use the `/tspublic/v1/connection/update` API. 
+To update or modify the connection attributes of a data connection, use the `/tspublic/v1/connection/update` API.
 
 === Resource URL
 ----
@@ -647,17 +649,17 @@ POST /tspublic/v1/connection/update
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form Parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__. The description of the data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`id`|__String__. The GUID of the data connection that you want to modify.
-|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
+|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes].
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
-=== Example request 
- 
+=== Example request
+
 .cURL
 [source,cURL]
 ----
@@ -930,14 +932,13 @@ If the connection modification is successful, the API returns a response body wi
 |HTTP status code | Description
 
 | **200**
-**204**
 
-| Successful update of the connection object.
+| Successful update operation
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be created
+| Invalid parameters
 |===
 
 
@@ -954,8 +955,8 @@ GET /tspublic/v1/connection/types
 
 None
 
-=== Example request 
- 
+=== Example request
+
 .cURL
 [source,cURL]
 ----
@@ -1066,7 +1067,7 @@ GET /tspublic/v1/connection/list
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query Parameter|Description
 |`category` __Optional__ a|__String__. Type of the live query object. Valid values are:
 
 * `ALL`
@@ -1082,7 +1083,7 @@ Gets a list of live query objects that are set up on your cluster.
 * `DEFAULT` to use the default sort order in the response.
 * `NAME` to sort headers by the connection name.
 * `DISPLAY_NAME` to sort  headers by the display name of the connections.
-* `AUTHOR` to sort the headers by the author who set up the live query connection.  
+* `AUTHOR` to sort the headers by the author who set up the live query connection.
 * `CREATED` to sort headers by the timestamp at which live query connections were set up.
 * `MODIFIED` to sort headers by the timestamp at which the live query connections were modified.
 | `sortascending` a|__Boolean__. A flag to specify the sort order. A null value defines the default order.
@@ -1092,7 +1093,7 @@ Gets a list of live query objects that are set up on your cluster.
 |`offset` __Optional__|__Integer__. Batch offset to value to fetch page headers. The default value is `-1`, which implies first page.
 |`batchsize` __Optional__ |__Integer__. Number of batches in which you want to fetch page headers in a single query. The default value is `-1`, which implies no pagination.
 |`tagname` __Optional__  |__Array of strings__. A JSON array of tag names to filter response headers by tags. A tag is a  label applied to a ThoughtSpot object.
-|`pattern` __Optional__  |__String__. A pattern to match the name of the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
+|`pattern` __Optional__  |__String__. A pattern to match the name of the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |====
 
 === Example request
@@ -1112,7 +1113,7 @@ curl -X GET \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 ----
 
-=== Example response 
+=== Example response
 
 [source,JSON]
 ----
@@ -1216,8 +1217,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 |HTTP status code | Description
 
 | **200**
-
-**204**
 | Successful retrieval of live query connections list
 
 | **401**
@@ -1230,7 +1229,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 [#export-connections]
 == Export a connection map
 
-To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
+To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API.
 
 === Resource URL
 ----
@@ -1242,17 +1241,17 @@ GET /tspublic/v1/connection/export
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
-|`id`|__String__. The GUID of the data connection you want to export. 
+|Query Parameter|Description
+|`id`|__String__. The GUID of the data connection you want to export.
 |====
 
-=== Example request 
- 
+=== Example request
+
 .cURL
 [source,cURL]
 ----
-curl -X GET 
---header 'Accept: text/yaml' 
+curl -X GET
+--header 'Accept: text/yaml'
 --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82'
 ----
 
@@ -1262,9 +1261,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb
 ----
 === Example response
 
-If the specified GUID is valid and points to an existing data connection on your cluster, the API returns a YAML file containing the connection mapping data. 
+If the specified GUID is valid and points to an existing data connection on your cluster, the API returns a YAML file containing the connection mapping data.
 
-Click the link in the `Response body` to download the YAML file. 
+Click the link in the `Response body` to download the YAML file.
 
 === Response codes
 
@@ -1274,27 +1273,24 @@ Click the link in the `Response body` to download the YAML file.
 |HTTP status code | Description
 
 | **200**
-
-**204**
-
-| Successful deletion of the connection object.
+| Successful export of the connection object
 | **401**
-| Unauthorized or wrong credentials
+| Unauthorized request or wrong credentials
 
 | **500**
-| The connection could not be deleted.
+| Invalid connection ID
 |===
 
 [#del-connection]
 == Delete a data connection
 
-To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API. 
+To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API.
 
 [IMPORTANT]
 ====
-A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation. 
+A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation.
 ====
- 
+
 === Resource URL
 ----
 POST /tspublic/v1/connection/delete
@@ -1304,12 +1300,12 @@ POST /tspublic/v1/connection/delete
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
-|`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete. 
+|Form Parameter|Description
+|`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete.
 |====
 
-=== Example request 
- 
+=== Example request
+
 .cURL
 [source,cURL]
 ----
@@ -1343,14 +1339,12 @@ Response Code
 |===
 |HTTP status code | Description
 
-| **200**
-
-**204**  |Successful deletion of the connection object.
+| **204**
+|Successful deletion of the connection object
 
 | **401**
 | Unauthorized or wrong credentials
 
 | **500**
-| The connection could not be deleted due to table dependencies.
+| The connection could not be deleted due to table dependencies
 |===
-

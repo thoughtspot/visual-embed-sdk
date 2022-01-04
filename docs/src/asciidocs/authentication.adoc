@@ -30,11 +30,10 @@ https://<your-thoughtspot-hostname:port>.com
 
 == API service name and version
 
-For REST API calls, in addition to the base URI, append the API service name and the version number. 
+For REST API calls, in addition to the base URI, append the API service name and the version number.
 
 For example:
 
 ----
 https://<your-thoughtspot-hostname:port>.com/callosum/v1/
 ----
-

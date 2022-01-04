@@ -6,7 +6,7 @@
 
 ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. If you have Developer or Admin privileges, you can create a  *Global* or *Local* custom action. By default, the *Global* custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The *Local* custom actions are not placed anywhere in the ThoughtSpot UI until you add them to a worksheet, pinboard visualization, saved answer, or a chart or table built from a new search.
 
-To view the custom actions available on your cluster, click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu] on any visualization or saved answer page, chart, or table. 
+To view the custom actions available on your cluster, click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu] on any visualization or saved answer page, chart, or table.
 
 The *Custom actions* panel allows you to perform the following actions:
 
@@ -46,7 +46,7 @@ ThoughtSpot allows only one primary action on a visualization page. If you alrea
 
 * *Menu*
 +
-Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu]. By default, the *Global* custom actions are placed as menu actions in the **More** menu image:./images/icon-more-10px.png[the more options menu]. 
+Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[the more options menu]. By default, the *Global* custom actions are placed as menu actions in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
 * *Context menu*
 +
@@ -58,5 +58,3 @@ Adds the custom action to the contextual menu. If you want to send only a single
 image::./images/custom-action-viz.png[Custom action for a visualization]
 
 . Click *Save*.
-
- 

@@ -20,8 +20,8 @@ You can customize the following ThoughtSpot UI style components:
 
 * xref:#logo-change[Application logo & favicon]
 * xref:#font-customize[Font style for charts and tables]
-* xref:#custom-bg[The background color of the UI]
-* xref:#nav-panel[The background color of navigation panel]
+* xref:#custom-bg[Background color of the UI]
+* xref:#nav-panel[Background color of the navigation panel]
 * xref:#chart-color[Color palette for charts]
 * xref:#footer-text[Footer text]
 * xref:#page-title[Page title]
@@ -36,10 +36,10 @@ To access style customization settings:
 
 [TIP]
 ====
-Style customization settings are also available in the ThoughtSpot *Admin* tab.
-For more information on setting UI styles from the *Admin* tab, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization, window=_blank].
+The style customization settings are also available in the ThoughtSpot *Admin*  console.
+For more information on setting UI styles from the *Admin* console, see link:https://docs.thoughtspot.com/software/latest/admin-portal-style-customization.html[Style Customization, window=_blank].
 ====
-
+ 
 [#logo-change]
 == Change application logo and favicon
 To upload your application logos:

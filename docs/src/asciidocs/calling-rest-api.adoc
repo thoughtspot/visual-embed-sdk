@@ -62,7 +62,7 @@ The sampling ratio tells you the percentage of total data returned.
 A sampling ratio of `1` indicates that all data in the visualization object was returned in the API call.
 
 The REST API supports filtering data based on the parameters that you pass within the URL.
-These are called link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[Runtime Filters, window=_blank].
+These are called xref:runtime-filters.adoc[Runtime Filters].
 
 == Example
 
