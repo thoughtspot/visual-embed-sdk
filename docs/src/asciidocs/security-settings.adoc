@@ -79,13 +79,18 @@ The following table shows the allowed domain name strings in the CORS and CSP al
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
 
-a|Domain URL strings with protocol
+a|
+
+////
+Domain URL strings with protocol
 
 * `\http://thoughtspot.com` +
 * `\https://thoughtspot.com` +
 * `\https://www.thoughtspot.com` +
 
-3+| Allowed in the UI. However, we recommend that you do not specify the protocol in the domain URL string for CSP and CORS. 
+Allowed in the UI. However, we recommend that you do not specify the protocol in the domain URL string for CSP and CORS. 
+////
+|||
 
 a|Domain URL strings without protocol + 
 
@@ -98,21 +103,14 @@ a|Domain URL strings for localhost
 
 * `localhost`  
 * `localhost:3000` 
-* `localhost:3000` 
-* `\https://localhost:3000` 
-* `\http://localhost:3000` 
 
-See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol].
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
 
 * `thoughtspot.com`
-* `\https://thoughtspot.com`
-* `\http://mysite.com`
+* `mysite.com`
 
-If your domain URL has a non-standard port, for example `http://mysite.com:8080`, make sure you add the port number in the domain name string. 
-
-See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol].
+If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string. 
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
@@ -130,7 +128,7 @@ a|Wildcard before the domain name +
 * `+++*+++.thoughtspot.com`
 * `\https://*.thoughtspot.com`
 
-See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol].
+See the xref:security-settings.adoc#csp-cors-hosts[note about excluding protocol in CSP allowlists].
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
 
@@ -139,7 +137,6 @@ a| Domain names with space, backslash (\), and wildcard (*).
 
 * `www.+++*+++.+++*+++.thoughtspot.com` +
 * `www.thoughtspot.com/*` +
-* `\https://\*.thoughtspot.com` 
 * `thoughtspot  .com` +
 |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |URLs with query parameters +
