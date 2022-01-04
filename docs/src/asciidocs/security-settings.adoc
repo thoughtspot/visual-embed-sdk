@@ -46,7 +46,7 @@ If you plan to create custom actions with URL targets, you must add the domain n
 [#cors-hosts]
 == Enable CORS
 
-The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `\http://localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
+The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
 
 If you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends a request to ThoughtSpot. 
 
@@ -67,33 +67,22 @@ To add domain names to the CORS allowlist, follow these steps:
 [#port-protocol]
 Note the following points if using port or protocol in the domain name string:
 
-* Although the UI allows a domain URL without the protocol (`http/https`) in the CSP allowlist, do include the protocol in the domain name string for the CSP allowlist to avoid configuration errors.
+* Although the UI allows a domain URL with the protocol (`http/https`) in the CSP allowlist, we recommend that you do not include the protocol in the domain name string.
 * Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings. 
 * If your domain URL has a non-standard port such as 8080, specify the port number in the domain name string.
 ====
 
-The following table shows the valid domain name strings to use in the CORS and CSP allowlists. 
+The following table shows the valid domain name strings for the CORS and CSP allowlists. 
 
 [width="100%" cols="5,2,2,2"]
 [options='header']
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
 
-a|Domain URL strings with protocol
-
-* `\http://thoughtspot.com` +
-* `\https://thoughtspot.com` +
-* `\https://www.thoughtspot.com` +
-
-See the xref:security-settings.adoc#port-protocol[note about excluding protocol] in the CORS allowlist.
-
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without protocol + 
 
 * `thoughtspot.com` 
 * `www.thoughtspot.com` +
-
-See the xref:security-settings.adoc#port-protocol[note about including protocol] in the CSP allowlists.
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 
@@ -101,17 +90,14 @@ a|Domain URL strings for localhost
 
 * `localhost`  
 * `localhost:3000` 
-* `\http://localhost:3000` 
-* `localhost:3000` 
-* `\https://localhost:3000` 
+
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
 
 * `thoughtspot.com`
-* `\https://thoughtspot.com`
-* `\http://mysite.com`
+* `mysite.com`
 
-If your domain URL has a non-standard port, for example `http://mysite.com:8080`, make sure you add the port number in the domain name string. 
+If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string. 
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
@@ -126,14 +112,15 @@ If your domain URL has a non-standard port, for example `http://mysite.com:8080`
 
 a|Wildcard before the domain name +
 
-* `+++*+++.thoughtspot.com`
-* `\https://*.thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+`+++*+++.thoughtspot.com`
+
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+
 
 a| Domain names with space, backslash (\), and wildcard (*). 
 
 * `www.+++*+++.+++*+++.thoughtspot.com` +
 * `www.thoughtspot.com/*` +
-* `\https://\*.thoughtspot.com` 
 * `thoughtspot  .com` +
 |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |URLs with query parameters +
