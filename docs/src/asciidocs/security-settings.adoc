@@ -99,15 +99,19 @@ a|Domain URL strings for localhost
 
 * `localhost`  
 * `localhost:3000` 
-* `\http://localhost:3000` 
 * `localhost:3000` 
 * `\https://localhost:3000` 
+* `\http://localhost:3000` 
+
+See the xref:security-settings.adoc#port-protocol[note about excluding protocol].
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
 
 * `thoughtspot.com`
 * `\https://thoughtspot.com`
 * `\http://mysite.com`
+
+See the xref:security-settings.adoc#port-protocol[note about excluding protocol].
 
 If your domain URL has a non-standard port, for example `http://mysite.com:8080`, make sure you add the port number in the domain name string. 
 
@@ -126,6 +130,8 @@ a|Wildcard before the domain name +
 
 * `+++*+++.thoughtspot.com`
 * `\https://*.thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+
+See the xref:security-settings.adoc#port-protocol[note about excluding protocol].
 
 a| Domain names with space, backslash (\), and wildcard (*). 
 
