@@ -12,7 +12,10 @@ POST /tspublic/v1/session/logout
 [source, cURL]
 
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout'
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout'
 ----
 
 .Request URL

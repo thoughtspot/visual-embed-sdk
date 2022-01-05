@@ -15,13 +15,21 @@ Obtains an authentication token for a user.
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]`
 
-Gets a  log in session for authenticated users  when trusted authentication is enabled.
+Authenticates and logs in a user to ThoughtSpot.
+
+This request method sends authentication attributes as query string parameters in the request URL.
+
+__This API call is not required if you are using Visual Embed SDK__.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-logout[*POST* /tspublic/v1/session/logout]`
+`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` [tag greenBackground]#NEW#
 
-Logs out a user from an existing session.
+Authenticates and logs in a user to ThoughtSpot.
+
+This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST`request method.
+
+__This API call is not required if you are using Visual Embed SDK__.
 
 +++<p class="divider"> </p>+++
 

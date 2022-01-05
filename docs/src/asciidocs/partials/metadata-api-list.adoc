@@ -21,11 +21,11 @@ Gets metadata details for a specific data object such as a pinboard, search answ
 
 `xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` [tag greenBackground]#NEW#
 
-Gets a list of all metadata objects from the ThoughtSpot resource repository.
+Gets a list of metadata objects from the ThoughtSpot resource repository.
 
 +++<p class="divider"> </p>+++
 
-`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]`
+`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]` [tag greenBackground]#NEW#
 
 Gets a list of metadata objects that are available to a user or user group.
 

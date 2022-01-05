@@ -5,14 +5,14 @@
 :page-pageid: security-settings
 :page-description: Security settings for embedding
 
-As a security measure, most browsers block cross-site scripting, cross-domain requests, and third-party cookies by default. Web browsers also have built-in security mechanisms such as same-origin and content security policies. These policies restrict how applications and scripts from one origin (domain) can interact with the resources hosted on another origin (domain). 
+As a security measure, most browsers block cross-site scripting, cross-domain requests, and third-party cookies by default. Web browsers also have built-in security mechanisms such as same-origin and content security policies. These policies restrict how applications and scripts from one origin (domain) can interact with the resources hosted on another origin (domain).
 
 * To ensure that ThoughtSpot embedding works on browsers that don’t allow third-party cookies, such as Safari’s default security setting and Firefox when in strict mode, you can set the domain name of your embedded ThoughtSpot instance to the same domain name as your host application. For more information about hosting ThoughtSpot on a custom domain, see xref:custom-domain-configuration.adoc[Custom domain configuration].
 * If you have embedded ThoughtSpot content within your application page using an inline frame, web browsers may block the embedded content. If your host application and embedded ThoughtSpot instance are on different domains, most web browsers also block cross-domain requests by default. To enable seamless interaction between your host application and the embedded ThoughtSpot instance, you need to configure the following security settings in ThoughtSpot:
- 
+
 ** Trusted hosts for CORS
 +
-To allow your application to call ThoughtSpot, access its resources, and render embedded content, you must add your domain as a trusted host and enable Cross-Origin Resource Sharing (CORS). 
+To allow your application to call ThoughtSpot, access its resources, and render embedded content, you must add your domain as a trusted host and enable Cross-Origin Resource Sharing (CORS).
 
 ** Trusted hosts for CSP
 +
@@ -23,7 +23,7 @@ Users with admin or developer privileges can configure the CORS and CSP allowlis
 
 [#csp-viz-embed-hosts]
 == Add CSP visual embed hosts
-To allow your host domain to set the `frame-ancestors` CSP policy header and embed a ThoughtSpot object within your application frame, add your application domain as a CSP visual embed host. 
+To allow your host domain to set the `frame-ancestors` CSP policy header and embed a ThoughtSpot object within your application frame, add your application domain as a CSP visual embed host.
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
@@ -34,7 +34,7 @@ To allow your host domain to set the `frame-ancestors` CSP policy header and emb
 
 [#csp-connect-src]
 == Add URLs to CSP connect-src allowlist
-If you plan to create custom actions with URL targets, you must add the domain names of these URLs to the `CSP connect-src` allowlist. This allows JavaScript events triggered by the custom action URLs. 
+If you plan to create custom actions with URL targets, you must add the domain names of these URLs to the `CSP connect-src` allowlist. This allows JavaScript events triggered by the custom action URLs.
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
@@ -46,9 +46,9 @@ If you plan to create custom actions with URL targets, you must add the domain n
 [#cors-hosts]
 == Enable CORS
 
-The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `\http://localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
+The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
 
-If you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends a request to ThoughtSpot. 
+If you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends a request to ThoughtSpot.
 
 To add domain names to the CORS allowlist, follow these steps:
 
@@ -66,52 +66,36 @@ To add domain names to the CORS allowlist, follow these steps:
 ====
 [#port-protocol]
 Note the following points if using port or protocol in the domain name string:
-
-* Although the UI allows a domain URL without the protocol (`http/https`) in the CSP allowlist, do include the protocol in the domain name string for the CSP allowlist to avoid configuration errors.
-* Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings. 
+* Although the UI allows a domain URL with the protocol (`http/https`) in the CSP allowlist, we recommend that you do not include the protocol in the domain name string.
+* Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings.
 * If your domain URL has a non-standard port such as 8080, specify the port number in the domain name string.
 ====
 
-The following table shows the valid domain name strings to use in the CORS and CSP allowlists. 
+The following table shows the allowed domain name strings to use in the CORS and CSP allowlists.
 
 [width="100%" cols="5,2,2,2"]
 [options='header']
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
 
-a|Domain URL strings with protocol
+a|Domain URL strings without protocol +
 
-* `\http://thoughtspot.com` +
-* `\https://thoughtspot.com` +
-* `\https://www.thoughtspot.com` +
-
-See the xref:security-settings.adoc#port-protocol[note about excluding protocol] in the CORS allowlist.
-
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
-a|Domain URL strings without protocol + 
-
-* `thoughtspot.com` 
+* `thoughtspot.com`
 * `www.thoughtspot.com` +
 
-See the xref:security-settings.adoc#port-protocol[note about including protocol] in the CSP allowlists.
-
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 
-a|Domain URL strings for localhost 
+a|Domain URL strings for localhost
 
-* `localhost`  
-* `localhost:3000` 
-* `\http://localhost:3000` 
-* `localhost:3000` 
-* `\https://localhost:3000` 
+* `localhost`
+* `localhost:3000`
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
 
 * `thoughtspot.com`
-* `\https://thoughtspot.com`
-* `\http://mysite.com`
+* `mysite.com`
 
-If your domain URL has a non-standard port, for example `http://mysite.com:8080`, make sure you add the port number in the domain name string. 
+If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string.
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
@@ -126,14 +110,14 @@ If your domain URL has a non-standard port, for example `http://mysite.com:8080`
 
 a|Wildcard before the domain name +
 
-* `+++*+++.thoughtspot.com`
-* `\https://*.thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+`+++*+++.thoughtspot.com`
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
 
-a| Domain names with space, backslash (\), and wildcard (*). 
+a| Domain names with space, backslash (\), and wildcard (*).
 
 * `www.+++*+++.+++*+++.thoughtspot.com` +
 * `www.thoughtspot.com/*` +
-* `\https://\*.thoughtspot.com` 
+* `\https://\*.thoughtspot.com`
 * `thoughtspot  .com` +
 |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
 |URLs with query parameters +
@@ -149,8 +133,7 @@ a| Domain names with space, backslash (\), and wildcard (*).
 |Comma-separated values +
 `thoughtspot.com, thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |`mail://xyz.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-a|+++Wildcard (*) for port+++ 
+a|+++Wildcard (*) for port+++
 
 `thoughtspot:*`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |====
-

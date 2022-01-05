@@ -1,31 +1,31 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` 
+`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]`
 
 Creates a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]` 
+`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]` [tag greenBackground]#NEW#
 
 Activates a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]`  
+`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]`
 
 Modifies a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` [tag greenBackground]#NEW#
 
 Add or modifies the email address of a user.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]`  
+`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]`
 
 Gets details of the users in a ThoughtSpot system.
 
@@ -49,7 +49,7 @@ Modifies a user profile.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`  
+`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`
 
 Transfers the ownership of objects from one user to another.
 
@@ -61,19 +61,19 @@ Changes the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  
+`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`  [tag greenBackground]#NEW#
 
 Resets the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` 
+`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` [tag greenBackground]#NEW#
 
 Invalidates a user session.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  
+`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  [tag greenBackground]#NEW#
 
 Deactivates a user account.
 
@@ -85,25 +85,25 @@ Synchronizes user details and attributes from an external database with the user
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW#
 
 Assigns a user to the specified user groups.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW#
 
 Gets details of the user groups associated with a specific user.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW#
 
 Updates the user group data for a specific user.
 
 +++<p class="divider"> </p>+++
 
-`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW in ts7.oct.cl#
+`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]` [tag greenBackground]#NEW#
 
 Removes a user from the specified user groups.
 --

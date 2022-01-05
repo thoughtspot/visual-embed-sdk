@@ -166,7 +166,7 @@ The SDK EmbedEvent library includes the following events:
 * `AuthExpired`
 * `VizPointDoubleClick`
 * `Drilldown`
-* `DialogOpen`|
+* `DialogOpen`
 * `DialogClose`
 * `RouteChange`
 

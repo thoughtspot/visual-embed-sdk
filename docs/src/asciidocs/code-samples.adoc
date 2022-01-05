@@ -125,7 +125,7 @@ appEmbed.render();
 
 == Event trigger
 
-The following example shows how to trigger an event from the embedded ThoughtSpot interface:
+The following example shows how to register the `VizPointDoubleClick` event, which is triggered when a user drills down on a visualization in embedded ThoughtSpot interface:
 
 [source,JAVASCRIPT]
 ----
@@ -138,6 +138,15 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
         points: clickedPointData,
         autoDrillDown: true,
     });
+})
+----
+
+The following example shows how to register the `RouteChange`, which is triggered when a user navigates to another page within the embedded ThoughtSpot interface.
+
+[source,JAVASCRIPT]
+----
+appEmbed.on(EmbedEvent.RouteChange, (data) => {
+    console.log('Route', data)
 })
 ----
 

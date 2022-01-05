@@ -49,7 +49,7 @@ Gets details of the users that are currently assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [[tag greenBackground]#NEW# 
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [[tag greenBackground]#NEW#
 
 Removes users from a group.
 
@@ -67,37 +67,37 @@ Removes the privilege assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]`
+`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]` [tag greenBackground]#NEW#
 
 Assigns groups to a parent group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]`
+`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]` [tag greenBackground]#NEW#
 
 Updates subgroup objects for a given group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]`
+`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]` [tag greenBackground]#NEW#
 
 Gets a list of subgroups for a given group object.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]`
+`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]` [tag greenBackground]#NEW#
 
 Adds members to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]`
+`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]` [tag greenBackground]#NEW#
 
 Removes members from a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]`
+`xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]` [tag greenBackground]#NEW#
 
 Removes subgroups from a group.
 
