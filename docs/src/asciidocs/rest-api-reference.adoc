@@ -1,11 +1,10 @@
-= REST API Reference 
+= REST API Reference
 :toc: true
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
-[div]
 
 == User management
 
@@ -27,9 +26,18 @@ include::{path}/metadata-api-list.adoc[]
 
 include::{path}/admin-api-list.adoc[]
 
-== Data connections 
+== Data connections
 
 include::{path}/data-connection-apis.adoc[]
+
+== Materialization service
+
+[div boxDiv boxFullWidth]
+--
+`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]`
+
+Allows you refresh a materialized view.
+--
 
 == TML objects
 
@@ -43,7 +51,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 [div boxDiv boxFullWidth]
 --
-`xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`  
+`xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`
 
 Allows searching for data from a specific data source in the ThoughtSpot application.
 --
@@ -55,6 +63,7 @@ include::{path}/dependency-api-list.adoc[]
 
 include::{path}/security-api-list.adoc[]
 
+////
 == Log Streaming Service
 
 [div boxDiv boxFullWidth]
@@ -63,3 +72,4 @@ include::{path}/security-api-list.adoc[]
 
 Gets security audit logs from the ThoughtSpot system.
 --
+////
