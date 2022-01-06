@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020
+ * Copyright (c) 2022
  *
  * Common utility functions for ThoughtSpot Visual Embed SDK
  *

@@ -163,4 +163,4 @@ const MyComponent = ({ dataSources }) => {
 <br/>
 <br/>
 
-Visual-Embed-SDK, © ThoughtSpot, Inc. 2021
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2022

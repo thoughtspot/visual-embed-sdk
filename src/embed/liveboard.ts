@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2022
  *
  * Embed a ThoughtSpot Liveboard or visualization
  * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard

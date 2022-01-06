@@ -1,6 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2022
  *
  * Base classes
  *
