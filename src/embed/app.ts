@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2022
  *
  * Full application embedding
  * https://developers.thoughtspot.com/docs/?pageid=full-embed
