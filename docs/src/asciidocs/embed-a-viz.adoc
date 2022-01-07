@@ -100,7 +100,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     enableVizTransformations: true,
     preventLiveboardFilterRemoval: true,
     runtimeFilters: [],
-},
 });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the visualization object. You can set the `width` and `height` attribute values in pixels or as a percentage.
