@@ -9,15 +9,22 @@ ThoughtSpot Everywhere provides a low-code embedded analytics platform for devel
 
 ThoughtSpot Everywhere provides the Visual Embed SDK to embed search-driven analytics, pinboards, visualizations, and even the entire ThoughtSpot experience in your application. ThoughtSpot also supports REST API services to programmatically query data, manage users and user sessions, push data to an external application, and automate deployments.
 
-== Embedding methods
-You can use one of the following methods to embed ThoughtSpot into your host application:
+== Embed methods
 
-Using Visual Embed SDK::
-You can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components.
-The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as search, visualizations, pinboards, and the full application.
+[IMPORTANT]
+====
+If you want to embed ThoughtSpot application or its components in your web page, portal, or product, we recommend that you use the Visual Embed SDK and customization features in the Developer portal, instead of the legacy JavaScript API (JS API).
+
+To get access to the Developer portal and start using the Visual Embed SDK, contact ThoughtSpot Support.
+====
+
+To embed ThoughtSpot content in your application, use one of the following methods:
+
+Visual Embed SDK::
+The Visual Embed SDK provides a Javascript library to embed ThoughtSpot content, such as search, visualizations, pinboards, and the full application experience.
 
 +
-For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
+For more information about how to install the Visual Embed SDK, import the Javascript library, and integrate ThoughtSpot application and its components, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
 Using REST APIs::
 You can use the REST APIs to programmatically query data from the ThoughtSpot application. You can also use REST APIs to manage users and perform other key functions.

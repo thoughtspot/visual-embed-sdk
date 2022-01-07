@@ -6,7 +6,7 @@
 :page-pageid: user-api
 :page-description: User APIs
 
-The User APIs allow you to programmatically manage ThoughtSpot users.
+The User APIs allow you to programmatically create, update, and administer ThoughtSpot users.
 
 == Supported operations
 include::{path}/user-api-list.adoc[]
@@ -46,6 +46,7 @@ POST /tspublic/v1/user/
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -279,6 +280,7 @@ PUT /tspublic/v1/user/email
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -343,7 +345,7 @@ You can use either `userid` or `name` to query data for a specific user. If usin
 === Example request
 
 .cURL
-
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -358,7 +360,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-48
 
 === Example response
 
-[source, JSON]
+[source,JSON]
 ----
 {
   "userContent": {
@@ -432,7 +434,7 @@ If no `userid` or `name` attribute is specified, the API returns a response with
 [#deactivate-user]
 == Deactivate a user account
 
-To deactivate a user account, send a `POST` request to the `/tspublic/v1/user/inactivate` API endpoint. 
+To deactivate a user account, send a `POST` request to the `/tspublic/v1/user/inactivate` API endpoint.
 
 === Resource URL
 ----
@@ -452,6 +454,7 @@ POST /tspublic/v1/user/inactivate
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -489,11 +492,11 @@ Note the user ID and auth token string. You will need this information to re-act
 [#activate-user]
 == Activate a user account
 
-To activate a user account that is currently inactive, send a `POST` request to the `/tspublic/v1/user/activate` API endpoint. 
+To activate a user account that is currently inactive, send a `POST` request to the `/tspublic/v1/user/activate` API endpoint.
 
 [IMPORTANT]
 ====
-When a user account is deactivated using the `/tspublic/v1/user/inactivate` endpoint, the API returns a response with the user ID and auth token string. This auth token string and the user ID are required for reactivating a user session. 
+When a user account is deactivated using the `/tspublic/v1/user/inactivate` endpoint, the API returns a response with the user ID and auth token string. This auth token string and the user ID are required for reactivating a user session.
 
 ----
 https:/<ThoughtSpot-Host>/#/activate?id=<user-guid>&token=<auth_token_string>
@@ -512,7 +515,7 @@ POST /tspublic/v1/user/activate
 |===
 |Form Parameter|Description
 |`userid`|__String__. The GUID of the user account to activate.
-|`auth_token`|__String__. The authentication token to reactivate the user account. 
+|`auth_token`|__String__. The authentication token to reactivate the user account.
 |`password` |__String__. The password string for the user account.
 |`properties`|__Array of Strings__. A JSON map of the user properties to update the user account.
 |===
@@ -520,6 +523,7 @@ POST /tspublic/v1/user/activate
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -549,7 +553,7 @@ Response Code
 [options='header']
 |===
 |HTTP status code|Description
-|**200** |Successful operation
+|**204** |Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid  user ID
 |===
@@ -557,15 +561,15 @@ Response Code
 [#invalidate-user-session]
 == Invalidate a user session
 
-After a password of a user account is reset, you may want to invalidate a user session and force the user to re-login with the new password. To invalidate a user session, you can send a `POST` request to the `/tspublic/v1/user/session/invalidate` endpoint. 
+After a password of a user account is reset, you may want to invalidate a user session and force the user to re-login with the new password. To invalidate a user session, you can send a `POST` request to the `/tspublic/v1/user/session/invalidate` endpoint.
 
 
 [WARNING]
 ====
-* Use this API with caution as it may invalidate active user sessions and force users to re-login. 
-* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster become invalid and users are forced to re-login. 
+* Use this API with caution as it may invalidate active user sessions and force users to re-login.
+* Make sure you specify the usernames or user IDs. If you pass null values in the API call, all user sessions on your cluster become invalid and users are forced to re-login.
 ====
- 
+
 === Resource URL
 ----
 POST /tspublic/v1/user/session/invalidate
@@ -577,7 +581,7 @@ POST /tspublic/v1/user/session/invalidate
 [options='header']
 |===
 |Form Parameter|Description
-|`username`|__Array of strings__. A JSON array of usernames of the users whose sessions you want to revoke. This attribute is __Optional__ if the `userid` attribute is defined. 
+|`username`|__Array of strings__. A JSON array of usernames of the users whose sessions you want to revoke. This attribute is __Optional__ if the `userid` attribute is defined.
 |`userid`|__Array of strings__. A JSON array of the GUIDs of the user account. This attribute is __Optional__ if the `username` attribute is defined.
 |===
 
@@ -585,6 +589,7 @@ POST /tspublic/v1/user/session/invalidate
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -614,9 +619,7 @@ Response Code
 [options='header']
 |====
 |HTTP status code|Description
-|**200**
-
-**204**|Successful operation
+|**204**|Successful operation
 |**403**| Unauthorized request
 |**500**| Invalid username or userID
 |====
@@ -641,6 +644,7 @@ DELETE /tspublic/v1/user/{userid}
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
@@ -684,6 +688,7 @@ GET /tspublic/v1/user/list
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X GET \
 --header 'Accept: application/json' \
@@ -800,7 +805,7 @@ The email address of the user. This field is populated only for the user objects
 +
 Type of the user created in the ThoughtSpot system. For example:
 
-** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system.  
+** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system.
 ** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system.
 
 * `password`
@@ -823,7 +828,7 @@ If the user is visible to the other ThoughtSpot users or user groups who might w
 
 * `activate`
 
-Indicates if the user or user group needs to be activated. If the user or user group is already active, the `activate` property is set to `false`. 
+Indicates if the user or user group needs to be activated. If the user or user group is already active, the `activate` property is set to `false`.
 
 === Response codes
 [width="100%" cols="2,4"]
@@ -854,6 +859,8 @@ POST /tspublic/v1/user/updatepassword
 === Example request
 
 .cURL
+
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -867,13 +874,20 @@ curl -X POST \
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
 ----
+=== Example response
 
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password update is successful.
+|**204**|Password update is successful.
 |===
 
 [#resetpassword]
@@ -899,12 +913,13 @@ POST /tspublic/v1/user/resetpassword
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' 
+-d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123'
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword'
 ----
 
@@ -913,12 +928,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword
 ----
 
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP status code|Description
-|**200**|Password reset is successful
+|**204**|Password reset is successful
 |**401**|Unauthorized request
 |**500**|Invalid parameter
 |===
@@ -1061,7 +1085,7 @@ The allowed values are:
 [options='header']
 |===
 |HTTP status code|Description
-|**200**| Successful update of a user profile
+|**204**| Successful update of a user profile
 |**400**| Invalid user ID
 |===
 
@@ -1088,6 +1112,7 @@ POST /tspublic/v1/user/transfer/ownership
 === Example request
 
 .cURL
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/json' \
@@ -1100,12 +1125,21 @@ curl -X POST \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1
 ----
 
+=== Example response
+
+If the operation is successful, the API returns the following response:
+
+----
+Response Code
+204
+----
+
 === Response codes
 [width="100%" cols="2,4"]
 [options='header']
 |===
 |HTTP Code|Description
-|**200**|The ownership of objects is successfully transferred.
+|**204**|The ownership of objects is successfully transferred.
 |**400**|Invalid `fromName` or `toName`, or no user in the ThoughtSpot that matches the specified username.
 |===
 
@@ -1182,7 +1216,7 @@ The `principals.json` file contains the JSON request to be sent for synchronizin
 
 Use the example format for the JSON requests:
 
-[source, JSON]
+[source,JSON]
 ----
 [
   { "name": "Customer Success",
@@ -1249,6 +1283,7 @@ The above example covers user objects (with emails), group objects, and their re
 |===
 |HTTP status code|Description
 |**200**| The user sync operation is successful.
+|**500**| Invalid request
 |===
 
 [#assignUserToGroups]
@@ -1281,7 +1316,6 @@ curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%2C%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%5D'
- 
 ----
 
 .Request URL
@@ -1310,7 +1344,7 @@ Response Code
 [#getGroupsUser]
 == Get user group details for a specific user
 
-To get a list of user groups associated with a user, send a `GET` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+To get a list of user groups associated with a user, send a `GET` request to the `/tspublic/v1/user/{userid}/groups` API endpoint.
 
 === Resource URL
 
@@ -1427,14 +1461,14 @@ If the GET operation is successful, the API returns the following response:
 [options='header']
 |===
 |HTTP status code|Description
-|**204**| Successful operation
+|**200**| Successful operation
 |**400**| Invalid parameter
 |===
 
 [#editGroupsforUser]
 == Update group association for a user
 
-To update the user group data for a specific user, send a `PUT` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+To update the user group data for a specific user, send a `PUT` request to the `/tspublic/v1/user/{userid}/groups` API endpoint.
 
 === Resource URL
 
@@ -1461,7 +1495,7 @@ curl -X PUT \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json'  \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%2C%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%5D' 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%2C%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%5D'
 ----
 
 .Request URL
@@ -1491,7 +1525,7 @@ Response Code
 
 == Remove a user from user groups
 
-To remove the existing group assignments for a user, send a `DELETE` request to the `/tspublic/v1/user/{userid}/groups` API endpoint. 
+To remove the existing group assignments for a user, send a `DELETE` request to the `/tspublic/v1/user/{userid}/groups` API endpoint.
 
 === Resource URL
 

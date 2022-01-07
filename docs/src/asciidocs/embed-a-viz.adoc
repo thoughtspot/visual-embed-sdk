@@ -1,4 +1,4 @@
-Pinboard= Embed a visualization
+= Embed a visualization
 :toc: true
 
 :page-title: Embed visualizations

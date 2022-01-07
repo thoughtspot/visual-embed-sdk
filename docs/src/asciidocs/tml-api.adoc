@@ -15,6 +15,12 @@ include::{path}/tml-api-list.adoc[]
 [#import]
 == Import API
 To validate and import the TML objects, use the `/tspublic/v1/metadata/tml/import` API.
+[NOTE]
+====
+You can import single or multiple objects using the `tml/import` API. If you import only a worksheet object, it may take some time for the worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and pinboards.
+
+However, if you import a worksheet along with pinboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
+====
 
 === Resource URL
 ----
@@ -44,9 +50,9 @@ Imports the objects that validate successfully.
 * `VALIDATE_ONLY`
 Validates the objects but does not import them.|`PARTIAL`
 
-|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. 
+|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`.
 
-By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object. 
+By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object.
 
 The new object will be assigned a new GUID, even if the imported TML file included a `guid` value. Thus, there is no need to include the `guid` in the TML file if you are using `force_create=true`. |`false`|
 |====
@@ -61,51 +67,55 @@ Make sure the API request has the following headers:
 .cURL
 [source,cURL]
 ----
-curl -X POST --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' --data-urlencode 'import_objects=[{
-	"guid": "12289fad-f230-485e-8c65-e36082eebf44",
-	"answer": {
-		"name": "Basic Answer 1",
-		"description": "This is basic answer with table and headline visualizations.",
-		"tables": [{
-			"id": "LINEORDER",
-			"name": "LINEORDER",
-			"fqn": "2445fe81-30d6-46fa-9f42-f6b1b4e01623"
-		}, {
-			"id": "PART",
-			"name": "PART",
-			"fqn": "a7fc012e-bdb3-4e75-9ce4-b3f731d90136"
-		}],
-		"search_query": "[LINEORDER_1::Revenue] [PART_1::Color]",
-		"answer_columns": [{
-			"name": "Total Revenue"
-		}, {
-			"name": "Color"
-		}],
-		"table": {
-			"table_columns": [{
-				"column_id": "Color",
-				"headline_aggregation": "COUNT_DISTINCT"
-			}, {
-				"column_id": "Total Revenue",
-				"headline_aggregation": "SUM"
-			}],
-			"ordered_column_ids": ["Color", "Total Revenue"]
-		},
-		"chart": {
-			"type": "COLUMN",
-			"chart_columns": [{
-				"column_id": "Total Revenue"
-			}, {
-				"column_id": "Color"
-			}],
-			"axis_configs": [{
-				"x": ["Color"],
-				"y": ["Total Revenue"]
-			}]
-		},
-		"display_mode": "TABLE_MODE"
-	}
-}]'
+curl - X POST \
+--header 'Accept: text/plain' \
+--header 'X-Requested-By: ThoughtSpot'\
+--data - urlencode 'import_objects=[{
+"guid": "12289fad-f230-485e-8c65-e36082eebf44",
+"answer": {
+    "name": "Basic Answer 1",
+    "description": "This is basic answer with table and headline visualizations.",
+    "tables": [{
+        "id": "LINEORDER",
+        "name": "LINEORDER",
+        "fqn": "2445fe81-30d6-46fa-9f42-f6b1b4e01623"
+    }, {
+        "id": "PART",
+        "name": "PART",
+        "fqn": "a7fc012e-bdb3-4e75-9ce4-b3f731d90136"
+    }],
+    "search_query": "[LINEORDER_1::Revenue] [PART_1::Color]",
+    "answer_columns": [{
+        "name": "Total Revenue"
+    }, {
+        "name": "Color"
+    }],
+    "table": {
+        "table_columns": [{
+            "column_id": "Color",
+            "headline_aggregation": "COUNT_DISTINCT"
+        }, {
+            "column_id": "Total Revenue",
+            "headline_aggregation": "SUM"
+        }],
+        "ordered_column_ids": ["Color", "Total Revenue"]
+    },
+    "chart": {
+        "type": "COLUMN",
+        "chart_columns": [{
+            "column_id": "Total Revenue"
+        }, {
+            "column_id": "Color"
+        }],
+        "axis_configs": [{
+            "x": ["Color"],
+            "y": ["Total Revenue"]
+        }]
+    },
+    "display_mode": "TABLE_MODE"
+}
+}]
+'
 --data-urlencode 'import_policy=PARTIAL'
 --data-urlencode 'force_create=true' 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import'
 

@@ -8,32 +8,26 @@
 ThoughtSpot Developer portal lets you explore Visual Embed SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot features that are available for integration.
 
 The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
+== Access Developer portal
 
-If you are an existing ThoughtSpot user:: 
-You can access the Developer portal from your ThoughtSpot application instance.
+[IMPORTANT]
+====
+The ThoughtSpot Developer portal is available only if ThoughtSpot Everywhere is enabled on your cluster. To get access to the Developer portal, contact ThoughtSpot Support.
+====
+
+If ThoughtSpot Everywhere is enabled on your cluster, you can access the Developer portal from your ThoughtSpot application instance.
+
+. Make sure xref:user-roles.adoc[your user account has developer privilege].
 . Log in to ThoughtSpot.
 . Navigate to the **Develop** tab.
-+
-The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[Developer access].
 
-If you are not an existing ThoughtSpot user::
-If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
-. Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
-. From the header bar, click *Playground*.
-. Enter your name and email address.
-. Click *Try Live Playground*.
-
-[NOTE]
-====
-You can also link:https://www.thoughtspot.com/trial?tsref=trialtsefaq[register for a free trial, window=_blank] and evaluate the SDK and APIs on ThoughtSpot free trial cluster.
-====
 
 == Find your way around
 The ThoughtSpot Developer portal includes several sections that assist you through your embedding journey.
 
 Home::
 The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
-This page also includes links to the *Developer Guides* and *Playground*. 
+This page also includes links to the *Developer Guides* and *Playground*.
 
 image::./images/develop-home.png[Developer Portal]
 
@@ -46,11 +40,12 @@ The *Playground* allows you to explore the following Visual Embed SDK components
 * xref:developer-playground.adoc#playground-pinboard[Pinboards]
 * xref:developer-playground.adoc#playground-visualization[Visualizations]
 * xref:developer-playground.adoc#playground-fullapp[Full application]
-
+////
 +
 ++++
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the Playground</a>
 ++++
+////
 
 
 Customizations::
@@ -58,7 +53,7 @@ The Developer portal displays the following customization options for Thoughtspo
 
 * *Styles*
 +
-Provides a set of style customization controls for rebranding the embedded ThoughtSpot content. 
+Provides a set of style customization controls for rebranding the embedded ThoughtSpot content.
 +
 For more information, see xref:customize-style.adoc[Customize styles].
 
@@ -68,9 +63,8 @@ Provides UI workflows to create custom actions in the ThoughtSpot UI. For exampl
 
 * *Security settings*
 +
-
-Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
+Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains.
 
 * *Links settings*
 +
-Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 
+Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links].

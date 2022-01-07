@@ -15,10 +15,6 @@ In addition to the Visual Embed SDK, ThoughtSpot provides REST APIs to query dat
 
 Irrespective of the method you use for embedding, make sure you define your application workflows and authentication criteria to enable seamless navigation between the host and embedded interfaces.
 
-== Determine the hosting domain
-
-When you embed ThoughtSpot into your app, the application URL will be set as `<your-company-name>.thoughtspot.cloud` by default. Most web browsers, including Safari and Firefox, block third-party cookies by default. To ensure that embedding works on browsers that don’t allow third-party cookies and cross-domain requests, you can customize the domain name of the embedded ThoughtSpot instance. For more information, see xref:custom-domain-configuration.adoc[Custom domain configuration].
- 
 [NOTE]
 ====
 If your deployment requires both ThoughtSpot standalone application and the embedded ThoughtSpot instance, we recommend that you host these instances on separate domains or non-overlapping sub-domains.
@@ -32,7 +28,7 @@ ThoughtSpot admin::
 ThoughtSpot administrators who define the authentication workflow and create user groups. +
 Access control in ThoughtSpot is managed through the users and groups that are stored locally on ThoughtSpot, even if the users are authenticated using SSO or Trusted Authentication. This means that to provide access to content or system privileges, admin users must create users and groups in ThoughtSpot.
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/users.html[Managing users, window=_blank] and link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/groups.html[Managing Groups, window=_blank].
+For more information, see link:https://docs.thoughtspot.com/software/latest/admin-portal-users.html[Managing users, window=_blank] and link:https://docs.thoughtspot.com/software/latest/admin-portal-groups.html[Managing Groups, window=_blank].
 
 Developer::
 Application developers with privileges to use the Developer portal and embed ThoughtSpot components in their host application. +
@@ -87,4 +83,3 @@ The ThoughtSpot Developer portal provides a playground for developers to explore
 ++++
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Go to Playground</a>
 ++++
-

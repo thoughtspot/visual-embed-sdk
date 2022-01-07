@@ -1,4 +1,4 @@
-pinboardpinboard= Integrate ThoughtSpot content with your UI
+= Integrate ThoughtSpot content with your UI
 :toc: true
 :toclevels: 1
 

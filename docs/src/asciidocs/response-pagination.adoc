@@ -8,31 +8,31 @@ When you make REST API calls to some endpoints to query visualization data, for 
 
 To paginate results in your API response, add the following parameters to the query:
 
-`pageSize` determines the number of rows to include.
+`pagesize` determines the number of rows to include.
 
 [source,JSON]
 ----
- {
+{
     "name": "pagesize",
     "description": "pagesize: The number of rows.",
     "defaultValue": "-1",
     "type": "integer"
- }
+}
 ----
 
 `Offset` determines the starting point.
 
 [source,JSON]
 ----
- {
+{
     "name": "offset",
     "description": "Offset: The starting point",
     "defaultValue": "-1",
     "type": "integer"
- }
+}
 ----
 
-`PageNumber` is an alternate way to determine the offset.
+`pageNumber` is an alternate way to determine the offset.
 You must make a call with `pageNumber = 1` first, and then you can access any page.
 Calling with `pageNumber != 1` as the initial call will fail.
 `pageNumber = 0` is not a valid value.

@@ -10,7 +10,6 @@ This article provides information about new features, enhancements, and deprecat
 
 == Version 7.2.0
 
-
 ==== Developer portal
 
 [width="100%" cols="1,4"]

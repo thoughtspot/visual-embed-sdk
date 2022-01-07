@@ -1,4 +1,6 @@
 = Embed pinboards without the Visual Embed SDK
+:toc: true
+:toclevels: 1
 
 :page-title: Embed pinboards without Visual Embed SDK
 :page-pageid: embed-without-sdk
@@ -21,14 +23,14 @@ You can specify link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-run
 
 
 == SSO considerations
-When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
+When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
 
 If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iframe embed of a pinboard is, then it may be a viable SSO mechanism.
 
 == Simple embedding in Salesforce
-If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot pinboards or individual visualizations. 
+If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot pinboards or individual visualizations.
 
-First, as a developer, choose 'Create a New Visualforce Page'. 
+First, as a developer, choose 'Create a New Visualforce Page'.
 
 The following code example can be used to define the new page. It defines the iframe, with the ThoughtSpot URL using a runtime filter to personalize the results to the Salesforce user:
 

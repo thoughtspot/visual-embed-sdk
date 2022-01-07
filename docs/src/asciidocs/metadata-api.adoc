@@ -5,7 +5,7 @@
 
 :page-title: Get metadata
 :page-pageid: metadata-api
-:page-description: Metadata API
+:page-description: This API reference page describes the metadata REST API endpoints
 
 The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, pinboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
 
@@ -58,7 +58,7 @@ For example, if you want to assign a tag named `Sales` to a pinboard and answer,
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \ 
+-d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
 ----
 
@@ -125,7 +125,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot'
--d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \ 
+-d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \
 'https:/<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag'
 ----
 
@@ -153,7 +153,6 @@ Response code
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
 |===
-
 
 
 [#metadata-details]
@@ -548,7 +547,7 @@ GET /tspublic/v1/metadata/list
 ====
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
-|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
+|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes:
 
 * For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
@@ -586,8 +585,8 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|__Integer__. The batch offset to fetch the object headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects are retrieved. The system default is -1, which implies the first item in the list.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the API response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
@@ -760,8 +759,8 @@ GET /tspublic/v1/metadata/listas
 [options='header']
 |====
 |Query Parameter|Description
-|`offset` __Optional__|__Integer__. The batch offset value that indicates the first item to return in a page of headers. The system default is -1, which implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the objects. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects should be retrieved. The system default is -1, which implies the first item in the list.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`principalid` __Optional__ a|__String__. The GUID of the user or user group.
 
@@ -1009,7 +1008,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
+|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes:
 
 * For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
@@ -1028,7 +1027,7 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet.
 ** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
 
-|`category` __Optional__ a|__String__.The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
+|`category` __Optional__ a|__String__. The metadata object classification. In ThoughtSpot, metadata objects such as answers and pinboards are categorized under *All*, *Yours*, and *Favorites*. To query data for an object based on category, set one of the following values:
 
 * `ALL` to get all objects for a given metadata type, for example, answers or pinboards.
 * `MY` to get the objects created or saved by the current logged-in user.
@@ -1046,8 +1045,8 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|__Integer__. The batch offset to fetch the page headers. The system default is  `-1`, which  implies first page.
-|`batchsize` __Optional__|__Integer__. The batch size of the object. A value of `-1` implies no pagination.
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of object headers should be retrieved. The system default is -1, which implies the first item in the list.
+|`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
 |`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.
@@ -1344,7 +1343,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 
+-d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 .Request URL
