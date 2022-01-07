@@ -1,22 +1,14 @@
 Allows you to disable or hide the primary buttons or menu actions that appear in **More** image:./images/icon-more-10px.png[the more options menu] and the contextual menu. You can use this function to disable or hide actions in the embedded UI.
-////
-* To define visible actions, specify the action strings in the `visibleActions` attribute.
-+
-Note that the UI displays only the actions specified in this attribute and does not show the other available actions. The following example sets **Save**, **Show underlying data**, and *DownloadAsPDF* as visible actions to show only these actions in the embedded UI.
-+
-[source,Javascript]
-----
-visibleActions: [Action.Save,Action.ShowUnderlyingData,Action.DownloadAsPDF]
-----
 
-+
-If you do not specify any actions and define the attribute as an empty array, no actions will appear in the UI.
-////
 * To disable an action, specify the action string in the `disabledActions` attribute. For example, to disable **Download** in the **More** menu image:./images/icon-more-10px.png[the more options menu], specify **Action.Download** in the `disabledActions` attribute as shown here:
 
 ----
 disabledActions: [Action.ShowUnderlyingData]
 ----
+
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 * To display a tooltip for the disabled menu item, specify the text string in the `disabledActionReason` attribute.
 
@@ -39,4 +31,18 @@ For more information, see xref:embed-actions.adoc[Show or hide actions].
 
 ////
 Use the `hiddenActions` attribute only if the `visibleActions` attribute is not defined.
+////
+
+////
+* To define visible actions, specify the action strings in the `visibleActions` attribute.
++
+Note that the UI displays only the actions specified in this attribute and does not show the other available actions. The following example sets **Save**, **Show underlying data**, and *DownloadAsPDF* as visible actions to show only these actions in the embedded UI.
++
+[source,Javascript]
+----
+visibleActions: [Action.Save,Action.ShowUnderlyingData,Action.DownloadAsPDF]
+----
+
++
+If you do not specify any actions and define the attribute as an empty array, no actions will appear in the UI.
 ////

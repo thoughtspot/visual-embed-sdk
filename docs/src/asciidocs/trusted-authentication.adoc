@@ -26,7 +26,10 @@ The authenticator service should exist at the web application tier of your netwo
 
 There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
 
+////
 The authenticator service can also issue REST API commands to xref:auth-overview.adoc[create users and set additional authentication properties].
+////
+
 === ThoughtSpot server
 
 For a token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret_key`, which is required for requesting access to ThoughtSpot on a user’s behalf.

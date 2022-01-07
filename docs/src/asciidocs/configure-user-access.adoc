@@ -50,7 +50,7 @@ When an object is shared, users can view all the data regardless of the permissi
 
 [NOTE]
 ====
-If your application instance has classic Answer Experience enabled, administrators can restrict user access to pinboards by selecting the *Cannot create or update pinboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disabledActions` and `hiddenActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Show or hide actions].
+If your application instance has classic Answer Experience enabled, administrators can restrict user access to pinboards by selecting the *Cannot create or update pinboards*  checkbox in the admin UI. Note that this feature is deprecated on clusters on which the New Answer Experience is enabled. ThoughtSpot recommends that you use the `disabledActions` and `hiddenActions` parameters in the Visual Embed SDK to define granular access. For more information, see xref:embed-actions.adoc[Disable or hide actions].
 ====
 
 == Data access control with RLS and CLS
