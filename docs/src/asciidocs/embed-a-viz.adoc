@@ -237,4 +237,4 @@ liveboardEmbed.render();
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information about the SDK APIs and attributes, xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
