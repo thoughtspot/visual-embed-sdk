@@ -6,14 +6,13 @@ import './index.scss';
 
 const Header = (props: { location: Location }) => {
     const communityLinks = [
-        { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/playground/search' },
         {
             name: 'Community',
             href:
                 'https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers',
         },
         { name: 'Support', href: 'https://www.thoughtspot.com/support' },
-        { name: 'Help Center', href: 'https://cloud-docs.thoughtspot.com/' },
+        { name: 'Help Center', href: 'https://docs.thoughtspot.com' },
     ];
 
     return (
