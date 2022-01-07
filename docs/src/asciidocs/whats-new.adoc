@@ -10,11 +10,11 @@ This article provides information about new features, enhancements, and deprecat
 
 == Version 7.2.0
 
-==== Developer portal
+The ThoughtSpot Software 7.2.0 version introduces the following features and enhancements in the Developer portal:
 
 [width="100%" cols="1,4"]
 |====
-
+||
 |[tag greenBackground]#NEW FEATURE#  a| +++<h5>+++Developer Playground enhancements+++</h5>+++
 
 * The *Full app* Playground page includes the *Hide profile and help* checkbox to provide a preview of the `disableHelpAndProfile` function that can hide the Help and Profile icons in the ThoughtSpot navigation bar.
@@ -22,12 +22,6 @@ This article provides information about new features, enhancements, and deprecat
 * The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.
 
 For more information, see xref:developer-playground.adoc[Developer Playground].
-|====
-
-==== Custom actions
-
-[width="100%" cols="1,4"]
-|====
 |[tag greenBackground]#NEW FEATURE# a|  +++<h5>+++Custom actions for worksheets+++</h5>+++
 
 The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
@@ -58,12 +52,13 @@ You can xref:custom-actions-edit.adoc[modify the position of this action] by usi
 
 |====
 
-=== Visual Embed SDK
+=== Visual Embed SDK 1.5.x
 
 The ThoughtSpot Software 7.2.0 version supports Visual Embed SDK version 1.5.x, which includes the following new features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
+||
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Prefetch API+++</h5>+++
 
 The `prefetch` API fetches static resources from a given URL before your application loads. Web browsers can then cache the prefetched resources locally and serve them from a user's local disk. You can use this API to load the embedded objects faster and improve your application response time.
@@ -179,8 +174,6 @@ The SDK now supports rendering embedded objects in a queue. If you have multiple
 
 === REST APIs
 
-[div boxDiv boxFullWidth]
---
 .New APIs
 
 [%collapsible]
@@ -217,14 +210,12 @@ The SDK now supports rendering embedded objects in a queue. If you have multiple
 * `DELETE /tspublic/v1/group/{groupid}/groups`
 ====
 
-+++<p id="divider"> </p>+++
-
 .Modified APIs
 
 [%collapsible]
 ====
 * `POST /tspublic/v1/metadata/assigntag`
 ====
---
+
 
 For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].

@@ -101,7 +101,7 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     disabledActions: [],
-    disabledActionReason: '<reason for disabling>'
+    disabledActionReason: '<reason for disabling>',
     disableHelpAndProfile: false,
     hideObjects: ['<object-id>'],
     hiddenActions: [],
@@ -110,7 +110,6 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
     path: '<url-string>',
     runtimeFilters: [],
     tag: '<tag-name>',
-},
 });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application. You can set the `width` and `height` attribute values in pixels or as a percentage.
@@ -126,7 +125,7 @@ disabledActions: [Action.ShowUnderlyingData]
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 include::{path}/custom-action-note.adoc[]
 +
@@ -135,14 +134,6 @@ For a complete list of action menu items and the corresponding strings to use fo
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
-
-disableProfileAndHelp::
-_Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
-
-++++
-<a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
-
 
 hiddenActions::
 _Array of strings_.Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined.
@@ -154,16 +145,25 @@ For example, to hide the *Share* action, specify `Action.Share` in the `hiddenAc
 ----
 hiddenActions: [Action.Share]
 ----
-+
+
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-+
-For a complete list of action menu items and the corresponding strings to use for hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
 
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
 
-include::{path}/custom-action-note.adoc[]
+[NOTE]
+====
+ThoughtSpot automatically creates a modifiable action ID based on the name you assign to a custom action. For example, if you set the name of a custom action as `Send Email`, ThoughtSpot sets the ID for this action as `send-email` by default. To disable, hide, or show a custom action in the embedded UI, you must specify the ID of the custom action as the action string in the `disabledActions`, and `hiddenActions` attributes.
+====
+
+disableProfileAndHelp::
+_Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
+
+++++
+<a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 hideObjects _optional_::
 __Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.

@@ -101,7 +101,6 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
         searchTokenString: '<TML-query-string>',
         executeSearch: true,
     },
-},
 });
 ----
 frameParams::
@@ -134,32 +133,19 @@ disabledActions: Action.ShowUnderlyingData
 ----
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-+
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
-
-
-include::{path}/custom-action-note.adoc[]
 
 disabledActionReason __Optional__::
 _String_. Indicates the reason for disabling an action on search data.
 
-
-hideDataSources __Optional__::
-_Boolean_. When set to true, it hides the default Data Source panel. Use this attribute if you want to create a custom data panel.
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
-++++
 
 hiddenActions __Optional__::
 _Array of strings_. Hides the specified actions on the search result page. You can use this attribute to remove actions that are not relevant to your application context.
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 +
@@ -169,18 +155,28 @@ For example, to hide the *Share* action from the *More* menu image:./images/icon
 ----
 hiddenActions: ['Action.Share']
 ----
++
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
+
+[NOTE]
+====
+ThoughtSpot automatically creates a modifiable action ID based on the name you assign to a custom action. For example, if you set the name of a custom action as `Send Email`, ThoughtSpot sets the ID for this action as `send-email` by default. To disable, hide, or show a custom action in the embedded UI, you must specify the ID of the custom action as the action string in the `disabledActions` and `hiddenActions` attributes.
+====
+
+hideDataSources __Optional__::
+_Boolean_. When set to true, it hides the default Data Source panel. Use this attribute if you want to create a custom data panel.
 
 +
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+++++
+<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
-
-include::{path}/custom-action-note.adoc[]
 forceTable __Optional__:::
 _Boolean_. When set to `true`, the tabular view is set as the default format for presenting search data.
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 hideResults __Optional__::
@@ -188,7 +184,7 @@ _Boolean_. When set to true, it hides charts and tables that appear beneath the 
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 ////
@@ -230,7 +226,7 @@ searchOptions: {
 
 
 ++++
-<a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it in Playground</a>
+<a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 == Define a method to process callback custom action payloads
