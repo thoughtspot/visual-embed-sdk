@@ -148,7 +148,7 @@ hiddenActions: [Action.AddFilter]
 <a href="{{previewPrefix}}/playground/pinboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions].
 
 [NOTE]
 ====

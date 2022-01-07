@@ -61,10 +61,10 @@ The following example shows how to create a search a `searchTokenString` and exe
 
 [source, Javascript]
 ----
- searchOptions: {
+searchOptions: {
     searchTokenString: '[product][sales][date].daily',
     executeSearch: true,
-    }
+}
 ----
 
 ++++
@@ -100,10 +100,10 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 [source,javascript]
 ----
 runtimeFilters: [{
-  columnName: 'color',
-  operator: 'EQ',
-  values: [ 'red' ]
-  }]
+    columnName: 'color',
+    operator: 'EQ',
+    values: ['red']
+}]
 ----
 
 ++++
@@ -153,10 +153,10 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 [source,javascript]
 ----
 runtimeFilters: [{
-      columnName: 'Revenue',
-      operator: 'EQ',
-      values: [ 100000 ]
-      }]
+    columnName: 'Revenue',
+    operator: 'EQ',
+    values: [100000]
+}]
 ----
 
 ++++
@@ -204,10 +204,10 @@ To apply Runtime Filters, pass the `columnName`, `operator`, and `value` paramet
 [source,javascript]
 ----
 runtimeFilters: [{
-      columnName: 'Revenue',
-      operator: 'EQ',
-      values: [ 100000 ]
-      }]
+    columnName: 'Revenue',
+    operator: 'EQ',
+    values: [100000]
+}]
 ----
 
 ++++

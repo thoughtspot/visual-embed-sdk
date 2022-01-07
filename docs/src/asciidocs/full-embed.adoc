@@ -127,10 +127,6 @@ disabledActions: [Action.ShowUnderlyingData]
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-include::{path}/custom-action-note.adoc[]
-+
-For a complete list of action menu items and the corresponding strings to use for disabling menu items, see  xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
-
 
 disabledActionReason::
 _String_. Reason for disabling an action on a pinboard or visualization page. To display a tooltip for the disabled menu item, specify the reason for disabling the menu item in the `disabledActionReason` attribute.
@@ -151,13 +147,14 @@ hiddenActions: [Action.Share]
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions].
 
 [NOTE]
 ====
 ThoughtSpot automatically creates a modifiable action ID based on the name you assign to a custom action. For example, if you set the name of a custom action as `Send Email`, ThoughtSpot sets the ID for this action as `send-email` by default. To disable, hide, or show a custom action in the embedded UI, you must specify the ID of the custom action as the action string in the `disabledActions`, and `hiddenActions` attributes.
 ====
 
++
 disableProfileAndHelp::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
 
@@ -168,6 +165,7 @@ _Boolean_. When set to `true`, the help and user profile buttons are hidden on t
 hideObjects _optional_::
 __Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain pinboards, you can specify the GUIDs of the pinboards in the `hideObjects` attribute.
 
++
 [source,JavaScript]
 ----
 hideObjects: ['11f5d5e8-2328-4817-a106-9eff17531e77','e2f49cdd-4d54-466a-841a-e7ecbd9b4400']
@@ -185,7 +183,7 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 path::
 _String_. The URL path of the ThoughtSpot application page to embed.
 
-[NOTE]
++
 [NOTE]
 If both `path` and `pageId` attributes are defined, the path definition takes precedence.
 

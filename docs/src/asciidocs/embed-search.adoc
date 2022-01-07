@@ -156,7 +156,7 @@ For example, to hide the *Share* action from the *More* menu image:./images/icon
 hiddenActions: ['Action.Share']
 ----
 +
-For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions, window=_blank].
+For a complete list of action menu items and the corresponding strings to use for disabling or hiding menu items, see xref:embed-actions.adoc[Disable or hide UI actions].
 
 [NOTE]
 ====
