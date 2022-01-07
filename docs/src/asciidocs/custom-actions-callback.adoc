@@ -25,7 +25,7 @@ To add a callback custom action:
 +
 This ID is used as a reference for the custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable or hide the custom action on a ThoughtSpot application page.
 
-. If you want to add the custom action on all ThoughtSpot visualization pages, select the *Automatically add as global action to all visualizations* checkbox. 
+. If you want to add the custom action on all ThoughtSpot visualization pages, select the *On by default on all visualizations* checkbox. 
 +
 If the custom action is available for all visualizations, it is marked as a *Global* action. If you do not select this checkbox, the custom action can be added to a specific visualization page locally by the ThoughtSpot users. For more information, see xref:custom-actions-viz.adoc[Custom actions for visualizations].
 

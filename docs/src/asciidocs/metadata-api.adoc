@@ -88,7 +88,6 @@ Response code
 |===
 
 
-
 [#unassign-tags]
 == Unassign tags
 
@@ -594,6 +593,7 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 |`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.
 |`fetchids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to fetch.
 |`auto_created` __Optional__|__Boolean__. A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.
+|`authorguid` __Optional__|String. The GUID of the author of the specified metadata object.
 |====
 
 === Example request

@@ -215,7 +215,7 @@ POST /tspublic/v1/session/homepinboard
 .cURL
 [source, cURL]
 ----
-curl -X POST `
+curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \

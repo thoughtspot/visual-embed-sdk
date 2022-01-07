@@ -1185,19 +1185,19 @@ Make sure you use a JSON file encoded as `application/json` or `text/json` for t
 |===
 |Form Parameter|Description
 
-|`principals`|__String__. Specifies a list of principal objects. This is a JSON file containing all users and groups present in the external database.
+|`principals`|__String__. Specify a list of principal objects in xref:user-api.adoc#principalJson[the JSON file format]. The JSON file can contain all users and groups present in the external database.
 
 |`applyChanges`|
 __Boolean__.
-Specifies whether to sync the users and groups to the system and apply the difference evaluated.
+Specify whether to sync the users and groups to the system and apply the difference evaluated.
  By default, this attribute is set to `false`.
 
 |`removeDeleted`|
 __Boolean__.
-Specifies whether to remove the deleted users and user groups. By default, this attribute is set to `false`. To remove deleted users or user groups, set this attribute to `true`.
+Specify whether to remove the deleted users and user groups. By default, this attribute is set to `true`. If you do not want to remove deleted users or user groups, make sure to set `removeDeleted` to `false`.
 
 |`password`
-|__String__. The password of the admin user.
+|__String__. Assign a password for new users added during the sync operation. By default, all new users will have the same password.
 |===
 
 === Example request
@@ -1220,6 +1220,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
 ----
 
+[#principalJson]
 ==== JSON request
 
 The `principals.json` file contains the JSON request to be sent for synchronizing users. Make sure the JSON file is encoded as `application/json` in the API request.

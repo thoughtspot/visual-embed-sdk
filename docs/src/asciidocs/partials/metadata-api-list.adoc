@@ -19,7 +19,7 @@ Gets metadata details for a specific data object such as a Liveboard, search ans
 
 +++<p class="divider"> </p>+++
 
-`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` 
+`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` [tag orangeBackground]#MODIFIED in ts8.nov.cl#
 
 Gets a list of all metadata objects from the ThoughtSpot resource repository.
 

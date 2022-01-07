@@ -102,7 +102,6 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
         searchTokenString: '<TML-query-string>',
         executeSearch: true,
     },
-},
 });
 ----
 frameParams::

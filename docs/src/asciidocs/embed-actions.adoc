@@ -23,7 +23,7 @@ include::{path}/custom-action-note.adoc[]
 
 == Configuration recommendations
 
-* Use `visibleActions` when you want to show only a small subset of actions in the embedded ThoughtSpot UI.
+* Use `visibleActions` when you want to show only a small subset of actions in the embedded ThoughtSpot UI.  
 * The SDK doesn't support configuring both `visibleActions` and `hiddenActions`. Before you define `visibleActions`, make sure there are no hidden actions configured. 
 * If you want to show all menu actions to your users and hide only a few, use the `hiddenActions` attribute to hide these actions.
 * If you are configuring `visibleActions` in the AppEmbed SDK package, make sure to include all the actions that you want to show on **Liveboards**, **Visualizations**, and the *Saved Answers* page. 

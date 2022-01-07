@@ -33,7 +33,6 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
-},
 });
 searchEmbed.render();
 ----
@@ -61,7 +60,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     },
     liveboardId: '6294b4fc-c289-412a-b458-073fcf6e4516',
     vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
-},
 });
 liveboardEmbed.render();
 ----
@@ -88,7 +86,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     liveboardId: 'f4a4e205-3b43-4b77-8ec0-8723da49ce1d',
-},
 });
 liveboardEmbed.render();
 ----
@@ -116,7 +113,6 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     pageId: Page.Data,
-},
 });
 appEmbed.render();
 ----

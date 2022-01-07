@@ -101,7 +101,7 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     disabledActions: [],
-    disabledActionReason: '<reason for disabling>'
+    disabledActionReason: '<reason for disabling>',
     disableHelpAndProfile: false,
     hideObjects: ['<object-id>'],
     hiddenActions: [],
@@ -110,7 +110,6 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
     path: '<url-string>',
     runtimeFilters: [],
     tag: '<tag-name>',
-},
 });
 ----
 frameParams:: Sets the `width` and `height` dimensions to render the pages in the web application. You can set the `width` and `height` attribute values in pixels or as a percentage.
@@ -227,7 +226,7 @@ Displays the *Home* page
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?pageId=fullApp" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 

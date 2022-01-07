@@ -13,11 +13,11 @@ The *Create action* button allows you to create a custom action  xref:custom-act
 
 * Global actions
 +
-The ThoughtSpot Developer portal allows you to add a custom action to all visualizations. If you want to create a custom action that will appear on all charts and tables, you can create a *Global* action. For example, if you want to create a custom action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add it globally to all visualizations. To add a custom action to all visualizations, you must enable the *Automatically add as global action to all visualizations* checkbox when you create a custom action in the Developer portal.
+The ThoughtSpot Developer portal allows you to add a custom action to all visualizations. If you want to create a custom action that will appear on all charts and tables, you can create a *Global* action. For example, if you want to create a custom action that triggers a callback into your parent app, which would then post its data to Slack, you might want to add it globally to all visualizations. To add a custom action to all visualizations, you must enable the *On by default on all visualizations* checkbox when you create a custom action in the Developer portal.
 
 * Local actions
 +
-You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a *Local* action when you create a custom action in the Developer portal. If you do not select *Automatically add as global action to all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a single visualization] or xref:custom-actions-worksheet.adoc[all new visualizations generated from a specific worksheet]. 
+You may want to add a custom action to only a specific visualization. To do this, you can set a custom action as a *Local* action when you create a custom action in the Developer portal. If you do not select *On by default on all visualizations* checkbox in the custom action creation page, ThoughtSpot automatically categorizes it as __local__ action. Any user with edit privileges can xref:custom-actions-viz.adoc[add this action to a single visualization] or xref:custom-actions-worksheet.adoc[all new visualizations generated from a specific worksheet]. 
 
 +
 [#access-control]

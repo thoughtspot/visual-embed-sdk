@@ -50,7 +50,7 @@ Select this authentication method if you want ThoughtSpot to use an API key duri
 +
 . If the URL endpoint requires specific data for the custom action workflow, you can configure the custom action to send the data attributes as query parameters. For example, you may want to send database information in query parameters to the URL endpoint when the custom action workflow is triggered. Make sure these query parameters are defined as key-value pairs.
  
-. If you want to add the custom action on all ThoughtSpot visualization pages, select the *Automatically add as global action to all visualizations* checkbox. 
+. If you want to add the custom action on all ThoughtSpot visualization pages, select the *On by default on all visualizations* checkbox. 
 +
 If the custom action is available for all visualizations, it is marked as a *Global* action. If you do not select this checkbox, the custom action can be added to a specific visualization page locally by the ThoughtSpot users. For more information, see xref:custom-actions-viz.adoc[Custom actions for visualizations].
 +
