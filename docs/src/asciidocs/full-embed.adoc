@@ -226,7 +226,7 @@ Displays the *Home* page
 
 +
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?pageId=fullApp" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
