@@ -44,7 +44,7 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
 
     getAuthToken: () => Promise.resolve(token) 
 
-
++
 For more information, see xref:embed-authentication.adoc[Embed user authentication].  
  
  
