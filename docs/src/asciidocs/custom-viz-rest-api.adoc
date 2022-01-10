@@ -7,4 +7,38 @@
 
 ThoughtSpot REST APIs can be accessed within the browser to retrieve data in a JSON format, which can then be used to render a custom visualization using any front-end library.
 
+The basic steps for rendering a custom visualization from ThoughtSpot data within a web application are:
+
+ 1. Sign-in via Visual Embed SDK 
+ 2. Call ThoughtSpot REST API to retrieve data
+ 3. Transform the ThoughtSpot REST API data response to the format of the charting library data objects
+ 4. Render the chart in the page using the charting library
+
+== Sign-in via Visual Embed SDK
+Any method of xref:embed-authentication.adoc[sign-in] establishes a ThoughtSpot session in the browser. Once a session is established, you can make REST API requests from the browser as the signed-in user as long as xref:api-auth-session.adoc[credentials are included in the request]. 
+
+The Trusted Authentication SSO method issues a REST API sign-in command automatically when the *init()* function is called, without the need to render any ThoughtSpot embed components:
+[source,javascript]
+----
+import {
+    init,
+    AuthType
+} from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+
+init({
+   thoughtSpotHost: "{thoughtSpotFQDN}",
+   authType: AuthType.AuthServer,  // Trusted Authentication
+   username: tsUsername, // string variable of username to sign-in
+   getAuthToken: tokenCallbackFunc // Trusted Auth token retrieval callback function
+ });
+----
+
+The SAML workflow (CHECK HOW THIS REALLY WORKS)
+
+== Call ThoughtSpot REST API to retrieve data
+You can request data from the xref:pinboarddata.adoc[visualizations on an existing Liveboard] or issue an arbitrary xref:search-data-api.adoc[search data API request].
+
+Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, target=_window], you'll need to ensure the browser cookies are included when making the request.
+
+
 == Mobile apps
