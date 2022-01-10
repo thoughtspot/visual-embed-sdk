@@ -1,5 +1,6 @@
 = Embed a visualization
 :toc: true
+:toclevels: 1
 
 :page-title: Embed visualizations
 :page-pageid: embed-a-viz
