@@ -1,5 +1,6 @@
 = Embed full application
 :toc: true
+:toclevels: 1
 
 :page-title: Embed Full Application
 :page-pageid: full-embed
