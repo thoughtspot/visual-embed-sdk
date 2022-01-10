@@ -1,5 +1,6 @@
 = Embed a Liveboard
 :toc: true
+:toclevels: 1
 
 :page-title: Embed Liveboards
 :page-pageid: embed-liveboard
