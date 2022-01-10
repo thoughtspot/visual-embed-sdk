@@ -38,7 +38,7 @@ The SAML workflow (CHECK HOW THIS REALLY WORKS)
 == Call ThoughtSpot REST API to retrieve data
 You can request data from the xref:pinboarddata.adoc[visualizations on an existing Liveboard] or issue an arbitrary xref:search-data-api.adoc[search data API request].
 
-Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, target=_window], you'll need to ensure the browser cookies are included when making the request.
+Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], you'll need to ensure the browser cookies are included when making the request.
 
 
 == Mobile apps
