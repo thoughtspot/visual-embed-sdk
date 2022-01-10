@@ -1,0 +1,38 @@
+
+[div boxDiv boxFullWidth]
+--
+
+`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` [tag orangeBackground]#MODIFIED in ts8.nov.cl#
+
+Creates a data connection.
+
++++<p class="divider"> </p>+++
+
+`xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]` [tag orangeBackground]#MODIFIED in ts8.nov.cl#
+
+Modifies a data connection.
+
++++<p class="divider"> </p>+++
+
+`xref:connections-api.adoc#connection-types[*GET* /tspublic/v1/connection/types]`  
+
+Gets a list of data connections that are currently operational on the ThoughtSpot cluster.
+
++++<p class="divider"> </p>+++
+
+`xref:connections-api.adoc#live-query-connections[*GET*  /tspublic/v1/connection/list]`  
+
+Gets a list of data connections set up for a live query service on the ThoughtSpot cluster.  
+
++++<p class="divider"> </p>+++
+
+`xref:connections-api.adoc#export-connections[**GET** /tspublic/v1/connection/export]` 
+
+Exports a data connection map.
+
++++<p class="divider"> </p>+++
+
+`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` 
+
+Deletes the specified data connections.
+--

@@ -14,7 +14,7 @@ Allows users to perform the following functions:
 
 ** Access Developer portal
 ** Embed ThoughtSpot app or its content in an external application 
-** Add custom menu options in the embedded pinboards and visualizations
+** Add custom menu options in the embedded Liveboards and visualizations
 ** Re-brand the interface elements of the embedded ThoughtSpot content 
 
 * `USERDATAUPLOADING`
@@ -23,7 +23,7 @@ Allows users to upload data to ThoughtSpot.
 
 * `DATADOWNLOADING`
 +
-Allows users to download ThoughtSpot data from search results and pinboards.
+Allows users to download ThoughtSpot data from search results and Liveboards.
 
 * `DATAMANAGEMENT` 
 +
@@ -39,7 +39,7 @@ Allows access to the trial and experimental features that ThoughtSpot makes avai
 
 * `JOBSCHEDULING`
 +
-Allows scheduling and editing pinboard jobs.
+Allows scheduling and editing Liveboard jobs.
 
 * `RANALYSIS`
 +

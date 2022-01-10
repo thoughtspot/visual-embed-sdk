@@ -1,0 +1,70 @@
+= Catalog and audit ThoughtSpot content
+:toc: true
+
+:page-title: Catalog and audit ThoughtSpot content
+:page-pageid: catalog-and-audit
+:page-description: ThoughtSpot REST APIs can be used to audit system configurations and bring metadata into data catalogs
+
+The ThoughtSpot REST API can easily retrieve information about the objects stored on the ThoughtSpot server. The REST API can also retrieve every object in the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling language (TML), window=_blank], which can be parsed as YAML or JSON for additional details.
+
+== Map user and group GUIDs to names
+Some API responses only include the GUIDs for other objects, without the string names. If you need the human-readable names of users and groups, use the xref:user-api.adoc#get-user-details[get user details] and the xref:group-api.adoc#get-ug-details [get group details] endpoints. 
+
+These calls include the names along with the GUIDs, allowing you to map the string name values to any GUID returned within another call.
+
+
+== List metadata objects
+To get a list of all objects on a ThoughtSpot instance, use the xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] REST API call. 
+
+The `type` parameter reflects the various xref:development-and-deployment.adoc#_data_objects[object types] within ThoughtSpot. The API endpoint responds for one `type` at a time, so you must decide which object types to bring back and catalog. 
+
+The `/metadata/listobjectheaders` API is paginated by default. You can return the entire set in one response by setting the `batchsize` parameter to `-1`. Alternatively, set `batchsize` to your preferred size, then use the `offset` parameter to move through the pages. `offset` is based on individual records, so to paginate, set `offset` in multiples of the `batchsize` value until you reach a response that is smaller than the batchsize value or is empty.
+
+== Full object details
+
+The REST API provides a xref:metadata-api.adoc#metadata-details[metadata/details] endpoint that returns very complex objects with all the metadata available. For purposes of cataloging, it may be easier to use a combination of the metadata list methods and the TML APIs to build a picture of what is available.
+
+For example, to know the columns and data types of a table, you can get the table's GUID from the `metadata/listobjectheaders` endpoint, then request the TML for the table using the xref:tml-api.adoc[TML APIs]. If you need more complex data of how ThoughtSpot stores the columns internally, then use the `metadata/details` endpoint.
+
+== Retrieve object access (sharing)
+
+Permission to access objects is called __sharing__ in ThoughtSpot. The owner of an object, typically also the creator of the object, has full access rights automatically. Additional access is granted by sharing the object to other users and groups.
+
+To check who has access to a given object, use the xref:security-api.adoc#obj-permission-all[security/metadata/permissions] REST API endpoint. This endpoint requires a list of GUIDs. To get a list of objects of one `type`, use the `metadata/listobjectheaders` call first and retrieve all existing GUIDs.
+
+The `security/metadata/permissions` endpoint also takes an argument for the `permissiontype`, which can be `DEFINED` or `EFFECTIVE`. `DEFINED` matches with what an administrator would see in the `Share` dialog within the ThoughtSpot UI. 
+
+The response from `security/metadata/permissions` is a nested object with mostly GUIDs: 
+
+[source,javascript]
+----
+{
+  "41a39422-2da0-4601-9d4a-59c27181c5f5": {   // Object GUID
+    "permissions": {
+      "59481331-ee53-42be-a548-bd87be6ddd4a": {  // User or Group GUID
+        "topLevelObjectId": "41a39422-2da0-4601-9d4a-59c27181c5f5",   // Object GUID
+        "shareMode": "READ_ONLY",
+...
+----
+
+* The first key is the GUID of the object. Inside there is a `permissions` object with *user* or *group* GUID as keys. 
+
+* To get a human-readable version of the response, create maps of GUID:name for the object, users, and groups, then add the names in where only GUIDs are provided.
+
+* `shareMode` will be either `READ_ONLY` (*View* in the UI) or `MODIFY` (*Edit* in the UI).
+
+The example link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/audit_object_access.py[audit_object_access.py, window=_blank] script includes functions to retrieve and add in the matching names to the permissions response, which can then be used to answer many of the different questions around permissions. 
+
+To determine which users belong in a group, use the xref:group-api.adoc#get-users-group[/group/listuser/{groupid}] or xref:group-api.adoc#get-usersInGroup[/group/{groupid}/users] endpoint.
+
+== User privileges
+link:https://cloud-docs.thoughtspot.com/end-user/introduction/about-privileges-end-user.html[Privileges, window=_blank] are capabilities within ThoughtSpot available to a user. Privileges are inherited in an additive manner from groups a user belongs to (privileges are defined on groups only). A user has the full set of privileges from all of their groups on every piece of content the user has sharing access to. 
+
+To see a user's privilege set, use the xref:user-api.adoc#get-user-details[user API endpoint]. You can run this API for an  individual user or to get details of all users. In either case, the response object for each user will include a `privileges` array that lists all the privileges the user has.
+
+There are also `assignedGroups` and `inheritedGroups` arrays within the response, which contain the GUIDs of the groups the user belongs to. To see the privileges assigned to the groups, use the xref:group-api.adoc#get-ug-details[group API endpoint]. Using `GET /user` and `GET /group` endpoints together allows tracing what group membership gives the user their privileges. 
+
+== Dependency tracking
+The xref:dependency-apis.adoc[dependency REST APIs] allow you to see which content objects rely on a data object. You can request the dependencies of a *table* object, which will return *worksheets*, *answers*, *Liveboards* and other objects that use the *table*. 
+
+To go up the chain, from an object to what it depends upon, you need to either export and process the object's TML or use the `/metadata/details` API endpoint, which returns a very large and complex data structure. For example, the `tables` property of the TML of an answer or Liveboard provides the name of the table, worksheet, or view that the data comes from. Worksheet TML responses similarly have a property referencing the tables or views they connect to.

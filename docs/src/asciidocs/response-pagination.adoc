@@ -8,7 +8,7 @@ When you make REST API calls to some endpoints to query visualization data, for 
 
 To paginate results in your API response, add the following parameters to the query:
 
-`pageSize` determines the number of rows to include.
+`pagesize` determines the number of rows to include.
 
 [source,JSON]
 ----
@@ -20,7 +20,7 @@ To paginate results in your API response, add the following parameters to the qu
  }
 ----
 
-`Offset` determines the starting point.
+`offset` determines the starting point.
 
 [source,JSON]
 ----
@@ -32,7 +32,7 @@ To paginate results in your API response, add the following parameters to the qu
  }
 ----
 
-`PageNumber` is an alternate way to determine the offset.
+`pageNumber` is an alternate way to determine the offset.
 You must make a call with `pageNumber = 1` first, and then you can access any page.
 Calling with `pageNumber != 1` as the initial call will fail.
 `pageNumber = 0` is not a valid value.

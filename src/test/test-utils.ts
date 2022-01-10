@@ -66,3 +66,7 @@ export const executeAfterWait = (
  * Time (in milliseconds) to wait for async events to be triggered
  */
 export const EVENT_WAIT_TIME = 1000;
+
+export function fixedEncodeURI(str: string) {
+    return encodeURI(str).replace(/%5B/g, '[').replace(/%5D/g, ']');
+}

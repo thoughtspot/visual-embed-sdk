@@ -1,6 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2022
  *
  * Base classes
  *
@@ -67,5 +67,21 @@ export const init = (embedConfig: EmbedConfig): void => {
 
     if (config.callPrefetch) {
         prefetch(config.thoughtSpotHost);
+    }
+};
+
+let renderQueue: Promise<any> = Promise.resolve();
+
+/**
+ * Renders functions in a queue, resolves to next function only after the callback next is called
+ * @param fn The function being registered
+ */
+export const renderInQueue = (fn: (next?: (val?: any) => void) => void) => {
+    const { queueMultiRenders = false } = config;
+    if (queueMultiRenders) {
+        renderQueue = renderQueue.then(() => new Promise((res) => fn(res)));
+    } else {
+        // Sending an empty function to keep it consistent with the above usage.
+        fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
     }
 };

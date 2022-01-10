@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.4.0-alpha.2",
+    "version": "1.7.0-alpha.1",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -12,7 +12,7 @@
     ],
     "exports": {
         ".": "./lib/src/index.js",
-        "./react": "./src/react/index.js"
+        "./react": "./lib/src/react/index.js"
     },
     "scripts": {
         "lint": "eslint 'src/**'",
@@ -43,6 +43,7 @@
     },
     "dependencies": {
         "algoliasearch": "^4.10.5",
+        "classnames": "^2.3.1",
         "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {
@@ -74,9 +75,11 @@
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react-hooks": "^4.2.0",
+        "fs-extra": "^10.0.0",
         "gatsby": "3.1.0",
         "gatsby-plugin-algolia": "^0.22.2",
         "gatsby-plugin-catch-links": "^3.1.0",
+        "gatsby-plugin-env-variables": "^2.1.0",
         "gatsby-plugin-intl": "^0.3.3",
         "gatsby-plugin-manifest": "^3.2.0",
         "gatsby-plugin-output": "^0.1.3",
@@ -122,6 +125,9 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/thoughtspot/visual-embed-sdk.git"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
     },
     "keywords": [
         "thoughtspot",

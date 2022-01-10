@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2022
  *
  * Base classes
  *
@@ -27,12 +27,15 @@ import {
     Action,
     RuntimeFilter,
     Param,
+    EmbedConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
-import { version } from '../../package.json';
-import { getAuthPromise, getEmbedConfig } from './base';
+import pkgInfo from '../../package.json';
+import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
+
+const { version } = pkgInfo;
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -99,13 +102,12 @@ export interface ViewConfig {
     /**
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
-     *
-     * _since 1.5.0_
+     * * _since 1.6.0_
      */
     visibleActions?: Action[];
     /**
      * The list of runtime filters to apply to a search answer,
-     * visualization, or pinboard.
+     * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
 }
@@ -128,6 +130,8 @@ export class TsEmbed {
     protected iFrame: HTMLIFrameElement;
 
     protected viewConfig: ViewConfig;
+
+    protected embedConfig: EmbedConfig;
 
     /**
      * The ThoughtSpot hostname or IP address
@@ -167,14 +171,14 @@ export class TsEmbed {
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
-        const config = getEmbedConfig();
-        this.thoughtSpotHost = getThoughtSpotHost(config);
-        this.thoughtSpotV2Base = getV2BasePath(config);
+        this.embedConfig = getEmbedConfig();
+        this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
+        this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
-        this.shouldEncodeUrlQueryParams = config.shouldEncodeUrlQueryParams;
-        if (!config.suppressNoCookieAccessAlert) {
+        this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        if (!this.embedConfig.suppressNoCookieAccessAlert) {
             this.on(EmbedEvent.NoCookieAccess, () => {
                 // eslint-disable-next-line no-alert
                 alert(
@@ -237,6 +241,21 @@ export class TsEmbed {
     }
 
     /**
+     * fix for ts7.sep.cl
+     * will be removed for ts7.oct.cl
+     * @hidden
+     */
+    private formatEventData(event: MessageEvent) {
+        const eventData = {
+            ...event.data,
+        };
+        if (!eventData.data) {
+            eventData.data = event.data.payload;
+        }
+        return eventData;
+    }
+
+    /**
      * Adds a global event listener to window for "message" events.
      * ThoughtSpot detects if a particular event is targeted to this
      * embed instance through an identifier contained in the payload,
@@ -246,10 +265,11 @@ export class TsEmbed {
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
+            const eventData = this.formatEventData(event);
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    getProcessData(eventType, event.data, this.thoughtSpotHost),
+                    getProcessData(eventType, eventData, this.thoughtSpotHost),
                     eventPort,
                 );
             }
@@ -298,6 +318,10 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
 
+        if (this.embedConfig.customCssUrl) {
+            queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
+        }
+
         const {
             disabledActions,
             disabledActionReason,
@@ -305,7 +329,7 @@ export class TsEmbed {
             visibleActions,
         } = this.viewConfig;
 
-        if (visibleActions?.length && hiddenActions?.length) {
+        if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError(
                 'You cannot have both hidden actions and visible actions',
             );
@@ -321,7 +345,7 @@ export class TsEmbed {
         if (hiddenActions?.length) {
             queryParams[Param.HideActions] = hiddenActions;
         }
-        if (visibleActions?.length) {
+        if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
         return queryParams;
@@ -329,7 +353,7 @@ export class TsEmbed {
 
     /**
      * Constructs the base URL string to load v1 of the ThoughtSpot app.
-     * This is used for embedding pinboards, visualizations, and full application.
+     * This is used for embedding Liveboards, visualizations, and full application.
      * @param queryString The query string to append to the URL.
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
@@ -375,73 +399,85 @@ export class TsEmbed {
             // warn: The URL is too long
         }
 
-        const initTimestamp = Date.now();
+        renderInQueue((nextInQueue) => {
+            const initTimestamp = Date.now();
 
-        this.executeCallbacks(EmbedEvent.Init, {
-            data: {
-                timestamp: initTimestamp,
-            },
-        });
-
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-
-        getAuthPromise()
-            ?.then(() => {
-                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
-
-                this.iFrame = this.iFrame || document.createElement('iframe');
-
-                this.iFrame.src = url;
-
-                // according to screenfull.js documentation
-                // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
-                this.iFrame.allowFullscreen = true;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                this.iFrame.webkitallowfullscreen = true;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                this.iFrame.mozallowfullscreen = true;
-                const width = getCssDimension(
-                    frameOptions?.width || DEFAULT_EMBED_WIDTH,
-                );
-                const height = getCssDimension(
-                    frameOptions?.height || DEFAULT_EMBED_HEIGHT,
-                );
-                this.iFrame.style.width = `${width}`;
-                this.iFrame.style.height = `${height}`;
-                this.iFrame.style.border = '0';
-                this.iFrame.name = 'ThoughtSpot Embedded Analytics';
-                this.iFrame.addEventListener('load', () => {
-                    const loadTimestamp = Date.now();
-                    this.executeCallbacks(EmbedEvent.Load, {
-                        data: {
-                            timestamp: loadTimestamp,
-                        },
-                    });
-                    uploadMixpanelEvent(
-                        MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
-                        {
-                            timeTookToLoad: loadTimestamp - initTimestamp,
-                        },
-                    );
-                });
-                this.el.innerHTML = '';
-                this.el.appendChild(this.iFrame);
-                const prefetchIframe = document.querySelectorAll(
-                    '.prefetchIframe',
-                );
-                if (prefetchIframe.length) {
-                    prefetchIframe.forEach((el) => {
-                        el.remove();
-                    });
-                }
-                this.subscribeToEvents();
-            })
-            .catch((error) => {
-                uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED);
-                this.handleError(error);
+            this.executeCallbacks(EmbedEvent.Init, {
+                data: {
+                    timestamp: initTimestamp,
+                },
             });
+
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+
+            getAuthPromise()
+                ?.then(() => {
+                    uploadMixpanelEvent(
+                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
+                    );
+
+                    this.iFrame =
+                        this.iFrame || document.createElement('iframe');
+
+                    this.iFrame.src = url;
+
+                    // according to screenfull.js documentation
+                    // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
+                    this.iFrame.allowFullscreen = true;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.iFrame.webkitallowfullscreen = true;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.iFrame.mozallowfullscreen = true;
+                    const width = getCssDimension(
+                        frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                    );
+                    const height = getCssDimension(
+                        frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                    );
+                    this.iFrame.style.width = `${width}`;
+                    this.iFrame.style.height = `${height}`;
+                    this.iFrame.style.border = '0';
+                    this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+                    this.iFrame.addEventListener('load', () => {
+                        nextInQueue();
+                        const loadTimestamp = Date.now();
+                        this.executeCallbacks(EmbedEvent.Load, {
+                            data: {
+                                timestamp: loadTimestamp,
+                            },
+                        });
+                        uploadMixpanelEvent(
+                            MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
+                            {
+                                timeTookToLoad: loadTimestamp - initTimestamp,
+                            },
+                        );
+                    });
+                    this.iFrame.addEventListener('error', () => {
+                        nextInQueue();
+                    });
+                    this.el.innerHTML = '';
+                    this.el.appendChild(this.iFrame);
+                    const prefetchIframe = document.querySelectorAll(
+                        '.prefetchIframe',
+                    );
+                    if (prefetchIframe.length) {
+                        prefetchIframe.forEach((el) => {
+                            el.remove();
+                        });
+                    }
+                    this.subscribeToEvents();
+                })
+                .catch((error) => {
+                    nextInQueue();
+                    uploadMixpanelEvent(
+                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                    );
+                    this.handleError(error);
+                });
+        });
     }
 
     /**
@@ -551,27 +587,6 @@ export class TsEmbed {
         callbacks.push(callback);
         this.eventHandlerMap.set(messageType, callbacks);
         return this;
-    }
-
-    /**
-     * Navigates users to the specified application page.
-     * Use this method to navigate users from the embedded
-     * ThoughtSpot context to a specific page in your app.
-     * @param path The page path string.
-     * For example, to navigate users to a pinboard page,
-     * define the method as navigateToPage('pinboard/&lt;pinboardId&gt;').
-     */
-    public navigateToPage(path: string): void {
-        const iframeSrc = this.iFrame?.src;
-        if (iframeSrc) {
-            const embedPath = '#/embed';
-            const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
-            this.iFrame.src = `${
-                iframeSrc.split(currentPath)[0]
-            }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
-        } else {
-            console.log('Please call render before invoking this method');
-        }
     }
 
     /**

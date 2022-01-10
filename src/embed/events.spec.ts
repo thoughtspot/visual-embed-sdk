@@ -4,6 +4,7 @@ import {
     EmbedEvent,
     SearchEmbed,
     PinboardEmbed,
+    LiveboardEmbed,
     HostEvent,
 } from '../index';
 import {
@@ -15,7 +16,7 @@ import {
     getRootEl2,
     postMessageToParent,
 } from '../test/test-utils';
-import { PinboardViewConfig } from './pinboard';
+import { LiveboardViewConfig } from './liveboard';
 
 const thoughtSpotHost = 'tshost';
 const defaultViewConfig = {
@@ -119,8 +120,14 @@ describe('test communication between host app and ThoughtSpot', () => {
         const embedTwo = new PinboardEmbed(getRootEl2(), {
             ...defaultViewConfig,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
+        const spyThree = jest.fn();
+        const embedThree = new LiveboardEmbed(getRootEl2(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
         embedTwo.on(EmbedEvent.CustomAction, spyTwo).render();
+        embedThree.on(EmbedEvent.CustomAction, spyThree).render();
 
         await executeAfterWait(() => {
             const iframeOne = getIFrameEl();
@@ -133,15 +140,34 @@ describe('test communication between host app and ThoughtSpot', () => {
         await executeAfterWait(() => {
             expect(spyOne).toHaveBeenCalled();
             expect(spyTwo).not.toHaveBeenCalled();
+            expect(spyThree).not.toHaveBeenCalled();
         }, EVENT_WAIT_TIME);
     });
 
     test('send getIframeCenter Event without eventPort', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        const spy1 = jest.spyOn(global.console, 'log');
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.EmbedIframeCenter,
+                data: PAYLOAD,
+            });
+        });
+        expect(spy1).toHaveBeenCalledWith('Event Port is not defined');
+    });
+    test('send getIframeCenter Event without eventPort - pinboard', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
         const spy1 = jest.spyOn(global.console, 'log');
 
@@ -155,13 +181,46 @@ describe('test communication between host app and ThoughtSpot', () => {
         expect(spy1).toHaveBeenCalledWith('Event Port is not defined');
     });
 
-    test('send getIframeCenter Event with eventPort', async () => {
+    test('send getIframeCenter Event with eventPort - pinboard', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
-        } as PinboardViewConfig);
+        } as LiveboardViewConfig);
         pinboardEmbed.render();
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(
+                iframe.contentWindow,
+                {
+                    type: EmbedEvent.EmbedIframeCenter,
+                    data: PAYLOAD,
+                },
+                mockPort,
+            );
+        });
+        const heightObj = {
+            data: {
+                iframeCenter: 0,
+                iframeHeight: 0,
+                iframeScrolled: 0,
+                iframeVisibleViewPort: 0,
+                viewPortHeight: 768,
+            },
+            type: EmbedEvent.EmbedIframeCenter,
+        };
+        expect(mockPort.postMessage).toHaveBeenCalledWith(heightObj);
+    });
+    test('send getIframeCenter Event with eventPort', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
         const mockPort: any = {
             postMessage: jest.fn(),
         };

@@ -1,21 +1,35 @@
 
 [div boxDiv boxFullWidth]
 --
-`xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
+`xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 
-Authenticates and logs in a user.
+Signs in a user to ThoughtSpot system.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
+`xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]`  
 
-Obtains an authentication token for a user.
+Generates an authentication token for a user session.
 
 +++<p class="divider"> </p>+++
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Gets a login token and a fully encoded URL for authenticated users.
+Authenticates and logs in a user to ThoughtSpot. 
+
+This request method sends authentication attributes as query string parameters in the request URL.
+
+__This API call is not required if you are using Visual Embed SDK__.
+
++++<p class="divider"> </p>+++
+
+`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` [tag greenBackground]#NEW in ts8.nov.cl#
+
+Authenticates and logs in a user to ThoughtSpot. 
+
+This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST`request method. 
+
+__This API call is not required if you are using Visual Embed SDK__.
 
 +++<p class="divider"> </p>+++
 
@@ -25,25 +39,25 @@ Logs out a user from an existing session.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-info[*POST* /tspublic/v1/session/info]`  [tag greenBackground]#New#
+`xref:session-api.adoc#session-info[*GET* /tspublic/v1/session/info]` 
 
 Gets session information.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#set-home-pinboard[**POST** /tspublic/v1/session/homepinboard]`
+`xref:session-api.adoc#set-home-liveboard[**POST** /tspublic/v1/session/homepinboard]`
 
-Sets a specific pinboard as a home pinboard.
-
-+++<p class="divider"> </p>+++
-
-`xref:session-api.adoc#get-home-pinboard[**GET** /tspublic/v1/session/homepinboard]`
-
-Returns the GUID of the pinboard that is set as a home pinboard for the current logged-in user.
+Sets a specific Liveboard as a home Liveboard.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#del-home-pinboard[**DELETE** /tspublic/v1/session/homepinboard]`
+`xref:session-api.adoc#get-home-liveboard[**GET** /tspublic/v1/session/homepinboard]`
 
-Removes the home pinboard settings for the current logged-in user.
+Returns the GUID of the Liveboard that is set as a home Liveboard for the current logged-in user.
+
++++<p class="divider"> </p>+++
+
+`xref:session-api.adoc#del-home-liveboard[**DELETE** /tspublic/v1/session/homepinboard]`
+
+Removes the home Liveboard settings for the current logged-in user.
 --

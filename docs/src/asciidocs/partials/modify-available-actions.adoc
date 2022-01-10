@@ -1,0 +1,42 @@
+Allows you to show or hide the primary buttons or menu actions that appear in **More** image:./images/icon-more-10px.png[the more options menu] and the contextual menu. You can use this function to define a list of visible actions, disable or hide actions.
+
+[NOTE]
+====
+Use either `visibleActions` or `hiddenActions` to show or hide actions in the UI. The SDK does not support simultaneous execution of `visibleActions` and `hiddenActions` APIs,  therefore logs it as a configuration error.  
+====
+
+* To define visible actions, specify the action strings in the `visibleActions` attribute. 
++
+Note that the UI displays only the actions specified in this attribute and does not show the other available actions. The following example sets **Save**, **Show underlying data**, and *DownloadAsPDF* as visible actions to show only these actions in the embedded UI.
++
+[source,Javascript]
+----
+visibleActions: [Action.Save,Action.ShowUnderlyingData,Action.DownloadAsPDF]
+----
+
++
+If you do not specify any actions and define the attribute as an empty array, no actions will appear in the UI.
+
+* To disable an action, specify the action string in the `disabledActions` attribute. For example, to disable **Download** in the **More** menu image:./images/icon-more-10px.png[the more options menu], specify **Action.Download** in the `disabledActions` attribute as shown here:
+
++
+----
+disabledActions: [Action.ShowUnderlyingData]
+----
+
+* To display a tooltip for the disabled menu item, specify the text string in the `disabledActionReason` attribute.
+
+* To hide an action menu item, specify the action text string in the `hiddenActions` attribute. Use this attribute only if the `visibleActions` attribute is not defined.
+
++
+----
+hiddenActions: [Action.DownloadAsPDF]
+----
++
+++++
+<a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+include::{path}/custom-action-note.adoc[]
+
+For more information, see xref:embed-actions.adoc[Show or hide actions].

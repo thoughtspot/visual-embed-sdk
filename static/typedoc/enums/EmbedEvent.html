@@ -109,6 +109,12 @@
 								<a href="EmbedEvent.html#DataSourceSelected" class="tsd-kind-icon">Data<wbr>Source<wbr>Selected</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#DialogClose" class="tsd-kind-icon">Dialog<wbr>Close</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#DialogOpen" class="tsd-kind-icon">Dialog<wbr>Open</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="EmbedEvent.html#Drilldown" class="tsd-kind-icon">Drilldown</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -125,6 +131,12 @@
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="EmbedEvent.html#QueryChanged" class="tsd-kind-icon">Query<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#RouteChange" class="tsd-kind-icon">Route<wbr>Change</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="EmbedEvent.html#VizPointDoubleClick" class="tsd-kind-icon">Viz<wbr>Point<wbr>Double<wbr>Click</a>
 							</li>
 						</ul>
 					</li>
@@ -143,7 +155,7 @@
 						<a href="../classes/AppEmbed.html" class="tsd-kind-icon">App<wbr>Embed</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="../classes/PinboardEmbed.html" class="tsd-kind-icon">Pinboard<wbr>Embed</a>
+						<a href="../classes/LiveboardEmbed.html" class="tsd-kind-icon">Liveboard<wbr>Embed</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/SearchEmbed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
@@ -155,7 +167,7 @@
 						<a href="../interfaces/EmbedConfig.html" class="tsd-kind-icon">Embed<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/PinboardViewConfig.html" class="tsd-kind-icon">Pinboard<wbr>View<wbr>Config</a>
+						<a href="../interfaces/LiveboardViewConfig.html" class="tsd-kind-icon">Liveboard<wbr>View<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/RuntimeFilter.html" class="tsd-kind-icon">Runtime<wbr>Filter</a>
@@ -193,12 +205,16 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#CustomAction" class="tsd-kind-icon">Custom<wbr>Action</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Data" class="tsd-kind-icon">Data</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#DataSourceSelected" class="tsd-kind-icon">Data<wbr>Source<wbr>Selected</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#DialogClose" class="tsd-kind-icon">Dialog<wbr>Close</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#DialogOpen" class="tsd-kind-icon">Dialog<wbr>Open</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Drilldown" class="tsd-kind-icon">Drilldown</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Error" class="tsd-kind-icon">Error</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Init" class="tsd-kind-icon">Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#Load" class="tsd-kind-icon">Load</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#NoCookieAccess" class="tsd-kind-icon">No<wbr>Cookie<wbr>Access</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#QueryChanged" class="tsd-kind-icon">Query<wbr>Changed</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#RouteChange" class="tsd-kind-icon">Route<wbr>Change</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="EmbedEvent.html#VizPointDoubleClick" class="tsd-kind-icon">Viz<wbr>Point<wbr>Double<wbr>Click</a></li>
 							</ul>
 						</section>
 					</div>
@@ -212,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;alert&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L280">types.ts:280</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L302">types.ts:302</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,7 +248,7 @@
 					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Expire<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ThoughtspotAuthExpired&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L284">types.ts:284</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L306">types.ts:306</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -247,7 +263,7 @@
 					<div class="tsd-signature tsd-kind-icon">Auth<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;authInit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L233">types.ts:233</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L249">types.ts:249</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -267,7 +283,7 @@
 					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;customAction&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L270">types.ts:270</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L286">types.ts:286</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -279,7 +295,7 @@
 							<dd><p>actionId - The id of the custom action</p>
 							</dd>
 							<dt class="returns">returns</dt>
-							<dd><p>data - The answer or pinboard data</p>
+							<dd><p>data - The answer or Liveboard data</p>
 							</dd>
 						</dl>
 					</div>
@@ -290,16 +306,16 @@
 					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;data&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L243">types.ts:243</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L259">types.ts:259</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Data pertaining to answer or pinboard is received</p>
+							<p>Data pertaining to answer or Liveboard is received</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="returns">returns</dt>
-							<dd><p>data - The answer or pinboard data</p>
+							<dd><p>data - The answer or Liveboard data</p>
 							</dd>
 						</dl>
 					</div>
@@ -310,7 +326,7 @@
 					<div class="tsd-signature tsd-kind-icon">Data<wbr>Source<wbr>Selected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dataSourceSelected&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L264">types.ts:264</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L280">types.ts:280</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -325,12 +341,52 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="DialogClose" class="tsd-anchor"></a>
+					<h3>Dialog<wbr>Close</h3>
+					<div class="tsd-signature tsd-kind-icon">Dialog<wbr>Close<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dialog-close&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L350">types.ts:350</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when any modal is closed in the app</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>1.6.0 or later</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="DialogOpen" class="tsd-anchor"></a>
+					<h3>Dialog<wbr>Open</h3>
+					<div class="tsd-signature tsd-kind-icon">Dialog<wbr>Open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;dialog-open&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L345">types.ts:345</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when any modal is opened in the app</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>1.6.0 or later</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Drilldown" class="tsd-anchor"></a>
 					<h3>Drilldown</h3>
 					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;drillDown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L259">types.ts:259</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L275">types.ts:275</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -356,7 +412,7 @@
 					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Error&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L275">types.ts:275</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L297">types.ts:297</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -376,7 +432,7 @@
 					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L228">types.ts:228</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L244">types.ts:244</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -396,7 +452,7 @@
 					<div class="tsd-signature tsd-kind-icon">Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;load&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L238">types.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L254">types.ts:254</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -416,7 +472,7 @@
 					<div class="tsd-signature tsd-kind-icon">No<wbr>Cookie<wbr>Access<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;noCookieAccess&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L313">types.ts:313</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L334">types.ts:334</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -426,7 +482,7 @@
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="version">version</dt>
-							<dd><p>1.1.0</p>
+							<dd><p>1.1.0 or later</p>
 							</dd>
 						</dl>
 					</div>
@@ -437,13 +493,51 @@
 					<div class="tsd-signature tsd-kind-icon">Query<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;queryChanged&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a99a1b/src/types.ts#L252">types.ts:252</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L268">types.ts:268</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Search query has been updated</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="RouteChange" class="tsd-anchor"></a>
+					<h3>Route<wbr>Change</h3>
+					<div class="tsd-signature tsd-kind-icon">Route<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;ROUTE_CHANGE&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L322">types.ts:322</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Detects the route change.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="VizPointDoubleClick" class="tsd-anchor"></a>
+					<h3>Viz<wbr>Point<wbr>Double<wbr>Click</h3>
+					<div class="tsd-signature tsd-kind-icon">Viz<wbr>Point<wbr>Double<wbr>Click<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;vizPointDoubleClick&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/8c5b740/src/types.ts#L292">types.ts:292</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A double click has been triggered on table/chart</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="returns">returns</dt>
+							<dd><p>ContextMenuInputPoints - data point that is double clicked</p>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>1.5.0 or later</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>

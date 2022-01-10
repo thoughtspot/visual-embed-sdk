@@ -117,7 +117,7 @@ The file appears in the font dialog.
 [#custom-bg]
 == Customize background color
 You can customize the application background color to match your company's color scheme.
-The custom background color is applied to the application interface, embedded visualizations in pinboards and answers.
+The custom background color is applied to the application interface, embedded visualizations in Liveboards and answers.
 
 To choose a background color for the ThoughtSpot application interface:
 
@@ -144,7 +144,7 @@ You can also add a HEX color code.
 
 [#chart-color]
 == Customize color palette for charts
-You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations in pinboards and answers.
+You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations in Liveboards and answers.
 
 To change the color palette for charts:
 

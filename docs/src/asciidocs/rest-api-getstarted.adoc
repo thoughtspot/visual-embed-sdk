@@ -50,14 +50,26 @@ Query string::
 A query string consists of additional parameters that are passed in the URL. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.  
 
 Request headers::
-* Make sure you include the `'X-Requested-By': 'ThoughtSpot'` header in all API requests.
-* Set the `Content-Type` and `Accept` header to `application/json` for JSON and `text/plain` for plain text.
-* Some complex POST operations, such as sharing an object with another user, require the URL-encoded objects to be passed as parameters in the URL. For such API requests, use the `application/x-www-form-urlencoded` header. 
 
-Multipart/Form-data::
-For some APIs, you must send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure you set the `Content-Type` as `multipart/form-data`. To know if an API uses `multipart/form-data` content-type, see the example requests on the xref:rest-api-reference.adoc[respective API reference page]. 
- 
++
+[width="100%" cols="1,4"]
+|===
+|`X-Requested-By`| Make sure you include the `'X-Requested-By: ThoughtSpot'` header in all API requests. 
+|`User-Agent`|The `User-Agent` header is required for all requests.  Most clients will add the `User-Agent` header automatically. However, when making API calls from code, especially `.NET`, you need to add the `User-Agent` header. 
+
+The `User-Agent` can be any string; for example, you can set the header as `'User-Agent: <browser>/<browser-version><os/platform>'`.
+|`Accept`| Use this header to specify the content type for the API responses. You can set it to `'Accept: application/json'` for JSON and `'Accept: text/plain'` for plain text responses.
+|`Content-Type` a| Use this header to indicate the content type to use in the request body. Set this header as `'Content-Type: application/json'`. 
+
+* Some `POST` operations, such as sharing an object with another user, require the URL-encoded objects to be passed as parameters in the URL. For such API requests, set the header as `'Content-Type: application/x-www-form-urlencoded'`.
+
+* For some endpoints, such as `/tspublic/v1/user/sync`, you need to send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure to set the header as `'Content-Type: multipart/form-data'`.
+
+For more information, see the example requests in the xref:rest-api-reference.adoc[API reference articles].
+|===
+Request parameters::
+Some API endpoints allow you to send attributes as query parameters in `POST` requests. For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs. Make sure to specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API documentation].  
+
 Response body::
 For each API request, ThoughtSpot sends a response. The API response includes either an HTTP status code or a response body in the JSON or plain text format. 
-
-For more information about the REST API request URL, parameters, headers, and sample response, see xref:rest-api-reference.adoc[REST API Reference].
+For more information about the REST API endpoints, parameters, headers, and sample response, see xref:rest-api-reference.adoc[REST API Reference].

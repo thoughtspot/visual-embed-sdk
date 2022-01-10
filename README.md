@@ -31,7 +31,7 @@ import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
 <script src='https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js'></script>
 
 // ES6 from web
-import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+import { LiveboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ```
 <br/>
 
@@ -51,7 +51,7 @@ Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everyw
 ## Quick Start
 
 The ThoughtSpot Embed SDK allows you to embed the ThoughtSpot search experience,
-pinboards, visualizations or the even full app version.
+liveboards, visualizations or the even full app version.
 
 ### Embedded Search
 
@@ -76,32 +76,32 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 searchEmbed.render();
 ```
 
-### Embedded Pinboard & Visualization
+### Embedded Liveboard & Visualization
 
 ```js
 // NPM
-import { PinboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import { LiveboardEmbed, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 // or ES6
-// import { PinboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+// import { LiveboardEmbed, AuthType, init } from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: AuthType.None,
 });
 
-const pinboardEmbed = new PinboardEmbed(
+const liveboardEmbed = new LiveboardEmbed(
     document.getElementById('ts-embed'),
     {
         frameParams: {
             width: '100%',
             height: '100%',
         },
-        pinboardId: '<%=pinboardGUID%>',
+        liveboardId: '<%=liveboardGUID%>',
         vizId: '<%=vizGUID%>',
     },
 });
 
-pinboardEmbed.render();
+liveboardEmbed.render();
 ```
 
 ### Embedded Full App
@@ -140,6 +140,10 @@ The constructor options are passed as props and the event listeners can be attac
 import { init } from '@thoughtspot/visual-embed-sdk';
 import { SearchEmbed } from '@thoughtspot/visual-embed-sdk/react';
 
+// If you are using Webpack 4 (which is the default when using create-react-app v4), you would need to import
+// the React components using the below:
+import { SearchEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+
 init({
     thoughtSpotHost: '<%=tshost%>',
     authType: AuthType.None,
@@ -159,4 +163,4 @@ const MyComponent = ({ dataSources }) => {
 <br/>
 <br/>
 
-Visual-Embed-SDK, © ThoughtSpot, Inc. 2021
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2022

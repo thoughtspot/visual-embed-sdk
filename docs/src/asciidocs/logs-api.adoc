@@ -37,7 +37,9 @@ GET /tspublic/v1/logs/topics/{topic}
 .cURL
 [source,cURL]
 ----
-curl -X GET --header 'Accept: text/html' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/logs/topics/security_logs?fromEpoch=1622534400000&toEpoch=1625126400000'
+curl -X GET \
+--header 'Accept: text/html' \
+--header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/logs/topics/security_logs?fromEpoch=1622534400000&toEpoch=1625126400000'
 ----
 
 .Request URL

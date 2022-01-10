@@ -5,7 +5,7 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
-[div]
+
 
 == User management
 
@@ -29,13 +29,13 @@ include::{path}/admin-api-list.adoc[]
 
 == Data connections 
 
-include::{path}/connection-apis.adoc[]
+include::{path}/data-connection-apis.adoc[]
 
 == TML objects
 
 include::{path}/tml-api-list.adoc[]
 
-== Pinboard data
+== Liveboard data
 
 include::{path}/pinboard-api-list.adoc[]
 
@@ -43,7 +43,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 [div boxDiv boxFullWidth]
 --
-`xref:search-data-api.adoc[**POST** /tspublic/v1/searchdata]`  
+`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`  
 
 Allows searching for data from a specific data source in the ThoughtSpot application.
 --

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020
+ * Copyright (c) 2022
  *
  * TypeScript type definitions for ThoughtSpot Visual Embed SDK
  *
@@ -21,6 +21,10 @@ export enum AuthType {
      * SSO using SAML
      */
     SSO = 'SSO_SAML',
+    /**
+     * SSO using OIDC
+     */
+    OIDC = 'SSO_OIDC',
     /**
      * Trusted authentication server
      */
@@ -119,6 +123,22 @@ export interface EmbedConfig {
      * @default false
      */
     callPrefetch?: boolean;
+
+    /**
+     * When there are multiple embeds, queue the render of embed to start
+     *  after the previous embed's render is complete. This helps in the load performance
+     *  by decreasing the load on the browser.
+     * @version 1.5.0 or later
+     * @default false
+     */
+    queueMultiRenders?: boolean;
+
+    /**
+     * Dynamic CSS Url to be injected in the loaded application.
+     * @version 1.6.0 or later
+     * @default ''
+     */
+    customCssUrl?: string;
 }
 
 export type MessagePayload = { type: string; data: any };
@@ -197,7 +217,7 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * A filter that can be applied to ThoughtSpot answers, pinboards, or
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
  * visualizations at runtime.
  */
 export interface RuntimeFilter {
@@ -237,12 +257,12 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to answer or pinboard is received
-     * @return data - The answer or pinboard data
+     * Data pertaining to answer or Liveboard is received
+     * @return data - The answer or Liveboard data
      */
     Data = 'data',
     /**
-     * Search/answer/pinboard filters have been applied/updated
+     * Search/answer/Liveboard filters have been applied/updated
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
@@ -265,13 +285,13 @@ export enum EmbedEvent {
     /**
      * A custom action has been triggered
      * @return actionId - The id of the custom action
-     * @return data - The answer or pinboard data
+     * @return data - The answer or Liveboard data
      */
     CustomAction = 'customAction',
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * _since: 1.5.0_
+     * @version 1.5.0 or later
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -289,8 +309,8 @@ export enum EmbedEvent {
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
-     * The height of the embedded pinboard or visualization has been computed.
-     * @return data - The height of the embedded pinboard or visualization
+     * The height of the embedded Liveboard or visualization has been computed.
+     * @return data - The height of the embedded Liveboard or visualization
      * @hidden
      */
     EmbedHeight = 'EMBED_HEIGHT',
@@ -302,7 +322,6 @@ export enum EmbedEvent {
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
      * Detects the route change.
-     * @hidden
      */
     RouteChange = 'ROUTE_CHANGE',
     /**
@@ -314,7 +333,7 @@ export enum EmbedEvent {
      * Emitted when the embed does not have cookie access. This
      * happens on Safari where third-party cookies are blocked by default.
      *
-     * @version 1.1.0
+     * @version 1.1.0 or later
      */
     NoCookieAccess = 'noCookieAccess',
     /**
@@ -323,6 +342,16 @@ export enum EmbedEvent {
      * @hidden
      */
     SAMLComplete = 'samlComplete',
+    /**
+     * Emitted when any modal is opened in the app
+     * @version 1.6.0 or later
+     */
+    DialogOpen = 'dialog-open',
+    /**
+     * Emitted when any modal is closed in the app
+     * @version 1.6.0 or later
+     */
+    DialogClose = 'dialog-close',
 }
 
 /**
@@ -342,8 +371,8 @@ export enum HostEvent {
      * @param points - an object containing selectedPoints/clickedPoints
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
-     *                     if not provided it will auto drill by the configured column.
-     * _since: 1.5.0_
+     *                     if not provided it will auto drill by the configured column. \
+     * @version 1.5.0 or later
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -356,6 +385,13 @@ export enum HostEvent {
      * @hidden
      */
     Reload = 'reload',
+    /**
+     * Set the visible visualizations on a Liveboard.
+     * @param - an array of ids of visualizations to show, the ids not passed
+     *          will be hidden.
+     * @version 1.6.0 or later
+     */
+    SetVisibleVizs = 'SetPinboardVisibleVizs',
 }
 
 /**
@@ -389,7 +425,7 @@ export enum Param {
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
     ForceTable = 'forceTable',
-    preventPinboardFilterRemoval = 'preventPinboardFilterRemoval',
+    preventLiveboardFilterRemoval = 'preventPinboardFilterRemoval', // update-TSCB
     SearchQuery = 'searchQuery',
     HideActions = 'hideAction',
     HideObjects = 'hideObjects',
@@ -402,15 +438,17 @@ export enum Param {
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
+    livedBoardEmbed = 'isLiveboardEmbed',
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
-    VisibleActions = 'visibleActions',
+    VisibleActions = 'visibleAction',
+    CustomCSSUrl = 'customCssUrl',
 }
 
 /**
  * The list of actions that can be performed on visual ThoughtSpot
- * entities, such as answers and pinboards.
+ * entities, such as answers and Liveboards.
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
@@ -421,9 +459,8 @@ export enum Action {
     MakeACopy = 'makeACopy',
     EditACopy = 'editACopy',
     CopyLink = 'embedDocument',
-    PinboardSnapshot = 'pinboardSnapshot',
     ResetLayout = 'resetLayout',
-    Schedule = 'schedule',
+    Schedule = 'subscription',
     SchedulesList = 'schedule-list',
     Share = 'share',
     AddFilter = 'addFilter',
@@ -454,7 +491,11 @@ export enum Action {
     Describe = 'describe',
     Relate = 'relate',
     CustomizeHeadlines = 'customizeHeadlines',
+    /**
+     * @hidden
+     */
     PinboardInfo = 'pinboardInfo',
+    LiveboardInfo = 'pinboardInfo',
     SendAnswerFeedback = 'sendFeedback',
     /**
      * @deprecated Will be removed in next version
@@ -468,6 +509,7 @@ export enum Action {
     DrillInclude = 'context-menu-item-include',
     DrillExclude = 'context-menu-item-exclude',
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
+    CopyAndEdit = 'context-menu-item-copy-and-edit',
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
