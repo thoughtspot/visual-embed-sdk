@@ -33,12 +33,13 @@ init({
  });
 ----
 
-The SAML workflow (CHECK HOW THIS REALLY WORKS)
-
 == Call ThoughtSpot REST API to retrieve data
 You can request data from the xref:pinboarddata.adoc[visualizations on an existing Liveboard] or issue an arbitrary xref:search-data-api.adoc[search data API request].
 
 Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], you'll need to ensure the browser cookies are included when making the request.
 
+The /pinboarddata endpoint requires all URL of the parameters be sent (there are no default values that can be left out). The two most important parameters are the Liveboard GUID and the optional visualization GUIDs. The Liveboard GUID is visible in the URL when viewing the Liveboard in the ThoughtSpot UI. 
+
+To get the visualization GUID of a given visualization, right-click the More (...) menu for that visualization and click "Copy embed link". The link will be in the format `{thoughtSpotServer}/#/embed/viz/{liveboardGuid}/{visualizationGuid}` 
 
 == Mobile apps
