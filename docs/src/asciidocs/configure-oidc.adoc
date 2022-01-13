@@ -16,7 +16,7 @@ Relying party::
 Refers to a client application that supports OAuth 2.0 and relies on an OpenID provider to verify the identity of a user. In this article, the relying party refers to a ThoughtSpot application instance. 
 
 OpenID provider::
-The IdP that supports the OAuth2.0 and OIDC protocols. The OpenID provider is an OAuth 2.0 authorization server that authenticates and verifies a user's identity. When a relying party sends an authentication request, the OpenID provider returns the authorization code and provides user information through identity tokens.   
+The IdP that supports the OAuth2.0 and OIDC protocols. The OpenID provider is an OAuth 2.0 authorization server that authenticates and verifies a user's identity. When a relying party sends an authentication request, the OpenID provider returns the authorization code and provides user information through identity (ID) tokens.   
 
 End user::
 The application user who requests access to a resource.  
@@ -37,7 +37,7 @@ Claims::
 A claim provides user information, such as the first name, last name, username, and so on. Claims consist of user and authentication attributes that define the scope of a user profile, based on which ThoughtSpot can determine the access permissions for a given user. 
 
 Scope::
-A scope is a logical group of claims. The relying party sends the `Scope` attribute in the authentication request to include claims in the ID token. For example, when ThoughtSpot sends an authentication request with the `scope` attribute set as `profile`, the ID token will include the claims that constitute a user's profile.
+A scope is a logical group of claims. The relying party sends the `scope` attribute in the authentication request to include claims in the ID token. For example, when ThoughtSpot sends an authentication request with the `scope` attribute set as `profile`, the ID token will include the claims that constitute a user's profile.
 
 Authorization endpoint::
 The OpenID provider endpoint that authenticates a user and grants an authorization code to the relying party.
@@ -54,28 +54,12 @@ The Issuer URL allows a client application to discover details such as the OpenI
 Redirect URI::
 The redirection URI is a callback endpoint to which the OpenID provider must send the authentication response. 
 
-== OIDC authentication workflow
 
-ThoughtSpot supports the `Authorization code flow` in which an authorization server at the OpenID provider's end verifies the identity of a ThoughtSpot user and grants authorization code and tokens.  
+== OIDC configuration steps
 
-The following figure illustrates the OIDC authentication workflow for an embedded ThoughtSpot instance:
+ThoughtSpot supports the `Authorization code flow` in which an authorization server at the OpenID provider's end verifies the identity of a ThoughtSpot user and grants authorization code and tokens. This method of authentication and authorization requires ThoughtSpot to obtain authorization code, ID and access tokens, and validate these  tokens before granting access to its resource.  
 
-image::./images/oidc-auth-flow.png[OIDC authentication]
-
-The OIDC authentication workflow involves the following steps:
-
-. A user logs into the host application and requests access to the embedded ThoughtSpot content.
-. The SDK checks for an existing user session in the browser.
-. If there is no session, it sends a `GET` request to the OpenID authorization endpoint configured on ThoughtSpot to obtain an authorization code.
-. The OpenID authorization server returns an authorization code.
-. The SDK sends the authorization code with its client credentials in `POST` request to the OpenID token endpoint.
-. The token endpoint returns an ID and access token in exchange for the authorization code.
-. The SDK validates the ID token and authenticates the user.
-. If the authentication is successful, the web browser redirects user to the requested page.
-
-== OIDC configuration
-
-To set up the OIDC authentication for your application users, you must complete the following steps:  
+The OIDC configuration procedure includes the following steps: 
 
 * xref:configure-oidc.adoc#clientRegistration[Register your ThoughtSpot instance and the redirect URI in the OpenID provider]
 * xref:configure-oidc.adoc#configureTS[Enable OIDC authentication support on ThoughtSpot] (Requires assistance from ThoughtSpot Support)
@@ -209,9 +193,25 @@ init({
 });
 ----
 
+== OIDC authentication workflow
+
+The following figure illustrates the OIDC authentication workflow for an embedded ThoughtSpot instance:
+
+image::./images/oidc-auth-flow.png[OIDC authentication]
+
+The OIDC authentication workflow involves the following steps:
+
+. A user logs into the host application and requests access to the embedded ThoughtSpot content.
+. The SDK checks for an existing user session in the browser.
+. If there is no session, it sends a `GET` request to the OpenID authorization endpoint configured on ThoughtSpot to obtain an authorization code.
+. The OpenID authorization server returns an authorization code.
+. The SDK sends the authorization code with the ThoughtSpot client credentials in a `POST` request to the OpenID token endpoint.
+. The token endpoint returns an ID and access token in exchange for the authorization code.
+. The SDK validates the ID token and authenticates the user.
+. If the authentication is successful, the web browser redirects the user to the requested page.
+
 == Additional resources
 
 * link:https://developer.okta.com/docs/concepts/oauth-openid/[Okta documentation]
 * link:https://openid.net/connect/faq/[OpenID Connect documentation]
-* <Add links to OpenID provider documentation>
 
