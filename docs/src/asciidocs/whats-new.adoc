@@ -8,9 +8,37 @@
 
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 8.0.0.cl
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID connect authentication</h5> +++ 
+
+You can now set up your embedded ThoughtSpot instance to support OpenID connect authentication. The Visual Embed SDK 1.7.0 includes the `OIDC`  authentication method to enable OIDC authentication on embedded ThoughtSpot instances.
+
+For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
+
+|[tag redBackground]#NEW FEATURE# a| +++<h5>Follow button on the Liveboards page</h5> +++ 
+
+Starting from 8.0.0.cl release, the *Follow* button on the Liveboards page is replaced with **Schedule**. You can now use  **Schedule** to schedule a Liveboard job.
+|====
+
+|====
+|[tag greenBackground]#NEW FEATURE# |+++<h5> REST API Playground</h5> +++ 
+|<To be added>.                                                                                                      
+
+|====
+
+=== Visual Embed SDK 1.7.0
+
+<TBD>
+
 
 == Version ts8.nov.cl
 
+.Developer portal
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag orangeBackground]#CHANGE NOTICE#  a| +++<h5>Pinboards are now Liveboards!</h5> +++ 
@@ -19,7 +47,12 @@ Effective from the ThoughtSpot 8 November Cloud release, ThoughtSpot pinboards a
 
 As part of rebranding, we have made some terminology changes in the ThoughtSpot UI and Developer portal. We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. In some cases, we may even continue to use the legacy terminology for backward compatibility, and to ensure that your existing integrations work seamlessly. For more information, see xref:terminology-update.adoc[Terminology changes].
 |====
+====
 
+
+.Custom actions 
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++ 
@@ -28,12 +61,13 @@ ThoughtSpot now allows you to restrict a custom action's availability to specifi
  
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
-
-=== Visual Embed SDK version 1.6.x
+====
+.Visual Embed SDK version 1.6.x
+[%collapsible] 
+====
 
 [width="100%" cols="1,4"]
 |====
-||
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
@@ -54,12 +88,13 @@ The SDK supports the following new events:
 For more information, see xref:embed-events.adoc[Subscribe to events].
 
 |====
+====
 
-=== REST API 
-
+.REST API
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
-||
 |[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token` 
 
 This API allows you to send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
@@ -70,8 +105,9 @@ For more information, see xref:connection-apis.adoc[Data connection APIs].
 |[tag orangeBackground]#MODIFIED#|You can now filter metadata objects by author GUIDs using the `authorguid` attribute in the `/tspublic/v1/metadata/list` endpoint.
 
 For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
-
 |====
+
+====
 
 == Version ts7.oct.cl
 

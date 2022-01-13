@@ -14,12 +14,10 @@ The prefetch API fetches static resources before the application loads. The pref
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.None,
+        authType: AuthType.SSO,
         callPrefetch: true,
     });
 
 ----
-
-
 callPrefetch::
 _Boolean_. When set to `true`, the SDK calls the prefetch API to prefetch the resources from the specified URL. By default, it is set to `false`.
