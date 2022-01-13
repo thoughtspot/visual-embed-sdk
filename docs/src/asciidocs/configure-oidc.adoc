@@ -2,9 +2,9 @@
 :toc: true
 :toclevels: 1
 
-:page-title: SSO authentication with OpenID connect 
+:page-title: SSO authentication with OpenID Connect
 :page-pageid: oidc-auth
-:page-description: You can configure support for OpenID connect authentication framework for embedded ThoughtSpot instances.
+:page-description: You can configure support for OpenID Connect authentication framework for embedded ThoughtSpot instances.
 
 OpenID Connect (OIDC) is an authentication protocol that adds an identity layer to the OAuth 2.0 protocol. OIDC allows clients to verify a user’s identity based on the authentication performed by an authorization server. Using the OIDC authentication framework, end users can access multiple applications, websites using their single sign-on credentials.
 
@@ -31,7 +31,7 @@ Access token;;
 The access token is issued when a relying party sends the authorization code received from the authorization endpoint of the OpenID provider. It allows a client application to validate claims and grant access to the resources requested by a user.
 
 Refresh token;;
-A refresh token is a string that a client application can use to obtain a new access token. Refresh tokens renew user sessions with new access tokens without requiring the user to reauthenticate.
+A refresh token is a string that a client application can use to obtain a new access token. Refresh tokens renew user sessions with new access tokens without requiring the user to re-authenticate.
 
 Claims::
 A claim provides user information, such as the first name, last name, username, and so on. Claims consist of user and authentication attributes that define the scope of a user profile, based on which ThoughtSpot can determine the access permissions for a given user. 
