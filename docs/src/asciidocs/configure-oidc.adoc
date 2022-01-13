@@ -1,6 +1,6 @@
 = OpenID Connect authentication
 :toc: true
-:toclevels: 1
+:toclevels: 2
 
 :page-title: SSO authentication with OpenID Connect
 :page-pageid: oidc-auth
@@ -54,11 +54,9 @@ The Issuer URL allows a client application to discover details such as the OpenI
 Redirect URI::
 The redirection URI is a callback endpoint to which the OpenID provider must send the authentication response. 
 
-== ThoughtSpot integration with OpenID provider
-
-ThoughtSpot supports the `Authorization code flow` in which an authorization server at the OpenID provider's end verifies the identity of a ThoughtSpot user and grants authorization code and tokens. 
-
 == OIDC authentication workflow
+
+ThoughtSpot supports the `Authorization code flow` in which an authorization server at the OpenID provider's end verifies the identity of a ThoughtSpot user and grants authorization code and tokens.  
 
 The following figure illustrates the OIDC authentication workflow for an embedded ThoughtSpot instance:
 
@@ -75,7 +73,7 @@ The OIDC authentication workflow involves the following steps:
 . The SDK validates the ID token and authenticates the user.
 . If the authentication is successful, the web browser redirects user to the requested page.
 
-=== OIDC configuration
+== OIDC configuration
 
 To set up the OIDC authentication for your application users, you must complete the following steps:  
 
@@ -85,7 +83,7 @@ To set up the OIDC authentication for your application users, you must complete 
  
 
 [#clientRegistration] 
-=== Register ThoughtSpot and set the redirect URI
+==== Register ThoughtSpot and set the redirect URI
 
 To register the ThoughtSpot as a client in the OpenID provider server:
 
@@ -211,7 +209,7 @@ init({
 });
 ----
 
-=== Additional resources
+== Additional resources
 
 * link:https://developer.okta.com/docs/concepts/oauth-openid/[Okta documentation]
 * link:https://openid.net/connect/faq/[OpenID Connect documentation]
