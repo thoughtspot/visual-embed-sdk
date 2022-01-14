@@ -6,33 +6,48 @@
 :page-pageid: whats-new
 :page-description: New features and enhancements
 
-This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
+This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
 == Version 8.0.0.cl
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID connect authentication</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
 
-You can now set up your embedded ThoughtSpot instance to support OpenID connect authentication. The Visual Embed SDK 1.7.0 includes the `OIDC`  authentication method to enable OIDC authentication on embedded ThoughtSpot instances.
+ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
 
 For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
 
-|[tag redBackground]#NEW FEATURE# a| +++<h5>Follow button on the Liveboards page</h5> +++ 
+|[tag redBackground]#REMOVED# a| +++<h5>Follow button</h5> +++ 
 
-Starting from 8.0.0.cl release, the *Follow* button on the Liveboards page is replaced with **Schedule**. You can now use  **Schedule** to schedule a Liveboard job.
+If you have embedded the full ThoughtSpot application, you will notice that the *Follow* button on the Liveboards page is removed. You can now schedule email notifications using the **Schedule** feature and follow Liveboard updates.
+
+For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinboards/follow-pinboard.html[Follow Liveboards, window=_blank].
 |====
 
+=== Visual Embed SDK 1.7.0
+
+|====
+||
+|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can set up OpenID Connect authentication on ThoughtSpot and enable the `OIDC` authentication type in the SDK. 
+
+For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
+
+The SDK includes the following new event:
+
+* `RouteChange`
+|====
+
+////
 |====
 |[tag greenBackground]#NEW FEATURE# |+++<h5> REST API Playground</h5> +++ 
 |<To be added>.                                                                                                      
 
 |====
 
-=== Visual Embed SDK 1.7.0
-
-<TBD>
-
+////
 
 == Version ts8.nov.cl
 

@@ -6,7 +6,8 @@ import './index.scss';
 
 const Header = (props: { location: Location }) => {
     const communityLinks = [
-        { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/playground/search' },
+        { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere' 
+        },
         {
             name: 'Community',
             href:

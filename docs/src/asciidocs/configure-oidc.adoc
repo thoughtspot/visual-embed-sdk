@@ -214,4 +214,3 @@ The OIDC authentication workflow involves the following steps:
 
 * link:https://developer.okta.com/docs/concepts/oauth-openid/[Okta documentation]
 * link:https://openid.net/connect/faq/[OpenID Connect documentation]
-
