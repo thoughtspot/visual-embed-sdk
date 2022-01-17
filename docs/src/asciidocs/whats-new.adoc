@@ -27,9 +27,11 @@ For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinbo
 
 === Visual Embed SDK 1.7.0
 
+[width="100%" cols="1,4"]
 |====
-||
-|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+|
+[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
 If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can set up OpenID Connect authentication on ThoughtSpot and enable the `OIDC` authentication type in the SDK. 
 
 For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].

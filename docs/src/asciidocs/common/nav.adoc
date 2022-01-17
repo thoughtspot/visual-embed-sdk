@@ -11,8 +11,11 @@
 * link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
-** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
-** link:{{navprefix}}=dev-playground[Developer Playground]
+
+* link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=dev-playground[Visual Embed Playground]
+** link:{{navprefix}}=restV1-playground[REST API v1 Playground]
+** link:{{navprefix}}=restV2-playground[REST API v2 Playground]
 
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
