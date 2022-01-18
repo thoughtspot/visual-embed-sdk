@@ -1,0 +1,75 @@
+= REST API Reference
+:toc: true
+
+:page-title: REST API Reference Guide
+:page-pageid: rest-apiv2-reference
+:page-description: REST API Reference
+
+
+== Users
+
+[div boxDiv boxFullWidth]
+--
+`xref:user-api.adoc#create-user[*POST* /api/rest/v2/user/]` 
+
+Creates a user account.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#update-user[*PUT* /api/rest/v2/user/{userid}]`
+
+Modifies a user account.
+
++++<p class="divider"> </p>+++
+
+
+`xref:user-api.adoc#get-user-details[*GET* /api/rest/v2/user/]`
+
+Gets details of the users in a ThoughtSpot system.
+
++++<p class="divider"> </p>+++
+
+`xref:user-api.adoc#delete-user[*DELETE* /api/rest/v2/user/{userid}]`
+
+Deletes a user account.
+
+--
+
+== Groups
+
+[div boxDiv boxFullWidth]
+--
+`xref:group-api.adoc#create-group[*POST* /api/rest/v2/group/]`
+
+Creates a user group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#update-group[*PUT* /api/rest/v2/group/{groupid}]`
+
+Modifies a user group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#get-ug-details[*GET* /api/rest/v2/group/]`
+
+Gets details of a user group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#add-user-to-group[*POST* /api/rest/v2/group/{groupid}/user/{userid}]`
+
+Assigns a user to a group.
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#get-users-group[*GET* /api/rest/v2/group/listuser/{groupid}]`
+
++++<p class="divider"> </p>+++
+
+`xref:group-api.adoc#delete-group[*DELETE* /api/rest/v2/group/{groupid}]`
+
+Deletes a user group.
+--
+== Session
+<Add session API list>

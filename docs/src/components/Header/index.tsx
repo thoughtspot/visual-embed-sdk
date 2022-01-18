@@ -5,9 +5,15 @@ import t from '../../utils/lang-utils';
 import './index.scss';
 
 const Header = (props: { location: Location }) => {
-    const communityLinks = [
+    const headerLinks = [
         { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere' 
         },
+        { name: 'Visual Embed', href: '?pageid=visual-embed-sdk' 
+        },
+        
+        { name: 'REST APIs', href: '?pageid=rest-apis' 
+        },
+        
         {
             name: 'Community',
             href:
@@ -38,7 +44,7 @@ const Header = (props: { location: Location }) => {
                             {t('DOCS')}
                         </a>
                         <div className="d-inline-block headerLink">
-                            {communityLinks.map(({ name, href }) => (
+                            {headerLinks.map(({ name, href }) => (
                                 <a href={href} target="_blank">
                                     {name}
                                 </a>
