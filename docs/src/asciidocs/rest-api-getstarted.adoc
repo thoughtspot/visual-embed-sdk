@@ -22,7 +22,7 @@ You can access the REST v1 explorer using one of the following options:
 
 * REST v1 Playground in the Developer portal (Requires Developer or Admin privilege)
 +
-If REST API Playground feature is enabled on your cluster, the UI displays the REST Playground v2 menu option. You can click this link to access the REST v1 endpoints. 
+If the REST API Playground feature is enabled on your cluster, the UI displays the *REST Playground v2* menu option, on clicking which you can access REST v1 endpoints. 
 
 +
 ++++
