@@ -48,7 +48,7 @@ If the REST API Playground and SDK feature is enabled on your environment, the m
 
 [div boxDiv]
 --
-REST API [tag greenBackground]#Beta#::
+REST API [tag orangeBackground]^Beta^::
 If you have enabled REST API Playground and SDK feature on your cluster, the Developer portal displays the *REST APIs* menu with the following menu options:
 
 Guide;;

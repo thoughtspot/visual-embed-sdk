@@ -8,24 +8,25 @@
 
 There are many differences between Version 1 and Version 2 of REST APIs provided by ThoughtSpot. We recommend that you understand these differences before you start using the API endpoints.
 
-[width="100%" cols="3,4,4"]
+[width="100%" cols="4,^5,^5"]
 [options='header']
 |=====
 ||REST API v1| REST API v2
-|Developer SDK|[tag greyBackground]#–# Not available| [tag greenBackground]#✓# Available
-|Licensing|Requires ThoughtSpot Everywhere Edition license | Requires ThoughtSpot Everywhere Edition license |Developer Playground |Swagger API explorer|Intuitive Playground in the Developer Portal
-|Code sample availability|[tag greyBackground]#–# Not available|[tag greenBackground]#✓# Available
+|Licensing| Available with ThoughtSpot Enterprise Edition license| Requires ThoughtSpot Everywhere Edition license
+|Developer Playground|Swagger API explorer 
+The Swagger UI is accessible via Developer portal|Interactive Playground in the Developer Portal
+|Developer SDK and client libraries|[tag greyBackground]#–#| [tag greenBackground]#✓# Available
+|Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
+
 |Authentication methods a| [tag greenBackground]#✓# Basic authentication
 
 [tag greenBackground]#✓# Trusted authentication 
 
-[tag greyBackground]#–# Bearer token authentication a| [tag greenBackground]#✓# Basic authentication
-
-[tag greenBackground]#✓# Trusted authentication 
+a| [tag greenBackground]#✓# Basic authentication
 
 [tag greenBackground]#✓# Bearer token authentication
 |Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
-|Standardized parameters in API requests and responses|[tag greyBackground]#–# No|[tag greenBackground]#✓# Yes
+|Input and output parameters| Not fully standardized |Standardized
 |API services a|[tag greenBackground]#✓# User APIs 
 
 [tag greenBackground]#✓# Group APIs
@@ -56,17 +57,17 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greenBackground]#✓# Group APIs
 
-[tag greyBackground]#–# Session APIs
+[tag greenBackground]#✓# Session APIs
 
 [tag greyBackground]#–# Data connection APIs
 
-[tag greyBackground]#–# Metadata APIs
+[tag greenBackground]#✓# Metadata APIs
 
 [tag greyBackground]#–# Admin APIs
 
-[tag greyBackground]#–# TML APIs
+[tag greenBackground]#✓# TML APIs
 
-[tag greyBackground]#–# APIs for dependent objects
+[tag greenBackground]#✓# APIs for dependent objects
 
 [tag greyBackground]#–# Search data API
 
@@ -77,14 +78,5 @@ a|[tag greenBackground]#✓# User APIs
 [tag greyBackground]#–# Security APIs
 
 [tag greyBackground]#–# Log Streaming Service API |  
-
+ 
 |====
-
-
-
-
-
-
-
-
-

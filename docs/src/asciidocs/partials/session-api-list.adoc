@@ -23,7 +23,7 @@ __This API call is not required if you are using Visual Embed SDK__.
 
 +++<p class="divider"> </p>+++
 
-`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` [tag greenBackground]#NEW in ts8.nov.cl#
+`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` 
 
 Authenticates and logs in a user to ThoughtSpot. 
 

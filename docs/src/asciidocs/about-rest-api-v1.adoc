@@ -1,11 +1,11 @@
-= REST API v1
+= ThoughtSpot REST API v1
 :toc: true
 
-:page-title: REST API v1
+:page-title: About REST API
 :page-pageid: rest-api-v1
 :page-description: ThoughtSpot REST API provides service endpoints for administration, embedding, and data management.
 
-ThoughtSpot REST API V1 endpoints let you programmatically create, access, and manage ThoughtSpot objects and resources. The REST API endpoints support the following operations:
+The ThoughtSpot REST API v1 endpoints let you perform the following operations:
 
 * get Liveboard and visualization data from the ThoughtSpot application
 * embed data from visualizations and Liveboards in a web page, portal, or application
