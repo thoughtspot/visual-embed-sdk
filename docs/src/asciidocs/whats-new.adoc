@@ -129,10 +129,6 @@ For more information, see xref:metadata-api.adoc#metadata-list[Get a list of met
 .ThoughtSpot application UI
 [%collapsible] 
 ====
-[width="100%" cols="1,4"]
-|====
-||
-|[tag orangeBackground]#MODIFIED# |  +++<h5>Search data</h5>+++ 
 
 To make it easier for users to find new insights, the **Search data** functionality is moved from the search bar toggle on the **Home** page to the **Search data** button  in the main navigation bar. 
 
@@ -141,8 +137,6 @@ Note that if you are embedding the full application without the navigation bar, 
 image:./images/search-toggle.png[Search toggle, width=auto]
 
 image:./images/search-data-btn.png[Search data button, width=auto]
-
-|====
 
 ====
 
