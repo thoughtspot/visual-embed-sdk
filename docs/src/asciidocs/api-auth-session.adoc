@@ -2,9 +2,9 @@
 :toc: true
 :toclevels: 1
 
-:page-title: Manage user sessions
+:page-title: User authentication and session management
 :page-pageid: api-auth-session
-:page-description: Manage user sessions with REST APIs
+:page-description: To access ThoughtSpot objects and resource endpoints, authenticate and log in to the ThoughtSpot system
 
 To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
 
@@ -19,7 +19,6 @@ xhr.withCredentials = true;
 
 If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
 
-ThoughtSpot also supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
 
 == Sign in a ThoughtSpot user
 

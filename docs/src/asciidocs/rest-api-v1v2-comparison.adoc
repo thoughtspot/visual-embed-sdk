@@ -13,8 +13,9 @@ There are many differences between Version 1 and Version 2 of REST APIs provided
 |=====
 ||REST API v1| REST API v2
 |Licensing| Available with ThoughtSpot Enterprise Edition license| Requires ThoughtSpot Everywhere Edition license
-|Developer Playground|Swagger API explorer 
-The Swagger UI is accessible via Developer portal|Interactive Playground in the Developer Portal
+|Developer Playground|Swagger API explorer
+
+The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
 |Developer SDK and client libraries|[tag greyBackground]#–#| [tag greenBackground]#✓# Available
 |Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
 
@@ -78,5 +79,7 @@ a|[tag greenBackground]#✓# User APIs
 [tag greyBackground]#–# Security APIs
 
 [tag greyBackground]#–# Log Streaming Service API |  
- 
+|Endpoint URI| The REST v1 endpoint URI begins with the base URI `/\https://<your-thoughtspot-hostname>/callosum/v1/`, followed by the resource path `tspublic/v1/<service-category>/`
+|The REST v2 endpoint URI is `https://<your-thoughtspot-hostname>/api/rest/v2/<endpoint-category>/<endpoint-name>
+
 |====

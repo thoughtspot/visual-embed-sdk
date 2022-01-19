@@ -1,19 +1,46 @@
-= REST API V1 Playground
+= REST API v1 Playground
 :toc: true
+:toclevels: 2
 
-:page-title: ThoughtSpot Developer Playground
-:page-pageid: restApiV1-playground
-:page-description: ThoughtSpot Developer playground
+:page-title: Use REST Playground v1 
+:page-pageid: rest-v1-playground
+:page-description: Use the REST Playground v1 menu to access the v1 endpoints available on your ThoughtSpot cluster.
 
-The *REST API V1 Playground* allows you to access the Swagger portal and try out the APIs.
+ 
 
-== View available API endpoints
+* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
 
-The portal displays a list of REST API services available for the logged-in ThoughtSpot users.
+
+== Access REST v1 explorer
+
+You can access the REST v1 explorer using one of the following options:
+
+* REST v1 Playground in the Developer portal (Requires Developer or Admin privilege)
++
+If the REST API Playground feature is enabled on your cluster, the UI displays the *REST Playground v2* menu option, on clicking which you can access REST v1 endpoints. 
+
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+* Using the Swagger URL
++
+----
+https://<your-thoughtspot.com>/external/swagger
+----
++
+++++
+<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Try it out</a> 
+++++
+The REST v1 Explorer displays a list of REST API services available for the logged-in ThoughtSpot users.
+
+To make an API call and view results:
 
 . Click on a header to expand and view the list of services.
-. Click on a service name to view more details about the API service.
-. To explore an API, click **Try it out**.
+. Click on the endpoint to which you want to send an API request.
+. If required, define the attributes.
+. Click **Try it out** and verify the API response and HTTP status code.
 
 == API requests and response
 
