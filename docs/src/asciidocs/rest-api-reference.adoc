@@ -1,10 +1,9 @@
-= REST API Reference 
+= REST API v1 Reference 
 :toc: true
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
-
 
 
 == User management

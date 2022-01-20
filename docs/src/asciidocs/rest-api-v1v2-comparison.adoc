@@ -1,4 +1,4 @@
-= REST API v1 and v2 Comparison
+= Difference between REST v1 and v2 APIs
 :toc: true
 :toclevels: 1
 
@@ -6,7 +6,8 @@
 :page-pageid: v1v2-comparison
 :page-description: Difference between REST API v1 and v2
 
-There are many differences between Version 1 and Version 2 of REST APIs provided by ThoughtSpot. We recommend that you understand these differences before you start using the API endpoints.
+Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2 is a new framework with that expands the core API functionality with additional features and benefits. 
+
 
 [width="100%" cols="4,^5,^5"]
 [options='header']

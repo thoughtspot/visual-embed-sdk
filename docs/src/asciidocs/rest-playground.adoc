@@ -1,44 +1,46 @@
-= ThoughtSpot REST APIs
+= REST API Playground
 :toc: true
+:toclevels: 2
 
-:page-title: ThoughtSpot REST APIs
-:page-pageid: rest-apis
-:page-description: ThoughtSpot REST API provides service endpoints for administration, embedding, and data management.
+:page-title: REST API Playground
+:page-pageid: rest-playground
+:page-description: Use the REST Playground to explore the REST API and SDK.
 
-The ThoughtSpot REST API framework lets you create, access, edit, and manage objects and resources in the ThoughtSpot system programmatically. 
- 
-Currently, ThoughtSpot REST API supports several collection of operations in two distinct versions: 
+The REST API Playground[beta orangeBackground]^BETA^ provides an interactive portal to explore REST v1 and v2 endpoints. To enable this feature on your cluster, contact ThoughtSpot Support.
 
-* REST API V1
+If the REST API Playground and SDK feature is enabled on your cluster, the Developer portal displays the *REST API* menu. 
+
+* To view the Playground with REST v1 endpoints, click **REST Playground v1**.
+
+* To explore REST v2 endpoints, and download the SDK and client libraries, click **REST Playground v2**.
+
+
+== REST API v1 Playground
+
+The REST Playground v1 opens the v1 API explorer and displays the available resource collections.  
+
+To make an API call and view results:
+
+. Click the API service category to view a list of endpoints.
+. Click on the endpoint to which you want to send an API request.
+. If required, define the attributes.
+. Click **Try it out** and verify the API response and HTTP status code.
+
 +
-The legacy framework with several endpoints to create, edit, administer and manage ThoughtSpot objects and data. 
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
-* REST API V2 [tag orangeBackground]^BETA^
+For more information about REST API v1 endpoints, API request and response workflow, see xref:rest-api-getstarted[Get started with REST API v1].
+
+== REST API v2 Playground
+
+The REST API v2 Playground displays a list of v2 endpoints, code explorer to try out the API calls, and language-specific and client libraries. 
+
 +
-The REST API V2 framework is a new developer solution that provides additional functionality and interactive experience for developers. In the REST API V2 version, ThoughtSpot offers SDK and language-specific client libraries. 
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
-+
-[NOTE]
-====
-The REST API v2 is a limited availability feature and is in Beta. To enable this feature on your cluster, contact ThoughtSpot Support.
-====
+For more information, see xref:rest-api-v2-playground[REST API V2 Playground].
 
-For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison].
-
-== REST API Playground
-
-Starting from the 8.0.0.cl release, ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2 endpoints in the Developer portal. If the REST API SDK and Playground feature is enabled on your cluster, the REST Playground v1 and REST Plaground v2 menu options will be available under the *REST API* category in the *Develop* tab.
-
-image::./images/rest-api-playground.png[REST API Playground]
-
-The portal provides a separate Playground for each version and lets you explore the API endpoints and make an API call. 
-
-* To try out the xref:rest-api-v1.adoc[REST v1 APIs], click **REST Playground v1**.
-
-* To access the xref:rest-api-v1.adoc[REST v2 SDK and Playground], click **REST Playground v2**.
-
-==  API endpoints
-For a complete list of API endpoints and information about how to make an API request to these points, see the following reference pages:
-
-* xref:rest-api-reference.adoc[REST API v1 Reference]
-* xref:rest-apiv2-reference.adoc[REST API v2 Reference]

@@ -2,39 +2,76 @@
 :toc: true
 
 :page-title: ThoughtSpot REST API v2 Playground
-:page-pageid: restApiV2-playground
+:page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
+The REST API Playground [beta orangeBackground]^BETA^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
 
-The REST API Playground offers an interactive portal with comprehensive information about the API endpoints, request and response workflows. It consists of three main areas:
+The Playground allows you to make REST API calls in the programming language of your choice. You can also download the SDK and client libraries.
 
-* On the left pane, you can find a catalog of API endpoints, grouped based on the objects they operate on. You can also view the data structure of the request and response and enumerations.
-*  The middle section of the portal provides a detailed description of the endpoint, its input fields, and the allowed and default values for attributes.
-* On the right side of Playground, you can find an interactive code explorer that shows the API request details and allows you to try out an  API and view the response.
+== Access Playground
 
+To access the REST Playground v2, click *Develop* > *REST API* > **REST Playground v2**.
 
-## Endpoints
-All the resources that can be used are listed under the **API Endpoints** section on the left pane. On clicking an endpoint, you can view its resource URL, input fields, request and response formats.
+image::./images/rest-apiv2-playground.png[REST API v2 Playground]
 
-## Sample request and response
-Based on the input provided for the fields, you can see the request generated in the API code explorer on the right side of the portal. You can click **Try it out** to explore an API and also copy the request using the copy icon in the code explorer.
+== Explore the interface
 
-On clicking the **Try it out** button, you can view the API response. If the request succeeds, the API returns the 200 response code. You can copy or download the API response using the buttons at the bottom of the code explorer. You can also copy the individual field values using the button that appears next to the field. You can click the **Back** button to go back to the previous page and try out another API.
+The API Plaground consists of following areas:
 
-## Errors
-The portal uses the standard HTTP response codes to indicate the success or failure of a request. The 200 response code indicates a successful request, whereas 500 and 4xx response codes indicate an error.
+Resource pane::
 
-If the API response indicates an error, you can view the error details by navigating to `extensions` > `upstreamResponse` > `data` > `debug` in the error response body. You can also capture the response code by navigating to `extensions` -> `upstreamResponse` -> `status` in the error response body.
+In the resource pane, you can find a catalog of API endpoints, grouped based on the objects they operate on. You can also view the API documentation, data structure of requests, response format, and attribute enumerations.
++
+The search bar in the resource pane allows you to search for endpoint and navigate between different endpoints in the list.
 
-## Authentication token
+API request editor::
 
-All API requests generated from Playground are authenticated using the Bearer token included with the `Authorization` header passed along with the request. This token is generated and set each time you open the REST API Playground and navigate to an endpoint. The token is generated for the logged-in user and is valid for 24 hours.
+The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters and response codes. If a request parameter requires the input format as a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add the privilege strings as an array.   
 
-If you want to use a new token, you can generate a token using the `/api/rest/v2/session/gettoken` endpoint. To update the token, click  **Configure** in the code explorer and edit the `AccessToken` field in the pop-up that appears.
++
+[.widthAuto]
+image::./images/array-input.png[REST API v2 Playground]
 
-## Dynamic code samples
+Code explorer::
 
-ThoughtSpot APIs are supported in several languages. You can switch between different languages using the dropdown above the API code explorer.  The code explorer dynamically changes the API request code based on the language you specify. To view the complete file with bootstrap and error handling details, you can click **Configure** and then select the **Show Complete File** check box.
+The code explorer offers several distinct features:
+
+* Code panel
++
+Shows a preview of the API request code. You can view the request body as you edit the input parameters and define attributes in the API editor area. The code explorer dynamically changes the API request format based on the language you select.
+
+* Try it out 
++
+Allows you to trigger an API call. If the request succeeds, the API returns the 200 response code. You can copy or download the entire API response. You can also copy the individual attributes using the copy button that appears next to the field. To try another API call, click **Back**.
+
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+* Copy  icon
++
+Allows copying API requests and responses.
+
+* Configuration panel
++
+Allows you to modify client configuration settings, such as the access token and base URI. You can also specify if you want to download the code files with bootstrapping and error handling details. To view the settings panel, click **Configure**.  
+
+* Download icon
++
+Downloads the API response JSON file to your local directory.
+ 
+Language selection drop-down::
+
+The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples. You can also use this drop-down to get language-specific SDK and client libraries.
+
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 ## SDK and client libraries
-To download the SDK library for a specific language, click the **Get SDK** button on the left pane. You can also download the SDK and API libraries from the link:https://github.com/thoughtspot/visual-embed-sdk[GitHub repo, window=_blank]. To know how to set up and use SDK libraries, see **Quickstarts**.
+To download the SDK library for a specific language, select the language and click **Get SDK**. You can also download the SDK and API libraries from the link:https://github.com/thoughtspot/visual-embed-sdk[GitHub repository, window=_blank]. 
+
+For information see, xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].

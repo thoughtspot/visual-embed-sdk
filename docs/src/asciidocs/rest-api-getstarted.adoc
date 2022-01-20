@@ -90,7 +90,6 @@ The `User-Agent` can be any string; for example, you can set the header as `'Use
 For more information, see the example requests in the xref:rest-api-reference.adoc[API reference articles].
 |===
 
-
 === Request parameters
 Some API endpoints allow you to send attributes as query parameters in `POST` requests. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.
 
@@ -133,26 +132,25 @@ For example, you can use the `/tspublic/v1/metadata/listvizheaders` endpoint to 
 
 === HTTP status codes
 
-The REST API v2 framwork supports standard HTTP response codes to indicate the success or failure of a request. 
+For each API request, ThoughtSpot sends a response. The API returns one of the following response codes upon completing a request operation:
 
 * *200*
 +
 Indicates a successful operation. The API returns a response body.
-
+* *204*
++
+Indicates a successful operation. The 204 response code does not include a response body.
 * *400*
 +
 Indicates a bad request. You may have to modify the request before making another call.
-
 * *401*
 +
 Indicates an unauthorized request. Check if you have the required credentials and object access to send the API request.
 
+* *415*
++
+Indicates an unsupported media type. Check the media type specified in the `Content-Type` header.
+
 * *500*
 +
 Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process the request.
-
-If you are making an API call in the Playground, to view the error details, go to `extensions` > `upstreamResponse` > `data` > `debug` in the error response body.
-
-To view the response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
-
-image::./images/api-v2-error.png[REST API v2 error codes]

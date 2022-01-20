@@ -6,9 +6,7 @@
 :page-pageid: rest-v1-playground
 :page-description: Use the REST Playground v1 menu to access the v1 endpoints available on your ThoughtSpot cluster.
 
- 
-
-* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
+To get started 
 
 
 == Access REST v1 explorer
@@ -21,7 +19,7 @@ If the REST API Playground feature is enabled on your cluster, the UI displays t
 
 +
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 * Using the Swagger URL
