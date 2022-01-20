@@ -1,0 +1,83 @@
+= Authentication and authorization
+:toc: true
+:toclevels: 1
+
+:page-title: Client authentication and session management
+:page-pageid: v2-api-auth
+:page-description: To access ThoughtSpot objects and REST v2 endpoints, you must authenticate using a bearer token
+
+
+REST API v2 support the OAuth 2.0 Bearer token authentication method to provide secure access to ThoughtSpot resources. To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized client. 
+
+Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
+
+
+== Log in as ThoughtSpot user
+
+
+
+
+== Obtain access token
+
+Before accessing or modifying any ThoughtSpot object, you must obtain an OAuth access token. 
+
+To get an access token, send a `POST` request to the  `/api/rest/v2/session/gettoken` endpoint.
+
+----
+POST /api/rest/v2/session/gettoken
+----
+
+In the request body, specify your ThoughtSpot user credentials. Optionally, you can set token expiry duration.
+
+[source,curl]
+----
+  "userName": "tsadmin",
+  "password": "123CLOud!",
+  "tokenExpiryDuration": "86400"
+----
+
+If the request is successful, the server returns an access token in the session login response. 
+
+[source,JSON]
+----
+{
+"userName":"tsadmin"
+"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdtdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA="
+"tokenCreatedTime":"1642662844229"
+"tokenExpiryDuration":"1642749244229"
+"tokenType":"Bearer"
+}
+----
+
+Note the access token in the response. You must pass this token in the Authorization HTTP header along with the other headers in the subsequent API requests.
+
+[source,curl]
+----
+curl -X POST \
+  --url '<ThoughtSpot-host>/api/rest/v2/user/search' \
+  -H 'Authorization: Bearer dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSQksxUjBXSGQ1Y1dFeVRFZzVOV0pMTDNjeFdVNW5QVDBrYVRGWWEzQjJiV1pFUkdsS1owbFdZWG95TUVGV1MwZFJhRVpZVm1oalMyOWFUMWxZWWl0WGQycHZaejA='\
+  -H 'Accept: application/json'\
+  -H 'Accept-Language: application/json'\
+  -H 'Content-Type: application/json' \
+----
+
+[source,HTTP] 
+----
+GET / HTTP/1.1
+Host: https://<ThoughtSpot-host>/api/rest/v2/user/search
+Authorization: Bearer dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdtdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA=
+Content-Type: application/json
+Accept-Language: application/json
+----
+
+[NOTE]
+====
+The generated token will be valid for the specified duration. If a request is made with an expired token, the API returns token expired message. You can request for another token to make API calls.  
+=====
+
+== Revoke access token
+
+
+== Log out of a user session
+
+
