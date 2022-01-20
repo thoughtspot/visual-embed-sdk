@@ -1,10 +1,10 @@
-= Get started 
+= Get started with REST API v1
 :toc: true
 :toclevels: 2
 
 :page-title: Getting started with REST APIs
 :page-pageid: rest-api-getstarted
-:page-description: Getting started with REST API
+:page-description: Get started with REST API to access, create, and manage ThoughtSpot resources programmatically.
 
 Before you start using REST APIs, perform the following checks:
 
@@ -18,13 +18,13 @@ After you add your host domain for CORS, ThoughtSpot adds the `access-control-al
 
 You can access the REST v1 explorer using one of the following options:
 
-* Using the *REST Playground v1* in the Developer portal (Requires Developer or Admin privilege)
+* Using the *REST Playground v1* menu option in the Developer portal (Requires Developer or Admin privilege)
 +
-If the REST API Playground feature is enabled on your cluster, the UI displays the *REST Playground v2* menu option, on clicking which you can access REST v1 endpoints. 
+If the REST API Playground feature is enabled on your cluster, go to *Develop* > **REST API **> *REST Playground v1*.
 
 +
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -133,26 +133,26 @@ For example, you can use the `/tspublic/v1/metadata/listvizheaders` endpoint to 
 
 === HTTP status codes
 
-For each API request, ThoughtSpot sends a response. The API returns one of the following response codes upon completing a request operation:
+The REST API v2 framwork supports standard HTTP response codes to indicate the success or failure of a request. 
 
 * *200*
 +
 Indicates a successful operation. The API returns a response body.
-* *204*
-+
-Indicates a successful operation. The 204 response code does not include a response body.
+
 * *400*
 +
 Indicates a bad request. You may have to modify the request before making another call.
+
 * *401*
 +
 Indicates an unauthorized request. Check if you have the required credentials and object access to send the API request.
-
-* *415*
-+
-Indicates an unsupported media type. Check the media type specified in the `Content-Type` header.
 
 * *500*
 +
 Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process the request.
 
+If you are making an API call in the Playground, to view the error details, go to `extensions` > `upstreamResponse` > `data` > `debug` in the error response body.
+
+To view the response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
+
+image::./images/api-v2-error.png[REST API v2 error codes]

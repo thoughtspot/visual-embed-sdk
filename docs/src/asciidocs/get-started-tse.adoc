@@ -1,5 +1,5 @@
 = Get started with ThoughtSpot Everywhere 
-:toc: true
+
 
 :page-title: Get Started with ThoughtSpot Everywhere
 :page-pageid: get-started-tse
@@ -14,9 +14,9 @@ You can explore the APIs, load your data and evaluate embedding workflows, or ge
 
 The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
 
-[div boxDiv]
+[div boxFullWidth]
 --
-image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png",width=auto]
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png", width=auto]
 --
  
 == Feature availability

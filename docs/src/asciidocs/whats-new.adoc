@@ -42,14 +42,18 @@ The SDK includes the following new event:
 * `RouteChange`
 |====
 
-////
+=== REST API
 |====
-|[tag greenBackground]#NEW FEATURE# |+++<h5> REST API Playground</h5> +++ 
-|<To be added>.                                                                                                      
+|[tag orangeBackground]#NEW FEATURE# |+++<h5> REST API Playground and SDK </h5>+++ 
 
+The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
+
+* If you are not a ThoughtSpot user, you can preview this feature on link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot Live Playground,  window=_blank]. 
+* If you are a evaluating user, you can sign in to ThoughtSpot trial instance and explore the APIs and Playground.
+* If you are an existing ThoughtSpot user, but do not have ThoughtSpot Everywhere Edition License, contact your ThoughtSpot Sales personnel to obtain a license.
+* If you are an existing ThoughtSpot Everywhere user with a valid ThoughtSpot Everywhere Edition license, contact ThoughtSpot Support to enable the REST API  Playground and SDK feature on your cluster.
 |====
 
-////
 
 == Version ts8.nov.cl
 

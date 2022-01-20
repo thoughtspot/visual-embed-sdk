@@ -33,10 +33,10 @@ For example, in the `\https://<your-thoughtspot-hostname:port>/callosum/v1/tspub
 
 ThoughtSpot REST API endpoints support Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests:
  
-* **GET** to query information, such as getting a list of users, objects, or metadata headers
-* **POST** to create, add, or exchange data
-* **PUT** to update the parameters in resource representation
-* **DELETE** to remove a specific data, association, or object
+* `GET` to query information, such as getting a list of users or groups.
+* `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or a data object.
+* `PUT` to update the properties of an existing resource, such as modifying the properties of a user or user group. 
+* `DELETE` to remove an object or object association.
 
 == Data format
 

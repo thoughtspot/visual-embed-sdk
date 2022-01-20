@@ -1,9 +1,9 @@
 = REST API V2 Playground
 :toc: true
 
-:page-title: ThoughtSpot Developer Playground
+:page-title: ThoughtSpot REST API v2 Playground
 :page-pageid: restApiV2-playground
-:page-description: ThoughtSpot Developer playground
+:page-description: ThoughtSpot REST API v2 Playground
 
 
 The REST API Playground offers an interactive portal with comprehensive information about the API endpoints, request and response workflows. It consists of three main areas:

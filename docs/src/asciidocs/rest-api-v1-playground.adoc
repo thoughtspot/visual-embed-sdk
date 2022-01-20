@@ -25,6 +25,7 @@ If the REST API Playground feature is enabled on your cluster, the UI displays t
 ++++
 
 * Using the Swagger URL
+
 +
 ----
 https://<your-thoughtspot.com>/external/swagger

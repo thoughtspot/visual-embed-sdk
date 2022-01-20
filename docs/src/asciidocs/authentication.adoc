@@ -1,40 +1,38 @@
 = Authentication
 :toc: true
+:toclevels: 1
 
-:page-title: REST API authentication
-:page-pageid: rest-api-authentication
-:page-description: REST API Authentication
+:page-title: User authentication and session management
+:page-pageid: api-auth-session
+:page-description: To access ThoughtSpot objects and resource endpoints, authenticate and log in to the ThoughtSpot system
 
-The REST API allows you to get data out of ThoughtSpot, which you can embed in a Web page, portal, or application.
-To access REST APIs, you must authenticate through SAML SSO.
-For more information on configuring SAML, see xref:configure-saml.adoc[SAML SSO].
+To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
 
-== Cross-Domain Verification
+When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful log-in using the Visual Embed SDK via either of those two methods will establish the session within the web browser. 
 
-You must enable cross-domain verification when using the REST APIs.
-This protects your data, so that another website cannot use a URL to get data from ThoughtSpot.
-For more information on enabling Cross-Origin Resource Sharing (CORS) and whitelisting application domains, see xref:security-settings.adoc[Security settings].
-
-== Base URI
-
-The base URI for the REST APIs calls includes the following:
-
-* The hostname or IP address of your ThoughtSpot application instance.
-* Port number
-
-For example:
+Once the session is established in the browser, the *withCredentials* property tells any XMLHttpRequest object to pass the cookies along when making REST API requests:
 
 ----
-https://<your-thoughtspot-hostname:port>.com
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
 ----
 
-== API service name and version
+If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
 
-For REST API calls, in addition to the base URI, append the API service name and the version number. 
 
-For example:
+== Sign in a ThoughtSpot user
 
-----
-https://<your-thoughtspot-hostname:port>.com/callosum/v1/
-----
+include::{path}/log-in-api.adoc[]
+
+== Obtain authentication token
+
+include::{path}/auth-token-api.adoc[]
+
+== Authenticate and log in with a token
+
+include::{path}/login-token-api.adoc[]
+
+== Log out of a user session
+
+include::{path}/log-out-api.adoc[]
 

@@ -1,8 +1,8 @@
-= REST API Client libraries 
+= REST API SDK and client libraries 
 :toc: true
 :toclevels: 2
 
-:page-title: REST API client libraries
+:page-title: REST API SDK and client libraries
 :page-pageid: client-libraries
 :page-description: REST API SDK 
 

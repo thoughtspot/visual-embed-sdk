@@ -54,6 +54,8 @@ a| [tag greenBackground]#✓# Basic authentication
 
 [tag greenBackground]#✓# Log Streaming Service API
 
+See xref:rest-api-reference.adoc[REST API v1 Reference] for a complete list of endpoints.
+
 a|[tag greenBackground]#✓# User APIs 
 
 [tag greenBackground]#✓# Group APIs
@@ -78,8 +80,16 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greyBackground]#–# Security APIs
 
-[tag greyBackground]#–# Log Streaming Service API |  
-|Endpoint URI| The REST v1 endpoint URI begins with the base URI `/\https://<your-thoughtspot-hostname>/callosum/v1/`, followed by the resource path `tspublic/v1/<service-category>/`
-|The REST v2 endpoint URI is `https://<your-thoughtspot-hostname>/api/rest/v2/<endpoint-category>/<endpoint-name>
+[tag greyBackground]#–# Log Streaming Service API
 
+See xref:rest-apiv2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
+
+|Resource URL  a| 
+Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/`
+
+Resource path:  `tspublic/v1/<resource-group>/<resource>/`
+
+|Base URI:   `\https://<your-thoughtspot-hostname>/api/rest/v2/`
+
+Resource path:  `<resource-group>/<resource>`
 |====
