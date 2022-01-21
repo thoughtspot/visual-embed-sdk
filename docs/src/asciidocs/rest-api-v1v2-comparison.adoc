@@ -83,7 +83,7 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greyBackground]#–# Log Streaming Service API
 
-See xref:rest-apiv2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
+See xref:rest-api-v2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
 
 |Resource URL  a| 
 Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/`
