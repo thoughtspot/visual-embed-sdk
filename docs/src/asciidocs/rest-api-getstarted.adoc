@@ -18,7 +18,7 @@ Note that after you add your host domain for CORS, ThoughtSpot adds the `access-
 
 You can access the REST v1 explorer using one of the following options:
 
-* Using the *REST Playground v1* menu option in the Developer portal (__Requires Developer or Administrator privilege__)
+* Using the *REST Playground v1* menu option in the Developer portal (Requires Developer or Administrator privilege)
 +
 If the REST API Playground feature is enabled on your cluster, go to *Develop* > **REST API **> *REST Playground v1*.
 
@@ -42,7 +42,7 @@ The REST v1 Explorer displays a list of REST API services available for the logg
 +
 To make an API call and view results:
 
-. Click on a header to expand and view the list of services.
+. Click the API service category and view a list of endpoints.
 . Click on the endpoint to which you want to send an API request.
 . If required, define the attributes.
 . Click **Try it out** and verify the API response and HTTP status code.
@@ -60,9 +60,9 @@ For more information, see xref:api-auth-session.adoc[Authentication].
 == API requests and response
 
 To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
-
 === Request method
-Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) operation in your request to the API endpoint. 
+
+Specify the HTTP request method in your API request. 
 
 * `GET` to query information, such as getting a list of users or groups.
 * `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or a data object.
@@ -85,18 +85,20 @@ The `User-Agent` can be any string; for example, you can set the header as `'Use
 
 * Some `POST` operations, such as sharing an object with another user, require the URL-encoded objects to be passed as parameters in the URL. For such API requests, set the header as `'Content-Type: application/x-www-form-urlencoded'`.
 
-* For some endpoints, such as `/tspublic/v1/user/sync`, you need to send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure to set the header as `'Content-Type: multipart/form-data'`.
+* For some endpoints, such as `/tspublic/v1/user/sync`, you need to send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, set the header as `'Content-Type: multipart/form-data'`.
 
 For more information, see the example requests in the xref:rest-api-reference.adoc[API reference articles].
 |===
 
 === Request parameters
-Some API endpoints allow you to send attributes as query parameters in `POST` requests. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.
+
+Some API endpoints allow you to send attributes as query parameters in `POST` requests. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint passes request parameters as a query string in the URL.
 
 For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs in the request body. Make sure you specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API v1 Reference].
 
 ==== Object IDs
-All ThoughtSpot objects and resources are assigned a Globally Unique Identifier (GUID) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type, and the GUIDs assigned to each of these objects.
+
+All ThoughtSpot objects and resources are assigned a Globally Unique Identifier (GUID) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type and the GUIDs assigned to each of these objects.
 
 For example, you can use the `/tspublic/v1/metadata/listvizheaders` endpoint to get a list of the Liveboards and their GUIDs:
 
