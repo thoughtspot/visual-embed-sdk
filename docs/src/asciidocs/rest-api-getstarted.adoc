@@ -10,7 +10,7 @@ Before you start using REST APIs, perform the following checks:
 
 * Your client application domain is added as a xref:security-settings.adoc[Cross-Origin Resource Sharing (CORS) host] in the ThoughtSpot Developer portal. 
 +
-After you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
+Note that after you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
 
 * You have valid login credentials and access privileges to run the operations.  
 
@@ -18,7 +18,7 @@ After you add your host domain for CORS, ThoughtSpot adds the `access-control-al
 
 You can access the REST v1 explorer using one of the following options:
 
-* Using the *REST Playground v1* menu option in the Developer portal (Requires Developer or Admin privilege)
+* Using the *REST Playground v1* menu option in the Developer portal (__Requires Developer or Administrator privilege__)
 +
 If the REST API Playground feature is enabled on your cluster, go to *Develop* > **REST API **> *REST Playground v1*.
 
@@ -35,7 +35,7 @@ https://<your-thoughtspot.com>/external/swagger
 ----
 +
 ++++
-<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Try it out</a> 
+<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank"> Try it out</a> 
 ++++
 The REST v1 Explorer displays a list of REST API services available for the logged-in ThoughtSpot users.
 
@@ -96,7 +96,7 @@ Some API endpoints allow you to send attributes as query parameters in `POST` re
 For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs in the request body. Make sure you specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API v1 documentation].
 
 ==== Object IDs
-All ThoughtSpot objects and resources are assigned a GUID (Globally Unique Identifier) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type, and the GUIDs assigned to each of these objects.
+All ThoughtSpot objects and resources are assigned a Globally Unique Identifier (GUID) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type, and the GUIDs assigned to each of these objects.
 
 For example, you can use the `/tspublic/v1/metadata/listvizheaders` endpoint to get a list of the Liveboards and their GUIDs:
 

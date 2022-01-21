@@ -7,7 +7,7 @@
 
 REST API v2 SDK and client libraries are available to help client applications call REST APIs in a language-specific way.
 
-Client libraries are available for Java, Python and TypeScript. For each language, the client library provides tools and APIs to construct queries and use response data programmatically. Each client library provides classes that correspond to the elements and data types that the API uses.  
+Client libraries are available for Java, Python and TypeScript. For each language, the client library provides tools and APIs to construct queries and process response data programmatically. Each client library provides classes that correspond to the resource elements and data types that the API uses.  
 
 == Download the SDK and client libraries
 
@@ -21,12 +21,11 @@ You can also download the SDK from the link:https://github.com/thoughtspot/visua
 
 
 
-
 ++++
 <div class="row">
     <div class="col-md-4">
        <div class="boxDiv"> <h4 align=center>Java SDK and libraries</h4>
-       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get Started</p></a>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/doc/README.md" target=_blank> <p align=center>API Reference</p></a>
         <a href="{{previewPrefix}}/api/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
         <p>
@@ -34,7 +33,7 @@ You can also download the SDK from the link:https://github.com/thoughtspot/visua
     </div>
     <div class="col-md-4">
        <div class="boxDiv"> <h4 align=center>Python SDK and libraries</h4>
-       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get Started</p></a>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/doc/README.md" target=_blank> <p align=center>API Reference</a>
         <a href="{{previewPrefix}}/api/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
         <p>
@@ -42,7 +41,7 @@ You can also download the SDK from the link:https://github.com/thoughtspot/visua
     </div>
     <div class="col-md-4">
        <div class="boxDiv"> <h4 align=center>Typescript SDK and libraries</h4>
-       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/README.md" target=_blank> <p align=center> Get Started</p></a>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/README.md" target=_blank> <p align=center> Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/doc/README.md" target=_blank><p align=center>API Reference</p></a>
         <a href="{{previewPrefix}}/api/rest/playgroundV2"> <p align=center target=_blank>Code samples</p></a>
         <p>

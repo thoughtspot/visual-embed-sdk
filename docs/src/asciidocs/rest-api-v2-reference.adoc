@@ -5,7 +5,7 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections.
+The REST v2 API endpoints are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
 == Session
 
@@ -44,7 +44,7 @@ Gets an OAuth access token for a ThoughtSpot client. You must send this token in
 
 +++<p class="divider"> </p>+++
 
-Revokes an existing access token assigned to the ThoughtSpot client. To make API calls, you must obtain a new access token.
+Revokes an existing access token assigned to a ThoughtSpot client. To make API calls, you must obtain a new access token.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -61,21 +61,6 @@ Logs out a ThoughtSpot user.
 ++++
 --
 
- 
-POST
-Create User
-PUT
-Update User
-DELETE
-Delete User
-PUT
-Add Groups to User
-PUT
-Remove Groups From User
-POST
-Search Users
-
-
 == Users
 
 [div boxDiv boxFullWidth]
@@ -83,7 +68,7 @@ Search Users
 
 `*POST* /api/rest/v2/user/create`
 
-Creates a user object. | 
+Creates a user object. 
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -123,7 +108,7 @@ Deletes a user object.
 
 `**POST** /api/rest/v2/user/search`
 
-Gets a list of users in ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
+Gets a list of users available in ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -133,7 +118,7 @@ Gets a list of users in ThoughtSpot system. To filter your query, you can specif
 
 `**PUT** /api/rest/v2/user/addgroup`
 
-Assigns a user to groups. If the assigned groups have privilges configured, the user inherits these privileges.
+Assigns a user to groups. If the assigned groups have privileges configured, the user inherits these privileges.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -237,7 +222,7 @@ Removes one or several users assigned to a group. Requires administrator privile
  
 `*PUT* /api/rest/v2/group/addgroup`
 
-Adds a group to another group object. This API request creates a hierarchy of groups. The sub groups inheirt the privileges assigned to the parent group.
+Adds a group to another group object. This API request creates a hierarchy of groups. The sub groups inherit the privileges assigned to the parent group.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -258,7 +243,7 @@ Removes a group from the parent group.
 
 `*POST* /api/rest/v2/group/search`
 
-Gets a list groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users and other such attributes. 
+Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users and other such attributes. 
 
 
 ++++
@@ -362,7 +347,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
  
 `**POST** /api/rest/v2/metadata/homeliveboard/assign`
 
-Assigns a Liveboard as a default Liveboard for the ThoughtSpot user.
+Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -372,7 +357,7 @@ Assigns a Liveboard as a default Liveboard for the ThoughtSpot user.
 
 `*POST* /api/rest/v2/metadata/homeliveboard/unassign`
 
-Unassigns the default Liveboard set for a ThoughtSpot user.
+Removes the default home Liveboard setting for a ThoughtSpot user.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -432,7 +417,7 @@ Gets a list of dependent metadata objects.
 
 `*POST* /api/rest/v2/metadata/tml/export`
 
-Exports a TML object and assoicated metadata.
+Exports a TML object and associated metadata.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>

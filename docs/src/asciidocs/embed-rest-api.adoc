@@ -5,7 +5,7 @@
 :page-pageid: embed-data-restapi
 :page-description: Embed Data using REST APIs
 
-You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and Liveboard visualizations, using which you construct the URL required to make an API call.
+You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and Liveboard visualizations, using which you can construct the URL required to make an API call.
 
 To get the embed link for a Liveboard:
 

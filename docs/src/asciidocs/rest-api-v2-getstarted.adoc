@@ -10,13 +10,12 @@ To get started with REST API v2, you will require access to REST API v2 Playgrou
 
 == Access the Playground
 
-To access the REST API v2 Playground, go to **Develop** > **REST API** > **REST Playground v2**. You can view a list of available endpoints on the left pane.
+To access the REST API v2 Playground, go to **Develop** > **REST API** > **REST Playground v2**.
 
-The Playground allows you to make API calls, view the request and response workflows, and and download samples.
-
+The Playground allows you to make API calls, view the request and response workflows, and download code samples.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Visit REST v2 Playground</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Go to Playground</a>
 ++++
 
 == Set up your environment
@@ -36,7 +35,7 @@ For more information about language-specific SDK and client libraries, see xref:
  
 == Authorize your client
 
-To provide secure access to ThoughtSpot resources, the REST API v2 framework supports OAuth 2.0 Bearer token authentication and authorization flow. To make calls to the REST API v2 endpoints, you must obtain an OAuth access token and authorize your API requests. 
+To provide secure access to ThoughtSpot resources, the REST API v2 framework supports the OAuth 2.0 Bearer token authentication and authorization flow. To make calls to the REST API v2 endpoints, you must obtain an OAuth access token and authorize your API requests. 
 
 To get an access token, send a `POST` request to the  `/api/rest/v2/session/gettoken` endpoint.
 
@@ -70,7 +69,7 @@ Note the access token in the response. The generated token is set each time you 
 
 [NOTE]
 ====
-By default, the generated token is valid for the specified duration. If an API request is made with an expired token, the server returns the `401 Authorization` code. You can request for a new access token and use it in your subsequent API calls.  
+By default, the generated token is valid for the specified duration. If an API request is made with an expired token, the server returns an error. You can request for a new access token and use it in your subsequent API calls. 
 ====
 
 == Make an API call
@@ -162,7 +161,7 @@ If the API request is successful, ThoughtSpot returns a list of object headers f
 
 === HTTP status codes
 
-The REST API v2 framwork supports standard HTTP response codes to indicate the success or failure of a request. 
+The REST API v2 framework supports standard HTTP response codes to indicate the success or failure of a request. 
 
 * *200*
 +
@@ -174,15 +173,15 @@ Indicates a bad request. You may have to modify the request before making anothe
 
 * *401*
 +
-Indicates an unauthorized request. Check if you have the required credentials and object access to send the API request.
+Indicates an unauthorized request. Check if you have the required credentials and object access to make the API call.
 
 * *500*
 +
-Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process the request.
+Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process your request.
 
-If you are making an API call in the Playground, to view the error details, go to `extensions` > `upstreamResponse` > `data` > `debug` in the error response body.
+If your API call returns an error in the Playground, you can view the error details under `extensions` > `upstreamResponse` > `data` > `debug` in the response body.
 
-To view the response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
+To view the error response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
 
 [.widthAuto]
 image::./images/api-v2-error.png[REST API v2 error codes, width=auto]

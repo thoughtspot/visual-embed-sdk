@@ -5,7 +5,7 @@
 :page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
-The REST API Playground [beta orangeBackground]^BETA^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+The REST API Playground [beta orangeBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
 
 The Playground allows you to make REST API calls in the programming language of your choice. You can also download the SDK and client libraries.
 
@@ -17,17 +17,18 @@ image::./images/rest-apiv2-playground.png[REST API v2 Playground]
 
 == Explore the interface
 
-The API Plaground consists of following areas:
+The API Playground consists of following areas:
 
 Resource pane::
 
 In the resource pane, you can find a catalog of API endpoints, grouped based on the objects they operate on. You can also view the API documentation, data structure of requests, response format, and attribute enumerations.
+
 +
-The search bar in the resource pane allows you to search for endpoint and navigate between different endpoints in the list.
+The search bar in the resource pane allows you to search for an endpoint and navigate between different endpoints in the list.
 
 API request editor::
 
-The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters and response codes. If a request parameter requires the input format as a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add the privilege strings as an array.   
+The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add each privilege string as an array.   
 
 +
 [.widthAuto]
@@ -45,14 +46,9 @@ Shows a preview of the API request code. You can view the request body as you ed
 +
 Allows you to trigger an API call. If the request succeeds, the API returns the 200 response code. You can copy or download the entire API response. You can also copy the individual attributes using the copy button that appears next to the field. To try another API call, click **Back**.
 
-+
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
 * Copy  icon
 +
-Allows copying API requests and responses.
+Allows you to copy API requests and responses.
 
 * Configuration panel
 +
@@ -60,17 +56,16 @@ Allows you to modify client configuration settings, such as the access token and
 
 * Download icon
 +
-Downloads the API response JSON file to your local directory.
+Allows you to download the API response JSON file to your local directory.
  
 Language selection drop-down::
 
 The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples. You can also use this drop-down to get language-specific SDK and client libraries.
 
-+
+
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
 ## SDK and client libraries
 To download the SDK library for a specific language, select the language and click **Get SDK**. You can also download the SDK and API libraries from the link:https://github.com/thoughtspot/visual-embed-sdk[GitHub repository, window=_blank]. 
 

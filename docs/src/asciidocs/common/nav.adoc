@@ -57,7 +57,7 @@
 ** link:{{navprefix}}=rest-api-v2[REST API v2]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground]
-*** link:{{navprefix}}=client-libraries[SDK and Client libraries]
+*** link:{{navprefix}}=client-libraries[SDK and client libraries]
 *** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
  
 * link:{{navprefix}}=custom-action-intro[Custom actions]

@@ -17,6 +17,7 @@ ThoughtSpot REST API V1 endpoints let you programmatically create, access, and m
 
 == Resource endpoints
 ThoughtSpot API components or resources are represented by the URI endpoints. The URI endpoint contains the base URI and resource path to the objects that you want to query or manage.
+
 The base URI of the API endpoints constitutes the following:
 
 * The hostname or IP address of your ThoughtSpot application instance
@@ -44,6 +45,6 @@ The REST APIs allow you to send and receive data in JSON format. To embed this d
 
 == Related information
 
-* xref:rest-api-v2-getstarted.adoc[Get started with REST API v2]
+* xref:rest-api-getstarted.adoc[Get started with REST API v1]
 * xref:api-auth-session.adoc[Authentication]
 * xref:rest-api-reference.adoc[REST API v1 Reference]

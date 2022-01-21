@@ -15,7 +15,7 @@ The legacy framework with several endpoints to create, edit, administer and mana
 
 * REST API V2 
 +
-The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer solution that provides additional functionality and interactive experience for developers. In the REST API V2 version, ThoughtSpot offers SDK and language-specific client libraries.
+The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer-focussed solution that provides additional functionality and interactive Playground experience. The REST v2 framework also supports language-specific SDK and client libraries.
 
 +
 [NOTE]
@@ -25,11 +25,10 @@ The REST API v2 is a limited availability feature and is in Beta. To enable this
 
 For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison].
 
+
 == REST API Playground
 
-Starting from the 8.0.0.cl release, ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2 endpoints in the Developer portal. If the REST API SDK and Playground[beta orangeBackground]^BETA^ feature is enabled on your cluster, the REST Playground v1 and REST Plaground v2 menu options will be available under the *REST API* menu in the *Develop* tab.
-
-image::./images/rest-api-playground.png[REST API Playground]
+ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2 endpoints in the Developer portal. If the REST API SDK and Playground [beta orangeBackground]^BETA^ feature is enabled on your cluster, you can see the *REST Playground v1* and **REST Playground v2** menu options under *REST API* in the *Develop* tab.
 
 The portal provides a separate Playground for each version and lets you explore the API endpoints and make an API call. 
 
@@ -37,8 +36,10 @@ The portal provides a separate Playground for each version and lets you explore 
 
 * To access the xref:rest-api-v2.adoc[REST v2 SDK and Playground], click **REST Playground v2**.
 
+image::./images/rest-api-playground.png[REST API Playground]
+
 ==  API endpoints
 For a complete list of API endpoints and information about how to make an API request to these points, see the following reference pages:
 
 * xref:rest-api-reference.adoc[REST API v1 Reference]
-* xref:rest-apiv2-reference.adoc[REST API v2 Reference]
+* xref:rest-api-v2-reference.adoc[REST API v2 Reference]

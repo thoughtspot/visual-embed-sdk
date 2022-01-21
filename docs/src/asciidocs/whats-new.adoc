@@ -32,7 +32,7 @@ For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinbo
 |
 [tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
 
-If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can set up OpenID Connect authentication on ThoughtSpot and enable the `OIDC` authentication type in the SDK. 
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
 
 For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
@@ -40,18 +40,25 @@ For more information, see xref:embed-authentication#oidc-auth.adoc[Authenticatio
 The SDK includes the following new event:
 
 * `RouteChange`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+
 |====
 
-=== REST API
+=== REST API Playground and SDK [beta orangeBackground]^BETA^
+[width="100%" cols="1,4"]
 |====
-|[tag orangeBackground]#NEW FEATURE# |+++<h5> REST API Playground and SDK </h5>+++ 
+|[tag greenBackground]#NEW FEATURE# a|
 
-The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
+ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
 
-* If you are not a ThoughtSpot user, you can preview this feature on link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot Live Playground,  window=_blank]. 
-* If you are a evaluating user, you can sign in to ThoughtSpot trial instance and explore the APIs and Playground.
-* If you are an existing ThoughtSpot user, but do not have ThoughtSpot Everywhere Edition License, contact your ThoughtSpot Sales personnel to obtain a license.
-* If you are an existing ThoughtSpot Everywhere user with a valid ThoughtSpot Everywhere Edition license, contact ThoughtSpot Support to enable the REST API  Playground and SDK feature on your cluster.
+The API Playground offers several distinct features, such as an interactive code panel, a catalog of resource-oriented endpoint URLs, language-specific SDK and client libraries, code samples, and API reference documentation.
+
+You can use any standards-compliant HTTP client or use the Playground to make an API call. If you want to construct your queries and process API responses programmatically, you can download the SDK and client libraries in the programming language of your choice and integrate it with your applications.
+
+The REST API Playground and SDK is a limited availability feature and is in beta.To preview this feature, visit link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2[ThoughtSpot Live Playground,  window=_blank]. To enable this feature on your ThoughtSpot instance, contact ThoughtSpot Support.
+
+For more information, see xref:resr-api-v2.adoc[REST API v2].
 |====
 
 
