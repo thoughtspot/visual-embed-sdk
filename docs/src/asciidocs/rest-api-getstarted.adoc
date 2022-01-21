@@ -55,7 +55,7 @@ When using the REST API through a web browser, we recommend that you use the xre
 
 Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
 
-For more information about the authentication methods and the REST v1 endpoints, see xref:api-auth-session.adoc[Authentication].
+For more information, see xref:api-auth-session.adoc[Authentication].
 
 == API requests and response
 
@@ -69,7 +69,7 @@ Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) o
 * `PUT` to update the properties of an existing resource, such as modifying the properties of a user or user group. 
 * `DELETE` to remove an object or object association.
 
-Some endpoints may require you to send a `POST` request for delete or update operation. For more information about the endpoint URIs and request methods, refer to the xref:rest-api-reference.adoc[REST API v1 Reference Guide].
+Some endpoints may require you to send a `POST` request for delete or update operation. For more information about the endpoint URIs and request methods, see xref:rest-api-reference.adoc[REST API v1 Reference].
 
 
 === Request headers
@@ -93,7 +93,7 @@ For more information, see the example requests in the xref:rest-api-reference.ad
 === Request parameters
 Some API endpoints allow you to send attributes as query parameters in `POST` requests. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.
 
-For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs in the request body. Make sure you specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API v1 documentation].
+For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs in the request body. Make sure you specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API v1 Reference].
 
 ==== Object IDs
 All ThoughtSpot objects and resources are assigned a Globally Unique Identifier (GUID) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type, and the GUIDs assigned to each of these objects.

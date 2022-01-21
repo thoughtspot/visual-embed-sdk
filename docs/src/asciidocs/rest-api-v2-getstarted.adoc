@@ -58,7 +58,7 @@ If the request is successful, the server returns an access token in the session 
 ----
 {
 "userName":"tsadmin"
-"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdtdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA="
+"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdfdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA="
 "tokenCreatedTime":"1642662844229"
 "tokenExpiryDuration":"1642749244229"
 "tokenType":"Bearer"
@@ -116,7 +116,7 @@ The following example shows the CURL request format to get a list of answers sav
 ----
 curl -X POST \
   --url '<ThoughtSpot-host>/api/rest/v2/metadata/header/search' \
-  -H 'Authorization: Bearer dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNRMFEwVXhVVTVpTm05c2FGZEthMFI0VjNJNFdHMW5QVDBrYTFCc1dEaENTMnR5YWtSbE0wSnRibEZ5VkRFclEzTXpRbEpRWkU5allreHNReXN5Y21WT2FtNUZUVDA='\
+  -H 'Authorization: Bearer dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNRMFEwVXhVVTVpTm05c2FGZEthMFI0VjNJNFdHMW5QVDBrYTFCc1dEaENTMnR5YWfSbE0wSnRibEZ5VkRFclEzTXpRbEpRWkU5allreHNReXN5Y21WT2FtNUZUVDA='\
   -H 'Accept-Language: application/json'\
   -H 'Content-Type: application/json' \
   --data-raw '{
