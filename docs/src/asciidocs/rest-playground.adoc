@@ -40,5 +40,5 @@ The REST API v2 Playground displays a list of v2 endpoints, language-specific SD
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-For more information, see xref:rest-api-v2-playground[REST API V2 Playground].
+For more information, see xref:rest-api-v2-playground.adoc[REST API V2 Playground].
 
