@@ -58,7 +58,7 @@ You can use any standards-compliant HTTP client or use the Playground to make an
 
 The REST API Playground and SDK is a limited availability feature and is in beta.To preview this feature, visit link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2[ThoughtSpot Live Playground,  window=_blank]. To enable this feature on your ThoughtSpot instance, contact ThoughtSpot Support.
 
-For more information, see xref:resr-api-v2.adoc[REST API v2].
+For more information, see xref:rest-api-v2.adoc[REST API v2].
 |====
 
 
