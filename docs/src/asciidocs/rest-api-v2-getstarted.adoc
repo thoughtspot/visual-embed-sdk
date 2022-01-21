@@ -76,7 +76,7 @@ By default, the generated token is valid for the specified duration. If an API r
 
 To make a REST API call, send a request to the endpoint URL and pass the parameters. 
 
-For example, to get a list of metadata objects, send a `GET` request to the `/api/rest/v2/metadata/header/search`.
+For example, to get a list of metadata objects, send a `POST` request to the `/api/rest/v2/metadata/header/search`.
 
 ----
 POST /api/rest/v2/metadata/header/search
