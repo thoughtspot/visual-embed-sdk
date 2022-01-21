@@ -1,5 +1,5 @@
 
-:page-title: ThoughtSpot Everywhere
+:page-title: ThoughtSpot Everwhere
 :page-pageid: nav
 :page-description: Main navigation
 

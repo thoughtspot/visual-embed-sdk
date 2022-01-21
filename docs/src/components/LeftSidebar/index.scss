@@ -3,7 +3,7 @@
 
 .menuMain {
     position: relative;
-    top: 5px;
+    top: 10px;
     z-index: $z-index-left-nav;
 
     .menuContainer {
@@ -53,7 +53,7 @@
 
 aside {
     padding-top: $padding-md;
-    padding-bottom: $padding-sm;
+    padding-bottom: $padding-md;
     width: 100%;
     border-right: 1px var(--border-color) solid;
     left: $gutter;
@@ -61,7 +61,7 @@ aside {
     overflow-y: auto;
 
     .heading {
-        padding: $padding-sm 0px 26px $padding-sm;
+        padding: $padding-md 0px 26px $padding-md;
         margin: 0;
         font-size: $font-size-large;
         color: var(--primary-color);
@@ -69,7 +69,6 @@ aside {
 
     .subHeading {
         margin: $gutter;
-        padding-top:$padding-sm;
         padding-bottom: $padding-sm;
         padding-left: $padding-md;
         font-size: $font-size-normal;
