@@ -55,7 +55,7 @@ When using the REST API through a web browser, we recommend that you use the xre
 
 Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
 
-For more information about the authentication methods and the REST v1 endpoints, see xref:api-auth-session.adoc[] for user authentication and session management, see 
+For more information about the authentication methods and the REST v1 endpoints, see xref:api-auth-session.adoc[Authentication].
 
 == API requests and response
 
