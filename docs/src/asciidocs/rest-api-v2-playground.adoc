@@ -69,7 +69,7 @@ The language selection drop-down above the code explorer allows you to switch be
 
 == SDK and client libraries
 
-To download the SDK library for a specific language, select the language and click **Get SDK**. To know how to set up and use SDK libraries, see the *Setup and Usage* page. 
+To download the SDK library for a specific language, select the language and click **Get SDK**. To know how to set up and use SDK libraries, click *Setup and Usage*. 
 
 You can also download the SDK and API libraries from the following public resources:
 

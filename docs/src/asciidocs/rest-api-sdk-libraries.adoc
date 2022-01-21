@@ -25,6 +25,7 @@ You can also download the SDK and API libraries from the following public resour
 * link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
 
 == Additional resources
+
 ++++
 <div class="row">
     <div class="col-md-4">
@@ -50,6 +51,7 @@ You can also download the SDK and API libraries from the following public resour
     </div>
   </div>
 ++++
+ 
  
  
 ////
