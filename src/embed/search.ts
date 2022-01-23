@@ -79,7 +79,10 @@ export interface SearchViewConfig extends ViewConfig {
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
     Action.EditACopy,
+<<<<<<< HEAD
     Action.SpotIQAnalyze,
+=======
+>>>>>>> main
     Action.SaveAsView,
 ];
 
@@ -160,6 +163,7 @@ export class SearchEmbed extends TsEmbed {
 
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
         queryParams[Param.UseLastSelectedDataSource] = false;
+        queryParams[Param.searchEmbed] = true;
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {

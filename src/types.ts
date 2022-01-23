@@ -357,6 +357,9 @@ export enum EmbedEvent {
 /**
  * Event types that can be triggered by the host application
  * to the embedded ThoughtSpot app
+ *
+ * To trigger an event use the corresponding
+ * {@link LiveboardEmbed.trigger} or {@link AppEmbed.trigger} or {@link SearchEmbed.trigger} method.
  */
 // eslint-disable-next-line no-shadow
 export enum HostEvent {
@@ -392,6 +395,15 @@ export enum HostEvent {
      * @version 1.6.0 or later
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
+<<<<<<< HEAD
+=======
+    /**
+     * Update the runtime filters
+     * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+     * @version 1.8.0 or later
+     */
+    UpdateRuntimeFilters = 'UpdateRuntimeFilters',
+>>>>>>> main
 }
 
 /**
@@ -439,6 +451,10 @@ export enum Param {
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
     livedBoardEmbed = 'isLiveboardEmbed',
+<<<<<<< HEAD
+=======
+    searchEmbed = 'isSearchEmbed',
+>>>>>>> main
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
