@@ -79,10 +79,6 @@ export interface SearchViewConfig extends ViewConfig {
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
     Action.EditACopy,
-<<<<<<< HEAD
-    Action.SpotIQAnalyze,
-=======
->>>>>>> main
     Action.SaveAsView,
 ];
 

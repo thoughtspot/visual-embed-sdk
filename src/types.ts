@@ -395,15 +395,12 @@ export enum HostEvent {
      * @version 1.6.0 or later
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
-<<<<<<< HEAD
-=======
     /**
      * Update the runtime filters
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @version 1.8.0 or later
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
->>>>>>> main
 }
 
 /**
@@ -451,10 +448,7 @@ export enum Param {
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
     livedBoardEmbed = 'isLiveboardEmbed',
-<<<<<<< HEAD
-=======
     searchEmbed = 'isSearchEmbed',
->>>>>>> main
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
