@@ -167,7 +167,7 @@ module.exports = {
             options: {
                 name: 'ThoughtSpot Software Documentation',
                 short_name: 'Documentation',
-                icon: `${__dirname}/docs/src/assets/icons/favicon.svg`,
+                icon: `${__dirname}/docs/src/assets/icons/favicon.png`,
             },
         },
         'gatsby-plugin-output',
@@ -183,7 +183,7 @@ module.exports = {
             resolve:'gatsby-plugin-sitemap',
             options: {
                 query: `
-                {   
+                {
                     allAsciidoc {
                         edges {
                             node {
@@ -217,7 +217,7 @@ module.exports = {
                 },
             }
         },
-        {		
+        {
             resolve: `gatsby-plugin-env-variables`,
             options: {
                 allowList: ["BUILD_ENV"]
