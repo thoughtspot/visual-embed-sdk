@@ -20,7 +20,10 @@ The Playground allows you to make API calls, view the request and response workf
 
 == Set up your environment
 
-By default, your cluster URL is set as the base URI. You can modify the base URI in the Playground code explorer.
+By default, your cluster URL is set as the base URI. 
+
+////
+You can modify the base URI in the Playground code explorer.
 
 . In the code explorer, click **Configure**.
 
@@ -28,7 +31,7 @@ By default, your cluster URL is set as the base URI. You can modify the base URI
 The configuration panel appears.
 
 . In the *Client Configuration* section, specify the base URI.
-
+////
 If you want to call REST API in a language-specific way, download the language-specific SDK from the REST API Playground and set up your environment.
 
 For more information about language-specific SDK and client libraries, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries]. 

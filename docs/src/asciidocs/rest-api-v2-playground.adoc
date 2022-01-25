@@ -52,7 +52,7 @@ Allows you to copy API requests and responses.
 
 * Configuration panel
 +
-Allows you to modify client configuration settings, such as the access token and base URI. You can also specify if you want to download the code files with bootstrapping and error handling details. To view the settings panel, click **Configure**.  
+Allows you to modify the client configuration settings. For example, you can update the access token of the client. You can also specify if you want to download the code files with bootstrapping and error handling details. To view this panel, click **Configure**.  
 
 * Download icon
 +
