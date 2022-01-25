@@ -83,7 +83,7 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
 . After you construct the URL, send a POST request to get data from ThoughtSpot.
 
 +
-The Data REST API returns the data formatted as JSON.
+The API returns the data formatted as JSON.
 . Retrieve the data from the JSON and embed it in your Web page, Web portal, or application.
 
 For more information, see xref:runtime-filters.adoc[Runtime filters].
