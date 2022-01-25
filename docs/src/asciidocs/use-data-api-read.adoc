@@ -1,13 +1,13 @@
-= Embed data using REST APIs
+= Embed a Liveboard using REST API
 :toc: true
 
 :page-title: Embed data
 :page-pageid: embed-data
 :page-description: Embed Data using REST APIs
 
-To get data out from ThoughtSpot and embed it in a web page, portal, or application, you can use the data APIs. The data REST APIs return data as JSON (JavaScript Object Notation) objects.
+You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and Liveboard visualizations, using which you construct the URL required to make an API call.
 
-To construct the URL for making a REST API call for embedding a Liveboard or visualization:
+To get the embed link for a Liveboard:
 
 . Log in to ThoughtSpot from a browser.
 . Navigate to the Liveboard from which you want to get data.
@@ -19,7 +19,7 @@ To embed a Liveboard, click the ellipses (...) icon, and select *Copy embed link
 image::./images/copy_pinboard_link.png[Copy embed link, width=auto]
 
 +
-To embed a visualization:
+To get the embed link for a visualization:
 
 .. Navigate to the table or chart
 .. Click the ellipses (...) icon in the upper right corner of the table or chart.

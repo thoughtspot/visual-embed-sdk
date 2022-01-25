@@ -257,10 +257,12 @@ Allows sharing a Liveboard with another user or user group.
 |`Action.Schedule`| `AppEmbed` |**Schedule** 
 
 Allows scheduling Liveboard notifications.
+ 
+|`Action.Subscription`| `AppEmbed` |**Schedule* 
 
-|`Action.Subscription`| `AppEmbed` |**Follow** 
+Allows scheduling Liveboard notifications. 
 
-Allows subscribing and scheduling Liveboard notifications.
+Starting from the the 8.0.0.cl release, the **Follow** button is replaced with **Schedule**. You can use either `Action.Schedule` or `Action.Subscription` to show or hide the **Schedule **feature.
 
 |`Action.Remove` | `AppEmbed`| *Delete*
 Deletes a Liveboard.

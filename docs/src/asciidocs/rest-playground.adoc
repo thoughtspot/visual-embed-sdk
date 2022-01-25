@@ -1,0 +1,44 @@
+= REST API Playground
+:toc: true
+:toclevels: 2
+
+:page-title: REST API Playground
+:page-pageid: rest-playground
+:page-description: Use the REST Playground to explore the REST API and SDK.
+
+The REST API Playground [beta orangeBackground]^BETA^ provides an interactive portal to explore REST v1 and v2 endpoints. To enable this feature on your cluster, contact ThoughtSpot Support.
+
+If the REST API Playground and SDK feature is enabled on your cluster, the Developer portal displays the *REST API* menu. 
+
+* To view the Playground with REST v1 endpoints, click **REST Playground v1**.
+
+* To explore REST v2 endpoints and download the SDK, click **REST Playground v2**.
+
+
+== REST API v1 Playground
+
+The *REST Playground v1* opens the v1 API explorer and displays the available resource collections in the Swagger UI.  
+
+To make an API call and view results:
+
+. Click the API service category and view a list of endpoints.
+. Click on the endpoint to which you want to send an API request.
+. If required, define the attributes.
+. Click **Try it out** and verify the API response and HTTP status code.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+For more information about REST API v1 endpoints, API request and response workflow, see xref:rest-api-getstarted[Get started with REST API v1].
+
+== REST API v2 Playground
+
+The REST API v2 Playground displays a list of v2 endpoints, language-specific SDK and client libraries, and a code panel to try out API calls. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+For more information, see xref:rest-api-v2-playground.adoc[REST API V2 Playground].
+

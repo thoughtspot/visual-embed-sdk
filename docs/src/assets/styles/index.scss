@@ -126,6 +126,22 @@ button {
     color: $tag-font-color;
 }
 
+.beta {
+    border-radius: $tag-border-radius;
+    display: inline-block;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    height: 25px;
+    line-height: $line-height-doc;
+    margin-right: $tag-margin-right;
+    text-align: center;
+    min-width: $tag-width;
+    padding: $tag-padding;
+    color: $tag-font-color;
+}
+
+
+
 .blueBackground {
     background-color: $note-color;
 }

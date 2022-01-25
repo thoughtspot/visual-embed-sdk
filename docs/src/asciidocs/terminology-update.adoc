@@ -35,7 +35,7 @@ pinboard| Liveboard. For more information, see xref:terminology-update.adoc#sdk-
 |====
  
 [#sdk-changes] 
-== Terminology changes in the Visual Embed SDK Version 1.6.0
+== Terminology changes in the Visual Embed SDK Version 1.6.0 and later
 
 [width="100%" cols="5,^3,^3"]
 [options='header']

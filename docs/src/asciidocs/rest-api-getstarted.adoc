@@ -1,57 +1,79 @@
-= Get started
+= Get started with REST API v1
 :toc: true
 :toclevels: 2
 
 :page-title: Getting started with REST APIs
 :page-pageid: rest-api-getstarted
-:page-description: Getting started with REST API
+:page-description: Get started with REST API to access, create, and manage ThoughtSpot resources programmatically.
 
 Before you start using REST APIs, perform the following checks:
 
 * Your client application domain is added as a xref:security-settings.adoc[Cross-Origin Resource Sharing (CORS) host] in the ThoughtSpot Developer portal. 
 +
-After you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
+Note that after you add your host domain for CORS, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
 
 * You have valid login credentials and access privileges to run the operations.  
 
-* If trusted authentication is enabled on your instance, you must obtain an authentication token and include it in your subsequent login requests. 
+== Access resource endpoints
 
-== Swagger UI
-To access REST APIs on Swagger:
+You can access the REST v1 explorer using one of the following options:
 
-. Log in to your ThoughtSpot instance.
-. Access the Swagger portal.
+* Using the *REST Playground v1* menu option in the Developer portal (Requires Developer or Administrator privilege)
 +
-To access Swagger UI, change your URL as shown below:
+If the REST API Playground feature is enabled on your cluster, go to *Develop* > **REST API **> *REST Playground v1*.
 
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+
+* Using the Swagger URL
 +
 ----
 https://<your-thoughtspot.com>/external/swagger
 ----
 +
 ++++
-<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank">Go to Swagger Portal</a> 
+<a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank"> Try it out</a> 
 ++++
-+
-The portal displays a list of REST API services available for the logged-in ThoughtSpot users.
+The REST v1 Explorer displays a list of REST API services available for the logged-in ThoughtSpot users.
 
-. Click on a header to expand and view the list of services.
-. Click on a service name to view more details about the API service.
-. To explore an API, click **Try it out**.
++
+To make an API call and view results:
+
+. Click the API service category and view a list of endpoints.
+. Click on the endpoint to which you want to send an API request.
+. If required, define the attributes.
+. Click **Try it out** and verify the API response and HTTP status code.
+
+== Authentication
+
+To create, access, and modify ThoughtSpot objects and resources using the REST API, you must log in as an authorized user. 
+
+When using the REST API through a web browser, we recommend that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot.  
+
+Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
+
+For more information, see xref:api-auth-session.adoc[Authentication].
 
 == API requests and response
 
 To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
+=== Request method
 
-Request method::
-Specify the HTTP request method for the Create, Read, Update and Delete (CRUD) operation in your request to the API endpoint. For example, GET, POST, PUT, or DELETE.
+Specify the HTTP request method in your API request. 
 
-Query string::
-A query string consists of additional parameters that are passed in the URL. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint requires query parameters that are passed as a query string in the URL.  
+* `GET` to query information, such as getting a list of users or groups.
+* `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or a data object.
+* `PUT` to update the properties of an existing resource, such as modifying the properties of a user or user group. 
+* `DELETE` to remove an object or object association.
 
-Request headers::
+Some endpoints may require you to send a `POST` request for delete or update operation. For more information about the endpoint URIs and request methods, see xref:rest-api-reference.adoc[REST API v1 Reference].
 
-+
+
+=== Request headers
+
 [width="100%" cols="1,4"]
 |===
 |`X-Requested-By`| Make sure you include the `'X-Requested-By: ThoughtSpot'` header in all API requests. 
@@ -63,13 +85,74 @@ The `User-Agent` can be any string; for example, you can set the header as `'Use
 
 * Some `POST` operations, such as sharing an object with another user, require the URL-encoded objects to be passed as parameters in the URL. For such API requests, set the header as `'Content-Type: application/x-www-form-urlencoded'`.
 
-* For some endpoints, such as `/tspublic/v1/user/sync`, you need to send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, make sure to set the header as `'Content-Type: multipart/form-data'`.
+* For some endpoints, such as `/tspublic/v1/user/sync`, you need to send the request body as separate blocks of data or as a JSON file in `POST` requests. For APIs that require multiple blocks of data, set the header as `'Content-Type: multipart/form-data'`.
 
 For more information, see the example requests in the xref:rest-api-reference.adoc[API reference articles].
 |===
-Request parameters::
-Some API endpoints allow you to send attributes as query parameters in `POST` requests. For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs. Make sure to specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API documentation].  
 
-Response body::
-For each API request, ThoughtSpot sends a response. The API response includes either an HTTP status code or a response body in the JSON or plain text format. 
-For more information about the REST API endpoints, parameters, headers, and sample response, see xref:rest-api-reference.adoc[REST API Reference].
+=== Request parameters
+
+Some API endpoints allow you to send attributes as query parameters in `POST` requests. For example, the  `/tspublic/v1/metadata/listobjectheaders` API endpoint passes request parameters as a query string in the URL.
+
+For object creation or update operations (`POST` and `PUT` requests), you may need to send `formData` attributes as a JSON array of strings or as a JSON map of key-value pairs in the request body. Make sure you specify the attributes in the format recommended in the Swagger UI and xref:rest-api-reference.adoc[REST API v1 Reference].
+
+==== Object IDs
+
+All ThoughtSpot objects and resources are assigned a Globally Unique Identifier (GUID) by default. Most endpoints require you to specify the GUID to access, query, or modify a specific object. You can query the metadata list to get a list of objects of a specific type and the GUIDs assigned to each of these objects.
+
+For example, you can use the `/tspublic/v1/metadata/listvizheaders` endpoint to get a list of the Liveboards and their GUIDs:
+
+[source,JSON]
+----
+[
+{
+   "id":"d084c256-e284-4fc4-b80c-111cb606449a",
+   "name":"Sales Performance",
+   "description":"",
+   "author":"67e15c06-d153-4924-a4cd-ff615393b60f",
+   "created":1642560047638,
+   "modified":1642560047638,
+   "modifiedBy":"67e15c06-d153-4924-a4cd-ff615393b60f",
+   "owner":"d084c256-e284-4fc4-b80c-111cb606449a",
+   "isAutoCreated":false,
+   "isAutoDelete":false
+},
+{
+   "id":"74852035-9624-4fac-b352-200fa8506b14",
+   "name":"Object Usage",
+   "description":"",
+   "author":"67e15c06-d153-4924-a4cd-ff615393b60f",
+   "created":1620198465429,
+   "modified":1620198473992,
+   "modifiedBy":"67e15c06-d153-4924-a4cd-ff615393b60f",
+   "owner":"74852035-9624-4fac-b352-200fa8506b14",
+   "isAutoCreated":false,
+   "isAutoDelete":false
+}
+]
+----
+
+=== HTTP status codes
+
+For each API request, ThoughtSpot sends a response. The API returns one of the following response codes upon completing a request operation:
+
+* *200*
++
+Indicates a successful operation. The API returns a response body.
+* *204*
++
+Indicates a successful operation. The 204 response code does not include a response body.
+* *400*
++
+Indicates a bad request. You may have to modify the request before making another call.
+* *401*
++
+Indicates an unauthorized request. Check if you have the required credentials and object access to send the API request.
+
+* *415*
++
+Indicates an unsupported media type. Check the media type specified in the `Content-Type` header.
+
+* *500*
++
+Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process the request.

@@ -6,11 +6,67 @@
 :page-pageid: whats-new
 :page-description: New features and enhancements
 
-This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
+This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
+
+== Version 8.0.0.cl
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
+
+ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
+
+For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
+
+|[tag redBackground]#REMOVED# a| +++<h5>Follow button</h5> +++ 
+
+If you have embedded the full ThoughtSpot application, you will notice that the *Follow* button on the Liveboards page is removed. You can now schedule email notifications using the **Schedule** feature and follow Liveboard updates.
+
+For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinboards/follow-pinboard.html[Follow Liveboards, window=_blank].
+|====
+
+=== Visual Embed SDK 1.7.0
+
+[width="100%" cols="1,4"]
+|====
+|
+[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
+
+For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
+
+The SDK includes the following new event:
+
+* `RouteChange`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+
+|====
+
+=== REST API Playground and SDK [beta orangeBackground]^BETA^
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|
+
+ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
+
+The API Playground offers several distinct features, such as an interactive code panel, a catalog of resource-oriented endpoint URLs, language-specific SDK and client libraries, code samples, and API reference documentation.
+
+You can use any standards-compliant HTTP client or use the Playground to make an API call. If you want to construct your queries and process API responses programmatically, you can download the SDK and client libraries in the programming language of your choice and integrate it with your applications.
+
+The REST API Playground and SDK is a limited availability feature and is in beta.To preview this feature, visit link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2[ThoughtSpot Live Playground,  window=_blank]. To enable this feature on your ThoughtSpot instance, contact ThoughtSpot Support.
+
+For more information, see xref:rest-api-v2.adoc[REST API v2].
+|====
 
 
 == Version ts8.nov.cl
 
+.Developer portal
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag orangeBackground]#CHANGE NOTICE#  a| +++<h5>Pinboards are now Liveboards!</h5> +++ 
@@ -19,7 +75,12 @@ Effective from the ThoughtSpot 8 November Cloud release, ThoughtSpot pinboards a
 
 As part of rebranding, we have made some terminology changes in the ThoughtSpot UI and Developer portal. We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. In some cases, we may even continue to use the legacy terminology for backward compatibility, and to ensure that your existing integrations work seamlessly. For more information, see xref:terminology-update.adoc[Terminology changes].
 |====
+====
 
+
+.Custom actions 
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++ 
@@ -28,12 +89,13 @@ ThoughtSpot now allows you to restrict a custom action's availability to specifi
  
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
-
-=== Visual Embed SDK version 1.6.x
+====
+.Visual Embed SDK version 1.6.x
+[%collapsible] 
+====
 
 [width="100%" cols="1,4"]
 |====
-||
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
@@ -54,12 +116,13 @@ The SDK supports the following new events:
 For more information, see xref:embed-events.adoc[Subscribe to events].
 
 |====
+====
 
-=== REST API 
-
+.REST API
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
-||
 |[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token` 
 
 This API allows you to send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
@@ -70,8 +133,23 @@ For more information, see xref:connection-apis.adoc[Data connection APIs].
 |[tag orangeBackground]#MODIFIED#|You can now filter metadata objects by author GUIDs using the `authorguid` attribute in the `/tspublic/v1/metadata/list` endpoint.
 
 For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
-
 |====
+
+====
+
+.ThoughtSpot application UI
+[%collapsible] 
+====
+
+To make it easier for users to find new insights, the **Search data** functionality is moved from the search bar toggle on the **Home** page to the **Search data** button  in the main navigation bar. 
+
+Note that if you are embedding the full application without the navigation bar, your application users may not be able to access the **Search data** button. If you must include the Search bar toggle on the **Home** page, contact ThoughtSpot Support to restore this feature on your cluster.
+
+image:./images/search-toggle.png[Search toggle, width=auto]
+
+image:./images/search-data-btn.png[Search data button, width=auto]
+
+====
 
 == Version ts7.oct.cl
 

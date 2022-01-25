@@ -5,9 +5,9 @@
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot Developer Portal
 
-ThoughtSpot Developer portal lets you explore Visual Embed SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot features that are available for integration.
+ThoughtSpot Developer portal lets you explore Visual Embed SDK, REST API SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot APIs and features that are available for integration.
 
-The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or Liveboard.
+The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to Liveboard visualizations and worksheets.
 
 If you are an existing ThoughtSpot user:: 
 You can access the Developer portal from your ThoughtSpot application instance.
@@ -17,7 +17,7 @@ You can access the Developer portal from your ThoughtSpot application instance.
 The *Develop* tab is available only if your user account has developer or administrator privilege. For more information about configuring developer privilege, see the xref:user-roles.adoc[Developer access].
 
 If you are not an existing ThoughtSpot user::
-If you do not have a ThoughtSpot user account, and you want to evaluate the APIs in the developer playground:
+If you do not have a ThoughtSpot user account and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
 . From the header bar, click *Playground*.
 . Enter your name and email address.
@@ -29,6 +29,7 @@ You can also link:https://www.thoughtspot.com/trial?tsref=trialtsefaq[register f
 ====
 
 == Find your way around
+
 The ThoughtSpot Developer portal includes several sections that assist you through your embedding journey.
 
 Home::
@@ -39,9 +40,36 @@ image::./images/develop-home.png[Developer Portal]
 
 Guide::
 The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on embedding ThoughtSpot using the Visual Embed SDK and REST APIs.
++
+[NOTE]
+====
+If the REST API Playground and SDK feature is enabled on your environment, the menu options in the Developer portal vary. For example, the `Guides` menu will not appear as a separate menu category, but as an option under *REST API* and **Visual Embed SDK**. 
+====
+
+REST API [beta orangeBackground]^BETA^::
+If you have enabled REST API Playground and SDK feature on your cluster, the Developer portal displays the *REST APIs* menu with the following menu options:
+
+Guide;;
+Opens the REST API documentation.
+
+REST Playground v1;;
+Opens the REST API v1 Explorer page. This page allows you to make API calls to the REST v1 endpoints through the Swagger UI.
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+
+REST Playground v2;;
+Opens the REST API v2 Playground. The Playground allows you to explore the REST v2 endpoints, make API calls, and access the REST API SDK toolkit and client libraries in multiple languages.
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
 
 Playground::
-The *Playground* allows you to explore the following Visual Embed SDK components that you can embed in your application:
+The Visual Embed SDK *Playground* allows you to explore the following Visual Embed components:
 * xref:developer-playground.adoc#playground-search[Search]
 * xref:developer-playground.adoc#playground-liveboard[Liveboards]
 * xref:developer-playground.adoc#playground-visualization[Visualizations]

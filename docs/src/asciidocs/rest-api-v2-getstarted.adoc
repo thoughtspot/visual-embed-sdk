@@ -1,0 +1,188 @@
+= Get started with REST API v2
+:toc: true
+:toclevels: 2
+
+:page-title: Getting started with REST API v2
+:page-pageid: rest-apiv2-getstarted
+:page-description: Get started with REST API v2 to access, create, and manage ThoughtSpot resources programmatically.
+
+To get started with REST API v2, you will require access to REST API v2 Playground and SDK. To enable this feature on your cluster, contact ThoughtSpot Support.
+
+== Access the Playground
+
+To access the REST API v2 Playground, go to **Develop** > **REST API** > **REST Playground v2**.
+
+The Playground allows you to make API calls, view the request and response workflows, and download code samples.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Go to Playground</a>
+++++
+
+== Set up your environment
+
+By default, your cluster URL is set as the base URI. You can modify the base URI in the Playground code explorer.
+
+. In the code explorer, click **Configure**.
+
++
+The configuration panel appears.
+
+. In the *Client Configuration* section, specify the base URI.
+
+If you want to call REST API in a language-specific way, download the language-specific SDK from the REST API Playground and set up your environment.
+
+For more information about language-specific SDK and client libraries, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries]. 
+ 
+== Authorize your client
+
+To provide secure access to ThoughtSpot resources, the REST API v2 framework supports the OAuth 2.0 Bearer token authentication and authorization flow. To make calls to the REST API v2 endpoints, you must obtain an OAuth access token and authorize your API requests. 
+
+To get an access token, send a `POST` request to the  `/api/rest/v2/session/gettoken` endpoint.
+
+----
+POST /api/rest/v2/session/gettoken
+----
+
+In the request body, specify your ThoughtSpot user credentials. Optionally, you can set token expiry duration. 
+
+[source,curl]
+----
+  "userName": "tsadmin",
+  "password": "123CLOud!",
+  "tokenExpiryDuration": "86400"
+----
+
+If the request is successful, the server returns an access token in the session login response.
+
+[source,JSON]
+----
+{
+"userName":"tsadmin"
+"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdfdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA="
+"tokenCreatedTime":"1642662844229"
+"tokenExpiryDuration":"1642749244229"
+"tokenType":"Bearer"
+}
+----
+
+Note the access token in the response. The generated token is set each time you open the REST API Playground and navigate to an endpoint. By default, the token is valid for 24 hours.
+
+[NOTE]
+====
+By default, the generated token is valid for the specified duration. If an API request is made with an expired token, the server returns an error. You can request for a new access token and use it in your subsequent API calls. 
+====
+
+== Make an API call
+
+To make a REST API call, send a request to the endpoint URL and pass the parameters. 
+
+For example, to get a list of metadata objects, send a `POST` request to the `/api/rest/v2/metadata/header/search`.
+
+----
+POST /api/rest/v2/metadata/header/search
+----
+
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+=== Request header
+
+Each API call must include the following headers.
+
+* `'Authorization: Bearer {OAUTH}'`
++
+The authorization header must include the OAuth token obtained from ThoughtSpot.
+
+* `'Content-Type: application/json'`
++
+The header to indicate the content type for the request body. 
+
+* `'Accept-Language: application/json'`
++
+The `Accept` header for API response format. 
+
+
+=== Request parameters
+
+Most APIs require you to specify at least one parameter. For example, to view the details of a user object, you can specify either user GUID or the user name. 
+
+The API Playground indicates the required and optional parameters and provides information about the data type and allowed values. For example, to get a list of answers, you must specify the metadata `type` as `Answer`. 
+
+The following example shows the CURL request format to get a list of answers saved in the ThoughtSpot system.
+
+[source,curl]
+----
+curl -X POST \
+  --url '<ThoughtSpot-host>/api/rest/v2/metadata/header/search' \
+  -H 'Authorization: Bearer dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNRMFEwVXhVVTVpTm05c2FGZEthMFI0VjNJNFdHMW5QVDBrYTFCc1dEaENTMnR5YWfSbE0wSnRibEZ5VkRFclEzTXpRbEpRWkU5allreHNReXN5Y21WT2FtNUZUVDA='\
+  -H 'Accept-Language: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "type": "ANSWER"
+}'
+----
+
+If the API request is successful, ThoughtSpot returns a list of object headers for the requested object type.
+
+[source,JSON]
+----
+{
+   "headers":[
+      {
+         "id":"92f48c07-9c62-4bfa-81ac-55f3049165b4",
+         "indexVersion":5,
+         "generationNum":705,
+         "name":"Credit usage from Charging Records",
+         "description":"COPY and EDIT : Username and Timestamp to trace events",
+         "author":"67e15c06-d153-4924-a4cd-ff615393b60f",
+         "authorName":"system",
+         "authorDisplayName":"System User",
+         "created":1620803453455,
+         "modified":1620804108541,
+         "modifiedBy":"67e15c06-d153-4924-a4cd-ff615393b60f",
+         "owner":"92f48c07-9c62-4bfa-81ac-55f3049165b4",
+         "isDeleted":false,
+         "isHidden":false,
+         "isAutoCreated":false,
+         "isAutoDelete":false,
+         "tags":[
+            
+         ],
+         "isExternal":false,
+         "isDeprecated":false
+      }
+   ],
+   "isLastBatch":true
+}
+----
+
+
+=== HTTP status codes
+
+The REST API v2 framework supports standard HTTP response codes to indicate the success or failure of a request. 
+
+* *200*
++
+Indicates a successful operation. The API returns a response body.
+
+* *400*
++
+Indicates a bad request. You may have to modify the request before making another call.
+
+* *401*
++
+Indicates an unauthorized request. Check if you have the required credentials and object access to make the API call.
+
+* *500*
++
+Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process your request.
+
+If your API call returns an error in the Playground, you can view the error details under `extensions` > `upstreamResponse` > `data` > `debug` in the response body.
+
+To view the error response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
+
+[.widthAuto]
+image::./images/api-v2-error.png[REST API v2 error codes, width=auto]
+

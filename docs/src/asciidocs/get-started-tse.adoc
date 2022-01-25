@@ -1,5 +1,5 @@
 = Get started with ThoughtSpot Everywhere 
-:toc: true
+
 
 :page-title: Get Started with ThoughtSpot Everywhere
 :page-pageid: get-started-tse
@@ -14,9 +14,9 @@ You can explore the APIs, load your data and evaluate embedding workflows, or ge
 
 The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
 
-[div boxDiv]
+[div boxFullWidth]
 --
-image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png",width=auto]
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png", width=auto]
 --
  
 == Feature availability
@@ -40,6 +40,7 @@ a|Embedding workflows
 |Custom actions| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
 |UI styles, font, and layout customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
 |Link customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
+|REST API v1 and v2 Playground [tag orangeBackground]#BETA#  | [tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#
 |REST APIs to query data | [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓# 
 |Administration APIs to manage users, group privileges, sessions, data objects, and connections| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓# 
 |TML APIs to programmatically update charts, Liveboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#

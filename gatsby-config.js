@@ -167,7 +167,7 @@ module.exports = {
             options: {
                 name: 'ThoughtSpot Software Documentation',
                 short_name: 'Documentation',
-                icon: `${__dirname}/docs/src/assets/icons/favicon.svg`,
+                icon: `${__dirname}/docs/src/assets/icons/favicon.png`,
             },
         },
         'gatsby-plugin-output',

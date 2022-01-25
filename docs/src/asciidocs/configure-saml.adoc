@@ -153,18 +153,22 @@ To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot sup
 When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually.
 ====
 
-
 ==== Configure IdP to allow iframe embedding
 Embedding ThoughtSpot components can involve an iframe in the display process. By default, most IdPs do not allow a SAML workflow from an iframe embed. To enable a fully seamless SSO experience for your end users, you will need to have your IdP configured to allow an iframe to complete the SAML workflow.
 
 An example of this setting is the link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm["Enable iframe embedding" option, window=_blank] in Okta's advanced configuration section. Each IdP will have its specific way to enable an iframe-initiated workflow.
 
-
 [#auth-config-sdk]
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
 
-For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[Liveboard], and  xref:embed-a-viz.adoc[visualizations].
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+});
+---- 
 
 [#saml-redirect]
 === Allow SAML Redirect Domains

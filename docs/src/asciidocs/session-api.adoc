@@ -8,6 +8,7 @@
 
 The Session APIs allow ThoughtSpot users to authenticate and manage their sessions.
 
+== Supported operations
 include::{path}/session-api-list.adoc[]
 
 

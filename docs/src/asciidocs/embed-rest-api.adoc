@@ -1,27 +1,27 @@
-= Embed data using REST APIs
+= Embed objects using REST API
 :toc: true
 
 :page-title: Embed data
 :page-pageid: embed-data-restapi
 :page-description: Embed Data using REST APIs
 
-To query ThoughtSpot objects and embed them in a web page, portal, or application, you can use the data REST APIs. The data REST APIs return data as JSON (JavaScript Object Notation) objects.
+You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and Liveboard visualizations, using which you can construct the URL required to make an API call.
 
-== Embed Liveboard or visualization data
-To embed a Liveboard or visualization, construct the URL for the REST API call:
+To get the embed link for a Liveboard:
 
 . Log in to ThoughtSpot from a browser.
 . Navigate to the Liveboard from which you want to get data.
 . Find the ID number of the object you want to get the data from.
 +
-To embed a Liveboard, click the ellipses (...) icon, and then select *Copy embed link*.
+To embed a Liveboard, click the ellipses, click the *More* menu image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
 
 +
 [.widthAuto]
 image::./images/copy_pinboard_link.png[Copy embed link, width=auto]
 
 +
-To embed a visualization:
+To get the embed link for a visualization:
+
 
 .. Navigate to the table or chart
 .. Click the ellipses (...) icon in the upper right corner of the table or chart.
@@ -33,7 +33,7 @@ image::./images/copy_link.png[Copy link, width=auto]
 Paste it somewhere so that you can use it later to construct the URL for the REST API call.
 
 +
-If the object is a Liveboard, copy the identifier that appears after `viz/`.
+If you want to embed a Liveboard, copy the identifier that appears after `viz/`.
 
 +
 [.widthAuto]
@@ -41,6 +41,7 @@ image::./images/copy_link_pinboard.png[Copy Liveboard link, width=auto]
 
 +
 For visualizations (table or chart), copy the IDs that appear after `viz/`.
+
 +
 [.widthAuto]
 image::./images/copy_link_viz_pinboard_part.png[Copy visualization link, width=auto]
@@ -82,7 +83,7 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
 . After you construct the URL, send a POST request to get data from ThoughtSpot.
 
 +
-The Data REST API returns the data formatted as JSON.
+The API returns the data formatted as JSON.
 . Retrieve the data from the JSON and embed it in your Web page, Web portal, or application.
 
 For more information, see xref:runtime-filters.adoc[Runtime filters].
@@ -91,3 +92,6 @@ For more information, see xref:runtime-filters.adoc[Runtime filters].
 ====
 Runtime Filters can also be applied on visualizations or Liveboards embedded in your application. You can specify the runtime filter criteria in the SDK when embedding ThoughtSpot objects. For more information, see xref:embed-a-viz.adoc[Embed a visualization] and xref:embed-pinboard.adoc[Embed a Liveboard].
 ====
+
+
+

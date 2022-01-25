@@ -1,0 +1,61 @@
+= REST API v2
+:toc: true
+
+:page-title: REST API v2
+:page-pageid: rest-api-v2
+:page-description: ThoughtSpot REST API v2 provides service endpoints for user management, group administration, and metadata object queries. 
+
+The REST API v2 framework [beta orangeBackground]^BETA^ is built upon the existing core API functionality and resource representation model, and offers several new features and enhancements.
+
+Enhanced usability and developer experience::
+
+With REST API v2, ThoughtSpot offers a user-friendly, interactive Playground to explore the endpoints, try out API requests and view responses. The Playground provides detailed information about how to get started, authenticate to ThoughtSpot, and interact with the endpoints. 
+The Playground provides dynamic code samples as you switch between different languages. You can also generate code samples, and download the SDK and client libraries in different programming languages. 
+
++
+For more information, see xref:rest-api-v2-playground.adoc[REST Playground v2].
+
+Language-specific SDK and client libraries::
+
+ThoughtSpot provides Java, Python, and TypeScript SDK and client libraries. If you want to call REST APIs in a language-specific way, you can download the SDK and libraries from the Playground and integrate them with your environment. 
++
+For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+
+OAuth token-based authentication and authorization::
+
+To provide secure access to ThoughtSpot resources, REST API v2 supports the OAuth 2.0 Bearer token for authentication and authorization. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
+
++
+For more information, see xref:rest-api-v2-getstarted.adoc[Get started with REST API v2].
+
+Consistent request and response workflow::
+
+With REST API v2, the API request and response format is standardized. The endpoints return data in the same format for all queries.
+
++
+The REST API v2 supports the standard Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests.
+
+* **GET** to query information, such as getting a list of users, objects, or metadata headers
+* **POST** to create or add new objects
+* **PUT** to update object properties 
+* **DELETE** to remove objects and their associations
++
+
+Simplified resource collections and endpoint categories::
++
+The resource endpoints are grouped logically based on the objects they operate on. The endpoint URLs are easy to understand and predictable. For example, you can find all metadata resource endpoints, including TML and dependent objects, in the `/metadata/` resource collection.  
+
+== Feature availability
+
+The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
+
+If you are an existing user with a valid ThoughtSpot Everywhere Edition license, you can contact ThoughtSpot Support to enable the REST API Playground and SDK feature on your cluster. 
+
+If you are not a ThoughtSpot user, you can preview this feature on link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot Live Playground,  window=_blank] or sign up for a free trial to evaluate the API and Playground experience. 
+
+== Related information
+
+* xref:rest-api-v2-playground.adoc[REST Playground v2]
+* xref:rest-api-v2-getstarted.adoc[Get started with REST API v2]
+* xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries]
+* xref:rest-api-v2-reference.adoc[REST API v2 Reference]

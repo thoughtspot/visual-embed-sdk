@@ -143,3 +143,4 @@ After you have transformed the data into the input format, you should be able to
  console.log("Sending REST API request to " + liveboardDataFullEndpoint);
  xhr.send();
 ----
+

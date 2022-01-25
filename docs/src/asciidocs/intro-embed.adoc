@@ -1,4 +1,4 @@
-= ThoughtSpot Everywhere for embedded analytics
+= Embedded analytics with ThoughtSpot Everywhere
 :toc: true
 
 :page-title: Embedded Analytics with ThoughtSpot Everywhere

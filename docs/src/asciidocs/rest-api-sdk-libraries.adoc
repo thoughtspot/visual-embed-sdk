@@ -1,0 +1,61 @@
+= REST API v2 SDK and client libraries 
+
+
+:page-title: REST API SDK and client libraries
+:page-pageid: client-libraries
+:page-description: REST API SDK 
+
+REST API v2 SDK and client libraries are available to help client applications call REST APIs in a language-specific way.
+
+Client libraries are available for Java, Python and TypeScript. For each language, the client library provides tools and APIs to construct queries and process response data programmatically. Each client library provides classes that correspond to the resource elements and data types that the API uses.  
+
+== Download the SDK and client libraries
+
+You can download the SDK from the Playground.
+
+. Go to **Develop** > *REST API* > **REST Playground v2**.
+. Select a programming language.
+. Click **GET SDK**.
+. To know how to set up and use SDK libraries, click *Setup and Usage*.  
+
+You can also download the SDK and API libraries from the following public resources:
+
+* link:https://github.com/thoughtspot/rest-api-sdk[GitHub repository, window=_blank]
+* link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
+* link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
+
+== Additional resources
+
+++++
+<div class="row">
+    <div class="col-md-4">
+       <div class="boxDiv"> <h4 align=center>Java SDK and libraries</h4>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get started</p></a>
+        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/doc/README.md" target=_blank> <p align=center>API Reference</p></a>
+  
+      </div> 
+    </div>
+    <div class="col-md-4">
+       <div class="boxDiv"> <h4 align=center>Python SDK and libraries</h4>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get started</p></a>
+        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/doc/README.md" target=_blank> <p align=center>API Reference</a>
+
+      </div> 
+    </div>
+    <div class="col-md-4">
+       <div class="boxDiv"> <h4 align=center>Typescript SDK and libraries</h4>
+       <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/README.md" target=_blank> <p align=center> Get started</p></a>
+        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/doc/README.md" target=_blank><p align=center>API Reference</p></a>
+      </div> 
+      </div>
+    </div>
+  </div>
+++++
+ 
+ 
+ 
+////
+<a href="{{previewPrefix}}/api/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
+
+////
+ 
