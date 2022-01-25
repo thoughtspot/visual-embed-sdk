@@ -30,6 +30,12 @@ This feature is available to all ThoughtSpot users who have edit privileges to a
 
 For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
+
+ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
+
+For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
+
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>+++Query parameters for URL-based custom actions +++</h5>+++
 
 The Developer portal now allows you to add arbitrary key-value pairs as query parameters for a URL action. If a URL endpoint requires specific information, such as the database details or data object attributes, you can add a key-value pair of these attributes when creating a custom action. When the custom action workflow is triggered, these attributes are passed as query parameters in `GET` requests to get the data payload from ThoughtSpot.
@@ -59,6 +65,11 @@ The ThoughtSpot Software 7.2.0 version supports Visual Embed SDK version 1.5.x, 
 [width="100%" cols="1,4"]
 |====
 ||
+|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
+
+For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Prefetch API+++</h5>+++
 
 The `prefetch` API fetches static resources from a given URL before your application loads. Web browsers can then cache the prefetched resources locally and serve them from a user's local disk. You can use this API to load the embedded objects faster and improve your application response time.

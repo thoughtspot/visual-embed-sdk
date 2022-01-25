@@ -15,6 +15,7 @@
 ** link:{{navprefix}}=developer-access[Developer access]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
+** link:{{navprefix}}=oidc-auth[OpenID Connect authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ////
