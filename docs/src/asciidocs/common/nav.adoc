@@ -51,6 +51,7 @@
 *** link:{{navprefix}}=api-auth-session[Authentication]
 *** link:{{navprefix}}=api-user-management[Users and group privileges]
 *** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
+*** link:{{navprefix}}=custom-viz-rest-api[Create a custom visualization]
 *** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
 *** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 *** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
