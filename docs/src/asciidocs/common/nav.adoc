@@ -15,6 +15,7 @@
 ** link:{{navprefix}}=developer-access[Developer access]
 ** link:{{navprefix}}=security-settings[Security settings]
 ** link:{{navprefix}}=saml-sso[SAML SSO authentication]
+** link:{{navprefix}}=oidc-auth[OpenID Connect authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ////
@@ -57,6 +58,7 @@
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users and user groups]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
+** link:{{navprefix}}=custom-viz-rest-api[Create a custom visualization]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 
 * link:{{navprefix}}=rest-api-reference[REST API Reference]

@@ -1,7 +1,6 @@
 
-
 authType::  
-_String_. Authentication type. You can set the `authType` attribute to one of the following values:
+_String_. Authentication type. You can set the `AuthType` attribute to one of the following values:
 
 None;;
 Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
@@ -26,6 +25,10 @@ Sets SAML SSO as the authentication method. Federated users can authenticate wit
 _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
 
 
+OIDC;;
+Enables OpenID connect authentication method. To allow embedded application users to authenticate using OpenID connect login, you must enable support for the OpenID connect authentication on ThoughtSpot. For more information, see xref:configure-oidc.adoc[OpenID connect authentication].
+
+
 AuthServer;;
 Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
 
@@ -44,7 +47,7 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
 
     getAuthToken: () => Promise.resolve(token) 
 
-
++
 For more information, see xref:embed-authentication.adoc[Embed user authentication].  
  
  
