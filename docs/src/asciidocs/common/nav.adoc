@@ -57,7 +57,6 @@
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
-
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 
 * link:{{navprefix}}=rest-apis[REST API fundamentals]
@@ -65,6 +64,7 @@
 ** link:{{navprefix}}=api-auth-session[Authentication]
 ** link:{{navprefix}}=api-user-management[Manage users and user groups]
 ** link:{{navprefix}}=embed-data-restapi[Embed data using REST APIs]
+** link:{{navprefix}}=custom-viz-rest-api[Create a custom visualization]
 ** link:{{navprefix}}=catalog-and-audit[Catalog and audit ThoughtSpot content]
 ** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 
