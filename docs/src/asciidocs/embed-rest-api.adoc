@@ -92,3 +92,6 @@ For more information, see xref:runtime-filters.adoc[Runtime filters].
 ====
 Runtime Filters can also be applied on visualizations or Liveboards embedded in your application. You can specify the runtime filter criteria in the SDK when embedding ThoughtSpot objects. For more information, see xref:embed-a-viz.adoc[Embed a visualization] and xref:embed-pinboard.adoc[Embed a Liveboard].
 ====
+
+
+
