@@ -27,7 +27,7 @@ POST /tspublic/v1/export/pinboard/pdf
 |Form Parameter|Data Type|Description|Default
 |`id`|string|GUID of the Liveboard to download|none
 |`visualization_ids`|string|GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
-|`transient_pinboard_content`|string|If the Liveboard has unsaved changes, pass this parameter.|none
+|`transient_pinboard_content`|string|If the Liveboard has unsaved changes, pass this parameter in the xref:pinboard-export-api.adoc#transient-pinboard[browser fetch request].|none
 |`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the Liveboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
 |`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
 |`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
@@ -166,8 +166,8 @@ These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have th
 | is included in this list of values
 | multiple
 |===
-////
-[#embed]
+
+[#transient-pinboard]
 == Embedded Liveboard with unsaved changes
 
 If you have embedded ThoughtSpot in your host application, and you want to download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
@@ -177,7 +177,7 @@ If you have embedded ThoughtSpot in your host application, and you want to downl
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including any changes, saved or not.
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes.
 
 === Sample browser fetch request
 [source,javascript]
@@ -185,21 +185,20 @@ The promise returned resolves to  a string that contains the transient Liveboard
 <iframe src="http://ts_host:port/" id="ts-embed"></iframe>
 <script src="/path/to/ts-api.js"></script>
 <script>
-const tsFrame = document.getElementById("ts-embed");
+    const tsFrame = document.getElementById("ts-embed");
 async function downloadPDF() {
-  const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
-  const pdfResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/export/pinboard/pdf", {
-    method: "POST",
-    body: createFormDataObjectWith({
-      "layout_type": "PINBOARD",
-      "transient_pinboard_content": transientPinboardContent,
+    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
+    const pdfResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/export/pinboard/pdf", {
+        method: "POST",
+        body: createFormDataObjectWith({
+           "layout_type": "PINBOARD",
+           "transient_pinboard_content": transientPinboardContent,
     }),
   });
   // Do something with pdfResponse.blob()
 }
 </script>
 ----
-////
 
 
 == Response codes
