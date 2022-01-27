@@ -12,17 +12,10 @@ The full app embedding allows you to integrate many features and pages of the Th
 
 * create answers and Liveboards
 * share objects with other users
-* upload data 
+* upload data, create views, and worksheets 
 * relate uploaded data to existing worksheets
 * use saved answers
 * use SpotIQ
-
-However, your application users will not have access to the following features in the embedded ThoughtSpot instance:
-
-* create worksheets
-* create views
-* modify profiles
-* view the Help Center
 
 To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
 
