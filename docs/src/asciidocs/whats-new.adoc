@@ -90,6 +90,18 @@ ThoughtSpot now allows you to restrict a custom action's availability to specifi
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
 ====
+
+.User access
+[%collapsible] 
+====
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# |ThoughtSpot now supports restricting embed user access to the non-embedded ThoughtSpot application instance. By default, all embedded ThoughtSpot users can navigate to and log in to the non-embedded ThoughtSpot application instance. 
+If you want to allow only users with administrator or developer privileges to access the non-embedded ThoughtSpot application instance, contact ThoughtSpot Support.
+|====
+====
+
+
 .Visual Embed SDK version 1.6.x
 [%collapsible] 
 ====

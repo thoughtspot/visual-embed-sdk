@@ -46,7 +46,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 Allows searching for data from a specific data source in the ThoughtSpot application.
 --
-== Object dependencies
+== Dependent objects
 
 include::{path}/dependency-api-list.adoc[]
 
