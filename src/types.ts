@@ -8,8 +8,7 @@
  */
 
 /**
- * The authentication mechanism for allowing access to the
- * the embedded app
+ * The authentication mechanism to allow access to the embedded app
  */
 // eslint-disable-next-line no-shadow
 export enum AuthType {
