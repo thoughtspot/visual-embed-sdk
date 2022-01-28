@@ -98,7 +98,7 @@ Before you begin, make sure you have the admin user privileges to configure SAML
 === Enable SAML authentication on ThoughtSpot
 You need admin privileges to enable SAML SSO authentication.
 
-. Configure the ThoughtSpot application instance on your IDP server.
+. Configure the ThoughtSpot application instance on your IdP server.
 . Log in to your ThoughtSpot application instance.
 . From the top navigation bar, click the **Admin** tab.
 . Click *SAML*.
@@ -112,11 +112,11 @@ Port of the server where your ThoughtSpot instance is running. For example, port
 Unique Service Name::
 The unique key used by your Identity Provider to identify the client. For example, *urn:thoughtspot:callosum:saml*. You may know this as the Entity ID.
 Skew Time in Seconds::
-The allowed skew time, after which the authentication response is rejected and sent back from the IDP. The commonly used value is `86400`. The default value is *3600*.
+The allowed skew time, after which the authentication response is rejected and sent back from the IdP. The commonly used value is `86400`. The default value is *3600*.
 Protocol::
 The connection protocol for ThoughtSpot. For example, `https`.
 IDP Metadata XML File::
-The IDP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider’s metadata file provided by your IDP. You need this file so that the configuration persists over upgrades. The best practice is to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IdP needs an ACS URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
+The IdP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider’s metadata file provided by your IdP. You need this file so that the configuration persists over upgrades. The best practice is to set it up on persistent or HA storage (NAS volumes), or in the same absolute path on all nodes in the cluster. If your IdP needs an ACS URL to create the metadata file, use `https://<hostname_or_IP>/callosum/v1/saml/SSO`.
 +
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to ThoughtSpot upon their first successful SSO login.
