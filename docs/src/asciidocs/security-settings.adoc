@@ -46,7 +46,7 @@ If you plan to create custom actions with URL targets, you must add the domain n
 [#cors-hosts]
 == Enable CORS
 
-The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
+The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `\http://localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
 
 If you enable CORS for your application domain, ThoughtSpot adds the `Access-Control-Allow-Origin` header in its API responses when your host application sends a request to ThoughtSpot. 
 
@@ -67,7 +67,8 @@ To add domain names to the CORS allowlist, follow these steps:
 [#port-protocol]
 Note the following points if using port or protocol in the domain name string:
 
-* Although the UI allows a domain URL with the protocol (`http/https`) in the CSP allowlist, we recommend that you do not include the protocol in the domain name string.
+* The UI allows you to add a domain URL with or without the protocol (`http/https`) in the CSP allowlist. To avoid long URLs in the CSP header, we recommend that you don't include the protocol in the domain name string. However, for non-HTTPS domains, such as your local testing environment, do include `http` in the domain name string.
+
 * Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings. 
 * If your domain URL has a non-standard port such as 8080, specify the port number in the domain name string.
 ====
@@ -79,7 +80,8 @@ The following table shows the valid domain name strings for the CORS and CSP all
 |====
 |Domain name format|CSP Visual Embed host|CSP connect-src|CORS
 
-a|Domain URL strings without protocol + 
+a|Domain URL strings without protocol
+
 
 * `thoughtspot.com` 
 * `www.thoughtspot.com` +
@@ -90,6 +92,7 @@ a|Domain URL strings for localhost
 
 * `localhost`  
 * `localhost:3000` 
+* `\http://localhost:3000`
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
