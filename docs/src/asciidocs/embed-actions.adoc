@@ -514,6 +514,7 @@ Imports the TML representation of a Pinboard object to the ThoughtSpot server.
 
 Exports the TML representation of a Pinboard object from the ThoughtSpot server.
 |`Action.UpdateTML`|`AppEmbed` | *Update TML*
+
 Publishes the modified TML representation of a Pinboard object.
 |===
 

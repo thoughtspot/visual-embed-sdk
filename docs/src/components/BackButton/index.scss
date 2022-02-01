@@ -17,14 +17,14 @@
     }
 
     .leftIcon {
-        height: $icon-width;
-        width: $icon-height;
+        height: $arrow-icon-width;
+        width: $arrow-icon-height;
         position: relative;
         top: 2px;
     }
 
     p {
-        color: var(--primary-color);
+        color: $font-color-back-button;
         font-size: $font-size-normal;
         font-family: $font-family-back-button;
     }

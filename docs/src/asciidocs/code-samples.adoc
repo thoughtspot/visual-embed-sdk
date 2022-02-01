@@ -120,7 +120,7 @@ appEmbed.render();
 
 == Event trigger
 
-The following example shows how to register the `VizPointDoubleClick` event, which is triggered when a user drills down on a visualization in embedded ThoughtSpot interface:
+The following example shows how to register the `VizPointDoubleClick` event, which is triggered when a user drills down on a visualization in embedded ThoughtSpot interface.
 
 [source,JAVASCRIPT]
 ----

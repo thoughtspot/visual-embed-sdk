@@ -52,8 +52,7 @@
 }
 
 aside {
-    padding-top: $padding-md;
-    padding-bottom: $padding-md;
+    padding: $padding-md 20px $padding-md 10px;
     width: 100%;
     border-right: 1px var(--border-color) solid;
     left: $gutter;

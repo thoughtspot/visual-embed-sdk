@@ -79,7 +79,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -148,7 +148,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -971,7 +971,7 @@ The following example shows the headers returned for a user:
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP Code|Description
+|HTTP status Code|Description
 |**200**|Successful retrieval of the metadata headers
 |**401**| Unauthorized request
 |**404**|The requested resource could not be found

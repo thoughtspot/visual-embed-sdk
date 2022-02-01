@@ -75,7 +75,7 @@
 ** link:{{navprefix}}=pinboard-api[Pinboard data API]
 ** link:{{navprefix}}=pinboard-export-api[Pinboard Export API]
 ** link:{{navprefix}}=security-api[Security APIs]
-
+** link:{{navprefix}}=database-api[Database APIs]
 
 * link:{{navprefix}}=code-samples[Code samples]
 
