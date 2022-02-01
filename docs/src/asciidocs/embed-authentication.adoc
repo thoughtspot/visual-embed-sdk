@@ -1,10 +1,10 @@
-= Authentication and security attributes
+= Authentication
 :toc: true
 :toclevels: 1
 
 :page-title: Embed authentication
 :page-pageid: embed-auth
-:page-description: Embed authentication
+:page-description: Authentication mechanism to define in the Visual Embed SDK for an embedded instance.
 
 You can use any of the following authentication methods to authenticate your application users and allow access to the embedded ThoughtSpot content.
 
