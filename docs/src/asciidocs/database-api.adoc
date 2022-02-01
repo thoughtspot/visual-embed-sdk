@@ -32,12 +32,12 @@ GET /tspublic/v1/database/tables
 === Request parameters
 
 [width="100%" cols="1,4"]
-[options=”header”]
-|===
+[options='header']
+|====
 |Query parameter | Description
 | `database` | _String_. Name or GUID of the database from which you want to fetch the tables.
 | `schema` | _String_. Name of the database schema.
-|===
+|====
 
 
 === Example request
@@ -72,10 +72,11 @@ If the request is successful, the API returns the tables for the specified datab
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
 | HTTP status code | Description
 | 200 | Successful operation.
+||
 |===
 
 [#list-schemas]
@@ -92,11 +93,11 @@ GET /tspublic/v1/database/schemas
 === Request parameters
 
 [width="100%" cols="1,4"]
-[options=”header”]
-|===
+[options='header']
+|====
 | Query Parameter | Description
 | `database` | _String_. Name or GUID of the database for which you want to fetch the schemas.
-|===
+|====
 
 === Example request
 
@@ -129,7 +130,7 @@ If the request is successful, the API returns the schema for the specified datab
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
 | HTTP status code | Description
 | 200 | Successful operation
@@ -193,7 +194,7 @@ If the request is successful, the API returns a list of databases associated wit
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
 | HTTP status code | Description
 | 200 | Successful operation
@@ -214,13 +215,13 @@ GET /tspublic/v1/database/getTableDetail
 === Request parameters
 
 [width="100%" cols="1,4"]
-[options=”header”]
-|===
+[options='header']
+|====
 | Query Parameter | Description
 | `database` | _String_. Name or GUID of the database.
 | `schema` | _String_. Name of the schema.
 | `table` | _String_. Name of the table.
-|===
+|====
 
 === Example request
 
@@ -361,7 +362,7 @@ If the request is successful, the API returns the table details such as columns 
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
 | HTTP status code | Description
 | 200 | Successful operation
@@ -374,7 +375,6 @@ If the request is successful, the API returns the table details such as columns 
 To create tables in a database, send a `POST` request to the `/tspublic/v1/database/createtable/` API endpoint.
 
 
-
 === Resource URL
 ----
 POST /tspublic/v1/database/createtable/
@@ -382,12 +382,12 @@ POST /tspublic/v1/database/createtable/
 
 === Request parameters
 [width="100%" cols="1,4"]
-[options=”header”]
-|===
+[options='header']
+|====
 |Form Parameter | Description
 | `createdb` | _Boolean_. Set this flag to `true` to create tables with a database and schema. If you are adding a table to an existing database and schema, you can set `createdb` to false.
 | `ddl_schema` | _String_. The schema of the request that needs to be generated.
-|===
+|====
 
 === Example request
 
@@ -492,7 +492,7 @@ If the request is successful, the API returns the following response:
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
 | HTTP status code | Description
 | 200 | Successful operation
@@ -517,11 +517,11 @@ POST /tspublic/v1/database/run
 === Request parameters
 
 [width="100%" cols="1,4"]
-[options=”header”]
-|===
-| Parameter | Description
+[options='header']
+|====
+|Form Parameter | Description
 | `sqlstatements` | _String_. A JSON array of SQL statements separated by a semicolon (;).
-|===
+|====
 
 === Example request
 
@@ -567,9 +567,9 @@ If the request is successful, the API returns the SQL statements in the response
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
+[options="header", cols="3,4"]
 |===
-|HTTP response code | Description
+|HTTP status code | Description
 |200| Successful operation
 |500| Invalid input or server error
 |===
