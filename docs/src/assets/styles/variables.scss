@@ -50,9 +50,10 @@ $margin-xs: 5px;
 $padding-xs: 5px;
 $padding-sm: 10px;
 $document-margin-top: 88px;
+$document-padding: 20px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
-$docmap-width-desktop: 300px;
+$docmap-width-desktop: 275px;
 $docmap-width-tablet: 210px;
 $docmap-width-mobile: 100%;
 $tablet-resolution-min: 767px;
@@ -70,6 +71,7 @@ $font-family-doc: Optimo-Plain;
 $font-family-back-button: Optimo-Plain;
 $width-back-button: 32px;
 $height-back-button: 32px;
+$font-color-back-button: #777e8b;
 $margin-top-mobile: 58px;
 $menu-icon-width: 43px;
 $z-index-search: 1;
@@ -86,6 +88,8 @@ $font-size-summ-title: 17px;
 $font-size-breadcrums: 13px;
 $icon-width: 16px;
 $icon-height: 16px;
+$arrow-icon-width: 20px;
+$arrow-icon-height: 20px;
 
 /* Preview link variables */
 
@@ -154,7 +158,7 @@ $tag-color-yellow: #ffbc00;
     --code-block-color: #f6f8fa;
     --text-color-code-lang: #999;
     --icon-color: #999;
-    --back-button-background: #e6e6e6;
+    --back-button-background: #eaedf2;
     --border-color: #c0c6cf;
     --border-color-tr: #e6e6e6; 
     --scrollbar-color: #a5acb9;
