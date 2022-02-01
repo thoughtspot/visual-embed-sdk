@@ -8,6 +8,7 @@
 ThoughtSpot Developer portal lets you explore Visual Embed SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot features that are available for integration.
 
 The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to an embedded visualization or pinboard.
+
 == Access Developer portal
 
 [IMPORTANT]

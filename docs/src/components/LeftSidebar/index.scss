@@ -8,7 +8,7 @@
 
     .menuContainer {
         cursor: pointer;
-        padding-right: $padding-xs;
+        padding-right: $padding-md;
         position: fixed;
         right: 0;
 
@@ -52,7 +52,7 @@
 }
 
 aside {
-    padding: $padding-md 20px $padding-md 10px;
+    padding: $padding-md 0 $padding-md 10px;
     width: 100%;
     border-right: 1px var(--border-color) solid;
     left: $gutter;
@@ -77,10 +77,12 @@ aside {
         list-style-type: none;
         margin: $gutter;
         padding-left: $padding-md;
+
     }
 
     .navWrapper {
         margin-bottom: 32px;
+  
 
         & > .ulist {
             & > ul > li {
@@ -143,7 +145,8 @@ aside {
             right: 8px;
             top: 0px;
             float: right;
-            padding-left: 15px;
+            padding-left: 10px;
+            padding-right: 24px;
 
             img {
                 width: $arrow-icon-width;
