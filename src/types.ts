@@ -526,6 +526,26 @@ export enum Action {
     DrillDown = 'DRILL',
     RequestAccess = 'requestAccess',
     QueryDetailsButtons = 'queryDetailsButtons',
+    /**
+     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     */
+    Monitor = 'createMonitor',
+    /**
+     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     */
+    AnswerDelete = 'onDeleteAnswer',
+    /**
+     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     */
+    AnswerChartSwitcher = 'answerChartSwitcher',
+    /**
+     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     */
+    AddToFavorites = 'addToFavorites',
+    /**
+     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     */
+    EditDetails = 'editDetails',
 }
 
 export interface SessionInterface {
