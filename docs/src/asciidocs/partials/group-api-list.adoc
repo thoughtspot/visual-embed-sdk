@@ -49,7 +49,7 @@ Gets details of the users that are currently assigned to a group.
 
 +++<p class="divider"> </p>+++
 
-`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [[tag greenBackground]#NEW#
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]` [tag greenBackground]#NEW#
 
 Removes users from a group.
 
