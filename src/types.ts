@@ -283,6 +283,12 @@ export enum EmbedEvent {
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
+     * One or more data columns have been selected.
+     * @return columnIds - the list of columns
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.2.0.cl
+     */
+    AddRemoveColumns = 'addRemoveColumns',
+    /**
      * A custom action has been triggered
      * @return actionId - The id of the custom action
      * @return data - The answer or Liveboard data
