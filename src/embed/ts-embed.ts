@@ -110,6 +110,13 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
+    /**
+     * This is an object (key/val) of override flags which will be applied
+     * to the internal embedded object. This can be used to add any
+     * URL flag.
+     * @version 1.8.0
+     */
+    additionalFlags?: { [key: string]: string | number | boolean };
 }
 
 /**
@@ -327,6 +334,7 @@ export class TsEmbed {
             disabledActionReason,
             hiddenActions,
             visibleActions,
+            additionalFlags,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -347,6 +355,9 @@ export class TsEmbed {
         }
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
+        }
+        if (additionalFlags && additionalFlags.constructor.name === 'Object') {
+            Object.assign(queryParams, additionalFlags);
         }
         return queryParams;
     }

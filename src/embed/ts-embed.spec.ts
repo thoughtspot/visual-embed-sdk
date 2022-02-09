@@ -34,6 +34,9 @@ describe('Unit test case for ts embed', () => {
         mixpanelInstance,
         'uploadMixpanelEvent',
     );
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
     describe('when thoughtSpotHost have value and authPromise return success response', () => {
         beforeAll(() => {
             init({
@@ -43,7 +46,6 @@ describe('Unit test case for ts embed', () => {
         });
 
         beforeEach(() => {
-            document.body.innerHTML = getDocumentBody();
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
                     handler({
@@ -98,7 +100,6 @@ describe('Unit test case for ts embed', () => {
         });
 
         beforeEach(() => {
-            document.body.innerHTML = getDocumentBody();
             jest.spyOn(
                 baseInstance,
                 'getAuthPromise',
@@ -206,10 +207,6 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        beforeEach(() => {
-            document.body.innerHTML = getDocumentBody();
-        });
-
         test('Error should be true', async () => {
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             tsEmbed.render();
@@ -297,6 +294,32 @@ describe('Unit test case for ts embed', () => {
             appEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
+            );
+        });
+    });
+
+    describe('additionalFlags config', () => {
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
+                () => 'http://tshost',
+            );
+        });
+        it('should set the additional flags correctly on the iframe src', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                additionalFlags: {
+                    foo: 'bar',
+                    baz: 1,
+                    bool: true,
+                },
+            });
+            await appEmbed.render();
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    '&foo=bar&baz=1&bool=true#/home',
             );
         });
     });
