@@ -513,10 +513,6 @@ export enum Action {
     PinboardInfo = 'pinboardInfo',
     LiveboardInfo = 'pinboardInfo',
     SendAnswerFeedback = 'sendFeedback',
-    /**
-     * @deprecated Will be removed in next version
-     */
-    CustomAction = 'customAction',
     DownloadEmbraceQueries = 'downloadEmbraceQueries',
     Pin = 'pin',
     AnalysisInfo = 'analysisInfo',

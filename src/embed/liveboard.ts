@@ -35,7 +35,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      * This is the minimum height(in pixels) for a full height Liveboard.
      * Setting this height helps resolves issues with empty Liveboards and
      * other screens navigable from a Liveboard.
-     * *_since 1.5.0_
+     * @version 1.5.0 or later
      * @default 500
      */
     defaultHeight?: number;
