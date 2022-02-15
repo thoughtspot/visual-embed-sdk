@@ -83,8 +83,40 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     runtimeFilters: [],
 });
 ----
+////
+[source,JavaScript]
+----
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    additionalFlags: {
+    <key>: <value>
+    },
+    disabledActions: [],
+    fullHeight: true,
+    disabledActionReason: '<reason for disabling>',
+    hiddenActions: [],
+    liveboardId: '<%=liveboardGUID%>',
+    enableVizTransformations: true,
+    preventLiveboardFilterRemoval: true,
+    runtimeFilters: [],
+});
+----
+
+////
 frameParams::
 Sets the `width` and `height` dimensions to render the Liveboard object. You can set the `width` and `height` attribute values in pixels or as a percentage.
+
+////
+include::{path}/additional-flags.adoc[]
+
+----
+https://<ThoughtSpot-Host>/?embedApp=true&isLiveboardEmbed=true&enableFeatureA=true#/embed/viz/d084c256-e284-4fc4-b80c-111cb606449a
+----
+////
+
 
 fullHeight __Optional__::
 _Boolean_. Dynamically resizes the embedded Liveboard frame according to the height of the Liveboard.

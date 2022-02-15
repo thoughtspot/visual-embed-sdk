@@ -69,7 +69,8 @@
 	<div class="col-md-4">
 		<a href="?pageid=embed-pinboard"><div class="boxDiv">
 			<h5>Embed Liveboards</h5>
-			<p class="boxBody"> Embed ThoughtSpot Liveboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p>
+			<p class="boxBody"> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
+			<p> </p>
 			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
 			<p> <a href="?pageid=embed-liveboard"> Learn more about embedding Liveboards -></a></p>
 		</div></a>

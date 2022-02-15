@@ -237,6 +237,19 @@ The following actions are available for the embedded Liveboard objects:
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
+
+|`Action.AddToFavorites`| `LiveboardEmbed`
+
+`AppEmbed` | The *Favorites (star) icon* on a Liveboard page.
+
+Allows adding a Liveboard to the user's favorites list.
+
+|`Action.EditDetails`| `LiveboardEmbed`
+
+`AppEmbed` | The *edit icon* on a Liveboard.
+
+Indicates edit access to the Liveboard.
+
 |`Action.AddFilter` a| `LiveboardEmbed`
 
 `AppEmbed` |*Add filters* 
@@ -347,6 +360,13 @@ Allows users to explore a visualization.
 |`Action.ShareViz`|`AppEmbed`|*Share*
 
 Allows sharing visualization with another user or a user group.
+
+|`Action.Monitor`| `LiveboardEmbed`
+
+| The `Monitor` [beta orangeBackground]^BETA^ icon.
+
+Allows you to schedule notifications to monitor the Key Performance Indicators (KPIs).  
+
 |`Action.Pin`|`LiveboardEmbed`
 
 `AppEmbed`|*Pin*
@@ -364,6 +384,13 @@ Allows you to edit a visualization. Available only if you have edit privileges t
 |`Action.EditTitle`|`AppEmbed`|*Change title*
 
 Changes the title of the visualization.
+
+|`Action.AnswerChartSwitcher`| `LiveboardEmbed`
+
+`AppEmbed` | Chart toggle icon
+
+Allows switching to the table or chart mode when editing a visualization.
+
 |`Action.Present`|
 `LiveboardEmbed`
 
@@ -415,6 +442,12 @@ The following actions are available for saved answers and the answers generated 
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
 
+|`Action.AnswerChartSwitcher`| `SearchEmbed`
+
+`AppEmbed` | Chart toggle icon
+
+Allows switching to the table or chart mode.
+
 |`Action.SpotIQAnalyze`|`SearchEmbed`
 
 `AppEmbed`|*SpotIQ analyze* 
@@ -458,9 +491,9 @@ Downloads the answer.
 
 Displays detailed information and raw data for a given visualization. Available as a menu action in the *More* menu image:./images/icon-more-10px.png[the more options menu] and the contextual menu. 
 
-|`Action.Remove`| `SearchEmbed` 
+|`Action.AnswerDelete`| `AppEmbed`
 
-`AppEmbed`|**Delete**
+|**Delete**
 
 Deletes the answer.
 

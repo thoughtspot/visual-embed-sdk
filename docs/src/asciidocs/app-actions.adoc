@@ -1,0 +1,30 @@
+= App actions [tag greenBackground]#NEW in 8.1.0.cl#  
+:toc: true
+
+:page-title: App actions for business application integration
+:page-pageid: app-actions
+:page-description: You can add an app action to send data to a third-party business application workspace such as Slack channels.
+
+ThoughtSpot supports the ability to integrate your application instance with business apps such as Slack. With this integration capability, business users and analysts can now push insights to their application workspace, notify their teams, and view data in context.
+
+ThoughtSpot automates and simplifies the workflow with app actions and secures data transactions between the source and destination apps with OAuth authentication and authorization. Your application users can quickly get started with an app action and push data to their workspace with a few simple steps.
+
+App actions eliminate the need for developing connectors to external apps and allow ThoughtSpot to automatically establish a pipeline for data exchange. 
+
+[div boxDiv boxFullWidth]
+--
++++<h5>Feature highlights</h5>+++
+
+* In 8.1.0.cl, ThoughtSpot supports app action integration with Slack workspaces only. 
+* Any ThoughtSpot user with developer or admin privileges can create an app action in the Developer portal.
+* App actions are available on both embedded and standalone ThoughtSpot instances and do not require ThoughtSpot Everywhere Edition license.
+* Developers can set an app action as a global or local action.
+* By default, a global app action is added as menu actions in the **More** menu image:./images/icon-more-10px.png[the more options menu] 
+* To access an app action, users must have the **New Answer Experience** enabled on their instance.
+* ThoughtSpot users with edit privileges can add a local app action to a worksheet, saved answer, or visualization.  
+--
+
+For detailed instructions about creating an app action and triggering a data push workflow to a Slack workspace, see xref:push-data-to-slack.adoc[Integrate ThoughtSpot with Slack workspace].
+
+
+

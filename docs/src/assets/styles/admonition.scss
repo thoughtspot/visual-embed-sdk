@@ -15,6 +15,7 @@
         width: 100%;
         word-wrap: anywhere;
         border: 1px solid $disabledcolor;
+        box-shadow: var(--box-shadow);
 
         & > :not(.title):first-child {
             margin-top: 0;
@@ -77,6 +78,7 @@
         background-color: $warning-color;
         color: $warning-on-color;
     }
+    
 
     & > table {
         table-layout: fixed;

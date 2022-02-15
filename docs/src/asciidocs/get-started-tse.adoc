@@ -1,5 +1,6 @@
-= Get started with ThoughtSpot Everywhere 
-
+= Get started with ThoughtSpot Everywhere
+:toc: true
+:toclevels: 1
 
 :page-title: Get Started with ThoughtSpot Everywhere
 :page-pageid: get-started-tse
@@ -9,44 +10,21 @@ You can explore the APIs, load your data and evaluate embedding workflows, or ge
 
 * To explore the APIs and embed ThoughtSpot features in a fictional app, xref:get-started-tse.adoc#live-playground[use the Live Playground].
 * To load your data and evaluate the workflows for embedding ThoughtSpot content in your app, xref:get-started-tse.adoc#free-trial[sign up for a free trial].
-* To get full access to ThoughtSpot Everywhere features, you can xref:get-started-tse.adoc#purchase-license[purchase the ThoughtSpot Everywhere Edition license].
+* To get full access to ThoughtSpot Everywhere features, you can xref:feature-matrix-license.adoc#purchase-license[Get ThoughtSpot Everywhere Edition license].
 * If you already have a ThoughtSpot Enterprise Cloud service subscription, you can xref:get-started-tse.adoc#upgrade-license[upgrade your license] to avail the full benefits of ThoughtSpot Everywhere.
 
 The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
-
+////
 [div boxFullWidth]
 --
 image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png", width=auto]
 --
+////
+
+[.widthAuto]
+image::./images/license-workflow.png[ThoughtSpot Everywhere getting started workflow,link="./doc-images/images/license-workflow.png", width=auto]
+
  
-== Feature availability
-
-[width="100%" cols="5,^3,^2,^3"]
-[options='header']
-|===
-|Feature|Live Playground|Free Trial license|ThoughtSpot Everywhere Edition
-|ThoughtSpot Developer portal |[tag greenBackground]#✓# |  [tag greenBackground]#✓#  |[tag greenBackground]#✓#  
-|Developer playground |[tag greenBackground]#✓# |[tag greenBackground]#✓# | [tag greenBackground]#✓#
-|Automated user authentication  | [tag greyBackground]#–# | [tag greyBackground]#–#  | [tag greenBackground]#✓#
-a|Embedding workflows
-
-* Embed Search
-* Embed charts and tables
-* Embed Liveboards
-* Embed full ThoughtSpot experience
-
-|[tag orangeBackground]#✓#  
-(in a fictional app) | [tag greenBackground]#✓# | [tag greenBackground]#✓#
-|Custom actions| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|UI styles, font, and layout customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|Link customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|REST API v1 and v2 Playground [tag orangeBackground]#BETA#  | [tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#
-|REST APIs to query data | [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓# 
-|Administration APIs to manage users, group privileges, sessions, data objects, and connections| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓# 
-|TML APIs to programmatically update charts, Liveboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#
-|REST APIs to programmatically download a PDF report| [tag greenBackground]#✓# | [tag greenBackground]#✓# | [tag greenBackground]#✓# 
-|===
-
 [#live-playground]
 == Try Live Playground
 
@@ -87,21 +65,6 @@ To obtain full access to ThoughtSpot Everywhere features, click on a locked menu
 
 image::./images/trial-cluster-tse-license.png[]
  
-[#purchase-license]
-== Get ThoughtSpot Everywhere license
-
-If you already have a ThoughtSpot Enterprise Cloud service subscription::
-
-You can upgrade your license to ThoughtSpot Everywhere Edition to start using ThoughtSpot Everywhere features on your cluster. With the ThoughtSpot Everywhere Edition license, you can access the Developer portal, Playground, customization workflows, Visual Embed SDK, and REST APIs. 
-
-+
-If the ThoughtSpot Developer portal is enabled on your cluster, but you do not have the ThoughtSpot Everywhere license, the **Customization** features such as *Security settings*, and *Link settings* are locked. To unlock these features, you must obtain the ThoughtSpot Everywhere Edition license. 
-
-If you do not have a ThoughtSpot Enterprise Cloud Service subscription::
-
-We recommend that you sign up for a free trial, try out ThoughtSpot features, and then upgrade your license. To avail ThoughtSpot Everywhere features, you will require the ThoughtSpot Everywhere Edition license along with a ThoughtSpot Enterprise Cloud service subscription. 
-
-For more information about the licensing model, visit link:https://www.thoughtspot.com/pricing[https://www.thoughtspot.com/pricing, window=_blank].
 
 [#upgrade-license]
 == Initiate license upgrade from the UI

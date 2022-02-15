@@ -187,5 +187,5 @@ If your API call returns an error in the Playground, you can view the error deta
 To view the error response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
 
 [.widthAuto]
-image::./images/api-v2-error.png[REST API v2 error codes, width=auto]
+image::./images/api-v2-error.png[REST API v2 error codes width=auto]
 

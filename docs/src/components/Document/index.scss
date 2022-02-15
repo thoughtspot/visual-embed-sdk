@@ -7,6 +7,8 @@
 .documentWrapper {
     width: calc(100% - #{$docmap-width-desktop});
     color: var(--primary-color);
+    padding-left: $document-padding;
+    
 
     .documentView {
         min-height: 75vh;
@@ -42,6 +44,8 @@
 
     img {
         width: 100%;
+        
+        
     }
 
     pre {
@@ -54,7 +58,7 @@
         overflow: auto;
         font-size: $font-size-code;
         line-height: $line-height-code;
-        
+        box-shadow: var(--box-shadow);
 
     }
 
@@ -122,20 +126,21 @@
     table {
         border-spacing: 0;
         border-collapse: collapse;
+       
 
         th {
             border-bottom: 3px solid var(--border-color);
             font-size: $font-size-doc;
-            padding: $padding-sm;
+            padding: $padding-md;
             text-align: left;
         }
 
         td {
             font-size: $font-size-table;
             border-bottom: 1px solid var(--border-color-tr);
-            padding: $padding-sm;
-            text-align: left;
+            padding: $padding-md;
             font-weight: $font-weight-normal;
+            text-align: left;
 
             p {
                 font-size: $font-size-table;
@@ -146,6 +151,8 @@
             border-bottom: 1px solid var(--border-color-tr);
         }
     }
+
+
 
     h2 {
         margin-top: $margin-lg;

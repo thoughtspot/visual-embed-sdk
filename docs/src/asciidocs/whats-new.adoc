@@ -8,8 +8,25 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 8.1.0.cl
+
+==== App actions
+
+<add blurb>
+
+==== Visual Embed SDK version 1.8.0
+
+<add blurb>
+
+==== REST API v2
+
+<add blurb>
+
 == Version 8.0.0.cl
 
+.Embed application
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
@@ -24,9 +41,12 @@ If you have embedded the full ThoughtSpot application, you will notice that the 
 
 For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinboards/follow-pinboard.html[Follow Liveboards, window=_blank].
 |====
+====
 
-=== Visual Embed SDK 1.7.0
+.Visual Embed SDK 1.7.0
 
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |
@@ -44,11 +64,16 @@ The SDK includes the following new event:
 For more information, see xref:embed-events.adoc[Subscribe to events].
 
 |====
+====
 
-=== REST API Playground and SDK [beta orangeBackground]^BETA^
+.REST API Playground and SDK [beta orangeBackground]^BETA^
+
+[%collapsible] 
+====
+
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>REST API Playground and SDK</h5> +++ 
 
 ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
 
@@ -60,6 +85,7 @@ The REST API Playground and SDK is a limited availability feature and is in beta
 
 For more information, see xref:rest-api-v2.adoc[REST API v2].
 |====
+====
 
 
 == Version ts8.nov.cl

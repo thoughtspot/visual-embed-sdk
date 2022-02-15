@@ -39,6 +39,7 @@ from '@thoughtspot/visual-embed-sdk';
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
 
+
 == Initialize the SDK
 
 Specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
@@ -91,8 +92,45 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     },
 });
 ----
+////
+[source,javascript]
+----
+const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    additionalFlags: {
+    <key>: <value>
+    },
+    answerId: "<%=savedAnswerGUID%>",
+    dataSources: ['<%=datasourceGUID%>'],
+    collapseDataSources: false,
+    disabledActions: [],
+    disabledActionReason: '<reason for disabling>',
+    forceTable: false,
+    hiddenActions: [],
+    hideDataSources: false,
+    hideResults: false,
+    searchOptions: {
+        searchTokenString: '<TML-query-string>',
+        executeSearch: true,
+    },
+});
+----
+////
+
+
 frameParams::
 Sets the `width` and `height` dimensions to render the search object in a web browser. You can set the `width` and `height` attribute values in pixels or as a percentage.
+
+////
+include::{path}/additional-flags.adoc[]
+
+----
+https://<ThoughtSpot-Host>/v2/?dataSourceMode=expand&useLastSelectedSources=false&isSearchEmbed=true&enableFeatureA=true#/embed/answer
+----
+////
 
 answerID __Optional__::
 _String_. The Global Unique Identifiers (GUID) of the answers saved in a user profile.
