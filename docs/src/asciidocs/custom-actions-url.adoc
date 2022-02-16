@@ -66,7 +66,7 @@ Select this authentication method if you want ThoughtSpot to use an API key duri
 +
 If you do not select this checkbox, the app action will be set as a *Local* action.  
 
-. To define which user groups can access the custom action, click *Show advanced availability settings*, and select the user groups. By default, the custom action will be available to all ThoughtSpot users.
+. To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.      
  
 . Click *Create action*.
 +

@@ -63,7 +63,7 @@ If you do not select this checkbox, the app action is set as *Local* and is not 
 image:./images/app-action-dev.png[App action creation]
 
 +
-. To define which user groups can access the app action, click *Show advanced availability settings*, and select the user groups. By default, the app action will be available to all ThoughtSpot users.
+. To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.  
  
 . Click *Create action*.
 
