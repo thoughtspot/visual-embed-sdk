@@ -6,7 +6,7 @@
 
 ThoughtSpot lets you add custom actions globally to all your visualizations or locally to a specific visualization or worksheet. By default, the actions created in the Developer portal are set as *Global* actions. Developers can choose to set an action as **Local** and allow their application users to assign it to a visualization or saved answer of their choice. By default, local custom actions are not assigned to any visualization. Any ThoughtSpot user with edit access to a visualization, saved answer, or worksheet can add a local action to the objects of their choice. For example, if you want to send data from a specific visualization to the pre-configured URL or web page, you can add a custom action locally to that visualization.
 
-If custom actions are added on your instance, the UI displays these actions in the *Custom actions* panel. The *Custom actions* panel allows authorized users to  perform the following tasks:
+If custom actions are configured for your instance, the UI displays these actions in the *Custom actions* panel. The *Custom actions* panel allows authorized users to  perform the following tasks:
 
 * Add a local action to a visualization or saved answer
 * Edit the position of an action
@@ -34,8 +34,9 @@ To add a custom action to a visualization or answer:
 +
 .. Go to *Liveboards* and click on the Liveboard.
 .. Navigate to the visualization.
-.. Click **More** menu image:./images/icon-more-10px.png[the more options menu] and then click *Edit*.
+.. Click the **More** menu image:./images/icon-more-10px.png[the more options menu] and then click *Edit*.
 
++
 * To add a custom action to a saved answer, go to *Answers* and click the answer that you want to edit.
 
 . Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
@@ -73,8 +74,9 @@ ThoughtSpot allows you to place the URL and callback actions in the context menu
 +
 . Preview  the position of the custom action.
 +
+[.bordered]
 [.widthAuto]
-image::./images/set-position-action.png[Custom action for a visualization]
+image:./images/set-position-action.png[Custom action for a visualization]
 
 . Click *Add action*.
 +
@@ -83,7 +85,7 @@ image::./images/set-position-action.png[Custom action for a visualization]
 
 == Edit the position of a local action
 
-To edit the position of a local custom action associated to an answer or visualization:
+To edit the position of a local custom action assigned to an answer or visualization:
 
 . Navigate to the visualization or saved answer page.
 . Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].

@@ -48,7 +48,7 @@ Users can xref:custom-actions-edit.adoc[edit the position of an action] using th
 
 Local actions::
 
-Local actions do not appear any visualizations by default. Developers can create a local action to allow users to assign the action to a specific visualization or the answers built from a specific worksheet. To set a custom action as local action, developers must disable the *On by default on all visualizations* checkbox when creating a custom action in the Developer portal.
+Local actions are not assigned to any visualizations by default. Developers can create a local action to allow users to assign the action to a specific visualization or the answers built from a specific worksheet. To set a custom action as local action, developers must disable the *On by default on all visualizations* checkbox when creating a custom action in the Developer portal.
 
 +
 Any user with edit access to a visualization or worksheet can assign a local action xref:custom-actions-viz.adoc[to a specific visualization] or xref:custom-actions-worksheet.adoc[to all new visualizations generated from a specific worksheet]. 
@@ -65,9 +65,9 @@ In embedded ThoughtSpot instances, developers can use the `visibleActions`, `hid
 
 === Overview
 
-The *Overview* tab shows the possible locations for placing a custom action in the ThoughtSpot UI. You can add a custom action as a primary button, or as a menu action in the **More** image:./images/icon-more-10px.png[the more options menu] menu, or the contextual menu that appears when a user right-clicks on an answer or Liveboard visualization.
+The *Overview* tab shows the possible locations for placing a custom action in the ThoughtSpot UI. You can add a custom action as a primary button, or as a menu action in **More** image:./images/icon-more-10px.png[the more options menu] menu, or the contextual menu that appears when a user right-clicks on an answer or Liveboard visualization.
 
-By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. To change the position of an existing custom action, click the image:./images/custom-action-icon.png[custom action icon] on a saved answer page and then click the edit icon next to custom action in the custom action panel. 
+By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. To change the position of an existing custom action, click the custom action icon image:./images/custom-action-icon.png[custom action icon] on a saved answer page, and then click the edit icon next to the custom action in the *Custom action* panel. 
 
 === Actions
 

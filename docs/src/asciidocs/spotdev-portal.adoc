@@ -36,6 +36,7 @@ Home::
 The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
 This page also includes links to the *Developer Guides* and *Playground*. 
 
+[.bordered]
 image::./images/develop-home.png[Developer Portal]
 
 Guide::

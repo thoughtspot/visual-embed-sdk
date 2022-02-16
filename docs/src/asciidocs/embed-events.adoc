@@ -175,7 +175,7 @@ The following host events are triggered by the host application, which the embed
 |`SetVisibleVizs`| Sets the specified visualizations as visible objects on a Liveboard. The visualization IDs that are not passed in the parameter are hidden on the Liveboard.| `LiveboardEmbed`
 
 `AppEmbed`
-|`UpdateRuntimeFilters`| Triggers the runtime filters update. | `LiveboardEmbed`
+|`UpdateRuntimeFilters`| Triggers an event to update runtime filters. | `LiveboardEmbed`
 
 `AppEmbed`
 |===

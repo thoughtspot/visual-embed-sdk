@@ -5,11 +5,11 @@
 :page-pageid: add-action-worksheet
 :page-description: Add custom actions to worksheets
 
-ThoughtSpot supports adding custom actions to the visualizations generated from a specific worksheet. The **Local** custom actions created in the Developer portal appear on the worksheet page, so that you can assign these actions to the new visualizations built from that worksheet. 
+ThoughtSpot supports adding custom actions to the visualizations generated from a specific worksheet. The local custom actions created in the Developer portal appear on the worksheet page, so that you can assign these actions to the new visualizations built from that worksheet. 
 
 [NOTE]
 ====
-When you assign a custom action to a worksheet, ThoughtSpot adds it only to the new answers generated from a worksheet. The custom action will not be available for the existing saved answers that were generated using the worksheet.
+When you assign a custom action to a worksheet, ThoughtSpot adds it only to the new answers generated from a worksheet. The custom action will not be available on  the existing saved answers generated using the worksheet.
 ====
 
 == Before you begin
@@ -28,7 +28,7 @@ To add a custom action to a worksheet:
 +
 A list of custom actions available on your instance is displayed. 
 
-. Note that the page shows the *Global* custom actions that appear on all visualizations by default. These actions will be available on all answers generated from the worksheet. 
+. Note that the page shows the global custom actions that appear on all visualizations by default. These actions will be available on all answers generated from the worksheet. 
 
 . To assign a local custom action to a worksheet: 
 .. Click *Add action*.

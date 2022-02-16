@@ -11,7 +11,7 @@ If you have embedded the ThoughtSpot search functionality in your application, y
 --
 +++<h5>Feature highlights</h5>+++
 
-* Callback custom actions are supported on only embedded ThoughtSpot instances and require ThoughtSpot Everywhere Edition license.
+* Callback custom actions are supported on only embedded ThoughtSpot instances and require a ThoughtSpot Everywhere Edition license.
 * Only users with developer or admin privileges can create a callback custom action in the Developer portal.
 * Developers can set a callback action as a global or local action.
 * After creating a callback custom action, developers must register the callback using Visual Embed SDK. They can also define functions to handle the data payload.
@@ -57,7 +57,7 @@ include::{path}/global-local-action.adoc[]
 
 
 [#register-callback]
-== Register the callback through the Visual Embed SDK
+== Register the callback using Visual Embed SDK
 
 Once a callback custom action has been added within ThoughtSpot, you must add an event handler using the Visual Embed SDK to any page within the embedding application where you want the custom action to function. 
 

@@ -104,6 +104,10 @@ button {
     }
 }
 
+.bordered img {
+  border: 1px solid var(--border-color);
+}
+
 .displayNone {
     display: none;
 }

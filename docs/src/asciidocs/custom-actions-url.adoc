@@ -6,7 +6,7 @@
 :page-pageid: custom-action-url
 :page-description: You can add a custom action to send data to a specific URL target
 
-ThoughtSpot allows you to add a custom action to trigger a data payload to a specific URL target. For example, you may search in ThoughtSpot for a specific data set and want to programmatically deliver this data to an external application or web page. ThoughtSpot Developer portal allows developers to add a custom menu item in the visualization pages and trigger a data push workflow when a user clicks the action.
+ThoughtSpot allows you to add a custom action to trigger a data payload to a specific URL target. For example, you may search in ThoughtSpot for specific data and want to programmatically deliver this data to an external application or web page. ThoughtSpot Developer portal allows developers to add a custom menu item in the visualization pages and trigger a data push workflow when a user clicks the action.
 
 
 [div boxDiv boxFullWidth]
@@ -19,7 +19,7 @@ ThoughtSpot allows you to add a custom action to trigger a data payload to a spe
 * Developers can limit custom action access to a specific user group. 
 * To access a URL action, users must have the **New Answer Experience** enabled.
 * For URL actions to work in the embedded mode, you must add the URL domain to the CORS and CSP connect-src allowlist.
-* Only ThoughtSpot users with edit permissions to a worksheet or visualization can add an app action to a worksheet, visualization or saved answer. 
+* Only ThoughtSpot users with edit permissions to a worksheet or visualization can add an app action to a worksheet, visualization, or saved answer. 
 --
 
 [#creUrlAction]

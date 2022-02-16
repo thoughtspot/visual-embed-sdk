@@ -1,9 +1,9 @@
-= Custom action response payload
+= Callback response payload
 :toc: true
 
-:page-title: Push data to an external app
+:page-title: Sample response payload for callback actions
 :page-pageid: custom-action-payload
-:page-description: Callback custom action payload
+:page-description: View examples of the answer or visualization data payload for callback actions
 
 The examples in this section show the contents of the payload sent from ThoughtSpot for the custom action workflows.
 

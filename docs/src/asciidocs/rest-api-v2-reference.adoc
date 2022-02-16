@@ -5,10 +5,9 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
+The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
 == Session
-
 
 [div boxDiv boxFullWidth]
 --
@@ -108,7 +107,7 @@ Deletes a user object.
 
 `**POST** /api/rest/v2/user/search`
 
-Gets a list of users available in ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
+Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -222,7 +221,7 @@ Removes one or several users assigned to a group. Requires administrator privile
  
 `*PUT* /api/rest/v2/group/addgroup`
 
-Adds a group to another group object. This API request creates a hierarchy of groups. The sub groups inherit the privileges assigned to the parent group.
+Adds a group to another group object. This API request creates a hierarchy of groups. The subgroups inherit the privileges assigned to the parent group.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -243,8 +242,7 @@ Removes a group from the parent group.
 
 `*POST* /api/rest/v2/group/search`
 
-Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users and other such attributes. 
-
+Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users, and other such attributes. 
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -375,6 +373,17 @@ Gets a list of objects with incomplete metadata.
 
 +++<p class="divider"> </p>+++
 
+`*GET* /api/rest/v2/metadata/header` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets header details for a specific metadata object. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+
++++<p class="divider"> </p>+++
+
 `*GET* /api/rest/v2/metadata/details`
 
 Gets details of the metadata objects. To filter the query, you can specify the metadata object type.
@@ -397,7 +406,17 @@ Gets a list of visualization headers associated with a Liveboard.
 
 `*POST* /api/rest/v2/metadata/header/search`
 
-Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level and other such attributes.
+Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level, and other such attributes.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*DELETE* /api/rest/v2/metadata/delete` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Deletes the specified metadata object.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
@@ -433,4 +452,73 @@ Imports one or several TML objects and object associations.
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
+--
+
+== Connections 
+
+[div boxDiv boxFullWidth] 
+--
+`*GET* /api/rest/v2/connection` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets details of a specific data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /api/rest/v2/connection/create` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Creates a data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/update` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Updates an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+*DELETE* /api/rest/v2/connection/delete [tag greenBackground]#NEW in 8.1.0.cl#
+
+Deletes a data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/addtable` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Adds a table to an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/removetable` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Removes a table from an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /api/rest/v2/connection/search` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets details of all data connections. You can also query data for a specific connection type.
 --
