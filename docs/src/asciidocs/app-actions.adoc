@@ -14,7 +14,7 @@ ThoughtSpot automates and simplifies the workflow with app actions and secures d
 --
 +++<h5>Feature highlights</h5>+++
 
-* In 8.1.0.cl, ThoughtSpot supports app action integration with Slack workspaces only. 
+* In the 8.1.0.cl release version, ThoughtSpot supports app actions for Slack integration only. 
 * Any ThoughtSpot user with developer or admin privileges can create an app action in the Developer portal.
 * App actions are available on both embedded and standalone ThoughtSpot instances and do not require ThoughtSpot Everywhere Edition license.
 * Developers can set an app action as a global or local action.
