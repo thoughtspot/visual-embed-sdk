@@ -36,7 +36,7 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 The SDK introduces the following new enumerations for the embedded UI actions:
 
 * `Action.AnswerDelete`
-* `Action.Monitor`
+////* `Action.Monitor`////
 * `Action.AnswerChartSwitcher`
 * `Action.AddToFavorites`
 * `Action.EditDetails`

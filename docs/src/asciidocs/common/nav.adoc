@@ -7,10 +7,10 @@
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=whats-new[What's new]
 
-* link:{{navprefix}}=embed-analytics[Embedded analytics]
+* link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
-** link:{{navprefix}}=license-feature-matrix[Feature matrix and license options]
 ** link:{{navprefix}}=get-started-tse[Get started]
+** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
 
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]

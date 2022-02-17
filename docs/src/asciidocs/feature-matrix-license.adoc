@@ -1,73 +1,62 @@
-= Feature matrix and licensing options
+= Feature matrix and license types
 :toc: true
 
 
-:page-title: Feature matrix and licensing options
+:page-title: Feature matrix and license types
 :page-pageid: license-feature-matrix
 :page-description: Choose the license model that suits your embedding requirement.
 
-ThoughtSpot offers a separate license for customers who want to embed ThoughtSpot functionality in their application, web page, or portal. The ThoughtSpot Everywhere Edition license allows embedding live search, dynamic visualizations and Liveboards, and the entire ThoughtSpot experience within an app. This license also provides full access to the interactive Developer portal, APIs and SDK, and customization and security controls. 
+ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. The license provides full access to embedding and customization functionality, Developer portal, APIs, and SDK. 
 
 
-== Feature availability
-
-////
-[width="100%" cols="5,^3,^2,^3"]
-[options='header']
-|===
-|Feature|Live Playground|Free Trial license|ThoughtSpot Everywhere Edition
-|ThoughtSpot Developer portal |[tag greenBackground]#✓# |  [tag greenBackground]#✓#  |[tag greenBackground]#✓#  
-|Developer playground |[tag greenBackground]#✓# |[tag greenBackground]#✓# | [tag greenBackground]#✓#
-|Automated user authentication  | [tag greyBackground]#–# | [tag greyBackground]#–#  | [tag greenBackground]#✓#
-a|Embedding workflows
-
-* Embed Search
-* Embed charts and tables
-* Embed Liveboards
-* Embed full ThoughtSpot experience
-
-|[tag orangeBackground]#✓#  
-(in a fictional app) | [tag greenBackground]#✓# | [tag greenBackground]#✓#
-|Custom actions| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|UI styles, font, and layout customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|Link customization| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓#
-|REST API v1 and v2 Playground  | [tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#
-|REST APIs to query data | [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓# 
-|Administration APIs to manage users, group privileges, sessions, data objects, and connections| [tag greyBackground]#–# | [tag greyBackground]#–# | [tag greenBackground]#✓# 
-|TML APIs to programmatically update charts, Liveboards, and worksheets| [tag greenBackground]#✓#| [tag greenBackground]#✓# | [tag greenBackground]#✓#
-|REST APIs to programmatically download a PDF report| [tag greenBackground]#✓# | [tag greenBackground]#✓# | [tag greenBackground]#✓# 
-|===
-////
 
 [width="100%" cols="^6,^5,^5,^4,^4"]
 [options='header']
 |===
-|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial license|Live Playground
+|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial license 
+(Evaluation only) |Live Playground
 
-|Access to the **Develop** tab|[tag greenBackground]#✓# 
+(Evaluation only) 
 
-Requires Developer or Admin  privileges| [tag greenBackground]#✓# |[tag greenBackground]#✓#  
+|Access to the **Develop** tab
 
-Evaluation only |[tag greenBackground]#✓# 
 
-Evaluation only
+(Requires developer or admin  privileges) |[tag greenBackground]#✓# 
 
-|Visual Embed SDK|[tag greenBackground]#✓# 
+| [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
 
-Not recommended for production environments.|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
+|Visual Embed SDK|
+
+[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
-Evaluation only
 | [tag greenBackground]#✓# 
 
-Evaluation only
-|Embedding workflows using SDK |[tag greenBackground]#✓# 
+a|Embedding with SDK
 
-Not recommended for production environments. 
-|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
+* Embedding Search
+* Embedding Visualizations
+* Embedding Liveboards
+* Embedding full ThoughtSpot application
 
-In a fictional app in Playground 
-|Embed user authentication|[tag greenBackground]#✓# Basic authentication
+|[tag greyBackground]#–# 
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#   
+
+a|Embedding with REST APIs
+
+* Embedding Liveboards with visualizations
+
+* Embedding search data 
+
+|[tag greenBackground]#✓# 
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# 
+
+Basic authentication only|[tag greyBackground]#–# 
+
+|Authentication options 
+(Applicable to embedded ThoughtSpot instances)|[tag greenBackground]#✓# Basic authentication only
 
 Not recommended for production environments.
 
@@ -80,11 +69,9 @@ a| [tag greenBackground]#✓# Basic authentication
 [tag greenBackground]#✓# OIDC
 |[tag greenBackground]#✓# Basic authentication 
 
-Not recommended for production environments.
 
 | [tag greenBackground]#✓# Basic authentication
 
-Not recommended for production environments.
 a|REST APIs v1 
 
 * Data APIs
@@ -95,34 +82,24 @@ a|REST APIs v1
 
 |[tag greenBackground]#✓# | [tag greenBackground]#✓# 
 
-Evaluation only
+Basic authentication only
 
 | [tag greenBackground]#✓# 
 
-Evaluation only
+Basic authentication only
 
 
-|REST APIs v2 [beta orangeBackground]^BETA^  |[tag greyBackground]#–# 
+|REST APIs v2 and SDK [beta orangeBackground]^BETA^  |[tag greyBackground]#–# 
 
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
-Evaluation only
 
 |[tag greenBackground]#✓# 
 
-Evaluation only
-|REST API Playground [beta orangeBackground]^BETA^|[tag greyBackground]#–# | [tag greenBackground]#✓# |[tag greenBackground]#✓# 
+|REST API Playground [beta orangeBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
-Evaluation only
 |[tag greenBackground]#✓# 
 
-Evaluation only
-|REST API v2 SDK [beta orangeBackground]^BETA^|[tag greyBackground]#–# | [tag greenBackground]#✓# |[tag greenBackground]#✓#
-
-Evaluation only
-|[tag greenBackground]#✓# 
-
-Evaluation only
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |App actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
@@ -130,26 +107,10 @@ Evaluation only
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Security settings for embedding ThoughtSpot 
 
-(CSP, CORS, SAML Redirect configuration)| Not applicable | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
+(CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
 |===
 
-For more information about the feature availability and licensing models, visit link:https://www.thoughtspot.com/pricing[https://www.thoughtspot.com/pricing, window=_blank].
+== Additional resources
 
-
-[#purchase-license]
-== Get ThoughtSpot Everywhere Edition license
-
-If you already have a ThoughtSpot Enterprise Cloud service subscription::
-
-Users with Developer or admin privileges can access the *Develop* tab in the ThoughtSpot UI. However, if you do not have the ThoughtSpot Everywhere license, the **Customization** features such as *Security settings*, and *Link settings* are locked. To unlock these features, you must purchase the ThoughtSpot Everywhere Edition license. 
-
-+
-With ThoughtSpot Everywhere Edition license, you can get full access to the Developer portal, Playground, APIs and SDK, customization controls, and security settings. 
-
-
-If you do not have a ThoughtSpot Enterprise Cloud Service subscription::
-
-We recommend that you sign up for a free trial, try out ThoughtSpot features, and then upgrade your license. To avail ThoughtSpot Everywhere features, you will require the ThoughtSpot Everywhere Edition license along with a ThoughtSpot Enterprise Cloud service subscription. 
-
-For more information, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
-
+* xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere]
+* link:https://www.thoughtspot.com/pricing[License options and pricing, window=_blank]

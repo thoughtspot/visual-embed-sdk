@@ -25,9 +25,15 @@ The Slack app integration workflow involves the following steps:
 . A developer or admin user creates an app action for Slack in the Developer portal. 
 +
 This step sets Slack as a destination app.
-. A user clicks a Slack app action on a saved answer or Liveboard visualization, and invokes the workflow. This step initiates the OAuth workflow to secure data transactions between the source and destination app. 
+. A user clicks a Slack app action on a saved answer or Liveboard visualization, and invokes the workflow. 
+
++
+This step initiates the OAuth workflow to secure data transactions between the source and destination app. 
 . ThoughtSpot requests access to the users' Slack workspace.
-. The user clicks **Allow** to authorize the request. This step creates a pipeline between ThoughtSpot and the destination app for data exchange. 
+. The user clicks **Allow** to authorize the request. 
+
++
+This step creates a pipeline between ThoughtSpot and the destination app for data exchange. 
 . ThoughtSpot obtains a list of channels from the user's Slack workspace.
 . The user selects a channel and clicks **Send now**.
 . ThoughtSpot pushes the answer data or insights from the visualization to the specified channel in the specified file format.

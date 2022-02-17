@@ -1,9 +1,7 @@
 
 [IMPORTANT]
 ====
-* The **Global** actions are available on all visualizations and saved answers. However, local custom actions are not assigned to any visualization by default. You can assign a local action to a xref:custom-actions-edit.adoc[specific Liveboard visualization or answer], or xref:custom-actions-worksheet.adoc[all new answers built from a specific worksheet]. 
-
-* By default, the *Global* custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu], whereas the *Local* custom actions are not placed anywhere in the ThoughtSpot UI until you add them to a worksheet, Liveboard visualization, saved answer, or a chart or table built from a new search. You can xref:custom-actions-edit.adoc[modify the position of a custom action] and set it as a primary button or a menu action as per your requirement.
+By default, the global actions are added as a menu action in the **More** menu image:./images/icon-more-10px.png[the more options menu] on all visualizations and saved answers. The local custom actions are not added as a clickable action on any answer page or visualization. You can assign a local action to a xref:custom-actions-edit.adoc[specific visualization or saved answer], or xref:custom-actions-worksheet.adoc[all new answers built from a specific worksheet] and xref:custom-actions-edit.adoc[set its position]. 
 ====
 
  
