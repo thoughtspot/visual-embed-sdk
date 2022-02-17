@@ -17,7 +17,7 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 
 (Evaluation only) 
 
-|Access to the **Develop** tab
+|Access to **Develop** tab
 
 
 (Requires developer or admin  privileges) |[tag greenBackground]#✓# 
