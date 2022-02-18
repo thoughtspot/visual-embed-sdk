@@ -135,6 +135,7 @@ export interface EmbedConfig {
 
     /**
      * Dynamic CSS Url to be injected in the loaded application.
+     * You would also need to set `style-src` in the CSP settings.
      * @version 1.6.0 or later
      * @default ''
      */
@@ -402,7 +403,8 @@ export enum HostEvent {
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
     /**
-     * Update the runtime filters
+     * Update the runtime filters. The runtime filters passed here are extended
+     * on to the existing runtime filters if they exist.
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @version 1.8.0 or later
      */
