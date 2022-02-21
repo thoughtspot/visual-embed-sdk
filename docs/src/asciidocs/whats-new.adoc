@@ -21,7 +21,7 @@ The ThoughtSpot 8.1.0.cl release version is now available with the following new
 
 ThoughtSpot introduces app actions to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
 
-Any user with developer or admin privileges can create an app action for Slack in the Developer portal, and insert it as a primary button or menu action on visualizations and saved answers in the ThoughtSpot UI. On clicking this action, ThoughtSpot users can initiate the app integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI. 
+Any user with developer or admin privileges can create an app action for Slack in the Developer portal, and add it as a primary button or menu action on visualizations and saved answers in the ThoughtSpot UI. On clicking this action, ThoughtSpot users can initiate the app integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====

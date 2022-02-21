@@ -12,8 +12,8 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 [width="100%" cols="^6,^5,^5,^4,^4"]
 [options='header']
 |===
-|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial license 
-(Evaluation only) |Live Playground
+|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account
+(Evaluation only) |Developer Playground on public instance
 
 (Evaluation only) 
 
@@ -24,18 +24,18 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 
 | [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
 
-|Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+| Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 | [tag greenBackground]#✓# 
 
-a|Visual Embed SDK
+a|Creating an app with ThoughtSpot content using Visual Embed SDK
 
 * Embedding Search
 * Embedding Visualizations
 * Embedding Liveboards
 * Embedding full ThoughtSpot application|
 
-[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
+[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
 
 a|Embedding with REST APIs
 
@@ -45,14 +45,18 @@ a|Embedding with REST APIs
 
 |[tag greenBackground]#✓# 
 
+Basic authentication only
+
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
 Basic authentication only|[tag greyBackground]#–# 
 
 |Authentication options 
-(Applicable to embedded ThoughtSpot instances)|[tag greenBackground]#✓# Basic authentication only
+(Applicable to embedded ThoughtSpot instances) a|
 
-Not recommended for production environments.
+[tag greenBackground]#✓#  Basic authentication
+
+[tag greenBackground]#✓#  SAML SSO
 
 a| [tag greenBackground]#✓# Basic authentication
 
@@ -73,6 +77,8 @@ a|REST APIs v1
 * Administration APIs 
 
 |[tag greenBackground]#✓# 
+
+Basic authentication only
 
 |[tag greenBackground]#✓# | [tag greenBackground]#✓# 
 
@@ -99,7 +105,9 @@ Basic authentication only
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|App actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
+|App actions for business app integration
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Security settings for embedding ThoughtSpot 

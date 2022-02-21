@@ -30,7 +30,7 @@ To allow your application developers to experiment with the Visual Embed APIs, T
 
 If you want to try the Developer playground and evaluate ThoughtSpot embedding experience, you can access the Playground from the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website, window=_blank].
 
-If you are a ThoughtSpot user, you can access this portal by clicking the *Develop* tab in your ThoughtSpot application instance. To access the portal, you need administrator or developer privileges.  For authenticated users, the portal provides a set of customization controls to rebrand the look and feel of your application, insert custom buttons and actions, customize link format and URLs, and so on.
+If you are a ThoughtSpot user, you can access this portal by clicking the *Develop* tab in your ThoughtSpot application instance. To access the portal, you need administrator or developer privileges.  For authenticated users, the portal provides a set of customization controls to rebrand the look and feel of your application, add custom buttons and actions, customize link format and URLs, and so on.
 
 == UI customization and rebranding
 If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughtSpot UI to match your organization's branding guidelines.
