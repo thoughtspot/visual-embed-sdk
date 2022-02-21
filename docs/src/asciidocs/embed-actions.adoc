@@ -361,11 +361,11 @@ Allows users to explore a visualization.
 
 Allows sharing visualization with another user or a user group.
 
-////|`Action.Monitor`| `LiveboardEmbed`
+|`Action.Monitor`| `LiveboardEmbed`
 
-| The `Monitor` [beta orangeBackground]^BETA^ icon.
+`AppEmbed` | The `Monitor` icon.
 
-Allows you to schedule notifications to monitor the Key Performance Indicators (KPIs).  ////
+Allows you to schedule notifications to monitor the Key Performance Indicators (KPIs). 
 
 |`Action.Pin`|`LiveboardEmbed`
 
