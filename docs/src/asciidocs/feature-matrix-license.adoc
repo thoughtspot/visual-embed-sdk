@@ -8,10 +8,9 @@
 
 ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. The license provides full access to embedding and customization functionality, the Developer portal, APIs, and SDK. 
 
-
-[width="100%" cols="^6,^5,^5,^4,^4"]
+[width="100%" cols="^7,^5,^5,^5,^5"]
 [options='header']
-|===
+|=====
 |Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account
 (Evaluation only) |Developer Playground on public instance
 
@@ -28,12 +27,10 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 
 | [tag greenBackground]#✓# 
 
-a|Creating an app with ThoughtSpot content using Visual Embed SDK
+a| Visual Embed SDK
 
-* Embedding Search
-* Embedding Visualizations
-* Embedding Liveboards
-* Embedding full ThoughtSpot application|
+Creating an app with ThoughtSpot Search, visualizations, Liveboards or full application using Visual Embed SDK libraries
+ |
 
 [tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
 
@@ -105,7 +102,7 @@ Basic authentication only
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|App actions for business app integration
+|App actions for integrating business apps 
 
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
@@ -113,7 +110,7 @@ Basic authentication only
 |Security settings for embedding ThoughtSpot 
 
 (CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
-|===
+|=====
 
 == Additional resources
 

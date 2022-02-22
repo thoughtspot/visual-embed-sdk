@@ -129,7 +129,7 @@
        
 
         th {
-            border-bottom: 3px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             font-size: $font-size-doc;
             padding: 5px $padding-md $padding-sm $padding-sm;
             text-align: left;
@@ -138,9 +138,9 @@
         td {
             font-size: $font-size-table;
             border-bottom: 1px solid var(--border-color-tr);
-            padding: 5px $padding-md $padding-sm $padding-sm;
+            padding: 5px $padding-md $padding-md $padding-sm;
             font-weight: $font-weight-normal;
-            text-align: left;
+            vertical-align: top;
 
             p {
                 font-size: $font-size-table;
@@ -151,7 +151,6 @@
             border-bottom: 1px solid var(--border-color-tr);
         }
     }
-
 
 
     h2 {

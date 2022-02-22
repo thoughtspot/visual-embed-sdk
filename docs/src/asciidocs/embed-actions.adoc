@@ -233,9 +233,9 @@ By default, ThoughtSpot provides a set of standard actions for embedded objects 
 
 The following actions are available for the embedded Liveboard objects:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
-|===
+|====
 |Action string in SDK| Required SDK library|Action label in the UI
 
 |`Action.AddToFavorites`| `LiveboardEmbed`
@@ -332,7 +332,7 @@ Publishes the modified TML representation of a Liveboard object.
 
 Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon. 
 
-|===
+|====
 
 ////
 
@@ -348,7 +348,7 @@ The *Follow* action is deprecated in the ThoughtSpot 8 Cloud release. The corres
 
 The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
@@ -437,7 +437,7 @@ Displays detailed information and raw data for a given visualization. Available 
 
 The following actions are available for saved answers and the answers generated using the embedded ThoughtSpot search component:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
