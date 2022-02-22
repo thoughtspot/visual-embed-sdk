@@ -60,6 +60,7 @@ For more information, see xref:api-auth-session.adoc[Authentication].
 == API requests and response
 
 To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
+
 === Request method
 
 Specify the HTTP request method in your API request. 
