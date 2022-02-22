@@ -14,7 +14,7 @@ To integrate Slack workspaces with ThoughtSpot, you will need the following:
 
 * A ThoughtSpot user account with developer or admin privileges to create app actions
 * A ThoughtSpot user with a Slack account
-* A ThoughtSpot application instance with *New Answer Experience* is enabled
+* A ThoughtSpot application instance with *New Answer Experience* enabled
 * A saved answer or Liveboard visualization
 
 
@@ -30,7 +30,7 @@ This step sets Slack as a destination app.
 +
 This step initiates the OAuth workflow to secure data transactions between the source and destination app. 
 . ThoughtSpot requests access to the users' Slack workspace.
-. The user clicks **Allow** to authorize the request. 
+. The user authorizes the request. 
 
 +
 This step creates a pipeline between ThoughtSpot and the destination app for data exchange. 
@@ -56,7 +56,7 @@ To create an app action for Slack, follow these steps:
 . Go to *Develop* > *Customizations* > *Custom actions*.
 . Click *Create action*.
 . Enter a name for the action. For example, __Send to Slack__.
-. Select the *App* option, and then select **Slack** from the *Select app* drop-down.
+. Select the *App* option and then select **Slack** from the *Select app* drop-down.
 +
 Note that the app action ID is generated automatically. 
 
@@ -84,8 +84,8 @@ include::{path}/global-local-action.adoc[]
 Before you begin, perform the following checks:
 
 * You have access to a saved answer, worksheet, or Liveboard. 
-* Your Slack account and ThoughtSpot user profile have the same email address.
 * The *New Answer experience* is enabled on your ThoughtSpot application instance.
+* You have access to a Slack workspace. 
 
 To initiate a data push request to your Slack workspace, follow these steps:
 
@@ -102,7 +102,7 @@ If the app action is set as a global action, the action will appear in the **Mor
 image::./images/initiate-app-action.png[Initiate an app action]
 
 +
-ThoughtSpot requests access to your Slack workspace and opens the app authorization page. This step is required only if you are using the Slack integration action for the first time or when ThoughtSpot refreshes its OAuth access token.
+ThoughtSpot requests access to your Slack workspace and opens the app authorization page. 
 
 +
 [NOTE]
@@ -110,11 +110,18 @@ ThoughtSpot requests access to your Slack workspace and opens the app authorizat
 The app authorization page opens as a pop-up, so make sure your web browser allows pop-ups.
 ====
 
-. Notice that the app authorization page lists your Slack workspaces by default. Select a workspace from the drop-down and then click **Allow**. 
-+
-If your workspace is not displayed in the list, click *Add another workspace* and complete the steps to add the workspace.
+. Specify your Slack workspace and click **Continue**. 
 
-. Wait for ThoughtSpot to connect to your workspace and obtain a list of channels. This may take a few seconds.
++
+The system prompts you to sign in to your workspace if you haven't already signed in. To continue with the integration, you can log into your workspace with your credentials.
+
+. To authorize the request, click **Allow**. 
+
++
+This step is required only if you are using the Slack integration action for the first time or when ThoughtSpot refreshes its OAuth access token.
+
+ 
+. Wait for ThoughtSpot to connect to your workspace and obtain a list of channels.
 
 +
 If the connection is successful, the app action dialog in the ThoughtSpot UI displays a list of Slack channels to which you can deliver data.

@@ -29,7 +29,7 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 
 a| Visual Embed SDK
 
-Creating an app with ThoughtSpot Search, visualizations, Liveboards or full application using Visual Embed SDK libraries
+Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries
  |
 
 [tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
@@ -42,14 +42,15 @@ a|Embedding with REST APIs
 
 |[tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
-Basic authentication only|[tag greyBackground]#–# 
+(Basic authentication only) |[tag greyBackground]#–# 
 
 |Authentication options 
-(Applicable to embedded ThoughtSpot instances) a|
+
+(For embedded ThoughtSpot instances only) a|
 
 [tag greenBackground]#✓#  Basic authentication
 
@@ -75,24 +76,24 @@ a|REST APIs v1
 
 |[tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 |[tag greenBackground]#✓# | [tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 | [tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 
 |REST v2 APIs and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
-Basic authentication only
+(Basic authentication only)
 
 |[tag greyBackground]#–#
 
@@ -110,6 +111,27 @@ Basic authentication only
 |Security settings for embedding ThoughtSpot 
 
 (CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
+
+|Runtime filters
+
+(Available on embedded ThoughtSpot instances only) | [tag greenBackground]#✓# REST APIs
+
+(Basic authentication only)
+
+|[tag greenBackground]#✓# REST APIs
+
+[tag greenBackground]#✓#  Visual Embed SDK
+
+|[tag greenBackground]#✓# REST APIs
+
+[tag greenBackground]#✓#  Visual Embed SDK 
+
+(Basic authentication only)
+| [tag greenBackground]#✓# REST APIs
+
+[tag greenBackground]#✓#  Visual Embed SDK
+
+(Basic authentication only)
 |=====
 
 == Additional resources
