@@ -68,11 +68,12 @@ a| [tag greenBackground]#✓# Basic authentication
 
 | [tag greyBackground]#–# 
 
-a|REST APIs v1 
+a|REST API v1 
 
-* Data APIs
 * Query APIs
 * Administration APIs 
+* Data APIs
+* Metadata and object management APIs
 
 |[tag greenBackground]#✓# 
 
@@ -87,7 +88,7 @@ a|REST APIs v1
 (Basic authentication only)
 
 
-|REST v2 APIs and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓# 
+|REST v2 API and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓# 
 
 (Basic authentication only)
 
