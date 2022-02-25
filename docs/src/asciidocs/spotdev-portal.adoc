@@ -7,7 +7,7 @@
 
 ThoughtSpot Developer portal lets you explore the Visual Embed SDK, REST API SDK and preview the coding experience in Playground. 
 
-The portal also allows authorized users to customize and rebrand the look and feel of the UI, create custom actions, and configure security and authentication settings.
+The portal also allows authorized you to customize and rebrand the look and feel of the UI, create custom actions, and configure security and authentication settings.
 
 If you are an existing ThoughtSpot user:: 
 You can access the Developer portal from your ThoughtSpot application instance.
@@ -34,6 +34,7 @@ Home::
 The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
 This page also includes links to the *Developer Guides* and *Playground*. 
 
++
 [.bordered]
 image::./images/develop-home.png[Developer Portal]
 

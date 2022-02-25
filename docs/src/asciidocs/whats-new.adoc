@@ -702,9 +702,10 @@ Pinboard::
 
 [NOTE]
 Users with edit permissions can view and access the *Save*, *Add filters*, *Configure filters*, and *Manage schedules* actions.
-|[tag greenBackground]#NEW FEATURE# |+++<h5>Visualization actions</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visualization actions</h5>+++
 
-Visualizations on a pinboard::
+Visualizations on a pinboard:
+
 * Pin
 * Download
 * Edit

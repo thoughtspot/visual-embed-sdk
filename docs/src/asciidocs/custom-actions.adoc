@@ -6,7 +6,9 @@
 
 ThoughtSpot provides a set of standard menu commands as buttons and toggle switches in the primary menu bar, actions in the **More** menu image:./images/icon-more-10px.png[the more options menu], and the contextual menu that appears when a user right-clicks on an answer or visualization.
 
-ThoughtSpot also allows adding custom buttons and menu actions. If you want to push business insights from ThoughtSpot to an external app or a specific URL, you can use the custom actions feature. In embedded instances, ThoughtSpot also allows adding a custom action to trigger a callback event to the host application and initiate an action.
+ThoughtSpot supports adding custom actions to an answer or visualization page. For example, you may want to create a custom action that allows pushing business insights from ThoughtSpot to an external app or a specific URL. 
+
+Similarly, if you have embedded ThoughtSpot in another app, you can add a custom action to trigger a callback event to the host application and initiate a response payload.
 
 ////
 If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.

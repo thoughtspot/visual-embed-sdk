@@ -7,7 +7,6 @@
 
 The ThoughtSpot REST API framework lets you create, access, edit, and manage objects and resources in the ThoughtSpot system programmatically. 
  
-
 ThoughtSpot REST API supports several resource collections and operations in two distinct versions: 
 
 * REST API v1
@@ -16,7 +15,7 @@ The legacy framework with several endpoints to create, edit, administer and mana
 
 * REST API V2 
 +
-The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer-focussed solution that provides additional functionality and interactive Playground experience. The REST v2 framework also supports language-specific SDK and client libraries.
+The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer-focused solution that provides additional functionality and an interactive Playground experience. The REST v2 framework also supports language-specific SDK and client libraries.
 
 +
 [NOTE]
@@ -24,8 +23,8 @@ The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer-focus
 The REST API v2 is a limited availability feature and is in Beta. To enable this feature on your instance, contact ThoughtSpot Support.
 ====
 
-For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison].
 
+For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison].
 
 == REST API Playground
 

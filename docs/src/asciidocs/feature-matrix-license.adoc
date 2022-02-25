@@ -113,7 +113,11 @@ a|REST API v1
 
 (CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
 
-|Runtime filters
+|=====
+
+////
+
+a|Runtime filters
 
 (Available on embedded ThoughtSpot instances only) | [tag greenBackground]#✓# REST APIs
 
@@ -133,7 +137,8 @@ a|REST API v1
 [tag greenBackground]#✓#  Visual Embed SDK
 
 (Basic authentication only)
-|=====
+
+////
 
 == Additional resources
 

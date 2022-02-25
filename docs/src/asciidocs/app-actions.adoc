@@ -7,20 +7,20 @@
 
 ThoughtSpot supports integrating your application instance with business apps such as Slack. With this integration capability, business users and analysts can now push insights to their application workspace, notify their teams, and view data in context.
 
-ThoughtSpot automates and simplifies the workflow with app actions and secures data transactions between the source and destination apps with OAuth authentication and authorization. App actions allow ThoughtSpot to automatically establish a pipeline for data exchange and thus eliminate the need for building connectors to external apps. Your application users can quickly get started with an app action and push data to their workspace with a few simple steps.
+ThoughtSpot automates and simplifies the integration workflow with app actions and secures data transactions between the source and destination apps with OAuth authentication and authorization. App actions allow ThoughtSpot to automatically establish a pipeline with the destination app and thus eliminate the need for building connectors or programs for application integration. Your application users can quickly get started and push data to their workspace in a few simple steps.
 
 
 [div boxDiv boxFullWidth]
 --
 +++<h5>Feature highlights</h5>+++
 
-* In the 8.1.0.cl release version, ThoughtSpot supports app actions for Slack integration only. 
+
+* In the 8.1.0.cl release, app actions are available for Slack integration only. 
 * Any ThoughtSpot user with developer or admin privileges can create an app action in the Developer portal.
 * App actions are available on both embedded and standalone ThoughtSpot instances and do not require a ThoughtSpot Everywhere Edition license.
 * Developers can set an app action as a global or local action.
 * By default, a global app action is added as a menu action in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 * Developers can control user access to app actions and limit its availability to specific user groups.
-* ThoughtSpot users with edit privileges can add a local app action to a worksheet, saved answer, or visualization.  
 --
 
 == App actions for Slack integration

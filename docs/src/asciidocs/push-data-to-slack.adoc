@@ -50,7 +50,7 @@ The Slack app integration procedure involves the following steps:
 [#app-action-slack]
 === Create an app action with Slack as the destination app
 
-To create an app action for Slack, follow these steps:
+To create an app action for Slack, complete the following steps:
 
 . Log in to ThoughtSpot with your admin or developer user credentials.
 . Go to *Develop* > *Customizations* > *Custom actions*.
@@ -66,7 +66,7 @@ If you do not select this checkbox, the app action is set as *Local* and is not 
 
 +
 [.bordered]
-image:./images/app-action-dev.png[App action creation]
+image:./images/app-action-dev.png[App action creation, width=auto]
 
 +
 . To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.  
