@@ -7,7 +7,7 @@
 
 The ThoughtSpot REST API framework lets you create, access, edit, and manage objects and resources in the ThoughtSpot system programmatically. 
  
-Currently, ThoughtSpot REST API supports several collections of operations in two distinct versions: 
+ThoughtSpot REST API supports several resource collections and operations in two distinct versions: 
 
 * REST API v1
 +
