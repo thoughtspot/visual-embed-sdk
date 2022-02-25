@@ -57,6 +57,7 @@
         justify-content: space-between;
         overflow: auto;
         font-size: $font-size-code;
+        max-height: 600px;
         line-height: $line-height-code;
         box-shadow: var(--box-shadow);
 

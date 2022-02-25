@@ -38,10 +38,6 @@ Developer::
 Application developers with privileges to use the Developer portal and embed ThoughtSpot components in their host application. +
 Developer users can also customize the look and feel of the UI, add custom actions to an embedded visualization or Liveboard, and modify security settings such as CORS and CSP. For more information, see xref:user-roles.adoc[Developer access].
 
-Host application admin::
-The host application owners or users with admin privileges to modify the application interface. +
-For example, to embed ThoughtSpot components in a business application or web page, you may require edit access to the host application.
-
 == Define an authentication method
 
 For initial development and testing purposes, you can use the basic authentication method with xref:api-auth-session.adoc[session REST APIs] to manage ThoughtSpot user logins and sessions. However, ThoughtSpot recommends that you use the SAML SSO or trusted authentication service to authenticate users in production environments.
@@ -57,7 +53,7 @@ To use SSO authentication for an embedded instance, you must add the identity pr
 For more information, see xref:configure-saml.adoc[SAML SSO authentication].
 
 Trusted Authentication::
-Trusted authentication is a token-based authentication service that uses a central authentication service to authenticate ThoughtSpot users. In a trusted authentication workflow, ThoughtSpot provides the authentication server with a token for a given ThoughtSpot user. This token is used for obtaining trust from the client applications before granting access to ThoughtSpot content.
+Trusted authentication is a token-based authentication method in which ThoughtSpot provides the authentication server with a token for a given ThoughtSpot user. This token is used for obtaining trust from the client applications before granting access to ThoughtSpot content.
 +
 ThoughtSpot users with administrator privileges can generate a trusted authentication token in the *Security Settings* page of the Developer portal.
 +
@@ -65,7 +61,7 @@ For more information, see xref:trusted-authentication.adoc[Trusted authenticatio
 
 == Define security settings
 
-Before embedding, you must enable several security settings in the Developer portal to prevent security vulnerabilities in ThoughtSpot.
+Before embedding, you must enable several security settings in the Developer portal for cross-domain communication.
 
 Cross-Origin Resource Sharing::
 Cross-Origin Resource Sharing (CORS) domains are the origins from which ThoughtSpot APIs can be called. When you add your host domain for CORS in the Developer portal, ThoughtSpot adds the `access-control-allow-origin` header in its API responses.
