@@ -850,7 +850,7 @@ Indicates if the user or user group needs to be activated. If the user or user g
 
 [#change-pwd]
 == Change password
-To change the password of a ThoughtSpot user account, use the `/tspublic/v1/user/updatepassword` API.
+To change the password of a ThoughtSpot user account, send a `POST` request to the `/tspublic/v1/user/updatepassword` endpoint.
 
 === Resource URL
 ----
@@ -862,9 +862,9 @@ POST /tspublic/v1/user/updatepassword
 [options='header']
 |====
 |Form Parameter|Description
-|`name` |__String__. Name of the user.
-|`currentpassword`|__String__. The current password of the user.
-|`password`|__String__. A new password for the user.
+|`name` |__String__. Name of the user account.
+|`currentpassword`|__String__. The password of the currently logged-in user. Note that only users with admin privileges can change the password of a user account.
+|`password`|__String__. A new password for the user specified in the `name` attribute.
 |====
 === Example request
 
