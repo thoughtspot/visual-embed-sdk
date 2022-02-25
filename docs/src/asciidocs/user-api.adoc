@@ -864,7 +864,7 @@ POST /tspublic/v1/user/updatepassword
 |Form Parameter|Description
 |`name` |__String__. Name of the user account.
 |`currentpassword`|__String__. The password of the currently logged-in user. Note that only users with admin privileges can change the password of a user account.
-|`password`|__String__. A new password for the user account specified in the `name` attribute.
+|`password`|__String__. A new password for the user specified in the `name` attribute.
 |====
 === Example request
 
