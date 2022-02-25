@@ -39,7 +39,7 @@ The portal provides a separate Playground for each version and lets you explore 
 image::./images/rest-api-playground.png[REST API Playground]
 
 ==  API endpoints
-For a complete list of API endpoints and information about how to make an API request to these points, see the following reference pages:
+For a complete list of API endpoints and information about how to make an API request to these endpoints, see the following reference pages:
 
 * xref:rest-api-reference.adoc[REST API v1 Reference]
 * xref:rest-api-v2-reference.adoc[REST API v2 Reference]
