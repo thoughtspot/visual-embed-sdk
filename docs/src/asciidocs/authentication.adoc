@@ -103,7 +103,7 @@ If the operation is successful, the API returns a response with `tokenType` set 
 |**403**|Unauthorized request
 |===
 
-== Get authorization token
+== Get OAuth access token
 
 For OAuth 2.0 bearer token-based authorization, you must obtain an OAuth access token and send it in the `Authorization` header in your API requests.
 
