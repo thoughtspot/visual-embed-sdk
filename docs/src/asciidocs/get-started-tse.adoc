@@ -4,14 +4,13 @@
 
 :page-title: Get Started with ThoughtSpot Everywhere
 :page-pageid: get-started-tse
-:page-description: You can get started with ThoughtSpot Everywhere by visiting the Live Playground, signing up for free trial, or by purchasing a ThoughtSpot Everywhere Edition license.
-
+:page-description: You can get started with ThoughtSpot Everywhere by visiting the Developer Playground on the public site, signing up for free trial, or by purchasing a ThoughtSpot Everywhere Edition license.
 
 To get started with ThoughtSpot Everywhere and avail the full benefits of its features, you need a valid ThoughtSpot Everywhere Edition license. 
 
-However, if you want to explore or evaluate the overall embedding and API experience before acquiring a license, you can xref:get-started-tse.adoc#live-playground[get started with the Live Playground] or xref:get-started-tse.adoc##free-trial[sign up for a Free Trial].
+However, if you want to explore or evaluate the overall embedding and API experience before acquiring a license, you can xref:get-started-tse.adoc#live-playground[get started with the Developer Playground] or xref:get-started-tse.adoc##free-trial[sign up for a Free Trial].
 
-* The Live Playground provides an instant view of the embedding possibilities and interactive coding experience. You can try embedding the  ThoughtSpot application or its features in a sample app and get a quick preview of the developer experience. 
+* The Developer Playground provides an instant view of the embedding possibilities and interactive coding experience. You can try embedding the  ThoughtSpot application or its features in a sample app and get a quick preview of the developer experience. 
 
 * With Free Trial, you can load your own data and evaluate the ThoughtSpot Everywhere features for a period of 30 days, and then transition to a paid account.
 
@@ -26,9 +25,9 @@ See xref:feature-matrix-license.adoc[Feature matrix and license options].
  
 
 [#live-playground]
-== Get started with Live Playground
+== Get started with Developer Playground
 
-To access the Live Playground:
+To access the Developer Playground:
 
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
 . From the header bar, click *Playground*.
@@ -48,10 +47,10 @@ With a free trial account, you can access Playground, embedding workflows, and R
 
 To sign up for a free trial:
 
-. In the Live Playground, click *Sign Up* or click on any locked feature.
+. In the Developer Playground, click *Sign Up* or click on any locked feature.
 
 +
-You can also register for a free trial by clicking *Free Trial* on the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website,  window=_blank].
+You can also register for a free trial by clicking *Free Trial* on the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website, window=_blank].
 . Enter your business email, phone number, and other details.
 . Click **Sign up**.
 
