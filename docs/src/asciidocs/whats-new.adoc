@@ -45,7 +45,7 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Host events</h5>+++
 
-The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc[Subscribe to events].
+The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
 |====
 
 === REST API v2 [beta orangeBackground]^BETA^
