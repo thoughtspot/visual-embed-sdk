@@ -53,12 +53,12 @@ You must have edit access to the metadata objects that you want to query.
 
 include::{path}/dependency-api-list.adoc[]
 
-
 [#add-dependents]
 == Get dependent objects for metadata type
 To get a list of dependents for a specific metadata object type, send a `POST` request to the `/tspublic/v1/dependency/listdependents` endpoint.
 
 === Resource URL
+
 ----
 POST /tspublic/v1/dependency/listdependents
 ----
@@ -76,7 +76,7 @@ POST /tspublic/v1/dependency/listdependents
 * `PHYSICAL_COLUMN` for physical column objects
 * `PHYSICAL_TABLE` for a physical table
 
-|`id`|__Array of strings__. A JSON array of the GUIDs of the metadata objects that you want to query.
+|`id`|__Array of strings__. A JSON array of GUIDs of the metadata objects.
 |`batchsize`|__Integer__. The maximum number of batches to fetch in a query. If this attribute is not defined, the `batchsize` value specified in the cluster configuration is used. To get the list of all dependent objects in a single query, define the batch size attribute as `-1`.
 |====
 

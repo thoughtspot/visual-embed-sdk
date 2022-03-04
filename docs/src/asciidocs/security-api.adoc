@@ -146,7 +146,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [#obj-permission-id]
 == Get permission details for a specific object ID
 
-To view permission details of a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----

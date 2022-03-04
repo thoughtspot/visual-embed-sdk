@@ -9,7 +9,6 @@ The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on 
 
 == Session
 
-[div boxDiv boxFullWidth]
 --
 `**GET** /api/rest/v2/session`
 
@@ -62,7 +61,7 @@ Logs out a ThoughtSpot user.
 
 == Users
 
-[div boxDiv boxFullWidth]
+
 --
 
 `*POST* /api/rest/v2/user/create`
@@ -136,7 +135,6 @@ Removes the groups assigned to a user.
 
 == Groups
 
-[div boxDiv boxFullWidth]
 --
 `*GET* /api/rest/v2/group`
 
@@ -251,7 +249,7 @@ Gets a list of groups created in the ThoughtSpot system. To filter your query, y
 
 == Metadata
 
-[div boxDiv boxFullWidth]
+
 --
 `*GET* /api/rest/v2/metadata/tag`
 
@@ -456,7 +454,6 @@ Imports one or several TML objects and object associations.
 
 == Connections 
 
-[div boxDiv boxFullWidth] 
 --
 `*GET* /api/rest/v2/connection` [tag greenBackground]#NEW in 8.1.0.cl#
 
