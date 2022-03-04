@@ -43,7 +43,7 @@ Gets a list of dependent object headers for a Liveboard.
 
 +++<p class="divider"> </p>+++
 
-`xref:admin-api.adoc#get-incomplete-objects[*GET* /tspublic/v1/dependency/listincomplete]`   
+`xref:dependency-apis.adoc#get-incomplete-objects[*GET* /tspublic/v1/dependency/listincomplete]`   
 
 Gets a list of objects with incomplete metadata.
 
