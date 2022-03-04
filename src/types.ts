@@ -68,6 +68,11 @@ export interface EmbedConfig {
      * and returns a Promise that resolves to the `auth token` string.
      * For trusted authentication, the `authEndpoint` or `getAuthToken`
      * attribute is required.
+     *
+     * It is advisable to fetch a new token inside this method and not
+     * reuse and older issued token, as because when auth expires this is
+     * called again and if it is called with an older token the authentication
+     * will not succeed.
      */
     getAuthToken?: () => Promise<string>;
     /**
@@ -114,7 +119,7 @@ export interface EmbedConfig {
 
     /**
      * Re-login when session expires with the previous login options
-     * @default true
+     * @default false
      */
     autoLogin?: boolean;
 

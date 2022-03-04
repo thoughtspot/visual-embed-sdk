@@ -39,7 +39,7 @@ function processAuthInit(e: any) {
 }
 
 function processAuthExpire(e: any) {
-    const { autoLogin = true } = getEmbedConfig(); // Set default to true
+    const { autoLogin = false } = getEmbedConfig(); // Set default to false
     if (autoLogin) {
         handleAuth();
     }

@@ -19,12 +19,13 @@ export let authPromise: Promise<void>;
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
  */
-export const handleAuth = (): void => {
+export const handleAuth = (): Promise<void> => {
     const authConfig = {
         ...config,
         thoughtSpotHost: getThoughtSpotHost(config),
     };
     authPromise = authenticate(authConfig);
+    return authPromise;
 };
 
 export const getEmbedConfig = (): EmbedConfig => config;
@@ -55,8 +56,10 @@ export const prefetch = (url?: string): void => {
  * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
+ *
+ * @returns authPromise Promise which resolves when authentication is complete.
  */
-export const init = (embedConfig: EmbedConfig): void => {
+export const init = (embedConfig: EmbedConfig): Promise<void> => {
     config = embedConfig;
     handleAuth();
 
@@ -68,6 +71,7 @@ export const init = (embedConfig: EmbedConfig): void => {
     if (config.callPrefetch) {
         prefetch(config.thoughtSpotHost);
     }
+    return authPromise;
 };
 
 let renderQueue: Promise<any> = Promise.resolve();
