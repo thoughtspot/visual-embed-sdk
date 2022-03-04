@@ -1,4 +1,4 @@
-= User APIs
+= User API
 :toc: true
 :toclevels: 1
 
@@ -8,8 +8,14 @@
 
 The User APIs allow you to programmatically create, update, and administer ThoughtSpot users.
 
+== API access
+
+You must have administrator access to create, edit, and delete a user, assign users to groups, transfer objects from one user to another, and invalidate, deactivate or activate a user session.
+
+
 == Supported operations
 include::{path}/user-api-list.adoc[]
+
 
 [#create-user]
 == Create a user

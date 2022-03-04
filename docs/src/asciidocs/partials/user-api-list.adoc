@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` 
 

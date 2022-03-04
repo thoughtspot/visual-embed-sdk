@@ -10,7 +10,7 @@
 
 include::{path}/user-api-list.adoc[]
 
-== User group management
+== Groups and privileges
 
 include::{path}/group-api-list.adoc[]
 
@@ -39,6 +39,7 @@ include::{path}/tml-api-list.adoc[]
 include::{path}/pinboard-api-list.adoc[]
 
 == Search data
+
 
 [div boxDiv boxFullWidth]
 --

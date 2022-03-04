@@ -8,11 +8,15 @@
 
 The admin API service allows you to query and update configuration information for a ThoughtSpot cluster. You can also use these APIs to migrate data from one cluster to another.
 
-To access the admin API endpoints and send API requests, you must have admin user credentials.
+== API access
+
+To make an API request to the `/tspublic/v1/admin/configinfo`, `/tspublic/v1/admin/configinfo/update` `/tspublic/v1/admin/configinfo/overrides` endpoints, you must have administrator access. 
+
 
 == Supported operations
 
 include::{path}/admin-api-list.adoc[]
+
 
 [#get-configInfo]
 == Get configuration details
@@ -865,7 +869,27 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
---d 'embedaction={ "id":"3f7eac93-cce1-4ffc-b7a8-429353edbc6b", "name":"Send Survey", "version":"v2", "type":"URL", "detail":{  "link":"https://unpkg.com",  "function":"send-survey", "authSelect":"BEARER",  "authToken":"asdfasadf3q4534534", "encodeUser":"",   "apiKey":"X-API-KEY", "apiValue":"",  "additionalUrlHeaders":"{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"  },     "actionAssociationMap":{ "ANSWER":{  "e4079d3f-ae71-4b0a-a70a-f17ecaf157a5":{ "enabled":"true", "context":"MENU" } } },  "context":"NONE", "availability":[         "GLOBAL" ], "userGroupList":[ "d0326b56-ef23-4c8a-8327-a30e99bcc72b"  ] } \
+--d 'embedaction={
+  "availability": [
+    "GLOBAL"
+  ],
+  "context": "NONE",
+  "detail": {
+    "link": "",
+    "encodeUser": "",
+    "authToken": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authSelect": "NONE",
+    "additionalUrlHeaders": "{}",
+    "function": "test",
+    "appActionType": "SLACK"
+  },
+  "name": "test",
+  "type": "APP",
+  "version": "v4",
+  "userGroupList": []
+} \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions'
 ----
 
@@ -879,35 +903,25 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
 [source, JSON]
 ----
 {
-    "id":"3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
-    "name":"Send Survey",
-    "version":"v2",
-    "type":"URL",
-    "detail":{
-        "link":"https://unpkg.com",
-        "function":"send-survey",
-        "authSelect":"BEARER",
-        "authToken":"asdfasadf3q4534534",
-        "encodeUser":"",
-        "apiKey":"X-API-KEY",
-        "apiValue":"",
-        "additionalUrlHeaders":"{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"
-    },
-    "actionAssociationMap":{
-        "ANSWER":{
-            "e4079d3f-ae71-4b0a-a70a-f17ecaf157a5":{
-                "enabled":"true",
-                "context":"MENU"
-            }
-        }
-    },
-    "context":"NONE",
-    "availability":[
-        "GLOBAL"
-    ],
-    "userGroupList":[
-        "d0326b56-ef23-4c8a-8327-a30e99bcc72b"
-    ]
+  "availability": [
+    "GLOBAL"
+  ],
+  "context": "NONE",
+  "detail": {
+    "link": "",
+    "encodeUser": "",
+    "authToken": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authSelect": "NONE",
+    "additionalUrlHeaders": "{}",
+    "function": "test",
+    "appActionType": "SLACK"
+  },
+  "name": "test",
+  "type": "APP",
+  "version": "v4",
+  "userGroupList": []
 }
 ----
 
@@ -996,13 +1010,35 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'embedaction=={ "id": "0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f", "name": "Send email", "version": "v2", "type": "CALLBACK", "detail": {  "link": "",     "function": "send-email",  "authSelect": "NONE",  "authToken": "",  "encodeUser": "",  "apiKey": "X-API-KEY",  "apiValue": "", "additionalUrlHeaders": "{}"   },  "context": "NONE",  "availability": [ "LOCAL" ] }' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+-d 'embedaction=={
+  "id": "173f7c2f-4081-48a3-9a25-556947bedfdb",
+  "name": "Send to Slack",
+  "version": "v4",
+  "detail": {
+    "additionalUrlHeaders": "{}",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authToken": "",
+    "function": "send-to-slack",
+    "link": "",
+    "authSelect": "NONE",
+    "appActionType": "SLACK"
+  },
+  "type": "APP",
+  "context": "NONE",
+  "availability": [
+    "GLOBAL"
+  ],
+  "application": "NONE",
+  "userGroupList": []
+}' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/173f7c2f-4081-48a3-9a25-556947bedfdb'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/173f7c2f-4081-48a3-9a25-556947bedfdb
 ----
 
 === Example response

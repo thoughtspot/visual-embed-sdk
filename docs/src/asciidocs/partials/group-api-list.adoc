@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` 
 

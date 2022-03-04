@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` 
 
