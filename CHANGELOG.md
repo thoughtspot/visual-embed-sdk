@@ -2,6 +2,12 @@
 
 Please find the comprehensive list of changes for ThoughtSpot releases and SDK [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
 
+## 1.8.1
+
+### Bug fix
+
+- `authEndpoint` in AuthServer authentication scheme was failing because of a missing `await`.
+
 ## 1.8.0
 
 ### Breaking Changes
