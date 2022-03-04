@@ -19,7 +19,7 @@ ThoughtSpot users can get access to objects through the privileges assigned to t
 
 Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
-To view the details of object permissions for the current logged user, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To view object permissions, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
@@ -141,7 +141,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [#obj-permission-id]
 == Get permission details for a specific object ID
 
-To view permission details of a specific object for the current logged user, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
@@ -293,7 +293,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/effectivepermissionb
 
 === Example response
 
-If the data query operation is successful, the API returns the object permission details for the specified object IDs and types.
+If the data query operation is successful, the API returns permission details for the specified object IDs and types.
 
 [source, JSON]
 ----
