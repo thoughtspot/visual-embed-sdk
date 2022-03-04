@@ -58,8 +58,8 @@ Make sure your API request has the following headers:
 * the `Content-Type` in `POST` request is set as `application/x-www-form-urlencoded`
 
 [#add-dependents]
-== Create dependent objects
-To add a list of dependents to a metadata object, send a `POST` request to the `POST /tspublic/v1/dependency/listdependents` API endpoint.
+== Get dependent objects for metadata type
+To get a list of dependents for a specific metadata object type, send a `POST` request to the `POST /tspublic/v1/dependency/listdependents` API endpoint.
 
 === Resource URL
 ----
@@ -79,7 +79,7 @@ POST /tspublic/v1/dependency/listdependents
 * `PHYSICAL_COLUMN` for physical column objects
 * `PHYSICAL_TABLE` for a physical table
 
-|`id`|__Array of strings__. A JSON array of GUIDs of the objects to associate as dependents.
+|`id`|__Array of strings__. A JSON array of GUIDs of the metadata objects.
 |`batchsize`|__Integer__. The maximum number of batches to fetch in a query. If this attribute is not defined, the `batchsize` value specified in the cluster configuration is used. To get the list of all dependent objects in a single query, define the batch size attribute as `-1`.
 |====
 
