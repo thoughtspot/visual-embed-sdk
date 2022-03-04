@@ -102,7 +102,7 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
             authToken = await getAuthToken();
         } else {
             const response = await fetchAuthTokenService(authEndpoint);
-            authToken = response.text();
+            authToken = await response.text();
         }
         await fetchAuthService(thoughtSpotHost, username, authToken);
         loggedInStatus = false;

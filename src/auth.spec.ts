@@ -119,11 +119,15 @@ describe('Unit test for auth', () => {
         jest.spyOn(
             authService,
             'fetchAuthTokenService',
-        ).mockImplementation(() => ({ text: () => true }));
+        ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
         jest.spyOn(authService, 'fetchAuthService');
         await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess);
         expect(authService.fetchSessionInfoService).toBeCalled();
-        expect(authService.fetchAuthService).toBeCalled();
+        expect(authService.fetchAuthService).toBeCalledWith(
+            thoughtSpotHost,
+            username,
+            'authToken',
+        );
     });
 
     test('doTokenAuth: when user is not loggedIn & getAuthToken not present, isLoggedIn should called', async () => {
@@ -133,15 +137,21 @@ describe('Unit test for auth', () => {
         jest.spyOn(
             authService,
             'fetchAuthTokenService',
-        ).mockImplementation(() => ({ text: () => true }));
+        ).mockImplementation(() =>
+            Promise.resolve({ text: () => Promise.resolve('abc') }),
+        );
         jest.spyOn(authService, 'fetchAuthService');
         await authInstance.doTokenAuth(
             embedConfig.doTokenAuthFailureWithoutGetAuthToken,
         );
-        executeAfterWait(() => {
+        await executeAfterWait(() => {
             expect(authInstance.loggedInStatus).toBe(true);
             expect(authService.fetchSessionInfoService).toBeCalled();
-            expect(authService.fetchAuthService).toBeCalled();
+            expect(authService.fetchAuthService).toBeCalledWith(
+                thoughtSpotHost,
+                username,
+                'abc',
+            );
         });
     });
 
