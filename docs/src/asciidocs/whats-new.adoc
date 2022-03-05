@@ -30,22 +30,18 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 
 [width="100%" cols="1,4"]
 |====
-||
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>Action enumerations</h5> +++ 
+[tag redBackground]#BREAKING CHANGE# | The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a session expires.
+|[tag greenBackground]#NEW FEATURE# | The `init` method now returns the `authPromise` which resolves when a user authentication is completed.
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
 
-The SDK introduces the following new enumerations for the embedded UI actions:
-
-* `Action.AnswerDelete`
-////* `Action.Monitor`////
-* `Action.AnswerChartSwitcher`
-* `Action.AddToFavorites`
-* `Action.EditDetails`
+* `Action.AnswerDelete` +
+* `Action.AnswerChartSwitcher` +
+* `Action.AddToFavorites` +
+* `Action.EditDetails` +
 
 For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
 
-|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Host events</h5>+++
-
-The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
 |====
 
 === REST API v2 [beta orangeBackground]^BETA^
@@ -53,7 +49,7 @@ The SDK now supports the `UpdateRuntimeFilters` host event. For more information
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>API endpoints</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# a|+++<h5> New API endpoints</h5> +++ 
 
 * `GET /api/rest/v2/connection`
 * `POST /api/rest/v2/connection/create`

@@ -20,7 +20,7 @@ SSO;;
 Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
 
 +
-* `noRedirect` [small]#__Optional__#
+* `noRedirect` #__Optional__#
 +
 _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
 
@@ -33,7 +33,7 @@ AuthServer;;
 Enables trusted authentication method. To use the trusted authentication method, specify the  trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method. 
 
 +
-* `authEndpoint` [small]#__Optional__# 
+* `authEndpoint` __Optional__
 +
 _String_. The endpoint URL of the authentication server. If the `authEndPoint` attribute is defined, a `GET`   request is sent to the authentication endpoint, which returns the authentication token as plain text in its API response. This attribute is not required if `getAuthToken` is used.
 
@@ -41,11 +41,14 @@ _String_. The endpoint URL of the authentication server. If the `authEndPoint` a
 +
 _String_. The username of the ThoughtSpot user.
 
-* `getAuthToken` [small]#__Optional__# 
+* `getAuthToken` #__Optional__# 
 +
 A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
 
     getAuthToken: () => Promise.resolve(token) 
+
++
+We recommend that you fetch a new token inside this method instead of using an existing token. When a session expires and if this method is called again with an old token, the user authentication may fail.   
 
 +
 For more information, see xref:embed-authentication.adoc[Embed user authentication].  

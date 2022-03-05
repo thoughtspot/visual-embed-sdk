@@ -132,6 +132,7 @@ init({
 });
 ----
 
+
 +
 After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content. 
 
