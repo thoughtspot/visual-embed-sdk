@@ -188,7 +188,7 @@ You can also verify if the query returns the same data when you run it in the Th
 The search data API allows you to pass the search query string as query parameters in the URL. Therefore, ThoughtSpot recommends that you append the query string to the URL, instead of using the `-d <data>` option to pass these parameters in your cURL requests.
 ====
 
-=== API access
+=== Required permissions
 
 You must have view access to the data source objects to run a search query.
 

@@ -18,9 +18,9 @@ Using this API, you can fetch the following information:
 Liveboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
 ====
 
-== API access
+== Required permissions
 
-You must have edit access to the Liveboard object.
+You must have at least view access to the Liveboard and visualization objects.
 
 == Request URL
 ----

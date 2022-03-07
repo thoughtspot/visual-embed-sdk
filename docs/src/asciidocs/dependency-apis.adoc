@@ -45,7 +45,7 @@ A join combines columns from one or several data objects by using matching value
 The APIs require you to specify the GUIDs of the data objects that you want to query. You can use the `/tspublic/v1/metadata/listobjectheaders` and `/tspublic/v1/metadata/details` API endpoints to get the GUID of the objects that you want to query.
 ====
 
-== API access
+== Required permissions
 
 You must have edit access to the metadata objects that you want to query.
 

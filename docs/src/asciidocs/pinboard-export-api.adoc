@@ -13,9 +13,9 @@ To programmatically download a Liveboard or specific visualizations from a Liveb
 To remove ThoughtSpot logos from the exported PDFs, contact your ThoughtSpot team.
 ====
 
-== API access
+== Required permissions
 
-You must have edit access to the Liveboard object.
+You must have at least view access to the Liveboard object.
 
 == Resource URL
 

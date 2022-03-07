@@ -8,7 +8,7 @@
 
 The Security APIs allow you to share ThoughtSpot objects, such as Liveboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group.
 
-== API access
+== Required permissions
 
 * To query object permissions, you must have administrator access.
 * To share an object or visualization with another user, you must have edit access to the object.

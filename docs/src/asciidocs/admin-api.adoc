@@ -8,7 +8,7 @@
 
 The admin API service allows you to query and update configuration information for a ThoughtSpot cluster. You can also use these APIs to migrate data from one cluster to another.
 
-== API access
+== Required permissions
 
 To make an API request to the `/tspublic/v1/admin/configinfo`, `/tspublic/v1/admin/configinfo/update` `/tspublic/v1/admin/configinfo/overrides` endpoints, you must have administrator access. 
 
