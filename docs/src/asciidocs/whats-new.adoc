@@ -25,13 +25,11 @@ Users with developer or admin privileges can create an app action for Slack in t
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
- 
-=== Visual Embed SDK version 1.8.0
+
+=== Visual Embed SDK version 1.9.0 
 
 [width="100%" cols="1,4"]
 |====
-[tag redBackground]#BREAKING CHANGE# | The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a session expires.
-|[tag greenBackground]#NEW FEATURE# | The `init` method now returns the `authPromise` which resolves when a user authentication is completed.
 |[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
 
 * `Action.AnswerDelete` +
@@ -69,6 +67,23 @@ For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v
  
 == Version 8.0.0.cl
 
+.Visual Embed SDK version 1.8.x
+[%collapsible] 
+====
+[width="100%" cols="1,4"]
+|====
+||
+|[tag redBackground]#BREAKING CHANGE# | +++<h5>Auto login</h5> +++ 
+
+The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a user session expires.
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Authentication</h5> +++ 
+
+The `init` method now returns an `authPromise` that resolves when a user authentication is completed.
+|====
+
+====
+
+
 .Embed application
 [%collapsible] 
 ====
@@ -88,14 +103,15 @@ For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinbo
 |====
 ====
 
+
 .Visual Embed SDK 1.7.0
 
 [%collapsible] 
 ====
 [width="100%" cols="1,4"]
 |====
-|
-[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
+|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
 
 The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
 
@@ -110,6 +126,8 @@ For more information, see xref:embed-events.adoc[Subscribe to events].
 
 |====
 ====
+
+ 
 
 .REST API Playground and SDK [beta orangeBackground]^BETA^
 
@@ -398,7 +416,7 @@ The SDK EmbedEvent library includes the following events:
 * `QueryChanged`
 * `AuthExpire`
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Subscribe to Events].
 |====
 
 ====

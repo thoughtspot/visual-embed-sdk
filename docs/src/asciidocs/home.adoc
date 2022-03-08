@@ -107,7 +107,7 @@
       <p class="boxBody"> Apply custom styles and themes to the embedded ThoughtSpot UI elements to match the look and feel of your app.</p>
       <img src="../doc-images/images/customize-styles.png" alt="Customize UI">
       <p>
-        <a href="?pageid=customize-style">Learn more about customizing the UI elements -></a>
+        <a href="?pageid=customize-style">Learn more about style customization -></a>
       </p>
     </div></a>
   </div>
@@ -175,7 +175,7 @@
   <div class="col-md-4">
     <a href="https://cloud-docs.thoughtspot.com/" target="_blank"><div class="boxDiv">
       <h5> Learn more about ThoughtSpot</h5>
-      <p class="boxBody">Visit our product documentation site to know more about ThoughtSpot features and capabilities.</p>
+      <p class="boxBody">Visit our product documentation site to know more about ThoughtSpot.</p>
       <p>
         <a href="https://cloud-docs.thoughtspot.com/" target="_blank">View product documentation -></a>
     </div></a>

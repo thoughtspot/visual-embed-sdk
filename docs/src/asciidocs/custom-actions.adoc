@@ -72,7 +72,7 @@ Trigger a callback to the host app and push a response payload</p>
 	<a href="?pageid=app-actions">	<div class="boxHalfWidth">
 <h5>Global and Local actions</h5>
 <p class="boxBody">Know the difference between global and local actions and the associated workflows.</p>
-<p class="boxBody"><em>Requires Developer or administrator privilege </em> </p>
+<p class="boxBody"><em>Requires Developer or Administrator privilege </em> </p>
 
 <p><a href="?pageid=customize-actions">Learn more -> </a></p>
 </div>
@@ -84,7 +84,7 @@ Trigger a callback to the host app and push a response payload</p>
 <h5>Set the position of a custom action</h5>
 <p class="boxBody">Set the position of a custom action and place it as a primary button or menu action</p>
 
-<p class="boxBody"><em>Requires access to the *Custom actions* panel</em>.</p>
+<p class="boxBody"><em>Requires edit access to a custom action</em>.</p>
 
 <p><a href="?pageid=edit-custom-action">Learn more -> </a></p>
 </div>

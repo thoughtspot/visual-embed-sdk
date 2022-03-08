@@ -1,30 +1,267 @@
-= Changelog
+= Visual Embed changelog
 
 :toc: true
 
 :page-title: Changelog
-:page-pageid: api-changelog
+:page-pageid: embed-sdk-changelog
 :page-description: Changes to the SDK and APIs
 
+This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of new features and enhancements, see xref:whats-new.adoc[What's New].
 
-This changelog lists the enhancements, additions, and modifications to the Visual Embed SDK and REST APIs.
-This changelog tracks only changes to the SDK and API. For information about the changes introduced in the Developer portal or ThoughtSpot application, see the link:https://cloud-docs.thoughtspot.com/release/notes.html[ThoughtSpot Cloud Release Notes, window=_blank].
+== Version 1.9.0
 
-== May 2021
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
 
-=== Visual Embed SDK 1.2.0
-The ThoughtSpot 7 Cloud May release introduces the Visual Embed SDK 1.2.0 version with a minor update and backward-compatible improvements.
+* `Action.AnswerDelete` +
+* `Action.AnswerChartSwitcher` +
+* `Action.AddToFavorites` +
+* `Action.EditDetails` +
 
-In this version, the `noRedirect` attribute is introduced in the *SearchEmbed*, *AppEmbed*, and *LiveboardEmbed* SDK packages. The `noRedirect` attribute is available as an optional parameter for  the `SSO` `AuthType`. When set to `true`, the `noRedirect` attribute opens SAML SSO authentication workflow in a pop-up window, instead of redirecting users to a web browser. 
+For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
 
-=== REST APIs
-The ThoughtSpot 7 Cloud May release introduces the following new REST APIs:
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
+|====
 
-* `POST /tspublic/v1/user/updatepreference`
+
+== Version 1.8.1
+
+[width="100%" cols="1,4"]
+|====
+[tag redBackground]#BREAKING CHANGE# | The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a session expires.
+|[tag greenBackground]#NEW FEATURE# | The `init` method now returns the `authPromise` which resolves when a user authentication is completed.
+|====
+
+
+== Version 1.7.0
+
+[width="100%" cols="1,4"]
+|====
+|
+[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
+
+For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
+
+The SDK includes the following new event:
+
+* `RouteChange`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+
+|====
+
+== Version 1.6.x
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
+
+You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
+ 
+For more information, see xref:embed-actions.adoc[Show or hide UI actions].
+
+|[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
+
+The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 
+
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
+
+The SDK supports the following new events:
+
+* `DialogOpen`
+* `DialogClose`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+|====
+
+== Version 1.5.0
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Render embedded objects in queue</h5>+++
+
+The SDK now supports rendering embedded objects in a queue. If you have multiple embedded objects, you can enable the `queueMultiRenders` parameter to queue your embedded objects and render them one after another. This feature helps in decreasing the load on the web browsers and improving your application loading experience. By default, this attribute is set to `false`.
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Liveboard embed</h5>+++
+
+The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to.
+
+For more information, see xref:embed-search.adoc[Embed a pinboard].
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Embed events</h5>+++
+
+The SDK EmbedEvent library includes the following new events:
+
+* `VizPointDoubleClick`
+* `Drilldown`
+* `SetVisibleVizs`
+
+For more information, see xref:embed-events.adoc[Event subscription and handling].
+
+|====
+
+== Version 1.4.0
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Prefetch API+++</h5>+++
+
+The `prefetch` API fetches static resources from a given URL before your application loads. Web browsers can then cache the prefetched resources locally and serve them from a user's local disk. You can use this API to load the embedded objects faster and improve your application response time.
+
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
+
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
+
+For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Full application embedding+++</h5>+++
+
+The `appEmbed` SDK package includes the following new attributes:
+
+* The `disableProfileAndHelp` attribute to show or hide the `Help (?)` and the user profile menu in the navigation bar of your embedded app.
+
+* The `hideObjects` attribute to hide specific objects from a user's page view.
+
+For more information, see xref:full-embed.adoc[Embed full application].
+
+|[tag greenBackground]#NEW FEATURE# |+++<h5>+++Search embed +++</h5>+++
+
+The `searchEmbed` package includes the `forceTable` attribute that sets tabular view as the default format for presenting search data. You can use set this attribute to `true` to force search results to appear in the table view.
+
+For more information, see xref:embed-search.adoc[Embed ThoughtSpot search].
+
+|[tag redBackground]#REMOVED# |
+
+The `searchQuery` parameter is no longer supported and is removed from the `searchEmbed` SDK package.
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>+++Embed events +++</h5>+++
+The SDK EmbedEvent library includes the following events:
+
+* `QueryChanged`
+* `AuthExpire`
+
+For more information, see xref:embed-events.adoc[Subscribe to events].
+|====
+
+== Version 1.3.0
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE#  a|  +++<h5>searchOptions</h5>+++
+
+The `searchEmbed` SDK package introduces the `searchOptions` parameter for setting search tokens. The `searchOptions` parameter includes the following attributes:
+
+* `searchTokenString`
 +
-You can use this API to programmatically update a ThoughtSpot user's profile settings such as the email address, locale preference, notification settings, and the preference for revisiting the onboarding experience.
-+
-For more information, see xref:user-api.adoc#updatepreference-api[User API].
+A TML query string to define search tokens.
 
-* `GET /tspublic/v1/metadata/listas`
-You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
+* `executeSearch`
++
+When set to `true`, it executes search and shows the search results.
+
+For more information, see xref:embed-search.adoc#search-query[Embed ThoughtSpot search].
+
+|[tag redBackground]#DEPRECATED# a| +++<h5>searchQuery</h5>+++
+
+The `searchQuery` parameter in the `searchEmbed` SDK package is deprecated in the Visual Embed SDK version 1.3.1. Instead, you can use the `searchOptions` parameter to define the search token string.
+
+For more information about `searchOptions`, see xref:embed-search.adoc#search-query[Embed ThoughtSpot search].
+
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>autoLogin</h5>+++
+
+The SDK now supports logging in users automatically after a user session has expired.
+
+For more information, see xref:embed-authentication.adoc##embed-session-sec[Embed user authentication].
+
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>shouldEncodeUrlQueryParams</h5>+++
+
+You can now convert query parameters in the ThoughtSpot generated URLs to base64-encoded format. You can enable this attribute to secure your cluster from cross-site scripting attacks.
+|[tag redBackground]#BREAKING CHANGE# a| +++<h5>Data structure changes in custom action response payloads</h5>+++
+
+* The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
+
+* The answer payload for custom actions includes the following metadata:
+
+** `reportBookmetadata`
++
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+
+** user data
++
+Includes user information such as username, GUID of the user, and email address.
+
+To view a sample response payload, see xref:callback-response-payload.adoc#search-data-payload[Custom action response payload].
+
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>preventPinboardFilterRemoval</h5>+++
+
+The `pinboardEmbed` SDK package now includes the `preventPinboardFilterRemoval` attribute. You can use this attribute to disable the filter removal action and thus prevent users from removing the filter chips added on a pinboard page.
+
+For more information, see xref:embed-pinboard.adoc[Embed a pinboard] and xref:embed-a-viz.adoc[Embed a visualization].
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>suppressNoCookieAccessAlert</h5>+++
+
+You can now set custom alerts for `noCookieAccess` events. By default, the SDK triggers a `noCookieAccess` event and generates an alert when a user's browser blocks third-party cookies. The `suppressNoCookieAccessAlert` allows you to disable this alert.
+
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>Support for fetching callback custom action payload in batches</h5>+++
+
+The Visual Embed SDK now supports processing data in batches for callback custom action responses.
+The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
+
+For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
+|====
+
+=== Version 1.2.0
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>SAML authentication</h5>+++
+
+The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the `SSO` `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
+
+For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
+
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Visual Embed SDK notification when third-party cookies are disabled</h5>+++
+
+When a user accesses the embedded application from a web browser that has third-party cookies disabled, the Visual Embed SDK emits the `NoCookieAccess` event to notify the developer. Cookies are disabled by default in Safari. Users can enable third-party cookies in Safari’s Preferences setting page or use another web browser.
+To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.
+
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard actions</h5>+++
+The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations.
+
+Pinboard::
+* Save
+* Make a copy
+* Add filters
+* Configure filters
+* Present
+* Download as PDF
+* Pinboard info
+* Manage schedules
+
+
+[NOTE]
+Users with edit permissions can view and access the *Save*, *Add filters*, *Configure filters*, and *Manage schedules* actions.
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visualization actions</h5>+++
+
+Visualizations on a pinboard:
+
+* Pin
+* Download
+* Edit
+* Present
+* Download as CSV
+* Download as XLSX
+* Download as PDF
+
+[NOTE]
+Users with edit permissions can view and access the *Edit* action. The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations. The *Download* action is available for chart visualizations.
+
+|====
+ 
