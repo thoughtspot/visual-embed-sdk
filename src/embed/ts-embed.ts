@@ -114,7 +114,7 @@ export interface ViewConfig {
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
-     * @version 1.8.0
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     additionalFlags?: { [key: string]: string | number | boolean };
 }

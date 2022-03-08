@@ -411,7 +411,7 @@ export enum HostEvent {
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
-     * @version 1.8.0 or later
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
 }
@@ -536,23 +536,23 @@ export enum Action {
     RequestAccess = 'requestAccess',
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
-     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     Monitor = 'createMonitor',
     /**
-     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     AnswerDelete = 'onDeleteAnswer',
     /**
-     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
-     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     AddToFavorites = 'addToFavorites',
     /**
-     * @version SDK: 1.8.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     EditDetails = 'editDetails',
 }
