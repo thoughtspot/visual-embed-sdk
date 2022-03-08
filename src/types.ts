@@ -291,7 +291,7 @@ export enum EmbedEvent {
     /**
      * One or more data columns have been selected.
      * @return columnIds - the list of columns
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.2.0.cl
+     * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
