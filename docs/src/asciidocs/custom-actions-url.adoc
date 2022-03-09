@@ -28,7 +28,7 @@ ThoughtSpot allows you to add a custom action to trigger a data payload to a spe
 Before you begin: 
 
 * Make sure you have the developer or admin privileges to create a custom action.
-* If a URL action is intended to be used by the embedded ThoughtSpot user, add the URL to the xref:security-settngs.adoc[CORS and CSP connect-src allowlist].
+* If a URL action is intended to be used by the embedded ThoughtSpot user, add the URL to the xref:security-settings.adoc[CORS and CSP connect-src allowlist].
 
 To create a URL action, complete the following steps:
 

@@ -47,6 +47,22 @@
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 ** link:{{navprefix}}=embed-without-sdk[Embed without the Visual Embed SDK]
 
+* link:{{navprefix}}=custom-action-intro[Custom actions]
+** link:{{navprefix}}=customize-actions[Create and administer actions]
+** link:{{navprefix}}=edit-custom-action[Set the position of a custom action]
+** link:{{navprefix}}=add-action-viz[Add a local action to a visualization]
+** link:{{navprefix}}=add-action-worksheet[Add a local action to a worksheet]
+** link:{{navprefix}}=custom-action-url[URL actions]
+** link:{{navprefix}}=custom-action-callback[Callback actions]
+** link:{{navprefix}}=custom-action-payload[Callback response payload]
+** link:{{navprefix}}=app-actions[App actions]
+** link:{{navprefix}}=slack-integration[Push data to a Slack workspace]
+
+* link:{{navprefix}}=customization-intro[Customization and rebranding]
+** link:{{navprefix}}=customize-style[Customize layout and styles]
+** link:{{navprefix}}=customize-links[Customize links]
+** link:{{navprefix}}=customize-emails[Customize onboarding settings]
+
 * link:{{navprefix}}=rest-apis[REST APIs]
 ** link:{{navprefix}}=v1v2-comparison[REST v1 and v2 comparison]
 ** link:{{navprefix}}=rest-api-v1[REST API v1]
@@ -78,21 +94,7 @@
 *** link:{{navprefix}}=logs-api[Log streaming service API]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
  
-* link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Create and administer actions]
-** link:{{navprefix}}=edit-custom-action[Set the position of a custom action]
-** link:{{navprefix}}=add-action-viz[Add a local action to a visualization]
-** link:{{navprefix}}=add-action-worksheet[Add a local action to a worksheet]
-** link:{{navprefix}}=custom-action-url[URL actions]
-** link:{{navprefix}}=custom-action-callback[Callback actions]
-** link:{{navprefix}}=custom-action-payload[Callback response payload]
-** link:{{navprefix}}=app-actions[App actions]
-** link:{{navprefix}}=slack-integration[Push data to a Slack workspace]
 
-* link:{{navprefix}}=customization-intro[Customization and rebranding]
-** link:{{navprefix}}=customize-style[Customize layout and styles]
-** link:{{navprefix}}=customize-links[Customize links]
-** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 
