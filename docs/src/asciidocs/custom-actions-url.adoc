@@ -10,7 +10,7 @@ ThoughtSpot allows you to add a custom action to trigger a data payload to a spe
 == Before you begin
 
 * Make sure you have the developer privileges to add a custom action.
-* If you want to use a third-party domain as the URL target, add the URL domain to the xref:security-settngs.adoc[CORS and CSP connect-src allowlist].
+* If you want to use a third-party domain as the URL target, add the URL domain to the xref:security-settings.adoc[CORS and CSP connect-src allowlist].
 * Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
 
 == Add a custom action
