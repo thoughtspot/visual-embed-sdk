@@ -8,6 +8,10 @@
 
 The Session APIs allow ThoughtSpot users to authenticate and manage their sessions.
 
+== Required permissions
+
+You require ThoughtSpot login credentials to create a session object and obtain a login token.
+
 == Supported operations
 include::{path}/session-api-list.adoc[]
 

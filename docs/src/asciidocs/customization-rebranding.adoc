@@ -3,7 +3,7 @@
 
 :page-title: Customization and rebranding
 :page-pageid: customization-intro
-:page-description: You can insert custom buttons or menu items in ThoughtSpot UI
+:page-description: You can customize the look and feel of the ThoughtSpot UI and rebrand the UI elements as per your organization's branding guidelines.
 
 You can customize the look and feel of the embedded ThoughtSpot content to match the styles and layout of your host application. You can also create new buttons and actions to provide additional workflows to your application users. 
 

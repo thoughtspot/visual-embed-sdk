@@ -1,4 +1,4 @@
-= OpenID Connect authentication [tag greenBackground]#NEW in 8.0.0.cl#
+= OpenID Connect authentication 
 :toc: true
 :toclevels: 2
 

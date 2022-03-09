@@ -57,9 +57,17 @@ Any completed log-in process will return session cookies from the ThoughtSpot sy
 
 For more information, see xref:api-auth-session.adoc[Authentication].
 
+== Data format
+
+The REST APIs allow you to send and receive data in JSON format.
+To embed this data in your application, you can import or extract the data from the JSON file.
+You can also use scriptable files in ThoughtSpot Modeling Language (TML) to represent objects in a reusable, editable, and easy-to-read format. ThoughtSpot allows you to export and import these scriptable files using REST APIs.
+
 == API requests and response
 
 To call a REST API, send a request to the endpoint URL with the attributes required to create, view, or modify an object. 
+
+
 === Request method
 
 Specify the HTTP request method in your API request. 

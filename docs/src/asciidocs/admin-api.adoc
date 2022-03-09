@@ -8,11 +8,15 @@
 
 The admin API service allows you to query and update configuration information for a ThoughtSpot cluster. You can also use these APIs to migrate data from one cluster to another.
 
-To access the admin API endpoints and send API requests, you must have admin user credentials.
+== Required permissions
+
+To make an API request to the `/tspublic/v1/admin/configinfo`, `/tspublic/v1/admin/configinfo/update` `/tspublic/v1/admin/configinfo/overrides` endpoints, you must have administrator access. 
+
 
 == Supported operations
 
 include::{path}/admin-api-list.adoc[]
+
 
 [#get-configInfo]
 == Get configuration details
@@ -631,18 +635,13 @@ GET /tspublic/v1/admin/embed/actions
 
 === Example request
 
-Make sure the API request has the following headers:
-
-* the `Accept` header is set as `Accept: text/html`
-* the `X-requested-by` header is set as `X-Requested-By: ThoughtSpot`
-
 .cURL
 
 [source,curl]
 ----
 curl -X GET \
---header 'Accept: text/html' \
---header 'X-Requested-By: ThoughtSpot' \ 
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' 
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions'
 ----
 
@@ -658,19 +657,20 @@ If the cluster has custom actions, the API returns a list of custom actions.
 [source, JSON]
 ----
 [
-  {
-    "id": "67caeaba-401e-4e83-9dec-6ce6f8d72b2f",
-    "name": "test-action-1",
+ {
+    "id": "d86e9c55-2ac7-4c37-a3ff-2efa965ee221",
+    "name": "Send Survey",
     "version": "v4",
     "detail": {
       "additionalUrlHeaders": "{}",
       "encodeUser": "",
       "apiKey": "X-API-KEY",
       "apiValue": "",
-      "function": "test-action-1",
+      "function": "send-survey",
       "authToken": "",
-      "link": "https://myTest.com",
-      "authSelect": "NONE"
+      "link": "https://mysurvey.com/",
+      "authSelect": "NONE",
+      "appActionType": ""
     },
     "type": "URL",
     "context": "NONE",
@@ -679,25 +679,48 @@ If the cluster has custom actions, the API returns a list of custom actions.
     ],
     "application": "NONE",
     "actionAssociationMap": {},
-    "userGroupList": [
-      "d0326b56-ef23-4c8a-8327-a30e99bcc72b"
-    ]
+    "userGroupList": []
   },
   {
-    "id": "f1192d2f-6e2e-4669-a73d-d8997d6598ff",
-    "name": "test-action",
+    "id": "c3d847d3-1eda-4903-97a0-4caefbffa406",
+    "name": "send email",
     "version": "v4",
     "detail": {
       "additionalUrlHeaders": "{}",
       "encodeUser": "",
       "apiKey": "X-API-KEY",
       "apiValue": "",
-      "function": "test-action",
+      "function": "send-email",
       "authToken": "",
       "link": "",
-      "authSelect": "NONE"
+      "authSelect": "NONE",
+      "appActionType": ""
     },
     "type": "CALLBACK",
+    "context": "NONE",
+    "availability": [
+      "GLOBAL"
+    ],
+    "application": "NONE",
+    "actionAssociationMap": {},
+    "userGroupList": []
+  },
+  {
+    "id": "e5a2467d-8d0b-45ea-bf72-bab9d1e456fd",
+    "name": "Send to Slack",
+    "version": "v4",
+    "detail": {
+      "additionalUrlHeaders": "{}",
+      "encodeUser": "",
+      "apiKey": "X-API-KEY",
+      "apiValue": "",
+      "function": "send-to-slack",
+      "authToken": "",
+      "link": "",
+      "authSelect": "NONE",
+      "appActionType": "SLACK"
+    },
+    "type": "APP",
     "context": "NONE",
     "availability": [
       "GLOBAL"
@@ -767,14 +790,14 @@ If the request is successful, the API returns the JSON data for the specified ac
 ----
 {
   "id": "f1192d2f-6e2e-4669-a73d-d8997d6598ff",
-  "name": "test-action",
+  "name": "Send Survey",
   "version": "v4",
   "detail": {
     "additionalUrlHeaders": "{}",
     "encodeUser": "",
     "apiKey": "X-API-KEY",
     "apiValue": "",
-    "function": "test-action",
+    "function": "send-survey",
     "authToken": "",
     "link": "",
     "authSelect": "NONE"
@@ -846,7 +869,27 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
---d 'embedaction=%7B%20%20%20%20%20%22id%22%3A%223f7eac93-cce1-4ffc-b7a8-429353edbc6b%22%2C%20%20%20%20%20%22name%22%3A%22unpkg%20test%22%2C%20%20%20%20%20%22version%22%3A%22v2%22%2C%20%20%20%20%20%22type%22%3A%22URL%22%2C%20%20%20%20%20%22detail%22%3A%7B%20%20%20%20%20%20%20%20%20%22link%22%3A%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%20%20%22function%22%3A%22unpkg-test%22%2C%20%20%20%20%20%20%20%20%20%22authSelect%22%3A%22BEARER%22%2C%20%20%20%20%20%20%20%20%20%22authToken%22%3A%22asdfasadf3q4534534%22%2C%20%20%20%20%20%20%20%20%20%22encodeUser%22%3A%22%22%2C%20%20%20%20%20%20%20%20%20%22apiKey%22%3A%22X-API-KEY%22%2C%20%20%20%20%20%20%20%20%20%22apiValue%22%3A%22%22%2C%20%20%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%22%7B%5C%22url_header1%5C%22%3A%7B%5C%22id%5C%22%3A%5C%226a82908c-9328-40ff-b347-65adeda12f57%5C%22%2C%5C%22key%5C%22%3A%5C%22key1%5C%22%2C%5C%22value%5C%22%3A%5C%22value1%5C%22%7D%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%7B%20%20%20%20%20%20%20%20%20%22ANSWER%22%3A%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%22e4079d3f-ae71-4b0a-a70a-f17ecaf157a5%22%3A%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%22MENU%22%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%5B%20%20%20%20%20%20%20%20%20%22GLOBAL%22%20%20%20%20%20%5D%2C%20%20%20%20%20%22userGroupList%22%3A%5B%20%20%20%20%20%20%20%20%20%22d0326b56-ef23-4c8a-8327-a30e99bcc72b%22%20%20%20%20%20%5D%20%7D'\
+--d 'embedaction={
+  "availability": [
+    "GLOBAL"
+  ],
+  "context": "NONE",
+  "detail": {
+    "link": "",
+    "encodeUser": "",
+    "authToken": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authSelect": "NONE",
+    "additionalUrlHeaders": "{}",
+    "function": "test",
+    "appActionType": "SLACK"
+  },
+  "name": "test",
+  "type": "APP",
+  "version": "v4",
+  "userGroupList": []
+} \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions'
 ----
 
@@ -860,35 +903,25 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions
 [source, JSON]
 ----
 {
-    "id":"3f7eac93-cce1-4ffc-b7a8-429353edbc6b",
-    "name":"unpkg test",
-    "version":"v2",
-    "type":"URL",
-    "detail":{
-        "link":"https://unpkg.com",
-        "function":"unpkg-test",
-        "authSelect":"BEARER",
-        "authToken":"asdfasadf3q4534534",
-        "encodeUser":"",
-        "apiKey":"X-API-KEY",
-        "apiValue":"",
-        "additionalUrlHeaders":"{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}"
-    },
-    "actionAssociationMap":{
-        "ANSWER":{
-            "e4079d3f-ae71-4b0a-a70a-f17ecaf157a5":{
-                "enabled":"true",
-                "context":"MENU"
-            }
-        }
-    },
-    "context":"NONE",
-    "availability":[
-        "GLOBAL"
-    ],
-    "userGroupList":[
-        "d0326b56-ef23-4c8a-8327-a30e99bcc72b"
-    ]
+  "availability": [
+    "GLOBAL"
+  ],
+  "context": "NONE",
+  "detail": {
+    "link": "",
+    "encodeUser": "",
+    "authToken": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authSelect": "NONE",
+    "additionalUrlHeaders": "{}",
+    "function": "test",
+    "appActionType": "SLACK"
+  },
+  "name": "test",
+  "type": "APP",
+  "version": "v4",
+  "userGroupList": []
 }
 ----
 
@@ -900,14 +933,14 @@ If the request is successful, the API returns the JSON data for the custom actio
 ----
 {
   "id": "eab63fb9-2b04-48fe-89fe-871317c16b55",
-  "name": "unpkg test",
+  "name": "Send Survey",
   "version": "v4",
   "detail": {
     "additionalUrlHeaders": "{\"url_header1\":{\"id\":\"6a82908c-9328-40ff-b347-65adeda12f57\",\"key\":\"key1\",\"value\":\"value1\"}}",
     "encodeUser": "",
     "apiKey": "X-API-KEY",
     "apiValue": "",
-    "function": "unpkg-test",
+    "function": "send-survey",
     "authToken": "asdfasadf3q4534534",
     "link": "https://unpkg.com",
     "authSelect": "BEARER"
@@ -977,13 +1010,35 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'embedaction=%7B%20%20%20%22id%22%3A%20%220f1b18f9-2dbd-4742-bc70-7bfc1322ad3f%22%2C%20%20%20%22name%22%3A%20%22test-callback%22%2C%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%22type%22%3A%20%22CALLBACK%22%2C%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%22link%22%3A%20%22%22%2C%20%20%20%20%20%22function%22%3A%20%22test-callback%22%2C%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%7D%2C%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%22availability%22%3A%20%5B%20%20%20%20%20%E2%80%9CLOCAL%E2%80%9D%20%20%20%5D%20%7D' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f'
+-d 'embedaction=={
+  "id": "173f7c2f-4081-48a3-9a25-556947bedfdb",
+  "name": "Send to Slack",
+  "version": "v4",
+  "detail": {
+    "additionalUrlHeaders": "{}",
+    "encodeUser": "",
+    "apiKey": "X-API-KEY",
+    "apiValue": "",
+    "authToken": "",
+    "function": "send-to-slack",
+    "link": "",
+    "authSelect": "NONE",
+    "appActionType": "SLACK"
+  },
+  "type": "APP",
+  "context": "NONE",
+  "availability": [
+    "GLOBAL"
+  ],
+  "application": "NONE",
+  "userGroupList": []
+}' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/173f7c2f-4081-48a3-9a25-556947bedfdb'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/173f7c2f-4081-48a3-9a25-556947bedfdb
 ----
 
 === Example response
@@ -994,12 +1049,12 @@ If the request is successful, the API returns the JSON data for the specified ac
 ----
 {
     "id":"0f1b18f9-2dbd-4742-bc70-7bfc1322ad3f",
-    "name":"test-callback",
+    "name":"Send email",
     "version":"v2",
     "type":"CALLBACK",
     "detail":{
         "link":"",
-        "function":"test-callback",
+        "function":"send-email",
         "authSelect":"NONE",
         "authToken":"",
         "encodeUser":"",
@@ -1136,7 +1191,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' \
+-d 'actionassociation= {  "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf", "name": "My worksheet action",  "version": "v2",  "type": "URL",  "detail": {       "link": "https://unpkg.com",  "function": "my-worksheet-action",  "authSelect": "NONE",   "authToken": "",  "encodeUser": "",  "apiKey": "X-API-KEY",       "apiValue": "",  "additionalUrlHeaders": "{}"   },  "actionAssociationMap": { "WORKSHEET": {  "2b9d083a-275c-4984-9cfe-90b036affa17": {  "enabled": "true",      "context": "PRIMARY"  }   }  }, "context": "NONE",  "availability": []  }KEY", "apiValue": "",  "additionalUrlHeaders": "{}" },  "context": "NONE",   "availability": [ "LOCAL"] }' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
 ----
 
@@ -1326,7 +1381,7 @@ DELETE /tspublic/v1/admin/embed/actions/{actionid}/associations
 curl -X DELETE \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'actionassociation=%20%7B%20%20%20%20%20%22id%22%3A%20%220dbd5b3a-84c1-4407-9803-cf07d67e6fcf%22%2C%20%20%20%20%20%22name%22%3A%20%22My%20worksheet%20action%22%2C%20%20%20%20%20%22version%22%3A%20%22v2%22%2C%20%20%20%20%20%22type%22%3A%20%22URL%22%2C%20%20%20%20%20%22detail%22%3A%20%7B%20%20%20%20%20%20%20%22link%22%3A%20%22https%3A%2F%2Funpkg.com%22%2C%20%20%20%20%20%20%20%22function%22%3A%20%22my-worksheet-action%22%2C%20%20%20%20%20%20%20%22authSelect%22%3A%20%22NONE%22%2C%20%20%20%20%20%20%20%22authToken%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22encodeUser%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22apiKey%22%3A%20%22X-API-KEY%22%2C%20%20%20%20%20%20%20%22apiValue%22%3A%20%22%22%2C%20%20%20%20%20%20%20%22additionalUrlHeaders%22%3A%20%22%7B%7D%22%20%20%20%20%20%7D%2C%20%20%20%20%20%22actionAssociationMap%22%3A%20%7B%20%20%20%20%20%20%20%22WORKSHEET%22%3A%20%7B%20%20%20%20%20%20%20%20%20%222b9d083a-275c-4984-9cfe-90b036affa17%22%3A%20%7B%20%20%20%20%20%20%20%20%20%20%20%22enabled%22%3A%20%22true%22%2C%20%20%20%20%20%20%20%20%20%20%20%22context%22%3A%20%22PRIMARY%22%20%20%20%20%20%20%20%20%20%7D%20%20%20%20%20%20%20%7D%20%20%20%20%20%7D%2C%20%20%20%20%20%22context%22%3A%20%22NONE%22%2C%20%20%20%20%20%22availability%22%3A%20%5B%5D%20%20%20%7D' \
+-d 'actionassociation= { "id": "0dbd5b3a-84c1-4407-9803-cf07d67e6fcf",  "name": "My worksheet action",  "version": "v2", "type": "URL", "detail": { "link": "https://unpkg.com",  "function": "my-worksheet-action",  "authSelect": "NONE",  "authToken": "", "encodeUser": "",  "apiKey": "X-API-KEY",  "apiValue": "",       "additionalUrlHeaders": "{}"  },  "actionAssociationMap": {  "WORKSHEET": { "2b9d083a-275c-4984-9cfe-90b036affa17": {  "enabled": "true", "context": "PRIMARY" } } }, "context": "NONE",     "availability": [] }' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/embed/actions/0dbd5b3a-84c1-4407-9803-cf07d67e6fcf/associations'
 ----
 

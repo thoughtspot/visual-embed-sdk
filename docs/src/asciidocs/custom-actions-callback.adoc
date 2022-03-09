@@ -1,44 +1,213 @@
-= Configure a callback action
+= Callback custom actions
 :toc: true
 
-:page-title: Actions customization
+:page-title: Callback custom actions for an embedded ThoughtSpot instance
 :page-pageid: custom-action-callback
-:page-description: Add custom actions
+:page-description: Set up a callback function to the host application and trigger a response payload from the embedded ThoughtSpot component.
 
-ThoughtSpot allows you to set up a callback function from the parent application which triggers on the click of a custom action. For example, if you want to push insights from ThoughtSpot to your host application or trigger an event to an external application, you can add a custom action in Thoughtspot and set up a callback in the parent application. When the user clicks this action on a visualization page, it initiates a callback to the parent application.
+If you have embedded the ThoughtSpot search functionality in your application, you can add a custom action to send the data obtained from a search query to an external application or a workflow. For example, if you want to act on business insights, you can push data from ThoughtSpot by triggering an event and initiating a callback to the host application.  
 
-== Before you begin
+[div boxDiv boxFullWidth]
+--
++++<h5>Feature highlights</h5>+++
 
-* Make sure you have the developer privileges to add a custom action.
-* Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster. 
+* Callback custom actions are supported on only embedded ThoughtSpot instances and require a ThoughtSpot Everywhere Edition license.
+* Only users with developer or admin privileges can create a callback custom action in the Developer portal.
+* Developers can set a callback action as a global or local action.
+* After creating a callback custom action, developers must register the callback using Visual Embed SDK. They can also define functions to handle the data payload.
+* To access callback actions, users must have the **New Answer Experience** enabled on their application instance.
+* Users with edit permissions to a worksheet or visualization can add a local callback action to a visualization or answer of their choice.  
+* The data payload is sent in the JavaScript Object Notation (JSON) format. You can define functions and classes to parse and handle the data and get the values you need.
+--
 
-== Add a callback custom action
+To push data to an external app using a callback custom action, follow these steps:
 
-To add a callback custom action:
+* xref:custom-actions-callback.adoc#add-callback[Create a callback custom action]
+* xref:custom-actions-callback.adoc#register-callback[Register the custom action]
+* xref:custom-actions-callback.adoc#handle-data[Define classes and functions to handle custom action data]
+* xref:custom-actions-callback.adoc#callback-initiate[Initiate a callback]
+
+[#add-callback]
+== Create a callback custom action
+
+Before you begin, make sure you have the developer privileges to add a custom action in the Developer portal.
 
 . Go to *Develop* > *Customizations* > *Custom actions*.
 . Click *Create action*.
-. Add a label for the custom action.
+. Add a label for the custom action. For example, __Send Survey__.
 . Select the *Callback* option.
-. Add an ID for the callback function.
+. Note the callback action ID.
 
 +
-This ID is used as a reference for the custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable or hide the custom action on a ThoughtSpot application page.
+The callback ID is used as a unique reference for the callback custom action in the Visual Embed SDK. You can use this ID to register a callback event, disable, show or hide this action in the embedded ThoughtSpot application instance.
 
-. If you want to add the custom action on all ThoughtSpot visualization pages, select the *On by default on all visualizations* checkbox. 
+. To add this action to all visualizations and saved answer pages, select *On by default on all visualizations*. 
 +
-If the custom action is available for all visualizations, it is marked as a *Global* action. If you do not select this checkbox, the custom action can be added to a specific visualization page locally by the ThoughtSpot users. For more information, see xref:custom-actions-viz.adoc[Custom actions for visualizations].
+If you do not select this checkbox, the app action will be set as a *Local* action.  
 
-. To define which user groups can access the custom action, click *Show advanced availability settings*, and select the user groups. By default, the custom action will be available to all ThoughtSpot users.
+. To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.    
 
-. Click *Add action*.
+. Click *Create action*.
 +
-The custom action is added to *My actions* in the Developer portal.
+The custom action is added to the *Actions* dashboard in the Developer portal.
 
 . To view and verify the custom action you just created, navigate to a visualization page.
 
-== Register the callback through the Visual Embed SDK
+include::{path}/global-local-action.adoc[]
+
+
+[#register-callback]
+== Register the callback using Visual Embed SDK
 
 Once a callback custom action has been added within ThoughtSpot, you must add an event handler using the Visual Embed SDK to any page within the embedding application where you want the custom action to function. 
 
-See xref:push-data-to-external-app.adoc[Callback custom action workflow] for example code and instructions for handling the callback using the Visual Embed SDK.
+Register the callback using the Visual Embed SDK. This configuration is required to trigger an event when the custom action is initiated.
+
+The following example shows how to call `showData` when a callback action is triggered.
+
+[source, Javascript]
+----
+const searchEmbed = new SearchEmbed('#embed', {
+    frameParams: {},
+});
+embed
+    .on(EmbedEvent.CustomAction, (payload) => {
+        showData(payload);
+    })
+    .render();
+----
+
+[#handle-data]
+== Define functions to handle data
+
+Define the function and classes to handle the data sent as a payload when a custom action is triggered.
+This example shows how to handle the `show-data` callback custom action and the details of its data:
+
+[source, Javascript]
+----
+const showData = (payload) => {
+    const data = payload.data;
+    if (data.id === 'show-data') {
+        // Display the data as a table.
+        const actionData = ActionData.createFromJSON(payload);
+        const html = actionDataToHTML(actionData);
+        const dataContentElement = document.getElementById('modal-data-content');
+        dataContentElement.innerHTML = html;
+        const dataElement = document.getElementById('callback-data');
+        dataElement.style.display = 'block';
+    } else {
+        console.log(`Got unknown custom actions ${data.id}`);
+    }
+}
+----
+
+[#large-dataset]
+ThoughtSpot visualization objects can include several rows of records. For callback custom action payloads, the Visual Embed SDK supports retrieving data in batches.
+
+The following example shows how to handle large datasets in custom action payloads:
+
+[source, Javascript]
+----
+const data = payload.data;
+if (data.id === 'show-data') {
+    const fetchAnswerData = await payload.answerService.fetchData(1, 5); //where the first integer is the offset value and second integer is batchsize
+    console.log('fetchAnswerData:::', fetchAnswerData);
+}
+----
+
+The following code snippet shows the sample classes and functions for handling custom action data:
+
+[source, Javascript]
+----
+const zip = (arrays) => {
+    // combines and inverts arrays, so a = [1, 2, 3], b = [4, 5, 6] becomes [[1,4], [2,5], [3,6]]
+    return arrays[0].map(function(_, i) {
+        return arrays.map(function(array) {
+            return array[i]
+        })
+    });
+}
+class ActionData {
+    // Wrapper for the data sent when a custom action is triggered.
+    constructor() {
+        this._columnNames = []; // list of the columns in order.
+        this._data = {}; // data is stored and indexed by column with the index being column name.
+    }
+    get nbrRows() {
+        // Returns the number of rows.  Assumes all columns are of the same length.
+        if (this._columnNames && Object.keys(this._data)) { // make sure there is some data.
+            return this._data[this._columnNames[0]]?.length;
+        }
+        return 0;
+    }
+    get nbrColumns() {
+        // Returns the number of columns.
+        return this._columnNames.length;
+    }
+    static createFromJSON(jsonData) {
+        // Creates a new ActionData object from JSON.
+        const actionData = new ActionData();
+        // Gets the column names.
+        const nbrCols = jsonData.data.embedAnswerData.columns.length;
+        for (let colCnt = 0; colCnt < nbrCols; colCnt += 1) {
+            actionData._columnNames.push(jsonData.data.embedAnswerData.columns[colCnt].column.name);
+        }
+        let dataSet;
+        dataSet = (Array.isArray(jsonData.data.embedAnswerData.data)) ?
+            jsonData.data.embedAnswerData.data[0].columnDataLite :
+            jsonData.data.embedAnswerData.data.columnDataLite;
+        for (let colCnt = 0; colCnt < actionData.nbrColumns; colCnt++) {
+            actionData._data[actionData._columnNames[colCnt]] = Array.from(dataSet[colCnt].dataValue); // shallow copy the data
+        }
+        return actionData
+    }
+    getDataAsTable() {
+        // returns the data as a table.  The columns will be in the same order as the column headers.
+        const arrays = []
+        for (const cname of this._columnNames) {
+            arrays.push(this._data[cname])
+        }
+        return zip(arrays); // returns a two dimensional data array
+    }
+}
+const actionDataToHTML = (actionData) => {
+    // Converts an ActionData data to an HTML table.
+    let table = '<table class="tabular-data">';
+    // Add a header
+    table += '<tr>';
+    for (const columnName of actionData._columnNames) {
+        table += `<th class="tabular-data-th">${columnName}</th>`;
+    }
+    table += '</tr>';
+    const data = actionData.getDataAsTable();
+    for (let rnbr = 0; rnbr < actionData.nbrRows; rnbr++) {
+        table += '<tr>';
+        for (let cnbr = 0; cnbr < actionData.nbrColumns; cnbr++) {
+            table += `<td class="tabular-data">${data[rnbr][cnbr]}</td>`;
+        }
+        table += '</tr>';
+    }
+    table += '</table>';
+    return table;
+}
+export {
+    ActionData,
+    actionDataToHTML
+}
+----
+
+[#callback-initiate]
+== Initiate a callback
+
+To initiate a callback action:
+
+. Navigate to a Liveboard visualization or saved answer page.
+
++
+Custom actions appear as disabled on unsaved charts and tables. If you have generated a chart or table from a new search query, you must save the answer to use the custom action. 
+
+. Click callback action. 
+. Note that a callback event to the parent application is triggered and a response payload with the answer or visualization data is pushed. 
+
++
+To view the contents of a sample response payload, see xref:callback-response-payload.adoc[Custom action response payload]. 

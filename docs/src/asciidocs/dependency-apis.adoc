@@ -12,10 +12,9 @@ Dependency in ThoughtSpot is defined as a relation between the referenced and re
 
 Consider a worksheet (`Worksheet1`) that has a derived logical column (`Column1`), which in turn has a reference to a base logical column (`Column2`).
 
-[div boxHalfWidth] 
---
-image::./images/dependency.png[Dependent objects]
---
+[.widthAuto]
+image::./images/dependency.png[Dependent objects, width=auto]
+
 
 In the above example, `Worksheet1` has a dependency on `Column2`, which means that `Worksheet1` is a referencing object and `Column2` is a referenced object. ThoughtSpot does not allow you to delete `Column2` if you have not deleted `Worksheet1`, because the deletion of `Column2` will be prevented by the relationship between `Worksheet1’s` `Column1` and `Column2`. Similarly, `Column1` has a dependency on `Column2`; that is, `Column1` is a referencing object and `Column2` is a referenced object. You cannot delete `Column2` without first deleting `Column1`.
 
@@ -46,22 +45,20 @@ A join combines columns from one or several data objects by using matching value
 The APIs require you to specify the GUIDs of the data objects that you want to query. You can use the `/tspublic/v1/metadata/listobjectheaders` and `/tspublic/v1/metadata/details` API endpoints to get the GUID of the objects that you want to query.
 ====
 
+== Required permissions
+
+You must have edit access to the metadata objects that you want to query.
+
 == Supported operations
 
 include::{path}/dependency-api-list.adoc[]
 
-=== Request headers
-Make sure your API request has the following headers:
-
-* the `Accept` header is set as `Accept: application/json`
-* the `X-requested-by` header set as `X-Requested-By: ThoughtSpot`
-* the `Content-Type` in `POST` request is set as `application/x-www-form-urlencoded`
-
 [#add-dependents]
-== Create dependent objects
-To add a list of dependents to a metadata object, send a `POST` request to the `POST /tspublic/v1/dependency/listdependents` API endpoint.
+== Get dependent objects for metadata type
+To get a list of dependents for a specific metadata object type, send a `POST` request to the `/tspublic/v1/dependency/listdependents` endpoint.
 
 === Resource URL
+
 ----
 POST /tspublic/v1/dependency/listdependents
 ----
@@ -79,7 +76,7 @@ POST /tspublic/v1/dependency/listdependents
 * `PHYSICAL_COLUMN` for physical column objects
 * `PHYSICAL_TABLE` for a physical table
 
-|`id`|__Array of strings__. A JSON array of GUIDs of the objects to associate as dependents.
+|`id`|__Array of strings__. A JSON array of GUIDs of the metadata objects.
 |`batchsize`|__Integer__. The maximum number of batches to fetch in a query. If this attribute is not defined, the `batchsize` value specified in the cluster configuration is used. To get the list of all dependent objects in a single query, define the batch size attribute as `-1`.
 |====
 

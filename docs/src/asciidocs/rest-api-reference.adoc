@@ -10,7 +10,7 @@
 
 include::{path}/user-api-list.adoc[]
 
-== User group management
+== Groups and privileges
 
 include::{path}/group-api-list.adoc[]
 
@@ -40,12 +40,10 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-[div boxDiv boxFullWidth]
---
 `xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`  
 
 Allows searching for data from a specific data source in the ThoughtSpot application.
---
+
 == Dependent objects
 
 include::{path}/dependency-api-list.adoc[]
@@ -56,9 +54,7 @@ include::{path}/security-api-list.adoc[]
 
 == Log Streaming Service
 
-[div boxDiv boxFullWidth]
---
 `xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`
 
 Gets security audit logs from the ThoughtSpot system.
---
+

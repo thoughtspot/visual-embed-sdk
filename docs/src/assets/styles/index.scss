@@ -57,6 +57,7 @@ a {
     padding: 10px 25px;
 }
 
+
 .d-inline-block {
     display: inline-block;
 }
@@ -99,7 +100,12 @@ button {
     width: auto;
     img {
         width: auto;
+        max-width: 100%;
     }
+}
+
+.bordered img {
+  border: 1px solid var(--border-color);
 }
 
 .displayNone {
@@ -175,7 +181,7 @@ button {
 /* Div box style start */
 
 .boxDiv {
-    padding: 10px;
+    padding: 15px;
     display: inline-block;
     margin: 10px;
     box-shadow: var(--box-shadow);
@@ -186,12 +192,24 @@ button {
 }
 
 .boxHalfWidth {
-    width: 48%;
     display: inline-block;
+    padding: 15px;
+    height: 225px;
+    max-height: 500px;
+    width: 475px;
+    max-width: 500px;
+    margin: 10px;
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    &:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
 }
 
 .boxFullWidth {
     width: 100%;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .divider {
@@ -208,6 +226,7 @@ button {
     color: var(--primary-color);
 
 }
+
  
 summary.title  {
     font-size: $font-size-summ-title;
@@ -217,6 +236,35 @@ summary.title  {
     color: var(--primary-color);
 
 }
+
+.cardHead {
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--primary-color);
+    font-size: $font-size-h5;
+    margin: auto;
+    padding: 10px;
+    font-weight: $font-weight-bold;
+
+}
+
+
+.introCard     {
+    padding: 15px;
+    display: inline-block;
+    position: relative;
+    height: 225px;
+    max-height: 500px;
+    width: 300px;
+    max-width:400px;
+    margin: 10px;
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    &:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
+}
+
 
 
 /* Div box style end */
@@ -258,6 +306,10 @@ summary.title  {
         padding-left: 0;
     }
 
+   .introCard {
+        width: 100%;
+    }
+    
     .boxDiv {
         width: 100%;
     }
@@ -272,6 +324,7 @@ summary.title  {
         flex-direction: column;
     }
 }
+
 
 .searchResultHighlightColor {
     color: var(--secondary-color);

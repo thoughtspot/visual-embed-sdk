@@ -233,10 +233,23 @@ By default, ThoughtSpot provides a set of standard actions for embedded objects 
 
 The following actions are available for the embedded Liveboard objects:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
-|===
+|====
 |Action string in SDK| Required SDK library|Action label in the UI
+
+|`Action.AddToFavorites`| `LiveboardEmbed`
+
+`AppEmbed` | The *Favorites (star) icon* on a Liveboard page.
+
+Allows adding a Liveboard to the user's favorites list.
+
+|`Action.EditDetails`| `LiveboardEmbed`
+
+`AppEmbed` | The *edit icon* on a Liveboard.
+
+Indicates edit access to the Liveboard.
+
 |`Action.AddFilter` a| `LiveboardEmbed`
 
 `AppEmbed` |*Add filters* 
@@ -319,7 +332,7 @@ Publishes the modified TML representation of a Liveboard object.
 
 Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon. 
 
-|===
+|====
 
 ////
 
@@ -335,7 +348,7 @@ The *Follow* action is deprecated in the ThoughtSpot 8 Cloud release. The corres
 
 The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
@@ -347,6 +360,13 @@ Allows users to explore a visualization.
 |`Action.ShareViz`|`AppEmbed`|*Share*
 
 Allows sharing visualization with another user or a user group.
+
+|`Action.Monitor`| `LiveboardEmbed`
+
+`AppEmbed` | The `Monitor` icon.
+
+Allows you to schedule notifications to monitor the Key Performance Indicators (KPIs). 
+
 |`Action.Pin`|`LiveboardEmbed`
 
 `AppEmbed`|*Pin*
@@ -364,6 +384,13 @@ Allows you to edit a visualization. Available only if you have edit privileges t
 |`Action.EditTitle`|`AppEmbed`|*Change title*
 
 Changes the title of the visualization.
+
+|`Action.AnswerChartSwitcher`| `LiveboardEmbed`
+
+`AppEmbed` | Chart toggle icon
+
+Allows switching to the table or chart mode when editing a visualization.
+
 |`Action.Present`|
 `LiveboardEmbed`
 
@@ -410,10 +437,16 @@ Displays detailed information and raw data for a given visualization. Available 
 
 The following actions are available for saved answers and the answers generated using the embedded ThoughtSpot search component:
 
-[width="100%" cols="3,2,4"]
+[width="100%" cols="3,3,4"]
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
+
+|`Action.AnswerChartSwitcher`| `SearchEmbed`
+
+`AppEmbed` | Chart toggle icon
+
+Allows switching to the table or chart mode.
 
 |`Action.SpotIQAnalyze`|`SearchEmbed`
 
@@ -458,9 +491,9 @@ Downloads the answer.
 
 Displays detailed information and raw data for a given visualization. Available as a menu action in the *More* menu image:./images/icon-more-10px.png[the more options menu] and the contextual menu. 
 
-|`Action.Remove`| `SearchEmbed` 
+|`Action.AnswerDelete`| `AppEmbed`
 
-`AppEmbed`|**Delete**
+|**Delete**
 
 Deletes the answer.
 

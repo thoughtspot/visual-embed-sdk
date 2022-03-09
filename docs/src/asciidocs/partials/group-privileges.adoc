@@ -19,7 +19,7 @@ Allows users to perform the following functions:
 
 * `USERDATAUPLOADING`
 +
-Allows users to upload data to ThoughtSpot.
+Allows users to upload data to ThoughtSpot. 
 
 * `DATADOWNLOADING`
 +

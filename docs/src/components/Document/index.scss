@@ -7,6 +7,8 @@
 .documentWrapper {
     width: calc(100% - #{$docmap-width-desktop});
     color: var(--primary-color);
+    padding-left: $document-padding;
+    
 
     .documentView {
         min-height: 75vh;
@@ -42,6 +44,8 @@
 
     img {
         width: 100%;
+        
+        
     }
 
     pre {
@@ -53,8 +57,9 @@
         justify-content: space-between;
         overflow: auto;
         font-size: $font-size-code;
+        max-height: 600px;
         line-height: $line-height-code;
-        
+        box-shadow: var(--box-shadow);
 
     }
 
@@ -122,20 +127,21 @@
     table {
         border-spacing: 0;
         border-collapse: collapse;
+       
 
         th {
-            border-bottom: 3px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             font-size: $font-size-doc;
-            padding: $padding-sm;
+            padding: 5px $padding-md $padding-sm $padding-sm;
             text-align: left;
         }
 
         td {
             font-size: $font-size-table;
             border-bottom: 1px solid var(--border-color-tr);
-            padding: $padding-sm;
-            text-align: left;
+            padding: 5px $padding-md $padding-sm $padding-sm;
             font-weight: $font-weight-normal;
+            vertical-align: top;
 
             p {
                 font-size: $font-size-table;
@@ -146,6 +152,7 @@
             border-bottom: 1px solid var(--border-color-tr);
         }
     }
+
 
     h2 {
         margin-top: $margin-lg;
@@ -178,12 +185,25 @@
     ol > li {
         &::marker {
             font-weight: $font-weight-normal;
+
         }
 
         & > p {
             margin-left: 3px;
         }
     }
+ 
+    ul > li {
+        &::marker {
+            font-weight: $font-weight-normal;
+
+        }
+
+        & > p {
+            margin-left: 3px;
+        }
+    }
+ 
 
     .hdlist {
         tr,
@@ -222,6 +242,15 @@
             margin-bottom: $margin-links;
         }
     }
+
+    .ulist {
+        ul {
+            padding-inline-start: $padding-sm;
+            
+            
+        }
+    }
+
 
     .admonitionblock {
         code {

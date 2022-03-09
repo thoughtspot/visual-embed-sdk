@@ -22,9 +22,15 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
+== Required permissions
+
+You must have data management permissions to create, edit, delete or query data connection objects. Make sure your user account has the `DATAMANAGEMENT` privilege.
+
+
 == Supported operations
 
 include::{path}/data-connection-apis.adoc[]
+
 
 [#connection-metadata]
 == Connection metadata
@@ -41,10 +47,9 @@ image::./images/connection_metadata_json.png[Connection metadata]
 [#connection-attr]
 === Configuration attributes
 
-The configuration attributes in the connection vary based on the type of connection.
+Note the configuration attributes required in the connection metadata to create or edit a data connection.
 
-[div boxDiv boxFullWidth]
---
+
 .Snowflake connection
 
 [%collapsible]
@@ -72,10 +77,8 @@ Make sure the role you specify for this attribute has privileges to access the d
 +
 __String__. The warehouse associated with the connection. 
 ====
---
 
-[div boxDiv boxFullWidth]
---
+
 .Amazon Redshift connection
 
 [%collapsible]
@@ -102,11 +105,8 @@ __String__. Password of your Redshift account.
 __String__. Specify the name of the database that you want to use for live query..
 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .Google BigQuery connection
 
 [%collapsible]
@@ -127,11 +127,8 @@ __String__. The secret key obtained for your BigQuery service account. To obtain
 __String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your BigQuery account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
 //// 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .Azure Synapse connection
 
 [%collapsible]
@@ -157,11 +154,8 @@ __String__. Password of your Azure Synapse account.
 __String__. Specify the database associated with the account.
 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .Teradata connection
 
 [%collapsible]
@@ -184,12 +178,9 @@ __String__. Password of your Teradata account.
 __String__. The database associated with the account.
 
 ====
---
 
 
-[div boxDiv boxFullWidth]
 
---
 .Oracle ADW connection
 
 [%collapsible]
@@ -216,11 +207,8 @@ _String_. The ID of the directory specified by the `TNS_ADMIN` environment varia
 _String_. The schema of the database.
 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .Starburst connection 
 
 [%collapsible]
@@ -243,11 +231,8 @@ __String__. Password of your Starburst account.
 __String__. The database associated with the account.
 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .Databricks connection
 
 [%collapsible]
@@ -270,11 +255,8 @@ _String_. The user name of your Databricks account.
 __String__. Password of your Databricks account.
 
 ====
---
 
-[div boxDiv boxFullWidth]
 
---
 .SAP HANA connection
 
 [%collapsible]
@@ -296,7 +278,7 @@ __String__. Password of your SAP HANA database account.
 +
 __String__. The database associated with the account.
 ====
---
+
 
 
 [#cre-connection]

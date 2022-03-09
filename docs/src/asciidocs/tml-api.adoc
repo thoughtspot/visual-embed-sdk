@@ -8,6 +8,10 @@
 
 The TML APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
 
+== Required permissions
+
+You must have at least view access to the objects to export the TML data. To import a modified TML object, your account must have the `DATAMANAGEMENT` privilege.
+
 == Supported operations
 
 include::{path}/tml-api-list.adoc[]

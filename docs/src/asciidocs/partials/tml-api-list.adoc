@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`
 

@@ -4,32 +4,16 @@
 :page-pageid: edit-custom-action
 :page-description: You can set a custom action as a primary button or as a menu action in the More options or the contextual menu.
 
-ThoughtSpot lets you add custom actions globally for all your visualizations in the Developer portal. If you have Developer or Admin privileges, you can create a  *Global* or *Local* custom action. By default, the *Global* custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The *Local* custom actions are not placed anywhere in the ThoughtSpot UI until you add them to a worksheet, Liveboard visualization, saved answer, or a chart or table built from a new search.
+ThoughtSpot lets you add custom actions globally to all your visualizations. When creating a custom action, developers can set the action as *Global* or *Local*. By default, the global custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The local custom actions are not placed anywhere in the UI until they are assigned to a worksheet, Liveboard visualization, or saved answer. 
 
-To view the custom actions available on your cluster, click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu] on any visualization or saved answer page, chart, or table. 
+You can place a custom action as a primary button, in the **More** image:./images/icon-more-10px.png[the more options menu] menu, or the context menu that appears when a user right-clicks on an answer or Liveboard visualization. For example, if you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. 
 
-The *Custom actions* panel allows you to perform the following actions:
+You can change the default position of a custom action in the **Custom actions ** panel. 
 
-* Add a local custom action to a visualization page
-+
-You can add a custom action to the visualization and place the action command in the desired location. For example, if you want to send the data obtained from a specific visualization to a URL, you can add a custom action locally to that visualization and set it as a primary action. For more information about assigning actions to a visualization, chart, or table, see xref:custom-actions-viz.adoc[Add a custom action to a visualization].
-
-* Edit a custom action
-+
-You can modify the placement of a custom action.
-
-* Hide a custom action
-+
-You can hide an action by clicking the hide icon  image:./images/hide-icon.png[the Custom actions menu]. You can use this feature to hide the actions that are not relevant to your application context.
-
-== Edit the position of a custom action
-
-To modify the position of a custom action:
-
-. Navigate to a Liveboard visualization or a saved answer, or create a chart or table from a new  search.
+. Navigate to a Liveboard visualization or a saved answer, or create a chart or table from a new  search and click **Save**.
 . Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
 +
-The custom actions available on your instance are displayed.
+A list of custom actions available for your instance is displayed.
 
 . Click the action you want to modify and then click the edit icon.
 . Select one of the following options:
@@ -50,13 +34,15 @@ Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[t
 
 * *Context menu*
 +
-Adds the custom action to the contextual menu. If you want to send only a single row of data instead of the entire data set from a visualization, you can place the custom action in the contextual menu. Users can access the contextual menu by right-clicking on a visualization.
+Adds the custom action to the contextual menu that appears when a user right-clicks on a visualization. This option is available for only URL and callback custom actions.
 
 +
 . Preview the position of the custom action.
 +
-image::./images/custom-action-viz.png[Custom action for a visualization]
+[.widthAuto]
+image:./images/custom-action-viz.png[Custom action for a visualization]
 
++
 . Click *Save*.
 
- 
+

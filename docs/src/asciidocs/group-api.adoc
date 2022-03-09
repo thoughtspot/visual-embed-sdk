@@ -6,16 +6,21 @@
 :page-pageid: group-api
 :page-description: Group API
 
-The Group APIs allow you to programmatically create and manage user groups, configure privileges, and assign users to a group. 
-
-== Supported operations
- 
-include::{path}/group-api-list.adoc[]
+The Group APIs allow you to programmatically create and manage user groups, configure privileges, and assign users to a group.
 
 [#group-privilege]
 == User groups and privileges
 
 include::{path}/group-privileges.adoc[]
+
+== Required permissions
+
+You must have administrator access to create, edit, or delete group objects, configure privileges, and assign users. 
+
+== Supported operations
+ 
+include::{path}/group-api-list.adoc[]
+
 
 [#create-group]
 == Create a user group
@@ -156,7 +161,7 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content=%7B%20%20%20%22userGroupContent%22%3A%20%7B%20%20%20%20%20%22schemaVersion%22%3A%20%224%22%20%20%20%7D%2C%20%20%20%22groupIdx%22%3A%202%2C%20%20%20%22metadataVersion%22%3A%20-1%2C%20%20%20%22assignedPinboards%22%3A%20%5B%5D%2C%20%20%20%22assignedGroups%22%3A%20%5B%5D%2C%20%20%20%22inheritedGroups%22%3A%20%5B%5D%2C%20%20%20%22privileges%22%3A%20%5B%5D%2C%20%20%20%22type%22%3A%20%22LOCAL_GROUP%22%2C%20%20%20%22parenttype%22%3A%20%22GROUP%22%2C%20%20%20%22visibility%22%3A%20%22DEFAULT%22%2C%20%20%20%22tenantId%22%3A%20%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%2C%20%20%20%22displayName%22%3A%20%22TS%20Group%22%2C%20%20%20%22header%22%3A%20%7B%20%20%20%20%20%22id%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22indexVersion%22%3A%200%2C%20%20%20%20%20%22generationNum%22%3A%200%2C%20%20%20%20%20%22name%22%3A%20%22TS%20Group%22%2C%20%20%20%20%20%22author%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22created%22%3A%201624882497992%2C%20%20%20%20%20%22modified%22%3A%201624882497992%2C%20%20%20%20%20%22modifiedBy%22%3A%20%2259481331-ee53-42be-a548-bd87be6ddd4a%22%2C%20%20%20%20%20%22owner%22%3A%20%220f7af46f-e48c-4cca-b60f-d63d5ddbe59f%22%2C%20%20%20%20%20%22tags%22%3A%20%5B%5D%2C%20%20%20%20%20%22isExternal%22%3A%20false%2C%20%20%20%20%20%22isDeprecated%22%3A%20false%20%20%20%7D%2C%20%20%20%22complete%22%3A%20true%2C%20%20%20%22incompleteDetail%22%3A%20%5B%5D%2C%20%20%20%22isSystemPrincipal%22%3A%20false%20%7D' \
+-d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content={   "userGroupContent": {     "schemaVersion": "4"   },   "groupIdx": 2,   "metadataVersion": -1,   "assignedPinboards": [],   "assignedGroups": [],   "inheritedGroups": [],   "privileges": [],   "type": "LOCAL_GROUP",   "parenttype": "GROUP",   "visibility": "DEFAULT",   "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",   "displayName": "TS Group",   "header": {     "id": "0f7af46f-e48c-4cca-b60f-d63d5ddbe59f",     "indexVersion": 0,     "generationNum": 0,     "name": "TS Group",     "author": "59481331-ee53-42be-a548-bd87be6ddd4a",     "created": 1624882497992,     "modified": 1624882497992,     "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",     "owner": "0f7af46f-e48c-4cca-b60f-d63d5ddbe59f",     "tags": [],     "isExternal": false,     "isDeprecated": false   },   "complete": true,   "incompleteDetail": [],   "isSystemPrincipal": false }' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
 ----
 
@@ -711,7 +716,7 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'groupid=876b3cf1-8a20-4210-b671-506eaaa5005e&userids=%5B%22d02210b1-f836-4f84-a0dd-5f555f0a65d1%22%2C%22982d6da9-9cd1-479e-b9a6-35aa05f9282a%22%5D' \
+-d 'groupid=876b3cf1-8a20-4210-b671-506eaaa5005e&userids=["d02210b1-f836-4f84-a0dd-5f555f0a65d1","982d6da9-9cd1-479e-b9a6-35aa05f9282a"]' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/users'
 ----
 

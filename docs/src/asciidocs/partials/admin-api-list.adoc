@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]` 
 

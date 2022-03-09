@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:session-api.adoc#session-login[*POST* /tspublic/v1/session/login]`  
 

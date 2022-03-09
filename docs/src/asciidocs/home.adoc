@@ -69,7 +69,8 @@
 	<div class="col-md-4">
 		<a href="?pageid=embed-pinboard"><div class="boxDiv">
 			<h5>Embed Liveboards</h5>
-			<p class="boxBody"> Embed ThoughtSpot Liveboards in your application to provide your users with a set of dashboard insights that they can analyze and act on. </p>
+			<p class="boxBody"> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
+			<p> </p>
 			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
 			<p> <a href="?pageid=embed-liveboard"> Learn more about embedding Liveboards -></a></p>
 		</div></a>
@@ -106,7 +107,7 @@
       <p class="boxBody"> Apply custom styles and themes to the embedded ThoughtSpot UI elements to match the look and feel of your app.</p>
       <img src="../doc-images/images/customize-styles.png" alt="Customize UI">
       <p>
-        <a href="?pageid=customize-style">Learn more about customizing the UI elements -></a>
+        <a href="?pageid=customize-style">Learn more about style customization -></a>
       </p>
     </div></a>
   </div>
@@ -174,7 +175,7 @@
   <div class="col-md-4">
     <a href="https://cloud-docs.thoughtspot.com/" target="_blank"><div class="boxDiv">
       <h5> Learn more about ThoughtSpot</h5>
-      <p class="boxBody">Visit our product documentation site to know more about ThoughtSpot features and capabilities.</p>
+      <p class="boxBody">Visit our product documentation site to know more about ThoughtSpot.</p>
       <p>
         <a href="https://cloud-docs.thoughtspot.com/" target="_blank">View product documentation -></a>
     </div></a>

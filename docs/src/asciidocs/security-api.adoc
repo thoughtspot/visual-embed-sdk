@@ -8,6 +8,11 @@
 
 The Security APIs allow you to share ThoughtSpot objects, such as Liveboards and visualizations, with another user or a user group. Any ThoughtSpot user can share objects with another user or user group.
 
+== Required permissions
+
+* To query object permissions, you must have administrator access.
+* To share an object or visualization with another user, you must have edit access to the object.
+
 == Supported operations
 
 include::{path}/security-api-list.adoc[]
@@ -19,7 +24,7 @@ ThoughtSpot users can get access to objects through the privileges assigned to t
 
 Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
-To view the details of object permissions for the current logged user, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific metdata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
@@ -141,7 +146,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [#obj-permission-id]
 == Get permission details for a specific object ID
 
-To view permission details of a specific object for the current logged user, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
@@ -234,17 +239,17 @@ If the `GET` operation is successful, the API returns a response with the permis
 
 === Response codes
 
-[options="header", cols=".^2a,.^14a"]
-|===
+[options="header", cols="2,4"]
+|====
 |HTTP status code|Description
 |**200**|Successful operation
 |**400**|Invalid parameter value
-|===
+|====
 
 [#get-obj-perm-bulk]
 == Get object permission details for multiple object types
 
-To query object permission details for multiple object types and IDs in bulk, send a `POST` request to the `/tspublic/v1/security/effectivepermissionbulk` endpoint.
+To query object permission details for multiple object types and IDs, send a `POST` request to the `/tspublic/v1/security/effectivepermissionbulk` endpoint.
 
 === Resource URL
 
@@ -269,7 +274,7 @@ For example, to get permission details for specific Liveboards and answers, spec
 ----
 {"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
 ----
-|`dependentshare` __Optional__|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified object types and IDs.
+|`dependentshare` __Optional__|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects of the specified object types and IDs.
 |====
 
 === Example request

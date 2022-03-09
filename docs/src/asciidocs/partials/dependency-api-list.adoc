@@ -1,9 +1,8 @@
 
-[div boxDiv boxFullWidth]
 --
 `xref:dependency-apis.adoc#add-dependents[*POST* /tspublic/v1/dependency/listdependents]`  
 
-Creates a list of dependents for a given data object type.
+Gets a list of dependents for a given data object type.
 
 +++<p class="divider"> </p>+++
 
@@ -43,7 +42,7 @@ Gets a list of dependent object headers for a Liveboard.
 
 +++<p class="divider"> </p>+++
 
-`xref:admin-api.adoc#get-incomplete-objects[*GET* /tspublic/v1/dependency/listincomplete]`   
+`xref:dependency-apis.adoc#get-incomplete-objects[*GET* /tspublic/v1/dependency/listincomplete]`   
 
 Gets a list of objects with incomplete metadata.
 

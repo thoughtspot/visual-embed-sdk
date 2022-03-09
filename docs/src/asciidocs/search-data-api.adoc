@@ -140,7 +140,7 @@ To query data using the API, follow these steps:
 [#get-guid]
 === Determine the GUID of the data source
 
-. In a web browser tab, navigate to your ThoughtSpot application instance and log in as an admin user:
+. Log in to your ThoughtSpot application instance:
 
 . From the top navigation menu, click *Data*.
 +
@@ -187,6 +187,11 @@ You can also verify if the query returns the same data when you run it in the Th
 ====
 The search data API allows you to pass the search query string as query parameters in the URL. Therefore, ThoughtSpot recommends that you append the query string to the URL, instead of using the `-d <data>` option to pass these parameters in your cURL requests.
 ====
+
+=== Required permissions
+
+You must have view access to the data source objects to run a search query.
+
 
 ==== Browser locale
 

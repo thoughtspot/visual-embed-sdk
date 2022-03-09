@@ -11,6 +11,11 @@
 
 The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, Liveboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
 
+== Required permissions
+
+* You must have edit access to the metadata objects to query data, set an object as a favorite, and assign or remove tags, 
+* To query user or group metadata objects, you must have administrator access.
+
 == Supported operations
 
 include::{path}/metadata-api-list.adoc[]

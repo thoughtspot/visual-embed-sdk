@@ -1,4 +1,4 @@
-= Authentication
+= REST v1 authentication
 :toc: true
 :toclevels: 1
 
@@ -10,7 +10,7 @@ To create, access, and modify ThoughtSpot objects and resources through the REST
 
 When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful log-in using the Visual Embed SDK via either of those two methods will establish the session within the web browser. 
 
-Once the session is established in the browser, the *withCredentials* property tells any XMLHttpRequest object to pass the cookies along when making REST API requests:
+Once the session is established in the browser, the *withCredentials* property tells any `XMLHttpRequest` object to pass the cookies along when making REST API requests:
 
 ----
 var xhr = new XMLHttpRequest();
@@ -18,7 +18,7 @@ xhr.withCredentials = true;
 ----
 
 If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
-
+ 
 
 == Sign in a ThoughtSpot user
 

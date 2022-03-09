@@ -8,8 +8,85 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 8.1.0.cl
+
+The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
+
+=== Custom actions
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration +++ 
+
+ThoughtSpot introduces app actions to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
+
+Users with developer or admin privileges can create an app action for Slack in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
+
+For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
+|====
+
+=== Visual Embed SDK version 1.9.0 
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
+
+* `Action.AnswerDelete` +
+* `Action.AnswerChartSwitcher` +
+* `Action.AddToFavorites` +
+* `Action.EditDetails` +
+
+For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
+
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
+|====
+
+=== REST API v2 [beta orangeBackground]^BETA^
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW FEATURE# a|+++<h5> New API endpoints</h5> +++ 
+
+* `GET /api/rest/v2/connection`
+* `POST /api/rest/v2/connection/create`
+* `PUT /api/rest/v2/connection/update`
+* `DELETE /api/rest/v2/connection/delete`
+* `PUT /api/rest/v2/connection/addtable`
+* `PUT /api/rest/v2/connection/removetable`
+* `POST /api/rest/v2/connection/search`
+* `DELETE /api/rest/v2/metadata/delete`
+* `GET /api/rest/v2/metadata/header`
+
+These API endpoints are available only if the REST API v2 Playground and SDK feature is enabled on your instance. The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
+
+For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v2-reference.adoc[REST API v2 Reference].     
+|====
+ 
+ 
 == Version 8.0.0.cl
 
+.Visual Embed SDK version 1.8.x
+[%collapsible] 
+====
+[width="100%" cols="1,4"]
+|====
+||
+|[tag redBackground]#BREAKING CHANGE# | +++<h5>Auto login</h5> +++ 
+
+The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a user session expires.
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Authentication</h5> +++ 
+
+The `init` method now returns an `authPromise` that resolves when a user authentication is completed.
+|====
+
+====
+
+
+.Embed application
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
@@ -24,13 +101,17 @@ If you have embedded the full ThoughtSpot application, you will notice that the 
 
 For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinboards/follow-pinboard.html[Follow Liveboards, window=_blank].
 |====
+====
 
-=== Visual Embed SDK 1.7.0
 
+.Visual Embed SDK 1.7.0
+
+[%collapsible] 
+====
 [width="100%" cols="1,4"]
 |====
-|
-[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+
+|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
 
 The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
 
@@ -44,11 +125,18 @@ The SDK includes the following new event:
 For more information, see xref:embed-events.adoc[Subscribe to events].
 
 |====
+====
 
-=== REST API Playground and SDK [beta orangeBackground]^BETA^
+ 
+
+.REST API Playground and SDK [beta orangeBackground]^BETA^
+
+[%collapsible] 
+====
+
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>REST API Playground and SDK</h5> +++ 
 
 ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
 
@@ -60,6 +148,7 @@ The REST API Playground and SDK is a limited availability feature and is in beta
 
 For more information, see xref:rest-api-v2.adoc[REST API v2].
 |====
+====
 
 
 == Version ts8.nov.cl
@@ -327,7 +416,7 @@ The SDK EmbedEvent library includes the following events:
 * `QueryChanged`
 * `AuthExpire`
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Subscribe to Events].
 |====
 
 ====
@@ -627,9 +716,10 @@ Pinboard::
 
 [NOTE]
 Users with edit permissions can view and access the *Save*, *Add filters*, *Configure filters*, and *Manage schedules* actions.
-|[tag greenBackground]#NEW FEATURE# |+++<h5>Visualization actions</h5>+++
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visualization actions</h5>+++
 
-Visualizations on a pinboard::
+Visualizations on a pinboard:
+
 * Pin
 * Download
 * Edit

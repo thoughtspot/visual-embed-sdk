@@ -1,0 +1,21 @@
+additionalFlags __Optional__::
+
+Allows adding additional parameters to the embedded object URL path. You can construct key-value pairs of attributes and add these attributes as query parameters in the embedded object URL.
+
++
+The `additinalFlags` property allows you to define key in __string__ format and its values in __string__, __integer__, or __boolean__ data type.
+
++
+For example, you can add a feature flag as a key value pair as shown here:
+
++
+[source,Javascript]
+----
+additionalFlags: {
+    enableFeatureA: true,
+},
+----
+
+
++
+The flags that add using the `additionalFlags` property are appended as query parameters in the embed URL.

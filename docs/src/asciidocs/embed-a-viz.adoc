@@ -91,7 +91,39 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     runtimeFilters: [],
 });
 ----
+////
+[source,JavaScript]
+----
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    additionalFlags: {
+    <key>: <value>
+    },
+    disabledActions: [],
+    disabledActionReason: '<reason for disabling>',
+    hiddenActions: [],
+    liveboardId: '<%=liveboardGUID%>',
+    vizId: '<%=vizGUID%>',
+    enableVizTransformations: true,
+    preventLiveboardFilterRemoval: true,
+    runtimeFilters: [],
+});
+----
+////
+
+
 frameParams:: Sets the `width` and `height` dimensions to render the visualization object. You can set the `width` and `height` attribute values in pixels or as a percentage.
+
+////
+include::{path}/additional-flags.adoc[]
+
+----
+https://<ThoughtSpot-Host>/?embedApp=true&isLiveboardEmbed=true&enableFeatureA=true#/embed/viz/d084c256-e284-4fc4-b80c-111cb606449a/23e7eb0a-56e7-462e-97ee-343f126391f2
+----
+////
 
 visibleActions __Optional__::
 _Array of strings_. Displays the specified actions on the embedded visualization. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.

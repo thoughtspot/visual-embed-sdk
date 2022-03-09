@@ -1,80 +1,154 @@
 = Custom actions
-:toc: true
 
 :page-title: Custom actions overview
 :page-pageid: custom-action-intro
-:page-description: You can insert custom buttons or menu items in ThoughtSpot UI
+:page-description: You can add custom buttons or menu items to the ThoughtSpot UI to let your application users to analyze insights and trigger an action on the data.
 
-You can insert custom buttons and menu actions into the ThoughtSpot’s UI to push insights from ThoughtSpot to your app or trigger an event to an external application from your parent application. These custom actions allow your users to trigger actions on insights without leaving your application.
+ThoughtSpot provides a set of standard menu commands as buttons and toggle switches in the primary menu bar, actions in the **More** menu image:./images/icon-more-10px.png[the more options menu], and the contextual menu that appears when a user right-clicks on an answer or visualization.
 
+ThoughtSpot supports adding custom actions to an answer or visualization page. For example, you may want to create a custom action that allows pushing business insights from ThoughtSpot to an external app or a specific URL. 
+
+Similarly, if you have embedded ThoughtSpot in another app, you can add a custom action to trigger a callback event to the host application and initiate a response payload.
+
+////
 If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.
-
-[div boxDiv boxFullWidth]
---
-+++<h5>Custom actions page</h5>+++
-
-Learn more about xref:customize-actions-menu.adoc[the *Custom action* page in the Developer portal] and the workflows for creating and editing custom actions.
---
-
-== How to configure custom actions
-
-[div boxDiv boxFullWidth]
---
-+++<h5>Configure a custom action to send data to a URL</h5>+++
-
-Learn how to xref:custom-actions-url.adoc[create a custom action to send ThoughtSpot data to a specific URL target].
-
-_Requires Developer or Admin privilege_.
---
-
-[div boxDiv boxFullWidth]
---
-+++<h5>Configure a callback custom action</h5>+++
-
-Learn how to xref:custom-actions-callback.adoc[create a custom action that can trigger a callback from your host application] to send ThoughtSpot data.
-
-_Requires Developer or Admin privilege_.
---
-
-[div boxDiv boxFullWidth]
---
-+++<h5>Modify the position of a custom action</h5>+++
-
-Learn how to xref:custom-actions-edit.adoc[modify the position of a custom action and place it as a menu action or a primary button] on a visualization page.
---
+////
 
 
-[div boxDiv boxFullWidth]
---
-+++<h5>Assign a custom action to a specific visualization</h5>+++
+++++
+<div class="row">
 
-Learn how to xref:custom-actions-viz.adoc[assign a custom action to a specific visualization] in an answer or Liveboard.
+<h2 align="center">Types of custom actions</h2>
 
-_Requires edit privileges to modify an answer or a visualization in a Liveboard_.
---
+	<a href="?pageid=app-actions"><div class="col-md-4"> 
+	<div class="introCard">
+<h5>App actions</h5>
+<p class="boxBody">Push insights and data to your business apps such as Slack</p>
 
-[div boxDiv boxFullWidth]
---
-+++<h5>Add a custom action to a worksheet</h5>+++
+<p class="boxBody"><em>Available on all ThoughtSpot instances</em> </p>
 
-Learn how to xref:custom-actions-worksheet.adoc[assign a custom action to a specific worksheet], so that it appears on all visualizations generated using that worksheet.
+<p><a href="?pageid=app-actions">Learn more -> </a></p>
+</div>
 
-_Requires edit privileges to access and modify the worksheet_.
---
-
-== Custom action examples
-
-[div boxDiv boxFullWidth]
---
-+++<h5>View callback custom action example</h5>+++
-
-Learn more about the callback custom action workflow, the steps required to xref:push-data-to-external-app.adoc[push data to an external app].
---
+</div></a>
+<div class="col-md-4">
+	<a href="?pageid=custom-action-url"><div class="introCard">
+<h5>URL actions</h5>
+<p class="boxBody">
+Push data to a specific web page or URL destination</p>
 
 
-[div boxDiv boxFullWidth]
---
-+++<h5>Custom action response payload</h5>+++
+<p class="boxBody"><em>Available on all ThoughtSpot instances</em> </p>
+<p class="boxBody"><a href="?pageid=custom-action-url">Learn more -></a></p>
+</div>
+</a>
+</div>
 
-View examples of the xref:callback-response-payload.adoc[custom action response payload] with search and Liveboard data.
---
+<div class="col-md-4">
+	<a href="?pageid=custom-action-callback">	<div class="introCard">
+<h5>Callback actions</h5>
+<p class="boxBody">
+Trigger a callback to the host app and push a response payload</p>
+
+
+<p class="boxBody"><em>Available on embedded ThoughtSpot instances only</em> </p>
+<p><a href="?pageid=custom-action-callback">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+</div>
+
+++++
+
+
+
+++++
+<div class="row">
+
+<h2 align="center">Work with custom actions</h2>
+
+<div class="col-md-6"> 
+	<a href="?pageid=app-actions">	<div class="boxHalfWidth">
+<h5>Global and Local actions</h5>
+<p class="boxBody">Know the difference between global and local actions and the associated workflows.</p>
+<p class="boxBody"><em>Requires Developer or Administrator privilege </em> </p>
+
+<p><a href="?pageid=customize-actions">Learn more -> </a></p>
+</div>
+</a>
+</div>
+
+<div class="col-md-6"> 
+	<a href="?pageid=app-actions">	<div class="boxHalfWidth">
+<h5>Set the position of a custom action</h5>
+<p class="boxBody">Set the position of a custom action and place it as a primary button or menu action</p>
+
+<p class="boxBody"><em>Requires edit access to a custom action</em>.</p>
+
+<p><a href="?pageid=edit-custom-action">Learn more -> </a></p>
+</div>
+</a>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+	<a href="?pageid=custom-action-url">	<div class="boxHalfWidth">
+<h5>Assign local actions to a chart or table</h5>
+<p class="boxBody">
+Assign local actions to a specific visualization or saved answer of your choice</p>
+<p class="boxBody"><em>Requires edit permissions to a saved answer or visualization</em>.</p>
+<p class="boxBody"><a href="?pageid=add-action-viz">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+
+<div class="col-md-6">
+	<a href="?pageid=custom-action-url"><div class="boxHalfWidth">
+<h5>Assign local actions to a worksheet</h5>
+<p class="boxBody">
+Assign local actions to an answer or visualization generated from a specific worksheet</p>
+<p class="boxBody"><em>Requires edit permissions to a worksheet</em>.</p>
+
+<p class="boxBody"><a href="?pageid=add-action-worksheet">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+</div>
+
+++++
+
+
+++++
+<div class="row">
+
+<h2 align="center">Callback action examples</h2>
+<div class="col-md-6">
+	<a href="?pageid=push-data">	<div class="boxDiv">
+<h5>View callback custom action example</h5>
+<p class="boxBody">Learn more about the callback custom action workflow, the steps required to push data to an external app.</p>
+
+<p class="boxBody"><a href="?pageid=custom-action-callback">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+
+<div class="col-md-6">
+	<a href="?pageid=custom-action-payload"><div class="boxDiv">
+<h5>Sample response payload for callback actions</h5>
+<p class="boxBody">
+View examples of the custom action response payload with search and Liveboard data.</p>
+ 
+<p class="boxBody"><a href="?pageid=custom-action-payload">Learn more -></a></p> 
+</div>
+</a>
+</div>
+
+</div>
+
+++++
+

@@ -1,9 +1,10 @@
 @import '../../assets/styles/variables.scss';
 
 .docmapLinks {
-    width: $docmap-width-desktop;
-    padding: $padding-md 0;
+    width: 18%;
+    padding: $padding-md;
     border-left: 1px var(--border-color) solid;
+    box-shadow: var(--box-shadow);
     position: fixed;
     right: 0;
     font-size: $font-size-normal;
@@ -22,6 +23,7 @@
             margin-top: 0px;
             list-style-type: none;
             padding-left: $padding-md;
+            background-color: var(--border-color) solid;
             li {
                 margin: $margin-links 0;
 
@@ -58,7 +60,7 @@
 
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .docmapLinks {
-        width: $docmap-width-tablet;
+        display: none;
     }
 }
 

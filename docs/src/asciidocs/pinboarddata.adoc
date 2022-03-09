@@ -18,6 +18,10 @@ Using this API, you can fetch the following information:
 Liveboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
 ====
 
+== Required permissions
+
+You must have at least view access to the Liveboard and visualization objects.
+
 == Request URL
 ----
 POST /tspublic/v1/pinboarddata
@@ -68,14 +72,12 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5
 curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=%5B'fa934657-e347-4de7-b02d-3b46609233cc'%2C'62f98ad3-6ddd-4aed-8f13-58054295b7e3'%2C'eb77ba14-15de-4d4d-aac4-625ebd58b1c6'%5D&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+--header 'X-Requested-By: ThoughtSpot' https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
-
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=%5B'fa934657-e347-4de7-b02d-3b46609233cc'%2C'62f98ad3-6ddd-4aed-8f13-58054295b7e3'%2C'eb77ba14-15de-4d4d-aac4-625ebd58b1c6'%5D&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 == Example response

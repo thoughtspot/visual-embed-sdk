@@ -36,7 +36,7 @@ $line-height-result-footer: 18px;
 $font-size-small: 12px;
 $font-size-home: 13px;
 $font-size-normal: 14px;
-$font-size-table: 15px;
+$font-size-table: 14px;
 $font-size-doc: 15px;
 $font-size-code: 13.5px;
 $line-height-code: 1.4rem; 
@@ -49,11 +49,13 @@ $margin-sm: 16px;
 $margin-xs: 5px;
 $padding-xs: 5px;
 $padding-sm: 10px;
+$padding-lg: 28px;
 $document-margin-top: 88px;
+$document-padding: 20px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
-$docmap-width-desktop: 300px;
-$docmap-width-tablet: 210px;
+$docmap-width-desktop: 270px;
+$docmap-width-tablet: 180px;
 $docmap-width-mobile: 100%;
 $tablet-resolution-min: 767px;
 $tablet-resolution-max: 1024px;
@@ -70,6 +72,7 @@ $font-family-doc: Optimo-Plain;
 $font-family-back-button: Optimo-Plain;
 $width-back-button: 32px;
 $height-back-button: 32px;
+$font-color-back-button: #777e8b;
 $margin-top-mobile: 58px;
 $menu-icon-width: 43px;
 $z-index-search: 1;
@@ -86,6 +89,8 @@ $font-size-summ-title: 17px;
 $font-size-breadcrums: 13px;
 $icon-width: 16px;
 $icon-height: 16px;
+$arrow-icon-width: 20px;
+$arrow-icon-height: 20px;
 
 /* Preview link variables */
 
@@ -136,7 +141,7 @@ $admonition-font-factor-pre: 15;
 /*Tag variables*/
 
 $tag-border-radius: 14px;
-$tag-font-size: 14px;
+$tag-font-size: 13px;
 $tag-font-weight: 400;
 $tag-height: 28px;
 $tag-line-height: 28px;
@@ -150,11 +155,11 @@ $tag-color-yellow: #ffbc00;
     --body-background-color: #fff;
     --primary-color: #1d232f;
     --breadcrums-font-color: #5f6368;
-    --admonition-background: #fafafa;
+    --admonition-background: #fff;
     --code-block-color: #f6f8fa;
     --text-color-code-lang: #999;
     --icon-color: #999;
-    --back-button-background: #e6e6e6;
+    --back-button-background: #eaedf2;
     --border-color: #c0c6cf;
     --border-color-tr: #e6e6e6; 
     --scrollbar-color: #a5acb9;
@@ -169,8 +174,8 @@ $tag-color-yellow: #ffbc00;
     --highlight-violet: #990073;
     --secondary-color: #2770ef;
     --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 12%), 0 0px 6px 0 rgba(0, 0, 0, 11%);
-    --box-shadow-hover: 0 4px 8px 0 rgba(0, 0, 0, 6%),
-        0 6px 20px 0 rgba(0, 0, 0, 0.06);
+    --box-shadow-hover: 0 16px 20px 0 rgba(0, 0, 0, 12%),
+        0 16px 20px 0 rgba(0, 0, 0, 12%);
 }
 
 #wrapper[data-theme='dark'] {
@@ -197,6 +202,6 @@ $tag-color-yellow: #ffbc00;
     --secondary-color: #8388fe;
     --box-shadow: 0 2px 2px 0 rgba(255, 255, 255, 12%),
         0 0px 6px 0 rgba(255, 255, 255, 11%);
-    --box-shadow-hover: 0 4px 8px 0 rgb(255 255 255 / 6%),
-        0 6px 20px 0 rgb(255 255 255 / 6%);
+    --box-shadow-hover: 0 16px 20px 0 rgb(255 255 255 / 6%),
+        0 16px 20px 0 rgb(255 255 255 / 6%);
 }

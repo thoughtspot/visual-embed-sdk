@@ -1,4 +1,3 @@
-[div boxDiv boxFullWidth]
 --
 `xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`
 

@@ -1,38 +1,557 @@
-= Authentication
+= REST v2 Authentication
 :toc: true
 :toclevels: 1
 
 :page-title: User authentication and session management
-:page-pageid: api-auth-session
-:page-description: To access ThoughtSpot objects and resource endpoints, authenticate and log in to the ThoughtSpot system
+:page-pageid: api-authv2
+:page-description: REST V2 APIs supports cookie-based and bearer token authentication methods.
 
-To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. Any completed log-in process will return session cookies from the ThoughtSpot system, which must be included with any subsequent REST API call.
+The REST API v2 framework supports the following authentication methods:
 
-When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful log-in using the Visual Embed SDK via either of those two methods will establish the session within the web browser. 
+* OAuth 2.0 bearer token authentication
++
+In this method, the REST clients must obtain an OAuth access token to authenticate to ThoughtSpot when making an API call. The access token is a string, which you must include in the `Authorization` header to authorize your API requests. 
 
++
+When using the REST API v2 through a web browser, ThoughtSpot recommends that the REST clients use an OAuth access token to authenticate to ThoughtSpot and authorize API requests. 
+
+* Cookie-based authentication
+
++
+In this method, REST clients can create a session with cookies and pass these cookies in the header when making an API call.
+
++
+If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the login API  using that session object. You can use this object to send the session cookies in the subsequent REST API calls.
+
+////
 Once the session is established in the browser, the *withCredentials* property tells any XMLHttpRequest object to pass the cookies along when making REST API requests:
 
++
 ----
 var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
 ----
+////
 
-If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
+== Sign in to ThoughtSpot
+
+To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. A successful log-in process returns session cookies from the ThoughtSpot system, which you must include in the subsequent REST API calls.
+
+To sign in to ThoughtSpot, send a `POST` request to the `/api/rest/v2/session/login` API endpoint.
+
+=== Resource URL
+----
+POST /api/rest/v2/session/login
+----
+=== Request Parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Parameter|Description
+|`username`|__String__. Username of the user account.
+|`password`|__String__. The password of the user account.
+|`rememberme`|__Boolean__. A flag to remember the user session. When set to `true`, a session cookie that persists in subsequent API calls is set. The system default is `false`.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/login' \
+  -H 'Accept: application/json'\
+  -H 'Accept-Language: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "userName": "tsUser2022",
+  "password": "fhEg23!3bbN!",
+  "rememberMe": true
+}'
+
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/api/rest/v2/session/login
+----
+
+=== Session response
+
+If the operation is successful, the API returns a response with `tokenType` set as `Cookie`. 
+
+[source, JSON]
+----
+{
+  "userName": "tsUser2022",
+  "token": "",
+  "tokenCreatedTime": "-1",
+  "tokenExpiryDuration": "-1",
+  "tokenType": "Cookie"
+}
+----
+
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful login
+|**500**|Operation failed or unauthorized request
+|**401**|Login failure/unauthorized request
+|**403**|Unauthorized request
+|===
+
+== Get OAuth access token
+
+For OAuth 2.0 bearer token-based authorization, you must obtain an OAuth access token and send it in the `Authorization` header in your API requests.
+
+[NOTE]
+====
+By default, the OAuth access token is valid for 24 hours. If the token expires and the client tries to make an API call with an expired token, the server returns an error. You can configure the token expiry duration as per your requirement or request for a new access token and use it in your subsequent API calls. 
+====
 
 
-== Sign in a ThoughtSpot user
+=== Resource URL
 
-include::{path}/log-in-api.adoc[]
+----
+POST /api/rest/v2/session/gettoken
+----
 
-== Obtain authentication token
+=== Request parameters
 
-include::{path}/auth-token-api.adoc[]
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Parameter|Description
+|`username`|__String__. Username of the user account.
+|`password`|__String__. The password of the user account.
+|`tokenExpiryDuration`  __Optional__|__String__. Duration in seconds after which the authorization token expires. By default, the token is valid for 24 hours. 
+|====
 
-== Authenticate and log in with a token
+=== Example request
 
-include::{path}/login-token-api.adoc[]
+.cURL
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/gettoken' \
+  -H 'Accept: application/json'\
+  -H 'Accept-Language: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "userName": "tsUser2022",
+  "password": "Test_TS@1234!",
+  "tokenExpiryDuration": "120000"
+}'
+----
 
-== Log out of a user session
+.Request URL
+----
+https://<ThoughtSpot-host>/api/rest/v2/session/gettoken
+----
 
-include::{path}/log-out-api.adoc[]
+=== Session response
 
+If the operation is successful, the API returns an OAuth access token. Make sure you use this access token in the authorization header in your subsequent API call.
+
+----
+"userName":"tsadmin"
+"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSRGRVZFRLM2hQUzNKUVNUSm1jMnBsTlRNdmMwVkJQVDBrTmsxeFZYWmhNR2R1TUVabFQzTXZiSE5qTW5ONVdfdG1Zalo0ZFVSTWIyNXZWVmRtTWxGeWEwVnhORDA="
+"tokenCreatedTime":"1642662844229"
+"tokenExpiryDuration":"1642749244229"
+"tokenType":"Bearer"
+----
+
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|An OAuth access token is granted
+|**403**|Unauthorized request
+|**500**|Operation failed or unauthorized request
+|===
+
+
+== Revoke the access token
+
+To revoke the access token granted for the currently logged-in user, send a `POST` request to the `/api/rest/v2/session/revoketoken` endpoint.
+
+
+=== Resource URL
+----
+POST /api/rest/v2/session/revoketoken
+----
+
+=== Request parameters
+
+None
+
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/revoketoken' \
+  -H 'Authorization: Bearer {OAUTH_TOKEN}'\
+  -H 'Content-Type: application/json'\
+  -H 'Accept-Language: application/json'
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-host>/api/rest/v2/session/revoketoken
+----
+
+=== Example response
+
+If the API request is successful, the access token is revoked and the current user session becomes invalid. Before making another API call, you must obtain a new token. 
+
+
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful token revocation
+|**403**|Unauthorized request
+|**500**|Operation failed or unauthorized request
+|===
+
+
+== View session info
+
+To get details of the session object for the currently logged-in user, send a `GET` request to the `/api/rest/v2/session` endpoint.
+
+
+=== Resource URL
+
+----
+GET /api/rest/v2/session
+----
+
+=== Request parameters
+
+None
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET \
+  --url 'https://<ThoughtSpot-host>/api/rest/v2/session' \
+  -H 'Authorization: Bearer {OAUTH_TOKEN}'\
+  -H 'Content-Type: application/json'\
+  -H 'Accept-Language: application/json'
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-host>/api/rest/v2/session
+----
+
+
+=== Example response
+
+If the API request is successful, ThoughtSpot returns the following response:
+
+[source, JSON]
+----
+{
+  "onboardingActivity": {
+    "pinsSpotlightSeen": true,
+    "pinsFlowSeen": true,
+    "onboardingComplete": false,
+    "worksheetTourSeen": false,
+    "onboardingSeen": true,
+    "autoAnswerTourSeen": false
+  },
+  "privileges": [
+    "ADMINISTRATION",
+    "AUTHORING",
+    "USERDATAUPLOADING",
+    "DATADOWNLOADING",
+    "DATAMANAGEMENT",
+    "SHAREWITHALL",
+    "A3ANALYSIS"
+  ],
+  "integerFormat": {},
+  "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
+  "dateFormat": {
+    "formatPattern": "MM/dd/yyyy"
+  },
+  "timezone": "UTC",
+  "authToken": "Qe8f7GeQqFEHIsvbJmDZAJW2S6rYk4UJAXSYFdD/Pfc=",
+  "locale": "",
+  "firstLoginDate": 1646021683086,
+  "csvTables": [],
+  "apiVersion": "v1",
+  "canChangePassword": true,
+  "dateTimeFormat": {
+    "formatPattern": "MM/dd/yyyy h:mm a"
+  },
+  "userPreferences": {
+    "showWalkMe": true,
+    "notifyOnShare": true,
+    "analystOnboardingComplete": false,
+    "preferredLocale": "en-US"
+  },
+  "decimalFormat": {},
+  "userProperties": {
+    "persona": "business_user",
+    "mail": "testUser@thoughtspot.com",
+    "companyName": "",
+    "activatedAtMs": 1646021682769
+  },
+  "isSystemUser": false,
+  "userEmail": "testUser@thoughtspot.com",
+  "configInfo": {
+    "cloudExpressConfiguration": {
+      "contactUrl": "https://www.thoughtspot.com"
+    },
+    "materializationConfig": {
+      "refreshWindowStartTime": "08:00PM",
+      "materializationHours": 8,
+      "enabled": false,
+      "maxMaterializedViewsPerCluster": 50
+    },
+    "emailValidation": true,
+    "identityServiceUrl": "https://identity.dataplane-private.aws-us-west-2.thoughtspotdev.cloud/v1",
+    "enableEurekaSearchDeduplication": false,
+    "maxColdStartHeadlinesPerPinboard": 1,
+    "enableDevMixpanelService": true,
+    "enableColumnSummariesByDefault": true,
+    "isAnswerV2OnByDefault": true,
+    "chartGenConfiguration": {
+      "maxLegendCardinality": 80,
+      "maxMeasuresLineColumnChart": 3,
+      "maxMeasuresBarChart": 4
+    },
+    "enableCJA": false,
+    "countWithNull": false,
+    "queryUpdateDebounceThresholdMS": 1000,
+    "maxColumnLimitForLightColumns": 0,
+    "disableAnswer": false,
+    "disableCopyLink": false,
+    "embedSettingsLockedEnabled": false,
+    "atlasActionObjectUGFeatureEnabled": true,
+    "intercomAppId": "bvnke30h",
+    "enableEurekaWorksheetDisablement": true,
+    "enableBypassRLSPrivilege": true,
+    "enableProdMixpanelService": false,
+    "openVizUrlInSameTab": false,
+    "isEverywhereEnabled": true,
+    "ldapConfiguration": {
+      "realms": "",
+      "enforceBindingPriorToAuthentication": false,
+      "bindPassword": "",
+      "displayNameAttributeKey": "displayName",
+      "emailAttributeKey": "mail",
+      "enabled": false,
+      "bindUsername": "",
+      "updateLdapAttributes": true
+    },
+    "blinkHelpConfigList": [
+      {
+        "iconFilePath": "",
+        "id": "BLINK_KEYWORDS",
+        "title": "Keywords",
+        "enabled": true,
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html"
+      },
+      {
+        "iconFilePath": "",
+        "id": "BLINK_RELEASE_NOTES",
+        "title": "Release notes",
+        "enabled": true,
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/release/notes.html"
+      },
+      {
+        "iconFilePath": "",
+        "id": "BLINK_DOCUMENTATION",
+        "title": "Documentation",
+        "enabled": true,
+        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}"
+      }
+    ],
+    "aaqEnabled": true,
+    "embedActionConfigList": [],
+    "isSaas": true,
+    "samlConfiguration": {
+      "samlLoginPageRedirect": false,
+      "samlGroupAttributeKey": "roles",
+      "disableSessionNotOnOrAfterCheck": false,
+      "updateUserGroupsFromSAML": false,
+      "displayNameAttributeKey": "displayName",
+      "emailAttributeKey": "mail",
+      "enabled": false,
+      "disableMaxAuthenticationAgeCheck": false,
+      "mobileAppRedirectEnabled": true,
+      "groupMapping": "{}",
+      "forceAuthn": false,
+      "updateSamlAttributes": true,
+      "logoutEnabledInUI": false
+    },
+    "enableSchemaViewer": false,
+    "atlasActionObjectFeatureEnabled": true,
+    "maxParallelQueriesPerViz": 5,
+    "embeddedUseCase": false,
+    "tseSeekwellFeatureEnabled": true,
+    
+    "answerV2Experience": true,
+    "embedUrls": {
+      "UNSUBSCRIBE_URL": "/#/user-preference",
+      "ANSWER_URL": "/#/saved-answer/{object-id}",
+      "PINBOARD_URL": "/#/pinboard/{object-id}",
+      "INSIGHT_URL": "/#/insight/{object-id}",
+      "PINBOARD_VIZ_URL": "/#/pinboard/{object-id}/{sub-object-id}"
+    },
+    "socialProof": true,
+    "enableNPSMetrics": true,
+    "blinkAjaxGzipConfig": {
+      "gzipBlacklistMode": false,
+      "gzipPathPrefixes": [
+        "/callosum/v1/systest",
+        "/callosum/v1/metadata/pinboard/save"
+      ],
+      "gzipAll": false,
+      "enableRequestGzip": false
+    },
+    "disableWorksheetSampleValues": false,
+    "eurekaSearchBarInNav": true,
+    "maxNumSearchIQPreferredDateColumnsAllowed": 1,
+    "selfClusterName": "810-eu-west-701",
+    "enablePinboardFollow": true,
+    "showUnsecuredDependents": true,
+    "callosumSaaSTest": 1,
+    "maxPrincipalObjectsBatchSize": 30,
+    "maxFilterValues": 10000,
+    "optimizelyDataFileFetchInterval": 300000,
+    "demoDataConfiguration": {
+      "demoPinboardGuids": [
+        "d084c256-e284-4fc4-b80c-111cb606449a"
+      ],
+      "demoConnectionGuids": [
+        "2aa36dbd-dda6-4497-a6db-bc47e128862e"
+      ],
+      "demoWorksheetGuids": [
+        "cd252e5c-b552-49a8-821d-3eadaa049cca"
+      ],
+      "demoTableGuids": [
+        "a633dccd-b449-46df-a0fc-92034d6858cb",
+        "7d174ef2-2482-4e61-9d6e-1e1d709d96b0",
+        "757f2434-66ef-43ad-9820-ba9008072155"
+      ]
+    },
+    "pinboardV2Experience": false,
+    "showNeedHelp": true,
+    "tseLicenseConfig": {
+      "freeTrialExpired": false,
+      "freeTrialEnabled": false
+    },
+    "allowPartialPinboardEDocImport": false,
+    "apiPlaygroundConfig": {
+      "enabled": false
+    },
+  
+  "state": "LOCKED",
+  "allUserGroupDisplayName": "All Group",
+  "isFirstLogin": false,
+  "allUserGroupId": "b25ee394-9d13-49e3-9385-cd97f5b253b4",
+  "userCreatedTime": 1354006445722,
+  "releaseVersion": "8.1.0.cl-129",
+  "userGroupMask": 6,
+  "userDisplayName": "Administrator",
+  "userExpirationTime": 1648613682769,
+  "userName": "tsadmin",
+  "license": "EAA",
+  "allUserGroupMemberUserCount": 5,
+  "acceptLanguage": "application/json",
+  "logicalModelVersion": 486,
+  "partialJSessionGUID": "a11dffde-cfbe-48",
+  "expirationTime": 1646051347,
+  "timeFormat": {
+    "formatPattern": "HH:mm:ss"
+  },
+  "clientState": {
+    "preferences": {
+      "PINBOARD_V2": false,
+      "sageDataSource": [
+        "cd252e5c-b552-49a8-821d-3eadaa049cca",
+        "5d1f0101-2e62-4505-893b-a3a667f1521a"
+      ],
+      "ANSWER_V2": true,
+      "SAGE_SEARCH_BUTTON_TOUR_SEEN": true,
+      "IS_FIRST_TIME_SPOT_IQ_USER": false,
+      "SPOT_IQ_V2": false,
+      "LEARNING_MODE_TOGGLE_SEEN": true,
+      "LEARNING_MODE": false
+    }
+  },
+  "userType": "LOCAL_USER"
+}
+----
+
+=== Response codes
+
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**200**|Successful retrieval of session information
+|**500**|Operation failed or unauthorized request
+|===
+
+== Log out of a session
+
+To log out of the current session, send a `POST` request to the `/api/rest/v2/session/logout` endpoint.
+
+
+=== Resource URL
+----
+POST /api/rest/v2/session/logout
+----
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/logout' \
+  -H 'Content-Type: application/json'\
+  -H 'Accept-Language: application/json'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/api/rest/v2/session/logout
+----
+
+////
+If the logout request is sent as an AJAX call, add the following parameter to send credentials with the request:
+
+----
+xhrFields: { withCredentials: true }
+----
+////
+
+=== Session response
+
+If the API request is successful, the currently logged-in user is signed out of ThoughtSpot.  
+
+
+=== Response codes
+
+[options="header", cols="2,4"]
+|===
+|HTTP status code|Description
+|**200**|The user is logged out of ThoughtSpot
+|**500**|Logout failure/unauthorized request
+|===

@@ -1,4 +1,4 @@
-[div boxDiv boxFullWidth]
+
 --
 `xref:security-api.adoc#share-object[**POST** /tspublic/v1/security/share]`
 

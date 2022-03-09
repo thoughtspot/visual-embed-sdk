@@ -1,5 +1,4 @@
 
-[div boxDiv boxFullWidth]
 --
 
 `xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` 

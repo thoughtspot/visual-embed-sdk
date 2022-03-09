@@ -5,9 +5,9 @@
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot Developer Portal
 
-ThoughtSpot Developer portal lets you explore Visual Embed SDK, REST API SDK, play with the APIs, and preview code changes and results. If you are a business application owner or a developer, you can try out the APIs and evaluate ThoughtSpot APIs and features that are available for integration.
+ThoughtSpot Developer portal lets you explore the Visual Embed SDK, REST API SDK and preview the coding experience in Playground. 
 
-The portal also allows authorized users to customize and rebrand the look and feel of the UI and add custom actions to Liveboard visualizations and worksheets.
+The portal also allows authorized you to customize and rebrand the look and feel of the UI, create custom actions, and configure security and authentication settings.
 
 If you are an existing ThoughtSpot user:: 
 You can access the Developer portal from your ThoughtSpot application instance.
@@ -20,8 +20,6 @@ If you are not an existing ThoughtSpot user::
 If you do not have a ThoughtSpot user account and you want to evaluate the APIs in the developer playground:
 . Go to link:https://developers.thoughtspot.com/[developers.thoughtspot.com, window=_blank].
 . From the header bar, click *Playground*.
-. Enter your name and email address.
-. Click *Try Live Playground*.
 
 [NOTE]
 ====
@@ -36,6 +34,8 @@ Home::
 The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
 This page also includes links to the *Developer Guides* and *Playground*. 
 
++
+[.bordered]
 image::./images/develop-home.png[Developer Portal]
 
 Guide::
@@ -43,7 +43,7 @@ The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Develop
 +
 [NOTE]
 ====
-If the REST API Playground and SDK feature is enabled on your environment, the menu options in the Developer portal vary. For example, the `Guides` menu will not appear as a separate menu category, but as an option under *REST API* and **Visual Embed SDK**. 
+If the REST API Playground and SDK feature is enabled on your environment, the `Guide` menu will appear as a sub-menu option under *REST API* and **Visual Embed SDK**. 
 ====
 
 REST API [beta orangeBackground]^BETA^::
@@ -86,7 +86,7 @@ The Developer portal displays the following customization options for Thoughtspo
 
 * *Styles*
 +
-Provides a set of style customization controls for rebranding the embedded ThoughtSpot content. 
+Provides a set of style customization controls to rebrand the look and feel of the ThoughtSpot UI and its elements. 
 +
 For more information, see xref:customize-style.adoc[Customize styles].
 

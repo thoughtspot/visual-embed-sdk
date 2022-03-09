@@ -1,0 +1,159 @@
+= Push data to a Slack workspace [tag greenBackground]#NEW in 8.1.0.cl# 
+:toc: true
+
+:page-title: Integrate ThoughtSpot with Slack app
+:page-pageid: slack-integration
+:page-description: You can connect users to their Slack workspace via app actions and allow them to push insights to a Slack channel 
+
+With most businesses using Slack for communication and team collaboration, business users and analysts may want to deliver insights to their Slack workspace from the ThoughtSpot UI. ThoughtSpot makes it easier for your developers to automate the app integration workflow and enable seamless integration with your business apps. With app actions, users can now connect their Slack workspace with ThoughtSpot and push insights directly to their Slack channels. 
+
+
+== Before you begin
+
+To integrate Slack workspaces with ThoughtSpot, you will need the following: 
+
+* A ThoughtSpot user account with developer or admin privileges to create app actions
+* A ThoughtSpot user with a Slack account
+* A ThoughtSpot application instance with *New Answer Experience* enabled
+* A saved answer or Liveboard visualization
+
+
+== Integration workflow
+
+The Slack app integration workflow involves the following steps:
+
+. A developer or admin user creates an app action for Slack in the Developer portal. 
++
+This step sets Slack as a destination app.
+. A user clicks a Slack app action on a saved answer or Liveboard visualization, and invokes the workflow. 
+
++
+This step initiates the OAuth workflow to secure data transactions between the source and destination app. 
+. ThoughtSpot requests access to the users' Slack workspace.
+. The user authorizes the request. 
+
++
+This step creates a pipeline between ThoughtSpot and the destination app for data exchange. 
+. ThoughtSpot obtains a list of channels from the user's Slack workspace.
+. The user selects a channel and clicks **Send now**.
+. ThoughtSpot pushes the answer data or insights from the visualization to the specified channel in the specified file format.
+
+
+== Get started
+
+The Slack app integration procedure involves the following steps:
+
+. xref:push-data-to-slack.adoc#app-action-slack[Create an app action with Slack as the destination app]
+. xref:push-data-to-slack.adoc#initiateActionSlack[Initiate a data push request to Slack]
+. xref:push-data-to-slack.adoc#viewInSlack[View insights in your Slack workspace]
+
+[#app-action-slack]
+=== Create an app action with Slack as the destination app
+
+To create an app action for Slack, complete the following steps:
+
+. Log in to ThoughtSpot with your admin or developer user credentials.
+. Go to *Develop* > *Customizations* > *Custom actions*.
+. Click *Create action*.
+. Enter a name for the action. For example, __Send to Slack__.
+. Select the *App* option and then select **Slack** from the *Select app* drop-down.
++
+Note that the app action ID is generated automatically. 
+
+. To add this action globally to all visualizations and saved answers, select *On by default on all visualizations*. 
++
+If you do not select this checkbox, the app action is set as *Local* and is not assigned to any visualization or saved answer.  
+
++
+[.bordered]
+image:./images/app-action-dev.png[App action creation, width=auto]
+
++
+. To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.  
+ 
+. Click *Create action*.
+
+. To view the custom action you just created, navigate to a visualization or saved answer page.
+
++
+include::{path}/global-local-action.adoc[]
+
+[#initiateActionSlack]
+=== Initiate the app action
+
+Before you begin, perform the following checks:
+
+* You have access to a saved answer, worksheet, or Liveboard. 
+* The *New Answer experience* is enabled on your ThoughtSpot application instance.
+* You have access to a Slack workspace. 
+
+To initiate a data push request to your Slack workspace, follow these steps:
+
+. Go to a Liveboard visualization or saved answer page.
+
+. If you have created an answer from a new query, make sure you save the answer.
++
+If the app action is set as a global action, the action will appear in the **More** menu image:./images/icon-more-10px.png[the more options menu]. If the action is set as a local app action, you must add it to your answer page.
+
+. Click the action to initiate a data push request.
+
++
+[.bordered]
+image::./images/initiate-app-action.png[Initiate an app action]
+
++
+ThoughtSpot requests access to your Slack workspace and opens the app authorization page. 
+
++
+[NOTE]
+====
+The app authorization page opens as a pop-up, so make sure your web browser allows pop-ups.
+====
+
+. Specify your Slack workspace and click **Continue**. 
+
++
+The system prompts you to sign in to your workspace if you haven't already signed in. To continue with the integration, you can log into your workspace with your credentials.
+
+. To authorize the request, click **Allow**. 
+
++
+This step is required only if you are using the Slack integration action for the first time or when ThoughtSpot refreshes its OAuth access token.
+
+ 
+. Wait for ThoughtSpot to connect to your workspace and obtain a list of channels.
+
++
+If the connection is successful, the app action dialog in the ThoughtSpot UI displays a list of Slack channels to which you can deliver data.
+
++
+[.bordered]
+image:./images/send-to-slack.png[Initiate an app action, width=auto]
+
+. Select a channel from the *Slack channel* drop-down. 
++
+You can also search for a channel and then select it.
+
+. If required, modify the title of the data.
+. Specify the text to send in your Slack message.
+. Specify if the data must be sent as a PNG file or in the CSV format, or both. 
++
+
+[NOTE]
+====
+ThoughtSpot does not support sending data in the PNG format if a chart or table does not include measures.
+====
+
+
+[#viewInSlack]
+=== View insights in your Slack workspace
+
+To view the insights sent to a Slack channel:
+
+. Go to your Slack workspace.
+. Click the channel to which you have sent the data. 
+. Verify the data in the CSV and image files.
++
+To view the source app details in your Slack workspace, go to *Apps* in your Slack app. 
+
+

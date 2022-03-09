@@ -5,19 +5,17 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
+The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
 == Session
 
-
-[div boxDiv boxFullWidth]
 --
 `**GET** /api/rest/v2/session`
 
 Gets details of the current session for the logged-in user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -27,7 +25,7 @@ Gets details of the current session for the logged-in user.
 Signs in a user to ThoughtSpot. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -37,7 +35,7 @@ Signs in a user to ThoughtSpot.
 Gets an OAuth access token for a ThoughtSpot client. You must send this token in the `Authorization` header to authorize your API requests.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 `**POST** /api/rest/v2/session/revoketoken`
@@ -47,7 +45,7 @@ Gets an OAuth access token for a ThoughtSpot client. You must send this token in
 Revokes an existing access token assigned to a ThoughtSpot client. To make API calls, you must obtain a new access token.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -57,13 +55,13 @@ Revokes an existing access token assigned to a ThoughtSpot client. To make API c
 Logs out a ThoughtSpot user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 --
 
 == Users
 
-[div boxDiv boxFullWidth]
+
 --
 
 `*POST* /api/rest/v2/user/create`
@@ -71,7 +69,7 @@ Logs out a ThoughtSpot user.
 Creates a user object. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -81,7 +79,7 @@ Creates a user object.
 Gets details of a specific user. You must provide the username or the GUID of the user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -91,7 +89,7 @@ Gets details of a specific user. You must provide the username or the GUID of th
 Modifies the properties of a user object. You must specify a username or the GUID of the user. Requires administrator privileges. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -101,17 +99,17 @@ Modifies the properties of a user object. You must specify a username or the GUI
 Deletes a user object.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
 
 `**POST** /api/rest/v2/user/search`
 
-Gets a list of users available in ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
+Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -121,7 +119,7 @@ Gets a list of users available in ThoughtSpot system. To filter your query, you 
 Assigns a user to groups. If the assigned groups have privileges configured, the user inherits these privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -131,20 +129,19 @@ Assigns a user to groups. If the assigned groups have privileges configured, the
 Removes the groups assigned to a user. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 --
 
 == Groups
 
-[div boxDiv boxFullWidth]
 --
 `*GET* /api/rest/v2/group`
 
 Gets details of a specific group.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -154,7 +151,7 @@ Gets details of a specific group.
 Creates a group object. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -164,7 +161,7 @@ Creates a group object. Requires administrator privileges.
 Modifies the properties of a group object. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -174,7 +171,7 @@ Modifies the properties of a group object. Requires administrator privileges.
 Assigns privileges to a group. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -184,7 +181,7 @@ Assigns privileges to a group. Requires administrator privileges.
 Removes privileges assigned to a group. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -194,7 +191,7 @@ Removes privileges assigned to a group. Requires administrator privileges.
 Deletes a group object. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -204,7 +201,7 @@ Deletes a group object. Requires administrator privileges.
 Assigns users to a group. Requires administrator privileges.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -215,17 +212,17 @@ Removes one or several users assigned to a group. Requires administrator privile
 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
  
 `*PUT* /api/rest/v2/group/addgroup`
 
-Adds a group to another group object. This API request creates a hierarchy of groups. The sub groups inherit the privileges assigned to the parent group.
+Adds a group to another group object. This API request creates a hierarchy of groups. The subgroups inherit the privileges assigned to the parent group.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -236,31 +233,30 @@ Removes a group from the parent group.
 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
 
 `*POST* /api/rest/v2/group/search`
 
-Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users and other such attributes. 
-
+Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users, and other such attributes. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 --
 
 == Metadata
 
-[div boxDiv boxFullWidth]
+
 --
 `*GET* /api/rest/v2/metadata/tag`
 
 Gets details for the specified tag. You must specify the tag name or the GUID.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -270,7 +266,7 @@ Gets details for the specified tag. You must specify the tag name or the GUID.
 Creates a tag object.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -280,7 +276,7 @@ Creates a tag object.
 Modifies the properties of a tag object.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -290,7 +286,7 @@ Modifies the properties of a tag object.
 Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, answer, data object, and data connection objects.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -300,7 +296,7 @@ Assigns a tag to one or several metadata objects. You can assign a tag to a Live
 Removes the tag assigned to an object.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -310,7 +306,7 @@ Removes the tag assigned to an object.
 Deletes the specified tag.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -320,7 +316,7 @@ Deletes the specified tag.
 Adds an object such as Liveboards and answers to a user's favorites list.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -330,7 +326,7 @@ Adds an object such as Liveboards and answers to a user's favorites list.
 Removes the specified object from the user's favorites list.  
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -340,7 +336,7 @@ Removes the specified object from the user's favorites list.
 Gets the details of the Liveboard that is set as a default Liveboard for the ThoughtSpot user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -350,7 +346,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
 Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -360,7 +356,7 @@ Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 Removes the default home Liveboard setting for a ThoughtSpot user.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -370,8 +366,19 @@ Removes the default home Liveboard setting for a ThoughtSpot user.
 Gets a list of objects with incomplete metadata. 
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /api/rest/v2/metadata/header` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets header details for a specific metadata object. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
 
 +++<p class="divider"> </p>+++
 
@@ -380,7 +387,7 @@ Gets a list of objects with incomplete metadata.
 Gets details of the metadata objects. To filter the query, you can specify the metadata object type.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -390,17 +397,27 @@ Gets details of the metadata objects. To filter the query, you can specify the m
 Gets a list of visualization headers associated with a Liveboard.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
 
 `*POST* /api/rest/v2/metadata/header/search`
 
-Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level and other such attributes.
+Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level, and other such attributes.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*DELETE* /api/rest/v2/metadata/delete` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Deletes the specified metadata object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -410,7 +427,7 @@ Gets a list of all metadata objects in the ThoughtSpot system. To filter your qu
 Gets a list of dependent metadata objects.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -420,7 +437,7 @@ Gets a list of dependent metadata objects.
 Exports a TML object and associated metadata.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
 +++<p class="divider"> </p>+++
@@ -430,7 +447,79 @@ Exports a TML object and associated metadata.
 Imports one or several TML objects and object associations.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
+--
+
+== Connections 
+
+--
+`*GET* /api/rest/v2/connection` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets details of a specific data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /api/rest/v2/connection/create` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Creates a data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/update` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Updates an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+*DELETE* /api/rest/v2/connection/delete [tag greenBackground]#NEW in 8.1.0.cl#
+
+Deletes a data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/addtable` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Adds a table to an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /api/rest/v2/connection/removetable` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Removes a table from an existing data connection.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /api/rest/v2/connection/search` [tag greenBackground]#NEW in 8.1.0.cl#
+
+Gets details of all data connections. You can also query data for a specific connection type.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
 --

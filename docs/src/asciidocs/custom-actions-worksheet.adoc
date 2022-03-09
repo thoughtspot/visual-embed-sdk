@@ -5,21 +5,20 @@
 :page-pageid: add-action-worksheet
 :page-description: Add custom actions to worksheets
 
-
-ThoughtSpot supports adding custom actions to the visualizations built from worksheets. The custom actions created in the Developer portal appear on a worksheet page, so that your users can add these actions to the new visualizations built from that worksheet. This feature allows ThoughtSpot application users to determine and control the position of a custom action on visualizations generated from a specific worksheet. 
+ThoughtSpot supports adding custom actions to the visualizations generated from a specific worksheet. The local custom actions created in the Developer portal appear on the worksheet page, so that you can assign these actions to the new visualizations built from that worksheet. 
 
 [NOTE]
 ====
-When you add a custom action to a worksheet, ThoughtSpot adds the action only to the new visualizations built from that worksheet. The existing saved answers generated using that worksheet do not show the custom actions assigned to the worksheet.
+When you assign a custom action to a worksheet, ThoughtSpot adds it only to the new answers generated from a worksheet. The custom action will not be available on  the existing saved answers generated using the worksheet.
 ====
 
 == Before you begin
 
-* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view the custom action availability in the *Custom actions* > *Actions* dashboard.
+* Make sure the custom actions are set as *Local*. 
 * Make sure you have edit permissions to modify the worksheet.
 * Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
 
-== Associate a custom action to a worksheet
+== Assign a custom action to a worksheet
 
 To add a custom action to a worksheet:
 
@@ -27,17 +26,14 @@ To add a custom action to a worksheet:
 . Click the worksheet that you want to modify.
 . Click the *Custom actions* tab.
 +
-A list of __Global__ actions is displayed. 
+A list of custom actions available on your instance is displayed. 
 
-+
-[NOTE]
-====
-The *Global* custom actions appear on all visualizations by default. To add a specific action locally to a worksheet, the *Local* custom actions must be created in the Developer portal.
-====
+. Note that the page shows the global custom actions that appear on all visualizations by default. These actions will be available on all answers generated from the worksheet. 
 
-. Click *Add action*.
-. Select the custom action that you want to add.
-. To specify the position of the action, select one of the following options:
+. To assign a local custom action to a worksheet: 
+.. Click *Add action*.
+.. Select the custom action that you want to add.
+.. To specify the position of the action, select one of the following options:
 * *Primary*
 +
 Sets the custom action as a primary menu action.
@@ -58,30 +54,30 @@ Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[t
 Adds the custom action as a menu item in the contextual menu. If you want to send only a single row of data instead of the entire data set from a visualization, you can place the custom action in the contextual menu. Users can access this action in the contextual menu by right-clicking on a visualization.
 
 +
- 
 . Preview  the position of the custom action.
 
 . Click *Save*.
 +
-The custom action is added to the visualization page. 
+The custom action will be added to the new answers generated using the specified worksheet. 
 
 == Verify the custom action placement
 
 . To view the action you just added, click *Home*.
-. Set your worksheet as the data source, specify search tokens, and click search.
+. Set your worksheet as the data source, specify search tokens, and click **Go**.
 +
 . Verify if the action is added to the visualization page. 
 
 +
-When you save this visualization in answers or pin it to a Liveboard, all users that can access the visualization can use this action.
+. Click the action and verify the workflow.
 
-== Edit a custom action association
+== Edit the position of a local action
 
-To edit a custom action associated with a worksheet:
+To edit the position of a local custom action associated with a worksheet:
 
 . Navigate to the worksheet page.
 . Click *Custom actions*.
-. Click on the action that you want to edit, and then click the edit icon.
+. Click on the action that you want to edit, and then click the edit icon. 
+. Modify the position and click **Save**.
 
 == Delete a custom action association
 

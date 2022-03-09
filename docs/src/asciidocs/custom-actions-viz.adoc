@@ -4,30 +4,40 @@
 :page-pageid: add-action-viz
 :page-description: Add custom actions
 
-ThoughtSpot lets you add custom actions globally to all your visualizations or locally to a specific visualization or worksheet. For example, if you want to send data from a specific visualization to a URL, you can add a custom action locally to that visualization. If you want to add a custom action to a visualization, you must set it as a *Local* action and then add it to the visualization. 
+ThoughtSpot lets you add custom actions globally to all your visualizations or locally to a specific visualization or worksheet. By default, the actions created in the Developer portal are set as *Global* actions. Developers can choose to set an action as **Local** and allow their application users to assign it to a visualization or saved answer of their choice. By default, local custom actions are not assigned to any visualization. Any ThoughtSpot user with edit access to a visualization, saved answer, or worksheet can add a local action to the objects of their choice. For example, if you want to send data from a specific visualization to the pre-configured URL or web page, you can add a custom action locally to that visualization.
 
-To view the *Local* custom actions available on your cluster, create a new chart or table from search, or open a visualization from a Liveboard or saved answer, and then click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. The *Custom actions* panel allows you to add, edit, and hide the actions.
- 
+If custom actions are configured for your instance, the UI displays these actions in the *Custom actions* panel. The *Custom actions* panel allows authorized users to  perform the following tasks:
+
+* Add a local action to a visualization or saved answer
+* Edit the position of an action
+* Delete a **Local** action association
+* Hide a *Global* action that is not relevant to your answer or visualization.
+
+To view the *Custom actions* panel, navigate to a saved answer page, or open a Liveboard visualization in the edit mode, and then click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu]. 
+
+
 == Before you begin
 
-* Make sure the custom actions are set as *Local*. If you have Developer or Admin privilege, you can create custom actions in the Developer portal and view these actions in the *Custom actions* > *Actions* dashboard.
-* Make sure you have edit permissions to modify the visualization.
 * Make sure the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
+* Make sure the custom actions are set as *Local*.
+* Make sure you have edit permissions to modify the visualization or saved answer.
+
 
 [#addCustomActionToViz]
-== Add a custom action
+== Assign an action to a visualization or answer
 
-To add a custom action to a visualization:
+To add a custom action to a visualization or answer:
 
-. Navigate to the visualization page.
+. Navigate to the visualization or answer page.
 
-* If the visualization is added to a Liveboard:
+* To add a custom action to a visualization on a Liveboard:
 +
 .. Go to *Liveboards* and click on the Liveboard.
 .. Navigate to the visualization.
-.. Click **More** menu image:./images/icon-more-10px.png[the more options menu] and then click *Edit*.
+.. Click the **More** menu image:./images/icon-more-10px.png[the more options menu] and then click *Edit*.
 
-* If the visualization is saved as an answer, go to *Answers* and click the answer that you want to edit.
++
+* To add a custom action to a saved answer, go to *Answers* and click the answer that you want to edit.
 
 . Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
 +
@@ -56,21 +66,39 @@ Adds the custom action to the  **More** menu image:./images/icon-more-10px.png[t
 Adds the custom action as a menu item in the contextual menu. If you want to send only a single row of data instead of the entire data set from a visualization, you can place the custom action in the contextual menu. Users can access this action in the contextual menu by right-clicking on a visualization.
 
 +
-////
-+
 [NOTE]
 ====
-The ThoughtSpot Developer portal allows developers to set a custom action to make it appear only in the contextual menu. If the *Only allow in context menu* setting is enabled for a custom action in the Developer portal, ThoughtSpot users cannot modify the position of this action on visualization pages.
+ThoughtSpot allows you to place the URL and callback actions in the context menu. The App actions can be configured either as a primary button or menu action in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 ====
-////
 
-
++
 . Preview  the position of the custom action.
 +
-image::./images/custom-action-viz.png[Custom action for a visualization]
+[.bordered]
+[.widthAuto]
+image:./images/set-position-action.png[Custom action for a visualization]
 
 . Click *Add action*.
 +
-The custom action is added to the visualization page.
 
-. Click the custom action in the UI and verify the workflow.
+. Refresh the answer or the visualization page and verify if the action shows up in the UI.
+
+== Edit the position of a local action
+
+To edit the position of a local custom action assigned to an answer or visualization:
+
+. Navigate to the visualization or saved answer page.
+. Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
+. In the **Custom actions **panel, click the edit icon next to the action that you want to edit. 
+. Modify the position and then click **Save**.
+
+== Delete a custom action association
+
+To delete a custom action association:
+
+. Navigate to the visualization or saved answer page.
+. Click the *Custom actions* icon image:./images/custom-action-icon.png[the Custom actions menu].
+. In the **Custom actions **panel, click the delete icon next to that action that you want to remove. 
+
+For information about deleting a custom action assigned at the worksheet level, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+

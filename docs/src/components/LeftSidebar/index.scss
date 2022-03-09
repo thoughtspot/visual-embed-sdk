@@ -8,7 +8,7 @@
 
     .menuContainer {
         cursor: pointer;
-        padding-right: $padding-xs;
+        padding-right: $padding-md;
         position: fixed;
         right: 0;
 
@@ -52,9 +52,9 @@
 }
 
 aside {
-    padding-top: $padding-md;
-    padding-bottom: $padding-md;
+    padding: $padding-md 0 $padding-md 10px;
     width: 100%;
+    box-shadow: var(--box-shadow);
     border-right: 1px var(--border-color) solid;
     left: $gutter;
     height: 100vh;
@@ -144,10 +144,10 @@ aside {
             right: 8px;
             top: 0px;
             float: right;
-            padding-left: 15px;
+            padding-right: 20px;
 
             img {
-                width: $arrow-icon-width;
+                width: $icon-width;
                 position: relative;
                 top: 2px;
             }
