@@ -555,6 +555,10 @@ export enum Action {
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     EditDetails = 'editDetails',
+    /**
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     */
+    CreateMonitor = 'createMonitor',
 }
 
 export interface SessionInterface {
