@@ -63,6 +63,13 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
+     * Array of viz ids which should be visible when the liveboard
+     * first renders. This can be changed by triggering the "SetVisibleVizs"
+     * event.
+     * @version 1.9.1 or later
+     */
+    visibleVizs?: string[];
+    /**
      * To support backward compatibilty
      * @hidden
      */
@@ -93,6 +100,7 @@ export class LiveboardEmbed extends V1Embed {
             enableVizTransformations,
             fullHeight,
             defaultHeight,
+            visibleVizs,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval =
@@ -112,6 +120,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (preventLiveboardFilterRemoval) {
             params[Param.preventLiveboardFilterRemoval] = true;
+        }
+        if (visibleVizs) {
+            params[Param.visibleVizs] = visibleVizs;
         }
         params[Param.livedBoardEmbed] = true;
         const queryParams = getQueryParamString(params, true);

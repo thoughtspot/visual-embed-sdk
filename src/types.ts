@@ -364,6 +364,13 @@ export enum EmbedEvent {
      * @version 1.6.0 or later
      */
     DialogClose = 'dialog-close',
+    /**
+     * Emitted when a liveboard has completed rendering,
+     * this event can be used as a hook to trigger events on the
+     * rendered liveboard
+     * @version 1.9.1 or later
+     */
+    LiveboardRendered = 'PinboardRendered',
 }
 
 /**
@@ -467,6 +474,7 @@ export enum Param {
     ViewPortWidth = 'viewPortWidth',
     VisibleActions = 'visibleAction',
     CustomCSSUrl = 'customCssUrl',
+    visibleVizs = 'pinboardVisibleVizs',
 }
 
 /**
