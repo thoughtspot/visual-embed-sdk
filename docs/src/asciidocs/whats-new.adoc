@@ -39,7 +39,7 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 
 For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
 
 === REST API v2 [beta orangeBackground]^BETA^
@@ -122,7 +122,7 @@ The SDK includes the following new event:
 
 * `RouteChange`
 
-For more information, see xref:embed-events.adoc[Subscribe to events].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 ====
