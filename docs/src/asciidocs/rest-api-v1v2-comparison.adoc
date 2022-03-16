@@ -13,7 +13,7 @@ Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and ma
 [options='header']
 |=====
 ||REST API v1| REST API v2
-|Licensing| Requires ThoughtSpot Enterprise Edition license| Requires ThoughtSpot Everywhere Edition license
+|Licensing| Available with ThoughtSpot Enterprise Edition license| Requires ThoughtSpot Everywhere Edition license
 |Developer Playground|Swagger API explorer
 
 The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
@@ -26,7 +26,7 @@ The Swagger UI is also accessible via Developer portal|Interactive Playground in
 
 a| [tag greenBackground]#✓# Basic authentication
 
-[tag greenBackground]#✓# Bearer token authentication
+[tag greenBackground]#✓# OAuth Bearer token authentication
 |Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
 |Input and output parameters| Not fully standardized |Standardized
 |API services a|[tag greenBackground]#✓# User APIs 
@@ -63,7 +63,7 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greenBackground]#✓# Session APIs
 
-[tag greyBackground]#–# Data connection APIs
+[tag greenBackground]#✓# Data connection APIs
 
 [tag greenBackground]#✓# Metadata APIs
 

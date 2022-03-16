@@ -291,7 +291,7 @@ tag: 'sales'
 
 include::{path}/callback-payload.adoc[]
 
-== Subscribe to events
+== Register, handle, and trigger events
 
 Register event listeners.
 
@@ -301,7 +301,7 @@ appEmbed.on(EmbedEvent.init, showLoader)
 appEmbed.on(EmbedEvent.load, hideLoader)
 ----
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded application
 

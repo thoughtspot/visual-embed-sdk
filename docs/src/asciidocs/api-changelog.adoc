@@ -21,7 +21,7 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Subscribe to events].
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
 
 
@@ -50,7 +50,7 @@ The SDK includes the following new event:
 
 * `RouteChange`
 
-For more information, see xref:embed-events.adoc[Subscribe to events].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 
@@ -75,7 +75,7 @@ The SDK supports the following new events:
 * `DialogOpen`
 * `DialogClose`
 
-For more information, see xref:embed-events.adoc[Subscribe to events].
+For more information, see xref:embed-events.adoc[Interact with events].
 |====
 
 == Version 1.5.0
@@ -101,7 +101,7 @@ The SDK EmbedEvent library includes the following new events:
 * `Drilldown`
 * `SetVisibleVizs`
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 
@@ -147,7 +147,7 @@ The SDK EmbedEvent library includes the following events:
 * `QueryChanged`
 * `AuthExpire`
 
-For more information, see xref:embed-events.adoc[Subscribe to events].
+For more information, see xref:embed-events.adoc[Interact with events].
 |====
 
 == Version 1.3.0

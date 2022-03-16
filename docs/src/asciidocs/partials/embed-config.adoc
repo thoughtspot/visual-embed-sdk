@@ -1,5 +1,5 @@
 
-autoLogin [small]#__Optional__#::
+autoLogin __Optional__::
 
 __Boolean__. When set to `true`, an expired or timed-out user session is renewed automatically based on the authentication information from the previous session. This allows users to log in automatically without entering their credentials again. By default, the `autoLogin` attribute is set to `false`.
 
@@ -8,7 +8,7 @@ __Boolean__. When set to `true`, an expired or timed-out user session is renewed
 ----
 autoLogin: true
 ----
-shouldEncodeUrlQueryParams [small]#__Optional__#::
+shouldEncodeUrlQueryParams  __Optional__::
 
 __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generated URLs are converted into the base64-encoded format. This attribute secures your ThoughtSpot clusters against cross-site scripting attacks. By default, the `shouldEncodeUrlQueryParams` is set to `false`.
 
@@ -18,7 +18,8 @@ __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generat
 shouldEncodeUrlQueryParams: true
 ----
 
-suppressNoCookieAccessAlert [small]#__Optional__#::
+
+suppressNoCookieAccessAlert __Optional__::
 
 __Boolean__. When set to `true`, it suppresses the `noCookieAccess` alert. 
 

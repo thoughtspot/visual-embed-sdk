@@ -46,7 +46,6 @@ from '@thoughtspot/visual-embed-sdk';
     }
 from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ----
-
 == Initialize the SDK
 
 Specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
@@ -73,7 +72,8 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 include::{path}/embed-config.adoc[]
 
-== Construct the embed content
+== Create an instance of the LiveboardEmbed class
+
 [source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
@@ -124,6 +124,7 @@ include::{path}/additional-flags.adoc[]
 https://<ThoughtSpot-Host>/?embedApp=true&isLiveboardEmbed=true&enableFeatureA=true#/embed/viz/d084c256-e284-4fc4-b80c-111cb606449a/23e7eb0a-56e7-462e-97ee-343f126391f2
 ----
 ////
+
 
 visibleActions __Optional__::
 _Array of strings_. Displays the specified actions on the embedded visualization. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.
@@ -227,7 +228,7 @@ For more information about the supported data types and how to use runtime filte
 
 include::{path}/callback-payload.adoc[]
 
-== Subscribe to events
+== Register, handle, and trigger events
 
 Register event listeners:
 
@@ -237,7 +238,7 @@ liveboardEmbed.on(EmbedEvent.init, showLoader)
 liveboardEmbed.on(EmbedEvent.load, hideLoader)
 ----
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded visualization
 Construct the URL for the embedded visualization and render the embedded content:
@@ -258,4 +259,4 @@ liveboardEmbed.render();
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information about the SDK APIs and attributes, xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
