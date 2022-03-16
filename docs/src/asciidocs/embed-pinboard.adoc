@@ -64,7 +64,7 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 include::{path}/embed-config.adoc[]
 
-== Construct the embed content
+== Create an instance of the LiveboardEmbed class
 
 [source,JavaScript]
 ----
@@ -235,7 +235,7 @@ For more information about the supported data types and how to use runtime filte
 
 include::{path}/callback-payload.adoc[]
 
-== Subscribe to events
+== Register, handle, and trigger events
 
 Register event listeners.
 
@@ -245,7 +245,7 @@ liveboardEmbed.on(EmbedEvent.init, showLoader)
 liveboardEmbed.on(EmbedEvent.load, hideLoader)
 ----
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded Liveboard
 
@@ -267,4 +267,4 @@ liveboardEmbed.render();
 == Additional resources
 
 * For code examples, see xref:code-samples.adoc[Code samples].
-* For more information about the SDK APIs and attributes, xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

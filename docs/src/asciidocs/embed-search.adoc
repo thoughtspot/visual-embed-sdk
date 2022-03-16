@@ -272,7 +272,7 @@ searchOptions: {
 
 include::{path}/callback-payload.adoc[]
 
-== Subscribe to events
+== Register, handle, and trigger events
 
 Register event listeners. 
 
@@ -282,7 +282,7 @@ searchEmbed.on(EmbedEvent.Init, showLoader)
 searchEmbed.on(EmbedEvent.Load, hideLoader)
 ----
  
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded search
 

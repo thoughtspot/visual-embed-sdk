@@ -214,7 +214,7 @@ The SDK supports the following new events:
 * `DialogOpen`
 * `DialogClose`
 
-For more information, see xref:embed-events.adoc[Subscribe to events].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 ====
@@ -309,7 +309,7 @@ The SDK EmbedEvent library includes the following new events:
 * `Drilldown`
 * `SetVisibleVizs`
 
-For more information, see xref:embed-events.adoc[Event subscription and handling].
+For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 ====
