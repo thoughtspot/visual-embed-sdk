@@ -55,7 +55,7 @@ You can also download the SDK and API libraries from the following public resour
  
  
 ////
-<a href="{{previewPrefix}}/api/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
+<a href="{{previewPrefix}}/tspublic/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
 
 ////
  

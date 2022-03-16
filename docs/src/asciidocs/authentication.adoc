@@ -37,11 +37,11 @@ xhr.withCredentials = true;
 
 To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. A successful log-in process returns session cookies from the ThoughtSpot system, which you must include in the subsequent REST API calls.
 
-To sign in to ThoughtSpot, send a `POST` request to the `/api/rest/v2/session/login` API endpoint.
+To sign in to ThoughtSpot, send a `POST` request to the `/tspublic/rest/v2/session/login` API endpoint.
 
 === Resource URL
 ----
-POST /api/rest/v2/session/login
+POST /tspublic/rest/v2/session/login
 ----
 === Request Parameters
 
@@ -60,7 +60,7 @@ POST /api/rest/v2/session/login
 [source, cURL]
 ----
 curl -X POST \
-  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/login' \
+  --url 'https://<ThoughtSpot-host>/tspublic/rest/v2/session/login' \
   -H 'Accept: application/json'\
   -H 'Accept-Language: application/json'\
   -H 'Content-Type: application/json' \
@@ -74,7 +74,7 @@ curl -X POST \
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/api/rest/v2/session/login
+https://<ThoughtSpot-host>/tspublic/rest/v2/session/login
 ----
 
 === Session response
@@ -116,7 +116,7 @@ By default, the OAuth access token is valid for 24 hours. If the token expires a
 === Resource URL
 
 ----
-POST /api/rest/v2/session/gettoken
+POST /tspublic/rest/v2/session/gettoken
 ----
 
 === Request parameters
@@ -136,7 +136,7 @@ POST /api/rest/v2/session/gettoken
 [source, cURL]
 ----
 curl -X POST \
-  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/gettoken' \
+  --url 'https://<ThoughtSpot-host>/tspublic/rest/v2/session/gettoken' \
   -H 'Accept: application/json'\
   -H 'Accept-Language: application/json'\
   -H 'Content-Type: application/json' \
@@ -149,7 +149,7 @@ curl -X POST \
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/api/rest/v2/session/gettoken
+https://<ThoughtSpot-host>/tspublic/rest/v2/session/gettoken
 ----
 
 === Session response
@@ -177,12 +177,12 @@ If the operation is successful, the API returns an OAuth access token. Make sure
 
 == Revoke the access token
 
-To revoke the access token granted for the currently logged-in user, send a `POST` request to the `/api/rest/v2/session/revoketoken` endpoint.
+To revoke the access token granted for the currently logged-in user, send a `POST` request to the `/tspublic/rest/v2/session/revoketoken` endpoint.
 
 
 === Resource URL
 ----
-POST /api/rest/v2/session/revoketoken
+POST /tspublic/rest/v2/session/revoketoken
 ----
 
 === Request parameters
@@ -196,7 +196,7 @@ None
 [source, cURL]
 ----
 curl -X POST \
-  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/revoketoken' \
+  --url 'https://<ThoughtSpot-host>/tspublic/rest/v2/session/revoketoken' \
   -H 'Authorization: Bearer {OAUTH_TOKEN}'\
   -H 'Content-Type: application/json'\
   -H 'Accept-Language: application/json'
@@ -205,7 +205,7 @@ curl -X POST \
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/api/rest/v2/session/revoketoken
+https://<ThoughtSpot-host>/tspublic/rest/v2/session/revoketoken
 ----
 
 === Example response
@@ -226,13 +226,13 @@ If the API request is successful, the access token is revoked and the current us
 
 == View session info
 
-To get details of the session object for the currently logged-in user, send a `GET` request to the `/api/rest/v2/session` endpoint.
+To get details of the session object for the currently logged-in user, send a `GET` request to the `/tspublic/rest/v2/session` endpoint.
 
 
 === Resource URL
 
 ----
-GET /api/rest/v2/session
+GET /tspublic/rest/v2/session
 ----
 
 === Request parameters
@@ -245,7 +245,7 @@ None
 [source, cURL]
 ----
 curl -X GET \
-  --url 'https://<ThoughtSpot-host>/api/rest/v2/session' \
+  --url 'https://<ThoughtSpot-host>/tspublic/rest/v2/session' \
   -H 'Authorization: Bearer {OAUTH_TOKEN}'\
   -H 'Content-Type: application/json'\
   -H 'Accept-Language: application/json'
@@ -254,7 +254,7 @@ curl -X GET \
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/api/rest/v2/session
+https://<ThoughtSpot-host>/tspublic/rest/v2/session
 ----
 
 
@@ -510,12 +510,12 @@ If the API request is successful, ThoughtSpot returns the following response:
 
 == Log out of a session
 
-To log out of the current session, send a `POST` request to the `/api/rest/v2/session/logout` endpoint.
+To log out of the current session, send a `POST` request to the `/tspublic/rest/v2/session/logout` endpoint.
 
 
 === Resource URL
 ----
-POST /api/rest/v2/session/logout
+POST /tspublic/rest/v2/session/logout
 ----
 
 === Example request
@@ -524,14 +524,14 @@ POST /api/rest/v2/session/logout
 [source, cURL]
 ----
 curl -X POST \
-  --url 'https://<ThoughtSpot-host>/api/rest/v2/session/logout' \
+  --url 'https://<ThoughtSpot-host>/tspublic/rest/v2/session/logout' \
   -H 'Content-Type: application/json'\
   -H 'Accept-Language: application/json'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/api/rest/v2/session/logout
+https://<ThoughtSpot-host>/tspublic/rest/v2/session/logout
 ----
 
 ////

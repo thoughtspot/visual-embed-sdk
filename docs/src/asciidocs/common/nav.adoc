@@ -40,7 +40,7 @@
 ** link:{{navprefix}}=embed-liveboard[Embed a Liveboard]
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
-** link:{{navprefix}}=events[Subscribe to events]
+** link:{{navprefix}}=events[Interact with events]
 ** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
 ** link:{{navprefix}}=action-config[Show or hide UI actions]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
