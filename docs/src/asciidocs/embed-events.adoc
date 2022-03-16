@@ -4,7 +4,7 @@
 
 :page-title: Embed events
 :page-pageid: events
-:page-description: You can subscribe to events emitted by the embedded objects and the host application.
+:page-description: You can register, trigger, and handle events emitted by the embedded objects and the host application.
 
 ThoughtSpot supports a range of events that your app can listen to and respond to with an appropriate action. The embedded ThoughtSpot components emit events when they initialize and load, and when a user executes an action inside these components. The host application can also trigger events within the embedded ThoughtSpot objects, causing an alert or other action.
 
