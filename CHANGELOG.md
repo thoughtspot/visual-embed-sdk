@@ -1,11 +1,17 @@
 # Changelog
 
 Please find the comprehensive list of changes for ThoughtSpot releases and SDK [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
+This project follows Semantic Versioning.
 
-## 1.9.2 (03/17/2022)
+## Unreleased
 
 ### New Features
+- Events for all actions on Search Embed
 
+
+## 1.9.2 (03-17-2022)
+
+### New Features 
 - Ability to trigger events on React components
   - Added new `useEmbedRef` hook, check README for usage.
 
@@ -14,7 +20,7 @@ Please find the comprehensive list of changes for ThoughtSpot releases and SDK [
 - Typings for `on*` event handlers for React components
 
 
-## 1.9.1 (03/15/2022)
+## 1.9.1 (03-15-2022)
 
 ### New Features
 
