@@ -2,6 +2,32 @@
 
 Please find the comprehensive list of changes for ThoughtSpot releases and SDK [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
 
+## 1.9.2 (03/17/2022)
+
+### New Features
+
+- Ability to trigger events on React components
+  - Added new `useEmbedRef` hook, check README for usage.
+
+### Fixed
+
+- Typings for `on*` event handlers for React components
+
+
+## 1.9.1 (03/15/2022)
+
+### New Features
+
+- `visibleVizs` option in the `LiveboardEmbed`
+- `LiveboardRendered` new `EmbedEvent` emitted when a liveboard completes rendering.
+
+
+## 1.9.0
+
+- Release to support TS version 8.1.0.cl
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
+
+
 ## 1.8.1
 
 ### Bug fix
