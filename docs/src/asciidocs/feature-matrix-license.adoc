@@ -1,118 +1,80 @@
 = Feature matrix and license types
 :toc: true
 
-
 :page-title: Feature matrix and license types
 :page-pageid: license-feature-matrix
-:page-description: Choose the license model that suits your embedding requirement.
+:page-description: Choose the license model as per your embedding requirements.
 
-ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. The license provides full access to embedding and customization functionality, the Developer portal, APIs, and SDK. 
+ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license. 
 
-[width="100%" cols="^7,^5,^5,^5,^5"]
+[width="100%" cols="7,5,5,5,5"]
 [options='header']
 |=====
-|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account
-(Evaluation only) |Developer Playground on public instance
-
+|Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+(Evaluation only) |Developer Playground on public instance +
 (Evaluation only) 
 
-|Access to **Develop** tab
 
+|Access to **Develop** tab +
 
-(Requires developer or admin  privileges) |[tag greenBackground]#✓# 
+(Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
+| Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#| [tag greenBackground]#✓# 
 
-| [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
+| Visual Embed SDK +
 
-| Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries |[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
 
-| [tag greenBackground]#✓# 
+a|Embedding with REST APIs +
 
-a| Visual Embed SDK
-
-Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries
- |
-
-[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
-
-a|Embedding with REST APIs
-
-* Embedding Liveboards with visualizations
-
+* Embedding Liveboards with visualizations +
 * Embedding search data 
-
-|[tag greenBackground]#✓# 
-
+|[tag greenBackground]#✓#  +
 (Basic authentication only)
-
-|[tag greenBackground]#✓# |[tag greenBackground]#✓# 
-
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–# 
 
-|Authentication options 
+|Authentication options  +
+(For embedded ThoughtSpot instances only) a| [tag greenBackground]#✓# 
+Basic authentication +
 
-(For embedded ThoughtSpot instances only) a|
+[tag greenBackground]#✓#  SAML SSO +
 
-[tag greenBackground]#✓#  Basic authentication
+a| [tag greenBackground]#✓# Basic authentication +
 
-[tag greenBackground]#✓#  SAML SSO
+[tag greenBackground]#✓# SAML SSO  +
 
-a| [tag greenBackground]#✓# Basic authentication
+[tag greenBackground]#✓# Token-based authentication +
 
-[tag greenBackground]#✓# SAML SSO
+[tag greenBackground]#✓# OIDC +
 
-[tag greenBackground]#✓# Token-based authentication
+|[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–# 
 
-[tag greenBackground]#✓# OIDC
-|[tag greenBackground]#✓# Basic authentication 
+a|REST API v1  +
 
+* Query APIs +
+* Administration APIs +
+* Data APIs +
+* Metadata and object management APIs +
 
-| [tag greyBackground]#–# 
-
-a|REST API v1 
-
-* Query APIs
-* Administration APIs 
-* Data APIs
-* Metadata and object management APIs
-
-|[tag greenBackground]#✓# 
-
+|[tag greenBackground]#✓#  +
+(Basic authentication only) |[tag greenBackground]#✓# | [tag greenBackground]#✓#  +
+(Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-|[tag greenBackground]#✓# | [tag greenBackground]#✓# 
+|REST v2 API and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓#  + 
+(Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
+(Basic authentication only) |[tag greyBackground]#–#
 
-(Basic authentication only)
-
-| [tag greenBackground]#✓# 
-
-(Basic authentication only)
-
-
-|REST v2 API and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓# 
-
-(Basic authentication only)
-
-|[tag greenBackground]#✓# |[tag greenBackground]#✓# 
-
-(Basic authentication only)
-
-|[tag greyBackground]#–#
-
-|REST API Playground [beta orangeBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# 
-
-|[tag greenBackground]#✓# 
+|REST API Playground [beta orangeBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|App actions for integrating business apps 
-
-|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
+|App actions for integrating business apps |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
-|Security settings for embedding ThoughtSpot 
+|Security settings for embedding ThoughtSpot +
 
 (CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
-
 |=====
 
 ////

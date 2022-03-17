@@ -251,6 +251,67 @@ Gets a list of groups created in the ThoughtSpot system. To filter your query, y
 
 == Admin
 
+--
+`**GET ** /tspublic/rest/v2/admin/configuration` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets details of the current configuration of a ThoughtSpot cluster.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/admin/configuration/overrides` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets details of configuration overrides. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**PUT **/tspublic/rest/v2/admin/configuration/update`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Updates configuration settings of the ThoughtSpot cluster.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/resetpassword`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Resets the password of a user account.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/syncprincipal`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Synchronizes user account and group properties from an external database with ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/changeowner`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Transfers the ownership of objects from one user to another.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+--
 
 
 == Metadata

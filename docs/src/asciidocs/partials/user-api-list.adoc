@@ -80,7 +80,7 @@ Deactivates a user account.
 
 `xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`
 
-Synchronizes user details and attributes from an external database with the user data in the ThoughtSpot system.
+Synchronizes user account and group properties from an external database with ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
