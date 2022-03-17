@@ -322,7 +322,8 @@ Allows importing the TML representation of a Liveboard object to ThoughtSpot.
 |`Action.ExportTML`|`AppEmbed` | *Export TML*
 
 Exports the TML representation of a Liveboard object from ThoughtSpot. 
-|`Action.UpdateTML`|`AppEmbed` | *Update TML*
+|`Action.UpdateTML`|`AppEmbed` | *Update TML*  
+
 Publishes the modified TML representation of a Liveboard object.
 
 |`Action.RequestAcess`| `LiveboardEmbed`
@@ -548,6 +549,7 @@ Allows importing the TML representation of an answer into ThoughtSpot.
 
 Exports the TML representation of an answer from ThoughtSpot. 
 |`Action.UpdateTML`|`AppEmbed` | *Update TML*
+
 Publishes the modified TML representation of an answer.
 |===
 
