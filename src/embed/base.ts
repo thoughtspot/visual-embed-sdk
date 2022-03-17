@@ -52,7 +52,7 @@ export const prefetch = (url?: string): void => {
 };
 
 /**
- * Initialize the ThoughtSpot embed settings globally and perform
+ * Initialize the ThoughtSpot embed SDK globally and perform
  * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.

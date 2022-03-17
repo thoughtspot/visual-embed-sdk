@@ -7,7 +7,7 @@ import {
 } from '../embed/liveboard';
 import { TsEmbed, ViewConfig } from '../embed/ts-embed';
 
-import { EmbedEvent, MessageCallback } from '../types';
+import { EmbedEvent } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 
 const componentFactory = <
@@ -16,28 +16,35 @@ const componentFactory = <
     V extends ViewConfig
 >(
     EmbedConstructor: T,
-) => (props: U) => {
-    const ref = React.useRef<HTMLDivElement>(null);
-    const { className, ...embedProps } = props;
-    const { viewConfig, listeners } = getViewPropsAndListeners<
-        Omit<U, 'className'>,
-        V
-    >(embedProps);
-    React.useEffect(() => {
-        const tsEmbed = new EmbedConstructor(ref!.current, {
-            ...viewConfig,
-        });
-        Object.keys(listeners).forEach((eventName) => {
-            tsEmbed.on(
-                eventName as EmbedEvent,
-                listeners[eventName as EmbedEvent],
-            );
-        });
-        tsEmbed.render();
-    }, [embedProps]);
+) =>
+    React.forwardRef<TsEmbed, U>(
+        (props: U, forwardedRef: React.MutableRefObject<TsEmbed>) => {
+            const ref = React.useRef<HTMLDivElement>(null);
+            const { className, ...embedProps } = props;
+            const { viewConfig, listeners } = getViewPropsAndListeners<
+                Omit<U, 'className'>,
+                V
+            >(embedProps);
+            React.useEffect(() => {
+                const tsEmbed = new EmbedConstructor(ref!.current, {
+                    ...viewConfig,
+                });
+                Object.keys(listeners).forEach((eventName) => {
+                    tsEmbed.on(
+                        eventName as EmbedEvent,
+                        listeners[eventName as EmbedEvent],
+                    );
+                });
+                tsEmbed.render();
+                if (forwardedRef) {
+                    // eslint-disable-next-line no-param-reassign
+                    forwardedRef.current = tsEmbed;
+                }
+            }, [embedProps]);
 
-    return <div data-testid="tsEmbed" className={className} ref={ref}></div>;
-};
+            return <div data-testid="tsEmbed" ref={ref}></div>;
+        },
+    );
 
 interface SearchProps extends EmbedProps, SearchViewConfig {}
 
@@ -68,3 +75,7 @@ export const PinboardEmbed = componentFactory<
     LiveboardProps,
     LiveboardViewConfig
 >(_LiveboardEmbed);
+
+export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => {
+    return React.useRef<TsEmbed>(null);
+};
