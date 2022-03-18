@@ -297,6 +297,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 |HTTP status code|Description
 |**200**|Successful operation
 |**400**|Invalid parameter value
+|**403**|Unauthorized request
 |===
 
 [#obj-permission-id]
@@ -407,6 +408,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 |HTTP status code|Description
 |**200**|Successful operation
 |**400**|Invalid parameter value
+|**403**|Unauthorized request
 |====
 
 [#get-obj-perm-bulk]
@@ -547,6 +549,7 @@ If the data query operation is successful, the API returns the object permission
 |HTTP status code|Description
 |**200**|Successful operation
 |**400**|Invalid parameter value
+|**403**|Unauthorized request
 |===
 
 
