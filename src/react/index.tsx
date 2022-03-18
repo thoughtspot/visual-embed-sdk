@@ -42,7 +42,13 @@ const componentFactory = <
                 }
             }, [embedProps]);
 
-            return <div data-testid="tsEmbed" ref={ref}></div>;
+            return (
+                <div
+                    data-testid="tsEmbed"
+                    ref={ref}
+                    className={className}
+                ></div>
+            );
         },
     );
 

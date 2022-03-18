@@ -26,11 +26,16 @@ describe('React Components', () => {
     describe('SearchEmbed', () => {
         it('Should Render the Iframe with props', async () => {
             const { container } = render(
-                <SearchEmbed hideDataSources={true} />,
+                <SearchEmbed hideDataSources={true} className="embedClass" />,
             );
 
             await waitFor(() => getIFrameEl(container));
 
+            expect(
+                getIFrameEl(container).parentElement.classList.contains(
+                    'embedClass',
+                ),
+            ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
             );
