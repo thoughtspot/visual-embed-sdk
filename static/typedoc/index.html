@@ -128,8 +128,8 @@
 					<img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
 				</p>
 				<br/>
-				<a href="#thoughtspot-visual-embed-sdk----" id="thoughtspot-visual-embed-sdk----" style="color: inherit; text-decoration: none;">
-					<h1>ThoughtSpot Visual Embed SDK  <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"> <a href="https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk"><img src="https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded" alt=""></a></h1>
+				<a href="#thoughtspot-visual-embed-sdk---" id="thoughtspot-visual-embed-sdk---" style="color: inherit; text-decoration: none;">
+					<h1>ThoughtSpot Visual Embed SDK <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"> <a href="https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk"><img src="https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded" alt=""></a></h1>
 				</a>
 				<p>SDK to embed ThoughtSpot into your web apps.</p>
 				<br/>
@@ -145,10 +145,14 @@
 <span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">TsEmbedSDK</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// NPM &lt;script&gt;</span>
-<span style="color: #800000">&lt;script</span><span style="color: #000000"> </span><span style="color: #FF0000">src</span><span style="color: #000000">=</span><span style="color: #A31515">&#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js&#039;</span><span style="color: #800000">&gt;&lt;/script&gt;</span>
+<span style="color: #800000">&lt;script</span><span style="color: #000000"> </span><span style="color: #FF0000">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js&quot;</span><span style="color: #800000">&gt;&lt;/script&gt;</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// ES6 from web</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">LiveboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">AuthType</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">LiveboardEmbed</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">AuthType</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">init</span><span style="color: #000000">,</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js&#039;</span><span style="color: #000000">;</span>
 </code></pre>
 				<br/>
 				<a href="#live-playground" id="live-playground" style="color: inherit; text-decoration: none;">
@@ -160,8 +164,8 @@
 					<h2>Full API Reference</h2>
 				</a>
 				<ul>
-					<li>Detailed <a href="https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started">developer guide</a>.</li>
-					<li>Please visit our <a href="https://developers.thoughtspot.com/docs/typedoc/modules.html">API reference docs</a>. </li>
+					<li>  Detailed <a href="https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started">developer guide</a>.</li>
+					<li>  Please visit our <a href="https://developers.thoughtspot.com/docs/typedoc/modules.html">API reference docs</a>.</li>
 				</ul>
 				<br/>
 				<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
@@ -231,15 +235,13 @@
 <span style="color: #000000">    </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
 <span style="color: #000000">});</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">AppEmbed</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">),</span>
-<span style="color: #000000">    {</span>
-<span style="color: #000000">        </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">            </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">            </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">        },</span>
-<span style="color: #000000">        </span><span style="color: #001080">pageId:</span><span style="color: #000000"> </span><span style="color: #001080">Page</span><span style="color: #000000">.</span><span style="color: #001080">Data</span><span style="color: #000000">,</span>
-<span style="color: #000000">    });</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appEmbed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">AppEmbed</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ts-embed&#039;</span><span style="color: #000000">), {</span>
+<span style="color: #000000">    </span><span style="color: #001080">frameParams:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">width:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">height:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;100%&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">    </span><span style="color: #001080">pageId:</span><span style="color: #000000"> </span><span style="color: #001080">Page</span><span style="color: #000000">.</span><span style="color: #001080">Data</span><span style="color: #000000">,</span>
+<span style="color: #000000">});</span>
 
 <span style="color: #001080">appEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">render</span><span style="color: #000000">();</span>
 </code></pre>
@@ -267,9 +269,35 @@
 <span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">onCustomAction</span><span style="color: #000000"> = (</span><span style="color: #001080">actionEvent</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
 <span style="color: #000000">        </span><span style="color: #008000">// Do something with actionEvent.</span>
 <span style="color: #000000">    };</span>
-<span style="color: #000000">    </span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #800000">&lt;</span><span style="color: #267F99">SearchEmbed</span><span style="color: #000000"> </span><span style="color: #FF0000">dataSources</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">dataSources</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #FF0000">onCustomAction</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">onCustomAction</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span>
-<span style="color: #000000">}</span>
+
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;</span><span style="color: #267F99">SearchEmbed</span>
+<span style="color: #000000">            </span><span style="color: #FF0000">dataSources</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">dataSources</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">            </span><span style="color: #FF0000">onCustomAction</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">onCustomAction</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">        </span><span style="color: #800000">/&gt;</span>
+<span style="color: #000000">    );</span>
+<span style="color: #000000">};</span>
+</code></pre>
+				<a href="#triggering-events-on-react-components" id="triggering-events-on-react-components" style="color: inherit; text-decoration: none;">
+					<h3>Triggering events on React components</h3>
+				</a>
+				<pre><code class="language-jsx"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">HostEvent</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">LiveboardEmbed</span><span style="color: #000000">, </span><span style="color: #001080">useEmbedRef</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@thoughtspot/visual-embed-sdk/react&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">MyComponent</span><span style="color: #000000"> = () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">embedRef</span><span style="color: #000000"> = </span><span style="color: #795E26">useEmbedRef</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">onLiveboardRendered</span><span style="color: #000000"> = () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">embedRef</span><span style="color: #000000">.</span><span style="color: #001080">current</span><span style="color: #000000">.</span><span style="color: #795E26">trigger</span><span style="color: #000000">(</span><span style="color: #001080">HostEvent</span><span style="color: #000000">.</span><span style="color: #001080">SetVisibleVizs</span><span style="color: #000000">, [</span><span style="color: #A31515">&#039;viz1&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;viz2&#039;</span><span style="color: #000000">]);</span>
+<span style="color: #000000">    };</span>
+
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;</span><span style="color: #267F99">LiveboardEmbed</span>
+<span style="color: #000000">            </span><span style="color: #FF0000">ref</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">embedRef</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">            </span><span style="color: #FF0000">liveboardId</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;&lt;liveboard-guid&gt;&quot;</span>
+<span style="color: #000000">            </span><span style="color: #FF0000">onLiveboardRendered</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">onLiveboardRendered</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">        </span><span style="color: #800000">/&gt;</span>
+<span style="color: #000000">    );</span>
+<span style="color: #000000">};</span>
 </code></pre>
 				<a href="#" id="" style="color: inherit; text-decoration: none;">
 					<h3></h3>
