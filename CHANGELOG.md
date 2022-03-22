@@ -8,6 +8,10 @@ This project follows Semantic Versioning.
 ### New Features
 - Events for all actions on Search Embed
 
+## 1.9.3 (03-22-2022)
+
+### New Features 
+- `disableLoginRedirect` option in `EmbedConfig`
 
 ## 1.9.2 (03-17-2022)
 
