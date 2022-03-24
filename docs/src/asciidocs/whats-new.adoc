@@ -49,7 +49,12 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 |[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
 You can use this attribute along with `autoLogin` to automatically refresh a user session and re-login a user. +
 This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
-|[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add GUIDs of the visualizations, which you want to display on an embedded Liveboard when it renders for the first time.
+
+For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
+
+|[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add GUIDs of the visualizations, which you want to show on an embedded Liveboard when it renders for the first time.
+
+For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 |[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
 
 * `UpdateRuntimeFilters` (HostEvent)
