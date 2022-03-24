@@ -10,8 +10,8 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Upcoming features
 
-* App actions for Slack integration 
-+
+App actions for Slack integration:: 
+
 This feature will provide the ability to integrate ThoughtSpot with your Slack workspace and push insights directly to Slack channels.
 
 ////
