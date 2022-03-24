@@ -267,16 +267,11 @@ Applies filters to a visualization in a Liveboard.
 
 Allows sharing a Liveboard with another user or user group. 
 
-|`Action.Schedule`| `AppEmbed` |**Schedule** 
+|`Action.Schedule` +
+`Action.Subscription`| `AppEmbed` |**Schedule** 
 
 Allows scheduling Liveboard notifications.
  
-|`Action.Subscription`| `AppEmbed` a|**Schedule* 
-
-Allows scheduling Liveboard notifications. 
-
-You can use either `Action.Schedule` or `Action.Subscription` to show or hide the **Schedule **feature.
-
 |`Action.Remove` | `AppEmbed`| *Delete*
 Deletes a Liveboard.
 |`Action.MakeACopy` | `LiveboardEmbed`
