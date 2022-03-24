@@ -12,7 +12,7 @@ autoLogin: true
 
 disableLoginRedirect __Optional__::
 
-__Boolean__. When set to `true`, this attribute disables redirection to the login page when a user session expires. If you are using token-based authentication, you can use this attribute along with `autoLogin` to refresh a user session and automatically log in the user after a session expires. By default, `disableLoginRedirect` is set to `false`.
+__Boolean__. If set to `true`, this attribute disables redirection to the login page when a user session expires. If you are using token-based authentication, you can use this attribute along with `autoLogin` to refresh a user session and automatically log in the user to the embedded app. By default, `disableLoginRedirect` is set to `false`.
 
 +
 [source,javascript]
