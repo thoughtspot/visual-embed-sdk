@@ -196,4 +196,17 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
     });
+    test('Should set the visible vizs', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            visibleVizs: ['abcd', 'pqrs'],
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&pinboardVisibleVizs=[%22abcd%22,%22pqrs%22]${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
 });

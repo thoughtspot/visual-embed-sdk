@@ -89,8 +89,10 @@ This feature is applicable for token-based authentication, that is, when the `Au
 |[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add visualization GUIDs that you want to display when a Liveboard renders for the first time.
 |[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
 
+
 * `UpdateRuntimeFilters` (HostEvent)
 * `LiveboardRendered` (EmbedEvent)
+
 
 For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====

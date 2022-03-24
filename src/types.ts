@@ -124,6 +124,14 @@ export interface EmbedConfig {
     autoLogin?: boolean;
 
     /**
+     * Disable redirection to the login page when the embedded session expires
+     * This flag is typically used alongside the combination of auth modes such as {@link AuthType.AuthServer} and auto login behavior {@link EmbedConfig.autoLogin}
+     * @version SDK: 1.9.3 | ThoughtSpot: 8.1.0.cl
+     * @default false
+     */
+    disableLoginRedirect?: boolean;
+
+    /**
      * Calls the prefetch method internally when set to true
      * @default false
      */
@@ -364,6 +372,13 @@ export enum EmbedEvent {
      * @version 1.6.0 or later
      */
     DialogClose = 'dialog-close',
+    /**
+     * Emitted when a liveboard has completed rendering,
+     * this event can be used as a hook to trigger events on the
+     * rendered liveboard
+     * @version 1.9.1 or later
+     */
+    LiveboardRendered = 'PinboardRendered',
 }
 
 /**
@@ -467,6 +482,8 @@ export enum Param {
     ViewPortWidth = 'viewPortWidth',
     VisibleActions = 'visibleAction',
     CustomCSSUrl = 'customCssUrl',
+    DisableLoginRedirect = 'disableLoginRedirect',
+    visibleVizs = 'pinboardVisibleVizs',
 }
 
 /**
@@ -476,30 +493,57 @@ export enum Param {
 // eslint-disable-next-line no-shadow
 export enum Action {
     Save = 'save',
+    /**
+     * @hidden
+     */
     Update = 'update',
+    /**
+     * @hidden
+     */
     SaveUntitled = 'saveUntitled',
     SaveAsView = 'saveAsView',
     MakeACopy = 'makeACopy',
     EditACopy = 'editACopy',
     CopyLink = 'embedDocument',
+    /**
+     * @hidden
+     */
     ResetLayout = 'resetLayout',
     Schedule = 'subscription',
     SchedulesList = 'schedule-list',
     Share = 'share',
     AddFilter = 'addFilter',
     ConfigureFilter = 'configureFilter',
+    /**
+     * @hidden
+     */
     AddFormula = 'addFormula',
+    /**
+     * @hidden
+     */
     SearchOnTop = 'searchOnTop',
     SpotIQAnalyze = 'spotIQAnalyze',
+    /**
+     * @hidden
+     */
     ExplainInsight = 'explainInsight',
+    /**
+     * @hidden
+     */
     SpotIQFollow = 'spotIQFollow',
     ShareViz = 'shareViz',
+    /**
+     * @hidden
+     */
     ReplaySearch = 'replaySearch',
     ShowUnderlyingData = 'showUnderlyingData',
     Download = 'download',
     DownloadAsPdf = 'downloadAsPdf',
     DownloadAsCsv = 'downloadAsCSV',
     DownloadAsXlsx = 'downloadAsXLSX',
+    /**
+     * @hidden
+     */
     DownloadTrace = 'downloadTrace',
     ExportTML = 'exportTSL',
     ImportTML = 'importTSL',
@@ -510,18 +554,39 @@ export enum Action {
     Edit = 'edit',
     EditTitle = 'editTitle',
     Remove = 'delete',
+    /**
+     * @hidden
+     */
     Ungroup = 'ungroup',
+    /**
+     * @hidden
+     */
     Describe = 'describe',
+    /**
+     * @hidden
+     */
     Relate = 'relate',
+    /**
+     * @hidden
+     */
     CustomizeHeadlines = 'customizeHeadlines',
     /**
      * @hidden
      */
     PinboardInfo = 'pinboardInfo',
     LiveboardInfo = 'pinboardInfo',
+    /**
+     * @hidden
+     */
     SendAnswerFeedback = 'sendFeedback',
+    /**
+     * @hidden
+     */
     DownloadEmbraceQueries = 'downloadEmbraceQueries',
     Pin = 'pin',
+    /**
+     * @hidden
+     */
     AnalysisInfo = 'analysisInfo',
     Subscription = 'subscription',
     Explore = 'explore',
@@ -529,16 +594,18 @@ export enum Action {
     DrillExclude = 'context-menu-item-exclude',
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     CopyAndEdit = 'context-menu-item-copy-and-edit',
+    /**
+     * @hidden
+     */
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
+    /**
+     * @hidden
+     */
     DrillDown = 'DRILL',
     RequestAccess = 'requestAccess',
     QueryDetailsButtons = 'queryDetailsButtons',
-    /**
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
-     */
-    Monitor = 'createMonitor',
     /**
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
@@ -555,6 +622,10 @@ export enum Action {
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     EditDetails = 'editDetails',
+    /**
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     */
+    CreateMonitor = 'createMonitor',
 }
 
 export interface SessionInterface {
