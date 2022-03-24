@@ -80,6 +80,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     liveboardId: '<%=liveboardGUID%>',
     enableVizTransformations: true,
     preventLiveboardFilterRemoval: true,
+    visibleVizs: []
     runtimeFilters: [],
 });
 ----
@@ -195,6 +196,11 @@ _Boolean_. When set to `true`, it displays the contextual menu for visualization
 [#filter-removal]
 preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
+
+visibleVizs __Optional__::
+_Array of strings_. Allows adding GUIDs of the visualizations, which you want to show by default on an embedded Liveboard when it renders for the first time.
++
+You can show or hide the visualizations by triggering `SetVisibleVizs` event.
 
 runtimeFilters [small]_optional_::
 Runtime filters to apply when the pinboard page loads.

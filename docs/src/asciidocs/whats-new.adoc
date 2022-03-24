@@ -8,11 +8,13 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 8.1.0.cl
+== Upcoming features
 
-The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
+* App actions for Slack integration 
++
+This feature will provide the ability to integrate ThoughtSpot with your Slack workspace and push insights directly to Slack channels.
 
-=== Custom actions
+////
 
 [width="100%" cols="1,4"]
 |====
@@ -25,8 +27,14 @@ Users with developer or admin privileges can create an app action for Slack in t
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
+////
 
-=== Visual Embed SDK version 1.9.0 
+== Version 8.1.0.cl
+
+The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
+
+
+=== Visual Embed SDK version 1.9.x 
 
 [width="100%" cols="1,4"]
 |====
@@ -38,8 +46,16 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 * `Action.EditDetails` +
 
 For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
+|[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
+You can use this attribute along with `autoLogin` to automatically refresh a user session and re-login a user. +
+This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
+|[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add GUIDs of the visualizations, which you want to display on an embedded Liveboard when it renders for the first time.
+|[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
+* `UpdateRuntimeFilters` (HostEvent)
+* `LiveboardRendered` (EmbedEvent)
+
+For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
 
 === REST API v2 [beta orangeBackground]^BETA^
