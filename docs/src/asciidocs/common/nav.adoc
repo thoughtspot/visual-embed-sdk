@@ -55,8 +55,12 @@
 ** link:{{navprefix}}=custom-action-url[URL actions]
 ** link:{{navprefix}}=custom-action-callback[Callback actions]
 ** link:{{navprefix}}=custom-action-payload[Callback response payload]
+
+////
 ** link:{{navprefix}}=app-actions[App actions]
 ** link:{{navprefix}}=slack-integration[Push data to a Slack workspace]
+////
+
 
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
 ** link:{{navprefix}}=customize-style[Customize layout and styles]

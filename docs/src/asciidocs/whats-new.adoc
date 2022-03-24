@@ -8,10 +8,19 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Upcoming features
+
+* App actions for Slack integration 
+
++
+This feature will provide the ability to integrate ThoughtSpot with your Slack workspace and push insights directly to Slack channels.
+
+
 == Version 8.1.0.cl
 
 The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
 
+////
 === Custom actions
 
 [width="100%" cols="1,4"]
@@ -25,6 +34,7 @@ Users with developer or admin privileges can create an app action for Slack in t
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
+////
 
 === Visual Embed SDK version 1.9.0 
 

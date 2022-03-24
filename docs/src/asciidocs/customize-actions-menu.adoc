@@ -31,8 +31,11 @@ The *Custom actions* page displays the **Create action** button, and the *Overvi
 
 The *Create action* button allows you to create the following types of actions:
 
+////
 App actions::
 An xref:app-actions.adoc[app action] connects a ThoughtSpot instance to an external app and pushes  data to a user's business workspace; for example, Slack. 
+////
+
 
 Callback actions::
 A xref:custom-actions-callback.adoc[callback action] triggers a callback event to the parent application and then pushes the answer or visualization data in a response payload. 
