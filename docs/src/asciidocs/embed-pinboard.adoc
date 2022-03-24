@@ -200,7 +200,7 @@ _Boolean_. When set to true, it disables the filter removal action and thus prev
 visibleVizs __Optional__::
 _Array of strings_. Allows adding GUIDs of the visualizations, which you want to show by default on an embedded Liveboard when it renders for the first time.
 +
-You can show or hide the visualizations by triggering `SetVisibleVizs` event.
+You can show or hide the visualizations by triggering the `SetVisibleVizs` event.
 
 runtimeFilters [small]_optional_::
 Runtime filters to apply when the pinboard page loads.
