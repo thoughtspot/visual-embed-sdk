@@ -13,13 +13,11 @@ The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on 
 --
 `**GET** /tspublic/rest/v2/session`
 
-
 Gets details of the current session for the logged-in user.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
-
 +++<p class="divider"> </p>+++
 
 `*POST* /tspublic/rest/v2/session/login`
@@ -40,9 +38,9 @@ Gets an OAuth access token for a ThoughtSpot client. You must send this token in
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
-`**POST** /tspublic/rest/v2/session/revoketoken`
-
 +++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/session/revoketoken`
 
 Revokes an existing access token assigned to a ThoughtSpot client. To make API calls, you must obtain a new access token.
 
@@ -594,7 +592,7 @@ Gets details of all data connections. You can also query data for a specific con
 == Data
 
 --
-`**POST** /tspublic/rest/v2/data/search`
+`**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
 
 Allows constructing a search query string and retreives data from a search query.
 
@@ -604,7 +602,7 @@ Allows constructing a search query string and retreives data from a search query
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/answer`
+`**POST** /tspublic/rest/v2/data/answer` [tag greenBackground]#NEW in 8.2.0.cl# 
 
 Gets data from a saved search answer.
 
@@ -614,9 +612,33 @@ Gets data from a saved search answer.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/liveboard`
+`**POST** /tspublic/rest/v2/data/liveboard` [tag greenBackground]#NEW in 8.2.0.cl# 
 
 Gets data from the specified Liveboard and visualization.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Report
+
+--
+`*POST* /tspublic/rest/v2/report/answer` [tag greenBackground]#NEW in 8.2.0.cl#
+
+Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Log
+
+--
+`*GET* /tspublic/rest/v2/logs/events` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets security audit logs from the ThoughtSpot system.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>

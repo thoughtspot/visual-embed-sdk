@@ -134,9 +134,11 @@ init({
 
 
 +
-After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content. 
+After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content.
 
 In contrast to the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end user, even if they fail. You can listen to the xref:embed-events.adoc[AuthInit event] using the Visual Embed SDK to detect and respond to errors in the login process.
+
+When a user session expires, the embedded app redirects its users to the login page. To refresh a user session and re-login the user automatically, you can set the `disableLoginRedirect` and `autoLogin` attributes to `true`.
 
 [#basic-auth-embed]
 === Basic authentication with ThoughtSpot login API

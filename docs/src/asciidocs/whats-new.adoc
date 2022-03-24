@@ -8,26 +8,71 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 8.1.0.cl
-
-The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
+== Version 8.2.0.cl
 
 === Custom actions
-
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration</h5>+++
 
-ThoughtSpot introduces app actions to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
+ThoughtSpot introduces app actions[beta orangeBackground]^BETA^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
 
-Users with developer or admin privileges can create an app action for Slack in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
+Users with developer or admin privileges can create an app action for Slack[beta orangeBackground]^BETA^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
 
-=== Visual Embed SDK version 1.9.0 
+=== Visual Embed SDK 1.10.0
 
+[width="100%" cols="1,4"]
+|=====
+||
+|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#host-events[Interact with events].
+|=====
+
+=== REST API v1
+[width="100%" cols="1,4"]
+|======
+||
+|[tag greenBackground]#NEW FEATURE# a|
+
+This release introduces the following new REST v1 API endpoints for data connection query:
+* `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
+* `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
+|======
+
+=== REST API v2
+Starting with the 8.2.0.cl release, the REST API Playground and SDK[beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
+For more information, see xref:rest-api-v2.adoc[REST API v2].
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| The REST v2 framework now supports trusted authentication. If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
+|[tag greenBackground]#NEW FEATURE#| ThoughtSpot now provides .NET SDK to allow developers to interact with REST APIs from .NET applications. The SDK can be downloaded from NuGet Package Manager and installed using the NuGet GUI.
+For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+|[tag greenBackground]#NEW FEATURE# a|+++<h5> New API endpoints</h5> +++
+
+* `GET /tspublic/rest/v2/admin/configuration`
+* `GET /tspublic/rest/v2/admin/configuration/overrides`
+* `PUT /tspublic/rest/v2/admin/configuration/update`
+* `PUT /tspublic/rest/v2/admin/resetpassword`
+* `PUT /tspublic/rest/v2/admin/syncprincipal`
+* `PUT /tspublic/rest/v2/admin/changeowner`
+* `POST /tspublic/rest/v2/data/search`
+* `POST /tspublic/rest/v2/data/answer`
+* `POST /tspublic/rest/v2/data/liveboard`
+* `POST /tspublic/rest/v2/report/answer`
+* `GET* /tspublic/rest/v2/logs/events`
+
+For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
+|====
+
+== Version 8.1.0.cl
+
+.Visual Embed SDK version 1.9.x
+[%collapsible]
+====
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
@@ -37,13 +82,23 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 * `Action.AddToFavorites` +
 * `Action.EditDetails` +
 
-For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
+For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].
+|[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
+You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
+This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
+|[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add visualization GUIDs that you want to display when a Liveboard renders for the first time.
+|[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with  events].
+* `UpdateRuntimeFilters` (HostEvent)
+* `LiveboardRendered` (EmbedEvent)
+
+For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
+====
 
-=== REST API v2 [beta orangeBackground]^BETA^
-
+.REST API v2 [beta orangeBackground]^BETA^
+[%collapsible]
+====
 [width="100%" cols="1,4"]
 |====
 ||
@@ -63,8 +118,9 @@ These API endpoints are available only if the REST API v2 Playground and SDK fea
 
 For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v2-reference.adoc[REST API v2 Reference].     
 |====
- 
- 
+====
+
+
 == Version 8.0.0.cl
 
 .Visual Embed SDK version 1.8.x

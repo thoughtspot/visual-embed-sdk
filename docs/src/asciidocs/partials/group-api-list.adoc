@@ -2,113 +2,77 @@
 --
 `xref:group-api.adoc#create-group[*POST* /tspublic/v1/group/]` 
 
-Creates a user group.
++++<p class="divider">Creates a user group.</p>+++
 
-+++<p class="divider"> </p>+++
+`xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]`
 
-`xref:group-api.adoc#update-group[*PUT* /tspublic/v1/group/{groupid}]`  
++++<p class="divider"> Modifies a user group.</p>+++
 
-Modifies a user group.
+`xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]`
 
-+++<p class="divider"> </p>+++
-
-`xref:group-api.adoc#get-ug-details[*GET* /tspublic/v1/group/]`  
-
-Gets details of a user group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Gets details of a user group. </p>+++
 
 `xref:group-api.adoc#add-user-to-group[*POST* /tspublic/v1/group/{groupid}/user/{userid}]`  
 
-Assigns a user to a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Assigns a user to a group.</p>+++
 
 `xref:group-api.adoc#get-users-group[*GET* /tspublic/v1/group/listuser/{groupid}]` 
 
-Gets a list of users assigned to a group.
++++<p class="divider">Gets a list of users assigned to a group. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]`
 
-`xref:group-api.adoc#addUserToGroup[*POST* /tspublic/v1/group/{groupid}/users]`  
++++<p class="divider">Adds users to a specific group. </p>+++
 
-Adds users to a specific group.
+`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]`
 
-+++<p class="divider"> </p>+++
++++<p class="divider">Updates user data for a given group. </p>+++
 
-`xref:group-api.adoc#editusersInGroup[*PUT* /tspublic/v1/group/{groupid}/users]` 
+`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`
 
-Updates user data for a given group.
++++<p class="divider">Gets details of the users that are currently assigned to a group. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]`
 
-`xref:group-api.adoc#get-usersInGroup[*GET* /tspublic/v1/group/{groupid}/users]`  
-
-Gets details of the users that are currently assigned to a group.
-
-+++<p class="divider"> </p>+++
-
-`xref:group-api.adoc#deleteUsersInGroup[*DELETE* /tspublic/v1/group/{groupid}/users]`  
-
-Removes users from a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Removes users from a group. </p>+++
 
 `xref:group-api.adoc#add-privilege[**POST** /tspublic/v1/group/addprivilege]` 
 
-Assigns a privilege to a user group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Assigns a privilege to a user group. </p>+++
 
 `xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]` 
 
-Removes the privilege assigned to a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Removes the privilege assigned to a group. </p>+++
 
 `xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]` 
 
-Assigns groups to a parent group. 
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Assigns groups to a parent group. </p>+++
 
 `xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]` 
 
-Updates subgroup objects for a given group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Updates subgroup objects for a given group. </p>+++
 
 `xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]` 
 
-Gets a list of subgroups for a given group object.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Gets a list of subgroups for a given group object. </p>+++
 
 `xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]` 
 
-Adds members to a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Adds members to a group.</p>+++
 
 `xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]` 
 
-Removes members from a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Removes members from a group. </p>+++
 
 `xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]`
 
-Removes subgroups from a group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Removes subgroups from a group. </p>+++
 
 `xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]`  
 
-Removes a user from a user group.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Removes a user from a user group. </p>+++
 
 `xref:group-api.adoc#delete-group[*DELETE* /tspublic/v1/group/{groupid}]`
 
-Deletes a user group.
++++<p class="divider">Deletes a user group. </p>+++
 --

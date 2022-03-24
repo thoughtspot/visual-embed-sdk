@@ -80,6 +80,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     liveboardId: '<%=liveboardGUID%>',
     enableVizTransformations: true,
     preventLiveboardFilterRemoval: true,
+    visibleVizs: []
     runtimeFilters: [],
 });
 ----
@@ -196,6 +197,11 @@ _Boolean_. When set to `true`, it displays the contextual menu for visualization
 preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
+visibleVizs __Optional__::
+_Array of strings_. Allows adding visualization GUIDs that you want to show by default when a Liveboard renders on your application page for the first time.
++
+You can show or hide the visualization by triggering the `SetVisibleVizs` event.
+
 runtimeFilters [small]_optional_::
 Runtime filters to apply when the pinboard page loads.
 Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard by passing filter specifications as URL query parameters.
@@ -213,7 +219,6 @@ runtimeFilters: [{
     values: ['Midwest', 'East', 'West']
 }]
 ----
-
 
 columnName;;
 __String__. Name of the column to filter by.

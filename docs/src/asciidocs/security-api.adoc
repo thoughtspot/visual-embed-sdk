@@ -17,366 +17,6 @@ The Security APIs allow you to share ThoughtSpot objects, such as Liveboards and
 
 include::{path}/security-api-list.adoc[]
 
-[#obj-permission-all]
-== Get object permission details for a specific object type
-
-ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFFECTIVE`.
-
-Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
-
-To get permission details for a specific metdata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
-
-=== Resource URL
-----
-GET /tspublic/v1/security/metadata/permissions
-----
-
-=== Request parameters
-[width="100%" cols="1,1,4"]
-[options='header']
-|====
-|Parameter Name|Parameter Type|Description
-|`type`|Query parameter  a|__String__. Type of the object. Valid values are:
-
-* `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
-
-|`id`| Query parameter|__String__. A JSON array of the GUIDs of the objects.
-|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUIDs.
-|`permissiontype`|Query parameter  a|__String__. Valid values are:
-
-* `EFFECTIVE` for object permissions inherited from group privileges. 
-* `DEFINED` for the explicitly defined permissions that a user may have assigned when sharing the specified objects.
-|====
-
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X GET \
---header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/permissions?type=PINBOARD_ANSWER_BOOK&id=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%2C%20%2241a39422-2da0-4601-9d4a-59c27181c5f5%22%5D&dependentshare=false&permissiontype=EFFECTIVE'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/permissions?type=PINBOARD_ANSWER_BOOK&id=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%2C%20%2241a39422-2da0-4601-9d4a-59c27181c5f5%22%5D&dependentshare=false&permissiontype=EFFECTIVE
-----
-
-=== Example response
-
-If the `GET` operation is successful, the API returns a response with the permission details for a given object:
-
-[source, JSON]
-----
-{
-  "41a39422-2da0-4601-9d4a-59c27181c5f5": {
-    "permissions": {
-      "59481331-ee53-42be-a548-bd87be6ddd4a": {
-        "topLevelObjectId": "41a39422-2da0-4601-9d4a-59c27181c5f5",
-        "shareMode": "READ_ONLY",
-        "dependents": [
-          {
-            "id": "160e1259-5838-4688-a30a-2442b6d5281e",
-            "name": "Credit Consumption & Usage, Top 10 Users, This Month",
-            "author": "41a39422-2da0-4601-9d4a-59c27181c5f5",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "41a39422-2da0-4601-9d4a-59c27181c5f5"
-          },
-          {
-            "id": "835ffe9d-78de-4817-a201-4a35385df18c",
-            "name": "Monthly Credits Consumed, with Unique Users",
-            "author": "41a39422-2da0-4601-9d4a-59c27181c5f5",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "41a39422-2da0-4601-9d4a-59c27181c5f5"
-          }
-        ]
-      }
-    }
-  },
-  "d084c256-e284-4fc4-b80c-111cb606449a": {
-    "permissions": {
-      "59481331-ee53-42be-a548-bd87be6ddd4a": {
-        "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
-        "shareMode": "READ_ONLY",
-        "dependents": [
-          {
-            "id": "a9466299-4e89-4a2f-a1b2-d87337a4afc6",
-            "name": "Total Sales by Store",
-            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-          },
-          {
-            "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
-            "name": "Total Sales by Product Type",
-            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-          }
-        ]
-      }
-    }
-  }
-}
-----
-
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP status code|Description
-|**200**|Successful operation
-|**400**|Invalid parameter value
-|===
-
-[#obj-permission-id]
-== Get permission details for a specific object ID
-
-To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
-
-=== Resource URL
-----
-GET /tspublic/v1/security/metadata/{id}/permissions
-----
-
-=== Request parameters
-[width="100%" cols="1,1,4"]
-[options='header']
-|====
-|Parameter Name|Parameter Type|Description
-|`type`|Query parameter  a|__String__. Type of the object. Valid values are:
-
-* `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
-
-|`id`| Path parameter|__String__. The GUID of the object to query.
-|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUID.
-|`permissiontype`|Query parameter  a|__String__. Valid values are:
-
-* `EFFECTIVE` for object permissions inherited from group privileges.
-* `DEFINED` for the explicitly defined permissions that a user may have assigned when sharing the specified object.
-|====
-
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X GET \
---header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/d084c256-e284-4fc4-b80c-111cb606449a/permissions?type=PINBOARD_ANSWER_BOOK&dependentshare=false&permissiontype=EFFECTIVE'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/d084c256-e284-4fc4-b80c-111cb606449a/permissions?type=PINBOARD_ANSWER_BOOK&dependentshare=false&permissiontype=EFFECTIVE'
-----
-
-=== Example response
-
-If the `GET` operation is successful, the API returns a response with the permission details for a given object:
-
-[source, JSON]
-----
-{
-  "d084c256-e284-4fc4-b80c-111cb606449a": {
-    "permissions": {
-      "59481331-ee53-42be-a548-bd87be6ddd4a": {
-        "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
-        "shareMode": "READ_ONLY",
-        "dependents": [
-          {
-            "id": "d0f39bd0-47ae-45af-a214-bea2286e220a",
-            "name": "Total Quantity Purchased by Product",
-            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-          },
-          {
-            "id": "a9466299-4e89-4a2f-a1b2-d87337a4afc6",
-            "name": "Total Sales by Store",
-            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-          },
-          {
-            "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
-            "name": "Total Sales by Product Type",
-            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-            "type": "QUESTION_ANSWER_BOOK",
-            "shareMode": "READ_ONLY",
-            "isHidden": true,
-            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-          }
-        ]
-      }
-    }
-  }
-}
-----
-
-=== Response codes
-
-[options="header", cols="2,4"]
-|====
-|HTTP status code|Description
-|**200**|Successful operation
-|**400**|Invalid parameter value
-|====
-
-[#get-obj-perm-bulk]
-== Get object permission details for multiple object types
-
-To query object permission details for multiple object types and IDs, send a `POST` request to the `/tspublic/v1/security/effectivepermissionbulk` endpoint.
-
-=== Resource URL
-
-----
-POST /tspublic/v1/security/effectivepermissionbulk
-----
-
-=== Request parameters
-
-[width="100%" cols="1,4"]
-[options='header']
-|====
-|Form parameter|Description
-|`idsbytype`  a|__Array of Strings__. A JSON array of the object IDs for each object type. Valid object types are:
-
-* `QUESTION_ANSWER_BOOK` for answers.
-* `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
-
-For example, to get permission details for specific Liveboards and answers, specify the value of `idsbytype` as shown here:
-----
-{"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
-----
-|`dependentshare` __Optional__|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects of the specified object types and IDs.
-|====
-
-=== Example request
-
-.cURL
-
-[source, cURL]
-----
-curl -X POST \
---header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \
--d 'idsbytype=%7B%20%09%22PINBOARD_ANSWER_BOOK%22%3A%20%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D%2C%20%09%22QUESTION_ANSWER_BOOK%22%3A%20%5B%2292f48c07-9c62-4bfa-81ac-55f3049165b4%22%5D%20%7D&dependentshare=true' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/effectivepermissionbulk'
-----
-
-.Request URL
-----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/effectivepermissionbulk
-----
-
-=== Example response
-
-If the data query operation is successful, the API returns the object permission details for the specified object IDs and types.
-
-[source, JSON]
-----
-{
-  "QUESTION_ANSWER_BOOK": {
-    "92f48c07-9c62-4bfa-81ac-55f3049165b4": {
-      "permissions": {
-        "59481331-ee53-42be-a548-bd87be6ddd4a": {
-          "topLevelObjectId": "92f48c07-9c62-4bfa-81ac-55f3049165b4",
-          "shareMode": "READ_ONLY",
-          "dependents": [
-            {
-              "id": "44cb25f9-9032-4d45-9d74-bbf66e1502f0",
-              "name": "Username",
-              "author": "965b5f46-7162-4c16-8aac-7ab26f313b25",
-              "type": "LOGICAL_COLUMN",
-              "shareMode": "READ_ONLY",
-              "isHidden": false,
-              "owner": "965b5f46-7162-4c16-8aac-7ab26f313b25",
-              "ownerName": "Credit Usage Worksheet"
-            },
-            {
-              "id": "5ff6043f-a340-46e0-98f1-84b4b3a96f1b",
-              "name": "Credit Window ID",
-              "author": "965b5f46-7162-4c16-8aac-7ab26f313b25",
-              "type": "LOGICAL_COLUMN",
-              "shareMode": "READ_ONLY",
-              "isHidden": false,
-              "owner": "965b5f46-7162-4c16-8aac-7ab26f313b25",
-              "ownerName": "Credit Usage Worksheet"
-            }
-          ],
-          "answerBookQueryEditable": true
-        }
-      }
-    }
-  },
-  "PINBOARD_ANSWER_BOOK": {
-    "d084c256-e284-4fc4-b80c-111cb606449a": {
-      "permissions": {
-        "59481331-ee53-42be-a548-bd87be6ddd4a": {
-          "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
-          "shareMode": "READ_ONLY",
-          "dependents": [
-            {
-              "id": "d0f39bd0-47ae-45af-a214-bea2286e220a",
-              "name": "Total Quantity Purchased by Product",
-              "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-              "type": "QUESTION_ANSWER_BOOK",
-              "shareMode": "READ_ONLY",
-              "isHidden": true,
-              "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-            },
-            {
-              "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
-              "name": "Total Sales by Product Type",
-              "author": "d084c256-e284-4fc4-b80c-111cb606449a",
-              "type": "QUESTION_ANSWER_BOOK",
-              "shareMode": "READ_ONLY",
-              "isHidden": true,
-              "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-----
-
-=== Response codes
-
-[options="header", cols=".^2a,.^14a"]
-|===
-|HTTP status code|Description
-|**200**|Successful operation
-|**400**|Invalid parameter value
-|===
 
 [#share-object]
 == Share objects with another user
@@ -521,3 +161,394 @@ Response code
 |**204**|Successful operation
 |**400**|Invalid parameter value
 |===
+
+
+[#obj-permission-all]
+== Get object permission details for a specific object type
+
+ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFFECTIVE`.
+
+Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
+
+To get permission details for a specific metdata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/security/metadata/permissions
+----
+
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Parameter Name|Parameter Type|Description
+|`type`|Query parameter  a|__String__. Type of the object. Valid values are:
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+
+|`id`| Query parameter|__String__. A JSON array of the GUIDs of the objects.
+|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUIDs.
+|`permissiontype`|Query parameter  a|__String__. Valid values are:
+
+* `EFFECTIVE` for object permissions inherited from group privileges. 
+* `DEFINED` for the explicitly defined permissions that a user may have assigned when sharing the specified objects.
+|====
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/permissions?type=PINBOARD_ANSWER_BOOK&id=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%2C%20%2241a39422-2da0-4601-9d4a-59c27181c5f5%22%5D&dependentshare=false&permissiontype=EFFECTIVE'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/permissions?type=PINBOARD_ANSWER_BOOK&id=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%2C%20%2241a39422-2da0-4601-9d4a-59c27181c5f5%22%5D&dependentshare=false&permissiontype=EFFECTIVE
+----
+
+=== Example response
+
+If the `GET` operation is successful, the API returns a response with the permission details for the specified object IDs. 
+
+* Note that the `shareMode` property indicates the object-level permission assigned to a given user. 
+
+** `READ_ONLY` indicates view permissions to an object
+** `MODIFY` indicates edit permissions to an object
+
+* If the user doesn't have access to the specified objects, the API returns a `403 unauthorized` error. 
+* If the user doesn't have access to one of the specified objects, the API returns only those objects to which a user has `READ_ONLY` or `MODIFY` permissions.
+
+[source, JSON]
+----
+{
+  "41a39422-2da0-4601-9d4a-59c27181c5f5": {
+    "permissions": {
+      "59481331-ee53-42be-a548-bd87be6ddd4a": {
+        "topLevelObjectId": "41a39422-2da0-4601-9d4a-59c27181c5f5",
+        "shareMode": "READ_ONLY",
+        "dependents": [
+          {
+            "id": "160e1259-5838-4688-a30a-2442b6d5281e",
+            "name": "Credit Consumption & Usage, Top 10 Users, This Month",
+            "author": "41a39422-2da0-4601-9d4a-59c27181c5f5",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "41a39422-2da0-4601-9d4a-59c27181c5f5"
+          },
+          {
+            "id": "835ffe9d-78de-4817-a201-4a35385df18c",
+            "name": "Monthly Credits Consumed, with Unique Users",
+            "author": "41a39422-2da0-4601-9d4a-59c27181c5f5",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "41a39422-2da0-4601-9d4a-59c27181c5f5"
+          }
+        ]
+      }
+    }
+  },
+  "d084c256-e284-4fc4-b80c-111cb606449a": {
+    "permissions": {
+      "59481331-ee53-42be-a548-bd87be6ddd4a": {
+        "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
+        "shareMode": "READ_ONLY",
+        "dependents": [
+          {
+            "id": "a9466299-4e89-4a2f-a1b2-d87337a4afc6",
+            "name": "Total Sales by Store",
+            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+          },
+          {
+            "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
+            "name": "Total Sales by Product Type",
+            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+          }
+        ]
+      }
+    }
+  }
+}
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation
+|**400**|Invalid parameter value
+|**403**|Unauthorized request
+|===
+
+[#obj-permission-id]
+== Get permission details for a specific object ID
+
+To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+
+=== Resource URL
+----
+GET /tspublic/v1/security/metadata/{id}/permissions
+----
+
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|====
+|Parameter Name|Parameter Type|Description
+|`type`|Query parameter  a|__String__. Type of the object. Valid values are:
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+
+|`id`| Path parameter|__String__. The GUID of the object to query.
+|`dependentshare` __Optional__|Query parameter|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects for the specified GUID.
+|`permissiontype`|Query parameter  a|__String__. Valid values are:
+
+* `EFFECTIVE` for object permissions inherited from group privileges.
+* `DEFINED` for the explicitly defined permissions that a user may have assigned when sharing the specified object.
+|====
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/d084c256-e284-4fc4-b80c-111cb606449a/permissions?type=PINBOARD_ANSWER_BOOK&dependentshare=false&permissiontype=EFFECTIVE'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/metadata/d084c256-e284-4fc4-b80c-111cb606449a/permissions?type=PINBOARD_ANSWER_BOOK&dependentshare=false&permissiontype=EFFECTIVE'
+----
+
+=== Example response
+
+If the `GET` operation is successful, the API returns a response with the permission details for the specified object.
+
+* Note that the `shareMode` property indicates the object-level permission assigned to a given user. 
+
+** `READ_ONLY` indicates view permissions to an object
+** `MODIFY` indicates edit permissions to an object
+
+* If the user doesn't have access to the specified object, the API returns a `403 unauthorized` error. 
+
+
+[source, JSON]
+----
+{
+  "d084c256-e284-4fc4-b80c-111cb606449a": {
+    "permissions": {
+      "59481331-ee53-42be-a548-bd87be6ddd4a": {
+        "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
+        "shareMode": "READ_ONLY",
+        "dependents": [
+          {
+            "id": "d0f39bd0-47ae-45af-a214-bea2286e220a",
+            "name": "Total Quantity Purchased by Product",
+            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+          },
+          {
+            "id": "a9466299-4e89-4a2f-a1b2-d87337a4afc6",
+            "name": "Total Sales by Store",
+            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+          },
+          {
+            "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
+            "name": "Total Sales by Product Type",
+            "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+            "type": "QUESTION_ANSWER_BOOK",
+            "shareMode": "READ_ONLY",
+            "isHidden": true,
+            "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+          }
+        ]
+      }
+    }
+  }
+}
+----
+
+=== Response codes
+
+[options="header", cols="2,4"]
+|====
+|HTTP status code|Description
+|**200**|Successful operation
+|**400**|Invalid parameter value
+|**403**|Unauthorized request
+|====
+
+[#get-obj-perm-bulk]
+== Get object permission details for multiple object types
+
+To query object permission details for multiple object types and IDs, send a `POST` request to the `/tspublic/v1/security/effectivepermissionbulk` endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/security/effectivepermissionbulk
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form parameter|Description
+|`idsbytype`  a|__Array of Strings__. A JSON array of the object IDs for each object type. Valid object types are:
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+
+For example, to get permission details for specific Liveboards and answers, specify the value of `idsbytype` as shown here:
+----
+{"PINBOARD_ANSWER_BOOK": ["d084c256-e284-4fc4-b80c-111cb606449a"], 	"QUESTION_ANSWER_BOOK": ["92f48c07-9c62-4bfa-81ac-55f3049165b4"]}
+----
+|`dependentshare` __Optional__|__Boolean__. Object permission details for the dependent objects. When set to `true`, the API returns the permission details for the dependent objects of the specified object types and IDs.
+|====
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'idsbytype=%7B%20%09%22PINBOARD_ANSWER_BOOK%22%3A%20%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D%2C%20%09%22QUESTION_ANSWER_BOOK%22%3A%20%5B%2292f48c07-9c62-4bfa-81ac-55f3049165b4%22%5D%20%7D&dependentshare=true' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/effectivepermissionbulk'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/effectivepermissionbulk
+----
+
+=== Example response
+
+If the data query operation is successful, the API returns the object permission details for the specified object IDs and types.
+
+* Note that the `shareMode` property indicates the object-level permission assigned to a given user. 
+
+** `READ_ONLY` indicates view permissions to an object
+** `MODIFY` indicates edit permissions to an object
+
+* If the user doesn't have access to the specified objects, the API returns a `403 unauthorized` error. 
+* If the user doesn't have access to one of the specified objects, the API returns only those objects to which a user has `READ_ONLY` or `MODIFY` permissions.
+
+
+[source, JSON]
+----
+{
+  "QUESTION_ANSWER_BOOK": {
+    "92f48c07-9c62-4bfa-81ac-55f3049165b4": {
+      "permissions": {
+        "59481331-ee53-42be-a548-bd87be6ddd4a": {
+          "topLevelObjectId": "92f48c07-9c62-4bfa-81ac-55f3049165b4",
+          "shareMode": "READ_ONLY",
+          "dependents": [
+            {
+              "id": "44cb25f9-9032-4d45-9d74-bbf66e1502f0",
+              "name": "Username",
+              "author": "965b5f46-7162-4c16-8aac-7ab26f313b25",
+              "type": "LOGICAL_COLUMN",
+              "shareMode": "READ_ONLY",
+              "isHidden": false,
+              "owner": "965b5f46-7162-4c16-8aac-7ab26f313b25",
+              "ownerName": "Credit Usage Worksheet"
+            },
+            {
+              "id": "5ff6043f-a340-46e0-98f1-84b4b3a96f1b",
+              "name": "Credit Window ID",
+              "author": "965b5f46-7162-4c16-8aac-7ab26f313b25",
+              "type": "LOGICAL_COLUMN",
+              "shareMode": "READ_ONLY",
+              "isHidden": false,
+              "owner": "965b5f46-7162-4c16-8aac-7ab26f313b25",
+              "ownerName": "Credit Usage Worksheet"
+            }
+          ],
+          "answerBookQueryEditable": true
+        }
+      }
+    }
+  },
+  "PINBOARD_ANSWER_BOOK": {
+    "d084c256-e284-4fc4-b80c-111cb606449a": {
+      "permissions": {
+        "59481331-ee53-42be-a548-bd87be6ddd4a": {
+          "topLevelObjectId": "d084c256-e284-4fc4-b80c-111cb606449a",
+          "shareMode": "READ_ONLY",
+          "dependents": [
+            {
+              "id": "d0f39bd0-47ae-45af-a214-bea2286e220a",
+              "name": "Total Quantity Purchased by Product",
+              "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+              "type": "QUESTION_ANSWER_BOOK",
+              "shareMode": "READ_ONLY",
+              "isHidden": true,
+              "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+            },
+            {
+              "id": "d766e0da-2fa6-4af5-ab44-d86f28326c3a",
+              "name": "Total Sales by Product Type",
+              "author": "d084c256-e284-4fc4-b80c-111cb606449a",
+              "type": "QUESTION_ANSWER_BOOK",
+              "shareMode": "READ_ONLY",
+              "isHidden": true,
+              "owner": "d084c256-e284-4fc4-b80c-111cb606449a"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+----
+
+=== Response codes
+
+[options="header", cols=".^2a,.^14a"]
+|===
+|HTTP status code|Description
+|**200**|Successful operation
+|**400**|Invalid parameter value
+|**403**|Unauthorized request
+|===
+
