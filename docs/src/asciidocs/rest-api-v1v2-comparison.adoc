@@ -76,7 +76,7 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greenBackground]#✓# Data API
 
-[tag greyBackground]#–# Liveboard export API
+[tag greenBackground]#✓# Liveboard export API
 
 [tag greyBackground]#–# Security APIs
 
