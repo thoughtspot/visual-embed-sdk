@@ -34,10 +34,10 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 === REST API v1
 [width="100%" cols="1,4"]
 |======
-||
 |[tag greenBackground]#NEW FEATURE# a|
 
 This release introduces the following new REST v1 API endpoints for data connection query:
+
 * `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
 * `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
 |======
