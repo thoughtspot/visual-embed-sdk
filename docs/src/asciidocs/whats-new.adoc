@@ -59,6 +59,7 @@ For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and clie
 * `PUT /tspublic/rest/v2/admin/resetpassword`
 * `PUT /tspublic/rest/v2/admin/syncprincipal`
 * `PUT /tspublic/rest/v2/admin/changeowner`
+* `PUT /tspublic/rest/v2/user/changepassword`
 * `POST /tspublic/rest/v2/data/search`
 * `POST /tspublic/rest/v2/data/answer`
 * `POST /tspublic/rest/v2/data/liveboard`
@@ -100,7 +101,7 @@ For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 * `LiveboardRendered` (EmbedEvent)
 
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
 ====
 

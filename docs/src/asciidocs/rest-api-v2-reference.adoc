@@ -104,16 +104,6 @@ Deletes a user object.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/user/search`
-
-Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
 `**PUT** /tspublic/rest/v2/user/addgroup`
 
 Assigns a user to groups. If the assigned groups have privileges configured, the user inherits these privileges.
@@ -131,6 +121,28 @@ Removes the groups assigned to a user.
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
++++<p class="divider"> </p>+++
+
+`**PUT** /tspublic/rest/v2/user/changepassword` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Allows changing a ThoughtSpot user's password.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/user/search`
+
+Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
+
 --
 
 == Groups
@@ -230,7 +242,6 @@ Adds a group to another group object. This API request creates a hierarchy of gr
 `**PUT** /tspublic/rest/v2/group/removegroup`
 
 Removes a group from the parent group.
-
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>

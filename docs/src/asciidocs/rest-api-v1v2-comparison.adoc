@@ -20,13 +20,15 @@ The Swagger UI is also accessible via Developer portal|Interactive Playground in
 |Developer SDK and client libraries|[tag greyBackground]#–#| [tag greenBackground]#✓# Available
 |Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
 
-|Authentication methods a| [tag greenBackground]#✓# Basic authentication
+|Authentication methods a| [tag greenBackground]#✓# Basic authentication +
 
 [tag greenBackground]#✓# Trusted authentication 
 
-a| [tag greenBackground]#✓# Basic authentication
+a| [tag greenBackground]#✓# Basic authentication +
 
-[tag greenBackground]#✓# OAuth Bearer token authentication
+[tag greenBackground]#✓# OAuth Bearer token authentication +
+
+[tag greenBackground]#✓# Trusted authentication
 |Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
 |Input and output parameters| Not fully standardized |Standardized
 
