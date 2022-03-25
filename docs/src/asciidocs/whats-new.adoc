@@ -63,7 +63,7 @@ For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and clie
 * `POST /tspublic/rest/v2/data/answer`
 * `POST /tspublic/rest/v2/data/liveboard`
 * `POST /tspublic/rest/v2/report/answer`
-* `GET* /tspublic/rest/v2/logs/events`
+* `GET /tspublic/rest/v2/logs/events`
 
 For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
 |====
@@ -86,7 +86,13 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 |[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
 You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
 This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
+
+For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
+
 |[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add visualization GUIDs that you want to display when a Liveboard renders for the first time.
+
+For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
+
 |[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
 
 
@@ -94,7 +100,7 @@ This feature is applicable for token-based authentication, that is, when the `Au
 * `LiveboardRendered` (EmbedEvent)
 
 
-For more information, see xref:embed-events.adoc#host-events[Interact with events].
+For more information, see xref:embed-events.adoc[Interact with events].
 |====
 ====
 
