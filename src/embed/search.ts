@@ -168,8 +168,11 @@ export class SearchEmbed extends TsEmbed {
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
+        const tsPostHashParams = this.getThoughtSpotPostUrlParams();
 
-        return `${this.getEmbedBasePath(query)}/${answerPath}`;
+        return `${this.getEmbedBasePath(
+            query,
+        )}/${answerPath}${tsPostHashParams}`;
     }
 
     /**

@@ -323,4 +323,53 @@ describe('Unit test case for ts embed', () => {
             );
         });
     });
+
+    describe('validate getThoughtSpotPostUrlParams', () => {
+        const { location } = window;
+
+        beforeAll(() => {
+            delete window.location;
+            (window as any).location = {
+                hash: '',
+                search: '',
+            };
+        });
+
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
+                () => 'http://tshost',
+            );
+        });
+
+        afterAll((): void => {
+            window.location = location;
+        });
+
+        it('get url params for TS', () => {
+            const tsEmbed = new tsEmbedInstance.TsEmbed(
+                getRootEl(),
+                defaultViewConfig,
+            );
+            const urlHash =
+                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            window.location.hash = urlHash;
+            const postHashParams = '?ts-app=thoughtspot&ts-id=123';
+            expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
+        });
+
+        it('validate query params and postHash params for TS', () => {
+            const tsEmbed = new tsEmbedInstance.TsEmbed(
+                getRootEl(),
+                defaultViewConfig,
+            );
+            const urlHash =
+                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            window.location.hash = urlHash;
+            const urlSearch = '?ts-type=subscribe&search-title=abc';
+            window.location.search = urlSearch;
+            const postHashParams =
+                '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
+            expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
+        });
+    });
 });

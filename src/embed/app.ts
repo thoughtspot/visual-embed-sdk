@@ -123,12 +123,15 @@ export class AppEmbed extends V1Embed {
         const queryString = [filterQuery, queryParams]
             .filter(Boolean)
             .join('&');
-        const url = `${this.getV1EmbedBasePath(
+        let url = `${this.getV1EmbedBasePath(
             queryString,
             this.viewConfig.showPrimaryNavbar,
             this.viewConfig.disableProfileAndHelp,
             true,
         )}/${pageId}`;
+
+        const tsPostHashParams = this.getThoughtSpotPostUrlParams();
+        url = `${url}${tsPostHashParams}`;
 
         return url;
     }
