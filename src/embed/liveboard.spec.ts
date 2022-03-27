@@ -19,7 +19,7 @@ const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const vizId = '6e73f724-660e-11eb-ae93-0242ac130002';
 const thoughtSpotHost = 'tshost';
 const defaultParams = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
-const prefixParams = '&isLiveboardEmbed=true';
+const prefixParams = '&isLiveboardEmbed=true&isPinboardV2Enabled=false';
 
 beforeAll(() => {
     init({

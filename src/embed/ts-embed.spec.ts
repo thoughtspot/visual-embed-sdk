@@ -227,7 +227,7 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('Naviage to Page API', () => {
+    describe('Navigate to Page API', () => {
         const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
@@ -242,7 +242,7 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             // pinboardEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true&isPinboardV2Enabled=false#/embed/${path}`,
             );
         });
 

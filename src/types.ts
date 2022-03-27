@@ -484,6 +484,7 @@ export enum Param {
     CustomCSSUrl = 'customCssUrl',
     DisableLoginRedirect = 'disableLoginRedirect',
     visibleVizs = 'pinboardVisibleVizs',
+    LiveboardV2Enabled = 'isPinboardV2Enabled',
 }
 
 /**

@@ -74,6 +74,14 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @hidden
      */
     preventPinboardFilterRemoval?: boolean;
+    /**
+     * Render embedded liveboards and visualizations using the new v2 rendering mode
+     * This is a transient flag which is meant for internal use primarily
+     * @default false
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @hidden
+     */
+    liveboardV2?: boolean;
 }
 
 /**
@@ -101,6 +109,7 @@ export class LiveboardEmbed extends V1Embed {
             fullHeight,
             defaultHeight,
             visibleVizs,
+            liveboardV2 = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval =
@@ -125,6 +134,7 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.visibleVizs] = visibleVizs;
         }
         params[Param.livedBoardEmbed] = true;
+        params[Param.LiveboardV2Enabled] = liveboardV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
