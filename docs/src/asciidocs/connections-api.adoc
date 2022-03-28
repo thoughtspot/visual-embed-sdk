@@ -1807,8 +1807,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
 
 === Example response
 
-
-.Sample response for a single table query
+.Sample response with a single table
 
 [%collapsible]
 ====
@@ -1863,7 +1862,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
 ----
 ====
 
-.Sample response for a multiple table query
+.Sample response with multiple tables
 [%collapsible]
 ====
 [source,JSON]
@@ -2269,7 +2268,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
 ----
 ====
 
-.Sample response with a table from a specific database
+.Sample response with a single table from a specific database
 [%collapsible]
 ====
 [source,JSON]
@@ -2330,7 +2329,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
 ----
 ====
 
-.Sample response for multi-table query from one or more external databases.
+.Sample response with multiple tables from one or more external databases
 
 [%collapsible]
 ====

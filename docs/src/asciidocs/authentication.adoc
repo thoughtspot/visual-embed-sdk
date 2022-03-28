@@ -12,7 +12,7 @@ OAuth 2.0 bearer token authentication::
 In this method, the REST clients must xref:authentication.adoc#oauth-token[obtain an OAuth access token] to authenticate to ThoughtSpot. The access token is a string, which you must include in the `Authorization` header to authorize your API requests. 
 
 Trusted authentication::
-In this method, the REST clients must xref:authentication.adoc#trustedAuthToken[obtain a login token] to sign in to a ThoughtSpot instance. Before sending an API request to get login token from ThoughtSpot, you must enable *Trusted authentication* on the *Security Settings* page in the *Develop* tab and get the `secret_key`. You must send the  `secret_key` in your API request to get a login token from ThoughtSpot. After you receive the token, make sure you send it in the `Authorization header` in your API calls. +
+In this method, the REST clients must xref:authentication.adoc#trustedAuthToken[obtain a login token] to sign in to a ThoughtSpot instance. Before sending an API request to get a login token from ThoughtSpot, you must enable *Trusted authentication* on the *Security Settings* page in the *Develop* tab and get the `secret_key`. You must send the  `secret_key` in your API request to get a login token from ThoughtSpot. After you receive the token, make sure you send it in the `Authorization header` in your API calls. +
 
 
 Cookie-based authentication::
@@ -210,7 +210,7 @@ If the API request is successful, the access token is revoked and the current us
 |HTTP status code|Description
 |**200**|Successful token revocation
 |**403**|Unauthorized request
-|**500**|Operation failed or unauthorized request
+|**500**|Operation failed unauthorized request
 |===
 
 [#trustedAuthToken]
@@ -301,7 +301,7 @@ Note the login token and pass it in the authorization header when sending an API
 |HTTP status code|Description
 |**200**|An OAuth access token is granted
 |**401**|Unauthorized request
-|**500**|Operation failed or unauthorized request
+|**500**|Failed operation or unauthorized request
 |===
 
 
@@ -586,7 +586,7 @@ If the API request is successful, ThoughtSpot returns the following response:
 |===
 |HTTP status code|Description
 |**200**|Successful retrieval of session information
-|**500**|Operation failed or unauthorized request
+|**500**|Failed operation or an unauthorized request
 |===
 
 == Log out of a session
