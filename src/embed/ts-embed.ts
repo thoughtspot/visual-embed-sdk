@@ -11,6 +11,7 @@ import {
     getEncodedQueryParamsString,
     getCssDimension,
     getOffsetTop,
+    setAttributes,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -67,6 +68,11 @@ export interface FrameParams {
      * The height of the iFrame (unit is pixels if numeric).
      */
     height?: number | string;
+    /**
+     * This parameters will be passed on the iframe
+     * as is.
+     */
+    [key: string]: string | number | boolean;
 }
 
 /**
@@ -408,7 +414,7 @@ export class TsEmbed {
      * @param url
      * @param frameOptions
      */
-    protected renderIFrame(url: string, frameOptions: FrameParams): void {
+    protected renderIFrame(url: string, frameOptions: FrameParams = {}): void {
         if (this.isError) {
             return;
         }
@@ -450,12 +456,19 @@ export class TsEmbed {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     this.iFrame.mozallowfullscreen = true;
+                    const {
+                        height: frameHeight,
+                        width: frameWidth,
+                        ...restParams
+                    } = frameOptions;
                     const width = getCssDimension(
-                        frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                        frameWidth || DEFAULT_EMBED_WIDTH,
                     );
                     const height = getCssDimension(
-                        frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                        frameWidth || DEFAULT_EMBED_HEIGHT,
                     );
+                    setAttributes(this.iFrame, restParams);
+
                     this.iFrame.style.width = `${width}`;
                     this.iFrame.style.height = `${height}`;
                     this.iFrame.style.border = '0';

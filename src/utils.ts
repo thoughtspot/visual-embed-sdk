@@ -135,3 +135,12 @@ export const getOffsetTop = (element: any) => {
     const rect = element.getBoundingClientRect();
     return rect.top + window.scrollY;
 };
+
+export const setAttributes = (
+    element: HTMLElement,
+    attributes: { [key: string]: string | number | boolean },
+): void => {
+    Object.keys(attributes).forEach((key) => {
+        element.setAttribute(key, attributes[key].toString());
+    });
+};

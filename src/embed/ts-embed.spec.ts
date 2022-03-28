@@ -10,7 +10,12 @@ import {
     LiveboardEmbed,
 } from '../index';
 import { Action } from '../types';
-import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
+import {
+    getDocumentBody,
+    getIFrameEl,
+    getIFrameSrc,
+    getRootEl,
+} from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
@@ -258,6 +263,19 @@ describe('Unit test case for ts embed', () => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
             );
+        });
+
+        test('Set Frame params to the iframe as attributes', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                    allowtransparency: true,
+                },
+            });
+            await appEmbed.render();
+            const iframe = getIFrameEl();
+            expect(iframe.getAttribute('allowtransparency')).toBe('true');
         });
 
         test('navigateToPage function use before render', async () => {
