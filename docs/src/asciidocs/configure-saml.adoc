@@ -83,6 +83,24 @@ The following figure illustrates the SAML SSO authentication workflow for embedd
 
 image::./images/saml-auth.png[SAML authentication]
 
+
+=== Visual Embed SDK flow
+When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SSO`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
+
+=== Enabling automatic SAML redirect
+If you are xref:embed-without-sdk.adoc[embedding without the Visual Embed SDK] or using `AuthType.None`, the IdP flow will occur when the ThoughtSpot content is loaded. The general SAML configurations in ThoughtSpot will be obeyed in this scenario, and you will also need to configure the IdP to allow the flow to complete. To achieve a seamless sign-on without the Visual Embed SDK, contact ThoughtSpot Support to enable automatic SAML redirect on your instance. Note that this will apply to all users even when not embedding. 
+
+When automatic SAML redirect is enabled, you can override it when necessary by appending the following query parameter to a ThoughtSpot URL:
+
+----
+disableSAMLAutoRedirect=true
+----
+
+[NOTE]
+====
+Make a note of all of the redirects within the SAML workflow. Each server must be configured properly to allow the inbound and outbound portions of the SAML flow. If you encounter errors while configuring and testing, go to the *Network* tab of the browser's developer tools to see which server within the workflow is generating the error.
+====
+
 == Configuration steps
 
 To configure SAML SSO authentication on the ThoughtSpot embedded instance, complete the following steps:
@@ -129,15 +147,6 @@ For additional authorization settings beyond user creation and group assignment,
 
 +
 . Click *Save*.
-
-==== Configure ThoughtSpot for automatic SAML redirect
-By default, ThoughtSpot displays a login box with a link at the bottom that says *Login using Single Sign On*, even when embedding  using the Visual Embed SDK. To make the SSO process seamless, the ThoughtSpot Server must be configured to automatically redirect to the SAML IdP. To enable this feature, contact ThoughtSpot Support.
-
-When automatic SAML redirect is enabled, you can override it when necessary by appending the following query parameter to a ThoughtSpot URL:
-
-----
-disableSAMLAutoRedirect=true
-----
 
 [#idp-config]
 === Configure the IdP server for SAML authentication
