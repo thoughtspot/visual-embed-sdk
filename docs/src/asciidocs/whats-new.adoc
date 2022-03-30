@@ -55,7 +55,7 @@ For more information, see xref:rest-api-v2.adoc[REST API v2].
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#| The REST v2 framework now supports trusted authentication. If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
-|[tag greenBackground]#NEW FEATURE#| ThoughtSpot now provides .NET SDK to allow developers to interact with REST APIs from .NET applications. The SDK can be downloaded from NuGet Package Manager and installed using the NuGet GUI.
+|[tag greenBackground]#NEW FEATURE#| ThoughtSpot provides the .NET SDK to allow developers to interact with REST APIs from .NET applications. You can download the SDK from NuGet Package Manager and install it using the NuGet GUI.
 For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
 |[tag greenBackground]#NEW FEATURE# a|+++<h5> New API endpoints</h5> +++
 
