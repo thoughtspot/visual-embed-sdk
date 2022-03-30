@@ -79,6 +79,14 @@ export interface AppViewConfig extends ViewConfig {
      * The array of GUIDs to be hidden
      */
     hideObjects?: string[];
+    /**
+     * Render liveboards using the new v2 rendering mode
+     * This is a transient flag which is primarily meant for internal use
+     * @default false
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @hidden
+     */
+    liveboardV2?: boolean;
 }
 
 /**
@@ -99,7 +107,7 @@ export class AppEmbed extends V1Embed {
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
-        const { tag, hideObjects } = this.viewConfig;
+        const { tag, hideObjects, liveboardV2 = false } = this.viewConfig;
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -108,6 +116,7 @@ export class AppEmbed extends V1Embed {
             params[Param.HideObjects] = JSON.stringify(hideObjects);
         }
 
+        params[Param.LiveboardV2Enabled] = liveboardV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
