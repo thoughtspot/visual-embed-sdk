@@ -19,7 +19,7 @@ In this method, REST clients can create a session with cookies and pass these co
 +
 [IMPORTANT]
 ====
-The REST API SDK does not support cookie-based authentication. Clients using the REST API SDK libraries can use only OAuth bearer tokens or trusted authentication. 
+The REST API SDK does not support cookie-based authentication. Clients using the REST API SDK libraries must use the OAuth bearer token or the trusted authentication method to log in to ThoughtSpot. 
 ====
 
 [TIP]
