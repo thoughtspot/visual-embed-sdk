@@ -1,4 +1,4 @@
-= REST v1 authentication
+= REST API v1 authentication
 :toc: true
 :toclevels: 1
 

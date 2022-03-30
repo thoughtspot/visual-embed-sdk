@@ -1,4 +1,4 @@
-= REST v2 Authentication
+= REST API v2 Authentication
 :toc: true
 :toclevels: 1
 
@@ -27,6 +27,7 @@ The REST API SDK does not support cookie-based authentication. Clients using the
 If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the login API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
 ====
 
+[#loginTS]
 == Sign in to ThoughtSpot
 
 To create, access, and modify ThoughtSpot objects and resources through the REST API, you must log in as an authorized user. A successful log-in process returns session cookies from the ThoughtSpot system, which you must include in the subsequent REST API calls.
@@ -102,7 +103,7 @@ If the operation is successful, the API returns a response with `tokenType` set 
 |===
 
 [#oauth-token]
-== Get OAuth access token
+== Get an OAuth access token
 
 For OAuth 2.0 bearer token-based authorization, you must obtain an OAuth access token and send it in the `Authorization` header when making an API request. To obtain an OAuth token, send a `POST` request to the  `/tspublic/rest/v2/session/gettoken` endpoint.
 
@@ -172,9 +173,9 @@ If the operation is successful, the API returns an OAuth access token. Make sure
 |**500**|Operation failed or unauthorized request
 |===
 
-== Revoke the access token
+== Revoke a token
 
-To revoke the access token granted for the currently logged-in user, send a `POST` request to the `/tspublic/rest/v2/session/revoketoken` endpoint.
+To revoke a token granted for the currently logged-in user, send a `POST` request to the `/tspublic/rest/v2/session/revoketoken` endpoint.
 
 
 === Resource URL
@@ -220,14 +221,19 @@ If the API request is successful, the access token is revoked and the current us
 |===
 
 [#trustedAuthToken]
-== Get login token for trusted authentication
+== Get a login token for trusted authentication
 
-To authenticate and log in using the trusted authentication method, you must obtain a login token from the ThoughtSpot application server. After you receive the login token, you must use it in the Authorization header when sending an API request to log in to ThoughtSpot.
+The trusted authentication method involves the following steps: 
 
-In the trusted authentication method, the login token is necessary during the login process, after which ThoughtSpot establishes a user session using cookies. 
+. Enable Trusted authentication in the *Develop* > *Customizations* > *Security Settings* page.
+. Copy the secret key.
+. Send a `POST` request with the user credentials and secret key to the `/tspublic/rest/v2/session/gettoken` endpoint and obtain a login token.
+. Use the login token in the `Authorization` header to log in to ThoughtSpot and create a user session using cookies.
 
-
+ 
 === Resource URL
+
+Use this endpoint to get a login token:
 
 ----
 POST /tspublic/rest/v2/session/gettoken
@@ -297,7 +303,7 @@ https://<ThoughtSpot-Host>/tspublic/rest/v2/session/gettoken
 }
 ----
 
-Note the login token and pass it in the authorization header when sending an API request. 
+Note the login token and use it in the `Authorization` header to xref:authentication.adoc#loginTS[log in to ThoughtSpot] and create a user session. 
 
 
 === Response codes
