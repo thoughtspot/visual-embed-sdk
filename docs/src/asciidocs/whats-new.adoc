@@ -8,13 +8,16 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+////
 == Upcoming features 
 
 App actions for Slack integration:: 
 
 This feature will provide the ability to integrate ThoughtSpot with your Slack workspace and push insights directly to Slack channels.
 
-== Version 8.2.0.cl
+////
+
+== Now available in 8.2.0.cl
 
 ////
 === Custom actions
@@ -30,14 +33,16 @@ Users with developer or admin privileges can create an app action for Slack[beta
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
 ////
-=== Visual Embed SDK 1.10.0
+
+==== Visual Embed SDK 1.10.0
+
 
 [width="100%" cols="1,4"]
 |=====
-|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#host-events[Interact with events].
+|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#host-events[Interact with events]. 
 |=====
 
-=== REST API v1
+==== REST API v1
 
 [width="100%" cols="1,4"]
 |=====
@@ -45,11 +50,10 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 
 * `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
 * `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
-
 |=====
 
-=== REST API v2
-Starting with the 8.2.0.cl release, the REST API Playground and SDK[beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
+==== REST API v2
+Starting with the 8.2.0.cl release, the REST API Playground and SDK [beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
 For more information, see xref:rest-api-v2.adoc[REST API v2].
 
 [width="100%" cols="1,4"]
