@@ -317,9 +317,9 @@ export enum EmbedEvent {
     /**
      * A click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is clicked
-     * @version SDK: 1.10.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
-    VizPointClick = 'vizPointDoubleClick',
+    VizPointClick = 'vizPointClick',
     /**
      * An error has occurred.
      * @return error - An error object or message
