@@ -315,6 +315,12 @@ export enum EmbedEvent {
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
+     * A click has been triggered on table/chart
+     * @return ContextMenuInputPoints - data point that is clicked
+     * @version SDK: 1.10.0 | ThoughtSpot: 8.3.0.cl
+     */
+    VizPointClick = 'vizPointDoubleClick',
+    /**
      * An error has occurred.
      * @return error - An error object or message
      */
@@ -485,6 +491,7 @@ export enum Param {
     DisableLoginRedirect = 'disableLoginRedirect',
     visibleVizs = 'pinboardVisibleVizs',
     LiveboardV2Enabled = 'isPinboardV2Enabled',
+    ShowAlerts = 'showAlerts',
 }
 
 /**

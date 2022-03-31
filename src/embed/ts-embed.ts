@@ -117,6 +117,11 @@ export interface ViewConfig {
      */
     visibleActions?: Action[];
     /**
+     * Show alert messages and toast messages in the embedded view.
+     * @version 1.11.0 | ThoughtSpot: 8.3.0.cl
+     */
+    showAlerts?: boolean;
+    /**
      * The list of runtime filters to apply to a search answer,
      * visualization, or Liveboard.
      */
@@ -352,6 +357,7 @@ export class TsEmbed {
             disabledActionReason,
             hiddenActions,
             visibleActions,
+            showAlerts,
             additionalFlags,
         } = this.viewConfig;
 
@@ -373,6 +379,9 @@ export class TsEmbed {
         }
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
+        }
+        if (showAlerts !== undefined) {
+            queryParams[Param.ShowAlerts] = showAlerts;
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);

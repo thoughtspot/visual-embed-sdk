@@ -266,19 +266,6 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
-        test('Set Frame params to the iframe as attributes', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                    allowtransparency: true,
-                },
-            });
-            await appEmbed.render();
-            const iframe = getIFrameEl();
-            expect(iframe.getAttribute('allowtransparency')).toBe('true');
-        });
-
         test('navigateToPage function use before render', async () => {
             spyOn(console, 'log');
             const appEmbed = new AppEmbed(getRootEl(), {
@@ -317,12 +304,26 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('additionalFlags config', () => {
+    describe('Iframe flags', () => {
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',
             );
         });
+
+        test('Set Frame params to the iframe as attributes', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                    allowtransparency: true,
+                },
+            });
+            await appEmbed.render();
+            const iframe = getIFrameEl();
+            expect(iframe.getAttribute('allowtransparency')).toBe('true');
+        });
+
         it('should set the additional flags correctly on the iframe src', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -339,6 +340,21 @@ describe('Unit test case for ts embed', () => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
                     `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+            );
+        });
+
+        it('Sets the showAlerts param', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                showAlerts: true,
+            });
+            await appEmbed.render();
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
     });
