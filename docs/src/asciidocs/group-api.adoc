@@ -674,7 +674,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33
 
 === Example response
 
-If the user assignment operation is succesful, the API returns the following response:
+If the user assignment operation is successful, the API returns the following response:
 
 ----
 Response Code
