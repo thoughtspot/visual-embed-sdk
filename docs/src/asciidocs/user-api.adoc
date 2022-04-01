@@ -296,7 +296,8 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=a8aeda00-dc3c-4485-b8d1-fd6ac701a819&emailid=user123%40thoughtspot.com' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email'
+-d 'userid=a8aeda00-dc3c-4485-b8d1-fd6ac701a819&emailid=user123%40thoughtspot.com' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email'
 ----
 
 .Request URL
