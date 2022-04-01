@@ -25,7 +25,7 @@ To programmatically create a user account in the ThoughtSpot system, send a POST
 [NOTE]
 ====
 * To create a user, you require admin user privileges.
-* All users created in the ThoughtSpot system are added to ALL_GROUP.
+* By default, all users created in the ThoughtSpot system are added to the `ALL` group.
 ====
 
 === Resource URL
@@ -134,9 +134,9 @@ If the user is successfully created in ThoughtSpot, the API returns the user GUI
 [#update-user]
 == Update user details
 
-If you have admin user privileges, you can use the `/tspublic/v1/user/{userid}` API to programmatically modify an existing user account.
+To modify the attributes of a ThoughtSpot user account, send a `PUT` request to the  `/tspublic/v1/user/{userid}` endpoint.  
 
-This API allows the following modifications to a user profile:
+The API allows the following modifications to a user profile:
 
 * Username modifications
 * Password reset
@@ -343,8 +343,10 @@ GET /tspublic/v1/user/
 [options='header']
 |===
 |Query Parameter|Description
-|`userid` __Optional__|__String__. The GUID of the user account to query.
-|`name` __Optional__|__String__. Username of the user that you want to query.
+|`userid` +
+__Optional__|__String__. The GUID of the user account to query.
+|`name` +
+__Optional__|__String__. Username of the user that you want to query.
 |===
 
 [NOTE]
@@ -542,7 +544,8 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json'  \
 --header 'X-Requested-By: ThoughtSpot'  \
--d 'userid=996969b6-0a4c-4e3d-9f38-a976fe821790&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRKWE9MWU4yalVHYUdZaXdHS0dsbWFRPT0kUDRvODVkS1dsRHMyNWd0Njg5K0ZDZVl5R2h1MFBTKzBlQk1pRGNyaW9CQT0&password=fooFoo123!&properties=%5B%7B%22mail%22%3A%22test_user1%40thoughtspot.com%22%7D%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate'
+-d 'userid=996969b6-0a4c-4e3d-9f38-a976fe821790&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRKWE9MWU4yalVHYUdZaXdHS0dsbWFRPT0kUDRvODVkS1dsRHMyNWd0Njg5K0ZDZVl5R2h1MFBTKzBlQk1pRGNyaW9CQT0&password=fooFoo123!&properties=%5B%7B%22mail%22%3A%22test_user1%40thoughtspot.com%22%7D%5D' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate'
 
 ----
 
@@ -936,7 +939,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' 
+-d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword'
 ----
 
@@ -966,7 +969,7 @@ Response Code
 
 [#updatepreference-api]
 == Update a user profile
-To update the profile settings of a ThoughtSpot user  programmatically, you can use the `/tspublic/v1/user/updatepreference` API.
+To update the profile settings of a ThoughtSpot user  programmatically, send a `PUT` request to the `/tspublic/v1/user/updatepreference` endpoint.
 
 The `/tspublic/v1/user/updatepreference` API allows you to modify the following attributes of a ThoughtSpot user profile:
 
@@ -1133,7 +1136,8 @@ POST /tspublic/v1/user/transfer/ownership
 curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot'  \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
+--header 'X-Requested-By: ThoughtSpot'  \ 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/transfer/ownership?fromUserName=guest&toUserName=guest1'
 ----
 
 .Request URL
@@ -1332,7 +1336,8 @@ POST /tspublic/v1/user/{userid}/groups
 curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%2C%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%2246fc2125-d424-40bd-9513-23cd5e2e92c3%22%2C%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%5D'
  
 ----
 
@@ -1386,7 +1391,8 @@ GET /tspublic/v1/user/{userid}/groups
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups'
+--header 'X-Requested-By: ThoughtSpot' \ 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups'
 ----
 
 .Request URL
@@ -1568,7 +1574,8 @@ DELETE /tspublic/v1/user/{userid}/groups
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \ 
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/a8aeda00-dc3c-4485-b8d1-fd6ac701a819/groups?groupids=%5B%222e3f697a-e38d-4d50-b5c5-e2514e85d90e%22%2C%222364bf7c-7eec-4839-ac4b-e0cbb27aec37%22%5D'
 ----
 
 .Request URL
