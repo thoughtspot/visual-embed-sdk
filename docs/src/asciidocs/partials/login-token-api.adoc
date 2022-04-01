@@ -1,5 +1,6 @@
 
-To authenticate and log in a user, you must xref:session-api.doc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request. 
+To authenticate and log in a user, you must xref:session-api.adoc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request.
+
 
 * `GET /tspublic/v1/session/login/token`
 +

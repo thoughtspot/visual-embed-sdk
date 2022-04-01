@@ -1,6 +1,5 @@
-ThoughtSpot supports the trusted authentication method, which is also known as token-based authentication. In the trusted authentication method, ThoughtSpot users are authenticated by an external authentication server.
-When ThoughtSpot receives a request from a trusted authentication service, it returns an authentication token to allow authenticated users to access ThoughtSpot content.
-If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user.
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use it to send an API request to  the `/tspublic/v1/session/auth/token` endpoint to get a login token. You must send this login token in your API request to the `/tspublic/v1/session/login/token` endpoint to get access to ThoughtSpot content.
+
 
 === Resource URL
 ----
