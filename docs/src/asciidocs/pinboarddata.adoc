@@ -4,7 +4,7 @@
 
 :page-title: Get Liveboard Data
 :page-pageid: liveboard-data-api
-:page-description: Liveboard Data API
+:page-description: The liveboard data API API allows you to query a pinboard and its visualizations
 
 To retrieve data related to a Liveboard or visualization from the ThoughtSpot system, you can use the Liveboard data API.
 
@@ -15,7 +15,7 @@ Using this API, you can fetch the following information:
 
 [NOTE]
 ====
-Liveboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
+ThoughtSpot recommends using Liveboard data API to embed ThoughtSpot content within a native mobile app.
 ====
 
 == Required permissions

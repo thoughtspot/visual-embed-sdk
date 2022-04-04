@@ -4,7 +4,7 @@
 
 :page-title: Export Liveboard as PDF
 :page-pageid: liveboard-export-api
-:page-description: Liveboard Export API
+:page-description: The Liveboard export API endpoint allows you to download a pinboard or its visualizations in the PDF format
 
 To programmatically download a Liveboard or specific visualizations from a Liveboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
 

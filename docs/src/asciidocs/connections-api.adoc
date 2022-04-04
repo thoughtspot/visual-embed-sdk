@@ -4,7 +4,7 @@
 
 :page-title: Data connection APIs
 :page-pageid: connections-api
-:page-description: Live data connections API
+:page-description: The connection API endpoints allow you to query data connections used for live query services on a ThoughtSpot instance
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. ThoughtSpot users can run a live query of the data directly from the following external data sources to generate the information they need:
 
@@ -22,15 +22,13 @@ The connection APIs allow you to create, edit, delete, export, and query data co
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
-== Required permissions
-
-You must have data management permissions to create, edit, delete or query data connection objects. Make sure your user account has the `DATAMANAGEMENT` privilege.
-
-
 == Supported operations
 
 include::{path}/data-connection-apis.adoc[]
 
+=== Required permissions
+
+You must have data management permissions to create, edit, delete or query data connection objects. Make sure your user account has the `DATAMANAGEMENT` privilege.
 
 [#connection-metadata]
 == Connection metadata
@@ -1088,7 +1086,7 @@ GET /tspublic/v1/connection/list
 |Query Parameter|Description 
 |`category` __Optional__ a|__String__. Type of the live query object. Valid values are:
 
-* `ALL`
+* `All`
 +
 Gets all live query objects set up on the cluster
 
