@@ -330,7 +330,7 @@ If you have admin user credentials, you can programmatically assign a privilege 
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL` group. When you create new users in ThoughtSpot, they are automatically assigned to the `ALL` group. By default, the members of `ALL` do not have permissions to download or upload data. You can use this API to add these privileges to the `ALL` group.
+ThoughtSpot also has a default group called `All` group. When you create new users in ThoughtSpot, they are automatically assigned to the `All` group. By default, the members of `All` do not have permissions to download or upload data. You can use this API to add these privileges to the `All` group.
 ====
 
 === Resource URL
@@ -359,7 +359,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 * `RANALYSIS`
 * `A3ANALYSIS`
 * `BYPASSRLS`
-|`groupNames`|__String__. A JSON array of group names to which you want to add the privilege. To add a privilege to `ALL_GROUP`, specify `ALL_GROUP`.
+|`groupNames`|__String__. A JSON array of group names to which you want to add the privilege. To add a privilege to `All` group, specify `All`.
 |====
 
 === Example request
@@ -443,7 +443,7 @@ curl -X POST \
 --header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATAUPLOADING' \
 -F 'groupNames=["Analyst"]' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
 .Request URL
