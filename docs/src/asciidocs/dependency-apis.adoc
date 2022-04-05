@@ -88,7 +88,9 @@ POST /tspublic/v1/dependency/listdependents
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
 ----
 
 .Request URL
@@ -168,7 +170,8 @@ GET /tspublic/v1/dependency/logicalcolumn
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
 ----
 
 .Request URL
@@ -318,7 +321,8 @@ GET /tspublic/v1/dependency/logicaltable
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
 ----
 
 .Request URL
@@ -447,7 +451,8 @@ GET /tspublic/v1/dependency/logicalrelationship
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
 ----
 
 .Request URL
@@ -527,7 +532,8 @@ GET /tspublic/v1/dependency/physicalcolumn
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
 ----
 
 .Request URL
@@ -647,7 +653,8 @@ GET /tspublic/v1/dependency/physicaltable
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
 ----
 
 .Request URL
@@ -749,7 +756,8 @@ GET /tspublic/v1/dependency/pinboard
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
 ----
 
 .Request URL
@@ -817,7 +825,8 @@ None
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
 ----
 
 .Request URL
