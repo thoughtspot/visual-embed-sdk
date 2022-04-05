@@ -11,6 +11,7 @@ import {
     getEncodedQueryParamsString,
     getCssDimension,
     getOffsetTop,
+    setAttributes,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -38,6 +39,11 @@ import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
 const { version } = pkgInfo;
 
 /**
+ * Global prefix for all Thoughtspot postHash Params.
+ */
+export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
+
+/**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
@@ -62,6 +68,11 @@ export interface FrameParams {
      * The height of the iFrame (unit is pixels if numeric).
      */
     height?: number | string;
+    /**
+     * This parameters will be passed on the iframe
+     * as is.
+     */
+    [key: string]: string | number | boolean;
 }
 
 /**
@@ -106,6 +117,11 @@ export interface ViewConfig {
      */
     visibleActions?: Action[];
     /**
+     * Show alert messages and toast messages in the embedded view.
+     * @version 1.11.0 | ThoughtSpot: 8.3.0.cl
+     */
+    showAlerts?: boolean;
+    /**
      * The list of runtime filters to apply to a search answer,
      * visualization, or Liveboard.
      */
@@ -114,6 +130,9 @@ export interface ViewConfig {
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
+     * Warning: This option is for advanced use only and is used internally
+     * to control embed behavior in non-regular ways. We do not publish the
+     * list of supported keys and values associated with each.
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     additionalFlags?: { [key: string]: string | number | boolean };
@@ -324,7 +343,11 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
-
+        if (this.embedConfig.disableLoginRedirect === true) {
+            queryParams[
+                Param.DisableLoginRedirect
+            ] = this.embedConfig.disableLoginRedirect;
+        }
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
         }
@@ -334,6 +357,7 @@ export class TsEmbed {
             disabledActionReason,
             hiddenActions,
             visibleActions,
+            showAlerts,
             additionalFlags,
         } = this.viewConfig;
 
@@ -355,6 +379,9 @@ export class TsEmbed {
         }
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
+        }
+        if (showAlerts !== undefined) {
+            queryParams[Param.ShowAlerts] = showAlerts;
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);
@@ -399,7 +426,7 @@ export class TsEmbed {
      * @param url
      * @param frameOptions
      */
-    protected renderIFrame(url: string, frameOptions: FrameParams): void {
+    protected renderIFrame(url: string, frameOptions: FrameParams = {}): void {
         if (this.isError) {
             return;
         }
@@ -441,12 +468,19 @@ export class TsEmbed {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     this.iFrame.mozallowfullscreen = true;
+                    const {
+                        height: frameHeight,
+                        width: frameWidth,
+                        ...restParams
+                    } = frameOptions;
                     const width = getCssDimension(
-                        frameOptions?.width || DEFAULT_EMBED_WIDTH,
+                        frameWidth || DEFAULT_EMBED_WIDTH,
                     );
                     const height = getCssDimension(
-                        frameOptions?.height || DEFAULT_EMBED_HEIGHT,
+                        frameWidth || DEFAULT_EMBED_HEIGHT,
                     );
+                    setAttributes(this.iFrame, restParams);
+
                     this.iFrame.style.width = `${width}`;
                     this.iFrame.style.height = `${height}`;
                     this.iFrame.style.border = '0';
@@ -648,6 +682,34 @@ export class TsEmbed {
         this.isRendered = true;
 
         return this;
+    }
+
+    /**
+     * Get the Post Url Params for THOUGHTSPOT from the current
+     * host app URL.
+     * THOUGHTSPOT URL params starts with a prefix "ts-"
+     */
+    public getThoughtSpotPostUrlParams(): string {
+        const urlHash = window.location.hash;
+        const queryParams = window.location.search;
+        const postHashParams = urlHash.split('?');
+        const postURLParams = postHashParams[postHashParams.length - 1];
+        const queryParamsObj = new URLSearchParams(queryParams);
+        const postURLParamsObj = new URLSearchParams(postURLParams);
+        const params = new URLSearchParams();
+
+        const addKeyValuePairCb = (value: string, key: string): void => {
+            if (key.startsWith(THOUGHTSPOT_PARAM_PREFIX)) {
+                params.append(key, value);
+            }
+        };
+        queryParamsObj.forEach(addKeyValuePairCb);
+        postURLParamsObj.forEach(addKeyValuePairCb);
+
+        let tsParams = params.toString();
+        tsParams = tsParams ? `?${tsParams}` : '';
+
+        return tsParams;
     }
 }
 

@@ -10,7 +10,12 @@ import {
     LiveboardEmbed,
 } from '../index';
 import { Action } from '../types';
-import { getDocumentBody, getIFrameSrc, getRootEl } from '../test/test-utils';
+import {
+    getDocumentBody,
+    getIFrameEl,
+    getIFrameSrc,
+    getRootEl,
+} from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
@@ -28,6 +33,7 @@ const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParamsPost = '&isPinboardV2Enabled=false';
 
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(
@@ -227,7 +233,7 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('Naviage to Page API', () => {
+    describe('Navigate to Page API', () => {
         const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
@@ -242,7 +248,7 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             // pinboardEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true#/embed/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true${defaultParamsPost}#/embed/${path}`,
             );
         });
 
@@ -256,7 +262,7 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             appEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });
 
@@ -275,7 +281,7 @@ describe('Unit test case for ts embed', () => {
             );
         });
     });
-    describe('Naviage to Page API - Pinboard', () => {
+    describe('Navigate to Page API - Pinboard', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
@@ -293,17 +299,31 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             appEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}#/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });
     });
 
-    describe('additionalFlags config', () => {
+    describe('Iframe flags', () => {
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',
             );
         });
+
+        test('Set Frame params to the iframe as attributes', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                    allowtransparency: true,
+                },
+            });
+            await appEmbed.render();
+            const iframe = getIFrameEl();
+            expect(iframe.getAttribute('allowtransparency')).toBe('true');
+        });
+
         it('should set the additional flags correctly on the iframe src', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -319,8 +339,72 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    '&foo=bar&baz=1&bool=true#/home',
+                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
+        });
+
+        it('Sets the showAlerts param', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                showAlerts: true,
+            });
+            await appEmbed.render();
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&showAlerts=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    describe('validate getThoughtSpotPostUrlParams', () => {
+        const { location } = window;
+
+        beforeAll(() => {
+            delete window.location;
+            (window as any).location = {
+                hash: '',
+                search: '',
+            };
+        });
+
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
+                () => 'http://tshost',
+            );
+        });
+
+        afterAll((): void => {
+            window.location = location;
+        });
+
+        it('get url params for TS', () => {
+            const tsEmbed = new tsEmbedInstance.TsEmbed(
+                getRootEl(),
+                defaultViewConfig,
+            );
+            const urlHash =
+                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            window.location.hash = urlHash;
+            const postHashParams = '?ts-app=thoughtspot&ts-id=123';
+            expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
+        });
+
+        it('validate query params and postHash params for TS', () => {
+            const tsEmbed = new tsEmbedInstance.TsEmbed(
+                getRootEl(),
+                defaultViewConfig,
+            );
+            const urlHash =
+                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            window.location.hash = urlHash;
+            const urlSearch = '?ts-type=subscribe&search-title=abc';
+            window.location.search = urlSearch;
+            const postHashParams =
+                '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
+            expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
         });
     });
 });
