@@ -28,7 +28,7 @@ To programmatically create a user group, send a `POST` request to the `/tspublic
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL`. When you create new users in ThoughtSpot, they are automatically added to `ALL`. You cannot delete the `ALL` group or remove members from it.
+ThoughtSpot also has a default group called `All`. When you create new users in ThoughtSpot, they are automatically added to `All`. You cannot delete the `All` group or remove members from it.
 ====
 
 === Resource URL
