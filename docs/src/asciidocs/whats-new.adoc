@@ -39,7 +39,7 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 
 [width="100%" cols="1,4"]
 |=====
-|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#host-events[Interact with events]. 
+|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#embed-events[Interact with events]. 
 |=====
 
 ==== REST API v1
