@@ -492,6 +492,7 @@ export enum Param {
     visibleVizs = 'pinboardVisibleVizs',
     LiveboardV2Enabled = 'isPinboardV2Enabled',
     ShowAlerts = 'showAlerts',
+    Locale = 'locale',
 }
 
 /**

@@ -357,6 +357,20 @@ describe('Unit test case for ts embed', () => {
                     `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
+        it('Sets the locale param', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                locale: 'ja-JP',
+            });
+            await appEmbed.render();
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&locale=ja-JP${defaultParamsPost}#/home`,
+            );
+        });
     });
 
     describe('validate getThoughtSpotPostUrlParams', () => {
