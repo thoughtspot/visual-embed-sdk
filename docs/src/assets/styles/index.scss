@@ -229,6 +229,7 @@ button {
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
+    margin-left: 3px;
     font-weight: $font-weight-normal;
     line-height: $line-height-doc;
     color: var(--primary-color);
