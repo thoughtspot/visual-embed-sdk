@@ -5,11 +5,11 @@
 :page-pageid: api-user-group-management
 :page-description: Manage user groups using REST APIs
 
-Each user group in ThoughtSpot assigns a set of privileges to its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. 
+Each user group in ThoughtSpot assigns a set of privileges to its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users.
 
-ThoughtSpot also has a default group called `All`. When you create new users in ThoughtSpot, they are automatically added to `All`.
+ThoughtSpot also has a default group called `All`. When you create new users in ThoughtSpot, they are automatically added to `All`. By default, the members of `All` group do not have permission to download or upload data. You can use the Group API endpoints to globally add a privilege to `All`.
 
-By default, the members of `All` do not have the permission to download or upload data. You can use the Group APIs to globally add the following privileges to all the users in `All`.
+ThoughtSpot supports the following group privileges:
 
 * `DATADOWNLOADING`
 +

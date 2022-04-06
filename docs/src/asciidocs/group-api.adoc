@@ -373,7 +373,7 @@ curl -X POST \
 --header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATADOWNLOADING' \
 -F 'groupNames=["Analyst"]' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege'
 ----
 
 .Request URL
@@ -414,7 +414,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [options='header']
 |====
 |Form Parameter|Description
-|`privilege` a|__String__. The xref:group-api.adoc#group-privilege[currently assigned group privilege] to delete. Valid values are: 
+|`privilege` a|__String__. The xref:group-api.adoc#group-privilege[group privilege] to delete. Valid values are:
 
 * `ADMINISTRATION`   
 * `DEVELOPER`
@@ -442,7 +442,7 @@ curl -X POST \
 --header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATAUPLOADING' \
 -F 'groupNames=["Analyst"]' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL

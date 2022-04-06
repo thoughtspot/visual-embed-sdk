@@ -10,7 +10,7 @@
 
 `xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
 
-Authenticates and logs in a user to ThoughtSpot.
+Creates a login session for authenticated users when trusted authentication is enabled.
 
 This request method sends authentication attributes as query string parameters in the request URL.
 
