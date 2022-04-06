@@ -21,7 +21,8 @@ Bug fixes and improvements
 
 == Version 8.0.0.cl, February 2022
 
-REST clients using Postman for API calls can now send a `POST` request to the `/tspublic/v1/session/auth/token` endpoint. In the earlier releases, unauthenticated clients were not allowed to make an API call to `/tspublic/v1/session/auth/token` via Postman.
+REST clients using Postman for API calls can now send a `POST` request to the `/tspublic/v1/session/auth/token` endpoint. +
+In the earlier releases, unauthenticated clients were not allowed to make an API call to `/tspublic/v1/session/auth/token` via Postman.
 
 == Version ts8.nov.cl, January 2022
 
