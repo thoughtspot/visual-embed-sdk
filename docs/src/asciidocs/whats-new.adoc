@@ -27,7 +27,7 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 ////
 
 ==== Visual Embed SDK 1.10.0
-The Visual Embed SDK version 1.10.0 with the `AddRemoveColumns` event will be available on your instances soon. For more information, see xref:api-changelog.adoc[Visual Embed Changelog].
+The Visual Embed SDK version 1.10.0 with the `AddRemoveColumns` event will be available on your instances soon. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
 
 
 ==== REST API v1
