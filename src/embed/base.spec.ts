@@ -5,6 +5,7 @@ import {
     getDocumentBody,
     getRootEl,
     getRootEl2,
+    getIFrameSrc,
 } from '../test/test-utils';
 
 const thoughtSpotHost = 'tshost';
@@ -77,5 +78,18 @@ describe('Base TS Embed', () => {
         });
 
         expect(prefetch).toHaveBeenCalledTimes(0);
+    });
+
+    test('Sets the disableLoginRedirect param when autoLogin is true', async () => {
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const tsEmbed = new index.AppEmbed(getRootEl(), {});
+        await tsEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toContain('disableLoginRedirect=true');
+        });
     });
 });
