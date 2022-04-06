@@ -8,6 +8,18 @@ This project follows Semantic Versioning.
 ### New Features
 - Events for all actions on Search Embed
 
+## 1.9.5 (04-06-2022)
+
+### New Features
+- `locale` param to set Locale/language for the embedded view.
+
+
+## 1.9.4 (04-06-2022)
+
+### Fixed
+- [React] `className` should be forwarded to the iframe container div.
+
+
 ## 1.9.3 (03-22-2022)
 
 ### New Features 
