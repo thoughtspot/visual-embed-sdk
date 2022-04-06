@@ -836,7 +836,7 @@ Password is only required:
 
 * `groupNames`
 +
-Name of the groups to which a principal belongs. For example, `Administrator`, `ALL`, and so on. Users can belong to multiple groups.
+Name of the groups to which a principal belongs. For example, `Administrator`, `All`, and so on. Users can belong to multiple groups.
 
 * `visibility`
 +
