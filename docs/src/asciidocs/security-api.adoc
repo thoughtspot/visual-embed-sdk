@@ -79,8 +79,9 @@ To remove a user or user group's access to a shared object, you can set the `sha
 ----
 curl -X POST  \
 --header 'Content-Type: application/x-www-form-urlencoded'  \
---header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9CshareMode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' 
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'type=PINBOARD_ANSWER_BOOK&id=%5B%22237921cc-ebf5-445a-8b7b-15c301f8456e%22%5D&permission=%7B%E2%80%9Cpermissions%E2%80%9D%3A%7B%E2%80%9C237921cc-ebf5-445a-8b7b-15c301f8456e%E2%80%9D%3A%7B%E2%80%9CshareMode%E2%80%9D%3A%E2%80%9DREAD_ONLY%E2%80%9D%7D%7D%7D&emailshares=%5B%22tsuser%40thoughtspot.com%22%5D&notify=false&useCustomEmbedUrls=true' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/share'
 
 ----
@@ -139,7 +140,8 @@ POST /tspublic/v1/security/shareviz
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'type=PINBOARD_ANSWER_BOOK&pinboardId=7a9a6715-e154-431b-baaf-7b58246c13dd&principalids=%5B%2259481331-ee53-42be-a548-bd87be6ddd4a%22%5D&vizid=e9753523-5de5-41ef-8d8c-b840f0260ea0&emailshares=%5Btsuser%40thoughtspot.com%5D&notify=true&useCustomEmbedUrls=false' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz'
+-d 'type=PINBOARD_ANSWER_BOOK&pinboardId=7a9a6715-e154-431b-baaf-7b58246c13dd&principalids=%5B%2259481331-ee53-42be-a548-bd87be6ddd4a%22%5D&vizid=e9753523-5de5-41ef-8d8c-b840f0260ea0&emailshares=%5Btsuser%40thoughtspot.com%5D&notify=true&useCustomEmbedUrls=false' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/shareviz'
 ----
 
 .Request URL
@@ -171,7 +173,7 @@ ThoughtSpot users can get access to objects through the privileges assigned to t
 
 Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
-To get permission details for a specific metdata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific metadata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
@@ -303,7 +305,7 @@ If the `GET` operation is successful, the API returns a response with the permis
 [#obj-permission-id]
 == Get permission details for a specific object ID
 
-To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific object, send a `GET` request to the `/tspublic/v1/security/metadata/{id}/permissions` endpoint.
 
 === Resource URL
 ----
@@ -314,7 +316,7 @@ GET /tspublic/v1/security/metadata/{id}/permissions
 [width="100%" cols="1,1,4"]
 [options='header']
 |====
-|Parameter Name|Parameter Type|Description
+|Parameter|Parameter|Description
 |`type`|Query parameter  a|__String__. Type of the object. Valid values are:
 
 * `QUESTION_ANSWER_BOOK` for answers.
