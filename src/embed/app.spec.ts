@@ -82,6 +82,7 @@ describe('App embed tests', () => {
             [Page.Liveboards]: 'pinboards',
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
+            [Page.SpotIQ]: 'insights/results',
         };
 
         const pageIds = Object.keys(pageRouteMap);
