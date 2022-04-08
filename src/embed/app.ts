@@ -42,6 +42,10 @@ export enum Page {
      * Data management page
      */
     Data = 'data',
+    /**
+     * SpotIQ listing page
+     */
+    SpotIQ = 'spotiq',
 }
 
 /**
@@ -161,6 +165,8 @@ export class AppEmbed extends V1Embed {
                 return 'pinboards';
             case Page.Data:
                 return 'data/tables';
+            case Page.SpotIQ:
+                return 'insights/results';
             case Page.Home:
             default:
                 return 'home';
