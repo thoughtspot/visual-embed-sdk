@@ -32,7 +32,7 @@
         "test-sdk": "jest -c jest.config.sdk.js",
         "test-docs": "jest -c jest.config.docs.js",
         "test": "npm run test-sdk && npm run test-docs && npx istanbul-merge --out ./coverage/coverage.json ./coverage/docs/coverage-final.json ./coverage/sdk/coverage-final.json && npx istanbul report --include ./coverage/coverage.json --dir ./coverage lcov",
-        "posttest": "cat ./coverage/lcov.info | coveralls",
+        "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
         "publish-dev": "npm publish --tag dev",
         "publish-prod": "npm publish --tag latest"
