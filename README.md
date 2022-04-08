@@ -166,7 +166,7 @@ const MyComponent = ({ dataSources }) => {
 };
 ```
 
-### Triggering events on React components
+### Triggering events on React components (> version 1.9.2)
 
 ```jsx
 import { HostEvent } from '@thoughtspot/visual-embed-sdk';
