@@ -11,10 +11,12 @@ import {
 } from '../index';
 import { Action } from '../types';
 import {
+    executeAfterWait,
     getDocumentBody,
     getIFrameEl,
     getIFrameSrc,
     getRootEl,
+    postMessageToParent,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
@@ -43,6 +45,126 @@ describe('Unit test case for ts embed', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    describe('Called Embed event status for start and end', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        test('when Embed event status have start status', (done) => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+                status: 'start',
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed
+                .on(
+                    EmbedEvent.Save,
+                    (payload) => {
+                        expect(payload).toEqual(mockEmbedEventPayload);
+                        done();
+                    },
+                    { start: true },
+                )
+                .render();
+
+            executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+            });
+        });
+
+        test('should not called post message, when Embed event status have start and start option as false', () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+                status: 'start',
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed
+                .on(EmbedEvent.Save, () => {
+                    console.log('non callable');
+                })
+                .render();
+
+            executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(
+                    0,
+                );
+            });
+        });
+
+        test('when Embed event status have end status', (done) => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+                status: 'end',
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed
+                .on(EmbedEvent.Save, (payload) => {
+                    expect(payload).toEqual(mockEmbedEventPayload);
+                    done();
+                })
+                .render();
+
+            executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+            }, 1000);
+        });
+
+        test('should not called post message, when Embed event status have end status and start is true', () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+                status: 'end',
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed
+                .on(
+                    EmbedEvent.Save,
+                    () => {
+                        console.log('non callable');
+                    },
+                    { start: true },
+                )
+                .render();
+
+            executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(
+                    0,
+                );
+            }, 1000);
+        });
+    });
+
     describe('when thoughtSpotHost have value and authPromise return success response', () => {
         beforeAll(() => {
             init({

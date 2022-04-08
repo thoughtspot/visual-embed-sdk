@@ -11,6 +11,7 @@ import {
     getEncodedQueryParamsString,
     getCssDimension,
     getOffsetTop,
+    embedEventStatus,
     setAttributes,
 } from '../utils';
 import {
@@ -29,6 +30,8 @@ import {
     RuntimeFilter,
     Param,
     EmbedConfig,
+    MessageOptions,
+    MessageCallbackObj,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
@@ -179,7 +182,7 @@ export class TsEmbed {
      * by the embedded app; multiple event handlers can be registered
      * against a particular message type.
      */
-    private eventHandlerMap: Map<string, MessageCallback[]>;
+    private eventHandlerMap: Map<string, MessageCallbackObj[]>;
 
     /**
      * A flag that is set to true post render.
@@ -555,11 +558,19 @@ export class TsEmbed {
         eventPort?: MessagePort | void,
     ): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
-        callbacks.forEach((callback) =>
-            callback(data, (payload) => {
-                this.triggerEventOnPort(eventPort, payload);
-            }),
-        );
+        const dataStatus = data?.status || embedEventStatus.END;
+        callbacks.forEach((callbackObj) => {
+            if (
+                (callbackObj.options.start &&
+                    dataStatus === embedEventStatus.START) || // When start status is true it trigger only start releated payload
+                (!callbackObj.options.start &&
+                    dataStatus === embedEventStatus.END) // When start status is false it trigger only end releated payload
+            ) {
+                callbackObj.callback(data, (payload) => {
+                    this.triggerEventOnPort(eventPort, payload);
+                });
+            }
+        });
     }
 
     /**
@@ -626,20 +637,21 @@ export class TsEmbed {
      * sends an event of a particular message type to the host application.
      *
      * @param messageType The message type
-     * @param callback A callback function
+     * @param callback A callback as a function
+     * @param options The message options
      */
     public on(
         messageType: EmbedEvent,
         callback: MessageCallback,
+        options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
             this.handleError(
                 'Please register event handlers before calling render',
             );
         }
-
         const callbacks = this.eventHandlerMap.get(messageType) || [];
-        callbacks.push(callback);
+        callbacks.push({ options, callback });
         this.eventHandlerMap.set(messageType, callbacks);
         return this;
     }

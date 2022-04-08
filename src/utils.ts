@@ -136,6 +136,11 @@ export const getOffsetTop = (element: any) => {
     return rect.top + window.scrollY;
 };
 
+export const embedEventStatus = {
+    START: 'start',
+    END: 'end',
+};
+
 export const setAttributes = (
     element: HTMLElement,
     attributes: { [key: string]: string | number | boolean },
