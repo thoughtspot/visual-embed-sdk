@@ -42,7 +42,7 @@ POST /tspublic/v1/metadata/assigntag
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`id`|__String__. A JSON array of the metadata object GUIDs. For example, a Liveboard or answer.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of following values as a metadata object type:
 
@@ -86,7 +86,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -107,7 +107,7 @@ POST /tspublic/v1/metadata/unassigntag
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`id`|__String__. A JSON array of the Liveboard and answer GUIDs for which you want to remove the tags.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of the following values as a metadata object type:
 
@@ -154,7 +154,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -172,7 +172,7 @@ GET /tspublic/v1/metadata/details
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -535,7 +535,7 @@ GET /tspublic/v1/metadata/list
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, specify one of the following values as the metadata object `type`:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -764,7 +764,7 @@ GET /tspublic/v1/metadata/listas
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects should be retrieved. The system default is -1, which implies the first item in the list.
 |`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
@@ -997,7 +997,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type` __Optional__  a|__String__. Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -1257,7 +1257,7 @@ GET /tspublic/v1/metadata/listvizheaders
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__String__. ID of a saved answer or a Liveboard.
 |====
 === Example request
@@ -1684,7 +1684,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`type` a|__String__. Type of metadata object. Specify one of the following types:
 
 * `PINBOARD_ANSWER_BOOK` for Liveboards
@@ -1741,7 +1741,7 @@ DELETE /tspublic/v1/metadata/markunmarkfavoritefor
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`ids`|__String__. A JSON array of the GUIDs of objects to remove from the favorites list.
 |`userid`|__String__. The GUID of the user account for which you want to run the delete operation.
 |====

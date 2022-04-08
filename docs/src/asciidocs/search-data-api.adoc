@@ -232,7 +232,7 @@ POST /tspublic/v1/searchdata
 [width="100%", cols="2,2"]
 [options='header']
 |====================
-| Query Parameter | Description
+| Query parameter | Description
 |`query_string` |__String__. The data search query string. For more information, see xref:search-data-api.adoc#components[Components of a search query].
 
 |`data_source_guid` |__String__.  The GUID of the data source, either a worksheet, a view, or a table.

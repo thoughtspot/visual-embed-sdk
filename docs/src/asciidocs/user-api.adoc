@@ -36,7 +36,7 @@ POST /tspublic/v1/user/
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`name` |__String__. Name of the user. The username string must be unique.
 |`password`|__String__. Password for the user account.
 |`displayname`|__String__. A unique display name string for the user, usually their first and last name.
@@ -156,7 +156,7 @@ PUT /tspublic/v1/user/{userid}
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userid`|__String__. GUID of the user.
 |`content`|__String__. A JSON map of strings with the user profile attributes.
 |`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account.
@@ -279,7 +279,7 @@ PUT /tspublic/v1/user/email
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userid`|__String__. GUID of the user.
 |`emailid`|__String__. Email address of the user.
 |===
@@ -340,7 +340,7 @@ GET /tspublic/v1/user/
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Query Parameter|Description
+|Query parameter|Description
 |`userid` +
 __Optional__|__String__. The GUID of the user account to query.
 |`name` +
@@ -457,7 +457,7 @@ POST /tspublic/v1/user/inactivate
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`username`|__String__. Username of the user account to deactivate.
 |`url`|__String__. The URL of the cluster on which the user account is currently active.
 |===
@@ -525,7 +525,7 @@ POST /tspublic/v1/user/activate
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userid`|__String__. The GUID of the user account to activate.
 |`auth_token`|__String__. The authentication token to reactivate the user account. 
 |`password` |__String__. The password string for the user account.
@@ -593,7 +593,7 @@ POST /tspublic/v1/user/session/invalidate
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`username`  +|__Array of strings__. A JSON array of usernames of the users whose sessions you want to revoke. This attribute is __Optional__ if the `userid` attribute is defined.
 |`userid`  +|__Array of strings__. A JSON array of the GUIDs of the user account. This attribute is __Optional__ if the `username` attribute is defined.
 |===
@@ -867,7 +867,7 @@ POST /tspublic/v1/user/updatepassword
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`name` |__String__. Name of the user account.
 |`currentpassword`|__String__. The password of the currently logged-in user. Note that only users with admin privileges can change the password of a user account.
 |`password`|__String__. A new password for the user specified in the `name` attribute.
@@ -920,7 +920,7 @@ POST /tspublic/v1/user/resetpassword
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`userid` |__String__. The GUID of the user account.
 |`auth_token`|__String__. The authentication token obtained for your user session.
 |`password`|__String__. A new password string for the user account.
@@ -1003,7 +1003,7 @@ POST /tspublic/v1/user/updatepreference
 [width="100%", cols="1,4"]
 [options="header"]
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userid`
  __Optional__
 |__String__. The GUID of the user.
@@ -1119,7 +1119,7 @@ POST /tspublic/v1/user/transfer/ownership
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`fromUserName`|__String__. Username to transfer from.
 |`toUserName`|__String__. Username to transfer to.
 |`objectid`|__String__. A JSON array of ThoughtSpot object IDs.
@@ -1190,7 +1190,7 @@ Make sure you use a JSON file encoded as `application/json` or `text/json` for t
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 
 |`principals`|__String__. Specify a list of principal objects in xref:user-api.adoc#principalJson[the JSON file format]. The JSON file can contain all users and groups present in the external database.
 

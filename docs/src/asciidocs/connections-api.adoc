@@ -295,7 +295,7 @@ POST /tspublic/v1/connection/create
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
@@ -643,7 +643,7 @@ POST /tspublic/v1/connection/update
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__. The description of the data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
@@ -1083,7 +1083,7 @@ GET /tspublic/v1/connection/list
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query parameter|Description
 |`category` __Optional__ a|__String__. Type of the live query object. Valid values are:
 
 * `All`
@@ -2496,7 +2496,7 @@ GET /tspublic/v1/connection/export
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query parameter|Description
 |`id`|__String__. The GUID of the data connection you want to export. 
 |====
 
@@ -2555,7 +2555,7 @@ POST /tspublic/v1/connection/delete
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete. 
 |====
 

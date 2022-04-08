@@ -39,7 +39,7 @@ a| [tag greenBackground]#✓# Basic authentication +
 * export
 * group
 * logs
-* metdata
+* metadata
 * TML
 * security
 * session
@@ -49,7 +49,7 @@ a| [tag greenBackground]#✓# Basic authentication +
 a| * Session
 * User 
 * Group
-* Metdata 
+* Metadata
 * Connection
 * Data 
 * Report

@@ -563,7 +563,7 @@ POST /tspublic/v1/admin/configinfo/update
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`configchanges`|__String__. A JSON file with the key-value pair of configuration attributes.
 |====
 
@@ -627,7 +627,7 @@ GET /tspublic/v1/admin/embed/actions
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`tags`|__String__. A JSON array of tag GUIDs. If tags are applied to worksheets, search answers, or Liveboard visualizations, and custom actions are associated to these objects, you can use this parameter to filter the custom action data by tags.
 |====
 

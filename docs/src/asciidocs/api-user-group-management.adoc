@@ -27,13 +27,13 @@ To add a privilege to a group, send a `POST` request to the following endpoint U
 POST /tspublic/v1/group/addprivilege
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`privilege`|string|The type of privilege to add. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
+|Form parameter|Description
+|`privilege`|__String__. The type of privilege to add. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
 
-|`groupNames`|string|A JSON array of group names to which you want to add the privilege. To add a privilege to all user groups, specify `All`.
+|`groupNames`|__String__. A JSON array of group names to which you want to add the privilege. To add a privilege to all user groups, specify `All`.
 |====
 
 === Example request
@@ -65,13 +65,13 @@ POST /tspublic/v1/group/removeprivilege
 ----
 === Request parameters
 
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`privilege`|string|Type of the privilege to delete. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
+|Form parameter|Description
+|`privilege`|__String__. Type of the privilege to delete. Valid values are `DATADOWNLOADING` and `USERDATAUPLOADING`.
 
-|`groupNames`|string|A JSON array of group names. To remove the privilege from all user groups, specify `All`.
+|`groupNames`|__String__. A JSON array of group names. To remove the privilege from all user groups, specify `All`.
 |====
 
 
@@ -81,7 +81,12 @@ POST /tspublic/v1/group/removeprivilege
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=USERDATAUPLOADING&groupNames=All' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'privilege=USERDATAUPLOADING&groupNames=All' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL

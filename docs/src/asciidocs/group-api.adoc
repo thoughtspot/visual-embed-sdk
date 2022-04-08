@@ -40,7 +40,7 @@ POST /tspublic/v1/group/
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`name` |__String__.  Name of the user group. The group name string must be unique.  
 |`displayname`|__String__. A unique display name string for the user group, for example, `Developer`.
 |`description`|__String__. Description text for the group.
@@ -146,7 +146,7 @@ PUT /tspublic/v1/group/{groupid}
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`groupid`|__String__. The GUID of the user group.
 |`content`|__String__. A JSON map of group properties.
 |===
@@ -243,7 +243,7 @@ GET /tspublic/v1/group/
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Query Parameter|Description
+|Query parameter|Description
 |`groupid` __Optional__|__String__. The GUID of the user group to query.
 |`name` __Optional__|__String__. Name of the user group that you want to query.
 |===
@@ -344,7 +344,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [width="100%" cols="2,4"] 
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`privilege` a|__String__. The xref:group-api.adoc#group-privilege[type of privilege] to add. Valid values for the `privileges` string are:
 
 * `ADMINISTRATION`   
@@ -413,7 +413,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`privilege` a|__String__. The xref:group-api.adoc#group-privilege[group privilege] to delete. Valid values are:
 
 * `ADMINISTRATION`   
@@ -704,7 +704,7 @@ PUT /tspublic/v1/group/{groupid}/users
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`groupid`|__String__. The GUID of the user group to which the specified user IDs belong.
 |`userids`|__String__. A JSON array of the user GUIDs that you want to add or modify.
 |====
@@ -923,7 +923,7 @@ Make sure you set the `Content-Type` header as `multipart/form-data`.
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userids`|__String__. The GUIDs of the users to add to the specified groups.
 |`groupids`|__String__. The GUID of the user groups to which you want to add the specified `userids`.
 |===
@@ -979,7 +979,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`principalids`|__String__. A JSON array of the GUIDs of the groups to assign.
 |`groupid`|__String__. The GUID of the group to which you want to assign the group IDs specified in the `principalids` attribute.
 |===
@@ -1035,7 +1035,7 @@ PUT /tspublic/v1/group/{groupid}/groups
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`principalids`|__String__. A JSON array of the subgroup GUIDs.
 |`groupid`|__String__. The GUID of the group that you want to update.
 |===
@@ -1237,7 +1237,7 @@ DELETE /tspublic/v1/group/{groupid}/groups
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`principalids`|__String__. A JSON array of the subgroup GUIDs that you want to delete.
 |`groupid`|__String__. The GUID of the group from which you want to remove the group association. 
 |===
@@ -1294,7 +1294,7 @@ POST /tspublic/v1/group/removememberships
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Description
+|Form parameter|Description
 |`userids`|__String__. A JSON array of the GUIDs of the users that you want to remove from the specified `groupids`.
 |`groupids`|__String__. A JSON array of the GUIDs of the user groups from which you want to remove the specified `userids`.
 |===

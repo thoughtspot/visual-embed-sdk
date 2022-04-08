@@ -32,7 +32,7 @@ GET /tspublic/v1/logs/topics/{topic}
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query parameter|Description
 |`fromEpoch` __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the start time for streaming logs. For example, to set the timestamp as June 1, 2021 8 am, specify `1622534400000`.
 |`toEpoch`  __Optional__|__Epoch time string__. The EPOCH time in milliseconds to set the end time for streaming logs. To set the timestamp as July 1, 2021, 8 am, specify `1625126400000`.
 |====

@@ -33,7 +33,7 @@ POST /tspublic/v1/security/share
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`type` a|__String__. Type of metadata object. Specify one of the following values as a metadata object type:
 
 * `QUESTION_ANSWER_BOOK` to share answers.
@@ -118,7 +118,7 @@ POST /tspublic/v1/security/shareviz
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`type`|__String__. Type of the metadata object. The valid value is `PINBOARD_ANSWER_BOOK`.
 |`pinboardId`|__String__.The GUID of the Liveboard to which the visualization belongs.
 |`principalids`|__String__.The GUID of the users with whom you want to share the visualization.
@@ -169,7 +169,7 @@ ThoughtSpot users can get access to objects through the privileges assigned to t
 
 Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
-To get permission details for a specific metdata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
+To get permission details for a specific metadata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
 === Resource URL
 ----
