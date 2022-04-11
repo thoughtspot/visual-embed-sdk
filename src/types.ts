@@ -417,6 +417,12 @@ export enum EmbedEvent {
      */
     LiveboardRendered = 'PinboardRendered',
     /**
+     * This can be used to register an event listener which
+     * is triggered on all events.
+     * @version 1.9.9 or later
+     */
+    ALL = '*',
+    /**
      * Emitted when answer is saved in the app
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
