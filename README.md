@@ -25,6 +25,8 @@ The SDK is written in TypeScript and is also provided both as ES Module (ESM) an
 ```js
 // ESM via NPM
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
+// OR
+import { LiveboardEmbed } from '@thoughtspot/visual-embed-sdk';
 
 // NPM <script>
 <script src="https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js"></script>;
@@ -41,7 +43,8 @@ import {
 
 ## Live Playground
 
-Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere).
+Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere). <br/><br/>
+Start a [free trial](https://www.thoughtspot.com/trial?tsref=trialtse) on your own data.
 
 <br/>
 
