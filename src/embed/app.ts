@@ -10,7 +10,7 @@
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Param, RuntimeFilter, DOMSelector } from '../types';
+import { Param, RuntimeFilter, DOMSelector, HostEvent } from '../types';
 import { V1Embed, ViewConfig } from './ts-embed';
 
 /**
@@ -194,19 +194,31 @@ export class AppEmbed extends V1Embed {
     /**
      * Navigate to particular page for app embed. eg:answers/pinboards/home
      * This is used for embedding answers, pinboards, visualizations and full application only.
-     * @param path The string, set to iframe src and navigate to new page
+     * @param path string | number The string, set to iframe src and navigate to new page
      * eg: appEmbed.navigateToPage('pinboards')
+     * When used with `noReload` this can also be a number like 1/-1 to go forward/back.
+     * @param noReload boolean Trigger the navigation without reloading the page (version: 1.12.0 | 8.4.0.cl)
      */
-    public navigateToPage(path: string): void {
-        if (this.iFrame) {
+    public navigateToPage(path: string | number, noReload = false): void {
+        if (!this.iFrame) {
+            console.log('Please call render before invoking this method');
+            return;
+        }
+        if (noReload) {
+            this.trigger(HostEvent.Navigate, path);
+        } else {
+            if (typeof path !== 'string') {
+                console.warn(
+                    'Path can only by a string when triggered without noReload',
+                );
+                return;
+            }
             const iframeSrc = this.iFrame.src;
             const embedPath = '#/embed';
             const currentPath = iframeSrc.includes(embedPath) ? embedPath : '#';
             this.iFrame.src = `${
                 iframeSrc.split(currentPath)[0]
             }${currentPath}/${path.replace(/^\/?#?\//, '')}`;
-        } else {
-            console.log('Please call render before invoking this method');
         }
     }
 

@@ -561,6 +561,13 @@ export enum HostEvent {
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
+    /**
+     * Navigate to a specific page in App embed without any reload.
+     * This is the same as calling `appEmbed.navigateToPage(path, true)`
+     * @param path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl
+     */
+    Navigate = 'Navigate',
 }
 
 /**

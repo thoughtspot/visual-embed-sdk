@@ -1,11 +1,12 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
-import { Action, AuthType, RuntimeFilterOp } from '../types';
+import { Action, AuthType, HostEvent, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
     getIFrameSrc,
     getRootEl,
+    getIFrameEl,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -192,6 +193,52 @@ describe('App embed tests', () => {
             appEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+            );
+        });
+
+        test('navigateToPage with noReload should trigger the appropriate event', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+
+            const iframe = getIFrameEl();
+            iframe.contentWindow.postMessage = jest.fn();
+            appEmbed.navigateToPage(path, true);
+
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: HostEvent.Navigate,
+                    data: path,
+                }),
+                `http://${thoughtSpotHost}`,
+            );
+
+            appEmbed.navigateToPage(-1, true);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: HostEvent.Navigate,
+                    data: -1,
+                }),
+                `http://${thoughtSpotHost}`,
+            );
+        });
+
+        test('Do not allow number path without noReload in navigateToPage', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            spyOn(console, 'warn');
+            appEmbed.navigateToPage(-1);
+            expect(console.warn).toHaveBeenCalledWith(
+                'Path can only by a string when triggered without noReload',
             );
         });
 
