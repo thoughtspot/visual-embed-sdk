@@ -247,6 +247,21 @@ summary.title  {
 
 }
 
+.sectlinks {
+    color: var(--primary-color);
+}
+
+a.anchor {
+    position: absolute;
+    text-decoration: none;
+    width: 1.75ex;
+    margin-left: -1.5ex;
+    visibility: hidden;
+    font-size: .8em;
+    font-weight: 400;
+    padding-top: 0.05em;
+}    
+
 
 .introCard     {
     padding: 15px;
