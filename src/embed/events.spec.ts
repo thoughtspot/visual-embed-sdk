@@ -5,6 +5,7 @@ import {
     SearchEmbed,
     PinboardEmbed,
     LiveboardEmbed,
+    AppEmbed,
     HostEvent,
 } from '../index';
 import {
@@ -246,5 +247,36 @@ describe('test communication between host app and ThoughtSpot', () => {
             type: EmbedEvent.EmbedIframeCenter,
         };
         expect(mockPort.postMessage).toHaveBeenCalledWith(heightObj);
+    });
+    test('ALL event listener should fire for all events with the event type set correctly', async () => {
+        const embed = new AppEmbed(getRootEl(), defaultViewConfig);
+        const spy = jest.fn();
+        embed.on(EmbedEvent.ALL, spy);
+        embed.render();
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.CustomAction,
+                data: PAYLOAD,
+            });
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.DialogOpen,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(spy).toHaveBeenCalledTimes(3);
+            expect(spy.mock.calls[0][0]).toMatchObject({
+                type: EmbedEvent.Init,
+            });
+            expect(spy.mock.calls[1][0]).toMatchObject({
+                type: EmbedEvent.CustomAction,
+                data: PAYLOAD,
+            });
+            expect(spy.mock.calls[2][0]).toMatchObject({
+                type: EmbedEvent.DialogOpen,
+            });
+        }, EVENT_WAIT_TIME);
     });
 });

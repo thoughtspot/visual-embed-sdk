@@ -279,9 +279,10 @@ export class TsEmbed {
      * will be removed for ts7.oct.cl
      * @hidden
      */
-    private formatEventData(event: MessageEvent) {
+    private formatEventData(event: MessageEvent, eventType: string) {
         const eventData = {
             ...event.data,
+            type: eventType,
         };
         if (!eventData.data) {
             eventData.data = event.data.payload;
@@ -299,7 +300,7 @@ export class TsEmbed {
         window.addEventListener('message', (event) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
-            const eventData = this.formatEventData(event);
+            const eventData = this.formatEventData(event, eventType);
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
@@ -457,6 +458,7 @@ export class TsEmbed {
                 data: {
                     timestamp: initTimestamp,
                 },
+                type: EmbedEvent.Init,
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
@@ -505,6 +507,7 @@ export class TsEmbed {
                             data: {
                                 timestamp: loadTimestamp,
                             },
+                            type: EmbedEvent.Load,
                         });
                         uploadMixpanelEvent(
                             MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
@@ -558,6 +561,8 @@ export class TsEmbed {
         eventPort?: MessagePort | void,
     ): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
+        const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
+        callbacks.push(...allHandlers);
         const dataStatus = data?.status || embedEventStatus.END;
         callbacks.forEach((callbackObj) => {
             if (
