@@ -15,6 +15,15 @@ The ThoughtSpot system contains many types of objects that link together. These 
 This article assumes an understanding of how ThoughtSpot uses groups and sharing to control the visibility of content to different groups. See xref:multi-tenancy-best-practices.adoc[Multi-tenancy best practices] for a thorough explanation of how to control object access using ThoughtSpot groups.
 ====
 
+== Development and deployment process
+Most development and deployment starts with a *development (dev)* environment, and then content is promoted from that *dev* environment through varying *stages* until it reaches a stage called *production (prod)*. The process for moving from one stage to another, regardless of your process, is relatively the same:
+
+ 1. Content is developed within the ThoughtSpot UI in the *dev* environment, connected to *dev* data connections
+ 2. *dev* content in ThoughtSpot is exported as TML to a source control *dev branch*
+ 3. *Release build process* makes the necessary changes to the TML of the *dev* content so the data model connects to the data connection of the next stage
+ 4. *Release publish process* imports the new TML to the next stage environment
+ 5. The GUIDs of any new objects are recorded with their relationship to the *dev* content to allow for future updates
+
 == ThoughtSpot modeling language
 Every object type in ThoughtSpot has a representation in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[TML, window=_blank]. TML documents are available by default in the easy-to-read link:https://en.wikipedia.org/wiki/YAML[YAML, window=_blank] format, and can also be requested in JSON format from the ThoughtSpot REST API.
 
@@ -51,7 +60,7 @@ GUIDs are randomly generated when an object is first created. To track relations
 
 For example, if you want to know which Liveboards are copied from a particular template, store the returned GUIDs of the child versions when you first publish them, so that you can push future updates from the parent Liveboard to its descendants.
 
-The xref:tml-api#import[import REST API endpoint] returns the GUID in the response after a successful import. The `object` key contains an array, which will have a `["response"]["header"]["id_guid"]` key providing the GUID. If you import multiple TML files at once, the response array will be in the same order as the request. This allows you to record a mapping of the originating GUID to the newly created GUIDs.
+The xref:tml-api#import[import REST API endpoint] returns the GUID in the response after a successful import. The `object` key of the response to the import call contains an array, where each element has a `["response"]["header"]["id_guid"]` key providing the GUID. If you import multiple TML files at once, the response array will be in the same order as the request. This allows you to record a mapping of the originating GUID to the newly created GUIDs.
 
 [source,json]
 ----
@@ -334,6 +343,18 @@ Example pattern:
 Each prod tenant copy will have the same name so that each tenant will not see their customer name / ID listed out. Access control through sharing will ensure they never have any awareness of the other objects that exist with the same name for the other tenants.
 
 == Additional Resources
-The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides a `tml.py` module with Python objects that model the TML objects and the actions described within. This library is intended as a working example and guide and is not maintained or supported by ThoughtSpot.
+The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is a module written in Python providing classes to work with the TML files as Python objects. It can be installed via pip:
 
-Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_changes_monitor.py[tml_changes_monitor.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system. The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_create_new_from_existing.py[tml_create_new_from_existing.py, window=_blank] script combines REST API commands with the TML changes necessary to copy content from one connection to another.
+`pip install thoughtspot-tml`
+
+The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implmenting the full ThoughtSpot V1 REST API. It can be installed via pip:
+
+`pip install thoughtspot-rest-api-v1`
+
+The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides examples of workflows using the REST API and TML modification possible with the `thoughtspot-tml` and `thoughtspot-rest-api-v1` modules. This library is intended as a working example and guide and is not maintained or supported by ThoughtSpot.
+
+The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/[examples/tml_and_sdlc/, window=_blank] directory includes many different example scripts for these TML based workflows.
+
+Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/tml_download.py[tml_download.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system. 
+
+For command-line administration tools including many pre-built TML-based workflows, the link:https://github.com/thoughtspot/cs_tools[cs_tools project, window=_blank] is available.
