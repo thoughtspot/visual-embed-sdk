@@ -19,6 +19,8 @@ Most development and deployment starts with a *development (dev)* environment, a
  4. A *Release publish process* imports the new TML to the next stage environment and shares to the appropriate groups for that stage's "environment"
  5. The GUIDs of any new objects are recorded with their relationship to the *dev* content to allow for future updates
 
+image::./images/development-deployment-process.png[Development and deployment workflow]
+
 === Environments / stages
 ThoughtSpot uses groups and sharing to control the visibility of content to different groups. The "environments" for each stage are enforced by sharing to the correct groups after publish time See xref:multi-tenancy-best-practices.adoc[Multi-tenancy best practices] for a thorough explanation of how to control object access using ThoughtSpot groups.
 
