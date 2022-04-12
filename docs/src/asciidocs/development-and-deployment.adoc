@@ -356,7 +356,7 @@ Each prod tenant copy will have the same name so that each tenant will not see t
 pip install thoughtspot-tml
 ----
 
-* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
+* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
 
 +
 ----
