@@ -349,7 +349,7 @@ Each prod tenant copy will have the same name so that each tenant will not see t
 [#relatedResources]
 == Additional Resources
 
-* The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is a module written in Python providing classes to work with the TML files as Python objects. You can install it via pip:
+* The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is written in Python providing classes to work with the TML files as Python objects. You can install it via pip:
 
 +
 ----
