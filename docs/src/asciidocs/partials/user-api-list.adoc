@@ -54,7 +54,7 @@
 
 `xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`
 
-+++<p class="divider">Synchronizes user account and group properties from an external database with ThoughtSpot. </p>+++
++++<p class="divider">Synchronizes user and group properties from an external database with the user data on ThoughtSpot. </p>+++
 
 `xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` 
 
