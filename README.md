@@ -135,6 +135,20 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 appEmbed.render();
 ```
 
+### Triggering and Listening to events
+```js
+// NPM
+import { LiveboardEmbed, Page, AuthType, init, EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
+
+// .. Do init and create a liveboardEmbed object as above.
+
+liveboardEmbed.render();
+
+liveboardEmbed.on(EmbedEvent.LiveboardRendered, () => {
+    liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+});
+```
+
 ## React Components
 
 All the above flavors of embedding are also provided as React components for your convenience.
