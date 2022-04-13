@@ -1,4 +1,4 @@
-= Basic embed using iFrame
+= Embed without SDK
 :toc: []
 :toclevels: 1
 

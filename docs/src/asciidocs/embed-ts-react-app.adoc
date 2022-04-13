@@ -33,36 +33,30 @@ npm init react-app ts-data-app
 In the above example, the React app for embedding ThoughtSpot is named as `ts-data-app`.
 
 . Make sure a React app directory with the initial project structure is created.
-. If you plan to add routes, install routing support for your app and update the `index.jsx` (for React app using Javascript) or `index.tsx` (for React app using TypeScript) file.
 
-+
+
+== Add React routes (Optional)
+
+If you are building a multi-page app, you can add routes. To create React routes, you must install routing support for your app.
+
 ----
 ts-data-app> npm add react-router-dom@6
 ----
 
-+
-[source,Javascript]
-----
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import App from './App';
+After the command is executed, replace the contents of the `index.tsx` file.
 
-ReactDOM.render(
- <Router>
-   <App />
- </Router> 
- ,
- document.getElementById('root')
-);
-----
-
-+
 [source,Typescript]
 ----
 import { render } from "react-dom";
 import App from "./App";
 const rootElement = document.getElementById("root");
 render(<App />, rootElement);
+----
+
+Add the routes import to the `App.tsx` file in your app directory and create route navigation.
+
+----
+import { Route, Routes} from "react-router-dom";
 ----
 
 == Add Visual Embed SDK to your project
@@ -617,7 +611,7 @@ const FullApp = () => {
  
 == Additional resources
 
-* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, windows=_blank]
-* For information about events, see xref:embed-events.adoc[Interact with events]
+* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, windows=_blank].
+* For information about events, see xref:embed-events.adoc[Interact with events].
 * For information about Action enumerations, see xref:embed-actions.adoc[Show or hide UI actions].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

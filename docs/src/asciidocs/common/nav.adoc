@@ -47,7 +47,7 @@
 ** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
 ** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
-*  link:{{navprefix}}=embed-without-sdk[Basic embed using iFrame]
+*  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 ////
 ** link:{{navprefix}}=embed-without-sdk[Salesforce]
 ** link:{{navprefix}}=embed-without-sdk[SharePoint]
