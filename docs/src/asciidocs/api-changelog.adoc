@@ -15,16 +15,17 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#embed-events[Interact with events].
 |====
 
+////
 == Version 1.9.8, April 2022
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|The `pageId` attribute now allows you to set the **SpotIQ** page as the  home tab of your embedded ThoughtSpot app. 
+|[tag greenBackground]#NEW FEATURE#|The `pageId` attribute now allows you to set the **SpotIQ** page as the home tab of your embedded ThoughtSpot app. 
 
 For more information, see xref:ful-embed.adoc[Embed full application].
 
 |====
-
+////
 == Version 1.9.5, April 2022
 [width="100%" cols="1,4"]
 |====

@@ -330,15 +330,6 @@ Allows you to request access to edit a Liveboard. The **Liveboards **page shows 
 
 |====
 
-////
-
-[IMPORTANT]
-====
-The *Follow* action is deprecated in the ThoughtSpot 8.0.0.cl release. The corresponding action string, `Action.Subscription` is also deprecated in Visual Embed SDK version 1.6.0.
-====
-
-////
-
 [#viz-actions]
 === For visualizations on a Liveboard
 

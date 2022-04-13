@@ -244,7 +244,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 
 [#get-home-liveboard]
 == Get details of the home Liveboard
-To get the Liveboard GUID that is set as `home Liveboard` in the currently logged-in user's account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
+
+To get the GUID of Liveboard that is currently set as a `home Liveboard`, send a `GET` request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -296,7 +297,8 @@ DELETE /tspublic/v1/session/homepinboard
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
 ----
 
 .Request URL

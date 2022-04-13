@@ -10,8 +10,8 @@ To retrieve data related to a Liveboard or visualization from the ThoughtSpot sy
 
 Using this API, you can fetch the following information:
 
-* All the visualization objects on a Liveboard.
-* A specific or a group of visualizations on a Liveboard.
+* All the visualization objects on a Liveboard
+* A specific or a group of visualizations on a Liveboard
 
 [NOTE]
 ====

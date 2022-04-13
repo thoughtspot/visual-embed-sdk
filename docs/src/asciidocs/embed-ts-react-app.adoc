@@ -74,6 +74,7 @@ import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/
 import { useEventLogger } from "../../utils/utils";
 ----
 
+
 . Initialize the SDK and specify the authentication method. 
 +
 In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
@@ -307,7 +308,7 @@ export const Liveboard = () => {
       {
         columnName: "state",
         operator: "EQ",
-        values: ["michigan"],
+        values: ["california"],
       },
     ]);
   };
@@ -441,7 +442,7 @@ const viz= () => {
       vizId="3f84d633-e325-44b2-be25-c6650e5a49cf"
       onInit={logEvent(EmbedEvent.Init)}
       onLoad={logEvent(EmbedEvent.Load)}
-      onLiveboardRendered={selctVizs}
+      onLiveboardRendered={selectVizs}
       onVizPointDoubleClick={applyFilter}
     />
   );
@@ -478,7 +479,7 @@ import { useEventLogger } from "../../utils/utils";
 +
 Note that the import includes `Page`. The `Page` enumeration is required to set a specific ThoughtSpot page as a home tab when the application loads.
 
-. . Initialize the SDK and specify the authentication method. 
+. Initialize the SDK and specify the authentication method. 
 +
 In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
 
@@ -591,8 +592,32 @@ If your app has multiple pages and you have created a new page for the embedded 
 
 The following example shows a route for the Liveboard page.
 
+[source,TypeScript]
+----
+import { render } from "react-dom";
+import { Liveboard } from "./components/liveboard";
+import { Home } from "./components/Home";
+const rootElement = document.getElementById("root");
+render(<App />, rootElement); 
+
+
+const routes = [
+  {
+    path: "/",
+    element: <Home />
+  },
+  {
+    path: "/liveboard",
+    element: <Liveboard />
+  },
+];
+----
+
 [source,Javascript]
 ----
+import { Route, Routes} from "react-router-dom";
+import { Liveboard } from './components/liveboard'
+
 function App() {
  return (
    <div className="App">
