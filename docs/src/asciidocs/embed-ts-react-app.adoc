@@ -35,30 +35,6 @@ In the above example, the React app for embedding ThoughtSpot is named as `ts-da
 . Make sure a React app directory with the initial project structure is created.
 
 
-== Add React routes (Optional)
-
-If you are building a multi-page app, you can add routes. To create React routes, you must install routing support for your app.
-
-----
-ts-data-app> npm add react-router-dom@6
-----
-
-After the command is executed, replace the contents of the `index.tsx` file.
-
-[source,Typescript]
-----
-import { render } from "react-dom";
-import App from "./App";
-const rootElement = document.getElementById("root");
-render(<App />, rootElement);
-----
-
-Add the routes import to the `App.tsx` file in your app directory and create route navigation.
-
-----
-import { Route, Routes} from "react-router-dom";
-----
-
 == Add Visual Embed SDK to your project
 
 You can install the Visual Embed SDK from NPM.
@@ -607,6 +583,28 @@ const FullApp = () => {
   );
 };
 
+----
+
+== Add routes for navigation
+
+If your app has multiple pages and you have created a new page for the embedded ThoughtSpot component, make sure you add a route in your app for navigation.  
+
+The following example shows a route for the Liveboard page.
+
+[source,Javascript]
+----
+function App() {
+ return (
+   <div className="App">
+     <Routes>
+       <Route path="/" element={<h1>Home</h1>} />
+       <Route path="/liveboard" element={<Liveboard />} />
+       <Route path="/about" element={<About />} />
+     </Routes>
+   </div>
+ );
+}
+export default App;
 ----
  
 == Additional resources
