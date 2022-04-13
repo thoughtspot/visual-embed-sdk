@@ -43,7 +43,7 @@
 ** link:{{navprefix}}=events[Interact with events]
 ** link:{{navprefix}}=action-config[Show or hide UI actions]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
-** link:{{navprefix}}=in-app-navigation[Set locale and display language]
+** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
 ** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
