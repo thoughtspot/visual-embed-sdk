@@ -372,7 +372,7 @@ const viz = () => {
   const onCustomAction = (e) => {
     if (e.id === "only-this-viz") {
       embedRef.current.trigger(HostEvent.SetVisibleVizs, [
-        "6d39225c-8845-44b4-b105-910981cdbba8",
+        "6d39225c-8845-44b4-b105-910981cdbba8","3f84d633-e325-44b2-be25-c6650e5a49cf"
       ]);
       console.log(JSON.parse(e.data));
     }
@@ -591,27 +591,6 @@ const FullApp = () => {
 If your app has multiple pages and you have created a new page for the embedded ThoughtSpot component, make sure you add a route in your app for navigation.  
 
 The following example shows a route for the Liveboard page.
-
-[source,TypeScript]
-----
-import { render } from "react-dom";
-import { Liveboard } from "./components/liveboard";
-import { Home } from "./components/Home";
-const rootElement = document.getElementById("root");
-render(<App />, rootElement); 
-
-
-const routes = [
-  {
-    path: "/",
-    element: <Home />
-  },
-  {
-    path: "/liveboard",
-    element: <Liveboard />
-  },
-];
-----
 
 [source,Javascript]
 ----
