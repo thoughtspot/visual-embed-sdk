@@ -1,5 +1,5 @@
 = Session APIs
-:toc: true
+:toc:
 :toclevels: 1
 
 :page-title: Session API

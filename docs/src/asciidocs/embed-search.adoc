@@ -20,7 +20,8 @@ import {
     AuthType,
     init,
     prefetch,
-    EmbedEvent
+    EmbedEvent,
+    HostEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 ----

@@ -5,7 +5,7 @@
 :page-pageid: prefetch
 :page-description: Prefetch static resources before loading an application.
 
-By default, the SDK fetches resources when they are required. If you want to prefetch and cache static resources and serve these resources from the user's local disk, you can enable the prefetch API call.
+By default, the SDK fetches resources when they are required. If you want to prefetch and cache static resources and serve these resources from the user's local disk, you can call the prefetch API.
 
 The prefetch API fetches static resources before the application loads. The prefetched resources are then cached by the web browsers and served locally to provide faster access to your app.  
 

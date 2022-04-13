@@ -204,25 +204,30 @@ If both `path` and `pageId` attributes are defined, the path definition takes pr
 pageId::
 The unique identifier for the ThoughtSpot application page. The value specified in the `pageId` attribute will be set as the active tab, which is displayed by default when the embedded ThoughtSpot UI loads. Valid values are:
 
-* `*Page.Search*`
+* `Page.Search`
 +
 Displays the page showing ThoughtSpot search bar
 
-* `*Page.Answers*`
+* `Page.Answers`
 +
 Displays the saved answers (*Answers*) page
 
-* `*Page.Liveboards*`
+* `Page.Liveboards`
 +
 Displays the *Liveboards* page
 
-* `*Page.Data*`
+* `Page.Data`
 +
 Displays the *Data* page
 
-* `*Page.Home*`
+* `Page.Home`
 +
 Displays the *Home* page 
+
+* `Page.SpotIQ`
++
+Displays the *SpotIQ* page.
+
 
 +
 ++++
