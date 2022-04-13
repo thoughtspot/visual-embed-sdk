@@ -380,7 +380,12 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-48
       "showWalkMe": true,
       "analystOnboardingComplete": false
     },
-    "userProperties": {},
+    "userProperties": {
+        "persona": "business_user",
+        "mail": "tsadmin@thoughtspot.com",
+        "companyName": "",
+        "activatedAtMs": 1649842964294
+     },
     "userActivityProto": {
       "first_login": -1,
       "welcome_email_sent": false
