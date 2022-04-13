@@ -235,7 +235,7 @@ const Search = () => {
       collapseDataSources={true}
       disabledActions=["Action.Pin","Action.ShowUnderlyingData"]
       disabledActionReason="Contact your administrator"
-      onLoad={logEvent("Load")}
+      onLoad={logEvent(EmbedEvent.Load)}
       onQueryChanged={logEvent}
       onData={logEvent}
     />
