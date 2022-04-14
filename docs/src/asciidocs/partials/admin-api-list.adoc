@@ -1,68 +1,47 @@
 
 --
-`xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]` 
+`xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]`
 
-Gets details of the current configuration of a ThoughtSpot cluster
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Gets details of the current configuration of a ThoughtSpot cluster. </p>+++
 
 `xref:admin-api.adoc#configinfo-update[*POST* /tspublic/v1/admin/configinfo/update]`  
 
-
-Updates the configuration settings of the current ThoughtSpot cluster
-
-+++<p class="divider"> </p>+++
++++<p class="divider"> Updates configuration settings of the ThoughtSpot cluster.</p>+++
 
 `xref:admin-api.adoc#get-config-overrides[*GET* /tspublic/v1/admin/configinfo/overrides]`  
 
-Gets details of configuration overrides on the current ThoughtSpot cluster 
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Gets details of configuration overrides on the current ThoughtSpot cluster.  </p>+++
 
 `xref:admin-api.adoc#get-embed-actions[*GET* /tspublic/v1/admin/embed/actions]`  
 
-Gets details of the custom actions enabled on the cluster
++++<p class="divider">Gets details of the custom actions enabled on the cluster. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:admin-api.adoc#get-action-by-id[*GET* /tspublic/v1/admin/embed/actions/{actionid}]`
 
-`xref:admin-api.adoc#get-action-by-id[*GET* /tspublic/v1/admin/embed/actions/{actionid}]`  
-
-Gets details of a specific custom action.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Gets details of a specific custom action. </p>+++
 
 `xref:admin-api.adoc#create-custom-action[*POST* /tspublic/v1/admin/embed/actions]`  
 
-Creates a custom action.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Creates a custom action.</p>+++
 
 `xref:admin-api.adoc#edit-custom-action[*PUT* /tspublic/v1/admin/embed/actions/{actionid}]` 
 
-Modifies the attributes of a custom action. 
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Modifies the attributes of a custom action.  </p>+++
 
 `xref:admin-api.adoc#del-custom-action[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}]`  
 
-Deletes a custom action.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Deletes a custom action. </p>+++
 
 `xref:admin-api.adoc#custom-action-assoc[*POST* /tspublic/v1/admin/embed/actions/{actionid}/associations]`  
 
-Associates a custom action to a ThoughtSpot object.
-
-+++<p class="divider"> </p>+++
++++<p class="divider">Associates a custom action to a ThoughtSpot object.</p>+++
 
 `xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]`  
 
-Gets the details of the ThoughtSpot objects associated with a custom action.
++++<p class="divider">Gets the details of the ThoughtSpot objects associated with a custom action. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]`
 
-`xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]`  
-
-Removes custom action associations. 
++++<p class="divider">Removes custom action associations. </p>+++
 
 --

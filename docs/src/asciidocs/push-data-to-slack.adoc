@@ -1,4 +1,4 @@
-= Push data to a Slack workspace [tag greenBackground]#NEW in 8.1.0.cl# 
+= Push data to a Slack workspace[beta orangeBackground]^BETA^
 :toc: true
 
 :page-title: Integrate ThoughtSpot with Slack app
@@ -107,13 +107,15 @@ ThoughtSpot requests access to your Slack workspace and opens the app authorizat
 +
 [NOTE]
 ====
-The app authorization page opens as a pop-up, so make sure your web browser allows pop-ups.
+The app authorization page opens as a pop-up. Make sure your web browser allows pop-ups.
 ====
 
-. Specify your Slack workspace and click **Continue**. 
+. Specify your Slack workspace.
 
 +
-The system prompts you to sign in to your workspace if you haven't already signed in. To continue with the integration, you can log into your workspace with your credentials.
+* If the ThoughtSpot app is not installed in your Slack workspace, the app authorization page initiates a request to install the app. When the request is approved, Slack sends a notification through email and a Slackbot message. Wait for the message from Slack, and then log in to ThoughtSpot to continue with the integration.
+ 
+* If the ThoughtSpot app is installed in your Slack workspace and if you haven't signed in, the app authorization page prompts you to sign in to your workspace. To continue with the integration, sign in with your credentials.
 
 . To authorize the request, click **Allow**. 
 

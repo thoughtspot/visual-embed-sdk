@@ -189,7 +189,7 @@
         }
 
         & > p {
-            margin-left: 3px;
+            margin-left: 5px;
         }
     }
  
@@ -200,7 +200,7 @@
         }
 
         & > p {
-            margin-left: 3px;
+            margin-left: 5px;
         }
     }
  
@@ -245,7 +245,7 @@
 
     .ulist {
         ul {
-            padding-inline-start: $padding-sm;
+            padding-inline-start: $padding-md;
             
             
         }
@@ -288,6 +288,8 @@ pre {
     .documentWrapper {
         width: 100%;
         overflow-x: auto;
+        padding: 5px;
+        margin: 5px;
 
         pre {
             overflow-x: auto;

@@ -1,12 +1,10 @@
 --
 `xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`
 
-Downloads a Liveboard or specific visualizations from a Liveboard as a PDF file.
++++<p class="divider">Downloads a Liveboard or specific visualizations from a Liveboard as a PDF file. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`
 
-`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  
-
-Gets Liveboard object data from the ThoughtSpot application.
++++<p class="divider">Gets Liveboard object data from the ThoughtSpot application.<p>+++
 
 --

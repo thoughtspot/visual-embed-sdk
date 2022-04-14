@@ -1,6 +1,5 @@
-ThoughtSpot supports the trusted authentication method, which is also known as token-based authentication. In the trusted authentication method, ThoughtSpot users are authenticated by an external authentication server.
-When ThoughtSpot receives a request from a trusted authentication service, it returns an authentication token to allow authenticated users to access ThoughtSpot content.
-If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use the `/tspublic/v1/session/auth/token` API to get an authentication token for a ThoughtSpot user.
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use it to send an API request to  the `/tspublic/v1/session/auth/token` endpoint to get a login token. You must send this login token in your API request to the `/tspublic/v1/session/login/token` endpoint to get access to ThoughtSpot content.
+
 
 === Resource URL
 ----
@@ -8,17 +7,17 @@ POST /tspublic/v1/session/auth/token
 ----
 === Request parameters
 
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description
-|`secret_key`|string|The secret key string provided by the ThoughtSpot application server. ThoughtSpot generates this secret key when you enable trusted authentication.
-|`username`|string|The username of the user configured in ThoughtSpot.
-|`access_level`|string a|User access privilege. Valid values are:
+|Form parameter|Description
+|`secret_key`|__String__. The secret key string provided by the ThoughtSpot application server. ThoughtSpot generates this secret key when you enable trusted authentication.
+|`username`|__String__. The username of the user configured in ThoughtSpot.
+|`access_level` a|__String__. User access privilege. Valid values are:
 
 * `FULL` - Creates a session with full access.
-* `REPORT_BOOK_VIEW` - Allow view access to the specified visualizations.
-|`id`|string|GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
+* `REPORT_BOOK_VIEW` - Allows view access to the specified visualizations.
+|`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
 |====
 
 === Example request

@@ -4,18 +4,18 @@
 
 :page-title: Get Liveboard Data
 :page-pageid: liveboard-data-api
-:page-description: Liveboard Data API
+:page-description: The liveboard data API API allows you to query a pinboard and its visualizations
 
 To retrieve data related to a Liveboard or visualization from the ThoughtSpot system, you can use the Liveboard data API.
 
 Using this API, you can fetch the following information:
 
-* All the visualization objects on a Liveboard.
-* A specific or a group of visualizations on a Liveboard.
+* All the visualization objects on a Liveboard
+* A specific or a group of visualizations on a Liveboard
 
 [NOTE]
 ====
-Liveboard data API is the current recommended way to use ThoughtSpot content within a native mobile app.
+ThoughtSpot recommends using Liveboard data API to embed ThoughtSpot content within a native mobile app.
 ====
 
 == Required permissions
@@ -28,20 +28,20 @@ POST /tspublic/v1/pinboarddata
 ----
 == Request parameters
 
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Data Type|Description
-|`id`|string|The GUID of the Liveboard.
-|`vizid` __Optional__|string|A JSON array of GUIDs of the visualizations. 
-|`batchsize`|integer|The batch size for loading Liveboard objects. The system default is -1.
-|`pagenumber`|integer|An alternate way to define the offset. The system default is -1.  The `offset` attribute definition will not apply if the `pagenumber` value is greater than 0.
-|`offset`|integer a|The system default is -1. You can set an offset value based on the following formula:
+|Query parameter|Description
+|`id`|__String__. The GUID of the Liveboard.
+|`vizid` __Optional__|__String__. A JSON array of GUIDs of the visualizations.
+|`batchsize`|__Integer__. The batch size for loading Liveboard objects. The system default is -1.
+|`pagenumber`|__Integer__. An alternate way to define the offset. The system default is -1.  The `offset` attribute definition will not apply if the `pagenumber` value is greater than 0.
+|`offset` a|__Integer__. The system default is -1. You can set an offset value based on the following formula:
 
 `PageNumber (Offset) = PageNumber -1 * BatchSize`
 
 For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 records, and the `offset` value is set to `1`, the charts will display data from the second record onwards. If the `pagenumber` attribute is set to `3` and `batchsize` is defined as `1`, then the offset value changes to 2, and all 10 charts will display data from the third record onwards.
-|`formattype`|string|Valid values are `COMPACT` or `FULL` JSON. The system default is `COMPACT`.
+|`formattype`|__String__. Valid values are `COMPACT` or `FULL` JSON. The system default is `COMPACT`.
 |====
 
 == Example requests

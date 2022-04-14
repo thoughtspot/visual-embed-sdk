@@ -1,4 +1,4 @@
-= REST v1 authentication
+= REST API v1 authentication
 :toc: true
 :toclevels: 1
 
@@ -17,8 +17,10 @@ var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
 ----
 
+[TIP]
+====
 If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the particular REST API call.
- 
+==== 
 
 == Sign in a ThoughtSpot user
 

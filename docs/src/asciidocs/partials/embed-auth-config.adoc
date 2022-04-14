@@ -20,7 +20,8 @@ SSO;;
 Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
 
 +
-* `noRedirect`  __Optional__
+
+* `noRedirect` __Optional__
 +
 _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
 
@@ -41,7 +42,9 @@ _String_. The endpoint URL of the authentication server. If the `authEndPoint` a
 +
 _String_. The username of the ThoughtSpot user.
 
-* `getAuthToken`  __Optional__
+
+* `getAuthToken` __Optional__
+
 +
 A function that invokes the trusted authentication endpoint and returns a `Promise` string that resolves to the authentication token. This attribute is not required if `authEndpoint` is used. +
 

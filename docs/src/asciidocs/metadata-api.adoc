@@ -3,7 +3,7 @@
 :linkattrs:
 :toclevels: 1
 :description: This API reference page describes the metadata REST API endpoints
-:keywords: API reference, metadata objects, metadata API
+:keywords: The metadata API endpoints allow you to query ThoughtSpot objects and get metadata
 
 :page-title: Get metadata
 :page-pageid: metadata-api
@@ -11,21 +11,21 @@
 
 The metadata APIs allow you to query metadata objects from the ThoughtSpot system. The metadata objects include answers, Liveboards, visualizations, and data objects such as tables, worksheets, and views. You can also query metadata objects for a user or user group configured in ThoughtSpot.
 
-== Required permissions
-
-* You must have edit access to the metadata objects to query data, set an object as a favorite, and assign or remove tags, 
-* To query user or group metadata objects, you must have administrator access.
-
 == Supported operations
 
 include::{path}/metadata-api-list.adoc[]
+
+=== Required permissions
+
+* You must have edit access to the metadata objects to query data, set an object as a favorite, and assign or remove tags,
+* To query user or group metadata objects, you must have administrator access.
 
 
 [#assign-tag]
 == Assign tags to metadata objects
 Tags are labels that you can apply to a Thoughtspot object, such as a Liveboard or answer. You can use tags to find and filter your answers, Liveboards, and data objects.
 
-To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API.
+To apply a tag to a ThoughtSpot object programmatically, you can use the `/tspublic/v1/metadata/assigntag` API endpoint.
 
 Before you apply a tag, make sure the tags are created and available for assignment.
 [NOTE]
@@ -42,7 +42,7 @@ POST /tspublic/v1/metadata/assigntag
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`id`|__String__. A JSON array of the metadata object GUIDs. For example, a Liveboard or answer.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of following values as a metadata object type:
 
@@ -86,7 +86,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -107,7 +107,7 @@ POST /tspublic/v1/metadata/unassigntag
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`id`|__String__. A JSON array of the Liveboard and answer GUIDs for which you want to remove the tags.
 |`type` __Optional__  a|__String__. Type of the metadata object. Specify any of the following values as a metadata object type:
 
@@ -154,7 +154,7 @@ Response code
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**204**|Successful application of tag to a metadata object
 |**400**|Invalid parameter value
 |**500**|Invalid metadata object ID
@@ -162,7 +162,7 @@ Response code
 
 [#metadata-details]
 == Get metadata details
-To get the metadata details of one or several objects, use the `/tspublic/v1/metadata/details` API. The API returns a JSON representation of the objects specified in the API request.
+To get the metadata details of one or several objects, send a `GET` request to the `/tspublic/v1/metadata/details` endpoint. The API returns a JSON representation of the objects specified in the API request.
 
 === Resource URL
 ----
@@ -172,7 +172,7 @@ GET /tspublic/v1/metadata/details
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -535,7 +535,7 @@ GET /tspublic/v1/metadata/list
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type`  a|__String__. Type of the metadata object. To query the details of a specific object type, specify one of the following values as the metadata object `type`:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -754,7 +754,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/list?type=PINBOARD_A
 [#headers-metadata-users]
 == Get metadata objects for a user or user group
 
-Use the `/tspublic/v1/metadata/listas` API to get a list of metadata objects available for a user or user group.
+To get a list of metadata objects associated with a user or user group, send a `GET` request to the `/tspublic/v1/metadata/listas` API endpoint.
 
 === Resource URL
 ----
@@ -764,7 +764,7 @@ GET /tspublic/v1/metadata/listas
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects should be retrieved. The system default is -1, which implies the first item in the list.
 |`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the response. A value of -1 implies all items starting from the offset value.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object associated with the user or user group.  This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
@@ -794,8 +794,9 @@ The default value is `NO_ACCESS`.
 [source, cURL]
 ----
 curl -X GET
---header 'Accept: application/json'
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listas?offset=-1&pattern=%25&principalid=13bb9aec-aad0-4075-adb9-bd0569351393&minimumaccesslevel=READ_ONLY&type=USER'
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listas?offset=-1&pattern=%25&principalid=13bb9aec-aad0-4075-adb9-bd0569351393&minimumaccesslevel=READ_ONLY&type=USER'
 ----
 
 .Request URL
@@ -986,7 +987,7 @@ The following example shows the headers returned for a user:
 
 [#object-header]
 == Get object headers
-To query metadata objects headers for a data type in the Thoughtspot system, use the `/tspublic/v1/metadata/listobjectheaders` API.
+To query metadata objects headers for a data type in the Thoughtspot system, send a `GET` request to the `/tspublic/v1/metadata/listobjectheaders` API endpoint.
 
 === Resource URL
 ----
@@ -996,7 +997,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`type` __Optional__  a|__String__. Type of the metadata object. To query data for a specific object type, set the metadata object `type` to one of the following values:
 
 * `QUESTION_ANSWER_BOOK` for answers.
@@ -1021,7 +1022,7 @@ The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types ar
 ** `ONE_TO_ONE_LOGICAL` for tables
 ** `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
 ** `USER_DEFINED` for imported data; For example, the tables uploaded from a CSV file.
-** `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
+** `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from an answer saved as a view by a user.
 
 +
 [IMPORTANT]
@@ -1256,7 +1257,7 @@ GET /tspublic/v1/metadata/listvizheaders
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__String__. ID of a saved answer or a Liveboard.
 |====
 === Example request
@@ -1281,31 +1282,382 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/listvizheaders?id=97
 ----
 [
   {
-    "id": "dd7f5467-99c3-4278-998b-6dd0c4346cd4",
-    "name": "Headline Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline User"
+      }
+    },
+    "id": "fa934657-e347-4de7-b02d-3b46609233cc",
+    "name": "MAU Last 30 Days",
     "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+    "created": 1600028569951,
+    "modified": 1600029455591,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
   },
   {
-    "id": "fcb65fdb-3965-4f56-8bda-e5e3c2a127a7",
-    "name": "Filter Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days Row: 1",
+    "size": "ms",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "76fc7ab5-5a9b-4eee-80a6-b8328d4d0afc",
+    "name": "ThoughtSpot Champions Last 30 Days",
     "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+    "created": 1600028569955,
+    "modified": 1600029455593,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
   },
   {
-    "id": "0f6e7220-5088-4a0e-8122-50b637c356fc",
-    "name": "Table Viz answer book guid max timestamp answer book guid != {null} sort by max timestamp descending today last 180 days",
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "6abbd815-1451-48f2-a199-92bdf722cd2b",
+    "name": "Popular Pinboards Last 30 Days",
     "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "created": 1536179170172,
-    "modified": 1536179170172,
-    "modifiedBy": "67e15c06-d153-4924-a4cd-ff615393b60f",
-    "owner": "ec718bc5-4608-4ea9-93e2-c1f82e9f2b31"
+    "created": 1600028569957,
+    "modified": 1600029455594,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline answer"
+      }
+    },
+    "id": "bd93a45a-43eb-4639-8f48-b7ed6c2f79c3",
+    "name": "Count of Current Pinboards",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569960,
+    "modified": 1600029455596,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ms",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "2c195fba-3942-4075-b789-e21e6449d933",
+    "name": "Top 10 Adhoc Searchers",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569962,
+    "modified": 1600029455597,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ms",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "eb77ba14-15de-4d4d-aac4-625ebd58b1c6",
+    "name": "Top 10 Pinboard Consumers Last 30 days",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569964,
+    "modified": 1600029455599,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline Unique Number of User"
+      }
+    },
+    "id": "c660b43e-ff56-4394-9909-3c4b66db2bd6",
+    "name": "WAU Last 4 Weeks",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569966,
+    "modified": 1600029455601,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline Unique Number of User"
+      }
+    },
+    "id": "0d0eb44d-4d9f-4af6-913c-2d0439be2fd6",
+    "name": "Unique Count User",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569968,
+    "modified": 1600029455601,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline User"
+      }
+    },
+    "id": "62f98ad3-6ddd-4aed-8f13-58054295b7e3",
+    "name": "Inactive Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569969,
+    "modified": 1600029455602,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ls",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "83342996-1909-48a0-a333-d7474a721deb",
+    "name": "Daily Active Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569972,
+    "modified": 1600029455603,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ls",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "4394f4b7-7bce-4031-ba27-cea587f295ec",
+    "name": "Weekly Active Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569974,
+    "modified": 1600029455604,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ls",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "db598058-2986-4f96-b6cf-ac00c6d0dc47",
+    "name": "Hourly Active Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569975,
+    "modified": 1600029455605,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "907d0cd0-b464-4acc-99d5-13ad36abdfb1",
+    "name": "Weekly User Action Group Ratio",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569977,
+    "modified": 1600029455605,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "8dd121b2-77fb-4735-8b8d-62e229ec9eaf",
+    "name": "Weekly User Action Group",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569981,
+    "modified": 1600029455609,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "ls",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "252ea9aa-e593-4c6d-a366-97eecc5e81e2",
+    "name": "Top 50 Power Use Engagment",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569985,
+    "modified": 1600029455612,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "d7019435-6ed3-4abe-91f3-02f0b9a9966c",
+    "name": "User Actions Last 4 Weeks",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028569997,
+    "modified": 1600029455613,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "b3b9f7ed-1d52-4053-bc08-9f03fe353c1e",
+    "name": "Top 10 Pinboards Ratio by Views",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570001,
+    "modified": 1600029455617,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "CHART",
+    "title": {
+      "value": {
+        "text": "Chart 0"
+      }
+    },
+    "id": "a02db236-be4c-41c5-9484-34499f1d269a",
+    "name": "Top 10 Pinboards Ratio by Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570005,
+    "modified": 1600029455620,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "TABLE",
+    "title": {
+      "value": {
+        "text": "Table 1"
+      }
+    },
+    "id": "43979699-9c0d-4012-9006-69b89e799290",
+    "name": "Abandoned Pinboards",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570010,
+    "modified": 1600029455624,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "TABLE",
+    "title": {
+      "value": {
+        "text": "Table 1"
+      }
+    },
+    "id": "4c8f35eb-d9aa-4fbd-98a4-4a1856985610",
+    "name": "Abandoned Answers",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570013,
+    "modified": 1600029455626,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "TABLE",
+    "title": {
+      "value": {
+        "text": "Table 1"
+      }
+    },
+    "id": "ff189c71-aeca-469b-bff1-e9439fbf14e6",
+    "name": "Inactive Users",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570015,
+    "modified": 1600029455628,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "xs",
+    "vizType": "HEADLINE",
+    "title": {
+      "value": {
+        "text": "Headline Unique Number of User"
+      }
+    },
+    "id": "2368900c-174c-47bf-a1fa-8d441214e332",
+    "name": "DAU Last 4 Weeks",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570017,
+    "modified": 1600029455629,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "size": "m",
+    "vizType": "TABLE",
+    "title": {
+      "value": {
+        "text": "Table 1"
+      }
+    },
+    "id": "ab08ce55-953c-45b5-9ea5-c12ba258088b",
+    "name": "User Profile",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600029091562,
+    "modified": 1600029455630,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
+  },
+  {
+    "vizType": "FILTER",
+    "id": "3d3366b0-7be9-4941-85e3-c8af26744df1",
+    "name": "Untitled",
+    "author": "67e15c06-d153-4924-a4cd-ff615393b60f",
+    "created": 1600028570018,
+    "modified": 1600029455632,
+    "modifiedBy": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "owner": "bea79810-145f-4ad0-a02c-4177a6e7d861"
   }
 ]
 ----
@@ -1332,7 +1684,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`type` a|__String__. Type of metadata object. Specify one of the following types:
 
 * `PINBOARD_ANSWER_BOOK` for Liveboards
@@ -1389,7 +1741,7 @@ DELETE /tspublic/v1/metadata/markunmarkfavoritefor
 [width="100%" cols="1,3"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`ids`|__String__. A JSON array of the GUIDs of objects to remove from the favorites list.
 |`userid`|__String__. The GUID of the user account for which you want to run the delete operation.
 |====

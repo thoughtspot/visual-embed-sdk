@@ -1,4 +1,4 @@
-The xref:group-api.adoc[Group APIs] allow administrators to programmatically assign the following types of privileges to a user group:
+ThoughtSpot administrators can programmatically assign the following types of privileges to a user group:
 
 * `ADMINISTRATION`   
 +

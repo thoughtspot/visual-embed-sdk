@@ -4,17 +4,17 @@
 
 :page-title: TML Export and Import API
 :page-pageid: tml-api
-:page-description: TML Export and Import API
+:page-description: The TML API endpoints allow you to export and import TML files
 
 The TML APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
-
-== Required permissions
-
-You must have at least view access to the objects to export the TML data. To import a modified TML object, your account must have the `DATAMANAGEMENT` privilege.
 
 == Supported operations
 
 include::{path}/tml-api-list.adoc[]
+
+=== Required permissions
+
+You must have at least view access to the objects to export the TML data. To import a modified TML object, your account must have the `DATAMANAGEMENT` privilege.
 
 [#import]
 == Import API
@@ -33,11 +33,11 @@ POST /tspublic/v1/metadata/tml/import
 ----
 
 === Request parameters
-[width="100%" cols="2,1,4,1"]
+[width="100%" cols="2,4,1"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description|Default
-|`import_objects`|string  a|An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format.
+|Form parameter|Description|Default
+|`import_objects` a|__String__. An `x-www-form-urlencoded` string containing a JSON array of TML objects to upload, in YAML or JSON format.
 
 If in YAML format within the JSON array, use escape characters for YAML quotes, and new line characters when there is a new line.
 
@@ -46,7 +46,7 @@ For example:
 * To import a single object, `["guid: 3729c085-8659-48fd-9479-a67bd7307496\npinboard:\n  name: …"]`
 * To import multiple objects, `["guid: 3729c085-8659-48fd-9479-a67bd7307496\npinboard:\n  name: …“, "guid: 5739d025-8659-48fd-9479-a67bd7704212\npinboard:\n  name: …”]`
 |None
-|`import_policy`|string a|Policy to follow during import. The allowed values are:
+|`import_policy` a|__String__. Policy to follow during import. The allowed values are:
 
 * `PARTIAL`
 Imports all objects that validate successfully, and ignores objects that do not validate successfully.
@@ -55,7 +55,7 @@ Imports the objects that validate successfully.
 * `VALIDATE_ONLY`
 Validates the objects but does not import them.|`PARTIAL`
 
-|`force_create`| boolean|Specifies if you are updating or creating objects. To create new objects, specify `true`. 
+|`force_create`| __Boolean__. Specifies if you are updating or creating objects. To create new objects, specify `true`.
 
 By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object. 
 
@@ -190,18 +190,18 @@ POST /tspublic/v1/metadata/tml/export
 
 === Request parameters
 
-[width="100%" cols="1,1,2,1"]
+[width="100%" cols="1,2,1"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description|Default
-|`export_ids`|string a|JSON array of the IDs of objects to export. An `x-www-form-urlencoded` string containing a JSON array of ids of objects to export. You receive results in the order you request them.
+|Form parameter|Description|Default
+|`export_ids` a|__String__. JSON array of the IDs of objects to export. An `x-www-form-urlencoded` string containing a JSON array of ids of objects to export. You receive results in the order you request them.
 
 For example:
 
 * To export a single object, `["226abd2843-afef-4c2f-bf2f-8fba065330e"]`
 * To export multiple objects, `["226abd2843-afef-4c2f-bf2f-8fba065330e", ”22d305bc51-688b-414f-badc-94579d48308c”]`|None
-|`formattype`|string|The format in which to export the objects. Valid values are `JSON` and `YAML`.|None
-|`export_associated`|boolean|Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects. |false
+|`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`.|None
+|`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects. |false
 |====
 
 === Example request

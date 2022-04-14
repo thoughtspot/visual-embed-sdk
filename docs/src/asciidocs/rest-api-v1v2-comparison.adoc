@@ -20,26 +20,57 @@ The Swagger UI is also accessible via Developer portal|Interactive Playground in
 |Developer SDK and client libraries|[tag greyBackground]#–#| [tag greenBackground]#✓# Available
 |Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
 
-|Authentication methods a| [tag greenBackground]#✓# Basic authentication
+|Authentication methods a| [tag greenBackground]#✓# Basic authentication +
 
 [tag greenBackground]#✓# Trusted authentication 
 
-a| [tag greenBackground]#✓# Basic authentication
+a| [tag greenBackground]#✓# Basic authentication +
 
-[tag greenBackground]#✓# OAuth Bearer token authentication
+[tag greenBackground]#✓# OAuth Bearer token authentication +
+
+[tag greenBackground]#✓# Trusted authentication
 |Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
 |Input and output parameters| Not fully standardized |Standardized
+
+|Resource collections a| * Data
+* admin
+* connection
+* dependency
+* export
+* group
+* logs
+* metadata
+* TML
+* security
+* session
+* user
+
+
+a| * Session
+* User 
+* Group
+* Metadata
+* Connection
+* Data 
+* Report
+* Admin
+* Logs
+
+
+
 |API services a|[tag greenBackground]#✓# User APIs 
 
 [tag greenBackground]#✓# Group APIs
 
 [tag greenBackground]#✓# Session APIs
 
-[tag greenBackground]#✓# Data connection APIs
+[tag greenBackground]#✓# Connection APIs
 
 [tag greenBackground]#✓# Metadata APIs
 
-[tag greenBackground]#✓# Admin APIs
+[tag greenBackground]#✓# Admin APIs 
+
+(Includes custom action APIs)
 
 [tag greenBackground]#✓# TML APIs 
 
@@ -63,25 +94,27 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greenBackground]#✓# Session APIs
 
-[tag greenBackground]#✓# Data connection APIs
+[tag greenBackground]#✓# Connection APIs
 
 [tag greenBackground]#✓# Metadata APIs
 
-[tag greyBackground]#–# Admin APIs
+[tag greenBackground]#✓#  Admin APIs
+
+(Does not include custom action APIs)
 
 [tag greenBackground]#✓# TML APIs
 
 [tag greenBackground]#✓# APIs for dependent objects
 
-[tag greyBackground]#–# Search data API
+[tag greenBackground]#✓# Data API
 
-[tag greyBackground]#–# Liveboard data API
+[tag greenBackground]#✓# Visualization export API
 
 [tag greyBackground]#–# Liveboard export API
 
 [tag greyBackground]#–# Security APIs
 
-[tag greyBackground]#–# Log Streaming Service API
+[tag greenBackground]#✓#  Log Streaming Service API
 
 See xref:rest-api-v2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
 
@@ -90,7 +123,10 @@ Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/`
 
 Resource path:  `tspublic/v1/<resource-group>/<resource>/`
 
-|Base URI:   `\https://<your-thoughtspot-hostname>/api/rest/v2/`
+|Base URI:   `\https://<your-thoughtspot-hostname>/tspublic/rest/v2/`
 
 Resource path:  `<resource-group>/<resource>`
 |====
+
+
+

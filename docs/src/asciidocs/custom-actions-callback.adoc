@@ -43,7 +43,7 @@ The callback ID is used as a unique reference for the callback custom action in 
 
 . To add this action to all visualizations and saved answer pages, select *On by default on all visualizations*. 
 +
-If you do not select this checkbox, the app action will be set as a *Local* action.  
+If you do not select this checkbox, the callback action will be set as a *Local* action.  
 
 . To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.    
 

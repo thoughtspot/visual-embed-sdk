@@ -40,9 +40,9 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`  
+`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
 
-Allows searching for data from a specific data source in the ThoughtSpot application.
++++<p class="divider">Allows searching for data from a specific data source in the ThoughtSpot application.</p>+++
 
 == Dependent objects
 
@@ -56,5 +56,6 @@ include::{path}/security-api-list.adoc[]
 
 `xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`
 
-Gets security audit logs from the ThoughtSpot system.
++++<p class="divider">Gets security audit logs from the ThoughtSpot system.</p>+++
 
+--

@@ -19,7 +19,7 @@ ThoughtSpot allows you to add a custom action to trigger a data payload to a spe
 * Developers can limit custom action access to a specific user group. 
 * To access a URL action, users must have the **New Answer Experience** enabled.
 * For URL actions to work in the embedded mode, you must add the URL domain to the CORS and CSP connect-src allowlist.
-* Only ThoughtSpot users with edit permissions to a worksheet or visualization can add an app action to a worksheet, visualization, or saved answer. 
+* Only ThoughtSpot users with edit permissions to a worksheet or visualization can add a URL action to a worksheet, visualization, or saved answer. 
 --
 
 [#creUrlAction]
@@ -64,7 +64,7 @@ Select this authentication method if you want ThoughtSpot to use an API key duri
  
 . To add this action to all visualizations and saved answer pages, select *On by default on all visualizations*. 
 +
-If you do not select this checkbox, the app action will be set as a *Local* action.  
+If you do not select this checkbox, the URL action will be set as a *Local* action.  
 
 . To restrict action availability to specific user groups, click *Show advanced availability settings*, and select the groups.      
  

@@ -12,7 +12,7 @@ If the REST API Playground and SDK feature is enabled on your cluster, the Devel
 
 * To view the Playground with REST v1 endpoints, click **REST Playground v1**.
 
-* To explore REST v2 endpoints and download the SDK, click **REST Playground v2**.
+* To explore REST v2 endpoints and SDK, click **REST Playground v2**.
 
 
 == REST API v1 Playground

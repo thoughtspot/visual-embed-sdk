@@ -1,0 +1,210 @@
+= REST API v1 changelog
+:toc: true
+:toclevels: 1
+
+:page-title: Changelog
+:page-pageid: rest-v1-changelog
+:page-description: Changelog of REST APIs
+
+This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
+
+== Coming soon
+
+New REST v1 API endpoints for data connection queries: +
+
+* `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
+* `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
+
+== Version 8.1.0.cl, March 2022
+
+Bug fixes and improvements
+
+== Version 8.0.0.cl, February 2022
+
+REST clients using Postman for API calls can now send a `POST` request to the `/tspublic/v1/session/auth/token` endpoint. +
+In the earlier releases, unauthenticated clients were not allowed to make an API call to `/tspublic/v1/session/auth/token` via Postman.
+
+== Version ts8.nov.cl, January 2022
+
+.New API endpoint
+[%collapsible]
+====
+* `POST /tspublic/v1/session/login/token`
+====
+
+.Modified
+[%collapsible]
+====
+* The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
++
+For more information, see xref:connection-apis.adoc[Data connection APIs].
+* The `authorguid` attribute in `/tspublic/v1/metadata/list` now allows you to filter metadata objects by author GUIDs in API response.
++
+For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
+====
+
+== Version ts7.oct.cl, November 2021
+
+.New API endpoints
+[%collapsible]
+====
+* `POST /tspublic/v1/group/{groupid}/users`
+* `GET /tspublic/v1/group/{groupid}/users`
+* `PUT /tspublic/v1/user/email`
+* `POST /tspublic/v1/user/{userid}/groups`
+* `GET /tspublic/v1/user/{userid}/groups`
+* `PUT /tspublic/v1/user/{userid}/groups`
+* `DELETE /tspublic/v1/user/{userid}/groups`
+* `DELETE /tspublic/v1/group/{groupid}/users`
+
+For more information about these APIs, see xref:rest-api-reference.adoc[REST API Reference].
+====
+
+== Version ts7.sep.cl, October 2021
+
+.New APIs
+[%collapsible]
+====
+* `POST /tspublic/v1/connection/create`
+* `POST /tspublic/v1/connection/update`
+* `POST /tspublic/v1/connection/export`
+* `POST /tspublic/v1/connection/delete`
+* `POST /tspublic/v1/metadata/unassigntag`
+* `GET /tspublic/v1/metadata/list`
+* `GET /tspublic/v1/security/metadata/permissions`
+* `GET /tspublic/v1/security/metadata/{id}/permissions`
+* `GET /tspublic/v1/security/effectivepermissionbulk`
+* `GET /tspublic/v1/session/info`
+* `POST /tspublic/v1/user/activate`
+* `POST /tspublic/v1/user/inactivate`
+* `POST /tspublic/v1/user/session/invalidate`
+* `POST /tspublic/v1/user/resetpassword`
+* `PUT /tspublic/v1/group/{groupid}/users`
+* `POST /tspublic/v1/group/{groupid}/groups`
+* `PUT /tspublic/v1/group/{groupid}/groups`
+* `GET /tspublic/v1/group/{groupid}/groups`
+* `POST /tspublic/v1/group/addmemberships`
+* `POST /tspublic/v1/group/removememberships`
+* `DELETE /tspublic/v1/group/{groupid}/groups`
+
+For more information, see xref:rest-api-reference.adoc[REST API Reference].
+====
+
+.Modified APIs
+[%collapsible]
+====
+`POST /tspublic/v1/metadata/assigntag`
+====
+
+== Version ts7.aug.cl, September 2021
+The ThoughtSpot 7 Cloud August release introduces several new API endpoints:
+
+.Admin API endpoints
+[%collapsible]
+====
+* `POST /tspublic/v1/admin/configinfo/update`
+* `GET /tspublic/v1/admin/configinfo/overrides`
+* `GET /tspublic/v1/admin/configinfo`
+* `GET /tspublic/v1/admin/embed/actions`
+* `GET /tspublic/v1/admin/embed/actions/{actionid}`
+* `POST /tspublic/v1/admin/embed/actions`
+* `DELETE /tspublic/v1/admin/embed/actions/{actionid}`
+* `PUT /tspublic/v1/admin/embed/actions/{actionid}`
+* `POST /tspublic/v1/admin/embed/action/{actionid}/associations`
+* `GET /tspublic/v1/admin/embed/action/{actionid}/associations`
+* `DELETE /tspublic/v1/admin/embed/action/{actionid}/associations`
+
+For more information, see xref:admin-api.adoc[Admin APIs].
+====
+
+.Group API endpoints
+[%collapsible]
+====
+* `POST /tspublic/v1/group/`
+* `GET /tspublic/v1/group/`
+* `PUT /tspublic/v1/group/{groupid}`
+* `POST /tspublic/v1/group/{groupid}/user/{userid}`
+* `DELETE /tspublic/v1/group/{groupid}/user/{userid}`
+* `DELETE /tspublic/v1/group/{groupid}`
+
+For more information, see xref:group-api.adoc[Group APIs].
+====
+
+.User API endpoints
+[%collapsible]
+====
+* `GET /tspublic/v1/user/`
+* `POST /tspublic/v1/user/`
+* `DELETE /tspublic/v1/user/{userid}`
+* `PUT /tspublic/v1/user/{userid}`
+
+For more information, see xref:user-api.adoc[user APIs].
+====
+
+.Dependency API endpoints
+[%collapsible]
+====
+* `POST /tspublic/v1/dependency/listdependents/`
+* `GET /tspublic/v1/dependency/listincomplete`
+* `POST /tspublic/v1/dependency/listdependents`
+* `GET /tspublic/v1/dependency/physicaltable`
+* `GET /tspublic/v1/dependency/pinboard`
+* `GET /tspublic/v1/dependency/logicalcolumn`
+* `GET /tspublic/v1/dependency/logicaltable`
+* `GET /tspublic/v1/dependency/logicalrelationship`
+* `GET /tspublic/v1/dependency/physicalcolumn`
+
+For more information, see xref:dependency-apis.adoc[Dependent objects APIs].
+====
+
+.Connection API endpoints
+[%collapsible]
+====
+* `GET /tspublic/v1/connection/types`
+* `GET /tspublic/v1/connection/list`
+For more information, see xref:connections-api.adoc[Connection APIs].
+====
+
+.Log API endpoint
+[%collapsible]
+====
+`GET /tspublic/v1/logs/topics/{topic}`
+For more information, see xref:logs-apis.adoc[Log streaming service API].
+====
+
+== Version ts7.jun.cl, July 2021
+
+.New API endpoints
+[%collapsible]
+====
+* `POST /tspublic/v1/security/share`
+* `POST /tspublic/v1/security/shareviz`
+* `GET /tspublic/v1/session/login/token`
+* `POST /tspublic/v1/metadata/assigntag`
+* `POST /tspublic/v1/metadata/details`
+* `POST /tspublic/v1/metadata/markunmarkfavoritefor`
+* `DELETE /tspublic/v1/metadata/markunmarkfavoritefor`
+* `POST /tspublic/v1/session/homepinboard`
+* `GET /tspublic/v1/session/homepinboard`
+* `DELETE /tspublic/v1/session/homepinboard`
+
+For more information, see xref:rest-api-reference.adoc[REST API Reference].
+====
+
+.Other enhancements
+[%collapsible]
+====
+The `POST /tspublic/v1/user/updatepreference` API now includes the optional `username` parameter. You can use either `userid` or `username` in your API request.
+
+For more information, see xref:user-api.adoc#updatepreference-api[Update a user profile].
+====
+
+
+== Version ts7.may.cl, June 2021
+
+.New endpoints
+[%collapsible]
+====
+* `*POST* /tspublic/v1/user/updatepreference`
+* `*GET* /tspublic/v1/metadata/listas`
+====

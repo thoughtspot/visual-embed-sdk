@@ -1,5 +1,8 @@
 = Get Started
 :toc: true
+:linkattrs:
+:sectanchors:
+:sectlinks:
 
 :page-title: Getting Started
 :page-pageid: getting-started
@@ -36,22 +39,69 @@ npm install @thoughtspot/visual-embed-sdk
 
 Based on integration requirements, import any of the following embed modules and build your code.
 
-* *SearchEmbed*
-+
-To xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
+SearchEmbed::
+
+Use this package to xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
+
 +
 The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer.
+
 +
 In all cases, the search bar will appear along with full capabilities to edit and modify the search and the resulting chart or table.
 
-* *LiveboardEmbed*
-+
-To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[Liveboards].
+LiveboardEmbed::
+
+Use this package to embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[Liveboards].
+
 +
 You can use the **LiveboardEmbed** component to embed a full Liveboard with multiple answers, as well as a specific answer on a Liveboard without the search bar. These answers are referred to as Liveboard visualizations.
 +
 Although you can use a saved answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a Liveboard using the `liveboardId` and `vizId` properties of LiveboardEmbed.
 
-* *AppEmbed*
-+
-To embed xref:full-embed.adoc[the full ThoughtSpot application experience].
+AppEmbed::
+
+Use this package to embed xref:full-embed.adoc[the full ThoughtSpot application].
+
+[#initSdk]
+== Initialize the SDK
+
+After importing the package, specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
+
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+});
+----
+thoughtSpotHost::
+_String_. Hostname or IP address of the ThoughtSpot application.
+
+include::{path}/embed-auth-config.adoc[]
+
+=== Prefetch static resources (Optional)
+
+To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
+
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
+
+=== Configure security and login parameters (Optional)
+
+include::{path}/embed-config.adoc[]
+
+== Embed objects
+
+After you initialize the SDK, create embed object classes and define object properties. +
+For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages:
+
+* xref:embed-search.adoc[Embed Search]
+* xref:embed-pinboard.adoc[Embed a Liveboard]
+* xref:embed-a-viz.adoc[Embed a Liveboard visualization]
+* xref:full-embed.adoc[Embed full ThoughtSpot app]
+
+== Related resources
+
+* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] 
+* link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub repository, window=_blank]
+* link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
+* link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]

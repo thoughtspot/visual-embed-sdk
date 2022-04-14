@@ -14,6 +14,7 @@ You can use the Visual Embed SDK for the following purposes:
 
 Follow the steps described in the sections below to embed ThoughtSpot features in your application.
 
+
 [div boxDiv boxFullWidth]
 --
 +++ <h5> Integration guidelines </h5>+++
