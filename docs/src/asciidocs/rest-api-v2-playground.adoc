@@ -7,7 +7,7 @@
 
 The REST API Playground [beta orangeBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
 
-The Playground allows you to make REST API calls in the programming language of your choice. You can also download the SDK and client libraries.
+The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
 
 == Access Playground
 

@@ -139,14 +139,11 @@ button {
     font-weight: $font-weight-normal;
     height: 25px;
     line-height: $line-height-doc;
-    margin-right: $tag-margin-right;
     text-align: center;
     min-width: $tag-width;
     padding: $tag-padding;
     color: $tag-font-color;
 }
-
-
 
 .blueBackground {
     background-color: $note-color;
@@ -210,6 +207,8 @@ button {
     width: 100%;
     box-shadow: var(--box-shadow);
     border: 1px solid var(--border-color);
+    margin: 10px;
+    padding: 15px;
 }
 
 .divider {
@@ -227,10 +226,10 @@ button {
 
 }
 
- 
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
+    margin-left: 3px;
     font-weight: $font-weight-normal;
     line-height: $line-height-doc;
     color: var(--primary-color);
@@ -247,6 +246,21 @@ summary.title  {
     font-weight: $font-weight-bold;
 
 }
+
+.sectlinks {
+    color: var(--primary-color);
+}
+
+a.anchor {
+    position: absolute;
+    text-decoration: none;
+    width: 1.75ex;
+    margin-left: -1.5ex;
+    visibility: hidden;
+    font-size: .8em;
+    font-weight: 400;
+    padding-top: 0.05em;
+}    
 
 
 .introCard     {

@@ -1,15 +1,76 @@
 = Visual Embed changelog
-
 :toc: true
+:toclevels: 1
 
 :page-title: Changelog
 :page-pageid: embed-sdk-changelog
 :page-description: Changes to the SDK and APIs
 
-This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of new features and enhancements, see xref:whats-new.adoc[What's New].
+This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-== Version 1.9.0
+== Version 1.10.0 (Coming soon)
 
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#embed-events[Interact with events].
+|====
+
+////
+== Version 1.9.8, April 2022
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|The `pageId` attribute now allows you to set the **SpotIQ** page as the home tab of your embedded ThoughtSpot app. 
+
+For more information, see xref:ful-embed.adoc[Embed full application].
+
+|====
+////
+== Version 1.9.5, April 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|The `locale` attribute is now available in embed packages. You can use this attribute to set the locale or language of your embedded application view. 
+For more information, see xref:locale-setting.adoc[Set locale and display language].
+|====
+
+== Version 1.9.4, April 2022
+
+Bug fixes and improvements to React components.
+
+== Version 1.9.3, March 2022
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
+You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
+This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
+
+For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
+|====
+
+== Version 1.9.2, March 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| You can now trigger events on React components using the `useEmbedRef` hook.
+
+For more information, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
+|====
+
+== Version 1.9.1, March 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| The SDK now includes the `visibleVizs` attribute in the `LiveboardEmbed` package. This attribute allows you to add visualization GUIDs that you want to display when a Liveboard renders for the first time.
+
+For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
+
+|[tag greenBackground]#NEW FEATURE#  a| The following events are now available in the SDK: +
+
+* `LiveboardRendered` (EmbedEvent)
+
+For more information, see xref:embed-events.adoc#host-events[Interact with events].
+|====
+
+== Version 1.9.0, March 2022
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
@@ -24,8 +85,7 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 |[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
 |====
 
-
-== Version 1.8.1
+== Version 1.8.x, February 2022
 
 [width="100%" cols="1,4"]
 |====
@@ -34,12 +94,12 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 |====
 
 
-== Version 1.7.0
+== Version 1.7.0, January 2022
 
 [width="100%" cols="1,4"]
 |====
 |
-[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++
 
 The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
 
@@ -54,11 +114,11 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 
-== Version 1.6.x
+== Version 1.6.x, November 2021
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
  
@@ -78,7 +138,7 @@ The SDK supports the following new events:
 For more information, see xref:embed-events.adoc[Interact with events].
 |====
 
-== Version 1.5.0
+== Version 1.5.0, October 2021
 
 [width="100%" cols="1,4"]
 |====
@@ -105,7 +165,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 |====
 
-== Version 1.4.0
+== Version 1.4.0, September 2021
 
 [width="100%" cols="1,4"]
 |====
@@ -150,7 +210,7 @@ The SDK EmbedEvent library includes the following events:
 For more information, see xref:embed-events.adoc[Interact with events].
 |====
 
-== Version 1.3.0
+== Version 1.3.0, August 2021
 
 [width="100%" cols="1,4"]
 |====
@@ -217,7 +277,7 @@ The callback custom action event in the SDK package supports defining `batchSize
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
 |====
 
-=== Version 1.2.0
+== Version 1.2.0, June 2021
 
 [width="100%" cols="1,4"]
 |====
@@ -227,10 +287,6 @@ The Visual Embed SDK packages now include the `noRedirect` attribute as an optio
 
 For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
 
-|[tag greenBackground]#NEW FEATURE#  a|+++<h5>Visual Embed SDK notification when third-party cookies are disabled</h5>+++
-
-When a user accesses the embedded application from a web browser that has third-party cookies disabled, the Visual Embed SDK emits the `NoCookieAccess` event to notify the developer. Cookies are disabled by default in Safari. Users can enable third-party cookies in Safari’s Preferences setting page or use another web browser.
-To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard actions</h5>+++
 The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations.
@@ -264,4 +320,13 @@ Visualizations on a pinboard:
 Users with edit permissions can view and access the *Edit* action. The *Download as CSV*, *Download as XSLX*, and *Download as PDF* actions are available for table visualizations. The *Download* action is available for chart visualizations.
 
 |====
- 
+
+== Version 1.1.0, May 2021
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#  a|+++<h5>NoCookieAccess event</h5>+++
+
+When a user accesses the embedded application from a web browser that has third-party cookies disabled, the Visual Embed SDK emits the `NoCookieAccess` event to notify the developer. Cookies are disabled by default in Safari. Users can enable third-party cookies in Safari’s Preferences setting page or use another web browser.
+To know how to enable this setting by default on Safari for a ThoughtSpot embedded instance, contact ThoughtSpot Support.
+|====

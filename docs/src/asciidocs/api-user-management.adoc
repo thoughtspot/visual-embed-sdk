@@ -53,7 +53,7 @@ include::{path}/group-privileges.adoc[]
 
 [NOTE]
 ====
-ThoughtSpot also has a default group called `ALL_GROUP`. When you create new users in ThoughtSpot, they are automatically added to `ALL_GROUP`. By default, the members of `ALL_GROUP` do not have permission to download or upload data. To globally add the following privileges to all the users in `ALL_GROUP`, you can use the Group APIs.
+ThoughtSpot also has a default group called `All`. When you create new users in ThoughtSpot, they are automatically added to `All`. By default, the members of the `All` group do not have permission to download or upload data. To add these privileges, you can use the Group API endpoints.
 ====
 
 

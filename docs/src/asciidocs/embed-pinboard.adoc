@@ -40,29 +40,7 @@ from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es
 
 == Initialize the SDK
 
-Specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
-
-[source,javascript]
-----
-init({
-    thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
-});
-----
-thoughtSpotHost::
-_String_. Hostname or IP address of the ThoughtSpot application.
-
-include::{path}/embed-auth-config.adoc[]
-
-=== Prefetch static resources (Optional)
-
-To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
-
-For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
-
-=== Configure security and login parameters (Optional)
-
-include::{path}/embed-config.adoc[]
+xref:getting-started.adoc#initSdk[Initialize the SDK] and define authentication attributes.
 
 == Create an instance of the LiveboardEmbed class
 
@@ -80,6 +58,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     liveboardId: '<%=liveboardGUID%>',
     enableVizTransformations: true,
     preventLiveboardFilterRemoval: true,
+    visibleVizs: []
     runtimeFilters: [],
 });
 ----
@@ -196,6 +175,11 @@ _Boolean_. When set to `true`, it displays the contextual menu for visualization
 preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
 
+visibleVizs __Optional__::
+_Array of strings_. Allows adding GUIDs of the visualizations, which you want to show by default on an embedded Liveboard when it renders for the first time.
++
+You can show or hide the visualizations by triggering the `SetVisibleVizs` event.
+
 runtimeFilters [small]_optional_::
 Runtime filters to apply when the pinboard page loads.
 Runtime filters provide the ability to filter data at the time of retrieval. Runtime filters allow you to apply a filter to a visualization in a pinboard by passing filter specifications as URL query parameters.
@@ -213,7 +197,6 @@ runtimeFilters: [{
     values: ['Midwest', 'East', 'West']
 }]
 ----
-
 
 columnName;;
 __String__. Name of the column to filter by.

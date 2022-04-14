@@ -20,6 +20,42 @@ If your user account has the `Developer` privilege, you can create custom action
 
 <h2 align="center">Types of custom actions</h2>
 
+<div class="col-md-6">
+	<a href="?pageid=custom-action-url"><div class="boxHalfWidth">
+<h5>URL actions</h5>
+<p class="boxBody">
+Push data to a specific web page or URL destination</p>
+
+
+<p class="boxBody"><em>Available on all ThoughtSpot instances</em> </p>
+<p class="boxBody"><a href="?pageid=custom-action-url">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+<div class="col-md-6">
+	<a href="?pageid=custom-action-callback">	<div class="boxHalfWidth">
+<h5>Callback actions</h5>
+<p class="boxBody">
+Trigger a callback to the host app and push a response payload</p>
+
+
+<p class="boxBody"><em>Available on embedded ThoughtSpot instances only</em> </p>
+<p><a href="?pageid=custom-action-callback">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+</div>
+
+++++
+
+////
+++++
+<div class="row">
+
+<h2 align="center">Types of custom actions</h2>
+
 	<a href="?pageid=app-actions"><div class="col-md-4"> 
 	<div class="introCard">
 <h5>App actions</h5>
@@ -60,7 +96,7 @@ Trigger a callback to the host app and push a response payload</p>
 </div>
 
 ++++
-
+////
 
 
 ++++

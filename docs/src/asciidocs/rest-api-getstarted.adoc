@@ -24,7 +24,7 @@ If the REST API Playground feature is enabled on your cluster, go to *Develop* >
 
 +
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/tspublic/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -73,7 +73,7 @@ To call a REST API, send a request to the endpoint URL with the attributes requi
 Specify the HTTP request method in your API request. 
 
 * `GET` to query information, such as getting a list of users or groups.
-* `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or a data object.
+* `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or data object.
 * `PUT` to update the properties of an existing resource, such as modifying the properties of a user or user group. 
 * `DELETE` to remove an object or object association.
 

@@ -7,20 +7,20 @@
 
 The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
+
 == Session
 
 --
-`**GET** /api/rest/v2/session`
+`**GET** /tspublic/rest/v2/session`
 
 Gets details of the current session for the logged-in user.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
-
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/session/login`
+`*POST* /tspublic/rest/v2/session/login`
 
 Signs in a user to ThoughtSpot. 
 
@@ -30,7 +30,7 @@ Signs in a user to ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/session/gettoken`
+`**POST** /tspublic/rest/v2/session/gettoken`
 
 Gets an OAuth access token for a ThoughtSpot client. You must send this token in the `Authorization` header to authorize your API requests.
 
@@ -38,9 +38,9 @@ Gets an OAuth access token for a ThoughtSpot client. You must send this token in
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
-`**POST** /api/rest/v2/session/revoketoken`
-
 +++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/session/revoketoken`
 
 Revokes an existing access token assigned to a ThoughtSpot client. To make API calls, you must obtain a new access token.
 
@@ -50,7 +50,7 @@ Revokes an existing access token assigned to a ThoughtSpot client. To make API c
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/session/logout`
+`**POST** /tspublic/rest/v2/session/logout`
 
 Logs out a ThoughtSpot user.
 
@@ -64,7 +64,7 @@ Logs out a ThoughtSpot user.
 
 --
 
-`*POST* /api/rest/v2/user/create`
+`*POST* /tspublic/rest/v2/user/create`
 
 Creates a user object. 
 
@@ -74,7 +74,7 @@ Creates a user object.
 
 +++<p class="divider"> </p>+++
 
-`GET /api/rest/v2/user`
+`GET /tspublic/rest/v2/user`
 
 Gets details of a specific user. You must provide the username or the GUID of the user.
 
@@ -84,7 +84,7 @@ Gets details of a specific user. You must provide the username or the GUID of th
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/user/update`
+`*PUT* /tspublic/rest/v2/user/update`
 
 Modifies the properties of a user object. You must specify a username or the GUID of the user. Requires administrator privileges. 
 
@@ -94,7 +94,7 @@ Modifies the properties of a user object. You must specify a username or the GUI
 
 +++<p class="divider"> </p>+++
 
-`DELETE /api/rest/v2/user/delete`
+`DELETE /tspublic/rest/v2/user/delete`
 
 Deletes a user object.
 
@@ -104,17 +104,7 @@ Deletes a user object.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/user/search`
-
-Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**PUT** /api/rest/v2/user/addgroup`
+`**PUT** /tspublic/rest/v2/user/addgroup`
 
 Assigns a user to groups. If the assigned groups have privileges configured, the user inherits these privileges.
 
@@ -124,19 +114,41 @@ Assigns a user to groups. If the assigned groups have privileges configured, the
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/user/removegroup`
+`*PUT* /tspublic/rest/v2/user/removegroup`
 
 Removes the groups assigned to a user. 
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
++++<p class="divider"> </p>+++
+
+`**PUT** /tspublic/rest/v2/user/changepassword` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Allows changing a ThoughtSpot user's password.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/user/search`
+
+Gets a list of users available in the ThoughtSpot system. To filter your query, you can specify the user type, group, privileges, sharing visibility, and other such attributes. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
+
 --
 
 == Groups
 
 --
-`*GET* /api/rest/v2/group`
+`*GET* /tspublic/rest/v2/group`
 
 Gets details of a specific group.
 
@@ -146,7 +158,7 @@ Gets details of a specific group.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/group/create`
+`*POST* /tspublic/rest/v2/group/create`
 
 Creates a group object. Requires administrator privileges.
 
@@ -156,7 +168,7 @@ Creates a group object. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /api/rest/v2/group/update`
+`**PUT** /tspublic/rest/v2/group/update`
 
 Modifies the properties of a group object. Requires administrator privileges.
 
@@ -166,7 +178,7 @@ Modifies the properties of a group object. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`**PUT **/api/rest/v2/group/addprivilege`
+`**PUT **/tspublic/rest/v2/group/addprivilege`
 
 Assigns privileges to a group. Requires administrator privileges.
 
@@ -176,7 +188,7 @@ Assigns privileges to a group. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`**PUT **/api/rest/v2/group/removeprivilege`
+`**PUT **/tspublic/rest/v2/group/removeprivilege`
 
 Removes privileges assigned to a group. Requires administrator privileges.
 
@@ -186,7 +198,7 @@ Removes privileges assigned to a group. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`**DELETE** /api/rest/v2/group/delete`
+`**DELETE** /tspublic/rest/v2/group/delete`
 
 Deletes a group object. Requires administrator privileges.
 
@@ -196,7 +208,7 @@ Deletes a group object. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/group/adduser`
+`*PUT* /tspublic/rest/v2/group/adduser`
 
 Assigns users to a group. Requires administrator privileges.
 
@@ -206,7 +218,7 @@ Assigns users to a group. Requires administrator privileges.
 
 +++<p class="divider"> </p>+++
 
-`**PUT **/api/rest/v2/group/removeuser`
+`**PUT **/tspublic/rest/v2/group/removeuser`
 
 Removes one or several users assigned to a group. Requires administrator privileges.
 
@@ -217,7 +229,7 @@ Removes one or several users assigned to a group. Requires administrator privile
 
 +++<p class="divider"> </p>+++
  
-`*PUT* /api/rest/v2/group/addgroup`
+`*PUT* /tspublic/rest/v2/group/addgroup`
 
 Adds a group to another group object. This API request creates a hierarchy of groups. The subgroups inherit the privileges assigned to the parent group.
 
@@ -227,10 +239,9 @@ Adds a group to another group object. This API request creates a hierarchy of gr
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /api/rest/v2/group/removegroup`
+`**PUT** /tspublic/rest/v2/group/removegroup`
 
 Removes a group from the parent group.
-
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -238,7 +249,7 @@ Removes a group from the parent group.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/group/search`
+`*POST* /tspublic/rest/v2/group/search`
 
 Gets a list of groups created in the ThoughtSpot system. To filter your query, you can specify the group type, group name, privileges, sharing visibility, users, and other such attributes. 
 
@@ -247,11 +258,76 @@ Gets a list of groups created in the ThoughtSpot system. To filter your query, y
 ++++
 --
 
+== Admin
+
+--
+`**GET ** /tspublic/rest/v2/admin/configuration` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets details of the current configuration of a ThoughtSpot cluster.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/admin/configuration/overrides` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets details of configuration overrides. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**PUT **/tspublic/rest/v2/admin/configuration/update`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Updates configuration settings of the ThoughtSpot cluster.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/resetpassword`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Resets the password of a user account.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/syncprincipal`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Synchronizes user account and group properties from an external database with ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/changeowner`  [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Transfers the ownership of objects from one user to another.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+--
+
+
 == Metadata
 
 
 --
-`*GET* /api/rest/v2/metadata/tag`
+`*GET* /tspublic/rest/v2/metadata/tag`
 
 Gets details for the specified tag. You must specify the tag name or the GUID.
 
@@ -261,7 +337,7 @@ Gets details for the specified tag. You must specify the tag name or the GUID.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/tag/create`
+`*POST* /tspublic/rest/v2/metadata/tag/create`
 
 Creates a tag object.
 
@@ -271,7 +347,7 @@ Creates a tag object.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/metadata/tag/update`
+`*PUT* /tspublic/rest/v2/metadata/tag/update`
 
 Modifies the properties of a tag object.
 
@@ -281,7 +357,7 @@ Modifies the properties of a tag object.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/tag/assign`
+`*POST* /tspublic/rest/v2/metadata/tag/assign`
 
 Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, answer, data object, and data connection objects.
 
@@ -291,7 +367,7 @@ Assigns a tag to one or several metadata objects. You can assign a tag to a Live
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/tag/unassign`
+`*POST* /tspublic/rest/v2/metadata/tag/unassign`
 
 Removes the tag assigned to an object.
 
@@ -518,6 +594,62 @@ Removes a table from an existing data connection.
 `*POST* /api/rest/v2/connection/search` [tag greenBackground]#NEW in 8.1.0.cl#
 
 Gets details of all data connections. You can also query data for a specific connection type.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Data
+
+--
+`**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Allows constructing a search query string and retreives data from a search query.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/data/answer` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets data from a saved search answer.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/data/liveboard` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets data from the specified Liveboard and visualization.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Report
+
+--
+`*POST* /tspublic/rest/v2/report/answer` [tag greenBackground]#NEW in 8.2.0.cl#
+
+Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX. 
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Log
+
+--
+`*GET* /tspublic/rest/v2/logs/events` [tag greenBackground]#NEW in 8.2.0.cl# 
+
+Gets security audit logs from the ThoughtSpot system.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>

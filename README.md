@@ -25,6 +25,8 @@ The SDK is written in TypeScript and is also provided both as ES Module (ESM) an
 ```js
 // ESM via NPM
 import * as TsEmbedSDK from '@thoughtspot/visual-embed-sdk';
+// OR
+import { LiveboardEmbed } from '@thoughtspot/visual-embed-sdk';
 
 // NPM <script>
 <script src="https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js"></script>;
@@ -41,7 +43,8 @@ import {
 
 ## Live Playground
 
-Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere).
+Visit our [code playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere). <br/><br/>
+Start a [free trial](https://www.thoughtspot.com/trial?tsref=trialtse) on your own data.
 
 <br/>
 
@@ -132,10 +135,26 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 appEmbed.render();
 ```
 
+### Triggering and Listening to events
+```js
+// NPM
+import { LiveboardEmbed, Page, AuthType, init, EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
+
+// .. Do init and create a liveboardEmbed object as above.
+
+liveboardEmbed.render();
+
+liveboardEmbed.on(EmbedEvent.LiveboardRendered, () => {
+    liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+});
+```
+
 ## React Components
 
 All the above flavors of embedding are also provided as React components for your convenience.
 The constructor options are passed as props and the event listeners can be attached using `on<EventName>` convention.
+<br/><br/>
+Checkout a comprehensive working demo [here](https://codesandbox.io/s/github/ashubham/big-react-demo)
 
 ### Search Component
 
@@ -166,7 +185,7 @@ const MyComponent = ({ dataSources }) => {
 };
 ```
 
-### Triggering events on React components
+### Triggering events on React components (> version 1.9.2)
 
 ```jsx
 import { HostEvent } from '@thoughtspot/visual-embed-sdk';

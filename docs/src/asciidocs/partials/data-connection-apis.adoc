@@ -1,37 +1,39 @@
 
+
 --
+`xref:connections-api.adoc#cre-connection[**POST** /tspublic/v1/connection/create]`
 
-`xref:connections-api.adoc#cre-connection[**POST**  /tspublic/v1/connection/create]` 
-
-Creates a data connection.
-
-+++<p class="divider"> </p>+++
++++<p class="divider"> Creates a data connection. </p>+++
 
 `xref:connections-api.adoc#edit-connection[**POST** /tspublic/v1/connection/update]`  
 
-Modifies a data connection.
++++<p class="divider">Modifies a data connection. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:connections-api.adoc#connection-types[*GET* /tspublic/v1/connection/types]`
 
-`xref:connections-api.adoc#connection-types[*GET* /tspublic/v1/connection/types]`  
++++<p class="divider"> Gets a list of data connections that are currently operational on the ThoughtSpot cluster.
+</p>+++
 
-Gets a list of data connections that are currently operational on the ThoughtSpot cluster.
+`xref:connections-api.adoc#live-query-connections[*GET* /tspublic/v1/connection/list]`
 
-+++<p class="divider"> </p>+++
++++<p class="divider"> Gets a list of data connections set up for a live query service on the ThoughtSpot cluster.  </p>+++
 
-`xref:connections-api.adoc#live-query-connections[*GET*  /tspublic/v1/connection/list]`  
+`xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` [tag greenBackground]#NEW in 8.2.0.cl#
 
-Gets a list of data connections set up for a live query service on the ThoughtSpot cluster.  
++++<p class="divider">Gets metadata for a given connection ID. </p>+++
 
-+++<p class="divider"> </p>+++
+`xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` [tag greenBackground]#NEW in 8.2.0.cl#
+
++++<p class="divider">Gets tables and column metadata a given connection ID. </p>+++
 
 `xref:connections-api.adoc#export-connections[**GET** /tspublic/v1/connection/export]` 
 
-Exports a data connection map.
++++<p class="divider">Exports a data connection map.</p>+++
 
-+++<p class="divider"> </p>+++
+`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]`
 
-`xref:connections-api.adoc#del-connection[**POST** /tspublic/v1/connection/delete]` 
++++<p class="divider">Deletes the specified data connections.</p>+++
 
-Deletes the specified data connections.
 --
+
+

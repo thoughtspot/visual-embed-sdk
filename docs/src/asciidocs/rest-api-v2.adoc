@@ -17,16 +17,16 @@ For more information, see xref:rest-api-v2-playground.adoc[REST Playground v2].
 
 Language-specific SDK and client libraries::
 
-ThoughtSpot provides Java, Python, and TypeScript SDK and client libraries. If you want to call REST APIs in a language-specific way, you can download the SDK and libraries from the Playground and integrate them with your environment. 
+ThoughtSpot provides Java, Python, and TypeScript SDK and client libraries. If you want to call REST APIs in a language-specific way, you can download the SDK and libraries and integrate them with your environment.
 +
 For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
 
-OAuth token-based authentication and authorization::
+Token-based authentication and authorization::
 
-To provide secure access to ThoughtSpot resources, REST API v2 supports the OAuth 2.0 Bearer token for authentication and authorization. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
+To provide secure access to ThoughtSpot resources, REST API v2 supports the OAuth 2.0 Bearer token and trusted authentication methods. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
 
 +
-For more information, see xref:rest-api-v2-getstarted.adoc[Get started with REST API v2].
+For more information, see xref:authentication.adoc[REST v2 authentication].
 
 Consistent request and response workflow::
 

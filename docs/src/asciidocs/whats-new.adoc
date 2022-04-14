@@ -8,46 +8,74 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 8.1.0.cl
 
-The ThoughtSpot 8.1.0.cl release version is now available with the following new features and enhancements.
+== Coming soon
 
+////
 === Custom actions
-
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration</h5>+++
 
-ThoughtSpot introduces app actions to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
+ThoughtSpot introduces app actions[beta orangeBackground]^BETA^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
 
-Users with developer or admin privileges can create an app action for Slack in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
+Users with developer or admin privileges can create an app action for Slack[beta orangeBackground]^BETA^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
+////
 
-=== Visual Embed SDK version 1.9.0 
+==== Visual Embed SDK 1.10.0
+The Visual Embed SDK version 1.10.0 with the `AddRemoveColumns` event will be available on your instances soon. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
 
-[width="100%" cols="1,4"]
-|====
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now includes the following new enumerations for UI actions:
 
-* `Action.AnswerDelete` +
-* `Action.AnswerChartSwitcher` +
-* `Action.AddToFavorites` +
-* `Action.EditDetails` +
+==== REST API v1
 
-For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
+New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
-|====
+==== REST API v2 [beta orangeBackground]^BETA^
 
-=== REST API v2 [beta orangeBackground]^BETA^
+The xref:rest-api-v2.adoc[REST API Playground and SDK] feature will be enabled by default on ThoughtSpot instances in the upcoming release.
 
-[width="100%" cols="1,4"]
-|====
-||
-|[tag greenBackground]#NEW FEATURE# a|+++<h5> New API endpoints</h5> +++ 
+The upcoming release also introduces the following new features:
+
+Trusted authentication::
+If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
+////
+For more information, see xref:authentication.adoc#trustedAuthToken[REST API v2 authentication].
+////
+SDK for .NET clients::
+ThoughtSpot provides the .NET SDK to allow developers to interact with REST APIs from .NET applications. You can download the SDK from NuGet Package Manager and install it using the NuGet GUI.
+
+New API endpoints::
+
+* `GET /tspublic/rest/v2/admin/configuration`
+* `GET /tspublic/rest/v2/admin/configuration/overrides`
+* `PUT /tspublic/rest/v2/admin/configuration/update`
+* `PUT /tspublic/rest/v2/admin/resetpassword`
+* `PUT /tspublic/rest/v2/admin/syncprincipal`
+* `PUT /tspublic/rest/v2/admin/changeowner`
+* `PUT /tspublic/rest/v2/user/changepassword`
+* `POST /tspublic/rest/v2/data/search`
+* `POST /tspublic/rest/v2/data/answer`
+* `POST /tspublic/rest/v2/data/liveboard`
+* `POST /tspublic/rest/v2/report/answer`
+* `GET /tspublic/rest/v2/logs/events`
+
+////
+For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
+////
+
+== Version 8.1.0.cl
+
+==== Visual Embed SDK version 1.9.x
+
+The Visual Embed SDK version 1.9.x introduces new action enumerations, events, and attributes. For more information, see xref:api-changelog.adoc[Visual Embed Changelog].
+
+==== REST API v2 [beta orangeBackground]^BETA^
+
+The following REST API v2 endpoints are now available on instances on which the REST API v2 Playground and SDK feature is enabled.
 
 * `GET /api/rest/v2/connection`
 * `POST /api/rest/v2/connection/create`
@@ -59,12 +87,10 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 * `DELETE /api/rest/v2/metadata/delete`
 * `GET /api/rest/v2/metadata/header`
 
-These API endpoints are available only if the REST API v2 Playground and SDK feature is enabled on your instance. The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
+The REST API v2 Playground and SDK is a limited availability feature and is in beta.
 
-For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v2-reference.adoc[REST API v2 Reference].     
-|====
- 
- 
+For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v2-reference.adoc[REST API v2 Reference].
+
 == Version 8.0.0.cl
 
 .Visual Embed SDK version 1.8.x
@@ -78,7 +104,7 @@ For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v
 The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a user session expires.
 |[tag greenBackground]#NEW FEATURE# | +++<h5>Authentication</h5> +++ 
 
-The `init` method now returns an `authPromise` that resolves when a user authentication is completed.
+The `init` method now returns an `authPromise` that resolves when the authentication is completed.
 |====
 
 ====
@@ -127,8 +153,6 @@ For more information, see xref:embed-events.adoc[Interact with events].
 |====
 ====
 
- 
-
 .REST API Playground and SDK [beta orangeBackground]^BETA^
 
 [%collapsible] 
@@ -142,9 +166,9 @@ ThoughtSpot introduces the REST v2 framework with new API endpoints and an inter
 
 The API Playground offers several distinct features, such as an interactive code panel, a catalog of resource-oriented endpoint URLs, language-specific SDK and client libraries, code samples, and API reference documentation.
 
-You can use any standards-compliant HTTP client or use the Playground to make an API call. If you want to construct your queries and process API responses programmatically, you can download the SDK and client libraries in the programming language of your choice and integrate it with your applications.
+You can use any standards-compliant HTTP client or use the Playground to make an API call. If you want to construct your queries and process API responses programmatically, you can download the SDK and client libraries in the programming language of your choice and integrate them with your applications.
 
-The REST API Playground and SDK is a limited availability feature and is in beta.To preview this feature, visit link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2[ThoughtSpot Live Playground,  window=_blank]. To enable this feature on your ThoughtSpot instance, contact ThoughtSpot Support.
+The REST API Playground and SDK is a limited availability feature and is in beta. To preview this feature, visit link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/api/rest/playgroundV2[ThoughtSpot Live Playground,  window=_blank]. To enable this feature on your ThoughtSpot instance, contact ThoughtSpot Support.
 
 For more information, see xref:rest-api-v2.adoc[REST API v2].
 |====

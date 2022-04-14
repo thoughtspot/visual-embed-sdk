@@ -1,5 +1,6 @@
 
-To authenticate and log in a user, you must xref:session-api.doc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request. 
+To authenticate and log in a user, you must xref:session-api.adoc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request.
+
 
 * `GET /tspublic/v1/session/login/token`
 +
@@ -44,7 +45,8 @@ The following example shows a GET request with query parameters in the request U
 ----
 curl -X GET \
 --header 'Accept: text/html' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
 
 
@@ -64,8 +66,8 @@ The following example shows a POST request with authentication attributes in the
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/html' \
---header 'X-Requested-By: ThoughtSpot' 
--d  'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCREMUlCcWV5VVJMb2lZaFpnTUhjMHVnPT0kZklpQVFGTFp0RU5QTFFwcGxOUmF5WWU4ZGtGU1d6THdlUDBEOUY4WkhSWT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+--header 'X-Requested-By: ThoughtSpot' \
+-d  'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCREMUlCcWV5VVJMb2lZaFpnTUhjMHVnPT0kZklpQVFGTFp0RU5QTFFwcGxOUmF5WWU4ZGtGU1d6THdlUDBEOUY4WkhSWT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F' \
 'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token'
 ----
 

@@ -1,4 +1,4 @@
-= App actions [tag greenBackground]#NEW in 8.1.0.cl#  
+= App actions [beta orangeBackground]^BETA^
 :toc: true
 
 :page-title: App actions for business application integration

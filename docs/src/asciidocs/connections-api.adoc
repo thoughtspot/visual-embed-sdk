@@ -4,7 +4,7 @@
 
 :page-title: Data connection APIs
 :page-pageid: connections-api
-:page-description: Live data connections API
+:page-description: The connection API endpoints allow you to query data connections used for live query services on a ThoughtSpot instance
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. ThoughtSpot users can run a live query of the data directly from the following external data sources to generate the information they need:
 
@@ -18,19 +18,17 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 * Teradata
 * SAP HANA
 
-The connection APIs allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
+The connection API endpoints allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
 This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
-
-== Required permissions
-
-You must have data management permissions to create, edit, delete or query data connection objects. Make sure your user account has the `DATAMANAGEMENT` privilege.
-
 
 == Supported operations
 
 include::{path}/data-connection-apis.adoc[]
 
+=== Required permissions
+
+You must have data management permissions to create, edit, delete or query data connection objects. Make sure your user account has the `DATAMANAGEMENT` privilege.
 
 [#connection-metadata]
 == Connection metadata
@@ -284,7 +282,7 @@ __String__. The database associated with the account.
 [#cre-connection]
 == Add a data connection for live query service
 
-ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API. 
+ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. To create a connection to an external data source and set up a live query service, use the `/tspublic/v1/connection/create` API endpoint.
 
 
 === Resource URL
@@ -297,7 +295,7 @@ POST /tspublic/v1/connection/create
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
@@ -645,7 +643,7 @@ POST /tspublic/v1/connection/update
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__. The description of the data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
@@ -1085,10 +1083,10 @@ GET /tspublic/v1/connection/list
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query parameter|Description
 |`category` __Optional__ a|__String__. Type of the live query object. Valid values are:
 
-* `ALL`
+* `All`
 +
 Gets all live query objects set up on the cluster
 
@@ -1244,6 +1242,1245 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 | No live query connections on the cluster
 |===
 
+[#connMetadata]
+== Get details of a specific connection
+
+To get details of a specific data connection and its associated columns, send a `POST` request to the `/tspublic/v1/connection/fetchConnection` endpoint.
+
+
+=== Resource URL
+
+----
+POST /tspublic/v1/connection/fetchConnection
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Data Parameter|Description
+|`id`|__String__. GUID of the data connection. 
+|`includeColumns`|__Boolean__. A flag to include or exclude column metadata in the API response. By default, the API returns data for all columns in the response.
+|`config` +
+__Optional__ a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
+
+[NOTE]
+====
+Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update a connection, you must use the `/tspublic/v1/connection/update` endpoint.
+====
+|==== 
+
+=== Example request
+
+.cURL
+
+[source,CURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'id=abb64e33-1f06-4994-9af7-f6ea8729c9f1&includeColumns=false&config={"database":"RETAILAPPAREL-DEV"}' \
+'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchConnection'
+----
+
+.Request URL
+
+----
+https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchConnection
+----
+
+=== Example response
+
+.Sample response with column data
+[%collapsible]
+====
+[source,JSON]
+----
+{
+  "type": "RDBMS_SNOWFLAKE",
+  "authenticationType": "SERVICE_ACCOUNT",
+  "externalDatabases": [
+    {
+      "name": "RETAILAPPAREL",
+      "isAutoCreated": false,
+      "schemas": [
+        {
+          "name": "INFORMATION_SCHEMA",
+          "tables": [
+            {
+              "name": "APPLICABLE_ROLES",
+              "type": "VIEW",
+              "description": "The roles that can be applied to the current user.",
+              "selected": false,
+              "linked": true,
+              "columns": [
+                {
+                  "name": "SCHEMA_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "FILE_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "LAST_LOAD_TIME",
+                  "type": "DATE_TIME",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "STATUS",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "ROW_COUNT",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "ROW_PARSED",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "FIRST_ERROR_MESSAGE",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "FIRST_ERROR_LINE_NUMBER",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "FIRST_ERROR_CHARACTER_POSITION",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "FIRST_ERROR_COL_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "ERROR_COUNT",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "ERROR_LIMIT",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                }
+              ],
+              "relationships": []
+            },
+            {
+              "name": "SCHEMATA",
+              "type": "VIEW",
+              "description": "The schemas defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [
+                {
+                  "name": "CATALOG_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "SCHEMA_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "SCHEMA_OWNER",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "IS_TRANSIENT",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "IS_MANAGED_ACCESS",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "RETENTION_TIME",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "DEFAULT_CHARACTER_SET_CATALOG",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "DEFAULT_CHARACTER_SET_SCHEMA",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "DEFAULT_CHARACTER_SET_NAME",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "SQL_PATH",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "CREATED",
+                  "type": "DATE_TIME",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "LAST_ALTERED",
+                  "type": "DATE_TIME",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "COMMENT",
+                  "type": "VARCHAR",
+                  "canImport": true,
+                  "selected": false,
+                  "isLinkedActive": true
+                }
+              ],
+              "relationships": []
+            },
+            {
+              "name": "FACT_RETAPP_SALES",
+              "type": "TABLE",
+              "description": "",
+              "selected": true,
+              "linked": true,
+              "columns": [
+                {
+                  "name": "SALESID",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "PRODUCTID",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "STOREID",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "QUANTITYPURCHASED",
+                  "type": "INT64",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "ITEMPRICE",
+                  "type": "DOUBLE",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "SALES",
+                  "type": "DOUBLE",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                },
+                {
+                  "name": "RECORDDATE",
+                  "type": "DATE",
+                  "canImport": true,
+                  "selected": true,
+                  "isLinkedActive": true
+                }
+              ],
+              "relationships": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tables": [],
+  "selectedTables": [],
+  "selectedColumns": [],
+  "configuration": {
+    "password": "",
+    "database": "RETAILAPPAREL-DEV",
+    "role": "PUBLIC",
+    "accountName": "coa41300.us-east-1",
+    "warehouse": "DEMO_WH",
+    "user": "tsuser"
+  }
+}
+----
+====
+
+.Sample response without column data
+[%collapsible]
+====
+[source,JSON]
+----
+{
+  "type": "RDBMS_SNOWFLAKE",
+  "authenticationType": "SERVICE_ACCOUNT",
+  "externalDatabases": [
+    {
+      "name": "RETAILAPPAREL",
+      "isAutoCreated": false,
+      "schemas": [
+        {
+          "name": "INFORMATION_SCHEMA",
+          "tables": [
+            {
+              "name": "APPLICABLE_ROLES",
+              "type": "VIEW",
+              "description": "The roles that can be applied to the current user.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "COLUMNS",
+              "type": "VIEW",
+              "description": "The columns of tables defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "DATABASES",
+              "type": "VIEW",
+              "description": "The databases that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "ENABLED_ROLES",
+              "type": "VIEW",
+              "description": "The roles that are enabled to the current user.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "EXTERNAL_TABLES",
+              "type": "VIEW",
+              "description": "The external tables defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "FILE_FORMATS",
+              "type": "VIEW",
+              "description": "The file formats defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "FUNCTIONS",
+              "type": "VIEW",
+              "description": "The user-defined functions defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "INFORMATION_SCHEMA_CATALOG_NAME",
+              "type": "VIEW",
+              "description": "Identifies the database (or catalog, in SQL terminology) that contains the information_schema",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "LOAD_HISTORY",
+              "type": "VIEW",
+              "description": "The loading information of the copy command",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            },
+            {
+              "name": "SCHEMATA",
+              "type": "VIEW",
+              "description": "The schemas defined in this database that are accessible to the current user's role.",
+              "selected": false,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            }
+          ]
+        },
+        {
+          "name": "PUBLIC",
+          "tables": [
+            {
+              "name": "FACT_RETAPP_SALES",
+              "type": "TABLE",
+              "description": "",
+              "selected": true,
+              "linked": true,
+              "columns": [],
+              "relationships": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tables": [],
+  "selectedTables": [],
+  "selectedColumns": [],
+  "configuration": {
+    "password": "",
+    "database": "RETAILAPPAREL-DEV",
+    "role": "PUBLIC",
+    "accountName": "coa41300.us-east-1",
+    "warehouse": "DEMO_WH",
+    "user": "tsuser"
+  }
+}
+----
+====
+
+=== Response codes
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful operation
+| **400**
+| Invalid parameter values
+| **500**
+| Invalid connection object ID
+|===
+
+[#fetchLiveColums]
+== Get column data for connections with external tables
+
+To get column data for a connection with external tables, send a `POST` request to the `/tspublic/v1/connection/fetchLiveColumns` endpoint.
+
+=== Resource URL
+
+----
+POST /tspublic/v1/connection/fetchLiveColumns
+----
+
+=== Request parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|====
+|Form Data Parameter|Description
+|`connection_id`|__String__. GUID of the data connection. 
+|`tables` a|__String__. The external tables to include in the output. The `tables` string allows you to fetch one or several tables from multiple external databases.
+
+* To get column data for a specific table, specify the string as shown here: +
+`[{"tableName":"PIPES"}]`
+* To get column data for multiple tables, specify the string as shown here: +
+`[{"tableName":"PIPES"},{"tableName":"STAGES"},{"tableName":"SEQUENCES"}]`
+* To get column data for tables with a specific schema, specify the string as shown here: +
+`[{"databaseName":"RETAILAPPAREL","schemaName":"INFORMATION_SCHEMA"}]`
+* To get column data for a specific table from a specific database, specify the string as shown here: +
+`[{"databaseName":"RETAILAPPAREL","tableName":"PIPES"}]`
+* To get column data for a specific table in an external database with a schema, specify the string as shown here: +
+`[{"databaseName":"RETAILAPPAREL","schemaName":"INFORMATION_SCHEMA","tableName":"PIPES"}]`
+* To get column data for multiple tables in a specific database, you can specify the string as shown here: +
+`[{"databaseName": "RETAILAPPAREL"},{"tableName": "PIPES"},{"tableName":"STAGES"},{"tableName": "SEQUENCES"}]`
+* To get column data for specific tables from multiple databases, you can specify the `tables` string as shown here: +
+`[{"databaseName": "RETAILAPPAREL","tableName": "PIPES"},{"databaseName": "RETAILAPPAREL-DEV","tableName": "STAGES"}]`
+
+|`config` +
+__Optional__ a|__String__. Configuration attributes to override the metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
+
+[IMPORTANT]
+====
+Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update the connection metadata, you must use the `/tspublic/v1/connection/update` endpoint.
+====
+|==== 
+
+=== Example request
+
+.cURL
+
+[source,cURL]
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'connection_id=2aa36dbd-dda6-4497-a6db-bc47e128862e&tables=[{"tableName":"PIPES"},{"tableName":"STAGES"},{"tableName":"SEQUENCES"}]&config={"database":"DEVELOPMENT"}' \
+'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
+----
+
+=== Example response
+
+.Sample response with a single table
+
+[%collapsible]
+====
+[source,JSON]
+----
+{
+  "..PIPES": [
+    {
+      "name": "PIPE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+  ]
+}
+----
+====
+
+.Sample response with multiple tables
+[%collapsible]
+====
+[source,JSON]
+----
+{
+  "..STAGES": [
+    {
+      "name": "STAGE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_URL",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_REGION",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_TYPE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+  ],
+  "..PIPES": [
+    {
+      "name": "PIPE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "PIPE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+  ],
+  "..SEQUENCES": [
+    {
+      "name": "SEQUENCE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DATA_TYPE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+  ]
+}
+----
+====
+
+.Sample response with tables associated to a specific schema
+[%collapsible]
+====
+[source,JSON]
+----
+{
+  "RETAILAPPAREL.INFORMATION_SCHEMA.": [
+    {
+      "name": "GRANTEE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "ROLE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "ROLE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "IS_GRANTABLE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "TABLE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "TABLE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "TABLE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "COLUMN_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DATA_TYPE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DOMAIN_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DOMAIN_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DOMAIN_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DATABASE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "DATABASE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "IS_TRANSIENT",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "SEQUENCE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_URL",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_REGION",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_TYPE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+  ]
+}
+----
+====
+
+.Sample response with a single table from a specific database
+[%collapsible]
+====
+[source,JSON]
+----
+{
+"RETAILAPPAREL..PIPES": [
+{
+"name": "PIPE_CATALOG",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_SCHEMA",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_NAME",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_OWNER",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "DEFINITION",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "CREATED",
+"type": "DATE_TIME",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "LAST_ALTERED",
+"type": "DATE_TIME",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+}
+]
+}
+----
+====
+
+.Sample response with multiple tables from one or more external databases
+
+[%collapsible]
+====
+[source,JSON]
+----
+{
+"RETAIL.INFORMATION_SCHEMA.PIPES": [
+{
+"name": "PIPE_CATALOG",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_SCHEMA",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_NAME",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PIPE_OWNER",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "DEFINITION",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "CREATED",
+"type": "DATE_TIME",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "LAST_ALTERED",
+"type": "DATE_TIME",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "COMMENT",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+},
+{
+"name": "PATTERN",
+"type": "VARCHAR",
+"canImport": true,
+"selected": false,
+"isLinkedActive": true
+}
+],
+"RETAILCLOUD.INFORMATION_SCHEMA.STAGES": [
+ {
+      "name": "STAGE_CATALOG",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_SCHEMA",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_NAME",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_URL",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_REGION",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_TYPE",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "STAGE_OWNER",
+      "type": "VARCHAR",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "CREATED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    },
+    {
+      "name": "LAST_ALTERED",
+      "type": "DATE_TIME",
+      "canImport": true,
+      "selected": false,
+      "isLinkedActive": true
+    }
+]
+}
+----
+====
+
+=== Response codes
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|HTTP status code | Description
+
+| **200**
+| Successful operation
+| **400**
+| Invalid connection ID
+| **500**
+| Invalid string format
+|===
+
+
 [#export-connections]
 == Export a connection map
 
@@ -1259,7 +2496,7 @@ GET /tspublic/v1/connection/export
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description 
+|Query parameter|Description
 |`id`|__String__. The GUID of the data connection you want to export. 
 |====
 
@@ -1318,7 +2555,7 @@ POST /tspublic/v1/connection/delete
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description 
+|Form parameter|Description
 |`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete. 
 |====
 
@@ -1344,7 +2581,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/delete
 
 If the connection deletion is successful, the following response code is returned:
 
-[source,JSON]
 ----
 Response Code
 204

@@ -1,12 +1,14 @@
-= Embed Liveboards without the Visual Embed SDK
+= Embed without SDK
+:toc: []
+:toclevels: 1
 
-:page-title: Embed Liveboards without Visual Embed SDK
+:page-title: Embed Liveboards using iFrame
 :page-pageid: embed-without-sdk
 :page-description: Embed Liveboards without using Visual Embed SDK
 
 The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
 
-In these situations, you can embed ThoughtSpot Liveboards or individual visualizations from a Liveboard using a directly created iframe tag.
+In these situations, you can embed ThoughtSpot Liveboards or visualizations from a Liveboard using a directly created `iframe` tag.
 
 == Construct URL for direct iframe embed
 The pattern for the URL to embed a Liveboard is:

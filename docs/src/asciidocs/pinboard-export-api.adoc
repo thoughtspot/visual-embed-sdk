@@ -4,7 +4,7 @@
 
 :page-title: Export Liveboard as PDF
 :page-pageid: liveboard-export-api
-:page-description: Liveboard Export API
+:page-description: The Liveboard export API endpoint allows you to download a pinboard or its visualizations in the PDF format
 
 To programmatically download a Liveboard or specific visualizations from a Liveboard as a PDF file, use the `/tspublic/v1/export/pinboard/pdf`.
 
@@ -25,21 +25,21 @@ POST /tspublic/v1/export/pinboard/pdf
 
 == Request parameters
 
-[width="100%" cols="1,1,3,1"]
+[width="100%" cols="1,3,1"]
 [options='header']
 |====
-|Form Parameter|Data Type|Description|Default
-|`id`|string|GUID of the Liveboard to download|none
-|`visualization_ids`|string|GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
-|`transient_pinboard_content`|string|If the Liveboard has unsaved changes, pass this parameter in the xref:pinboard-export-api.adoc#transient-pinboard[browser fetch request].|none
-|`layout_type`|string|Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the Liveboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
-|`orientation`|string|Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
-|`truncate_tables`|boolean|When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
-|`include_logo`|boolean|Include customized wide logo if available in the footer|`true`
-|`footer_text` _Optional_|string|Footer text to include in the footer of each page of the PDF.|none
-|`include_page_number`|boolean|When set to `true`, the page number is included in the footer of each page.|`true`
-|`include_cover_page`|boolean|When set to `true`, a cover page with the Liveboard title is added in the PDF.|`true`
-|`include_filter_page`|boolean|When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
+|Form parameter|Description|Default
+|`id`|__String__. GUID of the Liveboard to download|none
+|`visualization_ids`|__String__. Array of GUIDs of the visualizations to include in the PDF in the JSON array format. For example, `['aab9eb75-d295-4a79-ac37-4a37c1cce0b3', '039943a7-77cb-4fa1-a8a2-785a2b5ebe28']`. If you have specified the visualization IDs, make sure you set the `layout_type` parameter to `VISUALIZATION`. |none
+|`transient_pinboard_content`|__String__. If the Liveboard has unsaved changes, pass this parameter in the xref:pinboard-export-api.adoc#transient-pinboard[browser fetch request].|none
+|`layout_type`|__String__. Layout type for the PDF. Valid values are `PINBOARD` and  `VISUALIZATION`. For `PINBOARD`, the PDF uses the same layout as the Liveboard UI. For `VISUALIZATION`, the PDF has one visualization for each page.|`PINBOARD`
+|`orientation`|__String__. Page orientation for the PDF. Valid values are `PORTRAIT` and `LANDSCAPE`.|`LANDSCAPE`
+|`truncate_tables`|__Boolean__. When set to true, only the first page of the tables is displayed in the PDF. This setting is applicable  only if the `layout_type` parameters is set to `VISUALIZATION`|`false`
+|`include_logo`|__Boolean__. Include customized wide logo if available in the footer|`true`
+|`footer_text` _Optional_|__String__. Footer text to include in the footer of each page of the PDF.|none
+|`include_page_number`|__Boolean__. When set to `true`, the page number is included in the footer of each page.|`true`
+|`include_cover_page`|__Boolean__. When set to `true`, a cover page with the Liveboard title is added in the PDF.|`true`
+|`include_filter_page`|__Boolean__. When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
 |====
 
 == Example request

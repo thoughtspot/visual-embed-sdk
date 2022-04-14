@@ -4,9 +4,9 @@
 
 :page-title: Get details of dependent objects
 :page-pageid: dependent-objects-api
-:page-description: Dependent Objects API
+:page-description: The dependency API endpoints allow you to get details of the dependents for a metadata object
 
-The `tspublic/v1/dependency` endpoints allow you to query ThoughtSpot objects to get dependency data and associate objects as dependents.
+The `tspublic/v1/dependency` endpoints allow you to query dependent objects for a metadata object type or ID. 
 
 Dependency in ThoughtSpot is defined as a relation between the referenced and referencing objects. If the referenced object cannot be deleted without first deleting the referencing object, the referenced object is considered as a dependent object.  
 
@@ -45,13 +45,13 @@ A join combines columns from one or several data objects by using matching value
 The APIs require you to specify the GUIDs of the data objects that you want to query. You can use the `/tspublic/v1/metadata/listobjectheaders` and `/tspublic/v1/metadata/details` API endpoints to get the GUID of the objects that you want to query.
 ====
 
-== Required permissions
-
-You must have edit access to the metadata objects that you want to query.
-
 == Supported operations
 
 include::{path}/dependency-api-list.adoc[]
+
+=== Required permissions
+
+You must have edit access to the metadata objects that you want to query.
 
 [#add-dependents]
 == Get dependent objects for metadata type
@@ -67,7 +67,7 @@ POST /tspublic/v1/dependency/listdependents
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter|Description
+|Form parameter|Description
 |`type` a|_String_. Type of the data object. Valid values are:
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
@@ -88,7 +88,9 @@ POST /tspublic/v1/dependency/listdependents
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' -d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'id=%5B%22cd252e5c-b552-49a8-821d-3eadaa049cca%22%2C%20%2269428b60-58fd-42d7-b645-16ea3d524a06%22%5D&batchsize=1' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listdependents'
 ----
 
 .Request URL
@@ -137,7 +139,7 @@ If the `POST` operation is successful, the API returns a response body with depe
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful addition of dependent objects
 |**400**|Invalid object ID
 |**500**|Null object ID
@@ -156,7 +158,7 @@ GET /tspublic/v1/dependency/logicalcolumn
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__Array of strings__. A JSON array of GUIDs of the columns of a table, worksheet, or view.
 |====
 
@@ -168,7 +170,8 @@ GET /tspublic/v1/dependency/logicalcolumn
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalcolumn?id=%5B%220761cc6a-543b-4db3-a066-43c707a2655e%22%2C%20%2234d09c13-08a3-4b09-907b-92cc6f544f78%22%5D'
 ----
 
 .Request URL
@@ -290,7 +293,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -307,7 +310,7 @@ GET /tspublic/v1/dependency/logicaltable
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter| Description
+|Query parameter| Description
 |`id`|__Array of strings__. The GUIDs of data objects such as a worksheet, tables, or views.
 |====
 
@@ -318,7 +321,8 @@ GET /tspublic/v1/dependency/logicaltable
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicaltable?id=%5B%222b9d083a-275c-4984-9cfe-90b036affa17%22%2C%20%22b8781e3b-6972-4c3b-9581-15fe800eee16%22%2C%20%22f7b13cf6-c2a7-46c1-ae13-d0ef97e98ea4%22%5D'
 ----
 
 .Request URL
@@ -418,7 +422,7 @@ If the `GET` operation is success, the API returns a list of dependent objects:
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -436,7 +440,7 @@ GET /tspublic/v1/dependency/logicalrelationship
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__Array of strings__. A JSON array of the GUIDs of table joins.
 |====
 
@@ -447,7 +451,8 @@ GET /tspublic/v1/dependency/logicalrelationship
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://j<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/logicalrelationship?id=%5B%22594ac790-4b03-4853-8953-47040332bc36%22%5D'
 ----
 
 .Request URL
@@ -498,7 +503,7 @@ If the GET operation is successful, the API returns the following response:
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -516,7 +521,7 @@ GET /tspublic/v1/dependency/physicalcolumn
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__Array of strings__. A JSON array of GUIDs of the physical columns.
 |====
 
@@ -527,7 +532,8 @@ GET /tspublic/v1/dependency/physicalcolumn
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=%5B%2209247580-95b6-4018-9f0f-f5a8b333065c%22%2C%20%22ae3fbcb0-60c9-43b3-98a1-48dd47cb4151%22%5D'
 ----
 
 .Request URL
@@ -620,7 +626,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicalcolumn?id=
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -637,7 +643,7 @@ GET /tspublic/v1/dependency/physicaltable
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__Array of strings__. A JSON array of the GUIDs of the physical table.
 |====
 === Example request
@@ -647,7 +653,8 @@ GET /tspublic/v1/dependency/physicaltable
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%5B%22182f1e7c-c461-4535-b9da-c5297147631a%22%5D'
 ----
 
 .Request URL
@@ -718,7 +725,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/physicaltable?id=%
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -738,7 +745,7 @@ GET /tspublic/v1/dependency/pinboard
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Query Parameter|Description
+|Query parameter|Description
 |`id`|__Array of strings__. A JSON array of Liveboard GUIDs.
 |====
 
@@ -749,7 +756,8 @@ GET /tspublic/v1/dependency/pinboard
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%22d084c256-e284-4fc4-b80c-111cb606449a%22%5D'
 ----
 
 .Request URL
@@ -792,7 +800,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/pinboard?ids=%5B%2
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===
@@ -817,7 +825,8 @@ None
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/dependency/listincomplete'
 ----
 
 .Request URL
@@ -859,7 +868,7 @@ If the cluster has objects with incomplete metadata details, the API returns the
 
 [options="header", cols=".^2a,.^14a"]
 |===
-|HTTP code|Description
+|HTTP status code|Description
 |**200**|Successful retrieval of dependent objects
 |**400**|Invalid object ID
 |===

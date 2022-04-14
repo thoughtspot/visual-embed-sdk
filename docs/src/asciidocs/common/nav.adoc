@@ -6,13 +6,17 @@
 [navSection]
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=whats-new[What's new]
-////
-** link:{{navprefix}}=embed-sdk-changelog[Visual Embed SDK changelog]
-////
-* link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
+** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
+** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
+
+* link:{{navprefix}}=embed-analytics[Embedded analytics]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
+
+* link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=dev-playground[Visual Embed Playground]
+** link:{{navprefix}}=rest-playground[REST API Playground]
 
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
@@ -28,11 +32,7 @@
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=authorization-settings[Authentication and authorization]
 
-* link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
-** link:{{navprefix}}=dev-playground[Visual Embed Playground]
-** link:{{navprefix}}=rest-playground[REST API Playground]
-
-* link:{{navprefix}}=visual-embed-sdk[Visual Embed SDK]
+* link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
 ** link:{{navprefix}}=embed-auth[Authentication]
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
@@ -41,11 +41,19 @@
 ** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 ** link:{{navprefix}}=full-embed[Embed full application]
 ** link:{{navprefix}}=events[Interact with events]
-** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
 ** link:{{navprefix}}=action-config[Show or hide UI actions]
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
+** link:{{navprefix}}=set-locale[Set locale and display language]
+** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
+** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
-** link:{{navprefix}}=embed-without-sdk[Embed without the Visual Embed SDK]
+*  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
+////
+** link:{{navprefix}}=embed-without-sdk[Salesforce]
+** link:{{navprefix}}=embed-without-sdk[SharePoint]
+////
+
+
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
 ** link:{{navprefix}}=customize-actions[Create and administer actions]
@@ -55,9 +63,10 @@
 ** link:{{navprefix}}=custom-action-url[URL actions]
 ** link:{{navprefix}}=custom-action-callback[Callback actions]
 ** link:{{navprefix}}=custom-action-payload[Callback response payload]
+////
 ** link:{{navprefix}}=app-actions[App actions]
 ** link:{{navprefix}}=slack-integration[Push data to a Slack workspace]
-
+////
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
 ** link:{{navprefix}}=customize-style[Customize layout and styles]
 ** link:{{navprefix}}=customize-links[Customize links]
@@ -67,34 +76,33 @@
 ** link:{{navprefix}}=v1v2-comparison[REST v1 and v2 comparison]
 ** link:{{navprefix}}=rest-api-v1[REST API v1]
 *** link:{{navprefix}}=rest-api-getstarted[Get started]
-*** link:{{navprefix}}=api-auth-session[REST v1 authentication]
+*** link:{{navprefix}}=api-auth-session[REST API v1 authentication]
 *** link:{{navprefix}}=api-user-management[Users and group privileges]
-*** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
 *** link:{{navprefix}}=custom-viz-rest-api[Create a custom visualization]
+*** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
 *** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
 *** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 ** link:{{navprefix}}=rest-api-v2[REST API v2]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
-*** link:{{navprefix}}=api-authv2[REST v2 authentication]
+*** link:{{navprefix}}=api-authv2[REST API v2 authentication]
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground]
 *** link:{{navprefix}}=client-libraries[SDK and client libraries]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
-*** link:{{navprefix}}=user-api[User APIs]
-*** link:{{navprefix}}=group-api[Group APIs]
-*** link:{{navprefix}}=session-api[Session APIs]
-*** link:{{navprefix}}=connections-api[Data connection APIs]
-*** link:{{navprefix}}=metadata-api[Metadata APIs]
-*** link:{{navprefix}}=admin-api[Admin APIs]
-*** link:{{navprefix}}=tml-api[TML APIs]
-*** link:{{navprefix}}=dependent-objects-api[Dependent objects APIs]
+*** link:{{navprefix}}=user-api[User API]
+*** link:{{navprefix}}=group-api[Group API]
+*** link:{{navprefix}}=session-api[Session API]
+*** link:{{navprefix}}=connections-api[Data connection API]
+*** link:{{navprefix}}=metadata-api[Metadata API]
+*** link:{{navprefix}}=admin-api[Admin API]
+*** link:{{navprefix}}=tml-api[TML API]
+*** link:{{navprefix}}=dependent-objects-api[Dependent objects API]
 *** link:{{navprefix}}=search-data-api[Search data API]
 *** link:{{navprefix}}=liveboard-data-api[Liveboard data API]
 *** link:{{navprefix}}=liveboard-export-api[Liveboard export API]
-*** link:{{navprefix}}=security-api[Security APIs]
+*** link:{{navprefix}}=security-api[Security API]
 *** link:{{navprefix}}=logs-api[Log streaming service API]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
  
-
 
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 

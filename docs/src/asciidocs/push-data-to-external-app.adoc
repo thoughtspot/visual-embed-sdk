@@ -59,7 +59,7 @@ const showData = (payload) => {
         const html = actionDataToHTML(actionData);
         const dataContentElement = document.getElementById('modal-data-content');
         dataContentElement.innerHTML = html;
-        const dataElement = document.getElementById('callback-data');
+        const dataElement = document.getElementById('show-data');
         dataElement.style.display = 'block';
     } else {
         console.log(`Got unknown custom actions ${data.id}`);

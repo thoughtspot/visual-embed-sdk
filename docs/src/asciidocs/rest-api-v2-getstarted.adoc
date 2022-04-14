@@ -15,7 +15,7 @@ To access the REST API v2 Playground, go to **Develop** > **REST API** > **REST 
 The Playground allows you to make API calls, view the request and response workflows, and download code samples.
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Go to Playground</a>
+<a href="{{previewPrefix}}/tspublic/rest/playgroundV2" id="preview-in-playground" target="_blank">Go to Playground</a>
 ++++
 
 == Set up your environment
@@ -32,27 +32,32 @@ The configuration panel appears.
 
 . In the *Client Configuration* section, specify the base URI.
 ////
-If you want to call REST API in a language-specific way, download the language-specific SDK from the REST API Playground and set up your environment.
+If you want to call REST API in a language-specific way, download the language-specific SDK and set up your environment.
 
 For more information about language-specific SDK and client libraries, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries]. 
  
 == Authorize your client
 
-To provide secure access to ThoughtSpot resources, the REST API v2 framework supports the OAuth 2.0 Bearer token authentication and authorization flow. To make calls to the REST API v2 endpoints, you must obtain an OAuth access token and pass it in the `Authorization` header to authorize your API requests. 
+To provide secure access to ThoughtSpot resources, the REST API v2 framework supports OAuth 2.0 Bearer tokens and the trusted authentication method. For local development or test environments, you can use basic authentication with `userName` and `password`. 
 
-To get an OAuth access token, send a `POST` request to the `/api/rest/v2/session/gettoken` endpoint.
+[NOTE]
+====
+The examples in this article show how to obtain an OAuth access token and authorize your API requests. For information about other types of authentication, see xref:authentication.adoc[REST v2 Authentication].
+====
+
+To get an OAuth access token, send a `POST` request to the `/tspublic/rest/v2/session/gettoken` endpoint.
 
 ----
-POST /api/rest/v2/session/gettoken
+POST /tspublic/rest/v2/session/gettoken
 ----
 
 In the request body, specify your ThoughtSpot user credentials. Optionally, you can set a token expiry duration. 
 
 [source,curl]
 ----
-  "userName": "tsadmin",
-  "password": "123CLOud!",
-  "tokenExpiryDuration": "120000"
+ "userName": "tsadmin",
+ "password": "123CLOud!",
+ "tokenExpiryDuration": "120000"
 ----
 
 If the request is successful, the server returns an OAuth access token in the session login response.
@@ -74,10 +79,10 @@ By default, the OAuth access token is valid for 24 hours. If you make an API cal
 
 To make a REST API call, send a request to the endpoint URL and pass the parameters. 
 
-For example, to get a list of metadata objects, send a `POST` request to the `/api/rest/v2/metadata/header/search`.
+For example, to get a list of metadata objects, send a `POST` request to the `/tspublic/rest/v2/metadata/header/search`.
 
 ----
-POST /api/rest/v2/metadata/header/search
+POST /tspublic/rest/v2/metadata/header/search
 ----
 
 
@@ -123,7 +128,7 @@ The following example shows the CURL request format to get a list of answers sav
 [source,curl]
 ----
 curl -X POST \
-  --url '<ThoughtSpot-host>/api/rest/v2/metadata/header/search' \
+  --url '<ThoughtSpot-host>/tspublic/rest/v2/metadata/header/search' \
   -H 'Authorization: Bearer {OAUTH_TOKEN}'\
   -H 'Accept-Language: application/json'\
   -H 'Content-Type: application/json' \
@@ -166,7 +171,6 @@ If the API request is successful, ThoughtSpot returns a list of object headers f
 }
 ----
 
-
 === HTTP status codes
 
 The REST API v2 framework supports standard HTTP response codes to indicate the success or failure of a request. 
@@ -175,22 +179,13 @@ The REST API v2 framework supports standard HTTP response codes to indicate the 
 +
 Indicates a successful operation. The API returns a response body.
 
-* *400*
-+
-Indicates a bad request. You may have to modify the request before making another call.
-
-* *401*
-+
-Indicates an unauthorized request. Check if you have the required credentials and object access to make the API call.
-
 * *500*
 +
-Indicates an internal server error. Check if the data format of the request is supported. Verify if the server is available and can process your request.
+Indicates an internal server error. Make sure the data format of the request is correct and check if the server is available and can process your request. You may also want to check the error codes in the response body. For example, when a request is unauthorized, the API returns a 500 error and shows the error code as 401 in the response body. 
 
 If your API call returns an error in the Playground, you can view the error details under `extensions` > `upstreamResponse` > `data` > `debug` in the response body.
 
 To view the error response code, go to `extensions` > `upstreamResponse` > `status` in the error response body.
-
 
 [.widthAuto]
 image::./images/api-v2-error.png[REST API v2 error codes width=auto]

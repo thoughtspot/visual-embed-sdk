@@ -145,13 +145,15 @@ For example, if you customized the host name in the URL as `www.mysite.com`, Tho
 * If you are using a non-embedded ThoughtSpot instance and the Liveboard or answer sharing URL format is customized, ThoughtSpot displays the *Embedded link format* checkbox. To copy the URL in the customized format, click *Embedded link format*. 
 
 +
+[.bordered]
 [.widthAuto]
 image::./images/embed-link-format-sharing.png[Embed link format, width=auto]
 
 +
-Similarly, if the Liveboard URL format is customized for your instance, you will notice that the Add a Schedule page 
+Similarly, if the Liveboard URL format is customized for your instance, you will see the **Send embedded link** checkbox in the Liveboard scheduling page.
 
 +
+[.bordered]
 [.widthAuto]
 image::./images/embed-link-liveboardSchedule.png[Embed link format]
 

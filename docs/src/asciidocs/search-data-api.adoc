@@ -6,7 +6,7 @@
 :page-pageid: search-data-api
 :page-description: Search Data API
 
-To programmatically construct a search query string and retrieve data from ThoughtSpot, use the `/tspublic/v1/searchdata` REST API.
+To construct a search query string and retrieve data from ThoughtSpot programmatically, use the `/tspublic/v1/searchdata` REST API.
 
 == Search query
 
@@ -229,24 +229,24 @@ POST /tspublic/v1/searchdata
 
 === Request parameters
 
-[width="100%", cols="1,1,2"]
+[width="100%", cols="2,2"]
 [options='header']
 |====================
-| Query Parameter | Data Type |Description
-|`query_string` | string |The data search query string. For more information, see xref:search-data-api.adoc#components[Components of a search query].
+| Query parameter | Description
+|`query_string` |__String__. The data search query string. For more information, see xref:search-data-api.adoc#components[Components of a search query].
 
-|`data_source_guid`  | string | The GUID of the data source, either a worksheet, a view, or a table.
+|`data_source_guid` |__String__.  The GUID of the data source, either a worksheet, a view, or a table.
 
-|`batchsize`  | integer |The batch size for loading search objects.
+|`batchsize`  |__Integer__. The batch size for loading search objects.
 
 The system default is -1.
-| `pagenumber` | integer |An alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.  
+| `pagenumber` | __Integer__. An alternate way to set offset for the starting point of the search results returned from the query. The default value is `-1`.
 
 `indexingOffset = (pageNumber - 1) * batchSize`
 
-| `offset` | integer |Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
+| `offset` |__Integer__. Attribute to offset the starting point of the search results returned from the query.  Specify a 1-based offset. The default value is `-1`.
 
-| `formattype` | string |The format of the data.
+| `formattype` |__String__. The format of the data.
 
 Valid values are `COMPACT` or `FULL` JSON. The default value is `COMPACT`.
 |====================
@@ -260,7 +260,8 @@ curl -X POST \
 --header 'Accept-Language: en-US' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .cURL (FULL)
@@ -270,7 +271,8 @@ curl -X POST \
 --header 'Accept-Language: en-US' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
 ----
 
 .Request URL (COMPACT)
@@ -287,7 +289,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsa
 
 === Example response
 
-The search data returned in the API response contains four components:
+The data the API response contains four components:
 
 . The `columnNames` array that contains a list of all column headers.
 . The `data` array that contains a list of sub-arrays. Each sub-array represents a new row of data.

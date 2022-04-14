@@ -1,19 +1,19 @@
 = Session APIs
-:toc: true
+:toc:
 :toclevels: 1
 
 :page-title: Session API
 :page-pageid: session-api
-:page-description: Session API
+:page-description: To log in to ThoughtSpot and create user sessions, use the session API endpoints
 
 The Session APIs allow ThoughtSpot users to authenticate and manage their sessions.
 
-== Required permissions
-
-You require ThoughtSpot login credentials to create a session object and obtain a login token.
-
 == Supported operations
 include::{path}/session-api-list.adoc[]
+
+=== Required permissions
+
+You require ThoughtSpot login credentials to create a session object and obtain a login token.
 
 
 [#session-login]
@@ -208,12 +208,12 @@ To set a Liveboard as a home Liveboard for a user account, send a `POST` request
 POST /tspublic/v1/session/homepinboard
 ----
 === Request parameters
-[width="100%" cols="1,1,4"]
+[width="100%" cols="1,4"]
 [options='header']
 |===
-|Form Parameter|Data Type|Description
-|`id`|string|GUID of the Liveboard to be set as a home Liveboard.
-|`userid` __Optional__|string|GUID of the user account for which you want to set the home Liveboard. If the `userid` attribute is not defined, ThoughtSpot sets the home Liveboard of the current logged-in user.
+|Form parameter|Description
+|`id`|__String__. GUID of the Liveboard to be set as a home Liveboard.
+|`userid` __Optional__|__String__. GUID of the user account for which you want to set the home Liveboard. If the `userid` attribute is not defined, ThoughtSpot sets the home Liveboard of the current logged-in user.
 |===
 === Example request
 
@@ -236,7 +236,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 [options="header", cols="1,4"]
 |===
 |HTTP status code|Description
-|**200**|Successful operation.
 |**204**|The specified Liveboard is set as a home Liveboard.
 |**403**|The Liveboard with the given ID is not accessible.
 |**401**|Unauthorized request or invalid token.
@@ -245,7 +244,8 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 
 [#get-home-liveboard]
 == Get details of the home Liveboard
-To get the Liveboard GUID that is set as `home Liveboard` in the currently logged-in user's account, send a GET request to the `/tspublic/v1/session/homepinboard` API endpoint.
+
+To get the GUID of Liveboard that is currently set as a `home Liveboard`, send a `GET` request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
@@ -297,7 +297,8 @@ DELETE /tspublic/v1/session/homepinboard
 ----
 curl -X DELETE \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard'
 ----
 
 .Request URL

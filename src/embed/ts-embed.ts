@@ -11,6 +11,7 @@ import {
     getEncodedQueryParamsString,
     getCssDimension,
     getOffsetTop,
+    embedEventStatus,
     setAttributes,
 } from '../utils';
 import {
@@ -29,6 +30,8 @@ import {
     RuntimeFilter,
     Param,
     EmbedConfig,
+    MessageOptions,
+    MessageCallbackObj,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getProcessData } from '../utils/processData';
@@ -127,6 +130,11 @@ export interface ViewConfig {
      */
     runtimeFilters?: RuntimeFilter[];
     /**
+     * The locale/language to use for the embedded view.
+     * @version 1.9.4 or later
+     */
+    locale?: string;
+    /**
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
@@ -174,7 +182,7 @@ export class TsEmbed {
      * by the embedded app; multiple event handlers can be registered
      * against a particular message type.
      */
-    private eventHandlerMap: Map<string, MessageCallback[]>;
+    private eventHandlerMap: Map<string, MessageCallbackObj[]>;
 
     /**
      * A flag that is set to true post render.
@@ -343,10 +351,11 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
-        if (this.embedConfig.disableLoginRedirect === true) {
-            queryParams[
-                Param.DisableLoginRedirect
-            ] = this.embedConfig.disableLoginRedirect;
+        if (
+            this.embedConfig.disableLoginRedirect === true ||
+            this.embedConfig.autoLogin === true
+        ) {
+            queryParams[Param.DisableLoginRedirect] = true;
         }
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
@@ -359,6 +368,7 @@ export class TsEmbed {
             visibleActions,
             showAlerts,
             additionalFlags,
+            locale,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -382,6 +392,9 @@ export class TsEmbed {
         }
         if (showAlerts !== undefined) {
             queryParams[Param.ShowAlerts] = showAlerts;
+        }
+        if (locale !== undefined) {
+            queryParams[Param.Locale] = locale;
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);
@@ -545,11 +558,19 @@ export class TsEmbed {
         eventPort?: MessagePort | void,
     ): void {
         const callbacks = this.eventHandlerMap.get(eventType) || [];
-        callbacks.forEach((callback) =>
-            callback(data, (payload) => {
-                this.triggerEventOnPort(eventPort, payload);
-            }),
-        );
+        const dataStatus = data?.status || embedEventStatus.END;
+        callbacks.forEach((callbackObj) => {
+            if (
+                (callbackObj.options.start &&
+                    dataStatus === embedEventStatus.START) || // When start status is true it trigger only start releated payload
+                (!callbackObj.options.start &&
+                    dataStatus === embedEventStatus.END) // When start status is false it trigger only end releated payload
+            ) {
+                callbackObj.callback(data, (payload) => {
+                    this.triggerEventOnPort(eventPort, payload);
+                });
+            }
+        });
     }
 
     /**
@@ -616,20 +637,21 @@ export class TsEmbed {
      * sends an event of a particular message type to the host application.
      *
      * @param messageType The message type
-     * @param callback A callback function
+     * @param callback A callback as a function
+     * @param options The message options
      */
     public on(
         messageType: EmbedEvent,
         callback: MessageCallback,
+        options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
             this.handleError(
                 'Please register event handlers before calling render',
             );
         }
-
         const callbacks = this.eventHandlerMap.get(messageType) || [];
-        callbacks.push(callback);
+        callbacks.push({ options, callback });
         this.eventHandlerMap.set(messageType, callbacks);
         return this;
     }

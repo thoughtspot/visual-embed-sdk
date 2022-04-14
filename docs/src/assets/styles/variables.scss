@@ -37,8 +37,8 @@ $font-size-small: 12px;
 $font-size-home: 13px;
 $font-size-normal: 14px;
 $font-size-table: 14px;
-$font-size-doc: 15px;
-$font-size-code: 13.5px;
+$font-size-doc: 14.5px;
+$font-size-code: 14px;
 $line-height-code: 1.4rem; 
 $font-size-large: 18px;
 $font-size-404: 1.25rem;
@@ -180,7 +180,7 @@ $tag-color-yellow: #ffbc00;
 
 #wrapper[data-theme='dark'] {
     --body-background-color: #21252c;
-    --primary-color: #fff;
+    --primary-color: #E8EAED;
     --breadcrums-font-color: #a5acb9;
     --admonition-background: #3c4356;
     --code-block-color: #3c4356;

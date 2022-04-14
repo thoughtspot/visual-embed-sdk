@@ -267,15 +267,11 @@ Applies filters to a visualization in a Liveboard.
 
 Allows sharing a Liveboard with another user or user group. 
 
-|`Action.Schedule`| `AppEmbed` |**Schedule** 
+|`Action.Schedule` +
+
+`Action.Subscription`| `AppEmbed` |**Schedule** 
 
 Allows scheduling Liveboard notifications.
- 
-|`Action.Subscription`| `AppEmbed` |**Schedule* 
-
-Allows scheduling Liveboard notifications. 
-
-Starting from the the 8.0.0.cl release, the **Follow** button is replaced with **Schedule**. You can use either `Action.Schedule` or `Action.Subscription` to show or hide the **Schedule **feature.
 
 |`Action.Remove` | `AppEmbed`| *Delete*
 Deletes a Liveboard.
@@ -318,10 +314,10 @@ Downloads the Liveboard as a PDF file.
 Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
 |`Action.ImportTML`|`AppEmbed` | *Import TML*
 
-Imports the TML representation of a Liveboard object to the ThoughtSpot server. 
+Allows importing the TML representation of a Liveboard object to ThoughtSpot. 
 |`Action.ExportTML`|`AppEmbed` | *Export TML*
 
-Exports the TML representation of a Liveboard object from the ThoughtSpot server. 
+Exports the TML representation of a Liveboard object from ThoughtSpot. 
 |`Action.UpdateTML`|`AppEmbed` | *Update TML*
 Publishes the modified TML representation of a Liveboard object.
 
@@ -333,15 +329,6 @@ Publishes the modified TML representation of a Liveboard object.
 Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon. 
 
 |====
-
-////
-
-[IMPORTANT]
-====
-The *Follow* action is deprecated in the ThoughtSpot 8 Cloud release. The corresponding action string, `Action.Subscription` is also deprecated in Visual Embed SDK version 1.6.0.
-====
-
-////
 
 [#viz-actions]
 === For visualizations on a Liveboard
@@ -543,15 +530,14 @@ Copies the selected data point. Available as a contextual menu action for table 
 Allows editing the TML representation of the answer object.
 |`Action.ImportTML`|`AppEmbed` | *Import TML*
 
-Imports the TML representation of a Liveboard object to the ThoughtSpot server. 
+Allows importing the TML representation of an answer into ThoughtSpot. 
 |`Action.ExportTML`|`AppEmbed` | *Export TML*
 
-Exports the TML representation of a Liveboard object from the ThoughtSpot server. 
+Exports the TML representation of an answer from ThoughtSpot. 
 |`Action.UpdateTML`|`AppEmbed` | *Update TML*
-Publishes the modified TML representation of a Liveboard object.
+Publishes the modified TML representation of an answer.
 |===
 
 == Additional resources
 
 For a complete list of action enumerators, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
-
