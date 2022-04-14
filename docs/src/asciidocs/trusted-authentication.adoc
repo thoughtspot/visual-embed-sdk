@@ -12,6 +12,11 @@ _You_ must implement the actual authentication of the inbound request for a toke
 
 The authenticator service must have secure access to the `secret_key` for the ThoughtSpot instance. With that `secret_key`, the authenticator service can make a REST API request for a login token for any existing user within ThoughtSpot. This login token is then sent to the user's web browser, where it is used in the login process.
 
+[NOTE]
+====
+All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode. 
+====
+
 == Key components
 
 The trusted authentication workflow involves several entities, such as the web browser, web application, authenticator service, and the ThoughtSpot application server.
@@ -199,3 +204,6 @@ A pop-up window appears and prompts you to confirm the disable action.
 +
 When you disable trusted authentication, the validity of your existing secret key expires. Your application will become inoperable until you add a secret key to the authenticator service.
 You must re-enable trusted authentication and then obtain a new secret key.
+
+== Additional resources
+There is an simple Python Flask implementation of an Authenticator Service available in the  link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources repository, target=_blank]. The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, target=_blank] page to help verify each step of the trusted authentication process.
