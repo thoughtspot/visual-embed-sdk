@@ -6,6 +6,8 @@
 [navSection]
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=whats-new[What's new]
+** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
+** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
 ////
 ** link:{{navprefix}}=embed-sdk-changelog[Visual Embed SDK changelog]
 ////
