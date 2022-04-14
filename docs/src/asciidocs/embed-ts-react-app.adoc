@@ -47,7 +47,7 @@ npm i @thoughtspot/visual-embed-sdk
 
 You will require GUIDs of the following objects to embed ThoughtSpot components.
 
-* The saved answer or data source GUIDs to embed search and run a search query.
+* The saved answer or data source GUIDs to embed search and run a search query
 * Liveboard GUID to embed a Liveboard
 * Liveboard and visualization GUIDs to embed a visualization from a Liveboard 
 
@@ -68,12 +68,23 @@ In your React app project, go to the **Components ** folder in your app director
 import React from 'react'
 import { AuthType, init, EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
 import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
-// If you are using Webpack 4 (which is the default when using create-react-app v4), import
-// the React components as shown here:
+----
++
+If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+
++ 
+[source,Typescript]
+----
 import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+----
++
+Optionally, you can use an event logger component to log and track events. 
+
++ 
+[source,Typescript]
+----
 import { useEventLogger } from "../../utils/utils";
 ----
-
 
 . Initialize the SDK and specify the authentication method. 
 +
@@ -202,12 +213,23 @@ In your React app project, go to the **Components ** directory and add a new pag
 import React from "react";
 import { Action, init, EmbedEvent, HostEvent } from "@thoughtspot/visual-embed-sdk";
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
-// If you are using Webpack 4 (which is the default when using create-react-app v4), import
-// the React components as shown here:
+----
++
+If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+
++ 
+[source,Typescript]
+----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+----
++
+Optionally, you can use an event logger component to log and track events. 
+
++ 
+[source,Typescript]
+----
 import { useEventLogger } from "../../utils/utils";
 ----
-
 . Initialize the SDK and specify the authentication method. 
 +
 In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
@@ -353,9 +375,21 @@ In your React app project, go to the **Components ** folder in your app director
 import React from "react";
 import { Action, init, EmbedEvent, HostEvent } from "@thoughtspot/visual-embed-sdk";
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
-// If you are using Webpack 4 (which is the default when using create-react-app v4), import
-// the React components as shown here:
+----
++
+If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+
++ 
+[source,Typescript]
+----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+----
++
+Optionally, you can use an event logger component to log and track events. 
+
++ 
+[source,Typescript]
+----
 import { useEventLogger } from "../../utils/utils";
 ----
 
@@ -392,8 +426,6 @@ const viz = () => {
 };
 ----
 
-
-
 . Render the app
 
 +
@@ -423,12 +455,6 @@ const viz= () => {
       },
     ]);
   };
-  const selectVizs = () => {
-    embedRef.current.trigger(HostEvent.SetVisibleVizs, [
-      "3f84d633-e325-44b2-be25-c6650e5a49cf",
-      "28b73b4a-1341-4535-ab71-f76b6fe7bf92",
-    ]);
-  };
 
   return (
     <LiveboardEmbed
@@ -448,7 +474,6 @@ const viz= () => {
   );
 };
 ----
-
 
 == Embed full app
 
@@ -471,11 +496,25 @@ import {
   Page
 } from "@thoughtspot/visual-embed-sdk";
 import { AppEmbed, useEmbedRef } from @thoughtspot/visual-embed-sdk/react';
-// If you are using Webpack 4 (which is the default when using create-react-app v4), import
-// the React components as shown here:
+----
++
+If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+
++ 
+[source,Typescript]
+----
 import { AppEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
+----
++
+Optionally, you can use an event logger component to log and track events. 
+
++ 
+[source,Typescript]
+----
 import { useEventLogger } from "../../utils/utils";
 ----
+ 
+ 
 +
 Note that the import includes `Page`. The `Page` enumeration is required to set a specific ThoughtSpot page as a home tab when the application loads.
 
@@ -532,7 +571,6 @@ const FullApp = () => {
 ----
 ts-data-app> npm start
 ----
-
 
 === Test your app
 
