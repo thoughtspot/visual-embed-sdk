@@ -36,7 +36,7 @@ New endpoints for data connection queries. For more information, see xref:rest-a
 
 ==== REST API v2 [beta orangeBackground]^BETA^
 
-The xref:rest-api-v2.adoc[REST API Playground and SDK] feature will be enabled by default on ThoughtSpot instances in the upcoming release.
+The xref:rest-api-v2.adoc[REST API Playground and SDK] [beta orangeBackground]^BETA^ feature will be enabled by default on ThoughtSpot instances in the upcoming release.
 
 The upcoming release also introduces the following new features:
 
