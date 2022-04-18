@@ -10,6 +10,7 @@ import Docmap from '../components/Docmap';
 import Document from '../components/Document';
 import Search from '../components/Search';
 import '../assets/styles/index.scss';
+import AnchorJS from 'anchor-js';
 import { getAlgoliaIndex } from '../configs/algolia-search-config';
 import {
     DOC_NAV_PAGE_ID,
@@ -236,7 +237,7 @@ const IndexPage = ({ location }) => {
             });
         }
     },[keyword]);
-    
+
     const optionSelected = (pageid: string, sectionId: string) => {
         updateKeyword('');
         navigate(`${params[NAV_PREFIX]}=${pageid}#${sectionId}`);
@@ -263,7 +264,14 @@ const IndexPage = ({ location }) => {
         return '100%';
     };
     const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== HOME_PAGE_ID;
-
+    const anchors = new AnchorJS();
+    anchors.add('h2,h3,h4');
+    anchors.options = {
+       placement: 'right',
+       visible: 'hover',
+       ariaLabel: 'anchor',
+       icon: '¶'
+    };
 
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>

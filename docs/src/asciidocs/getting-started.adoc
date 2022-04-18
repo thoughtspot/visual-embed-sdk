@@ -1,8 +1,6 @@
 = Get Started
 :toc: true
 :linkattrs:
-:sectanchors:
-:sectlinks:
 
 :page-title: Getting Started
 :page-pageid: getting-started

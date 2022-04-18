@@ -43,6 +43,7 @@
     },
     "dependencies": {
         "algoliasearch": "^4.10.5",
+        "anchor-js": "^4.3.1",
         "classnames": "^2.3.1",
         "mixpanel-browser": "^2.41.0"
     },
