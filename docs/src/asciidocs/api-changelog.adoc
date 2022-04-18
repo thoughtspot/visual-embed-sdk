@@ -34,9 +34,8 @@ For more information, see xref:full-embed.adoc[Embed full application].
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a|The `locale` attribute is now available in embed packages. You can use this attribute to set the locale or language of your embedded application view. 
-////
+
 For more information, see xref:locale-setting.adoc[Set locale and display language].
-////
 |====
 
 == Version 1.9.4, April 2022
