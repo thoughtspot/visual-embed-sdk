@@ -419,7 +419,7 @@ export enum EmbedEvent {
     /**
      * This can be used to register an event listener which
      * is triggered on all events.
-     * @version 1.9.9 or later
+     * @version SDK: 1.10.0 | ThoughtSpot: any
      */
     ALL = '*',
     /**
