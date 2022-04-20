@@ -156,11 +156,11 @@ import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/
 . Add constructor options as props and register event listeners. 
 
 +
-In the following example: +
+The following example includes: +
 
-* A `Search` function with a data source ID and the `[quantity purchased] [region]` search token string is added.
-* A `changeSearch` function to allow programmatic change of the search query is added. You can assign this function to a button or custom action.
-* The `HostEvent.Search` event is registered to trigger a new search when the query changes to `[sales] by [item type]`.
+* A `Search` function with a data source ID and the `[quantity purchased] [region]` search token string.
+* A `changeSearch` function to allow programmatic change of the search query. You can assign this function to a button or custom action.
+* The `HostEvent.Search` event to trigger a new search when the query changes to `[sales] by [item type]`.
 +
 [source,Typescript]
 ----
