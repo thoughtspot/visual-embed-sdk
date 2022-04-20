@@ -25,9 +25,9 @@ Embeds full ThoughtSpot experience in your React app
 
 Before embedding ThoughtSpot, make sure you have installed React framework and its dependencies.  
 
-. Check if link:https://docs.npmjs.com/downloading-and-installing-node-js-and-npm[NPM and Node.js are installed, window=_blank] in your setup.
+* Check if link:https://docs.npmjs.com/downloading-and-installing-node-js-and-npm[NPM and Node.js are installed, window=_blank] in your setup.
 
-. If React is not installed, open a terminal window and run the following command:
+* If React is not installed, open a terminal window and run the following command:
 
 +
 ----
@@ -36,7 +36,7 @@ npm install -g create-react-app
 +
 For information about how to install React framework on Windows, see  link:https://docs.microsoft.com/en-us/windows/dev-environment/javascript/react-on-windows[Install React directly on Windows, window=_blank].
 
-. If you do not have a React app created for ThoughtSpot integration, create a React app and install its dependencies. 
+* If you do not have a React app created for ThoughtSpot integration, create a React app and install its dependencies. 
 
 .. To create a new React app, open a terminal window and execute the following command
 +
@@ -52,21 +52,20 @@ In the above example, the name of the app is `ts-data-app`.
 npm start
 ----
 
-. Make sure a React app directory with the initial project structure is created. The app directory typically includes the following JS files:
+
+*  Make sure a React app directory with the initial project structure is created. The app directory typically includes the following JS files:
 
 +
-* Index.js
-* App.js
+** Index.js
+** App.js
 
 +
-
 To add HTML code, rename these files to `.jsx`. If you are building an app using TypeScript, you can rename the files to `.tsx`. +
 For information about adding TypeScript to your existing React app project, see link:https://create-react-app.dev/docs/adding-typescript/[Adding TypeScript, window=_blank].
 
-+
-If you are building a multi-page app, create a `Components` directory and add new pages for ThoughtSpot components. To allow users to navigate between these pages,  xref:embed-ts-react-app.adoc#react-routes[add routes] in the `App.tsx` file.
+* If you are building a multi-page app, create a `Components` directory and add new pages for ThoughtSpot components. To allow users to navigate between these pages,  xref:embed-ts-react-app.adoc#react-routes[add routes] in the `App.tsx` file.
 
-+
+
 [NOTE]
 ====
 A basic functional React app may involve the use of  link:https://reactjs.org/docs/hooks-reference.html[React hooks, window=_blank] such as `useState`, `useRef`, and `useEffect`. For more information about React concepts and framework, see link:https://reactjs.org/docs/getting-started.html[React documentation, window=_blank].
@@ -89,7 +88,7 @@ If you want to use Port 8000 instead, make sure you xref:security-settings.adoc#
    "build": "react-scripts build",
    "test": "react-scripts test",
    "eject": "react-scripts eject"
- },
+ }
 ----
 
 === Add Visual Embed SDK 
