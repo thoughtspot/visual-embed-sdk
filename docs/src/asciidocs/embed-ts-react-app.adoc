@@ -68,7 +68,7 @@ For information about adding TypeScript to your existing React app project, see 
 
 [NOTE]
 ====
-A basic functional React app may involve the use of  link:https://reactjs.org/docs/hooks-reference.html[React hooks, window=_blank] such as `useState`, `useRef`, and `useEffect`. For more information about React concepts and framework, see link:https://reactjs.org/docs/getting-started.html[React documentation, window=_blank].
+A functional React app may require link:https://reactjs.org/docs/hooks-reference.html[React hooks, window=_blank] such as `useState`, `useRef`, and `useEffect`. For more information about React concepts and framework, see link:https://reactjs.org/docs/getting-started.html[React documentation, window=_blank].
 ====
 
 == Get started
@@ -524,7 +524,7 @@ To full ThoughtSpot application, complete the following steps:
 
 In your React app project, go to the **Components ** folder in your app directory and add a new page for full application embed: for example, `fullApp.tsx`. 
 
-. Import the React library: 
+. Import the `AppEmbed` component and event libraries:
 +
 [source,Typescript]
 ----
@@ -606,7 +606,7 @@ image::./images/full-app-react.png[]
 
 The following code sample embeds the full application experience, sets the `Liveboards` page as the default home page,  disables *Edit* and *Present* actions on Liveboard visualizations, and registers event handlers to log `Load` and `RouteChange` events.
 
-The example also shows how to register a custom action event to trigger a data payload from a saved answer when a user clicks the `Send data` custom action. For more information about custom action events, see xref:custom-actions-callback.adoc[Callback custom actions].
+The example also shows how to register a custom action event and trigger a data payload from a saved answer when a user clicks the `Send data` custom action. For more information about custom action events, see xref:custom-actions-callback.adoc[Callback custom actions].
 
 [source,Typescript]
 ----
