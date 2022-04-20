@@ -4,7 +4,7 @@
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square)
+# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square)
 
 SDK to embed ThoughtSpot into your web apps.
 
