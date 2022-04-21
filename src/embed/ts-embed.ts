@@ -765,9 +765,10 @@ export class V1Embed extends TsEmbed {
     public on(
         messageType: EmbedEvent,
         callback: MessageCallback,
+        options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
         const eventType = this.getCompatibleEventType(messageType);
 
-        return super.on(eventType, callback);
+        return super.on(eventType, callback, options);
     }
 }
