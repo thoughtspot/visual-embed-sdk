@@ -211,7 +211,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/app.ts#L100">embed/app.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/app.ts#L104">embed/app.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -241,7 +241,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.getThoughtSpotPostUrlParams</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/ts-embed.ts#L714">embed/ts-embed.ts:714</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L719">embed/ts-embed.ts:719</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,13 +259,13 @@
 					<a name="navigateToPage" class="tsd-anchor"></a>
 					<h3>navigate<wbr>ToPage</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">navigate<wbr>ToPage<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">navigate<wbr>ToPage<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, noReload<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/app.ts#L194">embed/app.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/app.ts#L202">embed/app.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,10 +277,17 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<h5>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The string, set to iframe src and navigate to new page
-										eg: appEmbed.navigateToPage(&#39;pinboards&#39;)</p>
+										<p>string | number The string, set to iframe src and navigate to new page
+											eg: appEmbed.navigateToPage(&#39;pinboards&#39;)
+										When used with <code>noReload</code> this can also be a number like 1/-1 to go forward/back.</p>
+									</div>
+								</li>
+								<li>
+									<h5>noReload: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>boolean Trigger the navigation without reloading the page (version: 1.12.0 | 8.4.0.cl)</p>
 									</div>
 								</li>
 							</ul>
@@ -292,14 +299,14 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>messageType<span class="tsd-signature-symbol">: </span><a href="../enums/EmbedEvent.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EmbedEvent</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MessageCallback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TsEmbed</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>messageType<span class="tsd-signature-symbol">: </span><a href="../enums/EmbedEvent.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EmbedEvent</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MessageCallback</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MessageOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TsEmbed</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/ts-embed.ts#L760">embed/ts-embed.ts:760</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L765">embed/ts-embed.ts:765</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -309,6 +316,9 @@
 								</li>
 								<li>
 									<h5>callback: <span class="tsd-signature-type">MessageCallback</span></h5>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">MessageOptions</span><span class="tsd-signature-symbol"> = ...</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TsEmbed</span></h4>
@@ -326,7 +336,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/app.ts#L212">embed/app.ts:212</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/app.ts#L230">embed/app.ts:230</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +359,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.trigger</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/58956a2a/src/embed/ts-embed.ts#L686">embed/ts-embed.ts:686</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L691">embed/ts-embed.ts:691</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

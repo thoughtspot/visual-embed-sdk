@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Coming soon
+== Version 8.2.0.cl, April 2022
 
 New REST v1 API endpoints for data connection queries: +
 
