@@ -9,7 +9,7 @@
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
 
-== Coming soon
+== Version 8.2.0.cl
 
 ////
 === Custom actions
@@ -27,7 +27,7 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 ////
 
 ==== Visual Embed SDK 1.10.0
-The Visual Embed SDK version 1.10.0 with the `AddRemoveColumns` event will be available on your instances soon. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+The Visual Embed SDK version 1.10.0 with the `AddRemoveColumns` event is now available. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
 
 
 ==== REST API v1
@@ -36,17 +36,17 @@ New endpoints for data connection queries. For more information, see xref:rest-a
 
 ==== REST API v2 [beta orangeBackground]^BETA^
 
-The xref:rest-api-v2.adoc[REST API Playground and SDK] [beta orangeBackground]^BETA^ feature will be enabled by default on ThoughtSpot instances in the upcoming release.
+Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
 
-The upcoming release also introduces the following new features:
+The 8.2.0.cl release also introduces the following features:
 
 Trusted authentication::
 If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
-////
+
 For more information, see xref:authentication.adoc#trustedAuthToken[REST API v2 authentication].
-////
+
 SDK for .NET clients::
-ThoughtSpot provides the .NET SDK to allow developers to interact with REST APIs from .NET applications. You can download the SDK from NuGet Package Manager and install it using the NuGet GUI.
+ThoughtSpot provides the .NET SDK to allow developers to interact with REST APIs from .NET applications. You can download the SDK from NuGet Package Manager and install it using the NuGet GUI. For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
 
 New API endpoints::
 
@@ -63,9 +63,8 @@ New API endpoints::
 * `POST /tspublic/rest/v2/report/answer`
 * `GET /tspublic/rest/v2/logs/events`
 
-////
 For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
-////
+
 
 == Version 8.1.0.cl
 
