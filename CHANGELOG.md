@@ -7,6 +7,10 @@ This project follows Semantic Versioning.
 
 ### New Features
 - Events for all actions on Search Embed
+## 1.10.0 (04-22-2022)
+
+- Release to support TS version 8.2.0.cl
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
 
 ## 1.9.5 (04-06-2022)
 
