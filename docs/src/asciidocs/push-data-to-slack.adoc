@@ -108,6 +108,8 @@ If the app action is set as a global action, the action will appear in the **Mor
 [.bordered]
 image::./images/initiate-app-action.png[Initiate an app action]
 
+. In the app authorization pop-up, select your Slack workspace.
+
 If the ThoughtSpot app is not installed in your Slack workspace::
 
 The app authorization page prompts you to install the app. 
@@ -119,18 +121,16 @@ The app authorization page prompts you to install the app.
 +
 Your Slack workspace administrator will receive a Slackbot notification to approve the request.
 
-.. Close the app authorization page and return to the ThoughtSpot UI. 
-.. Wait until the request is approved by your workspace administrator. You will receive a notification via email and Slackbot when your request is approved.
+.. Close the app authorization pop-up and return to the ThoughtSpot UI. 
+.. Wait until your request is approved by the Slack workspace administrator. You will receive a notification via email and Slackbot when your request is approved.
 +
-If your request is not approved, you will see the *Your request is already submitted* message when you retry sending data to Slack. Contact your Slack workspace administrator and make sure the app is installed.
+If your request is not approved, the app authorization pop-up displays the *Your request is already submitted* message when you re-initiate the Slack app action. Contact your Slack administrator and ensure that the ThoughtSpot app is installed in your workspace.
 
-.. After you receive the notification from Slackbot or email about the request approval, re-initiate the data push workflow by clicking the app action in the ThoughtSpot UI.
+.. After you receive a notification from Slackbot or email about the request approval, re-initiate the data push workflow by clicking the app action in the ThoughtSpot UI.
 
++
 If the ThoughtSpot app is installed in your Slack workspace::
-
 ThoughtSpot requests access to your Slack workspace and opens the app authorization pop-up.  
-
-. In the app authorization pop-up, specify your Slack workspace.
 +
 If you are not logged in to Slack workspace, the app authorization page prompts you to sign in. To continue with the integration, sign in with your credentials.
  
@@ -161,7 +161,7 @@ You can also search for a channel and then select it.
 ====
 ThoughtSpot does not support sending data in the PNG format if a chart or table does not include measures.
 ====
-
+. Click **Send now**.
 
 [#viewInSlack]
 === View insights in your Slack workspace
