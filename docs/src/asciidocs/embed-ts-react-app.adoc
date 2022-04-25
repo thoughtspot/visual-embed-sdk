@@ -146,12 +146,12 @@ If you are using Webpack 4, which is the default when using `create-react-app v4
 import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
 . xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. +
-. Add constructor options as props and register event listeners. 
+. Add constructor options as props and register event handlers. 
 +
 The following example includes:  
 
 * A `Search` function with a data source ID.
-* The `searchOptions` prop to programmatically construct a query string with `[quantity purchased] [region]` keywords and execute the search query.  
+* The `searchOptions` property to construct a query string with `[quantity purchased] [region]` keywords and execute the search query.  
 * Event handlers for `QueryChanged` and `Load` events.
 
 +
@@ -253,7 +253,7 @@ image::./images/search-query-changed.png[]
 
 === Search embed code sample
 
-In the following code sample embeds search with the data source pane, disables UI actions such as *Pin* and **Show underlying data**, registers event handlers for `Load`  `QueryChanged`.
+In the following code sample embeds search with the data source pane, disables UI actions such as *Pin* and **Show underlying data**, registers event handlers for `Init`, `Load` and `QueryChanged` events.
 
 [source,Typescript]
 ----
@@ -329,7 +329,7 @@ If you are using Webpack 4, import the React components as shown in this example
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
 . xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. 
-. Add constructor options as props and register event listeners.
+. Add constructor options as props and register event handlers.
 
 +
 The following example includes a `Liveboard` function with a Liveboard ID and registers an event handler for the `Init` and `Load` events.
@@ -374,8 +374,6 @@ ts-data-app> npm start
 +
 [.bordered]
 image::./images/liveboard-embed-react.png[]
-
-* Check if the registered events are emitted and logged in the console.
 
 === Liveboard embed code sample
 
@@ -469,7 +467,7 @@ If you are using Webpack 4, import the React components as shown in this example
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
 . xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. 
-. Add constructor options as props and add event listeners. 
+. Add constructor options as props and register event handlers. 
 
 +
 The following example includes the `viz` function with the Liveboard and visualization GUIDs and registers event handlers for `Init` and `Load`.
@@ -717,7 +715,7 @@ export default App;
  
 == Additional resources
 
-* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, window=_blank].
 * For information about events, see xref:embed-events.adoc[Interact with events].
 * For information about Action enumerations, see xref:embed-actions.adoc[Show or hide UI actions].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, window=_blank].
