@@ -72,9 +72,9 @@ Get started with embedding by following these steps:
 
 === Verify localhost port setting
 
-By default, React uses Port 3000 as a localhost port. Make sure you xref:security-settings.adoc#csp-viz-embed-hosts[add `localhost:3000` as a CSP visual embed host] in the **Security Settings **page of the **Develop **tab.
+By default, React uses Port 3000 as a localhost port. Make sure you add `localhost:3000` as a  xref:security-settings.adoc#csp-viz-embed-hosts[CSP visual embed host] in the **Security Settings **page of the **Develop **tab.
 
-If you want to use Port 8000 instead, make sure you xref:security-settings.adoc#csp-viz-embed-hosts[add it as a CSP visual embed host] and update the following script in the `package.json` file in your app directory.
+If you want to use Port 8000 instead, xref:security-settings.adoc#csp-viz-embed-hosts[add it to the CSP allowlist] and  update the following script in the `package.json` file in your app directory.
 
 [source,json]
 ----
@@ -158,7 +158,6 @@ The following example includes:
 [source,Typescript]
 ----
 const Search = () => {
-  const embedRef = useEmbedRef();
   //To construct a search query and execute the search, define a search token string
   const searchOptions = {
     searchTokenString: "[quantity purchased] [region]",
@@ -179,7 +178,6 @@ const Search = () => {
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
       dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
       searchOptions={searchOptions}
       onQueryChanged={onQueryChanged}
@@ -258,7 +256,6 @@ In the following code sample embeds search with the data source pane, disables U
 [source,Typescript]
 ----
 const Search = () => {
-  const embedRef = useEmbedRef();
   // define a search token string to construct a search query
   const searchOptions = {
     searchTokenString: "[quantity purchased] [region]",
@@ -279,7 +276,6 @@ const Search = () => {
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
       searchOptions={{
         searchTokenString: "[quantity purchased] [region]",
         executeSearch: true,
@@ -338,7 +334,6 @@ The following example includes a `Liveboard` function with a Liveboard ID and re
 [source,Typescript]
 ----
 const Liveboard = () => {
-  const embedRef = useEmbedRef();
   //Register event handlers
   const onInit = () => {
     console.log(EmbedEvent.Init, {});
@@ -351,7 +346,6 @@ const Liveboard = () => {
       frameParams={{
         height: 400,
       }}
-      ref={embedRef}
       fullHeight={true}
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
       onInit={onInit}
@@ -476,7 +470,6 @@ The following example includes the `viz` function with the Liveboard and visuali
 [source,Typescript]
 ----
 const viz = () => {
-  const embedRef = useEmbedRef();
   // Register event handlers
   const onInit = () => {
     console.log(EmbedEvent.Init, {}); 
@@ -489,7 +482,6 @@ const viz = () => {
       frameParams={{
         height: 400,
       }}
-      ref={embedRef}
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
       vizId="3f84d633-e325-44b2-be25-c6650e5a49cf"
       onInit={onInit}
@@ -522,7 +514,6 @@ The following code sample embeds a visualization with runtime filters applied, d
 [source,Typescript]
 ----
 const viz= () => {
-  const embedRef = useEmbedRef();
   //apply runtime filters
   const runtimeFilters = [
     {
@@ -554,7 +545,6 @@ const viz= () => {
       frameParams={{
         height: 400,
       }}
-      ref={embedRef}
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
       vizId="3f84d633-e325-44b2-be25-c6650e5a49cf"
       runtimeFilters={runtimeFilters}
@@ -616,7 +606,6 @@ The following example includes a `FullApp` function with the `Page.Home` set as 
 [source,Typescript]
 ----
 const FullApp = () => {
-  const embedRef = useEmbedRef();
   // Register event handlers
   const onInit = () => {
     console.log(EmbedEvent.Init, {});
@@ -629,7 +618,6 @@ const FullApp = () => {
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
       pageId={Page.Home}
       onInit={onInit}
       onLoad={onLoad}
@@ -660,7 +648,6 @@ The following code sample embeds the full application experience, sets the `Live
 [source,Typescript]
 ----
 const FullApp = () => {
-  const embedRef = useEmbedRef();
   // Register event handlers
   const onInit = () => {
     console.log(EmbedEvent.Init, {});
@@ -676,7 +663,6 @@ const FullApp = () => {
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
       pageId={Page.Liveboards}
       disabledActions={[Action.Save, Action.Edit]}
       disabledActionReason="Contact your administrator"

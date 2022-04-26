@@ -12,7 +12,7 @@ To embed ThoughtSpot objects in an iFrame, follow the steps described in this ar
 
 == Get the embed link
 
-To embed ThoughtSpot objects in an iFrame, the embed URL is required.
+To embed ThoughtSpot objects in an iFrame, you need the embed URL.
 
 * To get the embed link for a Liveboard: +
 .. Log in to ThoughtSpot.
@@ -21,7 +21,7 @@ To embed ThoughtSpot objects in an iFrame, the embed URL is required.
 .. Note the GUID of the Liveboard.
 
 * To get the embed link for a visualization: +
-.. Navigate to the table or chart
+.. Navigate to the table or chart.
 .. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
 .. Click *Copy embed link* icon.
 .. Note the GUID of the visualization.
@@ -31,7 +31,7 @@ If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the P
 . Go to *Develop* > *Playground* > *Visual embed*
 . Select an object to embed.
 . Configure the parameters for the embedded view.
-. Inspect the output and note the `iframe src`.
+. Inspect the output and note the URL in `iframe src`.
 
 == Construct the URL
 
@@ -53,18 +53,19 @@ For example, to sort values equal to `michigan` in the `State` column for a visu
 http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
 &col1=state&op1=EQ&val1=michigan
 ----
+
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
 
 == Authentication and security settings for an embedded instance
 
 All embedded ThoughtSpot objects require authentication. If the host application does not allow custom Javascript, you can use one of the following authentication methods:
 
-* Basic authentication with username and password 
+* Basic authentication with username and password (
 * SSO authentication
 
 When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
 
-If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, then it may be a viable SSO authentication mechanism.
+If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, it may be a viable SSO authentication mechanism.
 
 === SAML SSO authentication
 
@@ -73,11 +74,11 @@ To enable SAML SSO authentication for an iFrame embedded instance:
 . On your ThoughtSpot instance, configure xref:configure-saml.adoc#admin-portal[SAML SSO].
 . xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
 +
-Each IdP will have its specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
+Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
 
 == Add host domain to the CSP allowlist
 
-If you have access to the *Security settings* page in the Develop tab, you can xref:security-settings.adoc#csp-viz-embed-hosts[add your host domain to CSP] and xref:security-settings.adoc#cors-hosts[CORS]  allowlists. For example, if you are embedding a ThoughtSpot object in a Google site, you can add `sites.google.com` to the allowlists. 
+If you have access to the *Security settings* page in the *Develop* tab, you can xref:security-settings.adoc#csp-viz-embed-hosts[add your host domain to CSP] and xref:security-settings.adoc#cors-hosts[CORS]  allowlists. For example, if you are embedding a ThoughtSpot object in a Google site, you can add `sites.google.com` to the allowlists. 
 
 If you don't have access to *Develop* > *Security settings* page, contact ThoughtSpot support to update CSP settings on your instance.
 
@@ -100,7 +101,7 @@ The following code example can be used to define the new page. It defines the iF
 
 Note that the `{!account.Name}` is a Salesforce APEX variable. The other curly braces represent permanent values from your ThoughtSpot instance that you would hardcode into the APEX page.
 
-More complex integrations to Salesforce, utilizing the Visual Embed SDK, can be achieved using Lightning components. Contact your ThoughtSpot Support if you are interested in additional integration beyond what is described in this article.
+More complex integrations to Salesforce, utilizing the Visual Embed SDK, can be achieved using Lightning components. For additional integration beyond what is described in this article, contact your ThoughtSpot Support.
 
 == Other methods of embedding without SDK
 
