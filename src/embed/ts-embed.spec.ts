@@ -165,15 +165,16 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('when thoughtSpotHost have value and authPromise return success response', () => {
+    describe('when thoughtSpotHost have value and authPromise return response true/false', () => {
         beforeAll(() => {
             init({
                 thoughtSpotHost,
                 authType: AuthType.None,
+                loginFailedMessage: 'Failed to Login',
             });
         });
 
-        beforeEach(() => {
+        const setup = async (isLoggedIn = false) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
                     handler({
@@ -186,10 +187,9 @@ describe('Unit test case for ts embed', () => {
                 },
             );
             const iFrame: any = document.createElement('div');
-            jest.spyOn(
-                baseInstance,
-                'getAuthPromise',
-            ).mockResolvedValueOnce(() => Promise.resolve());
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(
+                isLoggedIn,
+            );
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             iFrame.contentWindow = null;
             tsEmbed.on(EmbedEvent.CustomAction, jest.fn());
@@ -199,10 +199,11 @@ describe('Unit test case for ts embed', () => {
                 },
             );
             jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
-            tsEmbed.render();
-        });
+            await tsEmbed.render();
+        };
 
-        test('mixpanel should call with VISUAL_SDK_RENDER_COMPLETE', () => {
+        test('mixpanel should call with VISUAL_SDK_RENDER_COMPLETE', async () => {
+            await setup(true);
             expect(mockMixPanelEvent).toBeCalledWith(
                 MIXPANEL_EVENT.VISUAL_SDK_RENDER_START,
             );
@@ -212,10 +213,19 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('Should remove prefetch iframe', async () => {
+            await setup(true);
             const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
                 '.prefetchIframe',
             );
             expect(prefetchIframe.length).toBe(0);
+        });
+
+        test('Should render failure when login fails', async (done) => {
+            setup(false);
+            executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Failed to Login');
+                done();
+            });
         });
     });
 

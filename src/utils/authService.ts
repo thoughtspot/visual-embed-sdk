@@ -1,10 +1,22 @@
 // eslint-disable-next-line import/no-cycle
 import { EndPoints } from '../auth';
 
+function failureLoggedFetch(
+    url: string,
+    options: RequestInit = {},
+): Promise<Response> {
+    return fetch(url, options).then(async (r) => {
+        if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
+            console.error('Failure', await r.text?.());
+        }
+        return r;
+    });
+}
+
 export function fetchSessionInfoService(
     authVerificationUrl: string,
 ): Promise<any> {
-    return fetch(authVerificationUrl, {
+    return failureLoggedFetch(authVerificationUrl, {
         credentials: 'include',
     });
 }
@@ -20,10 +32,12 @@ export async function fetchAuthService(
     username: string,
     authToken: string,
 ): Promise<any> {
-    return fetch(
+    return failureLoggedFetch(
         `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?username=${username}&auth_token=${authToken}`,
         {
             credentials: 'include',
+            // We do not want to follow the redirect, as it starts giving a CORS error
+            redirect: 'manual',
         },
     );
 }
@@ -33,7 +47,7 @@ export async function fetchBasicAuthService(
     username: string,
     password: string,
 ): Promise<any> {
-    return fetch(`${thoughtSpotHost}${EndPoints.BASIC_LOGIN}`, {
+    return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.BASIC_LOGIN}`, {
         method: 'POST',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
@@ -43,5 +57,15 @@ export async function fetchBasicAuthService(
             username,
         )}&password=${encodeURIComponent(password)}`,
         credentials: 'include',
+    });
+}
+
+export async function fetchLogoutService(
+    thoughtSpotHost: string,
+): Promise<any> {
+    return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
+        credentials: 'include',
+        mode: 'no-cors',
+        method: 'POST',
     });
 }

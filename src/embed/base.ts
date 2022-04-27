@@ -7,30 +7,71 @@
  * @summary Base classes
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
+import EventEmitter from 'eventemitter3';
 import { getThoughtSpotHost } from '../config';
-import { EmbedConfig } from '../types';
-import { authenticate } from '../auth';
+import { AuthType, EmbedConfig } from '../types';
+import {
+    authenticate,
+    logout as _logout,
+    AuthFailureType,
+    AuthStatus,
+} from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
 let config = {} as EmbedConfig;
-
-export let authPromise: Promise<void>;
-
-/**
- * Perform authentication on the ThoughtSpot app as applicable.
- */
-export const handleAuth = (): Promise<void> => {
-    const authConfig = {
-        ...config,
-        thoughtSpotHost: getThoughtSpotHost(config),
-    };
-    authPromise = authenticate(authConfig);
-    return authPromise;
+const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
+    loginFailedMessage: 'Login failed',
+    authType: AuthType.None,
 };
+
+export let authPromise: Promise<boolean>;
 
 export const getEmbedConfig = (): EmbedConfig => config;
 
-export const getAuthPromise = (): Promise<void> => authPromise;
+export const getAuthPromise = (): Promise<boolean> => authPromise;
+
+let authEE: EventEmitter;
+
+export function notifyAuthSuccess(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.SUCCESS);
+}
+
+export function notifyAuthFailure(failureType: AuthFailureType): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.FAILURE, failureType);
+}
+
+export function notifyLogout(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.LOGOUT);
+}
+/**
+ * Perform authentication on the ThoughtSpot app as applicable.
+ */
+export const handleAuth = (): Promise<boolean> => {
+    authPromise = authenticate(config);
+    authPromise.then(
+        (isLoggedIn) => {
+            if (!isLoggedIn) {
+                notifyAuthFailure(AuthFailureType.SDK);
+            }
+        },
+        () => {
+            notifyAuthFailure(AuthFailureType.SDK);
+        },
+    );
+    return authPromise;
+};
 
 /**
  * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
@@ -59,8 +100,13 @@ export const prefetch = (url?: string): void => {
  *
  * @returns authPromise Promise which resolves when authentication is complete.
  */
-export const init = (embedConfig: EmbedConfig): Promise<void> => {
-    config = embedConfig;
+export const init = (embedConfig: EmbedConfig): EventEmitter => {
+    config = {
+        ...CONFIG_DEFAULTS,
+        ...embedConfig,
+        thoughtSpotHost: getThoughtSpotHost(embedConfig),
+    };
+    authEE = new EventEmitter();
     handleAuth();
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
@@ -71,7 +117,21 @@ export const init = (embedConfig: EmbedConfig): Promise<void> => {
     if (config.callPrefetch) {
         prefetch(config.thoughtSpotHost);
     }
-    return authPromise;
+    return authEE;
+};
+
+export function disableAutoLogin(): void {
+    config.autoLogin = false;
+}
+
+export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
+    if (!doNotDisableAutoLogin) {
+        disableAutoLogin();
+    }
+    return _logout(config).then((isLoggedIn) => {
+        notifyLogout();
+        return isLoggedIn;
+    });
 };
 
 let renderQueue: Promise<any> = Promise.resolve();
@@ -89,3 +149,10 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => void) => {
         fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
     }
 };
+
+// For testing purposes only
+export function reset(): void {
+    config = {} as any;
+    authEE = null;
+    authPromise = null;
+}

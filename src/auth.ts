@@ -7,6 +7,7 @@ import {
     fetchAuthTokenService,
     fetchAuthService,
     fetchBasicAuthService,
+    fetchLogoutService,
 } from './utils/authService';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -29,7 +30,21 @@ export const EndPoints = {
         `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
     BASIC_LOGIN: '/callosum/v1/session/login',
+    LOGOUT: '/callosum/v1/session/logout',
 };
+
+export enum AuthFailureType {
+    SDK = 'SDK',
+    NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
+    EXPIRY = 'EXPIRY',
+    OTHER = 'OTHER',
+}
+
+export enum AuthStatus {
+    FAILURE = 'FAILURE',
+    SUCCESS = 'SUCCESS',
+    LOGOUT = 'LOGOUT',
+}
 
 /**
  * Check if we are logged into the ThoughtSpot cluster
@@ -58,6 +73,19 @@ export function initSession(sessionDetails: any) {
     initMixpanel(sessionInfo);
 }
 
+const DUPLICATE_TOKEN_ERR =
+    'Duplicate token, please issue a new token every time getAuthToken callback is called.' +
+    'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
+let prevAuthToken: string = null;
+function alertForDuplicateToken(authtoken: string) {
+    if (prevAuthToken === authtoken) {
+        // eslint-disable-next-line no-alert
+        alert(DUPLICATE_TOKEN_ERR);
+        throw new Error(DUPLICATE_TOKEN_ERR);
+    }
+    prevAuthToken = authtoken;
+}
+
 /**
  * Check if we are stuck at the SSO redirect URL
  */
@@ -83,7 +111,9 @@ function removeSSORedirectUrlMarker(): void {
  * Perform token based authentication
  * @param embedConfig The embed configuration
  */
-export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
+export const doTokenAuth = async (
+    embedConfig: EmbedConfig,
+): Promise<boolean> => {
     const {
         thoughtSpotHost,
         username,
@@ -95,20 +125,25 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
             'Either auth endpoint or getAuthToken function must be provided',
         );
     }
-    const loggedIn = await isLoggedIn(thoughtSpotHost);
-    if (!loggedIn) {
+    loggedInStatus = await isLoggedIn(thoughtSpotHost);
+    if (!loggedInStatus) {
         let authToken = null;
         if (getAuthToken) {
             authToken = await getAuthToken();
+            alertForDuplicateToken(authToken);
         } else {
             const response = await fetchAuthTokenService(authEndpoint);
             authToken = await response.text();
         }
-        await fetchAuthService(thoughtSpotHost, username, authToken);
-        loggedInStatus = false;
+        const resp = await fetchAuthService(
+            thoughtSpotHost,
+            username,
+            authToken,
+        );
+        // token login issues a 302 when successful
+        loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
     }
-
-    loggedInStatus = true;
+    return loggedInStatus;
 };
 
 /**
@@ -119,7 +154,9 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<void> => {
  * strongly advised not to use this authentication method in production.
  * @param embedConfig The embed configuration
  */
-export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
+export const doBasicAuth = async (
+    embedConfig: EmbedConfig,
+): Promise<boolean> => {
     const { thoughtSpotHost, username, password } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (!loggedIn) {
@@ -128,10 +165,11 @@ export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<void> => {
             username,
             password,
         );
-        loggedInStatus = response.status === 200;
+        loggedInStatus = response.ok;
+    } else {
+        loggedInStatus = true;
     }
-
-    loggedInStatus = true;
+    return loggedInStatus;
 };
 
 async function samlPopupFlow(ssoURL: string) {
@@ -198,6 +236,7 @@ const doSSOAuth = async (
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.noRedirect) {
         await samlPopupFlow(ssoURL);
+        loggedInStatus = true;
         return;
     }
 
@@ -218,6 +257,7 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     )}`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
+    return loggedInStatus;
 };
 
 export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
@@ -234,13 +274,23 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     )}`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
+    return loggedInStatus;
+};
+
+export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
+    const { thoughtSpotHost } = embedConfig;
+    const response = await fetchLogoutService(thoughtSpotHost);
+    loggedInStatus = false;
+    return loggedInStatus;
 };
 
 /**
  * Perform authentication on the ThoughtSpot cluster
  * @param embedConfig The embed configuration
  */
-export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
+export const authenticate = async (
+    embedConfig: EmbedConfig,
+): Promise<boolean> => {
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:
@@ -252,7 +302,7 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<void> => {
         case AuthType.Basic:
             return doBasicAuth(embedConfig);
         default:
-            return Promise.resolve();
+            return Promise.resolve(true);
     }
 };
 

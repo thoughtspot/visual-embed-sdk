@@ -34,7 +34,7 @@ import {
     MessageCallbackObj,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { getProcessData } from '../utils/processData';
+import { processEventData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
@@ -212,14 +212,6 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
-        if (!this.embedConfig.suppressNoCookieAccessAlert) {
-            this.on(EmbedEvent.NoCookieAccess, () => {
-                // eslint-disable-next-line no-alert
-                alert(
-                    'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',
-                );
-            });
-        }
     }
 
     /**
@@ -304,7 +296,12 @@ export class TsEmbed {
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    getProcessData(eventType, eventData, this.thoughtSpotHost),
+                    processEventData(
+                        eventType,
+                        eventData,
+                        this.thoughtSpotHost,
+                        this.el,
+                    ),
                     eventPort,
                 );
             }
@@ -464,7 +461,12 @@ export class TsEmbed {
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
 
             getAuthPromise()
-                ?.then(() => {
+                ?.then((isLoggedIn: boolean) => {
+                    if (!isLoggedIn) {
+                        this.el.innerHTML = this.embedConfig.loginFailedMessage;
+                        return;
+                    }
+
                     uploadMixpanelEvent(
                         MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
                     );
@@ -492,7 +494,7 @@ export class TsEmbed {
                         frameWidth || DEFAULT_EMBED_WIDTH,
                     );
                     const height = getCssDimension(
-                        frameWidth || DEFAULT_EMBED_HEIGHT,
+                        frameHeight || DEFAULT_EMBED_HEIGHT,
                     );
                     setAttributes(this.iFrame, restParams);
 
@@ -536,6 +538,7 @@ export class TsEmbed {
                     uploadMixpanelEvent(
                         MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
                     );
+                    this.el.innerHTML = this.embedConfig.loginFailedMessage;
                     this.handleError(error);
                 });
         });
