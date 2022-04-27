@@ -64,7 +64,6 @@ All embedded ThoughtSpot objects require authentication. If the host application
 * SSO authentication
 
 When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
-
 If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, it may be a viable SSO authentication mechanism.
 
 === SAML SSO authentication
@@ -75,6 +74,13 @@ To enable SAML SSO authentication for an iFrame embedded instance:
 . xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
 +
 Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
+
+////
+[NOTE]
+====
+ThoughtSpot instances running 6.3.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].  
+====
+////
 
 == Add host domain to the CSP allowlist
 
