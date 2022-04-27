@@ -38,7 +38,10 @@ New endpoints for data connection queries. For more information, see xref:rest-a
 
 Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
 
-The 8.2.0.cl release also introduces the following features:
+The 8.2.0.cl release also introduces the following features and enhancements:
+
+Endpoint URL path::
+The REST v2 API endpoint URL path is changed from `/api/rest/v2` to `/tspublic/rest/v2/`. For example, the `GET /api/rest/v2/connection` endpoint is now available as `GET /tspublic/rest/v2/connection`. 
 
 Trusted authentication::
 If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
