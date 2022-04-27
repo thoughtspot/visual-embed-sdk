@@ -20,6 +20,8 @@ Embeds ThoughtSpot Liveboards and visualizations
 +
 Embeds full ThoughtSpot experience in your React app
 
+The Visual Embed React library also supports the `useEmbedRef` hook, using which you can trigger events on ThoughtSpot components embedded in a React app.  
+
 
 == Before you begin
 
@@ -59,7 +61,6 @@ To add HTML code, rename these files to `.jsx`. If you are building an app using
 For information about adding TypeScript to your existing React app project, see link:https://create-react-app.dev/docs/adding-typescript/[Adding TypeScript, window=_blank].
 
 * If you are building a multi-page app, create a `Components` directory and add new pages for ThoughtSpot components. To allow users to navigate between these pages,  xref:embed-ts-react-app.adoc#react-routes[add routes] in the `App.tsx` file.
-
 
 [NOTE]
 ====
