@@ -132,6 +132,12 @@ export interface EmbedConfig {
     disableLoginRedirect?: boolean;
 
     /**
+     * This message is displayed on the embed view when the login fails.
+     * @version 1.10.1 | ThoughtSpot: *
+     */
+    loginFailedMessage?: string;
+
+    /**
      * Calls the prefetch method internally when set to true
      * @default false
      */
@@ -365,6 +371,16 @@ export enum EmbedEvent {
      * The ThoughtSpot auth session has expired.
      */
     AuthExpire = 'ThoughtspotAuthExpired',
+    /**
+     * ThoughtSpot failed to validate the auth session.
+     * @hidden
+     */
+    AuthFailure = 'ThoughtspotAuthFailure',
+    /**
+     * ThoughtSpot failed to validate the auth session.
+     * @hidden
+     */
+    AuthLogout = 'ThoughtspotAuthLogout',
     /**
      * The height of the embedded Liveboard or visualization has been computed.
      * @return data - The height of the embedded Liveboard or visualization

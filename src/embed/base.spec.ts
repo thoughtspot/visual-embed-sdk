@@ -1,4 +1,7 @@
+import EventEmitter from 'eventemitter3';
+import * as auth from '../auth';
 import * as index from '../index';
+import * as base from './base';
 import {
     executeAfterWait,
     getAllIframeEl,
@@ -9,10 +12,11 @@ import {
 } from '../test/test-utils';
 
 const thoughtSpotHost = 'tshost';
+let authEE: EventEmitter;
 
 describe('Base TS Embed', () => {
     beforeAll(() => {
-        index.init({
+        authEE = index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
         });
@@ -38,10 +42,12 @@ describe('Base TS Embed', () => {
             },
             '*',
         );
-
-        jest.spyOn(window, 'alert').mockImplementation(() => {
+        jest.spyOn(window, 'alert').mockReset();
+        jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+        authEE.on(auth.AuthStatus.FAILURE, (reason) => {
+            expect(reason).toEqual(auth.AuthFailureType.NO_COOKIE_ACCESS);
             expect(window.alert).toBeCalledWith(
-                'Third party cookie access is blocked on this browser, please allow third party cookies for ThoughtSpot to work properly',
+                'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
             );
             done();
         });
@@ -91,5 +97,51 @@ describe('Base TS Embed', () => {
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toContain('disableLoginRedirect=true');
         });
+    });
+
+    test('handleAuth notifies for SDK auth failure', (done) => {
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(false);
+        const authEmitter = index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.Basic,
+            username: 'test',
+            password: 'test',
+        });
+        authEmitter.on(auth.AuthStatus.FAILURE, (reason) => {
+            expect(reason).toBe(auth.AuthFailureType.SDK);
+            done();
+        });
+    });
+
+    test('Logout method should disable autoLogin', () => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            type: 'opaque',
+        });
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        index.logout();
+        expect(window.fetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${auth.EndPoints.LOGOUT}`,
+            {
+                credentials: 'include',
+                mode: 'no-cors',
+                method: 'POST',
+            },
+        );
+        expect(base.getEmbedConfig().autoLogin).toBe(false);
+    });
+});
+
+describe('Base without init', () => {
+    test('notify should error when called without init', () => {
+        base.reset();
+        jest.spyOn(global.console, 'error').mockImplementation(() => undefined);
+        base.notifyAuthSuccess();
+        base.notifyAuthFailure(auth.AuthFailureType.SDK);
+        base.notifyLogout();
+        expect(global.console.error).toHaveBeenCalledTimes(3);
     });
 });

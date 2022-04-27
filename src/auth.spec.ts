@@ -9,12 +9,12 @@ const password = '12345678';
 const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%235e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
 
 const embedConfig: any = {
-    doTokenAuthSuccess: {
+    doTokenAuthSuccess: (token: string) => ({
         thoughtSpotHost,
         username,
         authEndpoint: 'auth',
-        getAuthToken: jest.fn(() => Promise.resolve('authToken')),
-    },
+        getAuthToken: jest.fn(() => Promise.resolve(token)),
+    }),
     doTokenAuthFailureWithoutAuthEndPoint: {
         thoughtSpotHost,
         username,
@@ -35,8 +35,14 @@ const embedConfig: any = {
     doSamlAuth: {
         thoughtSpotHost,
     },
+    doOidcAuth: {
+        thoughtSpotHost,
+    },
     SSOAuth: {
         authType: AuthType.SSO,
+    },
+    OIDCAuth: {
+        authType: AuthType.OIDC,
     },
     authServerFailure: {
         thoughtSpotHost,
@@ -107,12 +113,14 @@ describe('Unit test for auth', () => {
                 status: 200,
             }),
         );
-        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess);
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authInstance.loggedInStatus).toBe(true);
     });
 
-    test('doTokenAuth: when user is not loggedIn & getAuthToken have response, isLoggedIn should called', async () => {
+    test('doTokenAuth: when user is not loggedIn & getAuthToken have response', async () => {
         jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
             () => false,
         );
@@ -120,13 +128,19 @@ describe('Unit test for auth', () => {
             authService,
             'fetchAuthTokenService',
         ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
-        jest.spyOn(authService, 'fetchAuthService');
-        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess);
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken2'),
+        );
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authService.fetchAuthService).toBeCalledWith(
             thoughtSpotHost,
             username,
-            'authToken',
+            'authToken2',
         );
     });
 
@@ -140,7 +154,12 @@ describe('Unit test for auth', () => {
         ).mockImplementation(() =>
             Promise.resolve({ text: () => Promise.resolve('abc') }),
         );
-        jest.spyOn(authService, 'fetchAuthService');
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                ok: true,
+            }),
+        );
         await authInstance.doTokenAuth(
             embedConfig.doTokenAuthFailureWithoutGetAuthToken,
         );
@@ -152,6 +171,38 @@ describe('Unit test for auth', () => {
                 username,
                 'abc',
             );
+        });
+    });
+
+    test('doTokenAuth: Should raise error when duplicate token is used', async () => {
+        jest.spyOn(authService, 'fetchSessionInfoService').mockResolvedValue({
+            status: 401,
+        });
+        jest.spyOn(window, 'alert').mockClear();
+        jest.spyOn(window, 'alert').mockReturnValue(undefined);
+        jest.spyOn(authService, 'fetchAuthService').mockReset();
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                ok: true,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken3'),
+        );
+
+        try {
+            await authInstance.doTokenAuth(
+                embedConfig.doTokenAuthSuccess('authToken3'),
+            );
+            expect(false).toBe(true);
+        } catch (e) {
+            expect(e.message).toContain('Duplicate token');
+        }
+        await executeAfterWait(() => {
+            expect(authInstance.loggedInStatus).toBe(false);
+            expect(window.alert).toBeCalled();
+            expect(authService.fetchAuthService).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -181,7 +232,7 @@ describe('Unit test for auth', () => {
             jest.spyOn(
                 authService,
                 'fetchBasicAuthService',
-            ).mockImplementation(() => ({ status: 200 }));
+            ).mockImplementation(() => ({ status: 200, ok: true }));
 
             await authInstance.doBasicAuth(embedConfig.doBasicAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
@@ -253,6 +304,7 @@ describe('Unit test for auth', () => {
                 },
             });
             spyOn(authInstance, 'samlCompletionPromise');
+            global.window.open = jest.fn();
             jest.spyOn(
                 authService,
                 'fetchSessionInfoService',
@@ -263,8 +315,28 @@ describe('Unit test for auth', () => {
                     ...embedConfig.doSamlAuth,
                     noRedirect: true,
                 }),
-            ).toBe(undefined);
+            ).toBe(true);
             expect(authService.fetchSessionInfoService).toBeCalled();
+        });
+    });
+
+    describe('doOIDCAuth', () => {
+        afterEach(() => {
+            delete global.window;
+            global.window = Object.create(originalWindow);
+            global.window.open = jest.fn();
+            global.fetch = window.fetch;
+        });
+
+        it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
+            jest.spyOn(
+                authService,
+                'fetchSessionInfoService',
+            ).mockImplementation(() => Promise.reject());
+            await authInstance.doOIDCAuth(embedConfig.doOidcAuth);
+            expect(authService.fetchSessionInfoService).toBeCalled();
+            expect(window.location.hash).toBe('');
+            expect(authInstance.loggedInStatus).toBe(false);
         });
     });
 
@@ -273,6 +345,13 @@ describe('Unit test for auth', () => {
         await authInstance.authenticate(embedConfig.SSOAuth);
         expect(window.location.hash).toBe('');
         expect(authInstance.doSamlAuth).toBeCalled();
+    });
+
+    it('authenticate: when authType is OIDC', async () => {
+        jest.spyOn(authInstance, 'doOIDCAuth');
+        await authInstance.authenticate(embedConfig.OIDCAuth);
+        expect(window.location.hash).toBe('');
+        expect(authInstance.doOIDCAuth).toBeCalled();
     });
 
     it('authenticate: when authType is AuthServer', async () => {

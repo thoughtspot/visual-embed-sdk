@@ -9,13 +9,14 @@
  */
 
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
-import { init, prefetch } from './embed/base';
+import { init, prefetch, logout } from './embed/base';
 import {
     PinboardEmbed,
     LiveboardViewConfig,
     LiveboardEmbed,
 } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
+import { AuthFailureType, AuthStatus } from './auth';
 import {
     AuthType,
     RuntimeFilter,
@@ -29,11 +30,14 @@ import {
 
 export {
     init,
+    logout,
     prefetch,
     SearchEmbed,
     PinboardEmbed,
     LiveboardEmbed,
     AppEmbed,
+    AuthFailureType,
+    AuthStatus,
     // types
     Page,
     AuthType,
