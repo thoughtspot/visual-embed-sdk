@@ -71,7 +71,7 @@ describe('Custom CSS Url', () => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test.only('passing customCssUrl should set the correct query params on the iframe', async (done) => {
+    test('passing customCssUrl should set the correct query params on the iframe', async (done) => {
         init({
             thoughtSpotHost,
             authType: AuthType.None,

@@ -14,7 +14,7 @@ type DOMElement = HTMLElement | Document;
 
 export const getRootEl = () => document.getElementById('embed');
 
-export const getRootEl2 = () => document.getElementById('emebed-2');
+export const getRootEl2 = () => document.getElementById('embed-2');
 
 export const getIFrameEl = (container: DOMElement = document) =>
     container.querySelector('iframe');

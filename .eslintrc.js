@@ -72,6 +72,8 @@ module.exports = {
         'no-continue': 0,
         'max-classes-per-file': 0,
         'class-methods-use-this': 0,
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
         'no-param-reassign': [
             'error',
             {

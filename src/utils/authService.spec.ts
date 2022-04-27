@@ -4,6 +4,7 @@ import {
     fetchAuthService,
     fetchBasicAuthService,
 } from './authService';
+import { EndPoints } from '../auth';
 
 const thoughtSpotHost = 'http://10.79.135.124:3000';
 
@@ -21,6 +22,7 @@ describe('Unit test for authService', () => {
             Promise.resolve({
                 json: () => ({ success: true }),
                 status: 200,
+                ok: true,
             }),
         );
         const response = await fetchSessionInfoService(authVerificationUrl);
@@ -32,6 +34,7 @@ describe('Unit test for authService', () => {
         global.fetch = jest.fn(() =>
             Promise.resolve({
                 text: () => ({ success: true }),
+                ok: true,
             }),
         );
         const response = await fetchAuthTokenService(authEndpoint);
@@ -40,14 +43,37 @@ describe('Unit test for authService', () => {
     });
 
     test('fetchAuthService', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true }));
-        await fetchAuthService(authVerificationUrl, username, authToken);
+        global.fetch = jest.fn(() =>
+            Promise.resolve({ success: true, ok: true }),
+        );
+        await fetchAuthService(thoughtSpotHost, username, authToken);
+        expect(fetch).toBeCalledWith(
+            `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?username=${username}&auth_token=${authToken}`,
+            {
+                credentials: 'include',
+                redirect: 'manual',
+            },
+        );
+    });
+
+    test('fetchBasicAuthService called with manual redirect', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({ success: true, ok: true }),
+        );
+        await fetchBasicAuthService(thoughtSpotHost, username, password);
         expect(fetch).toBeCalled();
     });
 
-    test('fetchBasicAuthService', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true }));
-        await fetchBasicAuthService(thoughtSpotHost, username, password);
-        expect(fetch).toBeCalled();
+    test('log error on API failures', async () => {
+        jest.spyOn(global.console, 'error').mockImplementation(() => undefined);
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                text: () => Promise.resolve('error'),
+                status: 500,
+                ok: false,
+            }),
+        );
+        await fetchSessionInfoService(authVerificationUrl);
+        expect(global.console.error).toHaveBeenCalledWith('Failure', 'error');
     });
 });

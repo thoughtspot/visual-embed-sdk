@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.11.0-alpha.0",
+    "version": "1.11.0-alpha.1",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -44,6 +44,7 @@
     "dependencies": {
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
+        "eventemitter3": "^4.0.7",
         "mixpanel-browser": "^2.41.0"
     },
     "devDependencies": {
