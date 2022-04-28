@@ -45,8 +45,8 @@
 ** link:{{navprefix}}=in-app-navigation[Customize page navigation]
 ** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
-** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 ** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
+** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
