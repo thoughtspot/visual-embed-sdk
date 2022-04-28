@@ -1,38 +1,99 @@
 = Embed without SDK
-:toc: []
+:toc: true
 :toclevels: 1
 
 :page-title: Embed Liveboards using iFrame
 :page-pageid: embed-without-sdk
 :page-description: Embed Liveboards without using Visual Embed SDK
 
-The Visual Embed SDK is the most convenient way to embed all of the different types of ThoughtSpot content, but there are certain situations where the system you want to embed into does not have a way to use the Visual Embed SDK JavaScript library.
+The Visual Embed SDK is the most convenient way to embed different types of ThoughtSpot content. However, if your  portal or system does not have a way to use the Visual Embed SDK JavaScript library, you can embed ThoughtSpot components using an iFrame element. For example, to embed a Liveboard or visualization in portals such as Salesforce, SharePoint, Google Sites, or WordPress, you may want to use an iFrame element.
 
-In these situations, you can embed ThoughtSpot Liveboards or visualizations from a Liveboard using a directly created `iframe` tag.
+To embed ThoughtSpot objects in an iFrame, follow the steps described in this article.
 
-== Construct URL for direct iframe embed
-The pattern for the URL to embed a Liveboard is:
+== Get the embed link
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}`
+To embed ThoughtSpot objects in an iFrame, you need the embed URL.
 
-If you want to embed an individual visualization from a Liveboard, use the following URL pattern:
+* To get the embed link for a Liveboard: +
+.. Log in to ThoughtSpot.
+.. Navigate to the Liveboard that you want to embed.
+.. Click the *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
+.. Note the GUID of the Liveboard.
+
+* To get the embed link for a visualization: +
+.. Navigate to the table or chart.
+.. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
+.. Click *Copy embed link* icon.
+.. Note the GUID of the visualization.
+
+If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
+
+. Go to *Develop* > *Playground* > *Visual embed*
+. Select an object to embed.
+. Configure the parameters for the embedded view.
+. Inspect the output and note the URL in `iframe src`.
+
+== Construct the URL
+
+The format for the URL to embed a Liveboard is:
+
+`https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}`
+
+If you want to embed an individual visualization from a Liveboard, you can use the following URL pattern:
 
 `https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
 
-You can specify link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/about-runtime-filters.html[runtime filters, window=_blank] in the URL.
+=== Apply runtime filters (Optional)
 
+To pass filters as URL query parameters, use runtime filters.
 
-== SSO considerations
-When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
+For example, to sort values equal to `michigan` in the `State` column for a visualization on a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 
-If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iframe embed of a Liveboard is, then it may be a viable SSO mechanism.
+----
+http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
+&col1=state&op1=EQ&val1=michigan
+----
+
+For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
+
+== Authentication and security settings for an embedded instance
+
+All embedded ThoughtSpot objects require authentication. If the host application does not allow custom Javascript, you can use one of the following authentication methods:
+
+* Basic authentication with username and password (
+* SSO authentication
+
+When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
+If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, it may be a viable SSO authentication mechanism.
+
+=== SAML SSO authentication
+
+To enable SAML SSO authentication for an iFrame embedded instance:
+
+. On your ThoughtSpot instance, configure xref:configure-saml.adoc#admin-portal[SAML SSO].
+. xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
++
+Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
+
+////
+[NOTE]
+====
+ThoughtSpot instances running 6.3.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].  
+====
+////
+
+== Add host domain to the CSP allowlist
+
+If you have access to the *Security settings* page in the *Develop* tab, you can xref:security-settings.adoc#csp-viz-embed-hosts[add your host domain to CSP] and xref:security-settings.adoc#cors-hosts[CORS]  allowlists. For example, if you are embedding a ThoughtSpot object in a Google site, you can add `sites.google.com` to the allowlists. 
+
+If you don't have access to *Develop* > *Security settings* page, contact ThoughtSpot support to update CSP settings on your instance.
 
 == Simple embedding in Salesforce
 If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot Liveboards or individual visualizations.
 
-First, as a developer, choose 'Create a New Visualforce Page'.
+First, as a developer, select **Create a New Visualforce Page**.
 
-The following code example can be used to define the new page. It defines the iframe, with the ThoughtSpot URL using a runtime filter to personalize the results to the Salesforce user:
+The following code example can be used to define the new page. It defines the iFrame, with the ThoughtSpot URL using a runtime filter to personalize the results to the Salesforce user:
 
 [source, xml]
 ----
@@ -46,7 +107,11 @@ The following code example can be used to define the new page. It defines the if
 
 Note that the `{!account.Name}` is a Salesforce APEX variable. The other curly braces represent permanent values from your ThoughtSpot instance that you would hardcode into the APEX page.
 
-More complex integrations to Salesforce, utilizing the Visual Embed SDK, can be achieved using Lightning components. Please contact your ThoughtSpot team if you are interested in additional integration beyond what is described on this page.
+More complex integrations to Salesforce, utilizing the Visual Embed SDK, can be achieved using Lightning components. For additional integration beyond what is described in this article, contact your ThoughtSpot Support.
 
-== Mobile apps
-Rather than using a direct iframe embed, it is easier on mobile devices to use the xref:pinboarddata.adoc[pinboarddata REST API] to pull only the data values and then render them using a table or charting library native to the mobile platform.
+== Other methods of embedding without SDK
+
+. Create a ThoughtSpot plugin for your hosting platform, for example, SharePoint, WordPress. In the plugin context, the platform can provide more flexibility for adding custom Javascript.
+. Create a proxy to forward requests from the embedded iFrame to Thoughtspot after adding the necessary authentication.
+. Use xref:pinboarddata.adoc[Liveboard REST API] to pull only the data values and then render them in your app.
+. For mobile apps, it's easier to use the xref:pinboarddata.adoc[Liveboard REST API] to pull only the data values and then render them using a table or charting library native to the mobile platform.  
