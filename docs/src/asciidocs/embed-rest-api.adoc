@@ -5,15 +5,15 @@
 :page-pageid: embed-data-restapi
 :page-description: Embed Data using REST APIs
 
-You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and Liveboard visualizations, using which you can construct the URL required to make an API call.
+You can use the REST API to get an object from ThoughtSpot and embed it in a web page, portal, or application. ThoughtSpot provides an embed link for objects, such as Liveboards and visualizations, using which you can construct the URL required to make an API call.
 
 To get the embed link for a Liveboard:
 
-. Log in to ThoughtSpot from a browser.
-. Navigate to the Liveboard from which you want to get data.
-. Find the ID number of the object you want to get the data from.
+. Log in to ThoughtSpot.
+. Navigate to the Liveboard.
+. Note the GUID number of the object.
 +
-To embed a Liveboard, click the ellipses, click the *More* menu image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
+To embed a Liveboard, click *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
 
 +
 [.widthAuto]
@@ -22,14 +22,16 @@ image::./images/copy_pinboard_link.png[Copy embed link, width=auto]
 +
 To get the embed link for a visualization:
 
-
 .. Navigate to the table or chart
-.. Click the ellipses (...) icon in the upper right corner of the table or chart.
+.. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
 .. Click *Copy embed link* icon.
 +
 [.widthAuto]
 image::./images/copy_link.png[Copy link, width=auto]
-. Copy the ID number from the link.
+
+. Note the GUID of the object.
+. Copy the embed link.
++
 Paste it somewhere so that you can use it later to construct the URL for the REST API call.
 
 +

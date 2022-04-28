@@ -6,44 +6,96 @@
 :page-pageid: react-app-embed
 :page-description: You can use visual embed SDK to embed ThoughtSpot search, Liveboard, visualizations, or the full app in a React application
 
-If you are building an app using ReactJS and want to embed ThoughtSpot search, Liveboard, visualization, or full ThoughtSpot experience in your React app, you can use the Visual Embed SDK and ThoughtSpot React components.
+The Visual Embed library for React allows you to embed the following ThoughtSpot components in a React application.
 
-== Get started
+* `SearchEmbed` 
++
+Embeds ThoughtSpot search
 
-Before you begin embedding ThoughtSpot, make sure you have installed React framework and its dependencies in your development environment. 
+* `LiveboardEmbed`
++
+Embeds ThoughtSpot Liveboards and visualizations 
 
-. Check if NPM and Node.js are installed on your setup.
-. If you do not have a React app created for ThoughtSpot integration, create a React app and install its dependencies.
+* `AppEmbed`
++
+Embeds full ThoughtSpot experience in your React app
+
+The Visual Embed React library also supports the `useEmbedRef` hook, using which you can trigger events on ThoughtSpot components embedded in a React app.  
+
+
+== Before you begin
+
+Before embedding ThoughtSpot, make sure you have installed React framework and its dependencies.  
+
+* Check if link:https://docs.npmjs.com/downloading-and-installing-node-js-and-npm[NPM and Node.js are installed, window=_blank] in your setup.
+
+* If React is not installed, open a terminal window and run the following command:
 
 +
 ----
 npm install -g create-react-app
 ----
 +
-For information about installing React framework on Windows, see  link:https://docs.microsoft.com/en-us/windows/dev-environment/javascript/react-on-windows[Install React directly on Windows, windows=_blank].
+For information about how to install React framework on Windows, see  link:https://docs.microsoft.com/en-us/windows/dev-environment/javascript/react-on-windows[Install React directly on Windows, window=_blank].
 
-. If you want to build an app with TypeScript, you can either create a new React app in TypeScript or add TypeScript to your existing React app project. For more information, see link:https://create-react-app.dev/docs/adding-typescript/[Adding TypeScript, window=_blank].
+* If you do not have a React app created for ThoughtSpot integration, create a React app and install its dependencies. 
 
-. Initialize the app. 
+.. To create a new React app, open a terminal window and execute the following command
 +
 ----
-npm init react-app ts-data-app
+npx create-react-app ts-data-app
 ----
 +
-In the above example, the React app for embedding ThoughtSpot is named as `ts-data-app`.
+In the above example, the name of the app is `ts-data-app`.
 
-. Make sure a React app directory with the initial project structure is created.
+.. Initialize the app. 
++
+----
+npm start
+----
+*  Make sure a React app directory with the initial project structure is created. The app directory typically includes the following JS files: +
+** Index.js
+** App.js
++
+To add HTML code, rename these files to `.jsx`. If you are building an app using TypeScript, you can rename the files to `.tsx`. +
+For information about adding TypeScript to your existing React app project, see link:https://create-react-app.dev/docs/adding-typescript/[Adding TypeScript, window=_blank].
 
+* If you are building a multi-page app, create a `Components` directory and add new pages for ThoughtSpot components. To allow users to navigate between these pages,  xref:embed-ts-react-app.adoc#react-routes[add routes] in the `App.tsx` file.
 
-== Add Visual Embed SDK to your project
+[NOTE]
+====
+A functional React app may require link:https://reactjs.org/docs/hooks-reference.html[React hooks, window=_blank] such as `useState`, `useRef`, and `useEffect`. For more information about React concepts and framework, see link:https://reactjs.org/docs/getting-started.html[React documentation, window=_blank].
+====
 
-You can install the Visual Embed SDK from NPM.
+== Get started
+
+Get started with embedding by following these steps:
+
+=== Verify localhost port setting
+
+By default, React uses Port 3000 as a localhost port. Make sure you add `localhost:3000` as a  xref:security-settings.adoc#csp-viz-embed-hosts[CSP visual embed host] in the **Security Settings **page of the **Develop **tab.
+
+If you want to use Port 8000 instead, xref:security-settings.adoc#csp-viz-embed-hosts[add it to the CSP allowlist] and  update the following script in the `package.json` file in your app directory.
+
+[source,json]
+----
+"scripts": {
+   "start": "PORT=8000 react-scripts start",
+   "build": "react-scripts build",
+   "test": "react-scripts test",
+   "eject": "react-scripts eject"
+ }
+----
+
+=== Add Visual Embed SDK 
+
+Install the Visual Embed SDK from NPM.
 
 ----
-npm i @thoughtspot/visual-embed-sdk
+npm install @thoughtspot/visual-embed-sdk
 ----
 
-== Get the GUIDs
+=== Get the GUIDs
 
 You will require GUIDs of the following objects to embed ThoughtSpot components.
 
@@ -51,22 +103,39 @@ You will require GUIDs of the following objects to embed ThoughtSpot components.
 * Liveboard GUID to embed a Liveboard
 * Liveboard and visualization GUIDs to embed a visualization from a Liveboard 
 
-You can find the GUIDs of these objects in the UI, the developer Playground on your ThoughtSpot instance, or through the REST API endpoints, such as xref:metadata-api.adoc#metadata-list[metadata/list] and xref:metadata-api#object-header[metadata/listobjectheaders].
+You can find the GUIDs of these objects in the UI, the developer Playground on your ThoughtSpot instance, or through the xref:metadata-api.adoc#metadata-list[metadata/list] and xref:metadata-api#object-header[metadata/listobjectheaders] REST API endpoints.
+
+[#sdk-init]
+=== Initialize the SDK
+
+To initialize the SDK, you must point the SDK to your ThoughtSpot host URL. In the same `init` call, you can also specify the authentication method.
+
+In the following example, the `authType` is set to `SSO` to use SAML SSO authentication.
+
+[source,Typescript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.SSO,
+});
+---- 
+
+For more information about supported authentication methods and login attributes, see xref:embed-authentication.adoc[Authentication].
 
 == Embed ThoughtSpot search 
 
 To embed ThoughtSpot search, complete the following steps:
 
-=== Create a search component
+=== Create a search component 
 
-In your React app project, go to the **Components ** folder in your app directory and add a page for the embedded search object; for example, `search.tsx`. 
+In your React app project, go to the **Components ** folder in your app directory and add a page for the embedded search object; for example, `Search.tsx`. 
 
-. Import the React library: 
+. Import the `SearchEmbed` component and event libraries
 + 
 [source,Typescript]
 ----
 import React from 'react'
-import { AuthType, init, EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
+import { Action, AuthType, init, EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
 import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
 ----
 +
@@ -77,75 +146,90 @@ If you are using Webpack 4, which is the default when using `create-react-app v4
 ----
 import { SearchEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
+. xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. +
+. Add constructor options as props and register event handlers. 
 +
-Optionally, you can use an event logger component to log and track events. 
+The following example includes:  
 
-+ 
-[source,Typescript]
-----
-import { useEventLogger } from "../../utils/utils";
-----
-
-. Initialize the SDK and specify the authentication method. 
-+
-In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
+* A `Search` function with a data source ID.
+* The `searchOptions` property to construct a query string with `[quantity purchased] [region]` keywords and execute the search query.  
+* Event handlers for `QueryChanged` and `Load` events.
 
 +
 [source,Typescript]
 ----
-init({
-    thoughtSpotHost: 'https://<hostname>:<port>',
-    authType: AuthType.SSO,
-});
----- 
-+
-For more information about supported authentication methods and login attributes, see xref:embed-authentication.adoc[Authentication].
-
-. Add constructor options as props and register event listeners. 
-
-+
-The following example adds the `Search` function  with a data source ID and registers a custom action event. 
-
-+
-[source,Typescript]
-----
-const Search = ({ dataSources }) => {
-    const embedRef = useEmbedRef();
-    const onCustomAction = (actionEvent) => {
-        // Do something with actionEvent.
-    };
-
-    return (
-        <SearchEmbed
-            dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
-            onCustomAction={onCustomAction}
-        />
-    );
+const Search = () => {
+  //To construct a search query and execute the search, define a search token string
+  const searchOptions = {
+    searchTokenString: "[quantity purchased] [region]",
+    executeSearch: true,
+  };
+  //add event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
+  };
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
+  };
+  const onQueryChanged = () => {
+    console.log(EmbedEvent.QueryChanged, {});
+  };
+  return (
+    <SearchEmbed
+      frameParams={{
+        height: 600,
+      }}
+      dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
+      searchOptions={searchOptions}
+      onQueryChanged={onQueryChanged}
+      onLoad={onLoad}
+    />
+  );
 };
 ----
 +
-This example shows how to trigger a `load` event when the search component loads in the embedded app.
+If you want to programmatically change the search query string, you can add a custom function; for example, `changeSearch`. You can assign this function to a button to programmatically update a search query. +
+The following example defines the `changeSearch` function and adds an event handler to trigger a host app event when the query changes to `[sales] by [item type]`.
 
 +
 [source,Typescript]
 ----
-const Search = ({ dataSources }) => {
- const embedRef = useEmbedRef();
- const logEvent = useEventLogger();
- const onLoad = () => {
- embedRef.current.trigger(EmbedEvent.Load, {});
+const Search = () => {
+  const embedRef = useEmbedRef();
+  // define a search token string to construct a search query
+  const searchOptions = {
+    searchTokenString: "[quantity purchased] [region]",
+    executeSearch: true,
   };
- return (
-        <SearchEmbed
-            dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
-            onLoad={logEvent(EmbedEvent.Load)}
-        />
-    );
- };
+  //Add a custom function to update the search query string and trigger an event when the query is changed
+  const changeSearch = () => {
+    embedRef.current.trigger(HostEvent.Search, {
+      searchQuery: "[sales] by [item type]",
+      dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
+    });
+  };
+  //add event handlers
+  const onQueryChanged = () => {
+    console.log(EmbedEvent.QueryChanged, {});
+  };
+  return (
+    <div>
+      <button onClick={changeSearch}>Change query</button>
+      <SearchEmbed
+        frameParams={{
+          height: 600,
+        }}
+        ref={embedRef}
+        dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
+        searchOptions={searchOptions}
+        onQueryChanged={onQueryChanged}
+      />
+    </div>
+  );
+};
 ----
+. Render the app.
 
-
-. Render the app
 +
 ----
 ts-data-app> npm start
@@ -153,50 +237,63 @@ ts-data-app> npm start
 
 === Test your app
 
-* Load your application.
-* Perform a search operation and verify the results.
-* Verify if the actions are disabled or hidden as configured in the app.
-* Check if the registered events are emitted and logged.
+* Load your application.  
+* Check if the ThoughtSpot search bar is rendered with the search tokens you specified. 
++
+[.bordered]
+image::./images/embed-search-react.png[]
 
-=== Code sample for Search embed
+* Change the search query and check if the search tokens are replaced.  
++
+[.bordered]
+image::./images/search-query-changed.png[]
+
+* Check the console log to verify if the registered events are emitted.
+
+=== Search embed code sample
+
+In the following code sample embeds search with the data source pane, disables UI actions such as *Pin* and **Show underlying data**, registers event handlers for `Init`, `Load` and `QueryChanged` events.
 
 [source,Typescript]
 ----
 const Search = () => {
-  const embedRef = useEmbedRef();
-  const logEvent = useEventLogger();
-  const changeSearch = () => {
-    embedRef.current.trigger(HostEvent.Search, {
-      searchQuery: "[sales] by [item type]",
-      dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
-    });
+  // define a search token string to construct a search query
+  const searchOptions = {
+    searchTokenString: "[quantity purchased] [region]",
+    executeSearch: true,
   };
-  const triggerDrill = () => {};
+  //add event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
+  };
   const onLoad = () => {
-    embedRef.current.trigger(EmbedEvent.load, {});
+    console.log(EmbedEvent.Load, {});
   };
-
+  const onQueryChanged = () => {
+    console.log(EmbedEvent.QueryChanged, {});
+  };
   return (
     <SearchEmbed
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
       searchOptions={{
         searchTokenString: "[quantity purchased] [region]",
         executeSearch: true,
       }}
       dataSources={["cd252e5c-b552-49a8-821d-3eadaa049cca"]}
       collapseDataSources={true}
-      disabledActions=["Action.Pin","Action.ShowUnderlyingData"]
+      disabledActions={[Action.Pin, Action.ShowUnderlyingData]}
       disabledActionReason="Contact your administrator"
-      onLoad={logEvent(EmbedEvent.Load)}
-      onQueryChanged={logEvent}
-      onData={logEvent}
+      onInit={onInit}
+      onLoad={onLoad}
+      onQueryChanged={onQueryChanged}
     />
   );
 };
 ----
+
+For a complete list of `SearchEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/SearchViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a Liveboard 
 
@@ -206,104 +303,59 @@ To embed a ThoughtSpot Liveboard, complete the following steps:
 
 In your React app project, go to the **Components ** directory and add a new page for Liveboard in your app directory; for example, `liveboard.tsx`. 
 
-. Import the React library: 
+.  Import the `LiveboardEmbed` component and event libraries:
 + 
 [source.Typescript]
 ----
 import React from "react";
-import { Action, init, EmbedEvent, HostEvent } from "@thoughtspot/visual-embed-sdk";
-import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
+import {
+  Action,
+  init,
+  EmbedEvent,
+  HostEvent,
+  RuntimeFilterOp,
+} from "@thoughtspot/visual-embed-sdk";
+import { LiveboardEmbed, useEmbedRef } from "@thoughtspot/visual-embed-sdk/react";
 ----
 +
-If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+If you are using Webpack 4, import the React components as shown in this example:
 
 + 
 [source,Typescript]
 ----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
-+
-Optionally, you can use an event logger component to log and track events. 
-
-+ 
-[source,Typescript]
-----
-import { useEventLogger } from "../../utils/utils";
-----
-. Initialize the SDK and specify the authentication method. 
-+
-In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
+. xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. 
+. Add constructor options as props and register event handlers.
 
 +
-[source,Typescript]
-----
-init({
-    thoughtSpotHost: 'https://<hostname>:<port>',
-    authType: AuthType.SSO,
-});
----- 
-+
-For more information about supported authentication methods and login attributes, see xref:embed-authentication.adoc[Authentication].
-
-. Add constructor options as props and register event listeners.
-
-+
-The following example adds the `Liveboard` function with a Liveboard ID and registers the `UpdateRuntimeFilters` event listener. 
+The following example includes a `Liveboard` function with a Liveboard ID and registers an event handler for the `Init` and `Load` events.
 
 +
 [source,Typescript]
 ----
 const Liveboard = () => {
-  const embedRef = useEmbedRef();
-  const logEvent = useEventLogger();
-  const [fullHeight, setFullHeight] = React.useState(false);
-  const applyFilter = () => {
-    embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
-      {
-        columnName: "state",
-        operator: "EQ",
-        values: ["michigan"]
-      }
-    ]);
+  //Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
+  };
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
   };
   return (
-          <LiveboardEmbed
-            frameParams={{
-              height: 400
-            }}
-            ref={embedRef}
-            fullHeight={fullHeight}
-            liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
-            onInit={logEvent(EmbedEvent.Init)}
-            onLoad={logEvent(EmbedEvent.Load)}
-            onVizPointDoubleClick={applyFilter}
-          />
-    );
+    <LiveboardEmbed
+      frameParams={{
+        height: 400,
+      }}
+      fullHeight={true}
+      liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
+      onInit={onInit}
+      onLoad={onLoad}
+    />
+  );
 };
 ----
-+
-This example shows how to trigger the `SetVisibleVizs` event when the Liveboard is rendered in the embedded app.
-
-+
-[source,Typescript]
-----
-const Liveboard = () => {
-    const embedRef = useEmbedRef();
-    const onLiveboardRendered = () => {
-        embedRef.current.trigger(HostEvent.SetVisibleVizs, ['3f84d633-e325-44b2-be25-c6650e5a49cf', '28b73b4a-1341-4535-ab71-f76b6fe7bf92']);
-    };
-
-    return (
-        <LiveboardEmbed
-            ref={embedRef}
-            liveboardId="<liveboard-guid>"
-            onLiveboardRendered={onLiveboardRendered}
-        />
-    );
-};
-----
-
-. Render the app
+. Render the app.
 
 +
 ----
@@ -313,52 +365,71 @@ ts-data-app> npm start
 === Test your app
 
 * Load the embedded Liveboard in your app.
-* Verify if embedded visualizations are rendered correctly.
-* Verify if the actions are disabled or hidden as configured in your app.  
-* Check if the registered events are emitted and logged.
+* Check if the registered events are triggered and logged in the console.
++
+[.bordered]
+image::./images/liveboard-embed-react.png[]
 
-=== Code sample for Liveboard embed
+=== Liveboard embed code sample
+
+The following code sample embeds a Liveboard, disables UI actions such as *Share* and **Delete**, sets specific visualization GUIDs as visible visualizations, and registers event handlers for `Init`,`Load`, `SetVisibleVizs`,  `onLiveboardRendered`, and `VizPointDoubleClick`. 
 
 [source,Typescript]
 ----
-export const Liveboard = () => {
-  const logEvent = useEventLogger();
+const Liveboard = () => {
   const embedRef = useEmbedRef();
-  const [fullHeight, setFullHeight] = React.useState(false);
-  const applyFilter = () => {
-    embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
-      {
-        columnName: "state",
-        operator: "EQ",
-        values: ["california"],
-      },
-    ]);
+  //apply runtime filters
+  const runtimeFilters = [
+    {
+      columnName: "state",
+      operator: RuntimeFilterOp.EQ,
+      values: ["michigan"],
+    },
+  ];
+  // Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
   };
-  const selectVizs = () => {
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
+  };
+  //Register an event handler to trigger the SetVisibleVizs event when the Liveboard is rendered
+  const onLiveboardRendered = () => {
     embedRef.current.trigger(HostEvent.SetVisibleVizs, [
       "3f84d633-e325-44b2-be25-c6650e5a49cf",
       "28b73b4a-1341-4535-ab71-f76b6fe7bf92",
     ]);
   };
-
+  //Register an event handler to trigger an event when runtime filters are updated
+  const onVizPointDoubleClick = () => {
+    embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+      {
+        columnName: "state",
+        operator: RuntimeFilterOp.EQ,
+        values: ["california"],
+      },
+    ]);
+  };
   return (
     <LiveboardEmbed
       frameParams={{
         height: 400,
       }}
       ref={embedRef}
-      disabledActions=["Action.Share","Action.Delete"]
+      disabledActions={[Action.Share, Action.Remove]}
       disabledActionReason="Contact your administrator"
-      fullHeight={fullHeight}
+      fullHeight={true}
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
-      onInit={logEvent(EmbedEvent.Init)}
-      onLoad={logEvent(EmbedEvent.Load)}
-      onLiveboardRendered={selctVizs}
-      onVizPointDoubleClick={applyFilter}
+      runtimeFilters={runtimeFilters}
+      onInit={onInit}
+      onLoad={onLoad}
+      onLiveboardRendered={onLiveboardRendered}
+      onVizPointDoubleClick={onVizPointDoubleClick}
     />
   );
 };
 ----
+For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a visualization
 
@@ -368,64 +439,58 @@ To embed a ThoughtSpot Liveboard, complete the following steps:
 
 In your React app project, go to the **Components ** folder in your app directory and add a new page for visualization; for example, `viz.tsx`. 
 
-. Import the React library: 
+. Import the `LiveboardEmbed` component and event libraries:
 + 
 [source.Typescript]
 ----
 import React from "react";
-import { Action, init, EmbedEvent, HostEvent } from "@thoughtspot/visual-embed-sdk";
-import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
+import {
+  Action,
+  init,
+  EmbedEvent,
+  HostEvent,
+  RuntimeFilterOp,
+} from "@thoughtspot/visual-embed-sdk";
+import { LiveboardEmbed, useEmbedRef } from "@thoughtspot/visual-embed-sdk/react";
 ----
 +
-If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+If you are using Webpack 4, import the React components as shown in this example:
 
 + 
 [source,Typescript]
 ----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
-+
-Optionally, you can use an event logger component to log and track events. 
-
-+ 
-[source,Typescript]
-----
-import { useEventLogger } from "../../utils/utils";
-----
-
-. Pass the constructor options as props and add event listeners. 
+. xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. 
+. Add constructor options as props and register event handlers. 
 
 +
-The following example adds the `viz` function with the Liveboard and visualization IDs, and registers a custom action event to set visible visualizations on a Liveboard. 
+The following example includes the `viz` function with the Liveboard and visualization GUIDs and registers event handlers for `Init` and `Load`.
 
 +
 [source,Typescript]
 ----
 const viz = () => {
-  const embedRef = useEmbedRef();
-  const onCustomAction = (e) => {
-    if (e.id === "only-this-viz") {
-      embedRef.current.trigger(HostEvent.SetVisibleVizs, [
-        "6d39225c-8845-44b4-b105-910981cdbba8","3f84d633-e325-44b2-be25-c6650e5a49cf"
-      ]);
-      console.log(JSON.parse(e.data));
-    }
+  // Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {}); 
   };
-
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
+  };
   return (
     <LiveboardEmbed
       frameParams={{
         height: 400,
       }}
-      ref={embedRef}
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
       vizId="3f84d633-e325-44b2-be25-c6650e5a49cf"
-      onCustomAction={onCustomAction}
+      onInit={onInit}
+      onLoad={onLoad}
     />
   );
 };
 ----
-
 . Render the app
 
 +
@@ -436,44 +501,67 @@ ts-data-app> npm start
 === Test your app
 
 * Verify if the embedded visualization is rendered correctly.
-* Verify if the actions are disabled or hidden as configured in your app.  
-* Check if the registered events are emitted and logged.
+* Check if the registered events are triggered and logged in the console. 
++
+[.bordered]
+image::./images/viz-embed-react.png[]
 
-=== Code sample for visualization embed
+* Check if the registered events are emitted and logged in the console.
+
+=== Visualization embed code sample
+
+The following code sample embeds a visualization with runtime filters applied, disables UI actions such as *Share* and **Pin**, and registers event handlers to log `Init`, `Load`, and custom action events in the console. 
 
 [source,Typescript]
 ----
 const viz= () => {
-  const logEvent = useEventLogger();
-  const embedRef = useEmbedRef();
-  const applyFilter = () => {
-    embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
-      {
-        columnName: "state",
-        operator: "EQ",
-        values: ["michigan"],
-      },
-    ]);
+  //apply runtime filters
+  const runtimeFilters = [
+    {
+      columnName: "state",
+      operator: RuntimeFilterOp.EQ,
+      values: ["michigan"],
+    },
+  ];
+ 
+ // Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
   };
 
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
+  };
+ 
+  //If a custom action is added, register a custom action event to log data in the console
+  const onCustomAction = (payload) => {
+    const data = payload.data;
+    if (data.id === "insert Custom Action ID here") {
+      console.log("Custom Action event:", data.embedAnswerData);
+    }
+  };
+  
   return (
     <LiveboardEmbed
       frameParams={{
         height: 400,
       }}
-      ref={embedRef}
-      disabledActions=["Action.ShareViz","Action.Delete"]
-      disabledActionReason="Contact your administrator"
       liveboardId="d084c256-e284-4fc4-b80c-111cb606449a"
       vizId="3f84d633-e325-44b2-be25-c6650e5a49cf"
-      onInit={logEvent(EmbedEvent.Init)}
-      onLoad={logEvent(EmbedEvent.Load)}
-      onLiveboardRendered={selectVizs}
-      onVizPointDoubleClick={applyFilter}
+      runtimeFilters={runtimeFilters}
+      disabledActions={[Action.ShareViz,Action.Pin]}
+      disabledActionReason="Contact your administrator"
+      onInit={onInit}
+      onLoad={onLoad}
+      onCustomAction={onCustomAction}
     />
   );
 };
 ----
+
+For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+
+For more information about custom action events, see xref:custom-actions-callback.adoc[Callback custom actions].
 
 == Embed full app
 
@@ -483,7 +571,7 @@ To full ThoughtSpot application, complete the following steps:
 
 In your React app project, go to the **Components ** folder in your app directory and add a new page for full application embed: for example, `fullApp.tsx`. 
 
-. Import the React library: 
+. Import the `AppEmbed` component and event libraries:
 +
 [source,Typescript]
 ----
@@ -495,77 +583,49 @@ import {
   HostEvent,
   Page
 } from "@thoughtspot/visual-embed-sdk";
-import { AppEmbed, useEmbedRef } from @thoughtspot/visual-embed-sdk/react';
+import { AppEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
 ----
 +
-If you are using Webpack 4, which is the default when using `create-react-app v4`, import the React components as shown in this example:
+If you are using Webpack 4, import the React components as shown in this example:
 
 + 
 [source,Typescript]
 ----
 import { AppEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/lib/src/react';
 ----
-+
-Optionally, you can use an event logger component to log and track events. 
-
-+ 
-[source,Typescript]
-----
-import { useEventLogger } from "../../utils/utils";
-----
- 
  
 +
 Note that the import includes `Page`. The `Page` enumeration is required to set a specific ThoughtSpot page as a home tab when the application loads.
 
-. Initialize the SDK and specify the authentication method. 
-+
-In the following example, the `authType` is set to `SSO` to use SSO authentication for the embedded app users.
-
-+
-[source,Typescript]
-----
-init({
-    thoughtSpotHost: 'https://<hostname>:<port>',
-    authType: AuthType.SSO,
-});
----- 
-+
-For more information about supported authentication methods and login attributes, see xref:embed-authentication.adoc[Authentication].
+. xref:embed-ts-react-app.adoc#sdk-init[Initialize the SDK and specify the authentication method]. 
 
 . Add constructor options as props and register event listeners. 
 +
-The following example adds the `FullApp` function with a pageID and registers the `DialogOpen` and `DialogClose` events. 
+The following example includes a `FullApp` function with the `Page.Home` set as the default tab and registers event handlers for `Init` and `Load`. 
 
 +
 [source,Typescript]
 ----
 const FullApp = () => {
-  const logEvent = useEventLogger();
-  const embedRef = useEmbedRef();
-  const [page, setPage] = React.useState(Page.Home);
-  const onDialogOpen = (e) => {
-    logEvent(e);
+  // Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
   };
-  const onDialogClose = (e) => {
-    logEvent(e);
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
   };
-
   return (
     <AppEmbed
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
-      pageId={page}
-      onDialogOpen={onDialogOpen}
-      onDialogClose={onDialogClose}
+      pageId={Page.Home}
+      onInit={onInit}
+      onLoad={onLoad}
     />
   );
 };
 ----
-
-
 . Render the app
 +
 ----
@@ -575,57 +635,49 @@ ts-data-app> npm start
 === Test your app
 
 * Load your application.
-* Verify if the page you set as the active tab opens when you load the application.
-* If you have disabled a menu item on a ThoughtSpot application page, verify if the menu command is disabled.
-* Check if the registered events are emitted and logged.
+* Check if the default home page is the same as you defined in the `pageId` attribute.
++
+[.bordered]
+image::./images/full-app-react.png[]
 
-=== Code sample for full application embed
+* Check if the registered events are emitted.
+
+=== Full app embed code sample
+
+The following code sample embeds the full application experience, sets the `Liveboards` page as the default home page,  disables *Edit* and *Present* actions on Liveboard visualizations, and registers event handlers for `Init`,  `Load`, and `RouteChange` events.
 
 [source,Typescript]
 ----
 const FullApp = () => {
-  const logEvent = useEventLogger();
-  const embedRef = useEmbedRef();
-  const [page, setPage] = React.useState(Page.Home);
-  const onDialogOpen = (e) => {
-    logEvent(e);
+  // Register event handlers
+  const onInit = () => {
+    console.log(EmbedEvent.Init, {});
   };
-  const onDialogClose = (e) => {
-    logEvent(e);
+  const onLoad = () => {
+    console.log(EmbedEvent.Load, {});
   };
-
-  const onCustomAction = (e) => {
-    if (e.id === "only-this-viz") {
-      embedRef.current.trigger(HostEvent.SetVisibleVizs, [
-        "6d39225c-8845-44b4-b105-910981cdbba8",
-      ]);
-      console.log(JSON.parse(e.data));
-    }
+  const onRouteChange = () => {
+    console.log(EmbedEvent.RouteChange, {});
   };
-
   return (
     <AppEmbed
       frameParams={{
         height: 600,
       }}
-      ref={embedRef}
-      pageId={page}
-      disabledActions=["Action.Save","Action.Edit"]
+      pageId={Page.Liveboards}
+      disabledActions={[Action.Save, Action.Edit]}
       disabledActionReason="Contact your administrator"
-      onInit={logEvent(EmbedEvent.Init)}
-      onLoad={logEvent(EmbedEvent.Load)}
-      onCustomAction={onCustomAction}
-      onDialogOpen={onDialogOpen}
-      onDialogClose={onDialogClose}
-      onRouteChange={logEvent}
+      onInit={onInit}
+      onLoad={onLoad}
+      onRouteChange={onRouteChange}
     />
   );
 };
-
 ----
+For a complete list of `AppEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/AppViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
+[#react-routes]
 == Add routes for navigation
-
 If your app has multiple pages and you have created a new page for the embedded ThoughtSpot component, make sure you add a route in your app for navigation.  
 
 The following example shows a route for the Liveboard page.
@@ -634,7 +686,6 @@ The following example shows a route for the Liveboard page.
 ----
 import { Route, Routes} from "react-router-dom";
 import { Liveboard } from './components/liveboard'
-
 function App() {
  return (
    <div className="App">
@@ -651,7 +702,7 @@ export default App;
  
 == Additional resources
 
-* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, windows=_blank].
 * For information about events, see xref:embed-events.adoc[Interact with events].
 * For information about Action enumerations, see xref:embed-actions.adoc[Show or hide UI actions].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, window=_blank].
