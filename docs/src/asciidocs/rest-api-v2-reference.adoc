@@ -605,7 +605,7 @@ Gets details of all data connections. You can also query data for a specific con
 --
 `**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
 
-Allows constructing a search query string and retreives data from a search query.
+Allows constructing a search query string and retrieving data from a search query.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
