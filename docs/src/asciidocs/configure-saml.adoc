@@ -194,18 +194,14 @@ To add a SAML redirect domain, follow these steps:
 . In the *SAML redirect domains* text box, add the domain names. Valid values are:
 +
 
-* Domain name strings with HTTP or HTTPS protocol. For example, `\http://thoughtspot.com`,
-`\https://www.thoughtspot.com`, `\https://www.thoughtspot.com`
-* Domain name strings without port and protocol. For example, `thoughtspot.com`, `www.thoughtspot.com`
-* Domain name strings with wildcard (+++*+++). For example,
-`\https://+++*+++.thoughtspot.com`, `*.thoughtspot.com`
-* Comma-separated values. For example, `thoughtspot.com, thoughtspot.com`
+* Domain name strings without port and protocol. For example, `thoughtspot.com`,`www.thoughtspot.com`
+* Comma-separated values. For example, `thoughtspot.com,thoughtspot.cloud`
 * IPv4 addresses. For example, `255.255.255.255`
 
 +
 [NOTE]
 ====
-Although the UI allows a domain URL without the protocol (`http/https`), do include the protocol in the SAML redirect domain name string to avoid configuration errors.
+Do NOT include the protocol in the SAML redirect domain name string to avoid configuration errors.
 ====
 +
 . Click *Save changes*.
