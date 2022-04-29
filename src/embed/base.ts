@@ -20,7 +20,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
 let config = {} as EmbedConfig;
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
-    loginFailedMessage: 'Login failed',
+    loginFailedMessage: 'Not logged in',
     authType: AuthType.None,
 };
 
