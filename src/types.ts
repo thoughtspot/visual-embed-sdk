@@ -97,6 +97,15 @@ export interface EmbedConfig {
      */
     noRedirect?: boolean;
 
+    /**
+     * [SSO] For SSO Authentication, one can supply an optional path param,
+     * this will be the path on the host origin where the SAML flow will be
+     * terminated.
+     *
+     * @version SDK: 1.10.2 | ThoughtSpot: *
+     */
+    redirectPath?: string;
+
     /** @internal */
     basepath?: string;
 

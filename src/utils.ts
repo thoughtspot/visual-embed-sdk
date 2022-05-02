@@ -121,6 +121,11 @@ export const appendToUrlHash = (url: string, stringToAppend: string) => {
     return outputUrl;
 };
 
+export function getRedirectUrl(url: string, stringToAppend: string, path = '') {
+    const targetUrl = path ? new URL(path, window.location.origin).href : url;
+    return appendToUrlHash(targetUrl, stringToAppend);
+}
+
 export const getEncodedQueryParamsString = (queryString: string) => {
     if (!queryString) {
         return queryString;
