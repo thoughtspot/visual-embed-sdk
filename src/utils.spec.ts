@@ -8,6 +8,7 @@ import {
     getCssDimension,
     getEncodedQueryParamsString,
     appendToUrlHash,
+    getRedirectUrl,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -78,6 +79,31 @@ describe('unit test for utils', () => {
         expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe(
             'http://xyz.com/#foobar',
         );
+    });
+
+    describe('getRedirectURL', () => {
+        test('Should return correct value when path is undefined', () => {
+            expect(getRedirectUrl('http://myhost:3000', 'hashFrag')).toBe(
+                'http://myhost:3000#hashFrag',
+            );
+            expect(getRedirectUrl('http://xyz.com/#foo', 'bar')).toBe(
+                'http://xyz.com/#foobar',
+            );
+        });
+
+        test('Should return correct value when path is set', () => {
+            Object.defineProperty(window.location, 'origin', {
+                get: () => 'http://myhost:3000',
+            });
+
+            expect(
+                getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar'),
+            ).toBe('http://myhost:3000/bar#hashFrag');
+
+            expect(
+                getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar'),
+            ).toBe('http://myhost:3000/#/barhashFrag');
+        });
     });
 
     test('getEncodedQueryParamsString', () => {

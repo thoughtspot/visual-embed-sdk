@@ -1,6 +1,6 @@
 import { initMixpanel } from './mixpanel-service';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
-import { appendToUrlHash } from './utils';
+import { getRedirectUrl } from './utils';
 // eslint-disable-next-line import/no-cycle
 import {
     fetchSessionInfoService,
@@ -249,7 +249,11 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
+        : getRedirectUrl(
+              window.location.href,
+              SSO_REDIRECTION_MARKER_GUID,
+              embedConfig.redirectPath,
+          );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(
@@ -266,7 +270,11 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
+        : getRedirectUrl(
+              window.location.href,
+              SSO_REDIRECTION_MARKER_GUID,
+              embedConfig.redirectPath,
+          );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(
