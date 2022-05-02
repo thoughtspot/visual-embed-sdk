@@ -7,6 +7,16 @@ This project follows Semantic Versioning.
 
 ### New Features
 - Events for all actions on Search Embed
+
+## 1.10.2 (05-01-2022)
+- Ability to configure `redirectPath` on the origin when using SSO auth.
+
+## 1.10.1 (05-01-2022)
+
+### Updated
+- When login fails the user is presented with a `not logged in` message, which is configurable using `loginFailedMessage` property on `init`.
+- `init` now returns a event emitter which can be used to listen to Login `failures` and `success`.
+
 ## 1.10.0 (04-22-2022)
 
 - Release to support TS version 8.2.0.cl
