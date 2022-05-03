@@ -102,6 +102,7 @@ export interface EmbedConfig {
      * this will be the path on the host origin where the SAML flow will be
      * terminated.
      *
+     * Eg: "/dashboard", "#/foo" [Do not include the host]
      * @version SDK: 1.10.2 | ThoughtSpot: *
      */
     redirectPath?: string;
