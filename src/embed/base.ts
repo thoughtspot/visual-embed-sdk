@@ -98,7 +98,10 @@ export const prefetch = (url?: string): void => {
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
  *
- * @returns authPromise Promise which resolves when authentication is complete.
+ * eg: authStatus = init(config);
+ * authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
+ *
+ * @returns event emitter which emits events on authentication success, failure and logout. {@link AuthStatus}
  */
 export const init = (embedConfig: EmbedConfig): EventEmitter => {
     config = {
@@ -124,6 +127,17 @@ export function disableAutoLogin(): void {
     config.autoLogin = false;
 }
 
+/**
+ * Logout from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
+ * the SDK from automatically logging in again.
+ *
+ * You can call the `init` method again to re login, if autoLogin is set to true in this
+ * second call it will be honored.
+ *
+ * @param doNotDisableAutoLogin This flag when passed will not disable autoLogin
+ * @returns Promise which resolves when logout completes.
+ * @version SDK: 1.10.1 | ThoughtSpot: *
+ */
 export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
     if (!doNotDisableAutoLogin) {
         disableAutoLogin();

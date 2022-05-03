@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DataSourceVisualMode | @thoughtspot/visual-embed-sdk
+	<title>AuthStatus | @thoughtspot/visual-embed-sdk
 	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,10 +57,10 @@
 					<a href="../modules.html">@thoughtspot/visual-embed-sdk</a>
 				</li>
 				<li>
-					<a href="DataSourceVisualMode.html">DataSourceVisualMode</a>
+					<a href="AuthStatus.html">AuthStatus</a>
 				</li>
 			</ul>
-			<h1>Enumeration DataSourceVisualMode</h1>
+			<h1>Enumeration AuthStatus</h1>
 		</div>
 	</div>
 </header>
@@ -82,30 +82,30 @@
 					<li class=" tsd-kind-enum">
 						<a href="AuthFailureType.html" class="tsd-kind-icon">Auth<wbr>Failure<wbr>Type</a>
 					</li>
-					<li class=" tsd-kind-enum">
-						<a href="AuthStatus.html" class="tsd-kind-icon">Auth<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum">
-						<a href="DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
+						<a href="AuthStatus.html" class="tsd-kind-icon">Auth<wbr>Status</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="DataSourceVisualMode.html#Collapsed" class="tsd-kind-icon">Collapsed</a>
+								<a href="AuthStatus.html#FAILURE" class="tsd-kind-icon">FAILURE</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="DataSourceVisualMode.html#Expanded" class="tsd-kind-icon">Expanded</a>
+								<a href="AuthStatus.html#LOGOUT" class="tsd-kind-icon">LOGOUT</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="DataSourceVisualMode.html#Hidden" class="tsd-kind-icon">Hidden</a>
+								<a href="AuthStatus.html#SUCCESS" class="tsd-kind-icon">SUCCESS</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-enum">
+						<a href="AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
+					</li>
 					<li class=" tsd-kind-enum">
 						<a href="EmbedEvent.html" class="tsd-kind-icon">Embed<wbr>Event</a>
 					</li>
@@ -155,14 +155,6 @@
 			</nav>
 		</div>
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The different visual modes that the data sources panel within
-						search could appear in, i.e., hidden, collapsed, or expanded.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -170,9 +162,9 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="DataSourceVisualMode.html#Collapsed" class="tsd-kind-icon">Collapsed</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="DataSourceVisualMode.html#Expanded" class="tsd-kind-icon">Expanded</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="DataSourceVisualMode.html#Hidden" class="tsd-kind-icon">Hidden</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#FAILURE" class="tsd-kind-icon">FAILURE</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#LOGOUT" class="tsd-kind-icon">LOGOUT</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#SUCCESS" class="tsd-kind-icon">SUCCESS</a></li>
 							</ul>
 						</section>
 					</div>
@@ -181,49 +173,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="Collapsed" class="tsd-anchor"></a>
-					<h3>Collapsed</h3>
-					<div class="tsd-signature tsd-kind-icon">Collapsed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;collapse&quot;</span></div>
+					<a name="FAILURE" class="tsd-anchor"></a>
+					<h3>FAILURE</h3>
+					<div class="tsd-signature tsd-kind-icon">FAILURE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;FAILURE&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/types.ts#L618">types.ts:618</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/auth.ts#L44">auth.ts:44</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Data source panel is collapsed, but the user can manually expand it.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="Expanded" class="tsd-anchor"></a>
-					<h3>Expanded</h3>
-					<div class="tsd-signature tsd-kind-icon">Expanded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;expand&quot;</span></div>
+					<a name="LOGOUT" class="tsd-anchor"></a>
+					<h3>LOGOUT</h3>
+					<div class="tsd-signature tsd-kind-icon">LOGOUT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;LOGOUT&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/types.ts#L622">types.ts:622</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/auth.ts#L46">auth.ts:46</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Data source panel is expanded, but the user can manually collapse it.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="Hidden" class="tsd-anchor"></a>
-					<h3>Hidden</h3>
-					<div class="tsd-signature tsd-kind-icon">Hidden<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;hide&quot;</span></div>
+					<a name="SUCCESS" class="tsd-anchor"></a>
+					<h3>SUCCESS</h3>
+					<div class="tsd-signature tsd-kind-icon">SUCCESS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SUCCESS&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/types.ts#L614">types.ts:614</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/auth.ts#L45">auth.ts:45</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Data source panel is hidden.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>

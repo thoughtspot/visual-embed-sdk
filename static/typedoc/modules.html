@@ -72,6 +72,12 @@
 						<a href="enums/Action.html" class="tsd-kind-icon">Action</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/AuthFailureType.html" class="tsd-kind-icon">Auth<wbr>Failure<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/AuthStatus.html" class="tsd-kind-icon">Auth<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum">
@@ -117,6 +123,9 @@
 						<a href="modules.html#init" class="tsd-kind-icon">init</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="modules.html#logout" class="tsd-kind-icon">logout</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="modules.html#prefetch" class="tsd-kind-icon">prefetch</a>
 					</li>
 				</ul>
@@ -152,6 +161,8 @@
 							<h3>Other</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum"><a href="enums/Action.html" class="tsd-kind-icon">Action</a></li>
+								<li class="tsd-kind-enum"><a href="enums/AuthFailureType.html" class="tsd-kind-icon">Auth<wbr>Failure<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/AuthStatus.html" class="tsd-kind-icon">Auth<wbr>Status</a></li>
 								<li class="tsd-kind-enum"><a href="enums/AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a></li>
 								<li class="tsd-kind-enum"><a href="enums/DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a></li>
 								<li class="tsd-kind-enum"><a href="enums/EmbedEvent.html" class="tsd-kind-icon">Embed<wbr>Event</a></li>
@@ -161,6 +172,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/EmbedConfig.html" class="tsd-kind-icon">Embed<wbr>Config</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/RuntimeFilter.html" class="tsd-kind-icon">Runtime<wbr>Filter</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#logout" class="tsd-kind-icon">logout</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#prefetch" class="tsd-kind-icon">prefetch</a></li>
 							</ul>
 						</section>
@@ -173,13 +185,13 @@
 					<a name="init" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> init</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>embedConfig<span class="tsd-signature-symbol">: </span><a href="interfaces/EmbedConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">EmbedConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>embedConfig<span class="tsd-signature-symbol">: </span><a href="interfaces/EmbedConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">EmbedConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/base.ts#L62">embed/base.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/embed/base.ts#L106">embed/base.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,11 +207,53 @@
 									<div class="tsd-comment tsd-typography">
 										<p>The configuration object containing ThoughtSpot host,
 										authentication mechanism and so on.</p>
+										<p>eg: authStatus = init(config);
+										authStatus.on(AuthStatus.FAILURE, (reason) =&gt; { // do something here });</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>authPromise Promise which resolves when authentication is complete.</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>event emitter which emits events on authentication success, failure and logout. <a href="enums/AuthStatus.html">AuthStatus</a></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="logout" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> logout</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">logout<span class="tsd-signature-symbol">(</span>doNotDisableAutoLogin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/embed/base.ts#L141">embed/base.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Logout from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
+									the SDK from automatically logging in again.</p>
+								</div>
+								<p>You can call the <code>init</code> method again to re login, if autoLogin is set to true in this
+								second call it will be honored.</p>
+								<dl class="tsd-comment-tags">
+									<dt class="version">version</dt>
+									<dd><p>SDK: 1.10.1 | ThoughtSpot: *</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>doNotDisableAutoLogin: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>This flag when passed will not disable autoLogin</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise which resolves when logout completes.</p>
 						</li>
 					</ul>
 				</section>
@@ -213,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/base.ts#L39">embed/base.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/6a7e7f6e/src/embed/base.ts#L80">embed/base.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
