@@ -14,11 +14,11 @@ This project follows Semantic Versioning.
 ## 1.10.1 (05-01-2022)
 
 ### New features
-- `logout` method exposed from the SDK. This can be used to log the user out.
+- `logout` method exposed from the SDK. This can be used to log the user out. [Ref Doc](https://developers.thoughtspot.com/docs/typedoc/modules.html#logout)
 
 ### Updated
-- When login fails the user is presented with a `not logged in` message, which is configurable using `loginFailedMessage` property on `init`.
-- `init` now returns a event emitter which can be used to listen to Login `failures` and `success`.
+- When login fails the user is presented with a `Not logged in` message, which is configurable using `loginFailedMessage` property on `init`. [Ref Doc](https://developers.thoughtspot.com/docs/typedoc/interfaces/EmbedConfig.html#loginFailedMessage)
+- `init` now returns a event emitter which can be used to listen to Login `failures` and `success`. [Ref Doc](https://developers.thoughtspot.com/docs/typedoc/modules.html#init)
 
 ## 1.10.0 (04-22-2022)
 
