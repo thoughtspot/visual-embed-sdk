@@ -13,6 +13,9 @@ This project follows Semantic Versioning.
 
 ## 1.10.1 (05-01-2022)
 
+### New features
+- `logout` method exposed from the SDK. This can be used to log the user out.
+
 ### Updated
 - When login fails the user is presented with a `not logged in` message, which is configurable using `loginFailedMessage` property on `init`.
 - `init` now returns a event emitter which can be used to listen to Login `failures` and `success`.
