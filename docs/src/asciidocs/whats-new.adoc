@@ -18,9 +18,9 @@ This page provides information about new features, enhancements, and deprecated 
 ||
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration</h5>+++
 
-ThoughtSpot introduces app actions[beta orangeBackground]^BETA^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
+ThoughtSpot introduces app actions[beta blueBackground]^BETA^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
 
-Users with developer or admin privileges can create an app action for Slack[beta orangeBackground]^BETA^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
+Users with developer or admin privileges can create an app action for Slack[beta blueBackground]^BETA^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
@@ -37,9 +37,9 @@ The Visual Embed SDK version 1.10.x is now available. For more information about
 
 New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
 
-==== REST API v2 [beta orangeBackground]^BETA^
+==== REST API v2 [beta blueBackground]^BETA^
 
-Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta orangeBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
+Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta blueBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
 
 The 8.2.0.cl release also introduces the following features and enhancements:
 
@@ -78,7 +78,7 @@ For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference]
 
 The Visual Embed SDK version 1.9.x introduces new action enumerations, events, and attributes. For more information, see xref:api-changelog.adoc[Visual Embed Changelog].
 
-==== REST API v2 [beta orangeBackground]^BETA^
+==== REST API v2 [beta blueBackground]^BETA^
 
 The following REST API v2 endpoints are now available on instances on which the REST API v2 Playground and SDK feature is enabled.
 
@@ -158,7 +158,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 |====
 ====
 
-.REST API Playground and SDK [beta orangeBackground]^BETA^
+.REST API Playground and SDK [beta blueBackground]^BETA^
 
 [%collapsible] 
 ====

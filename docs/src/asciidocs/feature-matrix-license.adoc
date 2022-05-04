@@ -61,11 +61,11 @@ a|REST API v1  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-|REST v2 API and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓#  + 
+|REST v2 API and SDK [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
-|REST API Playground [beta orangeBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
+|REST API Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#

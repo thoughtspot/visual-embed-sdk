@@ -133,16 +133,17 @@ button {
 }
 
 .beta {
-    border-radius: $tag-border-radius;
+    border-radius: $beta-border-radius;
     display: inline-block;
     font-size: $font-size-small;
     font-weight: $font-weight-normal;
-    height: 25px;
+    height: 22px;
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    padding: $tag-padding;
+    padding: $beta-padding;
     color: $tag-font-color;
+    margin: 2px;
 }
 
 .blueBackground {
