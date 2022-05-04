@@ -127,7 +127,9 @@ describe('Base TS Embed', () => {
             `http://${thoughtSpotHost}${auth.EndPoints.LOGOUT}`,
             {
                 credentials: 'include',
-                mode: 'no-cors',
+                headers: {
+                    'x-requested-by': 'ThoughtSpot',
+                },
                 method: 'POST',
             },
         );
