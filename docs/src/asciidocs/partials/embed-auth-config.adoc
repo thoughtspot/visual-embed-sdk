@@ -27,12 +27,10 @@ _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in 
 
 * `redirectPath` __Optional__
 +
-__String__. Allows defining a redirect path on which the SAML SSO authentication workflow terminates. If you want to redirect your users to the main page or a specific application page, specify the redirect path as shown here:
+__String__. Allows adding a redirect path string to the host origin. If the `redirectPath` attribute is configured, the SAML SSO authentication flow will be terminated on the specified redirect path. 
 
 +
-----
-redirectPath: "/dashboard"
-----
+Do not include the host URL in the path string. For example, `/dashboard`.
 
 
 OIDC;;
