@@ -65,7 +65,9 @@ export async function fetchLogoutService(
 ): Promise<any> {
     return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
         credentials: 'include',
-        mode: 'no-cors',
         method: 'POST',
+        headers: {
+            'x-requested-by': 'ThoughtSpot',
+        },
     });
 }
