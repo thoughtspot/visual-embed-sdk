@@ -27,10 +27,9 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 ////
 
 
-
 ==== Visual Embed SDK 1.10.x
 
-The Visual Embed SDK version 1.10.x is now available. For more information about the new features and enhancements introduced in these SDK versions, see xref:api-changelog.adoc[Visual Embed changelog].
+The Visual Embed SDK version 1.10.x is now available. For information about the new features and enhancements introduced in these SDK versions, see xref:api-changelog.adoc[Visual Embed changelog].
 
 
 ==== REST API v1
