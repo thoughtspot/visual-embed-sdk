@@ -2,8 +2,6 @@
 :toc: true
 :linkattrs:
 
-
-
 :page-title: Getting Started
 :page-pageid: getting-started
 :page-description: Getting Started

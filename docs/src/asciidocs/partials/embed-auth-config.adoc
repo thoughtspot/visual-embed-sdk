@@ -25,6 +25,15 @@ Sets SAML SSO as the authentication method. Federated users can authenticate wit
 +
 _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page. 
 
+* `redirectPath` __Optional__
++
+__String__. Allows defining a redirect path on which the SAML SSO authentication workflow terminates. If you want to redirect your users to the main page or a specific application page, specify the redirect path as shown here:
+
++
+----
+redirectPath: "/dashboard"
+----
+
 
 OIDC;;
 Enables OpenID connect authentication method. To allow embedded application users to authenticate using OpenID connect login, you must enable support for the OpenID connect authentication on ThoughtSpot. For more information, see xref:configure-oidc.adoc[OpenID connect authentication].
@@ -54,6 +63,6 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
 We recommend that you fetch a new token inside this method instead of using an existing token. When a session expires and if this method is called again with an old token, the user authentication may fail.   
 
 +
-For more information, see xref:embed-authentication.adoc[Embed user authentication].  
+For more information, see xref:embed-authentication.adoc[Authentication].  
  
  
