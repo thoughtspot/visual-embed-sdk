@@ -21,8 +21,8 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |[tag greenBackground]#NEW FEATURE#|You can now use the `logout` method to log out embed users.
 |[tag orangeBackground]#MODIFIED#  a| Note the following changes: +
 
-* You can now use the `loginFailedMessage` property on init to display the `Not logged in message` when a user login fails. You can customize this message by defining a custom text string in the `loginFailedMessage` attribute. 
-* The `init` method now returns an event emitter which can be used to listen to `AuthStatus` such as login failure or success.
+* You can now use the `loginFailedMessage` property on init to display the `Not logged in` message when a user login fails. You can customize this message by defining a custom text string in the `loginFailedMessage` attribute. 
+* The `init` method now returns an event emitter which can be used to listen to `AuthStatus` such as login failure, success, or user logout.
 |====
 
 == Version 1.10.0, April 2022
