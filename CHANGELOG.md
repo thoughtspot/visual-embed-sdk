@@ -8,7 +8,12 @@ This project follows Semantic Versioning.
 ### New Features
 - Events for all actions on Search Embed
 
+## 1.10.3 (05-04-2022)
+### Fixed
+- `logout` method works consistently on multiple TS releases  
+
 ## 1.10.2 (05-01-2022)
+### New features
 - Ability to configure `redirectPath` on the origin when using SSO auth. [Ref doc](https://developers.thoughtspot.com/docs/typedoc/interfaces/EmbedConfig.html#redirectPath)
 
 ## 1.10.1 (05-01-2022)
