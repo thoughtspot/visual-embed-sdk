@@ -169,6 +169,14 @@ export interface EmbedConfig {
      * @default ''
      */
     customCssUrl?: string;
+    /**
+     * [AuthServer|Basic] Detect if 3rd party cookies are enabled by doing an additional call. This is slower
+     * and should be avoided. Listen to the NO_COOKIE_ACCESS event to handle the situation.
+     *
+     * This is slightly slower than letting the browser handle the cookie check, as it involves an extra network call.
+     * @version SDK: 1.10.4 | ThoughtSpot: *
+     */
+    detectCookieAccessSlow?: boolean;
 }
 
 /**
