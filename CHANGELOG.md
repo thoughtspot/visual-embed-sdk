@@ -8,6 +8,10 @@ This project follows Semantic Versioning.
 ### New Features
 - Events for all actions on Search Embed
 
+## 1.10.4 (05-06-2022)
+### New Features
+- Config option `detectCookieAccessSlow` when doing Basic|AuthServer auth. [Ref doc](https://developers.thoughtspot.com/docs/typedoc/interfaces/EmbedConfig.html#detectCookieAccessSlow)
+
 ## 1.10.3 (05-04-2022)
 ### Fixed
 - `logout` method works consistently on multiple TS releases  
