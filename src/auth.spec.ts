@@ -1,6 +1,6 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
-import { AuthType } from './types';
+import { AuthType, EmbedConfig } from './types';
 import { executeAfterWait } from './test/test-utils';
 
 const thoughtSpotHost = 'http://localhost:3000';
@@ -13,8 +13,15 @@ const embedConfig: any = {
         thoughtSpotHost,
         username,
         authEndpoint: 'auth',
+        authType: AuthType.AuthServer,
         getAuthToken: jest.fn(() => Promise.resolve(token)),
     }),
+    doTokenAuthWithCookieDetect: {
+        thoughtSpotHost,
+        username,
+        authEndpoint: 'auth',
+        detectCookieAccessSlow: true,
+    },
     doTokenAuthFailureWithoutAuthEndPoint: {
         thoughtSpotHost,
         username,
@@ -204,6 +211,29 @@ describe('Unit test for auth', () => {
             expect(window.alert).toBeCalled();
             expect(authService.fetchAuthService).toHaveBeenCalledTimes(1);
         });
+    });
+
+    test('doTokenAuth: Should set loggedInStatus if detectThirdPartyCookieAccess is true and the second info call fails', async () => {
+        jest.spyOn(authService, 'fetchSessionInfoService')
+            .mockResolvedValue({
+                status: 401,
+            })
+            .mockClear();
+        jest.spyOn(
+            authService,
+            'fetchAuthTokenService',
+        ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                ok: true,
+            }),
+        );
+        const isLoggedIn = await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthWithCookieDetect,
+        );
+        expect(authService.fetchSessionInfoService).toHaveBeenCalledTimes(2);
+        expect(isLoggedIn).toBe(false);
     });
 
     describe('doBasicAuth', () => {

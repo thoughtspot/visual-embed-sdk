@@ -142,6 +142,11 @@ export const doTokenAuth = async (
         );
         // token login issues a 302 when successful
         loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
+        if (loggedInStatus && embedConfig.detectCookieAccessSlow) {
+            // When 3rd party cookie access is blocked, this will fail because cookies will
+            // not be sent with the call.
+            loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        }
     }
     return loggedInStatus;
 };
@@ -166,6 +171,9 @@ export const doBasicAuth = async (
             password,
         );
         loggedInStatus = response.ok;
+        if (embedConfig.detectCookieAccessSlow) {
+            loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        }
     } else {
         loggedInStatus = true;
     }
