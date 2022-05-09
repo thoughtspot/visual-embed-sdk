@@ -19,7 +19,7 @@ SDK to embed ThoughtSpot into your web apps.
       * [Triggering and Listening to events](#triggering-and-listening-to-events)
    * [React Components](#react-components)
       * [Search Component](#search-component)
-      * [Triggering events on React components (&gt; version 1.9.2)](#triggering-events-on-react-components--version-192)
+      * [Triggering events on React components](#triggering-events-on-react-components--version-192)
 
 ## Usage
 
