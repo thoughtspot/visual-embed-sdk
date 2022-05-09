@@ -9,7 +9,17 @@
 
 SDK to embed ThoughtSpot into your web apps.
 
-<br/>
+   * [Usage](#usage)
+   * [Live Playground](#live-playground)
+   * [Full API Reference](#full-api-reference)
+   * [Quick Start](#quick-start)
+      * [Embedded Search](#embedded-search)
+      * [Embedded Liveboard &amp; Visualization](#embedded-liveboard--visualization)
+      * [Embedded Full App](#embedded-full-app)
+      * [Triggering and Listening to events](#triggering-and-listening-to-events)
+   * [React Components](#react-components)
+      * [Search Component](#search-component)
+      * [Triggering events on React components (&gt; version 1.9.2)](#triggering-events-on-react-components--version-192)
 
 ## Usage
 
