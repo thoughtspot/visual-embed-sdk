@@ -31,6 +31,7 @@ import { LiveboardEmbed } from '@thoughtspot/visual-embed-sdk';
 
 // NPM <script>
 <script src="https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js"></script>;
+// Make the SDK available on global namespace window.tsembed
 
 // ES6 from web
 import {
@@ -53,6 +54,7 @@ Start a [free trial](https://www.thoughtspot.com/trial?tsref=trialtse) on your o
 
 -   Detailed [developer guide](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started).
 -   Please visit our [API reference docs](https://developers.thoughtspot.com/docs/typedoc/modules.html).
+-   Comprehensive [CodeSandbox](https://codesandbox.io/s/big-tse-react-demo-i4g9xi?file=/src/App.tsx)
 
 <br/>
 
