@@ -4,7 +4,8 @@
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square)
+# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square) [![Featured on Openbase](https://badges.openbase.com/js/featured/@thoughtspot/visual-embed-sdk.svg?token=IoqZUwE8aX7LYNedeuBLM2w5Wt52hu+Dh0eyKjlpC0E=)](https://openbase.com/js/@thoughtspot/visual-embed-sdk?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge)
+
 
 SDK to embed ThoughtSpot into your web apps.
 
