@@ -223,6 +223,7 @@ By default, the attribute displays the `Not logged in` message in the embedded U
 loginFailedMessage: "Authentication failed! Please try again."  
 ----
 
+
 ----
 loginFailedMessage: "<div> <h3> Please enable third-party cookies</h3> <img src='<image url'> </div>"
 ----
