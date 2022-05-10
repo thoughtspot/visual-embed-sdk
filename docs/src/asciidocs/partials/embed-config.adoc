@@ -23,7 +23,7 @@ disableLoginRedirect: true
 
 loginFailedMessage::
 
-__String__. Allows defining a custom login failure message, which is displayed in the embedded ThoughtSpot app when a user login fails. 
+__String__. Allows defining a custom login failure message, which is displayed in the embedded ThoughtSpot app when a user login fails. Define a string with custom text or markup.
 
 
 +
