@@ -128,11 +128,11 @@ To force the creation of a new object on the server, call the xref:tml-api#impor
 You can also remove the `guid` property from the TML document, which guarantees that a new object will be created. Use this method when importing a mix of TML documents to create new objects and update existing objects.
 
 ==== Update existing objects
-To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, and then update the TML document's *guid* property. If you are seeking to update an existing object, particularly if promoting through different environments, xref:development-and-deployment.adoc#addGuids[Add GUIDs of associated objects to TML] along with recording a mapping of the original object guid ("parent guid") when you create the new object ("child guid") in a different environment the first time (See xref:development-and-deployment.adoc##linkChildGuid[Linking GUIDs from different environments] below).
+To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, and then update the TML document's *guid* property. If you are seeking to update an existing object, particularly if promoting through different environments, xref:development-and-deployment.adoc#addGuids[Add GUIDs of associated objects to TML] along with recording a mapping of the original object guid ("parent guid") when you create the new object ("child guid") in a different environment the first time (See xref:development-and-deployment.adoc#linkChildGuid[Linking GUIDs from different environments]).
 
 ==== Naming constraints and GUIDs
 
-ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, Liveboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML) specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
+ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, Liveboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[TML specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
 
 You can simplify some processes by setting your own best practice rules for giving objects unique names. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML. For some multi-tenanted use cases, you will want many objects with the same display name, with access control rules determining which objects a given user sees, and then you will need to use GUIDs to differentiate those objects when uploading TML.
 
@@ -479,7 +479,7 @@ Each prod tenant copy will have the same name so that each tenant will not see t
 pip install thoughtspot-tml
 ----
 
-* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
+* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
 
 +
 ----
