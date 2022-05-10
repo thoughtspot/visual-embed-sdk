@@ -190,6 +190,7 @@ init({
     getAuthToken: () => Promise.resolve(token),
 });
 ----
+
 +
 After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content.
 
@@ -200,7 +201,7 @@ disableLoginRedirect: true,
 autoLogin: true,
 ----
 
-In contrast to the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end-user, even if they fail. Use the event emitter returned by the `init` call to listen to the login failure events. You can also register an event handler to trigger the xref:embed-events.adoc[AuthInit event] to detect and respond to errors in the login process.
+Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end-user, even if they fail. Use the event emitter returned by the `init` call to listen to the login failure events. You can also register an event handler to trigger the xref:embed-events.adoc[AuthInit event] to detect and respond to errors in the login process.
 
 == Authentication errors and event handling
 
@@ -216,10 +217,14 @@ console.log('Authentication failed');
 ----
 
 If you want to display a message in the embedded UI when a user login fails, include the `loginFailedMessage` property in your `init` call.
-By default, the attribute displays the `Not logged in` message in the embedded UI. To customize this message, define a custom text string in the `loginFailedMessage` property.
+By default, the attribute displays the `Not logged in` message in the embedded UI. To customize this message, define a string with custom text or markup as shown here:
 
 ----
 loginFailedMessage: "Authentication failed! Please try again."  
+----
+
+----
+loginFailedMessage: "<div> <h3> Please enable third-party cookies</h3> <img src='<image url'> </div>"
 ----
 
 You can also register event handlers to trigger the following events:
@@ -244,16 +249,12 @@ To log out embed users, you can use the `Logout` method to call the `xref:sessio
 
 [source,Typescript]
 ----
-const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
-    if (!doNotDisableAutoLogin) {
-        disableAutoLogin();
-    }
-    return _logout(config).then((isLoggedIn) => {
-        notifyLogout();
-        return isLoggedIn;
-    });
-};
+import { logout } from "@thoughtspot/visual-embed-sdk";
+
+ // call this somewhere
+logout();
 ----
+
 The `logout` function returns a promise that resolves when the user is logged out of ThoughtSpot. When you call `logout`, the `autoLogin` attribute is set to `false` to prevent the SDK from automatically logging in the user again. To re-login a user, call `init` again with the  `autoLogin` property set to `true`. 
 
 [#embed-session-sec]
