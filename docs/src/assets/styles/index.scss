@@ -132,6 +132,22 @@ button {
     color: $tag-font-color;
 }
 
+.version {
+    display: inline-block;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+    height: 25px;
+    line-height: $line-height-doc;
+    text-align: center;
+    min-width: $tag-width;
+    margin: 2px;
+    padding: $tag-padding;
+    color: var(--primary-color);
+    border: solid 1px;
+    border-color: $tip-color;
+}
+
+
 .beta {
     border-radius: $beta-border-radius;
     display: inline-block;
@@ -172,6 +188,14 @@ button {
 
 .yellowBackground {
     background-color: $tag-color-yellow;
+}
+
+.noBackground {
+    background-color: $tag-color-white;
+}
+
+.lightBackground {
+    background-color: $tag-color-light;
 }
 
 /*Tags style end*/
@@ -227,6 +251,15 @@ button {
 
 }
 
+
+.tableContainer {
+    border: 0.5px solid $disabledcolor;
+	height: 750px;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
+
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
@@ -248,9 +281,6 @@ summary.title  {
 
 }
 
-.sectlinks {
-    color: var(--primary-color);
-}
 
 a.anchor {
     position: absolute;
@@ -261,7 +291,7 @@ a.anchor {
     font-size: .8em;
     font-weight: 400;
     padding-top: 0.05em;
-}    
+}
 
 
 .introCard     {
@@ -324,7 +354,7 @@ a.anchor {
    .introCard {
         width: 100%;
     }
-    
+
     .boxDiv {
         width: 100%;
     }
@@ -332,6 +362,10 @@ a.anchor {
     .boxHalfWidth {
         width: 100%;
     }
+
+    .tableContainer {
+	overflow: scroll;
+}
 }
 
 @media screen and (max-width: $mobile-resolution-max) {

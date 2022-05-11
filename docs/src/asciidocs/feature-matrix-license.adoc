@@ -5,36 +5,39 @@
 :page-pageid: license-feature-matrix
 :page-description: Choose the license model as per your embedding requirements.
 
-ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license. 
+ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license.
+
+[div tableContainer]
+--
 
 [width="100%" cols="7,5,5,5,5"]
 [options='header']
 |=====
 |Feature|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
 (Evaluation only) |Developer Playground on public instance +
-(Evaluation only) 
+(Evaluation only)
 
 
 |Access to **Develop** tab +
 
-(Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
-| Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#| [tag greenBackground]#✓# 
+(Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#
+| Visual Embed playground|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#| [tag greenBackground]#✓#
 
 | Visual Embed SDK +
 
-Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries |[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# 
+Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries |[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 
 a|Embedding with REST APIs +
 
 * Embedding Liveboards with visualizations +
-* Embedding search data 
+* Embedding search data
 |[tag greenBackground]#✓#  +
 (Basic authentication only)
 |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
-(Basic authentication only) |[tag greyBackground]#–# 
+(Basic authentication only) |[tag greyBackground]#–#
 
 |Authentication options  +
-(For embedded ThoughtSpot instances only) a| [tag greenBackground]#✓# 
+(For embedded ThoughtSpot instances only) a| [tag greenBackground]#✓#
 Basic authentication +
 
 [tag greenBackground]#✓#  SAML SSO +
@@ -47,7 +50,7 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 [tag greenBackground]#✓# OIDC +
 
-|[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–# 
+|[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–#
 
 a|REST API v1  +
 
@@ -70,12 +73,13 @@ a|REST API v1  +
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |App actions for integrating business apps |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
-|Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
+|UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+|Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 |Security settings for embedding ThoughtSpot +
 
-(CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
+(CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–#
 |=====
+--
 
 ////
 
