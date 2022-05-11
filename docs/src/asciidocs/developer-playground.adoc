@@ -29,7 +29,7 @@ a|**Collapse data panel**
 Minimizes the data panel on the left navigation bar.
 
 ++++
-<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -38,7 +38,7 @@ a|**Hide data panel**
 Hides the default data panel. You can use this function to create a custom data panel when embedding the search module in your application.
 
 ++++
-<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 a|**Hide chart or table**
@@ -46,7 +46,7 @@ a|**Hide chart or table**
 Hides the charts and tables that appear beneath the search bar by default. For example, if you want to create a custom visualization using raw data from an existing answer, you can enable this checkbox.
 
 ++++
-<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 a|**Modify available actions**
@@ -109,7 +109,7 @@ runtimeFilters: [{
 ----
 
 ++++
-<a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/answer?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 For more information, see xref:runtime-filters.adoc[Runtime filters].
@@ -137,7 +137,7 @@ Dynamically resizes the embedded Liveboard frame according to the height of the 
 If the embedded Liveboard does not fit vertically within your application page, a second scroll bar may appear. When **Full Height** is selected, the embedded Liveboard container is automatically adjusted according to the height of the Liveboard.
 
 ++++
-<a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 
@@ -190,7 +190,7 @@ a|*Show navigation bar*
 Displays the ThoughtSpot top navigation bar. By default, the navigation bar is hidden.
 
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 |**Navigate to URL**
 
@@ -213,7 +213,7 @@ runtimeFilters: [{
 ----
 
 ++++
-<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 For more information, see xref:runtime-filters.adoc[Runtime filters].
@@ -236,6 +236,6 @@ Disable Search Assist::
 Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 +
 ++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Preview in Playground</a>
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 ////

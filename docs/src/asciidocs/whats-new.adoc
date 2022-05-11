@@ -56,7 +56,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ** `**PUT** /tspublic/rest/v2/metadata/favorite/unassign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/unassign` +
-* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
+* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields, such as `type` in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
 |[tag redBackground]#REMOVED# a| The `ownedBy` attribute will be removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
 
