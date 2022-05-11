@@ -7,6 +7,9 @@
 
 ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license. 
 
+[div tableContainer]
+--
+
 [width="100%" cols="7,5,5,5,5"]
 [options='header']
 |=====
@@ -61,11 +64,11 @@ a|REST API v1  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-|REST v2 API and SDK [beta orangeBackground]^BETA^  |[tag greenBackground]#✓#  + 
+|REST v2 API and SDK [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
-|REST API Playground [beta orangeBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# 
+|REST API Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
@@ -76,7 +79,7 @@ a|REST API v1  +
 
 (CSP, CORS, and SAML Redirect configuration)| [tag greyBackground]#–#  | [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–# 
 |=====
-
+--
 ////
 
 a|Runtime filters

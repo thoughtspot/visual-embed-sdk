@@ -132,17 +132,34 @@ button {
     color: $tag-font-color;
 }
 
-.beta {
-    border-radius: $tag-border-radius;
+.version {
     display: inline-block;
     font-size: $font-size-small;
-    font-weight: $font-weight-normal;
+    font-weight: $font-weight-bold;
     height: 25px;
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
+    margin: 2px;
     padding: $tag-padding;
+    color: var(--primary-color);
+    border: solid 1px;
+    border-color: $tip-color; 
+}
+
+
+.beta {
+    border-radius: $beta-border-radius;
+    display: inline-block;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    height: 22px;
+    line-height: $line-height-doc;
+    text-align: center;
+    min-width: $tag-width;
+    padding: $beta-padding;
     color: $tag-font-color;
+    margin: 2px;
 }
 
 .blueBackground {
@@ -171,6 +188,14 @@ button {
 
 .yellowBackground {
     background-color: $tag-color-yellow;
+}
+
+.noBackground {
+    background-color: $tag-color-white;
+}
+
+.lightBackground {
+    background-color: $tag-color-light;
 }
 
 /*Tags style end*/
@@ -226,6 +251,15 @@ button {
 
 }
 
+
+.tableContainer {
+    border: 0.5px solid $disabledcolor;
+	height: 750px;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
+
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
@@ -247,10 +281,7 @@ summary.title  {
 
 }
 
-.sectlinks {
-    color: var(--primary-color);
-}
-
+ 
 a.anchor {
     position: absolute;
     text-decoration: none;
@@ -331,6 +362,10 @@ a.anchor {
     .boxHalfWidth {
         width: 100%;
     }
+    
+    .tableContainer {
+	overflow: scroll;
+}
 }
 
 @media screen and (max-width: $mobile-resolution-max) {

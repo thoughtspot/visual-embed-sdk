@@ -21,6 +21,18 @@ disableLoginRedirect: true
 ----
 
 
+loginFailedMessage::
+
+__String__. Allows defining a custom login failure message, which is displayed in the embedded ThoughtSpot app when a user login fails. Define a string with custom text or markup.
+
+----
+loginFailedMessage: "Authentication failed! Please try again."  
+----
+
+----
+loginFailedMessage: "<div> <h3> Please enable third-party cookies</h3> <img src='<image url'> </div>"
+----
+
 shouldEncodeUrlQueryParams  __Optional__::
 
 __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generated URLs are converted into the base64-encoded format. This attribute secures your ThoughtSpot clusters against cross-site scripting attacks. By default, the `shouldEncodeUrlQueryParams` is set to `false`.
@@ -30,7 +42,6 @@ __Boolean__. When set to `true`, the query parameters in the ThoughtSpot-generat
 ----
 shouldEncodeUrlQueryParams: true
 ----
-
 
 suppressNoCookieAccessAlert  __Optional__::
 

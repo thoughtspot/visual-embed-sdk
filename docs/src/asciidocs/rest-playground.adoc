@@ -6,7 +6,7 @@
 :page-pageid: rest-playground
 :page-description: Use the REST Playground to explore the REST API and SDK.
 
-The REST API Playground [beta orangeBackground]^BETA^ provides an interactive portal to explore REST v1 and v2 endpoints. To enable this feature on your cluster, contact ThoughtSpot Support.
+The REST API Playground [beta blueBackground]^BETA^ provides an interactive portal to explore REST v1 and v2 endpoints. To enable this feature on your cluster, contact ThoughtSpot Support.
 
 If the REST API Playground and SDK feature is enabled on your cluster, the Developer portal displays the *REST API* menu. 
 

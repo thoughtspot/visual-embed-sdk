@@ -5,7 +5,7 @@
 :page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
-The REST API Playground [beta orangeBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+The REST API Playground [beta blueBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
 
 The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
 
@@ -31,6 +31,7 @@ API request editor::
 The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add each privilege string as an array.   
 
 +
+[.bordered]
 [.widthAuto]
 image::./images/array-input.png[REST API v2 Playground]
 

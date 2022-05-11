@@ -75,6 +75,9 @@ Note the following points if using port or protocol in the domain name string:
 
 The following table shows the valid domain name strings for the CORS and CSP allowlists. 
 
+[div tableContainer]
+--
+
 [width="100%" cols="5,2,2,2"]
 [options='header']
 |====
@@ -143,4 +146,4 @@ a|+++Wildcard (*) for port+++
 
 `thoughtspot:*`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
 |====
-
+--

@@ -38,7 +38,7 @@ $font-size-home: 13px;
 $font-size-normal: 14px;
 $font-size-table: 14px;
 $font-size-doc: 14.5px;
-$font-size-code: 14px;
+$font-size-code: 13.5px;
 $line-height-code: 1.4rem; 
 $font-size-large: 18px;
 $font-size-404: 1.25rem;
@@ -54,7 +54,7 @@ $document-margin-top: 88px;
 $document-padding: 20px;
 $padding-nested-ul: 12px;
 $margin-links: 16px;
-$docmap-width-desktop: 270px;
+$docmap-width-desktop: 220px;
 $docmap-width-tablet: 180px;
 $docmap-width-mobile: 100%;
 $tablet-resolution-min: 767px;
@@ -138,18 +138,22 @@ $admonition-font-factor-p: 16;
 $admonition-content-line-height: 24px;
 $admonition-font-factor-pre: 15;
 
-/*Tag variables*/
 
-$tag-border-radius: 14px;
+/*Tag variables*/
+$beta-border-radius: 5px;
+$beta-padding: 0 5px;
+$tag-border-radius: 10px;
 $tag-font-size: 13px;
 $tag-font-weight: 400;
 $tag-height: 28px;
 $tag-line-height: 28px;
-$tag-margin-right: 10px;
+$tag-margin-right: 5px;
 $tag-padding: 0 10px;
 $tag-width: auto;
 $tag-font-color: #fff;
 $tag-color-yellow: #ffbc00;
+$tag-color-white: var(--body-background-color);
+$tag-color-light: $lightgrey;
 
 :root {
     --body-background-color: #fff;
@@ -161,6 +165,7 @@ $tag-color-yellow: #ffbc00;
     --icon-color: #999;
     --back-button-background: #eaedf2;
     --border-color: #c0c6cf;
+    --table-header-color: #fff;
     --border-color-tr: #e6e6e6; 
     --scrollbar-color: #a5acb9;
     --color-jet-70: #d14;
@@ -186,6 +191,7 @@ $tag-color-yellow: #ffbc00;
     --code-block-color: #3c4356;
     --text-color-code-lang: #fff;
     --icon-color: #fff;
+    --table-header-color: #3c4356;
     --back-button-background: #a4abb8;
     --border-color: #3c4356;
     --border-color-tr:#3c4356;

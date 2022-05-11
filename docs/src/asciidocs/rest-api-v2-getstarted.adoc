@@ -106,7 +106,7 @@ The header to indicate the content type for the request body.
 +
 The `Accept` header for API response format. 
 
-* `X-Requested-By`
+* `X-Requested-By` __Optional__
 +
 The `'X-Requested-By: ThoughtSpot'` header in API requests to ThoughtSpot REST endpoints. 
 

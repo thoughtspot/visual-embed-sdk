@@ -8,17 +8,17 @@
 
 +++<p class="divider">Generates an authentication token for a user session. </p>+++
 
-`xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` 
+`xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]`
 
-Creates a login session for authenticated users when trusted authentication is enabled.
+Authenticates and logs in a user using token.
 
 This request method sends authentication attributes as query string parameters in the request URL.
 
 +++<p class="divider"><emphasis>This API call is not required if you are using Visual Embed SDK</emphasis>. </p>+++
 
-`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` 
+`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]`
 
-Authenticates and logs in a user to ThoughtSpot. 
+Authenticates and logs in a user using token.
 
 This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST`request method.
 

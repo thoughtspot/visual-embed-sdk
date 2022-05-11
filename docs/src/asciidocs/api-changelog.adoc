@@ -8,6 +8,68 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 1.11.0, Coming soon
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#  a| The upcoming version of SDK will include the following new events
+
+* `ALL`
+* `AnswerChartSwitcher`
+* `AnswerDelete`
+* `CopyAEdit`
+* `CopyToClipboard`
+* `Download` 
+* `DownloadAsPdf`
+* `DownloadAsCsv`
+* `DownloadAsXlsx`
+* `DrillExclude`
+* `DrillInclude` 
+* `EditTML`
+* `ExportTML`
+* `Monitor`
+* `Pin`
+* `Save`
+* `SaveAsView`
+* `Share`
+* `ShowUnderlyingData`
+* `SpotIQAnalyze`
+* `UpdateTML`
+* `VizPointClick`
+
+For more information, see xref:embed-events.adoc[Interact with events].
+|[tag greenBackground]#NEW FEATURE#  a| The new version of SDK will include the `showAlerts` attribute, using which you can show or hide alerts and error messages in the embedded view.
+
+|[tag greenBackground]#NEW FEATURE# a| The `Action.CreateMonitor` enumeration will be available in the SDK for embedded ThoughtSpot environments on which the Monitor feature is enabled.
+For more information, see xref:embed-actions.adoc[Show or hide UI actions].
+|====
+
+== Version 1.10.4, May 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|The `detectCookieAccessSlow` parameter in the SDK allows your app to check if third-party cookies are enabled on the browser. This parameter is available only for `AuthServer` and `Basic` authentication types.
+|====
+== Version 1.10.3, May 2022
+
+Bug fix and improvements to the `logout` method.
+
+== Version 1.10.2, May 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|Ability to configure `redirectPath` on the origin when using the SAML SSO `authType`.
+|====
+
+== Version 1.10.1, May 2022
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|You can now use the `logout` method to log out embed users.
+|[tag orangeBackground]#MODIFIED# a| Note the following changes: +
+
+* You can now use the `loginFailedMessage` property on init to display the `Not logged in` message when a user login fails. You can customize this message by defining a custom text string in the `loginFailedMessage` attribute. 
+* The `init` method now returns an event emitter which can be used to listen to `AuthStatus` such as login failure, success, or user logout.
+|====
+
 == Version 1.10.0, April 2022
 
 [width="100%" cols="1,4"]
@@ -27,7 +89,6 @@ For more information, see xref:full-embed.adoc[Embed full application].
 == Version 1.9.6 and 1.9.7, April 2022
 
 Bug fixes and improvements
-
 
 == Version 1.9.5, April 2022
 [width="100%" cols="1,4"]

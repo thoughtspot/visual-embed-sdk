@@ -8,6 +8,8 @@
 
 Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2 is a new framework that expands the core API functionality with additional features and benefits. 
 
+[div tableContainer]
+--
 
 [width="100%" cols="4,^5,^5"]
 [options='header']
@@ -49,14 +51,14 @@ a| [tag greenBackground]#✓# Basic authentication +
 a| * Session
 * User 
 * Group
-* Metadata
 * Connection
+* Metadata
 * Data 
 * Report
-* Admin
 * Logs
-
-
+* Security
+* Admin
+* Custom actions
 
 |API services a|[tag greenBackground]#✓# User APIs 
 
@@ -69,8 +71,6 @@ a| * Session
 [tag greenBackground]#✓# Metadata APIs
 
 [tag greenBackground]#✓# Admin APIs 
-
-(Includes custom action APIs)
 
 [tag greenBackground]#✓# TML APIs 
 
@@ -88,19 +88,19 @@ a| * Session
 
 See xref:rest-api-reference.adoc[REST API v1 Reference] for a complete list of endpoints.
 
-a|[tag greenBackground]#✓# User APIs 
+
+a| 
+[tag greenBackground]#✓# Session APIs
+
+[tag greenBackground]#✓# User APIs 
 
 [tag greenBackground]#✓# Group APIs
-
-[tag greenBackground]#✓# Session APIs
 
 [tag greenBackground]#✓# Connection APIs
 
 [tag greenBackground]#✓# Metadata APIs
 
-[tag greenBackground]#✓#  Admin APIs
-
-(Does not include custom action APIs)
+[tag greenBackground]#✓# Admin APIs
 
 [tag greenBackground]#✓# TML APIs
 
@@ -110,11 +110,13 @@ a|[tag greenBackground]#✓# User APIs
 
 [tag greenBackground]#✓# Visualization export API
 
-[tag greyBackground]#–# Liveboard export API
+[tag greenBackground]#✓# Custom actions API
 
-[tag greyBackground]#–# Security APIs
+[tag greenBackground]#✓# Liveboard export API
 
-[tag greenBackground]#✓#  Log Streaming Service API
+[tag greenBackground]#✓# Security APIs
+
+[tag greenBackground]#✓# Log Streaming Service API
 
 See xref:rest-api-v2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
 
@@ -128,5 +130,5 @@ Resource path:  `tspublic/v1/<resource-group>/<resource>/`
 Resource path:  `<resource-group>/<resource>`
 |====
 
-
+--
 

@@ -348,7 +348,7 @@ Allows users to explore a visualization.
 
 Allows sharing visualization with another user or a user group.
 
-|`Action.Monitor`| `LiveboardEmbed`
+|`Action.CreateMonitor`| `LiveboardEmbed`
 
 `AppEmbed` | The `Monitor` icon.
 

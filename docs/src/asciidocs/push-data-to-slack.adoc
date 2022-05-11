@@ -1,5 +1,5 @@
-= Push data to a Slack workspace 
-////[beta orangeBackground]^BETA^////
+
+= Push data to a Slack workspace[beta blueBackground]^BETA^
 :toc: true
 
 :page-title: Integrate ThoughtSpot with Slack app
@@ -87,7 +87,7 @@ Before you begin, perform the following checks:
 
 * You have access to a Slack workspace. 
 * The *New Answer experience* is enabled on your ThoughtSpot application instance.
-* You have access to a saved answer, worksheet, or Liveboard. 
+* The Slack app action is added to a visualization or saved answer on your instance.
 
 [NOTE]
 ====
@@ -122,7 +122,7 @@ The app authorization page prompts you to install the app.
 Your Slack workspace administrator will receive a Slackbot notification to approve the request.
 
 .. Close the app authorization pop-up and return to the ThoughtSpot UI. 
-.. Wait until your request is approved by the Slack workspace administrator. You will receive a notification via email and Slackbot when your request is approved.
+.. Wait until your request is approved by the Slack workspace administrator. If your request is approved, you will receive a notification via email and Slackbot.
 +
 If your request is not approved, the app authorization pop-up displays the *Your request is already submitted* message when you re-initiate the Slack app action. Contact your Slack administrator and ensure that the ThoughtSpot app is installed in your workspace.
 
@@ -142,7 +142,7 @@ This step is required only if you are using the Slack integration action for the
 . Wait for ThoughtSpot to connect to your workspace and obtain a list of channels.
 
 +
-If the connection is successful, the app action dialog in the ThoughtSpot UI displays a list of Slack channels to which you can deliver data.
+If the connection is successful, the app action dialog in the ThoughtSpot UI displays a list of Slack channels.
 
 +
 [.bordered]

@@ -15,7 +15,7 @@ The legacy framework with several endpoints to create, edit, administer and mana
 
 * REST API V2 
 +
-The REST API v2 [beta orangeBackground]^BETA^ framework is a new developer-focused solution that provides additional functionality and an interactive Playground experience. The REST v2 framework also supports language-specific SDK and client libraries.
+The REST API v2 [beta blueBackground]^BETA^ framework is a new developer-focused solution that provides additional functionality and an interactive Playground experience. The REST v2 framework also supports language-specific SDK and client libraries.
 
 +
 [NOTE]
@@ -28,7 +28,7 @@ For more information about the differences between these two REST API versions, 
 
 == REST API Playground
 
-ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2 endpoints in the Developer portal. If the REST API SDK and Playground [beta orangeBackground]^BETA^ feature is enabled on your cluster, you can see the *REST Playground v1* and **REST Playground v2** menu options under *REST API* in the *Develop* tab.
+ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2 endpoints in the Developer portal. If the REST API SDK and Playground [beta blueBackground]^BETA^ feature is enabled on your cluster, you can see the *REST Playground v1* and **REST Playground v2** menu options under *REST API* in the *Develop* tab.
 
 The portal provides a separate Playground for each version and lets you explore the API endpoints and make an API call. 
 

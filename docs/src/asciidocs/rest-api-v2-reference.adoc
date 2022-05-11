@@ -5,7 +5,7 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints[beta orangeBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
+The REST v2 API endpoints[beta blueBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
 
 == Session
@@ -141,7 +141,6 @@ Gets a list of users available in the ThoughtSpot system. To filter your query, 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
-
 
 --
 
@@ -325,7 +324,6 @@ Transfers the ownership of objects from one user to another.
 
 == Metadata
 
-
 --
 `*GET* /tspublic/rest/v2/metadata/tag`
 
@@ -357,7 +355,7 @@ Modifies the properties of a tag object.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/metadata/tag/assign`
+`*PUT* /tspublic/rest/v2/metadata/tag/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, answer, data object, and data connection objects.
 
@@ -367,7 +365,7 @@ Assigns a tag to one or several metadata objects. You can assign a tag to a Live
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/metadata/tag/unassign`
+`*PUT* /tspublic/rest/v2/metadata/tag/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Removes the tag assigned to an object.
 
@@ -387,7 +385,7 @@ Deletes the specified tag.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/metadata/favorite/assign`
+`**PUT** /api/rest/v2/metadata/favorite/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Adds an object such as Liveboards and answers to a user's favorites list.
 
@@ -397,7 +395,7 @@ Adds an object such as Liveboards and answers to a user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**POST ** /api/rest/v2/metadata/favorite/unassign`
+`**PUT ** /api/rest/v2/metadata/favorite/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Removes the specified object from the user's favorites list.  
 
@@ -417,7 +415,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
 
 +++<p class="divider"> </p>+++
  
-`**POST** /api/rest/v2/metadata/homeliveboard/assign`
+`**PUT** /api/rest/v2/metadata/homeliveboard/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
@@ -427,7 +425,7 @@ Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/homeliveboard/unassign`
+`*PUT* /api/rest/v2/metadata/homeliveboard/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
 
 Removes the default home Liveboard setting for a ThoughtSpot user.
 
@@ -447,7 +445,7 @@ Gets a list of objects with incomplete metadata.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/header` [tag greenBackground]#NEW in 8.1.0.cl#
+`*GET* /api/rest/v2/metadata/header`
 
 Gets header details for a specific metadata object. 
 
@@ -488,7 +486,7 @@ Gets a list of all metadata objects in the ThoughtSpot system. To filter your qu
 
 +++<p class="divider"> </p>+++
 
-`*DELETE* /api/rest/v2/metadata/delete` [tag greenBackground]#NEW in 8.1.0.cl#
+`*DELETE* /api/rest/v2/metadata/delete` 
 
 Deletes the specified metadata object.
 
@@ -531,7 +529,7 @@ Imports one or several TML objects and object associations.
 == Connections 
 
 --
-`*GET* /api/rest/v2/connection` [tag greenBackground]#NEW in 8.1.0.cl#
+`*GET* /api/rest/v2/connection` 
 
 Gets details of a specific data connection.
 
@@ -541,7 +539,37 @@ Gets details of a specific data connection.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/create` [tag greenBackground]#NEW in 8.1.0.cl#
+`**GET** /tspublic/rest/v2/connection/database` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets details of the databases associated with a connection ID.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/connection/table` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets details of the tables associated with a connection ID.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/connection/tablecoloumn` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets details of the columns of the tables associated with a connection ID.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /api/rest/v2/connection/create` 
 
 Creates a data connection.
 
@@ -551,7 +579,7 @@ Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/update` [tag greenBackground]#NEW in 8.1.0.cl#
+`*PUT* /api/rest/v2/connection/update` 
 
 Updates an existing data connection.
 
@@ -561,7 +589,7 @@ Updates an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-*DELETE* /api/rest/v2/connection/delete [tag greenBackground]#NEW in 8.1.0.cl#
+*DELETE* /api/rest/v2/connection/delete 
 
 Deletes a data connection.
 
@@ -571,7 +599,7 @@ Deletes a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/addtable` [tag greenBackground]#NEW in 8.1.0.cl#
+`*PUT* /api/rest/v2/connection/addtable` 
 
 Adds a table to an existing data connection.
 
@@ -581,7 +609,7 @@ Adds a table to an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/removetable` [tag greenBackground]#NEW in 8.1.0.cl#
+`*PUT* /api/rest/v2/connection/removetable` 
 
 Removes a table from an existing data connection.
 
@@ -591,7 +619,7 @@ Removes a table from an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/search` [tag greenBackground]#NEW in 8.1.0.cl#
+`*POST* /api/rest/v2/connection/search` 
 
 Gets details of all data connections. You can also query data for a specific connection type.
 
@@ -605,7 +633,7 @@ Gets details of all data connections. You can also query data for a specific con
 --
 `**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
 
-Allows constructing a search query string and retreives data from a search query.
+Allows constructing a search query string and retrieves data from a search query.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -642,7 +670,150 @@ Downloads answer data in the specified file format, such as PDF, CSV, PNG, and X
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/report/liveboard` [tag greenBackground]#NEW in 8.3.0.cl# 
+
+Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
 --
+
+== Security
+
+`*POST* /tspublic/rest/v2/security/share/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Allows sharing an object with another user or group in ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/security/share/visualization` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**GET** /tspublic/rest/v2/security/permission/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets access permission details for a metadata object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+*GET* /tspublic/rest/v2/security/permission/principal [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets a list of objects that the specified user or group has access to.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/security/permission/tsobject/search` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets permission details for specific object and users and groups who have access to these objects.  
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/security/permission/principal/search` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets a list objects to which a user or group has `read-only` or `modify` permissions.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
+
+== Custom actions 
+
+`*GET* /tspublic/rest/v2/customaction` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets details of a custom action.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST **/tspublic/rest/v2/customaction/create` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Creates a custom action.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**PUT** /tspublic/rest/v2/customaction/update` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Updates a custom action object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**DELETE** /tspublic/rest/v2/customaction/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Deletes a custom action object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/customaction/search` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Allows searching for custom actions available in ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/customaction/association` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Gets details of a custom action association to metadata objects, users, and groups.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**DELETE **/tspublic/rest/v2/customactions/association/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+
+Removes custom action association to a user, group or metadata object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
 
 == Log
 

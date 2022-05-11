@@ -17,7 +17,6 @@ init
         authType: AuthType.SSO,
         callPrefetch: true,
     });
-
 ----
 callPrefetch::
 _Boolean_. When set to `true`, the SDK calls the prefetch API to prefetch the resources from the specified URL. By default, it is set to `false`.

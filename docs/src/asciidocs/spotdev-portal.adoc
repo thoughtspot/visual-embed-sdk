@@ -46,7 +46,7 @@ The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Develop
 If the REST API Playground and SDK feature is enabled on your environment, the `Guide` menu will appear as a sub-menu option under *REST API* and **Visual Embed SDK**. 
 ====
 
-REST API [beta orangeBackground]^BETA^::
+REST API [beta blueBackground]^BETA^::
 If you have enabled REST API Playground and SDK feature on your cluster, the Developer portal displays the *REST APIs* menu with the following menu options:
 
 Guide;;
