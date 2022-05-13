@@ -47,11 +47,11 @@ If you want to embed an individual visualization from a Liveboard, you can use t
 
 To pass filters as URL query parameters, use runtime filters.
 
-For example, to sort values equal to `michigan` in the `State` column for a visualization on a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to filter `michigan` in the `State` column of a visualization on a Liveboard, pass these values as filter parameters in the URL:
 
 ----
 http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=state&op1=EQ&val1=michigan
+&col1=State&op1=EQ&val1=michigan
 ----
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
