@@ -51,7 +51,7 @@ For example, to filter `michigan` in the `State` column of a visualization on a 
 
 ----
 http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=state&op1=EQ&val1=michigan
+&col1=State&op1=EQ&val1=michigan
 ----
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
