@@ -17,8 +17,9 @@ function postIframeMessage(
     iFrame: HTMLIFrameElement,
     message: { type: HostEvent; data: any },
     thoughtSpotHost: string,
+    channel: MessageChannel,
 ) {
-    return iFrame.contentWindow.postMessage(message, thoughtSpotHost);
+    return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [channel.port2]);
 }
 
 export function processTrigger(
@@ -26,15 +27,27 @@ export function processTrigger(
     messageType: HostEvent,
     thoughtSpotHost: string,
     data: any,
-) {
-    switch (messageType) {
-        case HostEvent.Reload:
-            return reload(iFrame);
-        default:
-            return postIframeMessage(
-                iFrame,
-                { type: messageType, data },
-                thoughtSpotHost,
-            );
-    }
+): Promise<any> {
+    return new Promise<any>((res, rej) => {
+        if (messageType === HostEvent.Reload) {
+            reload(iFrame);
+            return res(null);
+        }
+        const channel = new MessageChannel();
+        channel.port1.onmessage = ({ data }) => {
+            channel.port1.close();
+            if (data.error) {
+                rej(data.error);
+            } else {
+                res(data);
+            }
+        };
+            
+        return postIframeMessage(
+            iFrame,
+            { type: messageType, data },
+            thoughtSpotHost,
+            channel,
+        );
+    });
 }

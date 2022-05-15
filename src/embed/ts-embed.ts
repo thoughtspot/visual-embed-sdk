@@ -694,12 +694,11 @@ export class TsEmbed {
     public trigger(
         messageType: HostEvent,
         data: any,
-    ): typeof TsEmbed.prototype {
-        processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+    ): Promise<any> {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-        return this;
+        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
     /**
