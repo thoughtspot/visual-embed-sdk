@@ -84,7 +84,7 @@ To remove a user or user group's access to a shared object, you can set the `sha
 |`emailshares`|__Array of Strings__. Email addresses to notify when the object is shared.
 |`notify` __Optional__|__Boolean__. If set to `true`, an object share notification is sent to the specified email addresses.
 |`message` __Optional__|__String__. The message text to send in the object share notification email.
-|`useCustomEmbedUrls`|__Boolean__. When set to `true`, ThoughtSpot sends a customized link with the host application URL in the object share notification.  You can use this attribute to generate links for embedded ThoughtSpot objects. 
+|`useCustomEmbedUrls`|__Boolean__.  When set to `true`, ThoughtSpot sends a customized link with the host application URL in the object share notification.  You can use this attribute to generate links for embedded ThoughtSpot objects. 
 |====
 --
 
@@ -138,9 +138,9 @@ POST /tspublic/v1/security/shareviz
 |====
 |Form parameter|Description
 |`type`|__String__. Type of the metadata object. The valid value is `PINBOARD_ANSWER_BOOK`.
-|`pinboardId`|__String__.The GUID of the Liveboard to which the visualization belongs.
+|`pinboardId`|__String__. The GUID of the Liveboard to which the visualization belongs.
 |`principalids`|__String__. The GUID of the users and groups to which you want to share the visualization.
-|`vizid`|__String__.The GUID of visualization.
+|`vizid`|__String__. The GUID of visualization.
 |`emailshares`|__Sring__. Email addresses to notify when the object is shared.
 |`notify` __Optional__|__Boolean__. If set to `true`, an object share notification is sent to the specified email addresses.
 |`message` __Optional__|__String__. The message text to send in the notification email.
