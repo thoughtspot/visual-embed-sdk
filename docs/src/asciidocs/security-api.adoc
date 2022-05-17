@@ -30,6 +30,9 @@ POST /tspublic/v1/security/share
 ----
 
 === Request parameters
+
+[div tableContainer]
+--
 [width="100%" cols="1,4"]
 [options='header']
 |====
@@ -83,6 +86,7 @@ To remove a user or user group's access to a shared object, you can set the `sha
 |`message` __Optional__|__String__. The message text to send in the object share notification email.
 |`useCustomEmbedUrls`|__Boolean__. When set to `true`, ThoughtSpot sends a customized link with the host application URL in the object share notification.  You can use this attribute to generate links for embedded ThoughtSpot objects. 
 |====
+--
 
 === Example request
 
