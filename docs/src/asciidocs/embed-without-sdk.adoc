@@ -60,7 +60,7 @@ For more information, see xref:runtime-filters.adoc[runtime filters, window=_bla
 
 All embedded ThoughtSpot objects require authentication. If the host application does not allow custom Javascript, you can use one of the following authentication methods:
 
-* Basic authentication with username and password (
+* Basic authentication with username and password
 * SSO authentication
 
 When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
