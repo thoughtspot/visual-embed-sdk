@@ -81,7 +81,7 @@ __Available only in ThoughtSpot Software 7.1.0 or earlier versions__ |
 Callback actions|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
 
 .4+|**Granular control of embedded UI**|Customization flags such as hiding data sources, search options configuration, setting a Liveboard to full height, and so on| [tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#|
-Show or hide UI menu options| [tag greenBackground]#✓#| [tag greyBackground]#–#|[tag greyBackground]#–#|
+Show or hide UI menu actions| [tag greenBackground]#✓#| [tag greyBackground]#–#|[tag greyBackground]#–#|
 Style customization and rebranding of UI elements|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |
 Link customization|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#|
 
