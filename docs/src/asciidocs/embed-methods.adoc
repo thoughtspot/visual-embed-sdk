@@ -11,7 +11,7 @@ ThoughtSpot supports embedding search, Liveboard, visualizations, and the full T
 --
 *ThoughtSpot Everywhere is now available on ThoughtSpot Software!*
 
-Starting from 8.4.0-sw (Limited Availability release), you can use ThoughtSpot Everywhere features and Visual Embed SDK to embed  ThoughtSpot in your applications.
+Starting from 8.4.0-sw (Limited Availability release), you can use ThoughtSpot Everywhere features and Visual Embed SDK to embed  ThoughtSpot in your application.
 
 To enable ThoughtSpot Everywhere on your cluster, contact ThoughtSpot Support.
 --
@@ -72,7 +72,7 @@ __Inline authentication__. __For more information, see xref:embed-without-sdk.ad
 |OIDC| [tag greenBackground]#✓#|[tag greyBackground]#–#| [tag greyBackground]#–#
 |Trusted authentication|[tag greenBackground]#✓#| [tag greenBackground]#✓#|[tag greenBackground]#✓#
 |Basic authentication| [tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#
-|Auto login on authentication expiry|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+|Auto-login on authentication expiry|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
 
 .2+|**Custom Actions**|URL actions|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#  +
 
