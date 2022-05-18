@@ -2,7 +2,7 @@
 --
 `xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`
 
-+++<p class="divider">Imports objects to ThoughtSpot in the ThoughtSpot Modeling Language (TML) format.</p>+++
++++<p class="divider">Imports object representations in the ThoughtSpot Modeling Language (TML) format.</p>+++
 
 `xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]`
 
