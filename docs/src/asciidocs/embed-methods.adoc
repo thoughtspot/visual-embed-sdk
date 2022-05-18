@@ -76,7 +76,7 @@ __Inline authentication__. __For more information, see xref:embed-without-sdk.ad
 
 .2+|**Custom Actions**|URL actions|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#  +
 
-__Available only in ThoughtSpot Software 7.1.0 or earlier versions__ |
+__Available only in ThoughtSpot Software 7.0 or earlier versions__ |
 
 Callback actions|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
 
