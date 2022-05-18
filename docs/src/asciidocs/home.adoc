@@ -114,30 +114,12 @@
 </div>
 ++++
 
-
+////
 ++++
 
 <div class="row">
   <h2 align="center">Related resources</h2>
-  <div class="col-md-4">
-    <a href="?pageid=code-samples"><div class="boxDiv">
-      <h5>View code samples</h5>
-      <p class="boxBody"> View code examples for embed features, REST APIs, and custom actions. </p>
-      <p>
-        <a href="?pageid=code-samples">Take me to code samples -></a>
-      </p>
-    </div></a>
-  </div>
-</div>
-</div>
-++++
-
-
-++++
-
-<div class="row">
-  <h2 align="center">Related resources</h2>
-  <div class="col-md-4">
+ <div class="col-md-4">
       <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><div class="boxDiv">
       <h5>Get trained</h5>
       <p class="boxBody"> Learn how to use Developer portal, Playground, and embed ThoughtSpot content.</p>
@@ -146,6 +128,26 @@
       </p>
     </div></a>
   </div>
+</div>
+</div>
+++++
+////
+
+++++
+
+<div class="row">
+  <h2 align="center">Related resources</h2>
+
+ <div class="col-md-4">
+    <a href="?pageid=code-samples"><div class="boxDiv">
+      <h5>View code samples</h5>
+      <p class="boxBody"> View code examples for embed features, REST APIs, and custom actions. </p>
+      <p>
+        <a href="?pageid=code-samples">Take me to code samples -></a>
+      </p>
+    </div></a>
+  </div>
+
   <div class="col-md-4">
    <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank"> <div class="boxDiv">
       <h5>Join ThoughtSpot community</h5>
