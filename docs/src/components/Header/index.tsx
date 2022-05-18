@@ -5,7 +5,7 @@ import t from '../../utils/lang-utils';
 import './index.scss';
 
 const Header = (props: { location: Location }) => {
-    const communityLinks = [
+    const headerLinks = [
         {
             name: 'Community',
             href:
