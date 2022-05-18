@@ -5,6 +5,16 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
+
+[div announcementBlock]
+--
+*Pinboards are now Liveboards!*
+
+Effective from ThoughtSpot 8.4.0-sw (Limited Availability) release, ThoughtSpot pinboards are rebranded as Liveboards.
+As part of this rebranding, we have made some terminology changes in the ThoughtSpot UI and documentation artifacts.
+However, the REST v1 API endpoints URLs, request and response workflows will continue to use the legacy terminology for backward compatibility.
+--
+
 == User management
 
 include::{path}/user-api-list.adoc[]

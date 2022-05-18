@@ -32,17 +32,17 @@ Assigns a privilege to a user group.|[version noBackground]#6.0.x#
 |`xref:group-api.adoc#remove-privilege[**POST** /tspublic/v1/group/removeprivilege]`  +
 Removes the privilege assigned to a group.|[version noBackground]#6.0.x#
 |`xref:group-api.adoc#assign-group[**POST** /tspublic/v1/group/{groupid}/groups]` +
-Assigns groups to a parent group.|[version noBackground]#8.4.0-sw#
+Assigns groups to a parent group.|[version noBackground]#7.2.1#
 |`xref:group-api.adoc#modifySubgroup[**PUT** /tspublic/v1/group/{groupid}/groups]` +
-Updates subgroup objects for a given group.|[version noBackground]#8.4.0-sw#
+Updates subgroup objects for a given group.|[version noBackground]#7.2.1#
 |`xref:group-api.adoc#get-children[**GET** /tspublic/v1/group/{groupid}/groups]` +
-Gets a list of subgroups for a given group object.|[version noBackground]#8.4.0-sw#
+Gets a list of subgroups for a given group object.|[version noBackground]#7.2.1#
 |`xref:group-api.adoc#addMembers[**POST** /tspublic/v1/group/addmemberships]` +
-Adds members to a group.| [version noBackground]#8.4.0-sw#
+Adds members to a group.| [version noBackground]#7.2.1#
 |`xref:group-api.adoc#removeMembers[**POST** /tspublic/v1/group/removememberships]` +
-Removes members from a group.|[version noBackground]#8.4.0-sw#
+Removes members from a group.|[version noBackground]#7.2.1#
 |`xref:group-api.adoc#del-child-groups[**DELETE** /tspublic/v1/group/{groupid}/groups]` +
-Removes subgroups from a group.|[version noBackground]#8.4.0-sw#
+Removes subgroups from a group.|[version noBackground]#7.2.1#
 |`xref:group-api.adoc#delete-user-assoc[*DELETE* /tspublic/v1/group/{groupid}/user/{userid}]` +
 Removes a user from a user group.| [version noBackground]#7.1.1#
 |`xref:group-api.adoc#delete-group[*DELETE* /tspublic/v1/group/{groupid}]` +

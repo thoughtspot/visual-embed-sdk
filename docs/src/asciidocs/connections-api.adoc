@@ -20,7 +20,7 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 
 The connection API endpoints allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
-This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
+This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://docs.thoughtspot.com/software/latest/connections[Connections, window=_blank].
 
 == Supported operations
 
@@ -116,7 +116,7 @@ __String__. ID of the project associated with your BigQuery account.
 
 * `oauth_pvt_key`
 +
-__String__. The secret key obtained for your BigQuery service account. To obtain the secret key, you must create a custom role in BigQuery and set up your service account. For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/ts-cloud-embrace-gbq-prerequisites.html#custom-role[BigQuery prerequisites, window=_blank].
+__String__. The secret key obtained for your BigQuery service account. To obtain the secret key, you must create a custom role in BigQuery and set up your service account. For more information, see link:https://docs.thoughtspot.com/software/latest/connections-gbq-prerequisites[Google BigQuery prerequisites, window=_blank].
 
 ////
 * `state`

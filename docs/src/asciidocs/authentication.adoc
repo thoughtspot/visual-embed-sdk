@@ -357,237 +357,937 @@ If the API request is successful, ThoughtSpot returns the following response:
 [source, JSON]
 ----
 {
-  "onboardingActivity": {
-    "pinsSpotlightSeen": true,
-    "pinsFlowSeen": true,
-    "onboardingComplete": false,
-    "worksheetTourSeen": false,
-    "onboardingSeen": true,
-    "autoAnswerTourSeen": false
-  },
-  "privileges": [
-    "ADMINISTRATION",
-    "AUTHORING",
-    "USERDATAUPLOADING",
-    "DATADOWNLOADING",
-    "DATAMANAGEMENT",
-    "SHAREWITHALL",
-    "A3ANALYSIS"
-  ],
-  "integerFormat": {},
-  "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
-  "dateFormat": {
-    "formatPattern": "MM/dd/yyyy"
-  },
-  "timezone": "UTC",
-  "authToken": "Qe8f7GeQqFEHIsvbJmDZAJW2S6rYk4UJAXSYFdD/Pfc=",
-  "locale": "",
-  "firstLoginDate": 1646021683086,
-  "csvTables": [],
-  "apiVersion": "v1",
-  "canChangePassword": true,
-  "dateTimeFormat": {
-    "formatPattern": "MM/dd/yyyy h:mm a"
-  },
-  "userPreferences": {
-    "showWalkMe": true,
-    "notifyOnShare": true,
-    "analystOnboardingComplete": false,
-    "preferredLocale": "en-US"
-  },
-  "decimalFormat": {},
-  "userProperties": {
-    "persona": "business_user",
-    "mail": "testUser@thoughtspot.com",
-    "companyName": "",
-    "activatedAtMs": 1646021682769
-  },
-  "isSystemUser": false,
-  "userEmail": "testUser@thoughtspot.com",
-  "configInfo": {
-    "cloudExpressConfiguration": {
-      "contactUrl": "https://www.thoughtspot.com"
-    },
-    "materializationConfig": {
-      "refreshWindowStartTime": "08:00PM",
-      "materializationHours": 8,
-      "enabled": false,
-      "maxMaterializedViewsPerCluster": 50
-    },
-    "emailValidation": true,
-    "identityServiceUrl": "https://identity.dataplane-private.aws-us-west-2.thoughtspotdev.cloud/v1",
-    "enableEurekaSearchDeduplication": false,
-    "maxColdStartHeadlinesPerPinboard": 1,
-    "enableDevMixpanelService": true,
-    "enableColumnSummariesByDefault": true,
-    "isAnswerV2OnByDefault": true,
-    "chartGenConfiguration": {
-      "maxLegendCardinality": 80,
-      "maxMeasuresLineColumnChart": 3,
-      "maxMeasuresBarChart": 4
-    },
-    "enableCJA": false,
-    "countWithNull": false,
-    "queryUpdateDebounceThresholdMS": 1000,
-    "maxColumnLimitForLightColumns": 0,
-    "disableAnswer": false,
-    "disableCopyLink": false,
-    "embedSettingsLockedEnabled": false,
-    "atlasActionObjectUGFeatureEnabled": true,
-    "intercomAppId": "bvnke30h",
-    "enableEurekaWorksheetDisablement": true,
-    "enableBypassRLSPrivilege": true,
-    "enableProdMixpanelService": false,
-    "openVizUrlInSameTab": false,
-    "isEverywhereEnabled": true,
-    "ldapConfiguration": {
-      "realms": "",
-      "enforceBindingPriorToAuthentication": false,
-      "bindPassword": "",
-      "displayNameAttributeKey": "displayName",
-      "emailAttributeKey": "mail",
-      "enabled": false,
-      "bindUsername": "",
-      "updateLdapAttributes": true
-    },
-    "blinkHelpConfigList": [
-      {
-        "iconFilePath": "",
-        "id": "BLINK_KEYWORDS",
-        "title": "Keywords",
-        "enabled": true,
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html"
-      },
-      {
-        "iconFilePath": "",
-        "id": "BLINK_RELEASE_NOTES",
-        "title": "Release notes",
-        "enabled": true,
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/release/notes.html"
-      },
-      {
-        "iconFilePath": "",
-        "id": "BLINK_DOCUMENTATION",
-        "title": "Documentation",
-        "enabled": true,
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}"
-      }
-    ],
-    "aaqEnabled": true,
-    "embedActionConfigList": [],
-    "isSaas": true,
-    "samlConfiguration": {
-      "samlLoginPageRedirect": false,
-      "samlGroupAttributeKey": "roles",
-      "disableSessionNotOnOrAfterCheck": false,
-      "updateUserGroupsFromSAML": false,
-      "displayNameAttributeKey": "displayName",
-      "emailAttributeKey": "mail",
-      "enabled": false,
-      "disableMaxAuthenticationAgeCheck": false,
-      "mobileAppRedirectEnabled": true,
-      "groupMapping": "{}",
-      "forceAuthn": false,
-      "updateSamlAttributes": true,
-      "logoutEnabledInUI": false
-    },
-    "enableSchemaViewer": false,
-    "atlasActionObjectFeatureEnabled": true,
-    "maxParallelQueriesPerViz": 5,
-    "embeddedUseCase": false,
-    "tseSeekwellFeatureEnabled": true,
+   "onboardingActivity":{
+      "pinsSpotlightSeen":true,
+      "pinsFlowSeen":true,
+      "onboardingComplete":true,
+      "worksheetTourSeen":false,
+      "onboardingSeen":true,
+      "autoAnswerTourSeen":false
+   },
+   "privileges":[
+      "ADMINISTRATION",
+      "AUTHORING",
+      "USERDATAUPLOADING",
+      "DATADOWNLOADING",
+      "DATAMANAGEMENT",
+      "SHAREWITHALL",
+      "A3ANALYSIS",
+      "DEVELOPER"
+   ],
+   "integerFormat":{
 
-    "answerV2Experience": true,
-    "embedUrls": {
-      "UNSUBSCRIBE_URL": "/#/user-preference",
-      "ANSWER_URL": "/#/saved-answer/{object-id}",
-      "PINBOARD_URL": "/#/pinboard/{object-id}",
-      "INSIGHT_URL": "/#/insight/{object-id}",
-      "PINBOARD_VIZ_URL": "/#/pinboard/{object-id}/{sub-object-id}"
-    },
-    "socialProof": true,
-    "enableNPSMetrics": true,
-    "blinkAjaxGzipConfig": {
-      "gzipBlacklistMode": false,
-      "gzipPathPrefixes": [
-        "/callosum/v1/systest",
-        "/callosum/v1/metadata/pinboard/save"
-      ],
-      "gzipAll": false,
-      "enableRequestGzip": false
-    },
-    "disableWorksheetSampleValues": false,
-    "eurekaSearchBarInNav": true,
-    "maxNumSearchIQPreferredDateColumnsAllowed": 1,
-    "selfClusterName": "810-eu-west-701",
-    "enablePinboardFollow": true,
-    "showUnsecuredDependents": true,
-    "callosumSaaSTest": 1,
-    "maxPrincipalObjectsBatchSize": 30,
-    "maxFilterValues": 10000,
-    "optimizelyDataFileFetchInterval": 300000,
-    "demoDataConfiguration": {
-      "demoPinboardGuids": [
-        "d084c256-e284-4fc4-b80c-111cb606449a"
-      ],
-      "demoConnectionGuids": [
-        "2aa36dbd-dda6-4497-a6db-bc47e128862e"
-      ],
-      "demoWorksheetGuids": [
-        "cd252e5c-b552-49a8-821d-3eadaa049cca"
-      ],
-      "demoTableGuids": [
-        "a633dccd-b449-46df-a0fc-92034d6858cb",
-        "7d174ef2-2482-4e61-9d6e-1e1d709d96b0",
-        "757f2434-66ef-43ad-9820-ba9008072155"
+   },
+   "userGUID":"59481331-ee53-42be-a548-bd87be6ddd4a",
+   "orgPrivileges":{
+      "0":[
+         "ADMINISTRATION",
+         "AUTHORING",
+         "USERDATAUPLOADING",
+         "DATADOWNLOADING",
+         "DATAMANAGEMENT",
+         "SHAREWITHALL",
+         "A3ANALYSIS",
+         "DEVELOPER"
       ]
-    },
-    "pinboardV2Experience": false,
-    "showNeedHelp": true,
-    "tseLicenseConfig": {
-      "freeTrialExpired": false,
-      "freeTrialEnabled": false
-    },
-    "allowPartialPinboardEDocImport": false,
-    "apiPlaygroundConfig": {
-      "enabled": false
-    },
+   },
+   "dateFormat":{
+      "formatPattern":"MM/dd/yyyy"
+   },
+   "timezone":"America/Los_Angeles",
+   "authToken":"G7j9RAiW7jpjMVV8Kud14u9HD7kGH/w5FSUQs7sKFSo=",
+   "dataFlowPort":9000,
+   "locale":"",
+   "firstLoginDate":1354092845722,
+   "currentOrgId":-1,
+   "dataFlowHost":"10.79.129.64",
+   "apiVersion":"v1",
+   "canChangePassword":true,
+   "dateTimeFormat":{
+      "formatPattern":"MM/dd/yyyy h:mm a"
+   },
+   "userPreferences":{
+      "savedAuthorFilter":"ALL",
+      "showWalkMe":true,
+      "notifyOnShare":true,
+      "analystOnboardingComplete":false,
+      "preferredLocale":"en-US"
+   },
+   "decimalFormat":{
 
-  "state": "LOCKED",
-  "allUserGroupDisplayName": "All Group",
-  "isFirstLogin": false,
-  "allUserGroupId": "b25ee394-9d13-49e3-9385-cd97f5b253b4",
-  "userCreatedTime": 1354006445722,
-  "releaseVersion": "8.1.0.cl-129",
-  "userGroupMask": 6,
-  "userDisplayName": "Administrator",
-  "userExpirationTime": 1648613682769,
-  "userName": "tsadmin",
-  "license": "EAA",
-  "allUserGroupMemberUserCount": 5,
-  "acceptLanguage": "application/json",
-  "logicalModelVersion": 486,
-  "partialJSessionGUID": "a11dffde-cfbe-48",
-  "expirationTime": 1646051347,
-  "timeFormat": {
-    "formatPattern": "HH:mm:ss"
-  },
-  "clientState": {
-    "preferences": {
-      "PINBOARD_V2": false,
-      "sageDataSource": [
-        "cd252e5c-b552-49a8-821d-3eadaa049cca",
-        "5d1f0101-2e62-4505-893b-a3a667f1521a"
+   },
+   "userProperties":{
+      "persona":"business_user",
+      "mail":"bong.cha@thoughtspot.com"
+   },
+   "isSystemUser":false,
+   "userEmail":"bong.cha@thoughtspot.com",
+   "configInfo":{
+      "cloudExpressConfiguration":{
+         "contactUrl":"https://www.thoughtspot.com"
+      },
+      "materializationConfig":{
+         "refreshWindowStartTime":"01:00AM",
+         "materializationHours":8,
+         "enabled":true,
+         "maxMaterializedViewsPerCluster":50
+      },
+      "homepagePinboardFetchBatchSize":10,
+      "emailValidation":false,
+      "identityServiceUrl":"https://identity.dataplane-private.aws-us-west-2.thoughtspotdev.cloud/v1",
+      "enableEurekaSearchDeduplication":false,
+      "maxColdStartHeadlinesPerPinboard":1,
+      "enableColumnSummariesByDefault":true,
+      "isAnswerV2OnByDefault":true,
+      "chartGenConfiguration":{
+         "maxLegendCardinality":80,
+         "maxMeasuresLineColumnChart":3,
+         "maxMeasuresBarChart":4
+      },
+      "enableCJA":false,
+      "countWithNull":false,
+      "queryUpdateDebounceThresholdMS":1000,
+      "maxColumnLimitForLightColumns":0,
+      "disableAnswer":false,
+      "disableCopyLink":false,
+      "embedSettingsLockedEnabled":false,
+      "atlasActionObjectUGFeatureEnabled":true,
+      "intercomAppId":"bvnke30h",
+      "enableEurekaWorksheetDisablement":false,
+      "enableBypassRLSPrivilege":true,
+      "openVizUrlInSameTab":false,
+      "isEverywhereEnabled":true,
+      "ldapConfiguration":{
+         "realms":"$adLdapRealm",
+         "enforceBindingPriorToAuthentication":false,
+         "bindPassword":"",
+         "displayNameAttributeKey":"name",
+         "emailAttributeKey":"mail",
+         "enabled":true,
+         "bindUsername":"",
+         "updateLdapAttributes":true
+      },
+      "idleSenseConfig":{
+         "shutdownWarningDurationMin":2,
+         "enabled":false,
+         "clusterIdleDurationThresholdMin":120
+      },
+      "swaggerSpecFilterEnabled":true,
+      "nodeTelegrafConfig":{
+         "resolveWaitMs":300000,
+         "maxTimeoutMs":300000
+      },
+      "autoCompleteConfig":{
+         "requestTimeout":10000
+      },
+      "maxUniversalSearchResults":-1,
+      "useDomainQualifiedName":true,
+      "customerAdminEmail":"sre@thoughtspot.com",
+      "enableSageUserFeedback":false,
+      "enableEurekaDebugInfo":false,
+      "oidcConfiguration":{
+         "updateOIDCAttributes":true,
+         "displayNameAttributeKey":"name",
+         "overrideSamlRedirectWithOidc":false,
+         "emailAttributeKey":"email",
+         "oidcGroupAttributeKey":"roles",
+         "userNameKey":"sub",
+         "enabled":false,
+         "oidcLoginPageRedirect":false,
+         "identityDomain":"",
+         "updateUserGroupsFromOIDC":false,
+         "callbackUri":"/callosum/v1/oidc/callback",
+         "scope":"openid email",
+         "forceAuthn":false,
+         "oidcLoginUri":"/callosum/v1/oidc/login",
+         "subjectKey":"sub",
+         "logoutEnabledInUI":false
+      },
+      "fullEmbedConfiguration":{
+         "poweredFooterHidden":false,
+         "alertBarHidden":false,
+         "isPinboardVizDownloadAsCSVEnabled":true,
+         "pinboardCreationPrivilegeEnabled":true,
+         "isPinboardVizDownloadAsPNGEnabled":true,
+         "isPinboardDownloadAsPDFEnabled":true,
+         "isPinboardVizDownloadAsXLSXEnabled":true,
+         "isPinboardVizDownloadAsPDFEnabled":true,
+         "primaryNavHidden":true,
+         "profileAndHelpOptionsInNavBarHidden":false
+      },
+      "experimentation":{
+         "growth":{
+            "production":false,
+            "clusterName":"grapes",
+            "clusterId":"grapes",
+            "devSdkKey":"AJsnywXjJsHuM5NaVskc3",
+            "prodSdkKey":"8C9koGFcqNP8HNAo62p1n",
+            "enabled":false
+         },
+         "legacyPinsFlow":{
+            "production":false,
+            "clusterName":"grapes",
+            "clusterId":"grapes",
+            "devSdkKey":"N4d428S41gxqCwf4LYq9J",
+            "prodSdkKey":"Jq3bRgW6b8wyU5bVHXg1H",
+            "enabled":false
+         }
+      },
+      "walkMeConfiguration":{
+         "enableWalkme":false,
+         "enableTestEnvForWalkme":false
+      },
+      "enableDoubleClickDrillDown":false,
+      "enablePendo":true,
+      "schedulerServiceUrl":"https://scheduler.dataplane-private.aws-us-west-2.thoughtspotdev.cloud/v1",
+      "disableFeedback":false,
+      "partnerServiceConfig":{
+         "fromEmail":"ThoughtSpot <trial@cloud.thoughtspot.com>"
+      },
+      "enableInstantSearch":false,
+      "enableSnapshotCapture":false,
+      "memcachedConfigInfo":{
+         "memcacheExpirySec":2592000,
+         "memcacheInvalidatedObjectExpirySec":30,
+         "cacheFlushTimeoutMs":10000,
+         "devDisableAsyncCaching":false,
+         "memcachedEasyAddress":"/ea/*/memcached/memcached/memcached/0",
+         "shouldUseMemcache":true,
+         "cacheRequestTimeoutMs":2000,
+         "maxNumHeaderRowsToCache":10000000
+      },
+      "selfClusterId":"grapes",
+      "enableEurekaSynonymWorkflow":false,
+      "isPublicUser":false,
+      "autoGenConfig":{
+         "relationshipGen":{
+            "maxDataJoinCandidates":5,
+            "minMetadataSimilarityPercent":30,
+            "allowDateColumnJoins":false,
+            "enableTableData":true,
+            "minDomainSetCardinality":5,
+            "columnNameNoKeywordWeight":92,
+            "enabled":true,
+            "colTypeScoreWeight":30,
+            "colNameScoreWeight":50,
+            "dataScoreWeight":20,
+            "minDataOverlapPercent":20,
+            "maxRowSample":500,
+            "enableMixpanelLogging":true,
+            "allowBooleanColumnJoins":false,
+            "columnDataTypePenalty":2
+         },
+         "answerGen":{
+            "enabled":true
+         },
+         "allTablesConnectionId":"bfc6feb4-8dac-402c-8ae8-78b43d318777",
+         "worksheetGen":{
+            "defaultWorksheetName":"My Worksheet",
+            "enabled":true
+         }
+      },
+      "calendars":{
+         "default":{
+            "weekStartDay":1,
+            "quarterStartMonth":8
+         }
+      },
+      "dataWorkspace":{
+         "createSpotAppEnabled":false,
+         "dbtIntEnabled":true,
+         "dataAppV2Enabled":true,
+         "sqlEditorEnabled":true,
+         "destinationsEnabled":false,
+         "salesForceEnabled":true,
+         "googleSheetsEnabled":true,
+         "slackEnabled":true,
+         "spotAppEnabled":true,
+         "enabled":true,
+         "spotAppAdminEnabled":false
+      },
+      "defaultFilterNonCascading":false,
+      "showCommunityLink":true,
+      "tseScheduleFeatureEnabled":false,
+      "enliteMetricsDisabled":false,
+      "signUpConfiguration":{
+         "signUpButtonLink":"",
+         "signUpEnabled":true,
+         "signUpButtonText":""
+      },
+      "disableSharing":false,
+      "tableAggregatesEnabled":true,
+      "sessionConfig":{
+
+      },
+      "enableVizDataExport":true,
+      "intercomEnabled":false,
+      "slackConfiguration":{
+         "enabled":false
+      },
+      "isPinboardV2OnByDefault":false,
+      "addNullFilterSuggestion":true,
+      "useLegacyEmbeddedPinboardActionConfig":false,
+      "exploreEnabled":true,
+      "isLiveboardEnabled":true,
+      "metadataMigrationEnabled":true,
+      "pipelineStatusBatchTime":5,
+      "analystOnboardingConfig":{
+         "setupV2Enabled":true,
+         "videoURL":"https://fast.wistia.net/embed/iframe/dmue1pc6fp",
+         "enabled":false
+      },
+      "enableMapTiles":false,
+      "enliteEnabled":false,
+      "enableWorksheetOverAggrWorksheet":true,
+      "enableLenientContentDiscoverability":false,
+      "pinboardFilterConfiguratorDisabled":false,
+      "vizEmbedConfiguration":{
+         "poweredFooterHidden":false,
+         "disableTransformations":false
+      },
+      "customCalendarConfig":{
+         "dateFormat":"MM/dd/yyyy",
+         "useCalendarTableForGregorian":false,
+         "allowUniqueNamesAtDatasourceLevel":false,
+         "defaultClusterCalendar":"fiscal",
+         "enabled":true,
+         "useCalendarTableForFiscal":false
+      },
+      "docHiddenInDevelopTab":true,
+      "listSearchDebouncingInMS":500,
+      "teamEdition":{
+         "integrationsEnabled":false,
+         "dataPipelineEnabled":false,
+         "dbtIntegrationEnabled":false,
+         "createSpotAppEnabled":false,
+         "sqlEditorEnabled":false,
+         "spotAppEnabled":false,
+         "enabled":true,
+         "spotAppAdminEnabled":false
+      },
+      "trialVersionConfig":{
+         "trialAccountLifeDays":30,
+         "trialClusterRegisterUrl":"https://www.thoughtspot.com/thoughtspot-cloud/trial",
+         "maxUserLimitInGroup":50,
+         "trialClusterUrl":"https://try-internal.thoughtspot.com/",
+         "enableTrialVersion":false,
+         "expiredAccountLifeDays":60,
+         "fromEmail":"ThoughtSpot <trial@cloud.thoughtspot.com>",
+         "maxResendCount":30
+      },
+      "embraceDependentOnFalcon":true,
+      "freeTrialActivationEnabled":false,
+      "sendDebugHeaders":false,
+      "loginConfig":{
+         "passwordConfig":{
+            "passwordStrategy":"GUESS_ESTIMATE",
+            "passwordHistorySize":10
+         }
+      },
+      "dataFormatConfig":{
+         "shouldFormatData":false,
+         "hyperlinkColumns":[
+
+         ],
+         "shouldFormatHyperlink":false,
+         "titleCasingConfig":{
+            "shouldIgnoreArticles":true,
+            "ignoreWords":[
+               "but",
+               "a",
+               "a.m",
+               "or",
+               "in",
+               "for",
+               "is",
+               "an",
+               "onto",
+               "off",
+               "p.m",
+               "the",
+               "into",
+               "a.d",
+               "and",
+               "b.c",
+               "by",
+               "of",
+               "to"
+            ],
+            "strictTitleCasingLength":5
+         }
+      },
+      "searchDataInNav":false,
+      "tseSeekwellLicenseEnabled":true,
+      "scriptabilityConfig":{
+         "enabled":true
+      },
+      "enableAppDynamics":true,
+      "enableUniversalSearchHdfsLogging":false,
+      "askExpertConfig":{
+         "allowListingAllExperts":true,
+         "removeObjectToExpertEdges":false,
+         "deprecated":true,
+         "notifyOtherExpertsOnResolution":true,
+         "enabled":true,
+         "maxExpertCount":2
+      },
+      "enableUniversalSearchStalenessCheck":true,
+      "blinkHelpConfigList":[
+         {
+            "iconFilePath":"",
+            "id":"BLINK_KEYWORDS",
+            "title":"Keywords",
+            "enabled":true,
+            "url":"{docsUrl}{versionNameForLink}/reference/keywords.html"
+         },
+         {
+            "iconFilePath":"",
+            "id":"BLINK_RELEASE_NOTES",
+            "title":"Release notes",
+            "enabled":true,
+            "url":"{docsUrl}{versionNameForLink}/release/notes.html"
+         },
+         {
+            "iconFilePath":"",
+            "id":"BLINK_DOCUMENTATION",
+            "title":"Documentation",
+            "enabled":true,
+            "url":"{docsUrl}{versionNameForLink}"
+         },
+         {
+            "iconFilePath":"",
+            "id":"BLINK_DOWNLOADS",
+            "title":"Downloads",
+            "enabled":true,
+            "url":"{docsUrl}{versionNameForLink}/release/downloads.html"
+         }
       ],
-      "ANSWER_V2": true,
-      "SAGE_SEARCH_BUTTON_TOUR_SEEN": true,
-      "IS_FIRST_TIME_SPOT_IQ_USER": false,
-      "SPOT_IQ_V2": false,
-      "LEARNING_MODE_TOGGLE_SEEN": true,
-      "LEARNING_MODE": false
-    }
-  },
-  "userType": "LOCAL_USER"
+      "aaqEnabled":true,
+      "embedActionConfigList":[
+         {
+            "application":"NONE",
+            "name":"action-new",
+            "context":"NONE",
+            "userGroupList":[
+
+            ],
+            "id":"a10c51c5-7524-4dae-940d-3d842e2a55f1",
+            "detail":{
+               "additionalUrlHeaders":"{}",
+               "encodeUser":"",
+               "apiKey":"X-API-KEY",
+               "apiValue":"",
+               "function":"action-new",
+               "authToken":"",
+               "link":"www.thoughtspot.com/",
+               "authSelect":"NONE",
+               "appActionType":""
+            },
+            "availability":[
+               "GLOBAL"
+            ],
+            "type":"URL",
+            "version":"v4",
+            "actionAssociationMap":{
+               "ANSWER":{
+                  "822ca554-c214-42f0-abfc-df5ed37d1017":{
+                     "context":"MENU",
+                     "enabled":"true"
+                  }
+               }
+            }
+         }
+      ],
+      "isSaas":false,
+      "enableOrgs":false,
+      "samlConfiguration":{
+         "samlLoginPageRedirect":true,
+         "samlGroupAttributeKey":"roles",
+         "disableSessionNotOnOrAfterCheck":false,
+         "updateUserGroupsFromSAML":true,
+         "displayNameAttributeKey":"name",
+         "orgMappingKey":"",
+         "emailAttributeKey":"mail",
+         "enabled":true,
+         "disableMaxAuthenticationAgeCheck":false,
+         "mobileAppRedirectEnabled":true,
+         "groupMapping":"{}",
+         "forceAuthn":true,
+         "updateSamlAttributes":true,
+         "logoutEnabledInUI":true
+      },
+      "enableSchemaViewer":false,
+      "atlasActionObjectFeatureEnabled":true,
+      "maxParallelQueriesPerViz":5,
+      "embeddedUseCase":false,
+      "identityServicePublicUrl":"https://identity.dataplane-public.thoughtspotdev.cloud/v1",
+      "tseSeekwellFeatureEnabled":false,
+      "a3Config":{
+         "instantInsightsOnSearchPageEnabled":false,
+         "a3PinboardExpiryInSeconds":86400,
+         "enableCustomRInSearchPage":true,
+         "enableFollowV2":true,
+         "instantInsightsAnalysisDepth":0,
+         "inlineAutoAnalysisEnabled":false,
+         "enableMonitorV2":true,
+         "restrictCustomRToAdmins":false,
+         "disableObjectRequestCache":false,
+         "enableKPIChartOnAttributes":true,
+         "emptySearchPageInsightsEnabled":false,
+         "spotIQV2Experience":true,
+         "answerSpotiqSnapshotEnabled":false,
+         "a3LiveDataAnalysisEnabled":true,
+         "listPageMaxTimelyJobsForSorting":1000,
+         "oneTimeTimelyJobsExpiryInSeconds":172800,
+         "enableThresholdBasedAlerts":false,
+         "pinboardInsightsTimeoutInSeconds":30,
+         "relatedQueriesEnabled":false,
+         "enableAnomalyExplanation":true,
+         "enableNewSpotIQBinary":true,
+         "enableSeasonalityDetection":true,
+         "homepageInsightsFromRepoEnabled":false,
+         "enableMonitorOnTse":true,
+         "instantInsightsFeedbackEnabled":false,
+         "homepageInsightsEnabled":false,
+         "isSpotIQV2OnByDefault":true,
+         "enableInsightsWriteToRepo":true,
+         "maxPerUserSubscription":50,
+         "executiveSummaryLevel":1,
+         "enableCustomRFetchAllColumns":true,
+         "enableFollowFeature":true,
+         "relatedTableInsightsAnalysisDepth":0,
+         "experimentalRLSCheckEnabled":false,
+         "pinboardSpotiqSnapshotEnabled":false,
+         "enableMonitor":false,
+         "enableInsightsReadFromRepo":false,
+         "enableKPIChart":true
+      },
+      "userFileUploadSizeLimit":52428800,
+      "enableEurekaTypeaheadRecentObjects":false,
+      "enableHomepageV2":false,
+      "requestAccessConfiguration":{
+         "dataSourceRequestAccessLevel":"VIEW",
+         "sendEmailsToEditors":true,
+         "objectRequestAccessLevel":"ALL"
+      },
+      "disableMobileDeeplink":false,
+      "licenseEnforcementDisabled":true,
+      "tableJoinV2Enabled":true,
+      "enableLearningMode":true,
+      "enableSearchAssist":true,
+      "useSubGroupInRLS":true,
+      "dataPipelineConfig":{
+         "threadPoolSize":31,
+         "bufferLength":102000,
+         "disableHTTPS":false,
+         "useConfidentVaultForSeekwellURL":true,
+         "chunkLength":1024,
+         "seekwellURL":""
+      },
+      "enableUniversalSearch":false,
+      "enlitePrivileged":false,
+      "slackBotConfiguration":{
+         "tablePrintDataBatchSize":20
+      },
+      "autoFormatColumnNames":true,
+      "constantTimeReference":0,
+      "teams":{
+         "hardDelete":true,
+         "teamMembershipLimit":100,
+         "enabled":false,
+         "expiredAccountLifeDays":60
+      },
+      "onboardingConfiguration":{
+         "maxQueryLogs":10,
+         "cloudBusinessOnboardingEnabled":false,
+         "queryHistoryEnabled":false,
+         "onboardingVideoURL":"https://fast.wistia.net/embed/iframe/wykwdrk2em",
+         "defaultGroups":[
+            "Demo Retail Group"
+         ],
+         "maxNumDefaultPinboard":3,
+         "enabled":true
+      },
+      "scheduledReportingConfig":{
+         "mailTrackingEnabled":true,
+         "validateWhitelistedDomains":true,
+         "thresholdSizeInMbToZip":25,
+         "tablePrintDataBatchSize":100,
+         "whitelistedDomains":[
+            "thoughtspot.com",
+            "pactera.com",
+            "thoughtspot.int",
+            "rizepoint.com"
+         ],
+         "maxTotalAttachmentSizeInMb":25,
+         "mailTrackingEventName":"scheduled_report_tracking",
+         "enabled":true,
+         "maxRecipientLimit":1000,
+         "showWhitelistedDomains":true
+      },
+      "maxCSVFileUploadCount":-1,
+      "isMultipleDemoDataSetsEnabled":false,
+      "customBrandingFontCustomizationEnabled":true,
+      "universalSearchMaxLogQueueLength":1000,
+      "maxColdStartSizePriorityList":3,
+      "exportServiceConfig":{
+         "exportServiceEnabled":true,
+         "resolveWaitMs":300000,
+         "maxTimeoutMs":300000
+      },
+      "exportConfig":{
+         "keepPageHeadersOnlyOnFirstPageInPdf":true,
+         "disableTSBrandingInPDF":false,
+         "fileNameMaxCharacterLimit":100,
+         "applyNumberFormattingInExcel":true,
+         "applyColumnFormattingInExcel":true,
+         "csvFormatVersion":"V2",
+         "applyConditionalFormattingInExcel":true,
+         "clipFiltersInPdf":true,
+         "addBOMToCSV":false,
+         "exportDateAsStringInXLS":false,
+         "writeRowDataFromNewPageInPdf":false,
+         "useNotoSansCJKFontInPDF":false
+      },
+      "enableEurekaSearch":false,
+      "adminPrivilegeSegregation":false,
+      "userPersonaConfiguration":{
+         "dataManagementCheckEnabled":true
+      },
+      "installedSchemaVersion":"2.1.1",
+      "isNebulaDevEnabled":false,
+      "enableNotificationOnShare":true,
+      "debugConfiguration":{
+         "sendDebugInfoToUI":false
+      },
+      "askExpertEnabled":true,
+      "useGetEncoding":false,
+      "dataManagerServiceConfig":{
+         "sageQueryTimeoutMs":600000,
+         "isEnabled":true,
+         "queryPriority":{
+            "embraceStatsQuery":100,
+            "sampleDataQuery":11000,
+            "autogenSampleDataQuery":11,
+            "queryHistoryQuery":12000,
+            "sageDataIndexingQuery":1000,
+            "callosumReportBookQuery":10
+         }
+      },
+      "answerV2Experience":true,
+      "embedUrls":{
+         "UNSUBSCRIBE_URL":"https://wine-grapes.corp.thoughtspot.com:443/#/user-preference",
+         "ANSWER_URL":"https://wine-grapes.corp.thoughtspot.com:443/#/saved-answer/{object-id}?{ts-query-params}",
+         "PINBOARD_URL":"https://wine-grapes.corp.thoughtspot.com:443/#/pinboard/{object-id}?{ts-query-params}",
+         "INSIGHT_URL":"https://wine-grapes.corp.thoughtspot.com:443/#/insight/{object-id}",
+         "PINBOARD_VIZ_URL":"https://wine-grapes.corp.thoughtspot.com:443/#/pinboard/{object-id}/{sub-object-id}?{ts-query-params}"
+      },
+      "socialProof":true,
+      "enableNPSMetrics":false,
+      "blinkAjaxGzipConfig":{
+         "gzipBlacklistMode":false,
+         "gzipPathPrefixes":[
+            "/callosum/v1/systest",
+            "/callosum/v1/metadata/pinboard/save"
+         ],
+         "gzipAll":false,
+         "enableRequestGzip":true
+      },
+      "licenseEnabled":false,
+      "maxConcurrentDataCalls":-1,
+      "emailConfig":{
+         "companyName":"Your Company",
+         "thoughtspotLogoUrl":"https://storage.pardot.com/710713/5660/TS_logo_260x68.png",
+         "welcomeEmailConfig":{
+            "supportEmail":"",
+            "customMessage":"",
+            "learnMoreLink":"",
+            "getStartedLink":"https://wine-grapes.corp.thoughtspot.com/",
+            "enabled":true,
+            "addMixpanelTokens":true,
+            "fromEmail":"TS Admin <no-reply@customer.thoughtspot.com>"
+         },
+         "productName":"ThoughtSpot",
+         "fromEmail":"no-reply@notification.thoughtspot.com"
+      },
+      "vizRenderingQueueTimeoutMS":30000,
+      "adminPortalEnabled":false,
+      "allowEDocWriteToDatabase":true,
+      "licenseConfig":{
+         "contactEmail":"express@thoughtspot.com",
+         "contactUrl":"https://www.thoughtspot.com"
+      },
+      "blockNonEmbedFullAppAccess":false,
+      "updateEmbedActionInZK":true,
+      "sharingConfiguration":{
+         "enableVizSharing":true,
+         "enableVizSharingWithLink":true,
+         "enableDataSourceSharing":true
+      },
+      "tseSeekwellGoogleSheetsFeatureEnabled":false,
+      "notificationConfig":{
+         "groupMemberShareNotificationLimit":500,
+         "asyncShareEmailServiceThreadCount":10,
+         "accessRequestEmailThreadCount":5
+      },
+      "blinkActionConfigList":[
+         {
+            "dialogSize":"medium",
+            "id":"1620742783729",
+            "title":"Test-receive",
+            "url":"http://10.82.144.126:8081/receive"
+         }
+      ],
+      "edocRLSSupported":true,
+      "enablePendoHelp":true,
+      "maxPinboardTableDataBatchSize":0,
+      "isAnswerUndoStackEnabled":true,
+      "objectsLimitConfig":{
+         "maxPinboards":100,
+         "maxAnswers":400,
+         "enableMaxObjectsLimit":false
+      },
+      "blinkConfig":"{\"walkmeConfiguration\":{\"enableWalkme\":true,\"enableTestEnvForWalkme\":false}}",
+      "customBrandingEnabled":true,
+      "firstPinExperienceEnabled":true,
+      "documentationConfig":{
+         "communityUrl":"https://community.thoughtspot.com/",
+         "learningCenterUrl":"https://training.thoughtspot.com/",
+         "onlineDocUrl":"https://docs.thoughtspot.com/software/",
+         "performFirstSearchDocUrl":"https://thoughtspot.wistia.com/medias/uf5h6du15r/",
+         "snowflakeConnectionDocUrl":"https://thoughtspot.wistia.com/medias/ladjhdc2na/"
+      },
+      "publicUserName":"demouser",
+      "inviteModalType":"DEFAULT",
+      "isFilterAwareQueryHash":false,
+      "exploreMeasureFiltersEnabled":false,
+      "hideDataTabOnNoManageDataPermission":false,
+      "enableEurekaAdvancedTypeahead":true,
+      "disableAnswerDisplayModePreference":false,
+      "learnConfig":{
+         "learnPinboardId":"2ff57a24-cf90-485f-8b4b-45fc17474c6f"
+      },
+      "disableStatsDbFalconNotification":true,
+      "clusterType":"PROD",
+      "fetchPivotSummaryFromBackend":true,
+      "enableAggrWsTableJoin":true,
+      "enableFullStory":false,
+      "maxNumSearchIQPreferredColumnsAllowed":15,
+      "tseClientId":"LOCAL",
+      "enableSnapshotCaptureForAnswerV2":true,
+      "highCardinalityMaxDataSize":20000,
+      "geoMapConfig":{
+         "dataBatchSize":5000
+      },
+      "tseSeekwellSFDCFeatureEnabled":false,
+      "embraceConfig":{
+         "falconRpcTimeOutInMS":3600000,
+         "isAwsSecretsManagerEnabled":false,
+         "fetchTableData":true,
+         "disableSpotIQQueries":false,
+         "enabled":true,
+         "startTimeGetJobsInSeconds":864000,
+         "doIndexing":true,
+         "mode":"PRE_RELEASE",
+         "timeZoneOverride":"",
+         "enableNotificationOnSyncFailures":true,
+         "syncDeadlineInSeconds":14400,
+         "offsetOneTimeSync":5000000,
+         "ignoreCaseCollation":false,
+         "databaseMode":"MIXED",
+         "showEmbraceStats":true,
+         "disableQuestionAnswerHeadlineQueries":false,
+         "isCaseSensitive":true,
+         "databasesWithExtOauthEnabled":[
+            "RDBMS_SNOWFLAKE"
+         ],
+         "jobRunStatusPollIntervalInSeconds":15,
+         "enableCustomCalDatabaseList":[
+            "RDBMS_GCP_BIGQUERY",
+            "RDBMS_SNOWFLAKE",
+            "RDBMS_REDSHIFT",
+            "RDBMS_TERADATA",
+            "RDBMS_ORACLE_ADW",
+            "RDBMS_SAP_HANA",
+            "RDBMS_AZURE_SQL_DATAWAREHOUSE",
+            "RDBMS_DATABRICKS"
+         ],
+         "isConfidantVaultEnabled":false,
+         "databasesWithOauthEnabled":[
+            "RDBMS_SNOWFLAKE",
+            "RDBMS_REDSHIFT",
+            "RDBMS_AZURE_SQL_DATAWAREHOUSE",
+            "RDBMS_DREMIO",
+            "RDBMS_DATABRICKS"
+         ],
+         "timeToWaitForMetadataIndexingInSec":60,
+         "excludedDataSources":[
+
+         ],
+         "enableCurrentDateToLiteral":false,
+         "isSyncEnabled":false,
+         "nullsLastInDesc":true,
+         "connectionConfig":{
+            "RDBMS_GCP_BIGQUERY":{
+               "connectionProperties":{
+                  "TIMEOUT":"600"
+               }
+            },
+            "RDBMS_SNOWFLAKE":{
+               "connectionProperties":{
+                  "ABORT_DETACHED_QUERY":"true",
+                  "CLIENT_RESULT_CHUNK_SIZE":"48",
+                  "QUOTED_IDENTIFIERS_IGNORE_CASE":"FALSE",
+                  "CLIENT_MEMORY_LIMIT":"500"
+               }
+            }
+         },
+         "calendarLimitConfig":{
+
+         },
+         "nullsLastInAsc":true,
+         "dataEventLog":{
+            "logPath":"data/external_query_event.bin",
+            "rolloverMaxAgeSeconds":30,
+            "rolloverMaxSizeBytes":104857600,
+            "enabled":true
+         },
+         "sourceToggleEnabled":false
+      },
+      "disableWorksheetSampleValues":true,
+      "eurekaSearchBarInNav":false,
+      "maxNumSearchIQPreferredDateColumnsAllowed":1,
+      "selfClusterName":"Wine",
+      "enablePinboardFollow":true,
+      "showUnsecuredDependents":true,
+      "tsePostgresEnabled":true,
+      "callosumSaaSTest":1,
+      "maxPrincipalObjectsBatchSize":30,
+      "maxFilterValues":10000,
+      "optimizelyDataFileFetchInterval":300000,
+      "demoDataConfiguration":{
+         "demoPinboardGuids":[
+            "d084c256-e284-4fc4-b80c-111cb606449a"
+         ],
+         "demoConnectionGuids":[
+            "2aa36dbd-dda6-4497-a6db-bc47e128862e"
+         ],
+         "demoWorksheetGuids":[
+            "cd252e5c-b552-49a8-821d-3eadaa049cca"
+         ],
+         "demoTableGuids":[
+            "a633dccd-b449-46df-a0fc-92034d6858cb",
+            "7d174ef2-2482-4e61-9d6e-1e1d709d96b0",
+            "757f2434-66ef-43ad-9820-ba9008072155"
+         ],
+         "demoGroupGuids":[
+            "fb61e25d-5db0-4c18-8e97-9468459f5ac1"
+         ]
+      },
+      "pinboardV2Experience":false,
+      "mixpanelConfig":{
+         "production":false,
+         "apiHost":"https://mixpanel.proxy.thoughtspot.cloud",
+         "clusterName":"grapes",
+         "clusterId":"grapes",
+         "devSdkKey":"f14b3a7f47b202a3ca8e03397df2ff48",
+         "prodSdkKey":"bbd66bca010bd4bb2cb3bed77fa6db02",
+         "apiHostEnabled":true,
+         "enabled":false
+      },
+      "showNeedHelp":true,
+      "tseLicenseConfig":{
+         "freeTrialStartDate":1641530251363,
+         "freeTrialExpired":true,
+         "freeTrialEnabled":true
+      },
+      "allowPartialPinboardEDocImport":false,
+      "apiPlaygroundConfig":{
+         "enabled":true
+      },
+      "schedulerKafkaBroker":"b-1.dataplane-msk.6zbdso.c10.kafka.us-west-2.amazonaws.com:9092,b-2.dataplane-msk.6zbdso.c10.kafka.us-west-2.amazonaws.com:9092,b-3.dataplane-msk.6zbdso.c10.kafka.us-west-2.amazonaws.com:9092",
+      "useQueryHashForWorkerSelection":true,
+      "informaticaCloudConfig":{
+         "useTimelyForScheduling":true,
+         "enabled":false,
+         "expressionAssistantUrl":"https://docs.thoughtspot.com/expressions-asst.html"
+      },
+      "defaultChartDataSize":5000,
+      "activeConnectionThreshold":500,
+      "useCustomEmbedUrls":false,
+      "isUpgradeModeEnabled":false,
+      "showUnderlyingDataForChasmTrap":true,
+      "disallowPrivilegeAddition":[
+
+      ],
+      "prodClusterIdRegex":"^([0-9]{4}X[0-9]*)$|^([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{5})$",
+      "showLoginWithUserEmail":false
+   },
+   "state":"ACTIVE",
+   "allUserGroupDisplayName":"All Group",
+   "isFirstLogin":false,
+   "allUserGroupId":"b25ee394-9d13-49e3-9385-cd97f5b253b4",
+   "userCreatedTime":1354006445722,
+   "releaseVersion":"8.4.0.sw-53",
+   "preferenceProto":"Cg4KCAgBEAAYASAAGAAoAA==",
+   "userGroupMask":6,
+   "userDisplayName":"Administrator",
+   "userExpirationTime":-1,
+   "userName":"tsadmin",
+   "license":"EAA",
+   "allUserGroupMemberUserCount":1175,
+   "acceptLanguage":"application/json",
+   "logicalModelVersion":1040203,
+   "partialJSessionGUID":"55d251ce-4d7c-4d",
+   "expirationTime":1652887519,
+   "timeFormat":{
+      "formatPattern":"HH:mm:ss"
+   },
+   "accessibleOrgs":[
+      "0"
+   ],
+   "clientState":{
+      "preferences":{
+         "answer-display-mode-preference-key":"TABLE-MODE",
+         "PANEL_STATE":"EXPANDED",
+         "PINBOARD_V2":false,
+         "delayedSearchTip":true,
+         "SAGE_SEARCH_BUTTON_TOUR_SEEN":true,
+         "homePinboardId":"b2d68a4f-cf67-4723-966f-8a592fdbf8b9",
+         "SUPPRESS_IN_USE_SOURCE_REMOVAL_WARNING":true,
+         "ANSWER_V2":true,
+         "sageDataSource":[
+            "375d11ae-9c8f-43dc-a758-6be332d3facc",
+            "406da2d5-9f81-46c2-9a62-bebf7b495ded"
+         ],
+         "SEARCH_MODE":"CLASSIC",
+         "SPOT_IQ_V2":true,
+         "LEARNING_MODE_TOGGLE_SEEN":true,
+         "OPEN_ANSWER_EDIT_PANEL":"INFO_CARD",
+         "LEARNING_MODE":false
+      },
+      "a3Preferences":{
+         "SHOULD_HIDE_SPLASH_SCREEN_KEY":true,
+         "SHOULD_HIDE_COLUMNS_TAB_INFO_KEY":true,
+         "SHOULD_HIDE_ADVANCED_TAB_INFO_KEY":true
+      },
+      "tips":{
+         "navBarHelpTip":true,
+         "chartConfigChipTip":true,
+         "learnLinkSeen":true,
+         "favoriteCardTip":true,
+         "activityCard":true,
+         "recentlyViewedCard":true,
+         "enliteToggleToSearchIQTip":true,
+         "enliteNavPopover":true,
+         "communityLinkSeen":true,
+         "trendingCard":true,
+         "enliteSearchPopover":true,
+         "followCardTip":true
+      }
+   },
+   "userType":"LOCAL_USER",
+   "homePinboardGuid":"4e555cec-163c-4a4f-a11a-7be3c103f5b6"
 }
 ----
 

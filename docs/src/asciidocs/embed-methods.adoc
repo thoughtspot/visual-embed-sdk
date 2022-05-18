@@ -31,7 +31,7 @@ To determine the method that best fits your embedding requirement, refer to the 
 [options='header']
 |=====
 ||Visual Embed SDK|Embed without SDK|Classic iFrame embedding
-s|When to use|The SDK Supports all embed and customization use cases. Use it if your host platform allows custom Javascript.
+s|When to use|The SDK Supports all embed and customization use cases. Use the SDK for embedding ThoughtSpot if your host platform allows custom Javascript.
 |Use this method only if your host platform doesn't allow custom Javascript. This method involves embedding a ThoughtSpot component in an iFrame.| The classic iFrame embedding method is available for only ThoughtSpot Software deployments. This method supports basic embedding of a ThoughtSpot page, object, or the full application using the `api.min.js` script.
 s|License requirements|Requires ThoughtSpot Everywhere| Does not require an additional license | Requires ThoughtSpot Extended Enterprise Edition license
 s|Feature availability a|

@@ -17,17 +17,17 @@ Gets details of configuration overrides on the current ThoughtSpot cluster. | [v
 |`xref:admin-api.adoc#get-embed-actions[*GET* /tspublic/v1/admin/embed/actions]` +
 Gets details of the custom actions enabled on the cluster. | [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#get-action-by-id[*GET* /tspublic/v1/admin/embed/actions/{actionid}]` +
-Gets details of a specific custom action. | [version noBackground]#8.4.0-sw#
+Gets details of a specific custom action. |[version noBackground]#7.2.1#
 |`xref:admin-api.adoc#create-custom-action[*POST* /tspublic/v1/admin/embed/actions]` +
-Creates a custom action | [version noBackground]#8.4.0-sw#
+Creates a custom action | [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#edit-custom-action[*PUT* /tspublic/v1/admin/embed/actions/{actionid}]` +
-Modifies the attributes of a custom action. |  [version noBackground]#8.4.0-sw#
+Modifies the attributes of a custom action. | [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#del-custom-action[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}]` +
-Deletes a custom action.| [version noBackground]#8.4.0-sw#
+Deletes a custom action.| [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#custom-action-assoc[*POST* /tspublic/v1/admin/embed/actions/{actionid}/associations]` +
-Associates a custom action to a ThoughtSpot object.| [version noBackground]#8.4.0-sw#
+Associates a custom action to a ThoughtSpot object.| [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#get-custom-action-assoc[*GET* /tspublic/v1/admin/embed/actions/{actionid}/associations]`  +
-Gets the details of the ThoughtSpot objects associated with a custom action.| [version noBackground]#8.4.0-sw#
+Gets the details of the ThoughtSpot objects associated with a custom action.| [version noBackground]#7.2.1#
 |`xref:admin-api.adoc#del-action-association[*DELETE* /tspublic/v1/admin/embed/actions/{actionid}/associations]` +
 Removes custom action associations. | [version noBackground]#7.2.1#
 |=====
