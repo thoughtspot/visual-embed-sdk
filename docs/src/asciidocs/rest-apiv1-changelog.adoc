@@ -48,7 +48,7 @@ For more information, see xref:metadata-api.adoc#metadata-list[Get a list of met
 .New API endpoints
 [%collapsible]
 ====
-* `POST /tspublic/v1/group/{groupid}/users`
+* `POST /tspublic/v1/group/{groupid}/users`
 * `GET /tspublic/v1/group/{groupid}/users`
 * `PUT /tspublic/v1/user/email`
 * `POST /tspublic/v1/user/{userid}/groups`

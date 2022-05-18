@@ -14,19 +14,25 @@ To embed ThoughtSpot objects in an iFrame, follow the steps described in this ar
 
 To embed ThoughtSpot objects in an iFrame, you need the embed URL.
 
-* To get the embed link for a Liveboard: +
-.. Log in to ThoughtSpot.
-.. Navigate to the Liveboard that you want to embed.
-.. Click the *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
-.. Note the GUID of the Liveboard.
+* To get the embed link for a Liveboard from the UI: +
+. Log in to ThoughtSpot.
+. Navigate to the Liveboard that you want to embed.
+. Click the *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
+. Note the GUID of the Liveboard.
 
-* To get the embed link for a visualization: +
-.. Navigate to the table or chart.
-.. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
-.. Click *Copy embed link* icon.
-.. Note the GUID of the visualization.
+* To get the embed link for a visualization from the UI: +
+. Navigate to the table or chart.
+. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
+. Click *Copy embed link* icon.
+. Note the GUID of the visualization.
++
 
-If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
+[NOTE]
+====
+The *Copy embed link* menu action is available only if Classic Liveboard experience is enabled on your instance.
+====
+
+* If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
 
 . Go to *Develop* > *Playground* > *Visual embed*
 . Select an object to embed.
@@ -47,7 +53,7 @@ If you want to embed an individual visualization from a Liveboard, you can use t
 
 To pass filters as URL query parameters, use runtime filters.
 
-For example, to sort values equal to `michigan` in the `State` column for a visualization on a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to filter values equal to `michigan` in the `State` column for a visualization on a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 
 ----
 http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
@@ -56,36 +62,30 @@ http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
 
+[#iframe-auth]
 == Authentication and security settings for an embedded instance
 
 All embedded ThoughtSpot objects require authentication. If the host application does not allow custom Javascript, you can use one of the following authentication methods:
 
-* Basic authentication with username and password (
+* Basic authentication with username and password
 * SSO authentication
 
-<<<<<<< HEAD
-== SSO considerations
-When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
-=======
 When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
 If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, it may be a viable SSO authentication mechanism.
 
 === SAML SSO authentication
 
 To enable SAML SSO authentication for an iFrame embedded instance:
->>>>>>> 8-3-0-cl-docs
-
 . On your ThoughtSpot instance, configure xref:configure-saml.adoc#admin-portal[SAML SSO].
 . xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
-+
+
 Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console.
 
-////
 [NOTE]
 ====
-ThoughtSpot instances running 6.3.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].
+ThoughtSpot instances running 7.0.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].
 ====
-////
+
 
 == Add host domain to the CSP allowlist
 
@@ -94,15 +94,10 @@ If you have access to the *Security settings* page in the *Develop* tab, you can
 If you don't have access to *Develop* > *Security settings* page, contact ThoughtSpot support to update CSP settings on your instance.
 
 == Simple embedding in Salesforce
-<<<<<<< HEAD
-If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot pinboards or individual visualizations.
 
-First, as a developer, choose 'Create a New Visualforce Page'.
-=======
 If you have configured ThoughtSpot to use the same SAML provider as a Salesforce instance, you can create a simple Visualforce page that can embed ThoughtSpot Liveboards or individual visualizations.
 
 First, as a developer, select **Create a New Visualforce Page**.
->>>>>>> 8-3-0-cl-docs
 
 The following code example can be used to define the new page. It defines the iFrame, with the ThoughtSpot URL using a runtime filter to personalize the results to the Salesforce user:
 

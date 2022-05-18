@@ -1,7 +1,7 @@
-= Embedded analytics with ThoughtSpot Everywhere
+= ThoughtSpot Everywhere
 :toc: true
 
-:page-title: Embedded Analytics with ThoughtSpot Everywhere
+:page-title: ThoughtSpot Everywhere
 :page-pageid: embed-analytics
 :page-description: Embedded Analytics with ThoughtSpot
 
@@ -11,7 +11,7 @@ ThoughtSpot Everywhere offers a robust API framework with Visual Embed SDK and R
 
 [IMPORTANT]
 ====
-ThoughtSpot Everywhere is intended to replace the embedding options available via ThoughtSpot Extended Enterprise Edition starting from the 8.4.x-SW release. To get access to Visual Embed SDK, REST API, developer playgrounds, security features, and customization capabilities, upgrade to ThoughtSpot Everywhere. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
+We recommend using ThoughtSpot Everywhere to embed ThoughtSpot in your app starting from the 8.4.0-sw release. To enable ThoughtSpot Everywhere on your instance and get access to Visual Embed SDK, developer playground, security settings, and customization capabilities, contact ThoughtSpot Support.
 ====
 
 == Visual embed SDK
@@ -20,11 +20,12 @@ The Visual Embed SDK provides Javascript-based embed packages and client librari
 
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
-
-== Using REST API::
-ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks. For more information, see xref:about-rest-apis.adoc[REST APIs].
+== Using REST API
+ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
 
 The REST API v2 Playground and SDK playground[beta blueBackground]^BETA^ feature offers language-specific SDK libraries and packages, using which  you can call REST APIs from your clients and programmatically manage ThoughtSpot objects.
+
+For more information, see xref:about-rest-apis.adoc[REST APIs].
 
 == Developer portal
 

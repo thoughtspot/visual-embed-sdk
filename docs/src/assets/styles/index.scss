@@ -202,6 +202,16 @@ button {
 
 /* Div box style start */
 
+.announcementBlock {
+    border: 0.5px solid $disabledcolor;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    padding: $padding-sm $padding-sm $padding-sm $padding-md;
+    background-color: #f1f1f1;
+    }
+
+
 .boxDiv {
     padding: 15px;
     display: inline-block;
@@ -211,6 +221,13 @@ button {
     &:hover {
         box-shadow: var(--box-shadow-hover);
     }
+}
+
+.boxAuto {
+    border: 0.5px solid $disabledcolor;
+	height: auto;
+	width: 100%;
+	padding: 0 0 0 2px;
 }
 
 .boxHalfWidth {
@@ -267,6 +284,8 @@ summary.title  {
 	width: 100%;
 	padding: 0 0 0 2px;
 }
+
+
 
 summary.title  {
     font-size: $font-size-summ-title;

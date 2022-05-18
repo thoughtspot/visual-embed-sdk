@@ -124,7 +124,7 @@ Removes the groups assigned to a user.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /tspublic/rest/v2/user/changepassword` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**PUT** /tspublic/rest/v2/user/changepassword`
 
 Allows changing a ThoughtSpot user's password.
 
@@ -260,7 +260,7 @@ Gets a list of groups created in the ThoughtSpot system. To filter your query, y
 == Admin
 
 --
-`**GET ** /tspublic/rest/v2/admin/configuration` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**GET ** /tspublic/rest/v2/admin/configuration`
 
 Gets details of the current configuration of a ThoughtSpot cluster.
 
@@ -270,7 +270,7 @@ Gets details of the current configuration of a ThoughtSpot cluster.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/admin/configuration/overrides` [tag greenBackground]#NEW in 8.2.0.cl# 
+`*GET* /tspublic/rest/v2/admin/configuration/overrides`
 
 Gets details of configuration overrides. 
 
@@ -280,7 +280,7 @@ Gets details of configuration overrides.
 
 +++<p class="divider"> </p>+++
 
-`**PUT **/tspublic/rest/v2/admin/configuration/update`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`**PUT **/tspublic/rest/v2/admin/configuration/update`
 
 Updates configuration settings of the ThoughtSpot cluster.
 
@@ -290,7 +290,7 @@ Updates configuration settings of the ThoughtSpot cluster.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/resetpassword`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/resetpassword`
 
 Resets the password of a user account.
 
@@ -300,7 +300,7 @@ Resets the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/syncprincipal`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/syncprincipal`
 
 Synchronizes user account and group properties from an external database with ThoughtSpot.
 
@@ -310,7 +310,7 @@ Synchronizes user account and group properties from an external database with Th
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/changeowner`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/changeowner`
 
 Transfers the ownership of objects from one user to another.
 
@@ -539,7 +539,7 @@ Gets details of a specific data connection.
 
 +++<p class="divider"> </p>+++
 
-`**GET** /tspublic/rest/v2/connection/database` [tag greenBackground]#NEW in 8.3.0.cl#
+`**GET** /tspublic/rest/v2/connection/database`
 
 Gets details of the databases associated with a connection ID.
 
@@ -549,7 +549,7 @@ Gets details of the databases associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/connection/table` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/connection/table`
 
 Gets details of the tables associated with a connection ID.
 
@@ -559,7 +559,7 @@ Gets details of the tables associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/connection/tablecoloumn` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/connection/tablecoloumn`
 
 Gets details of the columns of the tables associated with a connection ID.
 
@@ -631,7 +631,7 @@ Gets details of all data connections. You can also query data for a specific con
 == Data
 
 --
-`**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/search`
 
 Allows constructing a search query string and retrieves data from a search query.
 
@@ -641,7 +641,7 @@ Allows constructing a search query string and retrieves data from a search query
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/answer` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/answer`
 
 Gets data from a saved search answer.
 
@@ -651,7 +651,7 @@ Gets data from a saved search answer.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/liveboard` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/liveboard`
 
 Gets data from the specified Liveboard and visualization.
 
@@ -663,7 +663,7 @@ Gets data from the specified Liveboard and visualization.
 == Report
 
 --
-`*POST* /tspublic/rest/v2/report/answer` [tag greenBackground]#NEW in 8.2.0.cl#
+`*POST* /tspublic/rest/v2/report/answer`
 
 Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX. 
 
@@ -673,7 +673,7 @@ Downloads answer data in the specified file format, such as PDF, CSV, PNG, and X
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/report/liveboard` [tag greenBackground]#NEW in 8.3.0.cl# 
+`**POST** /tspublic/rest/v2/report/liveboard`
 
 Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
 
@@ -684,7 +684,7 @@ Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF f
 
 == Security
 
-`*POST* /tspublic/rest/v2/security/share/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/share/tsobject`
 
 Allows sharing an object with another user or group in ThoughtSpot.
 
@@ -694,7 +694,7 @@ Allows sharing an object with another user or group in ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/security/share/visualization` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/security/share/visualization`
 
 Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
 
@@ -704,7 +704,7 @@ Allows sharing a Liveboard visualization  with another user or group in ThoughtS
 
 +++<p class="divider"> </p>+++
 
-`**GET** /tspublic/rest/v2/security/permission/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+`**GET** /tspublic/rest/v2/security/permission/tsobject`
 
 Gets access permission details for a metadata object.
 
@@ -714,7 +714,7 @@ Gets access permission details for a metadata object.
 
 +++<p class="divider"> </p>+++
 
-*GET* /tspublic/rest/v2/security/permission/principal [tag greenBackground]#NEW in 8.3.0.cl#
+*GET* /tspublic/rest/v2/security/permission/principal
 
 Gets a list of objects that the specified user or group has access to.
 
@@ -724,7 +724,7 @@ Gets a list of objects that the specified user or group has access to.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/security/permission/tsobject/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/permission/tsobject/search`
 
 Gets permission details for specific object and users and groups who have access to these objects.  
 
@@ -734,7 +734,7 @@ Gets permission details for specific object and users and groups who have access
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/security/permission/principal/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/permission/principal/search`
 
 Gets a list objects to which a user or group has `read-only` or `modify` permissions.
 
@@ -745,7 +745,7 @@ Gets a list objects to which a user or group has `read-only` or `modify` permiss
 
 == Custom actions 
 
-`*GET* /tspublic/rest/v2/customaction` [tag greenBackground]#NEW in 8.3.0.cl#
+`*GET* /tspublic/rest/v2/customaction`
 
 Gets details of a custom action.
 
@@ -755,7 +755,7 @@ Gets details of a custom action.
 
 +++<p class="divider"> </p>+++
 
-`**POST **/tspublic/rest/v2/customaction/create` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST **/tspublic/rest/v2/customaction/create`
 
 Creates a custom action.
 
@@ -765,7 +765,7 @@ Creates a custom action.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /tspublic/rest/v2/customaction/update` [tag greenBackground]#NEW in 8.3.0.cl#
+`**PUT** /tspublic/rest/v2/customaction/update`
 
 Updates a custom action object.
 
@@ -775,7 +775,7 @@ Updates a custom action object.
 
 +++<p class="divider"> </p>+++
 
-`**DELETE** /tspublic/rest/v2/customaction/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+`**DELETE** /tspublic/rest/v2/customaction/delete`
 
 Deletes a custom action object.
 
@@ -785,7 +785,7 @@ Deletes a custom action object.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/customaction/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/customaction/search`
 
 Allows searching for custom actions available in ThoughtSpot.
 
@@ -795,7 +795,7 @@ Allows searching for custom actions available in ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/customaction/association` [tag greenBackground]#NEW in 8.3.0.cl#
+`*GET* /tspublic/rest/v2/customaction/association`
 
 Gets details of a custom action association to metadata objects, users, and groups.
 
@@ -805,7 +805,7 @@ Gets details of a custom action association to metadata objects, users, and grou
 
 +++<p class="divider"> </p>+++
 
-`**DELETE **/tspublic/rest/v2/customactions/association/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+`**DELETE **/tspublic/rest/v2/customactions/association/delete`
 
 Removes custom action association to a user, group or metadata object.
 
@@ -818,7 +818,7 @@ Removes custom action association to a user, group or metadata object.
 == Log
 
 --
-`*GET* /tspublic/rest/v2/logs/events` [tag greenBackground]#NEW in 8.2.0.cl# 
+`*GET* /tspublic/rest/v2/logs/events`
 
 Gets security audit logs from the ThoughtSpot system.
 

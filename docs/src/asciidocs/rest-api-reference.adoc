@@ -5,7 +5,6 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
-
 == User management
 
 include::{path}/user-api-list.adoc[]
@@ -32,12 +31,17 @@ include::{path}/data-connection-apis.adoc[]
 
 == Materialization service
 
-[div boxDiv boxFullWidth]
+[div boxAuto]
 --
-`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]`
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]` +
+Allows you refresh a materialized view.| [version noBackground]#6.0.x#
+|=====
+--
 
-Allows you refresh a materialized view.
---
 
 == TML objects
 
@@ -49,9 +53,16 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
-
-+++<p class="divider">Allows searching for data from a specific data source in the ThoughtSpot application.</p>+++
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
+Allows searching for data from a specific data source in the ThoughtSpot application.|  [version noBackground]#6.0.x#
+|=====
+--
 
 == Dependent objects
 
@@ -67,12 +78,3 @@ include::{path}/database-api-list.adoc[]
 
 
 
-
-////
-== Log Streaming Service
-
-`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]`
-
-+++<p class="divider">Gets security audit logs from the ThoughtSpot system.</p>+++
-
---

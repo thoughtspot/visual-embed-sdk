@@ -1,38 +1,22 @@
 
-[div boxDiv boxFullWidth]
+
+[div boxAuto]
 --
-`xref:database-api.adoc#list-tables[**GET** /tspublic/v1/database/tables]` 
-
-Gets a list of all tables in a database and schema in Falcon.
-
-+++<p class="divider"> </p>+++
-
-`xref:database-api.adoc#list-schemas[**GET **/tspublic/v1/database/schemas]` 
-
-Gets a list of all schemas in a particular database in Falcon.
-
-+++<p class="divider"> </p>+++
-
-`xref:database-api.adoc#list-database[**GET **/tspublic/v1/database/databases]`  
-
-Gets a list of all databases in Falcon.
-
-+++<p class="divider"> </p>+++
-
-`xref:database-api.adoc#table-detail[**GET** /tspublic/v1/database/getTableDetail]` 
-
-Gets details of a particular table.
-
-+++<p class="divider"> </p>+++
-
-`xref:database-api.adoc#create-table[**POST** /tspublic/v1/database/createtable]`  
-
-Creates tables in a database.
-
-+++<p class="divider"> </p>+++
-
-`xref:database-api.adoc#run-tql[**POST **/tspublic/v1/database/run]` 
-
-Runs TQL commands with SQL statements.
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:database-api.adoc#list-tables[**GET** /tspublic/v1/database/tables]` +
+Gets a list of all tables in a database and schema in Falcon. | [version noBackground]#6.3.1#
+|`xref:database-api.adoc#list-schemas[**GET **/tspublic/v1/database/schemas]` +
+Gets a list of all schemas in a particular database in Falcon. |[version noBackground]#6.3.1#
+|`xref:database-api.adoc#list-database[**GET **/tspublic/v1/database/databases]` +
+Gets a list of all databases in Falcon. | [version noBackground]#6.3.1#
+|`xref:database-api.adoc#table-detail[**GET** /tspublic/v1/database/getTableDetail]` +
+Gets details of a particular table.|  [version noBackground]#6.3.1#
+|`xref:database-api.adoc#create-table[**POST** /tspublic/v1/database/createtable]` +
+Creates tables in a database.| [version noBackground]#6.3.1#
+|`xref:database-api.adoc#run-tql[**POST **/tspublic/v1/database/run]` +
+Runs TQL commands with SQL statements.| [version noBackground]#6.3.1#
+|=====
 --
-

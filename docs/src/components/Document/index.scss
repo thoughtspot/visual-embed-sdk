@@ -57,15 +57,9 @@
         justify-content: space-between;
         overflow: auto;
         font-size: $font-size-code;
-<<<<<<< HEAD
-        line-height: $line-height-code;
-
-=======
         max-height: 700px;
         line-height: $line-height-code;
         box-shadow: var(--box-shadow);
->>>>>>> 8-3-0-cl-docs
-
     }
 
     pre.highlight {
@@ -86,11 +80,7 @@
             max-width: 15%;
             position: relative;
             visibility: hidden;
-<<<<<<< HEAD
-            padding: 20px;
-=======
             padding: 25px;
->>>>>>> 8-3-0-cl-docs
 
             .lang {
                 position: absolute;

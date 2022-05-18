@@ -70,12 +70,9 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
         width: '100%',
         height: '100%',
     },
-<<<<<<< HEAD
-=======
     additionalFlags: {
     <key>: <value>
     },
->>>>>>> 8-3-0-cl-docs
     disabledActions: [],
     fullHeight: true,
     disabledActionReason: '<reason for disabling>',
