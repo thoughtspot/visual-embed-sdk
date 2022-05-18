@@ -141,21 +141,21 @@ If the operation is successful, the API returns a response with the session info
         "enabled": true,
         "title": "Keywords",
         "id": "BLINK_KEYWORDS",
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/reference/keywords.html",
+        "url": "https://docs.thoughtspot.com/software/{versionNameForLink}/keywords.html",
         "iconFilePath": ""
       },
       {
         "enabled": true,
         "title": "Release notes",
         "id": "BLINK_RELEASE_NOTES",
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}/release/notes.html",
+        "url": "https://docs.thoughtspot.com/software/{versionNameForLink}/notes.html",
         "iconFilePath": ""
       },
       {
         "enabled": true,
         "title": "Documentation",
         "id": "BLINK_DOCUMENTATION",
-        "url": "https://cloud-docs.thoughtspot.com/{versionNameForLink}",
+        "url": "https://docs.thoughtspot.com/software{versionNameForLink}",
         "iconFilePath": ""
       }
     ],

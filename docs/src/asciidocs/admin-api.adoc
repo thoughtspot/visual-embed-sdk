@@ -174,10 +174,9 @@ The following example shows a snippet of the configuration information:
    },
    "enableDoubleClickDrillDown":false,
    "enablePendo":true,
-   "schedulerServiceUrl":"https://scheduler.dataplane-private.aws-us-west-2.thoughtspotdev.cloud/v1",
    "disableFeedback":false,
    "partnerServiceConfig":{
-      "fromEmail":"ThoughtSpot <trial@cloud.thoughtspot.com>"
+      "fromEmail":"ThoughtSpot <trial@thoughtspot.com>"
    },
    "enableInstantSearch":false,
    "enableSnapshotCapture":false,
@@ -299,16 +298,6 @@ The following example shows a snippet of the configuration information:
       "spotAppEnabled":false,
       "enabled":true,
       "spotAppAdminEnabled":false
-   },
-   "trialVersionConfig":{
-      "trialAccountLifeDays":30,
-      "trialClusterRegisterUrl":"https://www.thoughtspot.com/thoughtspot-cloud/trial",
-      "maxUserLimitInGroup":50,
-      "trialClusterUrl":"https://try-internal.thoughtspot.com/",
-      "enableTrialVersion":false,
-      "expiredAccountLifeDays":60,
-      "fromEmail":"ThoughtSpot <trial@cloud.thoughtspot.com>",
-      "maxResendCount":30
    },
    "embraceDependentOnFalcon":true,
    "freeTrialActivationEnabled":false,
@@ -456,7 +445,6 @@ The following example shows a snippet of the configuration information:
    "maxParallelQueriesPerViz":5,
    "embeddedUseCase":false,
    "identityServicePublicUrl":"https://identity.dataplane-public.thoughtspotdev.cloud/v1",
-   "tseSeekwellFeatureEnabled":false,
    "a3Config":{
       "instantInsightsOnSearchPageEnabled":false,
       "a3PinboardExpiryInSeconds":86400,
@@ -481,7 +469,6 @@ The following example shows a snippet of the configuration information:
       "enableNewSpotIQBinary":true,
       "enableSeasonalityDetection":true,
       "homepageInsightsFromRepoEnabled":false,
-      "enableMonitorOnTse":true,
       "instantInsightsFeedbackEnabled":false,
       "homepageInsightsEnabled":false,
       "isSpotIQV2OnByDefault":true,

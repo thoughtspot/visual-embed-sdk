@@ -20,7 +20,7 @@ If you have access to a custom action, ThoughtSpot lets you perform the followin
 
 Perform the following checks:
 
-* The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/new-answer-experience[new Answer experience, window=_blank] is enabled on your cluster.
+* The new Answer experience is enabled on your cluster.
 * The custom action is available on your instance and is set as *Local*.
 * You have edit permissions to modify the visualization or saved answer.
 

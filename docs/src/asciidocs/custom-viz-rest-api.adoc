@@ -48,7 +48,7 @@ The following is an example of creating the full REST API URL. Note that `vizIds
 
 [source,javascript]
 ----
- let tsURL = "https://{}.thoughtspot.cloud";// Adjust to your instance name
+ let tsURL = "https://{}.thoughtspot.com";// Adjust to your instance name
  // IDs to retrieve - you can find these by clicking "Copy Embed Link" in the menu of any item on a Liveboard
  let lbId = 'c10dab93-75fd-4231-8e95-ec40a4999996'; // Change to your Liveboard ID
  let vizIds = ['59f0af45-b3a5-4bad-a6f0-4ee7003ad171']; // Put in your Visualization ID(s) from the Liveboard

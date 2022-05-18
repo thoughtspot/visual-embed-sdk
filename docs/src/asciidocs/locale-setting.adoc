@@ -89,5 +89,5 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 
 * ThoughtSpot _does not_ translate column names, object titles, description text, formulas, or metadata entered by the user. For example, if you name a visualization **Sales performance** in any variant of English and subsequently change the locale to Español, the name of the visualization remains **Sales performance**. +
 * If you specify a currency when uploading data, that currency format does not change when the locale changes. +
-* ThoughtSpot translates keywords, operators, and error messages. See  link:https://docs.thoughtspot.com/cloud/latest/keywords[Keyword reference] for all supported languages. +
+* ThoughtSpot translates keywords, operators, and error messages. See  link:https://docs.thoughtspot.com/software/latest/keywords[Keyword reference] for all supported languages. +
 

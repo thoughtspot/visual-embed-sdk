@@ -476,7 +476,7 @@ POST /tspublic/v1/user/inactivate
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' \
--d 'username=usr1&url=https%3A%2F%2F<ThoughtSpot-host>.cloud%2F' \
+-d 'username=usr1&url=https://<ThoughtSpot-host>.com/' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate'
 ----
 

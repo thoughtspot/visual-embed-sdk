@@ -195,7 +195,7 @@ To add a SAML redirect domain, follow these steps:
 +
 
 * Domain name strings without port and protocol. For example, `thoughtspot.com`,`www.thoughtspot.com`
-* Comma-separated values. For example, `thoughtspot.com,thoughtspot.cloud`
+* Comma-separated values. For example, `thoughtspot.com,thoughtspot.io`
 * IPv4 addresses. For example, `255.255.255.255`
 
 +

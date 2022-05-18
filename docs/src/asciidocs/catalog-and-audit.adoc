@@ -5,7 +5,7 @@
 :page-pageid: catalog-and-audit
 :page-description: ThoughtSpot REST APIs can be used to audit system configurations and bring metadata into data catalogs
 
-The ThoughtSpot REST API can easily retrieve information about the objects stored on the ThoughtSpot server. The REST API can also retrieve every object in the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling language (TML), window=_blank], which can be parsed as YAML or JSON for additional details.
+The ThoughtSpot REST API can easily retrieve information about the objects stored on the ThoughtSpot server. The REST API can also retrieve every object in the link:https://docs.thoughtspot.com/software/latest/tml[ThoughtSpot Modeling language (TML), window=_blank], which can be parsed as YAML or JSON for additional details.
 
 == Map user and group GUIDs to names
 Some API responses only include the GUIDs for other objects, without the string names. If you need the human-readable names of users and groups, use the xref:user-api.adoc#get-user-details[get user details] and the xref:group-api.adoc#get-ug-details [get group details] endpoints.
@@ -58,7 +58,7 @@ The example link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/m
 To determine which users belong in a group, use the xref:group-api.adoc#get-users-group[/group/listuser/{groupid}] or xref:group-api.adoc#get-usersInGroup[/group/{groupid}/users] endpoint.
 
 == User privileges
-link:https://cloud-docs.thoughtspot.com/end-user/introduction/about-privileges-end-user.html[Privileges, window=_blank] are capabilities within ThoughtSpot available to a user. Privileges are inherited in an additive manner from groups a user belongs to (privileges are defined on groups only). A user has the full set of privileges from all of their groups on every piece of content the user has sharing access to.
+link:https://docs.thoughtspot.com/software/latest/groups-privileges[Privileges, window=_blank] are capabilities within ThoughtSpot available to a user. Privileges are inherited in an additive manner from groups a user belongs to (privileges are defined on groups only). A user has the full set of privileges from all of their groups on every piece of content the user has sharing access to.
 
 To see a user's privilege set, use the xref:user-api.adoc#get-user-details[user API endpoint]. You can run this API for an  individual user or to get details of all users. In either case, the response object for each user will include a `privileges` array that lists all the privileges the user has.
 
