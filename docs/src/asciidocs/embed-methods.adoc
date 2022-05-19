@@ -103,7 +103,7 @@ __Legacy events only__|
 
 ThoughtSpot REST API framework supports data APIs, using which you can embed an answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the SDK to embed ThoughtSpot content in your app.
 
-For more information, see the following articles:
+For more information, see the following pages:
 
 * xref:embed-rest-api.adoc[Embed using REST APIs]
 * xref:custom-viz-rest-api.adoc[Create a custom visualization using REST APIs]
