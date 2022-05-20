@@ -8,7 +8,7 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.3.0.cl
 
 ==== Visual Embed SDK 1.11.0
 
@@ -19,7 +19,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta blueBackground]^BETA^ endpoints will be available soon on your instance:
+|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta blueBackground]^BETA^ endpoints are now available:
 
 * Connection endpoints +
 ** `GET /tspublic/rest/v2/connection/database` +
@@ -45,8 +45,8 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 
 |[tag orangeBackground]#MODIFIED# a|
 * The `x-requested-by` header is not mandatory in REST v2 [beta blueBackground]^BETA^ API calls.
-* The `createdBy` attribute in the `/tspublic/rest/v2/metadata/header/search` API will be renamed to `author`.
-* The attributes with the `boolean` data type in the API endpoints will be changed to `string` data type. If a boolean attribute was set as `true` in your existing setup, the value will be changed to `"true"`.
+* The `createdBy` attribute in the `/tspublic/rest/v2/metadata/header/search` API is renamed to `author`.
+* The attributes with the `boolean` data type in the API endpoints are changed to `string` data type. If a boolean attribute was set as `true` in your existing setup, the value will be changed to `"true"`.
 |[tag redBackground]#BREAKING CHANGES# a|
 
 * Note the change in HTTP request method for the following REST API v2 [beta blueBackground]^BETA^ endpoints: +
@@ -57,9 +57,8 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/unassign` +
 * In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
-|[tag redBackground]#REMOVED# a| The `ownedBy` attribute will be removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
+|[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
-
 
 == Version 8.2.0.cl
 
@@ -78,22 +77,28 @@ For more information, see xref:app-actions.adoc[App actions] and xref:push-data-
 |====
 ////
 
-==== Visual Embed SDK 1.10.0
+.Visual Embed SDK 1.10.x
+[%collapsible]
+====
+The Visual Embed SDK version 1.10.x introduces new attributes and bug fixes. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-The Visual Embed SDK version 1.10.x is now available. For information about the new features and enhancements introduced in these SDK versions, see xref:api-changelog.adoc[Visual Embed changelog].
-
-==== REST API v1
-
+.REST API v1
+[%collapsible]
+====
 New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
+====
 
-==== REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta blueBackground]^BETA^
 
+[%collapsible]
+====
 Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta blueBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
 
 The 8.2.0.cl release also introduces the following features:
 
 Endpoint URL path::
-The REST v2 API endpoint URL path is changed from `/api/rest/v2` to `/tspublic/rest/v2/`. For example, the `GET /api/rest/v2/connection` endpoint is now available as `GET /tspublic/rest/v2/connection`. 
+The REST v2 API endpoint URL path is changed from `/api/rest/v2` to `/tspublic/rest/v2/`. For example, the `GET /api/rest/v2/connection` endpoint is now available as `GET /tspublic/rest/v2/connection`.
 
 Trusted authentication::
 If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
@@ -120,6 +125,7 @@ New API endpoints::
 
 For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
 
+====
 
 == Version 8.1.0.cl
 

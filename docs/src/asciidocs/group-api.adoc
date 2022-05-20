@@ -1396,6 +1396,12 @@ Response Code
 == Delete a user group
 To remove a user group from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/group/{groupid}` API endpoint.
 
+[IMPORTANT]
+====
+ThoughtSpot does not recommend removing a user from the `All` group. 
+====
+
+
 === Resource URL
 ----
 DELETE /tspublic/v1/group/{groupid}

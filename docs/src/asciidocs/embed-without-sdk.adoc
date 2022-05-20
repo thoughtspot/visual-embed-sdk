@@ -47,11 +47,11 @@ If you want to embed an individual visualization from a Liveboard, you can use t
 
 To pass filters as URL query parameters, use runtime filters.
 
-For example, to sort values equal to `michigan` in the `State` column for a visualization on a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
+For example, to filter `michigan` in the `State` column of a visualization on a Liveboard, pass these values as filter parameters in the URL:
 
 ----
 http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=state&op1=EQ&val1=michigan
+&col1=State&op1=EQ&val1=michigan
 ----
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
@@ -60,7 +60,7 @@ For more information, see xref:runtime-filters.adoc[runtime filters, window=_bla
 
 All embedded ThoughtSpot objects require authentication. If the host application does not allow custom Javascript, you can use one of the following authentication methods:
 
-* Basic authentication with username and password (
+* Basic authentication with username and password
 * SSO authentication
 
 When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
@@ -73,14 +73,7 @@ To enable SAML SSO authentication for an iFrame embedded instance:
 . On your ThoughtSpot instance, configure xref:configure-saml.adoc#admin-portal[SAML SSO].
 . xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
 +
-Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
-
-////
-[NOTE]
-====
-ThoughtSpot instances running 6.3.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].  
-====
-////
+Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding, window=_blank] option in Okta's Admin console.
 
 == Add host domain to the CSP allowlist
 

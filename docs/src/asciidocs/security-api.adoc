@@ -30,6 +30,9 @@ POST /tspublic/v1/security/share
 ----
 
 === Request parameters
+
+[div tableContainer]
+--
 [width="100%" cols="1,4"]
 [options='header']
 |====
@@ -49,13 +52,28 @@ POST /tspublic/v1/security/share
 
 For example, to provide read-only access to a user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd`, specify the string as shown here:
 
+[source,JSON]
 ----
 {"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"READ_ONLY"}}}
 ----
 
 The following example shows how to set the permission string to provide read-only access to multiple users:
+
+[source,JSON]
 ----
-{"permissions": {"e7040a64-7ff1-4ab9-a1b0-f1acac596866": {"shareMode": "READ_ONLY"}, "f7b8f511-317c-485d-8131-26cf084ef47b": {"shareMode": "READ_ONLY"}}}`
+{"permissions": {"e7040a64-7ff1-4ab9-a1b0-f1acac596866": {"shareMode": "READ_ONLY"}, "f7b8f511-317c-485d-8131-26cf084ef47b": {"shareMode": "READ_ONLY"}}}
+----
+
+Similarly, to share objects with one or several user groups, specify the GUIDs and access permission type in the following format:
+
+[source,JSON]
+----
+{"permissions":{"59481331-ee53-42be-a548-bd87be6ddd4a":{"shareMode":"READ_ONLY"}}}
+----
+
+[source,JSON]
+----
+{"permissions": {"0f7af46f-e48c-4cca-b60f-d63d5ddbe59f": {"shareMode": "MODIFY"}, "e5fc80ce-db65-4921-8ece-c7bb44fceca1": {"shareMode": "READ_ONLY"}}}
 ----
 
 [IMPORTANT]
@@ -63,11 +81,12 @@ The following example shows how to set the permission string to provide read-onl
 To remove a user or user group's access to a shared object, you can set the `shareMode` in the permission string to `NO_ACCESS`. For example, if you send a POST request with the permission string as  `{"permissions":{"7a9a6715-e154-431b-baaf-7b58246c13dd":{"shareMode":"NO_ACCESS"}}}`, the user with a GUID of `7a9a6715-e154-431b-baaf-7b58246c13dd` cannot access the shared object.
 ====
 
-|`emailshares`|__String__. The email address of the user accounts with whom you want to share the objects.
-|`notify` __Optional__|__Boolean__. When set to `true`, a notification is sent to the users after an object is shared.
-|`message` __Optional__|__String__. The message text to send in the notification email.
-|`useCustomEmbedUrls`|__Boolean__. When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
+|`emailshares`|__Array of Strings__. Email addresses to notify when the object is shared.
+|`notify` __Optional__|__Boolean__. If set to `true`, an object share notification is sent to the specified email addresses.
+|`message` __Optional__|__String__. The message text to send in the object share notification email.
+|`useCustomEmbedUrls`|__Boolean__.  When set to `true`, ThoughtSpot sends a customized link with the host application URL in the object share notification.  You can use this attribute to generate links for embedded ThoughtSpot objects. 
 |====
+--
 
 === Example request
 
@@ -80,7 +99,6 @@ curl -X POST  \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
 -d 'type=PINBOARD_ANSWER_BOOK&id=["237921cc-ebf5-445a-8b7b-15c301f8456e"]&permission={"permissions":{"237921cc-ebf5-445a-8b7b-15c301f8456e":{"shareMode":"READ_ONLY"}}}&emailshares=["tsuser@thoughtspot.com"]&notify=false&useCustomEmbedUrls=true' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/security/share'
-
 ----
 
 .Request URL
@@ -107,7 +125,7 @@ Response code
 
 [#shareviz]
 == Share a visualization with another user or user group
-If you want to share a specific visualization from a Liveboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide a read-only access.
+If you want to share a specific visualization from a Liveboard with another user or user group, use the `/tspublic/v1/security/shareviz` API. This API lets you share the visualization with specific user IDs and provide read-only access.
 
 === Resource URL
 ----
@@ -120,13 +138,13 @@ POST /tspublic/v1/security/shareviz
 |====
 |Form parameter|Description
 |`type`|__String__. Type of the metadata object. The valid value is `PINBOARD_ANSWER_BOOK`.
-|`pinboardId`|__String__.The GUID of the Liveboard to which the visualization belongs.
-|`principalids`|__String__.The GUID of the users with whom you want to share the visualization.
-|`vizid`|__String__.The GUID of visualization.
-|`emailshares`|__Sring__. The email address of the user account with whom you want to share the visualization. If no email address is specified, the visualization is shared only with the user IDs specified in `principalids`.
-|`notify` __Optional__|__Boolean__. When set to `true`, a notification is sent to the user after the visualization is shared.
+|`pinboardId`|__String__. The GUID of the Liveboard to which the visualization belongs.
+|`principalids`|__String__. The GUID of the users and groups to which you want to share the visualization.
+|`vizid`|__String__. The GUID of visualization.
+|`emailshares`|__Sring__. Email addresses to notify when the object is shared.
+|`notify` __Optional__|__Boolean__. If set to `true`, an object share notification is sent to the specified email addresses.
 |`message` __Optional__|__String__. The message text to send in the notification email.
-|`useCustomEmbedUrls`|__Boolean__. When set to `true`, ThoughtSpot sends a link with the host application context to allow users to access the shared object from their ThoughtSpot embedded instance.
+|`useCustomEmbedUrls`|__Boolean__. When set to `true`, ThoughtSpot sends a customized link with the host application URL in the object share notification.  You can use this attribute to generate links for embedded ThoughtSpot objects. 
 |====
 
 === Example request

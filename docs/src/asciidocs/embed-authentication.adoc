@@ -207,7 +207,7 @@ Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX r
 
 The user authentication may fail due to an incomplete SSO login process, expired user session, SDK initialization error, or if the browser has blocked third-party cookies. 
 
-The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as login failure, success, or user logout, and respond to these events with a message or corrective action.  
+The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
 
 [source,Typescript]
 ----
@@ -215,6 +215,11 @@ authStatus = init(embedConfig); authStatus.on(AuthStatus.FAILURE, (reason) => {
 console.log('Authentication failed');
 });
 ----
+
+[NOTE]
+====
+The `EventEmitter` returned from `init` supports listening to only authentication status events such as `AuthStatus.SUCCESS`, `AuthStatus.FAILURE`, and `AuthStatus.LOGOUT`.
+====
 
 If you want to display a message in the embedded UI when a user login fails, include the `loginFailedMessage` property in your `init` call.
 By default, the attribute displays the `Not logged in` message in the embedded UI. To customize this message, define a string with custom text or markup as shown here:
