@@ -26,10 +26,12 @@ In the earlier releases, unauthenticated clients were not allowed to make an API
 
 == Version ts8.nov.cl, January 2022
 
-.New API endpoint
+.New API endpoint for token-based login
 [%collapsible]
 ====
-* `POST /tspublic/v1/session/login/token`
+`POST /tspublic/v1/session/login/token` +
+
+This API endpoint allows you to make a `POST` request with parameters in the request body. For more information, see xref:session-api.adoc#session-loginToken[Authenticate and log in a user].
 ====
 
 .Modified
