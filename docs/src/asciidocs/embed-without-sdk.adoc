@@ -73,14 +73,7 @@ To enable SAML SSO authentication for an iFrame embedded instance:
 . On your ThoughtSpot instance, configure xref:configure-saml.adoc#admin-portal[SAML SSO].
 . xref:configure-saml.adoc#idp-config[Configure your IdP] to allow the host domain to embed the IdP's authentication page.
 +
-Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding option, window=_blank] in Okta's Admin console. 
-
-////
-[NOTE]
-====
-ThoughtSpot instances running 6.3.1 or lower Software release versions may restrict iFrame embedding with SAML SSO. To resolve this issue, apply the `saml_iframe_options.patch`. For more information, see link:https://docs.thoughtspot.com/software/6.3/js-api-enable[Authentication flow with embed, window=_blank].  
-====
-////
+Each IdP has a specific way to enable this setting. For example, for Okta, you can use the  link:https://help.okta.com/en/prod/Content/Topics/Settings/settings-customization-general.htm[Enable iframe embedding, window=_blank] option in Okta's Admin console.
 
 == Add host domain to the CSP allowlist
 
