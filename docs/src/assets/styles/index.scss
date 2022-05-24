@@ -202,6 +202,16 @@ button {
 
 /* Div box style start */
 
+.announcementBlock {
+    border: 0.5px solid $disabledcolor;
+    font-color: var(--announcement-font-color);
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    padding: $padding-sm $padding-sm $padding-sm $padding-md;
+    background-color: var(--announcement-block-color);
+    }
+
 .boxDiv {
     padding: 15px;
     display: inline-block;
