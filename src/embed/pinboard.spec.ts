@@ -18,7 +18,8 @@ const defaultViewConfig = {
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const vizId = '6e73f724-660e-11eb-ae93-0242ac130002';
 const thoughtSpotHost = 'tshost';
-const defaultParams = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParamsWithoutHideActions = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParams = `${defaultParamsWithoutHideActions}&hideAction=[%22${Action.ReportError}%22]`;
 const prefixParams = '&isLiveboardEmbed=true&isPinboardV2Enabled=false';
 
 beforeAll(() => {
@@ -60,7 +61,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied${prefixParams}#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParamsWithoutHideActions}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied&hideAction=[%22${Action.ReportError}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });
@@ -78,7 +79,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&hideAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParamsWithoutHideActions}&hideAction=[%22${Action.ReportError}%22,%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
     });

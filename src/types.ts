@@ -808,6 +808,10 @@ export enum Action {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
     CreateMonitor = 'createMonitor',
+    /**
+     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl
+     */
+    ReportError = 'reportError',
 }
 
 export interface SessionInterface {
