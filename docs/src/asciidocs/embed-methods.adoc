@@ -9,9 +9,9 @@ ThoughtSpot supports embedding Search, Liveboard, visualizations, and the full T
 
 [div announcementBlock]
 --
-*ThoughtSpot Everywhere is now available to ThoughtSpot Extended Enterprise Edition customers!*
+*ThoughtSpot Everywhere is now available!*
 
-Starting from 8.4.0-sw (Limited Availability release), you can use ThoughtSpot Everywhere features and Visual Embed SDK to embed ThoughtSpot in your application.
+Starting from the 8.4.0-sw release (Limited Availability), ThoughtSpot Software customers licensed to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK.
 
 To enable ThoughtSpot Everywhere on your cluster, contact ThoughtSpot Support.
 --
@@ -27,14 +27,12 @@ To determine the method that best fits your embedding requirement, refer to the 
 
 [div boxAuto]
 --
-[width="100%" cols="5,7,5,5"]
+[width="100%" cols="4,7,7,7"]
 [options='header']
 |=====
-||Visual Embed SDK|Embed without SDK|Legacy embedding method +
-(ThoughtSpot Software only)
+||Visual Embed SDK|Embed without SDK|Legacy embedding method
 s|When to use|The SDK Supports all embed and customization use cases. Use the SDK for embedding ThoughtSpot if your host platform allows custom Javascript.
-|Use this method only if your host platform doesn't allow custom Javascript. This method involves embedding a ThoughtSpot component in an iFrame.| The legacy embedding method is available for only ThoughtSpot Software deployments. This method supports basic embedding of a ThoughtSpot page, object, or the full application using the `api.min.js` script.
-s|License requirements|Requires ThoughtSpot Everywhere| Does not require an additional license | Requires ThoughtSpot Extended Enterprise Edition license
+|Use this method only if your host platform doesn't allow custom Javascript. This method involves embedding a ThoughtSpot component in an iFrame.| The legacy embedding method is available for only ThoughtSpot Software deployments. With this method, you can embed a ThoughtSpot page, object, or the full application using `api.min.js` script.
 s|Feature availability a|
 ThoughtSpot Cloud ts7.may.cl or later +
 ThoughtSpot Software version 8.4.0-sw or later a|
