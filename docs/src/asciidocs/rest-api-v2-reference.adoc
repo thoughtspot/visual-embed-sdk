@@ -493,7 +493,7 @@ Gets a list of all metadata objects in the ThoughtSpot system. To filter your qu
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/metadata/detail/search` 
+`*POST* /tspublic/rest/v2/metadata/detail/search`
 
 Gets details of one or several metadata objects of a specific type.
 
