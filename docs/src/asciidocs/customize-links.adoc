@@ -12,7 +12,7 @@ ThoughtSpot generates the following types of links:
 Liveboards links::
 The Liveboard links are sent in email notifications in the following scenarios: +
 ** When a user shares a Liveboard with another user
-** When the administrator schedules a Liveboard job and adds recipients to receive email notification about the job status
+** When the administrator schedules a Liveboard job and adds recipients to receive email notifications about the job status
 
 Visualization links::
 A visualization link is generated when a user shares a visualization with another user or when a ThoughtSpot user clicks *Copy link* action in the UI.
@@ -28,7 +28,7 @@ Links to unsubscribe from notifications::
 The *Unsubscribe* link is included in system-generated emails to allow users to turn off email notifications.
 
 * The *Unsubscribe* link is included in object share and Liveboard notifications. By default, the *Unsubscribe* link in these notifications points users to the *Profile* settings page in ThoughtSpot, using which they can turn off or enable email notifications.
-* If a user has subscribed to receive alerts for KPI charts, the email notifications include the *Unsubscribe* link. A user can use this link to unsubscribe from monitor alerts at any time.
+* If a user has subscribed to receive alerts for KPI charts, the email notifications include the *Unsubscribe* link. A user can click this link to unsubscribe from monitor alerts at any time.
 
 == Link format for an embedded instance
 
@@ -36,17 +36,16 @@ By default, ThoughtSpot generates these links with URL paths from the ThoughtSpo
 
 The *Link settings* page in the Developer portal displays the default link format for the system-generated links. You can either prefix your application domain URL to the default link format or customize the entire URL. ThoughtSpot recommends that you use the following variables in your link format:
 
-* `{object-id}` to represent the ID of a Liveboard, answer, or the SpotIQ analyses. In the Liveboard, answer, and spotIQ analyses links, this variable is substituted by the GUID of the object.
+* `{object-id}` to represent the ID of a Liveboard, answer, or the SpotIQ analyses. In the Liveboard, answer, and SpotIQ analyses links, this variable is substituted by the GUID of the object.
 * `{sub-object-id}` to represent the ID of a visualization. In Liveboard visualization links, this variable is  substituted by the GUID of the visualization.
-* `{ts-query-params}` to pass query parameters in the URL.
-For example, you can add query parameters to unsubscribe a user from receiving monitor alerts. +
-Monitor alerts notify users about the changes in the Key Performance Indicators (KPIs) in their visualization data. The subscribed users receive email notifications with a link to a visualization and also the *Unsubscribe* link to unsubscribe from monitor alerts and turn off email notifications. For embedded ThoughtSpot instances, you can customize the format of the `Unsubscribe` link using {ts-query-params}. The variable is replaced with the URL query parameters string prefixed with `ts-`.
-+
+* `{ts-query-params}` to allow ThoughtSpot to pass query parameters in the URL.  +
+For example, when a user subscribes to monitor alerts, ThoughtSpot sends email notifications with a link to the KPI chart along with an *Unsubscribe* link to allow the user to unsubscribe from the alert at any time. When you include {ts-query-params} in the link string, ThoughtSpot passes the query parameters required for unsubscribing a user from a monitor alert. +
 
++
 [IMPORTANT]
 ====
 * Make sure the {object-id} and {sub-object-id} variables are used only for ThoughtSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/liveboard-id={object-id}`, ThoughtSpot may replace both these variables with the Liveboard GUID when it generates the Liveboard link. +
-* Make sure the URL query parameters are prefixed with `ts-`. The Visual Embed SDK extracts the parameters with `ts-` prefix and performs the required action.
+* ThoughtSpot query parameters that substitute the `{ts-query-params}` variable are prefixed with `-ts`.
 ====
 
 == Customize link format
@@ -62,15 +61,12 @@ This URL provides a link to a ThoughtSpot Liveboard object.
 The default link format is `\https://<ThoughtSpot-Host>/#/pinboard/{object-id}`. You can customize this format to generate a link that represents the objects in your host application context. For example, if your host application is `www.mysite.com`, you can configure this link format  as shown here:
 +
 ----
-https://www.mysite.com/liveboard/{object-id}
+https://www.mysite.com/liveboard/{object-id}?{ts-query-params}
 ----
 +
 ----
-https://www.mysite.com/?liveboard={object-id}
+https://www.mysite.com/?liveboard={object-id}?{ts-query-params}
 ----
-
-+
-The link format also allows you to add {ts-query-params}.
 
 Liveboard visualization URL::
 This URL provides a link to a specific ThoughtSpot visualization in a Liveboard.
@@ -88,15 +84,16 @@ https://www.mysite.com/?liveboard={object-id}/viz={sub-object-id}
 ----
 
 +
-This link format also allows you to add {ts-query-params}. For example, if the visualization is a KPI chart and users have subscribed to receive monitor alerts, they will receive email notifications with the *Unsubscribe* link, which allows users to unsubscribe from alerts and stop receiving notifications at any time. For embedded instances, you can customize the *Unsubscribe* link by passing these parameters in the URL:
+This link format also includes `{ts-query-params}`. For example, if the visualization is a KPI chart and users have subscribed to receive monitor alerts, ThoughtSpot replaces `{ts-query-params}` with query parameters to unsubscribe a user from the monitor alert.
 
 +
 ----
-https://www.mysite.com/liveboard/{object-id}?type=ts&{ts-query-params}
+https://www.mysite.com/liveboard/{object-id}/{sub-object-id}?{ts-query-params}
 ----
+
 +
 ----
-https://www.mysite.com/liveboard/{object-id}?type=ts&ts-type=unsubscribe&ts-rule-id=<id>
+https://www.mysite.com/liveboard/{object-id}/viz={sub-object-id}?{ts-query-params}
 ----
 
 Answer sharing URL::
@@ -113,15 +110,11 @@ https://www.mysite.com/?answer={object-id}
 ----
 
 +
-This link format also allows you to add {ts-query-params}. If a user has subscribed to receive monitor alerts for a saved answer, they will receive email notifications with the *Unsubscribe* link, which allows them to unsubscribe from the alert at any time. For embedded instances, you can customize the *Unsubscribe* link by passing query parameters in the URL:
+This link format also supports `{ts-query-params}`. For example, if a user has subscribed to receive monitor alerts for a saved answer, ThoughtSpot replaces `{ts-query-params}` with query parameters to unsubscribe a user from the monitor alert.
 
 +
 ----
-https://www.mysite.com/saved-answer/{object-id}?type=ts&{ts-query-params}
-----
-+
-----
-https://www.mysite.com/?answer={object-id}?type=ts&ts-type=unsubscribe&ts-rule-id=<id>
+https://www.mysite.com/saved-answer/{object-id}?{ts-query-params}
 ----
 
 SpotIQ analytics page::
@@ -165,7 +158,7 @@ To verify if the links are generated in the format you configured, share a Liveb
 * If you are using an embedded instance, click **Copy link** in the **More** menu image:./images/icon-more-10px.png[the more options menu]  to check if the Liveboard URL is generated in the customized format.
 
 +
-For example, if you customized the host name in the URL as `www.mysite.com`, ThoughtSpot generates links with the `www.mysite.com` hostname.
+For example, if you customized the hostname in the URL as `www.mysite.com`, ThoughtSpot generates links with the `www.mysite.com` hostname.
 
 * If you are using a non-embedded ThoughtSpot instance and the Liveboard or answer sharing URL format is customized, ThoughtSpot displays the *Embedded link format* checkbox. To copy the URL in the customized format, click *Embedded link format*. 
 
