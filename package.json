@@ -45,6 +45,7 @@
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
         "eventemitter3": "^4.0.7",
+        "html-react-parser": "^1.4.12",
         "mixpanel-browser": "^2.45.0"
     },
     "devDependencies": {

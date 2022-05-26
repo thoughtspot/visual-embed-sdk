@@ -1,0 +1,15 @@
+@import '../../assets/styles/variables.scss';
+
+.copy-link-header {
+    .copy-link-button {
+        background: transparent;
+        border: 0px;
+        vertical-align: text-bottom;
+        font-size: $font-size-small;
+        display: none;
+    }
+
+    &:hover .copy-link-button {
+        display: inline-block;
+    }
+}

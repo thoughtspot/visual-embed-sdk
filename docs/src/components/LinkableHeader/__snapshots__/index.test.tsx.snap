@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Linkable Header Should render the right content 1`] = `
+<div>
+  <h4
+    class="copy-link-header"
+    id="test-id"
+  >
+    Test Header Content
+    <button
+      class="copy-link-button"
+      data-hash="test-id"
+      title="Copy link"
+    >
+      🔗
+    </button>
+  </h4>
+</div>
+`;
