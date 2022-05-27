@@ -12,6 +12,7 @@ import { SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef } from './index';
 import { AuthType, init } from '../index';
 import { EmbedEvent, HostEvent } from '../types';
 import { version } from '../../package.json';
+import { mockMessageChannel } from '../test-utils';
 
 const thoughtSpotHost = 'localhost';
 
@@ -73,6 +74,7 @@ describe('React Components', () => {
     describe('LiveboardEmbed', () => {
         //
         it('Should be able to trigger events on the embed using refs', async () => {
+            mockMessageChannel();
             const TestComponent = () => {
                 const embedRef = useEmbedRef();
                 const onLiveboardRendered = () => {
@@ -109,6 +111,7 @@ describe('React Components', () => {
                         data: ['viz1', 'viz2'],
                     },
                     `http://${thoughtSpotHost}`,
+                    expect.anything(),
                 );
             });
         });

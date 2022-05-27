@@ -17,9 +17,11 @@ function postIframeMessage(
     iFrame: HTMLIFrameElement,
     message: { type: HostEvent; data: any },
     thoughtSpotHost: string,
-    channel: MessageChannel,
+    channel?: MessageChannel,
 ) {
-    return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [channel.port2]);
+    return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [
+        channel?.port2,
+    ]);
 }
 
 export function processTrigger(
@@ -34,15 +36,15 @@ export function processTrigger(
             return res(null);
         }
         const channel = new MessageChannel();
-        channel.port1.onmessage = ({ data }) => {
+        channel.port1.onmessage = ({ data: responseData }) => {
             channel.port1.close();
-            if (data.error) {
-                rej(data.error);
+            if (responseData.error) {
+                rej(responseData.error);
             } else {
-                res(data);
+                res(responseData);
             }
         };
-            
+
         return postIframeMessage(
             iFrame,
             { type: messageType, data },

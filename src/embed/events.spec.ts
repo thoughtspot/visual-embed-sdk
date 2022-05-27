@@ -1,3 +1,4 @@
+import { mockMessageChannel } from '../test-utils';
 import {
     init,
     AuthType,
@@ -70,6 +71,7 @@ describe('test communication between host app and ThoughtSpot', () => {
     });
 
     test('should trigger event to ThoughtSpot app', (done) => {
+        mockMessageChannel();
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
         setTimeout(() => {

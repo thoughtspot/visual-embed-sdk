@@ -698,7 +698,12 @@ export class TsEmbed {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+        return processTrigger(
+            this.iFrame,
+            messageType,
+            this.thoughtSpotHost,
+            data,
+        );
     }
 
     /**
