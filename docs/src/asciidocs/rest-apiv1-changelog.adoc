@@ -50,7 +50,7 @@ For more information, see xref:metadata-api.adoc#metadata-list[Get a list of met
 .New API endpoints
 [%collapsible]
 ====
-* `POST /tspublic/v1/group/{groupid}/users`
+* `POST /tspublic/v1/group/{groupid}/users`
 * `GET /tspublic/v1/group/{groupid}/users`
 * `PUT /tspublic/v1/user/email`
 * `POST /tspublic/v1/user/{userid}/groups`
@@ -146,7 +146,7 @@ For more information, see xref:user-api.adoc[user APIs].
 .Dependency API endpoints
 [%collapsible]
 ====
-* `POST /tspublic/v1/dependency/listdependents/`
+* `POST /tspublic/v1/dependency/listdependents
 * `GET /tspublic/v1/dependency/listincomplete`
 * `POST /tspublic/v1/dependency/listdependents`
 * `GET /tspublic/v1/dependency/physicaltable`
@@ -164,6 +164,7 @@ For more information, see xref:dependency-apis.adoc[Dependent objects APIs].
 ====
 * `GET /tspublic/v1/connection/types`
 * `GET /tspublic/v1/connection/list`
+
 For more information, see xref:connections-api.adoc[Connection APIs].
 ====
 
@@ -183,7 +184,7 @@ For more information, see xref:logs-apis.adoc[Log streaming service API].
 * `POST /tspublic/v1/security/shareviz`
 * `GET /tspublic/v1/session/login/token`
 * `POST /tspublic/v1/metadata/assigntag`
-* `POST /tspublic/v1/metadata/details`
+* `GET /tspublic/v1/metadata/details`
 * `POST /tspublic/v1/metadata/markunmarkfavoritefor`
 * `DELETE /tspublic/v1/metadata/markunmarkfavoritefor`
 * `POST /tspublic/v1/session/homepinboard`

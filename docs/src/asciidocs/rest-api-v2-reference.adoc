@@ -7,7 +7,6 @@
 
 The REST v2 API endpoints[beta blueBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
-
 == Session
 
 --

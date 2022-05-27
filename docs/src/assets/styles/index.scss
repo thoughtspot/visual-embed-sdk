@@ -140,11 +140,11 @@ button {
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    margin: 2px;
+    margin: 5px;
     padding: $tag-padding;
     color: var(--primary-color);
     border: solid 1px;
-    border-color: $tip-color; 
+    border-color: $tip-color;
 }
 
 
@@ -264,8 +264,6 @@ button {
 
 .tableContainer {
     border: 0.5px solid $disabledcolor;
-	height: 750px;
-	overflow-y: scroll;
 	width: 100%;
 	padding: 0 0 0 2px;
 }
