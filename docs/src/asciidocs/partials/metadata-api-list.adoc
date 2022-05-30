@@ -35,6 +35,7 @@ ThoughtSpot Software [version noBackground]#7.1.1#
 |=====
 --
 
+
 ////
 --
 `xref:metadata-api.adoc#assign-tag[*POST* /tspublic/v1/metadata/assigntag]` 

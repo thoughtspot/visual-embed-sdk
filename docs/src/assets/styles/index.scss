@@ -29,7 +29,6 @@ body {
     font-size: $font-size-normal;
 }
 
-
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -261,11 +260,17 @@ button {
 
 }
 
+.boxAuto {
+    border: 0.5px solid $disabledcolor;
+	height: auto;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
 
 .tableContainer {
     border: 0.5px solid $disabledcolor;
-	width: 100%;
-	padding: 0 0 0 2px;
+    width: 100%;
+    padding: 0 0 0 2px;
 }
 
 summary.title  {

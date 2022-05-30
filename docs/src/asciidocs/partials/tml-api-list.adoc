@@ -1,4 +1,20 @@
 
+
+[div tableContainer]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]` +
+Imports object representations in the ThoughtSpot Modeling Language (TML) format. |ThoughtSpot Cloud [version noBackground]#ts7.may.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:tml-api.adoc#export[**POST** /tspublic/v1/metadata/tml/export]` +
+Exports objects from ThoughtSpot as TML representations. |ThoughtSpot Cloud [version noBackground]#ts7.may.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|=====
+--
+////
 --
 `xref:tml-api.adoc#import[**POST** /tspublic/v1/metadata/tml/import]`
 
@@ -8,3 +24,4 @@
 
 +++<p class="divider">Exports objects from ThoughtSpot as TML representations.</p>+++
 --
+////

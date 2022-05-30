@@ -45,7 +45,7 @@ For example, when a user subscribes to monitor alerts, ThoughtSpot sends email n
 [IMPORTANT]
 ====
 * Make sure the {object-id} and {sub-object-id} variables are used only for ThoughtSpot objects. If the link format has two {object-id} variables, your application users may not receive the correct links. For example, if the link format is  `\https://www.mysite.com/?myobject-id={object-id}/liveboard-id={object-id}`, ThoughtSpot may replace both these variables with the Liveboard GUID when it generates the Liveboard link. +
-* ThoughtSpot query parameters that substitute the `{ts-query-params}` variable are prefixed with `-ts`.
+* ThoughtSpot query parameters that substitute the `{ts-query-params}` variable are prefixed with `ts-`.
 ====
 
 == Customize link format
@@ -58,7 +58,7 @@ To customize the link format, follow these steps:
 Liveboard sharing URL::
 This URL provides a link to a ThoughtSpot Liveboard object.
 +
-The default link format is `\https://<ThoughtSpot-Host>/#/pinboard/{object-id}`. You can customize this format to generate a link that represents the objects in your host application context. For example, if your host application is `www.mysite.com`, you can configure this link format  as shown here:
+The default link format is `\https://<ThoughtSpot-Host>/#/pinboard/{object-id}`. You can customize this format to generate a link that represents the objects in your host application context. For example, if your host application is `www.mysite.com`, you can configure this link format as shown here:
 +
 ----
 https://www.mysite.com/liveboard/{object-id}?{ts-query-params}
