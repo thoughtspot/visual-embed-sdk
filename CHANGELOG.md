@@ -9,6 +9,10 @@ This project follows Semantic Versioning.
 - Event for navigating to a specific page in App embed without any reload
 - Ability to turn on search assist in Search embed 
 
+## 1.11.1 (05-30-2022)
+### Fixed
+- Whitelabeling - new [action](https://developers.thoughtspot.com/docs/typedoc/enums/Action.html#ReportError) for the ability to turn off TS specific error reporting by end users.
+
 ## 1.11.0 (05-20-2022)
 - Release to support TS version 8.3.0.cl
 - Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
