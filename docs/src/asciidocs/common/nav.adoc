@@ -50,7 +50,7 @@
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Create and administer actions]
+** link:{{navprefix}}=customize-actions[Create and manage custom actions]
 ** link:{{navprefix}}=edit-custom-action[Set the position of a custom action]
 ** link:{{navprefix}}=add-action-viz[Add a local action to a visualization]
 ** link:{{navprefix}}=add-action-worksheet[Add a local action to a worksheet]
