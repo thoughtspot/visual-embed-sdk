@@ -244,7 +244,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.log(error);
+        console.error(error);
     }
 
     /**
