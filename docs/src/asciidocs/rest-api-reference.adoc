@@ -5,10 +5,13 @@
 :page-pageid: rest-api-reference
 :page-description: REST API Reference
 
+
+
+
 [div announcementBlock]
 --
-Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.0-sw (Limited Availability) releases, pinboards are rebranded as Liveboards in ThoughtSpot UI, documentation, and learning materials.
-However, for backward compatibility, the REST API v1 endpoints URLs and request and response workflows will continue to use the `pinboard` terminology.
+Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.0-sw (Limited Availability) releases, pinboards are rebranded as *Liveboards* in ThoughtSpot UI, documentation, and learning resources.
+Note that the `pinboard` terminology in REST API v1 endpoint URLs and request and response workflows are not rebranded.
 --
 
 
@@ -23,7 +26,6 @@ include::{path}/group-api-list.adoc[]
 == Session management
 
 include::{path}/session-api-list.adoc[]
-
 
 == Metadata management
 
@@ -87,4 +89,23 @@ Gets security audit logs from the ThoughtSpot system.
 ThoughtSpot Software [version noBackground]#Not applicable#
 |=====
 --
+
+== Materialization service
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]` +
+Allows you refresh a materialized view.|ThoughtSpot Cloud [version noBackground]#Not applicable# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|=====
+--
+
+== Database and schema
+
+include::{path}/database-api-list.adoc[]
+
 
