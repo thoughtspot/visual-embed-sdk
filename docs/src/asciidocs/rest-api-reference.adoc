@@ -6,8 +6,6 @@
 :page-description: REST API Reference
 
 
-
-
 [div announcementBlock]
 --
 Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.0-sw (Limited Availability) releases, pinboards are rebranded as *Liveboards* in ThoughtSpot UI, documentation, and learning resources.
@@ -107,5 +105,7 @@ ThoughtSpot Software [version noBackground]#6.0.x#
 == Database and schema
 
 include::{path}/database-api-list.adoc[]
+
+
 
 

@@ -39,7 +39,7 @@ The *Link settings* page in the Developer portal displays the default link forma
 * `{object-id}` to represent the ID of a Liveboard, answer, or the SpotIQ analyses. In the Liveboard, answer, and SpotIQ analyses links, this variable is substituted by the GUID of the object.
 * `{sub-object-id}` to represent the ID of a visualization. In Liveboard visualization links, this variable is  substituted by the GUID of the visualization.
 * `{ts-query-params}` to allow ThoughtSpot to pass query parameters in the URL.  +
-For example, when a user subscribes to monitor alerts, ThoughtSpot sends email notifications with a link to the KPI chart along with an *Unsubscribe* link to allow the user to unsubscribe from the alert at any time. When you include {ts-query-params} in the link string, ThoughtSpot passes the query parameters required for unsubscribing a user from a monitor alert. +
+For example, when a user subscribes to receive monitor alerts for a KPI chart, ThoughtSpot sends email notifications with a link to the KPI chart along with an *Unsubscribe* link to let the user unsubscribe from alerts at any time. When you include `{ts-query-params}` in the link string, ThoughtSpot passes the query parameters required for unsubscribing a user from a monitor alert. +
 
 +
 [IMPORTANT]

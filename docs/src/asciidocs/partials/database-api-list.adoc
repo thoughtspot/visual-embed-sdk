@@ -25,3 +25,7 @@ Runs TQL commands with SQL statements.|ThoughtSpot Cloud [version noBackground]#
 ThoughtSpot Software [version noBackground]#6.3.1#
 |=====
 --
+
+
+
+
