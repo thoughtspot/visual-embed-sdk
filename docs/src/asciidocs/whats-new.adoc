@@ -32,7 +32,7 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 ** `*GET* /tspublic/rest/v2/data/liveboard/querysql`
 * Admin
 ** `*PUT* /tspublic/rest/v2/admin/assignauthor`
-|[tag redBackground]#BREAKING CHANGES# a| * The method names for the following endpoints in the SDK will be changed. +
+|[tag redBackground]#BREAKING CHANGES# a| * The method names for the following endpoints will be changed in the SDK. +
 ** `/tspublic/rest/v2/user/addgroup` +
 ** `/tspublic/rest/v2/user/removegroup` +
 * The `/tspublic/rest/v2/admin/changeowner` endpoint will be renamed as `/tspublic/rest/v2/admin/changeauthor`.
