@@ -1,15 +1,14 @@
 @import '../../assets/styles/variables.scss';
 
-.copy-link-header {
-    .copy-link-button {
-        background: transparent;
-        border: 0px;
+.linkable-header {
+    .link-element {
         vertical-align: text-top;
-        font-size: $font-size-small;
+        padding-left: $padding-xs;
+        font-size: $font-size-doc;
         display: none;
     }
 
-    &:hover .copy-link-button {
+    &:hover .link-element {
         display: inline-block;
     }
 }
