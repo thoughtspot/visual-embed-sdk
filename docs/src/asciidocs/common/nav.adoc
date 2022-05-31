@@ -111,7 +111,7 @@
 
 
 ////
-
 ** link:{{navprefix}}=faqs[FAQs]
+** link:{{navprefix}}=trblshoot[Troubleshoot common issues]
 
 ////
