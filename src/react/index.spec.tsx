@@ -2,6 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { Action, EmbedEvent, HostEvent } from '../types';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -10,7 +11,7 @@ import {
 } from '../test/test-utils';
 import { SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef } from './index';
 import { AuthType, init } from '../index';
-import { EmbedEvent, HostEvent } from '../types';
+
 import { version } from '../../package.json';
 
 const thoughtSpotHost = 'localhost';
@@ -37,7 +38,7 @@ describe('React Components', () => {
                 ),
             ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
-                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
+                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
             );
         });
 
