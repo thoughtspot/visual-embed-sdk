@@ -96,7 +96,6 @@
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database APIs]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
- 
 
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 * link:{{navprefix}}=code-samples[Code samples]

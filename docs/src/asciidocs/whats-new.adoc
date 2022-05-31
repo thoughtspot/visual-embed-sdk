@@ -12,7 +12,8 @@ This page provides information about new features, enhancements, and deprecated 
 
 ==== Link customization
 
-The upcoming release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `ts-query-params` to the visualization URL and thus allow users to unsubscribe from monitor alerts at any time.
+The upcoming release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL and thus allow users to unsubscribe from KPI threashold alerts at any time.
+
 For more information, see xref:customize-links.adoc[Customize links].
 
 ==== Visual Embed SDK 1.12.0
