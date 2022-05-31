@@ -12,7 +12,7 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 The upcoming version of Visual Embed SDK supports `navigate` host event, which is triggered when a user navigates to an application page without a page reload.
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:embed-events.adoc#host-events[Interact with events].
 
 
 == Version 1.11.0, May 2022
