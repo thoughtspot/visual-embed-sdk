@@ -31,7 +31,7 @@ describe('Unit test for processTrigger', () => {
         const thoughtSpotHost = 'http://localhost:3000';
         const data = {};
         mockMessageChannel();
-        let triggerPromise = _processTriggerInstance.processTrigger(
+        const triggerPromise = _processTriggerInstance.processTrigger(
             iFrame,
             messageType,
             thoughtSpotHost,
