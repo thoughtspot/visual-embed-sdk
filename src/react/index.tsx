@@ -1,4 +1,5 @@
 import React from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import {
@@ -25,7 +26,7 @@ const componentFactory = <
                 Omit<U, 'className'>,
                 V
             >(embedProps);
-            React.useEffect(() => {
+            useDeepCompareEffect(() => {
                 const tsEmbed = new EmbedConstructor(ref!.current, {
                     ...viewConfig,
                 });
@@ -40,7 +41,7 @@ const componentFactory = <
                     // eslint-disable-next-line no-param-reassign
                     forwardedRef.current = tsEmbed;
                 }
-            }, [embedProps]);
+            }, [viewConfig]);
 
             return (
                 <div
