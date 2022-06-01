@@ -1,0 +1,14 @@
+@import '../../assets/styles/variables.scss';
+
+.linkable-header {
+    .link-element {
+        vertical-align: text-top;
+        padding-left: $padding-xs;
+        font-size: $font-size-doc;
+        display: none;
+    }
+
+    &:hover .link-element {
+        display: inline-block;
+    }
+}
