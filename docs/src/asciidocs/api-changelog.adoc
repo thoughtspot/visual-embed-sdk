@@ -10,10 +10,14 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 == Version 1.12.0, Coming soon
 
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|
 The upcoming version of Visual Embed SDK introduces the `navigate` host event, which is triggered when a user navigates to an application page without a page reload.
 
 For more information, see xref:embed-events.adoc#host-events[Interact with events].
-
+|[tag greenBackground]#NEW FEATURE# | The upcoming version of SDK includes the `getThoughtSpotPostUrlParams` method, which fetches ThoughtSpot URL query parameters prefixed with `ts-`.
+|====
 
 == Version 1.11.0, May 2022
 

@@ -96,7 +96,7 @@ What is the Visual Embed SDK?
 Too many to list here!  Check out our https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=introduction[docs].  But here are a few ideas...
 
 * You can disable or hide any action in the application and give the user a reason why.  For example, you might want to charge extra $ for the best features
-** List of all actions to disable or hide: https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/action.html[https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/action.html]
+** List of all actions to disable or hide: https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/Action.html[https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/Action.html]
 * You can hide the data panel in search and create your own, custom made for the data in your application
 * You can add runtime filters, which are like invisible filters that apply to everything in ThoughtSpot, including search, pinboards, and visualizations.
 * You can insert custom actions into the UI that trigger your own workflows and pass them ThoughtSpot data
