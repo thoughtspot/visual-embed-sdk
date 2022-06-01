@@ -46,7 +46,8 @@
         "classnames": "^2.3.1",
         "eventemitter3": "^4.0.7",
         "html-react-parser": "^1.4.12",
-        "mixpanel-browser": "^2.45.0"
+        "mixpanel-browser": "^2.45.0",
+        "use-deep-compare-effect": "^1.8.1"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
