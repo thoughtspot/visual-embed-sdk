@@ -41,7 +41,7 @@ const componentFactory = <
                     // eslint-disable-next-line no-param-reassign
                     forwardedRef.current = tsEmbed;
                 }
-            }, [viewConfig]);
+            }, [viewConfig, listeners]);
 
             return (
                 <div
