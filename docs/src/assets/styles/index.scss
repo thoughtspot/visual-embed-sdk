@@ -29,7 +29,6 @@ body {
     font-size: $font-size-normal;
 }
 
-
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -140,11 +139,11 @@ button {
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    margin: 2px;
+    margin: 5px;
     padding: $tag-padding;
     color: var(--primary-color);
     border: solid 1px;
-    border-color: $tip-color; 
+    border-color: $tip-color;
 }
 
 
@@ -202,6 +201,16 @@ button {
 
 /* Div box style start */
 
+.announcementBlock {
+    border: 0.5px solid $disabledcolor;
+    font-color: var(--announcement-font-color);
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    padding: $padding-sm $padding-sm $padding-sm $padding-md;
+    background-color: var(--announcement-block-color);
+    }
+
 .boxDiv {
     padding: 15px;
     display: inline-block;
@@ -251,6 +260,12 @@ button {
 
 }
 
+.boxAuto {
+    border: 0.5px solid $disabledcolor;
+	height: auto;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
 
 .tableContainer {
     border: 0.5px solid $disabledcolor;

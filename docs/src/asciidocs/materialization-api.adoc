@@ -1,0 +1,69 @@
+= Materialization API
+:toc: true
+:toclevels: 1
+
+:page-title: Materialization API
+:page-pageid: materialization-api
+:page-description: Materialization API allows you to refresh a materialized view
+
+
+[div announcementBlock]
+--
+The `/tspublic/v1/materialization/refreshview/{id}` API endpoint is applicable to ThoughtSpot Software deployments only.
+--
+
+The materialization API allows you to synchronize a view's data with the latest data. This API enables you to refresh a materialized view to synchronize its data with the latest data load to the underlying tables.
+
+You may want to invoke this API in the following scenarios:
+
+* When the status of a materialized view is `Stale` (out of sync) due to an incremental data load
+* When the status of a materialized view is `Error` due to an error that occurred
+
+[IMPORTANT]
+====
+If your materialized view refreshes on a schedule, you cannot use the materialization API to refresh it again during the same refresh window.
+====
+
+== Resource URL
+----
+POST /tspublic/v1/materialization/refreshview/{id}
+----
+== Request Parameters
+
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Path Parameter|Description
+|`id` |__String__. The GUID of the metadata object.
+|===
+
+== Request Example
+
+.cURL
+----
+curl -X POST \
+--header 'Content-Type: */*' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60
+----
+
+== Response Example
+
+----
+Not applicable
+204 - Refresh submitted
+----
+
+== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|*204*|Successful operation
+|*400*|Invalid parameter values
+|*500*|The specified view is not materialized or the materialized view is not stale
+|===

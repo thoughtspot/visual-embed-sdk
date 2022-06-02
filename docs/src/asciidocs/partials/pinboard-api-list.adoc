@@ -1,3 +1,22 @@
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]` +
+Downloads a Liveboard or specific visualizations from a Liveboard as a PDF file.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  +
+Gets Liveboard object data from the ThoughtSpot application.|
+ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|=====
+--
+
+
+////
 --
 `xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]`
 
@@ -8,3 +27,5 @@
 +++<p class="divider">Gets Liveboard object data from the ThoughtSpot application.<p>+++
 
 --
+
+////

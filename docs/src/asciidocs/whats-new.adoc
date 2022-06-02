@@ -8,6 +8,37 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Coming soon
+
+==== Link customization
+
+The upcoming release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL and thus allow users to unsubscribe from KPI threshold alerts at any time.
+
+For more information, see xref:customize-links.adoc[Customize links].
+
+==== Visual Embed SDK 1.12.0
+
+The Visual Embed SDK version 1.12.0 introduces new events. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+
+==== REST API v2 [beta blueBackground]^BETA^
+
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW ENDPOINTS#  a| The upcoming release introduces the following new REST v2 [beta blueBackground]^BETA^ endpoints: +
+
+* Data +
+** `*GET* /tspublic/rest/v2/data/answer/querysql` +
+** `*GET* /tspublic/rest/v2/data/liveboard/querysql`
+* Admin
+** `*PUT* /tspublic/rest/v2/admin/assignauthor`
+|[tag redBackground]#BREAKING CHANGES# a| * The method names for the following endpoints will be changed in the SDK. +
+** `/tspublic/rest/v2/user/addgroup` +
+** `/tspublic/rest/v2/user/removegroup` +
+* The `/tspublic/rest/v2/admin/changeowner` endpoint will be renamed as `/tspublic/rest/v2/admin/changeauthor`.
+|====
+
+
 == Version 8.3.0.cl
 
 ==== Visual Embed SDK 1.11.0

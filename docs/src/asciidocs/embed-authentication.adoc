@@ -260,7 +260,9 @@ import { logout } from "@thoughtspot/visual-embed-sdk";
 logout();
 ----
 
-The `logout` function returns a promise that resolves when the user is logged out of ThoughtSpot. When you call `logout`, the `autoLogin` attribute is set to `false` to prevent the SDK from automatically logging in the user again. To re-login a user, call `init` again with the  `autoLogin` property set to `true`. 
+The `logout` function returns a promise that resolves when the user is logged out of ThoughtSpot. When you call `logout`, the `autoLogin` attribute is set to `false` to prevent the SDK from automatically logging in the user again. If you do not want to disable `autoLogin`, set the `doNotDisableAutoLogin` parameter to `false`.
+
+You can also call `init` again with the `autoLogin` property set to `true` to re-login a user.
 
 [#embed-session-sec]
 == Session security and login attributes

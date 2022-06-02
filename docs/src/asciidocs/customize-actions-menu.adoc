@@ -1,4 +1,4 @@
-= Overview
+= Create and manage custom actions
 :toc: true
 :toclevels: 1
 
@@ -12,8 +12,8 @@ The custom actions feature in ThoughtSpot allows users to push data to external 
 --
 +++<h5>Feature highlights</h5>+++
 
-* Custom actions are created in the **Develop** tab.
-* Only users with developer or admin privileges can create custom actions.
+* You can create custom actions in the **Develop** tab.
+* Users with developer or admin privileges can create custom actions.
 * Developers can limit a custom action's availability to a specific user group.
 * Developers or administrators can set an action as a **Global** or **Local** action.
 * Global actions appear as menu actions on all visualizations.

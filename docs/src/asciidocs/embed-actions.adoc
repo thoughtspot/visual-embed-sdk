@@ -540,4 +540,4 @@ Publishes the modified TML representation of an answer.
 
 == Additional resources
 
-For a complete list of action enumerators, see link:{{visualEmbedSDKPrefix}}/enums/action.html[Action, window=_blank].
+For a complete list of action enumerators, see link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].

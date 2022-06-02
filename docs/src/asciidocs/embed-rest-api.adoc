@@ -29,6 +29,12 @@ To get the embed link for a visualization:
 [.widthAuto]
 image::./images/copy_link.png[Copy link, width=auto]
 
++
+[NOTE]
+====
+The *Copy embed link* menu action is available only if Classic Liveboard experience is enabled on your instance.
+====
+
 . Note the GUID of the object.
 . Copy the embed link.
 +

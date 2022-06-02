@@ -254,15 +254,14 @@ POST /tspublic/rest/v2/session/gettoken
 Allows access to the entire ThoughtSpot application. When a token has been requested in `FULL` mode, it will create a full ThoughtSpot session in the browser and application. The token for `Full` access mode persists through several sessions and stays valid until it expires.
 
 * `REPORT_BOOK_VIEW` +
-This option is not supported in 8.2.0.cl release.
+Allows view access to the object specified in `tsObjectId`. The user can access only one object at a time. If the user requires access to another object, a new token request must be sent.
+
+|`tsObjectId`| __String__. The GUID of the Liveboard or visualization.
+This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
 |`tokenExpiryDuration`  __Optional__|__String__. Duration in seconds after which the authorization token expires. By default, the token is valid for 24 hours. If a new `secret_key` is generated, the token will become invalid despite the token expiry value set in this attribute. 
 |====
 
-////
-|`tsObjectId`| __String__. The GUID of the Liveboard or answer.
-This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
-////
 
 === Example request
 
