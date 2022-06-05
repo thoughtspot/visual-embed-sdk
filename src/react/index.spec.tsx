@@ -7,12 +7,12 @@ import {
     getIFrameEl,
     getIFrameSrc,
     postMessageToParent,
+    mockMessageChannel,
 } from '../test/test-utils';
 import { SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef } from './index';
 import { AuthType, init } from '../index';
 import { EmbedEvent, HostEvent } from '../types';
 import { version } from '../../package.json';
-import { mockMessageChannel } from '../test-utils';
 
 const thoughtSpotHost = 'localhost';
 

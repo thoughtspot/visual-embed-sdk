@@ -1,4 +1,3 @@
-import { mockMessageChannel } from '../test-utils';
 import {
     init,
     AuthType,
@@ -16,6 +15,7 @@ import {
     getIFrameEl,
     getRootEl,
     getRootEl2,
+    mockMessageChannel,
     postMessageToParent,
 } from '../test/test-utils';
 import { LiveboardViewConfig } from './liveboard';

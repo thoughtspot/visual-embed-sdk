@@ -1,6 +1,6 @@
 import * as _processTriggerInstance from './processTrigger';
 import { HostEvent } from '../types';
-import { messageChannelMock, mockMessageChannel } from '../test-utils';
+import { messageChannelMock, mockMessageChannel } from '../test/test-utils';
 
 describe('Unit test for processTrigger', () => {
     const iFrame: any = {
