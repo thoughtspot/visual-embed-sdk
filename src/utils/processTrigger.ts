@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../errors';
 import { HostEvent } from '../types';
 
 /**
@@ -24,6 +25,8 @@ function postIframeMessage(
     ]);
 }
 
+const TRIGGER_TIMEOUT = 30000;
+
 export function processTrigger(
     iFrame: HTMLIFrameElement,
     messageType: HostEvent,
@@ -44,6 +47,12 @@ export function processTrigger(
                 res(responseData);
             }
         };
+
+        // Close the messageChannel and resolve the promise if timeout.
+        setTimeout(() => {
+            channel.port1.close();
+            res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
+        }, TRIGGER_TIMEOUT);
 
         return postIframeMessage(
             iFrame,
