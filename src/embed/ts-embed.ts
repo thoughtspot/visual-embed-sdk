@@ -694,15 +694,16 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(
-        messageType: HostEvent,
-        data: any,
-    ): typeof TsEmbed.prototype {
-        processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+    public trigger(messageType: HostEvent, data: any): Promise<any> {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-        return this;
+        return processTrigger(
+            this.iFrame,
+            messageType,
+            this.thoughtSpotHost,
+            data,
+        );
     }
 
     /**

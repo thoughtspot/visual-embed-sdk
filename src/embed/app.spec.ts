@@ -7,6 +7,7 @@ import {
     getIFrameSrc,
     getRootEl,
     getIFrameEl,
+    mockMessageChannel,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -198,6 +199,7 @@ describe('App embed tests', () => {
         });
 
         test('navigateToPage with noReload should trigger the appropriate event', async () => {
+            mockMessageChannel();
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -216,6 +218,7 @@ describe('App embed tests', () => {
                     data: path,
                 }),
                 `http://${thoughtSpotHost}`,
+                expect.anything(),
             );
 
             appEmbed.navigateToPage(-1, true);
@@ -225,6 +228,7 @@ describe('App embed tests', () => {
                     data: -1,
                 }),
                 `http://${thoughtSpotHost}`,
+                expect.anything(),
             );
         });
 
