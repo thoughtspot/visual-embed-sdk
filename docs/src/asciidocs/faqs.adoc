@@ -1,0 +1,451 @@
+= Frequently Asked Questions
+:toc: true
+:toclevels: 1
+
+:page-title: Frequently asked questions
+:page-pageid: faqs
+:page-description: Answers for common questions on ThoughtSpot Everywhere
+
+
+[div announcementBlock]
+--
+This page lists some of the frequently asked questions on ThoughtSpot Everywhere. For a comprehensive list of FAQs, visit the link:https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers?tabset-80a3b=2[Community site, window=_blank].
+--
+
+== About ThoughtSpot Everywhere
+
+.What is ThoughtSpot Everywhere?
+[%collapsible] 
+====
+ThoughtSpot Everywhere is a low-code embedded analytics platform with several features that significantly enhance the embedding experience:
+
+* SDK and APIs for quick and easy embedding experience
+* A developer portal with the following functions:
+** Interactive developer Playgrounds to explore Visual Embed SDK and REST API features
+** Customization controls for the embedded view
+** Advanced security settings 
+====
+
+.What features are available with ThoughtSpot Everywhere?
+[%collapsible] 
+====
+ThoughtSpot Everywhere provides access to Visual Embed SDK, which you can use to embed ThoughtSpot Search, Liveboards, visualizations, or the full ThoughtSpot experience in your app.
+
+For a complete list of features, see xref:feature-matrix-license.adoc[Feature matrix and license types].
+====
+
+.Is ThoughtSpot Everywhere available by default on ThoughtSpot Cloud instances?
+[%collapsible] 
+====
+To avail the benefits of ThoughtSpot Everywhere features, you must purchase your license. For more information, see xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere].
+====
+
+.Can I preview the SDK and APIs? 
+[%collapsible] 
+====
+Yes. You can explore Visual Embed and REST API SDK features and preview the coding experience in the link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere[developer Playground on the public site, window=_blank].
+
+* The Visual Embed Playground allows you to embed ThoughtSpot in a sample app and view results instantly
+* The REST API playground allow you to make REST calls and view the request and response workflow
+====
+
+.How do I sign up for a free trial?
+[%collapsible] 
+====
+To sign up for a 30-day free trial, click *Free Trial* on the link:https://developers.thoughtspot.com/[ThoughtSpot developers website] and load your data. For a complete list of features of available for free trial, see xref:feature-matrix-license.adoc[Feature matrix and license types].
+====
+
+.Is ThoughtSpot Everywhere available to ThoughtSpot Software customers?
+[%collapsible] 
+====
+Starting from 8.4.0-sw (Limited availability) release, customers with license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
+====
+
+.Do I need ThoughtSpot Everywhere for customizing and rebranding my ThoughtSpot instance?
+[%collapsible] 
+====
+If you want to rebrand UI elements, customize fonts and color scheme of your charts, you can use the *Style customization* functionality available in the *Develop* or *Admin* tab. This option is available on all instances and doesn't require a ThoughtSpot Everywhere license.
+
+However, for advanced customization controls, we recommend that you use ThoughtSpot Everywhere. For more information, contact ThoughtSpot Support.
+====
+
+
+== Embedding methods
+
+.How do I embed ThoughtSpot?
+
+[%collapsible]
+====
+* The entire application, or any page inside of it
+* Search page
+* Pinboards
+* Individual visualizations from a Pinboard
+====
+
+What is the Visual Embed SDK?
+
+* It’s a https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=visual-embed-sdk[Javascript library] that makes it super easy to embed ThoughtSpot web components into your web app.
+
+===== Can I use my own charting engine (D3, etc.)?
+
+* Yes, ThoughtSpot has two services, the Search Data REST API and the Pinboard Data REST API, that allow you to pull data from ThoughtSpot that can then be rendered using your own charting engine.
+* But ask them: What are you looking for? ThoughtSpot has a wide variety of chart types, and they will get the full feature set by embedding the ThoughtSpot visual vs. simply pulling data to put into another charting library
+
+===== What kinds of customizations can I do with the Visual Embed SDK?
+
+Too many to list here!  Check out our https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=introduction[docs].  But here are a few ideas...
+
+* You can disable or hide any action in the application and give the user a reason why.  For example, you might want to charge extra $ for the best features
+** List of all actions to disable or hide: https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/Action.html[https://docs.thoughtspot.com/visual-embed-sdk/dev/typedoc/enums/Action.html]
+* You can hide the data panel in search and create your own, custom made for the data in your application
+* You can add runtime filters, which are like invisible filters that apply to everything in ThoughtSpot, including search, pinboards, and visualizations.
+* You can insert custom actions into the UI that trigger your own workflows and pass them ThoughtSpot data
+
+===== Can I make visualizations, pinboards, or search publicly available?
+
+* You can make your cluster available on the Internet and give rights to view objects you want to be public to a service account that public users will be logged in as automatically by your parent app.  Using the Visual Embed SDK and trusted auth would be the most common config for this.
+* Making individual visualizations or pinboards publicly available without the above service account setup is on the roadmap.
+
+===== When I use the PinboardEmbed class it’s missing things that pinboards have in the regular app, such as the pinboard title, pinboard description, favorite button, and many actions. I want those things, how do I get them?
+
+* You can use the AppEmbed class, set the path variable to the Pinboard you want to embed, and remove the actions you don’t want with the SDK.  Long term, we will make the PinboardEmbed class a superset of what is possible with the pinboard in AppEmbed, the same way we have made SearchEmbed a superset of what is available with Search in AppEmbed.  But we want to wait for Pinboard V2 to GA to do this.
+
+*When I set a Runtime filter on a Pinboard, for a Field that already has a Filter (visible in the top filter bar), I don’t see the Filter update in the bar?*
+
+* Runtime filters do not show up in the Filter bar, but are applied
+
+*If there is already a Filter on a Field, and then I set a Runtime Filter, what happens?*
+
+* Runtime filters are applied separately from the visible Pinboard filters, so both conditions must be true when combined together as an AND for data to appear
+* Ex. If “Store Region” is set to “west, southwest” in the Pinboard filter, and you set Runtime Filter of “Store Region” : [‘east’], you will get *No data found* because the total filter condition, which cannot ever be true, is: Store Region IN (‘west’, ‘southwest’) AND Store Region = ‘east’
+
+*Can I embed ThoughtSpot into a 3rd party app that I don’t control?  Eg Salesforce*
+
+* Yes, but this is not our best ThoughtSpot Everywhere use case, #heading=h.vffj1cz423vl[see details here]
+* The 3rd party app must allow iFrame embedding and have a place for us to enter our iFrame URL
+* The only way to do authentication is SSO.  If the 3rd party app has SSO configured, then we can piggy back on that.  If it doesn't, then when ThoughtSpot opens, the user will be presented with the login screen and have to login to ThoughtSpot inside the 3rd party app, which is not a great experience.
+* *Salesforce* embedding should not be considered a ThoughtSpot Everywhere deal, but https://drive.google.com/file/d/12CN4TlTvmes42EK9d-xuZVkc7Machdwi/view?usp=sharing[https://drive.google.com/file/d/12CN4TlTvmes42EK9d-xuZVkc7Machdwi/view?usp=sharing] is a set of instructions for basic embedding, including SAML SSO. Anything more complex, like dynamic listings of content via REST API or embedding Search, would be a much bigger project and should involve professional services or a partner.
+
+== AUTHENTICATION/ACCESS CONTROL/SECURITY
+
+===== What authentication types does ThoughtSpot support?
+
+* SAML-based SSO (Okta, AD SSO, etc.)
+* Trusted token authentication
+* ThoughtSpot API authentication (for development purposes only)
+
+===== Can SSO users go straight to the IdP login page?
+
+* Yes.  By default users will see the ThoughtSpot login with a link to log in via SSO.  However, you can set to auto-redirect with the following command: tscli --adv service add-javaopt tomcat.tomcat D orion.samlConfiguration.samlLoginPageRedirect true
+* Note: a JIRA has been created to set in the UI: https://thoughtspot.atlassian.net/browse/SCAL-82917[https://thoughtspot.atlassian.net/browse/SCAL-82917]
+* IdP must also be configured to allow authentication from within an iframe for this workflow to work “smoothly”. It’s something to have your contacts ask of whoever manages their IdP, and it may take a discussion of why it is safe to do.
+
+===== Can I use the Visual Embed SDK for authentication?
+
+* Yes all three login methods mentioned above are supported via the Visual Embed SDK
+
+===== Can I sync users and groups with ThoughtSpot from Active Directory?
+
+* Yes.  ThoughtSpot has a Python script that can be run to sync from Active Directory.
+
+===== Can I sync users and groups from other sources (ie-a custom application?)
+
+* ThoughtSpot provides a REST API that you can use to sync users and groups.
+
+===== How do I limit what data users can see?
+
+* ThoughtSpot uses user and group sharing to share content (worksheets, pinboards, etc.) with users and groups.
+* ThoughtSpot has group-based row-level and column-level security that can limit access down to the individual cell and user.
+
+===== Can I control which features are available to users / customers?
+
+* Yes, every feature in the action (3 dot) menus and the buttons to the left of those menus can be disabled or hidden via the Visual Embed SDK, and you can provide a custom reason why in a hover over tooltip
+*[Follow up] Is that secure?*
+
+** Critical actions such as which users can view and edit objects are secured by an additional backend security system and cannot be modified via frontend Javascript edits
+
+===== Can I disable Onboarding for new users?
+
+* Yes, to disable Business User onboarding you can set the global flag: tscli --adv service add-javaopt tomcat.tomcat D orion.showOnboarding false
+* To disable Analyst onboarding you can set the global flag: tscli --adv service add-javaopt tomcat.tomcat D orion.analystOnboardingConfig.enabled false
+
+===== Can I sync groups with SAML?
+
+* Yes, as of 6.3.1 andhttp://ts7.mar.cl/[ ts7.mar.cl] you can get a user’s groups in the SAML assertion.  You will need to have SAML configured and set the flag to specify the attribute.  You can also do a group mapping from SAML to ThoughtSpot.  See https://thoughtspot.atlassian.net/wiki/spaces/callosum/blog/2021/04/08/1750958158/Configure+SAML+group+mapping[https://thoughtspot.atlassian.net/wiki/spaces/callosum/blog/2021/04/08/1750958158/Configure+SAML+group+mapping] for details.
+* Flag to enable in ThoughtSpot: tscli --adv service add-javaopt tomcat.tomcat D orion.samlConfiguration.samlGroupAttributeKey roles
+* Flag to turn on groups: tscli --adv service add-javaopt tomcat.tomcat D orion.samlConfiguration.updateUserGroupsFromSAML true
+* Flag to map groups: tscli --adv service add-javaopt tomcat.tomcat D orion.samlConfiguration.groupMapping "{'TestGroup03': 'Administrator', 'TestGroup02': 'Analyst'}"
+
+===== My application doesn’t store users, each one of our customers has their own IDP.  Can you support that?
+
+* Most IDPs support federation (Okta, Ping, Auth0, etc) so they should be able to use their own IDP to federate to all the customer IDPs and configure their single IDP that is doing the federation as the IDP in ThoughtSpot.
+* If their Web App already handles all the various SAML IdPs, and has access to the Username, then using Trusted Authentication between the the Web Application and the ThoughtSpot Server may be the simplest implementation
+** The Web App would use the TS REST API to Sync Users / Add them to Groups
+** When user logs in via SAML to the Web App, Web App requests Token to log the user into TS
+
+===== Can I support “public” content where anyone can access TS?
+
+* Yes, you can embed using a common / system account and https://docs.thoughtspot.com/7.0/app-integrate/embedding-viz/trusted-authentication.html[trusted authentication ](to avoid sharing credentials).  Note that this should not be used for saving state, such as saving answers.
+
+===== The Visual Embed SDK seems insecure because it’s on the front end and developers can see the calls and mess around with them.  Couldn’t they, for example, remove a runtime filter and see more data?
+
+* Technically skilled users could change runtime filters or other restrictions created with the Visual Embed SDK. The SDK is great for customizing the user experience, but it is not intended for security.  That’s why there are also backend security systems in TS that protect against this.
+* RLS and object access rights (such as edit and view privileges on pinboards, answer and worksheets) cannot be manipulated by changing the front end calls.  So if data needs to be restricted for security purposes, RLS and object access rights can be used to do this.  Also, the Search Data and Pinboard Data REST APIs are server side and can be used to query ThoughtSpot without the Visual Embed SDK.
+
+
+== CUSTOMER DATA SEPARATION/’MULTI-TENANCY’
+
+===== How can I make sure my customers don’t see each other’s data?
+
+* You can assign customers to groups and use this in conjunction with RLS to keep your customers’ data separated even though it’s all in the same database.  This is the best way to separate customer data.  The best customer facing document of this is in our docs https://developers.thoughtspot.com/docs/?pageid=multi-tenancy-best-practices[here]
+
+===== I’m using row-level security to control tenant access to data.  How do I automatically add new users to the right tenant?
+
+* Typically this is handled using row-level security and groups.  You would create row-level security rules on the tables to be secured, for example, tenant_id = ts_groups.  This rule restricts users to only seeing the data rows for their tenants and assumes there is a column that has a tenant id.  Once the rule is configured, simply add new users to the group using the user/sync API and the rule would be applied to the user.
+
+===== I have a separate database for the data for each customer. How can I keep my customer’s data separate in a manageable way?
+
+* You can create different worksheets and pinboards for each customer.  In April Cloud we released a https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=tml-api[new TML API] that lets you import and export data for these objects. So the customer can create these objects programmatically by using TML from master worksheets and pinboards as templates, which makes this manageable even with a large number of customers. They can keep all this TML code in Github or wherever they keep their code.
+* May Cloud allows you to create new Tables via TML Import. The Connection must exist already (added through the UI), but any amount of Tables can be added on that Connection
+** Table Import is Disabled by default, you must enable with tscli:
+*** tscli --adv service add-javaopt tomcat.tomcat D orion.allowEDocWriteToDatabase true
+** Explain that due to Connection security, we require the Connections be intentionally created / updated in the UI by someone with trust to have the credentials. Please note any requests for programmatic / API way to add / update Connections.
+** Process for programmatic TML Import/Export https://try.thoughtspot.cloud/#/develop/documentation/en/?pageid=tml-api[*https://try.thoughtspot.cloud/#/develop/documentation/en/?pageid=tml-api]*
+*** Download (export) through *REST API *
+*** Change the Document *“in memory” through programming* (no files written to disk)
+*** Upload (import) through *REST API *
+** Ask Bryant Howell if you need a Python library example for doing this process.
+
+===== RLS is not working, how do I fix it?
+
+* Try setting the cluster flag orion.dataGenRules.includeAllSecuredTables = true.
+*[Follow up] OK it works now, but not on the REST API*
+
+* Try setting the cluster flag tscli --adv service add-javaopt tomcat.tomcat D orion.publicApiDataGenRules.includeAllSecuredTables true
+*[Follow up] OK that works too but not on Sage / Explore suggestions*
+
+* RLS only works on suggestions if it’s applied on the table the suggestion is from.  It will not propagate through worksheet joins like it does for queries.  Are you sure the RLS rules are on the table that the suggestion is from?  Here’s a https://drive.google.com/file/d/1efhAdHRKPYvA1SoD3oZ3RRqmkesYHsqM/view?usp=sharing[video] describing how to do this.
+===== I want to use my worksheet joins with RLS
+
+* Set the cluster flag tscli --adv service add-javaopt tomcat.tomcat D orion.dataGenRules.disableJoinTypeRulesForRLS true
+*Customer is concerned about UI features that reveal users and groups to each other?*
+
+* One option is to *Turn Off Social Proof* on the TS Server. This removes the highlighted portion:
+
+
+== DATA CONNECTIVITY/LOADING
+
+
+===== Can I query my application data store such as Postgres or MongoDB or MySQL?
+
+* No, and that’s not a good idea for performance reasons.  Those are OLTP databases that are optimized for write, not read.  If you send lots of queries to them, the data will take forever to load, it will slow the whole application down as you strain the database, and you will generate large compute bills.  You should ELT your data to your cloud data warehouse and query it there, which you can be doing in minutes with ThoughtSpot.  Long form article about this https://fivetran.com/blog/why-you-shouldnt-use-postgres-data-warehouse[here].
+*[Follow up] I don’t have a cloud data warehouse*
+
+* Run away from this customer / prospect.  This is not a good use of your time.
+
+===== Can end customers (customers of our customers) load their own data?
+
+* Not unless our direct customer wants to make them an account on the non embedded cluster and let them do it there.  Data can only be loaded in the non-embedded product.
+
+== STYLING
+
+===== Can I change the look and feel of ThoughtSpot?
+
+* ThoughtSpot provides style modifications out of the box that allow you to change colors and fonts at a system level and apply your logo to the site and to PDFs.
+
+===== I’m an OEM, can I have a separate style for each of my customers?
+
+* Currently, system-level changes would apply to all customers and usually reflects your company’s style.
+
+===== Can I control the layout of content in a Pinboard?
+
+* Pinboards are rendered with the layout they were created with but are responsive for different screen sizes.
+* Individual visualizations can be embedded separately on a single page of your application, which gives you deep control of the layout.
+
+===== Can I remove ThoughtSpot branding?
+
+* All ThoughtSpot branding except for the Powered by ThoughtSpot logo can be removed
+*[Follow up] I want to remove the Powered by ThoughtSpot logo*
+
+* This requires approval from Sumeet and is something we will only do in exchange for something of significant value.  Please escalate to Spencer if you want to pursue this.
+
+*Can I use a custom domain with a TS Cloud cluster?*
+
+* Currently, the solution (effectively Early Access only - a simplified approach is in progress) that we have available to enable custom domains for TS Cloud clusters is this:
+Supposing the deployed cluster is example.thoughtspot.cloud and the desired domain is analytics.example.com.
+* Customer sets a CNAME DNS record at with their DNS provider (For example.com , this might look like this - analytics IN CNAME example.thoughtspot.cloud).
+* Customer provides a ThoughtSpot with a TLS/SSL certificate and private key that is scoped to the desired custom domain. This will need to be obtained from the customer’s TLS/SSL certificate authority of choice. (Ex. analytics.example.com - we cannot accept wildcard cert/key pairs due to liability concerns and cert and key should be in unencrypted PEM format).
+* ThoughtSpot’s team installs the cert/key pair in the loadbalancer for the target cluster and sets a rule to allow the custom domain to route appropriately.
+* Once complete, the cluster is accessible, securely, through the custom domain.
+
+===== Can I remove the ThoughtSpot logo from generated PDFs?
+
+* Yes.  If you have your own logo (large logo in settings) then that will be displayed as the primary logo in PDFs.  By default the ThoughtSpot logo is also shown at the bottom of the title page.  However, this logo can be disabled using the command: tscli --adv service add-javaopt tomcat.tomcat D orion.exportConfig.disableTSBrandingInPDF true
+
+===== Can I customize the emails that get sent out to be from my company?
+
+* You can set SMTP
+** tscli smtp set-relayhost --force FORCE email-smtp.{{ region }}.amazonaws.com:587
+** tscli smtp set-saslcredentials
+** tscli smtp set-mailfromname
+** tscli smtp set-mailname
+** tscli smtp set-canonical-mapping [-h] new_key new_value
+* You can set who the emails are from
+** Welcome emails
+*** tscli --adv service add-javaopt tomcat.tomcat D orion.emailConfig.welcomeEmailConfig.fromEmail "ThoughtSpot Administrator <contact@your_domain>"
+*** tscli --adv service add-javaopt tomcat.tomcat D emailConfig.welcomeEmailConfig.fromEmail "ThoughtSpot Administrator <contact@your_domain>"
+** Scheduled pinboards
+*** tscli --adv service add-javaopt tomcat.tomcat D orion.emailConfig.fromEmail "Shubham Jaiswal <mailto:no-reply@notification.thoughtspot.com[no-reply@notification.thoughtspot.com]>"
+** On TS Cloud the SRE team can do this for you but the customer will have to receive an email from Amazon saying its OK. If you change configs to the customer domain without updating Amazon the email will be blocked. More details https://thoughtspot.atlassian.net/wiki/spaces/SRE/pages/2004124023/TS-Cloud+Email+WhiteLabeling[here]
+
+== MOBILE
+
+===== Can I embed in my mobile web site / mobile app?
+
+* You can use the ThoughtSpot branded mobile app, although it can’t be white labeled / customized yet
+* You can use the REST API to pull data out of ThoughtSpot and build your own mobile web / app UI with ThoughtSpot data in it
+* Mobile is not yet supported with the Visual Embed SDK but it is on the roadmap (hopefully late Q4 but no promises)
+
+== REST API
+
+===== What is the REST API?
+
+* The REST API allows you to send API requests directly to the ThoughtSpot server from your server or application client.  You can use it to query the data, manage users and groups, manage objects via TML, generate PDFs, and more.
+
+===== What’s the difference between the REST API and the Visual Embed SDK?
+
+* The Visual Embed SDK is specifically for embedding ThoughtSpot web components into your web app, such as Search, Pinboards, and Visualizations.
+
+== CUSTOM ACTIONS/AUTOMATION
+
+===== What are custom actions?
+
+* Custom actions allow you to insert custom buttons and menu items into ThoughtSpot’s UI that pass ThoughtSpot data to code you control, in your parent app or to a URL you provide.
+* This allows your users to find insights in ThoughtSpot data and trigger actions to get work done without leaving your app.
+
+===== Are custom actions only usable when ThoughtSpot is embedded?
+
+* No, they can also be used in ThoughtSpot when it’s not embedded if they are set to hit a URL.  Custom actions with callbacks can only be used when ThoughtSpot is embedded because there needs to be a parent app for the callback to live in.
+
+===== Can I trigger custom actions programmatically?
+
+* You can call the Pinboard Data REST API and the Search Data REST API to pull data out of ThoughtSpot, read it, and then take action on it conditionally based on the results.  For example, you could send a programmatic query to read Sales last week and then send an email if they were over or under a certain threshold.
+
+===== Can I set up automation without writing code?
+
+* Yes, you can use the Scheduled Pinboards feature to have Pinboard PDFs sent automatically to any user or email address at a specified time interval or when a threshold is met using formulas.  We will invest more in this area as well.
+
+===== Can I use custom actions to connect to 3rd party applications without writing code to connect to those applications?
+
+* This is on the roadmap.  Today you can do this, but you have to write the code to connect to the third party app, but it’s not hard, check out this Clover Bank example which sends out a survey using Survey Monkey.
+
+===== Can I write back to my cloud data warehouse?
+
+* Yes, you can use custom actions to trigger your application or a URL with the data the user is looking at and then write code there to do the writeback.
+*[Follow up] Can I do it without writing code?* +
+See above answer - it’s on the roadmap
+
+===== Can I pass authentication information with custom action URLs?
+
+* Yes this is in June Cloud. Note this info is passed in the front end so customers should not put ultra sensitive password info in these actions as technically skilled users who have authenticated with ThoughtSpot will be able to see it.
+
+===== Can I pass key / value pairs as parameters with custom action URLs?
+
+* Yes this is in July Cloud
+
+===== All my custom actions appear in every menu.  How can I limit where custom actions appear in the UI?
+
+* Yes, you can create Custom actions, uncheck the box to show them everywhere, and then add them to the answers / vizzes / worksheets you want them to be on. You can also use the Visual Embed SDK to hide them where you don’t want to see them.  Making them appear conditionally based on which columns are in the data the user is looking at or based on which groups they are in is on the roadmap.
+
+===== What if I have more than 5000 rows of data in a table, can I send it all to a custom action?
+
+* As of July Cloud, you can fetch pages of data from the backend in answers. This is on the roadmap for pinboard vizzes.
+
+===== I want additional columns to be provided to my application / URL from ThoughtSpot custom actions
+
+* ThoughtSpot passes the data that the user is looking at when they trigger the action.  If you need additional data, try using the data that you do get in the custom action to call the Search Data REST API and get the rest of the data that you need
+
+
+== TECHNICAL QUESTIONS/DOCUMENTATION
+
+
+===== Can I see the documentation?
+
+* Yes the docs for the Visual Embed SDK and the REST API are https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=introduction[here]
+
+===== Can I see the Visual Embed SDK code? / Is it on Github?
+
+* Yes and yes.  You can check it out https://github.com/thoughtspot/visual-embed-sdk[here]
+
+===== Is there a community forum where I can ask questions and search for answers?
+
+* Yes that’s https://community.thoughtspot.com/customers/s/[here]
+
+===== Is the Visual Embed SDK iFrame based?
+
+* Yes the library is Javascript APIs built on top of an iFrame, which gives deep control of the user experience on top of the ease of development, maintenance, reliability, performance, and security of iFrames
+* The iframe is what gets you the full power of ThoughtSpot via a simple embed process. Iframes are standard within embedded BI
+** iframes are also used for embedding many other common web components. Both Twitter and Google Maps, despite providing a small JavaScript link as their “embed code”, actually load an iframe into the page. This is exactly the same design as ThoughtSpot - we have a JavaScript based SDK which loads and controls an iframe.
+* The iframe itself is controlled by the Embed SDK, and secured by very strict CORS controls within the Develop tab of ThoughtSpot
+* There are also REST APIs for bringing back just the data response of searches or existing pinboards, but then you must provide your own JavaScript based visualization layer, which means losing out on many of the other features you get automatically by embedding the ThoughtSpot visualization through the iframe (infinite drill-down being a good example of what you would lose). Many customers use the REST APIs for specific scenarios where they make the most sense, or to do very custom visualization.
+* Our Visual Embed SDK makes communication between the host application and the ThoughtSpot embedded straightforward thanks to a framework of events where ThoughtSpot can register events fired by the host application, and vice versa. More details provided in the documentation: https://developers.thoughtspot.com/docs/?pageid=events[Interact with events].
+*[Follow up] What are you talking about?  iFrames suck!* +
+iFrames were once insecure and often used for nefarious purposes. Browser makers have introduced many new security requirements as either defaults or even removed the older insecure ways entirely, which is why there are additional configurations in ThoughtSpot to allow them in your application. The technology has advanced significantly and they offer the following advantages over Javascript libraries:
+
+* iFrames, when secured with CSP and CORS (as our application is - see the security settings in the develop tab), are very secure, and in fact more secure than exposing all the logic of the application in Javascript.
+* Because the iFrame runs in a separate process, if ThoughtSpot has to load, for example, a very complex chart, that load will not compete with your parent app for cycles and your parent app will be faster.
+* They are much easier to implement - just a few lines of code and you get whatever part of the ThoughtSpot experience you want in your app.
+* The customizability that comes with a Javascript library is achieved with the APIs built on top of the iFrame, which still allow you control the experience and give all the advantages above. Please check out our docs for all the things you can control via the Visual Embed SDK APIs.
+* The Javascript in the library will get out of date, whereas the iFrame will remain up to date as it always runs the same code as the main application.  This makes iFrame implementations easier to maintain and less buggy over time
+* Some developers have concerns about having double scroll bars stemming from the use of iFrames. However ThoughtsSpot has implemented capabilities that address this issue (cf "Full Height" option in the https://developers.thoughtspot.com/docs/?pageid=dev-playground#playground-liveboard[documentation]).
+* +++<s>+++If you have to include a gigantic blob of Javascript in your code, your whole app will have to wait to load until that Javascript comes, which will slow it down.+++</s>+++
+Note: Correct statement, however can be worked around via implementing lazy loading in the host app.
+
+
+== TROUBLESHOOTING
+
+
+===== When I try to embed in my app I get an error such as, ‘refused to frame…’
+
+* Did you set CSP visual embed hosts in the Security Settings in the Developer portal?
+* Did you set CORS in the Security Settings in the Developer portal?
+
+===== When I try to embed the free trial cluster in my app I get a CORS error
+
+* Only embedding with AuthType.None in the Visual Embed SDK is supported on the free trial cluster. If this option is set, it should not trigger CORS.  This means that when TS loads in the parent app, the user will see the login screen.  However, the user can login and then demo and this login screen will not show again until the session expires, so this should be workable for the free trial.  If this is unacceptable a PoT cluster will be required so that CORS can be set and the other auth options can be used.
+
+===== When I try to use URL based custom actions they fail
+
+* Did you set CSP connect src domains in the Security Settings in the Developer portal?
+* Did you set CORS on the server that the URL is based on?
+* Is the URL target https? (it has to be)
+
+===== When I try to use the REST API it fails
+
+* Did you set CORS in the Security Settings in the Developer portal**?**
+* Note that REST API is not supported on the free trial cluster for security reasons, please use another cluster for that
+
+===== When I try to use the Search Data REST API it fails with “Cannot create answer from empty query”
+
+* The quick solution is to remove the -d [parameters] option and append the query string to the end of the url so that the request looks like this:
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT' -b cookies.txt
+
+===== When I try to use Trusted Authentication it fails
+
+* Are you including the key in the Security Settings in the Developer portal?
+* Has that key changed from the last time you included it
+===== When I try to use SSO it fails
+
+* Are all the SAML settings in the SAML section of the Admin tab correct?
+* Did you set the SAML redirect domain in the Security Settings in the Developer portal?
+* Are all the settings in your IDP provider correct?
+===== When I try to open my embedded app in Safari it fails
+
+* Safari does not accept 3rd party cookies by default, and the user needs to change this setting in Safari to view the app.  The SDK will raise an event to tell you this is happening and you can tell the user to do this.
+* To make this work by default, you will need to provide a certificate to ThoughtSpot so we change the DNS on ThoughtSpot to be your domain
+===== When I open Pinboard filters they are grayed out I can’t change them
+
+* This is because there is a data source that the user doesn’t have view access to or a hidden column in the Pinboard somewhere.  Usually this happens because a new viz is added that is not shared properly. Click the lock icon on the top of the Pinboard to get more details
+===== I upgraded a legacy embedded customer to 7.1 and many more actions have appeared on the embedded pinboard / viz that were not there before the upgrade
+
+* TS Everywhere added the ability to explicitly control which actions appear in the action menus with the Visual Embed SDK or with URL parameters.  More details https://docs.thoughtspot.com/visual-embed-sdk/release/en/?pageid=embed-pinboard[here].  If a current embedded customer upgrades to 7.1 and wants to revert the actions that are available to what they were in previous versions, they should set the useLegacyEmbeddedPinboardActionConfig flag to true.

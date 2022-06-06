@@ -9,7 +9,8 @@
 ** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
 ** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
 
-* link:{{navprefix}}=embed-analytics[Embedded analytics]
+* link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
+** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
@@ -50,7 +51,7 @@
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Create and administer actions]
+** link:{{navprefix}}=customize-actions[Create and manage custom actions]
 ** link:{{navprefix}}=edit-custom-action[Set the position of a custom action]
 ** link:{{navprefix}}=add-action-viz[Add a local action to a visualization]
 ** link:{{navprefix}}=add-action-worksheet[Add a local action to a worksheet]
@@ -92,16 +93,24 @@
 *** link:{{navprefix}}=liveboard-export-api[Liveboard export API]
 *** link:{{navprefix}}=security-api[Security API]
 *** link:{{navprefix}}=logs-api[Log streaming service API]
+*** link:{{navprefix}}=materialization-api[Materialization API]
+*** link:{{navprefix}}=database-api[Database APIs]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
- 
 
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 * link:{{navprefix}}=code-samples[Code samples]
 
 * Resources
+
 ** link:{{navprefix}}=terminology[Terminology changes]
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
 
+
+////
+** link:{{navprefix}}=faqs[FAQs]
+** link:{{navprefix}}=trblshoot[Troubleshoot common issues]
+
+////

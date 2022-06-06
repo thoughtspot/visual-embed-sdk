@@ -1,4 +1,68 @@
 
+
+[div tableContainer]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:user-api.adoc#create-user[**POST** /tspublic/v1/user/]` +
+Creates a user account. |ThoughtSpot Cloud [version noBackground]#ts7.jun.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]` +
+Activates a user account.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]` +
+Modifies a user account.|ThoughtSpot Cloud [version noBackground]#ts7.aug.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` +
+Modifies the email address of a user.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]` +
+Gets details of the users in a ThoughtSpot system.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]` +
+Deletes a user account.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]` +
+Gets all users, groups, and their inter-dependencies.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|`xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]` +
+Modifies a user profile.|ThoughtSpot Cloud [version noBackground]#ts7.jun.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]` +
+Transfers the ownership of objects from one user to another.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|`xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]` +
+Changes the password of a user account.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]` +
+Resets the password of a user account.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` +
+Invalidates a user session.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]` +
+Deactivates a user account.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]` +
+Synchronizes user and group properties from an external database with the user data on ThoughtSpot.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|`xref:user-api.adoc#assignUserToGroups[**POST** /tspublic/v1/user/{userid}/groups]` +
+Assigns a user to the specified user groups.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#getGroupsUser[**GET** /tspublic/v1/user/{userid}/groups]` +
+Gets details of the user groups associated with a specific user.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]` +
+Updates the user group data for a specific user.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]` +
+Removes a user from the specified user groups.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
+ThoughtSpot Software [version noBackground]#7.2.1#
+|=====
+--
+////
 --
 `xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` 
 
@@ -72,3 +136,4 @@
 
 +++<p class="divider">Removes a user from the specified user groups.</p>+++
 --
+////

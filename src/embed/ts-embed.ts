@@ -202,6 +202,8 @@ export class TsEmbed {
      */
     private shouldEncodeUrlQueryParams = false;
 
+    private defaultHiddenActions = [Action.ReportError];
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
@@ -242,7 +244,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.log(error);
+        console.error(error);
     }
 
     /**
@@ -382,9 +384,10 @@ export class TsEmbed {
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions?.length) {
-            queryParams[Param.HideActions] = hiddenActions;
-        }
+        queryParams[Param.HideActions] = [
+            ...this.defaultHiddenActions,
+            ...(hiddenActions ?? []),
+        ];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }

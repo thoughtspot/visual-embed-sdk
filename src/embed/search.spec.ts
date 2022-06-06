@@ -20,7 +20,10 @@ const answerId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParams = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 const hideBydefault = `&hideAction=${fixedEncodeURI(
-    JSON.stringify(HiddenActionItemByDefaultForSearchEmbed),
+    JSON.stringify([
+        Action.ReportError,
+        ...HiddenActionItemByDefaultForSearchEmbed,
+    ]),
 )}`;
 const defaultParamsWithHiddenActions = defaultParams + hideBydefault;
 const prefixParams = '&isSearchEmbed=true';
@@ -197,6 +200,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         const hideActionUrl = fixedEncodeURI(
             JSON.stringify([
+                Action.ReportError,
                 ...hiddenActionsForSearch,
                 ...HiddenActionItemByDefaultForSearchEmbed,
             ]),
@@ -220,6 +224,7 @@ describe('Search embed tests', () => {
         searchEmbed.render();
         const hideActionUrl = fixedEncodeURI(
             JSON.stringify([
+                Action.ReportError,
                 ...hiddenActionsForSearch,
                 ...HiddenActionItemByDefaultForSearchEmbed,
             ]),

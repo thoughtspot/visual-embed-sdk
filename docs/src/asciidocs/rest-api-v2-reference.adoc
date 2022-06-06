@@ -7,7 +7,6 @@
 
 The REST v2 API endpoints[beta blueBackground]^BETA^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
 
-
 == Session
 
 --
@@ -60,8 +59,6 @@ Logs out a ThoughtSpot user.
 --
 
 == Users
-
-
 --
 
 `*POST* /tspublic/rest/v2/user/create`
@@ -124,7 +121,7 @@ Removes the groups assigned to a user.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /tspublic/rest/v2/user/changepassword` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**PUT** /tspublic/rest/v2/user/changepassword`
 
 Allows changing a ThoughtSpot user's password.
 
@@ -260,7 +257,7 @@ Gets a list of groups created in the ThoughtSpot system. To filter your query, y
 == Admin
 
 --
-`**GET ** /tspublic/rest/v2/admin/configuration` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**GET ** /tspublic/rest/v2/admin/configuration`
 
 Gets details of the current configuration of a ThoughtSpot cluster.
 
@@ -270,7 +267,7 @@ Gets details of the current configuration of a ThoughtSpot cluster.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/admin/configuration/overrides` [tag greenBackground]#NEW in 8.2.0.cl# 
+`*GET* /tspublic/rest/v2/admin/configuration/overrides`
 
 Gets details of configuration overrides. 
 
@@ -280,7 +277,7 @@ Gets details of configuration overrides.
 
 +++<p class="divider"> </p>+++
 
-`**PUT **/tspublic/rest/v2/admin/configuration/update`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`**PUT **/tspublic/rest/v2/admin/configuration/update`
 
 Updates configuration settings of the ThoughtSpot cluster.
 
@@ -290,7 +287,7 @@ Updates configuration settings of the ThoughtSpot cluster.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/resetpassword`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/resetpassword`
 
 Resets the password of a user account.
 
@@ -300,7 +297,7 @@ Resets the password of a user account.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/syncprincipal`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/syncprincipal`
 
 Synchronizes user account and group properties from an external database with ThoughtSpot.
 
@@ -310,7 +307,7 @@ Synchronizes user account and group properties from an external database with Th
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/admin/changeowner`  [tag greenBackground]#NEW in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/admin/changeauthor` [tag orangeBackground]#MODIFIED in 8.4.0.cl#
 
 Transfers the ownership of objects from one user to another.
 
@@ -318,6 +315,15 @@ Transfers the ownership of objects from one user to another.
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 
++++<p class="divider"> </p>+++
+
+`*PUT* /tspublic/rest/v2/admin/assignauthor`
+
+Assigns ownership to one or several objects to a specific user.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
 +++<p class="divider"> </p>+++
 --
 
@@ -355,7 +361,7 @@ Modifies the properties of a tag object.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/metadata/tag/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/metadata/tag/assign`
 
 Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, answer, data object, and data connection objects.
 
@@ -365,7 +371,7 @@ Assigns a tag to one or several metadata objects. You can assign a tag to a Live
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /tspublic/rest/v2/metadata/tag/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/metadata/tag/unassign`
 
 Removes the tag assigned to an object.
 
@@ -385,7 +391,7 @@ Deletes the specified tag.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /api/rest/v2/metadata/favorite/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT** /api/rest/v2/metadata/favorite/assign`
 
 Adds an object such as Liveboards and answers to a user's favorites list.
 
@@ -395,7 +401,7 @@ Adds an object such as Liveboards and answers to a user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**PUT ** /api/rest/v2/metadata/favorite/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT ** /api/rest/v2/metadata/favorite/unassign`
 
 Removes the specified object from the user's favorites list.  
 
@@ -415,7 +421,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
 
 +++<p class="divider"> </p>+++
  
-`**PUT** /api/rest/v2/metadata/homeliveboard/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT** /api/rest/v2/metadata/homeliveboard/assign`
 
 Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
@@ -425,7 +431,7 @@ Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/metadata/homeliveboard/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`*PUT* /api/rest/v2/metadata/homeliveboard/unassign`
 
 Removes the default home Liveboard setting for a ThoughtSpot user.
 
@@ -458,7 +464,7 @@ Gets header details for a specific metadata object.
 
 `*GET* /api/rest/v2/metadata/details`
 
-Gets details of the metadata objects. To filter the query, you can specify the metadata object type.
+Gets details of a specific metadata object. To filter your query, specify the metadata object type and the ID.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -479,6 +485,16 @@ Gets a list of visualization headers associated with a Liveboard.
 `*POST* /api/rest/v2/metadata/header/search`
 
 Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level, and other such attributes.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/metadata/detail/search`
+
+Gets details of one or several metadata objects of a specific type.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -631,7 +647,7 @@ Gets details of all data connections. You can also query data for a specific con
 == Data
 
 --
-`**POST** /tspublic/rest/v2/data/search` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/search`
 
 Allows constructing a search query string and retrieves data from a search query.
 
@@ -641,7 +657,7 @@ Allows constructing a search query string and retrieves data from a search query
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/answer` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/answer`
 
 Gets data from a saved search answer.
 
@@ -651,9 +667,31 @@ Gets data from a saved search answer.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/data/liveboard` [tag greenBackground]#NEW in 8.2.0.cl# 
+`**POST** /tspublic/rest/v2/data/liveboard`
 
 Gets data from the specified Liveboard and visualization.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/data/answer/querysql` [tag greenBackground]#NEW in 8.4.0.cl#
+
+Retrieves SQL for an answer object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/data/liveboard/querysql` [tag greenBackground]#NEW in 8.4.0.cl#
+
+Retrieves SQL for a visualization on a Liveboard.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -663,7 +701,7 @@ Gets data from the specified Liveboard and visualization.
 == Report
 
 --
-`*POST* /tspublic/rest/v2/report/answer` [tag greenBackground]#NEW in 8.2.0.cl#
+`*POST* /tspublic/rest/v2/report/answer`
 
 Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX. 
 
@@ -818,7 +856,7 @@ Removes custom action association to a user, group or metadata object.
 == Log
 
 --
-`*GET* /tspublic/rest/v2/logs/events` [tag greenBackground]#NEW in 8.2.0.cl# 
+`*GET* /tspublic/rest/v2/logs/events`
 
 Gets security audit logs from the ThoughtSpot system.
 

@@ -47,9 +47,7 @@ The resource endpoints are grouped logically based on the objects they operate o
 
 == Feature availability
 
-The REST API v2 Playground and SDK is a limited availability feature and is in beta. 
-
-If you are an existing user with a valid ThoughtSpot Everywhere Edition license, you can contact ThoughtSpot Support to enable the REST API Playground and SDK feature on your cluster. 
+The REST API v2 Playground and SDK is a limited availability feature and is in beta. If you have ThoughtSpot Everywhere Edition license or access to the *Develop* tab, you can visit the Playground and explore the API endpoints.
 
 If you are not a ThoughtSpot user, you can preview this feature on link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot Live Playground,  window=_blank] or sign up for a free trial to evaluate the API and Playground experience. 
 

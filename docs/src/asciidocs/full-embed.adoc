@@ -121,7 +121,7 @@ _Array of strings_. Displays the specified actions in the embedded ThoughtSpot U
 +
 [NOTE]
 ====
-Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.doc[Show or hide UI actions].
+Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 ====
 
 +
