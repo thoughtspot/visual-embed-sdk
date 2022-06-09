@@ -75,7 +75,7 @@ export interface FrameParams {
      * This parameters will be passed on the iframe
      * as is.
      */
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | undefined;
 }
 
 /**
