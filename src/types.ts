@@ -180,7 +180,7 @@ export interface EmbedConfig {
     /**
      * Hide beta alert warning message for SearchEmbed.
      *
-     * @version SDK: 1.13.0 | ThoughtSpot: *
+     * @version SDK: 1.12.0 | ThoughtSpot: *
      */
     suppressSearchEmbedBetaWarning?: boolean;
 }

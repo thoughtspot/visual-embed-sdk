@@ -37,6 +37,10 @@ const thoughtSpotHost = 'tshost';
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
 const defaultParamsPost = '&isPinboardV2Enabled=false';
 
+beforeAll(() => {
+    spyOn(window, 'alert');
+});
+
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(
         mixpanelInstance,
@@ -375,6 +379,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('Navigate to Page API', () => {
         const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',
@@ -423,6 +428,7 @@ describe('Unit test case for ts embed', () => {
     });
     describe('Navigate to Page API - Pinboard', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',

@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-cycle
-import { getEmbedConfig } from './embed/base';
 import { initMixpanel } from './mixpanel-service';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { getRedirectUrl } from './utils';
@@ -18,14 +16,11 @@ export let loggedInStatus = false;
 export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
-// eslint-disable-next-line import/no-mutable-exports
-export let sessionInfo: any = null;
+let sessionInfo: any = null;
+let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID =
     '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
-
-export const searchEmbedBetaWarningMessage =
-    'Search Embed is in Beta in this release.';
 
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
@@ -51,16 +46,6 @@ export enum AuthStatus {
     LOGOUT = 'LOGOUT',
 }
 
-export const checkReleaseVersionInBeta = (releaseVersion: string) => {
-    const splittedReleaseVersion = releaseVersion.split('.');
-    const isBetaVersion =
-        Number(splittedReleaseVersion[0]) >= 8 &&
-        Number(splittedReleaseVersion[1]) >= 4;
-    if (!getEmbedConfig().suppressSearchEmbedBetaWarning && isBetaVersion) {
-        alert(searchEmbedBetaWarningMessage);
-    }
-};
-
 /**
  * Check if we are logged into the ThoughtSpot cluster
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
@@ -71,11 +56,18 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     try {
         response = await fetchSessionInfoService(authVerificationUrl);
         const sessionInfoResp = await response.json();
-        checkReleaseVersionInBeta(sessionInfoResp.releaseVersion);
+        releaseVersion = sessionInfoResp.releaseVersion;
     } catch (e) {
         return false;
     }
     return response.status === 200;
+}
+
+/**
+ * Return releaseVersion if available
+ */
+export function getReleaseVersion() {
+    return releaseVersion;
 }
 
 /**

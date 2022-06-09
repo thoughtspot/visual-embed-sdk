@@ -8,9 +8,12 @@
  */
 
 import { DataSourceVisualMode, DOMSelector, Param, Action } from '../types';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, checkReleaseVersionInBeta } from '../utils';
 import { ViewConfig, TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
+import { ERROR_MESSAGE } from '../errors';
+import { getAuthPromise, getEmbedConfig } from './base';
+import { getReleaseVersion } from '../auth';
 
 /**
  * Configuration for search options
@@ -185,6 +188,16 @@ export class SearchEmbed extends TsEmbed {
 
         const src = this.getIFrameSrc(answerId, dataSources);
         this.renderIFrame(src, this.viewConfig.frameParams);
+        getAuthPromise().then(() => {
+            if (
+                checkReleaseVersionInBeta(
+                    getReleaseVersion(),
+                    getEmbedConfig().suppressSearchEmbedBetaWarning,
+                )
+            ) {
+                alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);
+            }
+        });
         return this;
     }
 }

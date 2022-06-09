@@ -1,4 +1,5 @@
 import { SearchEmbed, HiddenActionItemByDefaultForSearchEmbed } from './search';
+import * as authInstance from '../auth';
 import { init } from '../index';
 import { Action, AuthType } from '../types';
 import {
@@ -33,11 +34,15 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    spyOn(window, 'alert');
 });
 
 describe('Search embed tests', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
+        jest.spyOn(authInstance, 'getReleaseVersion').mockReturnValue(
+            '7.4.0.sw',
+        );
     });
 
     test('should render', async () => {

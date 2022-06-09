@@ -9,6 +9,7 @@ import {
     getEncodedQueryParamsString,
     appendToUrlHash,
     getRedirectUrl,
+    checkReleaseVersionInBeta,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -109,5 +110,25 @@ describe('unit test for utils', () => {
     test('getEncodedQueryParamsString', () => {
         expect(getEncodedQueryParamsString('')).toBe('');
         expect(getEncodedQueryParamsString('test')).toBe('dGVzdA');
+    });
+
+    test('when cluster has dev version', () => {
+        expect(checkReleaseVersionInBeta('dev', false)).toBe(false);
+    });
+
+    test('when cluster is above 8.3.0.sw software version', () => {
+        expect(checkReleaseVersionInBeta('8.8.0.sw', false)).toBe(false);
+    });
+
+    test('when cluster is bellow 8.0.0.sw software version', () => {
+        expect(checkReleaseVersionInBeta('7.2.1.sw', false)).toBe(true);
+    });
+
+    test('when suppressBetaWarning is true and ReleaseVersionBeta is 7.0.1', () => {
+        expect(checkReleaseVersionInBeta('7.0.1', true)).toBe(false);
+    });
+
+    test('when suppressBetaWarning is false ReleaseVersionBeta is 7.0.1', () => {
+        expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
 });
