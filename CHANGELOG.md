@@ -9,6 +9,10 @@ This project follows Semantic Versioning.
 - Event for navigating to a specific page in App embed without any reload
 - Ability to turn on search assist in Search embed 
 
+## 1.11.2 (06-10-2022)
+### Fixed
+- Typescript build that was affecting some Angular project configurations
+
 ## 1.11.1 (05-30-2022)
 ### Fixed
 - Whitelabeling - new [action](https://developers.thoughtspot.com/docs/typedoc/enums/Action.html#ReportError) for the ability to turn off TS specific error reporting by end users.
