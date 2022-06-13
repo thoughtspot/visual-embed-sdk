@@ -135,6 +135,24 @@ describe('Base TS Embed', () => {
         );
         expect(base.getEmbedConfig().autoLogin).toBe(false);
     });
+
+    test('handleAuth notifies for SDK auth success', (done) => {
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true);
+        const failureCallback = jest.fn();
+        const authEmitter = index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.Basic,
+            username: 'test',
+            password: 'test',
+        });
+
+        authEmitter.on(auth.AuthStatus.FAILURE, failureCallback);
+        authEmitter.on(auth.AuthStatus.SUCCESS, (reason) => {
+            expect(failureCallback).not.toBeCalled();
+            expect(reason).toBe(undefined);
+            done();
+        });
+    });
 });
 
 describe('Base without init', () => {

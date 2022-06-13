@@ -64,6 +64,8 @@ export const handleAuth = (): Promise<boolean> => {
         (isLoggedIn) => {
             if (!isLoggedIn) {
                 notifyAuthFailure(AuthFailureType.SDK);
+            } else {
+                notifyAuthSuccess();
             }
         },
         () => {
