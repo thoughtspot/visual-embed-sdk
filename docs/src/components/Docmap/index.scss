@@ -15,14 +15,14 @@
         margin: 0;
         color: $disabledcolor;
         line-height: $line-height-normal;
-        padding-left: $padding-md;
+        padding-left: $padding-sm;
     }
 
     div {
         ul {
             margin-top: 0px;
             list-style-type: none;
-            padding-left: $padding-md;
+            padding-left: $padding-sm;
             background-color: var(--border-color) solid;
             li {
                 margin: $margin-links 0;

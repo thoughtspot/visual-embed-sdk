@@ -10,6 +10,7 @@
     padding-left: $document-padding;
 
 
+
     .documentView {
         min-height: 75vh;
         padding: $padding-md $padding-md 0;
@@ -75,6 +76,7 @@
             max-width: 100%;
             font-family: $font-family-code;
             padding-top: 10px;
+
         }
 
         .wrapperContainer {
@@ -131,6 +133,7 @@
         border-spacing: 0;
         border-collapse: separate;
         width: 100%;
+        overflow: auto;
 
 
         th {

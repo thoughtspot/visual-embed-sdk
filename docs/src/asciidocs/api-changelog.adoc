@@ -18,6 +18,17 @@ The upcoming version of Visual Embed SDK introduces the `navigate` host event, w
 |[tag greenBackground]#NEW FEATURE# | The upcoming version of SDK includes the `getThoughtSpotPostUrlParams` method, which fetches ThoughtSpot URL query parameters prefixed with `ts-`.
 |====
 
+== Version 1.11.2, June 2022
+
+Bug fix for Typescript builds that affect Angular project configurations.
+
+== Version 1.11.1, May, 2022
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| The SDK includes the action enum `ReportError`, using which you can turn off ThoughtSpot-specific error reporting.
+|====
+
 == Version 1.11.0, May 2022
 
 [width="100%" cols="1,4"]
