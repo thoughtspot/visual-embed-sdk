@@ -17,7 +17,7 @@ include::{path}/metadata-api-list.adoc[]
 
 === Required permissions
 
-* You must have edit access to the metadata objects to query data, set an object as a favorite, and assign or remove tags,
+* You must have edit access to the metadata objects to query data, set an object as a favorite, and assign or remove tags.
 * To query user or group metadata objects, you must have administrator access.
 
 
