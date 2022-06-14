@@ -565,6 +565,7 @@ searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
 })
 ----
 |`VizPointClick`|[version noBackground]#V1.11.0# |  `SearchEmbed` +
+`LiveboardEmbed` +
 `AppEmbed` a|
 Is triggered when an area or data point on a chart is clicked.
 [source,javascript]
@@ -575,6 +576,7 @@ searchEmbed.on(EmbedEvent.VizPointClick, payload => {
 ----
 |`VizPointDoubleClick` |[version noBackground]#V1.5.0#
 | `SearchEmbed` +
+`LiveboardEmbed` +
 `AppEmbed` a|
 Is triggered when an area or data point on a chart or table is double-clicked.
 [source,javascript]
