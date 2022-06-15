@@ -1039,7 +1039,7 @@ seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
 `AppEmbed`  a|
 Is triggered when a custom action is initiated. +
 Returns the custom action ID and the response payload with the answer or Liveboard data.
-For more information, see xref:embed-events.adoc##customAction[Custom action events]. 
+For more information, see xref:embed-events.adoc#customAction[Custom action events].
 ----
 appEmbed.on(EmbedEvent.customAction, payload => {
     const data = payload.data;
