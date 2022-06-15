@@ -96,7 +96,7 @@ Is triggered when a user navigates to an application page without reloading the 
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
 [source,javascript]
