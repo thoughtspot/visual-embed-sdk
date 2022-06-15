@@ -89,6 +89,25 @@ searchEmbed.trigger(HostEvent.Search)
 ====
 --
 
+==== Navigate
+
+Available with `AppEmbed` in `V1.12.0` or later. +
+Is triggered when a user navigates to an application page without reloading the page. +
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+[source,javascript]
+----
+appEmbed.trigger(HostEvent.Navigate, {
+   path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
+   noReload: true
+});
+----
+--
+
 ==== SetVisibleVizs
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.6.0` or later. +
 Sets specific visualizations as visible objects on a Liveboard. The visualization IDs that are not passed in the parameter are hidden on the Liveboard. +
