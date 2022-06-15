@@ -140,7 +140,7 @@ button {
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    margin: 2px;
+    margin-left: 2px;
     padding: $tag-padding;
     color: var(--primary-color);
     border: solid 1px;
@@ -240,7 +240,7 @@ button {
     border-bottom: 1px solid var(--border-color);
     display: block;
     width: 100%;
-    margin: 0 auto;
+    margin: 5px auto;
 }
 
 
