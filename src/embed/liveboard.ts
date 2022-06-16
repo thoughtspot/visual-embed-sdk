@@ -195,6 +195,21 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     /**
+     * Triggers an event to the embedded app
+     * @param messageType The event type
+     * @param data The payload to send with the message
+     */
+     public trigger(
+        messageType: HostEvent,
+        data: any = {},
+    ): Promise<any> {
+        if(this.viewConfig.vizId)        {
+            data["vizId"] = this.viewConfig.vizId;
+        }
+        return super.trigger(messageType, data );
+    }
+
+    /**
      * Render an embedded ThoughtSpot Liveboard or visualization
      * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
