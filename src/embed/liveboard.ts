@@ -200,7 +200,7 @@ export class LiveboardEmbed extends V1Embed {
      * @param data The payload to send with the message
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
-        let dataWithVizId = data;
+        const dataWithVizId = data;
         if (this.viewConfig.vizId) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
