@@ -15,6 +15,7 @@ import {
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as processTriggerInstance from '../utils/processTrigger';
+
 const defaultViewConfig = {
     frameParams: {
         width: 1280,
