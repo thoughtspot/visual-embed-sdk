@@ -16,8 +16,8 @@ export let loggedInStatus = false;
 export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
-// eslint-disable-next-line import/no-mutable-exports
-export let sessionInfo: any = null;
+let sessionInfo: any = null;
+let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID =
     '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
@@ -55,10 +55,19 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     let response = null;
     try {
         response = await fetchSessionInfoService(authVerificationUrl);
+        const sessionInfoResp = await response.json();
+        releaseVersion = sessionInfoResp.releaseVersion;
     } catch (e) {
         return false;
     }
     return response.status === 200;
+}
+
+/**
+ * Return releaseVersion if available
+ */
+export function getReleaseVersion() {
+    return releaseVersion;
 }
 
 /**

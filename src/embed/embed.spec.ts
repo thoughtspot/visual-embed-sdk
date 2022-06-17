@@ -20,6 +20,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    spyOn(window, 'alert');
 });
 
 describe('test view config', () => {

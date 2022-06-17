@@ -22,6 +22,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    spyOn(window, 'alert');
 });
 
 describe('React Components', () => {

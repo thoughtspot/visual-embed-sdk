@@ -177,6 +177,12 @@ export interface EmbedConfig {
      * @version SDK: 1.10.4 | ThoughtSpot: *
      */
     detectCookieAccessSlow?: boolean;
+    /**
+     * Hide beta alert warning message for SearchEmbed.
+     *
+     * @version SDK: 1.12.0 | ThoughtSpot: *
+     */
+    suppressSearchEmbedBetaWarning?: boolean;
 }
 
 /**

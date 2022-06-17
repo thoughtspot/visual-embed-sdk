@@ -154,3 +154,16 @@ export const setAttributes = (
         element.setAttribute(key, attributes[key].toString());
     });
 };
+
+/* For Search Embed: ReleaseVersionInBeta */
+export const checkReleaseVersionInBeta = (
+    releaseVersion: string,
+    suppressBetaWarning: boolean,
+): boolean => {
+    const splittedReleaseVersion = releaseVersion.split('.'); // splitting releasonversion
+    const majorVersion = Number(splittedReleaseVersion[0]);
+    const minorVersion = Number(splittedReleaseVersion[1]);
+    const isBetaVersion =
+        majorVersion < 8 || (majorVersion === 8 && minorVersion < 4);
+    return !suppressBetaWarning && isBetaVersion;
+};

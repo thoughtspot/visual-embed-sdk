@@ -34,6 +34,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    spyOn(window, 'alert');
 });
 
 describe('test communication between host app and ThoughtSpot', () => {
