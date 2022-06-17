@@ -204,7 +204,7 @@ export class LiveboardEmbed extends V1Embed {
         if (this.viewConfig.vizId) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
-        return super.trigger(messageType, data);
+        return super.trigger(messageType, dataWithVizId);
     }
 
     /**
