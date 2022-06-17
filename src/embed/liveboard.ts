@@ -200,11 +200,13 @@ export class LiveboardEmbed extends V1Embed {
      * @param data The payload to send with the message
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
-        if(this.viewConfig.vizId){
-            data['vizId'] = this.viewConfig.vizId;
+        let dataWithVizId = data;
+        if (this.viewConfig.vizId) {
+            dataWithVizId.vizId = this.viewConfig.vizId;
         }
         return super.trigger(messageType, data);
     }
+
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
      * @param renderOptions An object specifying the Liveboard ID,
