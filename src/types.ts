@@ -619,6 +619,13 @@ export enum HostEvent {
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
+    /**
+     * Fires the pin action on an embedded object
+     * @param - incase of liveboard embed, takes in an object with vizId as a key
+     * can be left empty for search and viz embeds
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Pin = 'pin',
 }
 
 /**

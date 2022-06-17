@@ -1,6 +1,12 @@
 import { LiveboardEmbed, LiveboardViewConfig } from './liveboard';
 import { init } from '../index';
-import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
+import {
+    Action,
+    AuthType,
+    EmbedEvent,
+    HostEvent,
+    RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -8,6 +14,7 @@ import {
     getRootEl,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import * as processTriggerInstance from '../utils/processTrigger';
 
 const defaultViewConfig = {
     frameParams: {
@@ -209,5 +216,20 @@ describe('Liveboard/viz embed tests', () => {
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&pinboardVisibleVizs=[%22abcd%22,%22pqrs%22]${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
+    });
+    test('should process the trigger, for vizEmbed', async () => {
+        const mockProcessTrigger = spyOn(
+            processTriggerInstance,
+            'processTrigger',
+        );
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enableVizTransformations: true,
+            ...defaultViewConfig,
+            vizId: '1234',
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        const result = await liveboardEmbed.trigger(HostEvent.Pin);
+        expect(mockProcessTrigger).toBeCalled();
     });
 });
