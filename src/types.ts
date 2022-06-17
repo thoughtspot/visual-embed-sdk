@@ -619,7 +619,7 @@ export enum HostEvent {
      * @param - incase of liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and viz embeds
      */
-     Pin = 'pin',
+    Pin = 'pin',
 }
 
 /**
