@@ -90,7 +90,7 @@ You can embed any of the following components, or the entire ThoughtSpot experie
 .What is Visual Embed SDK?
 [%collapsible]
 ====
-xref:visual-embed-sdk.adoc[Visual Embed SDK] is a Javascript library using which you can embed ThoughtSpot application and its components in your web app.
+The xref:visual-embed-sdk.adoc[Visual Embed SDK] is a Javascript library using which you can embed ThoughtSpot application and its components in your web app.
 ====
 
 .My app doesn't allow custom Javascript. Can I embed ThoughtSpot in my app?
@@ -109,7 +109,7 @@ For more information, see xref:embed-without-sdk.adoc[Embed without SDK].
 .What kind of customizations can I do with the Visual Embed SDK?
 [%collapsible]
 ====
-The Visual Embed SDK not only allows you to embed ThoughtSpot, but also provides APIs and attributes to customize your  embedded view. The SDK allows you to:
+The Visual Embed SDK not only allows you to embed ThoughtSpot, but also provides APIs and object properties to customize your embedded view. The SDK allows you to:
 
 * xref:embed-search.adoc[modify the layout of the embedded Search page]
 * xref:full-embed.adoc[customize layout and home tabs in embedded ThoughtSpot view]
@@ -198,7 +198,7 @@ No. The Style customization feature is available on ThoughtSpot Cloud and Though
 [%collapsible]
 ====
 * UI Layout and style customization +
-The style customization feature allows rebranding UI elements, logo, and color scheme of charts and tables. If you want to remove the Powered by ThoughtSpot logo, contact ThoughtSpot support.
+The style customization feature allows rebranding UI elements, logo, fonts, and color scheme of charts and tables. If you want to remove the Powered by ThoughtSpot logo, contact ThoughtSpot support.
 * Email customization +
 If you want to use a xref:custom-domain-configuration.adoc#_email_customization[specific domain name and sender ID in the system-generated email notifications], contact ThoughtSpot support.
 * URL with custom domain name +
@@ -216,7 +216,7 @@ Advanced customization and layout controls will be available with the upcoming L
 .Can I remove the ThoughtSpot logo from generated PDFs?
 [%collapsible]
 ====
-* Yes. If you have customized the wide logo in the *Style customization* page, it will be displayed as the primary logo in PDFs. By default, the ThoughtSpot logo is displayed at the bottom of the title page. To disable this logo, contact ThoughtSpot Support.
+Yes. If you have customized the wide logo in the *Style customization* page, it will be displayed as the primary logo in PDFs. By default, the ThoughtSpot logo is displayed at the bottom of the title page. To disable this logo, contact ThoughtSpot Support.
 ====
 
 == Custom actions
@@ -240,17 +240,13 @@ For more information, see xref:custom-actions.adoc[Custom actions] and see xref:
 .I created a custom action, but don't see it in the context menu.
 [%collapsible]
 ====
-* Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* panel.
+* Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in the **More** image:./images/icon-more-10px.png[the more options menu] menu of your visualization. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* image:./images/custom-action-icon.png[custom action icon] panel on your visualization page.
 
 * If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved answer, or worksheet of your choice and place it in the context menu.
 
 [NOTE]
+By default, custom actions are visible only to users with administrator or developer privilege. To make the custom action available to your end users, select the user group in *Show Advanced Availability Settings* and allow access.
 ====
-By default, custom actions are visible only to those users who created the actions. To make the custom action available to your end users, the action creator must select the user group in *Show Advanced Availability Settings* and allow access.
-====
-
-====
-
 
 .Can I restrict access to custom actions?
 [%collapsible]
@@ -376,5 +372,5 @@ Check the following resources for REST API v1 code samples:
 * link:https://developers.thoughtspot.com/codespot[CodeSpot, window=_blank]
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 
-You can also view and download the REST API v2 code samples from the REST API v2 Playground[beta blueBackground]^BETA^.
+You can also view and download the REST API v2 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank][beta blueBackground]^BETA^.
 ====
