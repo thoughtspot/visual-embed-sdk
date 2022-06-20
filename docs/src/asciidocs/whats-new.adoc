@@ -16,7 +16,7 @@ Search Embed is in Beta in this release
 ----
 
 The SDK displays this alert by default on all ThoughtSpot Software instances running 7.2.1CU1 or lower versions.
-Embedding Search using Visual Embed SDK is fully supported from the 8.4.0-sw release on ThoughtSpot Software instances with the *New Answer experience* enabled.
+Embedding Search using Visual Embed SDK is fully supported from the 8.4.0-sw release on ThoughtSpot Software instances that support *New Answer experience*.
 
 If you are aware of the Search Embed feature limitation in 7.2.1 and lower versions, and you do not want to see the alert, you can disable it in the SDK by setting the `suppressSearchEmbedBetaWarning` attribute to `true`.
 
