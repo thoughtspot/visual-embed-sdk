@@ -8,6 +8,11 @@
 
 This article provides step-by-step instructions to embed ThoughtSpot search function in your app. The embedded search API allows your application users to search for data from one or several data sources.
 
+[IMPORTANT]
+====
+The Search Embed feature is in Beta in ThoughtSpot Software 7.2.1 and 7.1.1 versions. For an optimal user experience, we recommend that you use the Full application embed (`appEmbed`) package and set *Search* as the active tab on your embedded instance.
+====
+
 == Import the SearchEmbed package
 
 Import the SearchEmbed SDK library to your application environment:

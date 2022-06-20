@@ -8,9 +8,26 @@
 
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 7.2.0
+== Version 7.2.1CU1, June 2022
 
-The ThoughtSpot Software 7.2.0 version introduces the following features and enhancements in the Developer portal:
+If you are using the SearchEmbed SDK version 1.12.0 or later to embed ThoughtSpot Search in your app, the SDK shows the following alert:
+----
+Search Embed is in Beta in this release
+----
+
+The SDK displays this alert by default on all ThoughtSpot Software instances running 7.2.1CU1 or lower versions.
+Embedding Search using Visual Embed SDK is fully supported from the 8.4.0-sw release on ThoughtSpot Software instances with the *New Answer experience* enabled.
+
+If you are aware of the Search Embed feature limitation in 7.2.1 and lower versions, and you do not want to see the alert, you can disable it in the SDK by setting the `suppressSearchEmbedBetaWarning` attribute to `true`.
+
+----
+suppressSearchEmbedBetaWarning: true
+----
+
+
+== Version 7.2.1, January 2022
+
+The ThoughtSpot Software 7.2.1 version introduces the following features and enhancements in the Developer portal:
 
 [width="100%" cols="1,4"]
 |====
@@ -60,7 +77,7 @@ You can xref:custom-actions-edit.adoc[modify the position of this action] by usi
 
 === Visual Embed SDK 1.5.x
 
-The ThoughtSpot Software 7.2.0 version supports Visual Embed SDK version 1.5.x, which includes the following new features and enhancements.
+The ThoughtSpot Software 7.2.1 version supports Visual Embed SDK version 1.5.x, which includes the following new features and enhancements.
 
 [width="100%" cols="1,4"]
 |====
