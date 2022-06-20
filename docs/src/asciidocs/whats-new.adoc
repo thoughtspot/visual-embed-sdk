@@ -638,7 +638,7 @@ For more information about `searchOptions`, see xref:embed-search.adoc#search-qu
 
 The SDK now supports logging in users automatically after a user session has expired.
 
-For more information, see xref:embed-authentication.adoc##embed-session-sec[Embed user authentication].
+For more information, see xref:embed-authentication.adoc#embed-session-sec[Embed user authentication].
 
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>shouldEncodeUrlQueryParams</h5>+++
 

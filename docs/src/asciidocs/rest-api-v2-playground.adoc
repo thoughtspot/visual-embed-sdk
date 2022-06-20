@@ -77,5 +77,6 @@ You can also download the SDK and API libraries from the following public resour
 * link:https://github.com/thoughtspot/rest-api-sdk[GitHub repository, window=_blank]
 * link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
 * link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
+* link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
 
 For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].

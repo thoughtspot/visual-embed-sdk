@@ -9,10 +9,10 @@ ThoughtSpot REST APIs can be accessed within the browser to retrieve data in a J
 
 Rendering a custom visualization from ThoughtSpot data within a web application involves the following steps:
 
- 1. Sign-in via Visual Embed SDK 
+ 1. Sign in via Visual Embed SDK
  2. Call ThoughtSpot REST API to retrieve data
  3. Transform the ThoughtSpot REST API data response to the format of the charting library data objects
- 4. Render the chart in the page using the charting library
+ 4. Render the chart on the page using the charting library
 
 == Sign-in via Visual Embed SDK
 Any method of xref:embed-authentication.adoc[sign-in] establishes a ThoughtSpot session in the browser. After a session is established, you can make REST API requests from the browser as the signed-in user as long as xref:api-auth-session.adoc[credentials are included in the request]. 
@@ -35,14 +35,18 @@ init({
 ----
 
 == Call ThoughtSpot REST API to retrieve data
-You can request data from the xref:pinboarddata.adoc[visualizations on an existing Liveboard] or issue an arbitrary xref:search-data-api.adoc[search data API request].
+You can request data from the xref:pinboarddata.adoc[visualizations on an existing Liveboard] or make an arbitrary xref:search-data-api.adoc[search data API request].
 
-Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], you'll need to ensure the browser cookies are included when making the request.
+Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank],  ensure that the browser cookies are included when making the request.
 
 The `tspublic/v1/pinboarddata` endpoint requires a URL with all parameters to be sent (there are no default values that can be left out) in the API request. The two most important parameters are the Liveboard GUID and the optional visualization GUIDs. The Liveboard GUID is visible in the URL when viewing the Liveboard in the ThoughtSpot UI. 
 
 To get the visualization GUID of a given visualization on a Liveboard, right-click the **More** image:./images/icon-more-10px.png[the more options menu] menu for that visualization and click **Copy embed link**. 
-The link will be in the format `{thoughtSpotServer}/#/embed/viz/{liveboardGuid}/{visualizationGuid}`.
+The link will be in this format:
+
+----
+{thoughtSpotServer}/#/embed/viz/{liveboardGuid}/{visualizationGuid}
+----
 
 The following is an example of creating the full REST API URL. Note that `vizIds` is an array that gets converted to a string representation before being added to the URL.
 
@@ -66,7 +70,7 @@ The following is an example of creating the full REST API URL. Note that `vizIds
  let liveboardDataFullEndpoint = tsURL + publicApiUrl + liveboardDataEndpoint + "?id=" + lbId + "&vizid=" + formattedVizIds + lbDataParams;
 ----
 
-Now you can make the API request. The follow is an example using XMLHttpRequest, showing all of the necessary settings for the request to be accepted by the ThoughtSpot instance:
+Now you can make the API request. The following is an example using `XMLHttpRequest`, showing all necessary settings for the request to be accepted by the ThoughtSpot instance:
 
 [source,javascript]
 ----
@@ -91,7 +95,7 @@ Now you can make the API request. The follow is an example using XMLHttpRequest,
 The JSON object created by the code above will match the format documented in the  xref:pinboarddata.adoc[Liveboard data API].  
 
 == Transform the REST API response
-In almost every case, you will need to transform the data format returned from ThoughtSpot to match the expected input for your charting library. 
+In almost every case, you are required to transform the data format returned from ThoughtSpot to match the expected input for your charting library.
 
 The link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[dataclasses.js, window=_blank] file provides classes for each ThoughtSpot data response type with standardized methods for retrieving the data in various formats.  
 
@@ -111,10 +115,10 @@ The `LiveboardData` class matches the Liveboard data API. The `LiveboardData.viz
  let colData = vizData.data[colName];
 ----
 
-There are additional methods such as `getDataAsTable` available in the dataclasses.js classes for doing other useful transformations.
+There are additional methods such as `getDataAsTable` available in the link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[dataclasses.js, window=_blank] classes for doing other useful transformations.
 
 == Render the chart
-After you have transformed the data into the input format, you should be able to render the chart into the page. Your overall steps will look like the following:
+After you have transformed the data into the input format, you can render the chart into the page. Your overall steps will look like the following:
 
 [source,javascript]
 ----

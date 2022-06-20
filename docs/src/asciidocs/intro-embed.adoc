@@ -7,50 +7,43 @@
 
 ThoughtSpot Everywhere provides a low-code embedded analytics platform for developers and product owners to build interactive data apps and incorporate ThoughtSpot functions and services directly into their apps, products, or services. Using ThoughtSpot Everywhere, you can embed search-driven analytics, infuse insights into your application, and enrich your website, portal, or product with ThoughtSpot's capabilities.
 
-ThoughtSpot Everywhere provides the Visual Embed SDK to embed search-driven analytics, Liveboards, visualizations, and even the entire ThoughtSpot experience in your application. ThoughtSpot also supports REST API services to programmatically query data, manage users and user sessions, push data to an external application, and automate deployments.
+ThoughtSpot Everywhere offers a robust API framework with Visual Embed SDK and REST APIs to embed and customize ThoughtSpot components and automate deployments. You can explore these APIs and preview the coding experience in the interactive developer playgrounds.
 
-== Embedding methods
-You can use one of the following methods to embed ThoughtSpot into your host application:
-
-Using Visual Embed SDK::
-You can install the Visual Embed SDK, import the Javascript library, and programmatically integrate ThoughtSpot application and its components.
-The Visual Embed SDK includes separate libraries for embedding ThoughtSpot content, such as search, visualizations, Liveboards, and the full application.
-
+== Visual Embed SDK::
+The Visual Embed SDK provides Javascript-based embed packages and client libraries to embed and customize ThoughtSpot components in your web application. The SDK package includes separate libraries for embedding Search, Liveboard, full ThoughtSpot application, or a single visualization. To explore the Visual Embed APIs, navigate to the *Develop* tab and click *Visual Embed Playground*.
 +
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
-Using REST APIs::
-You can use the REST APIs to programmatically query data from the ThoughtSpot application. You can also use REST APIs to manage users and perform other key functions.
-+
+== REST API
+ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
+
+The REST API v2 Playground and SDK playgroundBETA feature offers language-specific SDK libraries and packages, using which you can call REST APIs from your clients and programmatically manage ThoughtSpot objects.
+
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 
-== ThoughtSpot Developer portal
+== Developer portal
 
-To allow your application developers to experiment with the Visual Embed APIs, ThoughtSpot provides the Developer portal. The portal includes a playground for developers to learn and explore the Visual Embed SDK components. Developers can interact with the embed modules, try integrating ThoughtSpot content in a fictional app, and view results instantly.
+ThoughtSpot Everywhere users with Developer or admin privilege can access the *Develop* tab in the ThoughtSpot UI. The *Visual Embed Playground* allows you to explore the embedding options available with the SDK and view results instantly.
 
-If you want to try the Developer playground and evaluate ThoughtSpot embedding experience, you can access the Playground from the link:https://developers.thoughtspot.com/[ThoughtSpot Developers website, window=_blank].
+The *Develop* tab also provides separate playgrounds for REST API v1 and REST API v2, and several customization features.
 
-If you are a ThoughtSpot user, you can access this portal by clicking the *Develop* tab in your ThoughtSpot application instance. To access the portal, you need administrator or developer privileges.  For authenticated users, the portal provides a set of customization controls to rebrand the look and feel of your application, add custom buttons and actions, customize link format and URLs, and so on.
+For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
 
-== UI customization and rebranding
-If you have embedded the ThoughtSpot application in your host application, you can customize the look and feel of ThoughtSpot UI to match your organization's branding guidelines.
-
-You can customize the ThoughtSpot application UI by using the style customization settings in the Developer portal.
+== Customization controls
+UI customization and rebranding::
+If you want to customize the look and feel of ThoughtSpot UI to match your organization’s branding guidelines, you can use the style customization settings in the Develop tab.
 
 For more information, see xref:customize-style.adoc[Customize styles and layout].
 
-== Custom actions
+Custom actions::
+If you want to add a custom action to an embedded visualization or saved answer, use the xref:custom-actions.adoc[Custom actions] menu.
 
-ThoughtSpot allows you to add custom actions to embedded Liveboards and visualizations.
-
-For example, you can add a button to the ThoughtSpot UI that will trigger a workflow in your parent application.
-
-For more information, see xref:custom-actions.adoc[Custom actions].
-
-== Custom link format
-
-When a user shares an object with another user, ThoughtSpot generates a link to the shared object and sends it in email notifications. ThoughtSpot also generates system notifications when a user schedules a Liveboard job or runs SpotIQ analysis. If you have embedded ThoughtSpot in your application, you might want to generate these links in the format that preserves your host application context.
-
-ThoughtSpot allows you to customize the format of the links in the Developer portal. The *Links settings* page in the Developer portal allows you to customize the link format for various resource URLs and the *unsubscribe* link sent in email notifications.
+Custom link format::
+To customize the host URL and resource path in the system-generated links, use the *Link settings* menu. For example, when your application user shares an embedded Liveboard with another user or group, ThoughtSpot can generate a link with your host application URL and the resource path specified in *Link settings*.
 
 For more information, see xref:customize-links.adoc[Customize links].
+
+Security settings::
+If you are embedding ThoughtSpot in your application, you must add the domain URL of your application as a CSP and CORS host. These settings are available on the *Security settings* page. This page also allows you to enable trusted authentication and add redirect domains for SAML SSO authentication.
+
+For more information, see xref:security-settings.adoc[Security Settings].

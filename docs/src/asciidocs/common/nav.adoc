@@ -96,21 +96,20 @@
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database APIs]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
-
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 * link:{{navprefix}}=code-samples[Code samples]
+* link:{{navprefix}}=faqs[FAQs]
 
 * Resources
-
-** link:{{navprefix}}=terminology[Terminology changes]
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
+** link:https://training.thoughtspot.com/page/developer[Training resources, window=_blank]
 
 
 ////
-** link:{{navprefix}}=faqs[FAQs]
-** link:{{navprefix}}=trblshoot[Troubleshoot common issues]
 
+** link:{{navprefix}}=trblshoot[Troubleshoot common issues]
+** link:{{navprefix}}=terminology[Terminology changes]
 ////

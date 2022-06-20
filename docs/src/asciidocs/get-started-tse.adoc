@@ -8,7 +8,7 @@
 
 To get started with ThoughtSpot Everywhere and avail the full benefits of its features, you need a valid ThoughtSpot Everywhere Edition license. 
 
-However, if you want to explore or evaluate the overall embedding and API experience before acquiring a license, you can xref:get-started-tse.adoc#live-playground[get started with the Developer Playground] or xref:get-started-tse.adoc##free-trial[sign up for a Free Trial].
+However, if you want to explore or evaluate the overall embedding and API experience before acquiring a license, you can xref:get-started-tse.adoc#live-playground[get started with the Developer Playground] or xref:get-started-tse.adoc#free-trial[sign up for a Free Trial].
 
 * The Developer Playground provides an instant view of the embedding possibilities and interactive coding experience. You can try embedding the  ThoughtSpot application or its features in a sample app and get a quick preview of the developer experience. 
 

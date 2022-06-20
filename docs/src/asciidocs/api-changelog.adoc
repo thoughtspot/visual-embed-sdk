@@ -19,6 +19,17 @@ For more information, see xref:embed-events.adoc#host-events[Interact with event
 |[tag greenBackground]#NEW FEATURE# | The upcoming version of SDK includes the `getThoughtSpotPostUrlParams` method, which fetches ThoughtSpot URL query parameters prefixed with `ts-`.
 |====
 
+== Version 1.11.2, June 2022
+
+Bug fix for Typescript builds that affect Angular project configurations.
+
+== Version 1.11.1, May, 2022
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#| The SDK includes the action enum `ReportError`, using which you can turn off ThoughtSpot-specific error reporting.
+|====
+
 == Version 1.11.0, May 2022
 
 [width="100%" cols="1,4"]
@@ -314,7 +325,7 @@ For more information about `searchOptions`, see xref:embed-search.adoc#search-qu
 
 The SDK now supports logging in users automatically after a user session has expired.
 
-For more information, see xref:embed-authentication.adoc##embed-session-sec[Embed user authentication].
+For more information, see xref:embed-authentication.adoc#embed-session-sec[Embed user authentication].
 
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>shouldEncodeUrlQueryParams</h5>+++
 

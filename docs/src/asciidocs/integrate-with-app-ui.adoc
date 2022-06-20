@@ -76,7 +76,7 @@ The Visual Embed SDK provides xref:embed-events.adoc[events] to take action at v
 . `Init`
 +
 Fires at the beginning of the loading process.
-. `NoCookieAccess` 
+. `NoCookieAccess`
 
 +
 Some browsers (Safari in particular) default to strict settings on cookie origins that prohibit the standard SSO process. This event fires if cookies are restricted by a user's browser.
@@ -100,7 +100,7 @@ Fires as soon as the area for embedding is created, not when the content has beg
 
 . `Data`
 +
-Fires only on `SearchEmbed` components. Never fires with a `LiveboardEmbed` component.
+Fires only on `SearchEmbed` components. Does not fire on a `LiveboardEmbed` component.
 
 The full list events are defined in the link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/src/types.ts[types.ts, window=_blank] file of the Visual Embed SDK source.
 
