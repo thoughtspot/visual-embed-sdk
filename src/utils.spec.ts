@@ -112,23 +112,31 @@ describe('unit test for utils', () => {
         expect(getEncodedQueryParamsString('test')).toBe('dGVzdA');
     });
 
+    test('when ReleaseVersion is empty ', () => {
+        expect(checkReleaseVersionInBeta('', false)).toBe(false);
+    });
+
+    test('when ReleaseVersion is 7.0.1.cl ', () => {
+        expect(checkReleaseVersionInBeta('7.0.1.cl', false)).toBe(false);
+    });
+
     test('when cluster has dev version', () => {
         expect(checkReleaseVersionInBeta('dev', false)).toBe(false);
     });
 
-    test('when cluster is above 8.3.0.sw software version', () => {
-        expect(checkReleaseVersionInBeta('8.8.0.sw', false)).toBe(false);
+    test('when cluster is above 8.4.0.cl-11 software version', () => {
+        expect(checkReleaseVersionInBeta('8.4.0.cl-117', false)).toBe(false);
     });
 
     test('when cluster is bellow 8.0.0.sw software version', () => {
         expect(checkReleaseVersionInBeta('7.2.1.sw', false)).toBe(true);
     });
 
-    test('when suppressBetaWarning is true and ReleaseVersionBeta is 7.0.1', () => {
+    test('when suppressBetaWarning is true and ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', true)).toBe(false);
     });
 
-    test('when suppressBetaWarning is false ReleaseVersionBeta is 7.0.1', () => {
+    test('when suppressBetaWarning is false ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
 });

@@ -51,16 +51,21 @@ describe('Search embed tests when authType is Basic', () => {
         jest.clearAllMocks();
     });
 
-    test('when releaseVersion is bellow 8.4.0.sw', async () => {
-        setupVersion('8.0.0.sw');
+    test('when releaseVersion is empty', async () => {
+        setupVersion('');
+        const mockAlert = spyOn(window, 'alert');
+        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        await searchEmbed.render();
+        expect(mockAlert).not.toBeCalled();
+    });
+
+    test("when releaseVersion is '7.0.1.cl' ", async () => {
+        setupVersion('7.0.1.cl');
         const mockAlert = jest.spyOn(window, 'alert');
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         await searchEmbed.render();
-        expect(mockAlert).toBeCalledWith(
-            ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE,
-        );
+        expect(mockAlert).not.toBeCalled();
     });
-
     test('when releaseVersion is above 8.4.0.sw', async () => {
         setupVersion('8.4.0.sw');
         const mockAlert = jest.spyOn(window, 'alert');
