@@ -155,15 +155,18 @@ export const setAttributes = (
     });
 };
 
+const isCloudRelease = (version: string) => version.endsWith('.cl');
+
 /* For Search Embed: ReleaseVersionInBeta */
 export const checkReleaseVersionInBeta = (
     releaseVersion: string,
     suppressBetaWarning: boolean,
 ): boolean => {
-    const splittedReleaseVersion = releaseVersion.split('.'); // splitting releasonversion
-    const majorVersion = Number(splittedReleaseVersion[0]);
-    const minorVersion = Number(splittedReleaseVersion[1]);
-    const isBetaVersion =
-        majorVersion < 8 || (majorVersion === 8 && minorVersion < 4);
-    return !suppressBetaWarning && isBetaVersion;
+    if (releaseVersion !== '' && !isCloudRelease(releaseVersion)) {
+        const splittedReleaseVersion = releaseVersion.split('.');
+        const majorVersion = Number(splittedReleaseVersion[0]);
+        const isBetaVersion = majorVersion < 8;
+        return !suppressBetaWarning && isBetaVersion;
+    }
+    return false;
 };
