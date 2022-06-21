@@ -8,7 +8,12 @@
 
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 7.2.1CU1, June 2022
+
+== Version 7.2.1, January 2022
+
+The ThoughtSpot Software 7.2.1 version introduces the following features and enhancements in the Developer portal:
+
+== Search embed 
 
 If you are using the SearchEmbed SDK version 1.12.0 or later to embed ThoughtSpot Search in your app, the SDK shows the following alert:
 ----
@@ -24,10 +29,7 @@ If you are aware of the Search Embed feature limitation in 7.2.1 and lower versi
 suppressSearchEmbedBetaWarning: true
 ----
 
-
-== Version 7.2.1, January 2022
-
-The ThoughtSpot Software 7.2.1 version introduces the following features and enhancements in the Developer portal:
+=== Developer portal
 
 [width="100%" cols="1,4"]
 |====
@@ -39,6 +41,11 @@ The ThoughtSpot Software 7.2.1 version introduces the following features and enh
 * The *Full Height* checkbox in *Pinboard* Playground provides a preview of the `fullHeight` attribute that can dynamically resize the embedded pinboard frame according to the height of the pinboard.
 
 For more information, see xref:developer-playground.adoc[Developer Playground].
+|====
+=== Custom actions
+
+[width="100%" cols="1,4"]
+|====
 |[tag greenBackground]#NEW FEATURE# a|  +++<h5>+++Custom actions for worksheets+++</h5>+++
 
 The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
@@ -46,12 +53,6 @@ The worksheet pages now include a `Custom actions` tab that shows the custom act
 This feature is available to all ThoughtSpot users who have edit privileges to a worksheet.
 
 For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
-
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
-
-ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
-
-For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
 
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>+++Query parameters for URL-based custom actions +++</h5>+++
 
@@ -74,6 +75,12 @@ You can xref:custom-actions-edit.adoc[modify the position of this action] by usi
 * If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
 
 |====
+
+=== OpenID Connect authentication
+
+Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
+
+For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
 
 === Visual Embed SDK 1.5.x
 
