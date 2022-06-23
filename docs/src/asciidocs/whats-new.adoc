@@ -1,6 +1,6 @@
 = What's new
 :toc: true
-:toclevels: 1
+:toclevels: 2
 
 :page-title: What's new
 :page-pageid: whats-new
@@ -13,7 +13,7 @@ This article provides information about new features, enhancements, and deprecat
 
 The ThoughtSpot Software 7.2.1 version introduces the following features and enhancements in the Developer portal:
 
-== Search embed 
+=== Search embed 
 
 If you are using the SearchEmbed SDK version 1.12.0 or later to embed ThoughtSpot Search in your app, the SDK shows the following alert:
 ----
