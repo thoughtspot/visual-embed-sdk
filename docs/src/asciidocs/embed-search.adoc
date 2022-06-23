@@ -10,7 +10,7 @@ This article provides step-by-step instructions to embed ThoughtSpot search func
 
 [IMPORTANT]
 ====
-The Search Embed feature is in Beta in ThoughtSpot Software 7.2.1 and 7.1.1 versions. For an optimal user experience, we recommend that you use the Full application embed (`appEmbed`) package and set *Search* as the active tab on your embedded instance.
+The Search Embed feature is in Beta in ThoughtSpot Software 7.1.1 and 7.2.1 versions. For an optimal user experience, we recommend that you use the Full application embed (`appEmbed`) package and set *Search* as the active tab on your embedded instance.
 ====
 
 == Import the SearchEmbed package
