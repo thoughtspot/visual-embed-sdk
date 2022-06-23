@@ -29,6 +29,8 @@ If you are aware of the Search Embed feature limitation in 7.2.1 and lower versi
 suppressSearchEmbedBetaWarning: true
 ----
 
+For more information about Visual Embed SDK enhancements, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank].
+
 === Developer portal
 
 [width="100%" cols="1,4"]
@@ -82,9 +84,9 @@ Your application users can now authenticate to an authorization server at your O
 
 For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
 
-=== Visual Embed SDK 1.5.x
+=== Visual Embed SDK
 
-The ThoughtSpot Software 7.2.1 version supports Visual Embed SDK version 1.5.x, which includes the following new features and enhancements.
+The ThoughtSpot Software 7.2.1 version supports Visual Embed SDK version 1.5.0, which includes the following new features and enhancements. 
 
 [width="100%" cols="1,4"]
 |====
