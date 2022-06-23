@@ -9,7 +9,7 @@
 This article provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
 
-== Version 7.2.1, January 2022
+== Version 7.2.1
 
 The ThoughtSpot Software 7.2.1 version introduces the following features and enhancements in the Developer portal:
 
