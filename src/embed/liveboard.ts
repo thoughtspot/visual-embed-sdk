@@ -135,7 +135,7 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.visibleVizs] = visibleVizs;
         }
         params[Param.livedBoardEmbed] = true;
-        if(vizId) {
+        if (vizId) {
             params[Param.vizEmbed] = true;
         }
         params[Param.LiveboardV2Enabled] = liveboardV2;
