@@ -19,8 +19,13 @@ export enum AuthType {
     None = 'None',
     /**
      * SSO using SAML
+     * @deprecated Use {@link SAML} instead
      */
     SSO = 'SSO_SAML',
+    /**
+     * SSO using SAML
+     */
+    SAML = 'SSO_SAML',
     /**
      * SSO using OIDC
      */

@@ -64,4 +64,15 @@ describe('getThoughtSpotHost', () => {
             }),
         ).toBe('http://1.2.3.4:8088/v2');
     });
+
+    test('when authtype SAML, fully formed URL with', () => {
+        expect(
+            getThoughtSpotHost({
+                ...embedConfig,
+                authType: AuthType.SAML,
+                thoughtSpotHost:
+                    'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
+            }),
+        ).toBe('http://1.2.3.4:8088/v2');
+    });
 });
