@@ -25,7 +25,7 @@ from '@thoughtspot/visual-embed-sdk';
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: "<%=tshost%>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -51,7 +51,7 @@ from '@thoughtspot/visual-embed-sdk';
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {

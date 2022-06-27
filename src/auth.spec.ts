@@ -49,6 +49,9 @@ export const embedConfig: any = {
     SSOAuth: {
         authType: AuthType.SSO,
     },
+    SAMLAuth: {
+        authType: AuthType.SAML,
+    },
     OIDCAuth: {
         authType: AuthType.OIDC,
     },
@@ -382,6 +385,13 @@ describe('Unit test for auth', () => {
     it('authenticate: when authType is SSO', async () => {
         jest.spyOn(authInstance, 'doSamlAuth');
         await authInstance.authenticate(embedConfig.SSOAuth);
+        expect(window.location.hash).toBe('');
+        expect(authInstance.doSamlAuth).toBeCalled();
+    });
+
+    it('authenticate: when authType is SMAL', async () => {
+        jest.spyOn(authInstance, 'doSamlAuth');
+        await authInstance.authenticate(embedConfig.SAMLAuth);
         expect(window.location.hash).toBe('');
         expect(authInstance.doSamlAuth).toBeCalled();
     });
