@@ -10,6 +10,18 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
+=== Search Assist support for embedded instances
+
+In the upcoming version, you can assist your application users with simple search scenarios using Search Assist lessons. If the Search Assist feature is enabled and the Search Assist lessons are created on the embedded instance, users can try sample search scenarios, follow the instructions, and get answers.
+
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+
+=== Visual Embed SDK 1.13.0
+
+For information about the upcoming features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+== Version, 8.4.0.cl
+
 ==== Link customization
 
 The upcoming release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL and thus allow users to unsubscribe from KPI threshold alerts at any time.
@@ -41,12 +53,15 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 
 == Version 8.3.0.cl
 
-==== Visual Embed SDK 1.11.0
-
+.Visual Embed SDK 1.11.0
+[%collapsible]
+====
 The Visual Embed SDK version 1.11.0 introduces several new events for embedded components. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-==== REST API v2 [beta blueBackground]^BETA^
-
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
 [width="100%" cols="1,4"]
 |====
 ||
@@ -90,6 +105,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 * In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
 |[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
+====
 
 == Version 8.2.0.cl
 
