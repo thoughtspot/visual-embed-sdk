@@ -6,7 +6,7 @@
 :page-description: Search Assist on embedded instances
 :description: Enable Search Assist to demonstrate how to get construct your search query and view answers.
 
-The Search Assist feature provides a walkthrough of sample scenarios of searching data from a worksheet. Your application users can use this feature to familiarize themselves with the search experience and get the answers they need.
+The Search Assist feature provides sample scenarios of searching data from a worksheet. Your application users can use this feature to familiarize themselves with the search experience and get the answers they need.
 
 To enable Search Assist walkthrough on an embedded instance, the following steps are required:
 
