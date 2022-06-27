@@ -91,7 +91,26 @@ appEmbed.trigger(HostEvent.Navigate, {
    noReload: true
 });
 ----
+====
 --
+
+==== getExportRequestForCurrentPinboard
+
+Available with `LiveboardEmbed` in `V1.13.0` or later. +
+Fires when a user triggers the Liveboard export workflow with the `getExportRequestForCurrentPinboard` method in the browser fetch request to download a Liveboard in its current state, including unsaved changes if any.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,javascript]
+----
+liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
+----
+====
+--
+
 
 ==== Search
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
