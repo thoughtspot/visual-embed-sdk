@@ -30,6 +30,11 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 });
 ----
 
+++++
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+
 == Configure Search Assist content
 
 By default, the Sample Retail link:https://docs.thoughtspot.com/cloud/latest/system-worksheet[system worksheet, window=_blank] includes a Search Assist lesson with a pre-defined set of questions and instructions to guide your application users.
