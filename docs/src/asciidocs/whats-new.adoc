@@ -22,9 +22,9 @@ For information about the upcoming features and enhancements in the Visual Embed
 
 === ThoughtSpot UI
 
-The new Data workspace will be Generally Available (GA) in 8.5.0.cl. For more information about the new Data tab, SpotApps and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
+The new Data workspace will be Generally Available (GA) in 8.5.0.cl. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
 
-[IMPORTNT]
+[IMPORTANT]
 ====
 While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
 ====
