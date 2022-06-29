@@ -8,6 +8,18 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 1.13.0, Coming soon
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|
+The upcoming version of Visual Embed SDK includes the `enableSearchAssist` attribute, using which you can turn on the Search Assist feature on an embedded instance.
+////
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+////
+
+|[tag greenBackground]#NEW FEATURE#| The upcoming version of SDK includes the `getExportRequestForCurrentPinboard` event, which is triggered when a user tries to export a Liveboard in its current state.
+|====
+
 == Version 1.12.0, June 2022
 
 [width="100%" cols="1,4"]

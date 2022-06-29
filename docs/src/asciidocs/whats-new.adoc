@@ -8,6 +8,30 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Coming soon
+
+=== Search Assist support for embedded instances
+
+In the upcoming version, you can assist your application users with simple search scenarios using Search Assist lessons. If the Search Assist feature is enabled and the Search Assist lessons are created on the embedded instance, users can try sample search scenarios, follow the instructions, and get answers.
+
+////
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+////
+
+=== Visual Embed SDK 1.13.0
+
+For information about the upcoming features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== ThoughtSpot UI
+
+The new Data workspace will be Generally Available (GA) in 8.5.0.cl. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
+
+[IMPORTANT]
+====
+While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+====
+
+
 == Version 8.4.0.cl
 
 ==== Link customization
