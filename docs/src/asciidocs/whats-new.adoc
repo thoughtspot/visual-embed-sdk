@@ -20,6 +20,15 @@ For more information, see xref:search-assist-tse.adoc[Enable Search Assist, wind
 
 For information about the upcoming features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
+=== ThoughtSpot UI
+
+The new Data workspace will be Generally Available (GA) in 8.5.0.cl. For more information about the new Data tab, SpotApps and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
+
+[IMPORTNT]
+====
+While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+====
+
 == Version, 8.4.0.cl
 
 ==== Link customization
@@ -49,7 +58,6 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 ** `/tspublic/rest/v2/user/removegroup` +
 * The `/tspublic/rest/v2/admin/changeowner` endpoint will be renamed as `/tspublic/rest/v2/admin/changeauthor`.
 |====
-
 
 == Version 8.3.0.cl
 
