@@ -183,6 +183,10 @@ export interface EmbedConfig {
      * @version SDK: 1.12.0 | ThoughtSpot: *
      */
     suppressSearchEmbedBetaWarning?: boolean;
+    /**
+     * Custom style params for embed Config
+     */
+    customStyle?: any;
 }
 
 /**
@@ -557,6 +561,11 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
+
+    /**
+     *
+     */
+    APP_INIT = 'appInit',
 }
 
 /**
@@ -684,6 +693,7 @@ export enum Param {
     LiveboardV2Enabled = 'isPinboardV2Enabled',
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
+    CustomStyle = 'customStyle',
 }
 
 /**
