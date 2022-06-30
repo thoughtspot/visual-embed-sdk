@@ -21,7 +21,8 @@ const thoughtSpotHost = 'tshost';
 const defaultParamsWithoutHideActions = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 const defaultParams = `${defaultParamsWithoutHideActions}&hideAction=[%22${Action.ReportError}%22]`;
 const prefixParams = '&isLiveboardEmbed=true&isPinboardV2Enabled=false';
-
+const prefixParamsVizEmbed =
+    '&isLiveboardEmbed=true&isVizEmbed=true&isPinboardV2Enabled=false';
 beforeAll(() => {
     init({
         thoughtSpotHost,
@@ -153,7 +154,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
@@ -174,7 +175,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000${defaultParams}${prefixParams}#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });
