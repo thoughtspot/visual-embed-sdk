@@ -102,6 +102,7 @@ a|Runtime filters
 ////
 
 == REST API v1 availability
+
 [div tableContainer]
 --
 [width="100%" cols="8,4,4,4,4"]
@@ -119,34 +120,34 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a| xref:group-api.adoc[Group API endpoints] +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|xref:session-api.adoc[Session API endpoints] +
-__Require authentication__
+__Require view or edit access to Liveboard objects__
 |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|xref:connections-api.adoc[Connection API endpoints] +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
-|xref:metadata-api.adoc[Metadata API endpoints] +
+a|xref:metadata-api.adoc[Metadata API endpoints] +
 
 * __Require at least view access to metadata objects__ +
-* __ `POST` requests require authentication__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+* __ `POST` requests require edit access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 a|xref:tml-api.adoc[TML API endpoints] +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 a|xref:admin-api.adoc[Admin and custom action API endpoints] +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|xref:dependency-apis.adoc[Dependency API endpoints] +
-__Require authentication__ +
-__Require edit access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+__Require view access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|Data API endpoints +
 
 * xref:session-api.adoc[Search data API endpoint] +
 * xref:pinboarddata.adoc[Liveboard data AI endpoint] +
-* xref:pinboard-export-api.adoc[Liveboard Export API endpoint]|
+* xref:pinboard-export-api.adoc[Liveboard Export API endpoint] +
+
+__Require at least view access to metadata objects__ |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 a|xref:security-api.adoc[Security API endpoints] +
-__Require authentication__ +
 __Require edit access to metadata objects to share and view permission details__|
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 
-a|xref:logs-api.adoc[Logs API endpoint] +
+a|xref:logs-api.adoc[Audit logs API endpoint] +
 __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
 |=====
 --
@@ -162,7 +163,7 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 (Evaluation only) |Developer Playground on public instance +
 (Evaluation only)
 a|Session API endpoints +
-__Require authentication__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+__Require view or edit access to Liveboard objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|User API endpoints +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 a| Group API endpoints +
@@ -170,14 +171,15 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a|Metadata API endpoints +
 
 * __Require at least view access to metadata objects__ +
-* __ `POST` and `PUT` requests require authentication__ +
+* __ `POST` and `PUT` requests require edit access to metadata objects__ +
 * __The import and export TML API endpoints require `DATAMANAGEMENT` privilege.__  |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# +
 
 (Query APIs only)
 a|Connection API endpoints +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
-a|Data API endpoints |
+a|Data API endpoints +
+__Require at least view access to metadata objects__ |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 a|Report API endpoints +
 __Require `DATADOWNLOADING` privilege__|
@@ -187,11 +189,9 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a|Custom action API endpoints +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|Security API endpoints +
-
-* __Require authentication__ +
-* __You must have edit access to metadata objects to share and view permission details__ |
+__You must have edit access to metadata objects to share and view permission details__ |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
-a|Logs API endpoint +
+a|Audit logs API endpoint +
 __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
 |=====
 --
