@@ -73,7 +73,7 @@ include::{path}/dependency-api-list.adoc[]
 
 include::{path}/security-api-list.adoc[]
 
-== Log Streaming Service
+== Audit logs
 
 [div boxAuto]
 --

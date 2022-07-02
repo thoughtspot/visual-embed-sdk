@@ -12,7 +12,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Search Assist support for embedded instances
 
-In the upcoming version, you can assist your application users with simple search scenarios using Search Assist lessons. If the Search Assist feature is enabled and the Search Assist lessons are created on the embedded instance, users can try sample search scenarios, follow the instructions, and get answers.
+In the upcoming release, you can assist your application users with simple search scenarios using Search Assist lessons. If the Search Assist feature is enabled and the Search Assist lessons are created on the embedded instance, users can try sample search scenarios, follow the instructions, and get answers.
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 

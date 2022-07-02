@@ -62,7 +62,7 @@ liveboardEmbed.render({
     vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
       runtimeFilters: [{
       columnName: 'Revenue',
-      operator: EQ,
+      operator: RuntimeFilterOp.EQ,
       values: [ 100000 ]
       }]
   });
