@@ -1,8 +1,8 @@
-=  Log streaming service API
+=  Audit logs API
 :toc: true
 :toclevels: 1
 
-:page-title: Log streaming service 
+:page-title: Audit logs api
 :page-pageid: logs-api
 :page-description: Log streaming service APIs
 
@@ -12,7 +12,7 @@ The ThoughtSpot log API service allows you to programmatically get a security au
 
 == Required permissions
 
-You must have administrator access to query security logs. 
+The log API call requires administrator access.
 
 
 == Resource URL

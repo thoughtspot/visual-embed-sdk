@@ -92,7 +92,7 @@
 *** link:{{navprefix}}=liveboard-data-api[Liveboard data API]
 *** link:{{navprefix}}=liveboard-export-api[Liveboard export API]
 *** link:{{navprefix}}=security-api[Security API]
-*** link:{{navprefix}}=logs-api[Log streaming service API]
+*** link:{{navprefix}}=logs-api[Audit logs API]
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database APIs]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]

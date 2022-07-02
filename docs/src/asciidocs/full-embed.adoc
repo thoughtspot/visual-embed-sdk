@@ -245,7 +245,7 @@ For example, to sort values equal to `100000` in the `Revenue` column for a visu
 ----
 runtimeFilters: [{
     columnName: 'Revenue',
-    operator: 'EQ',
+    operator: RuntimeFilterOp.EQ,
     values: [100000]
 }]
 ----

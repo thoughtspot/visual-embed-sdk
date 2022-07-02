@@ -137,7 +137,7 @@ Triggers an event to update runtime filters. The following example shows how to 
 ----
 liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
     columnName: "state",
-    operator: "EQ",
+    operator: RuntimeFilterOp.EQ,
     values: ["michigan"]
 }]);
 ----
