@@ -107,6 +107,9 @@ Fires when a user triggers the Liveboard export workflow with the `getExportRequ
 [source,javascript]
 ----
 liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
+    .then(data => {
+        console.log('Liveboard Data: ', data);
+    })
 ----
 ====
 --
