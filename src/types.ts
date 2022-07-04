@@ -40,6 +40,15 @@ export enum AuthType {
 
 export type DOMSelector = string | HTMLElement;
 
+interface CustomStyles {
+    customCSSUrl?: string;
+    customCss?: any;
+}
+export interface CustomisationsInterface {
+    style: CustomStyles;
+    content: any;
+}
+
 /**
  * The configuration object for embedding ThoughtSpot content.
  * It includes the ThoughtSpot hostname or IP address,
@@ -186,7 +195,7 @@ export interface EmbedConfig {
     /**
      * Custom style params for embed Config
      */
-    customStyle?: any;
+    customisations?: CustomisationsInterface;
 }
 
 /**

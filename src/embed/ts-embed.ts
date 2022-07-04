@@ -13,6 +13,7 @@ import {
     getOffsetTop,
     embedEventStatus,
     setAttributes,
+    getCustomisations,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -215,6 +216,7 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        this.registerAppInit();
     }
 
     /**
@@ -293,6 +295,7 @@ export class TsEmbed {
      */
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
+            console.log(event);
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
             const eventData = this.formatEventData(event, eventType);
@@ -314,10 +317,10 @@ export class TsEmbed {
     /**
      * Send Custom style as part of payload of APP_INIT
      */
-    private appInitCb = (data: MessagePayload, responder: any) => {
+    private appInitCb = (_: any, responder: any) => {
         responder({
             type: EmbedEvent.APP_INIT,
-            data: { customStyle: this.embedConfig.customStyle },
+            data: { customisations: getCustomisations(this.embedConfig) },
         });
     };
 
@@ -375,6 +378,7 @@ export class TsEmbed {
         ) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
+        // TODO remove this
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
         }
@@ -480,7 +484,6 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            this.registerAppInit();
             getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
