@@ -295,7 +295,6 @@ export class TsEmbed {
      */
     private subscribeToEvents() {
         window.addEventListener('message', (event) => {
-            console.log(event);
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
             const eventData = this.formatEventData(event, eventType);
