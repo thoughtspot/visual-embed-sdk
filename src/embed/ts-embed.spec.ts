@@ -70,7 +70,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('get Customisations', async () => {
+        test('verify Customisations', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
