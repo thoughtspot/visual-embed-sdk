@@ -41,8 +41,21 @@ export enum AuthFailureType {
 }
 
 export enum AuthStatus {
+    /**
+     * Emits when the SDK fails to authenticate
+     */
     FAILURE = 'FAILURE',
+    /**
+     * Emits when the SDK succeeds to authenticate
+     */
+    SDK_SUCCESS = 'SDK_SUCCESS',
+    /**
+     * Emits when the App sends a auth success
+     */
     SUCCESS = 'SUCCESS',
+    /**
+     * Emits when there is a logout
+     */
     LOGOUT = 'LOGOUT',
 }
 

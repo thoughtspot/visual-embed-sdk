@@ -32,6 +32,14 @@ export const getAuthPromise = (): Promise<boolean> => authPromise;
 
 let authEE: EventEmitter;
 
+export function notifyAuthSDKSuccess(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.SDK_SUCCESS);
+}
+
 export function notifyAuthSuccess(): void {
     if (!authEE) {
         console.error('SDK not initialized');
@@ -64,6 +72,8 @@ export const handleAuth = (): Promise<boolean> => {
         (isLoggedIn) => {
             if (!isLoggedIn) {
                 notifyAuthFailure(AuthFailureType.SDK);
+            } else {
+                notifyAuthSDKSuccess();
             }
         },
         () => {

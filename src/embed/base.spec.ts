@@ -113,6 +113,24 @@ describe('Base TS Embed', () => {
         });
     });
 
+    test('handleAuth notifies for SDK auth success', (done) => {
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true);
+        const failureCallback = jest.fn();
+        const authEmitter = index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.Basic,
+            username: 'test',
+            password: 'test',
+        });
+
+        authEmitter.on(auth.AuthStatus.FAILURE, failureCallback);
+        authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (reason) => {
+            expect(failureCallback).not.toBeCalled();
+            expect(reason).toBe(undefined);
+            done();
+        });
+    });
+
     test('Logout method should disable autoLogin', () => {
         jest.spyOn(window, 'fetch').mockResolvedValue({
             type: 'opaque',
