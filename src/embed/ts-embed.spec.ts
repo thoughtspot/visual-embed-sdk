@@ -34,8 +34,12 @@ const defaultViewConfig = {
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
-const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
 const defaultParamsPost = '&isPinboardV2Enabled=false';
+
+beforeAll(() => {
+    spyOn(window, 'alert');
+});
 
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(
@@ -261,7 +265,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('when visible actions are set', () => {
         test('should throw error when there are both visible and hidden actions - pinboard', async () => {
-            spyOn(console, 'log');
+            spyOn(console, 'error');
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
                 visibleActions: [Action.DownloadAsCsv],
@@ -270,7 +274,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(console.log).toHaveBeenCalledWith(
+            expect(console.error).toHaveBeenCalledWith(
                 'You cannot have both hidden actions and visible actions',
             );
         });
@@ -288,7 +292,7 @@ describe('Unit test case for ts embed', () => {
             hiddenActions: Array<Action>,
             visibleActions: Array<Action>,
         ) {
-            spyOn(console, 'log');
+            spyOn(console, 'error');
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 hiddenActions,
                 visibleActions,
@@ -297,7 +301,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(console.log).toHaveBeenCalledWith(
+            expect(console.error).toHaveBeenCalledWith(
                 'You cannot have both hidden actions and visible actions',
             );
         }
@@ -346,14 +350,19 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('Error should be true', async () => {
+            spyOn(console, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'You need to init the ThoughtSpot SDK module first',
+            );
         });
     });
 
     describe('V1Embed ', () => {
         test('when isRendered is true than isError will be true', () => {
+            spyOn(console, 'error');
             const viEmbedIns = new tsEmbedInstance.V1Embed(
                 getRootEl(),
                 defaultViewConfig,
@@ -362,11 +371,15 @@ describe('Unit test case for ts embed', () => {
             viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
             expect(viEmbedIns['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'Please register event handlers before calling render',
+            );
         });
     });
 
     describe('Navigate to Page API', () => {
         const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',
@@ -415,6 +428,7 @@ describe('Unit test case for ts embed', () => {
     });
     describe('Navigate to Page API - Pinboard', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
                 () => 'http://tshost',

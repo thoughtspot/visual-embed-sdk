@@ -6,7 +6,28 @@ This project follows Semantic Versioning.
 ## Unreleased
 
 ### New Features
-- Events for all actions on Search Embed
+- Event for navigating to a specific page in App embed without any reload
+- Ability to turn on search assist in Search embed
+- Set of new Host events to drive interactions on the embed programatically 
+
+## 1.12.1 (06-21-2022)
+### Fixed
+- Search embed beta warning check for TS cloud releases
+## 1.12.0 (06-21-2022)
+- Release to support TS version 8.4.0.cl
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
+
+## 1.11.2 (06-10-2022)
+### Fixed
+- Typescript build that was affecting some Angular project configurations
+
+## 1.11.1 (05-30-2022)
+### Fixed
+- Whitelabeling - new [action](https://developers.thoughtspot.com/docs/typedoc/enums/Action.html#ReportError) for the ability to turn off TS specific error reporting by end users.
+
+## 1.11.0 (05-20-2022)
+- Release to support TS version 8.3.0.cl
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
 
 ## 1.10.4 (05-06-2022)
 ### New Features
@@ -32,7 +53,7 @@ This project follows Semantic Versioning.
 ## 1.10.0 (04-22-2022)
 
 - Release to support TS version 8.2.0.cl
-- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
 
 ## 1.9.5 (04-06-2022)
 
@@ -73,7 +94,7 @@ This project follows Semantic Versioning.
 ## 1.9.0
 
 - Release to support TS version 8.1.0.cl
-- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
 
 
 ## 1.8.1
@@ -94,4 +115,4 @@ This project follows Semantic Versioning.
 
 ## 1.7.0 (and earlier)
 
--   Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=whats-new)
+-   Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)

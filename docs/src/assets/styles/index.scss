@@ -29,7 +29,6 @@ body {
     font-size: $font-size-normal;
 }
 
-
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -140,11 +139,11 @@ button {
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    margin: 2px;
+    margin: 5px;
     padding: $tag-padding;
     color: var(--primary-color);
     border: solid 1px;
-    border-color: $tip-color; 
+    border-color: $tip-color;
 }
 
 
@@ -159,7 +158,7 @@ button {
     min-width: $tag-width;
     padding: $beta-padding;
     color: $tag-font-color;
-    margin: 2px;
+    margin-right: 1px;
 }
 
 .blueBackground {
@@ -202,6 +201,16 @@ button {
 
 /* Div box style start */
 
+.announcementBlock {
+    border: 0.5px solid $disabledcolor;
+    font-color: var(--announcement-font-color);
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    padding: $padding-sm $padding-sm $padding-sm $padding-md;
+    background-color: var(--announcement-block-color);
+    }
+
 .boxDiv {
     padding: 15px;
     display: inline-block;
@@ -240,8 +249,9 @@ button {
     border-bottom: 1px solid var(--border-color);
     display: block;
     width: 100%;
-    margin: 0 auto;
+    margin: 5px auto;
 }
+
 
 .boxBody {
     font-weight: $font-size-doc;
@@ -251,13 +261,17 @@ button {
 
 }
 
+.boxAuto {
+    border: 0.5px solid $disabledcolor;
+	height: auto;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
 
 .tableContainer {
     border: 0.5px solid $disabledcolor;
-	height: 750px;
-	overflow-y: scroll;
-	width: 100%;
-	padding: 0 0 0 2px;
+    padding: 0 0 0 5px;
+    overflow-x: auto;
 }
 
 summary.title  {
@@ -281,7 +295,7 @@ summary.title  {
 
 }
 
- 
+
 a.anchor {
     position: absolute;
     text-decoration: none;
@@ -291,7 +305,7 @@ a.anchor {
     font-size: .8em;
     font-weight: 400;
     padding-top: 0.05em;
-}    
+}
 
 
 .introCard     {
@@ -354,7 +368,7 @@ a.anchor {
    .introCard {
         width: 100%;
     }
-    
+
     .boxDiv {
         width: 100%;
     }
@@ -362,7 +376,7 @@ a.anchor {
     .boxHalfWidth {
         width: 100%;
     }
-    
+
     .tableContainer {
 	overflow: scroll;
 }

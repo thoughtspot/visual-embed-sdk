@@ -1,5 +1,6 @@
 import * as _processTriggerInstance from './processTrigger';
 import { HostEvent } from '../types';
+import { messageChannelMock, mockMessageChannel } from '../test/test-utils';
 
 describe('Unit test for processTrigger', () => {
     const iFrame: any = {
@@ -29,12 +30,21 @@ describe('Unit test for processTrigger', () => {
         const messageType = HostEvent.Search;
         const thoughtSpotHost = 'http://localhost:3000';
         const data = {};
-        _processTriggerInstance.processTrigger(
+        mockMessageChannel();
+        const triggerPromise = _processTriggerInstance.processTrigger(
             iFrame,
             messageType,
             thoughtSpotHost,
             data,
         );
         expect(iFrame.contentWindow.postMessage).toBeCalled();
+        const res = {
+            data: {
+                test: '123',
+            },
+        };
+        messageChannelMock.port1.onmessage(res);
+        expect(messageChannelMock.port1.close).toBeCalled();
+        expect(triggerPromise).resolves.toEqual(res.data);
     });
 });

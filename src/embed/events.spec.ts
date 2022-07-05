@@ -15,6 +15,7 @@ import {
     getIFrameEl,
     getRootEl,
     getRootEl2,
+    mockMessageChannel,
     postMessageToParent,
 } from '../test/test-utils';
 import { LiveboardViewConfig } from './liveboard';
@@ -33,6 +34,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    spyOn(window, 'alert');
 });
 
 describe('test communication between host app and ThoughtSpot', () => {
@@ -70,6 +72,7 @@ describe('test communication between host app and ThoughtSpot', () => {
     });
 
     test('should trigger event to ThoughtSpot app', (done) => {
+        mockMessageChannel();
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         searchEmbed.render();
         setTimeout(() => {

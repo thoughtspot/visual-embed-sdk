@@ -1,0 +1,108 @@
+= Embed ThoughtSpot
+:toc: true
+
+:page-title: Embedded ThoughtSpot
+:page-pageid: embed-ts
+:page-description: ThoughtSpot supports several embedding options to embed ThoughtSpot in your web application or portal.
+
+ThoughtSpot supports embedding Search, Liveboard, visualizations, and the full ThoughtSpot experience in a web application, product, or portal.
+
+[div announcementBlock]
+--
+*ThoughtSpot Everywhere is now available!*
+
+Starting from the 8.4.0-sw release (Limited Availability), ThoughtSpot Software customers licensed to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK.
+
+To enable ThoughtSpot Everywhere on your cluster, contact ThoughtSpot Support.
+--
+
+== Supported embedding methods
+Based on your embedding requirements and integration setup, you can use one of the following embedding methods:
+
+* xref:visual-embed-sdk.adoc[Embed using Visual Embed SDK] (Recommended)
+* xref:embed-without-sdk.adoc[iFrame embedding without SDK]
+* link:https://docs.thoughtspot.com/software/7.2/embedding[Legacy embedding method with app.min.js, window=_blank] (ThoughtSpot Software only)
+
+To determine the method that best fits your embedding requirement, refer to the information in the following tables.
+
+[div boxAuto]
+--
+[width="100%" cols="4,7,7,7"]
+[options='header']
+|=====
+||Visual Embed SDK|Embed without SDK|Legacy embedding method
+s|When to use|The SDK Supports all embed and customization use cases. Use the SDK for embedding ThoughtSpot if your host platform allows custom Javascript.
+|Use this method only if your host platform doesn't allow custom Javascript. This method involves embedding a ThoughtSpot component in an iFrame.| The legacy embedding method is available for only ThoughtSpot Software deployments. With this method, you can embed a ThoughtSpot page, object, or the full application using `api.min.js` script.
+s|Feature availability a|
+ThoughtSpot Cloud ts7.may.cl or later +
+ThoughtSpot Software version 8.4.0-sw or later a|
+ThoughtSpot Cloud ts7.may.cl or later +
+ThoughtSpot Software version 6.0 or later  a| ThoughtSpot Software version 6.0 or later
+
+ThoughtSpot recommends using Visual Embed SDK and ThoughtSpot Everywhere features from 8.4.0-sw onwards.
+
+s|Required user privilege|`DEVELOPER` +
+`ADMINISTRATOR`
+|`ADMINISTRATOR`|`ADMINISTRATOR`
+
+s|Maintenance and support| Available | Available | Limited support
+|=====
+--
+== Feature comparison
+
+The following table lists the features available with each embed flavor:
+
+[div tableContainer]
+--
+[width="100%" cols="4,5,5,6,6"]
+[options='header']
+|=====
+|Feature category|Features| Visual Embed SDK|Embedding without SDK |Legacy embedding method
+
+.5+|**Embed options**|Search|[tag greenBackground]#✓#|[tag greyBackground]#–#| [tag greyBackground]#–#
+|Visualization|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
+Liveboard - Classic experience|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
+Liveboard - New experience|Coming soon|Coming soon|[tag greyBackground]#–#|
+Full ThoughtSpot experience|[tag greenBackground]#✓# a|[tag greenBackground]#✓#|[tag greenBackground]#✓#
+
+.5+|**Authentication**|SAML|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
+
+__Inline authentication__. __For more information, see xref:embed-without-sdk.adoc#iframe-auth[Embed without SDK]__.
+
+|[tag greenBackground]#✓#
+|OIDC| [tag greenBackground]#✓#|[tag greyBackground]#–#| [tag greyBackground]#–#
+|Trusted authentication|[tag greenBackground]#✓#| [tag greenBackground]#✓#|[tag greenBackground]#✓#
+|Basic authentication| [tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#
+|Auto-login on authentication expiry|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+
+.2+|**Custom Actions**|URL actions|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#  +
+
+__Available in only ThoughtSpot Software 7.0 or earlier versions__ |
+
+Callback actions|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+
+.4+|**Granular control of embedded UI**|Customization flags such as hiding data sources, search options configuration, setting a Liveboard to full height, and so on| [tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#|
+Show or hide UI menu actions| [tag greenBackground]#✓#| [tag greyBackground]#–#|[tag greyBackground]#–#|
+Style customization and rebranding of UI elements|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |
+Link customization|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
+
+**Events** a|Ability to trigger and handle embed lifecycle and host app events +
+
+Interaction between host and embedded ThoughtSpot app| [tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–# +
+
+__Legacy events only__|
+
+**Runtime filters**|Ability to pass filters as URL query parameters |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |
+
+**React components**| Ability to embed ThoughtSpot components in a React app|[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#|
+|=====
+--
+
+== Embed using REST APIs
+
+ThoughtSpot REST API framework supports data APIs, using which you can embed an answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the SDK to embed ThoughtSpot content in your app.
+
+For more information, see the following pages:
+
+* xref:embed-rest-api.adoc[Embed using REST APIs]
+* xref:custom-viz-rest-api.adoc[Create a custom visualization using REST APIs]

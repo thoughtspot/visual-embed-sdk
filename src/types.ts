@@ -19,8 +19,13 @@ export enum AuthType {
     None = 'None',
     /**
      * SSO using SAML
+     * @deprecated Use {@link SAML} instead
      */
     SSO = 'SSO_SAML',
+    /**
+     * SSO using SAML
+     */
+    SAML = 'SSO_SAML',
     /**
      * SSO using OIDC
      */
@@ -177,6 +182,12 @@ export interface EmbedConfig {
      * @version SDK: 1.10.4 | ThoughtSpot: *
      */
     detectCookieAccessSlow?: boolean;
+    /**
+     * Hide beta alert warning message for SearchEmbed.
+     *
+     * @version SDK: 1.12.0 | ThoughtSpot: *
+     */
+    suppressSearchEmbedBetaWarning?: boolean;
 }
 
 /**
@@ -608,6 +619,18 @@ export enum HostEvent {
      * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl
      */
     Navigate = 'Navigate',
+    /**
+     * Gets the current pinboard content.
+     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
+     */
+    getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
+    /**
+     * Fires the pin action on an embedded object
+     * @param - incase of liveboard embed, takes in an object with vizId as a key
+     * can be left empty for search and viz embeds
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Pin = 'pin',
 }
 
 /**
@@ -808,6 +831,10 @@ export enum Action {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
     CreateMonitor = 'createMonitor',
+    /**
+     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl
+     */
+    ReportError = 'reportError',
 }
 
 export interface SessionInterface {

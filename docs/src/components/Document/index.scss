@@ -8,7 +8,7 @@
     width: calc(100% - #{$docmap-width-desktop});
     color: var(--primary-color);
     padding-left: $document-padding;
-    
+
 
     .documentView {
         min-height: 75vh;
@@ -44,13 +44,14 @@
 
     img {
         width: 100%;
-        
-        
+
+
     }
 
     pre {
         white-space: pre-wrap;
         background: var(--code-block-color);
+        width: auto;
         padding: 20px;
         display: flex;
         font-family: $font-family-code;
@@ -67,7 +68,7 @@
         &:hover {
             .wrapperContainer {
                 visibility: visible;
-               
+
             }
         }
 
@@ -75,6 +76,7 @@
             max-width: 100%;
             font-family: $font-family-code;
             padding-top: 10px;
+
         }
 
         .wrapperContainer {
@@ -131,6 +133,7 @@
         border-spacing: 0;
         border-collapse: separate;
         width: 100%;
+        overflow: auto;
 
 
         th {
@@ -141,8 +144,8 @@
             background-color: var(--table-header-color);
             position: sticky;
             top: 0;
-            
-            
+
+
         }
 
         td {
@@ -181,6 +184,7 @@
         font-size: $font-size-h4;
         margin-top: $sub-title-margin;
         font-weight: $font-weight-normal;
+        margin-bottom: $sub-title-margin-h5;
     }
 
     h5 {
@@ -190,7 +194,7 @@
         font-weight: $font-weight-bold;
         color: var(--primary-color);
     }
-    
+
     ol > li {
         &::marker {
             font-weight: $font-weight-normal;
@@ -201,7 +205,7 @@
             margin-left: 5px;
         }
     }
- 
+
     ul > li {
         &::marker {
             font-weight: $font-weight-normal;
@@ -212,7 +216,7 @@
             margin-left: 5px;
         }
     }
- 
+
 
     .hdlist {
         tr,
@@ -255,8 +259,8 @@
     .ulist {
         ul {
             padding-inline-start: $padding-md;
-            
-            
+
+
         }
     }
 

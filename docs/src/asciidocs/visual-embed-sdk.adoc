@@ -76,6 +76,22 @@ Learn how to xref:full-embed.adoc[embed full ThoughtSpot experience] in your app
 
 --
 
+
+[div boxDiv boxFullWidth]
+--
++++<h5>Embed ThoughtSpot in a React app</h5>+++
+
+Learn how to xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
+--
+
+
+[div boxDiv boxFullWidth]
+--
++++<h5>Register and interact events</h5>+++
+
+Learn how to xref:embed-events.adoc[register event handlers, trigger and interact with events].
+--
+
 == Useful resources
 
 [div boxDiv boxFullWidth]

@@ -41,10 +41,10 @@ For example, specify revenue over 1000, and limit ship mode to 'air':
 
 +
 ----
-[revenue] > 1000 [ship mode] = ‘air’
+[revenue] > 1000 [ship mode] = 'air'
 ----
 [#Value]
-Value:: String (text) and date values must be enclosed within quotes, ’ ’. Do not use quotes for numeric values, except for dates.
+Value:: String (text) and date values must be enclosed within quotes, ''. Do not use quotes for numeric values, except for dates.
 +
 When using multiple values, separate them by a comma.
 
@@ -61,7 +61,7 @@ For example, when a ThoughtSpot UI query is revenue ship mode = air, the equival
 
 +
 ----
-[revenue] [ship mode] = ‘air’
+[revenue] [ship mode] = 'air'
 
 ----
 [#Date-Bucket]

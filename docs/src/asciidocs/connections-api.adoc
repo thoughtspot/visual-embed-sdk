@@ -15,6 +15,7 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 * Oracle ADW
 * Starburst
 * Databricks
+* Dremio
 * Teradata
 * SAP HANA
 
@@ -251,9 +252,34 @@ _String_. The user name of your Databricks account.
 * `password`
 +
 __String__. Password of your Databricks account.
-
 ====
 
+
+.Dremio
+
+[%collapsible]
+====
+
+* `host`
++
+__String__. The hostname of Dremio server.
+
+* `port`
++
+__String__. Dremio server port.
+
+* `user`
++
+_String_. Username of the Dremio server.
+
+* `password`
++
+__String__. Password of the Dremio server account.
+
+* `database`
++
+__String__. The database associated with the account.
+====
 
 .SAP HANA connection
 

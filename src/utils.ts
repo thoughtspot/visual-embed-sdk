@@ -154,3 +154,19 @@ export const setAttributes = (
         element.setAttribute(key, attributes[key].toString());
     });
 };
+
+const isCloudRelease = (version: string) => version.endsWith('.cl');
+
+/* For Search Embed: ReleaseVersionInBeta */
+export const checkReleaseVersionInBeta = (
+    releaseVersion: string,
+    suppressBetaWarning: boolean,
+): boolean => {
+    if (releaseVersion !== '' && !isCloudRelease(releaseVersion)) {
+        const splittedReleaseVersion = releaseVersion.split('.');
+        const majorVersion = Number(splittedReleaseVersion[0]);
+        const isBetaVersion = majorVersion < 8;
+        return !suppressBetaWarning && isBetaVersion;
+    }
+    return false;
+};

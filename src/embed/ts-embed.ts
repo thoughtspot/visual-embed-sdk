@@ -75,7 +75,7 @@ export interface FrameParams {
      * This parameters will be passed on the iframe
      * as is.
      */
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | undefined;
 }
 
 /**
@@ -202,6 +202,8 @@ export class TsEmbed {
      */
     private shouldEncodeUrlQueryParams = false;
 
+    private defaultHiddenActions = [Action.ReportError];
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
@@ -242,7 +244,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.log(error);
+        console.error(error);
     }
 
     /**
@@ -382,9 +384,10 @@ export class TsEmbed {
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions?.length) {
-            queryParams[Param.HideActions] = hiddenActions;
-        }
+        queryParams[Param.HideActions] = [
+            ...this.defaultHiddenActions,
+            ...(hiddenActions ?? []),
+        ];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
@@ -691,15 +694,16 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(
-        messageType: HostEvent,
-        data: any,
-    ): typeof TsEmbed.prototype {
-        processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+    public trigger(messageType: HostEvent, data: any): Promise<any> {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-        return this;
+        return processTrigger(
+            this.iFrame,
+            messageType,
+            this.thoughtSpotHost,
+            data,
+        );
     }
 
     /**

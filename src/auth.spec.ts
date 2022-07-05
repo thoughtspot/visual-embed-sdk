@@ -1,5 +1,6 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
+import * as checkReleaseVersionInBetaInstance from './utils';
 import { AuthType, EmbedConfig } from './types';
 import { executeAfterWait } from './test/test-utils';
 
@@ -8,7 +9,7 @@ const username = 'tsuser';
 const password = '12345678';
 const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%235e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
 
-const embedConfig: any = {
+export const embedConfig: any = {
     doTokenAuthSuccess: (token: string) => ({
         thoughtSpotHost,
         username,
@@ -47,6 +48,9 @@ const embedConfig: any = {
     },
     SSOAuth: {
         authType: AuthType.SSO,
+    },
+    SAMLAuth: {
+        authType: AuthType.SAML,
     },
     OIDCAuth: {
         authType: AuthType.OIDC,
@@ -242,6 +246,10 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn', async () => {
+            spyOn(
+                checkReleaseVersionInBetaInstance,
+                'checkReleaseVersionInBeta',
+            );
             jest.spyOn(
                 authService,
                 'fetchSessionInfoService',
@@ -280,6 +288,10 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn & isAtSSORedirectUrl is true', async () => {
+            spyOn(
+                checkReleaseVersionInBetaInstance,
+                'checkReleaseVersionInBeta',
+            );
             Object.defineProperty(window, 'location', {
                 value: {
                     href: authInstance.SSO_REDIRECTION_MARKER_GUID,
@@ -373,6 +385,13 @@ describe('Unit test for auth', () => {
     it('authenticate: when authType is SSO', async () => {
         jest.spyOn(authInstance, 'doSamlAuth');
         await authInstance.authenticate(embedConfig.SSOAuth);
+        expect(window.location.hash).toBe('');
+        expect(authInstance.doSamlAuth).toBeCalled();
+    });
+
+    it('authenticate: when authType is SMAL', async () => {
+        jest.spyOn(authInstance, 'doSamlAuth');
+        await authInstance.authenticate(embedConfig.SAMLAuth);
         expect(window.location.hash).toBe('');
         expect(authInstance.doSamlAuth).toBeCalled();
     });

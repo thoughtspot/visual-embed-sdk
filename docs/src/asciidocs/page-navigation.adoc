@@ -28,3 +28,14 @@ appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
     }
 })
 ----
+
+If you want to navigate to a specific application page without initiating a reload, you can set the `noReload` attribute to `true` as shown here:
+
+[source,javascript]
+----
+appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
+    if (payload.payload.id === 'view-report') {
+        appEmbed.navigateToPage('saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e', true);
+    }
+})
+----
