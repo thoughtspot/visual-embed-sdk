@@ -12,6 +12,14 @@ Trusted authentication defines a *method* for requesting *login tokens* using th
 
 *Securely requesting the login token* requires passing authentication details from the embedding application securely to an *authenticator service* with access to the `secret_key` for the ThoughtSpot instance and an ThoughtSpot admin level user's credentials.
 
+The process for trusted authentication is as follows:
+
+ 1. The Visual Embed SDK, loaded within the embedded application page, calls the `init()` function with the correct set of parameters to request a *login token*
+ 2. The request for the *login token* securely provides the username and any additional details to the *authenticator service*
+ 3. The *authenticator service* verifies and parses the username and other details, and issues REST API commands to ThoughtSpot, at minimum requesting a *login token* for the provided username
+ 4. The *authenticator service* returns the *login token* to the browser and the Visual Embed SDK
+ 5. The Visual Embed SDK issues requests to establish ThoughtSpot session in the browser
+
 [NOTE]
 ====
 All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode. 
