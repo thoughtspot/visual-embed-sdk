@@ -7,7 +7,12 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { EmbedConfig, QueryParams, RuntimeFilter } from './types';
+import {
+    EmbedConfig,
+    QueryParams,
+    RuntimeFilter,
+    CustomisationsInterface,
+} from './types';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -171,7 +176,9 @@ export const checkReleaseVersionInBeta = (
     return false;
 };
 
-export const getCustomisations = (embedConfig: EmbedConfig) => {
+export const getCustomisations = (
+    embedConfig: EmbedConfig,
+): CustomisationsInterface => {
     const { customisations, customCssUrl } = embedConfig;
     if (
         customisations &&
@@ -179,6 +186,13 @@ export const getCustomisations = (embedConfig: EmbedConfig) => {
         !customisations.style.customCSSUrl
     ) {
         customisations.style.customCSSUrl = customCssUrl;
+    } else if (customCssUrl) {
+        return {
+            style: {
+                customCSSUrl: customCssUrl,
+            },
+            content: {},
+        };
     }
     return customisations;
 };
