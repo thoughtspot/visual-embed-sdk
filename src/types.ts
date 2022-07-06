@@ -40,13 +40,15 @@ export enum AuthType {
 
 export type DOMSelector = string | HTMLElement;
 
-interface stringKeyStringValInterface {
-    [key: string]: string;
-}
 interface customCssInterface {
-    variables?: stringKeyStringValInterface;
-    rules?: {
-        [key: string]: stringKeyStringValInterface;
+    variables?: {
+        [variableName: string]: string;
+    };
+    // eslint-disable-next-line camelcase
+    rules_UNSTABLE?: {
+        [selector: string]: {
+            [declaration: string]: string;
+        };
     };
 }
 interface CustomStyles {
@@ -55,7 +57,9 @@ interface CustomStyles {
 }
 export interface CustomisationsInterface {
     style: CustomStyles;
-    content: stringKeyStringValInterface;
+    content: {
+        [key: string]: string;
+    };
 }
 
 /**

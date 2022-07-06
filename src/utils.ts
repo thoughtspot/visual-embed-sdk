@@ -173,7 +173,11 @@ export const checkReleaseVersionInBeta = (
 
 export const getCustomisations = (embedConfig: EmbedConfig) => {
     const { customisations, customCssUrl } = embedConfig;
-    if (!customisations?.style?.customCSSUrl) {
+    if (
+        customisations &&
+        customisations.style &&
+        !customisations.style.customCSSUrl
+    ) {
         customisations.style.customCSSUrl = customCssUrl;
     }
     return customisations;
