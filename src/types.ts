@@ -40,13 +40,22 @@ export enum AuthType {
 
 export type DOMSelector = string | HTMLElement;
 
+interface stringKeyStringValInterface {
+    [key: string]: string;
+}
+interface customCssInterface {
+    variables?: stringKeyStringValInterface;
+    rules?: {
+        [key: string]: stringKeyStringValInterface;
+    };
+}
 interface CustomStyles {
     customCSSUrl?: string;
-    customCss?: any;
+    customCss?: customCssInterface;
 }
 export interface CustomisationsInterface {
     style: CustomStyles;
-    content: any;
+    content: stringKeyStringValInterface;
 }
 
 /**
