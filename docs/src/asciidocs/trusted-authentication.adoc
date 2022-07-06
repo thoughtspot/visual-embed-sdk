@@ -20,14 +20,28 @@ The process for trusted authentication is as follows:
  4. The *authenticator service* returns the *login token* to the browser and the Visual Embed SDK
  5. The Visual Embed SDK issues requests to establish ThoughtSpot session in the browser
 
-[NOTE]
-====
-All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode. 
-====
 
 == Key components
 
 The trusted authentication workflow involves several entities, such as the web browser, web application, authenticator service, and the ThoughtSpot application server.
+
+[#trusted-auth-sdk]
+=== Visual Embed SDK
+
+The Visual Embed SDK automates the login token request and subsequent login request using the returned login token.
+
+The request to the *authenticator service* is defined in the `init()` function of the Visual Embed SDK. When `init()` is called, the SDK checks if there is an existing ThoughtSpot session for the instance in the browser. If not, it will request a *login token* from either the `authEndpoint` URL or the `getAuthToken` callback function. The xref:embed-authentication.adoc#trusted-auth-embed[Embed user authentication] shows the exact forms to use for these two properties.
+
+==== Secure the authentication details request
+For the request to the *authenticator service* to be secure, the user in the browser cannot modify or more their own request to the *authenticator service* and specify a different username than their own (which they already used to sign-in to the embedding application itself).
+
+How your particular application can most easily securely request the *login token* is up to you, but how you choose to send the message will constrain your choices between `authEndpoint` or `getAuthToken`.
+
+If you choose `authEndpoint`, a GET request is made directly to the provided URL, so the authentication details must be part of the cookies or other headers of the general embedding application page prior to calling the `init()`. 
+
+When using `getAuthToken`, you specify a function that returns a Promise that resolves with the *login token*. Within the function you build, you have the freedom to craft the request to the *authenticator service* with far greater control. 
+
+
 
 === Authenticator service
 
@@ -37,7 +51,7 @@ The authenticator service should exist at the web application tier of your netwo
 * Request a token from ThoughtSpot on a user’s behalf, using the `secret_key` for the ThoughtSpot instance
 * Return the token to the user's web browser
 
-There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance. 
+There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
 
 The authenticator service can also issue REST API commands to xref:auth-overview.adoc[create users and set additional authentication properties].
 
@@ -60,29 +74,7 @@ Tokens stay valid for a length of time based on the following rules:
 
 To set a consistent five minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
 
-[#trusted-auth-enable]
-== Enable trusted authentication
-You need ThoughtSpot admin privileges to enable trusted authentication.
 
-. Log in to the ThoughtSpot.
-. Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
-. To enable trusted authentication, turn on the toggle.
-+
-A `secret_key` for trusted authentication is generated. This `secret_key` is required for obtaining an authentication token for a ThoughtSpot user.
-
-. Click the clipboard icon to copy the token.
-+
-The following example shows a ThoughtSpot-generated secret key string.
-
-+
-----
-b0cb26a0-351e-40b4-9e42-00fa2265d50c
-----
-This key is required for making API calls to get a token for ThoughtSpot users.
-
-. Store the key in a secure location.
-. Click *Save Changes*.
 
 == Implement an authenticator service
 
@@ -185,18 +177,31 @@ The request URL includes the `auth_token` attribute and the redirect URL uses th
 
 . ThoughtSpot validates the request and allows access to the requested content.
 
-[#trusted-auth-sdk]
-=== Authentication workflow with Visual Embed SDK
 
-The Visual Embed SDK simplifies and automates the trusted authentication workflow.
 
-. A user logs into the host application and requests access to the embedded ThoughtSpot content.
-. The SDK checks for an existing user session in the browser.
-. If there is no session, it obtains a token either from the specified `authEndpoint` URL or by using the `getAuthToken` callback method.
-. The SDK uses the obtained auth token and `username` in the `GET` request to the `/tspublic/v1/session/login/token` endpoint.
-. If the request is successful, the SDK renders the embedded content.
+[#trusted-auth-enable]
+== Enable trusted authentication
+You need ThoughtSpot admin privileges to enable trusted authentication.
 
-For more information, see xref:embed-authentication.adoc[Embed user authentication].
+. Log in to the ThoughtSpot.
+. Click the *Develop* tab.
+. Under *Customizations*, click *Settings*.
+. To enable trusted authentication, turn on the toggle.
++
+A `secret_key` for trusted authentication is generated. This `secret_key` is required for obtaining an authentication token for a ThoughtSpot user.
+
+. Click the clipboard icon to copy the token.
++
+The following example shows a ThoughtSpot-generated secret key string.
+
++
+----
+b0cb26a0-351e-40b4-9e42-00fa2265d50c
+----
+This key is required for making API calls to get a token for ThoughtSpot users.
+
+. Store the key in a secure location.
+. Click *Save Changes*.
 
 == Disable trusted authentication
 
@@ -212,6 +217,14 @@ A pop-up window appears and prompts you to confirm the disable action.
 +
 When you disable trusted authentication, the validity of your existing secret key expires. Your application will become inoperable until you add a secret key to the authenticator service.
 You must re-enable trusted authentication and then obtain a new secret key.
+
+== Troubleshoot trusted authentication
+
+[NOTE]
+====
+All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode.
+====
+
 
 == Additional resources
 There is an simple Python Flask implementation of an Authenticator Service available in the  link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources repository, target=_blank]. The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, target=_blank] page to help verify each step of the trusted authentication process.
