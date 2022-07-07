@@ -131,7 +131,11 @@ a|xref:metadata-api.adoc[Metadata API endpoints] +
 a|xref:tml-api.adoc[TML API endpoints] +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 a|xref:admin-api.adoc[Admin and custom action API endpoints] +
-__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+
+* __Require `ADMINISTRATION` privilege__ +
+* __Custom action APIs require `ADMINISTRATOR` or `DEVELOPER` privilege__ +
+* __Custom action association requires at least edit access to the visualization or saved answer__ +
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|xref:dependency-apis.adoc[Dependency API endpoints] +
 __Require view access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|Data API endpoints +
@@ -151,7 +155,6 @@ a|xref:logs-api.adoc[Audit logs API endpoint] +
 __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
 |=====
 --
-
 
 == REST API v2 availability
 [div tableContainer]
@@ -187,9 +190,11 @@ __Require `DATADOWNLOADING` privilege__|
 a|Admin API endpoints +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|Custom action API endpoints +
-__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+
+* __Require `ADMINISTRATION` or `DEVELOPER` privilege__ +
+* __Require edit access to saved answer or Liveboard visualization object to associate custom action__ |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|Security API endpoints +
-__You must have edit access to metadata objects to share and view permission details__ |
+__Require edit access to metadata objects to share and view permission details__ |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 a|Audit logs API endpoint +
 __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
