@@ -6,6 +6,7 @@
 :page-pageid: trusted-auth
 :page-description: You can configure support for token-based authentication service on ThoughtSpot.
 
+== Overview
 Trusted authentication establishes a ThoughtSpot session in the browser without requiring a user to sign-in directly to ThoughtSpot or be redirected to a third-party IdP. It is the most seamless method of single sign-on, but requires more of the application developer to secure the process.
 
 Trusted authentication defines a *method* for requesting *login tokens* using the ThoughtSpot REST API. The login token is only necessary during the login process, after which any request to ThoughtSpot will include session cookies identifying the signed-in user.
@@ -22,24 +23,21 @@ The process for trusted authentication is as follows:
  4. The *authenticator service* returns the *login token* to the browser and the Visual Embed SDK
  5. The Visual Embed SDK issues requests to establish ThoughtSpot session in the browser
 
-
-== Key components
-
-The trusted authentication workflow involves several entities, such as the web browser, web application, authenticator service, and the ThoughtSpot application server.
+image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 [#trusted-auth-sdk]
-=== Visual Embed SDK
+== Visual Embed SDK / front-end
 
 The Visual Embed SDK automates the login token request and subsequent login request using the returned login token.
 
 The request to the *authenticator service* is defined in the `init()` function of the Visual Embed SDK. When `init()` is called, the SDK checks if there is an existing ThoughtSpot session for the instance in the browser. If not, it will request a *login token* from either the `authEndpoint` URL or the `getAuthToken` callback function. The xref:embed-authentication.adoc#trusted-auth-embed[Embed user authentication page] shows the exact forms to use for these two properties.
 
-==== Secure the authentication details request
+=== Secure the authentication details request
 For the request to the *authenticator service* to be secure, the user in the browser cannot modify the request or make their own valid request to the *authenticator service*.
 
 How your particular application can most easily securely request the *login token* is up to you, but how you choose to send the message will constrain your choice between `authEndpoint` or `getAuthToken`.
 
-When using `getAuthToken`, you specify a function that returns a Promise that resolves with the *login token*. Within the callback function you have the freedom to define the request to the *authenticator service* with far greater control than the automated GET request to a URL used by the `authEndpoint` option.
+When using `getAuthToken`, you specify a function that returns a Promise that resolves with the *login token*. Within the callback function you have the freedom to define the request to the *authenticator service* with far greater control than the automated GET request to a URL used by the `authEndpoint` option. `getAuthToken` is the preferred method for production deployments unless your *authenticator service* is implemented within the existing API endpoints of your existing application and a simple GET request provides the necessary authentication details (see below).
 
 The example below shows an example of a callback function with a custom request using link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, target=_blank], which returns a Promise. You can also use link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XHR, target=_blank] and build the link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise[Promise, target=_blank] manually.
 
@@ -79,19 +77,14 @@ function async getAuthToken {
 }
 ----
 
-
-
 If you choose `authEndpoint`, a GET request is made directly to the provided URL. The authentication details must be included by the browser in this automated GET request, typically in the cookies. Cookies are not sent across domains (only to sub-domains), so your *authenticator service* must be *hosted in the same domain* as the embedding application.
 
 Because the requirements around matching domain hosting can be difficult to set up during a quick testing phase, you may see examples of a trusted authentication flow using `authEndpoint` with the username sent in the clear as a URL parameter, but this it is *only for testing purposes* and *is not secure*.
 
 
+== Authenticator service / back-end
 
-
-
-=== Authenticator service
-
-The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key`. It performs the following functions:
+The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key` and the credentials of a ThoughtSpot administrator user (typically a service account). It performs the following functions:
 
 * Authenticate users who request access to the embedded content
 * Request a token from ThoughtSpot on a user’s behalf, using the `secret_key` for the ThoughtSpot instance
@@ -101,28 +94,7 @@ There are no requirements to how the authenticator service is built or hosted, o
 
 The authenticator service can also issue REST API commands to xref:auth-overview.adoc[create users and set additional authentication properties].
 
-=== ThoughtSpot server
-
-For a token-based authentication method, ThoughtSpot administrators must xref:trusted-authentication.adoc#trusted-auth-enable[enable Trusted authentication] in the *Develop* > *Customization* > *Security settings* page of the ThoughtSpot UI. This setting allows ThoughtSpot administrators to obtain a `secret_key`, which is required for requesting access to ThoughtSpot on a user’s behalf.
-
-The `secret_key` must be stored in a secure fashion such that only the trusted authenticator service can use it.
-
-=== Login token
-
-The login token, also referred to as the authentication token, allows users to access the requested object.
-
-Tokens stay valid for a length of time based on the following rules:
-
-* A token stays valid indefinitely until another token for any user is generated.
-* When a new token is generated using the same `secret_key`, the previous token will expire after five minutes.
-* When a new `secret_key` is generated for the ThoughtSpot server and the first new login token is obtained using the new `secret_key`, all tokens generated using the previous `secret_key` become invalid.
-* If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
-
-To set a consistent five minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
-
-
-
-== Implement an authenticator service
+=== Implement an authenticator service
 
 The following illustration depicts the authentication workflow with the authenticator service:
 
@@ -133,7 +105,6 @@ image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 The authenticator service makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the authenticator service must have xref:api-auth-session.adoc[created an active session] with ThoughtSpot as a *server administrator* acting as a service account. The authenticator service code will need logic to log in if there is no active session, and secure access to the service account credentials.
 ====
 
-=== Authentication workflow
 
 The user authentication workflow with an authenticator service involves the following steps:
 
@@ -180,49 +151,6 @@ Allows access to only one object at a time. The token request for this access mo
 __String__. The GUID of the Liveboard or answer.
 This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
-. ThoughtSpot verifies the authentication server's request and returns a token.
-. The authentication server returns the token to the user's web browser.
-
-+
-[NOTE]
-====
-If you are using the Visual Embed SDK, steps 7 and 8 are handled automatically by the *init* function, where you specify the authenticator service via a URL (`authEndpoint`) or a callback function (`getAuthToken`). For more information, see  xref:trusted-authentication.adoc#trusted-auth-sdk[Trusted authentication workflow with Visual Embed SDK].
-====
-
-+
-. The client application constructs a fully encoded URL with the authentication token and the resource endpoint, and sends these as attributes in the API request to the ThoughtSpot application server.
-+
-[source, HTML]
-----
-GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
-----
-
-The request URL includes the following attributes:
-
-
-* `username`
-+
-_String_. The `username` of the user requesting access to the embedded ThoughtSpot content.
-
-* `auth_token`
-+
-_String_. The authentication token obtained for the user in step 5.
-
-* `redirect_url`
-+
-_String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
-+
-For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and Liveboard ID.
-+
-[source, HTML]
-----
-https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
-----
-[NOTE]
-The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
-
-. ThoughtSpot validates the request and allows access to the requested content.
-
 
 
 [#trusted-auth-enable]
@@ -264,12 +192,61 @@ A pop-up window appears and prompts you to confirm the disable action.
 When you disable trusted authentication, the validity of your existing secret key expires. Your application will become inoperable until you add a secret key to the authenticator service.
 You must re-enable trusted authentication and then obtain a new secret key.
 
+[#login-token]
+== Login token expiration
+
+The login token, also referred to as the authentication token, allows users to access the requested object. It is a proprietary token format that cannot be decoded or used for any purpose other than to create a ThoughtSpot session.
+
+Tokens stay valid for a length of time based on the following rules:
+
+* A token stays valid indefinitely until another token for any user is generated.
+* When a new token is generated using the same `secret_key`, the previous token will expire after five minutes.
+* When a new `secret_key` is generated for the ThoughtSpot server and the first new login token is obtained using the new `secret_key`, all tokens generated using the previous `secret_key` become invalid.
+* If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
+
+To set a consistent five-minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
+
 == Troubleshoot trusted authentication
 
 [NOTE]
 ====
 All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode.
 ====
+
+== Implement without Visual Embed SDK
+The Visual Embed SDK handles the final REST API request to create the session, but it is possible to perform the login using the REST API command directly:
+
++
+. The client application constructs a fully encoded URL with the authentication token and the resource endpoint, and sends these as attributes in the API request to the ThoughtSpot application server.
++
+[source, HTML]
+----
+GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+----
+
+The request URL includes the following attributes:
+
+
+* `username`
++
+_String_. The `username` of the user requesting access to the embedded ThoughtSpot content.
+
+* `auth_token`
++
+_String_. The authentication token obtained for the user in step 5.
+
+* `redirect_url`
++
+_String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
++
+For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and Liveboard ID.
++
+[source, HTML]
+----
+https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
+----
+[NOTE]
+The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
 
 
 == Additional resources
