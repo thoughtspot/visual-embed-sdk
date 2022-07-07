@@ -168,7 +168,9 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 a|Session API endpoints +
 __Require view or edit access to Liveboard objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|User API endpoints +
-__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+__Require `ADMINISTRATION` privilege__ +
+__The `/tspublic/rest/v2/user/changepassword` endpoint is available to all users__.
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 a| Group API endpoints +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|Metadata API endpoints +
@@ -205,3 +207,4 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 
 * xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere]
 * link:https://www.thoughtspot.com/pricing[License options and pricing, window=_blank]
+
