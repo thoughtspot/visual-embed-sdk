@@ -679,6 +679,7 @@ export enum Param {
     fullHeight = 'isFullHeightPinboard',
     livedBoardEmbed = 'isLiveboardEmbed',
     searchEmbed = 'isSearchEmbed',
+    vizEmbed = 'isVizEmbed',
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',

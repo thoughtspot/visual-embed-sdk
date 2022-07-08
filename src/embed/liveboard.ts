@@ -110,6 +110,7 @@ export class LiveboardEmbed extends V1Embed {
             defaultHeight,
             visibleVizs,
             liveboardV2 = false,
+            vizId,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval =
@@ -134,6 +135,9 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.visibleVizs] = visibleVizs;
         }
         params[Param.livedBoardEmbed] = true;
+        if (vizId) {
+            params[Param.vizEmbed] = true;
+        }
         params[Param.LiveboardV2Enabled] = liveboardV2;
         const queryParams = getQueryParamString(params, true);
 
