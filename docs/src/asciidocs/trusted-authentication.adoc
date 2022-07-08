@@ -84,37 +84,42 @@ Because the requirements around matching domain hosting can be difficult to set 
 
 == Authenticator service / back-end
 
-The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key` and the credentials of a ThoughtSpot administrator user (typically a service account). It performs the following functions:
-
-* Authenticate users who request access to the embedded content
-* Request a token from ThoughtSpot on a user’s behalf, using the `secret_key` for the ThoughtSpot instance
-* Return the token to the user's web browser
+The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key` and the credentials of a ThoughtSpot administrator user (typically a service account).
 
 There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
 
-The authenticator service can also issue REST API commands to xref:auth-overview.adoc[create users and set additional authentication properties].
+The simplest *authenticator service* does the following steps, assuming ThoughtSpot users already exist from another process:
 
-=== Implement an authenticator service
+1. Verify and parse the authentication message to retrieve the ThoughtSpot username
+2. Request a login token from ThoughtSpot using the V1 REST API
+3. Return the token to the user's web browser
 
-The following illustration depicts the authentication workflow with the authenticator service:
+If user creation and group assignment needs to also be performed at the time of the login token request, the *authenticator service* can follow this pattern:
 
-image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
+1. Make a REST API request for the user and group details for the user
+2. If the user doesn't exist (Error Response), create the user and the user to Groups in this step
+3. If user already exists, compare the "assignedGroups" property for the User with the Groups they SHOULD belong to
+4. If user should belong to Groups they do not belong to, issue the appropriate Add User to Groups REST API command
+5. Request a login token from ThoughtSpot using the V1 REST API
+6. Return the token to the user's web browser
 
-[NOTE]
-====
-The authenticator service makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the authenticator service must have xref:api-auth-session.adoc[created an active session] with ThoughtSpot as a *server administrator* acting as a service account. The authenticator service code will need logic to log in if there is no active session, and secure access to the service account credentials.
-====
+=== Verify and parse the authentication message
+As mentioned above, the exact way you send the authentication details will vary with your implementation. The *authenticator service* must verify the request and then parse out the details (at minimum, the *ThoughtSpot username* value) so that they can be used in the subsequent REST API requests to ThoughtSpot.
 
+The *authenticator service* will need access to whatever code and other services are necessary to parse out the authentication details. For example, if you are sending through an OAuth token from an IdP, the IdP may provide a library or set of instructions using standard libraries. If using the application's existing session system, there will be some way to retrieve the username based on the session details from the request. You can also define your own JWT or some other secure way for your web application to send the message securely.
 
-The user authentication workflow with an authenticator service involves the following steps:
+If your *authenticator service* must also create users and give them access, you must parse out additional details from the request:
 
-. A user logs into the web application through the web application's authentication mechanism.
-. When the user requests access to embedded ThoughtSpot content, the web application sends a request for a login token to the authenticator service.
-+
-To proceed with authentication, the authenticator service must do the following:
+- user email address
+- user display name
+- ThoughtSpot group names to add user to
 
- * Authenticate the request from the web application: it is essential that the request to the authenticator service be valid and only come from the web application.
- * Retrieve the ThoughtSpot username from the request.
+User password is never required - it is unnecessary in the login token request, and it can be randomly generated if creating a user account in ThoughtSpot, so that the user can only sign in via the embedding application.
+
+=== REST API session sign-in
+The *authenticator service* makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the authenticator service must have xref:api-auth-session.adoc[created an active session] with ThoughtSpot as a *server administrator* acting as a service account. The authenticator service code will need logic to log in if there is no active session, and secure access to the service account credentials.
+
+=== Login token request
  * [Optional] Determine the ID of a specific ThoughtSpot object from the request: you can request a limited token using the `access_level=REPORT_BOOK_VIEW` option, but this is rarely used.
 . Authenticator service sends a POST request to the ThoughtSpot server with the `secret_key` and `username` attributes to obtain an authentication token on the user's behalf.
 +
@@ -151,7 +156,10 @@ Allows access to only one object at a time. The token request for this access mo
 __String__. The GUID of the Liveboard or answer.
 This parameter is required only for the `REPORT_BOOK_VIEW` access mode.
 
+==== Create user request
 
+
+==== Add user to groups request
 
 [#trusted-auth-enable]
 == Enable trusted authentication
