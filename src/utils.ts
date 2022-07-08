@@ -179,20 +179,9 @@ export const checkReleaseVersionInBeta = (
 export const getCustomisations = (
     embedConfig: EmbedConfig,
 ): CustomisationsInterface => {
-    const { customisations, customCssUrl } = embedConfig;
-    if (
-        customisations &&
-        customisations.style &&
-        !customisations.style.customCSSUrl
-    ) {
-        customisations.style.customCSSUrl = customCssUrl;
-    } else if (customCssUrl) {
-        return {
-            style: {
-                customCSSUrl: customCssUrl,
-            },
-            content: {},
-        };
-    }
+    let { customisations, customCssUrl } = embedConfig;
+    customisations = customisations || {} as CustomisationsInterface;
+    customisations.style = customisations.style || {};
+    customisations.style.customCSSUrl = customisations.style.customCSSUrl || customCssUrl;
     return customisations;
 };
