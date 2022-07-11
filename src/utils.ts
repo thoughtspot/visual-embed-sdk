@@ -7,7 +7,12 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { QueryParams, RuntimeFilter } from './types';
+import {
+    EmbedConfig,
+    QueryParams,
+    RuntimeFilter,
+    CustomisationsInterface,
+} from './types';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -169,4 +174,16 @@ export const checkReleaseVersionInBeta = (
         return !suppressBetaWarning && isBetaVersion;
     }
     return false;
+};
+
+export const getCustomisations = (
+    embedConfig: EmbedConfig,
+): CustomisationsInterface => {
+    const { customCssUrl } = embedConfig;
+    let { customisations } = embedConfig;
+    customisations = customisations || ({} as CustomisationsInterface);
+    customisations.style = customisations.style || {};
+    customisations.style.customCSSUrl =
+        customisations.style.customCSSUrl || customCssUrl;
+    return customisations;
 };

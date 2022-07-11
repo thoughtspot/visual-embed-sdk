@@ -13,6 +13,7 @@ import {
     getOffsetTop,
     embedEventStatus,
     setAttributes,
+    getCustomisations,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -31,6 +32,7 @@ import {
     Param,
     EmbedConfig,
     MessageOptions,
+    MessagePayload,
     MessageCallbackObj,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
@@ -214,6 +216,7 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        this.registerAppInit();
     }
 
     /**
@@ -311,6 +314,23 @@ export class TsEmbed {
     }
 
     /**
+     * Send Custom style as part of payload of APP_INIT
+     */
+    private appInitCb = (_: any, responder: any) => {
+        responder({
+            type: EmbedEvent.APP_INIT,
+            data: { customisations: getCustomisations(this.embedConfig) },
+        });
+    };
+
+    /**
+     * Register APP_INIT event and sendback init payload
+     */
+    private registerAppInit = () => {
+        this.on(EmbedEvent.APP_INIT, this.appInitCb);
+    };
+
+    /**
      * Constructs the base URL string to load the ThoughtSpot app.
      */
     protected getEmbedBasePath(query: string): string {
@@ -357,6 +377,7 @@ export class TsEmbed {
         ) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
+        // TODO remove this
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
         }
@@ -466,7 +487,6 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-
             getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {

@@ -41,6 +41,13 @@ beforeAll(() => {
     spyOn(window, 'alert');
 });
 
+const customisations = {
+    style: {
+        customCSSUrl: 'http://localhost:3000',
+    },
+    content: {},
+};
+
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(
         mixpanelInstance,
@@ -59,6 +66,31 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
+                customisations,
+            });
+        });
+
+        test('verify Customisations', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                    mockPort,
+                );
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: { customisations },
             });
         });
 
