@@ -1,0 +1,108 @@
+= Troubleshoot common issues
+:toc: true
+:toclevels: 1
+
+:page-title: Troubleshooting
+:page-pageid: trblshoot
+:page-description: Troubleshoot common issues with embedding
+
+
+[div announcementBlock]
+--
+This page describes the solutions and workarounds for some of the common issues encountered while embedding ThoughtSpot. We recommend that you refer to documentation and visit the  link:https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers?tabset-80a3b=2[Community site, window=_blank] for additional information about embedding.
+--
+
+=== CORS and CSP errors 
+
+*When I try to embed in my app, I get the error `Refused to frame "<your-site-url>" because an ancestor violates the following Content Security Policy directive`.*
+
+* Check if xref:security-settings.adoc[you have added set your host app domain as a CSP visual embed host]
+* Check if you have xref:security-settings.adoc[enabled CORS] for your host application
+
+=== The wildcard (*) for domain URL in CORS allowlist returns an error
+
+*The CORS allowlist does not allow wildcard(*) expression.*
+
+The wildcard expression is not supported in CORS allowlist. For more information about the allowed domain URL string for CORS and CSP allowlists, see xref:security-settings.adoc#csp-cors-hosts[Security settings].
+
+=== Cannot open my embedded app in Safari
+
+* Check the console log. The SDK triggers the `NoCookieAccess` event if third-party cookies are blocked.
+* Safari does not accept third-party cookies by default. You need to allow third-party cookies on Safari to view the embedded app.
+* To ensure that embedding works on browsers that don't allow third-party cookies, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. To customize the ThoughtSpot domain name, contact ThoughtSpot Support. 
+
+
+=== URL custom actions don't work on my app
+
+*The URL custom actions don't work in my app*
+
+* Check the target domain name configured in the URL action. Make sure it's reachable.
+* Check if the target URL configured in the URL action is added to CSP connect src domain allowlist.
+
+=== Unable to embed a Liveboard using REST APIs
+
+*I am unable to embed a Liveboard using REST API in my app*
+
+* Check if you have edit access to the Liveboard you are embedding
+* Check if you have enabled CORS for your host application domain
+
+=== The Search Data REST API call returns an error 
+
+*When I try to use the Search Data REST API, I get the error "Cannot create answer from empty query"*.
+
+* Check the request URL and verify the query string.
+* Try removing the `-d [parameters]` option and append the query string to the end of the URL as shown here:  
+
++
+[source,Javascript]
+----
+curl -X POST /
+--header 'Content-Type: application/json' /
+--header 'Accept: application/json' /
+--header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT' -b cookies.txt
+----
+
+=== Liveboard filters do not work
+
+*When I open Liveboard filters, they are grayed out and I can’t change them*
+
+This issue may occur if you do not have access to the Liveboard or its underlying data. 
+
+* Check if you have view or edit access to the data source.
+* If you do not have edit access to the Liveboard, click the lock icon and request access.
+
+=== ThoughtSpot navigation bar shows in embedded mode
+
+*When I embed full ThoughtSpot application, the top navigation bar shows*
+
+To hide the top navigation bar, set the `showPrimaryNavbar` attribute in the Visual Embed SDK to `false`.   
+
+
+=== Token based authentication returns a 401 error
+
+* Are you including the key in the Security Settings in the Developer portal?
+* Has that key changed from the last time you included it
+
+
+=== SSO authentication does not work
+
+* Are all the SAML settings in the SAML section of the Admin tab correct?
+* Did you set the SAML redirect domain in the Security Settings in the Developer portal?
+* Are all the settings in your IDP provider correct?
+
+
+=== I want to show only a few actions in the Liveboard menu
+
+
+
+.I set a Runtime filter on a Liveboard, but I don’t see it on the Liveboard
+[%collapsible]
+====
+
+* Runtime filters do not show up in the Filter bar, but are applied
+
+*If there is already a Filter on a Field, and then I set a Runtime Filter, what happens?*
+
+* Runtime filters are applied separately from the visible Pinboard filters, so both conditions must be true when combined together as an AND for data to appear
+* Ex. If “Store Region” is set to “west, southwest” in the Pinboard filter, and you set Runtime Filter of “Store Region” : [‘east’], you will get *No data found* because the total filter condition, which cannot ever be true, is: Store Region IN (‘west’, ‘southwest’) AND Store Region = ‘east’
+====

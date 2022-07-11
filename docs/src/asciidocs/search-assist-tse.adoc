@@ -10,12 +10,12 @@ The Search Assist feature provides sample scenarios of searching data from a wor
 
 To enable Search Assist walkthrough on an embedded instance, the following steps are required:
 
-* Enable Search Assist in the Visual Embed SDK (__Requires Developer privilege__)
+* Enable Search Assist in the Visual Embed SDK
 * Configure Search Assist questions and answers (__Requires `Can manage data` privilege and edit access to a worksheet__)
 
 == Enable Search Assist in the SDK
 
-To enable Search Assist, set the `enableSearchAssist` parameter to `true` as shown in this example.
+To enable Search Assist, set the `enableSearchAssist` parameter to `true`. The following example shows how to enable Search Assist in the `SearchEmbed` SDK.
 
 [source,javascript]
 ----
@@ -37,7 +37,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 
 == Configure Search Assist content
 
-By default, the Sample Retail link:https://docs.thoughtspot.com/cloud/latest/system-worksheet[system worksheet, window=_blank] includes a Search Assist lesson with a pre-defined set of questions and instructions to guide your application users.
+By default, the Sample Retail link:https://docs.thoughtspot.com/cloud/latest/system-worksheet[system worksheet, window=_blank] includes a Search Assist lesson with a predefined set of questions and instructions to guide your application users.
 
 To provide Search Assist walkthrough to your users with your own data, you must create a Search Assist lesson on your worksheet. ThoughtSpot provides sample question templates, using which you can create your own Search Assist content. Any ThoughtSpot user with `Can manage data` privilege and edit access to the worksheet can configure a Search Assist lesson. For more information about configuring a sample search lesson, see link:https://docs.thoughtspot.com/cloud/latest/search-assist-coach[Search Assist Coach, window=_blank].
 
@@ -53,7 +53,7 @@ Similarly, you can add keywords, such as *_product_* and *_this year_* to your s
 
 == Feature limitations
 
-* Search Assist is supported only if ThoughtSpot Search is embedded using the `SearchEmbed` SDK library.
+* Search Assist can be enabled on all instances that have embedded ThoughtSpot Search functionality using either `SearchEmbed` or `AppEmbed` SDK library.
 * You can configure a Search Assist lesson only if you have embedded the *Data* tab in your host app.
 * Search Assist lessons can be configured only on worksheets.
 

@@ -8,11 +8,11 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.5.0.cl
 
 === Search Assist support for embedded instances
 
-In the upcoming release, you can assist your application users with simple search scenarios using Search Assist lessons. If the Search Assist feature is enabled and the Search Assist lessons are created on the embedded instance, users can try sample search scenarios, follow the instructions, and get answers.
+You can now assist your application users with simple search scenarios using Search Assist lessons on embedded ThoughtSpot instances. If the Search Assist feature is enabled, and the Search Assist lessons are created on the embedded instance, users can view sample search questions and follow the instructions to get answers.
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 
