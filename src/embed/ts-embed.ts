@@ -423,7 +423,9 @@ export class TsEmbed {
         const enableSearchAssistParam = `&${Param.EnableSearchAssist}=${enableSearchAssist}`;
         let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
             isAppEmbed ? disableProfileAndHelpParam : ''
-        }${enableSearchAssist ? enableSearchAssistParam : ''}${queryStringFrag}`;
+        }${
+            enableSearchAssist ? enableSearchAssistParam : ''
+        }${queryStringFrag}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryParams.substr(1),
