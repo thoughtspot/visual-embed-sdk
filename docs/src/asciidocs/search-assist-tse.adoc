@@ -54,9 +54,9 @@ Similarly, you can add keywords, such as *_product_* and *_this year_* to your s
 == Feature limitations
 
 * Search Assist can be enabled on all instances that have embedded ThoughtSpot Search functionality using either `SearchEmbed` or `AppEmbed` SDK library.
-* You can configure a Search Assist lesson only if you have embedded the *Data* tab in your host app.
+* Sample search queries and search experience walkthrough are available to users only if a Search Assist lesson is configured at the data source level.
 * Search Assist lessons can be configured only on worksheets.
-
+* To configure a Search Assist lesson on a worksheet, make sure you have embedded the ThoughtSpot *Data* tab in your host app.
 
 == Related resources
 
