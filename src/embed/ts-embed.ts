@@ -415,12 +415,16 @@ export class TsEmbed {
         showPrimaryNavbar = false,
         disableProfileAndHelp = false,
         isAppEmbed = false,
+        enableSearchAssist = false,
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
+        const enableSearchAssistParam = `&${Param.EnableSearchAssist}=${enableSearchAssist}`;
         let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
             isAppEmbed ? disableProfileAndHelpParam : ''
+        }${
+            enableSearchAssist ? enableSearchAssistParam : ''
         }${queryStringFrag}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(

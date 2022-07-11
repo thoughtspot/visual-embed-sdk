@@ -91,6 +91,11 @@ export interface AppViewConfig extends ViewConfig {
      * @hidden
      */
     liveboardV2?: boolean;
+    /**
+     * If set to true, the Search Assist feature is enabled.
+     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
+     */
+    enableSearchAssist?: boolean;
 }
 
 /**
@@ -141,6 +146,7 @@ export class AppEmbed extends V1Embed {
             this.viewConfig.showPrimaryNavbar,
             this.viewConfig.disableProfileAndHelp,
             true,
+            this.viewConfig.enableSearchAssist,
         )}/${pageId}`;
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
