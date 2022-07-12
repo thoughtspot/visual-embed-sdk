@@ -3,7 +3,7 @@
 :toclevels: 1
 
 :page-title: Troubleshooting
-:page-pageid: trblshoot
+:page-pageid: troubleshoot-errors
 :page-description: Troubleshoot common issues with embedding
 
 
@@ -12,25 +12,50 @@
 This page describes the solutions and workarounds for some of the common issues encountered while embedding ThoughtSpot. We recommend that you refer to documentation and visit the  link:https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers?tabset-80a3b=2[Community site, window=_blank] for additional information about embedding.
 --
 
-=== CORS and CSP errors 
+== CORS and CSP
 
-*When I try to embed in my app, I get the error `Refused to frame "<your-site-url>" because an ancestor violates the following Content Security Policy directive`.*
+=== Refused to frame "<your-site-url>"... error message
 
-* Check if xref:security-settings.adoc[you have added set your host app domain as a CSP visual embed host]
-* Check if you have xref:security-settings.adoc[enabled CORS] for your host application
+[width="100%" cols="1,6"]
+|====
+|**Error**|  When I try to embed in my app, I get the error `Refused to frame "<your-site-url>" because an ancestor violates the following Content Security Policy directive`.
+|**Cause**|  This error occurs when a host app domain is not added to CSP and CORS allowlists.
+|**Solution** a|  Perform the following checks: +
 
-=== The wildcard (*) for domain URL in CORS allowlist returns an error
+* Check if xref:security-settings.adoc[you have added set your host app domain as a CSP visual embed host]. +
+* Check if you have xref:security-settings.adoc[enabled CORS] for your host application.
+|====
 
-*The CORS allowlist does not allow wildcard(*) expression.*
+=== The wildcard (*) for domain URL in the CORS allowlist returns an error
 
-The wildcard expression is not supported in CORS allowlist. For more information about the allowed domain URL string for CORS and CSP allowlists, see xref:security-settings.adoc#csp-cors-hosts[Security settings].
+[width="100%" cols="1,6"]
+|====
+|**Error**| The CORS allowlist does not allow wildcard(*) expression
+|**Cause**|  This error occurs because ThoughtSpot does not support wildcard expression for domain URLs in the CORS allowlist.
+|**Solution** a| Specify the domain URL string in the supported format. For a complete list of allowed domain URL strings for CORS and CSP allowlists, see xref:security-settings.adoc#csp-cors-hosts[Security settings].
+|====
+
+== Browser support
 
 === Cannot open my embedded app in Safari
 
-* Check the console log. The SDK triggers the `NoCookieAccess` event if third-party cookies are blocked.
-* Safari does not accept third-party cookies by default. You need to allow third-party cookies on Safari to view the embedded app.
-* To ensure that embedding works on browsers that don't allow third-party cookies, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. To customize the ThoughtSpot domain name, contact ThoughtSpot Support. 
+[width="100%" cols="1,6"]
+|====
+|**Error**| Unable to access embedded app on Safari
+|**Cause**| This error may occur if third-party cookies are blocked.
+|**Fix** a| By default, Safari does not allow third-party cookies. If the third-party cookies are blocked, the SDK triggers the `NoCookieAccess` event. Check the console log. +
+To resolve this issue: +
 
+* Allow cookies on Safari to view the embedded app. +
+* To ensure that embedding works on browsers that don't allow third-party cookies, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. To customize the ThoughtSpot domain name, contact ThoughtSpot Support.
+|====
+
+== Authentication
+
+==== Unable to use trusted authentication on free trial
+
+
+== Custom actions
 
 === URL custom actions don't work on my app
 

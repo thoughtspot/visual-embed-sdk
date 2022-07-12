@@ -49,8 +49,9 @@
 
 ++++
 
+
 <div class="row">
- <h2 align="center">Embedding and customization</h2>
+ <h2 class="cardBlockHead" align="center">Embedding and customization</h2>
 	<div class="col-md-4">
 	<a href="?pageid=search-embed">	<div class="boxDiv">
 			<h5>Embed search</h5>
