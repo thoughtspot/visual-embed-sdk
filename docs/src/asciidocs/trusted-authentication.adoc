@@ -6,10 +6,10 @@
 :page-pageid: trusted-auth
 :page-description: You can configure support for token-based authentication service on ThoughtSpot.
 
+Trusted authentication defines a *method* for requesting *login tokens* using the ThoughtSpot REST API. The login token is only necessary during the login process, after which any request to ThoughtSpot will include session cookies identifying the signed-in user.
+
 == Overview
 Trusted authentication establishes a ThoughtSpot session in the browser without requiring a user to sign-in directly to ThoughtSpot or be redirected to a third-party IdP. It is the most seamless method of single sign-on, but requires more of the application developer to secure the process.
-
-Trusted authentication defines a *method* for requesting *login tokens* using the ThoughtSpot REST API. The login token is only necessary during the login process, after which any request to ThoughtSpot will include session cookies identifying the signed-in user.
 
 The *login token* from the ThoughtSpot V1 REST API is a simple, proprietary token. The authentication token of the V2 REST API is not currently used in the trusted authentication flow.
 
