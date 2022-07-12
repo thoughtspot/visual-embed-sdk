@@ -143,6 +143,8 @@ The typical flow of REST API commands for user creation is actually as follows:
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
 
+For example, you could implement the xref:group-api.adoc#create-group[create group] REST API for ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a "data entitlement". You could adjust the flow in the section above to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to an RBAC or ABAC pattern.
+
 
 [#trusted-auth-enable]
 == Enable trusted authentication
