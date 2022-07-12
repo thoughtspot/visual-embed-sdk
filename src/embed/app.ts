@@ -100,7 +100,7 @@ export interface AppViewConfig extends ViewConfig {
      * If set to true, the liveboard v2 tab feature is enabled.
      * @version SDK: 1.13.0
      */
-     liveboardV2TabsEnabled?: boolean
+    liveboardV2TabsEnabled?: boolean;
 }
 
 /**
@@ -121,7 +121,12 @@ export class AppEmbed extends V1Embed {
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
-        const { tag, hideObjects, liveboardV2 = false, liveboardV2TabsEnabled = false } = this.viewConfig;
+        const {
+            tag,
+            hideObjects,
+            liveboardV2 = false,
+            liveboardV2TabsEnabled = false,
+        } = this.viewConfig;
 
         if (tag) {
             params[Param.Tag] = tag;

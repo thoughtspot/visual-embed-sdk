@@ -870,7 +870,7 @@ export enum Param {
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
     CustomStyle = 'customStyle',
-    LiveboardV2TabsEnabled = 'isPinboardV2TabsEnabled'
+    LiveboardV2TabsEnabled = 'isPinboardV2TabsEnabled',
 }
 
 /**

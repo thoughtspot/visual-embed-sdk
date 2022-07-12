@@ -86,7 +86,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      * Render livboard in tab
      * @version SDK: 1.13.0
      */
-    tabId?: string
+    tabId?: string;
 }
 
 /**
@@ -165,7 +165,7 @@ export class LiveboardEmbed extends V1Embed {
         liveboardId: string,
         vizId?: string,
         runtimeFilters?: RuntimeFilter[],
-        tabId?: string
+        tabId?: string,
     ) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
         const queryParams = this.getEmbedParams();
@@ -179,7 +179,7 @@ export class LiveboardEmbed extends V1Embed {
             false,
         )}/viz/${liveboardId}`;
         if (tabId) {
-            url = `${url}/tab/${tabId}`;  
+            url = `${url}/tab/${tabId}`;
         }
         if (vizId) {
             url = `${url}/${vizId}`;
@@ -187,7 +187,6 @@ export class LiveboardEmbed extends V1Embed {
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         url = `${url}${tsPostHashParams}`;
-        console.log('url ', url)
         return url;
     }
 
@@ -249,7 +248,12 @@ export class LiveboardEmbed extends V1Embed {
 
         super.render();
 
-        const src = this.getIFrameSrc(liveboardId, vizId, runtimeFilters, tabId);
+        const src = this.getIFrameSrc(
+            liveboardId,
+            vizId,
+            runtimeFilters,
+            tabId,
+        );
         this.renderV1Embed(src);
 
         return this;
