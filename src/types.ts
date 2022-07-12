@@ -588,72 +588,65 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
-
     /**
      *
      */
     APP_INIT = 'appInit',
     /**
-     * Emitted when a user clicks Show liveboard details on a liveboard
+     * Emitted when a user clicks Show Liveboard details on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     LiveboardInfo = 'pinboardInfo',
     /**
-     * Emitted when a user clicks on favorite on a liveboard
+     * Emitted when a user clicks on the Favorite icon on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     AddToFavorites = 'addToFavorites',
     /**
-     * Emitted when a user clicks Schedule on a liveboard
+     * Emitted when a user clicks Schedule on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Schedule = 'subscription',
     /**
-     * Emitted when a user clicks Edit on a liveboard or viz
+     * Emitted when a user clicks Edit on a Liveboard or viz
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Edit = 'edit',
     /**
-     * Emitted when a user clicks Make a copy on a liveboard
+     * Emitted when a user clicks Make a copy on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     MakeACopy = 'makeACopy',
     /**
-     * Emitted when a user clicks Present on a liveboard or viz
+     * Emitted when a user clicks Present on a Liveboard or viz
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Present = 'present',
     /**
-     * Emitted when a user clicks Delete on a liveboard
+     * Emitted when a user clicks Delete on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Delete = 'delete',
     /**
-     * Emitted when a user clicks Manage Schedules on a liveboard
+     * Emitted when a user clicks Manage schedules on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     SchedulesList = 'schedule-list',
     /**
-     * Emitted when a user clicks Cancel in edit mode on a liveboard
+     * Emitted when a user clicks Cancel in edit mode on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Cancel = 'cancel',
     /**
-     * Emitted when a user explore on a viz
+     * Emitted when a user clicks Explore on a viz
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Explore = 'explore',
     /**
-     * Emitted when a user clicks copy link action on a viz
+     * Emitted when a user clicks Copy link action on a viz
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     CopyLink = 'copyLink',
-    /**
-     * ToDo
-     * @hidden
-     * @private
-     */
-    MoveToTab = 'onContainerMove',
 }
 
 /**
@@ -717,97 +710,103 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Fires the pin action on an embedded object
-     * @param - incase of liveboard embed, takes in an object with vizId as a key
+     * Fires the Pin action on an embedded object
+     * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and viz embeds
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Pin = 'pin',
     /**
-     * Fires the Show liveboard details action on a liveboard
+     * Fires the Show Liveboard details action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     LiveboardInfo = 'pinboardInfo',
     /**
-     * Fires the schedule action on a liveboard
+     * Fires the Schedule action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Schedule = 'subscription',
     /**
-     * Fires the manage schedule action on a liveboard
+     * Fires the Manage schedule action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     SchedulesList = 'schedule-list',
     /**
-     * Fires the export TML action on a liveboard
+     * Fires the Export TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     ExportTML = 'exportTSL',
     /**
-     * Fires the edit TML action on a liveboard
+     * Fires the Edit TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     EditTML = 'editTSL',
     /**
-     * Fires the update TML action on a liveboard
+     * Fires the Update TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     UpdateTML = 'updateTSL',
     /**
-     * Fires the download as PDF action on a liveboard
+     * Fires the Download PDF action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
-     * Fires the make a copy action on a liveboard
+     * Fires the Make a copy action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     MakeACopy = 'makeACopy',
     /**
-     * Fires the delete action on a liveboard
+     * Fires the Delete action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Remove = 'delete',
     /**
-     * Fires the explore action on a viz
+     * Fires the Explore action on a viz
      * @param - an object with vizId as a key
      * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Explore = 'explore',
     /**
-     * Fires the create alert action on a viz
+     * Fires the Create alert action on a viz
      * @param - an object with vizId as a key
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     CreateMonitor = 'createMonitor',
     /**
-     * Fires the manage alert action on a viz
+     * Fires the Manage alert action on a viz
      * @param - an object with vizId as a key
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     ManageMonitor = 'manageMonitor',
     /**
-     * Fires the edit action on a liveboard or viz
-     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
-     * should be left empty to trigger for liveboard
-     * no params needed incase of viz embed
+     * Fires the Edit action on a Liveboard or viz
+     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Edit)
+     * liveboardEmbed.trigger(HostEvent.Edit, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.Edit)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Edit = 'edit',
     /**
-     * Fires the copy link action on a liveboard or viz
-     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
-     * should be left empty to trigger for liveboard
-     * no params needed incase of viz embed
+     * Fires the Copy link action on a Liveboard or viz
+     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.CopyLink)
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.CopyLink)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     CopyLink = 'embedDocument',
     /**
-     * Fires the present action on a liveboard or viz
-     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
-     * should be left empty to trigger for liveboard,
-     * no params needed incase of viz embed
+     * Fires the Present action on a Liveboard or viz
+     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Present)
+     * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.Present)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Present = 'present',
