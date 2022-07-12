@@ -588,11 +588,65 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
-
     /**
      *
      */
     APP_INIT = 'appInit',
+    /**
+     * Emitted when a user clicks Show Liveboard details on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    LiveboardInfo = 'pinboardInfo',
+    /**
+     * Emitted when a user clicks on the Favorite icon on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    AddToFavorites = 'addToFavorites',
+    /**
+     * Emitted when a user clicks Schedule on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Schedule = 'subscription',
+    /**
+     * Emitted when a user clicks Edit on a Liveboard or visualization
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Edit = 'edit',
+    /**
+     * Emitted when a user clicks Make a copy on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    MakeACopy = 'makeACopy',
+    /**
+     * Emitted when a user clicks Present on a Liveboard or visualization
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Present = 'present',
+    /**
+     * Emitted when a user clicks Delete on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Delete = 'delete',
+    /**
+     * Emitted when a user clicks Manage schedules on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    SchedulesList = 'schedule-list',
+    /**
+     * Emitted when a user clicks Cancel in edit mode on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Cancel = 'cancel',
+    /**
+     * Emitted when a user clicks Explore on a visualization
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Explore = 'explore',
+    /**
+     * Emitted when a user clicks Copy link action on a visualization
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CopyLink = 'copyLink',
 }
 
 /**
@@ -656,12 +710,106 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Fires the pin action on an embedded object
-     * @param - incase of liveboard embed, takes in an object with vizId as a key
-     * can be left empty for search and viz embeds
+     * Triggers the Pin action on an embedded object
+     * @param - incase of Liveboard embed, takes in an object with vizId as a key
+     * can be left empty for search and visualization embeds
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Pin = 'pin',
+    /**
+     * Triggers the Show Liveboard details action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    LiveboardInfo = 'pinboardInfo',
+    /**
+     * Triggers the Schedule action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Schedule = 'subscription',
+    /**
+     * Triggers the Manage schedule action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    SchedulesList = 'schedule-list',
+    /**
+     * Triggers the Export TML action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    ExportTML = 'exportTSL',
+    /**
+     * Triggers the Edit TML action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    EditTML = 'editTSL',
+    /**
+     * Triggers the Update TML action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    UpdateTML = 'updateTSL',
+    /**
+     * Triggers the Download PDF action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    DownloadAsPdf = 'downloadAsPdf',
+    /**
+     * Triggers the Make a copy action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    MakeACopy = 'makeACopy',
+    /**
+     * Triggers the Delete action on a Liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Remove = 'delete',
+    /**
+     * Triggers the Explore action on a visualization
+     * @param - an object with vizId as a key
+     * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Explore = 'explore',
+    /**
+     * Triggers the Create alert action on a visualization
+     * @param - an object with vizId as a key
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CreateMonitor = 'createMonitor',
+    /**
+     * Triggers the Manage alert action on a visualization
+     * @param - an object with vizId as a key
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    ManageMonitor = 'manageMonitor',
+    /**
+     * Triggers the Edit action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Edit)
+     * liveboardEmbed.trigger(HostEvent.Edit, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.Edit)
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Edit = 'edit',
+    /**
+     * Triggers the Copy link action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.CopyLink)
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.CopyLink)
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CopyLink = 'embedDocument',
+    /**
+     * Triggers the Present action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Present)
+     * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger((HostEvent.Present)
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Present = 'present',
 }
 
 /**
