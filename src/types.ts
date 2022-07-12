@@ -593,6 +593,67 @@ export enum EmbedEvent {
      *
      */
     APP_INIT = 'appInit',
+    /**
+     * Emitted when a user clicks Show liveboard details on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    LiveboardInfo = 'pinboardInfo',
+    /**
+     * Emitted when a user clicks on favorite on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    AddToFavorites = 'addToFavorites',
+    /**
+     * Emitted when a user clicks Schedule on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Schedule = 'subscription',
+    /**
+     * Emitted when a user clicks Edit on a liveboard or viz
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Edit = 'edit',
+    /**
+     * Emitted when a user clicks Make a copy on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    MakeACopy = 'makeACopy',
+    /**
+     * Emitted when a user clicks Present on a liveboard or viz
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Present = 'present',
+    /**
+     * Emitted when a user clicks Delete on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Delete = 'delete',
+    /**
+     * Emitted when a user clicks Manage Schedules on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    SchedulesList = 'schedule-list',
+    /**
+     * Emitted when a user clicks Cancel in edit mode on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Cancel = 'cancel',
+    /**
+     * Emitted when a user explore on a viz
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Explore = 'explore',
+    /**
+     * Emitted when a user clicks copy link action on a viz
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CopyLink = 'copyLink',
+    /**
+     * ToDo
+     * @hidden
+     * @private
+     */
+    MoveToTab = 'onContainerMove',
 }
 
 /**
@@ -662,6 +723,94 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Pin = 'pin',
+    /**
+     * Fires the Show liveboard details action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    LiveboardInfo = 'pinboardInfo',
+    /**
+     * Fires the schedule action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Schedule = 'subscription',
+    /**
+     * Fires the manage schedule action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    SchedulesList = 'schedule-list',
+    /**
+     * Fires the export TML action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    ExportTML = 'exportTSL',
+    /**
+     * Fires the edit TML action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    EditTML = 'editTSL',
+    /**
+     * Fires the update TML action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    UpdateTML = 'updateTSL',
+    /**
+     * Fires the download as PDF action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    DownloadAsPdf = 'downloadAsPdf',
+    /**
+     * Fires the make a copy action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    MakeACopy = 'makeACopy',
+    /**
+     * Fires the delete action on a liveboard
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Remove = 'delete',
+    /**
+     * Fires the explore action on a viz
+     * @param - an object with vizId as a key
+     * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Explore = 'explore',
+    /**
+     * Fires the create alert action on a viz
+     * @param - an object with vizId as a key
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CreateMonitor = 'createMonitor',
+    /**
+     * Fires the manage alert action on a viz
+     * @param - an object with vizId as a key
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    ManageMonitor = 'manageMonitor',
+    /**
+     * Fires the edit action on a liveboard or viz
+     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
+     * should be left empty to trigger for liveboard
+     * no params needed incase of viz embed
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Edit = 'edit',
+    /**
+     * Fires the copy link action on a liveboard or viz
+     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
+     * should be left empty to trigger for liveboard
+     * no params needed incase of viz embed
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    CopyLink = 'embedDocument',
+    /**
+     * Fires the present action on a liveboard or viz
+     * @param - incase of liveboard embed, to tigger the action for a specfic viz takes in an object with vizId as a key,
+     * should be left empty to trigger for liveboard,
+     * no params needed incase of viz embed
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    Present = 'present',
 }
 
 /**
