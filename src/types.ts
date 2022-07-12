@@ -608,7 +608,7 @@ export enum EmbedEvent {
      */
     Schedule = 'subscription',
     /**
-     * Emitted when a user clicks Edit on a Liveboard or viz
+     * Emitted when a user clicks Edit on a Liveboard or visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Edit = 'edit',
@@ -618,7 +618,7 @@ export enum EmbedEvent {
      */
     MakeACopy = 'makeACopy',
     /**
-     * Emitted when a user clicks Present on a Liveboard or viz
+     * Emitted when a user clicks Present on a Liveboard or visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Present = 'present',
@@ -638,12 +638,12 @@ export enum EmbedEvent {
      */
     Cancel = 'cancel',
     /**
-     * Emitted when a user clicks Explore on a viz
+     * Emitted when a user clicks Explore on a visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Explore = 'explore',
     /**
-     * Emitted when a user clicks Copy link action on a viz
+     * Emitted when a user clicks Copy link action on a visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     CopyLink = 'copyLink',
@@ -710,79 +710,79 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Fires the Pin action on an embedded object
+     * Triggers the Pin action on an embedded object
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
-     * can be left empty for search and viz embeds
+     * can be left empty for search and visualization embeds
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Pin = 'pin',
     /**
-     * Fires the Show Liveboard details action on a Liveboard
+     * Triggers the Show Liveboard details action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     LiveboardInfo = 'pinboardInfo',
     /**
-     * Fires the Schedule action on a Liveboard
+     * Triggers the Schedule action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Schedule = 'subscription',
     /**
-     * Fires the Manage schedule action on a Liveboard
+     * Triggers the Manage schedule action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     SchedulesList = 'schedule-list',
     /**
-     * Fires the Export TML action on a Liveboard
+     * Triggers the Export TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     ExportTML = 'exportTSL',
     /**
-     * Fires the Edit TML action on a Liveboard
+     * Triggers the Edit TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     EditTML = 'editTSL',
     /**
-     * Fires the Update TML action on a Liveboard
+     * Triggers the Update TML action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     UpdateTML = 'updateTSL',
     /**
-     * Fires the Download PDF action on a Liveboard
+     * Triggers the Download PDF action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
-     * Fires the Make a copy action on a Liveboard
+     * Triggers the Make a copy action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     MakeACopy = 'makeACopy',
     /**
-     * Fires the Delete action on a Liveboard
+     * Triggers the Delete action on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Remove = 'delete',
     /**
-     * Fires the Explore action on a viz
+     * Triggers the Explore action on a visualization
      * @param - an object with vizId as a key
      * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     Explore = 'explore',
     /**
-     * Fires the Create alert action on a viz
+     * Triggers the Create alert action on a visualization
      * @param - an object with vizId as a key
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     CreateMonitor = 'createMonitor',
     /**
-     * Fires the Manage alert action on a viz
+     * Triggers the Manage alert action on a visualization
      * @param - an object with vizId as a key
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
     ManageMonitor = 'manageMonitor',
     /**
-     * Fires the Edit action on a Liveboard or viz
-     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * Triggers the Edit action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
      * @example
      * liveboardEmbed.trigger(HostEvent.Edit)
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -791,8 +791,8 @@ export enum HostEvent {
      */
     Edit = 'edit',
     /**
-     * Fires the Copy link action on a Liveboard or viz
-     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * Triggers the Copy link action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
      * @example
      * liveboardEmbed.trigger(HostEvent.CopyLink)
      * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -801,8 +801,8 @@ export enum HostEvent {
      */
     CopyLink = 'embedDocument',
     /**
-     * Fires the Present action on a Liveboard or viz
-     * @param - object - to trigger the action for a specfic viz in Liveboard embed, pass in vizId as a key
+     * Triggers the Present action on a Liveboard or visualization
+     * @param - object - to trigger the action for a specfic visualization in Liveboard embed, pass in vizId as a key
      * @example
      * liveboardEmbed.trigger(HostEvent.Present)
      * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
