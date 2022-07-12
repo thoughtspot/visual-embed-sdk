@@ -96,6 +96,11 @@ export interface AppViewConfig extends ViewConfig {
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
      */
     enableSearchAssist?: boolean;
+    /**
+     * If set to true, the liveboard v2 tab feature is enabled.
+     * @version SDK: 1.13.0
+     */
+     liveboardV2TabsEnabled?: boolean
 }
 
 /**
@@ -116,7 +121,7 @@ export class AppEmbed extends V1Embed {
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
-        const { tag, hideObjects, liveboardV2 = false } = this.viewConfig;
+        const { tag, hideObjects, liveboardV2 = false, liveboardV2TabsEnabled = false } = this.viewConfig;
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -126,6 +131,7 @@ export class AppEmbed extends V1Embed {
         }
 
         params[Param.LiveboardV2Enabled] = liveboardV2;
+        params[Param.LiveboardV2TabsEnabled] = liveboardV2TabsEnabled;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

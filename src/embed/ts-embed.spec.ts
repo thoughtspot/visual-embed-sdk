@@ -35,7 +35,7 @@ const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
-const defaultParamsPost = '&isPinboardV2Enabled=false';
+const defaultParamsPost = '&isPinboardV2Enabled=false&isPinboardV2TabsEnabled=false';
 
 beforeAll(() => {
     spyOn(window, 'alert');
@@ -425,7 +425,7 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             // pinboardEmbed.navigateToPage(path);
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true${defaultParamsPost}#/embed/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true&isPinboardV2Enabled=false#/embed/${path}`,
             );
         });
 

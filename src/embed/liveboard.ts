@@ -82,6 +82,11 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @hidden
      */
     liveboardV2?: boolean;
+    /**
+     * Render livboard in tab
+     * @version SDK: 1.13.0
+     */
+    tabId?: string
 }
 
 /**
@@ -110,6 +115,7 @@ export class LiveboardEmbed extends V1Embed {
             defaultHeight,
             visibleVizs,
             liveboardV2 = false,
+            tabId,
             vizId,
         } = this.viewConfig;
 
@@ -139,6 +145,9 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.vizEmbed] = true;
         }
         params[Param.LiveboardV2Enabled] = liveboardV2;
+        if (tabId) {
+            params[Param.LiveboardV2TabsEnabled] = true;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
@@ -156,6 +165,7 @@ export class LiveboardEmbed extends V1Embed {
         liveboardId: string,
         vizId?: string,
         runtimeFilters?: RuntimeFilter[],
+        tabId?: string
     ) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
         const queryParams = this.getEmbedParams();
@@ -168,13 +178,16 @@ export class LiveboardEmbed extends V1Embed {
             false,
             false,
         )}/viz/${liveboardId}`;
+        if (tabId) {
+            url = `${url}/tab/${tabId}`;  
+        }
         if (vizId) {
             url = `${url}/${vizId}`;
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         url = `${url}${tsPostHashParams}`;
-
+        console.log('url ', url)
         return url;
     }
 
@@ -217,7 +230,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public render(): LiveboardEmbed {
-        const { vizId, runtimeFilters } = this.viewConfig;
+        const { vizId, runtimeFilters, tabId } = this.viewConfig;
         const liveboardId =
             this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
@@ -236,7 +249,7 @@ export class LiveboardEmbed extends V1Embed {
 
         super.render();
 
-        const src = this.getIFrameSrc(liveboardId, vizId, runtimeFilters);
+        const src = this.getIFrameSrc(liveboardId, vizId, runtimeFilters, tabId);
         this.renderV1Embed(src);
 
         return this;
