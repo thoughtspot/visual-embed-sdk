@@ -82,6 +82,11 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @hidden
      */
     liveboardV2?: boolean;
+    /**
+     * Tab Id of the Liveboard that is supposed to be active
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     */
+    activeTabId?: string;
 }
 
 /**
@@ -111,6 +116,7 @@ export class LiveboardEmbed extends V1Embed {
             visibleVizs,
             liveboardV2 = false,
             vizId,
+            activeTabId,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval =
@@ -156,6 +162,7 @@ export class LiveboardEmbed extends V1Embed {
         liveboardId: string,
         vizId?: string,
         runtimeFilters?: RuntimeFilter[],
+        activeTabId?: string,
     ) {
         const filterQuery = getFilterQuery(runtimeFilters || []);
         const queryParams = this.getEmbedParams();
@@ -168,6 +175,9 @@ export class LiveboardEmbed extends V1Embed {
             false,
             false,
         )}/viz/${liveboardId}`;
+        if (activeTabId) {
+            url = `${url}/tab/${activeTabId}`;
+        }
         if (vizId) {
             url = `${url}/${vizId}`;
         }
@@ -217,7 +227,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public render(): LiveboardEmbed {
-        const { vizId, runtimeFilters } = this.viewConfig;
+        const { vizId, activeTabId, runtimeFilters } = this.viewConfig;
         const liveboardId =
             this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
@@ -236,7 +246,12 @@ export class LiveboardEmbed extends V1Embed {
 
         super.render();
 
-        const src = this.getIFrameSrc(liveboardId, vizId, runtimeFilters);
+        const src = this.getIFrameSrc(
+            liveboardId,
+            vizId,
+            runtimeFilters,
+            activeTabId,
+        );
         this.renderV1Embed(src);
 
         return this;
