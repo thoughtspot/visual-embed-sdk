@@ -8,19 +8,26 @@
 
 This article describes how to integrate the embedded ThoughtSpot content with your application's UI elements. 
 
-== Dynamic lists of ThoughtSpot objects
+== Navigation to ThoughtSpot objects
+You can use the ThoughtSpot REST API to create navigation elements in the form of navigation pages, menus, or drop-down selectors. 
 
-The more dynamic your content creation process is, the more likely you will want to automate the retrieval of lists of content a user can see. All ThoughtSpot content is referenced by GUIDs, which you can obtain directly from the URLs of the ThoughtSpot UI or via REST API calls. Once the user session is established in the browser via SSO, you can call any REST API for the logged-in user if you xref:api-auth-session.adoc[include the credentials in the request].
+This allows you to give dynamic navigation to objects to your users with full control of the display.
 
-=== Get object names and GUIDs
+All REST API requests from the browser are scoped to the signed-in user and will only show the objects the user has access to.
 
-To generate menu or selection box items with ThoughtSpot objects, you will require the names and GUIDs of the objects. You can obtain this data by making a REST API call to xref:metadata-api.adoc#metadata-list[metadata/list] or xref:metadata-api#object-header[metadata/listobjectheaders]. The `metadata/list` endpoint provides more information about tags than `metadata/listobjectheaders`. Both calls are scoped to the user and will only show the objects the user has access to.
+=== REST API request
+The ThoughtSpot web application UI uses the xref:metadata-api.adoc#metadata-list[metadata/list REST API endpoint] in rendering the Answers, Liveboards, and Data pages. 
 
-In your REST API calls to the xref:metadata-api.adoc#metadata-list[metadata/list] and  xref:metadata-api#object-header[metadata/listobjectheaders] endpoints, you must specify the object type; that is, `PINBOARD_ANSWER_BOOK` for Liveboards, `QUESTION_ANSWER_BOOK` for answers, and `LOGICAL_TABLE` for data objects. You can also specify an additional `subtype` parameter to limit your query specifically to ThoughtSpot tables, worksheets or views. 
+The endpoint can only request one object type at a time: `PINBOARD_ANSWER_BOOK` for Liveboards, `QUESTION_ANSWER_BOOK` for answers, and `LOGICAL_TABLE` for data objects. Data objects can be filtered using an additional `subtype` parameter to limit the query specifically to ThoughtSpot tables, worksheets or views. 
 
-Both endpoints include parameters for sorting and a `category` parameter that can filter the response to show only the objects created or marked as favorites by the logged-in user.
+There are additional parameters for sorting and a `category` parameter that can filter the response to show only the objects created or marked as favorites by the logged-in user.
 
-When your application user selects or clicks on an item in the embedded UI, the GUID(s) must pass to the appropriate parameter in the options object of the Embed constructor:
+
+
+=== Render navigation elements
+
+=== Load ThoughtSpot content in embed components
+However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the Embed constructor for one of the embed components:
 
 * `liveboardId` for a xref:embed-pinboard.adoc[Liveboard] in a `LiveboardEmbed` object
 * `liveboardId` and `vizId` for an xref:embed-a-viz.adoc[individual visualization] from a Liveboard through the `LiveboardEmbed` object
