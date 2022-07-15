@@ -646,7 +646,7 @@ export enum EmbedEvent {
      * Emitted when a user clicks Copy link action on a visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
      */
-    CopyLink = 'copyLink',
+    CopyLink = 'embedDocument',
 }
 
 /**
