@@ -22,9 +22,112 @@ The endpoint can only request one object type at a time: `PINBOARD_ANSWER_BOOK` 
 
 There are additional parameters for sorting and a `category` parameter that can filter the response to show only the objects created or marked as favorites by the logged-in user.
 
+REST API calls are by nature asynchronous. The following is an example function returning the response as a JSON object using *fetch()*:
+[source,javascript]
+----
+    async function metadataListRestApiCall(args){
+        // args = { 'type', 'category', 'sortOn', 'sortAsc', 'tagnames' }
+        let type = args['type'].toLowerCase();
+        const publicApiUrl = 'callosum/v1/tspublic/v1/';
+        let endpoint = 'metadata/list';
+        
+        // Easy type names match ThoughtSpot UI names for objects
+        const typesToApiType = { 
+            'liveboard': 'PINBOARD_ANSWER_BOOK',
+            'answer': 'QUESTION_ANSWER_BOOK',
+            'datasource' : 'LOGICAL_TABLE', // datasource doesn't distinguish sub-types
+            'table' : 'ONE_TO_ONE_LOGICAL',
+            'view' : 'AGGR_WORKSHEET',
+            'worksheet' : 'WORKSHEET'
+        }
 
+        // batchsize = -1 gives all results
+        let apiParams = { 'batchsize' : '-1'};
+        console.log(type);
+        // The three datasource types can be specified using 'subtype'
+        if (type == 'table' || type == 'view' || type == 'worksheet'){
+            let subtype = [typesToApiType[type]];
+            apiParams['type'] = 'LOGICAL_TABLE';
+            apiParams['subtypes'] = `["${subtype}"]`;
+        }
+        else {
+            apiParams['type'] = typesToApiType[type];
+        }
+
+        // Category arguments
+        let category = 'ALL';
+        if ('category' in args){
+            if ( args['category'] == 'MY' || args['category'] == 'ALL' || args['category'] == 'FAVORITE'){
+                category = args['category'];
+                apiParams['category'] = category;
+            }
+        }
+
+        // Sort arguments
+        if ('sortOn' in args){
+            if (args['sortOn'] !== null){
+                apiParams['sort'] = args['sortOn'];
+            }
+        }
+
+        if ('sortAsc' in args){
+            if (args['sortAsc'] === true){
+                apiParams['sortascending'] = 'true';
+            }
+            if (args['sortAsc'] === false){
+                apiParams['sortascending'] = 'false';
+            }
+        }
+
+        console.log(apiParams);
+        const searchParams = new URLSearchParams(apiParams);
+        const apiFullEndpoint = tsURL + publicApiUrl + endpoint + "?" + searchParams.toString();
+        console.log(apiFullEndpoint);
+        return await fetch(
+            apiFullEndpoint, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-By": "ThoughtSpot"
+            },
+            credentials: "include"
+            })
+        .then(response =>  response.json())
+        .then(data => data['headers'])  // metadata/list info is really in the 'headers' property returned
+        .catch(error => {
+        console.error("Unable to get the metadata/list response: " + error)
+        });
+    }
+----
+
+The results of this REST API request can be directed into a rendering function using `.then()`:
+
+[source,javascript]
+----
+metadataListRestApiCall(
+    {
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
+        'category': 'ALL'
+    })
+.then(
+    (listResponse) => renderNavigationFromResponse(listResponse) // Use your own rendering function here
+);
+----
 
 === Render navigation elements
+The response from the function above is an array of headers objects, which can be parsed to render navigation. 
+
+The `name` and `id` property will be used in almost navigation you build (`id` is the GUID necessary to load any ThoughtSpot object). Additional properties of interest:
+
+* `description`
+* `authorDisplayName`: display name of the object creator or current owner
+* `authorName`: username of the object creator or current owner
+* `created` : object creation timestamp (to milliseconds)
+* `modified`: last edit timestamp (to milliseconds)
+* `tags`: array of tag objects
+
 
 === Load ThoughtSpot content in embed components
 However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the Embed constructor for one of the embed components:
