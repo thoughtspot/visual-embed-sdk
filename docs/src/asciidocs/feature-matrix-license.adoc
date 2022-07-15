@@ -101,7 +101,7 @@ a|Runtime filters
 
 ////
 
-== REST API v1 availability
+== REST API v1 operations
 
 [div tableContainer]
 --
@@ -156,7 +156,7 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 |=====
 --
 
-== REST API v2 availability
+== REST API v2 operations
 [div tableContainer]
 --
 [width="100%" cols="8,4,4,4,4"]
