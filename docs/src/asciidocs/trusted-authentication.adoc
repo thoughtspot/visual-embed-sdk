@@ -246,5 +246,5 @@ The request URL includes the `auth_token` attribute and the redirect URL uses th
 
 
 == Additional resources
-A simple Python Flask implementation of an Authenticator Service is available in the link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources GitHub repository, target=_blank].  +
-The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, target=_blank] page to help verify each step of the trusted authentication process.
+A simple Python Flask implementation of an Authenticator Service is available in the link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources GitHub repository, window=_blank].  +
+The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, window=_blank] page to help verify each step of the trusted authentication process.
