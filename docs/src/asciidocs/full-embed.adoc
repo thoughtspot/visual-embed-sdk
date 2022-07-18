@@ -176,6 +176,17 @@ _Boolean_. When set to `true`, the help and user profile buttons are hidden on t
 <a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
+enableSearchAssist _optional_::
+_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+
++
+Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
+
++
+++++
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
 
 hideObjects [small]_optional_::
 __Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain Liveboards, you can specify the GUIDs of the Liveboards in the `hideObjects` attribute.
@@ -245,7 +256,7 @@ For example, to sort values equal to `100000` in the `Revenue` column for a visu
 ----
 runtimeFilters: [{
     columnName: 'Revenue',
-    operator: 'EQ',
+    operator: RuntimeFilterOp.EQ,
     values: [100000]
 }]
 ----

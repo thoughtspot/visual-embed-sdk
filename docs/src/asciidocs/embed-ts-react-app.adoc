@@ -110,13 +110,13 @@ You can find the GUIDs of these objects in the UI, the developer Playground on y
 
 To initialize the SDK, you must point the SDK to your ThoughtSpot host URL. In the same `init` call, you can also specify the authentication method.
 
-In the following example, the `authType` is set to `SSO` to use SAML SSO authentication.
+In the following example, the `authType` is set to `SAML` to use SAML SSO authentication.
 
 [source,Typescript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 ---- 
 

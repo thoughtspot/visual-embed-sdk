@@ -46,11 +46,10 @@
   </div>
 ++++
 
-
+[.non-link]
++++<h2 align="center">Embedding and customization </h2>+++
 ++++
-
 <div class="row">
- <h2 align="center">Embedding and customization</h2>
 	<div class="col-md-4">
 	<a href="?pageid=search-embed">	<div class="boxDiv">
 			<h5>Embed search</h5>
@@ -114,11 +113,10 @@
 </div>
 ++++
 
-
+[.non-link]
++++<h2 align="center">APIs and SDK</h2>+++
 ++++
-
 <div class="row">
-  <h2 align="center">APIs and SDK</h2>
   <div class="col-md-4">
     <a href="{{previewPrefix}}/playground/search" target="_blank"> <div class="boxDiv">
       <h5>Try out Embed APIs</h5>
@@ -149,11 +147,11 @@
 </div>
 ++++
 
-
+[.non-link]
++++<h2 align="center">Related resources</h2>+++
 ++++
 
 <div class="row">
-  <h2 align="center">Related resources</h2>
   <div class="col-md-4">
       <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><div class="boxDiv">
       <h5>Get trained</h5>
@@ -185,7 +183,6 @@
 ++++
 
 
-
-[div divider]
---
---
+++++
+<div class="divider"> </div
+++++

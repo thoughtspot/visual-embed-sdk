@@ -381,7 +381,7 @@ Removes the tag assigned to an object.
 
 +++<p class="divider"> </p>+++
 
-`*DELETE* /api/rest/v2/metadata/tag/delete`
+`*DELETE* /tspublic/rest/v2/metadata/tag/delete`
 
 Deletes the specified tag.
 
@@ -391,7 +391,7 @@ Deletes the specified tag.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /api/rest/v2/metadata/favorite/assign`
+`**PUT** /tspublic/rest/v2/metadata/favorite/assign`
 
 Adds an object such as Liveboards and answers to a user's favorites list.
 
@@ -401,7 +401,7 @@ Adds an object such as Liveboards and answers to a user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**PUT ** /api/rest/v2/metadata/favorite/unassign`
+`**PUT ** /tspublic/rest/v2/metadata/favorite/unassign`
 
 Removes the specified object from the user's favorites list.  
 
@@ -411,7 +411,7 @@ Removes the specified object from the user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**GET** /api/rest/v2/metadata/homeliveboard`
+`**GET** /tspublic/rest/v2/metadata/homeliveboard`
 
 Gets the details of the Liveboard that is set as a default Liveboard for the ThoughtSpot user.
 
@@ -421,7 +421,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
 
 +++<p class="divider"> </p>+++
  
-`**PUT** /api/rest/v2/metadata/homeliveboard/assign`
+`**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign`
 
 Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
@@ -431,7 +431,7 @@ Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/metadata/homeliveboard/unassign`
+`*PUT* /tspublic/rest/v2/metadata/homeliveboard/unassign`
 
 Removes the default home Liveboard setting for a ThoughtSpot user.
 
@@ -441,7 +441,7 @@ Removes the default home Liveboard setting for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/incomplete`
+`*GET* /tspublic/rest/v2/metadata/incomplete`
 
 Gets a list of objects with incomplete metadata. 
 
@@ -451,7 +451,7 @@ Gets a list of objects with incomplete metadata.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/header`
+`*GET* /tspublic/rest/v2/metadata/header`
 
 Gets header details for a specific metadata object. 
 
@@ -462,7 +462,7 @@ Gets header details for a specific metadata object.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/details`
+`*GET* /tspublic/rest/v2/metadata/details`
 
 Gets details of a specific metadata object. To filter your query, specify the metadata object type and the ID.
 
@@ -472,7 +472,7 @@ Gets details of a specific metadata object. To filter your query, specify the me
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/vizheaders`
+`*GET* /tspublic/rest/v2/metadata/vizheaders`
 
 Gets a list of visualization headers associated with a Liveboard.
 
@@ -482,7 +482,7 @@ Gets a list of visualization headers associated with a Liveboard.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/header/search`
+`*POST* /tspublic/rest/v2/metadata/header/search`
 
 Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level, and other such attributes.
 
@@ -502,9 +502,13 @@ Gets details of one or several metadata objects of a specific type.
 
 +++<p class="divider"> </p>+++
 
-`*DELETE* /api/rest/v2/metadata/delete` 
+`*DELETE* /tspublic/rest/v2/metadata/delete`
 
-Deletes the specified metadata object.
+Deletes the specified metadata object. +
+Note that the endpoint does not support deleting connection and user objects. To delete these objects, use the following endpoints:
+
+* DELETE /tspublic/rest/v2/connection/delete
+* DELETE /tspublic/rest/v2/user/delete
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>
@@ -512,7 +516,7 @@ Deletes the specified metadata object.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/dependency`
+`*POST* /tspublic/rest/v2/metadata/dependency`
 
 Gets a list of dependent metadata objects.
 
@@ -522,7 +526,7 @@ Gets a list of dependent metadata objects.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/tml/export`
+`*POST* /tspublic/rest/v2/metadata/tml/export`
 
 Exports a TML object and associated metadata.
 
@@ -532,7 +536,7 @@ Exports a TML object and associated metadata.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/metadata/tml/import`
+`**POST** /tspublic/rest/v2/metadata/tml/import`
 
 Imports one or several TML objects and object associations.
 
@@ -545,7 +549,7 @@ Imports one or several TML objects and object associations.
 == Connections 
 
 --
-`*GET* /api/rest/v2/connection` 
+`*GET* /tspublic/rest/v2/connection`
 
 Gets details of a specific data connection.
 
@@ -555,7 +559,7 @@ Gets details of a specific data connection.
 
 +++<p class="divider"> </p>+++
 
-`**GET** /tspublic/rest/v2/connection/database` [tag greenBackground]#NEW in 8.3.0.cl#
+`**GET** /tspublic/rest/v2/connection/database`
 
 Gets details of the databases associated with a connection ID.
 
@@ -565,7 +569,7 @@ Gets details of the databases associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/connection/table` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/connection/table`
 
 Gets details of the tables associated with a connection ID.
 
@@ -575,7 +579,7 @@ Gets details of the tables associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/connection/tablecoloumn` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/connection/tablecoloumn`
 
 Gets details of the columns of the tables associated with a connection ID.
 
@@ -585,7 +589,7 @@ Gets details of the columns of the tables associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/create` 
+`*POST* /tspublic/rest/v2/connection/create`
 
 Creates a data connection.
 
@@ -595,7 +599,7 @@ Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/update` 
+`*PUT* /tspublic/rest/v2/connection/update`
 
 Updates an existing data connection.
 
@@ -605,7 +609,7 @@ Updates an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-*DELETE* /api/rest/v2/connection/delete 
+*DELETE* /tspublic/rest/v2/connection/delete
 
 Deletes a data connection.
 
@@ -615,7 +619,7 @@ Deletes a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/addtable` 
+`*PUT* /tspublic/rest/v2/connection/addtable`
 
 Adds a table to an existing data connection.
 
@@ -625,7 +629,7 @@ Adds a table to an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/removetable` 
+`*PUT* /tspublic/rest/v2/connection/removetable`
 
 Removes a table from an existing data connection.
 
@@ -635,7 +639,7 @@ Removes a table from an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/search` 
+`*POST* /tspublic/rest/v2/connection/search`
 
 Gets details of all data connections. You can also query data for a specific connection type.
 
@@ -711,7 +715,7 @@ Downloads answer data in the specified file format, such as PDF, CSV, PNG, and X
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/report/liveboard` [tag greenBackground]#NEW in 8.3.0.cl# 
+`**POST** /tspublic/rest/v2/report/liveboard`
 
 Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
 
@@ -722,7 +726,7 @@ Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF f
 
 == Security
 
-`*POST* /tspublic/rest/v2/security/share/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/share/tsobject`
 
 Allows sharing an object with another user or group in ThoughtSpot.
 
@@ -732,7 +736,7 @@ Allows sharing an object with another user or group in ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/security/share/visualization` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/security/share/visualization`
 
 Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
 
@@ -742,7 +746,7 @@ Allows sharing a Liveboard visualization  with another user or group in ThoughtS
 
 +++<p class="divider"> </p>+++
 
-`**GET** /tspublic/rest/v2/security/permission/tsobject` [tag greenBackground]#NEW in 8.3.0.cl#
+`**GET** /tspublic/rest/v2/security/permission/tsobject`
 
 Gets access permission details for a metadata object.
 
@@ -752,7 +756,7 @@ Gets access permission details for a metadata object.
 
 +++<p class="divider"> </p>+++
 
-*GET* /tspublic/rest/v2/security/permission/principal [tag greenBackground]#NEW in 8.3.0.cl#
+*GET* /tspublic/rest/v2/security/permission/principal
 
 Gets a list of objects that the specified user or group has access to.
 
@@ -762,7 +766,7 @@ Gets a list of objects that the specified user or group has access to.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/security/permission/tsobject/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/permission/tsobject/search`
 
 Gets permission details for specific object and users and groups who have access to these objects.  
 
@@ -772,7 +776,7 @@ Gets permission details for specific object and users and groups who have access
 
 +++<p class="divider"> </p>+++
 
-`*POST* /tspublic/rest/v2/security/permission/principal/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`*POST* /tspublic/rest/v2/security/permission/principal/search`
 
 Gets a list objects to which a user or group has `read-only` or `modify` permissions.
 
@@ -783,7 +787,7 @@ Gets a list objects to which a user or group has `read-only` or `modify` permiss
 
 == Custom actions 
 
-`*GET* /tspublic/rest/v2/customaction` [tag greenBackground]#NEW in 8.3.0.cl#
+`*GET* /tspublic/rest/v2/customaction`
 
 Gets details of a custom action.
 
@@ -793,7 +797,7 @@ Gets details of a custom action.
 
 +++<p class="divider"> </p>+++
 
-`**POST **/tspublic/rest/v2/customaction/create` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST **/tspublic/rest/v2/customaction/create`
 
 Creates a custom action.
 
@@ -803,7 +807,7 @@ Creates a custom action.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /tspublic/rest/v2/customaction/update` [tag greenBackground]#NEW in 8.3.0.cl#
+`**PUT** /tspublic/rest/v2/customaction/update`
 
 Updates a custom action object.
 
@@ -813,7 +817,7 @@ Updates a custom action object.
 
 +++<p class="divider"> </p>+++
 
-`**DELETE** /tspublic/rest/v2/customaction/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+`**DELETE** /tspublic/rest/v2/customaction/delete`
 
 Deletes a custom action object.
 
@@ -823,7 +827,7 @@ Deletes a custom action object.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /tspublic/rest/v2/customaction/search` [tag greenBackground]#NEW in 8.3.0.cl#
+`**POST** /tspublic/rest/v2/customaction/search`
 
 Allows searching for custom actions available in ThoughtSpot.
 
@@ -833,7 +837,7 @@ Allows searching for custom actions available in ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/customaction/association` [tag greenBackground]#NEW in 8.3.0.cl#
+`*GET* /tspublic/rest/v2/customaction/association`
 
 Gets details of a custom action association to metadata objects, users, and groups.
 
@@ -843,7 +847,7 @@ Gets details of a custom action association to metadata objects, users, and grou
 
 +++<p class="divider"> </p>+++
 
-`**DELETE **/tspublic/rest/v2/customactions/association/delete` [tag greenBackground]#NEW in 8.3.0.cl#
+`**DELETE **/tspublic/rest/v2/customactions/association/delete`
 
 Removes custom action association to a user, group or metadata object.
 

@@ -254,7 +254,6 @@ By default, custom actions are visible only to users with administrator or devel
 Yes. You can set the custom action availability to one or several groups. Users with Administrator or Developer privilege can set the custom action to be available globally on all visualizations or allow authorized users to assign it to the visualization of their choice.
 ====
 
-
 .Can I trigger custom actions programmatically?
 [%collapsible]
 ====

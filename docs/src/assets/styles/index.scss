@@ -295,6 +295,15 @@ summary.title  {
 
 }
 
+.cardBlockHeading {
+       margin-top: $margin-lg;
+       padding-bottom: $padding-sm;
+       border-bottom: 1px solid var(--border-color);
+       font-size: 26px;
+       font-weight: $font-weight-bold;
+       text-align: center;
+}
+
 
 a.anchor {
     position: absolute;

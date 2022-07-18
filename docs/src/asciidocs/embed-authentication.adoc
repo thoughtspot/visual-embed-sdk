@@ -69,13 +69,13 @@ To use SAML SSO authentication, the administrator must enable SAML authenticatio
 
 ==== Enable SSO authentication in Visual Embed SDK
 
-To configure SAML SSO authentication for embed users, set the `authType` attribute to `SSO`. 
+To configure SAML SSO authentication for embed users, set the `authType` attribute to `SAML`.
 
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 ----
 
@@ -91,7 +91,7 @@ If you want the SAML SSO authentication workflow to terminate on a specific path
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
     redirectPath: "/dashboard",
 });
 ----
@@ -102,7 +102,7 @@ If you want the SAML SSO authentication page to open as a pop-up window, instead
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
     noRedirect: true,
 });
 ----
