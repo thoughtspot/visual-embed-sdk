@@ -128,6 +128,88 @@ The `name` and `id` property will be used in almost navigation you build (`id` i
 * `modified`: last edit timestamp (to milliseconds)
 * `tags`: array of tag objects
 
+==== Navigation pages
+If you want to render something very close to the 'Answers' or 'Pinboards' page within the ThoughtSpot UI, your rendering function will grab the `name`, `id`, `tags`, `modified` and `authorDisplayName` properties and make a table in that order (feel free to leave out any undesired elements):
+
+[source,javascript]
+----
+    function tableFromList(listResponse){
+        console.log(listResponse);
+        let t = document.createElement('table');
+
+        // Make table headers 
+        let thead = document.createElement('thead');
+        t.append(thead);
+        let thr = document.createElement('tr');
+        thead.append(thr);
+        let headers = ['Name', 'Tags', 'Modified', 'Author'];
+        for (let i=0, len=headers.length; i < len; i++){
+            let th = document.createElement('th');
+            th.innerText = headers[i];
+            thr.append(th);
+        }
+
+        // Go through response and build rows
+        for (let i=0, len=listResponse.length; i < len; i++){
+            let tr = document.createElement('tr');
+            
+            // Name Column
+            let name_td = document.createElement('td');
+            name_td.innerHTML = '<a href="#" onclick="loadContent("' + listResponse[i]['id'] + '")>' +  listResponse[i]['name'] +  '</a>';
+            //name_td.append(name_text);
+            console.log(name_td);
+            tr.append(name_td);
+            
+            // Tags column
+            let tags_td = document.createElement('td');
+            console.log(listResponse[i]['tags']);
+            // Tags is an Array of Tag objects, with properties ('name' being the important one)
+            if (listResponse[i]['tags'].length > 0){
+                let tagNames = [];
+                for(let k = 0, len = listResponse[i]['tags'].length; k<len; k++){
+                    let tagName = listResponse[i]['tags'][k]['name'];
+                    tagNames.push(tagName);
+                }
+                tags_td.innerText = tagNames.join(', ');
+            }
+            tr.append(tags_td);
+
+            // Modified Date column
+            let modified_td = document.createElement('td');
+            modified_td.innerText = listResponse[i]['modified'];
+            tr.append(modified_td);
+
+            let author_td = document.createElement('td');
+            author_td.innerText = listResponse[i]['authorDisplayName'];
+            tr.append(author_td);
+
+            t.append(tr);
+
+        }
+
+        return t;
+    }
+----
+
+The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place in your web application page :
+
+[source,javascript]
+----
+metadataListRestApiCall(
+    {
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
+        'category': 'ALL'
+    })
+.then(
+    (response) => tableFromList(response)
+).then(
+    (table) => document.getElementById('main-content-div').append(table)
+);
+----
+
+Also note the `loadContent()` function above is a placeholder to be replaced with a function that loads whatever content 
 
 === Load ThoughtSpot content in embed components
 However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the Embed constructor for one of the embed components:
