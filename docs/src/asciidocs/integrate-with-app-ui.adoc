@@ -209,7 +209,7 @@ metadataListRestApiCall(
 );
 ----
 
-Also note the `loadContent()` function above is a placeholder to be replaced with a function that loads whatever content 
+Also note the `loadContent()` function referenced in the anchor tag created for the name column in the function above is is a placeholder representing whatever is necessary to load taht type of ThoughtSpot content in the web application. Loading content is discussed in the next section.
 
 === Load ThoughtSpot content in embed components
 However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the Embed constructor for one of the embed components:
@@ -218,6 +218,10 @@ However you have rendered the navigation element, when the user selects the obje
 * `liveboardId` and `vizId` for an xref:embed-a-viz.adoc[individual visualization] from a Liveboard through the `LiveboardEmbed` object
 * `datasources` array for a xref:embed-search.adoc[SearchEmbed]
 * `answerId` for loading a xref:embed-search.adoc[saved Answer] in a `SearchEmbed`
+
+In general, most web applications will put the ThoughtSpot GUID into the URL in a way that allows the page to be bookmarked: `{domain.com}/analytics/dashboard/{liveboardGUID}` would be an example of a 'true' URL, while `{domain.com}/analytics/\#dashboard/{liveboardGUID}` is an alternative example often seen in single-page style apps where the fragment specifying the object type and GUID can be read within the page's JavaScript to command different content to be loaded without going to an actual different page.
+
+
 
 == Filters in the embedded UI
 
