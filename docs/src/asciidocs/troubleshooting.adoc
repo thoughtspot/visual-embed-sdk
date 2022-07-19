@@ -136,9 +136,9 @@ For example, if `Store Region` is set to `west, southwest` in the Liveboard filt
 
 **Error**: When I send an API request, the ThoughtSpot server returns the 401 error code in response.
 
-**Cause**: This issue occurs if you do not have the required privileges and your API requests are not authorized.
+**Cause**: This issue occurs if you do not have the required privileges to create or modify the data objects.
 
-**How to fix**: Check if your user account has access permissions to view and edit ThoughtSpot objects. For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_operations[REST API v2 operations].
+**How to fix**: Check if your API requests are authorized. Make sure your ThoughtSpot user account has edit privileges to access and modify ThoughtSpot objects.  For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_operations[REST API v2 operations].
 
 
 === Unable to embed a Liveboard using REST API
@@ -161,5 +161,5 @@ If you have the required privileges and still get an error, perform the followin
 curl -X POST /
 --header 'Content-Type: application/json' /
 --header 'Accept: application/json' /
---header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT' -b cookies.txt
+--header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
