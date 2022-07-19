@@ -135,28 +135,8 @@ RLS rules are only affected by the SSO process, which makes them the appropriate
 
 Embedded search operations are always filtered by RLS rules. The end user can create their own UI filters via search within the embedded search component.
 
-=== Control SearchEmbed behavior
-
-There are three general ways to use the xref:embed-search.adoc[SearchEmbed] component:
-
-. Load with no datasources selected
-. Load with particular datasources
-. Load an existing saved answer
-
-In cases 1 and 2, you can also define the items to appear in the search bar using the `searchOptions` object. The `searchOptions` object has two properties:
-
-* `searchTokenString`
-* `executeSearch`
-
-When `executeSearch` is *true*, the search component will load the chart or table automatically. If `executeSearch` is *false*, the search bar will display the terms from `searchTokenString`, but the user must click the *GO* button to execute the search.
-
-The `forceTable` option causes the search to load in table mode rather than with the automatically chosen visualization.
-
-`collapseDataSources` and `hideDataSources` control the data source pane on the left side of the search component. When `hideDataSources` is *true*, there is no way for the user to see the data source pane, while `collapseDataSources` loads to only an icon which can be used to expand the pane.
-
-==== Use search bar without displaying results
-
-The `hideResults` parameter in the options object blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event to capture the TML search string from the search bar, then use that query string in the xref:search-data-api.adoc[search data REST API].
+=== Modify SearchEmbed behavior
+The `hideResults` parameter in the options object of a SearchEmbed constructor blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event among others to perform actions based on the user's interaction within the SearchEmbed component.
 
 ==== SearchEmbed Events
 There are several events that fire only on the SearchEmbed component:
