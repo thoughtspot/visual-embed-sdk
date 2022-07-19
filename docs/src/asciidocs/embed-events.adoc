@@ -45,7 +45,7 @@ import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react
 
 A common workflow is to use an overlay `div` element to hide the embed content until you know that SSO has completed and the content is fully loaded. If an error occurs in the process, you may prefer to display your own custom message to the end user rather than showing embedded ThoughtSpot content in an error state.
 
-The Visual Embed SDK provides xref:embed-events.adoc[events] to take action at various places within the loading process. The following events are related to the load process:
+Embed events fire at points within the loading process. The following events are related to the load process:
 
 . `Init`
 +
@@ -76,7 +76,10 @@ Fires as soon as the area for embedding is created, not when the content has beg
 +
 Fires only on `SearchEmbed` components. Does not fire on a `LiveboardEmbed` component.
 
-The full list events are defined in the link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/src/types.ts[types.ts, window=_blank] file of the Visual Embed SDK source.
+. `LiveboardRendered`
++
+Fires only on `LiveboardEmbed` components, after all visualizations have completed loading
+
 
 `AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state. 
 
@@ -106,6 +109,7 @@ embed
         }
     })
     .on(EmbedEvent.Error, showGenericErrorMsg)
+    .on(EmbedEvent.LiveboardRendered, hideLoader)
     .render()
 ----
 
@@ -120,10 +124,10 @@ Filtering from selection on a chart or table can be implemented by combining the
 The callback function from the `VizPointClick` event will need to read the response, parse out the attribute(s) from the response that will be sent to the Runtime Filters, then send package the attributes and their target fields in the format used by `UpdateRuntimeFilters`.
 
 ==== ThoughtSpot filters overview
-ThoughtSpot Liveboards have four levels of filters:
+ThoughtSpot Liveboards have four levels of filters. 
 
 Row-level security (RLS) rules::
-Tied to the logged-in user and their group memberships.
+Tied to the logged-in user and their group memberships. Completely secure and cannot be altered by the logged-in user.
 Runtime filters::
 Set via the Visual Embed SDK or URL parameters. Runtime filters do not display as UI filter components.
 Answer filters::
@@ -131,9 +135,6 @@ Established via the search definition, not visible as UI filter components on a 
 Liveboard filters::
 Visible as UI components at the top of a Liveboard, affecting all visualizations on the Liveboard.
 
-RLS rules are only affected by the SSO process, which makes them the appropriate layer for secure data filtering. The other filter types can all be adjusted by the end user in the browser.
-
-Embedded search operations are always filtered by RLS rules. The end user can create their own UI filters via search within the embedded search component.
 
 === Modify SearchEmbed behavior
 The `hideResults` parameter in the options object of a SearchEmbed constructor blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event among others to perform actions based on the user's interaction within the SearchEmbed component.
