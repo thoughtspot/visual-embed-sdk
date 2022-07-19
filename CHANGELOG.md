@@ -6,10 +6,10 @@ This project follows Semantic Versioning.
 ## Unreleased
 
 ### New Features
-- Event for navigating to a specific page in App embed without any reload
-- Ability to turn on search assist in Search embed
 - Set of new Host events to drive interactions on the embed programatically 
-
+## 1.13.0 (07-19-2022)
+- Release to support TS version 8.5.0.cl
+- Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
 ## 1.12.1 (06-21-2022)
 ### Fixed
 - Search embed beta warning check for TS cloud releases
