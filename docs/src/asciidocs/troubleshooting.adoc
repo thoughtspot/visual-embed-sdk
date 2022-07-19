@@ -119,7 +119,7 @@ Runtime filters are applied at runtime and do not show up in the Filter bar.
 
 Runtime filters are applied separately from the visible Liveboard filters. Therefore, when you apply these filters together, the conditions for both must be true for data to appear. +
 
-For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set Runtime Filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an error.
+For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set runtime filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an error.
 
 === ThoughtSpot navigation bar shows in the embedded mode
 
