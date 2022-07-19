@@ -6,6 +6,7 @@
 :page-pageid: integrate-with-app-ui
 :page-description: You can use Visual Embed SDK and REST API capabilities to integrate embedded ThoughtSpot with your application's UI
 
+
 This article describes how to integrate the embedded ThoughtSpot content with your application's UI elements. 
 
 == Navigation to ThoughtSpot objects
