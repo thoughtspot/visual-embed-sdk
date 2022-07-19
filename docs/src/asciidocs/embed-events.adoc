@@ -1,10 +1,10 @@
-= Interact with events
+= Events and app integration
 :toc: true
-:toclevels: 1
+:toclevels: 2
 
-:page-title: Embed events
+:page-title: Events and app integration
 :page-pageid: events
-:page-description: You can subscribe to events emitted by the embedded objects and the host application.
+:page-description: Events allow the embedding application to send and receive messages from embedded ThoughtSpot components.
 
 ThoughtSpot supports a range of events that your app can listen to and respond to with appropriate actions. The embedded ThoughtSpot components emit events when they initialize and load, and when a user executes an action inside these components. The host application can also trigger events within the embedded ThoughtSpot objects, causing an alert or other action.
 
@@ -15,8 +15,12 @@ The events in the Visual Embed SDK library are classified as:
 * `HostEvent` +
 Events triggered by the host application in which ThoughtSpot components are embedded.
 
+Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
+
 * `EmbedEvent` +
 Events emitted by the embedded ThoughtSpot components.
+
+You define a *listener* for an EmbedEvent with a callback function to handle the event response via the `.on(embedEvent, eventHandlerCallbackFunction)` format.
 
 == Import event library
 
@@ -34,8 +38,132 @@ To trigger events on ThoughtSpot components embedded in a React app, import the 
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
 ----
 
+[#use-cases]
+== Common events use cases
+
+=== Handle load and errors for embed components
+
+A common workflow is to use an overlay `div` element to hide the embed content until you know that SSO has completed and the content is fully loaded. If an error occurs in the process, you may prefer to display your own custom message to the end user rather than showing embedded ThoughtSpot content in an error state.
+
+The Visual Embed SDK provides xref:embed-events.adoc[events] to take action at various places within the loading process. The following events are related to the load process:
+
+. `Init`
++
+Fires at the beginning of the loading process.
+. `NoCookieAccess`
+
++
+Some browsers (Safari in particular) default to strict settings on cookie origins that prohibit the standard SSO process. This event fires if cookies are restricted by a user's browser.
+
+. `AuthExpire`
++
+Fires if SSO does not complete and if the ThoughtSpot session times out at some point. Listen to the `AuthExpire` event in the load process to determine when it is safe to show the ThoughtSpot content, and listen to it after loading to hide the ThoughtSpot login screen if the session expires for some reason.
+
+. `AuthInit` 
++
+Fires when the SSO process has completed correctly. The event does not fire when an SSO process fails, instead `AuthExpire` fires in that situation. The logged-in user GUID is available in the response of the `AuthInit` event.
+
+. `Error` 
+
++
+Fires if any other error occurs in the Visual Embed SDK process. Does not fire for errors within the embedded ThoughtSpot content
+
+. `Load`
++
+Fires as soon as the area for embedding is created, not when the content has begun or finished loading.
+
+. `Data`
++
+Fires only on `SearchEmbed` components. Does not fire on a `LiveboardEmbed` component.
+
+The full list events are defined in the link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/src/types.ts[types.ts, window=_blank] file of the Visual Embed SDK source.
+
+`AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state. 
+
+[source,javascript]
+----
+// Instantiate class for embedding a Liveboard
+const embed = new LiveboardEmbed("#thoughtspot-embed", {
+    liveboardId: '<Liveboard-guid>',
+});
+let tsLoggedIn = false;
+embed
+    .on(EmbedEvent.Init, showLoader)
+    .on(EmbedEvent.NoCookieAccess, showCookieSettingsMsg)
+    .on(EmbedEvent.AuthInit, (response) => {
+        // Set that AuthInit has fired
+        tsLoggedIn = true;
+        // authInit returns object -> {type: 'authInit', data: {userGuid: <guid>} } }
+        let userGUID = response.data.userGuid;
+    })
+    .on(EmbedEvent.AuthExpire, (response) => {
+        // Handle if session dies while content shows
+        if (tsLoggedIn == true) {
+            tsSessionTimeoutCleanup();
+        } else {
+            // Display custom message if SSO issues
+            showSSOFailedMsg();
+        }
+    })
+    .on(EmbedEvent.Error, showGenericErrorMsg)
+    .render()
+----
+
+=== Filters in the embedded UI
+
+xref:runtime-filters.adoc[Runtime filters] can be tied into the embedding application, since they are set programmatically before loading the embedded ThoughtSpot content. If you want users to set filter values outside of the embedded ThoughtSpot content, display some type of filter UI in the embedding application, then set those values in the runtime filters section of the constructor of the *LiveboardEmbed* object.
+
+ThoughtSpot Liveboards have four levels of filters:
+
+Row-level security (RLS) rules::
+Tied to the logged-in user and their group memberships.
+Runtime filters::
+Set via the Visual Embed SDK or URL parameters. Runtime filters do not display as UI filter components.
+Answer filters::
+Established via the search definition, not visible as UI filter components on a Liveboard, but can be viewed in **Explore** or *Edit* modes.
+Liveboard filters::
+Visible as UI components at the top of a Liveboard, affecting all visualizations on the Liveboard.
+
+RLS rules are only affected by the SSO process, which makes them the appropriate layer for secure data filtering. The other filter types can all be adjusted by the end user in the browser.
+
+Embedded search operations are always filtered by RLS rules. The end user can create their own UI filters via search within the embedded search component.
+
+=== Control SearchEmbed behavior
+
+There are three general ways to use the xref:embed-search.adoc[SearchEmbed] component:
+
+. Load with no datasources selected
+. Load with particular datasources
+. Load an existing saved answer
+
+In cases 1 and 2, you can also define the items to appear in the search bar using the `searchOptions` object. The `searchOptions` object has two properties:
+
+* `searchTokenString`
+* `executeSearch`
+
+When `executeSearch` is *true*, the search component will load the chart or table automatically. If `executeSearch` is *false*, the search bar will display the terms from `searchTokenString`, but the user must click the *GO* button to execute the search.
+
+The `forceTable` option causes the search to load in table mode rather than with the automatically chosen visualization.
+
+`collapseDataSources` and `hideDataSources` control the data source pane on the left side of the search component. When `hideDataSources` is *true*, there is no way for the user to see the data source pane, while `collapseDataSources` loads to only an icon which can be used to expand the pane.
+
+==== Use search bar without displaying results
+
+The `hideResults` parameter in the options object blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event to capture the TML search string from the search bar, then use that query string in the xref:search-data-api.adoc[search data REST API].
+
+==== SearchEmbed Events
+There are several events that fire only on the SearchEmbed component:
+
+* `DataSourceSelected`
++
+Fires when a change occurs in the data sources, including initial load of the `SearchEmbed` component. Can be used to hide a loader screen. Return object contains an array of the selected column GUIDs (accessible using `LOGICAL_COLUMN` type within metadata REST API commands).
+
+* `QueryChanged`
++
+Fires when a change occurs in the search bar, including the initial load of the SearchEmbed component. Returned object includes a `data.search` property with the TML search query from the search box.
+
 [#host-events]
-== Register, handle, and trigger host events
+== Host events reference
 The following host events are triggered by the host application, which the embedded ThoughtSpot app can register.
 The host events are part of the *HostEvent* object; for example, `HostEvent.SetVisibleVizs`.
 Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
@@ -145,7 +273,7 @@ liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
 --
 
 [#embed-events]
-== Register, handle, and trigger embed events
+== Embed events reference
 
 The embed events are generated by the embedded ThoughtSpot application components. All embed events are part of the `EmbedEvent` object; for example, `EmbedEvent.Init`.
 
@@ -1378,7 +1506,7 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
 [#customAction]
 == Handle custom action events
 
-If you have added a xref:customize-actions-menu.adoc[custom action], you must register an event handler to send data in a payload when the custom action is triggered:
+If you have added a xref:customize-actions-menu.adoc[custom action] set as a xref:custom-action-callback.adoc[callback action], you must register an event handler to send data in a payload when the custom action is triggered:
 
 [source, javascript]
 ----
