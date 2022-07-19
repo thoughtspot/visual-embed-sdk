@@ -109,10 +109,17 @@ embed
     .render()
 ----
 
-=== Filters in the embedded UI
+=== Filters in embedded UI
+xref:runtime-filters.adoc[Runtime filters] can be set programmatically before loading the embedded ThoughtSpot content in the `options` object set in the `LiveboardEmbed` component contructor. 
 
-xref:runtime-filters.adoc[Runtime filters] can be tied into the embedding application, since they are set programmatically before loading the embedded ThoughtSpot content. If you want users to set filter values outside of the embedded ThoughtSpot content, display some type of filter UI in the embedding application, then set those values in the runtime filters section of the constructor of the *LiveboardEmbed* object.
+Runtime filters can be updated after load time by triggering the `HostEvent.UpdateRuntimeFilters` event (documented in reference below). You can build filter UI in the embedding app UI which triggers the `UpdateRuntimeFilters` event when changed or when an "apply" button is pressed.
 
+==== Filtering from selection
+Filtering from selection on a chart or table can be implemented by combining the `EmbedEvent.VizPointClick` or `EmbedEvent.VizPointDoubleClick` events with the `HostEvent.UpdateRuntimeFilters` event. 
+
+The callback function from the `VizPointClick` event will need to read the response, parse out the attribute(s) from the response that will be sent to the Runtime Filters, then send package the attributes and their target fields in the format used by `UpdateRuntimeFilters`.
+
+==== ThoughtSpot filters overview
 ThoughtSpot Liveboards have four levels of filters:
 
 Row-level security (RLS) rules::
