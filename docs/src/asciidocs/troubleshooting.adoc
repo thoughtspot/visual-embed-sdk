@@ -74,7 +74,8 @@ To resolve this issue: +
 **Cause**: This error may occur due to an invalid `username` or `secret_key`. +
 
 **How to fix**:  Check if the `username` sent in the API request matches the name of the user in ThoughtSpot. +
-Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secrete_key` being sent in your API request is valid.
+Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secrete_key` being sent in your API request is valid. +
+For more information, see xref:trusted-authentication.adoc[Trusted authentication].
 
 === SAML SSO authentication errors
 
