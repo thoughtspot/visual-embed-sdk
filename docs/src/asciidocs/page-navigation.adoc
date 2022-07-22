@@ -5,21 +5,30 @@
 :page-pageid: in-app-navigation
 :page-description: Navigate to ThoughtSpot content
 
-== Navigate from embedding application
-You can use the ThoughtSpot REST API to create navigation elements in the form of navigation pages, menus, or drop-down selectors. 
+This article describes how to configure controls to navigate from and to the embedded ThoughtSpot content.
 
+== Navigate from embedding application
+
+You can use the ThoughtSpot REST API to create navigation elements, such as application pages, menus, or drop-down selectors.
 This allows you to give dynamic navigation to objects to your users with full control of the display.
 
-All REST API requests from the browser are scoped to the signed-in user and will only show the objects the user has access to.
+All REST API requests from the browser are scoped to the signed-in user and show only those objects that a user can access.
 
 === REST API request
 The ThoughtSpot web application UI uses the xref:metadata-api.adoc#metadata-list[metadata/list REST API endpoint] in rendering the Answers, Liveboards, and Data pages. 
 
-The endpoint can only request one object type at a time: `PINBOARD_ANSWER_BOOK` for Liveboards, `QUESTION_ANSWER_BOOK` for answers, and `LOGICAL_TABLE` for data objects. Data objects can be filtered using an additional `subtype` parameter to limit the query specifically to ThoughtSpot tables, worksheets or views. 
+The endpoint can only request one object type at a time: +
+
+* `PINBOARD_ANSWER_BOOK` for Liveboards
+* `QUESTION_ANSWER_BOOK` for answers
+* `LOGICAL_TABLE` for data objects
+
+Data objects can be filtered using an additional `subtype` parameter to limit the query specifically to ThoughtSpot tables, worksheets, or views.
 
 There are additional parameters for sorting and a `category` parameter that can filter the response to show only the objects created or marked as favorites by the logged-in user.
 
-REST API calls are by nature asynchronous. The following is an example function returning the response as a JSON object using *fetch()*:
+REST API calls are asynchronous. The following is an example function returning the response as a JSON object using *fetch()*:
+
 [source,javascript]
 ----
     async function metadataListRestApiCall(args){
@@ -114,7 +123,7 @@ metadataListRestApiCall(
 ----
 
 === Render navigation elements
-The response from the function above is an array of headers objects, which can be parsed to render navigation. 
+The response from the function above is an array of header objects, which can be parsed to render navigation.
 
 The `name` and `id` property are used in almost all the navigation you build (`id` is the GUID necessary to load any ThoughtSpot object). Additional properties include:
 
@@ -137,7 +146,7 @@ Last edit timestamp (to milliseconds)
 +
 Array of tag objects, each with a `name` property among other details
 
-==== Navigation pages
+==== Application pages
 If you want to render something very close to the 'Answers' or 'Pinboards' page within the ThoughtSpot UI, your rendering function will grab the `name`, `id`, `tags`, `modified` and `authorDisplayName` properties and make a table in that order (feel free to leave out any undesired elements):
 
 [source,javascript]
@@ -200,7 +209,7 @@ If you want to render something very close to the 'Answers' or 'Pinboards' page 
     }
 ----
 
-The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place in your web application page :
+The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
 
 [source,javascript]
 ----
@@ -218,25 +227,25 @@ metadataListRestApiCall(
 );
 ----
 
-Also note the `loadContent()` function referenced in the anchor tag created for the name column in the function above is a placeholder representing whatever is necessary to load that type of ThoughtSpot content in the web application. Loading content is discussed in the next section, but the actual design you choose for your application will determine the code you need to go from the navigation component to loading the ThoughtSpot content.
+Note that the `loadContent()` function referenced in the anchor tag created for the name column in the function above is a placeholder representing whatever is necessary to load that type of ThoughtSpot content in the web application. The actual design you choose for your application will determine the code you need to go from the navigation component to loading the ThoughtSpot content.
 
 === Load ThoughtSpot content in embed components
-However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the Embed constructor for one of the embed components:
+However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the embed constructor for one of the embed components:
 
 * `liveboardId` for a xref:embed-pinboard.adoc[Liveboard] in a `LiveboardEmbed` object
 * `liveboardId` and `vizId` for an xref:embed-a-viz.adoc[individual visualization] from a Liveboard through the `LiveboardEmbed` object
 * `datasources` array for a xref:embed-search.adoc[SearchEmbed]
 * `answerId` for loading a xref:embed-search.adoc[saved Answer] in a `SearchEmbed`
 
-In general, most web applications will put the ThoughtSpot GUID into the URL in a way that allows the page to be bookmarked.
-`{domain.com}/analytics/dashboard/{liveboardGUID}` would be an example of a 'true' URL, while `{domain.com}/analytics/\#dashboard/{liveboardGUID}` is an alternative example often seen in single-page style apps where the fragment specifying the object type and GUID can be read within the page's JavaScript to command different content to be loaded without going to an actual different page.
+In general, most web applications put the ThoughtSpot GUID into the URL in a way that allows the page to be bookmarked.
+`{domain.com}/analytics/dashboard/{liveboardGUID}` would be an example of a __true__ URL, while `{domain.com}/analytics/\#dashboard/{liveboardGUID}` is an alternative example often seen in single-page style apps where the fragment specifying the object type and GUID can be read within the page's JavaScript to command different content to be loaded without going to an actual different page.
 
 === Load individual visualizations from a Liveboard
-Individual visualizations on a Liveboard can be loaded using the LiveboardEmbed component by supplying both the `liveboardId` and the `vizId`. 
+You can load individual visualizations on a Liveboard using the `LiveboardEmbed` component by supplying both `liveboardId` and `vizId`.
 
-The display of a visualization from a Liveboard differs from a saved answer object, which are loaded via the SearchEmbed component and always display the ThoughtSpot search bar and other editing UI. Visualizations display with a minimal amount of UI and control over all menu items that will appear in the `...` menu.
+The display of a visualization from a Liveboard differs from a saved answer object, which is loaded via the `SearchEmbed` component. The saved answer object always displays the ThoughtSpot search bar and UI actions for editing an answer, whereas the visualizations display fewer UI elements and show the menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
-The xref:metadata-api.adoc#viz-header[get visualization headers REST API endpoint] is used to retrieve a list of visualizations from a given Liveboard. 
+To retrieve a list of visualizations from a Liveboard, you can use the xref:metadata-api.adoc#viz-header[get visualization headers REST API endpoint].
 
 [source,javascript]
 ----
@@ -269,10 +278,11 @@ async function metadataGetVizHeadersRestApiCall(liveboardGuid){
 }
 ----
 
-== Customize navigation using FullAppEmbed
-To provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app.
+== Customize navigation using full app embed
 
-The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
+If you are embedding the full ThoughtSpot application, you can use the navigation controls that are available as part of the application. You can also customize in-app navigation using the `navigateToPage` API in the SDK.
+
+For example, to provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app. The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
 
 To add a custom action for in-app navigation, follow these steps:
 
