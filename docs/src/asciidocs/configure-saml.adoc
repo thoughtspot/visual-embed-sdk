@@ -86,7 +86,7 @@ image::./images/saml-auth.png[SAML authentication]
 
 === Visual Embed SDK flow
 
-When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SSO`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
+When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SAML`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
 
 === Enabling automatic SAML redirect
 
@@ -161,7 +161,7 @@ To determine if ThoughtSpot supports your preferred IdP, contact ThoughtSpot sup
 
 [NOTE]
 ====
-When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually.
+When configuring SAML 2.0, make sure you map the SAML user attributes to appropriate fields. For example, you must map the SAML user's username to the `NameId` attribute in OneLogin. Similarly, in  Okta, you must map the username to `userPrincipalName`. You must also ensure that the email address of the user is mapped to the `mail` attribute and the display name subject value to `displayName`. If your IdP does not allow you to import the IdP metadata XML file, you must map these values manually.
 ====
 
 ==== Configure IdP to allow iframe embedding
@@ -171,13 +171,13 @@ An example of this setting is the link:https://help.okta.com/en/prod/Content/Top
 
 [#auth-config-sdk]
 === Enable SSO authentication in the Visual Embed SDK
-If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SSO` in the SDK when calling the `init` function from your application.
+If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SAML` in the SDK when calling the `init` function from your application.
 
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 ----
 

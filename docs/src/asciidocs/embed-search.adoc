@@ -60,6 +60,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     collapseDataSources: false,
     disabledActions: [],
     disabledActionReason: '<reason for disabling>',
+    enableSearchAssist: true,
     forceTable: false,
     hiddenActions: [],
     hideDataSources: false,
@@ -86,6 +87,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     collapseDataSources: false,
     disabledActions: [],
     disabledActionReason: '<reason for disabling>',
+    enableSearchAssist: true,
     forceTable: false,
     hiddenActions: [],
     hideDataSources: false,
@@ -189,6 +191,17 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 ++++
 
 
+enableSearchAssist _optional_::
+_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+
++
+Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
+
++
+++++
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
 forceTable __Optional__::
 _Boolean_. When set to `true`, the tabular view is set as the default format for presenting search data. 
 
@@ -206,17 +219,8 @@ _Boolean_. When set to true, it hides charts and tables that appear beneath the 
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-////
-enableSearchAssist [small]_optional_::
-_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 
 
-+
-++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-////
 
 [#search-query]
 searchOptions __Optional__::
@@ -240,7 +244,6 @@ searchOptions: {
     executeSearch: true,
 }
 ----
-
 
 ++++
 <a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it out</a>

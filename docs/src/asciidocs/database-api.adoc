@@ -1,8 +1,8 @@
-= Database APIs
+= Database API
 :toc: true
 :toclevels: 1
 
-:page-title: Database APIs
+:page-title: Database API
 :page-pageid: database-api
 :page-description: Use the database REST API endpoints to fetch table, schema, and database details, and create tables and run TQL commands
 

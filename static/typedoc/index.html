@@ -137,11 +137,27 @@
 					<img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
 				</p>
 				<br/>
-				<a href="#thoughtspot-visual-embed-sdk-----" id="thoughtspot-visual-embed-sdk-----" style="color: inherit; text-decoration: none;">
-					<h1>ThoughtSpot Visual Embed SDK <br/> <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"> <a href="https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk"><img src="https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded" alt=""></a> <img src="https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square" alt="npm"></h1>
+				<a href="#thoughtspot-visual-embed-sdk-------" id="thoughtspot-visual-embed-sdk-------" style="color: inherit; text-decoration: none;">
+					<h1>ThoughtSpot Visual Embed SDK <br/> <a href="https://coveralls.io/github/ts-blink/embed-sdk?branch=main"><img src="https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main" alt="Coverage Status"></a> <img src="https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk" alt="npm (scoped with tag)"> <a href="https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk"><img src="https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded" alt=""></a> <img src="https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square" alt="npm"> <a href="https://openbase.com/js/@thoughtspot/visual-embed-sdk?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge"><img src="https://badges.openbase.com/js/featured/@thoughtspot/visual-embed-sdk.svg?token=IoqZUwE8aX7LYNedeuBLM2w5Wt52hu+Dh0eyKjlpC0E=" alt="Featured on Openbase"></a> <img src="https://img.shields.io/bundlephobia/minzip/@thoughtspot/visual-embed-sdk?style=flat-square" alt="npm bundle size (scoped)"></h1>
 				</a>
 				<p>SDK to embed ThoughtSpot into your web apps.</p>
-				<br/>
+				<ul>
+					<li><a href="#usage">Usage</a></li>
+					<li><a href="#live-playground">Live Playground</a></li>
+					<li><a href="#full-api-reference">Full API Reference</a></li>
+					<li><a href="#quick-start">Quick Start</a><ul>
+							<li><a href="#embedded-search">Embedded Search</a></li>
+							<li><a href="#embedded-liveboard--visualization">Embedded Liveboard &amp; Visualization</a></li>
+							<li><a href="#embedded-full-app">Embedded Full App</a></li>
+							<li><a href="#triggering-and-listening-to-events">Triggering and Listening to events</a></li>
+						</ul>
+					</li>
+					<li><a href="#react-components">React Components</a><ul>
+							<li><a href="#search-component">Search Component</a></li>
+							<li><a href="#triggering-events-on-react-components--version-192">Triggering events on React components</a></li>
+						</ul>
+					</li>
+				</ul>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
@@ -157,6 +173,7 @@
 
 <span style="color: #008000">// NPM &lt;script&gt;</span>
 <span style="color: #800000">&lt;script</span><span style="color: #000000"> </span><span style="color: #FF0000">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js&quot;</span><span style="color: #800000">&gt;&lt;/script&gt;</span><span style="color: #000000">;</span>
+<span style="color: #008000">// Make the SDK available on global namespace window.tsembed</span>
 
 <span style="color: #008000">// ES6 from web</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
@@ -178,6 +195,7 @@
 				<ul>
 					<li>  Detailed <a href="https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started">developer guide</a>.</li>
 					<li>  Please visit our <a href="https://developers.thoughtspot.com/docs/typedoc/modules.html">API reference docs</a>.</li>
+					<li>  Comprehensive <a href="https://codesandbox.io/s/big-tse-react-demo-i4g9xi?file=/src/App.tsx">CodeSandbox</a></li>
 				</ul>
 				<br/>
 				<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">

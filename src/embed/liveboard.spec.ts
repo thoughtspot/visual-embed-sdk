@@ -23,6 +23,7 @@ const defaultViewConfig = {
     },
 };
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const activeTabId = '502693ba-9818-4e71-8ecd-d1a194e46861';
 const vizId = '6e73f724-660e-11eb-ae93-0242ac130002';
 const thoughtSpotHost = 'tshost';
 const defaultParamsSansHideAction = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
@@ -233,5 +234,19 @@ describe('Liveboard/viz embed tests', () => {
         liveboardEmbed.render();
         const result = await liveboardEmbed.trigger(HostEvent.Pin);
         expect(mockProcessTrigger).toBeCalled();
+    });
+
+    test('should render active tab when activeTab present', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            liveboardId,
+            activeTabId,
+            liveboardV2: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+            );
+        });
     });
 });

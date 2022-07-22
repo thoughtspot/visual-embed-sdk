@@ -7,6 +7,7 @@
 
 ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license. 
 
+== Feature availability
 [div tableContainer]
 --
 
@@ -52,19 +53,14 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 |[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–# 
 
-a|REST API v1  +
-
-* Query APIs +
-* Administration APIs +
-* Data APIs +
-* Metadata and object management APIs +
+a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]  +
 
 |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# | [tag greenBackground]#✓#  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-|REST v2 API and SDK [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] and SDK [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
@@ -105,7 +101,110 @@ a|Runtime filters
 
 ////
 
+== REST API v1 operations
+
+[div tableContainer]
+--
+[width="100%" cols="8,4,4,4,4"]
+[options='header']
+|=====
+|REST API v1 endpoints|ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+
+(Evaluation only) |Developer Playground on public instance +
+(Evaluation only)
+
+a| xref:user-api.adoc[User API endpoints] +
+
+__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+
+a| xref:group-api.adoc[Group API endpoints] +
+__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:session-api.adoc[Session API endpoints] +
+__Require view or edit access to Liveboard objects__
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+a|xref:connections-api.adoc[Connection API endpoints] +
+__Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|xref:metadata-api.adoc[Metadata API endpoints] +
+
+* __Require at least view access to metadata objects__ +
+* __ `POST` requests require edit access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+a|xref:tml-api.adoc[TML API endpoints] +
+__Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|xref:admin-api.adoc[Admin and custom action API endpoints] +
+
+* __Require `ADMINISTRATION` privilege__ +
+* __Custom action APIs require `ADMINISTRATOR` or `DEVELOPER` privilege__ +
+* __Custom action association requires at least edit access to the visualization or saved answer__ +
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:dependency-apis.adoc[Dependency API endpoints] +
+__Require view access to metadata objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+a|Data API endpoints +
+
+* xref:session-api.adoc[Search data API endpoint] +
+* xref:pinboarddata.adoc[Liveboard data AI endpoint] +
+* xref:pinboard-export-api.adoc[Liveboard Export API endpoint] +
+
+__Require at least view access to metadata objects__ |
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+
+a|xref:security-api.adoc[Security API endpoints] +
+__Require edit access to metadata objects to share and view permission details__|
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+
+a|xref:logs-api.adoc[Audit logs API endpoint] +
+__Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
+|=====
+--
+
+== REST API v2 operations
+[div tableContainer]
+--
+[width="100%" cols="8,4,4,4,4"]
+[options='header']
+|=====
+|REST API v2 endpoints[beta blueBackground]^BETA^ |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+(Evaluation only) |Developer Playground on public instance +
+(Evaluation only)
+a|Session API endpoints +
+__Require view or edit access to Liveboard objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+a|User API endpoints +
+__Require `ADMINISTRATION` privilege__ +
+__The `/tspublic/rest/v2/user/changepassword` endpoint is available to all users__.
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a| Group API endpoints +
+__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|Metadata API endpoints +
+
+* __Require at least view access to metadata objects__ +
+* __ `POST` and `PUT` requests require edit access to metadata objects__ +
+* __The import and export TML API endpoints require `DATAMANAGEMENT` privilege.__  |
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# +
+
+(Query APIs only)
+a|Connection API endpoints +
+__Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|Data API endpoints +
+__Require at least view access to metadata objects__ |
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+a|Report API endpoints +
+__Require `DATADOWNLOADING` privilege__|
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+a|Admin API endpoints +
+__Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|Custom action API endpoints +
+
+* __Require `ADMINISTRATION` or `DEVELOPER` privilege__ +
+* __Require edit access to saved answer or Liveboard visualization object to associate custom action__ |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|Security API endpoints +
+__Require edit access to metadata objects to share and view permission details__ |
+[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|Audit logs API endpoint +
+__Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
+|=====
+--
+
 == Additional resources
 
 * xref:get-started-tse.adoc[Get started with ThoughtSpot Everywhere]
 * link:https://www.thoughtspot.com/pricing[License options and pricing, window=_blank]
+

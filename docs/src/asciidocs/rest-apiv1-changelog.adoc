@@ -34,7 +34,7 @@ In the earlier releases, unauthenticated clients were not allowed to make an API
 This API endpoint allows you to make a `POST` request with parameters in the request body. For more information, see xref:session-api.adoc#session-loginToken[Authenticate and log in a user].
 ====
 
-.Modified
+.Modified endpoints
 [%collapsible]
 ====
 * The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
@@ -64,7 +64,7 @@ For more information about these APIs, see xref:rest-api-reference.adoc[REST API
 
 == Version ts7.sep.cl, October 2021
 
-.New APIs
+.New API endpoints
 [%collapsible]
 ====
 * `POST /tspublic/v1/connection/create`
@@ -92,7 +92,7 @@ For more information about these APIs, see xref:rest-api-reference.adoc[REST API
 For more information, see xref:rest-api-reference.adoc[REST API Reference].
 ====
 
-.Modified APIs
+.Modified API endpoints
 [%collapsible]
 ====
 `POST /tspublic/v1/metadata/assigntag`

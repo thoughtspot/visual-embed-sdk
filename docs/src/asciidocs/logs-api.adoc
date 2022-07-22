@@ -1,4 +1,4 @@
-=  Log streaming service API
+= Audit logs API
 :toc: true
 :toclevels: 1
 

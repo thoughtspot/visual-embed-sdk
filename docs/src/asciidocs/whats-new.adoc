@@ -8,24 +8,51 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.5.0.cl
 
-==== Link customization
+=== Search Assist support for embedded instances
 
-The upcoming release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL and thus allow users to unsubscribe from KPI threshold alerts at any time.
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+
+=== Visual Embed SDK 1.13.0
+
+For information about the new features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== ThoughtSpot UI
+
+The new Data workspace is Generally Available (GA) in 8.5.0.cl on ThoughtSpot instances. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
+
+[IMPORTANT]
+====
+While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+====
+
+== Version, 8.4.0.cl
+
+.Link customization
+[%collapsible]
+====
+This release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
 
 For more information, see xref:customize-links.adoc[Customize links].
+====
 
-==== Visual Embed SDK 1.12.0
+.Visual Embed SDK 1.12.0
 
+[%collapsible]
+====
 The Visual Embed SDK version 1.12.0 introduces new events. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-==== REST API v2 [beta blueBackground]^BETA^
-
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| The upcoming release introduces the following new REST v2 [beta blueBackground]^BETA^ endpoints: +
+|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST v2 [beta blueBackground]^BETA^ endpoints: +
 
 * Data +
 ** `*GET* /tspublic/rest/v2/data/answer/querysql` +
@@ -37,16 +64,19 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 ** `/tspublic/rest/v2/user/removegroup` +
 * The `/tspublic/rest/v2/admin/changeowner` endpoint will be renamed as `/tspublic/rest/v2/admin/changeauthor`.
 |====
-
+====
 
 == Version 8.3.0.cl
 
-==== Visual Embed SDK 1.11.0
-
+.Visual Embed SDK 1.11.0
+[%collapsible]
+====
 The Visual Embed SDK version 1.11.0 introduces several new events for embedded components. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-==== REST API v2 [beta blueBackground]^BETA^
-
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
 [width="100%" cols="1,4"]
 |====
 ||
@@ -90,6 +120,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 * In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
 |[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
+====
 
 == Version 8.2.0.cl
 
