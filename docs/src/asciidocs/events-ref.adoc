@@ -892,5 +892,5 @@ appEmbed.off(EmbedEvent.AuthInit)
 == Related resources
 
 * For information about common use cases and how to use events for app integration, see xref:embed-events.adoc[Events and app integration].
-* See also link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank].
 * For information about triggering events on React components, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
+* See also the link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.

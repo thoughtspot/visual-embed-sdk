@@ -20,7 +20,7 @@ Host events use the `.trigger()` method to send the event message to embedded Th
 * `EmbedEvent` +
 Events emitted by the embedded ThoughtSpot components.
 +
-You define a *listener* for an EmbedEvent with a callback function to handle the event response via the `.on(embedEvent, eventHandlerCallbackFunction)` format.
+You can define a *listener* for an EmbedEvent with a callback function to handle the event response via the `.on(embedEvent, eventHandlerCallbackFunction)` format.
 
 == Events library
 
@@ -42,7 +42,7 @@ import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react
 
 === Handle load and errors for embed components
 
-A common workflow is to use an overlay `div` element to hide the embed content until you know that SSO has completed and the content is fully loaded. If an error occurs in the process, you may prefer to display your own custom message to the end user rather than showing embedded ThoughtSpot content in an error state.
+A common workflow is to use an overlay `div` element to hide the embed content until you know that SSO has completed, and the content is fully loaded. If an error occurs in the process, you may prefer to display your own custom message to the end user rather than showing embedded ThoughtSpot content in an error state.
 
 Embed events fire at points within the loading process. The following events are related to the load process:
 
@@ -77,7 +77,7 @@ Fires only on `SearchEmbed` components. Does not fire on a `LiveboardEmbed` comp
 
 . `LiveboardRendered`
 +
-Fires only on `LiveboardEmbed` components, after all visualizations have completed loading
+Fires only on `LiveboardEmbed` components, after all visualizations have completed loading.
 
 
 `AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state. 
@@ -113,12 +113,12 @@ embed
 ----
 
 === Filters in embedded UI
-xref:runtime-filters.adoc[Runtime filters] can be set programmatically before loading the embedded ThoughtSpot content in the `options` object set in the `LiveboardEmbed` component contructor. 
+xref:runtime-filters.adoc[Runtime filters] can be set programmatically before loading the embedded ThoughtSpot content in the `options` object set in the `LiveboardEmbed` component constructor.
 
-Runtime filters can be updated after load time by triggering the `HostEvent.UpdateRuntimeFilters` event (documented in reference below). You can build the filter UI in the embedding app, which triggers the `UpdateRuntimeFilters` event when changed or on the click of an `apply` button.
+Runtime filters can be updated after load time by triggering the `HostEvent.UpdateRuntimeFilters` event. You can build the filter UI in the embedding app, which triggers the `UpdateRuntimeFilters` event when changed or with the click of an `apply` button.
 
 ==== Filtering from selection
-Filtering from selection on a chart or table can be implemented by combining the `EmbedEvent.VizPointClick` or `EmbedEvent.VizPointDoubleClick` events with the `HostEvent.UpdateRuntimeFilters` event. 
+Filtering from a selection on a chart or table can be implemented by combining the `EmbedEvent.VizPointClick` or `EmbedEvent.VizPointDoubleClick` events with the `HostEvent.UpdateRuntimeFilters` event.
 
 The callback function from the `VizPointClick` event will need to read the response, parse out the attributes from the response that will be sent to the Runtime Filters, and then send the attributes and their target fields in the format used by `UpdateRuntimeFilters`.
 
@@ -135,18 +135,18 @@ Liveboard filters::
 Visible as UI components at the top of a Liveboard, affecting all visualizations on the Liveboard.
 
 === Modify SearchEmbed behavior
-The `hideResults` parameter in the options object of a SearchEmbed constructor blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event to perform actions based on the user's interaction within the SearchEmbed component.
+The `hideResults` parameter in the options object of a `SearchEmbed` constructor blocks the *GO* button from displaying the chart or table results. When this option is *true*, you can listen to the `QueryChanged` event to perform actions based on the user's interaction within the `SearchEmbed` component.
 
 ==== SearchEmbed Events
 There are several events that fire only on the SearchEmbed component:
 
 * `DataSourceSelected`
 +
-Fires when a change occurs in the data sources, including initial load of the `SearchEmbed` component. Can be used to hide a loader screen. Return object contains an array of the selected column GUIDs (accessible using `LOGICAL_COLUMN` type within metadata REST API commands).
+Fires when a change occurs in the data sources, including the initial load of the `SearchEmbed` component. Can be used to hide a loader screen. Return object contains an array of the selected column GUIDs (accessible using `LOGICAL_COLUMN` type within metadata REST API commands).
 
 * `QueryChanged`
 +
-Fires when a change occurs in the search bar, including the initial load of the SearchEmbed component. Returned object includes a `data.search` property with the TML search query from the search box.
+Fires when a change occurs in the search bar, including the initial load of the `SearchEmbed` component. The returned object includes a `data.search` property with the TML search query from the search box.
 
 [#customAction]
 == Handle custom action events
