@@ -255,7 +255,7 @@ __String__. Password of your Databricks account.
 ====
 
 
-.Dremio
+.Dremio connection
 
 [%collapsible]
 ====

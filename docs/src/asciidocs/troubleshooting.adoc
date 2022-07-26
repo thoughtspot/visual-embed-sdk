@@ -6,7 +6,7 @@
 :page-pageid: troubleshoot-errors
 :page-description: Troubleshoot common issues with embedding
 
-This page lists solutions and workarounds for some common errors found on embedded Thoughtspot instances. For additional help and community support, visit the link:https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers?tabset-80a3b=2[Community site, window=_blank].
+This article helps you to troubleshoot the common problems that you might encounter when setting up or using an embedded ThoughtSpot instance. For additional help and guidance from ThoughtSpot Support, visit our link:https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers?tabset-80a3b=2[Community site, window=_blank].
 
 == CORS and CSP
 
@@ -14,11 +14,11 @@ This page lists solutions and workarounds for some common errors found on embedd
 
 **Error**: When I try to embed in my app, I get the error `Refused to frame "<your-site-url>" because an ancestor violates the following Content Security Policy directive`. +
 
-**Cause**: This error occurs when a host app domain is not added to CSP and CORS allowlists. +
+**Cause**: This error occurs when a host app domain is not added to the CSP and CORS allowlists. +
 
-**How to fix**:  xref:security-settings.adoc[Add your host app domain as a CSP visual embed host] and  xref:security-settings.adoc[enable CORS].
+**How to fix**:  xref:security-settings.adoc[Add your host app domain as a CSP visual embed host] and  xref:security-settings.adoc[enable CORS] on the *Develop* > *Customizations* > *Security Settings* page.
 
-=== The wildcard (*) for domain URL in the CORS allowlist returns an error
+=== The CORS allowlist does not allow wildcard (*) for domain URL
 
 **Error**: The CORS allowlist does not allow wildcard(*) expression for domain URLs. +
 
@@ -34,22 +34,24 @@ This page lists solutions and workarounds for some common errors found on embedd
 
 **Cause**: This error may occur if third-party cookies are blocked. +
 
-**How to fix**:  By default, Safari does not allow third-party cookies. If the third-party cookies are blocked, the SDK triggers the `NoCookieAccess` event. Check the console log. To resolve this issue: +
+**How to fix**:  By default, Safari does not allow third-party cookies. +
+If the third-party cookies are blocked, the SDK triggers the `NoCookieAccess` event. Check the console log. +
+To resolve this issue: +
 
 * Allow cookies on Safari to view the embedded app. +
-* To ensure that embedding works on browsers that block third-party cookies, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. To customize the ThoughtSpot domain name, contact ThoughtSpot Support.
+* To ensure that embedding works on browsers that block third-party cookies, you can set the domain name of your  ThoughtSpot instance to the same domain as your host application. If you want to customize the domain name, contact ThoughtSpot Support.
 
 == Authentication
 
 === Account locked
 
-**Error**: My user account is locked. +
+**Error**: My account is locked and I am unable to log in to the app with my SSO credentials. +
 
-**Cause**: In a token-based trusted authentication deployment, this error may occur if a user authentication token has expired. If a user makes multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts. +
+**Cause**: Are you using token-based authentication? In a token-based authentication deployment, this error may occur if a user's login token has expired. If a user makes multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts. +
 
 **How to fix**: Set the `getAuthToken` function in the SDK to return a fresh token for each re-login.
 
-=== The Login page shows up each time when a user session expires
+=== The login page shows up each time a user session expires
 
 **Error**: The embedded UI prompts me to re-login after a session timeout. +
 
@@ -57,32 +59,35 @@ This page lists solutions and workarounds for some common errors found on embedd
 
 **How to fix**:  If you are using the token-based authentication method, the SDK automatically logs in users after their user session has expired.  Make sure the `autoLogin` attribute is set to `true` in the SDK.
 
-=== Login prompt shows up for authenticated users
+=== The login prompt shows up for authenticated users
 
-**Error**: Although I have logged in to my host application, the login prompt appears when I try to access ThoughtSpot embedded objects.
+**Error**: I have logged in to my application instance, but the login page shows up when I try to access the developer Playground.
 
-**Cause**: This error occurs when session cookies are not enabled on your web browser.
+**Cause**: This error may occur if session cookies are not enabled on your web browser.
 
 **How to fix**:  Check if third-party cookies are enabled on your web browser. Browsers such as Safari block third-party cookies by default. If you are accessing your application on Chrome in incognito mode, allow third-party cookies.
 
 === The login token request returns the 500 response code
 
-**Error**: The ThoughtSpot server returns the `500` error code for session login token requests.  +
+**Error**: ThoughtSpot returns the `500` error code for a session login token request.  +
 
 **Cause**: This error may occur due to an invalid `username` or `secret_key`. +
 
 **How to fix**:  Check if the `username` sent in the API request matches the name of the user in ThoughtSpot. +
-Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secrete_key` being sent in your API request is valid.
+Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secrete_key` being sent in your API request is valid. +
+For more information, see xref:trusted-authentication.adoc[Trusted authentication].
 
 === SAML SSO authentication errors
 
-In most cases, SAML authentication errors occur due to incorrect IdP settings and SAML authentication attributes. To resolve these issues:
+In most cases, SAML authentication errors occur due to incorrect IdP settings and invalid SAML authentication attributes. To resolve these issues:
 
-* Make sure link:https://docs.thoughtspot.com/cloud/latest/authentication-integration[SAML authentication support is configured, window=_blank] without errors on your ThoughtSpot instance.
+* Make sure xref:configure-saml.adoc#_configuration_steps[SAML authentication support is configured, window=_blank] without errors on your ThoughtSpot instance.
 * Check if the attributes, such as a user’s email address, display name, and username are mapped correctly in your IdP configuration. For example, if you are using Okta as your IdP, you must map the `userPrincipalName` in Okta to `NameId`. Similarly, you can map the email attribute value to `mail`, and the display name subject value to `displayName`.
 * Make sure your SAML redirect domain is xref:configure-saml.adoc#saml-redirect[added to the allowlist].
 * Check if the `authType` property and SAML authentication attributes in the SDK are configured correctly.
-    * For SAML authentication, you must set the `authType` as `AuthType.SSO`. If you are using Visual Embed SDK version 1.13.0 or later, you can set `authType` as `AuthType.SAML`.
+    * For SAML authentication, you must set the `authType` as `AuthType.SSO`. +
++
+If you are using Visual Embed SDK version 1.13.0 or later, you can set `authType` as `AuthType.SAML`.
     * You can also set redirection parameters in the SDK to handle SAML redirect scenarios. For more information, see xref:embed-authentication.adoc#_saml_redirection[SAML redirection].
 * If embedding ThoughtSpot objects in an iFrame, xref:configure-saml.adoc#_configure_idp_to_allow_iframe_embedding[configure your IdP to allow iframe embedding].
 
@@ -97,6 +102,7 @@ In most cases, SAML authentication errors occur due to incorrect IdP settings an
 **How to fix**: Check the target domain name configured in the URL action. Make sure it's reachable. +
 Check with your administrator to know if the target URL is added to the CSP connect-src domain allowlist. If you have administrator access, you can update the CSP allowlist on the *Develop* > *Customizations* > *Security Settings* page.
 
+
 == Embedding
 
 === Liveboard filters do not work
@@ -110,11 +116,11 @@ Check with your administrator to know if the target URL is added to the CSP conn
 
 === I set a Runtime filter on a Liveboard, but I don’t see it on the Liveboard
 
-Runtime filters do not show up in the Filter bar, but are applied at runtime. +
+Runtime filters are applied at runtime and do not show up in the Filter bar.
 
 Runtime filters are applied separately from the visible Liveboard filters. Therefore, when you apply these filters together, the conditions for both must be true for data to appear. +
 
-For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set Runtime Filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an error.
+For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set runtime filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an error.
 
 === ThoughtSpot navigation bar shows in the embedded mode
 
@@ -131,9 +137,9 @@ For example, if `Store Region` is set to `west, southwest` in the Liveboard filt
 
 **Error**: When I send an API request, the ThoughtSpot server returns the 401 error code in response.
 
-**Cause**: This issue occurs if you do not have the required privileges and your API requests are not authorized.
+**Cause**: This issue occurs if you do not have the required privileges to create or modify the data objects.
 
-**How to fix**: Check if your user account has access permissions to view and edit ThoughtSpot objects. For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_operations[REST API v2 operations].
+**How to fix**: Check if your API requests are authorized. Make sure your ThoughtSpot user account has edit privileges to access and modify ThoughtSpot objects.  For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_operations[REST API v2 operations].
 
 
 === Unable to embed a Liveboard using REST API
@@ -156,5 +162,5 @@ If you have the required privileges and still get an error, perform the followin
 curl -X POST /
 --header 'Content-Type: application/json' /
 --header 'Accept: application/json' /
---header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT' -b cookies.txt
+--header 'X-Requested-By: ThoughtSpot' 'https://[address]/callosum/v1/tspublic/v1/searchdata?query_string=%5Brevenue%5D%20by%20%5Bshipmode%5D&data_source_guid=7466f3c5-95a5-44b9-a17d-9cc5fad495ee&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----

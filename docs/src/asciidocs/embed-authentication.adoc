@@ -63,7 +63,7 @@ ThoughtSpot does not recommend this authentication method for production environ
 
 [#saml-sso-embed]
 === SAML SSO authentication
-If your organization uses an identity provider (IdP) and SAML SSO to authenticate your application users, you can configure the `SSO` auth type to authenticate ThoughtSpot users. With SAML SSO, you can allow federated users to access ThoughtSpot content with their SSO credentials.
+If your organization uses an identity provider (IdP) and SAML SSO to authenticate your application users, you can configure the `SAML` auth type to authenticate ThoughtSpot users. With SAML SSO, you can allow federated users to access ThoughtSpot content with their SSO credentials.
 
 To use SAML SSO authentication, the administrator must enable SAML authentication on ThoughtSpot and add the SAML redirect domains to the allowed list. For more information, see xref:configure-saml.adoc[SAML SSO].
 
