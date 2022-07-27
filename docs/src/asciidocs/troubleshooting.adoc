@@ -57,7 +57,7 @@ To resolve this issue: +
 
 **Cause**: This error may occur if `autoLogin` is disabled in the SDK.
 
-**How to fix**:  If you are using the token-based authentication method, the SDK automatically logs in users after their user session has expired.  Make sure the `autoLogin` attribute is set to `true` in the SDK.
+**How to fix**:  If you are using the trusted authentication method, the SDK automatically logs in users after their user session has expired.  Make sure the `autoLogin` attribute is set to `true` in the SDK.
 
 === The login prompt shows up for authenticated users
 
