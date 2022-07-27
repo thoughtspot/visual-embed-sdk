@@ -49,7 +49,7 @@ To resolve this issue: +
 
 **Cause**: Are you using trusted authentication? In a trusted authentication deployment, this error may occur if a user's login token has expired. If a user makes multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts. +
 
-**How to fix**: Use the xref:embed-authentication.adoc#trusted-auth-embed[`getAuthToken` function] in the SDK to return a fresh token for each re-login.
+**How to fix**: Use the xref:embed-authentication.adoc#_configure_token_based_authentication_method_in_visual_embed_sdk[`getAuthToken` function] in the SDK to return a fresh token for each re-login.
 
 === The login page shows up each time a user session expires
 
