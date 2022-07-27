@@ -190,7 +190,7 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?id=2
 
 === Example response
 
-If the GET operation is successful, the API returns org details in the JSON response:
+If the `GET` operation is successful, the API returns org details in the JSON response:
 
 [source,JSON]
 ----
@@ -366,7 +366,7 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/
 
 === Example response
 
-If the DELETE operation is successful, the API returns the 204 response code.
+If the `DELETE` operation is successful, the API returns the 204 response code.
 
 ----
 Response Code
