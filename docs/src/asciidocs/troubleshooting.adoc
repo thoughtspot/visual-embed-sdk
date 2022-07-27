@@ -47,9 +47,9 @@ To resolve this issue: +
 
 **Error**: My account is locked and I am unable to log in to the app with my SSO credentials. +
 
-**Cause**: Are you using token-based authentication? In a token-based authentication deployment, this error may occur if a user's login token has expired. If a user makes multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts. +
+**Cause**: Are you using trusted authentication? In a trusted authentication deployment, this error may occur if a user's login token has expired. If a user makes multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts. +
 
-**How to fix**: Set the `getAuthToken` function in the SDK to return a fresh token for each re-login.
+**How to fix**: Use the xref:embed-authentication.adoc#trusted-auth-embed[`getAuthToken` function] in the SDK to return a fresh token for each re-login.
 
 === The login page shows up each time a user session expires
 
@@ -74,7 +74,7 @@ To resolve this issue: +
 **Cause**: This error may occur due to an invalid `username` or `secret_key`. +
 
 **How to fix**:  Check if the `username` sent in the API request matches the name of the user in ThoughtSpot. +
-Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secrete_key` being sent in your API request is valid. +
+Check if trusted authentication is enabled on ThoughtSpot. Make sure the `secret_key` being sent in your API request is valid. +
 For more information, see xref:trusted-authentication.adoc[Trusted authentication].
 
 === SAML SSO authentication errors
@@ -120,7 +120,7 @@ Runtime filters are applied at runtime and do not show up in the Filter bar.
 
 Runtime filters are applied separately from the visible Liveboard filters. Therefore, when you apply these filters together, the conditions for both must be true for data to appear. +
 
-For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set runtime filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an error.
+For example, if `Store Region` is set to `west, southwest` in the Liveboard filter, and you set runtime filter of `Store Region` as `east`, you will get the *No data found* error because the total filter condition is `Store Region IN ('west', 'southwest') AND Store Region = 'east'`, which results in an emtpy data set.
 
 === ThoughtSpot navigation bar shows in the embedded mode
 
