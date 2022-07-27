@@ -21,9 +21,12 @@ include::{path}/group-api-list.adoc[]
 
 You must have administrator access to create, edit, or delete group objects, configure privileges, and assign users.
 
+If you have a multi-tenant instance, the cluster admin can associate a group to an `orgid`. For more information about organizations, see xref:orgs.adoc[Multi-tenancy with organizations].
+
 [#create-group]
 == Create a user group
-To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.  
+To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.
+
 
 [NOTE]
 ====
@@ -32,7 +35,7 @@ ThoughtSpot also has a default group called `All`. When you create new users in 
 
 === Resource URL
 ----
-POST /tspublic/v1/group/
+POST /tspublic/v1/group/
 ----
 
 === Request parameters
@@ -59,7 +62,8 @@ POST /tspublic/v1/group/
 * `BYPASSRLS`
 |`grouptype` __Optional__ a|__String__. Type of user group. Default value is `LOCAL_GROUP`, which indicates that the user group is created locally in the ThoughtSpot system.    
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user group is being created.
-|`visibility` __Optional__|__String__. Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.  
+|`visibility` __Optional__|__String__. Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.
+|`orgid` |_-Integer__. ID of the organization to which you want to map the group. You can define this attribute if ThoughtSpot is set as a multi-tenant instance and is logically partitioned into organizations.
 |===
 
 === Example request

@@ -1,0 +1,98 @@
+= Multi-tenancy with organizations
+:toc:
+:toclevels: 1
+
+:page-title: Multi-tenancy and organizations
+:page-pageid: orgs
+:page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate organization containers for your tenants.
+
+With the multi-tenancy feature, a ThoughtSpot cloud instance can be logically partitioned into multiple tenant-specific environments called `organizations`. Each tenant's data is isolated and protected with access control, and is invisible to the other tenants that share the Thoughtspot application instance.
+
+If the multi-tenancy feature is enabled on your instance, your cluster admin can create organizations for each tenant account, configure groups and users, and control access to the data objects. Each organization serves as an independent container with its own set of users and data with the same user experience as that of a regular ThoughtSpot instance.
+
+== Organization structure
+
+If the multi-tenancy feature is enabled on your instance, a primary org will be created by default. This default org is referred to as `Org 0`. The administrator of the default org can create one or several organizations and an administrator profile for each tenant organization to manage users and groups, and define access control at the org level.
+
+The following diagram depicts the organization structure in a multi-tenant ThoughtSpot instance.
+
+image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
+
+[NOTE]
+====
+The primary organization (Org 0) cannot be deleted.
+====
+
+If any specific action or API operation must be performed for all organizations, the administrator must set the org context to `-1`, which indicates the `All Org` Scope. For example, to get a list of organizations on a ThoughtSpot instance, the administrator must first switch the organization context to `-1` and then send a `GET` request to the `/tspublic/v1/org` API endpoint.
+
+== User roles
+
+On a multi-tenant instance, ThoughtSpot supports the `Cluster administrator` persona. By default, the administrator of the primary org (Org 0) is assigned the privileges of a cluster administrator.
+The cluster administrator can access all organizations and perform CRUD operations. The cluster administrator can also switch between organizations and act as an org administrator.
+
+Org administrators can administer and manage users and groups of their respective organizations. The users in an organization can access data objects and metadata based on the privileges assigned to the groups to which they belong.
+
+////
+The following diagram illustrates user roles in a multi-tenant instance:
+
+image::./images/user-persona-orgs.png[Multi-tenant user personas]
+////
+[#_create_and_manage_organizations]
+== Create and manage organizations
+
+To create an organization on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, ThoughtSpot sets the administrator of the primary org (Org 0) as a cluster administrator. The cluster administrators can create organizations using either the UI or the REST v1 API endpoints.
+
+Creating and administering org objects via REST API involves the following steps:
+
+. Log in to your ThoughtSpot instance as a cluster administrator.
+. Set the organization context to `All Org` scope. To switch the organization context to `Org-1`, send a `PUT` request to the `/tspublic/v1/session/org/` endpoint with `orgid` value as `-1`.
+. To create an organization, send a `POST` request to the `POST /tspublic/v1/org/` with the organization name and description text in the request body.
++
+If the API operation is successful, ThoughtSpot creates an organization and assigns an org ID.
+
+. To view the ID assigned to an organization object, use the `POST /tspublic/v1/org/search` or `GET /tspublic/v1/org/` API endpoint.
+
+To edit the properties of an organization object, you can use the `PUT /tspublic/v1/org/` endpoint. Note that the `PUT` request allows editing the name and description property of an organization object and setting its status as active or inactive.
+
+To delete an org object, send a `DELETE` request to the `/tspublic/v1/org/` endpoint with org ID or name in the request body.
+
+For more information about REST V1 Org API endpoints, see xref:org-api.adoc[Org APIs].
+
+== Switch between organizations
+
+A cluster administrator can access several organization objects and apply configuration changes. Before performing any operation on the objects in an organization, the administrator must set the org scope and ensure that configuration changes are applied in the relevant organization context.
+
+The cluster administrator can switch between organizations by either using the organization drop-down in the UI or sending a `POST` request to the `/tspublic/v1/session/org/`.
+
+For more information about switching between organizations using REST API, see xref:session-api.adoc#orgSwitch[Switch between organizations].
+
+== Manage users and groups
+
+On a multi-tenant instance, the cluster and org administrators can create and administer users and groups. The cluster administrator can perform CRUD operations on user and group objects of all organizations, whereas the org administrator can create and administer users and groups only in the organization context to which they belong.
+
+[NOTE]
+====
+Before performing CRUD operations on user and group objects of an organization, the cluster administrator must switch organization context using the `/tspublic/v1/session/org/` endpoint.
+====
+
+=== Map a group to an organization
+
+To associate a group to an organization object, you must specify the org ID in the `POST` request to the `/tspublic/v1/group/` API endpoint.
+
+For more information, see xref:group-api.adoc#create-group[Create a group object].
+
+=== Add users to an organization
+
+You can add a user to an organization when creating a user object using the `POST /tspublic/v1/user/` endpoint. If you want to add a bulk of users to an organization, use the `POST /tspublic/v1/user/addtoorg` API endpoint.
+
+Note that you must specify the org ID in your API requests.
+
+To remove a user from an org, you can use `DELETE /tspublic/v1/group/{groupid}` endpoint. Note that the delete operation also removes the user from the ThoughtSpot system.
+
+For more information about user association to an organization object, see xref:user-api.adoc#addOrg[Add users to an organization].
+
+== User authentication
+
+If you are using the xref:trusted-authentication.adoc[trusted authentication] method to authenticate your users, you must specify the `orgid` in the `POST /tspublic/v1/session/auth/token` API call when requesting an authentication token from ThoughtSpot on behalf of a user.
+
+For more information about authentication token requests, see xref:session-api.adoc#session-authToken[Obtain an authentication token].

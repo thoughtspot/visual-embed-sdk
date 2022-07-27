@@ -199,6 +199,60 @@ If the operation is successful, the API returns a response with the session info
 |**200**|Successful operation.
 |===
 
+[#orgSwitch]
+== Switch between organizations
+If your ThoughtSpot instance is set as a multi-tenant application and is logically partitioned into organizations, the cluster administrators can send a `PUT` request to the  `/tspublic/v1/session/org/` endpoint to switch the organization context.
+
+For example, to perform configuration changes at the `All org` level, the cluster administrator must switch to `org -1`.
+Similarly, before performing CRUD operations on the objects of a specific organization, the cluster administrator must switch the session to the relevant org context.
+
+=== Resource URL
+----
+PUT /tspublic/v1/session/org/
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form parameter|Description
+|`orgid`|__Integer__. ID of the org object. A value of `-1` indicates the `All Org` scope and `0` refers to the primary organization.
+|===
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+-d 'orgid=-1' \
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/
+----
+
+== Example response
+If the API request is successful, ThoughtSpot returns the 204 response code:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**400**| Invalid parameter
+|**403**| Unauthorized request
+|===
+
+
 [#set-home-liveboard]
 == Set a home Liveboard
 To set a Liveboard as a home Liveboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home Liveboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.
