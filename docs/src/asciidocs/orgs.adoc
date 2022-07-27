@@ -1,4 +1,4 @@
-= Multi-tenancy with organizations
+= Organizations and multi-tenancy
 :toc:
 :toclevels: 1
 
