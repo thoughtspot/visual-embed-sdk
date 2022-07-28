@@ -1,0 +1,31 @@
+= Introduction to ThoughtSpot ojects and terminology
+
+ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system. Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
+
+== ThoughtSpot workflow
+
+1. Create *worksheets* (analytic data models) based on *tables*
+2. Use *Search Data* to build visualizations/widgets from *worksheets* as data source
+3. Save the search as an "answer" or pin the search to a "Liveboard"
+
+
+ThoughtSpot Search Data creates a single table or chart view based on the Search Bar and other settings. 
+
+Liveboards combine together many visualizations. You do not create a Liveboard first; they are created from Search Data by *pinning to a new Liveboard*.
+
+Search Data serves the role of report builder / widget designer, while a Liveboard serves the role of dashboards in other tools. 
+
+
+A single saved search is an *answer*
+ 
+You can pin any number of Searches to a Liveboard as a 'visualization'. Once pinned, that visualization only exists within the Liveboard, there is no connection between a Liveboard and any separate answer object. You can pin multiple variations created without leaving the same search data screen - each will become its own separate visualization on the Liveboard.
+
+
+
+== API properties
+
+* `id`: GUID of the object. Unique within a given ThoughtSpot instance
+* `author`: GUID of user who created / uploaded the object, or had the object transfered to them
+* `owner`: GUID representing relationship between hierarchical objects (for example, a *column* would have the GUID of a *table* or *worksheet* as owner)
+* `created`: 
+* `modified`: 
