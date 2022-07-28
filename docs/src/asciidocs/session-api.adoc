@@ -200,7 +200,7 @@ If the operation is successful, the API returns a response with the session info
 |===
 
 [#orgSwitch]
-== Switch between organizations
+== Switch between Orgs
 If your ThoughtSpot instance is set as a multi-tenant application and is logically partitioned into organizations, the cluster administrators can send a `PUT` request to the  `/tspublic/v1/session/org/` endpoint to switch to another Org context.
 
 === Resource URL

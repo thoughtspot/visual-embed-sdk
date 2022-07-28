@@ -44,7 +44,7 @@ image::./images/user-persona-orgs.png[Multi-tenant user personas]
 [#_create_and_manage_orgs]
 == Create and manage Orgs
 
-To create an Org on a multi-tenant ThoughtSpot instance, you require Cluster administrator privileges. By default, ThoughtSpot sets the administrator of the `Primary Org (Org 0)` as a cluster administrator. The cluster administrator can create Orgs using either the UI or the REST v1 API endpoints.
+To create an Org on a multi-tenant ThoughtSpot instance, you require cluster administrator privileges. By default, ThoughtSpot sets the administrator of the `Primary Org (Org 0)` as a cluster administrator. The cluster administrator can create Orgs using either the UI or the REST v1 API endpoints.
 
 Creating and administering Org objects via REST API involves the following steps:
 
@@ -68,7 +68,7 @@ A cluster administrator can access several Org objects and apply configuration c
 
 The cluster administrator can switch between Orgs by either using the Orgs drop-down in the UI or by sending a `PUT` request to the `/tspublic/v1/session/org/`.
 
-For more information about switching between organizations using REST API, see xref:session-api.adoc#orgSwitch[Switch between organizations].
+For more information about switching between organizations using REST API, see xref:session-api.adoc#orgSwitch[Switch between Orgs].
 
 == Manage users and groups
 
