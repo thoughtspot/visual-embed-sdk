@@ -201,10 +201,7 @@ If the operation is successful, the API returns a response with the session info
 
 [#orgSwitch]
 == Switch between organizations
-If your ThoughtSpot instance is set as a multi-tenant application and is logically partitioned into organizations, the cluster administrators can send a `PUT` request to the  `/tspublic/v1/session/org/` endpoint to switch the organization context.
-
-For example, to perform configuration changes at the `All org` level, the cluster administrator must switch to `org -1`.
-Similarly, before performing CRUD operations on the objects of a specific organization, the cluster administrator must switch the session to the relevant org context.
+If your ThoughtSpot instance is set as a multi-tenant application and is logically partitioned into organizations, the cluster administrators can send a `PUT` request to the  `/tspublic/v1/session/org/` endpoint to switch to another Org context.
 
 === Resource URL
 ----
@@ -216,7 +213,7 @@ PUT /tspublic/v1/session/org/
 [options='header']
 |===
 |Form parameter|Description
-|`orgid`|__Integer__. ID of the org object. A value of `-1` indicates the `All Org` scope and `0` refers to the primary organization.
+|`orgid`|__Integer__. ID of the org object. A value of `-1` indicates the `All Org` scope and `0` refers to the `Primary Org`.
 |===
 === Example request
 

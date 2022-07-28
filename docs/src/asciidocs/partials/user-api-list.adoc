@@ -19,7 +19,7 @@ ThoughtSpot Software [version noBackground]#7.1.1#
 Modifies the email address of a user.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
 ThoughtSpot Software [version noBackground]#7.2.1#
 |`xref:user-api.adoc#addOrg[*POST* /tspublic/v1/user/addtoorg]` +
-Adds one or several users to the specified organization.
+Adds one or several users to the specified Org.
 |ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 

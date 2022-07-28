@@ -6,19 +6,19 @@
 |=====
 |API endpoint| Available from
 |`xref:org-api.adoc#createOrg[*POST* /tspublic/v1/org/]` +
-Creates an organization object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Creates an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:org-api.adoc#getOrg[*GET* /tspublic/v1/org/]` +
-Gets an organization object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Gets an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:org-api.adoc#editOrg[*PUT* /tspublic/v1/org/]` +
-Edits the specified organization object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Edits the specified Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:org-api.adoc#getOrgs[*POST* /tspublic/v1/org/search]` +
-Gets all organization objects.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Gets all Org objects.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:org-api.adoc#deleteOrg[*DELETE* /tspublic/v1/org/]` +
-Deletes an organization object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Deletes an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |=====
 --

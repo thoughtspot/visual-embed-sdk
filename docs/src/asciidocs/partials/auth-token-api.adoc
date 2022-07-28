@@ -18,7 +18,7 @@ POST /tspublic/v1/session/auth/token
 * `FULL` - Creates a session with full access.
 * `REPORT_BOOK_VIEW` - Allows view access to the specified visualizations.
 |`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
-|`orgid`|__Integer__. ID of the organization to which the user belongs. This parameter is required if  ThoughtSpot is set as a multi-tenant instance and is logically partitioned into organizations.
+|`orgid`|__Integer__. ID of the Org to which the user belongs. This parameter is required if  ThoughtSpot is set as a multi-tenant instance and is logically partitioned into organizations.
 |====
 
 === Example request

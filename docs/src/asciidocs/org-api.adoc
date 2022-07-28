@@ -1,26 +1,26 @@
-= Organization APIs
+= Org APIs
 :toc:
 :toclevels: 1
 
-:page-title: Organization APIs
+:page-title: Org APIs
 :page-pageid: orgs-api
-:page-description: Use organization APIs to create and manage tenant organizations on your ThoughtSpot instance
+:page-description: Use Org APIs to create and manage tenant organizations on your ThoughtSpot instance
 
-The organization API endpoints allow creating and managing multiple tenant-specific containers on a ThoughtSpot instance. Each organization object is independent of and isolated from other organization objects to support data protection and privacy.
+The Org API endpoints allow creating and managing multiple tenant-specific containers on a ThoughtSpot instance. Each Org object is independent of and isolated from other Org objects to support data protection and privacy.
 
 == Required permissions
 
-To create and manage an organization on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, the administrator of the primary org (Org 0) is set as a  cluster administrator.
+To create and manage an Org on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, the administrator of the `Primary Org (Org 0)` is set as a  cluster administrator.
 
-To perform CRUD operations on organization objects, the cluster administrator must switch to the `All org` scope using the `POST /tspublic/v1/session/org/` API endpoint.
+To perform CRUD operations on Org objects, the cluster administrator must be in the `All Org` context. To set the `All Org` scope, specify the `orgId` value as `-1`.
 
-== Supported operations
+== Supported _operations_
 
 include::{path}/org-api-list.adoc[]
 
 [#createOrg]
-== Create an organization object
-To create an organization object on a ThoughtSpot instance programmatically, send a `POST` request to the `/tspublic/v1/org/` API endpoint.
+== Create an Org object
+To create an Org object on a ThoughtSpot instance programmatically, send a `POST` request to the `/tspublic/v1/org/` API endpoint.
 
 === Resource URL
 ----
@@ -29,12 +29,14 @@ POST /tspublic/v1/org/
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`name` |__String__. Name of the organization. The organization name string must be unique.
-|`description`|__String__. Description of the organization.
+|Parameter|Type|Description
+|`name` |FormData|__String__. Name of the Org. The Org name string must be unique. Make sure the name string length does not exceed 48 characters.
+|`description`|FormData|__String__. Description of the Org. Make sure the description text does not exceed 124 characters.
+|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
+
 |===
 
 === Example request
@@ -57,7 +59,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/
 
 === Example response
 
-If the organization object is successfully created in ThoughtSpot, the API returns the Org ID with the following JSON response:
+If the Org object is successfully created in ThoughtSpot, the API returns the Org details in the JSON response:
 
 [source,JSON]
 ----
@@ -86,8 +88,8 @@ If the organization object is successfully created in ThoughtSpot, the API retur
 |===
 
 [#editOrg]
-== Edit an organization  object
-To modify an organization object on a ThoughtSpot instance programmatically, send a `PUT` request to the `/tspublic/v1/org/` API endpoint. This API request allows editing organization object properties, enabling or disabling on organization on a ThoughtSpot instance.
+== Edit an Org  object
+To modify an Org object on a ThoughtSpot instance programmatically, send a `PUT` request to the `/tspublic/v1/org/` API endpoint. This API request allows editing Org object properties and setting an Org as active or inactive on a ThoughtSpot instance.
 
 === Resource URL
 ----
@@ -96,14 +98,15 @@ PUT /tspublic/v1/org/
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`id`|__Integer__. The ID of the Organization object that you want to edit.
-|`name` |__String__. Name of the organization.
-|`description`|__String__. Description text associated with the organization.
-|`active`|__Boolean__. Enables or disables the organization object.
+|Parameter|Type|Description
+|`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
+|`name`|FormData|__String__. Name of the Org.
+|`description`|FormData|__String__. Description text associated with the Org.
+|`active`|FormData|__Boolean__. Enables or disables the Org object.
+|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
 |===
 
 === Example request
@@ -126,7 +129,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/
 
 === Example response
 
-If the organization object is successfully modified, the API returns the updated information in the JSON response:
+If the Org object is successfully modified, the API returns the updated information in the JSON response:
 
 [source,JSON]
 ----
@@ -150,13 +153,13 @@ If the organization object is successfully modified, the API returns the updated
 |===
 |HTTP status code|Description
 |**200**| Successful operation
-|**400**| Name string is not unique
+|**400**| Invalid ID or name
 |**403**| Unauthorized request
 |===
 
 [#getOrg]
-== Get an organization object
-To get the details of a specific org object, send a `GET` request to the `/tspublic/v1/org/` API endpoint. You must specify the org `Id` or `name` in the API request to retrieve the organization  details.
+== Get an Org object
+To get the details of a specific Org object, send a `GET` request to the `/tspublic/v1/org/` API endpoint. You must specify the Org `Id` or `name` in the API request to retrieve the Org details.
 
 === Resource URL
 ----
@@ -169,8 +172,9 @@ GET /tspublic/v1/org/
 [options='header']
 |===
 |Query parameter|Description
-|`id`|__Integer__. The ID of the Organization object that you want to edit.
-|`name` |__String__. Name of the organization.
+|`id`|__Integer__. The ID of the Org object that you want to edit.
+|`name` |__String__. Name of the Org.
+|`orgId`|__Integer__. The ID of the Org context. Set the `orgId` value to `-1`.
 |===
 
 === Example request
@@ -190,7 +194,7 @@ http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?id=2
 
 === Example response
 
-If the `GET` operation is successful, the API returns org details in the JSON response:
+If the `GET` operation is successful, the API returns the Org details in the JSON response:
 
 [source,JSON]
 ----
@@ -219,8 +223,8 @@ If the `GET` operation is successful, the API returns org details in the JSON re
 |===
 
 [#getOrgs]
-== Get all organization objects
-To get the details of all Org objects on a ThoughtSpot instance, send a `POST` request to the `/tspublic/v1/org/search` API endpoint. If you do not specify the `id` or `name` of the organization object, the API returns details of all organization objects on the ThoughtSpot instance.
+== Get all Org objects
+To get the details of all Org objects on a ThoughtSpot instance, send a `POST` request to the `/tspublic/v1/org/search` API endpoint. If you do not specify the `id` or `name` of the Org object, the API returns details of all Org objects on the ThoughtSpot instance.
 
 === Resource URL
 ----
@@ -229,13 +233,14 @@ POST /tspublic/v1/org/search
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`id`|__Integer__. The ID of the organization object that you want to edit.
-|`name` |__String__. Name of the organization.
-|`showinactive`|__Boolean__. Allows including or excluding inactive organization objects in the API response.
+|Parameter|Type|Description
+|`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
+|`name`|FormData|__String__. Name of the Org.
+|`showinactive`|FormData|__Boolean__. Allows including or excluding inactive Org objects in the API response.
+|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
 |===
 
 === Example request
@@ -324,12 +329,12 @@ If the request is successful, the API returns the org details in the JSON respon
 |===
 
 [#deleteOrg]
-== Delete an organization object
-To programmatically delete an organization object, send a `DELETE` request to the `/tspublic/v1/org/` API endpoint. You must specify at least the org `Id` or `name` in the API request to delete the org object.
+== Delete an Org object
+To programmatically delete an Org object, send a `DELETE` request to the `/tspublic/v1/org/` API endpoint. You must specify at least the Org `Id` or `name` in the API request to delete the Org object.
 
 [NOTE]
 ----
-ThoughtSpot does not allow deleting the primary organization (Org 0).
+ThoughtSpot does not allow deleting the primary Org (Org 0).
 ----
 
 === Resource URL
@@ -339,12 +344,13 @@ DELETE /tspublic/v1/org/
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`id`|__Integer__. The ID of the organization object that you want to edit.
-|`name` |__String__. Name of the organization.
+|Parameter|Type|Description
+|`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
+|`name`|FormData|__String__. Name of the Org.
+|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
 |===
 
 === Example request

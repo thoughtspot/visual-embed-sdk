@@ -22,7 +22,7 @@
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
 ** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy best practices]
-** link:{{navprefix}}=orgs[Multi-tenancy with organizations]
+** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 
@@ -83,7 +83,7 @@
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground]
 *** link:{{navprefix}}=client-libraries[SDK and client libraries]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
-*** link:{{navprefix}}=orgs-api[Organization API]
+*** link:{{navprefix}}=orgs-api[Org API]
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]
 *** link:{{navprefix}}=session-api[Session API]

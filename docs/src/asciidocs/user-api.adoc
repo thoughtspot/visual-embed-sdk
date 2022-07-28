@@ -15,7 +15,7 @@ include::{path}/user-api-list.adoc[]
 
 You must have administrator access to create, edit, and delete a user, assign users to groups, transfer objects from one user to another, and invalidate, deactivate or activate a user session.
 
-If you have a multi-tenant instance, the cluster admin can create a user and associate the user to a `orgid`. For more information about organizations, see xref:orgs.adoc[Multi-tenancy with organizations].
+If you have a multi-tenant instance, the cluster admin can create a user and associate the user to an `orgid`. For more information about organizations, see xref:orgs.adoc[Multi-tenancy with organizations].
 
 [#create-user]
 == Create a user
@@ -47,7 +47,8 @@ POST /tspublic/v1/user/
 |`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
 |`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
-|`orgids`|__Integer__. A JSON array of org IDs to which the user must be added.
+|`orgids` +
+__Optional__|__Integer__. A JSON array of org IDs to which you want to add the user. If `orgids` is not defined, ThoughtSpot assigns the user to an Org based on the administrator's session. For example, if the administrator sends the API request from the `Org 0` context, the user is added to `Org 0`.
 |===
 
 === Example request
@@ -324,7 +325,7 @@ Response Code
 |===
 
 [#addOrg]
-== Add users to an organization
+== Add users to an Org
 To add one or several users to an org, send a `POST` request to the `POST /tspublic/v1/user/addtoorg` API endpoint.
 
 
@@ -340,7 +341,7 @@ POST /tspublic/v1/user/addtoorg
 |===
 |Form parameter|Description
 |`userids`|__String__. A JSON array of user GUIDs to add to the specified org.
-|`orgid`|__Integer__. ID of the org object to which you want to assign the users.
+|`orgid`|__Integer__. ID of the Org object to which you want to assign the users.
 |===
 
 === Example request
@@ -706,18 +707,20 @@ Response Code
 == Delete a user account
 To remove a user from the ThoughtSpot system and associated org objects, send a `DELETE` request to the `/tspublic/v1/user/{userid}` API endpoint.
 
+
 === Resource URL
 ----
 DELETE /tspublic/v1/user/{userid}
 ----
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Path Parameter|Description
-|`userid`|__String__. GUID of the user account to delete.
-|`orgid`|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has multi-tenancy enabled.
+|Parameter|Type|Description
+|`userid`|Path|__String__. GUID of the user account to delete.
+|`orgid`|Form data|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has multi-tenancy enabled. +
+If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed from only from the specified Org and retained in ThoughtSpot. To remove the user from all Orgs and ThoughtSpot system, specify the `orgid` as `-1`.
 |===
 
 === Example request
