@@ -1,4 +1,4 @@
-= Introduction to ThoughtSpot ojects and terminology
+= Introduction to ThoughtSpot objects and terminology
 
 ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system. Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
 
