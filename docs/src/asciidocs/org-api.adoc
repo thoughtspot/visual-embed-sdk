@@ -14,7 +14,7 @@ To create and manage an Org on a multi-tenant ThoughtSpot instance, you must hav
 
 To perform CRUD operations on Org objects, the cluster administrator must be in the `All Org` context. To set the `All Org` scope, specify the `orgId` value as `-1`.
 
-== Supported _operations
+== Supported operations
 
 include::{path}/org-api-list.adoc[]
 
