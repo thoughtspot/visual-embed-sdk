@@ -48,7 +48,9 @@
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
 ** link:{{navprefix}}=integrate-with-app-ui[Integrate ThoughtSpot content]
 ** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
+** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
+** link:{{navprefix}}=actions[Actions Reference]
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
