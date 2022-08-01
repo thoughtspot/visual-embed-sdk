@@ -6,7 +6,7 @@
 :page-pageid: Liveboard-new-experience
 :page-description: You can enable the new Liveboard experience on Liveboards embedded using the `LiveboardEmbed` or `AppEmbed` SDK library.
 
-The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. By default, the new Liveboard experience is disabled on embedded ThoughtSpot instances. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Users can also set the Liveboard experience on the profile settings page.
+The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. By default, the new Liveboard experience is disabled on embedded ThoughtSpot instances. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
 
 == Enable the new Liveboard experience for all users
 
@@ -17,8 +17,10 @@ You can enable the new Liveboard experience using one of the following options:
 +
 If the `liveboardv2` attribute is not set in the SDK, ThoughtSpot will use the Liveboard experience setting applied at the cluster level. If the new Liveboard experience is enabled in the SDK, it will take precedence over the setting applied at the cluster level in the `Admin` tab.
 
++
 The following examples show how to enable the new Liveboard experience on a ThoughtSpot embedded application:
 
++
 [source,javascript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
@@ -30,6 +32,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 });
 ----
 
++
 [source,javascript]
 ----
 const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
@@ -50,7 +53,12 @@ Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page. For example, to delete a visualization on a Liveboard, the user must click *Edit*, and then navigate to the *Delete* option on a visualization.
 
 Filter application::
-* To apply filters, users must switch to the Liveboard edit mode. Only users with edit access to the Liveboard can apply filters.
+
+To apply filters, users must switch to the Liveboard edit mode. Only users with edit access to the Liveboard can apply filters.
+
++
+The new experience also introduces the following enhancements to Liveboard filters:
+
 * The link:https://docs.thoughtspot.com/cloud/latest/liveboard-filters[Liveboard filter configuration options, window=_blank] are available in a single modal.
 * When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied.
 
@@ -75,13 +83,13 @@ You can use the `Action` enumeration members available in the SDK to customize a
 
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum.
 
-For more information see xref:embed-actions.adoc[Show or hide UI actions] and xref:embed-action-ref.adoc[Action reference].
+For more information see xref:embed-actions.adoc[Show or hide UI actions] and xref:embed-action-ref.adoc[Action Reference].
 
 === Trigger events
 
 The embedded Liveboards support all host and embedded application events in the SDK irrespective of the Liveboard experience setting. For example, you can register and trigger events such as `VizPointClick` on visualizations on a Liveboard.
 
-For information about events, see xref:embed-events.adoc[Events and app integration] and xref:events-ref.adoc[Events reference].
+For information about events, see xref:embed-events.adoc[Events and app integration] and xref:events-ref.adoc[Events Reference].
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].
