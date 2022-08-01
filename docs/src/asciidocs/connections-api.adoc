@@ -176,8 +176,24 @@ __String__. Password of the Denodo server account.
 +
 __String__. The database associated with the account.
 
-====
+The following example shows the connection attributes JSON for Denodo connections:
 
+[source, JSON]
+----
+{
+  "configuration": {
+    "host": "10.79.153.40",
+    "port": "9999",
+    "user": "admin",
+    "password": "admin",
+    "database": "thoughtspot_sales"
+  },
+  "externalDatabases": [
+  ]
+}
+----
+
+====
 
 .Google BigQuery connection
 
