@@ -16,20 +16,24 @@ Column objects with their own GUIDs do exist within the ThoughtSpot instance, bu
 
 ThoughtSpot Search Data creates a single table or chart view based on the Search Bar and other settings. 
 
-Liveboards combine together many visualizations. You do not create the visualizations on a Liveboard directly; they are created from Search Data then *pinned to a Liveboard*. You can create a new Liveboard from the Liveboards page then go to Search Data, or create a new Liveboard when pinning from Search Data.
+*Liveboards* combine together many visualizations. You do not create the visualizations on a Liveboard directly; they are created from Search Data then *pinned to a Liveboard*. You can create a new Liveboard from the Liveboards page then go to Search Data, or create a new Liveboard when pinning from Search Data.
 
 Search Data serves the role of report builder / widget designer, while a Liveboard serves the role of dashboards in other tools. 
 
 A single saved search is an *answer* object.
  
-You can pin any number of searches to a Liveboard object as a 'visualization'. Once pinned, that visualization only exists within the Liveboard, there is no connection between a Liveboard object and any separate answer object. You can pin multiple variations created without leaving the same search data screen - each will become its own separate visualization on the Liveboard.
+You can pin any number of searches to a *Liveboard* object as a "visualization". Once pinned, that *visualization only exists within the Liveboard*, there is no connection between a Liveboard object and any separate answer object. 
+
+Each time you pin from Search Data, it will create a new separate visualization on the Liveboard.
+
+To edit a *visualization* on a Liveboard, go to the Liveboard then click the *More (...)* menu in the top left of a visualization and choose *Edit*.
 
 *Visualizations* on a Liveboard have their own GUIDs, but the visualization objects do not exist separately from the Liveboard object.
 
-== Access control
+== Access control (sharing)
+
 
 == Tags
-
 
 == API properties
 
@@ -40,3 +44,5 @@ You can pin any number of searches to a Liveboard object as a 'visualization'. O
 * `modified`: 
 * `modifiedBy`: 
 * `tags`: 
+
+== API object names
