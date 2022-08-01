@@ -289,7 +289,6 @@ __String__. Password of your Starburst account.
 +
 __String__. The database associated with the account.
 
-====
 
 .Snowflake connection
 

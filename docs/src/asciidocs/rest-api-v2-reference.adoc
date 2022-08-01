@@ -504,11 +504,12 @@ Gets details of one or several metadata objects of a specific type.
 
 `*DELETE* /tspublic/rest/v2/metadata/delete`
 
-Deletes the specified metadata object. +
-Note that the endpoint does not support deleting connection and user objects. To delete these objects, use the following endpoints:
+Deletes the specified metadata object. You can delete answers, Liveboards, tags, worksheets, views, tables, columns, and table joins. +
+Note that the endpoint does not support deleting the connection, user, and group objects. To delete these objects, use the following endpoints:
 
-* DELETE /tspublic/rest/v2/connection/delete
-* DELETE /tspublic/rest/v2/user/delete
+* `DELETE /tspublic/rest/v2/connection/delete`
+* `DELETE /tspublic/rest/v2/user/delete`
+* `DELETE /tspublic/rest/v2/group/delete`
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">View in Playground</a>

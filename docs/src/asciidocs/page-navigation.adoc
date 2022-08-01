@@ -1,13 +1,288 @@
-= Customize in-app navigation
+= Navigate to ThoughtSpot content
 :toc: true
 
-:page-title: Customize page navigation
+:page-title: Navigate to ThoughtSpot content
 :page-pageid: in-app-navigation
-:page-description: Customized page navigation
+:page-description: Navigate to ThoughtSpot content
 
-To provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app.
+This article describes how to configure controls to navigate from and to the embedded ThoughtSpot content.
 
-The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
+== Navigate from embedding application
+
+You can use the ThoughtSpot REST API to create navigation elements, such as application pages, menus, or drop-down selectors.
+This allows you to give dynamic navigation to objects to your users with full control of the display.
+
+All REST API requests from the browser are scoped to the signed-in user and show only those objects that a user can access.
+
+=== REST API request
+The ThoughtSpot web application UI uses the xref:metadata-api.adoc#metadata-list[metadata/list REST API endpoint] in rendering the Answers, Liveboards, and Data pages. 
+
+The endpoint can only request one object type at a time: +
+
+* `PINBOARD_ANSWER_BOOK` for Liveboards
+* `QUESTION_ANSWER_BOOK` for answers
+* `LOGICAL_TABLE` for data objects
+
+Data objects can be filtered using an additional `subtype` parameter to limit the query specifically to ThoughtSpot tables, worksheets, or views.
+
+There are additional parameters for sorting and a `category` parameter that can filter the response to show only the objects created or marked as favorites by the logged-in user.
+
+REST API calls are asynchronous. The following is an example function returning the response as a JSON object using *fetch()*:
+
+[source,javascript]
+----
+    async function metadataListRestApiCall(args){
+        // args = { 'type', 'category', 'sortOn', 'sortAsc', 'tagnames' }
+        let type = args['type'].toLowerCase();
+        const publicApiUrl = 'callosum/v1/tspublic/v1/';
+        let endpoint = 'metadata/list';
+        
+        // Easy type names match ThoughtSpot UI names for objects
+        const typesToApiType = { 
+            'liveboard': 'PINBOARD_ANSWER_BOOK',
+            'answer': 'QUESTION_ANSWER_BOOK',
+            'datasource' : 'LOGICAL_TABLE', // datasource doesn't distinguish sub-types
+            'table' : 'ONE_TO_ONE_LOGICAL',
+            'view' : 'AGGR_WORKSHEET',
+            'worksheet' : 'WORKSHEET'
+        }
+
+        // batchsize = -1 gives all results
+        let apiParams = { 'batchsize' : '-1'};
+        console.log(type);
+        // The three datasource types can be specified using 'subtype'
+        if (type == 'table' || type == 'view' || type == 'worksheet'){
+            let subtype = [typesToApiType[type]];
+            apiParams['type'] = 'LOGICAL_TABLE';
+            apiParams['subtypes'] = `["${subtype}"]`;
+        }
+        else {
+            apiParams['type'] = typesToApiType[type];
+        }
+
+        // Category arguments
+        let category = 'ALL';
+        if ('category' in args){
+            if ( args['category'] == 'MY' || args['category'] == 'ALL' || args['category'] == 'FAVORITE'){
+                category = args['category'];
+                apiParams['category'] = category;
+            }
+        }
+
+        // Sort arguments
+        if ('sortOn' in args){
+            if (args['sortOn'] !== null){
+                apiParams['sort'] = args['sortOn'];
+            }
+        }
+
+        if ('sortAsc' in args){
+            if (args['sortAsc'] === true){
+                apiParams['sortascending'] = 'true';
+            }
+            if (args['sortAsc'] === false){
+                apiParams['sortascending'] = 'false';
+            }
+        }
+
+        console.log(apiParams);
+        const searchParams = new URLSearchParams(apiParams);
+        const apiFullEndpoint = tsURL + publicApiUrl + endpoint + "?" + searchParams.toString();
+        console.log(apiFullEndpoint);
+        return await fetch(
+            apiFullEndpoint, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-By": "ThoughtSpot"
+            },
+            credentials: "include"
+            })
+        .then(response =>  response.json())
+        .then(data => data['headers'])  // metadata/list info is really in the 'headers' property returned
+        .catch(error => {
+        console.error("Unable to get the metadata/list response: " + error)
+        });
+    }
+----
+
+The results of this REST API request can be directed into a rendering function using `.then()`:
+
+[source,javascript]
+----
+metadataListRestApiCall(
+    {
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
+        'category': 'ALL'
+    })
+.then(
+    (listResponse) => renderNavigationFromResponse(listResponse) // Use your own rendering function here
+);
+----
+
+=== Render navigation elements
+The response from the function above is an array of header objects, which can be parsed to render navigation.
+
+The `name` and `id` property are used in almost all the navigation you build (`id` is the GUID necessary to load any ThoughtSpot object). Additional properties include:
+
+* `description`
++
+Text description added to content by creator
+* `authorDisplayName`
++
+Display name of the object creator or current owner
+* `authorName`
++
+Username of the object creator or current owner
+* `created`
++
+Object creation timestamp (to milliseconds)
+* `modified`
++
+Last edit timestamp (to milliseconds)
+* `tags`
++
+Array of tag objects, each with a `name` property among other details
+
+==== Application pages
+If you want to render something very close to the 'Answers' or 'Pinboards' page within the ThoughtSpot UI, your rendering function will grab the `name`, `id`, `tags`, `modified` and `authorDisplayName` properties and make a table in that order (feel free to leave out any undesired elements):
+
+[source,javascript]
+----
+    function tableFromList(listResponse){
+        console.log(listResponse);
+        let t = document.createElement('table');
+
+        // Make table headers 
+        let thead = document.createElement('thead');
+        t.append(thead);
+        let thr = document.createElement('tr');
+        thead.append(thr);
+        let headers = ['Name', 'Tags', 'Modified', 'Author'];
+        for (let i=0, len=headers.length; i < len; i++){
+            let th = document.createElement('th');
+            th.innerText = headers[i];
+            thr.append(th);
+        }
+
+        // Go through response and build rows
+        for (let i=0, len=listResponse.length; i < len; i++){
+            let tr = document.createElement('tr');
+            
+            // Name Column
+            let name_td = document.createElement('td');
+            name_td.innerHTML = '<a href="#" onclick="loadContent("' + listResponse[i]['id'] + '")>' +  listResponse[i]['name'] +  '</a>';
+            //name_td.append(name_text);
+            console.log(name_td);
+            tr.append(name_td);
+            
+            // Tags column
+            let tags_td = document.createElement('td');
+            console.log(listResponse[i]['tags']);
+            // Tags is an Array of Tag objects, with properties ('name' being the important one)
+            if (listResponse[i]['tags'].length > 0){
+                let tagNames = [];
+                for(let k = 0, len = listResponse[i]['tags'].length; k<len; k++){
+                    let tagName = listResponse[i]['tags'][k]['name'];
+                    tagNames.push(tagName);
+                }
+                tags_td.innerText = tagNames.join(', ');
+            }
+            tr.append(tags_td);
+
+            // Modified Date column
+            let modified_td = document.createElement('td');
+            modified_td.innerText = listResponse[i]['modified'];
+            tr.append(modified_td);
+
+            let author_td = document.createElement('td');
+            author_td.innerText = listResponse[i]['authorDisplayName'];
+            tr.append(author_td);
+
+            t.append(tr);
+
+        }
+
+        return t;
+    }
+----
+
+The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
+
+[source,javascript]
+----
+metadataListRestApiCall(
+    {
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
+        'category': 'ALL'
+    })
+.then(
+    (response) => tableFromList(response)
+).then(
+    (table) => document.getElementById('main-content-div').append(table)
+);
+----
+
+Note that the `loadContent()` function referenced in the anchor tag created for the name column in the function above is a placeholder representing whatever is necessary to load that type of ThoughtSpot content in the web application. The actual design you choose for your application will determine the code you need to go from the navigation component to loading the ThoughtSpot content.
+
+=== Load ThoughtSpot content in embed components
+However you have rendered the navigation element, when the user selects the object, the GUID of the object must pass to the appropriate parameter in the options object of the embed constructor for one of the embed components:
+
+* `liveboardId` for a xref:embed-pinboard.adoc[Liveboard] in a `LiveboardEmbed` object
+* `liveboardId` and `vizId` for an xref:embed-a-viz.adoc[individual visualization] from a Liveboard through the `LiveboardEmbed` object
+* `datasources` array for a xref:embed-search.adoc[SearchEmbed]
+* `answerId` for loading a xref:embed-search.adoc[saved Answer] in a `SearchEmbed`
+
+In general, most web applications put the ThoughtSpot GUID into the URL in a way that allows the page to be bookmarked.
+`{domain.com}/analytics/dashboard/{liveboardGUID}` would be an example of a __true__ URL, while `{domain.com}/analytics/\#dashboard/{liveboardGUID}` is an alternative example often seen in single-page style apps where the fragment specifying the object type and GUID can be read within the page's JavaScript to command different content to be loaded without going to an actual different page.
+
+=== Load individual visualizations from a Liveboard
+You can load individual visualizations on a Liveboard using the `LiveboardEmbed` component by supplying both `liveboardId` and `vizId`.
+
+The display of a visualization from a Liveboard differs from a saved answer object, which is loaded via the `SearchEmbed` component. The saved answer object always displays the ThoughtSpot search bar and UI actions for editing an answer, whereas the visualizations display fewer UI elements and show the menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu].
+
+To retrieve a list of visualizations from a Liveboard, you can use the xref:metadata-api.adoc#viz-header[get visualization headers REST API endpoint].
+
+[source,javascript]
+----
+async function metadataGetVizHeadersRestApiCall(liveboardGuid){
+    // args = { 'type', 'category', 'sortOn', 'sortAsc', 'tagnames' }
+    let type = args['type'].toLowerCase();
+    const publicApiUrl = 'callosum/v1/tspublic/v1/';
+    let endpoint = 'metadata/listvizheaders';
+
+    // batchsize = -1 gives all results
+    let apiParams = { 'id' : liveboardGuid};
+    const searchParams = new URLSearchParams(apiParams);
+    const apiFullEndpoint = tsURL + publicApiUrl + endpoint + "?" + searchParams.toString();
+    console.log(apiFullEndpoint);
+    return await fetch(
+        apiFullEndpoint, {
+        method: 'GET',
+        headers: {
+            "Accept": "application/json",
+            "X-Requested-By": "ThoughtSpot"
+        },
+        credentials: "include"
+        })
+    .then(response =>  response.json())
+    // 
+    .then(data => data)  // metadata/list info is really in the 'headers' property returned
+    .catch(error => {
+    console.error("Unable to get the metadata/listvizheaders response: " + error)
+    });
+}
+----
+
+== Customize navigation using full app embed
+
+If you are embedding the full ThoughtSpot application, you can use the navigation controls that are available as part of the application. You can also customize in-app navigation using the `navigateToPage` API in the SDK.
+
+For example, to provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app. The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
 
 To add a custom action for in-app navigation, follow these steps:
 

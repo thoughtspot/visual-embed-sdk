@@ -9,9 +9,9 @@ ThoughtSpot Everywhere provides a low-code embedded analytics platform for devel
 
 ThoughtSpot Everywhere offers a robust API framework with Visual Embed SDK and REST APIs to embed and customize ThoughtSpot components and automate deployments. You can explore these APIs and preview the coding experience in the interactive developer playgrounds.
 
-== Visual Embed SDK::
+== Visual Embed SDK
 The Visual Embed SDK provides Javascript-based embed packages and client libraries to embed and customize ThoughtSpot components in your web application. The SDK package includes separate libraries for embedding Search, Liveboard, full ThoughtSpot application, or a single visualization. To explore the Visual Embed APIs, navigate to the *Develop* tab and click *Visual Embed Playground*.
-+
+
 For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 
 == REST API
@@ -32,7 +32,7 @@ For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal]
 == Customization controls
 UI customization and rebranding::
 If you want to customize the look and feel of ThoughtSpot UI to match your organization’s branding guidelines, you can use the style customization settings in the Develop tab.
-
++
 For more information, see xref:customize-style.adoc[Customize styles and layout].
 
 Custom actions::
@@ -40,10 +40,11 @@ If you want to add a custom action to an embedded visualization or saved answer,
 
 Custom link format::
 To customize the host URL and resource path in the system-generated links, use the *Link settings* menu. For example, when your application user shares an embedded Liveboard with another user or group, ThoughtSpot can generate a link with your host application URL and the resource path specified in *Link settings*.
-
++
 For more information, see xref:customize-links.adoc[Customize links].
 
 Security settings::
 If you are embedding ThoughtSpot in your application, you must add the domain URL of your application as a CSP and CORS host. These settings are available on the *Security settings* page. This page also allows you to enable trusted authentication and add redirect domains for SAML SSO authentication.
 
++
 For more information, see xref:security-settings.adoc[Security Settings].
