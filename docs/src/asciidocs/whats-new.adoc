@@ -38,7 +38,7 @@ The following features are *_not_* available with the new Liveboard experience:
 For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
 
 ==== New Liveboard experience on embedded instances
-The new Liveboard experience will be turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:embed-pinboard.adoc[set the `liveboardV2` parameter] in the LiveboardEmbed SDK package to `true` to enable the new experience globally for all users on your instance.
+The new Liveboard experience will be turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the LiveboardEmbed SDK package to `true` to enable the new experience globally for all users on your instance.
 
 ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level or let individual users choose their preferred experience.
 
