@@ -83,7 +83,7 @@ You can use the `Action` enumeration members available in the SDK to customize a
 
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum.
 
-For more information see xref:embed-actions.adoc[Show or hide UI actions] and xref:embed-action-ref.adoc[Action Reference].
+For more information, see xref:embed-actions.adoc[Show or hide UI actions] and xref:embed-action-ref.adoc[Action Reference].
 
 === Trigger events
 
