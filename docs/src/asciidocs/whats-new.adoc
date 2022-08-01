@@ -19,7 +19,7 @@ To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* b
 The edit mode allows you to edit the Liveboard title and description text, apply filters, copy the Liveboard, modify the layout of the visualization tiles, delete a visualization, and so on.
 
 Improved filtering options::
-* The link:https://docs.thoughtspot.com/cloud/latest/liveboard-filters[Liveboard filter configuration options, window=_blank] are now available in a single modal.
+* The Liveboard filter configuration options, window=_blank are available in a single modal.
 * When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied
 
 Other features and enhancements::
@@ -27,7 +27,7 @@ Other features and enhancements::
 * The *Undo*, *Redo*, and *Reset* actions for visualizations.
 * The *Liveboard Info* action label in the More image:./images/icon-more-10px.png[the more options menu] menu is renamed to *Show Liveboard details*.
 * The *Schedule* action is placed in the More image:./images/icon-more-10px.png[the more options menu] menu.
-* Improved link:https://docs.thoughtspot.com/cloud/latest/answer-explorer[visualization explore experience, window=_blank].
+* Improved visualization explore experience.
 
 Deprecated features::
 The following features are *_not_* available with the new Liveboard experience:
