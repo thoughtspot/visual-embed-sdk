@@ -2,15 +2,20 @@
 
 ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system. Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
 
-== Data modeling workflow
+== Data modeling
+You must create a data model comprising at least a *connection* with one *table* to begin using *Search Data* to create content. Most often there will be multiple *tables*, with a variety of *joins* defined in ThoughtSpot, with a *worksheet* bringing those tables together into a presentable analytic data model for the end-users.
+
+*Tables* can have *Row Level Security (RLS)* rules that filter the data results based on the signed in *username* or the *ThoughtSpot groups* the user belongs to, and those rules apply to any *worksheet* that uses the *table*.
+
+=== Data modeling workflow
 1. Make *connection* to cloud data warehouse
 2. Import *tables* from the *connection*
 3. Create *worksheets* (analytic data models) based on *tables*
 4. Create ThoughtSpot *views* or *SQL views* as necessary
 
-Column objects with their own GUIDs do exist within the ThoughtSpot instance, but they are connected to *tables* or *worksheets* or other data objects and are never seen or modified separately.
+== Content creation
+The best practice workflow for content creation is:
 
-== Content creation workflow
 1. Use *Search Data* to build visualizations/widgets from *worksheets* as data source
 2. Save the search as an "answer" or pin the search to a "Liveboard"
 
@@ -31,9 +36,20 @@ To edit a *visualization* on a Liveboard, go to the Liveboard then click the *Mo
 *Visualizations* on a Liveboard have their own GUIDs, but the visualization objects do not exist separately from the Liveboard object.
 
 == Access control (sharing)
+ThoughtSpot's access control model works by an *author* or *admin* *sharing* objects to ThoughtSpot *groups* or other indvidual users: 
 
+* The creator of an object is the *author*
+* The *author* can *share* the object to *groups* with the *Shareable* property that the *author* belongs to
+* The *author* can *share* the object to other users in *Shareable groups* that the *author* belongs to, if the other *user* is also marked *Shareable*
+
+An *admin user* can share any object to any group or user with no restrictions.
 
 == Tags
+Tags can be added to objects for organization and searching. 
+
+Tags exist as separate objects that are defined, visible, and assignable by every user.
+
+Tag search is always an *OR* operation where allowed: filtering on multiple tags results in all objects with any of the tags, not just those with all of the specified tags. 
 
 == API properties
 
@@ -46,3 +62,6 @@ To edit a *visualization* on a Liveboard, go to the Liveboard then click the *Mo
 * `tags`: 
 
 == API object names
+
+
+Column objects with their own GUIDs do exist within the ThoughtSpot instance, but they are connected to *tables* or *worksheets* or other data objects and are never seen or modified separately.
