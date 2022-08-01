@@ -49,7 +49,7 @@
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
 ** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
-*** link:{{navprefix}}=events[Events reference]
+*** link:{{navprefix}}=events[Events Reference]
 *** link:{{navprefix}}=actions[Actions Reference]
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
