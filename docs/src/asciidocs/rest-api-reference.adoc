@@ -59,12 +59,6 @@ ThoughtSpot Software [version noBackground]#6.0.x#
 |=====
 --
 
-////
-`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
-
-+++<p class="divider">Allows searching for data from a specific data source in the ThoughtSpot application.</p>+++
-////
-
 == Dependent objects
 
 include::{path}/dependency-api-list.adoc[]
