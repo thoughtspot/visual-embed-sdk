@@ -10,7 +10,8 @@ This changelog lists only the changes introduced in REST API v1. For a complete 
 
 == Version 8.6.0.cl, Coming soon
 
-The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively. For more information, see xref:connections-api.adoc[Data connection APIs].
+The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively.
+For more information, see xref:connections-api.adoc[Data connection APIs].
 
 == Version 8.2.0.cl, April 2022
 
