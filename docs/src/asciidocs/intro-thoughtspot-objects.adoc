@@ -2,6 +2,8 @@
 
 ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system. Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
 
+image::./images/object_model_hierarchy.png[Object Model Hierarchy]
+
 == Data modeling
 You must create a data model comprising at least one *link:https://docs.thoughtspot.com/cloud/latest/connections[connection, window=_blank]* with one *link:https://docs.thoughtspot.com/cloud/latest/connect-data[table, window=_blank]* to begin using *link:https://docs.thoughtspot.com/cloud/latest/search-data[Search Data, window=_blank]* to create content. Most often there will be multiple *tables*, with a variety of *link:https://docs.thoughtspot.com/cloud/latest/tables-join[joins, window=_blank]* defined in ThoughtSpot, with a *link:https://docs.thoughtspot.com/cloud/latest/worksheet-create[worksheet, window=_blank]* bringing those tables together into a presentable analytic data model for the end-users.
 
