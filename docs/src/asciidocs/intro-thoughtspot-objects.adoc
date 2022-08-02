@@ -36,7 +36,7 @@ To edit a *visualization* on a Liveboard, go to the Liveboard then click the *Mo
 *Visualizations* on a Liveboard have their own GUIDs, but the visualization objects do not exist separately from the Liveboard object.
 
 == Access control (sharing)
-ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control modelwindow=_blank] works by an *author* or *admin* *sharing* objects to ThoughtSpot *groups* or other indvidual users: 
+ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control model, window=_blank] works by an *author* or *admin* *sharing* objects to ThoughtSpot *link:https://docs.thoughtspot.com/cloud/latest/groups-privileges[groups, window=_blank]* or other indvidual users: 
 
 * The creator of an object is the *author*
 * The *author* can *share* the object to *groups* with the *Shareable* property that the *author* belongs to
