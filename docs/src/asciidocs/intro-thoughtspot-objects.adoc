@@ -3,29 +3,29 @@
 ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system. Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
 
 == Data modeling
-You must create a data model comprising at least a *connection* with one *table* to begin using *Search Data* to create content. Most often there will be multiple *tables*, with a variety of *joins* defined in ThoughtSpot, with a *worksheet* bringing those tables together into a presentable analytic data model for the end-users.
+You must create a data model comprising at least one *link:https://docs.thoughtspot.com/cloud/latest/connections[connection, window=_blank]* with one *link:https://docs.thoughtspot.com/cloud/latest/connect-data[table, window=_blank]* to begin using *link:https://docs.thoughtspot.com/cloud/latest/search-data[Search Data, window=_blank]* to create content. Most often there will be multiple *tables*, with a variety of *link:https://docs.thoughtspot.com/cloud/latest/tables-join[joins, window=_blank]* defined in ThoughtSpot, with a *link:https://docs.thoughtspot.com/cloud/latest/worksheet-create[worksheet, window=_blank]* bringing those tables together into a presentable analytic data model for the end-users.
 
-*Tables* can have *Row Level Security (RLS)* rules that filter the data results based on the signed in *username* or the *ThoughtSpot groups* the user belongs to, and those rules apply to any *worksheet* that uses the *table*.
+*Tables* can have *link:https://docs.thoughtspot.com/cloud/latest/security-rls[Row Level Security (RLS), window=_blank]* rules that filter the data results based on the signed in *link:https://docs.thoughtspot.com/cloud/latest/user-management[username, window=_blank]* or the *link:https://docs.thoughtspot.com/cloud/latest/group-management[ThoughtSpot groups, window=_blank]* the user belongs to, and those rules apply to any *worksheet* that uses the *table*.
 
 === Data modeling workflow
 1. Make *connection* to cloud data warehouse
 2. Import *tables* from the *connection*
 3. Create *worksheets* (analytic data models) based on *tables*
-4. Create ThoughtSpot *views* or *SQL views* as necessary
+4. Create ThoughtSpot *link:https://docs.thoughtspot.com/cloud/latest/views[views, window=_blank]* or *link:https://docs.thoughtspot.com/cloud/latest/sql-views[SQL views, window=_blank]* as necessary
 
 == Content creation
 The best practice workflow for content creation is:
 
-1. Use *Search Data* to build visualizations/widgets from *worksheets* as data source
+1. Use *link:https://docs.thoughtspot.com/cloud/latest/search-data[Search Data, window=_blank]* to build visualizations/widgets from *worksheets* as data source
 2. Save the search as an "answer" or pin the search to a "Liveboard"
 
 ThoughtSpot Search Data creates a single table or chart view based on the Search Bar and other settings. 
 
-*Liveboards* combine together many visualizations. You do not create the visualizations on a Liveboard directly; they are created from Search Data then *pinned to a Liveboard*. You can create a new Liveboard from the Liveboards page then go to Search Data, or create a new Liveboard when pinning from Search Data.
+*link:https://docs.thoughtspot.com/cloud/latest/liveboard[Liveboards, window=_blank]* combine together many visualizations into a defined layout. You do not create the visualizations on a Liveboard directly; they are created from Search Data then *pinned to a Liveboard*. You can create a new Liveboard from the Liveboards page then go to Search Data, or create a new Liveboard when pinning from Search Data.
 
 Search Data serves the role of report builder / widget designer, while a Liveboard serves the role of dashboards in other tools. 
 
-A single saved search is an *answer* object.
+A single saved search is an *link:https://docs.thoughtspot.com/cloud/latest/answers[answer, window=_blank]* object.
  
 You can pin any number of searches to a *Liveboard* object as a "visualization". Once pinned, that *visualization only exists within the Liveboard*, there is no connection between a Liveboard object and any separate answer object. 
 
@@ -45,7 +45,7 @@ ThoughtSpot's access control model works by an *author* or *admin* *sharing* obj
 An *admin user* can share any object to any group or user with no restrictions.
 
 == Tags
-Tags can be added to objects for organization and searching. 
+*link:https://docs.thoughtspot.com/cloud/latest/tags[Tags, window=_blank]* can be added to objects for organization and searching. 
 
 Tags exist as separate objects that are defined, visible, and assignable by every user.
 
