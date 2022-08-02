@@ -6,7 +6,6 @@
 :page-pageid: actions
 :page-description: The Action enum for menu actions on Liveboards, visualizations, and answers.
 
-
 ThoughtSpot visualizations, Liveboards, and saved search answers support several actions and menu commands for various user-initiated operations. The Visual Embed SDK maps these actions to a set of Action enumeration members and `visibleActions`, `disabledActions`, and `hiddenActions`  APIs for granular access control.
 
 By default, ThoughtSpot provides a set of standard actions for embedded objects such as Liveboards, visualizations, and answers. The availability of these actions may vary based on user privileges, and the SDK library used for embedding.
