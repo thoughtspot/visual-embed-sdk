@@ -75,11 +75,9 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     preventPinboardFilterRemoval?: boolean;
     /**
-     * Render embedded liveboards and visualizations using the new v2 rendering mode
-     * This is a transient flag which is primarily meant for internal use
+     * Render embedded Liveboards and visualizations in the new Liveboard experience mode
      * @default false
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
-     * @hidden
+     * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl
      */
     liveboardV2?: boolean;
     /**
