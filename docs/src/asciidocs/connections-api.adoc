@@ -152,7 +152,7 @@ __String__. Password of the Dremio server account.
 __String__. The database associated with the account.
 ====
 
-.Denodo connection
+.Denodo connection [tag greenBackground]#NEW in 8.6.0.cl#
 [%collapsible]
 ====
 
@@ -176,7 +176,7 @@ __String__. Password of the Denodo server account.
 +
 __String__. The database associated with the account.
 
-The following example shows the connection attributes JSON for Denodo connections:
+The following example shows the connection metadata JSON for a Denodo connection:
 
 [source, JSON]
 ----

@@ -683,7 +683,7 @@ Gets data from the specified Liveboard and visualization.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/data/answer/querysql` [tag greenBackground]#NEW in 8.4.0.cl#
+`*GET* /tspublic/rest/v2/data/answer/querysql`
 
 Retrieves SQL for an answer object.
 
@@ -694,7 +694,7 @@ Retrieves SQL for an answer object.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /tspublic/rest/v2/data/liveboard/querysql` [tag greenBackground]#NEW in 8.4.0.cl#
+`*GET* /tspublic/rest/v2/data/liveboard/querysql`
 
 Retrieves SQL for a visualization on a Liveboard.
 
