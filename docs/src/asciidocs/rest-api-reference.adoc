@@ -12,7 +12,6 @@ Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.0-sw
 Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 endpoint URLs, request and response workflows are not rebranded.
 --
 
-
 == User management
 
 include::{path}/user-api-list.adoc[]
