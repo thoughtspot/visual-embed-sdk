@@ -37,14 +37,22 @@ The following features are *_not_* available with the new Liveboard experience:
 
 For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
 
-==== New Liveboard experience on embedded instances
+==== New Liveboard experience rollout on embedded instances
+
+The new Liveboard experience will be rolled out on embedded instances in phases:
+
+In the ThoughtSpot Cloud 8.6.0.cl release::
 The new Liveboard experience will be turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance.
 
++
 ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
+
+In the ThoughtSpot Cloud 8.7.0.cl release::
+The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin tab` of the ThoughtSpot UI.
 
 [NOTE]
 ====
-The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab or user preference set in the profiles page in the UI.
+The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
 ====
 
 ==== Actions and Events in the SDK
