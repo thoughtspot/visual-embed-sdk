@@ -36,7 +36,7 @@ To edit a *visualization* on a Liveboard, go to the Liveboard then click the *Mo
 *Visualizations* on a Liveboard have their own GUIDs, but the visualization objects do not exist separately from the Liveboard object.
 
 == Access control (sharing)
-ThoughtSpot's access control model works by an *author* or *admin* *sharing* objects to ThoughtSpot *groups* or other indvidual users: 
+ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control modelwindow=_blank] works by an *author* or *admin* *sharing* objects to ThoughtSpot *groups* or other indvidual users: 
 
 * The creator of an object is the *author*
 * The *author* can *share* the object to *groups* with the *Shareable* property that the *author* belongs to
@@ -56,12 +56,32 @@ Tag search is always an *OR* operation where allowed: filtering on multiple tags
 * `id`: GUID of the object. Unique within a given ThoughtSpot instance
 * `author`: GUID of user who created / uploaded the object, or had the object transfered to them
 * `owner`: GUID representing relationship between hierarchical objects (for example, a *column* would have the GUID of a *table* or *worksheet* as owner)
-* `created`: 
-* `modified`: 
-* `modifiedBy`: 
-* `tags`: 
+* `created`: timestamp of object creation
+* `modified`: timestamp from last time object was modified
+* `modifiedBy`: GUID of user who last modified the object
+* `tags`: array of tag objects representing the tags assigned to the object
 
 == API object names
+For historic reasons, the object type names in the ThoughtSpot REST API differ from the current names seen in the ThoughtSpot UI and documentation. 
+
+Data objects have both a `type` and a `sub-type` within the REST API, allowing you to request all valid data objects or specify the individual sub-type.
+
+The following is a guide to the REST API identifiers for the object types:
+
+* *answers*: `QUESTION_ANSWER_BOOK`
+* *Liveboards*: `PINBOARD_ANSWER_BOOK`
+* *data objects*: `LOGICAL_TABLE`, with subtypes:
+** *tables*: `ONE_TO_ONE_LOGICAL` 
+** *worksheets*: `WORKSHEET`
+** *views*: `AGGR_WORKSHEET`
+** *sql views*: `SQL_VIEW`
+** *csv imported data*: `USER_DEFINED`
+* *connections*: `DATA_SOURCE`
+* *tags*: `TAG`
+* *users*: `USER`
+* *groups*: `USER_GROUP`
+* *joins*: `LOGICAL_RELATIONSHIP`
+* *columns*: `LOGICAL_COLUMN`
 
 
-Column objects with their own GUIDs do exist within the ThoughtSpot instance, but they are connected to *tables* or *worksheets* or other data objects and are never seen or modified separately.
+Column and join objects with their own GUIDs do exist within the ThoughtSpot instance, but they are connected to *tables* or *worksheets* or other data objects and are never seen or modified separately.
