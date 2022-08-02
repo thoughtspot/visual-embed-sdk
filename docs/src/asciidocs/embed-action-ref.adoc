@@ -102,8 +102,7 @@ Opens Liveboard in the edit mode.
 `AppEmbed` |*Add filters* +
 Allows filters to visualizations in a Liveboard.
 |`Action.ConfigureFilter`
-a| `LiveboardEmbed`
-
+a| `LiveboardEmbed` +
 `AppEmbed`
 |The filter configuration options in the *Add Filters* modal. +
 Applies filters and allows configuring filters applied to a visualization on a Liveboard.
@@ -353,4 +352,4 @@ Publishes the modified TML representation of an answer.
 
 == Additional resources
 * For information about showing or hiding UI actions, see xref:embed-actions.adoc[Show or hide actions].
-* For a complete list of action enumerators, see link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].
+* See also link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].
