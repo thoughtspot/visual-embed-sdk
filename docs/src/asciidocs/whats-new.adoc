@@ -48,7 +48,7 @@ The new Liveboard experience will be turned off by default on embedded ThoughtSp
 ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
 
 In the ThoughtSpot Cloud 8.7.0.cl release::
-The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin tab` of the ThoughtSpot UI.
+The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
 
 [NOTE]
 ====
