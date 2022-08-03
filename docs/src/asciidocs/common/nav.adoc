@@ -39,7 +39,7 @@
 *** link:{{navprefix}}=embed-liveboard[Embed a Liveboard]
 *** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 *** link:{{navprefix}}=full-embed[Embed full application]
-*** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in React app]
+*** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in a React app]
 ** link:{{navprefix}}=embed-auth[Authentication]
 ** link:{{navprefix}}=in-app-navigation[Navigate to ThoughtSpot content]
 ** link:{{navprefix}}=events-app-integration[Events and app integration]
@@ -47,9 +47,10 @@
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
 ** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
+** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
-** link:{{navprefix}}=events[Events reference]
-
+*** link:{{navprefix}}=events[Events Reference]
+*** link:{{navprefix}}=actions[Actions Reference]
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]

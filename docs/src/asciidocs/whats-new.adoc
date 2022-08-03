@@ -8,6 +8,64 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Coming soon
+
+=== Liveboard new experience
+
+The upcoming release introduces the new Liveboard experience on ThoughtSpot application instances. In addition to the existing Liveboard functionality, the new experience introduces several notable changes to the Liveboard page:
+
+Liveboard editing::
+To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
+The edit mode allows you to edit the Liveboard title and description text, apply filters, copy the Liveboard, modify the layout of the visualization tiles, delete a visualization, and so on.
+
+Liveboard filters::
+* The Liveboard filter configuration options are available in a single modal.
+* When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied.
+
+Other features and enhancements::
+* The *Add filters* action is placed in the primary menu bar and can be viewed only when a Liveboard is in edit mode. Only users with edit access to the Liveboard can apply filters.
+* The *Undo*, *Redo*, and *Reset* actions for visualizations.
+* The *Liveboard Info* action label in the More image:./images/icon-more-10px.png[the more options menu] menu is renamed to *Show Liveboard details*.
+* The *Schedule* action is placed in the More image:./images/icon-more-10px.png[the more options menu] menu.
+* Improved visualization Explore experience.
+
+Deprecated features::
+The following features are *_not_* available with the new Liveboard experience:
+* The *Copy embed link* and *Copy link* menu actions in the More image:./images/icon-more-10px.png[the more options menu] menu of a Liveboard
+* The edit title icon on visualization tiles
+* The *Share* button on visualizations
+
+For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
+
+==== New Liveboard experience rollout on embedded instances
+
+The new Liveboard experience will be rolled out on embedded instances in phases:
+
+In ThoughtSpot Cloud 8.6.0.cl::
+The new Liveboard experience will be turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance.
+
++
+ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
+
+In later releases::
+The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
+
+[NOTE]
+====
+The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
+====
+
+==== Actions and Events in the SDK
+If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
+
+For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
+
+=== Visual Embed SDK version 1.14.0
+For information about the new features and enhancements in the Visual Embed SDK version 1.14.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
 == Version 8.5.0.cl
 
 === Search Assist support for embedded instances

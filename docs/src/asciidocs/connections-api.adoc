@@ -8,16 +8,17 @@
 
 ThoughtSpot supports connecting to external data warehouses and using these as data sources for analytics and visualizations. ThoughtSpot users can run a live query of the data directly from the following external data sources to generate the information they need:
 
-* Snowflake
 * Amazon Redshift
-* Google BigQuery
 * Azure Synapse
-* Oracle ADW
-* Starburst
 * Databricks
 * Dremio
-* Teradata
+* Denodo
+* Google BigQuery
+* Oracle ADW
 * SAP HANA
+* Snowflake
+* Starburst
+* Teradata
 
 The connection API endpoints allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
@@ -48,36 +49,6 @@ image::./images/connection_metadata_json.png[Connection metadata]
 
 Note the configuration attributes required in the connection metadata to create or edit a data connection.
 
-
-.Snowflake connection
-
-[%collapsible]
-====
-* `accountName`
-+
-__String__. The account name associated with the Snowflake connection.
-
-* `user`
-+
-_String_. The Snowflake account username.
-
-* `password`
-+
-_String_. The password of your Snowflake account.
-
-* `role`
-+
-_String_. The role assigned to your user account. For example, `sysadmin`.
-
-+
-Make sure the role you specify for this attribute has privileges to access the database, schema, and tables that you want to use for the live query service.
-
-* `warehouse`
-+
-__String__. The warehouse associated with the connection. 
-====
-
-
 .Amazon Redshift connection
 
 [%collapsible]
@@ -105,29 +76,6 @@ __String__. Specify the name of the database that you want to use for live query
 
 ====
 
-
-.Google BigQuery connection
-
-[%collapsible]
-====
-
-* `project_id`
-+
-__String__. ID of the project associated with your BigQuery account.
-
-* `oauth_pvt_key`
-+
-__String__. The secret key obtained for your BigQuery service account. To obtain the secret key, you must create a custom role in BigQuery and set up your service account. For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/ts-cloud-embrace-gbq-prerequisites.html#custom-role[BigQuery prerequisites, window=_blank].
-
-////
-* `state`
-
-+
-__String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your BigQuery account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
-//// 
-====
-
-
 .Azure Synapse connection
 
 [%collapsible]
@@ -138,7 +86,7 @@ __String__. The hostname of the database connection.
 
 * `port`
 +
-_Integer_. Enter the port number associated with the database. 
+_Integer_. Enter the port number associated with the database.
 
 * `user`
 +
@@ -151,83 +99,6 @@ __String__. Password of your Azure Synapse account.
 * `database`
 +
 __String__. Specify the database associated with the account.
-
-====
-
-
-.Teradata connection
-
-[%collapsible]
-====
-
-* `host`
-+
-__String__. The hostname of the database connection.
-
-* `user`
-+
-_String_. The user name of your Teradata account.
-
-* `password`
-+
-__String__. Password of your Teradata account.
-
-* `database`
-+
-__String__. The database associated with the account.
-
-====
-
-
-
-.Oracle ADW connection
-
-[%collapsible]
-====
-
-* `user`
-+
-_String_. The user name of your Oracle ADW account.
-
-* `password`
-+
-__String__. Password of your Oracle ADW account.
-
-* `net_service_name`
-+
-_String_. The Net Service Name of your Oracle ADW account.
-
-* `tns_admin`
-+
-_String_. The ID of the directory specified by the `TNS_ADMIN` environment variable.
-
-* `schema`
-+
-_String_. The schema of the database.
-
-====
-
-
-.Starburst connection 
-
-[%collapsible]
-====
-
-* `host`
-+
-__String__. The hostname of the database connection.
-
-* `user`
-+
-_String_. The user name of your Starburst account.
-
-* `password`
-+
-__String__. Password of your Starburst account.
-
-* `database`
-+
-__String__. The database associated with the account.
 
 ====
 
@@ -270,7 +141,7 @@ __String__. Dremio server port.
 
 * `user`
 +
-_String_. Username of the Dremio server.
+_String_. Username of the Dremio server account.
 
 * `password`
 +
@@ -280,6 +151,99 @@ __String__. Password of the Dremio server account.
 +
 __String__. The database associated with the account.
 ====
+
+.Denodo connection [tag greenBackground]#NEW in 8.6.0.cl#
+[%collapsible]
+====
+
+ `host`
++
+__String__. The hostname of Denodo server.
+
+* `port`
++
+__String__. Denodo server port.
+
+* `user`
++
+_String_. Username of the Denodo server account.
+
+* `password`
++
+__String__. Password of the Denodo server account.
+
+* `database`
++
+__String__. The database associated with the account.
+
+The following example shows the connection metadata JSON for a Denodo connection:
+
+[source, JSON]
+----
+{
+  "configuration": {
+    "host": "10.79.153.40",
+    "port": "9999",
+    "user": "admin",
+    "password": "admin",
+    "database": "thoughtspot_sales"
+  },
+  "externalDatabases": [
+  ]
+}
+----
+
+====
+
+.Google BigQuery connection
+
+[%collapsible]
+====
+
+* `project_id`
++
+__String__. ID of the project associated with your BigQuery account.
+
+* `oauth_pvt_key`
++
+__String__. The secret key obtained for your BigQuery service account. To obtain the secret key, you must create a custom role in BigQuery and set up your service account. For more information, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/ts-cloud-embrace-gbq-prerequisites.html#custom-role[BigQuery prerequisites, window=_blank].
+
+////
+* `state`
+
++
+__String__. A JSON map of The OAuth client ID and OAuth client secret to authenticate to your BigQuery account. You can use either your service account credentials or the OAuth authentication to connect your data sources.
+////
+====
+
+
+.Oracle ADW connection
+
+[%collapsible]
+====
+
+* `user`
++
+_String_. The user name of your Oracle ADW account.
+
+* `password`
++
+__String__. Password of your Oracle ADW account.
+
+* `net_service_name`
++
+_String_. The Net Service Name of your Oracle ADW account.
+
+* `tns_admin`
++
+_String_. The ID of the directory specified by the `TNS_ADMIN` environment variable.
+
+* `schema`
++
+_String_. The schema of the database.
+
+====
+
 
 .SAP HANA connection
 
@@ -304,6 +268,77 @@ __String__. The database associated with the account.
 ====
 
 
+.Starburst connection
+[%collapsible]
+====
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `user`
++
+_String_. The user name of your Starburst account.
+
+* `password`
++
+__String__. Password of your Starburst account.
+
+* `database`
++
+__String__. The database associated with the account.
+====
+
+.Snowflake connection
+
+[%collapsible]
+====
+* `accountName`
++
+__String__. The account name associated with the Snowflake connection.
+
+* `user`
++
+_String_. The Snowflake account username.
+
+* `password`
++
+_String_. The password of your Snowflake account.
+
+* `role`
++
+_String_. The role assigned to your user account. For example, `sysadmin`.
+
++
+Make sure the role you specify for this attribute has privileges to access the database, schema, and tables that you want to use for the live query service.
+
+* `warehouse`
++
+__String__. The warehouse associated with the connection.
+====
+
+.Teradata connection
+
+[%collapsible]
+====
+
+* `host`
++
+__String__. The hostname of the database connection.
+
+* `user`
++
+_String_. The user name of your Teradata account.
+
+* `password`
++
+__String__. Password of your Teradata account.
+
+* `database`
++
+__String__. The database associated with the account.
+
+====
 
 [#cre-connection]
 == Add a data connection for live query service
@@ -1250,6 +1285,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
   "debugInfo": {}
 }
 ----
+
 
 === Response codes
 
