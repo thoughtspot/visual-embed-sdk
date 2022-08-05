@@ -47,7 +47,7 @@ Tags exist as separate objects that are defined, visible, and assignable by ever
 Tag search is always an *OR* operation where allowed: filtering on multiple tags results in all objects with any of the tags, not just those with all of the specified tags. 
 
 == Access control (sharing)
-ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control model, window=_blank] works by an *author* or *admin* *sharing* objects to *link:https://docs.thoughtspot.com/cloud/latest/groups-privileges[ThoughtSpot groups, window=_blank]* or other indvidual users: 
+ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control model, window=_blank] works by an *author* or *admin* *sharing* objects to *link:https://docs.thoughtspot.com/cloud/latest/groups-privileges[ThoughtSpot groups, window=_blank]* or other individual users: 
 
 * The creator of an object is the *author*
 * The *author* can *share* the object to *groups* with the *Shareable* property that the *author* belongs to
@@ -65,7 +65,7 @@ Embedded ThoughtSpot instances also support the xref:trusted-authentication.adoc
 == API properties
 
 * `id`: GUID of the object. Unique within a given ThoughtSpot instance
-* `author`: GUID of user who created / uploaded the object, or had the object transfered to them
+* `author`: GUID of user who created / uploaded the object, or had the object transferred to them
 * `owner`: GUID representing relationship between hierarchical objects (for example, a *column* would have the GUID of a *table* or *worksheet* as owner)
 * `created`: timestamp of object creation
 * `modified`: timestamp from last time object was modified
