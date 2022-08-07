@@ -10,6 +10,7 @@
 ** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
 
 * link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
+** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
