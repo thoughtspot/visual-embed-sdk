@@ -108,11 +108,11 @@ The following notation is used in REST API v1 for the object types:
 * *joins*: `LOGICAL_RELATIONSHIP`
 * *columns*: `LOGICAL_COLUMN`
 
-Column and join objects with their own GUIDs do exist within the ThoughtSpot system, but they are connected to *tables*,  *worksheets*, or other data objects.  Columns and joins can be viewed or modified within the context of the data object to which they belong.
+Column and join objects with their own GUIDs do exist within the ThoughtSpot system, but they are connected to *tables*,  *worksheets*, or other data objects.  Columns and joins can be viewed or modified only within the context of the data object to which they belong.
 
 == Related resources
 
 * link:https://docs.thoughtspot.com/home/[ThoughtSpot product documentation, window=_blank]
-* link:https://training.thoughtspot.com/thoughtspot-basics?next=%2Fthoughtspot-basics%2F386470[ThoughtSpot basics, window=_blank]
+* link:https://training.thoughtspot.com/thoughtspot-basics?next=%2Fthoughtspot-basics%2F386470[ThoughtSpot basics training, window=_blank]
 * link:https://training.thoughtspot.com/page/data-expert[Data expert learning path, window=_blank]
 
