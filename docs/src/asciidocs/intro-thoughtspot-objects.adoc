@@ -1,0 +1,126 @@
+= ThoughtSpot objects
+:toc: true
+:toclevels: 1
+
+:page-title: ThoughtSpot objects
+:page-pageid: thoughtspot-objects
+:page-description:
+
+ThoughtSpot is a business intelligence and data analytics platform that helps you explore, analyze and share real-time business analytics and interactive insights. Besides being an interactive data analytics platform, ThoughtSpot provides a robust and guided search functionality using which business users can search data instantly. ThoughtSpot is different from other BI tools, because ThoughtSpot Search is the core of the ThoughtSpot system.
+
+Before you look at the rest of the developer documentation, please review this page to understand how ThoughtSpot works relative to other tools you may be familiar with.
+
+== Object model hierarchy
+
+The following figure illustrates the object model hierarchy in ThoughtSpot.
+
+image::./images/object_model_hierarchy.png[Object Model Hierarchy]
+
+== Data modeling
+You must create a data model comprising at least one link:https://docs.thoughtspot.com/cloud/latest/connections[connection, window=_blank] with one link:https://docs.thoughtspot.com/cloud/latest/connect-data[table, window=_blank] to begin using link:https://docs.thoughtspot.com/cloud/latest/search-data[Search data, window=_blank] to create content. Most often there will be multiple *tables*, with a variety of link:https://docs.thoughtspot.com/cloud/latest/tables-join[joins, window=_blank] defined in ThoughtSpot, with a link:https://docs.thoughtspot.com/cloud/latest/worksheet-create[worksheet, window=_blank] bringing those tables together into a presentable analytic data model for the end-users.
+
+Data engineers with *Can manage data* privilege can add connections either link:https://docs.thoughtspot.com/cloud/latest/connections[in the UI, window=_blank] or via xref:connections-api.adoc[REST API]. Connections are owned and accessible only to their creator, who then imports *tables* from the connection. Once imported, tables can be shared with other Thoughtspot groups and users.
+
+*Tables* can have link:https://docs.thoughtspot.com/cloud/latest/security-rls[Row Level Security (RLS), window=_blank] rules that filter the data results based on the signed-in link:https://docs.thoughtspot.com/cloud/latest/user-management[username, window=_blank] or the link:https://docs.thoughtspot.com/cloud/latest/group-management[ThoughtSpot groups, window=_blank] to which the user belongs, and those rules apply to any *worksheet* that uses the *table*.
+
+=== Data modeling workflow
+1. Create a *connection* to a cloud data warehouse.
+2. Import *tables* from the *connection*.
+3. Create *worksheets* (analytic data models) based on *tables*.
+4. Create *link:https://docs.thoughtspot.com/cloud/latest/views[ThoughtSpot views, window=_blank]* or *link:https://docs.thoughtspot.com/cloud/latest/sql-views[SQL views, window=_blank]* as necessary.
+
+ThoughtSport supports programmatic deployment of data models through link:https://docs.thoughtspot.com/cloud/latest/spotapps[Spotapps, window=_blank], link:https://docs.thoughtspot.com/cloud/latest/scriptability[scriptability, window=_blank], and data representation in link:https://docs.thoughtspot.com/cloud/latest/tml[ThoughtSpot Modeling Language (TML), window=_blank].
+
+== Content creation
+ThoughtSpot Search data creates a single table or chart view based on the query in the search bar and other configurations to the view made after the search results are visible.
+
+Search data serves the role of report builder or widget designer, while *Liveboards* serve the role of dashboards in other tools. A single search can be saved as an link:https://docs.thoughtspot.com/cloud/latest/answers[answer, window=_blank] object, or the search result can be pinned to a Liveboard.
+
+A link:https://docs.thoughtspot.com/cloud/latest/liveboard[Liveboard, window=_blank] is a collection of many visualizations presented in a defined layout. You do not create the visualizations on a Liveboard directly; they are created from search data results and then pinned to a Liveboard. You can create a new Liveboard from the *Liveboards* page and then add a visualization from the search data result, or you can create a new Liveboard when pinning an answer retrieved from search data.
+
+=== Content creation workflow
+
+To create content:
+
+1. Use the *link:https://docs.thoughtspot.com/cloud/latest/search-data[Search data, window=_blank]* functionality to build visualizations from data sources such as *worksheets* or *views*.
+2. Save the search result as an *Answer* or pin it to a Liveboard as a visualization.
+
+=== Visualizations on a Liveboard 
+You can add any number of visualizations retrieved from the search to a Liveboard object. Pinned visualizations exist only within the Liveboard and are independent of the objects saved as *answers*.
+
+Each time you pin a search result, a separate new visualization is created on the Liveboard.
+
+To edit a visualization on a Liveboard:
+
+. Go to the Liveboard.
+. Navigate to the visualization.
+. Click the **More** menu image:./images/icon-more-10px.png[the more options menu] and select *Edit*.
+
+Visualizations on a Liveboard have their own GUIDs, but the visualization objects do not exist separately from the Liveboard object.
+
+=== Tags
+link:https://docs.thoughtspot.com/cloud/latest/tags[Tags, window=_blank] allow you to organize your objects and find them easily.
+
+A tag object is created by the administrator, is visible to all users, and can be assigned by any user.
+
+Tag search is always an *OR* operation: filtering on multiple tags results in all objects with any of the tags, not just those with all of the specified tags.
+
+== Access control (sharing)
+ThoughtSpot's link:https://docs.thoughtspot.com/cloud/latest/data-security[access control model, window=_blank] works by an `author` or `administrator` sharing objects to link:https://docs.thoughtspot.com/cloud/latest/groups-privileges[ThoughtSpot groups, window=_blank] or other individual users:
+
+* The creator of an object is referred to as the *author*.
+* The author can share the object with their groups using the *Shareable* property.
+* The author can share the object with other users in *Shareable* groups that the *author* belongs to, and if the other *user* is also marked *Shareable*.
+
+An administrator user can share any object with any group or user with no restrictions. ThoughtSpot administrators can add users locally link:https://docs.thoughtspot.com/cloud/latest/user-management[in the UI, window=_blank] or via xref:user-api.adoc[REST API]. Similarly, they can manage groups and sharing privileges by using the *Groups* feature in the UI or via REST API.
+
+=== Single sign-on
+If link:https://docs.thoughtspot.com/cloud/latest/authentication-integration[SAML, window=_blank] or link:configure-oidc.adoc[OpenID Connect (OIDC)] integration support is enabled on your instance, users that authenticate to external identity providers (IdP) can log in to ThoughtSpot with their Single Sign-On credentials.
+Embedded ThoughtSpot instances also support the xref:trusted-authentication.adoc[trusted authentication] method to sign in their application users.
+
+== Object properties in REST API
+The object representations in ThoughtSpot REST API include the following properties:
+
+* `id` +
+GUID of the object. Unique within a given ThoughtSpot instance
+* `author` +
+GUID of the user who created / uploaded the object, or had the object transferred to them.
+* `owner` +
+GUID representing the relationship between hierarchical objects, For example, a *column* would have the GUID of a *table* or *worksheet* as owner.
+* `created` +
+timestamp of object creation
+* `modified` +
+timestamp from last time object was modified
+* `modifiedBy` +
+GUID of the user who last modified the object
+* `tags` +
+An array of tag objects representing the tags assigned to the object.
+
+== Object names in REST API v1
+The object type names in the ThoughtSpot REST API v1 differ from the current names seen in the ThoughtSpot UI. Data objects have both a `type` and a `sub-type` within the REST API, allowing you to request all valid data objects or specify the individual sub-type.
+
+The following notation is used in REST API v1 for the object types:
+
+* *Answers*: `QUESTION_ANSWER_BOOK`
+* *Liveboards*: `PINBOARD_ANSWER_BOOK`
+* *Data objects*: `LOGICAL_TABLE`, with subtypes:
+** *Tables*: `ONE_TO_ONE_LOGICAL`
+** *Worksheets*: `WORKSHEET`
+** *Views*: `AGGR_WORKSHEET`
+** *SQL views*: `SQL_VIEW`
+** *CSV imported data*: `USER_DEFINED`
+* *Connections*: `DATA_SOURCE`
+* *Tags*: `TAG`
+* *Users*: `USER`
+* *Groups*: `USER_GROUP`
+* *Joins*: `LOGICAL_RELATIONSHIP`
+* *Columns*: `LOGICAL_COLUMN`
+
+Column and join objects with their own GUIDs do exist within the ThoughtSpot system, but they are connected to *tables*,  *worksheets*, or other data objects.  Columns and joins can be viewed or modified only within the context of the data object to which they belong.
+
+== Related resources
+
+* link:https://docs.thoughtspot.com/home/[ThoughtSpot product documentation, window=_blank]
+* link:https://training.thoughtspot.com/thoughtspot-basics?next=%2Fthoughtspot-basics%2F386470[ThoughtSpot basics training, window=_blank]
+* link:https://training.thoughtspot.com/page/data-expert[Data expert learning path, window=_blank]
+
