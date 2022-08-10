@@ -240,6 +240,45 @@ describe('Unit test for auth', () => {
         expect(isLoggedIn).toBe(false);
     });
 
+    test('doTokenAuth: when user is not loggedIn & fetchAuthPostService failed than fetchAuthService should call', async () => {
+        jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            () => false,
+        );
+        jest.spyOn(
+            authService,
+            'fetchAuthTokenService',
+        ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
+        jest.spyOn(authService, 'fetchAuthPostService').mockImplementation(() =>
+            // eslint-disable-next-line prefer-promise-reject-errors
+            Promise.reject({
+                status: 500,
+            }),
+        );
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                type: 'opaqueredirect',
+            }),
+        );
+        expect(
+            await authInstance.doTokenAuth(
+                embedConfig.doTokenAuthSuccess('authToken2'),
+            ),
+        ).toBe(true);
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authService.fetchAuthPostService).toBeCalledWith(
+            thoughtSpotHost,
+            username,
+            'authToken2',
+        );
+        expect(authService.fetchAuthService).toBeCalledWith(
+            thoughtSpotHost,
+            username,
+            'authToken2',
+        );
+    });
+
     describe('doBasicAuth', () => {
         beforeEach(() => {
             global.fetch = window.fetch;
