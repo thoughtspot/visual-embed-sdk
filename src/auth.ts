@@ -8,6 +8,7 @@ import {
     fetchAuthService,
     fetchBasicAuthService,
     fetchLogoutService,
+    fetchAuthPostService,
 } from './utils/authService';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -157,11 +158,16 @@ export const doTokenAuth = async (
             const response = await fetchAuthTokenService(authEndpoint);
             authToken = await response.text();
         }
-        const resp = await fetchAuthService(
-            thoughtSpotHost,
-            username,
-            authToken,
-        );
+        let resp;
+        try {
+            resp = await fetchAuthPostService(
+                thoughtSpotHost,
+                username,
+                authToken,
+            );
+        } catch (e) {
+            resp = await fetchAuthService(thoughtSpotHost, username, authToken);
+        }
         // token login issues a 302 when successful
         loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
         if (loggedInStatus && embedConfig.detectCookieAccessSlow) {

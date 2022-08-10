@@ -3,6 +3,7 @@ import {
     fetchAuthTokenService,
     fetchAuthService,
     fetchBasicAuthService,
+    fetchAuthPostService,
 } from './authService';
 import { EndPoints } from '../auth';
 
@@ -52,6 +53,26 @@ describe('Unit test for authService', () => {
             {
                 credentials: 'include',
                 redirect: 'manual',
+            },
+        );
+    });
+
+    test('fetchAuthPostService', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({ success: true, ok: true }),
+        );
+        await fetchAuthPostService(thoughtSpotHost, username, authToken);
+        expect(fetch).toBeCalledWith(
+            `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`,
+            {
+                method: 'POST',
+                credentials: 'include',
+                redirect: 'manual',
+                body: 'username=tsuser&auth_token=token',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'x-requested-by': 'ThoughtSpot',
+                },
             },
         );
     });
