@@ -190,19 +190,30 @@ POST /tspublic/v1/metadata/tml/export
 
 === Request parameters
 
-[width="100%" cols="1,2,1"]
+[width="100%" cols="3,5"]
 [options='header']
-|====
-|Form parameter|Description|Default
+|======
+|Form parameter|Description
 |`export_ids` a|__String__. JSON array of the IDs of objects to export. An `x-www-form-urlencoded` string containing a JSON array of ids of objects to export. You receive results in the order you request them.
 
 For example:
 
 * To export a single object, `["226abd2843-afef-4c2f-bf2f-8fba065330e"]`
-* To export multiple objects, `["226abd2843-afef-4c2f-bf2f-8fba065330e", ”22d305bc51-688b-414f-badc-94579d48308c”]`|None
-|`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`.|None
-|`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects. |false
-|====
+* To export multiple objects, `["226abd2843-afef-4c2f-bf2f-8fba065330e", ”22d305bc51-688b-414f-badc-94579d48308c”]`
+
+|`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`.
+|`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.
+
+By default, the `export_associated` attribute is set to `false`.
+a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports fully qualified name (FQN) of all referenced objects, such as tables, worksheets, views, connections, in the TML data. Note that the FQN of an object is the same as the GUID of the object.
+
+By default, the `export_fqn` attribute is set to `false`.
+
+[IMPORTANT]
+====
+ThoughtSpot recommends using FQNs in the TML file when you import it into the system. If the TML file has multiple objects with the same name, the name is not sufficient to identify the referenced object. FQN acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. By using `export_fqn` option, you can use the system-generated FQN IDs exported by the API, instead of manually adding FQNs to the TML file before importing it into ThoughtSpot.
+====
+|======
 
 === Example request
 
