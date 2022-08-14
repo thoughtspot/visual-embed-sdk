@@ -11,13 +11,17 @@ Client libraries are available for Java, Python, TypeScript, and .NET. For each 
 
 == Download the SDK
 
-You can also download the SDK and API libraries from the following public resources:
+You can also download the REST API SDK [beta blueBackground]^BETA^ from the following public resources:
 
 * link:https://github.com/thoughtspot/rest-api-sdk[GitHub repository, window=_blank]
-* TypeScript SDK - link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
-* Python SDK - link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
-* Java SDK - link:https://search.maven.org/artifact/io.github.thoughtspot/rest-api-sdk-lib[MVN Package Manager, window=_blank]
-* .NET SDK - link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
+* TypeScript SDK [beta blueBackground]^BETA^  +
+link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
+* Python SDK [beta blueBackground]^BETA^  +
+link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
+* Java SDK [beta blueBackground]^BETA^  +
+link:https://search.maven.org/artifact/io.github.thoughtspot/rest-api-sdk-lib[MVN Package Manager, window=_blank]
+* .NET SDK [beta blueBackground]^BETA^  +
+link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
 
 == Setup and usage
 
@@ -33,27 +37,27 @@ The Playground provides installation, setup and usage instructions for each lang
 ++++
 <div class="row">
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Java SDK and libraries</h4>
+       <div class="boxDiv"> <h4 align=center>Java SDK and libraries ^BETA^</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/doc/README.md" target=_blank> <p align=center>API Reference</p></a>
   
       </div> 
     </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Python SDK and libraries</h4>
+       <div class="boxDiv"> <h4 align=center>Python SDK and libraries ^BETA^</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/doc/README.md" target=_blank> <p align=center>API Reference</a>
 
       </div> 
     </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Typescript SDK and libraries</h4>
+       <div class="boxDiv"> <h4 align=center>Typescript SDK and libraries ^BETA^</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/README.md" target=_blank> <p align=center> Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/doc/README.md" target=_blank><p align=center>API Reference</p></a>
       </div> 
       </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>.NET SDK and libraries</h4>
+       <div class="boxDiv"> <h4 align=center>.NET SDK and libraries ^BETA^</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/tree/main/DotNet#readme" target=_blank> <p align=center> Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/DotNet/doc/README.md" target=_blank><p align=center>API Reference</p></a>
       </div>

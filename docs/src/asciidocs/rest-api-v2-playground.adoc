@@ -12,7 +12,7 @@ The Playground allows you to make REST API calls in the programming language of 
 == Access Playground
 
 To access the REST Playground v2, click *Develop* > *REST API* > **REST Playground v2**.
-
+[.bordered]
 image::./images/rest-apiv2-playground.png[REST API v2 Playground]
 
 == Explore the interface
