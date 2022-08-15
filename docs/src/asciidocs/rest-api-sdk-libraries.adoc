@@ -29,37 +29,46 @@ The Playground provides installation, setup and usage instructions for each lang
 
 . Go to **Develop** > *REST API* > **REST Playground v2**.
 . Select a programming language.
-. Click *Getting Started* > **Setup and Usage** .
+. Click *Getting Started* > **Setup and Usage**.
 
 
 == Additional resources
 
+[.non-link]
 ++++
 <div class="row">
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Java SDK and libraries ^BETA^</h4>
+       <div class="boxDiv">
+       <div class="non-link">
+       <h4 align=center>Java SDK and libraries</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/doc/README.md" target=_blank> <p align=center>API Reference</p></a>
-  
+       </div>
       </div> 
     </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Python SDK and libraries ^BETA^</h4>
+       <div class="boxDiv">
+     <div class="non-link">
+<h4 align=center>Python SDK and libraries</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/doc/README.md" target=_blank> <p align=center>API Reference</a>
-
+</div>
       </div> 
     </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>Typescript SDK and libraries ^BETA^</h4>
+       <div class="boxDiv"> <div class="non-link">
+     <h4 align=center>Typescript SDK and libraries</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/README.md" target=_blank> <p align=center> Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Typescript/doc/README.md" target=_blank><p align=center>API Reference</p></a>
-      </div> 
+      </div>
+    </div>
       </div>
     <div class="col-md-3">
-       <div class="boxDiv"> <h4 align=center>.NET SDK and libraries ^BETA^</h4>
+       <div class="boxDiv">  <div class="non-link">
+     <h4 align=center>.NET SDK and libraries</h4>
        <a href="https://github.com/thoughtspot/rest-api-sdk/tree/main/DotNet#readme" target=_blank> <p align=center> Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/DotNet/doc/README.md" target=_blank><p align=center>API Reference</p></a>
+</div>
       </div>
       </div>
     </div>
