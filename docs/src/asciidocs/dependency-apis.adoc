@@ -1,4 +1,4 @@
-= Dependent objects APIs
+= Dependent objects API
 :toc: true
 :toclevels: 1
 

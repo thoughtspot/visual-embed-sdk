@@ -1,4 +1,4 @@
-= Group APIs
+= Group API
 :toc: true
 :toclevels: 1
 

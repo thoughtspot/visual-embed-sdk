@@ -1,4 +1,4 @@
-= Security APIs
+= Security API
 :toc: true
 :toclevels: 1
 

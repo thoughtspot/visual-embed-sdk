@@ -1,4 +1,4 @@
-= Data connection APIs
+= Data connection API
 :toc: true
 :toclevels: 1
 

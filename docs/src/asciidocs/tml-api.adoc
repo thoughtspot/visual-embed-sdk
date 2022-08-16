@@ -1,4 +1,4 @@
-= TML APIs
+= TML API
 :toc: true
 :toclevels: 1
 

@@ -1,4 +1,4 @@
-= Session APIs
+= Session API
 :toc:
 :toclevels: 1
 
