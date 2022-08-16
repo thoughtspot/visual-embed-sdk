@@ -65,7 +65,7 @@ Using RLS, you can restrict access to sensitive data and filter tables to show o
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank].
 
 +
-A comprehensive examples and best practices guide is available on the link:https://community.thoughtspot.com/s/article/How-to-secure-your-data-in-ThoughtSpot-Examples-and-Best-Practices[ThoughtSpot Community, window=_blank].
+A comprehensive examples and best practices guide is available on the link:https://community.thoughtspot.com/customers/s/article/How-to-secure-your-data-in-ThoughtSpot[ThoughtSpot Community, window=_blank].
  
 Column-level security::
 
