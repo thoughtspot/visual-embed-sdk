@@ -884,16 +884,16 @@ Sometimes, when a user double-clicks on a chart, both `VizPointClick` and `VizPo
 ----
 let vizPointClickTimer;
 // Register an event handler
-searchEmbed.on(EmbedEvent.VizPointClick, (...args) => {
+searchEmbed.on(EmbedEvent.VizPointClick, payload => {
    // Delay the click handlers by 400 milliseconds
    vizPointClickTimer = setTimeout(() => {
-      onVizPointClick(...args);
+      onVizPointClick(payload);
    }, 400);
 })
-searchEmbed.on(EmbedEvent.VizPointDoubleClick, (...args) => {
-   // If a double click action is registered, clear the single click timer
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+   // If a double-click action is registered, clear the single-click timer
    clearTimeout(vizPointClickTimer);
-   onVizPointDoubleClick(...args);
+   onVizPointDoubleClick(payload);
 })
 ----
 --
