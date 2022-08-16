@@ -878,6 +878,24 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
 })
 ----
 ====
+Sometimes, when a user double-clicks on a chart, both `VizPointClick` and `VizPointDoubleClick` events are triggered. Because the double-click action involves two clicks, the `VizPointClick` event is triggered for each click. To distinguish between a single-click and double-click event and avoid firing `VizPointClick` events when a user double-clicks on a chart, define a timeout function as shown in this example:
+
+[source,javascript]
+----
+let vizPointClickTimer;
+// Register an event handler
+searchEmbed.on(EmbedEvent.VizPointClick, (...args) => {
+   // Delay the click handlers by 400 milliseconds
+   vizPointClickTimer = setTimeout(() => {
+      onVizPointClick(...args);
+   }, 400);
+})
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, (...args) => {
+   // If a double click action is registered, clear the single click timer
+   clearTimeout(vizPointClickTimer);
+   onVizPointDoubleClick(...args);
+})
+----
 --
 
 == Unsubscribe from an event
