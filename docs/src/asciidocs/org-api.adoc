@@ -12,7 +12,7 @@ The Org API endpoints allow creating and managing multiple tenant-specific conta
 
 To create and manage an Org on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, the administrator of the `Primary Org (Org 0)` is set as a  cluster administrator.
 
-To perform CRUD operations on Org objects, the cluster administrator must be in the `All Org` context. To set the `All Org` scope, specify the `orgId` value as `-1`.
+To perform CRUD operations on Orgs, the cluster administrator must use the `All Org` scope by setting the `orgId` value as `-1` in the API requests.
 
 == Supported operations
 
