@@ -720,7 +720,9 @@ DELETE /tspublic/v1/user/{userid}
 |Parameter|Type|Description
 |`userid`|Path|__String__. GUID of the user account to delete.
 |`orgid`|Form data|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has multi-tenancy enabled. +
-If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed from only from the specified Org and retained in ThoughtSpot. To remove the user from all Orgs and ThoughtSpot system, specify the `orgid` as `-1`.
+If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. +
+If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed only from the specified Org and not from the ThoughtSpot system. +
+To remove the user from all Orgs and the ThoughtSpot system, specify the `orgid` as `-1`.
 |===
 
 === Example request

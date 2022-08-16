@@ -6,13 +6,13 @@
 :page-pageid: orgs
 :page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate Org containers for your tenants.
 
-With the multi-tenancy feature, a ThoughtSpot cloud instance can be logically partitioned into multiple tenant-specific environments called `Orgs`. Each tenant's data is isolated and protected with access control, and is invisible to the other tenants that share the same Thoughtspot application instance.
+The multi-tenancy feature allows a ThoughtSpot cloud instance to be logically partitioned into multiple tenant-specific environments called `Orgs`. With Orgs, each tenant's data is isolated and protected with access control, and is invisible to the other tenants that share the same Thoughtspot application instance.
 
-If the multi-tenancy feature is enabled on your instance, your cluster admin can create an Org for each tenant account, configure groups and users, and control access to data objects. Each Org serves as an independent container with its own set of users and data, and provides the same user experience as that of a regular ThoughtSpot instance.
+If the Orgs feature is enabled on your instance, your cluster admin can create an Org for each tenant account, configure groups and users, and control access to data objects. Each Org serves as an independent container with its own set of users and data, and provides the same user experience as that of a regular ThoughtSpot instance.
 
 == Orgs in ThoughtSpot
 
-If the multi-tenancy feature is enabled on your instance, a *Primary Org* will be created by default. This default Org is referred to as `Org 0`. The administrator of the default Org can create one or several Orgs, and add an administrator user profile to each Org to manage users and groups, and define access control at the Org level.
+If the Orgs feature is enabled on your instance, a *Primary Org* will be created by default. This default Org is referred to as `Org 0`. The administrator of the default Org can create one or several Orgs, and add an administrator user profile to each Org to manage users and groups, and define access control at the Org level.
 
 The following diagram depicts the Orgs presentation on a multi-tenant ThoughtSpot instance.
 
@@ -26,8 +26,11 @@ image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
 * A user can belong to multiple Orgs.
 ====
 
-If any specific action or API operation must be performed at the `All Org` level, the administrator must set the Org context to `-1`, which indicates the `All Org` Scope. For example, to get a list of Orgs on a ThoughtSpot instance, the administrator must set the `orgId` parameter value to `-1` in the `GET /tspublic/v1/org/` API request.
+== All Org scope
 
+On a multi-tenant ThoughtSpot instance, all operations are run in the context of Org that the user is currently in. If a cluster administrator wants to perform a CRUD operation or apply a configuration change to all Orgs, they must use the `All Org` scope by setting the orgId to `-1`.
+
+For example, to get a list of Orgs on a ThoughtSpot instance, the administrator must set the `orgId` parameter value to `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, to add a user to all Orgs or remove a user from all Orgs, you must set the orgID to `-1`.
 
 == User roles
 
