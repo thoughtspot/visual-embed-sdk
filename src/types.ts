@@ -14,9 +14,13 @@
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     /**
-     * No authentication. Use this only for testing purposes.
+     * No authentication on the SDK. Passthrough to the embedded App. Alias for `Passthrough`.
      */
     None = 'None',
+    /**
+     * No authentication on the SDK. Passthrough to the embedded App.
+     */
+    Passthrough = 'None',
     /**
      * SSO using SAML
      * @deprecated Use {@link SAML} instead
