@@ -30,7 +30,7 @@ image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
 
 On a multi-tenant ThoughtSpot instance, all operations are run in the Org context that the user is currently in. If a cluster administrator wants to perform a CRUD operation or apply a configuration change to all Orgs, they must use the `All Org` scope by setting the `orgId` to `-1`.
 
-For example, to get a list of Orgs on a ThoughtSpot instance, the cluster administrator must set the `orgId` parameter value to `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, to add a user to all Orgs or remove a user from all Orgs, the administrator must set the `orgID` to `-1`.
+For example, to get a list of Orgs on a ThoughtSpot instance, the cluster administrator must set the orgId value as `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, for user operations, such as adding a user to Orgs or removing a user from Orgs, the administrator must set the `orgId` query parameter value to `-1` in the API request.
 
 == User roles
 
