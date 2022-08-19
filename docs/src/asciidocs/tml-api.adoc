@@ -17,7 +17,7 @@ include::{path}/tml-api-list.adoc[]
 You must have at least view access to the objects to export the TML data. To import a modified TML object, your account must have the `DATAMANAGEMENT` privilege.
 
 [#import]
-== Import API
+== Import TML
 To validate and import the TML objects, use the `/tspublic/v1/metadata/tml/import` API.
 
 [NOTE]
@@ -55,11 +55,14 @@ Imports the objects that validate successfully.
 * `VALIDATE_ONLY`
 Validates the objects but does not import them.|`PARTIAL`
 
-|`force_create`| __Boolean__. Specifies if you are updating or creating objects. To create new objects, specify `true`.
+a|
+`force_create` a| __Boolean__. Specifies if you are updating or creating objects. To create new objects, specify `true`.
 
 By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object. 
 
-The new object will be assigned a new GUID, even if the imported TML file included a `guid` value. Thus, there is no need to include the `guid` in the TML file if you are using `force_create=true`. |`false`|
+The new object will be assigned a new GUID, even if the imported TML file included a `guid` value. Thus, there is no need to include the `guid` in the TML file if you are using `force_create=true`.
+
+|`false`|
 |====
 
 === Example request
@@ -179,7 +182,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
 |===
 
 [#export]
-== Export API
+== Export TML
 
 To export TML objects, use the `/tspublic/v1/metadata/tml/export` API.
 
@@ -211,8 +214,8 @@ By default, the `export_fqn` attribute is set to `false`.
 
 [IMPORTANT]
 ====
-ThoughtSpot recommends using FQNs in the TML file when you import it into the system. If the TML file has multiple objects with the same name, the name is not sufficient to identify the referenced object. FQN acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. By using `export_fqn` option, you can use the system-generated FQN IDs exported by the API, instead of manually adding FQNs to the TML file before importing it into ThoughtSpot.
-====
+* ThoughtSpot recommends using FQNs in the TML file when you import it into the system. If the TML file has multiple objects with the same name, the name is not sufficient to identify the referenced object. FQN acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. By using `export_fqn` option, you can use the system-generated FQN IDs exported by the API, instead of manually adding FQNs to the TML file before importing it into ThoughtSpot.
+* If you intend to import multiple objects in bulk and create objects using the `force_create` attribute during xref:tml-api.adoc#import[TML import], set the `export_fqn` to `false`, so that there is no invalid or incorrect reference in the TML objects imported into ThoughtSpot.
 |======
 
 === Example request
@@ -230,8 +233,9 @@ curl -X POST
 --header 'Accept: text/plain' \
 --header 'X-Requested-By: ThoughtSpot' \
 --data-urlencode 'export_ids=["12289fad-f230-485e-8c65-e36082eebf44"]' \
---data-urlencode 'formattype=YAML' \
+--data-urlencode 'formattype=JSON' \
 --data-urlencode 'export_associated=false' \
+--data-urlencode 'export_fqn=true' \
 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export'
 ----
 
@@ -245,20 +249,20 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
 [source,JSON]
 ----
 {
-  "object": [
-    {
-      "info": {
-        "name": "Basic Answer 1",
-        "filename": "Basic Answer 1.answer.tml",
-        "status": {
-          "status_code": "OK"
-        },
-        "type": "answer",
-        "id": "12289fad-f230-485e-8c65-e36082eebf44"
-      },
-      "edoc": "guid: 12289fad-f230-485e-8c65-e36082eebf44\nanswer:\n  name: Basic Answer 1\n  description: This is the basic answer with table and headline visualizations.\n  tables:\n  - id: LINEORDER\n    name: LINEORDER\n    fqn: 2445fe81-30d6-46fa-9f42-f6b1b4e01623\n  - id: PART\n    name: PART\n    fqn: a7fc012e-bdb3-4e75-9ce4-b3f731d90136\n  joins:\n  - id: Lineorder PartKey - Part PartKey\n    name: Lineorder PartKey - Part PartKey\n    source: LINEORDER\n    destination: PART\n  table_paths:\n  - id: LINEORDER_1\n    table: LINEORDER\n    join_path:\n    - {}\n  - id: PART_1\n    table: PART\n    join_path:\n    - join:\n      - Lineorder PartKey - Part PartKey\n  formulas:\n  - id: f1\n    name: f1\n    expr: \"if ( [Revenue(1992)] > [Revenue(1995)] ) then \\\"l\\\" else \\\"h\\\"\"\n  search_query: \"[LINEORDER_1::Revenue] [LINEORDER_1::Commit Date].1992 vs [LINEORDER_1::Commit Date].1995 [PART_1::Color] [f1]\"\n  answer_columns:\n  - name: FiscalYearNumber(Commit Date) = 1992 OR FiscalYearNumber(Commit Date) = 1995\n  - name: f1\n  - name: Revenue(1992)\n  - name: Revenue(1995)\n  - name: Color\n  table:\n    table_columns:\n    - column_id: f1\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Color\n      headline_aggregation: COUNT_DISTINCT\n    - column_id: Revenue(1995)\n      headline_aggregation: TABLE_AGGR\n    - column_id: Revenue(1992)\n      headline_aggregation: TABLE_AGGR\n    ordered_column_ids:\n    - Color\n    - f1\n    - Revenue(1992)\n    - Revenue(1995)\n    client_state: \"{\\\"widthState\\\":{},\\\"wrapTableHeader\\\":true}\"\n    client_state_v2: \"{\\\"tableVizPropVersion\\\": \\\"V1\\\",\\\"wrapTableHeader\\\": true,\\\"columnProperties\\\": [{\\\"columnId\\\": \\\"6204abeb-31a5-4789-a5a5-6124caf32d67\\\",\\\"columnProperty\\\": {}},{\\\"columnId\\\": \\\"f30157ce-7da4-4cd3-a11b-346b9ec5b398\\\",\\\"columnProperty\\\": {}}]}\"\n  chart:\n    type: COLUMN\n    chart_columns:\n    - column_id: f1\n    - column_id: Revenue(1992)\n    - column_id: Revenue(1995)\n    axis_configs:\n    - x:\n      - f1\n      y:\n      - Revenue(1992)\n      - Revenue(1995)\n    client_state: \"\"\n    client_state_v2: \"{\\\"version\\\": \\\"V4\\\",\\\"chartProperties\\\": {\\\"chartSpecific\\\": {}},\\\"axisProperties\\\": [{\\\"id\\\": \\\"b53fcf8a-fd80-4e34-9ec0-7da8acd90cf4\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Revenue(1992)\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"7f5859b1-88ea-4cf7-a2fd-3e1524de2ffa\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Revenue(1995)\\\"],\\\"isOpposite\\\": true}},{\\\"id\\\": \\\"a790945d-124e-44bf-bfc1-998b5924621d\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"f1\\\"]}}]}\"\n  display_mode: TABLE_MODE\n"
-    }
-  ]
+   "object":[
+      {
+         "info":{
+            "name":"Total sales",
+            "filename":"Total sales.pinboard.tml",
+            "status":{
+               "status_code":"OK"
+            },
+            "type":"pinboard",
+            "id":"bf3b1f36-b96e-4aa7-b619-b7743c8bd15c"
+         },
+         "edoc":"{\"guid\": \"bf3b1f36-b96e-4aa7-b619-b7743c8bd15c\",\"pinboard\": {\"name\": \"Total sales\",\"visualizations\": [{\"id\": \"Viz_1\",\"answer\": {\"name\": \"Total sales by store\",\"tables\": [{\"id\": \"(Sample) Retail - Apparel\",\"name\": \"(Sample) Retail - Apparel\",\"fqn\": \"cd252e5c-b552-49a8-821d-3eadaa049cca\"}],\"search_query\": \"[sales] [store] [state]\",\"answer_columns\": [{\"name\": \"state\"},{\"name\": \"store\"},{\"name\": \"Total sales\"}],\"table\": {\"table_columns\": [{\"column_id\": \"store\",\"show_headline\": false},{\"column_id\": \"state\",\"show_headline\": false},{\"column_id\": \"Total sales\",\"show_headline\": false}],\"ordered_column_ids\": [\"store\",\"state\",\"Total sales\"],\"client_state\": \"\",\"client_state_v2\": \"{\\\"tableVizPropVersion\\\": \\\"V1\\\"}\"},\"chart\": {\"type\": \"GEO_AREA\",\"chart_columns\": [{\"column_id\": \"store\"},{\"column_id\": \"state\"},{\"column_id\": \"Total sales\"}],\"axis_configs\": [{\"x\": [\"state\"],\"y\": [\"Total sales\"]}],\"client_state\": \"\",\"client_state_v2\": \"{\\\"version\\\": \\\"V4DOT2\\\",\\\"chartProperties\\\": {\\\"mapviewport\\\": {\\\"center\\\": [-1.0815372462017208E7,4944187.994859374],\\\"zoomLevel\\\": 5.140063818579165},\\\"responsiveLayoutPreference\\\": \\\"AUTO_ON\\\",\\\"chartSpecific\\\": {}},\\\"axisProperties\\\": [{\\\"id\\\": \\\"be5fe824-1a94-4fc4-88f6-501198708122\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total sales\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"474621ab-c78c-496f-aa71-8de82a5a1af4\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"state\\\"]}}],\\\"systemSeriesColors\\\": [{\\\"serieName\\\": \\\"Total sales\\\",\\\"color\\\": \\\"#48D1E0\\\"}],\\\"systemMultiColorSeriesColors\\\": [{\\\"serieName\\\": \\\"Total sales\\\",\\\"colorMap\\\": [{\\\"serieName\\\": \\\"state\\\",\\\"color\\\": [\\\"#ffffb2\\\",\\\"#fddd87\\\",\\\"#fba35d\\\",\\\"#f75534\\\",\\\"#f9140a\\\",\\\"#d70315\\\",\\\"#b10026\\\"]}]}]}\"},\"display_mode\": \"CHART_MODE\"}},{\"id\": \"Viz_2\",\"answer\": {\"name\": \"Total sales by store\",\"tables\": [{\"id\": \"(Sample) Retail - Apparel\",\"name\": \"(Sample) Retail - Apparel\",\"fqn\": \"cd252e5c-b552-49a8-821d-3eadaa049cca\"}],\"search_query\": \"[sales] [store] [quantity purchased]\",\"answer_columns\": [{\"name\": \"store\"},{\"name\": \"Total quantity purchased\"},{\"name\": \"Total sales\"}],\"table\": {\"table_columns\": [{\"column_id\": \"store\",\"show_headline\": false},{\"column_id\": \"Total sales\",\"show_headline\": false},{\"column_id\": \"Total quantity purchased\",\"show_headline\": false}],\"ordered_column_ids\": [\"store\",\"Total sales\",\"Total quantity purchased\"],\"client_state\": \"\",\"client_state_v2\": \"{\\\"tableVizPropVersion\\\": \\\"V1\\\"}\"},\"chart\": {\"type\": \"COLUMN\",\"chart_columns\": [{\"column_id\": \"store\"},{\"column_id\": \"Total sales\"},{\"column_id\": \"Total quantity purchased\"}],\"axis_configs\": [{\"x\": [\"store\"],\"y\": [\"Total sales\",\"Total quantity purchased\"]}],\"client_state\": \"\",\"client_state_v2\": \"{\\\"version\\\": \\\"V4DOT2\\\",\\\"chartProperties\\\": {\\\"responsiveLayoutPreference\\\": \\\"AUTO_ON\\\",\\\"chartSpecific\\\": {}},\\\"axisProperties\\\": [{\\\"id\\\": \\\"6cac31dc-bf75-4e9e-ab96-422053d913cd\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total sales\\\"],\\\"isOpposite\\\": false}},{\\\"id\\\": \\\"5f5971ce-7e5f-48a0-9ba4-2c376699f64c\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"Y\\\",\\\"linkedColumns\\\": [\\\"Total quantity purchased\\\"],\\\"isOpposite\\\": true}},{\\\"id\\\": \\\"23799dc2-3d6c-4da1-9d1b-e1dba0e5cc00\\\",\\\"properties\\\": {\\\"axisType\\\": \\\"X\\\",\\\"linkedColumns\\\": [\\\"store\\\"]}}],\\\"systemSeriesColors\\\": [{\\\"serieName\\\": \\\"Total sales\\\",\\\"color\\\": \\\"#48D1E0\\\"},{\\\"serieName\\\": \\\"Total quantity purchased\\\",\\\"color\\\": \\\"#2E75F0\\\"}],\\\"systemMultiColorSeriesColors\\\": [{\\\"serieName\\\": \\\"Total sales\\\",\\\"colorMap\\\": [{\\\"serieName\\\": \\\"a3882487-1509-4b13-8430-2e91d511a865\\\",\\\"color\\\": [\\\"#ffffb2\\\",\\\"#fddd87\\\",\\\"#fba35d\\\",\\\"#f75534\\\",\\\"#f9140a\\\",\\\"#d70315\\\",\\\"#b10026\\\"]}]}]}\"},\"display_mode\": \"CHART_MODE\"}}]}}"
+      }
+   ]
 }
 ----
 
