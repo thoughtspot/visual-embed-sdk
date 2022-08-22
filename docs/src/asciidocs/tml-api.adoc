@@ -215,7 +215,7 @@ By default, the `export_fqn` attribute is set to `false`.
 [IMPORTANT]
 ====
 * ThoughtSpot recommends using FQNs in the TML file when you import it into the system. If the TML file has multiple objects with the same name, the name is not sufficient to identify the referenced object. FQN acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. By using `export_fqn` option, you can use the system-generated FQN IDs exported by the API, instead of manually adding FQNs to the TML file before importing it into ThoughtSpot.
-* If you intend to import multiple objects in bulk and create objects using the `force_create` attribute during xref:tml-api.adoc#import[TML import], set the `export_fqn` to `false`, so that there is no invalid or incorrect reference in the TML objects imported into ThoughtSpot.
+* If you intend to import multiple objects in bulk and create objects using the `force_create` attribute during the xref:tml-api.adoc#import[TML import] operation, set `export_fqn` as `false`. This ensures that there are no invalid or incorrect references in the TML objects imported into ThoughtSpot.
 |======
 
 === Example request
