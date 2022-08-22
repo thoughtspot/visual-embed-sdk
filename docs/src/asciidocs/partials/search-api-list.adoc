@@ -1,0 +1,12 @@
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]` +
+Allows searching for data from a specific data source in the ThoughtSpot application.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|=====
+--

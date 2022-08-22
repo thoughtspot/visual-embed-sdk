@@ -14,7 +14,7 @@ The `/tspublic/v1/metadata/tml/export` API endpoint supports exporting FQNs of T
 
 For more information, see xref:tml-api.adoc#export[Export TML].
 
-== Version 8.6.0.cl
+== Version 8.6.0.cl, August 2022
 
 The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively. For more information, see xref:connections-api.adoc[Data connection APIs].
 

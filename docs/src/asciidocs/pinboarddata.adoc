@@ -18,6 +18,21 @@ Using this API, you can fetch the following information:
 ThoughtSpot recommends using Liveboard data API to embed ThoughtSpot content within a native mobile app.
 ====
 
+== Supported operations
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  +
+Gets Liveboard object data from the ThoughtSpot application.|
+ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|=====
+--
+
 == Required permissions
 
 You must have at least view access to the Liveboard and visualization objects.
