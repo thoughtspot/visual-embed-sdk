@@ -14,11 +14,14 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |[tag greenBackground]#NEW FEATURE#|
 For embedded instances with the new Liveboard experience, the Visual Embed SDK provides the `activeTabId` attribute, using which you can set a Liveboard tab as an active tab.
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
-|[tag greenBackground]#NEW FEATURE#| The new version of the SDK supports firing events from the host application when a menu action on a Liveboard is triggered.
+|[tag greenBackground]#NEW FEATURE#| The new version of the SDK supports firing events for Liveboard menu actions from the host application.
+
+For more information, see xref:events-ref.adoc#host-events[Events reference].
+
 |====
 
 
-== Version 1.14.0
+== Version 1.14.0, August 2022
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#|
