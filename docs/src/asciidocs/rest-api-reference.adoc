@@ -46,17 +46,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]` +
-Allows searching for data from a specific data source in the ThoughtSpot application.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
-ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
+include::{path}/search-api-list.adoc[]
 
 == Dependent objects
 
@@ -68,32 +58,11 @@ include::{path}/security-api-list.adoc[]
 
 == Audit logs
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options="header"]
-|=====
-|API endpoint| Available from
-|`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]` +
-Gets security audit logs from the ThoughtSpot system.
-|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
-ThoughtSpot Software [version noBackground]#Not applicable#
-|=====
---
+include::{path}/audit-log-api.adoc[]
 
 == Materialization service
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]` +
-Allows you refresh a materialized view.|ThoughtSpot Cloud [version noBackground]#Not applicable# +
-ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
+include::{path}/materialization-api-list.adoc[]
 
 == Database and schema
 

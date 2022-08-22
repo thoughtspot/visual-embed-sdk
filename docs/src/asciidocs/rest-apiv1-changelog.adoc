@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.6.0.cl, Coming soon
+== Version 8.6.0.cl, August 2022
 
 The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively.
 For more information, see xref:connections-api.adoc[Data connection APIs].

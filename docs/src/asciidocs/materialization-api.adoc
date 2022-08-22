@@ -6,12 +6,6 @@
 :page-pageid: materialization-api
 :page-description: Materialization API allows you to refresh a materialized view
 
-
-[div announcementBlock]
---
-The `/tspublic/v1/materialization/refreshview/{id}` API endpoint is applicable to ThoughtSpot Software deployments only.
---
-
 The materialization API allows you to synchronize a view's data with the latest data. This API enables you to refresh a materialized view to synchronize its data with the latest data load to the underlying tables.
 
 You may want to invoke this API in the following scenarios:
@@ -23,6 +17,11 @@ You may want to invoke this API in the following scenarios:
 ====
 If your materialized view refreshes on a schedule, you cannot use the materialization API to refresh it again during the same refresh window.
 ====
+
+== Supported operations
+
+include::{path}/materialization-api-list.adoc[]
+
 
 == Resource URL
 ----
