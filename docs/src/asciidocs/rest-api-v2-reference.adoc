@@ -23,11 +23,14 @@ Gets details of the current session for the logged-in user.
 
 Signs in a user to ThoughtSpot.
 
++++<p class="divider"> </p>+++
+
+////
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/session/login" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+////
 
-+++<p class="divider"> </p>+++
 
 `**POST** /tspublic/rest/v2/session/gettoken`
 
