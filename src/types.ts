@@ -215,7 +215,9 @@ export interface EmbedConfig {
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
-     * Custom style params for embed Config
+     * Custom style params for embed Config.
+     *
+     * @version SDK: 1.16.0 | ThoughtSpot: 8.8.0.cl
      */
     customisations?: CustomisationsInterface;
 }
