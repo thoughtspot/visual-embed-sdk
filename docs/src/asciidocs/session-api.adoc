@@ -213,7 +213,7 @@ POST /tspublic/v1/session/homepinboard
 |===
 |Form parameter|Description
 |`id`|__String__. GUID of the Liveboard to be set as a home Liveboard.
-|`userid` __Optional__|__String__. GUID of the user account for which you want to set the home Liveboard. If the `userid` attribute is not defined, ThoughtSpot sets the home Liveboard of the current logged-in user.
+|`userid` __Optional__|__String__. GUID of the user account for which you want to set the home Liveboard. If the `userid` attribute is not defined, ThoughtSpot sets the home Liveboard of the currently logged-in user.
 |===
 === Example request
 
