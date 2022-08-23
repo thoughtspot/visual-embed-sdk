@@ -20,11 +20,17 @@ To embed ThoughtSpot objects in an iFrame, you need the embed URL.
 .. Click the *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
 .. Note the GUID of the Liveboard.
 
+[NOTE]
+====
+The *Copy embed link* menu action is available only in Liveboard classic experience. If you are using the new Liveboard experience, use the *Copy link* button in the Liveboard *Share* dialog to copy the Liveboard link.
+====
+
 * To get the embed link for a visualization: +
 .. Navigate to the table or chart.
 .. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
-.. Click *Copy embed link* icon.
-.. Note the GUID of the visualization.
+.. If you are using Liveboard classic experience, click *Copy embed link*.
++
+If new Liveboard experience is enabled on your instance, click *Copy link* and then copy the link under *Copy embed link*.
 
 If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
 
