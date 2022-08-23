@@ -120,7 +120,8 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a| xref:group-api.adoc[Group API endpoints] +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|xref:session-api.adoc[Session API endpoints] +
-__Require view or edit access to Liveboard objects__
+__The API calls to `/tspublic/v1/session/auth/token` and  `/tspublic/v1/session/login/token` require ThoughtSpot Everywhere license__ +
+__The home Liveboard CRUD operations require view or edit access to Liveboard objects__
 |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|xref:connections-api.adoc[Connection API endpoints] +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#

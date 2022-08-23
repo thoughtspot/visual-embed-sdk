@@ -48,8 +48,6 @@ curl -X GET \
 --header 'X-Requested-By: ThoughtSpot' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
-
-
  
 .Request URL
 [source, URL]
@@ -70,7 +68,6 @@ curl -X POST \
 -d  'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCREMUlCcWV5VVJMb2lZaFpnTUhjMHVnPT0kZklpQVFGTFp0RU5QTFFwcGxOUmF5WWU4ZGtGU1d6THdlUDBEOUY4WkhSWT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F' \
 'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token'
 ----
-
  
 .Request URL
 [source, URL]
@@ -79,8 +76,11 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 ----
 
 === Example response
-On successful login, the API returns the application details. 
-The following example shows a partial output.
+
+If the API request is successful, ThoughtSpot returns the response header for `set-cookie`. REST  clients can use the cookies from the response to make subsequent REST calls in a non-browser environment.
+
+The API request also returns the application details in the response body.
+
 [source, HTML]
 ----
 <!doctype html>
@@ -238,6 +238,8 @@ The following example shows a partial output.
 </body>
 </html>
 ----
+
+====
 
 === Response codes
 
