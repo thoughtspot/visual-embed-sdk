@@ -18,6 +18,11 @@ For more information, see xref:tml-api.adoc#export[Export TML].
 
 The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively. For more information, see xref:connections-api.adoc[Data connection APIs].
 
+== Version, 8.4.0.cl, June 2022
+
+The `/tspublic/v1/pinboarddata`
+
+
 == Version 8.2.0.cl, April 2022
 
 New REST v1 API endpoints for data connection queries: +

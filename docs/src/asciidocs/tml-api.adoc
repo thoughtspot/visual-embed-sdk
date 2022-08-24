@@ -1,4 +1,4 @@
-= TML APIs
+= TML API
 :toc: true
 :toclevels: 1
 
@@ -6,7 +6,9 @@
 :page-pageid: tml-api
 :page-description: The TML API endpoints allow you to export and import TML files
 
-The TML APIs enable you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these APIs to automate the change management and deployment processes between your development and production environments. With these APIs, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
+The TML API endpoints allow you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these API endpoints to automate the change management and deployment processes between your development and production environments. With TML API, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
+
+
 
 == Supported operations
 
@@ -18,7 +20,11 @@ You must have at least view access to the objects to export the TML data. To imp
 
 [#import]
 == Import TML
-To validate and import the TML objects, use the `/tspublic/v1/metadata/tml/import` API.
+To validate and import the TML objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
+
+The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, and you do not add the `fqn` parameter, the connection or table you reference does not have a unique name and can lead to invalid object references.
+
+By default, the `fqn` parameter is not present in the TML file, but you can add it to differentiate a table from another table with the same name.
 
 [NOTE]
 ====
@@ -163,7 +169,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
 |HTTP status code | Description
 
 | **200**
-| ImportEPackResponse proto serialized as JSON string.
+| Successful import of the TML object representations
 
 | **400**
 | Bad request
@@ -184,7 +190,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
 [#export]
 == Export TML
 
-To export TML objects, use the `/tspublic/v1/metadata/tml/export` API.
+To export TML objects, use the `/tspublic/v1/metadata/tml/export` API endpoint.
 
 === Resource URL
 ----
@@ -208,14 +214,15 @@ For example:
 |`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.
 
 By default, the `export_associated` attribute is set to `false`.
-a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports fully qualified name (FQN) of all referenced objects, such as tables, worksheets, views, connections, in the TML data. Note that the FQN of an object is the same as the GUID of the object.
+a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports the TML representation of the specified objects with the `fqn` property. By default, the `export_fqn` attribute is set to `false`. +
 
-By default, the `export_fqn` attribute is set to `false`.
+If the TML file has multiple objects with the same name, the `name` property is not sufficient to identify the referenced object. Therefore, ThoughtSpot recommends adding the `fqn` property before importing the TML files into the system. The `fqn` property acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. Note that the FQN of an object is the same as the GUID of the object. +
+
+When you set the `export_fqn` attribute to `true`, the API returns the object data with `fqn` IDs, which you can use instead of manually adding the FQNs to the TML file before importing it into ThoughtSpot.
 
 [IMPORTANT]
 ====
-* ThoughtSpot recommends using FQNs in the TML file when you import it into the system. If the TML file has multiple objects with the same name, the name is not sufficient to identify the referenced object. FQN acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. By using `export_fqn` option, you can use the system-generated FQN IDs exported by the API, instead of manually adding FQNs to the TML file before importing it into ThoughtSpot.
-* If you intend to import multiple objects in bulk and create objects using the `force_create` attribute during the xref:tml-api.adoc#import[TML import] operation, set `export_fqn` as `false`. This ensures that there are no invalid or incorrect references in the TML objects imported into ThoughtSpot.
+When you try to xref:tml-api.adoc#import[import] multiple objects in bulk and create objects using the `force_create` attribute, the new object may refer to another object with the same `fqn` in the ThoughtSpot system, instead of the object in the uploaded file. For example, if you have uploaded the TML representation of a Liveboard and related worksheet with the FQNs obtained from the TML export API, the imported Liveboard object may refer to a different worksheet with the same FQN in the ThoughtSpot system than the one imported in the zip file. If you intend to `force_create` objects during the TML import, you can set `export_fqn` to `false`.
 |======
 
 === Example request
@@ -274,7 +281,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
 |HTTP status code| Description
 
 | **200**
-| Returned EDoc (TML) representation of metadata
+| Successful TML export operation
 
 | **400**
 | Bad request
