@@ -218,7 +218,7 @@ a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to
 
 If the TML file has multiple objects with the same name, the `name` property is not sufficient to identify the referenced object. Therefore, ThoughtSpot recommends adding the `fqn` property before importing the TML files into the system. The `fqn` property acts as a unique identifier and helps the system in identifying the referenced objects without any ambiguity. Note that the FQN of an object is the same as the GUID of the object. +
 
-When you set the `export_fqn` attribute to `true`, the API returns the object data with `fqn` IDs, which you can use instead of manually adding the FQNs to the TML file before importing it into ThoughtSpot.
+If you set the `export_fqn` attribute to `true`, the API returns the object data with `fqn` IDs, which you can use when uploading the TML file back into ThoughtSpot.
 
 [IMPORTANT]
 ====
