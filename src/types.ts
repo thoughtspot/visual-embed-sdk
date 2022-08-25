@@ -130,7 +130,7 @@ export interface EmbedConfig {
      * terminated.
      *
      * Eg: "/dashboard", "#/foo" [Do not include the host]
-     * @version SDK: 1.10.2 | ThoughtSpot: *
+     * @version SDK: 1.10.2 | 8.2.0.cl, 8.4.1-sw
      */
     redirectPath?: string;
 
@@ -163,14 +163,14 @@ export interface EmbedConfig {
     /**
      * Disable redirection to the login page when the embedded session expires
      * This flag is typically used alongside the combination of auth modes such as {@link AuthType.AuthServer} and auto login behavior {@link EmbedConfig.autoLogin}
-     * @version SDK: 1.9.3 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.3 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @default false
      */
     disableLoginRedirect?: boolean;
 
     /**
      * This message is displayed on the embed view when the login fails.
-     * @version 1.10.1 | ThoughtSpot: *
+     * @version SDK: 1.10.1 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
      */
     loginFailedMessage?: string;
 
@@ -184,7 +184,7 @@ export interface EmbedConfig {
      * When there are multiple embeds, queue the render of embed to start
      *  after the previous embed's render is complete. This helps in the load performance
      *  by decreasing the load on the browser.
-     * @version 1.5.0 or later
+     *  @Version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default false
      */
     queueMultiRenders?: boolean;
@@ -192,7 +192,7 @@ export interface EmbedConfig {
     /**
      * Dynamic CSS Url to be injected in the loaded application.
      * You would also need to set `style-src` in the CSP settings.
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      * @default ''
      */
     customCssUrl?: string;
@@ -201,19 +201,19 @@ export interface EmbedConfig {
      * and should be avoided. Listen to the NO_COOKIE_ACCESS event to handle the situation.
      *
      * This is slightly slower than letting the browser handle the cookie check, as it involves an extra network call.
-     * @version SDK: 1.10.4 | ThoughtSpot: *
+     * @version SDK: 1.10.4 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
      */
     detectCookieAccessSlow?: boolean;
     /**
      * Hide beta alert warning message for SearchEmbed.
      *
-     * @version SDK: 1.12.0 | ThoughtSpot: *
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw*
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
      * Custom style params for embed Config.
      *
-     * @version SDK: 1.16.0 | ThoughtSpot: 8.8.0.cl
+     * @version SDK: 1.16.0 | ThoughtSpot: 8.8.0.cl, 8.8.1-sw
      */
     customisations?: CustomisationsInterface;
 }
@@ -393,7 +393,7 @@ export enum EmbedEvent {
     /**
      * One or more data columns have been selected.
      * @return columnIds - the list of columns
-     * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl
+     * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
@@ -405,13 +405,13 @@ export enum EmbedEvent {
     /**
      * A double click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is double clicked
-     * @version 1.5.0 or later
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
      * A click has been triggered on table/chart
      * @return ContextMenuInputPoints - data point that is clicked
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     VizPointClick = 'vizPointClick',
     /**
@@ -463,7 +463,7 @@ export enum EmbedEvent {
      * Emitted when the embed does not have cookie access. This
      * happens on Safari where third-party cookies are blocked by default.
      *
-     * @version 1.1.0 or later
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      */
     NoCookieAccess = 'noCookieAccess',
     /**
@@ -474,120 +474,120 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     DialogClose = 'dialog-close',
     /**
      * Emitted when a liveboard has completed rendering,
      * this event can be used as a hook to trigger events on the
      * rendered liveboard
-     * @version 1.9.1 or later
+     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     LiveboardRendered = 'PinboardRendered',
     /**
      * This can be used to register an event listener which
      * is triggered on all events.
-     * @version SDK: 1.10.0 | ThoughtSpot: any
+     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
      */
     ALL = '*',
     /**
      * Emitted when answer is saved in the app
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     Save = 'save',
     /**
      * Emitted when the download action is triggered on an answer
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     Download = 'download',
     /**
      * Emitted when the Download as PDF action is triggered on an answer
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an answer
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an answer
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
      * Emitted when an answer is deleted in the app
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     AnswerDelete = 'answerDelete',
     /**
      * Emitted when an answer is pinned to a Liveboard
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     Pin = 'pin',
     /**
      * Emitted when SpotIQ analysis is triggered
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
      * Emitted when a user shares an object with another user or group
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     Share = 'share',
     /**
      * Emitted when a user clicks the Include action to include a specific value or data on a chart or table
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     DrillInclude = 'context-menu-item-include',
     /**
      * Emitted when a user clicks the Exclude action to exclude a specific value or data on a chart or table
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     DrillExclude = 'context-menu-item-exclude',
     /**
      * Emitted when copied column value on the app
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
      * Emitted when a user clicks the Update TML action
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     UpdateTML = 'updateTSL',
     /**
      * Emitted when a user clicks the Edit TML action
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     EditTML = 'editTSL',
     /**
      * Emitted when ExportTML trigger in answer on the app
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     ExportTML = 'exportTSL',
     /**
      * Emitted when an answer is saved as a view
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     SaveAsView = 'saveAsView',
     /**
      * Emitted when copy of existing answer on the app
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     CopyAEdit = 'copyAEdit',
     /**
      * Emitted when a user clicks Show underlying data on an answe
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
      * Emitted when an answer is switched to a chart or table view
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -597,57 +597,57 @@ export enum EmbedEvent {
     APP_INIT = 'appInit',
     /**
      * Emitted when a user clicks Show Liveboard details on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Emitted when a user clicks on the Favorite icon on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     AddToFavorites = 'addToFavorites',
     /**
      * Emitted when a user clicks Schedule on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Schedule = 'subscription',
     /**
      * Emitted when a user clicks Edit on a Liveboard or visualization
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Edit = 'edit',
     /**
      * Emitted when a user clicks Make a copy on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     MakeACopy = 'makeACopy',
     /**
      * Emitted when a user clicks Present on a Liveboard or visualization
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Present = 'present',
     /**
      * Emitted when a user clicks Delete on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Delete = 'delete',
     /**
      * Emitted when a user clicks Manage schedules on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     SchedulesList = 'schedule-list',
     /**
      * Emitted when a user clicks Cancel in edit mode on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Cancel = 'cancel',
     /**
      * Emitted when a user clicks Explore on a visualization
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Explore = 'explore',
     /**
      * Emitted when a user clicks Copy link action on a visualization
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CopyLink = 'embedDocument',
 }
@@ -672,8 +672,8 @@ export enum HostEvent {
      * @param points - an object containing selectedPoints/clickedPoints
      *              eg. { selectedPoints: []}
      * @param columnGuid - a string guid of the column to drill by. This is optional,
-     *                     if not provided it will auto drill by the configured column. \
-     * @version 1.5.0 or later
+     *                     if not provided it will auto drill by the configured column.
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     DrillDown = 'triggerDrillDown',
     /**
@@ -690,97 +690,97 @@ export enum HostEvent {
      * Set the visible visualizations on a Liveboard.
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
     /**
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
      * Navigate to a specific page in App embed without any reload.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`
      * @param path - the path to navigate to (can be a number[1/-1] to go forward/back)
-     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl
+     * @version SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1-sw
      */
     Navigate = 'Navigate',
     /**
      * Gets the current pinboard content.
-     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
+     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
      * Triggers the Pin action on an embedded object
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Pin = 'pin',
     /**
      * Triggers the Show Liveboard details action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Triggers the Schedule action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Schedule = 'subscription',
     /**
      * Triggers the Manage schedule action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     SchedulesList = 'schedule-list',
     /**
      * Triggers the Export TML action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ExportTML = 'exportTSL',
     /**
      * Triggers the Edit TML action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     EditTML = 'editTSL',
     /**
      * Triggers the Update TML action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     UpdateTML = 'updateTSL',
     /**
      * Triggers the Download PDF action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Triggers the Make a copy action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     MakeACopy = 'makeACopy',
     /**
      * Triggers the Delete action on a Liveboard
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Remove = 'delete',
     /**
      * Triggers the Explore action on a visualization
      * @param - an object with vizId as a key
      * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Explore = 'explore',
     /**
      * Triggers the Create alert action on a visualization
      * @param - an object with vizId as a key
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CreateMonitor = 'createMonitor',
     /**
      * Triggers the Manage alert action on a visualization
      * @param - an object with vizId as a key
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ManageMonitor = 'manageMonitor',
     /**
@@ -790,7 +790,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Edit)
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger((HostEvent.Edit)
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Edit = 'edit',
     /**
@@ -800,7 +800,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.CopyLink)
      * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger((HostEvent.CopyLink)
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CopyLink = 'embedDocument',
     /**
@@ -810,7 +810,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Present)
      * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger((HostEvent.Present)
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Present = 'present',
 }
@@ -996,27 +996,27 @@ export enum Action {
     RequestAccess = 'requestAccess',
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     AnswerDelete = 'onDeleteAnswer',
     /**
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     AddToFavorites = 'addToFavorites',
     /**
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     EditDetails = 'editDetails',
     /**
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     CreateMonitor = 'createMonitor',
     /**
-     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     ReportError = 'reportError',
 }
