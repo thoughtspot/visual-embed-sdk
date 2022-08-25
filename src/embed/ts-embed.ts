@@ -118,12 +118,12 @@ export interface ViewConfig {
     /**
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     visibleActions?: Action[];
     /**
      * Show alert messages and toast messages in the embedded view.
-     * @version 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     showAlerts?: boolean;
     /**
@@ -133,7 +133,7 @@ export interface ViewConfig {
     runtimeFilters?: RuntimeFilter[];
     /**
      * The locale/language to use for the embedded view.
-     * @version 1.9.4 or later
+     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1-sw
      */
     locale?: string;
     /**
@@ -143,7 +143,7 @@ export interface ViewConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     additionalFlags?: { [key: string]: string | number | boolean };
 }

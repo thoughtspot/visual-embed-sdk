@@ -87,13 +87,13 @@ export interface AppViewConfig extends ViewConfig {
      * Render liveboards using the new v2 rendering mode
      * This is a transient flag which is primarily meant for internal use
      * @default false
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @hidden
      */
     liveboardV2?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
-     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
+     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     enableSearchAssist?: boolean;
 }
@@ -203,7 +203,8 @@ export class AppEmbed extends V1Embed {
      * @param path string | number The string, set to iframe src and navigate to new page
      * eg: appEmbed.navigateToPage('pinboards')
      * When used with `noReload` this can also be a number like 1/-1 to go forward/back.
-     * @param noReload boolean Trigger the navigation without reloading the page (version: 1.12.0 | 8.4.0.cl)
+     * @param noReload boolean Trigger the navigation without reloading the page
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw
      */
     public navigateToPage(path: string | number, noReload = false): void {
         if (!this.iFrame) {
