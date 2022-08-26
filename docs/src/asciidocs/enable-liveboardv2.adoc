@@ -92,7 +92,7 @@ For information about events, see xref:embed-events.adoc[Events and app integrat
 
 == Customize Liveboard tabs
 
-The new Liveboard experience allows you to organize your visualizations into tabs. Liveboard tabs allow you to logically group visualization into categories and allow users to access them easily.
+The new Liveboard experience allows you to organize your visualizations into tabs. Liveboard tabs allow you to logically group visualization into specific categories and allow users to access them easily.
 
 To create, edit, or move visualizations to a tab, you require edit access to a Liveboard.
 
@@ -105,7 +105,7 @@ You can also pin a visualization to a Liveboard tab using the Pin action on the 
 
 === Set a tab as an active tab
 
-By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the  Visual Embed SDK as shown in the examples here:
+By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the Visual Embed SDK as shown in the example here:
 
 [source,javascript]
 ----
@@ -119,6 +119,11 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     activeTabId: "05406350-44ce-488e-abc5-5e8cdd65cf3c",
 });
 ----
+
+[NOTE]
+====
+The `activeTabId` property is available only in the `LiveboardEmbed` package and not supported in the full application embed mode.
+====
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].
