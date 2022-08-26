@@ -595,7 +595,8 @@ export enum EmbedEvent {
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
-     *
+     * Internal event to communicate the initial settings back to the TS APP
+     * @hidden
      */
     APP_INIT = 'appInit',
     /**
