@@ -10,35 +10,78 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 == Supported authentication methods
 
-You can use one of the following authentication methods to authenticate your application users and allow them to access the embedded ThoughtSpot content. 
+The following table lists the authentication methods supported on an embedded ThoughtSpot instance and general recommendations for choosing an authentication method for your app.
 
-* xref:embed-authentication.adoc#no-auth-embed[No authentication] 
-* xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]
-* xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication]
-* xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]
-* xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]
+[width="100%" cols="2,2,6,6"]
+[options='header']
+|=====
+|Authentication type|AuthType in SDK|When to use|Not recommended when
+|xref:embed-authentication.adoc#passthru[Passthrough authentication]|`AuthType.Passthrough` +
+`AuthType.None` a| Use this method: +
+
+* If your application is already using an Identity Provider (IdP), and you have access to your IdP settings to provision users. +
+* If your application is using a SAML or OIDC IdP that supports embedded applications and allows iframe redirects
+* If you want to embed ThoughtSpot in your app without using the Visual Embed SDK.
+a|ThoughtSpot does not recommend using passthrough authentication in the following scenarios: +
+
+* If you are using multiple IdPs +
+* If you cannot configure your IdP to support embedded authentication +
+* If you want to customize the authentication flow; for example, automatically log in a user when their session expires.
+|xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication]|`AuthType.SAML` a|Use this method: +
+
+* If you have an IdP, but it does not natively support embedding
+* If you have access to your IdP settings to allow iframe embedding
+a |ThoughtSpot does not recommend this method: +
+
+* If you want to avoid redirecting your application users to authenticate to the IdP. +
+This method also requires additional configuration, such as setting `noRedirect`  and redirect path parameters in the SDK.
+* If you are embedding ThoughtSpot without using the Visual Embed SDK
+|xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]|`AuthType.OIDC` a|Use this method: +
+
+* If you have an OpenId provider, but it does not natively support embedding.
+* You do not have access to your OpenID provider server to configure it for passthrough authentication.
+a|ThoughtSpot does not recommend this method: +
+
+* If you want to avoid redirecting your application users to authenticate to the OpenID provider. +
+This method also requires additional configuration, such as setting redirect path parameters in the SDK.
+* If you are embedding ThoughtSpot without using the Visual Embed SDK.
+|xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
+
+* If you want to local authentication with `username` and `password`.
+* If you are developing or testing code for embedding ThoughtSpot in your host app. | Do not use this authentication method in production environments
+|xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.AuthServer` a|Use this method: +
+
+* If you want to customize the authentication flow; For example, setting up automatic login.
+* If your IdP setup does not support passthrough authentication.
+* If you want service users that do not exist in your IdP to authenticate to ThoughtSpot. a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
+
+* If you want to implement a simple solution with passthrough authentication.
+* If you don't have the resources required to implement trusted authentication and customize authentication flow.
+|=====
+
 
 [IMPORTANT]
 ====
-If you are developing or testing code for embedding ThoughtSpot in your host app, you might want to use basic authentication with `username` and `password`, or no authentication. For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, or trusted authentication. 
+For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, passthrough, or trusted authentication.
 ====
 
-[#no-auth-embed]
-=== No authentication
 
-In development and testing environments, you can choose not to use any authentication method. To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
+[#passthru]
+=== Passthrough authentication
+
+ThoughtSpot recommends passthrough authentication, because it simplifies the authentication process for embedded applications. With passthrough authentication, you can leverage your existing IdP setup and configure it to support your embedded instance. All you need to do is to configure SAML or OIDC authentication support on ThoughtSpot and set up redirects to your IdP for seamless user authentication.
 
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.None,
+    authType: AuthType.Passthrough,
 });
 ----
 
-[WARNING]
+[Note]
 ====
-Do not use this authentication method in production environments.
+The passthrough authentication feature is similar to the `No authentication` method supported in the SDK. If you have set `authType` as `AuthType.None`, the SDK considers it as passthrough authentication and allows your embedded application to use your current IdP configuration and redirect rules.
 ====
 
 [#basic-auth-embed]
@@ -46,7 +89,7 @@ Do not use this authentication method in production environments.
 
 The basic authentication option in the SDK sends a `POST` request with the `username` and `password` of the user to the `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. This option allows users to log in to the embedded ThoughtSpot view  with their `username` and `password`.
 
-To enable basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
+To enable the basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 
 [source,javascript]
 ----
