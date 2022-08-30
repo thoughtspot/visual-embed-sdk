@@ -18,10 +18,6 @@ export enum AuthType {
      */
     None = 'None',
     /**
-     * No authentication on the SDK. Passthrough to the embedded App.
-     */
-    Passthrough = 'None',
-    /**
      * SSO using SAML
      * @deprecated Use {@link SAML} instead
      */
