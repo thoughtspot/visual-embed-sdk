@@ -10,7 +10,7 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 == Supported authentication methods
 
-The following table lists the authentication methods that you can use to authenticate users on an embedded instance and general recommendations for choosing an authentication method for your app.
+The following table lists the authentication methods supported in the SDK and general recommendations for choosing an authentication method to authenticate your embedded application users.
 
 [width="100%" cols="4,4,6,6"]
 [options='header']
