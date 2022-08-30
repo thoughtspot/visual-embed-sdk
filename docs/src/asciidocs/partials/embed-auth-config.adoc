@@ -1,13 +1,14 @@
 
 authType::  
-_String_. Authentication type. You can set the `AuthType` attribute to one of the following values:
+_String_. Authentication type. Valid values for the `authType` attribute are:
 
 None;;
-Requires no authentication. The user must already be logged in to ThoughtSpot before interacting with the embedded content.
+Allows using your existing IdP setup and authentication configuration on ThoughtSpot to authenticate an embedded application user.
+If you want to use pass-through authentication, ThoughtSpot recommends using `AuthType.Passthrough` instead of `AuthType.None`.
 
-+
-[WARNING]
-Do not use this authentication method in production environments.
+Passthrough;;
+Enables pass-through authentication. Passthrough authentication requires minimal configuration, because it uses your existing IdP setup and the current SAML or OIDC configuration on ThoughtSpot to allow access to the embedded content.
+For more information, see xref:embed-authentication.adoc[Authentication].
 
 Basic;;
 Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/session/login` API. The API request passes `username` and `password` parameters to obtain an authentication token. For more information, see xref:session-api.adoc[Session API].
@@ -16,9 +17,8 @@ Allows authenticating and logging in a user using the ThoughtSpot `/tspublic/v1/
 [WARNING]
 Do not use this authentication method in production environments.
 
-SSO;;
+SAML;;
 Sets SAML SSO as the authentication method. Federated users can authenticate with their SSO credentials to access the embedded ThoughtSpot content.
-
 +
 
 * `noRedirect` __Optional__
@@ -30,7 +30,10 @@ _Boolean_. When set to `true`, it opens the SAML SSO authentication workflow in 
 __String__. Allows adding a redirect path string to the host origin. If the `redirectPath` attribute is configured, the SAML SSO authentication flow will be terminated on the specified redirect path. 
 
 +
-Do not include the host URL in the path string. For example, `/dashboard`.
+Do not include the host URL in the path string; for example, `/dashboard`.
+
++
+For more information, see xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication].
 
 OIDC;;
 Enables OpenID connect authentication method. To allow embedded application users to authenticate using OpenID connect login, you must enable support for the OpenID connect authentication on ThoughtSpot. For more information, see xref:configure-oidc.adoc[OpenID connect authentication].
@@ -60,6 +63,6 @@ A function that invokes the trusted authentication endpoint and returns a `Promi
 We recommend that you fetch a new token inside this method instead of using an existing token. When a session expires and if this method is called again with an old token, the user authentication may fail.   
 
 +
-For more information, see xref:embed-authentication.adoc[Embed user authentication].  
+For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Embed user authentication].
  
  

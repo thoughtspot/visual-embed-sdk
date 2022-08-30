@@ -12,7 +12,8 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 The following table lists the authentication methods supported on an embedded ThoughtSpot instance and general recommendations for choosing an authentication method for your app.
 
-[width="100%" cols="2,2,6,6"]
+
+[width="100%" cols="4,4,6,6"]
 [options='header']
 |=====
 |Authentication type|AuthType in SDK|When to use|Not recommended when
@@ -22,7 +23,7 @@ The following table lists the authentication methods supported on an embedded Th
 * If your application is already using an Identity Provider (IdP), and you have access to your IdP settings to provision users. +
 * If your application is using a SAML or OIDC IdP that supports embedded applications and allows iframe redirects
 * If you want to embed ThoughtSpot in your app without using the Visual Embed SDK.
-a|ThoughtSpot does not recommend using passthrough authentication in the following scenarios: +
+a|ThoughtSpot does not recommend using pass-through authentication in the following scenarios: +
 
 * If you are using multiple IdPs +
 * If you cannot configure your IdP to support embedded authentication +
@@ -39,7 +40,7 @@ This method also requires additional configuration, such as setting `noRedirect`
 |xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]|`AuthType.OIDC` a|Use this method: +
 
 * If you have an OpenId provider, but it does not natively support embedding.
-* You do not have access to your OpenID provider server to configure it for passthrough authentication.
+* You do not have access to your OpenID provider server to configure it for pass-through authentication.
 a|ThoughtSpot does not recommend this method: +
 
 * If you want to avoid redirecting your application users to authenticate to the OpenID provider. +
@@ -52,24 +53,24 @@ This method also requires additional configuration, such as setting redirect pat
 |xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.AuthServer` a|Use this method: +
 
 * If you want to customize the authentication flow; For example, setting up automatic login.
-* If your IdP setup does not support passthrough authentication.
+* If your IdP setup does not support pass-through authentication.
 * If you want service users that do not exist in your IdP to authenticate to ThoughtSpot. a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
 
-* If you want to implement a simple solution with passthrough authentication.
+* If you want to implement a simple solution with pass-through authentication.
 * If you don't have the resources required to implement trusted authentication and customize authentication flow.
 |=====
 
 
 [IMPORTANT]
 ====
-For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, passthrough, or trusted authentication.
+For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, pass-through, or trusted authentication.
 ====
 
 
 [#passthru]
 === Passthrough authentication
 
-ThoughtSpot recommends passthrough authentication, because it simplifies the authentication process for embedded applications. With passthrough authentication, you can leverage your existing IdP setup and configure it to support your embedded instance. All you need to do is to configure SAML or OIDC authentication support on ThoughtSpot and set up redirects to your IdP for seamless user authentication.
+ThoughtSpot recommends pass-through authentication, because it simplifies the authentication process for embedded applications. With pass-through authentication, you can leverage your existing IdP setup and configure it to support your embedded instance. All you need to do is to configure SAML or OIDC authentication support on ThoughtSpot and set up redirects to your IdP for seamless user authentication.
 
 [source,javascript]
 ----
@@ -81,7 +82,7 @@ init({
 
 [Note]
 ====
-The passthrough authentication feature is similar to the `No authentication` method supported in the SDK. If you have set `authType` as `AuthType.None`, the SDK considers it as passthrough authentication and allows your embedded application to use your current IdP configuration and redirect rules.
+The pass-through authentication feature is similar to the `No authentication` method supported in the SDK. If you have set `authType` as `AuthType.None`, the SDK considers it as pass-through authentication and allows your embedded application to use your current IdP configuration and redirect rules.
 ====
 
 [#basic-auth-embed]
@@ -198,7 +199,7 @@ To obtain authentication tokens, you can either set the `authEndPoint` attribute
 
 * `**authEndpoint**`
 +
-Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.  
+Specify the authentication endpoint URL from which you want to obtain the authentication token. When an API request for is sent to the specified endpoint URL, the authentication server sends the token as plain text.
 
 +
 [source,javascript]
@@ -235,7 +236,7 @@ init({
 ----
 
 +
-After obtaining the token, a GET request to the `/tspublic/v1/session/login/token` endpoint is sent with the `username` and authentication token. If the request is successful, the SDK renders the embedded content.
+After obtaining the token, a `POST` request is sent to the `/tspublic/v1/session/login/token` API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
 
 When a user session expires, the embedded app redirects its users to the login page. To refresh a user session and automatically log in a user to the embedded app, you can set the `disableLoginRedirect` and `autoLogin` attributes to `true`.
 

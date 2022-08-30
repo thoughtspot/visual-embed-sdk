@@ -14,10 +14,26 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |[tag greenBackground]#NEW FEATURE#|
 For embedded instances with the new Liveboard experience, the Visual Embed SDK provides the `activeTabId` attribute, using which you can set a Liveboard tab as an active tab.
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
-|[tag greenBackground]#NEW FEATURE#| The new version of the SDK supports firing events for Liveboard menu actions from the host application.
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK supports firing events for Liveboard menu actions from the host application. The SDK introduces the following host event enumeration members for Liveboard objects:
+
+* CopyLink
+* CreateMonitor
+* DownloadAsPdf
+* Edit
+* EditTML
+* Explore
+* ExportTML
+* LiveboardInfo
+* MakeACopy
+* ManageMonitor
+* Pin
+* Present
+* Remove
+* Schedule
+* SchedulesList
+* UpdateTML
 
 For more information, see xref:events-ref.adoc#host-events[Events reference].
-
 |====
 
 
@@ -25,8 +41,12 @@ For more information, see xref:events-ref.adoc#host-events[Events reference].
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#|
-The new version of Visual Embed SDK includes the `liveboardV2` attribute in the `LiveboardEmbed` package to allow developers to enable the new Liveboard experience on their embedded ThoughtSpot instance. +
+The Visual Embed SDK now includes the `liveboardV2` attribute in the `LiveboardEmbed` package to allow developers to enable the new Liveboard experience on their embedded ThoughtSpot instance. +
 For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
+|[tag greenBackground]#NEW FEATURE#|The SDK introduces `Passthrough` AuthType enumeration. The `AuthType.Passthrough` declaration is equivalent to `AuthType.None`, because both these options enable pass-through authentication on embedded instances. +
+For more information, see xref:embed-authentication.adoc[Authentication].
+|[tag greenBackground]#NEW FEATURE#|If trusted authentication is enabled, the `AuthType.AuthServer` now makes a `POST` API call to get a login token and log the user in to ThoughtSpot.
+For more information, see xref:embed-authentication.adoc#_configure_token_based_authentication_method_in_visual_embed_sdk[Configure token-based authentication method in Visual Embed SDK].
 |====
 
 == Version 1.13.0, July 2022
@@ -36,7 +56,7 @@ For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 This version of Visual Embed SDK includes the `enableSearchAssist` attribute, using which you can turn on the Search Assist feature on an embedded instance. +
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 |[tag greenBackground]#NEW FEATURE#| The new version of SDK introduces the `AuthType.SAML` enum for SAML-based SSO authentication. Note that `AuthType.SAML` replaces the `AuthType.SSO` enum, which is deprecated in the v1.13.0 version of the SDK. +
-
+For more information, see xref:embed-authentication.adoc#saml-sso-embed[Authentication].
 |[tag redBackground]#DEPRECATED#| The `AuthType.SSO` enum is deprecated in v1.13.0. ThoughtSpot recommends using `AuthType.SAML` for the SAML SSO authentication method. +
 This change does not impact your current embed implementation with `AuthType.SSO`.
 |[tag greenBackground]#NEW FEATURE#| The SDK includes the `getExportRequestForCurrentPinboard` event, which is triggered when a user tries to export a Liveboard in its current state. +
