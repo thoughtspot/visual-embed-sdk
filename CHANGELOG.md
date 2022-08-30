@@ -7,6 +7,11 @@ This project follows Semantic Versioning.
 
 ### New Features
 - Set of new Host events to drive interactions on the embed programatically 
+
+## 1.14.0 (08-29-2022)
+- [AuthType.AuthServer] Now uses `POST` call to log the user in using the bearer token.
+- `liveboardV2` flag on `LiveboardEmbed` to try out the LiveboardV2 experience. 
+
 ## 1.13.0 (07-19-2022)
 - Release to support TS version 8.5.0.cl
 - Please check the full list of changes [here](https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog)
