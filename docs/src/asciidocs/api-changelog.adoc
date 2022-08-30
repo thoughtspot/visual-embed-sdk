@@ -34,8 +34,16 @@ For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs
 * UpdateTML
 
 For more information, see xref:events-ref.adoc#host-events[Events reference].
-|[tag orangeBackground]#MODIFIED#|The SDK introduces `Passthrough` AuthType enumeration. The `AuthType.Passthrough` declaration is equivalent to `AuthType.None`, because both these options enable Embedded SSO authentication. +
+|[tag orangeBackground]#MODIFIED# a|The upcoming version of the SDK introduces the following `AuthType` enum changes. +
+
+* `AuthType.SAML` is renamed as `AuthType.SAMLRedirect`
+* `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect`
+* `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth`
+
+This enhancement does not introduce any breaking changes in your current implementation.
+|[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO` for embedded SSO authentication. This authentication method allows you to use SAML or OIDC authentication and redirect users to the IdP within the embedded iFrame.
 For more information, see xref:embed-authentication.adoc[Authentication].
+
 |====
 
 

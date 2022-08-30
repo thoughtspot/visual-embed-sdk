@@ -18,10 +18,14 @@ The following table lists the authentication methods that you can use to authent
 |Authentication type|AuthType in SDK|When to use|Not recommended when
 |xref:embed-authentication.adoc#none[No authentication]|`AuthType.NONE` a| Use this method: +
 
-* If your ThoughtSpot instance is configured to use SAML or OIDC authentication
+* If your ThoughtSpot instance is configured to use SAML or OIDC authentication.
 * If your IdP supports the authentication flow within the iFrame.
 
 | <need inputs>
+|xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
+
+* If you want to use local authentication with ThoughtSpot `username` and `password`.
+* If you are developing or testing code for embedding ThoughtSpot in your host app. | Do not use this authentication method in production environments.
 |xref:embed-authentication.adoc#embedSSO[Embedded SSO authentication]|`AuthType.EmbeddedSSO` a| Use this method: +
 
 * If your application is already using a SAML IdP or OpenID provider that allows iframe redirects.
@@ -30,13 +34,12 @@ The following table lists the authentication methods that you can use to authent
 
 a|ThoughtSpot does not recommend using Embedded SSO authentication in the following scenarios: +
 
-* If you are using multiple IdPs for user authentication +
-* If you cannot configure your IdP to allow iframe redirect +
+* If you are using multiple IdPs for user authentication. +
+* If you cannot configure your IdP to allow iframe redirect. +
 * If you want to customize the authentication flow; for example, automatically log in a user when their session expires.
 |xref:embed-authentication.adoc#saml-sso-embed[SAMLRedirect authentication]|`AuthType.SAMLRedirect` a|Use this method: +
 
-* If your application uses a SAML IdP that does not natively support embedding
-* If you have access to your IdP settings to allow iframe embedding and configure redirects
+* If your application uses a SAML IdP that does not natively support embedding.
 a a|Do not use this method: +
 
 * If you don't want the SDK to redirect your entire app to the IdP for user authentication when the embedded content loads. +
@@ -50,10 +53,6 @@ a|Do not use this method: +
 * If you don't want the SDK to redirect your entire app to the OpenID provider for user authentication when the embedded content loads.
 * If you want to seamlessly authenticate users without multiple redirects to the IdP.
 
-|xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
-
-* If you want to use local authentication with ThoughtSpot `username` and `password`.
-* If you are developing or testing code for embedding ThoughtSpot in your host app. | Do not use this authentication method in production environments
 |xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.TrustedAuth` a|Use this method: +
 
 * If you want to customize the authentication flow; for example, automatically log in users when their session expires.
@@ -83,20 +82,6 @@ init({
 });
 ----
 
-[#embedSSO]
-=== Embedded SSO authentication
-
-Embedded SSO authentication simplifies the authentication process for embedded applications. The Embedded SSO method allows you to leverage your existing IdP setup and the SAML or OIDC configuration on ThoughtSpot. When enabled in the SDK, this authentication method seamlessly redirects users to their IdP when ThoughtSpot content loads in the embedded app.
-
-[source,javascript]
-----
-init({
-    thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.EmbeddedSSO,
-});
-----
-
-
 [#basic-auth-embed]
 === Basic authentication
 
@@ -116,6 +101,22 @@ init({
 ====
 ThoughtSpot does not recommend this authentication method for production environments.
 ====
+
+
+[#embedSSO]
+=== Embedded SSO authentication
+
+Embedded SSO authentication simplifies the authentication process for embedded applications. The Embedded SSO method allows you to leverage your existing IdP setup and the SAML or OIDC configuration on ThoughtSpot. When enabled in the SDK, this authentication method seamlessly redirects users to their IdP when ThoughtSpot content loads in the embedded app.
+
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.EmbeddedSSO,
+});
+----
+
+
 
 [#saml-sso-embed]
 === SAMLRedirect authentication
