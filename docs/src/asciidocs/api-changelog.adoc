@@ -45,7 +45,7 @@ The Visual Embed SDK now includes the `liveboardV2` attribute in the `LiveboardE
 For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 |[tag greenBackground]#NEW FEATURE#|The SDK introduces `Passthrough` AuthType enumeration. The `AuthType.Passthrough` declaration is equivalent to `AuthType.None`, because both these options enable pass-through authentication on embedded instances. +
 For more information, see xref:embed-authentication.adoc[Authentication].
-|[tag greenBackground]#NEW FEATURE#|If trusted authentication is enabled, the `AuthType.AuthServer` now makes a `POST` API call to get a login token and log the user in to ThoughtSpot.
+|[tag greenBackground]#NEW FEATURE#|If trusted authentication is enabled, the `AuthType.AuthServer` now makes a `POST` API call to get a login token and log the user into ThoughtSpot.
 For more information, see xref:embed-authentication.adoc#_configure_token_based_authentication_method_in_visual_embed_sdk[Configure token-based authentication method in Visual Embed SDK].
 |====
 
