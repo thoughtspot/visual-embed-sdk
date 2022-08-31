@@ -18,22 +18,51 @@ export enum AuthType {
      */
     None = 'None',
     /**
+     * Passthrough SSO to the embedded App within the iframe. Requires least configuration, but may not
+     * be supported by all IDPs. This will behave like `None` if SSO is not configured on ThoughtSpot.
+     * @version: SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl
+     */
+    EmbeddedSSO = 'EmbeddedSSO',
+    /**
      * SSO using SAML
-     * @deprecated Use {@link SAML} instead
+     * @deprecated Use {@link SAMLRedirect} instead
+     * @hidden
      */
     SSO = 'SSO_SAML',
     /**
      * SSO using SAML
+     * @deprecated Use {@link SAMLRedirect} instead
+     * @hidden
      */
     SAML = 'SSO_SAML',
     /**
+     * SSO using SAML
+     * Will make the host application redirect to the SAML Idp.
+     */
+    SAMLRedirect = 'SSO_SAML',
+    /**
      * SSO using OIDC
+     * @hidden
+     * @deprecated Use {@link OIDCRedirect} instead
      */
     OIDC = 'SSO_OIDC',
     /**
+     * SSO using OIDC
+     * Will make the host application redirect to the OIDC Idp.
+     */
+    OIDCRedirect = 'SSO_OIDC',
+    /**
      * Trusted authentication server
+     * @hidden
+     * @deprecated Use {@link TrustedAuth} instead
      */
     AuthServer = 'AuthServer',
+    /**
+     * Trusted authentication server, Use you own authentication server
+     * which returns a bearer token, generated using the secret_key obtained from
+     * ThoughtSpot.
+     */
+    TrustedAuthToken = 'AuthServer',
     /**
      * Use the ThoughtSpot login API to authenticate to the cluster directly.
      *
@@ -878,6 +907,9 @@ export enum Param {
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
     CustomStyle = 'customStyle',
+    ForceSAMLAutoRedirect = 'forceSAMLAutoRedirect',
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    AuthType = 'authType',
 }
 
 /**

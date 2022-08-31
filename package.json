@@ -29,7 +29,7 @@
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
         "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme",
-        "test-sdk": "jest -c jest.config.sdk.js",
+        "test-sdk": "jest -c jest.config.sdk.js --runInBand",
         "test-docs": "jest -c jest.config.docs.js",
         "test": "npm run test-sdk && npm run test-docs",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",

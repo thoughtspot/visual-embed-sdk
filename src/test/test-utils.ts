@@ -1,3 +1,6 @@
+import { version } from '../../package.json';
+import { Action, AuthType } from '../types';
+
 /**
  Initialises fetch to the global object
 */
@@ -7,6 +10,9 @@ global.fetch = jest.fn(() =>
     }),
 );
 
+export const defaultParamsWithoutHiddenActions = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}`;
+export const defaultParams = `&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
+export const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&hideAction=[%22${Action.ReportError}%22]`;
 export const getDocumentBody = () =>
     '<div id="embed"></div><div id="embed-2"></div>';
 
@@ -16,13 +22,26 @@ export const getRootEl = () => document.getElementById('embed');
 
 export const getRootEl2 = () => document.getElementById('embed-2');
 
-export const getIFrameEl = (container: DOMElement = document) =>
-    container.querySelector('iframe');
+export const getIFrameEl = (container: DOMElement = document) => {
+    return container.querySelector('iframe');
+};
 
 export const getAllIframeEl = () => document.querySelectorAll('iframe');
 
 export const getIFrameSrc = (container: DOMElement = document) =>
     getIFrameEl(container).src;
+
+export const waitFor = (fn: () => boolean): Promise<void> => {
+    return new Promise((resolve) => {
+        const interval = setInterval(() => {
+            const value = fn();
+            if (value) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 100);
+    });
+};
 
 /**
  * jsdom does not set event source, therefore we do it
