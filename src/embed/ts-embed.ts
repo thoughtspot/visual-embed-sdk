@@ -23,6 +23,7 @@ import {
     getV2BasePath,
 } from '../config';
 import {
+    AuthType,
     DOMSelector,
     HostEvent,
     EmbedEvent,
@@ -371,6 +372,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
+        queryParams[Param.AuthType] = this.embedConfig.authType;
         if (
             this.embedConfig.disableLoginRedirect === true ||
             this.embedConfig.autoLogin === true
@@ -380,6 +382,9 @@ export class TsEmbed {
         // TODO remove this
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
+        }
+        if (this.embedConfig.authType === AuthType.EmbeddedSSO) {
+            queryParams[Param.ForceSAMLAutoRedirect] = true;
         }
 
         const {
@@ -465,9 +470,12 @@ export class TsEmbed {
      * @param url
      * @param frameOptions
      */
-    protected renderIFrame(url: string, frameOptions: FrameParams = {}): void {
+    protected async renderIFrame(
+        url: string,
+        frameOptions: FrameParams = {},
+    ): Promise<any> {
         if (this.isError) {
-            return;
+            return null;
         }
         if (!this.thoughtSpotHost) {
             this.throwInitError();
@@ -476,7 +484,7 @@ export class TsEmbed {
             // warn: The URL is too long
         }
 
-        renderInQueue((nextInQueue) => {
+        return renderInQueue((nextInQueue) => {
             const initTimestamp = Date.now();
 
             this.executeCallbacks(EmbedEvent.Init, {
@@ -487,7 +495,7 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            getAuthPromise()
+            return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
                         this.el.innerHTML = this.embedConfig.loginFailedMessage;
@@ -789,8 +797,8 @@ export class V1Embed extends TsEmbed {
      * Render the app in an iframe and set up event handlers
      * @param iframeSrc
      */
-    protected renderV1Embed(iframeSrc: string): void {
-        this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
+    protected renderV1Embed(iframeSrc: string): any {
+        return this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
     }
 
     // @override
