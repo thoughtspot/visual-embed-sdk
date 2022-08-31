@@ -6,7 +6,7 @@
 :page-pageid: deprecated-features
 :page-description: This article lists features deprecated and no longer supported in ThoughtSpot Everywhere
 
-As ThoughtSpot products evolve, the existing features are deprecated and replaced with new and improved functionality. +
+As ThoughtSpot products evolve, sometimes existing features are deprecated and replaced with a new and improved functionality. +
 A deprecated feature may continue to be functional for a while, but may not be maintained or supported with the new workflows and functionality. Deprecated features will eventually be removed from the product and not supported in later releases.
 ////
 De-supported::
