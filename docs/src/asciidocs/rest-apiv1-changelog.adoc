@@ -22,7 +22,9 @@ The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API en
 
 The `/tspublic/v1/pinboarddata` endpoint now allows retrieving transient content from a Liveboard. The `transient_pinboard_content` parameter allows you to add a script to fetch the unsaved changes if any for a given Liveboard.
 
+////
 For more information, see xref:pinboarddata.adoc[Liveboard data API].
+////
 
 == Version 8.2.0.cl, April 2022
 
