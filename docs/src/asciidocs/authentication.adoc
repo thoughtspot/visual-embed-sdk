@@ -16,11 +16,14 @@ In this method, the REST clients must xref:authentication.adoc#trustedAuthToken[
 
 Cookie-based authentication::
 In this method, REST clients can create a session with cookies and pass these cookies in the header when making an API call. 
+
+////
 +
 [IMPORTANT]
 ====
 The REST API SDK does not support cookie-based authentication. Clients using the REST API SDK libraries must use the OAuth bearer token or the trusted authentication method to log in to ThoughtSpot. 
 ====
+////
 
 [TIP]
 ====
