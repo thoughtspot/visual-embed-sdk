@@ -10,6 +10,10 @@ ThoughtSpot cloud deployments allow you to collect security audit events and sen
 
 The ThoughtSpot log API service allows you to programmatically get a security audit event log from the ThoughtSpot system. To use this API, make sure you have admin user privileges. 
 
+== Supported operations
+
+include::{path}/audit-log-api.adoc[]
+
 == Required permissions
 
 You must have administrator access to query security logs. 

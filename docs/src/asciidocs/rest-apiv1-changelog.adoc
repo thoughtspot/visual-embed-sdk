@@ -8,9 +8,21 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.6.0.cl, Coming soon
+== Version 8.7.0.cl, Coming soon
+
+The `/tspublic/v1/metadata/tml/export` API endpoint supports exporting FQNs of TML objects. To export FQNs, you must the `export_fqn` property to true in your API request.
+
+For more information, see xref:tml-api.adoc#export[Export TML].
+
+== Version 8.6.0.cl, August 2022
 
 The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints support creating and modifying Denodo data connections respectively. For more information, see xref:connections-api.adoc[Data connection APIs].
+
+== Version, 8.4.0.cl, June 2022
+
+The `/tspublic/v1/pinboarddata` endpoint now allows retrieving transient content from a Liveboard. The `transient_pinboard_content` parameter allows you to add a script to fetch the unsaved changes if any for a given Liveboard.
+
+For more information, see xref:pinboarddata.adoc[Liveboard data API].
 
 == Version 8.2.0.cl, April 2022
 

@@ -43,11 +43,11 @@ The TML import REST API call itself does not specify any objects. All details of
 ==== Download object TML
 If you want to store TML within Git or any other version control system, use the xref:tml-api.adoc#export[export REST API endpoint] to retrieve the TML representations of the objects on the ThoughtSpot server. Alternatively, you might use the ThoughtSpot server itself as your system of record, but export TML and apply changes programmatically before importing these modified TML files as new objects.
 
-You can pass any number of GUIDs in the `export_ids` argument, although it is simpler to retrieve one at a time, particularly when processing the results from using the `export_associated=true` option.
+You can pass any number of GUIDs in the `export_ids` argument, although it is simpler to retrieve one at a time, particularly when processing the results from using the `export_associated=true` option. The `export_associated` argument retrieves the TML objects for all related objects when used, including the GUID of each object within the headers.
+
+If you want to retrieve TML representation of objects with `fqn` data, you can set the `export_fqn` attribute to `true`.
 
 The `formattype` argument can be set to `YAML` or `JSON`. YAML is more human-readable and matches the view when you edit TML within the ThoughtSpot UI, while JSON may be easier to process for programmatic manipulation.
-
-The `export_associated` argument retrieves the TML objects for all related objects when used, including the GUID of each object within the headers.
 
 [#addGuids]
 ==== Add GUIDs of associated objects to TML

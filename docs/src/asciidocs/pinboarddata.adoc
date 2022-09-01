@@ -18,6 +18,21 @@ Using this API, you can fetch the following information:
 ThoughtSpot recommends using Liveboard data API to embed ThoughtSpot content within a native mobile app.
 ====
 
+== Supported operations
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:pinboarddata.adoc[*POST* /tspublic/v1/pinboarddata]`  +
+Gets Liveboard object data from the ThoughtSpot application.|
+ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#6.0.x#
+|=====
+--
+
 == Required permissions
 
 You must have at least view access to the Liveboard and visualization objects.
@@ -34,6 +49,7 @@ POST /tspublic/v1/pinboarddata
 |Query parameter|Description
 |`id`|__String__. The GUID of the Liveboard.
 |`vizid` __Optional__|__String__. A JSON array of GUIDs of the visualizations.
+|`transient_pinboard_content`|__String__. If the Liveboard has unsaved changes, pass this parameter in the xref:pinboard-export-api.adoc#transient-pinboard[browser fetch request].
 |`batchsize`|__Integer__. The batch size for loading Liveboard objects. The system default is -1.
 |`pagenumber`|__Integer__. An alternate way to define the offset. The system default is -1.  The `offset` attribute definition will not apply if the `pagenumber` value is greater than 0.
 |`offset` a|__Integer__. The system default is -1. You can set an offset value based on the following formula:
@@ -43,6 +59,38 @@ POST /tspublic/v1/pinboarddata
 For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 records, and the `offset` value is set to `1`, the charts will display data from the second record onwards. If the `pagenumber` attribute is set to `3` and `batchsize` is defined as `1`, then the offset value changes to 2, and all 10 charts will display data from the third record onwards.
 |`formattype`|__String__. Valid values are `COMPACT` or `FULL` JSON. The system default is `COMPACT`.
 |====
+
+[#transient-pinboard]
+== Liveboard data with unsaved changes
+
+To download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
+
+[source,javascript]
+----
+function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
+----
+
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+
+=== Sample browser fetch request
+[source,javascript]
+----
+<iframe src="http://ts_host:port/" id="ts-embed"></iframe>
+<script src="/path/to/ts-api.js"></script>
+<script>
+    const tsFrame = document.getElementById("ts-embed");
+async function liveboardData() {
+    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
+    const liveboardDataResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/pinboarddata", {
+        method: "POST",
+        body: createFormDataObjectWith({
+           "formattype": "COMPACT",
+           "transient_pinboard_content": transientPinboardContent,
+    }),
+  });
+}
+</script>
+----
 
 == Example requests
 

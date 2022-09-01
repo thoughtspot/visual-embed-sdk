@@ -28,7 +28,7 @@ import {
 
 init({
    thoughtSpotHost: "{thoughtSpotFQDN}",
-   authType: AuthType.AuthServer,  // Trusted Authentication
+   authType:  AuthType.AuthServer,  // Trusted Authentication
    username: tsUsername, // string variable of username to sign-in
    getAuthToken: tokenCallbackFunc // Trusted Auth token retrieval callback function
  });

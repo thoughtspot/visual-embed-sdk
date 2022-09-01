@@ -13,6 +13,20 @@ To programmatically download a Liveboard or specific visualizations from a Liveb
 To remove ThoughtSpot logos from the exported PDFs, contact your ThoughtSpot team.
 ====
 
+== Supported operations
+
+[div boxAuto]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:pinboard-export-api.adoc[*POST* /tspublic/v1/export/pinboard/pdf]` +
+Downloads a Liveboard or specific visualizations from a Liveboard as a PDF file.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+ThoughtSpot Software [version noBackground]#7.1.1#
+|=====
+--
+
 == Required permissions
 
 You must have at least view access to the Liveboard object.
@@ -41,6 +55,39 @@ POST /tspublic/v1/export/pinboard/pdf
 |`include_cover_page`|__Boolean__. When set to `true`, a cover page with the Liveboard title is added in the PDF.|`true`
 |`include_filter_page`|__Boolean__. When set to `true`, a second page with a list of all applied filters is added in the PDF|`true`
 |====
+
+[#transient-pinboard]
+=== Liveboard with unsaved changes
+
+To download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
+
+[source,javascript]
+----
+function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
+----
+
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+
+==== Sample browser fetch request
+[source,javascript]
+----
+<iframe src="http://ts_host:port/" id="ts-embed"></iframe>
+<script src="/path/to/ts-api.js"></script>
+<script>
+    const tsFrame = document.getElementById("ts-embed");
+async function downloadPDF() {
+    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
+    const pdfResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/export/pinboard/pdf", {
+        method: "POST",
+        body: createFormDataObjectWith({
+           "layout_type": "PINBOARD",
+           "transient_pinboard_content": transientPinboardContent,
+    }),
+  });
+  // Do something with pdfResponse.blob()
+}
+</script>
+----
 
 == Example request
 
@@ -171,38 +218,6 @@ These parameters are case-insensitive. For example, `EQ`, `eq`, and `eQ` have th
 | multiple
 |===
 
-[#transient-pinboard]
-== Embedded Liveboard with unsaved changes
-
-If you have embedded ThoughtSpot in your host application, and you want to download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
-
-[source,javascript]
-----
-function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
-----
-
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes.
-
-=== Sample browser fetch request
-[source,javascript]
-----
-<iframe src="http://ts_host:port/" id="ts-embed"></iframe>
-<script src="/path/to/ts-api.js"></script>
-<script>
-    const tsFrame = document.getElementById("ts-embed");
-async function downloadPDF() {
-    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
-    const pdfResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/export/pinboard/pdf", {
-        method: "POST",
-        body: createFormDataObjectWith({
-           "layout_type": "PINBOARD",
-           "transient_pinboard_content": transientPinboardContent,
-    }),
-  });
-  // Do something with pdfResponse.blob()
-}
-</script>
-----
 
 
 == Response codes

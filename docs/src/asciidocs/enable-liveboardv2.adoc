@@ -49,7 +49,6 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 The actions and menu options on the embedded Liveboard page vary based on the Liveboard experience setting.
 
 Liveboard editing::
-
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page. For example, to delete a visualization on a Liveboard, the user must click *Edit*, and then navigate to the *Delete* option on a visualization.
 
 Filter application::
@@ -90,6 +89,41 @@ For more information, see xref:embed-actions.adoc[Show or hide UI actions] and x
 The embedded Liveboards support all host and embedded application events in the SDK irrespective of the Liveboard experience setting. For example, you can register and trigger events such as `VizPointClick` for visualizations on a Liveboard.
 
 For information about events, see xref:embed-events.adoc[Events and app integration] and xref:events-ref.adoc[Events Reference].
+
+== Customize Liveboard tabs
+
+The new Liveboard experience allows you to organize your visualizations into tabs. Liveboard tabs allow you to logically group visualization into specific categories and allow users to access them easily.
+
+To create, edit, or move visualizations to a tab, you require edit access to a Liveboard.
+
+* To add a tab, click *Edit* and then click *Add tab* on the Liveboard page.
++
+Note that each new tab object is assigned a unique GUID.
+* To add a visualization to a tab on a Liveboard, click *Move to tab* from the More image:./images/icon-more-10px.png[the more options menu] menu.
++
+You can also pin a visualization to a Liveboard tab using the Pin action on the answer page.
+
+=== Set a tab as an active tab
+
+By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the Visual Embed SDK as shown in the example here:
+
+[source,javascript]
+----
+const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    liveboardV2: true,
+    liveboardId: "d7a5a08e-a1f7-4850-aeb7-0764692855b8",
+    activeTabId: "05406350-44ce-488e-abc5-5e8cdd65cf3c",
+});
+----
+
+[NOTE]
+====
+The `activeTabId` property is available only in the `LiveboardEmbed` package and not supported in the full application embed mode.
+====
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

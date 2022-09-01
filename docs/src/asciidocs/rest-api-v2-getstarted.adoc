@@ -6,7 +6,7 @@
 :page-pageid: rest-apiv2-getstarted
 :page-description: Get started with REST API v2 to access, create, and manage ThoughtSpot resources programmatically.
 
-To get started with REST API v2, you will require access to REST API v2 Playground and SDK. To enable this feature on your cluster, contact ThoughtSpot Support.
+To get started with REST API v2, visit the REST API v2 Playground [beta blueBackground]^BETA^ to view the endpoints and API request parameters.
 
 == Access the Playground
 
@@ -31,14 +31,15 @@ You can modify the base URI in the Playground code explorer.
 The configuration panel appears.
 
 . In the *Client Configuration* section, specify the base URI.
-////
+
 If you want to call REST API in a language-specific way, download the language-specific SDK and set up your environment.
 
 For more information about language-specific SDK and client libraries, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries]. 
- 
+////
+
 == Authorize your client
 
-To provide secure access to ThoughtSpot resources, the REST API v2 framework supports OAuth 2.0 Bearer tokens and the trusted authentication method. For local development or test environments, you can use basic authentication with `userName` and `password`. 
+To provide secure access to ThoughtSpot resources, the REST API v2 framework supports OAuth 2.0 Bearer tokens and trusted authentication method. For local development or testing purposes, you can use basic authentication with `userName` and `password`.
 
 [NOTE]
 ====

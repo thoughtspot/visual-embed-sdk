@@ -8,6 +8,7 @@
 * link:{{navprefix}}=whats-new[What's new]
 ** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
 ** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
+** link:{{navprefix}}=deprecated-features[Deprecation announcements]
 
 * link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
 ** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
@@ -78,11 +79,10 @@
 *** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
 *** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
 *** link:{{navprefix}}=rest-api-pagination[Paginate API response]
-** link:{{navprefix}}=rest-api-v2[REST API v2]
+** link:{{navprefix}}=rest-api-v2[REST API v2 ^*BETA*^]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
-*** link:{{navprefix}}=api-authv2[REST API v2 authentication]
-*** link:{{navprefix}}=restV2-playground[REST API v2 Playground]
-*** link:{{navprefix}}=client-libraries[SDK and client libraries]
+*** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*BETA*^]
+*** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*BETA*^]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]
@@ -99,7 +99,7 @@
 *** link:{{navprefix}}=logs-api[Audit logs API]
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database API]
-** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference]
+** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference ^*BETA*^]
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 
 * Additional resources
@@ -110,4 +110,3 @@
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
 ** link:https://training.thoughtspot.com/page/developer[Training resources, window=_blank]
-

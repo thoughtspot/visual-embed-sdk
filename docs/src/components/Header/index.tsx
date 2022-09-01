@@ -8,12 +8,7 @@ const Header = (props: { location: Location }) => {
     const headerLinks = [
         { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere' 
         },
-        /*{ name: 'Visual Embed', href: '?pageid=visual-embed-sdk' 
-        },
-        
-        { name: 'REST APIs', href: '?pageid=rest-apis' 
-        },*/
-        
+
         {
             name: 'Community',
             href:

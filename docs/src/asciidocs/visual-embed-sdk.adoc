@@ -30,7 +30,6 @@ Read the xref:integration-overview.adoc[integration guidelines] to understand th
 Before you get started, xref:security-settings.adoc[add your application domain to the CORS and CSP allowed list] and set your application as a trusted host for secure data exchange.
 --
 
-
 [div boxDiv boxFullWidth]
 --
 +++<h5>Get Started</h5>+++

@@ -42,24 +42,19 @@ Based on integration requirements, import any of the following embed modules and
 SearchEmbed::
 
 Use this package to xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
-
 +
-The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer.
-
+The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer. +
 +
 In all cases, the search bar will appear along with full capabilities to edit and modify the search and the resulting chart or table.
 
 LiveboardEmbed::
-
 Use this package to embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[Liveboards].
-
 +
-You can use the **LiveboardEmbed** component to embed a full Liveboard with multiple answers, as well as a specific answer on a Liveboard without the search bar. These answers are referred to as Liveboard visualizations.
+You can use the **LiveboardEmbed** component to embed a full Liveboard with multiple answers, as well as a specific answer on a Liveboard without the search bar. These answers are referred to as Liveboard visualizations. +
 +
 Although you can use a saved answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a Liveboard using the `liveboardId` and `vizId` properties of LiveboardEmbed.
 
 AppEmbed::
-
 Use this package to embed xref:full-embed.adoc[the full ThoughtSpot application].
 
 [#initSdk]
@@ -79,7 +74,7 @@ _String_. Hostname or IP address of the ThoughtSpot application.
 
 include::{path}/embed-auth-config.adoc[]
 
-=== Prefetch static resources (Optional)
+== Prefetch static resources (Optional)
 
 To prefetch static resources and load your application fast, set the `callPrefetch` attribute to `true`.
 
@@ -92,7 +87,7 @@ include::{path}/embed-config.adoc[]
 == Embed objects
 
 After you initialize the SDK, create embed object classes and define object properties. +
-For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages:
+For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages: +
 
 * xref:embed-search.adoc[Embed Search]
 * xref:embed-pinboard.adoc[Embed a Liveboard]
@@ -105,3 +100,4 @@ For more information about embedding ThoughtSpot app and its objects using SDK, 
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
+

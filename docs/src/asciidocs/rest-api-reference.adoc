@@ -1,4 +1,4 @@
-= REST API v1 Reference 
+= REST API v1 Reference
 :toc: true
 
 :page-title: REST API Reference Guide
@@ -8,7 +8,7 @@
 
 [div announcementBlock]
 --
-Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.0-sw (Limited Availability) releases, pinboards are rebranded as *Liveboards* in ThoughtSpot UI, documentation, and learning resources.
+Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.1-sw releases, pinboards are rebranded as *Liveboards* in ThoughtSpot UI, documentation, and learning resources.
 Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 endpoint URLs, request and response workflows are not rebranded.
 --
 
@@ -33,7 +33,7 @@ include::{path}/metadata-api-list.adoc[]
 
 include::{path}/admin-api-list.adoc[]
 
-== Data connections 
+== Data connections
 
 include::{path}/data-connection-apis.adoc[]
 
@@ -47,23 +47,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
-Allows searching for data from a specific data source in the ThoughtSpot application.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
-ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
-
-////
-`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
-
-+++<p class="divider">Allows searching for data from a specific data source in the ThoughtSpot application.</p>+++
-////
+include::{path}/search-api-list.adoc[]
 
 == Dependent objects
 
@@ -75,37 +59,12 @@ include::{path}/security-api-list.adoc[]
 
 == Audit logs
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options="header"]
-|=====
-|API endpoint| Available from
-|`xref:logs-api.adoc[**GET** /tspublic/v1/logs/topics/{topic}]` +
-Gets security audit logs from the ThoughtSpot system.
-|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
-ThoughtSpot Software [version noBackground]#Not applicable#
-|=====
---
+include::{path}/audit-log-api.adoc[]
 
 == Materialization service
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]` +
-Allows you refresh a materialized view.|ThoughtSpot Cloud [version noBackground]#Not applicable# +
-ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
+include::{path}/materialization-api-list.adoc[]
 
 == Database and schema
 
 include::{path}/database-api-list.adoc[]
-
-
-
-

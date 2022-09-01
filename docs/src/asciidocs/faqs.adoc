@@ -62,7 +62,7 @@ To sign up for a 30-day free trial, click *Free Trial* on the link:https://devel
 .Is ThoughtSpot Everywhere available to ThoughtSpot Software customers?
 [%collapsible]
 ====
-Starting from 8.4.0-sw (Limited availability) release, customers with license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
+Starting from 8.4.1-sw release, customers with license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
 ====
 
 .Do I need a ThoughtSpot Everywhere license to customize and rebrand my ThoughtSpot instance?
@@ -177,11 +177,16 @@ For more information about access control, see xref:configure-user-access.adoc[A
 .Can I sync groups in SAML assertions with ThoughtSpot?
 [%collapsible]
 ====
-Yes, you can map a user’s groups in the SAML assertion with ThoughtSpot. For more information, see link:https://docs.thoughtspot.com/cloud/latest/saml-group-mapping[Configure SAML group mapping, window=_blank].
+You can map a user’s groups in the SAML assertion with ThoughtSpot. For more information, see link:https://docs.thoughtspot.com/cloud/latest/saml-group-mapping[Configure SAML group mapping, window=_blank].
+====
+
+.Can I restrict my embed application users from accessing the non-embedded ThoughtSpot instance?
+[%collapsible]
+====
+If you have a single ThoughtSpot cluster and you have embedded the full ThoughtSpot application in another app, you may want to prevent external users from accessing your non-embedded ThoughtSpot instance. ThoughtSpot allows you to restrict embed users from accessing your non-embedded ThoughtSpot instance using a TSCLI command. Please contact ThoughtSpot support to enable this flag on your instance.
 ====
 
 == Customization and rebranding
-
 .Can I change the look and feel of ThoughtSpot?
 [%collapsible]
 ====
@@ -278,7 +283,6 @@ The URL-based custom actions allow you to pass authentication information in the
 ====
 The URL-based custom actions allow you to pass query parameters as key-value pairs. For more information, see xref:custom-actions-url.adoc[URL actions].
 ====
-
 
 
 == REST API

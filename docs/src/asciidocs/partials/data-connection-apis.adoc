@@ -19,10 +19,10 @@ Gets a list of data connections set up for a live query service on the ThoughtSp
 ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
 Gets metadata for a given connection ID. |ThoughtSpot Cloud [version noBackground]#8.2.0.cl# +
-ThoughtSpot Software [version noBackground]#8.4.0-sw#
+ThoughtSpot Software [version noBackground]#8.4.1-sw#
 |`xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
 Gets tables and column metadata a given connection ID.|ThoughtSpot Cloud [version noBackground]#8.2.0.cl# +
-ThoughtSpot Software [version noBackground]#8.4.0-sw#
+ThoughtSpot Software [version noBackground]#8.4.1-sw#
 |`xref:connections-api.adoc#export-connections[**GET** /tspublic/v1/connection/export]` +
 Exports a data connection map.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
 ThoughtSpot Software [version noBackground]#7.2.1#

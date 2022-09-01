@@ -5,11 +5,11 @@
 :page-pageid: spotdev-portal
 :page-description: Using ThoughtSpot Developer Portal
 
-ThoughtSpot Developer portal lets you explore the Visual Embed SDK, REST API SDK and preview the coding experience in Playground. 
+ThoughtSpot Developer portal lets you explore the Visual Embed SDK, REST API SDK and preview the coding experience in Playground.
 
 The portal also allows authorized you to customize and rebrand the look and feel of the UI, create custom actions, and configure security and authentication settings.
 
-If you are an existing ThoughtSpot user:: 
+If you are an existing ThoughtSpot user::
 You can access the Developer portal from your ThoughtSpot application instance.
 . Log in to ThoughtSpot.
 . Navigate to the **Develop** tab.
@@ -32,43 +32,21 @@ The ThoughtSpot Developer portal includes several sections that assist you throu
 
 Home::
 The *Home* page of the Developer portal provides a pictorial view of ThoughtSpot features that you can integrate with your applications.
-This page also includes links to the *Developer Guides* and *Playground*. 
+This page also includes links to the *Developer Guides* and *Playground*.
 
 +
 [.bordered]
 image::./images/develop-home.png[Developer Portal]
 
-Guide::
-The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on embedding ThoughtSpot using the Visual Embed SDK and REST APIs.
-+
-[NOTE]
-====
-If the REST API Playground and SDK feature is enabled on your environment, the `Guide` menu will appear as a sub-menu option under *REST API* and **Visual Embed SDK**. 
-====
 
-REST API [beta blueBackground]^BETA^::
-If you have enabled REST API Playground and SDK feature on your cluster, the Developer portal displays the *REST APIs* menu with the following menu options:
+Visual Embed SDK::
+
+Includes the following menu items:
 
 Guide;;
-Opens the REST API documentation.
+Opens the Visual Embed documentation page.
 
-REST Playground v1;;
-Opens the REST API v1 Explorer page. This page allows you to make API calls to the REST v1 endpoints through the Swagger UI.
-+
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
-REST Playground v2;;
-Opens the REST API v2 Playground. The Playground allows you to explore the REST v2 endpoints, make API calls, and access the REST API SDK toolkit and client libraries in multiple languages.
-+
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
-Playground::
+Playground;;
 The Visual Embed SDK *Playground* allows you to explore the following Visual Embed components:
 * xref:developer-playground.adoc#playground-search[Search]
 * xref:developer-playground.adoc#playground-liveboard[Liveboards]
@@ -80,13 +58,32 @@ The Visual Embed SDK *Playground* allows you to explore the following Visual Emb
 <a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the Playground</a>
 ++++
 
+REST API::
+Includes the following menu items:
+
+Guide;;
+Opens the REST API documentation.
+
+REST Playground v1;;
+Opens the REST API v1 Explorer page. This page allows you to make API calls to the REST v1 endpoints through the Swagger UI.
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+REST Playground v2 [beta blueBackground]^BETA^;;
+Opens the REST API v2 Playground [beta blueBackground]^BETA^. This Playground allows you to view the REST v2 endpoints, make API calls, and explore the request and response workflows.
++
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 Customizations::
 The Developer portal displays the following customization options for Thoughtspot embedded instances:
 
 * *Styles*
 +
-Provides a set of style customization controls to rebrand the look and feel of the ThoughtSpot UI and its elements. 
+Provides a set of style customization controls to rebrand the look and feel of the ThoughtSpot UI and its elements.
 +
 For more information, see xref:customize-style.adoc[Customize styles].
 
@@ -97,8 +94,8 @@ Provides UI workflows to create custom actions in the ThoughtSpot UI. For exampl
 * *Security settings*
 +
 
-Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains. 
+Provides security controls to add third-party domains as xref:security-settings.adoc[trusted hosts for CORS and CSP]. The *Security settings* page also allows you to xref:trusted-authentication.adoc[enable trusted authentication] and xref:configure-saml.adoc[add a SAML redirect domain] to the allowed list of domains.
 
 * *Links settings*
 +
-Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links]. 
+Allows you to customize the format of system-generated links. For more information, see xref:customize-links.adoc[Customize links].

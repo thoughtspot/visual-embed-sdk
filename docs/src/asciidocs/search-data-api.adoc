@@ -8,6 +8,14 @@
 
 To construct a search query string and retrieve data from ThoughtSpot programmatically, use the `/tspublic/v1/searchdata` REST API.
 
+== Supported operations
+
+include::{path}/search-api-list.adoc[]
+
+== Required permissions
+
+You must have view access to the data source objects to run a search query.
+
 == Search query
 
 When issuing a query through the ThoughtSpot UI, users make selections to disambiguate a query. It is often difficult to programmatically use the result set of a query that runs in the ThoughtSpot UI search bar. Because the selection is not possible with an API approach, the API query language is modified to include query disambiguation.
@@ -187,11 +195,6 @@ You can also verify if the query returns the same data when you run it in the Th
 ====
 The search data API allows you to pass the search query string as query parameters in the URL. Therefore, ThoughtSpot recommends that you append the query string to the URL, instead of using the `-d <data>` option to pass these parameters in your cURL requests.
 ====
-
-=== Required permissions
-
-You must have view access to the data source objects to run a search query.
-
 
 ==== Browser locale
 

@@ -8,12 +8,56 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-== Version 1.14.0, Coming soon
+== Version 1.15.0, Coming soon
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#|
-The new version of Visual Embed SDK includes the `liveboardV2` attribute in the `LiveboardEmbed` package to allow developers to enable the new Liveboard experience on their embedded ThoughtSpot instance. +
+For embedded instances with the new Liveboard experience, the Visual Embed SDK provides the `activeTabId` attribute, using which you can set a Liveboard tab as an active tab.
+For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK supports firing events for Liveboard menu actions from the host application. The SDK introduces the following host event enumeration members for Liveboard objects:
+
+* CopyLink
+* CreateMonitor
+* DownloadAsPdf
+* Edit
+* EditTML
+* Explore
+* ExportTML
+* LiveboardInfo
+* MakeACopy
+* ManageMonitor
+* Pin
+* Present
+* Remove
+* Schedule
+* SchedulesList
+* UpdateTML
+
+For more information, see xref:events-ref.adoc#host-events[Events reference].
+|====
+
+
+////
+|[tag orangeBackground]#MODIFIED# a|The upcoming version of the SDK introduces the following `AuthType` enum changes. +
+
+* `AuthType.SAML` is renamed as `AuthType.SAMLRedirect`
+* `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect`
+* `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth`
+
+This enhancement does not introduce any breaking changes in your current implementation.
+|[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO` for embedded SSO authentication. This authentication method allows you to use SAML or OIDC authentication and redirect users to the IdP within the embedded iFrame.
+For more information, see xref:embed-authentication.adoc[Authentication].
+
+////
+
+== Version 1.14.0, August 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|
+The Visual Embed SDK now includes the `liveboardV2` attribute in the `LiveboardEmbed` package to allow developers to enable the new Liveboard experience on their embedded ThoughtSpot instance. +
 For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
+|[tag orangeBackground]#MODIFIED#|If trusted authentication is enabled, the SDK makes a `POST` API call to get a login token and log the user into ThoughtSpot.
+The earlier versions of the SDK supported only `GET` API requests. For more information, see xref:embed-authentication.adoc#_configure_token_based_authentication_method_in_visual_embed_sdk[Configure token-based authentication method in Visual Embed SDK].
 |====
 
 == Version 1.13.0, July 2022
@@ -23,11 +67,11 @@ For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 This version of Visual Embed SDK includes the `enableSearchAssist` attribute, using which you can turn on the Search Assist feature on an embedded instance. +
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 |[tag greenBackground]#NEW FEATURE#| The new version of SDK introduces the `AuthType.SAML` enum for SAML-based SSO authentication. Note that `AuthType.SAML` replaces the `AuthType.SSO` enum, which is deprecated in the v1.13.0 version of the SDK. +
-
+For more information, see xref:embed-authentication.adoc#saml-sso-embed[Authentication].
 |[tag redBackground]#DEPRECATED#| The `AuthType.SSO` enum is deprecated in v1.13.0. ThoughtSpot recommends using `AuthType.SAML` for the SAML SSO authentication method. +
 This change does not impact your current embed implementation with `AuthType.SSO`.
 |[tag greenBackground]#NEW FEATURE#| The SDK includes the `getExportRequestForCurrentPinboard` event, which is triggered when a user tries to export a Liveboard in its current state. +
-For more information, see xref:embed-events.adoc#host-events[Interact with events].
+For more information, see xref:events-ref.adoc#host-events[Events reference].
 |====
 
 == Version 1.12.0, June 2022
@@ -37,7 +81,7 @@ For more information, see xref:embed-events.adoc#host-events[Interact with event
 |[tag greenBackground]#NEW FEATURE#|
 The upcoming version of Visual Embed SDK introduces the `navigate` host event, which is triggered when a user navigates to an application page without a page reload.
 
-For more information, see xref:embed-events.adoc#host-events[Interact with events].
+For more information, see xref:events-ref.adochost-events[Events reference].
 |[tag greenBackground]#NEW FEATURE# | The upcoming version of SDK includes the `getThoughtSpotPostUrlParams` method, which fetches ThoughtSpot URL query parameters prefixed with `ts-`.
 |====
 
@@ -63,12 +107,12 @@ Bug fix for Typescript builds that affect Angular project configurations.
 * `AnswerDelete`
 * `CopyAEdit`
 * `CopyToClipboard`
-* `Download` 
+* `Download`
 * `DownloadAsPdf`
 * `DownloadAsCsv`
 * `DownloadAsXlsx`
 * `DrillExclude`
-* `DrillInclude` 
+* `DrillInclude`
 * `EditTML`
 * `ExportTML`
 * `Monitor`
@@ -81,7 +125,7 @@ Bug fix for Typescript builds that affect Angular project configurations.
 * `UpdateTML`
 * `VizPointClick`
 
-For more information about how to register and handle these events, see xref:embed-events.adoc[Interact with events].
+For more information about how to register and handle these events, see xref:embed-events.adoc[Events and app integration].
 |[tag greenBackground]#NEW FEATURE#  a| The new version of SDK supports the `showAlerts` attribute, using which you can show or hide alerts and error messages in the embedded view.
 
 |[tag greenBackground]#NEW FEATURE# a| The `Action.CreateMonitor` enumeration is available in the SDK for embedded ThoughtSpot environments on which the *Monitor* feature is enabled.
@@ -91,7 +135,7 @@ For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 == Version 1.10.4, May 2022
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|The `detectCookieAccessSlow` parameter in the SDK allows your app to check if third-party cookies are enabled on the browser. This parameter is available only for `AuthServer` and `Basic` authentication types.
+|[tag greenBackground]#NEW FEATURE#|The `detectCookieAccessSlow` parameter in the SDK allows your app to check if third-party cookies are enabled on the browser. This parameter is available only for trusted and `Basic` authentication types.
 |====
 == Version 1.10.3, May 2022
 
@@ -100,7 +144,7 @@ Bug fix and improvements to the `logout` method.
 == Version 1.10.2, May 2022
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|Ability to configure `redirectPath` on the origin when using the SAML SSO `authType`.
+|[tag greenBackground]#NEW FEATURE#|Ability to configure `redirectPath` on the origin when using the SAML `authType`.
 |====
 
 == Version 1.10.1, May 2022
@@ -110,7 +154,7 @@ Bug fix and improvements to the `logout` method.
 |[tag greenBackground]#NEW FEATURE#|You can now use the `logout` method to log out embed users.
 |[tag orangeBackground]#MODIFIED# a| Note the following changes: +
 
-* You can now use the `loginFailedMessage` property on init to display the `Not logged in` message when a user login fails. You can customize this message by defining a custom text string in the `loginFailedMessage` attribute. 
+* You can now use the `loginFailedMessage` property on init to display the `Not logged in` message when a user login fails. You can customize this message by defining a custom text string in the `loginFailedMessage` attribute.
 * The `init` method now returns an event emitter which can be used to listen to `AuthStatus` such as login failure, success, or user logout.
 |====
 
@@ -118,14 +162,14 @@ Bug fix and improvements to the `logout` method.
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:embed-events.adoc#embed-events[Interact with events].
+|[tag greenBackground]#NEW FEATURE#  a| The `AddRemoveColumns` event is now available in the SDK. For more information, see xref:events-ref.adoc.adoc#embed-events[Events reference].
 |====
 
 == Version 1.9.8, April 2022
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|The `pageId` attribute now allows you to set the **SpotIQ** page as the home tab of your embedded ThoughtSpot app. 
+|[tag greenBackground]#NEW FEATURE#|The `pageId` attribute now allows you to set the **SpotIQ** page as the home tab of your embedded ThoughtSpot app.
 
 For more information, see xref:full-embed.adoc[Embed full application].
 |====
@@ -137,7 +181,7 @@ Bug fixes and improvements
 == Version 1.9.5, April 2022
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|The `locale` attribute is now available in embed packages. You can use this attribute to set the locale or language of your embedded application view. 
+|[tag greenBackground]#NEW FEATURE#|The `locale` attribute is now available in embed packages. You can use this attribute to set the locale or language of your embedded application view.
 For more information, see xref:locale-setting.adoc[Set locale and display language].
 |====
 
@@ -151,7 +195,7 @@ Bug fixes and improvements to React components.
 |====
 |[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
 You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
-This feature is applicable for token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
+This feature is applicable to token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
 
 For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
 |====
@@ -175,7 +219,7 @@ For more information, see xref:embed-pinboard.adoc[Embed a Liveboard].
 
 * `LiveboardRendered` (EmbedEvent)
 
-For more information, see xref:embed-events.adoc#host-events[Interact with events].
+For more information, see xref:events-ref.adoc#embed-events[Events reference].
 |====
 
 == Version 1.9.0, March 2022
@@ -188,9 +232,9 @@ For more information, see xref:embed-events.adoc#host-events[Interact with event
 * `Action.AddToFavorites` +
 * `Action.EditDetails` +
 
-For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].     
+For more information, see xref:embed-actions.adoc#standard-actions[Show or hide UI actions].
 
-|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:embed-events.adoc#host-events[Interact with events].
+|[tag greenBackground]#NEW FEATURE#  a| The SDK now supports the `UpdateRuntimeFilters` host event. For more information, see xref:events-ref.adoc#host-events[Events reference].
 |====
 
 == Version 1.8.x, February 2022
@@ -209,7 +253,7 @@ For more information, see xref:embed-actions.adoc#standard-actions[Show or hide 
 |
 [tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++
 
-The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK.
 
 For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
@@ -218,7 +262,7 @@ The SDK includes the following new event:
 
 * `RouteChange`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc#embed-events[Events reference].
 
 |====
 
@@ -229,12 +273,12 @@ For more information, see xref:embed-events.adoc[Interact with events].
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
- 
+
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 
-|[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
+|[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++
 
-The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 
+The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes].
 
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
 
@@ -243,7 +287,7 @@ The SDK supports the following new events:
 * `DialogOpen`
 * `DialogClose`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc#embed-events[Events reference].
 |====
 
 == Version 1.5.0, October 2021
@@ -269,7 +313,7 @@ The SDK EmbedEvent library includes the following new events:
 * `Drilldown`
 * `SetVisibleVizs`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc#embed-events[Events reference].
 
 |====
 
@@ -315,7 +359,7 @@ The SDK EmbedEvent library includes the following events:
 * `QueryChanged`
 * `AuthExpire`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:embed-events.adoc[Events and app integration].
 |====
 
 == Version 1.3.0, August 2021
@@ -394,7 +438,6 @@ For more information, see xref:push-data-to-external-app.adoc#large-dataset[Call
 The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the SAML SSO `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
 
 For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
-
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Pinboard actions</h5>+++
 The *More* menu image:./images/icon-more-10px.png[the more options menu] in the embedded Pinboard page now shows the following actions for pinboard and visualizations.

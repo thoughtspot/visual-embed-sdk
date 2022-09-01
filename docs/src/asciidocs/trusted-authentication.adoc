@@ -45,7 +45,7 @@ The following example shows a callback function with a custom request using link
 ----
 init({
     thoughtSpotHost: tsURL,
-    authType: AuthType.AuthServer,
+    authType:  AuthType.AuthServer,
     getAuthToken: getAuthToken,
     username: username
   });
@@ -207,43 +207,45 @@ All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Pleas
 ====
 
 == Implement without Visual Embed SDK
-The Visual Embed SDK handles the final REST API request to create the session, but it is possible to perform the login using the xref:session-api.adoc#session-loginToken[/session/login/token endpoint] directly:
+The Visual Embed SDK handles the final REST API request to create the session, but it is possible to perform the login using the xref:session-api.adoc#session-loginToken[/session/login/token endpoint] directly.
 
 [NOTE]
 ====
-The REST API v1 login token is not used for establishing a REST API session for backend processes or administration scripts. Use the xref:session-api.adoc#session-login[/session/login] endpoint with username and password to create a REST API session. The REST API v2 does have an OAuth token mechanism, which is also separate from the REST API v1 login token and not part of the trusted authentication flow at this time.
+* The REST API v1 login token is not used for establishing a REST API session for backend processes or administration scripts. Use the xref:session-api.adoc#session-login[/session/login] endpoint with username and password to create a REST API session.
+* The REST API v2[beta blueBackground]^BETA^ does have an OAuth token mechanism, which is also separate from the REST API v1 login token and not part of the trusted authentication flow at this time.
 ====
 
-In this method, the client application constructs a fully encoded URL with the authentication token and the resource endpoint, and sends these as attributes in the API request to the ThoughtSpot application server.
+REST v1 clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
 
-[source, HTML]
 ----
-GET https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=<user>&auth_token=<token>&redirect_url=<full-encoded-url-with-auth-token>
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
 ----
 
-The request URL includes the following attributes:
+ThoughtSpot recommends sending the authentication attributes in a `POST` request body instead of a `GET` call.
+
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+-d 'username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRtL3dWcVo2ZTdWTzYvemdXN1ZoaTh3PT0kdmlyNnQ4NHlwYXlqNFV4VzBpRlNYbmQ1bzk5T1RFK2NVZy9ZRUhvUEkvST0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F' \
+'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token'
+----
+
+The API request must include the following attributes:
 
 * `username` +
 _String_. The `username` of the user requesting access to the embedded ThoughtSpot content.
 
 * `auth_token` +
-_String_. The authentication token obtained for the user in step 5.
+_String_. The authentication token obtained for the user.
 
 * `redirect_url` +
-_String_. The URL to which the user is redirected after successful authentication. The URL is fully encoded and includes the authentication token obtained for the user.
+_String_. The URL to which the user is redirected after successful authentication.
 
 +
-For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the domain to which the user is redirected, the auth token string obtained for the user, visualization ID, and Liveboard ID.
-
-+
-[source, HTML]
 ----
-https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
+https://<redirect-domain>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
-+
-[NOTE]
-The request URL includes the `auth_token` attribute and the redirect URL uses the `authtoken` attribute.
-
 
 == Additional resources
 A simple Python Flask implementation of an Authenticator Service is available in the link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources GitHub repository, window=_blank].  +

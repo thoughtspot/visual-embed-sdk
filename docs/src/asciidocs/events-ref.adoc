@@ -14,9 +14,51 @@ The following host events are triggered by the host application, which the embed
 The host events are part of the *HostEvent* object; for example, `HostEvent.SetVisibleVizs`.
 Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
 
+==== CreateMonitor
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Create alert* action to create a threshold-based alert for KPI charts. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.CreateMonitor {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== CopyLink
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Copy link* action on a Liveboard or a specific visualization on a Liveboard.
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.CopyLink)
+----
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.CopyLink, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== DrillDown
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
-Triggers a drill down event when a user clicks on a specific point in a column.  +
+Triggers a drill-down event when a user clicks on a specific point in a column.  +
 
 [div divider]
 --
@@ -48,6 +90,172 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
 ====
 --
 
+==== DownloadAsPDF
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Download PDF* action on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
+----
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsPDF {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Edit
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Edit* mode on a Liveboard. To trigger the *Edit* action for a specific visualization on a Liveboard, specify the visualization GUID.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Edit)
+----
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Edit,  {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Edit TML
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Edit TML* action on a Liveboard. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.EditTML)
+----
+====
+--
+
+==== Explore
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Explore* action for a Liveboard visualization. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Explore, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Export TML
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Export TML* action on a Liveboard. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.ExportTML)
+----
+====
+--
+
+==== getExportRequestForCurrentPinboard
+Available with `LiveboardEmbed` in V1.13.0 or later. +
+Fires when a user triggers the Liveboard export workflow with the `getExportRequestForCurrentPinboard` method in the browser fetch request to download a Liveboard in its current state, including unsaved changes if any.
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,javascript]
+----
+liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
+.then(data => {
+console.log('Liveboard Data: ', data);
+})
+====
+--
+
+==== LiveboardInfo
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Show Liveboard details*  action on a Liveboard. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.LiveboardInfo)
+----
+====
+--
+
+==== MakeACopy
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Make a copy*  action on a Liveboard. +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.MakeACopy)
+----
+====
+--
+
+==== ManageMonitor
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Manage alert*  action on a Liveboard visualization. This action is available for KPI visualizations that support threshold-based alerts.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.ManageMonitor, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== Navigate
 
 Available with `AppEmbed` in `V1.12.0` or later. +
@@ -67,6 +275,49 @@ appEmbed.trigger(HostEvent.Navigate, {
 ----
 --
 
+==== Pin
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Pin* action on a Liveboard visualization.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Pin, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Present
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Present* action on a Liveboard or visualization on a Liveboard.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Present)
+----
+
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Present, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== Search
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
 Is triggered when a search operation is executed. The event returns the data source GUID and search query details. +
@@ -78,6 +329,60 @@ Is triggered when a search operation is executed. The event returns the data sou
 [source,javascript]
 ----
 searchEmbed.trigger(HostEvent.Search)
+----
+====
+--
+
+==== Remove
+
+Available with `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source, javascript]
+----
+appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== Schedule
+
+Available with `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Schedule* action for scheduling a Liveboard job.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.Schedule)
+----
+====
+--
+
+==== ScheduleList
+
+Available with `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Manage schedules* action to manage Liveboard job schedules.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.ScheduleList)
 ----
 ====
 --
@@ -98,7 +403,6 @@ liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2'])
 ====
 --
 
-
 ==== UpdateRuntimeFilters
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.8.0` or later. +
 Triggers an event to update runtime filters. The following example shows how to register an event handler to trigger an event when the runtime filters are updated. +
@@ -114,6 +418,24 @@ liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
     operator: "EQ",
     values: ["michigan"]
 }]);
+----
+====
+--
+
+==== UpdateTML
+
+Available with `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Update TML* action for a Liveboard object.  +
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source, javascript]
+----
+liveboardEmbed.trigger(HostEvent.UpdateTML)
 ----
 ====
 --
@@ -200,7 +522,7 @@ appEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
 
 ==== AnswerDelete
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `V1.11.0` or later. +
 [div divider]
 --
 .Example
@@ -221,7 +543,7 @@ appEmbed.on(EmbedEvent.AnswerDelete, payload => {
 
 ==== AuthInit
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
 Is emitted when authentication is initiated. Returns user GUID as data.
 You can also subscribe to the `AuthInit` event to be notified when user authentication is successful, and `AuthExpire` to trigger an alert when an authenticated session expires.
 [div divider]
@@ -240,7 +562,7 @@ appEmbed.on(EmbedEvent.AuthInit, payload => {
 
 ==== AuthExpire
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  `AppEmbed` in `V1.4.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.4.0` or later. +
 Indicates if an authenticated session has expired. +
 
 [div divider]
@@ -328,7 +650,7 @@ appEmbed.on(EmbedEvent.customAction, payload => {
 
 ==== Data
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `V1.1.0` or later. +
 Is triggered when data pertaining to an answer or Liveboard object is received. +
 [source, javascript]
 [div divider]
@@ -405,7 +727,8 @@ appEmbed.on(EmbedEvent.DialogClose, payload => {
 ==== Download
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when the *Download* action is initiated on a Liveboard or answer and on download completion. +
+Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
+Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
 [div divider]
 --
 .Example
@@ -514,7 +837,7 @@ searchEmbed.on(EmbedEvent.Drilldown, payload => {
 ==== DrillExclude
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when a filter is applied to exclude a data point in the drilled down view. +
+Is triggered when a filter is applied to exclude a data point in the drilled-down view. +
 Returns the IDs of the column and the filters applied during the operation.
 [div divider]
 --
@@ -535,7 +858,7 @@ appEmbed.on(EmbedEvent.DrillExclude, payload => {
 ==== DrillInclude
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when a filter is applied to include a data point in the drilled down view. +
+Is triggered when a filter is applied to include a data point in the drilled-down view. +
 Returns the IDs of the column and the filters that were applied during the operation.
 [div divider]
 --
@@ -573,7 +896,7 @@ appEmbed.on(EmbedEvent.EditTML, payload => {
 ==== ExportTML
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when a user clicks *Export TML* action on the answer page.
+Is triggered when a user clicks the *Export TML* action on the answer page.
 [div divider]
 --
 .Example
@@ -878,6 +1201,24 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
 })
 ----
 ====
+Sometimes, when a user double-clicks on a chart, both `VizPointClick` and `VizPointDoubleClick` events are triggered. Because the double-click action involves two clicks, the `VizPointClick` event is triggered for each click. To distinguish between a single-click and double-click event and avoid firing `VizPointClick` events when a user double-clicks on a chart, define a timeout function as shown in this example:
+
+[source,javascript]
+----
+let vizPointClickTimer;
+// Register an event handler
+searchEmbed.on(EmbedEvent.VizPointClick, payload => {
+   // Delay the click handlers by 400 milliseconds
+   vizPointClickTimer = setTimeout(() => {
+      onVizPointClick(payload);
+   }, 400);
+})
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+   // If a double-click action is registered, clear the single-click timer
+   clearTimeout(vizPointClickTimer);
+   onVizPointDoubleClick(payload);
+})
+----
 --
 
 == Unsubscribe from an event

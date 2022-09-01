@@ -1,4 +1,4 @@
-= What's new 
+= What's new
 :toc: true
 :toclevels: 1
 
@@ -10,16 +10,33 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
+=== Liveboard tabs
+
+In the upcoming release, the new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+
+For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
+
+=== Visual Embed SDK version 1.15.0
+For information about the new features and enhancements in the Visual Embed SDK version 1.15.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API v1
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
+=== REST API v2 [beta blueBackground]^BETA^
+The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in 8.9.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+
+== Version 8.6.0.cl
+
 === Liveboard new experience
 
-The upcoming release introduces the new Liveboard experience on ThoughtSpot application instances. In addition to the existing Liveboard functionality, the new experience introduces several notable changes to the Liveboard page:
+The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
 
 Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
 The edit mode allows you to edit the Liveboard title and description text, apply filters, copy the Liveboard, modify the layout of the visualization tiles, delete a visualization, and so on.
 
 Liveboard filters::
-* The Liveboard filter configuration options are available in a single modal.
+* The Liveboard filter configuration options are available on a single modal.
 * When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied.
 
 Other features and enhancements::
@@ -42,9 +59,8 @@ For more information about the new Liveboard experience, see link:https://docs.t
 The new Liveboard experience will be rolled out on embedded instances in phases:
 
 In ThoughtSpot Cloud 8.6.0.cl::
-The new Liveboard experience will be turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance.
+The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
 
-+
 ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
 
 In later releases::
@@ -68,23 +84,28 @@ For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[
 
 == Version 8.5.0.cl
 
-=== Search Assist support for embedded instances
-
+.Search Assist support for embedded instances
+[%collapsible]
+====
 Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+====
 
-=== Visual Embed SDK 1.13.0
-
+.Visual Embed SDK 1.13.0
+[%collapsible]
+====
 For information about the new features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-=== ThoughtSpot UI
-
+.ThoughtSpot UI
+[%collapsible]
+====
 The new Data workspace is Generally Available (GA) in 8.5.0.cl on ThoughtSpot instances. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
 
 [IMPORTANT]
-====
 While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+
 ====
 
 == Version, 8.4.0.cl
@@ -175,7 +196,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ** `**PUT** /tspublic/rest/v2/metadata/favorite/unassign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/unassign` +
-* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated. 
+* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated.
 |[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
 ====
@@ -250,13 +271,13 @@ For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference]
 == Version 8.1.0.cl
 
 .Visual Embed SDK version 1.9.x
-[%collapsible] 
+[%collapsible]
 ====
 The Visual Embed SDK version 1.9.x introduces new action enumerations, events, and attributes. For more information, see xref:api-changelog.adoc[Visual Embed Changelog].
 ====
 
 .REST API v2 [beta blueBackground]^BETA^
-[%collapsible] 
+[%collapsible]
 ====
 The following REST API v2 endpoints are now available on instances on which the REST API v2 Playground and SDK feature is enabled.
 
@@ -279,15 +300,15 @@ For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v
 == Version 8.0.0.cl
 
 .Visual Embed SDK version 1.8.x
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag redBackground]#BREAKING CHANGE# | +++<h5>Auto login</h5> +++ 
+|[tag redBackground]#BREAKING CHANGE# | +++<h5>Auto login</h5> +++
 
 The `autoLogin` attribute is now set as `false` by default. This attribute is used in the `init` method to automatically re-login a user when a user session expires.
-|[tag greenBackground]#NEW FEATURE# | +++<h5>Authentication</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# | +++<h5>Authentication</h5> +++
 
 The `init` method now returns an `authPromise` that resolves when the authentication is completed.
 |====
@@ -296,17 +317,17 @@ The `init` method now returns an `authPromise` that resolves when the authentica
 
 
 .Embed application
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>OpenID Connect authentication</h5> +++
 
-ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.  
+ThoughtSpot now supports OpenID Connect (OIDC) authentication framework on embedded instances. Your application users can now authenticate to an authorization server at your OpenID provider and access embedded ThoughtSpot content using their SSO credentials.
 
 For more information, see xref:configure-oidc.adoc[OpenID Connect authentication].
 
-|[tag redBackground]#REMOVED# a| +++<h5>Follow button</h5> +++ 
+|[tag redBackground]#REMOVED# a| +++<h5>Follow button</h5> +++
 
 If you have embedded the full ThoughtSpot application, you will notice that the *Follow* button on the Liveboards page is removed. You can now schedule email notifications using the **Schedule** feature and follow Liveboard updates.
 
@@ -317,14 +338,14 @@ For more information, see link:https://cloud-docs.thoughtspot.com/end-user/pinbo
 
 .Visual Embed SDK 1.7.0
 
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
 
-|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# |+++<h5>OIDC AuthType</h5> +++
 
-The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK. 
+The SDK supports the `OIDC` `authType` in `init` calls. If you want your application users to authenticate to an OpenID provider and use their SSO credentials to access the embedded ThoughtSpot content, you can enable the `OIDC` authentication type in the SDK.
 
 For more information, see xref:embed-authentication#oidc-auth.adoc[Authentication and security attributes].
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
@@ -333,19 +354,19 @@ The SDK includes the following new event:
 
 * `RouteChange`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc[Events reference].
 
 |====
 ====
 
 .REST API Playground and SDK [beta blueBackground]^BETA^
 
-[%collapsible] 
+[%collapsible]
 ====
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>REST API Playground and SDK</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>REST API Playground and SDK</h5> +++
 
 ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
 
@@ -363,58 +384,58 @@ For more information, see xref:rest-api-v2.adoc[REST API v2].
 == Version ts8.nov.cl
 
 .Developer portal
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
-|[tag orangeBackground]#CHANGE NOTICE#  a| +++<h5>Pinboards are now Liveboards!</h5> +++ 
+|[tag orangeBackground]#CHANGE NOTICE#  a| +++<h5>Pinboards are now Liveboards!</h5> +++
 
-Effective from the ThoughtSpot 8 November Cloud release, ThoughtSpot pinboards are rebranded as Liveboards and optimized for live analytics in cloud deployments. Along with granular insights, Liveboards offer interactive data analytics experience with enhanced capabilities. 
+Effective from the ThoughtSpot 8 November Cloud release, ThoughtSpot pinboards are rebranded as Liveboards and optimized for live analytics in cloud deployments. Along with granular insights, Liveboards offer interactive data analytics experience with enhanced capabilities.
 
 As part of rebranding, we have made some terminology changes in the ThoughtSpot UI and Developer portal. We are in the process of rolling out terminology changes across all ThoughtSpot interfaces, platforms, and information artifacts. During this period, your environment may show some instances of `pinboard` based on the rebranding rollout stage. In some cases, we may even continue to use the legacy terminology for backward compatibility, and to ensure that your existing integrations work seamlessly. For more information, see xref:terminology-update.adoc[Terminology changes].
 |====
 ====
 
 
-.Custom actions 
-[%collapsible] 
+.Custom actions
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++ 
+|[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++
 
 ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a worksheet, answer, or visualization.
- 
+
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
 ====
 
 .User access
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# |ThoughtSpot now supports restricting embed user access to the non-embedded ThoughtSpot application instance. By default, all embedded ThoughtSpot users can navigate to and log in to the non-embedded ThoughtSpot application instance. 
+|[tag greenBackground]#NEW FEATURE# |ThoughtSpot now supports restricting embed user access to the non-embedded ThoughtSpot application instance. By default, all embedded ThoughtSpot users can navigate to and log in to the non-embedded ThoughtSpot application instance.
 If you want to allow only users with administrator or developer privileges to access the non-embedded ThoughtSpot application instance, contact ThoughtSpot Support.
 |====
 ====
 
 
 .Visual Embed SDK version 1.6.x
-[%collapsible] 
+[%collapsible]
 ====
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++ 
+|[tag greenBackground]#NEW FEATURE# a|+++<h5>Visible actions</h5>+++
 
 You can now configure a set of ThoughtSpot UI actions as visible actions and display these actions in the embedded UI. If your embedded instance requires only a few actions, you can use the `visibleActions` API to show only these actions in the embedded ThoughtSpot UI.
- 
+
 For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 
-|[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++ 
+|[tag orangeBackground]#MODIFIED# | +++<h5>Terminology changes </h5>+++
 
-The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes]. 
+The SDK library and object parameter names are modified to rebrand pinboards as Liveboards. For a complete list of changes, see xref:terminology-update.adoc#sdk-changes[Terminology changes].
 
 |[tag greenBackground]#NEW FEATURE#  a|+++<h5>Embed events</h5>+++
 
@@ -423,17 +444,17 @@ The SDK supports the following new events:
 * `DialogOpen`
 * `DialogClose`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc[Events reference].
 
 |====
 ====
 
 .REST API
-[%collapsible] 
+[%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token` 
+|[tag greenBackground]#NEW FEATURE# a|`POST /tspublic/v1/session/login/token`
 
 This API allows you to send the login token and user information in the request body. For more information, see the xref:session-api.adoc#session-loginToken[REST API reference page].
 
@@ -448,10 +469,10 @@ For more information, see xref:metadata-api.adoc#metadata-list[Get a list of met
 ====
 
 .ThoughtSpot application UI
-[%collapsible] 
+[%collapsible]
 ====
 
-To make it easier for users to find new insights, the **Search data** functionality is moved from the search bar toggle on the **Home** page to the **Search data** button  in the main navigation bar. 
+To make it easier for users to find new insights, the **Search data** functionality is moved from the search bar toggle on the **Home** page to the **Search data** button  in the main navigation bar.
 
 Note that if you are embedding the full application without the navigation bar, your application users may not be able to access the **Search data** button. If you must include the Search bar toggle on the **Home** page, contact ThoughtSpot Support to restore this feature on your cluster.
 
@@ -518,7 +539,7 @@ The SDK EmbedEvent library includes the following new events:
 * `Drilldown`
 * `SetVisibleVizs`
 
-For more information, see xref:embed-events.adoc[Interact with events].
+For more information, see xref:events-ref.adoc#embed-events[Events reference].
 
 |====
 ====
@@ -965,5 +986,3 @@ You can use this API to programmatically update a ThoughtSpot user's profile set
 +
 You can use this API to get a list of object headers for a ThoughtSpot user or user group. For more information, see xref:metadata-api.adoc#headers-metadata-users[Metadata API].
 ====
-
-
