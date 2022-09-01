@@ -1,8 +1,8 @@
-= Data connection APIs
+= Data connection API
 :toc: true
 :toclevels: 1
 
-:page-title: Data connection APIs
+:page-title: Data connection API
 :page-pageid: connections-api
 :page-description: The connection API endpoints allow you to query data connections used for live query services on a ThoughtSpot instance
 
@@ -255,14 +255,14 @@ __String__. Password of your Databricks account.
 
 ====
 
-.Dremio
+.Dremio connection
 
 [%collapsible]
 ====
 
 * `host`
 +
-__String__. The hostname of Dremio server.
+__String__. Hostname of the Dremio server.
 
 * `port`
 +

@@ -10,7 +10,7 @@
 --
 *Pinboards are now Liveboards!*
 
-Effective from the ThoughtSpot 8.4.0-sw (Limited Availability) release, ThoughtSpot pinboards are rebranded as Liveboards in ThoughtSpot UI, documentation, and learning resources.
+Effective from the ThoughtSpot 8.4.1-sw release, ThoughtSpot pinboards are rebranded as Liveboards in ThoughtSpot UI, documentation, and learning resources.
 Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 endpoint URLs and request and response workflows are not rebranded.
 --
 
@@ -67,7 +67,7 @@ include::{path}/pinboard-api-list.adoc[]
 [options='header']
 |=====
 |API endpoint| Available from
-|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]`
+|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]` +
 Allows searching for data from a specific data source in the ThoughtSpot application.| ThoughtSpot Software [version noBackground]#6.0.x#
 |=====
 --

@@ -538,6 +538,8 @@ Exports the TML representation of an answer from ThoughtSpot.
 Publishes the modified TML representation of an answer.
 |===
 
-== Additional resources
 
-For a complete list of action enumerators, see link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].
+[#standard-actions]
+== Action enumeration members
+
+By default, ThoughtSpot provides a set of standard actions for embedded objects such as xref:embed-actions.adoc#liveboard-action[Liveboards], xref:embed-actions.adoc#viz-actions[pinned visualizations], and xref:embed-actions.adoc#answer-actions[answers derived from the search]. For each of these actions, the SDK provides an Action enumeration member. For more information, see xref:embed-action-ref.adoc[Action Reference] and link:https://developers.thoughtspot.com/docs/typedoc/enums/Action.html[Action, window=_blank].

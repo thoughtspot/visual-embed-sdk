@@ -2,7 +2,7 @@
 :toc: true
 :toclevels: 1
 
-:page-title: User APIs
+:page-title: User API
 :page-pageid: user-api
 :page-description: To create, update, and manage ThoughtSpot users programmatically, use the user API endpoints
 

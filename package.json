@@ -45,12 +45,8 @@
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
         "eventemitter3": "^4.0.7",
-<<<<<<< HEAD
-        "mixpanel-browser": "^2.41.0"
-=======
         "html-react-parser": "^1.4.12",
         "mixpanel-browser": "^2.45.0"
->>>>>>> 0d8f204f... Mechanism to copy header section links (#653)
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",

@@ -270,7 +270,7 @@ See the following pages:
 * xref:home.adoc[Developer documentation] +
 * xref:rest-api-reference.adoc[REST API Reference Guide] +
 * link:https://developers.thoughtspot.com/guides[Tutorials, window=_blank] +
-* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] +
+* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank] +
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub respository, window=_blank] +
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 * link:https://github.com/thoughtspot/ts_everywhere_resources[Visual Embed SDK examples, window=_blank] +

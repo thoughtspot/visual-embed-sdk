@@ -17,7 +17,7 @@ __This API call is not required if you are using Visual Embed SDK__. |ThoughtSpo
 Authenticates and logs in a user using token.
 This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST` request method. +
 __This API call is not required if you are using Visual Embed SDK__.
-|ThoughtSpot Software [version noBackground]#8.4.0-sw#
+|ThoughtSpot Software [version noBackground]#8.4.1-sw#
 |`xref:session-api.adoc#session-logout[*POST* /tspublic/v1/session/logout]` +
 Logs out a user from an existing session.|ThoughtSpot Software [version noBackground]#6.0.x#
 |`xref:session-api.adoc#session-info[*GET* /tspublic/v1/session/info]` +

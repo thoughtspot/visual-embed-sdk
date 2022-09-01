@@ -325,7 +325,7 @@ To know more about the SDK, see the following resources: +
 
 * xref:visual-embed-sdk.adoc[Visual Embed SDK] in Developer Documentation
 * link:https://developers.thoughtspot.com/guides[Quick starts and tutorials, window=_blank]
-* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank]
+* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank]
 ====
 
 .Where can I find code samples for Visual Embed SDK?

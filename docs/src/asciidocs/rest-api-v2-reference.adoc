@@ -375,7 +375,7 @@ Removes the tag assigned to an object.
 
 +++<p class="divider"> </p>+++
 
-`*DELETE* /api/rest/v2/metadata/tag/delete`
+`*DELETE* /tspublic/rest/v2/metadata/tag/delete`
 
 Deletes the specified tag.
 
@@ -385,7 +385,7 @@ Deletes the specified tag.
 
 +++<p class="divider"> </p>+++
 
-`**PUT** /api/rest/v2/metadata/favorite/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT** /tspublic/rest/v2/metadata/favorite/assign` [tag orangeBackground]#Modified in 8.2.0.cl#
 
 Adds an object such as Liveboards and answers to a user's favorites list.
 
@@ -395,7 +395,7 @@ Adds an object such as Liveboards and answers to a user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**PUT ** /api/rest/v2/metadata/favorite/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT ** /tspublic/rest/v2/metadata/favorite/unassign` [tag orangeBackground]#Modified in 8.2.0.cl#
 
 Removes the specified object from the user's favorites list.  
 
@@ -405,7 +405,7 @@ Removes the specified object from the user's favorites list.
 
 +++<p class="divider"> </p>+++
 
-`**GET** /api/rest/v2/metadata/homeliveboard`
+`**GET** /tspublic/rest/v2/metadata/homeliveboard`
 
 Gets the details of the Liveboard that is set as a default Liveboard for the ThoughtSpot user.
 
@@ -415,7 +415,7 @@ Gets the details of the Liveboard that is set as a default Liveboard for the Tho
 
 +++<p class="divider"> </p>+++
  
-`**PUT** /api/rest/v2/metadata/homeliveboard/assign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` [tag orangeBackground]#Modified in 8.2.0.cl#
 
 Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
@@ -425,7 +425,7 @@ Assigns a Liveboard as a default Liveboard for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/metadata/homeliveboard/unassign` [tag orangeBackground]#Modified in 8.2.0.cl# 
+`*PUT* /tspublic/rest/v2/metadata/homeliveboard/unassign` [tag orangeBackground]#Modified in 8.2.0.cl#
 
 Removes the default home Liveboard setting for a ThoughtSpot user.
 
@@ -435,7 +435,7 @@ Removes the default home Liveboard setting for a ThoughtSpot user.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/incomplete`
+`*GET* /tspublic/rest/v2/metadata/incomplete`
 
 Gets a list of objects with incomplete metadata. 
 
@@ -445,7 +445,7 @@ Gets a list of objects with incomplete metadata.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/header`
+`*GET* /tspublic/rest/v2/metadata/header`
 
 Gets header details for a specific metadata object. 
 
@@ -456,7 +456,7 @@ Gets header details for a specific metadata object.
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/details`
+`*GET* /tspublic/rest/v2/metadata/details`
 
 Gets details of the metadata objects. To filter the query, you can specify the metadata object type.
 
@@ -466,7 +466,7 @@ Gets details of the metadata objects. To filter the query, you can specify the m
 
 +++<p class="divider"> </p>+++
 
-`*GET* /api/rest/v2/metadata/vizheaders`
+`*GET* /tspublic/rest/v2/metadata/vizheaders`
 
 Gets a list of visualization headers associated with a Liveboard.
 
@@ -476,7 +476,7 @@ Gets a list of visualization headers associated with a Liveboard.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/header/search`
+`*POST* /tspublic/rest/v2/metadata/header/search`
 
 Gets a list of all metadata objects in the ThoughtSpot system. To filter your query, specify the metadata object type, access level, and other such attributes.
 
@@ -486,7 +486,7 @@ Gets a list of all metadata objects in the ThoughtSpot system. To filter your qu
 
 +++<p class="divider"> </p>+++
 
-`*DELETE* /api/rest/v2/metadata/delete` 
+`*DELETE* /tspublic/rest/v2/metadata/delete`
 
 Deletes the specified metadata object.
 
@@ -496,7 +496,7 @@ Deletes the specified metadata object.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/dependency`
+`*POST* /tspublic/rest/v2/metadata/dependency`
 
 Gets a list of dependent metadata objects.
 
@@ -506,7 +506,7 @@ Gets a list of dependent metadata objects.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/metadata/tml/export`
+`*POST* /tspublic/rest/v2/metadata/tml/export`
 
 Exports a TML object and associated metadata.
 
@@ -516,7 +516,7 @@ Exports a TML object and associated metadata.
 
 +++<p class="divider"> </p>+++
 
-`**POST** /api/rest/v2/metadata/tml/import`
+`**POST** /tspublic/rest/v2/metadata/tml/import`
 
 Imports one or several TML objects and object associations.
 
@@ -529,7 +529,7 @@ Imports one or several TML objects and object associations.
 == Connections 
 
 --
-`*GET* /api/rest/v2/connection` 
+`*GET* /tspublic/rest/v2/connection`
 
 Gets details of a specific data connection.
 
@@ -569,7 +569,7 @@ Gets details of the columns of the tables associated with a connection ID.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/create` 
+`*POST* /tspublic/rest/v2/connection/create`
 
 Creates a data connection.
 
@@ -579,7 +579,7 @@ Creates a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/update` 
+`*PUT* /tspublic/rest/v2/connection/update`
 
 Updates an existing data connection.
 
@@ -589,7 +589,7 @@ Updates an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-*DELETE* /api/rest/v2/connection/delete 
+*DELETE* /tspublic/rest/v2/connection/delete
 
 Deletes a data connection.
 
@@ -599,7 +599,7 @@ Deletes a data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/addtable` 
+`*PUT* /tspublic/rest/v2/connection/addtable`
 
 Adds a table to an existing data connection.
 
@@ -609,7 +609,7 @@ Adds a table to an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*PUT* /api/rest/v2/connection/removetable` 
+`*PUT* /tspublic/rest/v2/connection/removetable`
 
 Removes a table from an existing data connection.
 
@@ -619,7 +619,7 @@ Removes a table from an existing data connection.
 
 +++<p class="divider"> </p>+++
 
-`*POST* /api/rest/v2/connection/search` 
+`*POST* /tspublic/rest/v2/connection/search`
 
 Gets details of all data connections. You can also query data for a specific connection type.
 

@@ -101,7 +101,7 @@ For more information about embedding ThoughtSpot app and its objects using SDK, 
 
 == Related resources
 
-* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] 
+* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank]
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]

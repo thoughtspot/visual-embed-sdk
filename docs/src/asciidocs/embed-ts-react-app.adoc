@@ -293,7 +293,7 @@ const Search = () => {
 };
 ----
 
-For a complete list of `SearchEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/SearchViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `SearchEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/SearchViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a Liveboard 
 
@@ -429,7 +429,7 @@ const Liveboard = () => {
   );
 };
 ----
-For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `LiveboardEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a visualization
 
@@ -559,7 +559,7 @@ const viz= () => {
 };
 ----
 
-For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `LiveboardEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 For more information about custom action events, see xref:custom-actions-callback.adoc[Callback custom actions].
 
@@ -674,7 +674,7 @@ const FullApp = () => {
   );
 };
 ----
-For a complete list of `AppEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/AppViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `AppEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/AppViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 [#react-routes]
 == Add routes for navigation

@@ -47,8 +47,6 @@ curl -X GET \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
 
-
-
 .Request URL
 [source, URL]
 ----
@@ -77,8 +75,11 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 ----
 
 === Example response
-On successful login, the API returns the application details.
-The following example shows a partial output.
+
+If the API request is successful, ThoughtSpot returns the response header for `set-cookie`. REST clients can use the cookies from the response to make subsequent REST calls in a non-browser environment.
+
+The following example shows a part of the API response:
+
 [source, HTML]
 ----
 <!doctype html>

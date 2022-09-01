@@ -1,4 +1,4 @@
-= Admin APIs
+= Admin API
 :toc: true
 :toclevels: 1
 

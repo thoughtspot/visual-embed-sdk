@@ -14,7 +14,7 @@ You can use the Visual Embed SDK for the following purposes:
 
 [NOTE]
 ====
-ThoughtSpot 8.4.0-sw (Limited Availability) release supports Visual Embed SDK version 1.12.0 or later.
+ThoughtSpot 8.4.1-sw release supports Visual Embed SDK version 1.12.0 or later.
 ====
 
 Follow the steps described in the sections below to embed ThoughtSpot features in your application.
@@ -86,7 +86,7 @@ Learn how to xref:full-embed.adoc[embed full ThoughtSpot experience] in your app
 [div boxDiv boxFullWidth]
 --
 
-* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] 
+* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
 * link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
