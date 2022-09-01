@@ -11,7 +11,7 @@ ThoughtSpot supports embedding Search, Liveboard, visualizations, and the full T
 --
 *ThoughtSpot Everywhere is now available!*
 
-Starting from the 8.4.0-sw release (Limited Availability), customers licensed to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK.
+Starting from the 8.4.1-sw release, customers licensed to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK.
 
 To enable ThoughtSpot Everywhere on your cluster, contact ThoughtSpot Support.
 --
@@ -35,11 +35,11 @@ s|When to use|The SDK Supports all embed and customization use cases. Use the SD
 |Use this method only if your host platform doesn't allow custom Javascript. This method involves embedding a ThoughtSpot component in an iFrame.| The legacy embedding method is available for only ThoughtSpot Software deployments. With this method, you can embed a ThoughtSpot page, object, or the full application using `api.min.js` script.
 s|Feature availability a|
 ThoughtSpot Cloud ts7.may.cl or later +
-ThoughtSpot Software version 8.4.0-sw or later a|
+ThoughtSpot Software version 8.4.1-sw or later a|
 ThoughtSpot Cloud ts7.may.cl or later +
 ThoughtSpot Software version 6.0 or later  a| ThoughtSpot Software version 6.0 or later
 
-ThoughtSpot recommends using Visual Embed SDK and ThoughtSpot Everywhere features from 8.4.0-sw onwards.
+ThoughtSpot recommends using Visual Embed SDK and ThoughtSpot Everywhere features from 8.4.1-sw onwards.
 
 s|Required user privilege|`DEVELOPER` +
 `ADMINISTRATOR`

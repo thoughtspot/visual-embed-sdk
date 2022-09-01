@@ -11,7 +11,7 @@ ThoughtSpot Everywhere offers a robust API framework with Visual Embed SDK and R
 
 [IMPORTANT]
 ====
-We recommend using ThoughtSpot Everywhere to embed ThoughtSpot in your app starting from the 8.4.0-sw release. To enable ThoughtSpot Everywhere on your instance and get access to Visual Embed SDK, developer playground, security settings, and customization capabilities, contact ThoughtSpot Support.
+We recommend using ThoughtSpot Everywhere to embed ThoughtSpot in your app starting from the 8.4.1-sw release. To enable ThoughtSpot Everywhere on your instance and get access to Visual Embed SDK, developer playground, security settings, and customization capabilities, contact ThoughtSpot Support.
 ====
 
 == Visual embed SDK
@@ -23,7 +23,7 @@ For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 == REST API
 ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
 
-The REST API v2 Playground and SDK playground[beta blueBackground]^BETA^ feature offers language-specific SDK libraries and packages, using which  you can call REST APIs from your clients and programmatically manage ThoughtSpot objects.
+The REST API v2 Playground [beta blueBackground]^BETA^ feature offers several API endpoints and improved functionality to programmatically manage ThoughtSpot objects.
 
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 

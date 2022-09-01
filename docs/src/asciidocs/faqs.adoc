@@ -62,7 +62,7 @@ To sign up for a 30-day free trial, click *Free Trial* on the link:https://devel
 .Is ThoughtSpot Everywhere available to ThoughtSpot Software customers?
 [%collapsible]
 ====
-Starting from 8.4.0-sw (Limited availability) release, customers with license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
+Starting from 8.4.1-sw release, customers with license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK. To enable ThoughtSpot Everywhere on your instance, contact ThoughtSpot Support.
 ====
 
 .Do I need a ThoughtSpot Everywhere license to customize and rebrand my ThoughtSpot instance?
