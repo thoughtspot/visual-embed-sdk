@@ -1,0 +1,111 @@
+= Now available on ThoughtSpot Software!
+:toc: true
+:toclevels: 1
+
+:page-title: Embedding support on ThoughtSpot Software clusters
+:page-pageid: embedding-support-software
+:page-description: This article sumamrizes the embedding support and ThoughtSpot Everywhere features available on ThoughtSpot Software clusters.
+
+ThoughtSpot Software clusters now support ThoughtSpot Everywhere and Visual Embed SDK!
+
+Starting from the 8.4.1-sw release, ThoughtSpot Software customers who have the license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK to embed ThoughtSpot objects in their apps.
+
+== Embedding methods
+
+For information about embedding methods, see xref:embed-methods.adoc#_supported_embedding_methods[Supported embedding methods].
+
+
+== Embedding support with Visual Embed SDK
+
+The Visual Embed SDK provides Javascript-based embed packages and client libraries to embed and customize the following ThoughtSpot components in your web application: +
+
+* ThoughtSpot Search
+* Liveboards
+* Full application
+
+=== Supported SDK versions
+
+The minimum SDK version required for embedding ThoughtSpot Software in your app is `1.12.0`.  sYou can upgrade to a later version if required. However, you must exercise caution before upgrading to a new version because the new versions may introduce breaking changes. Besides this, the new version may have APIs, methods, and attributes for features that are not yet available on your ThoughtSpot Software release.
+
+For more information about the SDK versions, methods, and classes, see xref:api-changelog.adoc[Visual Embed Changelog] and link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+
+== REST API
+
+REST API v1 operations are supported on ThoughtSpot Software by default. You can make API calls to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
+
+The *Develop* tab in the UI also allows you to explore REST API v1 and REST API v2 [beta blueBackground]^BETA^ request and response workflows.
+
+For a complete list of endpoints and information about allowed operations, see xref:rest-api-reference.adoc[REST API v1 Reference] and xref:rest-api-v2-reference.adoc[REST API v2 ^BETA^ Reference].
+
+== Supported features
+
+[div tableContainer]
+--
+[width="100%" cols="7,5,5"]
+[options='header']
+|=====
+|Feature|ThoughtSpot Software clusters with ThoughtSpot Everywhere|Clusters without ThoughtSpot Everywhere or embedding license
+
+|Access to **Develop** tab +
+
+(Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓#
+| Visual Embed playground |[tag greenBackground]#✓#
+|[tag greenBackground]#✓#
+
+| Visual Embed SDK +
+
+Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries a|[tag greenBackground]#✓# +
+__The minimum supported version is 1.12.0__| [tag greyBackground]#–#
+
+a|Embedding with REST APIs +
+
+* Embedding Liveboards with visualizations +
+* Embedding search data
+|[tag greenBackground]#✓#  +
+
+|[tag greenBackground]#✓# +
+(Basic authentication only)
+
+|Authentication options  +
+(For embedded ThoughtSpot instances only) a| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# SAML SSO  +
+
+[tag greenBackground]#✓# Token-based authentication +
+
+[tag greenBackground]#✓# OIDC +
+
+| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# SAML SSO
+
+a|REST API v1 +
+
+|[tag greenBackground]#✓#
+|[tag greenBackground]#✓# +
+(Basic authentication only)
+
+a|REST v2 API [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+ |[tag greenBackground]#✓# +
+(Basic authentication only)
+
+|REST API Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓#
+
+|URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|Callback custom actions|[tag greenBackground]#✓# |[tag greyBackground]#–#
+|UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|Link customization|[tag greenBackground]#✓#  |[tag greyBackground]#–#
+|Security settings for embedding ThoughtSpot +
+
+(CSP, CORS, and SAML Redirect configuration)| [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–#
+|=====
+--
+
+== Documentation
+
+ThoughtSpot Everywhere documentation is available on the link:https://developers.thoughtspot.com/docs[Developer Documentation] site.
+
+To view documentation specific to the Software release version that your cluster is currently on:
+
+. Go to the *Develop* tab on your cluster.
+. Click the *Guide* menu under *Visual Embed SDK* or *REST API*.
