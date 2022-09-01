@@ -16,9 +16,13 @@ We recommend using ThoughtSpot Everywhere to embed ThoughtSpot in your app start
 
 == Visual embed SDK
 
-The Visual Embed SDK provides Javascript-based embed packages and client libraries to embed and customize ThoughtSpot components in your web application. The SDK package includes separate libraries for embedding Search, Liveboard, full ThoughtSpot application, or a single visualization. To explore the Visual Embed APIs, navigate to the *Develop* tab and click *Visual Embed Playground*.
+The xref:visual-embed-sdk.adoc[Visual Embed SDK] provides Javascript-based embed packages and client libraries to embed and customize ThoughtSpot components in your web application. The SDK package includes separate libraries for embedding Search, Liveboard, full ThoughtSpot application, or a single visualization. To explore the Visual Embed APIs, navigate to the *Develop* tab and click *Visual Embed Playground*.
 
-For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
+=== Supported SDK versions
+
+The minimum SDK version required for embedding ThoughtSpot Software in your app is `1.12.0`. You can upgrade to a later version if required. However, you must exercise caution before upgrading to a new version because it may introduce breaking changes. The new version may also have APIs, methods, and attributes for features that are not yet available on your ThoughtSpot Software release.
+
+For more information about the SDK versions, methods, and classes, see the following pages: xref:api-changelog.adoc[Visual Embed Changelog] and link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank].
 
 == REST API
 ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
