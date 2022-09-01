@@ -8,6 +8,9 @@ This project follows Semantic Versioning.
 ### New Features
 - Set of new Host events to drive interactions on the embed programatically 
 
+## 1.14.1 (08-31-2022)
+- Fixed "not logged in" message showing up on "SearchEmbed" with AuthType.None.
+
 ## 1.14.0 (08-29-2022)
 - [AuthType.AuthServer] Now uses `POST` call to log the user in using the bearer token.
 - `liveboardV2` flag on `LiveboardEmbed` to try out the LiveboardV2 experience. 
