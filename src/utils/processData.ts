@@ -7,7 +7,7 @@ import {
     notifyLogout,
 } from '../embed/base';
 import { AuthFailureType, initSession } from '../auth';
-import { EmbedEvent, OperationType } from '../types';
+import { AuthType, EmbedEvent, OperationType } from '../types';
 import { getAnswerServiceInstance } from './answerService';
 
 export function processCustomAction(e: any, thoughtSpotHost: string) {
@@ -73,10 +73,12 @@ function processNoCookieAccess(e: any, containerEl: Element) {
 }
 
 function processAuthFailure(e: any, containerEl: Element) {
-    const { loginFailedMessage } = getEmbedConfig();
-    // eslint-disable-next-line no-param-reassign
-    containerEl.innerHTML = loginFailedMessage;
-    notifyAuthFailure(AuthFailureType.OTHER);
+    const { loginFailedMessage, authType } = getEmbedConfig();
+    if (authType !== AuthType.None) {
+        // eslint-disable-next-line no-param-reassign
+        containerEl.innerHTML = loginFailedMessage;
+        notifyAuthFailure(AuthFailureType.OTHER);
+    }
     return e;
 }
 

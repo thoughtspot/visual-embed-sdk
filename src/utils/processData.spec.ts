@@ -191,6 +191,23 @@ describe('Unit test for process data', () => {
         expect(el.innerHTML).toBe('Hello');
     });
 
+    test('process authFailure AuthType=None', () => {
+        const e = { type: EmbedEvent.AuthFailure };
+        jest.spyOn(base, 'notifyAuthFailure');
+        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            authType: AuthType.None,
+        });
+        const el: any = {};
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
+            {
+                type: e.type,
+            },
+        );
+        expect(base.notifyAuthFailure).not.toBeCalled();
+        expect(el.innerHTML).not.toBe('Hello');
+    });
+
     test('process authLogout', () => {
         base.init({
             loginFailedMessage: 'Hello',
