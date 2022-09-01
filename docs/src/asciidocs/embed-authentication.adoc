@@ -10,69 +10,23 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 == Supported authentication methods
 
-The following table lists the authentication methods supported in the SDK and general recommendations for choosing an authentication method to authenticate your embedded application users.
+You can use one of the following authentication methods to authenticate your application users and allow them to access the embedded ThoughtSpot content.
 
-[width="100%" cols="4,4,6,6"]
-[options='header']
-|=====
-|Authentication type|AuthType in SDK|When to use|Not recommended when
-|xref:embed-authentication.adoc#none[No authentication]|`AuthType.NONE` a| Use this method: +
-
-* If your ThoughtSpot instance is configured to use SAML or OIDC authentication.
-* If your IdP supports the authentication flow within the iFrame.
-
-| <need inputs>
-|xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
-
-* If you want to use local authentication with ThoughtSpot `username` and `password`.
-* If you are developing or testing code for embedding ThoughtSpot in your host app. | Do not use this authentication method in production environments.
-|xref:embed-authentication.adoc#embedSSO[Embedded SSO authentication]|`AuthType.EmbeddedSSO` a| Use this method: +
-
-* If your application is already using a SAML IdP or OpenID provider that allows iframe redirects.
-* If your ThoughtSpot instance has SAML or OIDC authentication support configured.
-* To seamlessly redirect your users to their IdP within the embedded iframe for authentication.
-
-a|ThoughtSpot does not recommend using Embedded SSO authentication in the following scenarios: +
-
-* If you are using multiple IdPs for user authentication. +
-* If you cannot configure your IdP to allow iframe redirect. +
-* If you want to customize the authentication flow; for example, automatically log in a user when their session expires.
-|xref:embed-authentication.adoc#saml-sso-embed[SAMLRedirect authentication]|`AuthType.SAMLRedirect` a|Use this method: +
-
-* If your application uses a SAML IdP that does not natively support embedding.
-a a|Do not use this method: +
-
-* If you don't want the SDK to redirect your entire app to the IdP for user authentication when the embedded content loads. +
-* If you want to seamlessly authenticate users without multiple redirects to the IdP.
-|xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]|`AuthType.OIDCRedirect` a|Use this method: +
-
-* If your application uses an OpenId provider that does not natively support embedding.
-
-a|Do not use this method: +
-
-* If you don't want the SDK to redirect your entire app to the OpenID provider for user authentication when the embedded content loads.
-* If you want to seamlessly authenticate users without multiple redirects to the IdP.
-
-|xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.TrustedAuth` a|Use this method: +
-
-* If you want to customize the authentication flow; for example, automatically log in users when their session expires.
-* If your IdP setup does not support Embedded SSO authentication.
-* If you want service users that do not exist in your IdP to authenticate to ThoughtSpot. a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
-
-* If you want to implement a simple solution with Embedded SSO authentication.
-* If you don't have the resources required to implement trusted authentication and customize authentication flow.
-|=====
-
+* xref:embed-authentication.adoc#no-auth-embed[No authentication]
+* xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]
+* xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication]
+* xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]
+* xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]
 
 [IMPORTANT]
 ====
-For production environments, ThoughtSpot strongly recommends using Embedded SSO, SAMLRedirect, OIDCRedirect, or trusted authentication.
+If you are developing or testing code for embedding ThoughtSpot in your host app, you might want to use basic authentication with `username` and `password`, or no authentication. For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, or trusted authentication.
 ====
 
+[#no-auth-embed]
+=== No authentication
 
-[#none]
-=== None
-The `None` authentication method allows you to leverage the existing SAML or OIDC configuration on ThoughtSpot and lets your IdP handle the authentication flow within the iframe. Your IdP must allow the authentication flow to complete within the iFrame.
+In development and testing environments, you can choose not to use any authentication method. To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
 
 [source,javascript]
 ----
@@ -82,12 +36,17 @@ init({
 });
 ----
 
+[WARNING]
+====
+Do not use this authentication method in production environments.
+====
+
 [#basic-auth-embed]
 === Basic authentication
 
 The basic authentication option in the SDK sends a `POST` request with the `username` and `password` of the user to the `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. This option allows users to log in to the embedded ThoughtSpot view  with their `username` and `password`.
 
-To enable the basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
+To enable basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 
 [source,javascript]
 ----
@@ -142,7 +101,7 @@ The SAML authentication workflow occurs when the actual ThoughtSpot content is l
 
 ==== SAML redirection
 
-If you want the SAML SSO authentication workflow to terminate on a specific path on the host origin, you can set the redirect path in the `redirectPath` attribute. For example, when a user's attempt to sign on using SSO fails, you might want to redirect your users to the main page or a specific application page, instead of showing your application in an error state. 
+If you want the SAML SSO authentication workflow to terminate on a specific path on the host origin, you can set the redirect path in the `redirectPath` attribute. For example, when a user's attempt to sign on using SSO fails, you might want to redirect your users to the main page or a specific application page, instead of showing your application in an error state.
 
 [source,javascript]
 ----
@@ -165,7 +124,7 @@ init({
 ----
 
 [#oidc-auth]
-=== OpenID Connect SSO authentication 
+=== OpenID Connect SSO authentication
 
 If your app supports OAuth 2.0 protocol and OIDC authentication framework and uses an OpenId Provider for user authentication, your application users can authenticate to an OpenID provider when the embedded content loads. Make sure your ThoughtSpot instance is xref:configure-oidc.adoc[configured to support OIDC authentication]. If your OpenID provider does not support iFrame redirects, you can configure the `OIDCRedirect` authentication method to redirect your app to the OpenID Provider login page.
 
@@ -177,7 +136,7 @@ init({
 });
 ----
 
-Optionally, you can configure a `redirectPath` string to redirect embed users to a specific application page. 
+Optionally, you can configure a `redirectPath` string to redirect embed users to a specific application page.
 
 ----
 redirectPath: "/dashboard"
@@ -196,7 +155,7 @@ The token-based authentication requires you to xref:trusted-authentication.adoc#
 
 * Username
 +
-The `username` of the user for whom the token is required.  
+The `username` of the user for whom the token is required.
 
 * Authentication endpoint
 +
@@ -206,7 +165,7 @@ The URL endpoint of the server that provides the authentication token.
 
 To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `TrustedAuth`.
 
-To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:  
+To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:
 
 * `**authEndpoint**`
 +
@@ -231,8 +190,8 @@ You can call the `getAuthToken` function to invoke your login endpoint. The logi
 +
 [NOTE]
 ====
-The generated authentication token is valid for only five minutes. Make sure the `getAuthToken` function returns a fresh token for each re-login. 
-Using older tokens to renew a user session will lead to authentication failure. 
+The generated authentication token is valid for only five minutes. Make sure the `getAuthToken` function returns a fresh token for each re-login.
+Using older tokens to renew a user session will lead to authentication failure.
 ====
 
 +
@@ -260,13 +219,13 @@ Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX r
 
 == Authentication errors and event handling
 
-The user authentication may fail due to an incomplete SSO login process, expired user session, SDK initialization error, or if the browser has blocked third-party cookies. 
+The user authentication may fail due to an incomplete SSO login process, expired user session, SDK initialization error, or if the browser has blocked third-party cookies.
 
 The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
 
 [source,Typescript]
 ----
-authStatus = init(embedConfig); authStatus.on(AuthStatus.FAILURE, (reason) => { 
+authStatus = init(embedConfig); authStatus.on(AuthStatus.FAILURE, (reason) => {
 console.log('Authentication failed');
 });
 ----
@@ -280,7 +239,7 @@ If you want to display a message in the embedded UI when a user login fails, inc
 By default, the attribute displays the `Not logged in` message in the embedded UI. To customize this message, define a string with custom text or markup as shown here:
 
 ----
-loginFailedMessage: "Authentication failed! Please try again."  
+loginFailedMessage: "Authentication failed! Please try again."
 ----
 
 ----
@@ -289,17 +248,17 @@ loginFailedMessage: "<div> <h3> Please enable third-party cookies</h3> <img src=
 
 You can also register event handlers to trigger the following events:
 
-* `NoCookieAccess` 
+* `NoCookieAccess`
 +
-Emitted if cookies are restricted by a user's browser. 
+Emitted if cookies are restricted by a user's browser.
 
 * `AuthExpire`
 +
 Emitted if the SSO does not complete and if the ThoughtSpot session times out at some point.
 
-* `AuthInit` 
+* `AuthInit`
 +
-Emitted when the authentication is completed. 
+Emitted when the authentication is completed.
 
 For more information about triggering these events, see xref:embed-events.adoc[Interact with events].
 
