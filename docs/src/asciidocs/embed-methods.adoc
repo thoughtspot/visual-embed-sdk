@@ -9,7 +9,7 @@ ThoughtSpot supports embedding Search, Liveboard, visualizations, and the full T
 
 [div announcementBlock]
 --
-Starting from 8.4.1-sw release, ThoughtSpot Software clusters support ThoughtSpot Everywhere and embedding with Visual Embed SDK. For more information, see xref:rel-page-sw.adoc[Now available on ThoughtSpot Software].
+Starting from 8.4.1-sw release, ThoughtSpot Software clusters support ThoughtSpot Everywhere and embedding with Visual Embed SDK. For more information, see xref:rel-page-sw.adoc[Now available on ThoughtSpot Software!]
 --
 
 == Supported embedding methods
