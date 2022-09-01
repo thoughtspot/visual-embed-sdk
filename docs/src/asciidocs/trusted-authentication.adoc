@@ -13,14 +13,7 @@ Trusted authentication establishes a ThoughtSpot session in the browser without 
 
 The *login token* from the ThoughtSpot V1 REST API is a simple, proprietary token. The authentication token of the V2 REST API is not currently used in the trusted authentication flow.
 
-<<<<<<< HEAD
-[NOTE]
-====
-All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Please confirm that your browser is set to allow "third-party cookies" when testing trusted authentication. Chrome now blocks third-party cookies in Incognito mode by default, while Safari blocks them by default even in standard mode.
-====
-=======
 *Securely requesting the login token* requires passing authentication details from the embedding application securely to an *authenticator service* with access to the `secret_key` for the ThoughtSpot instance and ThoughtSpot admin user's credentials.
->>>>>>> f45eeda6... Trusted auth updates 2 (#695)
 
 The process for trusted authentication is as follows:
 
@@ -37,14 +30,7 @@ image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 The Visual Embed SDK automates the login token request and subsequent login request using the returned login token.
 
-<<<<<<< HEAD
-There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`.
-////
-When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
-////
-=======
 The request to the *authenticator service* is defined in the `init()` function of the Visual Embed SDK. When `init()` is called, the SDK checks if there is an existing ThoughtSpot session for the instance in the browser. If not, it will request a *login token* from either the `authEndpoint` URL or the `getAuthToken` callback function. The xref:embed-authentication.adoc#trusted-auth-embed[Embed user authentication page] shows the exact forms to use for these two properties.
->>>>>>> f45eeda6... Trusted auth updates 2 (#695)
 
 === Secure the authentication details request
 For the request to the *authenticator service* to be secure, the user in the browser cannot modify the request or make their own valid request to the *authenticator service*.
@@ -152,7 +138,7 @@ The typical flow of REST API commands for user creation is actually as follows:
 1. Make a REST API request for the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user]
 2. If the user doesn't exist from the `Get User Details` request, xref:user-api.adoc#create-user[create the user] and add the user to groups in this step
 3. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to
-4. If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request]. 
+4. If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request].
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
