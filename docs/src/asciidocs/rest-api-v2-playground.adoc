@@ -1,14 +1,14 @@
-= REST API V2 Playground
+= REST API v2 Playground
 :toc: true
 
 :page-title: ThoughtSpot REST API v2 Playground
 :page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
-The REST API Playground [beta blueBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
-
+The REST API v2 Playground [beta blueBackground]^BETA^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+////
 The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
-
+////
 == Access Playground
 
 To access the REST Playground v2, click *Develop* > *REST API* > **REST Playground v2**.
@@ -61,13 +61,17 @@ Allows you to download the API response JSON file to your local directory.
  
 Language selection drop-down::
 
-The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples. You can also use this drop-down to get language-specific SDK and client libraries.
+The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples.
 
+////
+You can also use this drop-down to get language-specific SDK and client libraries.
+////
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
+////
 == SDK and client libraries
 
 To download the SDK library for a specific language, select the language and click **Get SDK**. To know how to set up and use SDK libraries, click *Setup and Usage*. 
@@ -79,3 +83,4 @@ You can also download the SDK and API libraries from the following public resour
 * link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
 
 For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+////

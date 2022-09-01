@@ -22,7 +22,6 @@ If ThoughtSpot Everywhere is enabled on your cluster, you can access the Develop
 . Log in to ThoughtSpot.
 . Navigate to the **Develop** tab.
 
-
 == Find your way around
 
 The ThoughtSpot Developer portal includes several sections that assist you through your embedding journey.
@@ -35,16 +34,28 @@ This page also includes links to the *Developer Guides* and *Playground*.
 [.bordered]
 image::./images/develop-home.png[Developer Portal]
 
-Guide::
-The *Guide* menu displays the _ThoughtSpot Developer Documentation_. The Developer documentation provides step-by-step instructions on embedding ThoughtSpot using the Visual Embed SDK and REST APIs.
-+
-[NOTE]
-====
-If the REST API Playground and SDK feature is enabled on your environment, the `Guide` menu will appear as a sub-menu option under *REST API* and **Visual Embed SDK**.
-====
 
-REST API [beta blueBackground]^BETA^::
-If you have enabled REST API Playground and SDK feature on your cluster, the Developer portal displays the *REST APIs* menu with the following menu options:
+Visual Embed SDK::
+
+Includes the following menu items:
+
+Guide;;
+Opens the Visual Embed documentation page.
+
+Playground;;
+The Visual Embed SDK *Playground* allows you to explore the following Visual Embed components:
+* xref:developer-playground.adoc#playground-search[Search]
+* xref:developer-playground.adoc#playground-liveboard[Liveboards]
+* xref:developer-playground.adoc#playground-visualization[Visualizations]
+* xref:developer-playground.adoc#playground-fullapp[Full application]
+
++
+++++
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the Playground</a>
+++++
+
+REST API::
+Includes the following menu items:
 
 Guide;;
 Opens the REST API documentation.
@@ -56,28 +67,12 @@ Opens the REST API v1 Explorer page. This page allows you to make API calls to t
 <a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-
-REST Playground v2;;
-Opens the REST API v2 Playground. The Playground allows you to explore the REST v2 endpoints, make API calls, and access the REST API SDK toolkit and client libraries in multiple languages.
+REST Playground v2 [beta blueBackground]^BETA^;;
+Opens the REST API v2 Playground [beta blueBackground]^BETA^. This Playground allows you to view the REST v2 endpoints, make API calls, and explore the request and response workflows.
 +
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
-
-Playground::
-The Visual Embed SDK *Playground* allows you to explore the following Visual Embed components:
-* xref:developer-playground.adoc#playground-search[Search]
-* xref:developer-playground.adoc#playground-liveboard[Liveboards]
-* xref:developer-playground.adoc#playground-visualization[Visualizations]
-* xref:developer-playground.adoc#playground-fullapp[Full application]
-////
-+
-++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Visit the Playground</a>
-++++
-////
-
 
 Customizations::
 The Developer portal displays the following customization options for Thoughtspot embedded instances:
