@@ -35,7 +35,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      * This is the minimum height(in pixels) for a full height Liveboard.
      * Setting this height helps resolves issues with empty Liveboards and
      * other screens navigable from a Liveboard.
-     * @version 1.5.0 or later
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
      */
     defaultHeight?: number;
@@ -49,7 +49,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     liveboardId?: string;
     /**
-     * To support backward compatibilty
+     * To support backward compatibility
      * @hidden
      */
     pinboardId?: string;
@@ -66,7 +66,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      * Array of viz ids which should be visible when the liveboard
      * first renders. This can be changed by triggering the "SetVisibleVizs"
      * event.
-     * @version 1.9.1 or later
+     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     visibleVizs?: string[];
     /**
@@ -77,12 +77,12 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * Render embedded Liveboards and visualizations in the new Liveboard experience mode
      * @default false
-     * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl
+     * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      */
     liveboardV2?: boolean;
     /**
      * Tab Id of the Liveboard that is supposed to be active
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
 }

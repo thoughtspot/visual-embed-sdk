@@ -42,6 +42,26 @@ export async function fetchAuthService(
     );
 }
 
+export async function fetchAuthPostService(
+    thoughtSpotHost: string,
+    username: string,
+    authToken: string,
+): Promise<any> {
+    return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'x-requested-by': 'ThoughtSpot',
+        },
+        body: `username=${encodeURIComponent(
+            username,
+        )}&auth_token=${encodeURIComponent(authToken)}`,
+        credentials: 'include',
+        // We do not want to follow the redirect, as it starts giving a CORS error
+        redirect: 'manual',
+    });
+}
+
 export async function fetchBasicAuthService(
     thoughtSpotHost: string,
     username: string,
