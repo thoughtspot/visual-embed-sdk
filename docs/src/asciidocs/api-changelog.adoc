@@ -34,6 +34,10 @@ For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs
 * UpdateTML
 
 For more information, see xref:events-ref.adoc#host-events[Events reference].
+|====
+
+
+////
 |[tag orangeBackground]#MODIFIED# a|The upcoming version of the SDK introduces the following `AuthType` enum changes. +
 
 * `AuthType.SAML` is renamed as `AuthType.SAMLRedirect`
@@ -44,8 +48,7 @@ This enhancement does not introduce any breaking changes in your current impleme
 |[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO` for embedded SSO authentication. This authentication method allows you to use SAML or OIDC authentication and redirect users to the IdP within the embedded iFrame.
 For more information, see xref:embed-authentication.adoc[Authentication].
 
-|====
-
+////
 
 == Version 1.14.0, August 2022
 [width="100%" cols="1,4"]
@@ -132,7 +135,7 @@ For more information, see xref:embed-actions.adoc[Show or hide UI actions].
 == Version 1.10.4, May 2022
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|The `detectCookieAccessSlow` parameter in the SDK allows your app to check if third-party cookies are enabled on the browser. This parameter is available only for `TrustedAuth` and `Basic` authentication types.
+|[tag greenBackground]#NEW FEATURE#|The `detectCookieAccessSlow` parameter in the SDK allows your app to check if third-party cookies are enabled on the browser. This parameter is available only for trusted and `Basic` authentication types.
 |====
 == Version 1.10.3, May 2022
 
@@ -141,7 +144,7 @@ Bug fix and improvements to the `logout` method.
 == Version 1.10.2, May 2022
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE#|Ability to configure `redirectPath` on the origin when using the SAMLRedirect `authType`.
+|[tag greenBackground]#NEW FEATURE#|Ability to configure `redirectPath` on the origin when using the SAML `authType`.
 |====
 
 == Version 1.10.1, May 2022
@@ -192,7 +195,7 @@ Bug fixes and improvements to React components.
 |====
 |[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
 You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
-This feature is applicable to token-based authentication, that is, when the `AuthType` is set as `TrustedAuth` in the SDK.
+This feature is applicable to token-based authentication, that is, when the `AuthType` is set as `AuthServer` in the SDK.
 
 For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
 |====
@@ -432,7 +435,7 @@ For more information, see xref:push-data-to-external-app.adoc#large-dataset[Call
 |====
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>SAML authentication</h5>+++
 
-The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the SAMLRedirect SSO `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
+The Visual Embed SDK packages now include the `noRedirect` attribute as an optional parameter for  the SAML SSO `AuthType`. If you want to display the SAML authentication workflow in a pop-up window, instead of refreshing the application web page to direct users to the SAML login page, you can set the `noRedirect` attribute to `true`.
 
 For more information, see the instructions for embedding xref:full-embed.adoc[ThoughtSpot pages], xref:embed-search.adoc[search], xref:embed-pinboard.adoc[pinboard], and xref:embed-a-viz.adoc[visualizations].
 

@@ -66,7 +66,7 @@ After importing the package, specify the hostname or IP address of your ThoughtS
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.EmbeddedSSO,
+    authType: AuthType.SAML,
 });
 ----
 thoughtSpotHost::

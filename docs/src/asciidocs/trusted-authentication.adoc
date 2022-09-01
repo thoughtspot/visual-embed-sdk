@@ -45,7 +45,7 @@ The following example shows a callback function with a custom request using link
 ----
 init({
     thoughtSpotHost: tsURL,
-    authType:  AuthType.TrustedAuth,
+    authType:  AuthType.AuthServer,
     getAuthToken: getAuthToken,
     username: username
   });
@@ -244,7 +244,7 @@ _String_. The URL to which the user is redirected after successful authenticatio
 
 +
 ----
-https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+https://<redirect-domain>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
 
 == Additional resources
