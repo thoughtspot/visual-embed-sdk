@@ -6,7 +6,7 @@
 :page-pageid: deprecated-features
 :page-description: This article lists features deprecated and no longer supported in ThoughtSpot Everywhere
 
-As ThoughtSpot products evolve, the existing features are deprecated and replaced with new and improved functionality. +
+As ThoughtSpot products evolve, sometimes existing features are deprecated and replaced with new and improved functionality. +
 A deprecated feature may continue to be functional for a while, but may not be maintained or supported with the new workflows and functionality. Deprecated features will eventually be removed from the product and not supported in later releases.
 ////
 De-supported::
@@ -21,7 +21,7 @@ The REST v2 API [beta blueBackground]^BETA^ endpoints will remain functional, bu
 
 [NOTE]
 ====
-If your current deployment is using REST v2 API [beta blueBackground]^BETA^ endpoints, your implementation will continue to work. However, ThoughtSpot recommends that you start using the REST v2.0 API endpoints as and when they are made Generally Available (GA).
+If your current deployment is using REST v2 API [beta blueBackground]^BETA^ endpoints, your implementation will continue to work. However, ThoughtSpot recommends that you start using REST v2.0 API endpoints as and when they are made Generally Available (GA).
 ====
 
 === REST v2.0 API rollout
