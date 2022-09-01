@@ -155,7 +155,7 @@ To obtain authentication tokens, you can either set the `authEndPoint` attribute
 
 * `**authEndpoint**`
 +
-Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.
+Specify the authentication endpoint URL from which you want to obtain the authentication token. When an API request is sent to the specified endpoint URL, the authentication server sends the token as plain text.
 
 +
 [source,javascript]
