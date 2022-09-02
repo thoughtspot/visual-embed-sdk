@@ -702,7 +702,7 @@ export default App;
  
 == Additional resources
 
-* For information about events, see xref:embed-events.adoc[Interact with events].
+* For information about events, see xref:embed-events.adoc[Events and app integration].
 * For information about Action enumerations, see xref:embed-actions.adoc[Show or hide UI actions].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
 * For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, window=_blank].

@@ -72,5 +72,5 @@ a|REST v2 API [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
 
 == Additional resources
 
-* xref:embed-methods.adoc[Embed ThoughtSpot].
-* xref:https://developers.thoughtspot.com/docs/?pageid=faqs[FAQs]
+* xref:embed-methods.adoc[Embed ThoughtSpot]
+* link:https://developers.thoughtspot.com/docs/?pageid=faqs[FAQs, window=_blank]
