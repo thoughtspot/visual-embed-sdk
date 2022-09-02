@@ -1,0 +1,76 @@
+= Feature support matrix
+:toc: true
+
+:page-title:
+:page-pageid: feature-support-matrix
+:page-description: ThoughtSpot Software customers with a license to embed can avail ThoughtSpot Everywhere features and access to Visual Embed SDK
+
+The following table lists the features available with ThoughtSpot Everywhere
+
+[div tableContainer]
+--
+[width="100%" cols="7,5,5"]
+[options='header']
+|=====
+|Feature|ThoughtSpot Software clusters with ThoughtSpot Everywhere|Clusters without ThoughtSpot Everywhere or embedding license
+
+|Access to **Develop** tab +
+
+(Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓#
+| Visual Embed playground |[tag greenBackground]#✓#
+|[tag greenBackground]#✓#
+
+| Visual Embed SDK +
+
+Creating an app with ThoughtSpot Search, visualizations, Liveboards, or full application using Visual Embed SDK libraries a|[tag greenBackground]#✓# +
+__The minimum supported version is 1.12.0__| [tag greyBackground]#–#
+
+a|Embedding with REST APIs +
+
+* Embedding Liveboards with visualizations +
+* Embedding search data
+|[tag greenBackground]#✓#  +
+
+|[tag greenBackground]#✓# +
+(Basic authentication only)
+
+|Authentication options  +
+(For embedded ThoughtSpot instances only) a| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# SAML SSO  +
+
+[tag greenBackground]#✓# Token-based authentication +
+
+[tag greenBackground]#✓# OIDC +
+
+| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# SAML SSO
+
+a|REST API v1 +
+
+|[tag greenBackground]#✓#
+|[tag greenBackground]#✓# +
+(Basic authentication only)
+
+a|REST v2 API [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+|[tag greenBackground]#✓# +
+(Basic authentication only)
+
+|REST API v2 Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓#
+
+|URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|Callback custom actions|[tag greenBackground]#✓# |[tag greyBackground]#–#
+|UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|Link customization|[tag greenBackground]#✓#  |[tag greyBackground]#–#
+|Security settings for embedding ThoughtSpot +
+
+(CSP, CORS, and SAML Redirect configuration)| [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–#
+|=====
+--
+
+
+== Additional resources
+
+* xref:embed-methods.adoc[Embed ThoughtSpot].
+* xref:https://developers.thoughtspot.com/docs/?pageid=faqs[FAQs]

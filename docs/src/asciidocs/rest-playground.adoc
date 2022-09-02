@@ -9,7 +9,7 @@
 The REST API Playground provides an interactive portal to explore REST v1 and v2 [beta blueBackground]^BETA^ endpoints.
 
 * To view the Playground with REST v1 endpoints, click **REST Playground v1**. +
-* To explore REST v2 endpoints, click **REST Playground v2**.
+* To explore REST v2[beta blueBackground]^BETA^ endpoints, click **REST Playground v2**.
 
 
 == REST API v1 Playground
@@ -29,13 +29,11 @@ To make an API call and view results:
 
 For more information about REST API v1 endpoints, API request and response workflow, see xref:rest-api-getstarted[Get started with REST API v1].
 
-== REST API v2 Playground
+== REST API v2 Playground [beta blueBackground]^BETA^
 
-The REST API v2 Playground displays a list of v2 endpoints and code panel to try out API calls.
+The xref:rest-api-v2-playground.adoc[REST API v2 Playground][beta blueBackground]^BETA^ displays a list of v2 endpoints and code panel to try out API calls.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
-For more information, see xref:rest-api-v2-playground.adoc[REST API V2 Playground].
 

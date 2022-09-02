@@ -1,0 +1,84 @@
+= Release notes
+:toc: true
+:toclevels: 1
+
+:page-title: Release Notes
+:page-pageid: rel-notes
+:page-description: ThoughtSpot Everywhere release notes for ThoughtSpot Software releases.
+
+This page provides information about new features and enhancements available for embedded ThoughtSpot instances.
+
+== Version 8.4.1-sw, September 2022
+
+=== Support for ThoughtSpot Everywhere and Visual Embed SDK
+
+ThoughtSpot Software clusters now support ThoughtSpot Everywhere and embedding with Visual Embed SDK!
+
+Starting from the 8.4.1-sw release, customers with a license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK to embed ThoughtSpot objects in their apps.
+
+==== Visual Embed SDK
+
+The Visual Embed SDK provides Javascript-based embed packages and client libraries to help you embed the following ThoughtSpot components in your web application: +
+
+* xref:embed-search.adoc[ThoughtSpot Search]
+* xref:embed-pinboard.adoc[Liveboards]
+* xref:embed-a-viz.adoc[Individual visualizations from a Liveboard]
+* xref:full-embed.adoc[Individual application pages or the full application]
+
+Developers can also customize embedded objects using the APIs in the SDK: +
+
+* xref:embed-search.adoc[modify the layout of the embedded Search page]
+* xref:full-embed.adoc[customize the layout and home tabs in the embedded ThoughtSpot view]
+* xref:embed-actions.adoc[show or hide UI actions]
+* xref:runtime-filters.adoc[apply runtime filters]
+* xref:embed-events.adoc[trigger events and respond to events with an action]
+* xref:custom-actions.adoc[handle callback custom actions] that trigger a callback and send ThoughtSpot data in a response payload to the parent app.
+
+==== Supported SDK version
+
+The minimum SDK version required for embedding ThoughtSpot Software in your app is `1.12.0`.
+
+You can upgrade to a later version if required. However, you must exercise caution before upgrading to a new version because the new versions may introduce breaking changes. The new version may also include APIs, methods, and attributes for features that are not yet available on your ThoughtSpot Software release.
+
+For more information about the SDK versions, methods, and classes, see xref:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank] and link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+
+==== Developer portal
+
+Users with administrator or developer privileges can now access the *Develop* tab in the UI.
+
+The *Develop* tab provides access to Visual Embed SDK playground, style, action, and link customization features, and advanced security options for your embedded instance.
+
+You can also REST API v1 and REST API v2 [beta blueBackground]^BETA^ Playground. request and response workflows. The REST API v2 [beta blueBackground]^BETA^ Playground provides an interactive code panel to explore the API request and response workflows, build code samples, and view API documentation.
+
+For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
+
+=== REST API v1 features and enhancements
+
+==== Liveboard data API
+
+The `/tspublic/v1/pinboarddata` endpoint now allows retrieving transient content from a Liveboard. The `transient_pinboard_content` parameter allows you to pass a script to fetch the unsaved changes if any for a given Liveboard.
+
+For more information, see xref:pinboarddata.adoc[Liveboard data API].
+
+==== Data connection API
+
+* The following endpoints are now available for data connection queries: +
+
+** `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
+** `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +
+
+* The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
+
+For more information, see xref:connection-apis.adoc[Data connection APIs].
+
+==== Session API
+
+REST clients using Postman for API calls can now send a `POST` request to the `/tspublic/v1/session/auth/token` endpoint. +
+
+In the earlier releases, unauthenticated clients were not allowed to make an API call to `/tspublic/v1/session/auth/token` via Postman.
+
+==== Metadata API
+
+The `authorguid` attribute in `/tspublic/v1/metadata/list` now allows you to filter metadata objects by author GUIDs in API response.
+For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
+
