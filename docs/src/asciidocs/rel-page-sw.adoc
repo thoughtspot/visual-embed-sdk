@@ -40,7 +40,7 @@ The minimum SDK version required for embedding ThoughtSpot Software in your app 
 
 You can upgrade to a later version if required. However, you must exercise caution before upgrading to a new version because the new versions may introduce breaking changes. The new version may also include APIs, methods, and attributes for features that are not yet available on your ThoughtSpot Software release.
 
-For more information about the SDK versions, methods, and classes, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank] and link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+For more information about the SDK versions, supported methods and classes, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank] and link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
 
 ==== Developer portal
 
