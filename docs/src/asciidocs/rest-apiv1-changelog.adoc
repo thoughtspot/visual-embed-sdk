@@ -55,7 +55,7 @@ This API endpoint allows you to make a `POST` request with parameters in the req
 ====
 * The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` endpoints now allow configuring and modifying a connection without importing tables.
 +
-For more information, see xref:connection-apis.adoc[Data connection APIs].
+For more information, see xref:connections-api.adoc[Data connection APIs].
 * The `authorguid` attribute in `/tspublic/v1/metadata/list` now allows you to filter metadata objects by author GUIDs in API response.
 +
 For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
