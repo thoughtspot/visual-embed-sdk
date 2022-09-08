@@ -746,6 +746,7 @@ export class TsEmbed {
      * Get the Post Url Params for THOUGHTSPOT from the current
      * host app URL.
      * THOUGHTSPOT URL params starts with a prefix "ts-"
+     * @version SDK: 1.14.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw
      */
     public getThoughtSpotPostUrlParams(): string {
         const urlHash = window.location.hash;

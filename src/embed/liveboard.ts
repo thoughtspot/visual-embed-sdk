@@ -29,6 +29,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      */
     fullHeight?: boolean;
     /**
@@ -46,6 +47,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * The Liveboard to display in the embedded view.
      * Use either of liveboardId or pinboardId to reference the Liveboard to embed.
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      */
     liveboardId?: string;
     /**
@@ -60,6 +62,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
