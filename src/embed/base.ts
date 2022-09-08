@@ -145,7 +145,7 @@ export function disableAutoLogin(): void {
  * second call it will be honored.
  *
  * @param doNotDisableAutoLogin This flag when passed will not disable autoLogin
- * @returns Promise which resolves when the logout completes.
+ * @returns Promise which resolves when logout completes.
  * @version SDK: 1.10.1 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
  */
 export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
