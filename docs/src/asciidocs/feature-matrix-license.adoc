@@ -68,7 +68,6 @@ a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availabil
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|App actions for integrating business apps |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Security settings for embedding ThoughtSpot +

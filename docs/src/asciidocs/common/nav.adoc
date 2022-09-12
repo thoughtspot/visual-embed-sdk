@@ -83,7 +83,6 @@
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
 *** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*BETA*^]
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*BETA*^]
-*** link:{{navprefix}}=client-libraries[SDK and client libraries ^*BETA*^]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]

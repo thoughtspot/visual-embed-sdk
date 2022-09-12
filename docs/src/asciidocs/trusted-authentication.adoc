@@ -138,7 +138,7 @@ The typical flow of REST API commands for user creation is actually as follows:
 1. Make a REST API request for the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user]
 2. If the user doesn't exist from the `Get User Details` request, xref:user-api.adoc#create-user[create the user] and add the user to groups in this step
 3. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to
-4. If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request]. 
+4. If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request].
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
@@ -244,7 +244,7 @@ _String_. The URL to which the user is redirected after successful authenticatio
 
 +
 ----
-https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+https://<redirect-domain>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
 
 == Additional resources
