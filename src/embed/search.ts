@@ -18,7 +18,7 @@ import { getReleaseVersion } from '../auth';
 /**
  * Configuration for search options
  */
-interface SearchOptions {
+export interface SearchOptions {
     /**
      * The tml string to load the answer
      */
