@@ -92,6 +92,25 @@ Now you can make the API request. The following is an example using `XMLHttpRequ
  }
 ----
 
+A more modern form, using Fetch and Promises, would look like:
+
+[source,javascript]
+----
+fetch(
+    liveboardDataFullEndpoint, {
+       method: 'GET',
+       headers: {
+           "Accept": "application/json",
+           "X-Requested-By": "ThoughtSpot"
+    },
+    credentials: "include"
+    })
+.then(response =>  response.text())
+.catch(error => {
+    console.error("Unable to get the response: " + error)
+});
+----
+
 The JSON object created by the code above will match the format documented in the  xref:pinboarddata.adoc[Liveboard data API].  
 
 == Transform the REST API response
@@ -122,7 +141,35 @@ After you have transformed the data into the input format, you can render the ch
 
 [source,javascript]
 ----
- var xhr = new XMLHttpRequest();
+
+function transformVizData(responseFromApi){
+
+   return finalChartingData;
+}
+
+function renderCustomChart(){
+
+}
+
+// Using Fetch and Promises
+fetch(
+    liveboardDataFullEndpoint, {
+       method: 'GET',
+       headers: {
+           "Accept": "application/json",
+           "X-Requested-By": "ThoughtSpot"
+    },
+    credentials: "include"
+    })
+.then(response =>  response.text())
+.then(transformVizData)
+.then(renderCustomChart)
+.catch(error => {
+    console.error("Unable to get the response: " + error)
+});
+
+// Using XMLHttpRequest
+var xhr = new XMLHttpRequest();
  xhr.open('POST', encodeURI(liveboardDataFullEndpoint), true);
  // .withCredentials = true is important - this is what sends the cookies from the browser session
  // without that, the APIs will reject you as not being signed in
