@@ -10,7 +10,7 @@ To create, access, and modify ThoughtSpot objects and resources through the REST
 
 When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful log-in using the Visual Embed SDK via either of those two methods will establish the session within the web browser. 
 
-Once the session is established in the browser, you can set the `withCredentials: true` property for any `XMLHttpRequest` object or `credentials: "include"` as part of a `Fetch` object to pass the cookies along when making REST API requests or:
+Once the session is established in the browser, you can set the `withCredentials: true` property for any `XMLHttpRequest` object or `credentials: "include"` as part of a `Fetch` object to pass the cookies along when making REST API requests:
 
 [source,javascript]
 ----
