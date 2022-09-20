@@ -8,11 +8,11 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.7.0.cl
 
 === Liveboard tabs
 
-In the upcoming release, the new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
