@@ -92,6 +92,25 @@ Now you can make the API request. The following is an example using `XMLHttpRequ
  }
 ----
 
+A more modern form, using Fetch and Promises, would look like:
+
+[source,javascript]
+----
+fetch(
+    liveboardDataFullEndpoint, {
+       method: 'GET',
+       headers: {
+           "Accept": "application/json",
+           "X-Requested-By": "ThoughtSpot"
+    },
+    credentials: "include"
+    })
+.then(response =>  response.text())
+.catch(error => {
+    console.error("Unable to get the response: " + error)
+});
+----
+
 The JSON object created by the code above will match the format documented in the  xref:pinboarddata.adoc[Liveboard data API].  
 
 == Transform the REST API response
@@ -122,7 +141,50 @@ After you have transformed the data into the input format, you can render the ch
 
 [source,javascript]
 ----
- var xhr = new XMLHttpRequest();
+
+function transformVizData(responseFromApi){
+   // Using the LiveboardData class from dataclasses.js to make operations on the data easier
+   let lbDataObj = LiveboardData.createFromJSON(JSON.parse(responseFromApi));
+   console.log(lbDataObj);
+    // Just one viz in this case, API Liveboard can return data from ALL or specified few
+   let vizData = lbDataObj.vizData[vizIds[0]];
+   // Array of column names
+   let colNames = vizData.columnNames;
+   // Column data
+   let colName = 'Column A';
+   let colData = vizData.data[colName];
+
+   /* Any other transformations to get data in the right format for your charting library */
+
+   // Return the data in the format necessary for the charting library to go to the rendering function
+   return finalChartingData;
+}
+
+function renderCustomChart(dataInChartingLibraryFormat){
+    let chartDiv = document.getElementById('chartingDivSpace');
+    /* Use your charting library to render the data in place in the page /*
+}
+
+// Using Fetch and Promises to call API, send to data transform function, then to the charting rendering function
+fetch(
+    liveboardDataFullEndpoint, {
+       method: 'GET',
+       headers: {
+           "Accept": "application/json",
+           "X-Requested-By": "ThoughtSpot"
+    },
+    credentials: "include"
+    })
+.then(response =>  response.text())
+.then(transformVizData)
+.then(renderCustomChart)
+.catch(error => {
+    console.error("Unable to get the response: " + error)
+});
+
+
+// Using XMLHttpRequest
+var xhr = new XMLHttpRequest();
  xhr.open('POST', encodeURI(liveboardDataFullEndpoint), true);
  // .withCredentials = true is important - this is what sends the cookies from the browser session
  // without that, the APIs will reject you as not being signed in
