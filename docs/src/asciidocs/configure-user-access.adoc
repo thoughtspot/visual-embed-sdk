@@ -58,8 +58,17 @@ If your application instance has classic Answer Experience enabled, administrato
 When a user shares an object with a user group, all users in that group can view data. You can override this behavior by applying RLS and CLS controls. 
 
 Row-level Security::
-RLS defines which groups or users can access the rows of a table. Administrators and owners can define rules on table rows to allow or prevent access to data based on group membership or user authentication. With RLS, even if a user has access to a worksheet, they can only view the rows to which they have access. 
-Using RLS, you can restrict access to sensitive data and filter tables to show only relevant data. RLS controls are applied at the table level, so it automatically extends to all worksheets, saved answers, and Liveboards based on that table, every time.
+
+Using RLS, you can restrict access to sensitive data and filter tables to show only relevant data for the signed-in user. *RLS rules* are applied at the table level, so it automatically extends to all worksheets, saved answers, and Liveboards based on that table, every time.
+
++
+Administrators and table owners define RLS rules on Thoughtspot table objects which use either the signed-in user's *username* or the set of the ThoughtSpot *group names* of which the user belongs to. The RLS rules translate into WHERE clauses in any query using the table object. 
+
++
+RLS rules on one table object can reference other tables objects that are joined within a given connection. 
+
++
+
 
 +
 For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank].
