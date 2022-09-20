@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.7.0.cl, Coming soon
+== Version 8.7.0.cl, September 2022
 
 The `/tspublic/v1/metadata/tml/export` API endpoint supports exporting FQNs of TML objects. To export FQNs, you must the `export_fqn` property to true in your API request.
 
