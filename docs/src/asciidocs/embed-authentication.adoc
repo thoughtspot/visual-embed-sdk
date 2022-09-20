@@ -10,7 +10,6 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 == Supported authentication methods
 
-<<<<<<< HEAD
 The following table lists the authentication methods supported in the SDK and general recommendations for choosing an authentication method to authenticate your embedded application users.
 
 [width="100%" cols="4,4,6,6"]
@@ -68,29 +67,13 @@ a|Do not use this method: +
 [IMPORTANT]
 ====
 For production environments, ThoughtSpot strongly recommends using Embedded SSO, SAMLRedirect, OIDCRedirect, or trusted authentication.
-=======
-You can use one of the following authentication methods to authenticate your application users and allow them to access the embedded ThoughtSpot content.
-
-* xref:embed-authentication.adoc#no-auth-embed[No authentication]
-* xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]
-* xref:embed-authentication.adoc#saml-sso-embed[SAML SSO authentication]
-* xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]
-* xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]
-
-[IMPORTANT]
-====
-If you are developing or testing code for embedding ThoughtSpot in your host app, you might want to use basic authentication with `username` and `password`, or no authentication. For production environments, ThoughtSpot recommends using SAML SSO, OIDC, or trusted authentication.
->>>>>>> main
 ====
 
-
-<<<<<<< HEAD
 [#none]
 === None
-The `None` authentication method allows you to leverage the existing SAML or OIDC configuration on ThoughtSpot and lets your IdP handle the authentication flow within the iframe. Your IdP must allow the authentication flow to complete within the iFrame.
+If your application already uses an IdP to authenticate users and allows iframe embedding, and your ThoughtSpot instance has SAML or OIDC configured, you can set the `authType` attribute to `None`. The `None` authentication method allows you to leverage the existing SAML or OIDC configuration on ThoughtSpot and lets your IdP handle the authentication flow within the iframe.
 =======
-If your application already uses an IdP to authenticate users and allows iframe embedding, and your ThoughtSpot instance has SAML or OIDC configured, you can set the `authType` attribute to `None`.
->>>>>>> main
+
 
 [source,javascript]
 ----
@@ -133,7 +116,6 @@ init({
     authType: AuthType.EmbeddedSSO,
 });
 ----
-
 
 
 [#saml-sso-embed]
@@ -185,13 +167,8 @@ init({
 [#oidc-auth]
 === OpenID Connect SSO authentication
 
-<<<<<<< HEAD
 If your app supports OAuth 2.0 protocol and OIDC authentication framework and uses an OpenId Provider for user authentication, your application users can authenticate to an OpenID provider when the embedded content loads. Make sure your ThoughtSpot instance is xref:configure-oidc.adoc[configured to support OIDC authentication]. If your OpenID provider does not support iFrame redirects, you can configure the `OIDCRedirect` authentication method to redirect your app to the OpenID Provider login page.
-=======
-If your app supports OAuth 2.0 protocol and requires OIDC authentication framework, you can enable the OpenID Connect authentication on your embedded ThoughtSpot instance.
 
-Before you enable the OIDC authentication type, make sure your ThoughtSpot instance is xref:configure-oidc.adoc[integrated with the OpenID provider and set up for OIDC authentication].
->>>>>>> main
 
 [source,javascript]
 ----
@@ -210,13 +187,9 @@ redirectPath: "/dashboard"
 [#trusted-auth-embed]
 === Trusted authentication
 
-<<<<<<< HEAD
 In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For trusted authentication, you will require an authenticator server or service, which can securely authenticate your application users.
-=======
-In the trusted authentication method, a security token is required to authenticate users who request access to the embedded ThoughtSpot content. For token-based authentication, you will require an authenticator server or service, which can securely authenticate your application users.
->>>>>>> main
 
-For token-based authentication, the following attributes are required:
+For trusted authentication setup, the following attributes are required:
 
 * Secret key
 +
@@ -232,21 +205,13 @@ The URL endpoint of the server that provides the authentication token.
 
 ==== Configure token-based authentication method in Visual Embed SDK
 
-<<<<<<< HEAD
-To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `TrustedAuth`.
-=======
-To configure the token-based authentication method in the Visual Embed SDK, set the `authType` attribute as `AuthServer`.
->>>>>>> main
+To configure the trusted authentication method in the Visual Embed SDK, set the `authType` attribute as `TrustedAuth`.
 
 To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:
 
 * `**authEndpoint**`
 +
-<<<<<<< HEAD
 Specify the authentication endpoint URL from which you want to obtain the authentication token. When an API request is sent to the specified endpoint URL, the authentication server sends the token as plain text.
-=======
-Specify the authentication endpoint URL from which you want to obtain the authentication token. When a `GET` request is sent to the specified endpoint URL to obtain the token, the authentication server sends the token as plain text.
->>>>>>> main
 
 +
 [source,javascript]
