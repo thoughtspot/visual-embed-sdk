@@ -59,22 +59,28 @@ When a user shares an object with a user group, all users in that group can view
 
 Row-level Security::
 
-Using RLS, you can restrict access to sensitive data and filter tables to show only relevant data for the signed-in user. *RLS rules* are applied at the table level, so it automatically extends to all worksheets, saved answers, and Liveboards based on that table, every time.
+Using link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank] (RLS), you can restrict access to sensitive data and filter tables to show only relevant data for the signed-in user. 
 
 +
-Administrators and table owners define RLS rules on Thoughtspot table objects which use either the signed-in user's *username* or the set of the ThoughtSpot *group names* of which the user belongs to. The RLS rules translate into WHERE clauses in any query using the table object. 
+*RLS rules* are defined on table objects, and automatically extend to all worksheets, saved answers, and Liveboards based on that table, every time.
 
 +
-RLS rules on one table object can reference other tables objects that are joined within a given connection. 
+RLS rules are defined using either the *ts_username* variable or *ts_groups* variable. The RLS rules translate into WHERE clauses in any SQL query generated from that table object, with the variables expanding into the details of the signed-in user. *ts_groups* turns into the set of *group name* properties of the ThoughtSpot groups the user belongs to.
 
 +
-
-
-+
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank].
+A common RLS rule type pattern for a multi-tenanted data warehouse involves each user belonging to a *ThoughtSpot group* names to match the values in a 'customer name' or 'tenant name' column on every table. Alternatively, *username* can be used if the data is stored at an individual rather than tenant level.
 
 +
-A comprehensive examples and best practices guide is available on the link:https://community.thoughtspot.com/customers/s/article/How-to-secure-your-data-in-ThoughtSpot[ThoughtSpot Community, window=_blank].
+RLS rules on one table object can reference other tables objects that are joined within a given connection. This allows for more a more complex RLS pattern to be used, where an "access control list" or "entitlements" table (*ACL table*) exists in the database, with a JOIN in ThoughtSpot to the fact or dimension tables. 
+
++
+The RLS rule is defined on the fact or dimension table, but will reference the ACL table, typically by comparing *ts_username* variable against a column in the ACL table, which filters the ACL table's rows to only those defined for the user. The JOIN defined between the ACL table and the other tables then reduces down the rows to only those that match the remaining rows in the ACL table.
+
++
+In the ACL table pattern, the embedding web application must define a process for updating the ACL table in the data warehouse with the correct entitlement rows for each user. This is a separate process that does not involve ThoughtSpot, although it can be combined with the xref:trusted-authentication#authenticator-service-back-end[authenticator service] used for Trusted Authentication.
+
++
+A link:https://community.thoughtspot.com/customers/s/article/How-to-secure-your-data-in-ThoughtSpot[comprehensive examples and best practices guide to RLS, window=_blank] data model setup is available on the ThoughtSpot Community.
  
 Column-level security::
 
