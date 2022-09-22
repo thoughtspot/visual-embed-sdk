@@ -1,9 +1,9 @@
-require("dotenv").config();
+require('dotenv').config();
 const asciidoc = require('asciidoctor')();
 const config = require('./docs/src/configs/doc-configs');
 
 const getPathPrefix = () => {
-    if(process.env.BUILD_ENV === config.BUILD_ENVS.LOCAL) {
+    if (process.env.BUILD_ENV === config.BUILD_ENVS.LOCAL) {
         return null;
     }
     return 'docs';
@@ -172,15 +172,16 @@ module.exports = {
         },
         'gatsby-plugin-output',
         {
-            resolve: `gatsby-plugin-algolia`,
+            resolve: 'gatsby-plugin-algolia',
             options: {
-              appId: process.env.GATSBY_ALGOLIA_APP_ID,
-              apiKey: process.env.ALGOLIA_ADMIN_KEY,
-              queries: require(`${__dirname}/docs/src/utils/algolia-queries`).queries
+                appId: process.env.GATSBY_ALGOLIA_APP_ID,
+                apiKey: process.env.ALGOLIA_ADMIN_KEY,
+                queries: require(`${__dirname}/docs/src/utils/algolia-queries`)
+                    .queries,
             },
         },
         {
-            resolve:'gatsby-plugin-sitemap',
+            resolve: 'gatsby-plugin-sitemap',
             options: {
                 query: `
                 {   
@@ -195,32 +196,41 @@ module.exports = {
                     }
                 }`,
                 resolveSiteUrl: () => config.SITE_URL,
-                resolvePages: ({
-                    allAsciidoc: { edges },
-                }) => {
+                resolvePages: ({ allAsciidoc: { edges } }) => {
                     const asciiNodeSet = new Set();
-                    edges.forEach(edge => {
-                        if(edge.node && edge.node.pageAttributes && edge.node.pageAttributes.pageid) {
+                    edges.forEach((edge) => {
+                        if (
+                            edge.node &&
+                            edge.node.pageAttributes &&
+                            edge.node.pageAttributes.pageid
+                        ) {
                             asciiNodeSet.add(edge.node.pageAttributes.pageid);
                         }
                     });
-                    let paths = [];
-                    for (let item of asciiNodeSet) {
-                        paths.push({path:`?pageid=${item}`});
+                    const paths = [];
+                    for (const item of asciiNodeSet) {
+                        paths.push({ path: `?pageid=${item}` });
                     }
                     return paths;
                 },
                 serialize: ({ path }) => {
                     return {
-                      url: path,
-                    }
+                        url: path,
+                    };
                 },
-            }
+            },
         },
-        {		
-            resolve: `gatsby-plugin-env-variables`,
+        {
+            resolve: 'gatsby-plugin-env-variables',
             options: {
-                allowList: ["BUILD_ENV"]
+                allowList: ['BUILD_ENV'],
+            },
+        },
+        {
+            resolve: 'gatsby-plugin-vercel',
+            options: {
+                // (optional) Prints metrics in the console when true
+                debug: false,
             },
         },
     ],
