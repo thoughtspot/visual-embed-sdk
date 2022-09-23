@@ -8,6 +8,10 @@
 
 To integrate full ThoughtSpot experience in your application, you can use the full app embedding method. 
 
+Full app embedding gives you all the features of ThoughtSpot, with the ability to use additional features and customization from the Visual Embed SDK such as custom actions and CSS styling rules. 
+
+The basic layout and feature set of the various pages of the ThoughtSpot application in full app embedding is relatively fixed, so if you need more control, please use the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components. You can xref:page-navigation.adoc[control/customize navigation] within your web application using full app or the embed components.
+
 The full app embedding allows you to integrate many features and pages of the ThoughtSpot application, and provide your users the ability to perform the following tasks:
 
 * create answers and Liveboards
@@ -18,6 +22,11 @@ The full app embedding allows you to integrate many features and pages of the Th
 * use SpotIQ
 
 To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
+
+[NOTE]
+====
+We do not recommend mixing full app embedding with the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components.
+====
 
 == Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
