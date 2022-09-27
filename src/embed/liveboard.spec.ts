@@ -29,8 +29,7 @@ const thoughtSpotHost = 'tshost';
 const defaultParamsSansHideAction = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 const defaultParams = `${defaultParamsSansHideAction}&hideAction=[%22${Action.ReportError}%22]`;
 const prefixParams = '&isLiveboardEmbed=true';
-const prefixParamsVizEmbed =
-    '&isLiveboardEmbed=true&isVizEmbed=true';
+const prefixParamsVizEmbed = '&isLiveboardEmbed=true&isVizEmbed=true';
 
 beforeAll(() => {
     init({
