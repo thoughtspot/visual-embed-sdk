@@ -76,7 +76,6 @@ export interface LiveboardViewConfig extends ViewConfig {
     preventPinboardFilterRemoval?: boolean;
     /**
      * Render embedded Liveboards and visualizations in the new Liveboard experience mode
-     * @default false
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      */
     liveboardV2?: boolean;
@@ -112,7 +111,7 @@ export class LiveboardEmbed extends V1Embed {
             fullHeight,
             defaultHeight,
             visibleVizs,
-            liveboardV2 = false,
+            liveboardV2,
             vizId,
             activeTabId,
         } = this.viewConfig;
@@ -142,7 +141,9 @@ export class LiveboardEmbed extends V1Embed {
         if (vizId) {
             params[Param.vizEmbed] = true;
         }
-        params[Param.LiveboardV2Enabled] = liveboardV2;
+        if (liveboardV2 !== undefined) {
+            params[Param.LiveboardV2Enabled] = liveboardV2;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
