@@ -8,6 +8,10 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+
+== Coming soon
+
+
 == Version 8.7.0.cl
 
 === Liveboard tabs
