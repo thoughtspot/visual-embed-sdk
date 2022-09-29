@@ -11,6 +11,9 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
+Bug fixes and new improvements in embedded user experience.
+
+For more information, see xref:fixed-issues.adoc[Fixed issues].
 
 == Version 8.7.0.cl
 
