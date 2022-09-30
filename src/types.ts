@@ -213,7 +213,7 @@ export interface EmbedConfig {
     /**
      * Custom style params for embed Config.
      *
-     * @version SDK: 1.16.0 | ThoughtSpot: 8.8.0.cl, 8.8.1-sw
+     * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl
      */
     customisations?: CustomisationsInterface;
 }
