@@ -1325,12 +1325,27 @@ POST /tspublic/v1/connection/fetchConnection
 |`id`|__String__. GUID of the data connection. 
 |`includeColumns`|__Boolean__. A flag to include or exclude column metadata in the API response. By default, the API returns data for all columns in the response.
 |`config` +
-__Optional__ a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
+__Optional__  a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
 
 [NOTE]
 ====
 Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update a connection, you must use the `/tspublic/v1/connection/update` endpoint.
 ====
+|
+
+`authentication_type` [tag greenBackground]#NEW in 8.8.0.cl# a| Type of authentication method to use. Valid values are: +
+
+* SERVICE_ACCOUNT +
+
+Allows using service account to authenticate and access data from the Cloud data warehouse.
+
+* OAUTH +
+
+Allows using OAuth credentials to authenticate
+* IAM
+* EXTOAUTH
+Default value set to SERVICE ACCOUNT.
+
 |==== 
 
 === Example request
