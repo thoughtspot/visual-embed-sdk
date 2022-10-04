@@ -3,7 +3,7 @@
 
 :page-title: REST API SDK and client libraries
 :page-pageid: client-libraries
-:page-description: REST API SDK 
+:page-description: REST API SDK
 
 ThoughtSpot provides native SDK libraries to help client applications call REST APIs in a language-specific way.
 
@@ -18,9 +18,9 @@ You can also download the REST API SDK [beta blueBackground]^BETA^ from the foll
 link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
 * Python SDK [beta blueBackground]^BETA^  +
 link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
-* Java SDK [beta blueBackground]^BETA^  +
+* Java SDK [beta blueBackground]^BETA^ +
 link:https://search.maven.org/artifact/io.github.thoughtspot/rest-api-sdk-lib[MVN Package Manager, window=_blank]
-* .NET SDK [beta blueBackground]^BETA^  +
+* .NET SDK +
 link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
 
 == Setup and usage
@@ -44,7 +44,7 @@ The Playground provides installation, setup and usage instructions for each lang
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Java/doc/README.md" target=_blank> <p align=center>API Reference</p></a>
        </div>
-      </div> 
+      </div>
     </div>
     <div class="col-md-3">
        <div class="boxDiv">
@@ -53,7 +53,7 @@ The Playground provides installation, setup and usage instructions for each lang
        <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/README.md" target=_blank> <p align=center>Get started</p></a>
         <a href="https://github.com/thoughtspot/rest-api-sdk/blob/main/Python/doc/README.md" target=_blank> <p align=center>API Reference</a>
 </div>
-      </div> 
+      </div>
     </div>
     <div class="col-md-3">
        <div class="boxDiv"> <div class="non-link">
@@ -75,11 +75,10 @@ The Playground provides installation, setup and usage instructions for each lang
   </div>
 <div class="divider"></div>
 ++++
- 
- 
- 
+
+
+
 ////
 <a href="{{previewPrefix}}/tspublic/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
 
 ////
- 

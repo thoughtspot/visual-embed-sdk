@@ -60,7 +60,7 @@ a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] and SDK [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
@@ -68,7 +68,6 @@ a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availabil
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|App actions for integrating business apps |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Security settings for embedding ThoughtSpot +
@@ -120,7 +119,9 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a| xref:group-api.adoc[Group API endpoints] +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|xref:session-api.adoc[Session API endpoints] +
-__Require view or edit access to Liveboard objects__
+
+* __The API calls to `/tspublic/v1/session/auth/token` and  `/tspublic/v1/session/login/token` require ThoughtSpot Everywhere license__ +
+* __The home Liveboard CRUD operations require view or edit access to Liveboard objects__
 |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|xref:connections-api.adoc[Connection API endpoints] +
 __Require `DATAMANAGEMENT` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
@@ -166,10 +167,13 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 (Evaluation only) |Developer Playground on public instance +
 (Evaluation only)
 a|Session API endpoints +
+
+* __The API calls to `/tspublic/rest/v2/session/gettoken` require ThoughtSpot Everywhere license__  +
+* __The home Liveboard CRUD operations require view or edit access to Liveboard objects__
 __Require view or edit access to Liveboard objects__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|User API endpoints +
-__Require `ADMINISTRATION` privilege__ +
-__The `/tspublic/rest/v2/user/changepassword` endpoint is available to all users__.
+* __Require `ADMINISTRATION` privilege__ +
+* __The `/tspublic/rest/v2/user/changepassword` endpoint is available to all users__.
 |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 a| Group API endpoints +
 __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#

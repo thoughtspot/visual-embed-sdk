@@ -22,10 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Use NodeJS v12.18.3
+      # Use NodeJS v14.19.0
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.18.3'
+          node-version: '14.19.0'
 
       # Run npm install
       - name: Run npm install
