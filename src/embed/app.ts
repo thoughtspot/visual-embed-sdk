@@ -86,7 +86,6 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * Render liveboards using the new v2 rendering mode
      * This is a transient flag which is primarily meant for internal use
-     * @default false
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @hidden
      */
@@ -116,7 +115,7 @@ export class AppEmbed extends V1Embed {
      */
     private getEmbedParams() {
         const params = this.getBaseQueryParams();
-        const { tag, hideObjects, liveboardV2 = false } = this.viewConfig;
+        const { tag, hideObjects, liveboardV2 } = this.viewConfig;
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -124,8 +123,10 @@ export class AppEmbed extends V1Embed {
         if (hideObjects && hideObjects.length) {
             params[Param.HideObjects] = JSON.stringify(hideObjects);
         }
+        if (liveboardV2 !== undefined) {
+            params[Param.LiveboardV2Enabled] = liveboardV2;
+        }
 
-        params[Param.LiveboardV2Enabled] = liveboardV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
