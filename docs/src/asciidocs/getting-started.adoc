@@ -80,12 +80,11 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-=== Configure security and login parameters (Optional)
+== Configure security and login parameters (Optional)
 
 include::{path}/embed-config.adoc[]
 
 == Embed objects
-
 After you initialize the SDK, create embed object classes and define object properties. +
 For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages: +
 
@@ -100,4 +99,3 @@ For more information about embedding ThoughtSpot app and its objects using SDK, 
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
-

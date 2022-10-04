@@ -248,5 +248,8 @@ https://<redirect-domain>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b5824
 ----
 
 == Additional resources
-A simple Python Flask implementation of an Authenticator Service is available in the link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources GitHub repository, window=_blank].  +
-The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, window=_blank] page to help verify each step of the trusted authentication process.
+
+* A simple Python Flask implementation of an Authenticator Service is available in the link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[ts_everywhere_resources GitHub repository, window=_blank].  +
+ The token_auth directory contains a link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/examples/token_auth/trusted_auth_tester.html[trusted_auth_tester.html, window=_blank] page to help verify each step of the trusted authentication process.
+* link:https://github.com/thoughtspot/node-token-auth-server-example[https://github.com/thoughtspot/node-token-auth-server-example, window=_blank]
+* link:https://github.com/thoughtspot/big-react-demo[React code samples, window=_blank]

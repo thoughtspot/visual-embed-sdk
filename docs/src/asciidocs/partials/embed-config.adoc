@@ -5,7 +5,6 @@ __Boolean__. When set to `true`, an expired or timed-out user session is renewed
 
 +
 This attribute is valid for only token-based authentication, that is if the `authType` is set as `TrustedAuth`.
-=======
 
 +
 [source,javascript]

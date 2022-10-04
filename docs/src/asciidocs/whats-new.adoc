@@ -8,6 +8,13 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Coming soon
+
+=== Streamlined authentication methods for embedded ThoughtSpot app
+<TBD>
+
+=== Multi-tenancy with Orgs[beta blueBackground]^BETA^
+<TBD>
 
 == Version 8.8.0.cl, October 2022
 
