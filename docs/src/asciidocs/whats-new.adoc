@@ -12,7 +12,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
 
-ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the More menu. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
+ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
 
 This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
 
