@@ -16,7 +16,7 @@ A de-supported feature no longer exists in the product. When you upgrade to a ne
 
 == Deprecation of REST v2 API
 
-Starting from the ThoughtSpot 8.9.0.cl, ThoughtSpot will deprecate the REST v2 API [beta blueBackground]^BETA^ endpoints and introduce the new REST v2.0 API endpoints. +
+Starting from the ThoughtSpot 8.10.0.cl, ThoughtSpot will deprecate the REST v2 API [beta blueBackground]^BETA^ endpoints and introduce the new REST v2.0 API endpoints. +
 The REST v2 API [beta blueBackground]^BETA^ endpoints will remain functional, but will be removed from the Playground page in the *Develop* tab when the REST v2.0 API endpoints are rolled out.
 
 [NOTE]

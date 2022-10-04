@@ -1,0 +1,25 @@
+= Fixed issues
+:toc: true
+:toclevels: 1
+
+:page-title: Fixed issues
+:page-pageid: fixed-issues
+:page-description: Bug fixes and improvements
+
+This page lists the issues resolved in ThoughtSpot Everywhere.
+
+== Version 8.8.0.cl
+[cols="20%,80%"]
+[options='header']
+|===
+|Issue ID |Description
+|SCAL-126662
+|Visualizations in an embedded Liveboard take a long time to render if one of the charts on the Liveboard has no data.
+|SCAL-125060
+|ThoughtSpot application website displays a blank page on Safari and Chrome on iOS devices.
+|SCAL-122996
+|Users could not scroll on the Liveboard page in the new experience mode. This issue was limited to deployments on which the new Liveboard experience was enabled. 
+|SCAL-117427
+|When the `disableLoginRedirect` was set to `true` on an embedded ThoughtSpot instance, users were directed to the license upload page.
+|===
+

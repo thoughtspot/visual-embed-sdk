@@ -15,10 +15,12 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 * Denodo
 * Google BigQuery
 * Oracle ADW
+* Presto
 * SAP HANA
 * Snowflake
 * Starburst
 * Teradata
+* Trino
 
 The connection API endpoints allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
@@ -35,7 +37,7 @@ You must have data management permissions to create, edit, delete or query data 
 [#connection-metadata]
 == Connection metadata
 
-To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables. 
+To create or modify data connections through REST APIs, you need to provide a map of JSON attributes as `metadata`. The metadata JSON includes configuration attributes and a map of the database schema with tables.
 
 .Example JSON for connection metadata
 
@@ -47,7 +49,9 @@ image::./images/connection_metadata_json.png[Connection metadata]
 [#connection-attr]
 === Configuration attributes
 
-Note the configuration attributes required in the connection metadata to create or edit a data connection.
+The configuration attributes include authentication and database information required to set up or update a data connection. For most data connections, you can use service account or OAuth credentials to connect to and fetch data from a Cloud Data Warehouse. The Teradata, Oracle, and Presto data connections do not support OAuth. The Snowflake connections also support external OAuth credentials with Microsoft Azure AD or Okta.
+
+To set up connections with OAuth, make sure your connection metadata includes client ID, client secret key, auth URL, and access token URL.
 
 .Amazon Redshift connection
 
@@ -64,7 +68,7 @@ _Integer_. Enter the port number associated with the database. The default port 
 
 * `user`
 +
-_String_. The user name of your Redshift account.
+_String_. Username of your Redshift account.
 
 * `password`
 +
@@ -90,7 +94,7 @@ _Integer_. Enter the port number associated with the database.
 
 * `user`
 +
-_String_. The user name of your Azure Synapse account.
+_String_.  Username of your Azure Synapse account.
 
 * `password`
 +
@@ -118,7 +122,7 @@ __String__. The HTTP path of your Databricks connection host.
 
 * `user`
 +
-_String_. The user name of your Databricks account.
+_String_. Username of your Databricks account.
 
 * `password`
 +
@@ -224,7 +228,7 @@ __String__. A JSON map of The OAuth client ID and OAuth client secret to authent
 
 * `user`
 +
-_String_. The user name of your Oracle ADW account.
+_String_. Username of your Oracle ADW account.
 
 * `password`
 +
@@ -244,6 +248,27 @@ _String_. The schema of the database.
 
 ====
 
+.Presto connection
+
+[%collapsible]
+====
+
+* `host`
++
+__String__. Hostname of the Presto database.
+
+* `user`
++
+_String_. Username of your Presto database user.
+
+* `password`
++
+__String__. Password of your Presto database user.
+
+* `database`
++
+__String__. The database to fetch tables from.
+====
 
 .SAP HANA connection
 
@@ -256,7 +281,7 @@ __String__. The hostname of the SAP HANA database connection. For example, if yo
 
 * `user`
 +
-_String_. The user name of your SAP HANA database account.
+_String_. Username of your SAP HANA database account.
 
 * `password`
 +
@@ -264,7 +289,7 @@ __String__. Password of your SAP HANA database account.
 
 * `database`
 +
-__String__. The database associated with the account.
+__String__. The database from which you want to fetch tables.
 ====
 
 
@@ -274,11 +299,11 @@ __String__. The database associated with the account.
 
 * `host`
 +
-__String__. The hostname of the database connection.
+__String__. Hostname of the database connection.
 
 * `user`
 +
-_String_. The user name of your Starburst account.
+_String_. Username of your Starburst account.
 
 * `password`
 +
@@ -286,7 +311,7 @@ __String__. Password of your Starburst account.
 
 * `database`
 +
-__String__. The database associated with the account.
+__String__. The database from which you want to fetch tables.
 ====
 
 .Snowflake connection
@@ -295,7 +320,7 @@ __String__. The database associated with the account.
 ====
 * `accountName`
 +
-__String__. The account name associated with the Snowflake connection.
+__String__. The service account name associated with the Snowflake connection.
 
 * `user`
 +
@@ -314,7 +339,7 @@ Make sure the role you specify for this attribute has privileges to access the d
 
 * `warehouse`
 +
-__String__. The warehouse associated with the connection.
+__String__. Data warehouse from which you want to fetch data.
 ====
 
 .Teradata connection
@@ -328,17 +353,41 @@ __String__. The hostname of the database connection.
 
 * `user`
 +
-_String_. The user name of your Teradata account.
+_String_. Username of the Teradata database user.
 
 * `password`
 +
-__String__. Password of your Teradata account.
+__String__. Password of the Teradata database user.
 
 * `database`
 +
-__String__. The database associated with the account.
+__String__. Database from which you want to fetch tables.
 
 ====
+
+.Trino connection
+
+[%collapsible]
+====
+
+* `host`
++
+__String__. Hostname of the Trino database.
+
+* `user`
++
+_String_. Username of the Trino database user.
+
+* `password`
++
+__String__. Password of the Trino database user.
+
+* `database`
++
+__String__. The Database from which you want to fetch tables.
+
+====
+
 
 [#cre-connection]
 == Add a data connection for live query service
@@ -1318,19 +1367,33 @@ POST /tspublic/v1/connection/fetchConnection
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="2,6"]
 [options='header']
 |====
 |Form Data Parameter|Description
 |`id`|__String__. GUID of the data connection. 
 |`includeColumns`|__Boolean__. A flag to include or exclude column metadata in the API response. By default, the API returns data for all columns in the response.
 |`config` +
-__Optional__ a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
+__Optional__  a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
 
 [NOTE]
 ====
 Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update a connection, you must use the `/tspublic/v1/connection/update` endpoint.
 ====
+|`authentication_type` [tag greenBackground]#NEW in 8.8.0.cl# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
+
+* `SERVICE_ACCOUNT` +
+For data connections that require service account credentials to authenticate to the Cloud Data Warehouse and fetch data.
+
+* `OAUTH` +
+For data connections that require OAuth credentials to authenticate to the Cloud Data Warehouse and fetch data. +
+ThoughtSpot data connections to Teradata, Oracle, and Presto Cloud Data Warehouse do not support the `OAuth` authentication type.
+
+* `IAM` +
+For data connections that have the IAM OAuth set up. This authentication type is supported on Amazon Redshift connections only.
+
+* `EXTOAUTH` +
+For data connections that have external OAuth set up. ThoughtSpot supports external OAuth with Microsoft Azure Active Directory (AD) and Okta for Snowflake data connections. For more information, see link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-okta-oauth[Configure Okta OAuth for a Snowflake connection, window=_blank] and link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-azure-ad-oauth[Configure Azure AD external OAuth for a Snowflake connection, window=_blank].
 |==== 
 
 === Example request
@@ -1842,6 +1905,20 @@ __Optional__ a|__String__. Configuration attributes to override the metadata det
 ====
 Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update the connection metadata, you must use the `/tspublic/v1/connection/update` endpoint.
 ====
+|`authentication_type` [tag greenBackground]#NEW in 8.8.0.cl# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
+
+* `SERVICE_ACCOUNT` __Default__  +
+For data connections that require service account credentials to authenticate to the Cloud Data Warehouse and fetch data.
+
+* `OAUTH` +
+For data connections that require OAuth credentials to authenticate to the Cloud Data Warehouse and fetch data. +
+ThoughtSpot data connections to Teradata, Oracle, and Presto Cloud Data Warehouse do not support the `OAuth` authentication type.
+
+* `IAM` +
+For data connections that have the IAM OAuth set up. This authentication type is supported on Amazon Redshift connections only.
+
+* `EXTOAUTH` +
+For data connections that have external OAuth set up. ThoughtSpot supports external OAuth with Microsoft Azure Active Directory (AD) and Okta for Snowflake data connections. For more information, see link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-okta-oauth[Configure Okta OAuth for a Snowflake connection, window=_blank] and link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-azure-ad-oauth[Configure Azure AD external OAuth for a Snowflake connection, window=_blank].
 |==== 
 
 === Example request
