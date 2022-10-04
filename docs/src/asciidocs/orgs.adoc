@@ -30,7 +30,7 @@ image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
 
 On a multi-tenant ThoughtSpot instance, all operations are run in the Org context that the user is currently in. If a cluster administrator wants to perform a CRUD operation or apply a configuration change to all Orgs, they must use the `All Org` scope by setting the `orgId` to `-1`.
 
-For example, to get a list of Orgs on a ThoughtSpot instance, the cluster administrator must set the orgId value as `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, for user operations, such as adding a user to Orgs or removing a user from Orgs, the administrator must set the `orgId` query parameter value to `-1` in the API request.
+For example, to get a list of Orgs on a ThoughtSpot instance, the cluster administrator must pass the  orgId value as `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, for user operations, such as adding a user to Orgs or removing a user from Orgs, the administrator must set the `orgId` query parameter value to `-1` in the API request.
 
 == User roles
 
@@ -73,6 +73,7 @@ The cluster administrator can switch between Orgs by either using the Orgs drop-
 
 For more information about switching between organizations using REST API, see xref:session-api.adoc#orgSwitch[Switch between Orgs].
 
+
 == Manage users and groups
 
 On a multi-tenant instance, the cluster and Org administrators can create and administer users and groups. The cluster administrator can perform CRUD operations on user and group objects of all Orgs, whereas the Org administrator can create and administer users and groups only in the Org context to which they belong.
@@ -106,3 +107,12 @@ If a user belongs only to the Org specified in the API request, the user will be
 If your deployment uses the xref:trusted-authentication.adoc[trusted authentication] method to authenticate users, you will notice that the `POST /tspublic/v1/session/auth/token` endpoint allows you to send the `orgid` in the request body. If a user is mapped to a specific org, you can pass the `orgid` in the API request to obtain an authentication token and log in the user to the relevant Org context.
 
 For more information about authentication token requests, see xref:session-api.adoc#session-authToken[Obtain an authentication token].
+
+== Get details of the Orgs for a user
+
+To xref:session-api.adoc#getOrgs[get a list of active Orgs to which a user belongs], the logged-in user can send an API request to the `/tspublic/v1/session/orgs` endpoint. +
+
+* If the logged-in user is a cluster administrator, the API returns all active Orgs. +
+* If the logged-in user belongs to more than one Org, the API returns all the active Orgs to which the user belongs.
+
+You can also xref:session-api.adoc#getOrgsForUser[get a list of active Orgs for a specific user] by sending a `GET` request with the user GUID to the `tspublic/v1/session/orgs/users/{userid}` API endpoint.

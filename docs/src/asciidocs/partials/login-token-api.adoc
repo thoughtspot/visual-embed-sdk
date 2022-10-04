@@ -239,8 +239,6 @@ The API request also returns the application details in the response body.
 </html>
 ----
 
-====
-
 === Response codes
 
 [options="header", cols="1,4"]

@@ -130,7 +130,13 @@ There is the option to request a limited token using the `access_level=REPORT_BO
 
 Access control (sharing) can be granted during the login token request process by adding the user to the appropriate ThoughtSpot groups.
 
-=== Create user and add to groups requests
+[NOTE]
+====
+If your ThoughtSpot instance is a multi-tenant environment with Orgs feature enabled, you must specify the `orgid` in the login token request.
+For more information about Orgs and Org ID, see xref:orgs.adoc[Multi-tenancy with Orgs] and xref:session-api.adoc#session-loginToken[Authenticate and log in a user].
+====
+
+=== User creation and group assignment requests
 You can choose to create the user in ThoughtSpot the first time they request a login token. Otherwise, the user must be created in ThoughtSpot via another process before the login token can be requested. This is accomplished using the xref:user-api.adoc#create-user[create user REST API].
 
 The typical flow of REST API commands for user creation is actually as follows:
