@@ -86,6 +86,7 @@ export const handleAuth = (): Promise<boolean> => {
 /**
  * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
  * @param url The URL provided for prefetch
+ * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
  */
 export const prefetch = (url?: string): void => {
     if (url === '') {
@@ -103,15 +104,14 @@ export const prefetch = (url?: string): void => {
 };
 
 /**
- * Initialize the ThoughtSpot embed SDK globally and perform
+ * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
- *
- * eg: authStatus = init(config);
+ * example: authStatus = init(config);
  * authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
- *
- * @returns event emitter which emits events on authentication success, failure and logout. {@link AuthStatus}
+ * @returns event emitter which emits events on authentication success, failure and logout. See {@link AuthStatus}
+ * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  */
 export const init = (embedConfig: EmbedConfig): EventEmitter => {
     config = {
@@ -138,7 +138,7 @@ export function disableAutoLogin(): void {
 }
 
 /**
- * Logout from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
+ * Logs out from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
  * the SDK from automatically logging in again.
  *
  * You can call the `init` method again to re login, if autoLogin is set to true in this

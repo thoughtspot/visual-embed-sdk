@@ -108,7 +108,7 @@ While some customizable actions from the Visual Embed SDK will be honored from w
 
 ====
 
-== Version, 8.4.0.cl
+== Version 8.4.0.cl
 
 .Link customization
 [%collapsible]
