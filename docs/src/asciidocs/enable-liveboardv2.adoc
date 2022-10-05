@@ -6,7 +6,7 @@
 :page-pageid: Liveboard-new-experience
 :page-description: You can enable the new Liveboard experience on Liveboards embedded using the `LiveboardEmbed` or `AppEmbed` SDK library.
 
-The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. By default, the new Liveboard experience is disabled on embedded ThoughtSpot instances. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
+The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. The new Liveboard experience is in Beta on embedded instances and is turned off by default. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
 
 == Enable new Liveboard experience for all users
 
