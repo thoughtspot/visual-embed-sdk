@@ -8,9 +8,112 @@
 
 This page provides information about new features and enhancements available for embedded ThoughtSpot instances.
 
-== Version 8.8.0-sw, October 2022
+== Version 8.8.0-sw (Limited Availability release), October 2022
 
 ThoughtSpot 8.8.0-sw is a limited availability release. To upgrade your ThoughtSpot cluster to 8.8.0-sw, contact ThoughtSpot Support.
+
+The 8.8.0-sw release introduces the following new features and enhancements:
+
+=== New Data workspace
+
+The new Data workspace is Generally Available (GA) on embedded ThoughtSpot Software deployments. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/software/latest/data-workspace[ThoughtSpot product documentation].
+
+[IMPORTANT]
+While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+
+=== Search Assist support for embedded instances
+
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+
+=== New Liveboard experience [beta blueBackground]^BETA^
+
+The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
+
+Liveboard editing::
+To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
+The edit mode allows you to edit the Liveboard title and description text, apply filters, copy the Liveboard, modify the layout of the visualization tiles, delete a visualization, and so on.
+
+Liveboard tabs::
+
+The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
++
+For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
+
+Custom tile size for visualizations on a Liveboard::
+
+ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
+
++
+This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
+
+Liveboard filters::
+* The Liveboard filter configuration options are available on a single modal.
+* When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied.
+
+Other features and enhancements::
+* The *Add filters* action is placed in the primary menu bar and can be viewed only when a Liveboard is in edit mode. Only users with edit access to the Liveboard can apply filters.
+* The *Undo*, *Redo*, and *Reset* actions for visualizations.
+* The *Liveboard Info* action label in the More image:./images/icon-more-10px.png[the more options menu] menu is renamed to *Show Liveboard details*.
+* The *Schedule* action is placed in the More image:./images/icon-more-10px.png[the more options menu] menu.
+* Improved visualization Explore experience.
+
+Deprecated features::
+The following features are *_not_* available with the new Liveboard experience:
+* The *Copy embed link* and *Copy link* menu actions in the More image:./images/icon-more-10px.png[the more options menu] menu of a Liveboard
+* The edit title icon on visualization tiles
+* The *Share* button on visualizations
+
+For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
+
+Actions and Events in the SDK::
+If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
+
+For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
+
+
+==== New Liveboard experience rollout on embedded instances
+
+The new Liveboard experience is currently available in BETA on embedded ThoughtSpot instances.
+
+The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
+
+ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
+
+////
+The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
+////
+
+[NOTE]
+====
+The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
+====
+
+=== Support for Visual Embed SDK version 1.16.0
+
+If you have upgraded your ThoughtSpot instance to 8.8.0-sw, we recommend that you upgrade the Visual Embed SDK to version 1.16.0 for smooth app integration and embedding.
+
+For more information about the SDK versions, supported methods and classes, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank] and link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank].
+
+=== REST API v1
+
+ThoughtSpot 8.8.0-sw introduces the following enhancements to REST API v1.
+
+* The `/tspublic/v1/connection/fetchLiveColumns` and `/tspublic/v1/connection/fetchConnection` API endpoints now allow filtering API response by authentication type.
++
+For more information, see xref:connections-api.adoc#fetchLiveColums[Get column data for connections with external tables] and xref:connections-api.adoc#connMetadata[Get details of a specific connection].
+
+* The `/tspublic/v1/connection/create` and `/tspublic/v1/connection/update` API endpoints now support adding and updating Denodo, Trino, and Presto data connections.
++
+For more information, see xref:connections-api.adoc#cre-connection[Create a data connection] and xref:connections-api.adoc#connection-metadata[Connection metadata].
+
+* The `/tspublic/v1/metadata/tml/export` API endpoint supports exporting FQNs of TML objects. To export FQNs, you must the `export_fqn` property to true in your API request.
++
+For more information, see xref:tml-api.adoc#export[Export TML].
+
+=== REST API v2 [beta blueBackground]^BETA^
+The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in the future release and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
 
 == Version 8.4.1-sw, September 2022
 

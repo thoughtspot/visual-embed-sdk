@@ -16,7 +16,7 @@ A de-supported feature no longer exists in the product. When you upgrade to a ne
 
 == Deprecation of REST v2 API
 
-Starting from the ThoughtSpot 8.10.0.cl, ThoughtSpot will deprecate the REST v2 API [beta blueBackground]^BETA^ endpoints and introduce the new REST v2.0 API endpoints. +
+ThoughtSpot will deprecate the REST v2 API [beta blueBackground]^BETA^ endpoints and introduce the new REST v2.0 API endpoints in the near future. +
 The REST v2 API [beta blueBackground]^BETA^ endpoints will remain functional, but will be removed from the Playground page in the *Develop* tab when the REST v2.0 API endpoints are rolled out.
 
 [NOTE]
@@ -32,7 +32,7 @@ To ensure a smooth transition for early adopters of the REST v2 API [beta blueBa
 * With the introduction of the new REST v2.0 API endpoints, the current REST v2 API [beta blueBackground]^BETA^ endpoints will be deprecated. The current REST Playground v2 in the *Develop* tab will be replaced with the new REST v2.0 API Playground.
 
 === REST API SDK
-The current REST API SDK version will be deprecated from 8.8.0.cl onwards.
+The current REST API SDK version will be deprecated from the 8.8.0-sw release onwards. +
 The upcoming REST v2.0 API endpoints and Playground will not support the SDK in the initial release. In later releases, a new version of the SDK will be published on the Playground, GitHub repo, NPM, PyPi, MVN Package Manager, and Nuget Package Manager sites.
 
 [NOTE]

@@ -5,8 +5,9 @@
 
 [navSection]
 * link:{{navprefix}}=introduction[Home]
-*
 * link:{{navprefix}}=rel-notes[Release Notes]
+** link:{{navprefix}}=deprecated-features[Deprecation announcements]
+
 * link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=feature-support-matrix[Feature support matrix]

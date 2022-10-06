@@ -920,6 +920,65 @@ This endpoint is applicable to ThoughtSpot Software deployments only.
 +++<p class="divider"> </p>+++
 --
 
-== Database
+== Database and schema
 
 The Database endpoints are applicable to ThoughtSpot Falcon-based Software deployments only.
+
+`*GET* /tspublic/rest/v2/database`
+
+Gets a list of all databases in Falcon.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/database/get-databases" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/database/schema` +
+
+Gets a list of all schemas in a particular database in Falcon.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/database/get-schemas" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/database/table` +
+
+Gets a list of all tables in a database and schema in Falcon.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/database/get-tables" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/database/table/detail` +
+
+Gets details of the specified table.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/database/get-table-details" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/database/table/create` +
+
+Creates tables in the Falcon database.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/database/create-table" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/database/table/runquery` +
+
+Runs TQL commands with SQL statements.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2??apiResourceId=/http/api-endpoints/database/run-query" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
