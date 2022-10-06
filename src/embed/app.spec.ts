@@ -7,6 +7,7 @@ import {
     getIFrameSrc,
     getRootEl,
     getIFrameEl,
+    mockMessageChannel,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -18,8 +19,9 @@ const defaultViewConfig = {
     },
 };
 const thoughtSpotHost = 'tshost';
-const defaultParams = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
-const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParamsWithoutHiddenActions = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
+const defaultParams = `${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
+const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
 const defaultParamsPost = '&isPinboardV2Enabled=false';
 
 beforeAll(() => {
@@ -154,7 +156,7 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22download%22]${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParamsWithoutHiddenActions}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]${defaultParamsPost}#/home`,
             );
         });
     });
@@ -170,6 +172,20 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add enableSearchAssist flagto the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableSearchAssist: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -197,6 +213,7 @@ describe('App embed tests', () => {
         });
 
         test('navigateToPage with noReload should trigger the appropriate event', async () => {
+            mockMessageChannel();
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -215,6 +232,7 @@ describe('App embed tests', () => {
                     data: path,
                 }),
                 `http://${thoughtSpotHost}`,
+                expect.anything(),
             );
 
             appEmbed.navigateToPage(-1, true);
@@ -224,6 +242,7 @@ describe('App embed tests', () => {
                     data: -1,
                 }),
                 `http://${thoughtSpotHost}`,
+                expect.anything(),
             );
         });
 

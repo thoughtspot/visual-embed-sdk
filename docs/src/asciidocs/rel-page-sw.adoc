@@ -85,4 +85,3 @@ In the earlier releases, unauthenticated clients were not allowed to make an API
 
 The `authorguid` attribute in `/tspublic/v1/metadata/list` now allows you to filter metadata objects by author GUIDs in API response.
 For more information, see xref:metadata-api.adoc#metadata-list[Get a list of metadata objects].
-

@@ -44,3 +44,4 @@ Updates the user group data for a specific user.|ThoughtSpot Software [version n
 Removes a user from the specified user groups.|ThoughtSpot Software [version noBackground]#7.2.1#
 |=====
 --
+

@@ -20,7 +20,7 @@ If ThoughtSpot Everywhere is enabled on your cluster, you can access the Develop
 
 . Make sure xref:user-roles.adoc[your user account has developer privilege].
 . Log in to ThoughtSpot.
-. Navigate to the **Develop** tab.
+. Navigate to the **Develop** tab. 
 
 == Find your way around
 

@@ -1,4 +1,4 @@
-= Show or hide UI actions
+= Show or hide menu items
 :toc: true
 :toclevels: 1
 
@@ -223,8 +223,7 @@ For example, if a custom action is labeled as *Send Email* and its ID is set as 
 hiddenActions: ['send-email']
 ----
 
-
 [#standard-actions]
 == Action enumeration members
 
-By default, ThoughtSpot provides a set of standard actions for embedded objects such as xref:embed-action-ref.adoc#liveboard-action[Liveboards], xref:embed-action-ref.adoc#viz-actions[pinned visualizations], and xref:embed-action-ref.adoc#answer-actions[answers derived from the search]. For each of these actions, the SDK provides an Action enumeration member. For more information, see xref:embed-action-ref.adoc[Action Reference] and link:https://developers.thoughtspot.com/docs/typedoc/enums/Action.html[Action, window=_blank].
+By default, ThoughtSpot provides a set of standard actions for embedded objects such as xref:embed-action-ref.adoc#liveboard-action[Liveboards], xref:embed-action-ref.adoc#viz-actions[pinned visualizations], and xref:embed-action-ref.adoc#answer-actions[answers derived from the search]. For each of these actions, the SDK provides an Action enumeration member. For more information, see xref:embed-action-ref.adoc[Action Reference] and link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].

@@ -76,9 +76,9 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 
 === Example response
 
-If the API request is successful, ThoughtSpot returns the response header for `set-cookie`. REST clients can use the cookies from the response to make subsequent REST calls in a non-browser environment.
+If the API request is successful, ThoughtSpot returns the response header for `set-cookie`. REST  clients can use the cookies from the response to make subsequent REST calls in a non-browser environment.
 
-The following example shows a part of the API response:
+The API request also returns the application details in the response body.
 
 [source, HTML]
 ----
@@ -237,6 +237,8 @@ The following example shows a part of the API response:
 </body>
 </html>
 ----
+
+====
 
 === Response codes
 

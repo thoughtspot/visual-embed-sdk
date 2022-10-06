@@ -1,16 +1,20 @@
-= Database APIs
+
+= Database API
 :toc: true
 :toclevels: 1
 
-:page-title: Database APIs
+:page-title: Database API
 :page-pageid: database-api
 :page-description: Use the database REST API endpoints to fetch table, schema, and database details, and create tables and run TQL commands
 
+The Database API endpoints allow you to get details of your databases and their schemas, create tables within a database, and run TQL commands in Falcon-based ThoughtSpot deployments.
 
-The Database API endpoints allow you to get details of your databases and their schemas, create tables within a database, and run TQL commands in Falcon-based ThoughtSpot deployments. 
+To modify the schema of a database or add a new table to a database, you must have admin access to the database and its objects.
 
-To modify the schema of a database or add a new table to a database, you must have admin access to the database and its objects. 
-
+[div announcementBlock]
+--
+The `/tspublic/v1/database` API endpoints are applicable to ThoughtSpot Software deployments only.
+--
 
 == Supported operations
 
@@ -48,7 +52,7 @@ GET /tspublic/v1/database/tables
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot'
+--header 'X-Requested-By: ThoughtSpot' \
 'https://ThoughtSpot-host>/callosum/v1/tspublic/v1/database/tables?database=usage_stats&schema=falcon_default_schema'
 ----
 
@@ -95,7 +99,7 @@ GET /tspublic/v1/database/schemas
 [width="100%" cols="1,4"]
 [options='header']
 |====
-| Query Parameter | Description
+| Query parameter | Description
 | `database` | _String_. Name or GUID of the database for which you want to fetch the schemas.
 |====
 
@@ -107,7 +111,7 @@ GET /tspublic/v1/database/schemas
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot'
+--header 'X-Requested-By: ThoughtSpot' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/database/schemas?database=b87a99b8-4a1b-4d94-bd57-e1c9971722c8'
 ----
 
@@ -144,7 +148,7 @@ To get a list of all databases associated with your ThoughtSpot application inst
 === Resource URL
 
 ----
-GET /tspublic/v1/database/databases 
+GET /tspublic/v1/database/databases
 ----
 
 === Request parameters
@@ -158,7 +162,7 @@ None
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot'
+--header 'X-Requested-By: ThoughtSpot' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/database/databases'
 ----
 
@@ -217,7 +221,7 @@ GET /tspublic/v1/database/getTableDetail
 [width="100%" cols="1,4"]
 [options='header']
 |====
-| Query Parameter | Description
+| Query parameter | Description
 | `database` | _String_. Name or GUID of the database.
 | `schema` | _String_. Name of the schema.
 | `table` | _String_. Name of the table.
@@ -229,7 +233,7 @@ GET /tspublic/v1/database/getTableDetail
 ----
 curl -X GET \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot'
+--header 'X-Requested-By: ThoughtSpot' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/database/getTableDetail?database=usage_stats&schema=falcon_default_schema&table=table_usage'
 ----
 
@@ -384,7 +388,7 @@ POST /tspublic/v1/database/createtable/
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter | Description
+|Form parameter | Description
 | `createdb` | _Boolean_. Set this flag to `true` to create tables with a database and schema. If you are adding a table to an existing database and schema, you can set `createdb` to false.
 | `ddl_schema` | _String_. The schema of the request that needs to be generated.
 |====
@@ -397,7 +401,7 @@ POST /tspublic/v1/database/createtable/
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'create_db=true&ddl_schema={"database":{"name":"DataFlow_DB"},"schema":{"name":"falcon_default_schema"},"table":{"id":{"name":"test_table1"},"primary_key":[{"name":"test_pk"}],"column":[{"id":{"name":"test_pk"},"size":0,"data_type":"TYPE_INT32"},{"id":{"name":"test_col1"},"size":0,"data_type":"TYPE_FLOAT"},{"id":{"name":"test_col2"},"data_type":"TYPE_INT64","datetime":"TYPE_DATE"}{"id":{"name":"test_col3"},"size":10,"data_type":"TYPE_VAR_CHAR"}]}}' 
+--header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'create_db=true&ddl_schema={"database":{"name":"DataFlow_DB"},"schema":{"name":"falcon_default_schema"},"table":{"id":{"name":"test_table1"},"primary_key":[{"name":"test_pk"}],"column":[{"id":{"name":"test_pk"},"size":0,"data_type":"TYPE_INT32"},{"id":{"name":"test_col1"},"size":0,"data_type":"TYPE_FLOAT"},{"id":{"name":"test_col2"},"data_type":"TYPE_INT64","datetime":"TYPE_DATE"}{"id":{"name":"test_col3"},"size":10,"data_type":"TYPE_VAR_CHAR"}]}}'
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/database/createtable'
 ----
 
@@ -519,7 +523,7 @@ POST /tspublic/v1/database/run
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Form Parameter | Description
+|Form parameter | Description
 | `sqlstatements` | _String_. A JSON array of SQL statements separated by a semicolon (;).
 |====
 
@@ -532,7 +536,8 @@ POST /tspublic/v1/database/run
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' -d 'sqlstatements=["alter table geo.falcon_default_schema.test_table434 add column test_col17 varchar(10) DEFAULT '';";"alter table geo.falcon_default_schema.test_table434 add column test_col18 varchar(10) DEFAULT '';"]'
+--header 'X-Requested-By: ThoughtSpot' \
+-d 'sqlstatements=["alter table geo.falcon_default_schema.test_table434 add column test_col17 varchar(10) DEFAULT '';";"alter table geo.falcon_default_schema.test_table434 add column test_col18 varchar(10) DEFAULT '';"]' \
 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/database/run'
 ----
 

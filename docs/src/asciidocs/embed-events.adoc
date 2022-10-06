@@ -165,5 +165,5 @@ searchEmbed.on(EmbedEvent.customAction, payload => {
 
 == Related resources
 * For a complete list of host and embed events, see xref:events-ref.adoc[Events reference].
-* For a complete list of event types, see  link:https://developers.thoughtspot.com/docs/typedoc/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:https://developers.thoughtspot.com/docs/typedoc/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.
+* For a complete list of event types, see  link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.
 * For information about triggering events on React components, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].

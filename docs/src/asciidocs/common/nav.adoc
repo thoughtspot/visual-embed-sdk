@@ -5,6 +5,7 @@
 
 [navSection]
 * link:{{navprefix}}=introduction[Home]
+*
 * link:{{navprefix}}=rel-notes[Release Notes]
 * link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
@@ -34,16 +35,18 @@
 ** link:{{navprefix}}=embed-auth[Authentication]
 ** link:{{navprefix}}=in-app-navigation[Navigate to ThoughtSpot content]
 ** link:{{navprefix}}=events-app-integration[Events and app integration]
+** link:{{navprefix}}=action-config[Show or hide menu items]
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
-** link:{{navprefix}}=action-config[Show or hide UI actions]
 ** link:{{navprefix}}=set-locale[Set locale and display language]
+** link:{{navprefix}}=search-assist[Enable Search Assist]
+** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 *** link:{{navprefix}}=events[Events Reference]
 *** link:{{navprefix}}=actions[Actions Reference]
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
-** link:{{navprefix}}=customize-actions[Create and manage actions]
+** link:{{navprefix}}=customize-actions[Create and manage custom actions]
 ** link:{{navprefix}}=edit-custom-action[Set the position of a custom action]
 ** link:{{navprefix}}=add-action-viz[Add a local action to a visualization]
 ** link:{{navprefix}}=add-action-worksheet[Add a local action to a worksheet]
@@ -68,7 +71,7 @@
 *** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 ** link:{{navprefix}}=rest-api-v2[REST API v2 ^*BETA*^]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
-*** link:{{navprefix}}=api-authv2[Authentication]
+*** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*BETA*^]
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*BETA*^]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
 *** link:{{navprefix}}=user-api[User API]
@@ -96,4 +99,3 @@
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://docs.thoughtspot.com[Product Documentation, window=_blank]
-

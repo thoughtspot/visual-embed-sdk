@@ -80,6 +80,12 @@
 						<a href="../enums/Action.html" class="tsd-kind-icon">Action</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="../enums/AuthFailureType.html" class="tsd-kind-icon">Auth<wbr>Failure<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/AuthStatus.html" class="tsd-kind-icon">Auth<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="../enums/AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum">
@@ -117,7 +123,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="LiveboardEmbed.html#render" class="tsd-kind-icon">render</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="LiveboardEmbed.html#trigger" class="tsd-kind-icon">trigger</a>
 							</li>
 						</ul>
@@ -144,6 +150,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#init" class="tsd-kind-icon">init</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#logout" class="tsd-kind-icon">logout</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#prefetch" class="tsd-kind-icon">prefetch</a>
@@ -188,7 +197,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="LiveboardEmbed.html#getThoughtSpotPostUrlParams" class="tsd-kind-icon">get<wbr>Thought<wbr>Spot<wbr>Post<wbr>Url<wbr>Params</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="LiveboardEmbed.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="LiveboardEmbed.html#render" class="tsd-kind-icon">render</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="LiveboardEmbed.html#trigger" class="tsd-kind-icon">trigger</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="LiveboardEmbed.html#trigger" class="tsd-kind-icon">trigger</a></li>
 							</ul>
 						</section>
 					</div>
@@ -207,7 +216,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/liveboard.ts#L97">embed/liveboard.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a823cf1d/src/embed/liveboard.ts#L100">embed/liveboard.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -237,7 +246,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.getThoughtSpotPostUrlParams</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L719">embed/ts-embed.ts:719</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a823cf1d/src/embed/ts-embed.ts#L750">embed/ts-embed.ts:750</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +271,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from V1Embed.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L765">embed/ts-embed.ts:765</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a823cf1d/src/embed/ts-embed.ts#L796">embed/ts-embed.ts:796</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +301,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides V1Embed.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/liveboard.ts#L202">embed/liveboard.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a823cf1d/src/embed/liveboard.ts#L227">embed/liveboard.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,18 +313,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="trigger" class="tsd-anchor"></a>
 					<h3>trigger</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>messageType<span class="tsd-signature-symbol">: </span><a href="../enums/HostEvent.html" class="tsd-signature-type" data-tsd-kind="Enumeration">HostEvent</a>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TsEmbed</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>messageType<span class="tsd-signature-symbol">: </span><a href="../enums/HostEvent.html" class="tsd-signature-type" data-tsd-kind="Enumeration">HostEvent</a>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from V1Embed.trigger</p>
+								<p>Overrides V1Embed.trigger</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/dcea262f/src/embed/ts-embed.ts#L691">embed/ts-embed.ts:691</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a823cf1d/src/embed/liveboard.ts#L214">embed/liveboard.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,13 +341,13 @@
 									</div>
 								</li>
 								<li>
-									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<h5>data: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The payload to send with the message</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TsEmbed</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>

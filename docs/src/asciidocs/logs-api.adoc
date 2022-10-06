@@ -1,18 +1,22 @@
-=  Log streaming service API
+= Audit logs API
 :toc: true
 :toclevels: 1
 
-:page-title: Log streaming service 
+:page-title: Log streaming service
 :page-pageid: logs-api
 :page-description: Log streaming service APIs
 
-ThoughtSpot cloud deployments allow you to collect security audit events and send them to your Security information and event management (SIEM) application in real-time. These events can help your security operations personnel to detect potential security threats or compromised user accounts in your organization. 
+ThoughtSpot cloud deployments allow you to collect security audit events and send them to your Security information and event management (SIEM) application in real-time. These events can help your security operations personnel to detect potential security threats or compromised user accounts in your organization.
 
-The ThoughtSpot log API service allows you to programmatically get a security audit event log from the ThoughtSpot system. To use this API, make sure you have admin user privileges. 
+The ThoughtSpot log API service allows you to programmatically get a security audit event log from the ThoughtSpot system. To use this API, make sure you have admin user privileges.
+
+== Supported operations
+
+include::{path}/audit-log-api.adoc[]
 
 == Required permissions
 
-You must have administrator access to query security logs. 
+You must have administrator access to query security logs.
 
 
 == Resource URL
@@ -25,8 +29,8 @@ GET /tspublic/v1/logs/topics/{topic}
 [width="100%" cols="1,4"]
 [options='header']
 |====
-|Path Parameter|Description 
-|`topic`|__String__. Type of the log. The valid value is `security_logs`. 
+|Path Parameter|Description
+|`topic`|__String__. Type of the log. The valid value is `security_logs`.
 |====
 
 [width="100%" cols="1,4"]
@@ -58,10 +62,10 @@ The API returns ThoughtSpot security events with the following information:
 
 * Event ID
 * A unique description of the event, for example, `User login failed`.
-* Timestamp 
+* Timestamp
 * User ID of the person initiating the event
 * IP address of the ThoughtSpot instance
- 
+
 
 [source, JSON]
 ----

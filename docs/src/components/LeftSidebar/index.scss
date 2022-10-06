@@ -82,12 +82,12 @@ aside {
     }
 
     .navWrapper {
-        margin-bottom: 32px;
+        margin-bottom: 12px;
 
 
         & > .ulist {
             & > ul > li {
-                margin-bottom: $margin-lg;
+                margin-bottom: $margin-md;
                 & > p {
                     padding-right: $padding-xs;
                     color: var(--primary-color);
@@ -133,7 +133,7 @@ aside {
 
         .paragraph {
             padding-left: $padding-md;
-            margin-bottom: $margin-lg;
+            margin-bottom: $margin-sm;
 
             p {
                 padding-right: $padding-xs;

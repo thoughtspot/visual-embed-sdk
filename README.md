@@ -1,16 +1,27 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=100 align="center" alt="ThoughtSpot" />
+    <img src="https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/main/static/doc-images/images/TS-Logo-black-no-bg.svg" width=120 align="center" alt="ThoughtSpot" />
 </p>
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square)
+# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/ts-blink/embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/ts-blink/embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square) [![Featured on Openbase](https://badges.openbase.com/js/featured/@thoughtspot/visual-embed-sdk.svg?token=IoqZUwE8aX7LYNedeuBLM2w5Wt52hu+Dh0eyKjlpC0E=)](https://openbase.com/js/@thoughtspot/visual-embed-sdk?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge) ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@thoughtspot/visual-embed-sdk?style=flat-square)
 
-SDK to embed ThoughtSpot into your web apps.
 
-<br/>
+SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to use the SDK, [click here](https://www.thoughtspot.com/trial?tsref=trialtse) to start a trial. 
 
-## Usage
+   * [Installation](#installation)
+   * [Live Playground](#live-playground)
+   * [Full API Reference](#full-api-reference)
+   * [Quick Start](#quick-start)
+      * [Embedded Search](#embedded-search)
+      * [Embedded Liveboard &amp; Visualization](#embedded-liveboard--visualization)
+      * [Embedded Full App](#embedded-full-app)
+      * [Triggering and Listening to events](#triggering-and-listening-to-events)
+   * [React Components](#react-components)
+      * [Search Component](#search-component)
+      * [Triggering events on React components](#triggering-events-on-react-components--version-192)
+
+## Installation
 
 The SDK is compatible with ThoughtSpot SW version >= 7.1 and ThoughtSpot Cloud.
 
@@ -30,6 +41,7 @@ import { LiveboardEmbed } from '@thoughtspot/visual-embed-sdk';
 
 // NPM <script>
 <script src="https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.js"></script>;
+// Make the SDK available on global namespace window.tsembed
 
 // ES6 from web
 import {
@@ -52,6 +64,7 @@ Start a [free trial](https://www.thoughtspot.com/trial?tsref=trialtse) on your o
 
 -   Detailed [developer guide](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started).
 -   Please visit our [API reference docs](https://developers.thoughtspot.com/docs/typedoc/modules.html).
+-   Comprehensive [CodeSandbox](https://codesandbox.io/s/big-tse-react-demo-i4g9xi?file=/src/App.tsx)
 
 <br/>
 

@@ -63,4 +63,3 @@ For more information, see xref:customize-links.adoc[Customize links].
 If you are embedding ThoughtSpot in your application, you must add the domain URL of your application as a CSP and CORS host. These settings are available on the *Security settings* page. This page also allows you to enable trusted authentication and add redirect domains for SAML SSO authentication.
 
 For more information, see xref:security-settings.adoc[Security Settings].
-

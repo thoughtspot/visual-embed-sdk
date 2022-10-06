@@ -20,13 +20,13 @@ You can use one of the following authentication methods to authenticate your app
 
 [IMPORTANT]
 ====
-If you are developing or testing code for embedding ThoughtSpot in your host app, you might want to use basic authentication with `username` and `password`, or no authentication. For production environments, ThoughtSpot strongly recommends using SAML SSO, OIDC, or trusted authentication.
+If you are developing or testing code for embedding ThoughtSpot in your host app, you might want to use basic authentication with `username` and `password`, or no authentication. For production environments, ThoughtSpot recommends using SAML SSO, OIDC, or trusted authentication.
 ====
 
 [#no-auth-embed]
 === No authentication
 
-In development and testing environments, you can choose not to use any authentication method. To allow your logged-in application users to access ThoughtSpot content without any authentication, set the `authType` attribute to `None` as shown here:
+If your application already uses an IdP to authenticate users and allows iframe embedding, and your ThoughtSpot instance has SAML or OIDC configured, you can set the `authType` attribute to `None`.
 
 [source,javascript]
 ----
@@ -63,19 +63,19 @@ ThoughtSpot does not recommend this authentication method for production environ
 
 [#saml-sso-embed]
 === SAML SSO authentication
-If your organization uses an identity provider (IdP) and SAML SSO to authenticate your application users, you can configure the `SSO` auth type to authenticate ThoughtSpot users. With SAML SSO, you can allow federated users to access ThoughtSpot content with their SSO credentials.
+If your organization uses an identity provider (IdP) and SAML SSO to authenticate your application users, you can configure the `SAML` auth type to authenticate ThoughtSpot users. With SAML SSO, you can allow federated users to access ThoughtSpot content with their SSO credentials.
 
 To use SAML SSO authentication, the administrator must enable SAML authentication on ThoughtSpot and add the SAML redirect domains to the allowed list. For more information, see xref:configure-saml.adoc[SAML SSO].
 
 ==== Enable SSO authentication in Visual Embed SDK
 
-To configure SAML SSO authentication for embed users, set the `authType` attribute to `SSO`.
+To configure SAML SSO authentication for embed users, set the `authType` attribute to `SAML`.
 
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
 });
 ----
 
@@ -91,7 +91,7 @@ If you want the SAML SSO authentication workflow to terminate on a specific path
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
     redirectPath: "/dashboard",
 });
 ----
@@ -102,7 +102,7 @@ If you want the SAML SSO authentication page to open as a pop-up window, instead
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SSO,
+    authType: AuthType.SAML,
     noRedirect: true,
 });
 ----
@@ -126,21 +126,6 @@ Optionally, you can configure a `redirectPath` string to redirect embed users to
 
 ----
 redirectPath: "/dashboard"
-----
-
-[#oidc-auth]
-=== OpenID Connect SSO authentication
-
-If your app supports OAuth 2.0 protocol and requires OIDC authentication framework, you can enable the OpenID Connect authentication on your embedded ThoughtSpot instance.
-
-Before you enable the OIDC authentication type, make sure your ThoughtSpot instance is xref:configure-oidc.adoc[integrated with the OpenID provider and set up for OIDC authentication].
-
-[source,javascript]
-----
-init({
-    thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.OIDC,
-});
 ----
 
 [#trusted-auth-embed]
@@ -222,7 +207,7 @@ Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX r
 
 The user authentication may fail due to an incomplete SSO login process, expired user session, SDK initialization error, or if the browser has blocked third-party cookies.
 
-The `init` method returns an event emitter, which you can use to listen to `AuthStatus` events such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
+The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
 
 [source,Typescript]
 ----
@@ -275,7 +260,9 @@ import { logout } from "@thoughtspot/visual-embed-sdk";
 logout();
 ----
 
-The `logout` function returns a promise that resolves when the user is logged out of ThoughtSpot. When you call `logout`, the `autoLogin` attribute is set to `false` to prevent the SDK from automatically logging in the user again. To re-login a user, call `init` again with the  `autoLogin` property set to `true`.
+The `logout` function returns a promise that resolves when the user is logged out of ThoughtSpot. When you call `logout`, the `autoLogin` attribute is set to `false` to prevent the SDK from automatically logging in the user again. If you do not want to disable `autoLogin`, set the `doNotDisableAutoLogin` parameter to `false`.
+
+You can also call `init` again with the `autoLogin` property set to `true` to re-login a user.
 
 [#embed-session-sec]
 == Session security and login attributes

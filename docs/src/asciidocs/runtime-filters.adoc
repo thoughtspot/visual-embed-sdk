@@ -60,12 +60,12 @@ This example shows how to define RuntimeFilter parameters when rendering a Liveb
 liveboardEmbed.render({
     liveboardId: '133e6c5f-e522-41a0-b0ad-b9c3b066e276',
     vizId: '28b73b4a-1341-4535-ab71-f76b6fe7bf92',
-    runtimeFilters: [{
-        columnName: 'Revenue',
-        operator: RuntimeFilterOp.EQ,
-        values: [100000]
-    }]
-});
+      runtimeFilters: [{
+      columnName: 'Revenue',
+      operator: RuntimeFilterOp.EQ,
+      values: [ 100000 ]
+      }]
+  });
 ----
 
 === Runtime filters in REST API calls

@@ -78,6 +78,9 @@ The following table shows the valid domain name strings for the CORS and CSP all
 [div tableContainer]
 --
 
+[div tableContainer]
+--
+
 [width="100%" cols="5,2,2,2"]
 [options='header']
 |====

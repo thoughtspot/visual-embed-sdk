@@ -13,6 +13,7 @@ import {
     getOffsetTop,
     embedEventStatus,
     setAttributes,
+    getCustomisations,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -31,6 +32,7 @@ import {
     Param,
     EmbedConfig,
     MessageOptions,
+    MessagePayload,
     MessageCallbackObj,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
@@ -75,7 +77,7 @@ export interface FrameParams {
      * This parameters will be passed on the iframe
      * as is.
      */
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | undefined;
 }
 
 /**
@@ -116,12 +118,12 @@ export interface ViewConfig {
     /**
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu.
-     * @version 1.6.0 or later
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     visibleActions?: Action[];
     /**
      * Show alert messages and toast messages in the embedded view.
-     * @version 1.11.0 | ThoughtSpot: 8.3.0.cl
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     showAlerts?: boolean;
     /**
@@ -131,7 +133,7 @@ export interface ViewConfig {
     runtimeFilters?: RuntimeFilter[];
     /**
      * The locale/language to use for the embedded view.
-     * @version 1.9.4 or later
+     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1-sw
      */
     locale?: string;
     /**
@@ -141,7 +143,7 @@ export interface ViewConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     additionalFlags?: { [key: string]: string | number | boolean };
 }
@@ -202,6 +204,8 @@ export class TsEmbed {
      */
     private shouldEncodeUrlQueryParams = false;
 
+    private defaultHiddenActions = [Action.ReportError];
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = this.getDOMNode(domSelector);
         // TODO: handle error
@@ -212,6 +216,7 @@ export class TsEmbed {
         this.isError = false;
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        this.registerAppInit();
     }
 
     /**
@@ -242,7 +247,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.log(error);
+        console.error(error);
     }
 
     /**
@@ -309,6 +314,23 @@ export class TsEmbed {
     }
 
     /**
+     * Send Custom style as part of payload of APP_INIT
+     */
+    private appInitCb = (_: any, responder: any) => {
+        responder({
+            type: EmbedEvent.APP_INIT,
+            data: { customisations: getCustomisations(this.embedConfig) },
+        });
+    };
+
+    /**
+     * Register APP_INIT event and sendback init payload
+     */
+    private registerAppInit = () => {
+        this.on(EmbedEvent.APP_INIT, this.appInitCb);
+    };
+
+    /**
      * Constructs the base URL string to load the ThoughtSpot app.
      */
     protected getEmbedBasePath(query: string): string {
@@ -355,6 +377,7 @@ export class TsEmbed {
         ) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
+        // TODO remove this
         if (this.embedConfig.customCssUrl) {
             queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
         }
@@ -382,9 +405,10 @@ export class TsEmbed {
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
-        if (hiddenActions?.length) {
-            queryParams[Param.HideActions] = hiddenActions;
-        }
+        queryParams[Param.HideActions] = [
+            ...this.defaultHiddenActions,
+            ...(hiddenActions ?? []),
+        ];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
@@ -412,12 +436,16 @@ export class TsEmbed {
         showPrimaryNavbar = false,
         disableProfileAndHelp = false,
         isAppEmbed = false,
+        enableSearchAssist = false,
     ): string {
         const queryStringFrag = queryString ? `&${queryString}` : '';
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
+        const enableSearchAssistParam = `&${Param.EnableSearchAssist}=${enableSearchAssist}`;
         let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
             isAppEmbed ? disableProfileAndHelpParam : ''
+        }${
+            enableSearchAssist ? enableSearchAssistParam : ''
         }${queryStringFrag}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
@@ -459,7 +487,6 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-
             getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
@@ -691,15 +718,16 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(
-        messageType: HostEvent,
-        data: any,
-    ): typeof TsEmbed.prototype {
-        processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+    public trigger(messageType: HostEvent, data: any): Promise<any> {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
-        return this;
+        return processTrigger(
+            this.iFrame,
+            messageType,
+            this.thoughtSpotHost,
+            data,
+        );
     }
 
     /**

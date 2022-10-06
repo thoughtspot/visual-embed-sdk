@@ -11,13 +11,17 @@ Client libraries are available for Java, Python, TypeScript, and .NET. For each 
 
 == Download the SDK
 
-You can also download the SDK and API libraries from the following public resources:
+You can also download the REST API SDK [beta blueBackground]^BETA^ from the following public resources:
 
 * link:https://github.com/thoughtspot/rest-api-sdk[GitHub repository, window=_blank]
-* TypeScript SDK - link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
-* Python SDK - link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
-* Java SDK - link:https://search.maven.org/artifact/io.github.thoughtspot/rest-api-sdk-lib[MVN Package Manager, window=_blank]
-* .NET SDK - link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
+* TypeScript SDK [beta blueBackground]^BETA^  +
+link:https://www.npmjs.com/package/@thoughtspot/rest-api-sdk[NPM site, window=_blank]
+* Python SDK [beta blueBackground]^BETA^  +
+link:https://pypi.org/project/thoughtspot-rest-api-sdk/[PyPi, window=_blank]
+* Java SDK [beta blueBackground]^BETA^ +
+link:https://search.maven.org/artifact/io.github.thoughtspot/rest-api-sdk-lib[MVN Package Manager, window=_blank]
+* .NET SDK +
+link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
 
 == Setup and usage
 

@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.11.0-alpha.1",
+    "version": "1.15.0-alpha.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -31,7 +31,7 @@
         "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme",
         "test-sdk": "jest -c jest.config.sdk.js",
         "test-docs": "jest -c jest.config.docs.js",
-        "test": "npm run test-sdk && npm run test-docs && npx istanbul-merge --out ./coverage/coverage.json ./coverage/docs/coverage-final.json ./coverage/sdk/coverage-final.json && npx istanbul report --include ./coverage/coverage.json --dir ./coverage lcov",
+        "test": "npm run test-sdk && npm run test-docs",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run build",
         "publish-dev": "npm publish --tag dev",
@@ -45,8 +45,10 @@
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
         "eventemitter3": "^4.0.7",
+        "gatsby-plugin-vercel": "^1.0.3",
         "html-react-parser": "^1.4.12",
-        "mixpanel-browser": "^2.45.0"
+        "mixpanel-browser": "^2.45.0",
+        "use-deep-compare-effect": "^1.8.1"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
@@ -79,7 +81,7 @@
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react-hooks": "^4.2.0",
         "fs-extra": "^10.0.0",
-        "gatsby": "3.1.0",
+        "gatsby": "3.13.1",
         "gatsby-plugin-algolia": "^0.22.2",
         "gatsby-plugin-catch-links": "^3.1.0",
         "gatsby-plugin-env-variables": "^2.1.0",

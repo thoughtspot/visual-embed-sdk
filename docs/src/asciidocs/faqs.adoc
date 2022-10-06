@@ -84,12 +84,13 @@ You can embed any of the following components, or the entire ThoughtSpot experie
 * Search page
 * Liveboard
 * Individual visualizations from a Liveboard
+* Specific pages of the application or the full application
 ====
 
 .What is Visual Embed SDK?
 [%collapsible]
 ====
-xref:visual-embed-sdk.adoc[Visual Embed SDK] is a Javascript library using which you can embed ThoughtSpot application and its components in your web app.
+The xref:visual-embed-sdk.adoc[Visual Embed SDK] is a Javascript library using which you can embed ThoughtSpot application and its components in your web app.
 ====
 
 .My app doesn't allow custom Javascript. Can I embed ThoughtSpot in my app?
@@ -108,7 +109,7 @@ For more information, see xref:embed-without-sdk.adoc[Embed without SDK].
 .What kind of customizations can I do with the Visual Embed SDK?
 [%collapsible]
 ====
-The Visual Embed SDK not only allows you to embed ThoughtSpot, but also provides APIs and attributes to customize your  embedded view. The SDK allows you to:
+The Visual Embed SDK not only allows you to embed ThoughtSpot, but also provides APIs and object properties to customize your embedded view. The SDK allows you to:
 
 * xref:embed-search.adoc[modify the layout of the embedded Search page]
 * xref:full-embed.adoc[customize layout and home tabs in embedded ThoughtSpot view]
@@ -138,7 +139,7 @@ Yes. ThoughtSpot provides a client library using which you can embed ThoughtSpot
 .Can I sync users and groups with ThoughtSpot?
 [%collapsible]
 ====
-Yes. You can use the xref:user-api.adoc#user-sync[/tspublic/v1/user/sync] to sync users and groups from external systems with ThoughtSpot. To sync users and groups from Active Directory, you may need to use the AD sync script provided by ThoughtSpot. For more information and assistance, please contact ThoughtSpot Support.
+Yes. You can use the xref:user-api.adoc#user-sync[/tspublic/v1/user/sync] to sync users and groups from external systems with ThoughtSpot. To sync users and groups from Active Directory, you may need to use an AD sync script provided by ThoughtSpot. For more information and assistance, please contact ThoughtSpot Support.
 ====
 
 .What is the default SSO experience with embedded ThoughtSpot instances?
@@ -176,15 +177,20 @@ For more information about access control, see xref:configure-user-access.adoc[A
 .Can I sync groups in SAML assertions with ThoughtSpot?
 [%collapsible]
 ====
-Yes, you can map a user’s groups in the SAML assertion with ThoughtSpot. For more information, see link:https://docs.thoughtspot.com/cloud/latest/saml-group-mapping[Configure SAML group mapping, window=_blank].
+You can map a user’s groups in the SAML assertion with ThoughtSpot. For more information, see link:https://docs.thoughtspot.com/cloud/latest/saml-group-mapping[Configure SAML group mapping, window=_blank].
+====
+
+.Can I restrict my embed application users from accessing the non-embedded ThoughtSpot instance?
+[%collapsible]
+====
+If you have a single ThoughtSpot cluster and you have embedded the full ThoughtSpot application in another app, you may want to prevent external users from accessing your non-embedded ThoughtSpot instance. ThoughtSpot allows you to restrict embed users from accessing your non-embedded ThoughtSpot instance using a TSCLI command. Please contact ThoughtSpot support to enable this flag on your instance.
 ====
 
 == Customization and rebranding
-
 .Can I change the look and feel of ThoughtSpot?
 [%collapsible]
 ====
-ThoughtSpot allows customizing UI elements, chart colors, logo, footer text, and other such style modifications. For more information, see xref:customization-rebranding.adoc[Customization and rebranding].
+ThoughtSpot allows customizing UI elements, chart colors, logo, fonts, footer text, and other such style modifications. For more information, see xref:customization-rebranding.adoc[Customization and rebranding].
 ====
 
 .Do I need a ThoughtSpot Everywhere license to customize the UI layout?
@@ -197,7 +203,7 @@ No. The Style customization feature is available on ThoughtSpot Cloud and Though
 [%collapsible]
 ====
 * UI Layout and style customization +
-The style customization feature allows rebranding UI elements, logo, and color scheme of charts and tables. If you want to remove the Powered by ThoughtSpot logo, contact ThoughtSpot support.
+The style customization feature allows rebranding UI elements, logo, fonts, and color scheme of charts and tables. If you want to remove the Powered by ThoughtSpot logo, contact ThoughtSpot support.
 * Email customization +
 If you want to use a xref:custom-domain-configuration.adoc#_email_customization[specific domain name and sender ID in the system-generated email notifications], contact ThoughtSpot support.
 * URL with custom domain name +
@@ -215,7 +221,7 @@ Advanced customization and layout controls will be available with the upcoming L
 .Can I remove the ThoughtSpot logo from generated PDFs?
 [%collapsible]
 ====
-* Yes. If you have customized the wide logo in the *Style customization* page, it will be displayed as the primary logo in PDFs. By default, the ThoughtSpot logo is displayed at the bottom of the title page. To disable this logo, contact ThoughtSpot Support.
+Yes. If you have customized the wide logo in the *Style customization* page, it will be displayed as the primary logo in PDFs. By default, the ThoughtSpot logo is displayed at the bottom of the title page. To disable this logo, contact ThoughtSpot Support.
 ====
 
 == Custom actions
@@ -239,9 +245,18 @@ For more information, see xref:custom-actions.adoc[Custom actions] and see xref:
 .I created a custom action, but don't see it in the context menu.
 [%collapsible]
 ====
-Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in  **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* panel.
+* Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in the **More** image:./images/icon-more-10px.png[the more options menu] menu of your visualization. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* image:./images/custom-action-icon.png[custom action icon] panel on your visualization page.
 
-If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved answer, or worksheet of your choice and place it in the context menu.
+* If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved answer, or worksheet of your choice and place it in the context menu.
+
+[NOTE]
+By default, custom actions are visible only to users with administrator or developer privilege. To make the custom action available to your end users, select the user group in *Show Advanced Availability Settings* and allow access.
+====
+
+.Can I restrict access to custom actions?
+[%collapsible]
+====
+Yes. You can set the custom action availability to one or several groups. Users with Administrator or Developer privilege can set the custom action to be available globally on all visualizations or allow authorized users to assign it to the visualization of their choice.
 ====
 
 .Can I trigger custom actions programmatically?
@@ -254,6 +269,7 @@ You can use the xref:pinboarddata.adoc[/tspublic/v1/pinboarddata] API and the xr
 [%collapsible]
 ====
 The upcoming ThoughtSpot Sync features allow you to connect ThoughtSpot with third-party business applications such as Slack, SalesForce, and Google Sheets.
+Custom actions require writing a bit of code, but can be used to send data to applications that do not have a native integration via ThoughtSpot Sync.
 ====
 
 .Can I pass authentication information with custom action?
@@ -266,12 +282,6 @@ The URL-based custom actions allow you to pass authentication information in the
 [%collapsible]
 ====
 The URL-based custom actions allow you to pass query parameters as key-value pairs. For more information, see xref:custom-actions-url.adoc[URL actions].
-====
-
-.Can I restrict access to custom actions?
-[%collapsible]
-====
-Yes. You can set the custom action availability to one or several groups. Users with Administrator or Developer privilege can set the custom action to be available globally on all visualizations or allow authorized users to assign it to the visualization of their choice.
 ====
 
 
@@ -287,7 +297,7 @@ The ThoughtSpot REST API allows you to send API requests directly to the Thought
 [%collapsible]
 ====
 The Visual Embed SDK is a Javascript library specifically used for embedding ThoughtSpot web components into your web app, such as Search, Pinboards, and Visualizations.
-You can use REST APIs along with Visual Embed SDK to programmatically deploy. manage, and control embedded objects.
+You can use REST APIs along with Visual Embed SDK to programmatically deploy, manage, and control embedded objects.
 ====
 
 .Can I make REST API calls in a language-specific way?
@@ -321,11 +331,11 @@ For more information, see the following pages:
 .Where can I find more information about Visual Embed SDK?
 [%collapsible]
 ====
-To know more about the SDK, see the following resources: +
+To learn more about the SDK, see the following resources: +
 
 * xref:visual-embed-sdk.adoc[Visual Embed SDK] in Developer Documentation
 * link:https://developers.thoughtspot.com/guides[Quick starts and tutorials, window=_blank]
-* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank]
+* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank]
 ====
 
 .Where can I find code samples for Visual Embed SDK?
@@ -338,18 +348,21 @@ Check the following resources for code samples: +
 * link:https://github.com/thoughtspot/visual-embed-sdk[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials, window=_blank]
+* link:{{previewPrefix}}/playground/search[Visual Embed Playground, window=_blank]
 ====
 
 .Where can I find more information about ThoughtSpot REST APIs?
 [%collapsible]
 ====
-To know more about ThoughtSpot REST API, refer to the following pages on the Developer Documentation site:
+To learn more about ThoughtSpot REST API, refer to the following pages on the Developer Documentation site:
 
 * xref:about-rest-apis.adoc[ThoughtSpot REST APIs]
 * xref:rest-api-v1.adoc[REST API v1]
 * xref:rest-api-v2.adoc[REST API v2][beta blueBackground]^BETA^
 * xref:rest-api-reference.adoc[REST API v1 Reference]
 * xref:rest-api-v2-reference.adoc[REST API v2 Reference][beta blueBackground]^BETA^
+* link:{{previewPrefix}}/api/rest/playgroundV1[REST API v1 Playground, window=_blank]
+* link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank]
 ====
 
 .Where can I find REST API code samples?
@@ -362,5 +375,5 @@ Check the following resources for REST API v1 code samples:
 * link:https://developers.thoughtspot.com/codespot[CodeSpot, window=_blank]
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 
-You can also view and download the REST API v2 code samples from the REST API v2 Playground[beta blueBackground]^BETA^.
+You can also view and download the REST API v2 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank][beta blueBackground]^BETA^.
 ====

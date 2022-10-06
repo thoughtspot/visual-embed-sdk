@@ -14,7 +14,7 @@ The prefetch API fetches static resources before the application loads. The pref
 init
     ({
         thoughtSpotHost:"https://<hostname>:<port>",
-        authType: AuthType.SSO,
+        authType: AuthType.SAML,
         callPrefetch: true,
     });
 ----

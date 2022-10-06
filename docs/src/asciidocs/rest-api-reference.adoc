@@ -40,16 +40,7 @@ include::{path}/data-connection-apis.adoc[]
 
 == Materialization service
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:materialization-api.adoc[*POST* /tspublic/v1/materialization/refreshview/{id}]` +
-Allows you refresh a materialized view.|ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
+include::{path}/materialization-api-list.adoc[]
 
 == TML objects
 
@@ -61,16 +52,7 @@ include::{path}/pinboard-api-list.adoc[]
 
 == Search data
 
-[div boxAuto]
---
-[width="100%" cols="2,1"]
-[options='header']
-|=====
-|API endpoint| Available from
-|`xref:search-data-api.adoc#search-data-api-ref[**POST** /tspublic/v1/searchdata]` +
-Allows searching for data from a specific data source in the ThoughtSpot application.| ThoughtSpot Software [version noBackground]#6.0.x#
-|=====
---
+include::{path}/search-api-list.adoc[]
 
 == Dependent objects
 
@@ -84,5 +66,16 @@ include::{path}/security-api-list.adoc[]
 
 include::{path}/database-api-list.adoc[]
 
+== Materialization service
+
+include::{path}/materialization-api-list.adoc[]
+
+== Database and schema
+
+include::{path}/database-api-list.adoc[]
 
 
+////
+== Audit logs
+include::{path}/audit-log-api.adoc[]
+////

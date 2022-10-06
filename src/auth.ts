@@ -1,6 +1,6 @@
 import { initMixpanel } from './mixpanel-service';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
-import { appendToUrlHash } from './utils';
+import { getRedirectUrl } from './utils';
 // eslint-disable-next-line import/no-cycle
 import {
     fetchSessionInfoService,
@@ -8,6 +8,7 @@ import {
     fetchAuthService,
     fetchBasicAuthService,
     fetchLogoutService,
+    fetchAuthPostService,
 } from './utils/authService';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -16,8 +17,8 @@ export let loggedInStatus = false;
 export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
-// eslint-disable-next-line import/no-mutable-exports
-export let sessionInfo: any = null;
+let sessionInfo: any = null;
+let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID =
     '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
@@ -41,8 +42,21 @@ export enum AuthFailureType {
 }
 
 export enum AuthStatus {
+    /**
+     * Emits when the SDK fails to authenticate
+     */
     FAILURE = 'FAILURE',
+    /**
+     * Emits when the SDK succeeds to authenticate
+     */
+    SDK_SUCCESS = 'SDK_SUCCESS',
+    /**
+     * Emits when the App sends a auth success
+     */
     SUCCESS = 'SUCCESS',
+    /**
+     * Emits when there is a logout
+     */
     LOGOUT = 'LOGOUT',
 }
 
@@ -55,10 +69,19 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     let response = null;
     try {
         response = await fetchSessionInfoService(authVerificationUrl);
+        const sessionInfoResp = await response.json();
+        releaseVersion = sessionInfoResp.releaseVersion;
     } catch (e) {
         return false;
     }
     return response.status === 200;
+}
+
+/**
+ * Return releaseVersion if available
+ */
+export function getReleaseVersion() {
+    return releaseVersion;
 }
 
 /**
@@ -135,13 +158,23 @@ export const doTokenAuth = async (
             const response = await fetchAuthTokenService(authEndpoint);
             authToken = await response.text();
         }
-        const resp = await fetchAuthService(
-            thoughtSpotHost,
-            username,
-            authToken,
-        );
+        let resp;
+        try {
+            resp = await fetchAuthPostService(
+                thoughtSpotHost,
+                username,
+                authToken,
+            );
+        } catch (e) {
+            resp = await fetchAuthService(thoughtSpotHost, username, authToken);
+        }
         // token login issues a 302 when successful
         loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
+        if (loggedInStatus && embedConfig.detectCookieAccessSlow) {
+            // When 3rd party cookie access is blocked, this will fail because cookies will
+            // not be sent with the call.
+            loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        }
     }
     return loggedInStatus;
 };
@@ -166,6 +199,9 @@ export const doBasicAuth = async (
             password,
         );
         loggedInStatus = response.ok;
+        if (embedConfig.detectCookieAccessSlow) {
+            loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        }
     } else {
         loggedInStatus = true;
     }
@@ -249,7 +285,11 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
+        : getRedirectUrl(
+              window.location.href,
+              SSO_REDIRECTION_MARKER_GUID,
+              embedConfig.redirectPath,
+          );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(
@@ -266,7 +306,11 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     // again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : appendToUrlHash(window.location.href, SSO_REDIRECTION_MARKER_GUID);
+        : getRedirectUrl(
+              window.location.href,
+              SSO_REDIRECTION_MARKER_GUID,
+              embedConfig.redirectPath,
+          );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(
@@ -294,6 +338,7 @@ export const authenticate = async (
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:
+        case AuthType.SAML:
             return doSamlAuth(embedConfig);
         case AuthType.OIDC:
             return doOIDCAuth(embedConfig);

@@ -11,7 +11,7 @@ ThoughtSpot visualizations, Liveboards, and saved search answers support several
 By default, ThoughtSpot provides a set of standard actions for embedded objects such as Liveboards, visualizations, and answers. The availability of these actions may vary based on user privileges, and the SDK library used for embedding.
 
 [#liveboard-action]
-== Liveboard
+== Liveboard (Classic experience)
 
 The following actions are available for the embedded Liveboard objects:
 
@@ -59,7 +59,7 @@ Downloads the Liveboard as a PDF file.
 Presents the Liveboard in fullscreen mode.
 |`Action.SchedulesList`| `LiveboardEmbed` +
 `AppEmbed` | *Manage schedules*  +
-Allows you to manage Liveboard jobs.
+ Allows you to manage Liveboard jobs.
 |`Action.LiveboardInfo`|`LiveboardEmbed` +
 `AppEmbed` |
  *Liveboard info* +
@@ -79,7 +79,6 @@ Publishes the modified TML representation of a Liveboard object.
 Deletes a Liveboard.
 |====
 
-////
 [#liveboardv2-action]
 == Liveboard (New experience)
 
@@ -127,8 +126,8 @@ Presents the Liveboard in fullscreen mode.
 Allows scheduling Liveboard notifications.
 |`Action.SchedulesList`| `LiveboardEmbed` +
 `AppEmbed` | *Manage schedules* +
-Allows you to manage Liveboard jobs.
-Saves Liveboard modifications.
+ Allows you to manage Liveboard jobs.
+ Saves Liveboard modifications.
 |`Action.ExportTML`|`AppEmbed` +
 `LiveboardEmbed`| *Export TML* +
 Exports the TML representation of a Liveboard object from ThoughtSpot.
@@ -147,10 +146,9 @@ Displays information about the Liveboard.
 |`Action.Remove` | `AppEmbed`| *Delete* +
 Deletes a Liveboard.
 |====
-////
 
 [#viz-actions]
-== Visualizations on a Liveboard
+== Visualizations on a Liveboard (Classic experience)
 The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
 
 [width="100%" cols="3,3,4"]
@@ -160,6 +158,11 @@ The following actions are available for ThoughtSpot visualizations pinned to a L
 |`Action.Explore` a| `LiveboardEmbed` +
 `AppEmbed` |*Explore*  +
 Allows users to explore a visualization.
+
+|`Action.CreateMonitor`| `LiveboardEmbed` +
+`AppEmbed` | Alert icon +
+Allows you to schedule threshold-based alerts for KPI charts.
+
 |`Action.Pin`|`LiveboardEmbed` +
 `AppEmbed`|*Pin* +
 Pins a visualization to a Liveboard.
@@ -195,7 +198,7 @@ Allows resizing a visualization on a Liveboard.
 |
 `Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
-Allows drilling down the visualization to get granular data. Available as a contextual menu action.
+ Allows drilling down the visualization to get granular data. Available as a contextual menu action.
 |`Action.DrillExclude`|`LiveboardEmbed` +
 `AppEmbed`|*Exclude* +
 Allows you to exclude a specific data point on a search answer. Available as a contextual menu action.
@@ -211,14 +214,6 @@ Displays detailed information and raw data for a given visualization. Available 
 Allows switching to the table or chart mode when editing a visualization.|
 |===
 
-////
-|`Action.CreateMonitor`| `LiveboardEmbed` +
-`AppEmbed` | Alert icon +
-Allows you to schedule threshold-based alerts for KPI charts.
-
-////
-
-////
 [#liveboardv2-viz-actions]
 == Visualizations on a Liveboard (New experience)
 The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
@@ -275,11 +270,10 @@ Allows you to include a specific data point on a search answer. Available as a c
 |`Action.AnswerChartSwitcher`| `LiveboardEmbed` +
 `AppEmbed` | Chart switching toggle +
 Allows switching to the table or chart mode when editing a visualization.
-|====
-////
+|===
+
 [#answer-actions]
 == Answers
-The following actions are available for saved answers and the answers generated using the embedded ThoughtSpot search component:
 The following actions are available for saved answers and the answers generated using the embedded ThoughtSpot search component:
 
 [width="100%" cols="3,3,4"]
@@ -309,7 +303,7 @@ a|The *Query visualizer* and *Query SQL* buttons in *Query details* +
 
 |`Action.Save`|`SearchEmbed` +
 `AppEmbed` | *Save* +
-Saves the answer and any modifications made to the answer.
+ Saves the answer and any modifications made to the answer.
 
 |`Action.Download`|`SearchEmbed` +
 `AppEmbed`|*Download* +
@@ -357,4 +351,4 @@ Publishes the modified TML representation of an answer.
 
 == Additional resources
 * For information about showing or hiding UI actions, see xref:embed-actions.adoc[Show or hide actions].
-* See also link:https://developers.thoughtspot.com/docs/typedoc/enums/Action.html[Action, window=_blank].
+* See also link:{{visualEmbedSDKPrefix}}/enums/Action.html[Action, window=_blank].

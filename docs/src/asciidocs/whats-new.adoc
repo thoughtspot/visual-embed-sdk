@@ -1,4 +1,4 @@
-= What's new 
+= What's new
 :toc: true
 :toclevels: 1
 
@@ -8,7 +8,220 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 7.2.0
+== Coming soon
+
+=== Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
+
+ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
+
+This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
+
+=== Visual Embed SDK version 1.16.0
+
+For information about the new features and enhancements in the Visual Embed SDK version 1.16.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API v1
+
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
+=== Bug fixes and improvements
+
+Bug fixes and new improvements in embedded user experience. +
+For more information, see xref:fixed-issues.adoc[Fixed issues].
+
+
+== Version 8.7.0.cl
+
+=== Liveboard tabs
+
+The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+
+For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
+
+=== Visual Embed SDK version 1.15.0
+For information about the new features and enhancements in the Visual Embed SDK version 1.15.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API v1
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
+=== REST API v2 [beta blueBackground]^BETA^
+The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in 8.10.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+
+== Version 8.6.0.cl
+
+=== Liveboard new experience [beta blueBackground]^BETA^
+
+The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
+
+Liveboard editing::
+To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
+The edit mode allows you to edit the Liveboard title and description text, apply filters, copy the Liveboard, modify the layout of the visualization tiles, delete a visualization, and so on.
+
+Liveboard filters::
+* The Liveboard filter configuration options are available on a single modal.
+* When a user creates a copy of a Liveboard, the filters applied to its visualizations are also copied.
+
+Other features and enhancements::
+* The *Add filters* action is placed in the primary menu bar and can be viewed only when a Liveboard is in edit mode. Only users with edit access to the Liveboard can apply filters.
+* The *Undo*, *Redo*, and *Reset* actions for visualizations.
+* The *Liveboard Info* action label in the More image:./images/icon-more-10px.png[the more options menu] menu is renamed to *Show Liveboard details*.
+* The *Schedule* action is placed in the More image:./images/icon-more-10px.png[the more options menu] menu.
+* Improved visualization Explore experience.
+
+Deprecated features::
+The following features are *_not_* available with the new Liveboard experience:
+* The *Copy embed link* and *Copy link* menu actions in the More image:./images/icon-more-10px.png[the more options menu] menu of a Liveboard
+* The edit title icon on visualization tiles
+* The *Share* button on visualizations
+
+For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
+
+==== New Liveboard experience rollout on embedded instances
+
+The new Liveboard experience is currently available in BETA on embedded ThoughtSpot instances. The new liveboard experience will be rolled out on embedded instances in phases:
+
+In ThoughtSpot Cloud 8.6.0.cl::
+The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
++
+ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
+
+In later releases::
+The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
+
+[NOTE]
+====
+The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
+====
+
+==== Actions and Events in the SDK
+If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
+
+For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
+
+=== Visual Embed SDK version 1.14.0
+For information about the new features and enhancements in the Visual Embed SDK version 1.14.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
+== Version 8.5.0.cl
+
+.Search Assist support for embedded instances
+[%collapsible]
+====
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+====
+
+.Visual Embed SDK 1.13.0
+[%collapsible]
+====
+For information about the new features and enhancements in the Visual Embed SDK version 1.13.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+
+.ThoughtSpot UI
+[%collapsible]
+====
+The new Data workspace is Generally Available (GA) in 8.5.0.cl on ThoughtSpot instances. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/cloud/latest/notes[ThoughtSpot product documentation].
+
+[IMPORTANT]
+While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+
+====
+
+== Version, 8.4.0.cl
+
+.Link customization
+[%collapsible]
+====
+This release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
+
+For more information, see xref:customize-links.adoc[Customize links].
+====
+
+.Visual Embed SDK 1.12.0
+
+[%collapsible]
+====
+The Visual Embed SDK version 1.12.0 introduces new events. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST v2 [beta blueBackground]^BETA^ endpoints: +
+
+* Data +
+** `*GET* /tspublic/rest/v2/data/answer/querysql` +
+** `*GET* /tspublic/rest/v2/data/liveboard/querysql`
+* Admin
+** `*PUT* /tspublic/rest/v2/admin/assignauthor`
+|[tag redBackground]#BREAKING CHANGES# a| * The method names for the following endpoints will be changed in the SDK. +
+** `/tspublic/rest/v2/user/addgroup` +
+** `/tspublic/rest/v2/user/removegroup` +
+* The `/tspublic/rest/v2/admin/changeowner` endpoint will be renamed as `/tspublic/rest/v2/admin/changeauthor`.
+|====
+====
+
+== Version 8.3.0.cl
+
+.Visual Embed SDK 1.11.0
+[%collapsible]
+====
+The Visual Embed SDK version 1.11.0 introduces several new events for embedded components. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
+[width="100%" cols="1,4"]
+|====
+||
+|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta blueBackground]^BETA^ endpoints are now available:
+
+* Connection endpoints +
+** `GET /tspublic/rest/v2/connection/database` +
+** `POST /tspublic/rest/v2/connection/table` +
+** `POST /tspublic/rest/v2/connection/tablecoloumn` +
+* Report endpoint +
+** `POST /tspublic/rest/v2/report/liveboard` +
+* Security endpoints +
+** `POST /tspublic/rest/v2/security/share/tsobject` +
+** `POST /tspublic/rest/v2/security/share/visualization` +
+** `GET /tspublic/rest/v2/security/permission/tsobject` +
+** `GET /tspublic/rest/v2/security/permission/principal` +
+** `POST /tspublic/rest/v2/security/permission/tsobject/search` +
+** `POST /tspublic/rest/v2/security/permission/principal/search` +
+* Custom action endpoints +
+** `GET /tspublic/rest/v2/customaction` +
+** `POST /tspublic/rest/v2/customaction/create` +
+** `PUT /tspublic/rest/v2/customaction/update` +
+** `DELETE /tspublic/rest/v2/customaction/delete` +
+** `POST /tspublic/rest/v2/customaction/search` +
+** `GET /tspublic/rest/v2/customaction/association` +
+** `DELETE /tspublic/rest/v2/customactions/association/delete`
+
+|[tag orangeBackground]#MODIFIED# a|
+* The `x-requested-by` header is not mandatory in REST v2 [beta blueBackground]^BETA^ API calls.
+* The `createdBy` attribute in the `/tspublic/rest/v2/metadata/header/search` API is renamed to `author`.
+* The attributes with the `boolean` data type in the API endpoints are changed to `string` data type. If a boolean attribute was set as `true` in your existing setup, the value will be changed to `"true"`.
+|[tag redBackground]#BREAKING CHANGES# a|
+
+* Note the change in HTTP request method for the following REST API v2 [beta blueBackground]^BETA^ endpoints: +
+** `**PUT** /tspublic/rest/v2/metadata/tag/assign` +
+** `**PUT** /tspublic/rest/v2/metadata/tag/unassign` +
+** `**PUT** /tspublic/rest/v2/metadata/favorite/assign` +
+** `**PUT** /tspublic/rest/v2/metadata/favorite/unassign` +
+** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` +
+** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/unassign` +
+* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated.
+|[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
+|====
+====
 
 The ThoughtSpot Software 7.2.0 version introduces the following features and enhancements in the Developer portal:
 

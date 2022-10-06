@@ -7,7 +7,12 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { QueryParams, RuntimeFilter } from './types';
+import {
+    EmbedConfig,
+    QueryParams,
+    RuntimeFilter,
+    CustomisationsInterface,
+} from './types';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -121,6 +126,11 @@ export const appendToUrlHash = (url: string, stringToAppend: string) => {
     return outputUrl;
 };
 
+export function getRedirectUrl(url: string, stringToAppend: string, path = '') {
+    const targetUrl = path ? new URL(path, window.location.origin).href : url;
+    return appendToUrlHash(targetUrl, stringToAppend);
+}
+
 export const getEncodedQueryParamsString = (queryString: string) => {
     if (!queryString) {
         return queryString;
@@ -148,4 +158,32 @@ export const setAttributes = (
     Object.keys(attributes).forEach((key) => {
         element.setAttribute(key, attributes[key].toString());
     });
+};
+
+const isCloudRelease = (version: string) => version.endsWith('.cl');
+
+/* For Search Embed: ReleaseVersionInBeta */
+export const checkReleaseVersionInBeta = (
+    releaseVersion: string,
+    suppressBetaWarning: boolean,
+): boolean => {
+    if (releaseVersion !== '' && !isCloudRelease(releaseVersion)) {
+        const splittedReleaseVersion = releaseVersion.split('.');
+        const majorVersion = Number(splittedReleaseVersion[0]);
+        const isBetaVersion = majorVersion < 8;
+        return !suppressBetaWarning && isBetaVersion;
+    }
+    return false;
+};
+
+export const getCustomisations = (
+    embedConfig: EmbedConfig,
+): CustomisationsInterface => {
+    const { customCssUrl } = embedConfig;
+    let { customisations } = embedConfig;
+    customisations = customisations || ({} as CustomisationsInterface);
+    customisations.style = customisations.style || {};
+    customisations.style.customCSSUrl =
+        customisations.style.customCSSUrl || customCssUrl;
+    return customisations;
 };

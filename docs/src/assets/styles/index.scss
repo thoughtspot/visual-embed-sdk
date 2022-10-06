@@ -29,7 +29,6 @@ body {
     font-size: $font-size-normal;
 }
 
-
 main {
     display: flow-root;
     background-color: var(--body-background-color);
@@ -140,11 +139,11 @@ button {
     line-height: $line-height-doc;
     text-align: center;
     min-width: $tag-width;
-    margin-left: 2px;
+    margin: 5px;
     padding: $tag-padding;
     color: var(--primary-color);
     border: solid 1px;
-    border-color: $tip-color; 
+    border-color: $tip-color;
 }
 
 
@@ -212,7 +211,6 @@ button {
     background-color: var(--announcement-block-color);
     }
 
-
 .boxDiv {
     padding: 15px;
     display: inline-block;
@@ -261,6 +259,7 @@ button {
     margin: 5px auto;
 }
 
+
 .boxBody {
     font-weight: $font-size-doc;
     font-size: $font-size-normal;
@@ -268,7 +267,7 @@ button {
     color: var(--primary-color);
 
 }
- 
+
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
@@ -285,6 +284,19 @@ summary.title  {
 }
 
 
+
+.boxAuto {
+    border: 0.5px solid $disabledcolor;
+	height: auto;
+	width: 100%;
+	padding: 0 0 0 2px;
+}
+
+.tableContainer {
+    border: 0.5px solid $disabledcolor;
+    padding: 0 0 0 5px;
+    overflow-x: auto;
+}
 
 summary.title  {
     font-size: $font-size-summ-title;
@@ -307,7 +319,16 @@ summary.title  {
 
 }
 
- 
+.cardBlockHeading {
+       margin-top: $margin-lg;
+       padding-bottom: $padding-sm;
+       border-bottom: 1px solid var(--border-color);
+       font-size: 26px;
+       font-weight: $font-weight-bold;
+       text-align: center;
+}
+
+
 a.anchor {
     position: absolute;
     text-decoration: none;
@@ -317,7 +338,7 @@ a.anchor {
     font-size: .8em;
     font-weight: 400;
     padding-top: 0.05em;
-}    
+}
 
 
 .introCard     {
@@ -380,7 +401,7 @@ a.anchor {
    .introCard {
         width: 100%;
     }
-    
+
     .boxDiv {
         width: 100%;
     }
@@ -388,7 +409,7 @@ a.anchor {
     .boxHalfWidth {
         width: 100%;
     }
-    
+
     .tableContainer {
 	overflow: scroll;
 }

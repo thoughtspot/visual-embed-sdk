@@ -1,6 +1,7 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
-import { AuthType } from './types';
+import * as checkReleaseVersionInBetaInstance from './utils';
+import { AuthType, EmbedConfig } from './types';
 import { executeAfterWait } from './test/test-utils';
 
 const thoughtSpotHost = 'http://localhost:3000';
@@ -8,13 +9,20 @@ const username = 'tsuser';
 const password = '12345678';
 const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%235e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
 
-const embedConfig: any = {
+export const embedConfig: any = {
     doTokenAuthSuccess: (token: string) => ({
         thoughtSpotHost,
         username,
         authEndpoint: 'auth',
+        authType: AuthType.AuthServer,
         getAuthToken: jest.fn(() => Promise.resolve(token)),
     }),
+    doTokenAuthWithCookieDetect: {
+        thoughtSpotHost,
+        username,
+        authEndpoint: 'auth',
+        detectCookieAccessSlow: true,
+    },
     doTokenAuthFailureWithoutAuthEndPoint: {
         thoughtSpotHost,
         username,
@@ -40,6 +48,9 @@ const embedConfig: any = {
     },
     SSOAuth: {
         authType: AuthType.SSO,
+    },
+    SAMLAuth: {
+        authType: AuthType.SAML,
     },
     OIDCAuth: {
         authType: AuthType.OIDC,
@@ -206,12 +217,78 @@ describe('Unit test for auth', () => {
         });
     });
 
+    test('doTokenAuth: Should set loggedInStatus if detectThirdPartyCookieAccess is true and the second info call fails', async () => {
+        jest.spyOn(authService, 'fetchSessionInfoService')
+            .mockResolvedValue({
+                status: 401,
+            })
+            .mockClear();
+        jest.spyOn(
+            authService,
+            'fetchAuthTokenService',
+        ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                ok: true,
+            }),
+        );
+        const isLoggedIn = await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthWithCookieDetect,
+        );
+        expect(authService.fetchSessionInfoService).toHaveBeenCalledTimes(2);
+        expect(isLoggedIn).toBe(false);
+    });
+
+    test('doTokenAuth: when user is not loggedIn & fetchAuthPostService failed than fetchAuthService should call', async () => {
+        jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            () => false,
+        );
+        jest.spyOn(
+            authService,
+            'fetchAuthTokenService',
+        ).mockImplementation(() => ({ text: () => Promise.resolve('abc') }));
+        jest.spyOn(authService, 'fetchAuthPostService').mockImplementation(() =>
+            // eslint-disable-next-line prefer-promise-reject-errors
+            Promise.reject({
+                status: 500,
+            }),
+        );
+        jest.spyOn(authService, 'fetchAuthService').mockImplementation(() =>
+            Promise.resolve({
+                status: 200,
+                type: 'opaqueredirect',
+            }),
+        );
+        expect(
+            await authInstance.doTokenAuth(
+                embedConfig.doTokenAuthSuccess('authToken2'),
+            ),
+        ).toBe(true);
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authService.fetchAuthPostService).toBeCalledWith(
+            thoughtSpotHost,
+            username,
+            'authToken2',
+        );
+        expect(authService.fetchAuthService).toBeCalledWith(
+            thoughtSpotHost,
+            username,
+            'authToken2',
+        );
+    });
+
     describe('doBasicAuth', () => {
         beforeEach(() => {
             global.fetch = window.fetch;
         });
 
         it('when user is loggedIn', async () => {
+            spyOn(
+                checkReleaseVersionInBetaInstance,
+                'checkReleaseVersionInBeta',
+            );
             jest.spyOn(
                 authService,
                 'fetchSessionInfoService',
@@ -250,6 +327,10 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn & isAtSSORedirectUrl is true', async () => {
+            spyOn(
+                checkReleaseVersionInBetaInstance,
+                'checkReleaseVersionInBeta',
+            );
             Object.defineProperty(window, 'location', {
                 value: {
                     href: authInstance.SSO_REDIRECTION_MARKER_GUID,
@@ -343,6 +424,13 @@ describe('Unit test for auth', () => {
     it('authenticate: when authType is SSO', async () => {
         jest.spyOn(authInstance, 'doSamlAuth');
         await authInstance.authenticate(embedConfig.SSOAuth);
+        expect(window.location.hash).toBe('');
+        expect(authInstance.doSamlAuth).toBeCalled();
+    });
+
+    it('authenticate: when authType is SMAL', async () => {
+        jest.spyOn(authInstance, 'doSamlAuth');
+        await authInstance.authenticate(embedConfig.SAMLAuth);
         expect(window.location.hash).toBe('');
         expect(authInstance.doSamlAuth).toBeCalled();
     });

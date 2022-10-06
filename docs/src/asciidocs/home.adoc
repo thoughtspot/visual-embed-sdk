@@ -46,11 +46,10 @@
   </div>
 ++++
 
-
+[.non-link]
++++<h2 align="center">Embedding and customization </h2>+++
 ++++
-
 <div class="row">
- <h2 align="center">Embedding and customization</h2>
 	<div class="col-md-4">
 	<a href="?pageid=search-embed">	<div class="boxDiv">
 			<h5>Embed search</h5>
@@ -113,10 +112,8 @@
   </div>
 </div>
 ++++
-
-////
+ 
 ++++
-
 <div class="row">
   <h2 align="center">Related resources</h2>
  <div class="col-md-4">

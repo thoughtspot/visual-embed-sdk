@@ -13,10 +13,14 @@ You may want to invoke this API in the following scenarios:
 * When the status of a materialized view is `Stale` (out of sync) due to an incremental data load
 * When the status of a materialized view is `Error` due to an error that occurred
 
-[NOTE]
+[IMPORTANT]
 ====
 If your materialized view refreshes on a schedule, you cannot use the materialization API to refresh it again during the same refresh window.
 ====
+
+== Supported operations
+
+include::{path}/materialization-api-list.adoc[]
 
 == Resource URL
 ----
@@ -35,7 +39,11 @@ POST /tspublic/v1/materialization/refreshview/{id}
 
 .cURL
 ----
-curl -X POST --header 'Content-Type: */*' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60'
+curl -X POST \
+--header 'Content-Type: */*' \
+--header 'Accept: application/json' \
+--header 'X-Requested-By: ThoughtSpot' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60'
 ----
 
 .Request URL
@@ -56,5 +64,5 @@ Not applicable
 |HTTP status code|Description
 |*204*|Successful operation
 |*400*|Invalid parameter values
-|*500*|The specified view is not materialized
+|*500*|The specified view is not materialized or the materialized view is not stale
 |===

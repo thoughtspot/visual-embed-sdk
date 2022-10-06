@@ -170,7 +170,7 @@ Preferred username of the user. It maps to the `username` attribute in the user 
 
 * `displayName`
 +
-The display name of the user. It maps to the `displayname` attribute in the user profile on ThoughtSpot. The default value is derived from the `name` claim attribute.
+The display name of the user. It maps to the `displayName` attribute in the user profile on ThoughtSpot. The default value is derived from the `name` claim.
 
 * `email`
 +
@@ -178,7 +178,8 @@ Email address of the user. It maps to the `mail` attribute in the user profile o
 
 * `sub`
 +
-The unique ID issued for the user at the OpenID provider. Maps to `oktauserid` attribute on ThoughtSpot. 
+The unique ID issued for the user at the OpenID provider. Maps to `oktauserid` attribute on ThoughtSpot.
+
 
 [#embedConfig]
 === Enable OIDC authentication in the Visual Embed SDK 
@@ -209,6 +210,16 @@ The OIDC authentication workflow involves the following steps:
 . The token endpoint returns an ID and access token in exchange for the authorization code.
 . The SDK validates the ID token and authenticates the user.
 . If the authentication is successful, the web browser redirects the user to the requested page.
+
+
+== Group synchronization
+
+The group synchronization feature reads the Group claim from the ID token provided by the OpenID provider and creates groups in ThoughtSpot. To enable group synchronization on ThoughtSpot, contact ThoughtSpot Support.
+
+[NOTE]
+====
+If a group is deleted from the OpenID provider server, the corresponding group in ThoughtSpot will not be deleted during group synchronization. You must manually delete it in ThoughtSpot.
+====
 
 == Additional resources
 

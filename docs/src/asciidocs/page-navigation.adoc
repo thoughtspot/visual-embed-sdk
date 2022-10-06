@@ -15,7 +15,7 @@ This allows you to give dynamic navigation to objects to your users with full co
 All REST API requests from the browser are scoped to the signed-in user and show only those objects that a user can access.
 
 === REST API request
-The ThoughtSpot web application UI uses the xref:metadata-api.adoc#metadata-list[metadata/list REST API endpoint] in rendering the Answers, Liveboards, and Data pages.
+The ThoughtSpot web application UI uses the xref:metadata-api.adoc#metadata-list[metadata/list REST API endpoint] in rendering the Answers, Liveboards, and Data pages. 
 
 The endpoint can only request one object type at a time: +
 
@@ -304,7 +304,7 @@ appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
 })
 ----
 
-If you want to navigate to a specific application page without initiating reload, you can set the `noReload` attribute to `true` as shown here:
+If you want to navigate to a specific application page without initiating a reload, you can set the `noReload` attribute to `true` as shown here:
 
 [source,javascript]
 ----
