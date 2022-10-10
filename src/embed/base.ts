@@ -125,6 +125,13 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         authType: config.authType,
         host: config.thoughtSpotHost,
+        usedCustomizationSheet:
+            embedConfig.customisations?.style?.customCSSUrl != null,
+        usedCustomizationVariables:
+            embedConfig.customisations?.style?.customCss?.variables != null,
+        usedCustomizationRules:
+            embedConfig.customisations?.style?.customCss?.rules_UNSTABLE !=
+            null,
     });
 
     if (config.callPrefetch) {
