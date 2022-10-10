@@ -13,7 +13,7 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 The new version of the SDK introduces several new features and enhancements
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW#| Support for advanced style customization
+|[tag greenBackground]#NEW FEATURE#| Support for advanced style customization
 <TBD>
 |[tag orangeBackground]#MODIFIED# a|The upcoming version of the SDK introduces the following `AuthType` enum changes. +
 
@@ -55,9 +55,7 @@ For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs
 * UpdateTML
 
 For more information, see xref:events-ref.adoc#host-events[Events reference].
-
-
-
+|====
 
 == Version 1.14.0, August 2022
 [width="100%" cols="1,4"]
