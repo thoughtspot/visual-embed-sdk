@@ -150,7 +150,7 @@ button {
 .beta {
     border-radius: $beta-border-radius;
     display: inline-block;
-    font-size: $font-size-small;
+    font-size: 13px;
     font-weight: $font-weight-normal;
     height: 22px;
     line-height: $line-height-doc;
@@ -195,6 +195,10 @@ button {
 
 .lightBackground {
     background-color: $tag-color-light;
+}
+
+.betaBackground {
+    background-color: #06BF7F;
 }
 
 /*Tags style end*/

@@ -60,11 +60,11 @@ a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] [beta betaBackground]^Beta^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
-|REST API Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|REST API Playground [beta betaBackground]^Beta^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
@@ -163,7 +163,7 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 [width="100%" cols="8,4,4,4,4"]
 [options='header']
 |=====
-|REST API v2 endpoints[beta blueBackground]^BETA^ |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+|REST API v2 endpoints[beta betaBackground]^Beta^ |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
 (Evaluation only) |Developer Playground on public instance +
 (Evaluation only)
 a|Session API endpoints +

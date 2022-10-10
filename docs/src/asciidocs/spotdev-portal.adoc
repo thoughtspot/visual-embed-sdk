@@ -71,8 +71,8 @@ Opens the REST API v1 Explorer page. This page allows you to make API calls to t
 <a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-REST Playground v2 [beta blueBackground]^BETA^;;
-Opens the REST API v2 Playground [beta blueBackground]^BETA^. This Playground allows you to view the REST v2 endpoints, make API calls, and explore the request and response workflows.
+REST Playground v2 [beta betaBackground]^Beta^;;
+Opens the REST API v2 Playground [beta betaBackground]^Beta^. This Playground allows you to view the REST v2 endpoints, make API calls, and explore the request and response workflows.
 +
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
