@@ -308,7 +308,7 @@ The SDK now supports rendering embedded objects in a queue. If you have multiple
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>Liveboard embed</h5>+++
 
-The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to.
+The `pinboardEmbed` package includes the `defaultHeight` attribute that sets a minimum height for embedded objects on a pinboard page, and the corresponding visualization pages that a user can navigate to.
 
 For more information, see xref:embed-search.adoc[Embed a pinboard].
 
