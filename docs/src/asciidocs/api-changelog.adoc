@@ -14,7 +14,7 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |====
 |[tag redBackground]#DEPRECATED#|
 The `enableVizTransformations` attribute in the `LiveboardEmbed` package is deprecated.
-|[tag greenBackground] | Bug fixes and improvements to the new Liveboard experience.
+|*Other changes*| Bug fixes and improvements to the new Liveboard experience.
 |====
 
 == Version 1.15.0, September 2022
