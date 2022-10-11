@@ -1,10 +1,10 @@
 
 autoLogin __Optional__::
 
-__Boolean__. When set to `true`, an expired or timed-out user session is renewed automatically based on the authentication information from the previous session. This allows users to log in automatically without entering their credentials again. By default, the `autoLogin` attribute is set to `false`. +
+__Boolean__. When set to `true`, an expired or timed-out user session is renewed automatically based on the authentication information from the previous session. This allows users to log in automatically without entering their credentials again. By default, the `autoLogin` attribute is set to `false`.
 
++
 This attribute is valid for only token-based authentication, that is if the `authType` is set as `AuthServer`.
-
 +
 [source,javascript]
 ----
@@ -15,7 +15,6 @@ autoLogin: true
 disableLoginRedirect __Optional__::
 
 __Boolean__. If set to `true`, this attribute disables redirection to the login page when a user session expires. If you are using token-based authentication, you can use this attribute along with `autoLogin` to refresh a user session and automatically log in the user to the embedded app. By default, `disableLoginRedirect` is set to `false`.
-
 +
 [source,javascript]
 ----
@@ -26,7 +25,6 @@ disableLoginRedirect: true
 loginFailedMessage::
 
 __String__. Allows defining a custom login failure message, which is displayed in the embedded ThoughtSpot app when a user login fails. Define a string with custom text or markup.
-
 +
 ----
 loginFailedMessage: "Authentication failed! Please try again."  
@@ -50,7 +48,6 @@ shouldEncodeUrlQueryParams: true
 suppressNoCookieAccessAlert  __Optional__::
 
 __Boolean__. When set to `true`, it suppresses the `noCookieAccess` alert. 
-
 +
 For enhanced security, most browsers allow cookies only if they originate from the same domain name as the main application URL. By default, Safari and Firefox block cookies from third-party content provider sites. If third-party cookies are blocked by a user's browser, the SDK triggers a `noCookieAccess` event that generates an alert. If you want to set custom alerts, you can set the `suppressNoCookieAccessAlert` attribute to `true`. 
 

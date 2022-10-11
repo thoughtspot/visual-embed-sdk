@@ -1,14 +1,14 @@
-= REST API V2 Playground
+= REST API v2 Playground
 :toc: true
 
 :page-title: ThoughtSpot REST API v2 Playground
 :page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
-The REST API Playground [beta blueBackground]^BETA^offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
-
+The REST API v2 Playground [beta blueBackground]^BETA^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+////
 The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
-
+////
 == Access Playground
 
 To access the REST Playground v2, click *Develop* > *REST API* > **REST Playground v2**.
@@ -28,7 +28,7 @@ The search bar in the resource pane allows you to search for an endpoint and nav
 
 API request editor::
 
-The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add each privilege string as an array.   
+The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add each privilege string as an array.
 
 +
 [.bordered]
@@ -43,7 +43,7 @@ The code explorer offers several distinct features:
 +
 Shows a preview of the API request code. You can view the request body as you edit the input parameters and define attributes in the API editor area. The code explorer dynamically changes the API request format based on the language you select.
 
-* Try it out 
+* Try it out
 +
 Allows you to trigger an API call. If the request succeeds, the API returns the 200 response code. You can copy or download the entire API response. You can also copy the individual attributes using the copy button that appears next to the field. To try another API call, click **Back**.
 
@@ -53,24 +53,28 @@ Allows you to copy API requests and responses.
 
 * Configuration panel
 +
-Allows you to modify the client configuration settings. For example, you can update the access token of the client. You can also specify if you want to download the code files with bootstrapping and error handling details. To view this panel, click **Configure**.  
+Allows you to modify the client configuration settings. For example, you can update the access token of the client. You can also specify if you want to download the code files with bootstrapping and error handling details. To view this panel, click **Configure**.
 
 * Download icon
 +
 Allows you to download the API response JSON file to your local directory.
- 
+
 Language selection drop-down::
 
-The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples. You can also use this drop-down to get language-specific SDK and client libraries.
+The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples.
 
+////
+You can also use this drop-down to get language-specific SDK and client libraries.
+////
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
+////
 == SDK and client libraries
 
-To download the SDK library for a specific language, select the language and click **Get SDK**. To know how to set up and use SDK libraries, click *Setup and Usage*. 
+To download the SDK library for a specific language, select the language and click **Get SDK**. To know how to set up and use SDK libraries, click *Setup and Usage*.
 
 You can also download the SDK and API libraries from the following public resources:
 
@@ -80,3 +84,4 @@ You can also download the SDK and API libraries from the following public resour
 * link:https://www.nuget.org/packages/thoughtspot.rest.api.sdk[NuGet package manager, window=_blank]
 
 For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+////

@@ -16,7 +16,9 @@ Gets metadata details for a specific data object such as a Liveboard, answer, or
 ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:metadata-api.adoc#metadata-list[**GET** /tspublic/v1/metadata/list]` +
 Gets a list of all metadata objects from the ThoughtSpot resource repository.|ThoughtSpot Cloud [version noBackground]#ts7.sep.cl# +
-ThoughtSpot Software [version noBackground]#7.2.1#
+ThoughtSpot Software [version noBackground]#7.2.1# +
+
+__The authorguid attribute is available from ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.1-sw onwards.__
 |`xref:metadata-api.adoc#headers-metadata-users[**GET** /tspublic/v1/metadata/listas]` +
 Gets a list of metadata objects that are available to a user or user group.|ThoughtSpot Cloud [version noBackground]#ts7.may.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#
