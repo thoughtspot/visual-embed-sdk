@@ -10,7 +10,12 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 == Version 1.16.0, Coming soon
 
-The new version of the SDK includes bug fixes and improvements to the new Liveboard experience.
+[width="100%" cols="1,4"]
+|====
+|[tag redBackground]#DEPRECATED#|
+The `enableVizTransformations` attribute in the `LiveboardEmbed` package is deprecated.
+|[tag greenBackground] | Bug fixes and improvements to the new Liveboard experience.
+|====
 
 == Version 1.15.0, September 2022
 [width="100%" cols="1,4"]
