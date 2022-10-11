@@ -728,7 +728,7 @@ appEmbed.on(EmbedEvent.DialogClose, payload => {
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
 Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
-Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
+
 [div divider]
 --
 .Example

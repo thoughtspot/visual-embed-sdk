@@ -6,9 +6,9 @@
 :page-pageid: Liveboard-new-experience
 :page-description: You can enable the new Liveboard experience on Liveboards embedded using the `LiveboardEmbed` or `AppEmbed` SDK library.
 
-The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. By default, the new Liveboard experience is disabled on embedded ThoughtSpot instances. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
+The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. The new Liveboard experience is in Beta on embedded instances and is turned off by default. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
 
-== Enable the new Liveboard experience for all users
+== Enable new Liveboard experience for all users
 
 You can enable the new Liveboard experience using one of the following options:
 
@@ -44,18 +44,16 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 });
 ----
 
-== Customize embedded Liveboards
+== Liveboard experience
 
-The actions and menu options on the embedded Liveboard page vary based on the Liveboard experience setting.
+The actions and menu options on the embedded Liveboard page vary based on the Liveboard experience setting. If the new Liveboard experience is enabled, you will see the following menu options and enhancements:
 
 Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page. For example, to delete a visualization on a Liveboard, the user must click *Edit*, and then navigate to the *Delete* option on a visualization.
 
 Filter application::
 
-To apply filters, users must switch to the Liveboard edit mode. Only users with edit access to the Liveboard can apply filters.
-
-+
+To apply filters, users must switch to the Liveboard edit mode. Only users with edit access to the Liveboard can apply filters. +
 The new experience also introduces the following enhancements to Liveboard filters:
 
 * The link:https://docs.thoughtspot.com/cloud/latest/liveboard-filters[Liveboard filter configuration options, window=_blank] are available in a single modal.
@@ -77,6 +75,8 @@ The following figure illustrates the menu actions available on a Liveboard page:
 [.widthAuto]
 image:./images/liveboard-exp-diff.png[Liveboard experience comparison]
 
+== Customize embedded Liveboards
+
 === Customize actions
 You can use the `Action` enumeration members available in the SDK to customize an embedded Liveboard.
 
@@ -90,7 +90,7 @@ The embedded Liveboards support all host and embedded application events in the 
 
 For information about events, see xref:embed-events.adoc[Events and app integration] and xref:events-ref.adoc[Events Reference].
 
-== Customize Liveboard tabs
+=== Customize Liveboard tabs
 
 The new Liveboard experience allows you to organize your visualizations into tabs. Liveboard tabs allow you to logically group visualization into specific categories and allow users to access them easily.
 
@@ -103,7 +103,7 @@ Note that each new tab object is assigned a unique GUID.
 +
 You can also pin a visualization to a Liveboard tab using the Pin action on the answer page.
 
-=== Set a tab as an active tab
+==== Set a tab as an active tab
 
 By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the Visual Embed SDK as shown in the example here:
 
@@ -124,6 +124,17 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 ====
 The `activeTabId` property is available only in the `LiveboardEmbed` package and not supported in the full application embed mode.
 ====
+
+=== Customize visualization tiles [beta blueBackground]^BETA^
+
+ThoughtSpot supports customizing visualization tile size on a Liveboard. This feature is in beta and turned off by default. To enable this feature on your instance, contact ThoughtSpot Support.
+
+If the custom tile size feature is enabled on your instance, and you have edit access to the Liveboard, you can resize the visualization tiles as described in the following steps:
+
+. Navigate to the Liveboard.
+. On the Liveboard page, click the *Edit* button in the top menu bar.
+. Select a visualization tile, click the size-changing icon in the bottom right corner, and drag the visualization tile to the desired size.
+. Repeat the steps to resize other visualizations on the Liveboard.
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

@@ -1,0 +1,35 @@
+= Known issues
+:toc: true
+:toclevels: 1
+
+:page-title: Known issues
+:page-pageid: known-issues
+:page-description: Bug fixes and improvements
+
+This page lists the known issues that you might run into while embedding ThoughtSpot in your app, using the embedded interface, or making REST API calls.
+
+== Version 8.8.0.cl
+
+[cols="15%,35%,50%"]
+[options='header']
+|===
+|Issue ID |Description| Symptoms, conditions, and workaround
+|SCAL-128033
+a| The REST API v2 Playground [beta blueBackground]^BETA^ does not load request parameters for some API endpoints. a|
+
+*Symptom*: Some REST V2 API [beta blueBackground]^BETA^ endpoints may not show request parameters in the Playground. +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl and 8.6.0.cl release versions. +
+
+*Workaround*: Use REST API v1 endpoints for production use cases.
+|SCAL-117106| User account gets locked after a single bad token login attempt a|
+*Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the  application locks that user's account. +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with the trusted authentication setup. +
+
+*Workaround*: If you are using the trusted authentication method to authenticate your users, make sure the `getAuthToken` function in the SDK returns a fresh token for each re-login. Avoid using older tokens to renew a user session.
+|===
+
+== Additional resources
+
+* xref:troubleshooting.adoc[Troubleshooting errors]

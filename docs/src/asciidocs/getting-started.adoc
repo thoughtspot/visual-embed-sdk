@@ -80,7 +80,7 @@ To prefetch static resources and load your application fast, set the `callPrefet
 
 For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
 
-=== Configure security and login parameters (Optional)
+== Configure security and login parameters (Optional)
 
 include::{path}/embed-config.adoc[]
 

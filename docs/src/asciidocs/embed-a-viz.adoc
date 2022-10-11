@@ -163,8 +163,10 @@ _String_. The Global Unique Identifier (GUID) of the visualization.
 liveboardId::
 _String_. The GUID of the Liveboard to which the visualization is pinned.
 
+////
 enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+////
 
 preventLiveboardFilterRemoval __Optional__::
 _Boolean_. When set to true, it disables the filter removal action and thus prevents users from removing the filters applied to a Liveboard visualization.
