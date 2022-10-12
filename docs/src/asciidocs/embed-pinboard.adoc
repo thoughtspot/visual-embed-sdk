@@ -170,9 +170,12 @@ _String_. The GUID of the Liveboard.
 
 liveboardV2 __Optional__::
 __Boolean__. Use this parameter to turn on or off the xref:enable-liveboardv2.adoc[new Liveboard experience]. By default, the `liveboardV2` attribute is set to `false`.
- 
+
+////
 enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+
+////
 
 [#filter-removal]
 preventLiveboardFilterRemoval __Optional__::

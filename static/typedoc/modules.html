@@ -196,9 +196,14 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Initialize the ThoughtSpot embed SDK globally and perform
+									<p>Initializes the Visual Embed SDK globally and perform
 									authentication if applicable.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt class="version">version</dt>
+									<dd><p>SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -206,14 +211,14 @@
 									<h5>embedConfig: <a href="interfaces/EmbedConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">EmbedConfig</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The configuration object containing ThoughtSpot host,
-										authentication mechanism and so on.</p>
-										<p>eg: authStatus = init(config);
+											authentication mechanism and so on.
+											example: authStatus = init(config);
 										authStatus.on(AuthStatus.FAILURE, (reason) =&gt; { // do something here });</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>event emitter which emits events on authentication success, failure and logout. <a href="enums/AuthStatus.html">AuthStatus</a></p>
+							<p>event emitter which emits events on authentication success, failure and logout. See <a href="enums/AuthStatus.html">AuthStatus</a></p>
 						</li>
 					</ul>
 				</section>
@@ -232,7 +237,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Logout from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
+									<p>Logs out from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
 									the SDK from automatically logging in again.</p>
 								</div>
 								<p>You can call the <code>init</code> method again to re login, if autoLogin is set to true in this
@@ -274,6 +279,11 @@
 								<div class="lead">
 									<p>Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user&#39;s local disk to provide faster access to your app.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt class="version">version</dt>
+									<dd><p>SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">

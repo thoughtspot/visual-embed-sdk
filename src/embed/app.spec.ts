@@ -22,7 +22,7 @@ const thoughtSpotHost = 'tshost';
 const defaultParamsWithoutHiddenActions = `&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}`;
 const defaultParams = `${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
 const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
-const defaultParamsPost = '&isPinboardV2Enabled=false';
+const defaultParamsPost = '';
 
 beforeAll(() => {
     init({

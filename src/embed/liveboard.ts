@@ -29,6 +29,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      */
     fullHeight?: boolean;
     /**
@@ -46,6 +47,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * The Liveboard to display in the embedded view.
      * Use either of liveboardId or pinboardId to reference the Liveboard to embed.
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      */
     liveboardId?: string;
     /**
@@ -60,6 +62,7 @@ export interface LiveboardViewConfig extends ViewConfig {
     /**
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
@@ -76,7 +79,6 @@ export interface LiveboardViewConfig extends ViewConfig {
     preventPinboardFilterRemoval?: boolean;
     /**
      * Render embedded Liveboards and visualizations in the new Liveboard experience mode
-     * @default false
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      */
     liveboardV2?: boolean;
@@ -112,7 +114,7 @@ export class LiveboardEmbed extends V1Embed {
             fullHeight,
             defaultHeight,
             visibleVizs,
-            liveboardV2 = false,
+            liveboardV2,
             vizId,
             activeTabId,
         } = this.viewConfig;
@@ -142,7 +144,9 @@ export class LiveboardEmbed extends V1Embed {
         if (vizId) {
             params[Param.vizEmbed] = true;
         }
-        params[Param.LiveboardV2Enabled] = liveboardV2;
+        if (liveboardV2 !== undefined) {
+            params[Param.LiveboardV2Enabled] = liveboardV2;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

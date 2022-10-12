@@ -20,6 +20,7 @@ This page lists the known issues that you might run into while embedding Thought
 |===
 |Issue ID |Description| Symptoms, conditions, and workaround
 |SCAL-128033
+
 a| The REST API v2 Playground [beta betaBackground]^Beta^ does not load request parameters for some API endpoints. a|
 
 *Symptom*: Some REST V2 API [beta betaBackground]^Beta^ endpoints may not show request parameters in the Playground. +
