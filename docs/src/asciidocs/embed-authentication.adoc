@@ -37,7 +37,7 @@ a|ThoughtSpot does not recommend using Embedded SSO authentication in the follow
 
 * If your IdP setup does not support Embedded SSO authentication.
 * If you want your users that do not exist in your IdP to authenticate to ThoughtSpot.
-* If you are using multiple IdPs and you do not have IdP federation.
+* If you are using multiple IdPs, and you do not have IdP federation.
 
 a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
 
@@ -53,7 +53,7 @@ a| Do not use this method if you don’t want the SDK to redirect your entire ap
 
 |xref:embed-authentication.adoc#none[No authentication]|`AuthType.NONE` a| Use this method for pass-through authentication. Recommended for development environments.
 
-|Legacy method for redirectless SSO. ThoughtSpot recommends using EmbeddedSSO authentication in production environments.
+|Legacy method for SSO without redirect. ThoughtSpot recommends using EmbeddedSSO authentication in production environments.
 
 |xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
 
@@ -94,12 +94,11 @@ The token-based authentication requires you to xref:trusted-authentication.adoc#
 
 * Username
 +
-The `username` of the user for whom the token is required.
+The `username` of the user for whom the token is being requested.
 
 * Authentication endpoint
 +
 The URL endpoint of the server that provides the authentication token.
-
 
 [NOTE]
 ====
@@ -154,8 +153,16 @@ init({
 });
 ----
 
+
 +
 After obtaining the token, a `POST` request is sent to the `/tspublic/v1/session/login/token` API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
+
+[IMPORTANT]
+====
+To obtain a token and log in the user, the user must already be created in ThoughtSpot. For just-in-time (JIT) provisioning of a user and groups assignment, use the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] API endpoint.
+====
+
+==== Autologin and redirects
 
 When a user session expires, the embedded app redirects its users to the login page. To refresh a user session and automatically log in a user to the embedded app, you can set the `disableLoginRedirect` and `autoLogin` attributes to `true`.
 

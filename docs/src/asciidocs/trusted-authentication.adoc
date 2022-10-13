@@ -130,15 +130,23 @@ There is the option to request a limited token using the `access_level=REPORT_BO
 
 Access control (sharing) can be granted during the login token request process by adding the user to the appropriate ThoughtSpot groups.
 
-=== Create user and add to groups requests
-You can choose to create the user in ThoughtSpot the first time they request a login token. Otherwise, the user must be created in ThoughtSpot via another process before the login token can be requested. This is accomplished using the xref:user-api.adoc#create-user[create user REST API].
+=== User creation and group assignment
+
+You can choose to create the user in ThoughtSpot the first time they request a login token. Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[session/auth/token] for just-in-time provisioning of users. If the user for whom you are obtaining a token does not exist in the ThoughtSpot system, you can create a user and assign that user to groups by using `autocreate` and `group` attributes respectively.
+
+[NOTE]
+====
+The xref:session-api.adoc#session-authToken[session/auth/token] API endpoint does not support creating new groups. The groups must already be configured on ThoughtSpot to add the user to groups.
+====
 
 The typical flow of REST API commands for user creation is actually as follows:
 
-1. Make a REST API request for the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user]
-2. If the user doesn't exist from the `Get User Details` request, xref:user-api.adoc#create-user[create the user] and add the user to groups in this step
-3. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to
-4. If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request].
+1. Make a REST API request for the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user].
+* If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
+* If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request].
+2. If the user doesn't exist in ThoughtSpot, set the `autocreate` property to `true` and specify the group names in your POST request to the xref:session-api.adoc#session-authToken[session/auth/token] API endpoint. +
+ If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
+
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.

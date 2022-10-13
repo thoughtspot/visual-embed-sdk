@@ -1,4 +1,7 @@
-If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can use it to send an API request to  the `/tspublic/v1/session/auth/token` endpoint to get a login token. You must send this login token in your API request to the `/tspublic/v1/session/login/token` endpoint to get access to ThoughtSpot content.
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and obtained a secret key, you can send an API request to the `/tspublic/v1/session/auth/token` endpoint and get a login token for a specific user that exists in the ThoughtSpot system. The `/tspublic/v1/session/auth/token` API endpoint also supports Just-in-Time (JIT) provisioning of users and mapping users to groups.
+
+To log in a user to ThoughtSpot, you must send authentication token obtained from the `/tspublic/v1/session/auth/token` API call in your API request to the `/tspublic/v1/session/login/token` endpoint.
+
 
 === Resource URL
 ----
@@ -11,12 +14,16 @@ POST /tspublic/v1/session/auth/token
 |====
 |Form parameter|Description
 |`secret_key`|__String__. The secret key string provided by the ThoughtSpot application server. ThoughtSpot generates this secret key when you enable trusted authentication.
-|`username`|__String__. The username of the user configured in ThoughtSpot.
+|`username`|__String__. The username of the user configured in ThoughtSpot. If the user doesn't exist in the ThoughtSpot system, you can set the `autocreate` flag to `true` to create the user account in ThoughtSpot.
 |`access_level` a|__String__. User access privilege. Valid values are:
-
 * `FULL` - Creates a session with full access.
 * `REPORT_BOOK_VIEW` - Allows view access to the specified visualizations.
 |`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
+|`groups` __Optional__ a|__String__. A JSON array of groups to which the user belongs. For example, `["sales", "marketing"]`. +
+
+* If the user already exists in the ThoughtSpot system and  `autocreate` is set to `false`, API ignores the values specified in the `groups` attribute.
+* If `autocorrect` is set to `true`, the newly created user is assigned to the specified groups.
+|`autocreate` __Optional__|__Boolean__. This attribute is set to `false` by default. When set to `true`, if the specified `username` does not exist in the ThoughtSpot system, a new user is created as `LOCAL_USER` without a password. If you have defined the group names in the `groups` attribute, the newly created user is assigned to the specified groups. If the group names are not defined in the `groups` property, ThoughtSpot does not update user and group association data.
 |====
 
 === Example request
@@ -27,7 +34,7 @@ POST /tspublic/v1/session/auth/token
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' \
---header 'X-Requested-By: ThoughtSpot' \
+-d 'secret_key=82749a88-1506-4cd9-803c-8316c7d41d7c&username=testUser2&access_level=FULL&groups=%5B%22sales%22%2C%20%22marketing%22%5D&autocreate=true' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token'
 ----
 
@@ -38,7 +45,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token
 
 === Example response
 The API returns an authentication token for the user:
-
 ----
 JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0
 ----
