@@ -52,7 +52,7 @@
 }
 
 aside {
-    padding: $padding-md 0 $padding-md 10px;
+    padding: 0 0 $padding-md 10px;
     width: 100%;
     box-shadow: var(--box-shadow);
     border-right: 1px var(--border-color) solid;
@@ -61,7 +61,7 @@ aside {
     overflow-y: auto;
 
     .heading {
-        padding: $padding-md 0px 26px $padding-md;
+        padding: 0 0px 26px $padding-md;
         margin: 0;
         font-size: $font-size-large;
         color: var(--primary-color);

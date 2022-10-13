@@ -5,18 +5,29 @@ import t from '../../utils/lang-utils';
 import './index.scss';
 
 const Header = (props: { location: Location }) => {
-    const headerLinks = [
-        { name: 'Playground', href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere' 
-        },
+		const headerLinks = [{
+				name: 'Playground',
+				href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere'
+			},
 
-        {
-            name: 'Community',
-            href:
-                'https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers',
-        },
-        { name: 'Support', href: 'https://www.thoughtspot.com/support' },
-        { name: 'Help Center', href: 'https://cloud-docs.thoughtspot.com/' },
-    ];
+			{
+            	name: 'CodeSpot',
+            				href: 'https://developers.thoughtspot.com/codespot/'
+            			},
+
+			{
+				name: 'Docs',
+				href: 'https://docs.thoughtspot.com/'
+			},
+			{
+				name: 'Community',
+				href: 'https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers',
+			},
+			{
+				name: 'Support',
+				href: 'https://www.thoughtspot.com/support'
+			},
+		];
 
     return (
         <header>
@@ -32,12 +43,7 @@ const Header = (props: { location: Location }) => {
                                 />
                             </a>
                         </h2>
-                        <a
-                            className="m-0 d-inline-block docsWrapper"
-                            href="?pageid=introduction"
-                        >
-                            {t('DOCS')}
-                        </a>
+
                         <div className="d-inline-block headerLink">
                             {headerLinks.map(({ name, href }) => (
                                 <a href={href} target="_blank">
