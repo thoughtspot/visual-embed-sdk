@@ -36,31 +36,37 @@ a|ThoughtSpot does not recommend using Embedded SSO authentication in the follow
 |xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.TrustedAuth` a|Use this method: +
 
 * If your IdP setup does not support Embedded SSO authentication.
-* If you want your users that do not exist in your IdP to authenticate to ThoughtSpot. a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
+* If you want your users that do not exist in your IdP to authenticate to ThoughtSpot.
+* If you are using multiple IdPs and you do not have IdP federation.
+
+a|ThoughtSpot does not recommend using trusted authentication in the following scenarios: +
 
 * If you want to and can implement a simple solution with Embedded SSO authentication.
-* If you don’t want to customize your authentication flow, and you don’t have the resources to implement trusted authentication.
+* If you don’t have an app backend component to host the authentication server needed for trusted authentication.
 
-|xref:embed-authentication.adoc#saml-sso-embed[SAMLRedirect authentication]|`AuthType.SAMLRedirect` a|Use this method: +
-
-If your application uses a SAML IdP that does not natively support embedding.
+|xref:embed-authentication.adoc#saml-sso-embed[SAMLRedirect authentication]|`AuthType.SAMLRedirect` a|Use this method if your application uses a SAML IdP that does not natively support embedding.
 a|Do not use this method if you don't want the SDK to redirect your entire app to the IdP for user authentication when the embedded content loads. For example, you may want to seamlessly authenticate users without multiple redirects to the IdP.
 
-|xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]|`AuthType.OIDCRedirect` a|Use this method: +
-
-* If your application uses an OpenId provider that does not natively support embedding.
+|xref:embed-authentication.adoc#oidc-auth[OpenID Connect authentication]|`AuthType.OIDCRedirect` a|Use this method if your application uses an OpenId provider that does not natively support embedding.
 
 a| Do not use this method if you don’t want the SDK to redirect your entire app to the OpenID provider for user authentication when the embedded content loads. For example, you may want to seamlessly authenticate users without multiple redirects to the OpenID provider.
 
-|xref:embed-authentication.adoc#none[No authentication]|`AuthType.NONE` a| Passthrough authentication, recommended for development environments.
+|xref:embed-authentication.adoc#none[No authentication]|`AuthType.NONE` a| Use this method for pass-through authentication. Recommended for development environments.
 
-|You can use this method if your ThoughtSpot instance is configured to use SAML or OIDC authentication and your IdP supports the authentication flow within the iFrame. Note that this method requires assistance from ThoughtSpot Support. However, in production environments, ThoughtSpot recommends using EmbeddedSSO authentication.
+|Legacy method for redirectless SSO. ThoughtSpot recommends using EmbeddedSSO authentication in production environments.
 
 |xref:embed-authentication.adoc#basic-auth-embed[Basic authentication]|`AuthType.Basic` a|Use this method: +
 
 * If you want to use local authentication with ThoughtSpot `username` and `password`.
 * If you are developing or testing code for embedding ThoughtSpot in your host app. | Do not use this authentication method in production environments.
 |=====
+
+
+////
+if your ThoughtSpot instance is configured to use SAML or OIDC authentication and your IdP supports the authentication flow within the iFrame. Note that this method requires assistance from ThoughtSpot Support. However, in production environments, ThoughtSpot recommends using EmbeddedSSO authentication.
+
+////
+
 
 [#embedSSO]
 == Embedded SSO authentication
@@ -93,6 +99,12 @@ The `username` of the user for whom the token is required.
 * Authentication endpoint
 +
 The URL endpoint of the server that provides the authentication token.
+
+
+[NOTE]
+====
+Trusted authentication requires xref:security-settings.adoc#cors-hosts[setting up CORS] so that your application can call ThoughtSpot to authenticate your user.
+====
 
 === Steps to configure trusted authentication in Visual Embed SDK
 
@@ -134,7 +146,11 @@ init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuth,
     username: "<username>",
-    getAuthToken: () => Promise.resolve(token),
+    getAuthToken: () => {
+ 	return fetch(`https://your-remote-url.com/some/path/${username}`)
+	    .then(response => response.json())
+	    .then(json => json.token);
+    },
 });
 ----
 
@@ -154,9 +170,11 @@ Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX r
 
 The following GitHub repositories include code samples for trusted authentication implementation:
 
-* link:https://github.com/thoughtspot/node-token-auth-server-example[https://github.com/thoughtspot/node-token-auth-server-example, window=_blank]
-* link:https://github.com/thoughtspot/big-react-demo[React code samples, window=_blank]
-
+* Sample code for the app backend to include an authentication server for ThoughtSpot:
+** link:https://github.com/thoughtspot/node-token-auth-server-example[TypeScript, window=_blank]
+** link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/examples/token_auth[Python (Flask Service), window=_blank]
+* Sample code of an application frontend authenticating via trusted authentication.
+** link:https://github.com/thoughtspot/big-react-demo[React code samples, window=_blank]
 
 [#saml-sso-embed]
 == SAMLRedirect authentication
@@ -226,8 +244,8 @@ redirectPath: "/dashboard"
 
 
 [#none]
-== None authentication method
-If your application already uses an IdP to authenticate users and allows iframe embedding, and your ThoughtSpot instance has SAML or OIDC configured, you can set the `authType` attribute to `None`. The `None` authentication method allows you to leverage the existing SAML or OIDC configuration on ThoughtSpot and lets your IdP handle the authentication flow within the iframe.
+== No authentication (pass-through) method
+If your application already uses an IdP to authenticate users and allows iframe embedding, and your ThoughtSpot instance has SAML or OIDC configured, you can set the `authType` attribute to `None`. The `None` authentication method can leverage user authentication taking place outside of the embedded application context. The SDK won't do additional authentication and acts as a pass-through.
 
 [source,javascript]
 ----
@@ -242,6 +260,11 @@ init({
 
 The basic authentication option in the SDK sends a `POST` request with the `username` and `password` of the user to the `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. This option allows users to log in to the embedded ThoughtSpot view  with their `username` and `password`.
 
+[NOTE]
+====
+Basic authentication requires xref:security-settings.adoc#cors-hosts[setting up CORS] so that your application can call ThoughtSpot to authenticate your user.
+====
+
 To enable the basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 
 [source,javascript]
@@ -253,6 +276,7 @@ init({
     password: "password"
 });
 ----
+
 
 [WARNING]
 ====
