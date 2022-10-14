@@ -23,7 +23,7 @@ POST /tspublic/v1/session/auth/token
 
 * If the user already exists in the ThoughtSpot system and  `autocreate` is set to `false`, API ignores the values specified in the `groups` attribute.
 * If `autocorrect` is set to `true`, the newly created user is assigned to the specified groups.
-|`autocreate` __Optional__|__Boolean__. This attribute is set to `false` by default. When set to `true`, if the specified `username` does not exist in the ThoughtSpot system, a new user is created as `LOCAL_USER` without a password. If you have defined the group names in the `groups` attribute, the newly created user is assigned to the specified groups. If the group names are not defined in the `groups` property, ThoughtSpot does not update user and group association data.
+|`autocreate` __Optional__|__Boolean__. This attribute is set to `false` by default. When set to `true`, if the specified `username` does not exist in the ThoughtSpot system, a new user is created without a password. If you have defined the group names in the `groups` attribute, the newly created user is assigned to the specified groups. If the group names are not defined in the `groups` property, ThoughtSpot does not update user and group association data.
 |====
 
 === Example request
