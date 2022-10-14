@@ -248,4 +248,19 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
     });
+    test('Should set liveboard options', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            liveboardId,
+            activeTabId,
+            liveboardV2: true,
+            defaultHeight: 100,
+            preventLiveboardFilterRemoval: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&preventPinboardFilterRemoval=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+            );
+        });
+    });
 });

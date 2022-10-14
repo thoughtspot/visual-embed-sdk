@@ -55,7 +55,11 @@ describe('Base TS Embed', () => {
 
     test('Should add the prefetch iframe when prefetch is called. Should remove it once init is called.', async () => {
         const url = 'https://10.87.90.95/';
-        index.prefetch(url);
+        index.init({
+            thoughtSpotHost: url,
+            authType: index.AuthType.None,
+            callPrefetch: true,
+        });
         expect(getAllIframeEl().length).toBe(1);
         const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
             '.prefetchIframe',
@@ -162,6 +166,7 @@ describe('Base without init', () => {
         base.notifyAuthSuccess();
         base.notifyAuthFailure(auth.AuthFailureType.SDK);
         base.notifyLogout();
-        expect(global.console.error).toHaveBeenCalledTimes(3);
+        base.notifyAuthSDKSuccess();
+        expect(global.console.error).toHaveBeenCalledTimes(4);
     });
 });
