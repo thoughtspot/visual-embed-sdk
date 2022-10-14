@@ -21,7 +21,7 @@ The new version of the SDK introduces several new features and enhancements
 * `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
 * `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
 This enhancement does not introduce any breaking changes in your current implementation.
-|[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO` for embedded SSO authentication. This authentication method allows you to use SAML or OIDC authentication and redirect users to the IdP within the embedded iFrame.
+|[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO`, which allows you to use your current SAML or OIDC authentication setup and redirect users to the IdP for authentication within the embedded iFrame.
 For more information, see xref:embed-authentication.adoc[Authentication].
 |====
 

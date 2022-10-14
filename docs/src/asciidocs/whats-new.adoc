@@ -10,10 +10,26 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
-=== Streamlined authentication methods for embedded ThoughtSpot app
+=== Improvements to authentication methods and AuthType enums in the SDK
+
+The upcoming release introduces the following changes to the authentication framework in the Visual Embed SDK.
+
+* New auth type enum for embedded SSO authentication
++
+The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded instances. This authentication method allows you to use your current SAML IdP or OpenID Connect configuration and redirect users to the IdP for authentication within the embedded iFrame.
+
+* Changes to the existing `AuthType` enums: +
+** `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
+** `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
+** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
+
+For more information, see xref:embed-authentication.adoc[Authentication].
+
+=== Multi-tenancy with Orgs [beta betaBackground]^Beta^
 <TBD>
 
-=== Multi-tenancy with Orgs[beta betaBackground]^Beta^
+=== Advanced style customization [beta betaBackground]^Beta^
+
 <TBD>
 
 == Version 8.8.0.cl, October 2022
