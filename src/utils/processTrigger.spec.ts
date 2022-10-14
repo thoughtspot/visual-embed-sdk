@@ -47,4 +47,26 @@ describe('Unit test for processTrigger', () => {
         expect(messageChannelMock.port1.close).toBeCalled();
         expect(triggerPromise).resolves.toEqual(res.data);
     });
+
+    test('Reject promise if error returned', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        const data = {};
+        mockMessageChannel();
+        const triggerPromise = _processTriggerInstance.processTrigger(
+            iFrame,
+            messageType,
+            thoughtSpotHost,
+            data,
+        );
+        expect(iFrame.contentWindow.postMessage).toBeCalled();
+        const res = {
+            data: {
+                error: 'error',
+            },
+        };
+        messageChannelMock.port1.onmessage(res);
+        expect(messageChannelMock.port1.close).toBeCalled();
+        expect(triggerPromise).rejects.toEqual(res.data.error);
+    });
 });

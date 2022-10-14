@@ -98,9 +98,7 @@ describe('Unit test for process data', () => {
         const e = { type: EmbedEvent.AuthExpire };
         jest.spyOn(base, 'notifyAuthFailure');
         jest.spyOn(base, 'handleAuth');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
-            autoLogin: false,
-        });
+        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({});
         expect(
             processDataInstance.processEventData(e.type, e, '', null),
         ).toEqual({
