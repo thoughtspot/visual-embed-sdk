@@ -117,14 +117,7 @@ The simplest *authenticator service* does the following steps, assuming ThoughtS
 2. Request a login token from ThoughtSpot using REST API v1.
 3. Return the token to the user's web browser.
 
-If user creation and group assignment must be performed at the time of the login token request, the *authenticator service* can follow this pattern:
-
-1. Make a REST API request for the user and group details for the user.
-2. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
-2. If the user doesn't exist (Error Response), set the `autocreate` property to `true` in the API call to the `/tspublic/v1/session/auth/token` endpoint.
-4. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint.
-5. Request a login token from ThoughtSpot via `/tspublic/v1/session/auth/token` API endpoint.
-6. Return the token to the user's web browser.
+If user creation and group assignment must be performed at the time of the login token request, the *authenticator service* must follow the steps described in the xref:trusted-authentication.adoc#_just_in_time_user_provisioning_and_group_assignment[Just-in-time user provisioning and group assignment] section of this article.
 
 === Verify and parse the authentication message
 As mentioned above, the exact way you send the authentication details varies with your implementation. The *authenticator service* must verify the request and then parse out the details (at minimum, the *ThoughtSpot username* value) so that they can be used in the subsequent REST API requests to ThoughtSpot.
@@ -157,18 +150,15 @@ Access control (sharing) can be granted during the login token request process b
 
 Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
 
-The typical flow of REST API commands for user creation is actually as follows:
+The typical flow of REST API requests for user creation at the time of a login token request is as follows:
 
-1. Make a REST API request to get the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user].
-+
-If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
-2. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API call to the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint. You can also assign the user to groups in the same API call.
-3. If the user should belong to other groups, you can add the user to groups via a REST API call to the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint or use the xref:user-api.adoc#assignUserToGroups[/tspublic/v1/user/{userid}/groups] endpoint.
-
-[NOTE]
-====
-The xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] API does not support creating new groups. The groups must already be configured on ThoughtSpot to add a user to groups.
-====
+1. Make a REST API request to xref:user-api.adoc#get-user-details[get the user details].
+2. If the user already exists, compare the `assignedGroups` property for the user with the group they should belong to.
+3. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API request to the `/tspublic/v1/session/auth/token` endpoint. You can also specify the group names to add the user to groups in the same API request.
+4. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint. 
+6. Request a login token from ThoughtSpot via `/tspublic/v1/session/auth/token` API endpoint.
+7. Return the token to the user's web browser.
+ 
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
