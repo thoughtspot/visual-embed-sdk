@@ -21,9 +21,33 @@ The process for trusted authentication is as follows:
  2. The request for the *login token* securely provides the username and any additional details to the *authenticator service*.
  3. The *authenticator service* verifies and parses the username and other details, and issues REST API commands to ThoughtSpot, at minimum requesting a *login token* for the provided username.
  4. The *authenticator service* returns the *login token* to the browser and the Visual Embed SDK.
- 5. The Visual Embed SDK issues requests to establish ThoughtSpot session in the browser.
+ 5. The Visual Embed SDK issues requests to establish a ThoughtSpot session in the browser.
 
 image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
+
+[#trusted-auth-enable]
+== Get a secret key for trusted authentication
+You need ThoughtSpot admin privileges to enable trusted authentication.
+
+. Log in to the ThoughtSpot.
+. Click the *Develop* tab.
+. Under *Customizations*, click *Settings*.
+. To enable trusted authentication, turn on the toggle.
++
+A `secret_key` for trusted authentication is generated. This `secret_key` is required for obtaining an authentication token for a ThoughtSpot user.
+
+. Click the clipboard icon to copy the token.
++
+The following example shows a ThoughtSpot-generated secret key string.
+
++
+----
+b0cb26a0-351e-40b4-9e42-00fa2265d50c
+----
+This key is required for making API calls to get a token for ThoughtSpot users.
+
+. Store the key in a secure location.
+. Click *Save Changes*.
 
 [#trusted-auth-sdk]
 == Visual Embed SDK / front-end
@@ -81,26 +105,25 @@ If you choose `authEndpoint`, a GET request is made directly to the provided URL
 
 Because the requirements around matching domain hosting can be difficult to set up during a quick testing phase, you may see examples of a trusted authentication flow using `authEndpoint` with the username sent in the clear as a URL parameter. Note that this is *only for testing purposes* and *is not secure*.
 
-
 == Authenticator service / back-end
 
 The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key` and the credentials of a ThoughtSpot administrator user (typically a service account).
 
-There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. When using ThoughtSpot Cloud, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
+There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. ThoughtSpot generates a `secret_key` when trusted authentication is enabled on a ThoughtSpot application instance. When using a ThoughtSpot cloud instance, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
 
 The simplest *authenticator service* does the following steps, assuming ThoughtSpot users already exist from another process:
 
 1. Verify and parse the authentication message to retrieve the ThoughtSpot username.
-2. Request a login token from ThoughtSpot using the V1 REST API.
+2. Request a login token from ThoughtSpot using REST API v1.
 3. Return the token to the user's web browser.
 
 If user creation and group assignment must be performed at the time of the login token request, the *authenticator service* can follow this pattern:
 
 1. Make a REST API request for the user and group details for the user.
-2. If the user doesn't exist (Error Response), create the user and add the user to groups in this step.
-3. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
-4. If the user should belong to other groups, issue the appropriate `Add User to Groups REST API` command.
-5. Request a login token from ThoughtSpot using the V1 REST API.
+2. If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
+2. If the user doesn't exist (Error Response), set the `autocreate` property to `true` in the API call to the `/tspublic/v1/session/auth/token` endpoint.
+4. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint.
+5. Request a login token from ThoughtSpot via `/tspublic/v1/session/auth/token` API endpoint.
 6. Return the token to the user's web browser.
 
 === Verify and parse the authentication message
@@ -114,14 +137,14 @@ If your *authenticator service* must also create users and give them access, you
 - user display name
 - ThoughtSpot group names to add a user to
 
-User password is not required in the login token request. It can be randomly generated if creating a user account in ThoughtSpot, so that the user can only sign in via the embedding application.
+User password is not required in the login token request. It can be randomly generated if creating a user account in ThoughtSpot so that the user can only sign in via the embedding application.
 
 === REST API session sign-in
 The *authenticator service* makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the *authenticator service* must have xref:api-auth-session.adoc[created an active session] with ThoughtSpot user with *server administrator* privileges, typically a service account created only for use by the *authenticator service*.
 
-The authenticator service code will need logic to log in if there is no active session, and secure access to the service account credentials. How you protect and securely access the service account credentials is up to you in the design of the service. Any examples with a username and password entered directly in the code are for *testing purposes only*.
+The authenticator service code will need logic to log in if there is no active session and secure access to the service account credentials. How you protect and securely access the service account credentials is up to you in the design of the service. Any examples with a username and password entered directly in the code are for *testing purposes only*.
 
-=== Login token request
+=== Login token request via REST API
 The only other REST API call *necessary* after sign-in is the xref:session-api.adoc#session-authToken[request for the login token]. This is the call that utilizes the `secret_key`, which the *authenticator service* must also securely store and access along with the service account user credentials.
 
 When a token has been requested in `FULL` mode, it will create a full ThoughtSpot session in the browser and application. The token for `FULL` access mode persists through several sessions and stays valid until another token is generated.
@@ -130,53 +153,28 @@ There is the option to request a limited token using the `access_level=REPORT_BO
 
 Access control (sharing) can be granted during the login token request process by adding the user to the appropriate ThoughtSpot groups.
 
-=== User creation and group assignment
+=== Just-in-time user provisioning and group assignment
 
-You can choose to create the user in ThoughtSpot the first time they request a login token. Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[session/auth/token] for just-in-time provisioning of users. If the user for whom you are obtaining a token does not exist in the ThoughtSpot system, you can create a user and assign that user to groups by using `autocreate` and `group` attributes respectively.
-
-[NOTE]
-====
-The xref:session-api.adoc#session-authToken[session/auth/token] API endpoint does not support creating new groups. The groups must already be configured on ThoughtSpot to add the user to groups.
-====
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
 
 The typical flow of REST API commands for user creation is actually as follows:
 
-1. Make a REST API request for the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user].
-* If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
-* If the user should belong to other groups, issue the appropriate xref:group-api.adoc#add-user-to-group[Add User to Groups REST API request].
-2. If the user doesn't exist in ThoughtSpot, set the `autocreate` property to `true` and specify the group names in your POST request to the xref:session-api.adoc#session-authToken[session/auth/token] API endpoint. +
- If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
+1. Make a REST API request to get the xref:user-api.adoc#get-user-detail[user details] and xref:group-api.adoc#get-ug-details[group details for the user].
++
+If the user already exists, compare the `assignedGroups` property for the user with the groups they should belong to.
+2. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API call to the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint. You can also assign the user to groups in the same API call.
+3. If the user should belong to other groups, you can add the user to groups via a REST API call to the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint or use the xref:user-api.adoc#assignUserToGroups[/tspublic/v1/user/{userid}/groups] endpoint.
 
+[NOTE]
+====
+The xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] API does not support creating new groups. The groups must already be configured on ThoughtSpot to add a user to groups.
+====
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
 
 For example, you could implement the xref:group-api.adoc#create-group[create group] REST API for ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow in the section above to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
 
-
-[#trusted-auth-enable]
-== Enable trusted authentication
-You need ThoughtSpot admin privileges to enable trusted authentication.
-
-. Log in to the ThoughtSpot.
-. Click the *Develop* tab.
-. Under *Customizations*, click *Settings*.
-. To enable trusted authentication, turn on the toggle.
-+
-A `secret_key` for trusted authentication is generated. This `secret_key` is required for obtaining an authentication token for a ThoughtSpot user.
-
-. Click the clipboard icon to copy the token.
-+
-The following example shows a ThoughtSpot-generated secret key string.
-
-+
-----
-b0cb26a0-351e-40b4-9e42-00fa2265d50c
-----
-This key is required for making API calls to get a token for ThoughtSpot users.
-
-. Store the key in a secure location.
-. Click *Save Changes*.
 
 == Disable trusted authentication
 
@@ -206,6 +204,8 @@ Tokens stay valid for a length of time based on the following rules:
 * If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
 
 To set a consistent five-minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
+
+
 
 == Troubleshoot trusted authentication
 

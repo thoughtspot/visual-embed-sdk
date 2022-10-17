@@ -99,7 +99,7 @@ The `username` of the user for whom the token is being requested.
 +
 [IMPORTANT]
 ====
-To obtain a token and log in the user, the user must already be created in ThoughtSpot. For just-in-time (JIT) provisioning of a user and groups assignment, use the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] API endpoint.
+To obtain a token and log in the user, the user must already be created in ThoughtSpot. For just-in-time (JIT) provisioning of a user and group assignment, the authenticator service can use the `autocreate` and `group` properties in xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] API endpoint.
 ====
 
 * Authentication endpoint
@@ -158,7 +158,6 @@ init({
     },
 });
 ----
-
 
 +
 After obtaining the token, a `POST` request is sent to the `/tspublic/v1/session/login/token` API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
