@@ -205,8 +205,6 @@ Tokens stay valid for a length of time based on the following rules:
 
 To set a consistent five-minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
 
-
-
 == Troubleshoot trusted authentication
 
 [NOTE]
