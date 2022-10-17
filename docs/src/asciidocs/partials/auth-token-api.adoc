@@ -26,7 +26,7 @@ If the user doesn't exist in the ThoughtSpot system, you can set the `autocreate
 |`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
 |`groups` __Optional__ a|__String__. A JSON array of groups to which the user belongs. For example, `["sales", "marketing"]`. +
 
-* If the user doesn't exist in ThoughtSpot and `autocorrect` is set to `true`, the user is assigned to the specified groups.
+* If the user doesn't exist in ThoughtSpot and `autocreate` is set to `true`, the user is assigned to the specified groups.
 * If the user already exists in the ThoughtSpot system and `autocreate` is set to `false`, the API ignores the values specified in the `groups` attribute.
 * If the user already exists in the ThoughtSpot system and `autocreate` is set to `true`, the API updates the user object.
 * If `autocreate` is set to `true` and the group names are not defined in the `groups` property, ThoughtSpot does not update the user object.
