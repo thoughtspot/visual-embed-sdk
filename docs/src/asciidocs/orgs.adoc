@@ -12,7 +12,7 @@ If the Orgs feature is enabled on your instance, your cluster admin can create a
 
 == Orgs in ThoughtSpot
 
-If the Orgs feature is enabled on your instance, a *Primary Org* will be created by default. This default Org is referred to as `Org 0`. The administrator of the default Org can create one or several Orgs, and add an administrator user profile to each Org to manage users and groups, and define access control at the Org level.
+If the Orgs feature is enabled on your instance, a *Primary Org* will be created by default. This default Org is identified as Org `0`. By default, the administrator of the default Org can one or several Orgs, and add an administrator profile to each Org to manage users and groups within that Org, and define access control at the Org level.
 
 The following diagram depicts the Orgs presentation on a multi-tenant ThoughtSpot instance.
 
@@ -20,7 +20,7 @@ image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
 
 [NOTE]
 ====
-* The `Primary Org (Org 0)` cannot be deleted.
+* The `Primary Org (Org 0)` is the default Org and cannot be deleted.
 * Each Org is identified by a unique number and can have its own users and groups.
 * Groups are unique to an Org and can be created only within the context of an Org.
 * A user can belong to multiple Orgs.
@@ -28,25 +28,25 @@ image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
 
 == All Org scope
 
-On a multi-tenant ThoughtSpot instance, all operations are run in the Org context that the user is currently in. If a cluster administrator wants to perform a CRUD operation or apply a configuration change to all Orgs, they must use the `All Org` scope by setting the `orgId` to `-1`.
+On a multi-tenant ThoughtSpot instance, all operations are run in the context of the Org that the user is currently assigned to. If a cluster administrator wants to perform a Create, Read, Update, or Delete (CRUD) operation or apply a configuration change to all Orgs, they must use the `All Org` scope by overriding the Org ID in the API calls.
 
-For example, to get a list of Orgs on a ThoughtSpot instance, the cluster administrator must set the orgId value as `-1` and pass it as a query parameter in the `GET /tspublic/v1/org/` API request. Similarly, for user operations, such as adding a user to Orgs or removing a user from Orgs, the administrator must set the `orgId` query parameter value to `-1` in the API request.
+Note that on an Orgs-enabled cluster, certain operations are allowed only at cluster level, which requires you to set the Org scope to `ALL Org`. For example, to add, modify or delete an Org, the Org ID scope must be set as `ALL_ORGS`. For a complete list of features and API endpoints that are available only at the cluster level, see <add reference>.
 
 == User roles
 
-On a multi-tenant instance, ThoughtSpot supports the `Cluster administrator` persona. By default, the administrator of the primary Org (Org 0) is assigned the privileges of a cluster administrator.
-The cluster administrator can access all Orgs and perform CRUD operations. The cluster administrator can also switch between Orgs and also act as an Org administrator.
+On a multi-tenant instance, ThoughtSpot supports the following user roles:
 
-Org administrators can administer and manage users and groups of their respective organizations. The users can belong to more than one Org and access data objects and metadata based on the privileges assigned to the groups to which they belong.
+* `Cluster administrator` +
+By default, the administrator of the primary Org (Org 0) is assigned the privileges of a cluster administrator.
+The cluster administrator can access all Orgs and perform CRUD operations. The cluster administrator can also switch between Orgs and also act as an individual Org administrator.
+* `Org administrators`  +
+An Org administrator can administer and manage users and groups of their respective organizations. The Org administrators are allowed to manage ThoughtSpot users and data objects only in the Orgs to which they have access.
+* Org users
+An Org user can access only those Orgs to which they belong. A user can belong to more than one Org and access data objects and metadata based on the privileges assigned to the groups to which they belong.
 
-////
-The following diagram illustrates user roles in a multi-tenant instance:
 
-image::./images/user-persona-orgs.png[Multi-tenant user personas]
-////
 [#_create_and_manage_orgs]
-== Create and manage Orgs
-
+== Org management
 To create an Org on a multi-tenant ThoughtSpot instance, you require cluster administrator privileges. By default, ThoughtSpot sets the administrator of the `Primary Org (Org 0)` as a cluster administrator. The cluster administrator can create Orgs using either the UI or the REST v1 API endpoints.
 
 Creating and administering Org objects via REST API involves the following steps:

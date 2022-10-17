@@ -1,5 +1,4 @@
 
-:page-title: Developer Guides
 :page-pageid: nav
 :page-description: Main navigation
 
@@ -13,21 +12,18 @@
 ** link:{{navprefix}}=fixed-issues[Fixed issues]
 ** link:{{navprefix}}=known-issues[Known Issues]
 
-* link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
-** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
-** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
+* link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
+** link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
-
-* link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
+** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
+** link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Visual Embed Playground]
 ** link:{{navprefix}}=rest-playground[REST API Playground]
 
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
-** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy best practices]
-** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 
@@ -38,6 +34,16 @@
 ** link:{{navprefix}}=oidc-auth[OpenID Connect authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=authorization-settings[Authentication and authorization]
+
+* Multi-tenant environments
+** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
+** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy without Orgs]
+////
+*** Feature availability
+*** Authentication considerations
+*** REST APIs for Org management
+////
+
 
 * link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
@@ -54,9 +60,6 @@
 ** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
 ** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
-** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
-*** link:{{navprefix}}=events[Events Reference]
-*** link:{{navprefix}}=actions[Actions Reference]
 *  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
 
 * link:{{navprefix}}=custom-action-intro[Custom actions]
@@ -87,8 +90,15 @@
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
 *** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*BETA*^]
 *** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*BETA*^]
+
+* link:{{navprefix}}=runtime-filters[Runtime filters]
+
+* Reference
+** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
+*** link:{{navprefix}}=events[Events Reference]
+*** link:{{navprefix}}=actions[Actions Reference]
+** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference ^*BETA*^]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
-*** link:{{navprefix}}=orgs-api[Orgs API]
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]
 *** link:{{navprefix}}=session-api[Session API]
@@ -104,8 +114,6 @@
 *** link:{{navprefix}}=logs-api[Audit logs API]
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database API]
-** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference ^*BETA*^]
-* link:{{navprefix}}=runtime-filters[Runtime filters]
 
 * Additional resources
 ** link:{{navprefix}}=faqs[FAQs]
