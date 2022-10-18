@@ -283,7 +283,7 @@ If the home Liveboard is set in the currently logged-in user's account, the API 
 
 [#del-home-liveboard]
 == Remove a home Liveboard
-To remove the home Liveboard setting from the currently logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
+To remove the home Liveboard setting from the currently logged-in user's account, send a `DELETE` request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----
