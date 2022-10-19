@@ -4,7 +4,7 @@ After you get the authentication token from ThoughtSpot via a REST API call to t
 
 == Automate user provisioning and group assignment
 
-Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports Just-in-Time (JIT) user creation and dynamic group mapping and privilege assignment to a user. If the user you specify in the API request doesn't exist in the ThoughtSpot system, you can create the user and assign the user to groups by using the `autocreate` and `groups` attributes in the same API call.
+Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports provisioning users Just-in-Time (JIT), mapping the user to groups, and dynamically assign privileges. If the user for whom you are requesting an authentication token doesn't exist in the ThoughtSpot system, you can set the `autocreate` property and assign the user to groups in the same API call.
 
 === Resource URL
 ----
