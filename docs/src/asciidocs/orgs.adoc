@@ -66,7 +66,7 @@ On an Orgs-enabled cluster, certain UI and API operations are allowed only at th
 [width="100%" cols="5,7,7"]
 [options='header']
 |=====
-|Feature category|Supported operations at the cluster (All Org) level|Supported Operations at the Org level +
+|Feature category|At the cluster (All Org) level|At the Org level +
 |User management a| [tag greenBackground]#✓# User creation and management +
 
 [tag greenBackground]#✓# User association to Orgs
