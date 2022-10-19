@@ -66,7 +66,7 @@ On an Orgs-enabled cluster, certain UI and API operations are allowed only at th
 [width="100%" cols="5,7,7"]
 [options='header']
 |=====
-|Feature category|At the cluster (All Org) level|At the Org level +
+|Feature category|At the cluster (All Orgs) level|At the Org level +
 |User management a| [tag greenBackground]#✓# User creation and management +
 
 [tag greenBackground]#✓# User association to Orgs
@@ -94,7 +94,7 @@ __For just-in-time (JIT) user provisioning and dynamic group assignment, Thought
 
 [tag greenBackground]#✓# User mapping to Orgs  +
 
-[tag greenBackground]#✓#  Object sharing with others
+[tag greenBackground]#✓#  Object sharing with other users
 
 a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
 
@@ -107,7 +107,7 @@ a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
 
 [tag greenBackground]#✓#  Onboarding settings and welcome message customization |[tag greyBackground]#–#|
 Custom actions| [tag greyBackground]#–# |__Custom action creation and group association are supported only at the Primary Org (Org 0) level.__
-|Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0).__
+|Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
 |Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
 
