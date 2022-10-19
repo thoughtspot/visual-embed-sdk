@@ -220,7 +220,6 @@ PUT /tspublic/v1/session/org/
 |`orgid`|__Integer__. ID of the org object. The org ID `0` indicates `Primary Org`.
 |===
 
-
 === Example request
 
 .cURL
