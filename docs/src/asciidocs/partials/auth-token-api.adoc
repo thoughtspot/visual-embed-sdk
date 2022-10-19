@@ -1,10 +1,10 @@
-If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and have access to the `secret key`, you can send an API request to the `/tspublic/v1/session/auth/token` endpoint and get a login token for a ThoughtSpot user. The
+If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication] on ThoughtSpot and have access to the `secret key`, you can send an API request to the `/tspublic/v1/session/auth/token` endpoint and get a login token for a ThoughtSpot user. 
 
 After you get the authentication token from ThoughtSpot via a REST API call to the `/tspublic/v1/session/auth/token` endpoint, use this token in your API request to the `/tspublic/v1/session/login/token` endpoint to authenticate and log in a user.
 
 == Automate user provisioning and group assignment
 
-Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports Just-in-Time (JIT) provisioning of a user. If the user you specify in the API request doesn't exist in the ThoughtSpot system, you can create the user and assign the user to groups by using the `autocreate` and `groups` attributes in the same API call.
+Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports Just-in-Time (JIT) user creation and dynamic group mapping and privilege assignment to a user. If the user you specify in the API request doesn't exist in the ThoughtSpot system, you can create the user and assign the user to groups by using the `autocreate` and `groups` attributes in the same API call.
 
 === Resource URL
 ----
@@ -58,9 +58,9 @@ If the API request is successful, ThoughtSpot returns an authentication token fo
 
 [NOTE]
 ====
-* If the username specified in the API request exists in the ThoughtSpot system, the API returns the token for logging in the user, else it returns the `user not found error`.
-* If the specified user does not exist in ThoughtSpot, and the `autocreate` property is set to `true`, the user is created and mapped to the groups specified in the `groups` attribute.
-* If the user already exists in ThoughtSpot, but `autocreate` is set to `true` and the group names are defined in the `groups` attribute, the user will be added to the groups specified in the API request.
+* If the username specified in the API request exists in the ThoughtSpot system, the API returns the token, else it returns the `user not found` error.
+* If the user does not exist in ThoughtSpot and the `autocreate` property is set to `true`, the user is created. If `groups` and `orgid` attributes are defined, ThoughtSpot assigns the user to the specified groups and Org ID.
+* If the user already exists in ThoughtSpot, `autocreate` is set to `true` and the group names are defined in the `groups` attribute, the user will be added to the groups specified in the API request. 
 ====
 
 The following example shows the authentication token returned by ThoughtSpot after a successful API call.
