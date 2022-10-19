@@ -1,8 +1,8 @@
-= Orgs API
+= Org API
 :toc:
 :toclevels: 1
 
-:page-title: Org API
+:page-title: Org API endpoints
 :page-pageid: orgs-api
 :page-description: Use Org APIs to create and manage tenant organizations on your ThoughtSpot instance
 

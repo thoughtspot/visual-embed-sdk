@@ -1,4 +1,4 @@
-= Multi-tenancy best practices
+= Multi-tenancy without Orgs
 :toc: true
 :toclevels: 1
 
@@ -6,6 +6,7 @@
 :page-pageid: multi-tenancy-best-practices
 :page-description: Multi-tenancy is achieved in ThoughtSpot via group configuration
 
+////
 There are many situations where ThoughtSpot must be configured for multi-tenancy. With ThoughtSpot Everywhere, almost every deployment involves an application developer providing content to many distinct organizations. A ThoughtSpot Enterprise deployment may require separation between departments within the larger company. In both cases, the techniques in this article for creating separation of users and content will apply.
 
 == What is multi-tenancy?
@@ -13,7 +14,10 @@ Multi-tenancy describes a single software system serving users from many distinc
 
 Just like in physical housing, tenancy within software system takes many different physical and logical forms. Within this section, a "multi-tenanted" system is one where an administrator sees everything at once from a single login, while a "single-tenanted" system does have an “all content” view available, even to an administrator account.
 
+
 == Multi-tenancy in ThoughtSpot is achieved using groups
+////
+
 ThoughtSpot link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[groups, window=_blank] are the best mechanism for all access control and security within ThoughtSpot. Groups serve the purpose of folders, roles, and row-level security assignment in ThoughtSpot. When configured correctly, users from one organization never see content, groups, or other users from different organizations.
 
 Because search is the primary organization method within ThoughtSpot and group membership is the mechanism for access control, when viewing the server as an administrator, all of the users, groups and content will be available and the multi-tenanted nature presented to the individual users may not be obvious at a glance.
@@ -21,7 +25,8 @@ Because search is the primary organization method within ThoughtSpot and group m
 Creating and auditing the groups, group membership and the sharing settings are best accomplished via the xref:rest-api-reference.adoc[REST API]. All settings and configurations are available through the ThoughtSpot UI, but at production scale all synchronization between the web application and ThoughtSpot is typically accomplished via the REST API.
 
 == Types of multi-tenancy in ThoughtSpot
-Because ThoughtSpot has its own users, groups, and data objects, and connects to cloud data warehouses that have their own set of objects, there are two separate but interacting forms of multi-tenancy to set up correctly:
+
+ThoughtSpot recommends using Orgs for multi-tenancy. If you do not have this feature enabled on your instance and do not want to set up Orgs, you can use the following options:
 
 * Multi-tenancy at the ThoughtSpot user level
 +

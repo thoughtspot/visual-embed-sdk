@@ -1,4 +1,4 @@
-
+:page-title: Developer Guides
 :page-pageid: nav
 :page-description: Main navigation
 
@@ -37,6 +37,7 @@
 
 * Multi-tenant environments
 ** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
+** link:{{navprefix}}=orgs-api-op[Orgs administration and management]
 ** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy without Orgs]
 ////
 *** Feature availability
