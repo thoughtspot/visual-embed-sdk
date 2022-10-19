@@ -26,6 +26,9 @@
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
+** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
+** link:{{navprefix}}=orgs-api-op[Orgs administration and management]
+** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy without Orgs]
 
 * link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]
@@ -34,16 +37,6 @@
 ** link:{{navprefix}}=oidc-auth[OpenID Connect authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=authorization-settings[Authentication and authorization]
-
-* Multi-tenant environments
-** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
-** link:{{navprefix}}=orgs-api-op[Orgs administration and management]
-** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy without Orgs]
-////
-*** Feature availability
-*** Authentication considerations
-*** REST APIs for Org management
-////
 
 
 * link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
