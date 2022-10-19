@@ -230,10 +230,10 @@ init({
 ----
 
 [#oidc-auth]
+
 == OpenID Connect SSO authentication
 
 If your app supports OAuth 2.0 protocol and OIDC authentication framework and uses an OpenId Provider for user authentication, your application users can authenticate to an OpenID provider when the embedded content loads. Make sure your ThoughtSpot instance is xref:configure-oidc.adoc[configured to support OIDC authentication]. If your OpenID provider does not support iFrame redirects, you can configure the `OIDCRedirect` authentication method to redirect your app to the OpenID Provider login page.
-
 
 [source,javascript]
 ----
@@ -270,7 +270,6 @@ The basic authentication option in the SDK sends a `POST` request with the `user
 [NOTE]
 ====
 Basic authentication requires xref:security-settings.adoc#cors-hosts[setting up CORS] so that your application can call ThoughtSpot to authenticate your user.
-====
 
 To enable the basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 

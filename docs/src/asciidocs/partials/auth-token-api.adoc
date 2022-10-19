@@ -6,6 +6,7 @@ After you get the authentication token from ThoughtSpot via a REST API call to t
 
 The `/tspublic/v1/session/auth/token` API endpoint supports Just-in-Time (JIT) provisioning of a user. If the user you specify in the API request doesn't exist in the ThoughtSpot system, you can create the user and assign the user to groups by using the `autocreate` and `groups` attributes in the same API call.
 
+
 === Resource URL
 ----
 POST /tspublic/v1/session/auth/token

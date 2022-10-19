@@ -62,6 +62,7 @@ If a cluster administrator wants to perform a Create, Read, Update, or Delete (C
 
 On an Orgs-enabled cluster, certain UI and API operations are allowed only at the cluster level. The following table lists the features and configuration operations allowed at the cluster or individual Org level.
 
+
 [width="100%" cols="5,7,7"]
 [options='header']
 |=====
