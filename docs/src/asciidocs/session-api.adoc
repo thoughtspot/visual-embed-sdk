@@ -356,7 +356,7 @@ GET /tspublic/v1/session/orgs/users/{userid}
 |===
 |Parameter|Type|Description
 |`userid` |Path parameter|__String__. GUID of the user.
-|`orgId`| Query parameter|__String__. ID of the Org context. To set the scope to `ALL ORGS`, specify `-1`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -366,12 +366,12 @@ GET /tspublic/v1/session/orgs/users/{userid}
 ----
 curl -X GET \
 --header 'Accept: application/json' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL'
 ----
 
 .Request URL
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL
 ----
 
 === Example response
