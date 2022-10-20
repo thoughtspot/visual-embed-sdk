@@ -255,6 +255,7 @@ Response Code
 |**403**| Unauthorized request
 |===
 
+
 [#getOrgs]
 == Get Orgs for the logged-in user
 
