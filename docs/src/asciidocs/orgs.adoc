@@ -6,7 +6,9 @@
 :page-pageid: orgs
 :page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate Org containers for your tenants.
 
-ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. In multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
+ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster.
+In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace.
+In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
 
 By default, ThoughtSpot operates in the single-tenant mode. If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, you can opt for a multi-tenant setup.
 
@@ -84,7 +86,7 @@ __SAML and OIDC group synchronization features are not supported at the All Orgs
 [tag greenBackground]#✓#  Trusted authentication (Embedded instances) +
 
 __For just-in-time (JIT) user provisioning and dynamic group assignment, ThoughtSpot recommends using the Trusted Authentication method.__+
-|Security settings (CORS and CSP for embedded instances| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
+|Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
 |Data connections and objects a| [tag greenBackground]#✓# Data connection creation and management +
 
 [tag greenBackground]#✓# Object creation and management a|[tag greenBackground]#✓#  Data connection creation and management +
