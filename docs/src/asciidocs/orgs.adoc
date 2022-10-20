@@ -6,7 +6,7 @@
 :page-pageid: orgs
 :page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate Org containers for your tenants.
 
-ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. In multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on same the application instance.
+ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. In multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
 
 By default, ThoughtSpot operates in the single-tenant mode. If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, you can opt for a multi-tenant setup.
 
@@ -151,7 +151,7 @@ To get started with Orgs:
 If the Orgs feature is enabled on your cluster, a Primary Org is created by default, and you will be logged in to the Primary Org context.
 . Create Orgs in the *Admin* page of the UI or via xref:org-api.adoc#createOrg[REST API].
 +
-To create and manage Orgs, you must set the Org context to `All Orgs`. To do this, you can switch to *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
+To create and manage Orgs, you must set the Org context to `All Orgs`. To do this, you can switch to the *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
 . Create users and map the users to Orgs.
 +
 You can create an administrator profile for each Org and let these Org administrators manage users, groups, and role privileges in their respective Orgs.

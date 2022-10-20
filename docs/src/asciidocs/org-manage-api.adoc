@@ -28,7 +28,7 @@ The `PUT` request allows editing the name and description properties of an Org o
 
 A cluster administrator can access all Org objects and apply configuration changes. Before performing any operation on the objects in an Org, the administrator must switch to the appropriate Org context. The cluster administrator can switch between Orgs using the Orgs switcher in the UI or via a REST API call to the `/tspublic/v1/session/orgs` endpoint.
 
-Org users that belong to more than one Org can also the `/tspublic/v1/session/org` API endpoint to switch the Org context.
+Org users that belong to more than one Org can also use the `/tspublic/v1/session/org` API endpoint to switch the Org context.
 
 For more information, see xref:session-api.adoc#orgSwitch[Switch between Orgs].
 
