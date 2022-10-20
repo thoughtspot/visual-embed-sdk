@@ -172,7 +172,7 @@ GET /tspublic/v1/org/
 |Query parameter|Description
 |`id`|__Integer__. The ID of the Org object that you want to edit.
 |`name` |__String__. Name of the Org.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request

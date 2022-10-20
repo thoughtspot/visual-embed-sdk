@@ -24,8 +24,8 @@ If the user doesn't exist in the ThoughtSpot system, you can set the `autocreate
 * `FULL` - Creates a session with full access.
 * `REPORT_BOOK_VIEW` - Allows view access to the visualization or Liveboard.
 |`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
-|`orgid` a|__Integer__. ID of the Org to which the user belongs. This parameter is required if your ThoughtSpot instance is set as a multi-tenant environment and logically partitioned into Orgs.
-+
+|`orgid`  a|__Integer__. ID of the Org to which the user belongs. This parameter is required if your ThoughtSpot instance is set as a multi-tenant environment and logically partitioned into Orgs. +
+
 * If the user exists in ThoughtSpot and no `orgid` is specified, the API returns the authentication token to log the user in to their last logged-in Org.
 * If the user exists in ThoughtSpot but not assigned to any Org, and `autocreate` is set to `true`, the user will be added to the specified Org.
 * If the user doesn't exist in ThoughtSpot and `autocreate` is set to `true`, the user is created and added to the specified Org ID.
