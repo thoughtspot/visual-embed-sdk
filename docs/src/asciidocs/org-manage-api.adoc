@@ -26,33 +26,32 @@ The `PUT` request allows editing the name and description properties of an Org o
 
 == Switch between Orgs
 
-A cluster administrator can access all Org objects and apply configuration changes. Before performing any operation on the objects in an Org, the administrator must switch to the appropriate Org context. The cluster administrator can switch between Orgs by either using the Orgs drop-down in the UI or by sending a `PUT` request to the `/tspublic/v1/session/org/`.
+A cluster administrator can access all Org objects and apply configuration changes. Before performing any operation on the objects in an Org, the administrator must switch to the appropriate Org context. The cluster administrator can switch between Orgs using the Orgs switcher in the UI or via a REST API call to the `/tspublic/v1/session/orgs` endpoint.
 
-Org users that belong to more than one Org can also the `/tspublic/v1/session/org/API` endpoint to switch the Org context.
+Org users that belong to more than one Org can also the `/tspublic/v1/session/org` API endpoint to switch the Org context.
 
 For more information, see xref:session-api.adoc#orgSwitch[Switch between Orgs].
 
 == Manage users and groups
 
-On a multi-tenant instance, the cluster and Org administrators can create users and associate these users to Orgs and groups within an Org. The cluster administrator can perform CRUD operations on user and Org objects, whereas the Org administrator can create users and groups, and assign users to groups within the context of an Org workspace.
+On a multi-tenant instance, the cluster and Org administrators can create users and associate these users to Orgs and groups within an Org. The cluster administrator can perform CRUD operations on user and Org objects, whereas the Org administrator can create users and groups, and assign users to groups within the context of their Org workspace.
 
 
 [width="100%" cols="2,7"]
 [options='header']
 |=====
-|Operation category| API endpoints to use
+|Operation type| API endpoints to use
 |User provisioning a|To create users, use the xref:user-api.adoc#create-user[POST /tspublic/v1/user/] API endpoint. +
 This endpoint also allows assigning a user to Orgs. +
-To add multiple users to an Org, use the xref:user-api.adoc#addOrg[`POST /tspublic/v1/user/addtoorg`] API endpoint. +
 
-To remove a user from an Org, use the xref:user-api.adoc#delete-user[`DELETE /tspublic/v1/user/{userid}`] endpoint.
+To add multiple users to an Org in bulk, use the xref:user-api.adoc#addOrg[`POST /tspublic/v1/user/addtoorg`] API endpoint. +
 
-If a user belongs only to the Org specified in the DELETE API request, the user will be deleted from the Org and ThoughtSpot system. If the user belongs to more than one Org, the `DELETE` operation removes the user only from the Org specified in the API request. To remove the user from the ThoughtSpot system and all Orgs, you must set the `orgid` to `-1` in your API request.
+To remove a user from an Org, use the xref:user-api.adoc#delete-user[`DELETE /tspublic/v1/user/{userid}`] endpoint. If a user belongs only to the Org specified in the `DELETE` request, the user will be deleted from the Org and ThoughtSpot system. If the user belongs to more than one Org, the `DELETE` operation removes the user only from the Org specified in the API request. To remove the user from the ThoughtSpot system and all Orgs, you must set the `orgid` to `-1` in your API request.
 
-|Group provisioning a|To create a group in an Org, xref:session-api.adoc#orgSwitch[switch to the appropriate Org context] and then send an API request to the xref:group-api.adoc#create-group[`/tspublic/v1/group/`] endpoint. If you do not switch the Org context, the group will be created in the Org you are currently logged in to.
+|Group provisioning a|To create a group in an Org, xref:session-api.adoc#orgSwitch[switch to the appropriate Org context] and then send an API request to the xref:group-api.adoc#create-group[`/tspublic/v1/group/`] endpoint. If you do not switch the Org context, the group will be created in the Org context that you are currently logged in to.
 |Authentication a| If your deployment uses the xref:trusted-authentication.adoc[trusted authentication] method to authenticate users, you will notice that the xref:session-api.adoc#session-authToken[`POST /tspublic/v1/session/auth/token`] endpoint allows you to send the `orgid` in the request body. If a user is mapped to a specific org, you can pass the `orgid` in the API request to obtain an authentication token and log in the user to the relevant Org context. +
-You can also use xref:session-api.adoc#session-authToken[`POST /tspublic/v1/session/auth/token`] API call to provision a user just-in-time and dynamically assign groups and privileges. For more information, see xref:trusted-authentication.adoc[Trusted authentication] and xref:session-api.adoc#session-authToken[Obtain an authentication token].
-|User and Org association a| To get a list of Orgs for the currently logged-in user, use the xref:session-api.adoc#getOrgs[/tspublic/v1/session/orgs] API endpoint. +
+You can also use the xref:session-api.adoc#session-authToken[`POST /tspublic/v1/session/auth/token`] API call to provision a user just-in-time and dynamically assign groups and privileges. For more information, see xref:trusted-authentication.adoc[Trusted authentication] and xref:session-api.adoc#session-authToken[Obtain an authentication token].
+|Query operations to get Orgs a| To get a list of Orgs for the currently logged-in user, use the xref:session-api.adoc#getOrgs[/tspublic/v1/session/orgs] API endpoint. +
 To get Orgs for a specific user, use the xref:session-api.adoc#getOrgsForUser[/tspublic/v1/session/orgs/users/{userid}] endpoint. For this API request, you must set the Org scope to `ALL`.
 |=====
 

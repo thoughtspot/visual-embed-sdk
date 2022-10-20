@@ -148,11 +148,13 @@ To get started with Orgs:
 . Configure your ThoughtSpot instance as a multi-tenant cluster. To enable multi-tenant setup on your instance, contact ThoughtSpot support.
 . Log in to your application instance as an administrator.
 +
-If the Orgs feature is enabled on a multi-tenant cluster, a Primary Org is created by default, and you will be logged in to the Primary Org context.
+If the Orgs feature is enabled on your cluster, a Primary Org is created by default, and you will be logged in to the Primary Org context.
 . Create Orgs in the *Admin* page of the UI or via xref:org-api.adoc#createOrg[REST API].
 +
-To create and manage Orgs, you must set the Org context to `All Orgs`. To do this, you can switch to All Orgs tab in the Admin page of UI or pass the ALL_ORGS scope as the `orgId` your API requests to Org endpoints. For more information, see xref:org-api.adoc[Org API].
+To create and manage Orgs, you must set the Org context to `All Orgs`. To do this, you can switch to *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
 . Create users and map the users to Orgs.
 +
-You can create an administrator profile for each Org and let the Org administrators manage users, groups, and role privileges in their respective Orgs.
-Note that ThoughtSpot allows provisioning groups only within the context of an Org. You must ensure that ThoughtSpot users are mapped to appropriate Orgs and groups within these Orgs for user access control and data security.
+You can create an administrator profile for each Org and let these Org administrators manage users, groups, and role privileges in their respective Orgs.
+
++
+Note that ThoughtSpot allows provisioning groups only within the context of an Org. You must ensure that ThoughtSpot users are mapped to appropriate Orgs and the groups within these Orgs for user access control and data security.

@@ -202,13 +202,13 @@ If the operation is successful, the API returns a response with the session info
 [#orgSwitch]
 == Switch between Orgs
 
-If your ThoughtSpot instance has multiple Orgs, you can switch between Orgs by using the `/tspublic/v1/session/org/` endpoint.
+If your ThoughtSpot instance has multiple Orgs, you can switch between Orgs by using the `/tspublic/v1/session/orgs` endpoint.
 
 Only the cluster administrator and users that belong to multiple Orgs can switch between the Orgs.
 
 === Resource URL
 ----
-PUT /tspublic/v1/session/org/
+PUT /tspublic/v1/session/orgs
 ----
 
 === Request parameters
@@ -216,7 +216,8 @@ PUT /tspublic/v1/session/org/
 [options='header']
 |===
 |Form parameter|Description
-|`orgid`|__Integer__. ID of the org object. The org ID `0` indicates `Primary Org`.
+|`orgid` a|__Integer__. ID of the Org object. The org ID `0` indicates `Primary Org`. To switch to another Org, specify the Org ID.   +
+To know the Org IDs of the Orgs that you can access, send a GET request to the `/tspublic/v1/session/orgs` endpoint.
 |===
 
 === Example request
@@ -229,12 +230,12 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'orgid=-1' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs
 ----
 
 === Example response
