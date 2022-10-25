@@ -8,6 +8,13 @@
 
 The TML API endpoints allow you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these API endpoints to automate the change management and deployment processes between your development and production environments. With TML API, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
 
+[NOTE]
+====
+Starting with 8.9.0.cl, the `pinboard` object name appears as `liveboard` in the TML files exported from ThoughtSpot. The older version of TML files with `pinboard` can be imported into ThoughtSpot instances running 8.9.0.cl, but ThoughtSpot  replaces `pinboard` with `liveboard` when exporting TML.
+
+However, if you try to import the Liveboard TML files exported from a ThoughtSpot 8.9.0.cl instance into an environment running 8.8.0.cl or an earlier version, the import operation fails. To resolve this issue, replace `liveboard` with `pinboard` and then retry importing to earlier versions.
+====
+
 == Supported operations
 
 include::{path}/tml-api-list.adoc[]
