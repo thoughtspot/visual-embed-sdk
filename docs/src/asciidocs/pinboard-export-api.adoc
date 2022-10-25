@@ -70,7 +70,8 @@ The promise returned resolves to  a string that contains the transient Liveboard
 
 * Liveboard filters
 * Liveboard layout
-* If the new Liveboard experience is enabled, the transient content includes ad hoc changes to the visualization content such as sorting,  toggling of legends, and data drill down.
+
+If the new Liveboard experience is enabled, the transient content includes ad hoc changes to the visualization content such as sorting, toggling of legends, and data drill down.
 
 ==== Sample browser fetch request with Visual Embed SDK
 
