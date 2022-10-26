@@ -14,7 +14,7 @@ To create an Org on a multi-tenant ThoughtSpot instance, you require cluster adm
 
 . Log in to your ThoughtSpot instance as a cluster administrator.
 . To view the REST API v1 endpoints, go to `\https://<your-ts-cluster-host>/external/swagger/`.
-. For Orgs CRUD operations, use the xref:org-api.adoc[`/tspublic/v1/org/`] endpoints. For all Org operations, you must set the org scope to `ALL` in each of your API requests and pass it as a query parameter in the request URL.
+. For Orgs CRUD operations, use the xref:org-api.adoc[`/tspublic/v1/org/`] endpoints. For all Org operations, you must set the org scope to `ALL` in your API request and pass it as a query parameter in the request URL.
 * To create an Org, send a xref:org-api.adoc#createOrg[`POST` request to the `/tspublic/v1/org/` endpoint] with the Org name and description text in the request body.
 +
 If the API operation is successful, ThoughtSpot creates an Org and assigns a system-generated number as Org ID.
