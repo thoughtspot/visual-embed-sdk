@@ -94,8 +94,6 @@ __For just-in-time (JIT) user provisioning and dynamic group assignment, Thought
 
 [tag greenBackground]#✓# User mapping to Orgs  +
 
-[tag greenBackground]#✓#  Object sharing with other users
-
 a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
 
 [tag greenBackground]#✓#  Object sharing with other users and groups in the Org
@@ -111,7 +109,7 @@ Custom actions| [tag greyBackground]#–# |__Custom action creation and group as
 |Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
 
-__Group provisioning and custom action association API operations are not supported__.
+__Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
 |REST API v2[beta blueBackground]^BETA^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
 |=====
