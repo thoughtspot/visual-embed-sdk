@@ -36,7 +36,7 @@ ThoughtSpot Software [version noBackground]#Not available#
 Gets Orgs for the logged-in user. | ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:session-api.adoc#getOrgsForUser[*GET* /tspublic/v1/session/orgs/users/{userid}]` +
-Gets Orgs for the logged-in user. | ThoughtSpot Cloud [version noBackground]#Coming soon# +
+Gets Orgs for a specific user. | ThoughtSpot Cloud [version noBackground]#Coming soon# +
 ThoughtSpot Software [version noBackground]#Not available#
 |`xref:session-api.adoc#set-home-liveboard[**POST** /tspublic/v1/session/homepinboard]` +
 Sets a specific Liveboard as a home Liveboard.|ThoughtSpot Cloud [version noBackground]#ts7.jun.cl# +
