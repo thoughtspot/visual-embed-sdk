@@ -85,11 +85,9 @@ __SAML and OIDC group synchronization features are not supported at the All Orgs
 
 [tag greenBackground]#✓#  Trusted authentication (Embedded instances) +
 
-__For just-in-time (JIT) user provisioning and dynamic group assignment, ThoughtSpot recommends using the Trusted Authentication method.__+
+__For just-in-time (JIT) user provisioning and dynamic group assignment, ThoughtSpot recommends using the Trusted Authentication method.__
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
-|Data connections and objects a| [tag greenBackground]#✓# Data connection creation and management +
-
-[tag greenBackground]#✓# Object creation and management a|[tag greenBackground]#✓#  Data connection creation and management +
+|Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
 
 [tag greenBackground]#✓#  Object creation and management
 | Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
@@ -122,7 +120,7 @@ a|__All API operations are supported except for the CRUD operations of Orgs__.
 
 The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to authenticate the embedded app users. To determine the authentication method that best suits your deployment, refer to the recommendations listed on the xref:embed-authentication.adoc[Authentication].
 
-If you are using SAML SSO to authenticate the embedded application users, you must configure the `orgs` attribute in the SAML authentication profile on ThoughtSpot to map the user to groups. To configure SAML authentication support for Org mapping, contact ThoughtSpot Support.
+If you are using SAML SSO to authenticate the embedded application users, you must configure the `orgs` attribute in the SAML authentication profile on ThoughtSpot to map the user to Orgs. To configure SAML authentication support for Orgs, contact ThoughtSpot Support.
 
 Your IdP must also have the `orgs` attribute configured to send the Org information in SAML assertion so that the SSO user can be logged in to the appropriate Org. The `orgs` attribute must include all Org names that the user can access.
 
