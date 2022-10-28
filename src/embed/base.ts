@@ -93,12 +93,23 @@ export const prefetch = (url?: string): void => {
         // eslint-disable-next-line no-console
         console.warn('The prefetch method does not have a valid URL');
     } else {
-        const iFrame = document.createElement('iframe');
-        iFrame.src = url || config.thoughtSpotHost;
+        let hostUrl = url || config.thoughtSpotHost; 
+        let iFrame = document.createElement('iframe');
+        iFrame.src = hostUrl;
         iFrame.style.width = '0';
         iFrame.style.height = '0';
         iFrame.style.border = '0';
         iFrame.classList.add('prefetchIframe');
+        document.body.appendChild(iFrame);
+
+        // V2 URL
+        hostUrl += `${hostUrl[hostUrl.length - 1] === '/' ? '' : '/'}v2`;
+        iFrame = document.createElement('iframe');
+        iFrame.src = hostUrl;
+        iFrame.style.width = '0';
+        iFrame.style.height = '0';
+        iFrame.style.border = '0';
+        iFrame.classList.add('prefetchIframeV2');
         document.body.appendChild(iFrame);
     }
 };
