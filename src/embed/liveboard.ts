@@ -41,7 +41,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     defaultHeight?: number;
     /**
-     * If set to true, the context menu in visualizations will be enabled.
+     * @Deprecated If set to true, the context menu in visualizations will be enabled.
      */
     enableVizTransformations?: boolean;
     /**

@@ -10,7 +10,13 @@ import {
     postMessageToParent,
     mockMessageChannel,
 } from '../test/test-utils';
-import { SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef } from './index';
+import {
+    SearchEmbed,
+    AppEmbed,
+    LiveboardEmbed,
+    useEmbedRef,
+    SearchBarEmbed,
+} from './index';
 import { AuthType, init } from '../index';
 
 import { version } from '../../package.json';
@@ -116,6 +122,33 @@ describe('React Components', () => {
                     expect.anything(),
                 );
             });
+        });
+    });
+
+    describe('SearchBarEmbed', () => {
+        it('Should Render the Iframe with props', async () => {
+            const { container } = render(
+                <SearchBarEmbed
+                    hideDataSources={true}
+                    className="embedClass"
+                    dataSources={['test']}
+                    searchOptions={{
+                        searchTokenString: '[revenue]',
+                        executeSearch: true,
+                    }}
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+
+            expect(
+                getIFrameEl(container).parentElement.classList.contains(
+                    'embedClass',
+                ),
+            ).toBe(true);
+            expect(getIFrameSrc(container)).toBe(
+                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,
+            );
         });
     });
 });

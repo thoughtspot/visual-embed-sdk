@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { getThoughtSpotHost } from './config';
+import { getThoughtSpotHost, getV2BasePath } from './config';
 import { AuthType } from './types';
 
 const embedConfig = {
@@ -74,5 +74,14 @@ describe('getThoughtSpotHost', () => {
                     'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
             }),
         ).toBe('http://1.2.3.4:8088/v2');
+    });
+
+    test('Return correct v2 basepath', () => {
+        const basePath = getV2BasePath({
+            basepath: 'test',
+            thoughtSpotHost: '',
+            authType: AuthType.None,
+        });
+        expect(basePath).toBe('test');
     });
 });

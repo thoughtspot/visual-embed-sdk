@@ -1,5 +1,9 @@
 import React from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import {
+    SearchBarEmbed as _SearchBarEmbed,
+    SearchBarViewConfig,
+} from '../embed/search-bar';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import {
@@ -82,6 +86,14 @@ export const PinboardEmbed = componentFactory<
     LiveboardProps,
     LiveboardViewConfig
 >(_LiveboardEmbed);
+
+interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
+
+export const SearchBarEmbed = componentFactory<
+    typeof _SearchBarEmbed,
+    SearchBarEmbedProps,
+    SearchBarViewConfig
+>(_SearchBarEmbed);
 
 export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => {
     return React.useRef<TsEmbed>(null);
