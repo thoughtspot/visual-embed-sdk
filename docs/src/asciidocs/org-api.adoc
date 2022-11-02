@@ -1,8 +1,8 @@
-= Orgs API
+= Org API
 :toc:
 :toclevels: 1
 
-:page-title: Org API
+:page-title: Org API endpoints
 :page-pageid: orgs-api
 :page-description: Use Org APIs to create and manage tenant organizations on your ThoughtSpot instance
 
@@ -10,9 +10,7 @@ The Org API endpoints allow creating and managing multiple tenant-specific conta
 
 == Required permissions
 
-To create and manage an Org on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, the administrator of the `Primary Org (Org 0)` is set as a  cluster administrator.
-
-To perform CRUD operations on Orgs, the cluster administrator must use the `All Org` scope by setting the `orgId` value as `-1` in the API requests.
+To create and manage an Org on a multi-tenant ThoughtSpot instance, you must have Cluster administrator privileges. By default, the administrator of the `Primary Org (Org 0)` is set as a cluster administrator. To perform CRUD operations on Orgs, the cluster administrator must use the `All` Org scope in API requests.
 
 == Supported operations
 
@@ -35,7 +33,7 @@ POST /tspublic/v1/org/
 |Parameter|Type|Description
 |`name` |FormData|__String__. Name of the Org. The Org name string must be unique. Make sure the name string length does not exceed 48 characters.
 |`description`|FormData|__String__. Description of the Org. Make sure the description text does not exceed 124 characters.
-|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
+|`orgScope`|Query|__String__.The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 
 |===
 
@@ -49,7 +47,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'name=OrgA&description=This%20org%20is%20for%20A' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL'
 ----
 
 .Request URL
@@ -106,7 +104,7 @@ PUT /tspublic/v1/org/
 |`name`|FormData|__String__. Name of the Org.
 |`description`|FormData|__String__. Description text associated with the Org.
 |`active`|FormData|__Boolean__. Enables or disables the Org object.
-|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -119,12 +117,12 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'id=5&name=OrgB&description=This%20is%20Org%20B&active=true' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL
 ----
 
 === Example response
@@ -174,7 +172,7 @@ GET /tspublic/v1/org/
 |Query parameter|Description
 |`id`|__Integer__. The ID of the Org object that you want to edit.
 |`name` |__String__. Name of the Org.
-|`orgId`|__Integer__. The ID of the Org context. Set the `orgId` value to `-1`.
+|`orgScope`|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -184,12 +182,12 @@ GET /tspublic/v1/org/
 ----
 curl -X GET \
 --header 'Accept: application/json' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?id=2'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL&id=2'
 ----
 
 .Request URL
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?id=2
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/??orgScope=ALL&id=2
 ----
 
 === Example response
@@ -240,7 +238,7 @@ POST /tspublic/v1/org/search
 |`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
 |`name`|FormData|__String__. Name of the Org.
 |`showinactive`|FormData|__Boolean__. Allows including or excluding inactive Org objects in the API response.
-|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -252,12 +250,12 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'showinactive=true' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/search'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/search?orgScope=ALL'
 ----
 
 .Request URL
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/search
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/search?orgScope=ALL
 ----
 
 === Example response
@@ -350,7 +348,7 @@ DELETE /tspublic/v1/org/
 |Parameter|Type|Description
 |`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
 |`name`|FormData|__String__. Name of the Org.
-|`orgId`|Query|__Integer__. ID of the Org context. Set the `orgId` value to `-1`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -362,12 +360,12 @@ curl -X DELETE \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'id=5' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL'
 ----
 
 .Request URL
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL
 ----
 
 === Example response

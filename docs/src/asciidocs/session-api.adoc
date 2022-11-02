@@ -15,7 +15,6 @@ include::{path}/session-api-list.adoc[]
 
 You require ThoughtSpot login credentials to create a session object and obtain a login token.
 
-
 [#session-login]
 == Sign in as a ThoughtSpot user
 
@@ -203,13 +202,13 @@ If the operation is successful, the API returns a response with the session info
 [#orgSwitch]
 == Switch between Orgs
 
-If your ThoughtSpot instance has multiple Orgs, you can switch between Orgs by using the `/tspublic/v1/session/org/` endpoint.
+If your ThoughtSpot instance has multiple Orgs, you can switch between Orgs by using the `/tspublic/v1/session/orgs` endpoint.
 
 Only the cluster administrator and users that belong to multiple Orgs can switch between the Orgs.
 
 === Resource URL
 ----
-PUT /tspublic/v1/session/org/
+PUT /tspublic/v1/session/orgs
 ----
 
 === Request parameters
@@ -217,9 +216,9 @@ PUT /tspublic/v1/session/org/
 [options='header']
 |===
 |Form parameter|Description
-|`orgid`|__Integer__. ID of the org object. The org ID `0` indicates `Primary Org`.
+|`orgid` a|__Integer__. ID of the Org object. The org ID `0` indicates `Primary Org`. To switch to another Org, specify the Org ID.   +
+To know the Org IDs of the Orgs that you can access, send a GET request to the `/tspublic/v1/session/orgs` endpoint.
 |===
-
 
 === Example request
 
@@ -231,12 +230,12 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'orgid=-1' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/org/
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs
 ----
 
 === Example response
@@ -259,7 +258,7 @@ Response Code
 [#getOrgs]
 == Get Orgs for the logged-in user
 
-To get a list of Orgs for the current logged-in user, send a `GET` request to the `/tspublic/v1/session/orgs` API endpoint.
+To get a list of Orgs for the current logged-in user, send a `GET` request to the `/tspublic/v1/session/orgs` API endpoint. +
 
 * If the logged-in user is a cluster administrator, the API returns all active Orgs. +
 * If the logged-in user belongs to more than one Org, the API returns all the active Orgs to which the user belongs.
@@ -275,7 +274,7 @@ GET /tspublic/v1/session/orgs
 |===
 |Query parameter|Description
 |`batchsize`  __Optional__ |__Integer__. The batch size of the Org objects returned in the API response. The system default is -1. A value of -1 implies all items starting from the offset value.
-|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of Org objects are retrieved. The system default is -1, which implies the first item in the list.
+|`offset` __Optional__ |__Integer__. The batch offset value that indicates the index point starting from which the list of Org objects are retrieved. The system default is -1, which implies the first item in the list.
 |===
 
 === Example request
@@ -351,11 +350,12 @@ GET /tspublic/v1/session/orgs/users/{userid}
 ----
 
 === Request parameters
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Path parameter|Description
-|`userid` |__String_. GUID of the user.
+|Parameter|Type|Description
+|`userid` |Path parameter|__String__. GUID of the user.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -365,12 +365,12 @@ GET /tspublic/v1/session/orgs/users/{userid}
 ----
 curl -X GET \
 --header 'Accept: application/json' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL'
 ----
 
 .Request URL
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL
 ----
 
 === Example response
