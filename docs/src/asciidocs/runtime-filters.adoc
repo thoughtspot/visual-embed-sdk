@@ -15,11 +15,6 @@ You can use runtime filters alongside the REST API and Visual Embed SDK to creat
 Runtime filters are passed as URL query parameters in the `GET` request methods. Make sure the filter values are URL encoded before passing them as parameters.
 ====
 
-[#runtimeFilterOp]
-== Runtime filter operators
-
-include::{path}/runtime-filter.adoc[]
-
 == Supported data types
 
 You can use runtime filters on these data types:
@@ -68,6 +63,285 @@ liveboardEmbed.render({
   });
 ----
 
+[#runtimeFilterOp]
+=== Runtime filter operators
+
+[width="100%" cols="2,1,7"]
+[options='header']
+|=====
+|Operator|Number of values allowed|Example (Visual Embed SDK)
+
+| `EQ` +
+equals
+| 1
+a|
+
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'region',
+        operator: RuntimeFilterOp.EQ,
+        values: ['california']
+    }]
+});
+----
+
+| `NE` +
+does not equal
+| 1
+a| [source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'item type',
+        operator: RuntimeFilterOp.NE,
+        values: ['Jackets']
+    }]
+});
+----
+
+| `LT` +
+less than
+
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.LT,
+        values: ['1000000']
+    }]
+});
+----
+
+| `LE` +
+less than or equal to
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.LE,
+        values: [5000000]
+    }]
+});
+----
+
+| `GT` +
+greater than
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.GT,
+        values: [1000000]
+    }]
+});
+----
+| `GE` +
+greater than or equal to
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.GE,
+        values: [5000000]
+    }]
+});
+----
+
+| `CONTAINS` +
+contains
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'item type',
+        operator: RuntimeFilterOp.CONTAINS,
+        values: ['Bags']
+    }]
+});
+----
+
+| `BEGINS_WITH` +
+begins with
+| 1
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+     runtimeFilters: [{
+          columnName: 'product',
+          operator: RuntimeFilterOp.BEGINS_WITH,
+          values: ['travel']
+     }],
+
+});
+----
+
+| `ENDS_WITH` +
+ends with
+| 1
+a| [source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'item type',
+        operator: RuntimeFilterOp.ENDS_WITH,
+        values: ['shirts']
+    }]
+});
+----
+
+| `BW_INC_MAX` +
+between inclusive of the higher value
+| 2
+a| [source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.BW_INC_MAX,
+        values: ['1000000 & 5000000']
+    }]
+});
+----
+
+| `BW_INC_MIN` +
+between inclusive of the lower value
+| 2
+a| [source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.BW_INC_MIN,
+        values: ['1000000 & 5000000']
+    }]
+});
+----
+
+| `BW_INC` +
+between inclusive
+| 2
+a|
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.BW_INC,
+        values: ['1000000 & 5000000']
+    }]
+});
+----
+
+| `BW` +
+between non-inclusive
+| 2
+a|[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'revenue',
+        operator: RuntimeFilterOp.BW,
+        values: ['1000000 & 5000000']
+    }]
+});
+----
+
+|`IN` +
+is included in this list of values
+|multiple
+a|[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+        columnName: 'item type',
+        operator: RuntimeFilterOp.IN,
+        values: ['jackets','bags', 'shirts']
+    }]
+});
+----
+|=====
+
+==== Apply multiple filters in the SDK
+
+The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
+
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+            columnName: 'item type', // eg: color
+            operator: RuntimeFilterOp.EQ,
+            values: ['Jackets'] // eg: red
+        },
+        {
+            columnName: 'state', // eg: color
+            operator: RuntimeFilterOp.EQ,
+            values: ['California'] // eg: red
+        },
+        {
+            columnName: 'city', // eg: color
+            operator: RuntimeFilterOp.EQ,
+            values: ['Berkeley'] // eg: red
+        }
+    ]
+});
+----
+
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+            columnName: 'item type', // eg: color
+            operator: RuntimeFilterOp.EQ,
+            values: ['Jackets'] // eg: red
+        },
+        {
+            columnName: 'Region',
+            operator: RuntimeFilterOp.IN,
+            values: ['Midwest', 'East', 'West']
+        },
+        {
+            columnName: 'Date',
+            operator: RuntimeFilterOp.EQ,
+            values: ['1656680400']
+        }
+    ]
+});
+----
+
 === Runtime filters in REST API calls
 
 To add a runtime filter to your API call or the embedded object:
@@ -106,7 +380,8 @@ id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 ThoughtSpot will try to find a matching column from the Liveboard or visualization being accessed, using the `col` field as `name`. You can add any number of filters by incrementing the parameters, for example, `col2`, `op2`, and `val2`, and so on.
 
 
-=== Add additional filters
+
+==== Add additional filters
 
 You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2, and so on. To add additional filters on a particular column, you can specify multiple values by separating them with an ampersand (&) as shown in the example here:
 
@@ -137,3 +412,5 @@ If the Liveboard or answer you're filtering already has one or more filters appl
 * If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
+
+
