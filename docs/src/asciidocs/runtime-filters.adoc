@@ -225,7 +225,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.BW_INC_MAX,
-        values: ['1000000 & 5000000']
+        values: ['25','30']
     }]
 });
 ----
@@ -240,7 +240,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.BW_INC_MIN,
-        values: ['1000000 & 5000000']
+        values: ['25','50']
     }]
 });
 ----
@@ -254,9 +254,9 @@ a|
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
     runtimeFilters: [{
-        columnName: 'revenue',
+        columnName: 'sales',
         operator: RuntimeFilterOp.BW_INC,
-        values: ['1000000 & 5000000']
+        values: ['10','50']
     }]
 });
 ----
@@ -269,9 +269,9 @@ a|[source,javascript]
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
     runtimeFilters: [{
-        columnName: 'revenue',
+        columnName: 'sales',
         operator: RuntimeFilterOp.BW,
-        values: ['1000000','5000000']
+        values: ['25','50']
     }]
 });
 ----
