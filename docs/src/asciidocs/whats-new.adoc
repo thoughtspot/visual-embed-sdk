@@ -25,14 +25,25 @@ The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded insta
 
 For more information, see xref:embed-authentication.adoc[Authentication].
 
+=== Just-in-time user creation and dynamic privilege assignment
+
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
+
+
+
 ////
 === Multi-tenancy with Orgs [beta betaBackground]^Beta^
 <TBD>
-////
+
 
 === Advanced style customization [beta betaBackground]^Beta^
 
 <TBD>
+////
+
+=== Visual Embed SDK version 1.17.0
+
+For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 

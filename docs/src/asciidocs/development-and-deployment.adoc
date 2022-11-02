@@ -376,7 +376,7 @@ For the parent:child guid mapping process for SDLC promotion to work, you *must 
 
 [source,yaml]
 ----
-pinboard:
+liveboard:
   name: <Liveboard_name>
   description:
     This is a multi-line description of the Liveboard

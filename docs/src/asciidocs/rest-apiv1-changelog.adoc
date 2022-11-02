@@ -10,7 +10,15 @@ This changelog lists only the changes introduced in REST API v1. For a complete 
 
 == Version 8.9.0.cl, Coming soon
 
-ThoughtSpot now supports Just-in-time (JIT) provisioning of users and assigning users to groups with the trusted authentication method. The xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint includes the `autocreate` and `groups` properties to allow the authenticator service administrator to create a user and assign the user to groups when requesting a login token via REST API.
+Session API::
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint includes the `autocreate` and `groups` properties to allow administrators to create a user just-in-time and assign groups and privileges to the user when requesting an authentication token from ThoughtSpot.
+
+TML API::
+In 8.9.0.cl, ThoughtSpot will rebrand the object name `pinboard` to `liveboard` in the TML. The TML objects retrieved from ThoughtSpot via `/tspublic/v1/metadata/tml/export` API endpoint will show the object name as `liveboard` in the API response.
+
+User API::
+
+The POST /tspublic/v1/user/ and PUT /tspublic/v1/user/{userid} API endpoints allow you set the `triggeredbyadmin` to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
 
 == Version 8.8.0.cl, October 2022
 
