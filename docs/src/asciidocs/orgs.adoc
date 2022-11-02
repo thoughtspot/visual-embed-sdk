@@ -76,14 +76,15 @@ a| [tag greenBackground]#✓#  User creation and management +
 
 [tag greenBackground]#✓# User association to groups
 |Groups and privileges| [tag greyBackground]#–# |__Groups and privilege configuration and management are restricted to Org context only.__
-|Authentication a| [tag greenBackground]#✓#  Local authentication +
+|Authentication a| [tag greenBackground]#✓#  Local authentication configuration +
 
-[tag greenBackground]#✓#  SAML authentication setup +
+[tag greenBackground]#✓#  SAML authentication configuration +
 
-[tag greenBackground]#✓#  OIDC authentication setup +
-__SAML and OIDC group synchronization features are not supported at the All Orgs level__ a| [tag greenBackground]#✓#  Local authentication setup +
+[tag greenBackground]#✓#  OIDC authentication configuration + 
 
-[tag greenBackground]#✓#  Trusted authentication (Embedded instances) +
+__SAML and OIDC group synchronization features are not supported at the All Orgs level__ a| [tag greenBackground]#✓#  Local authentication of clients +
+
+[tag greenBackground]#✓#  Trusted authentication (on embedded instances) +
 
 __For just-in-time (JIT) user provisioning and dynamic group assignment, ThoughtSpot recommends using the Trusted Authentication method.__
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
