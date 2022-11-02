@@ -66,12 +66,13 @@ To download a Liveboards with unsaved change, pass the `transient_pinboard_conte
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes to the following:
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/export/pinboard/pdf` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including unsaved changes to the following:
 
 * Liveboard filters
+* Runtime filters applied on visualizations on a Liveboard
 * Liveboard layout
 
-If the new Liveboard experience is enabled, the transient content includes ad hoc changes to the visualization content such as sorting, toggling of legends, and data drill down.
+If the new Liveboard experience is enabled, the transient content includes ad hoc changes to visualizations such as sorting, toggling of legends, and data drill down.
 
 ==== Sample browser fetch request with Visual Embed SDK
 

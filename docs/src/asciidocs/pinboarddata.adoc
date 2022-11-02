@@ -63,14 +63,22 @@ For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 re
 [#transient-pinboard]
 == Liveboard data with unsaved changes
 
-To download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
+To download retrieve a Liveboard with unsaved changes, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
 
 [source,javascript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+The promise returned resolves to a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including unsaved changes to the following:
+
+* Liveboard filters
+* Runtime filters applied on visualizations on a Liveboard
+* Liveboard layout
+
+If the new Liveboard experience is enabled, the transient content includes ad hoc changes to visualizations such as sorting, toggling of legends, and data drill down.
 
 === Sample browser fetch request
 [source,javascript]
