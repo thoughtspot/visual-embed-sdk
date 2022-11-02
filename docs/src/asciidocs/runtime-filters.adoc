@@ -271,7 +271,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.BW,
-        values: ['1000000 & 5000000']
+        values: ['1000000','5000000']
     }]
 });
 ----
