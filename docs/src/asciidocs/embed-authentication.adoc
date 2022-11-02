@@ -44,7 +44,7 @@ Do not use this authentication method in production environments.
 [#basic-auth-embed]
 === Basic authentication
 
-The basic authentication option in the SDK sends a `POST` request with the `username` and `password` of the user to the `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. This option allows users to log in to the embedded ThoughtSpot view  with their `username` and `password`.
+The basic authentication option in the SDK sends a `POST` request with the `username` and `password` of the user to the `xref:session-api.adoc#session-login[/tspublic/v1/session/login]` API endpoint. This option uses the `username` and `password` parameters in the `init()` function to sign-in. Passwords should never be hard-coded into your code unless you have a dedicated "public service account user" expressly for the purpose and without worries about security.
 
 To enable basic authentication method in the Visual Embed SDK, set the `authType` attribute to `Basic` as shown here:
 
@@ -53,6 +53,8 @@ To enable basic authentication method in the Visual Embed SDK, set the `authType
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.Basic,
+    username: "username",
+    password: "password"
 });
 ----
 
