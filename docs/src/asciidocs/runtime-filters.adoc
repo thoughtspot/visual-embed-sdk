@@ -47,7 +47,7 @@ The runtime filters are specified in the request URL as parameters. To apply run
 * xref:visual-embed-sdk.adoc[Embed a visualization or Liveboard] using the Visual Embed SDK
 * Use the xref:pinboarddata.adoc[REST API to retrieve a visualization or Liveboard]
 
-=== Runtime filters for embedded Liveboard or visualization
+=== Embedded Liveboard and visualizations
 
 This example shows how to define RuntimeFilter parameters when rendering a Liveboard visualization using the Visual Embed SDK. Here, the runtime filter is operating on the `Revenue` column and will return values that equal to `100000`.
 
@@ -58,7 +58,7 @@ liveboardEmbed.render({
       runtimeFilters: [{
       columnName: 'Revenue',
       operator: RuntimeFilterOp.EQ,
-      values: [ 100000 ]
+      values: ['100000' ]
       }]
   });
 ----
@@ -81,7 +81,7 @@ a|
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
     runtimeFilters: [{
-        columnName: 'region',
+        columnName: 'state',
         operator: RuntimeFilterOp.EQ,
         values: ['california']
     }]
@@ -98,7 +98,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'item type',
         operator: RuntimeFilterOp.NE,
-        values: ['Jackets']
+        values: ['jackets']
     }]
 });
 ----
@@ -131,7 +131,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.LE,
-        values: [5000000]
+        values: ['5000000']
     }]
 });
 ----
@@ -147,7 +147,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.GT,
-        values: [1000000]
+        values: ['1000000']
     }]
 });
 ----
@@ -162,7 +162,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'revenue',
         operator: RuntimeFilterOp.GE,
-        values: [5000000]
+        values: ['5000000']
     }]
 });
 ----

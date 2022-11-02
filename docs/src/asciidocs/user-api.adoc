@@ -826,8 +826,11 @@ The email address of the user. This field is populated only for the user objects
 +
 Type of the user created in the ThoughtSpot system. For example:
 
-** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system.  
-** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system.
+** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system
+** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system
+** `SAML_USER` for SSO users authenticated by a SAML IdP
+** `OIDC_USER` for SSO users authenticated by an OpenID provider via OIDC protocol
+** `LDAP_GROUP` for groups synchronized from an LDAP server
 
 * `password`
 +
