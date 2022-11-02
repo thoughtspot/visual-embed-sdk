@@ -301,19 +301,19 @@ The following examples show how to apply multiple runtime filters on Liveboard v
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
     runtimeFilters: [{
-            columnName: 'item type', // eg: color
+            columnName: 'item type',
             operator: RuntimeFilterOp.EQ,
-            values: ['Jackets'] // eg: red
+            values: ['Jackets']
         },
         {
-            columnName: 'state', // eg: color
+            columnName: 'state',
             operator: RuntimeFilterOp.EQ,
-            values: ['California'] // eg: red
+            values: ['California']
         },
         {
-            columnName: 'city', // eg: color
+            columnName: 'city',
             operator: RuntimeFilterOp.EQ,
-            values: ['Berkeley'] // eg: red
+            values: ['Berkeley']
         }
     ]
 });
