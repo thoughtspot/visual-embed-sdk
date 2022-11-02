@@ -1041,5 +1041,5 @@ export enum PrefetchFeatures {
     FullApp = 'FullApp',
     SearchEmbed = 'SearchEmbed',
     LiveboardEmbed = 'LiveboardEmbed',
-    VizEmbed = 'VizEmbed'
+    VizEmbed = 'VizEmbed',
 }
