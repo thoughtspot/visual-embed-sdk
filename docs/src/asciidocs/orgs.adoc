@@ -54,7 +54,7 @@ If a cluster administrator wants to perform a Create, Read, Update, or Delete (C
 [NOTE]
 ====
 * The `Primary Org (Org 0)` is the default Org and cannot be deleted.
-* Each Org is identified by a unique number and can have its own users and groups.
+* Each Org is identified by a unique name and ID, and can have its own users and groups.
 * Groups are unique to an Org and can be created only within the context of an Org.
 * A user can belong to multiple Orgs and can switch between the Org context. At any given time, a user can only access objects and data in the Org they have logged into.
 * A user from one Org cannot share an object with the users of another Org.
@@ -124,7 +124,7 @@ Your IdP must also have the `orgs` attribute configured to send the Org informat
 
 [IMPORTANT]
 ====
-ThoughtSpot doesn't support Mapping SAML groups to ThoughtSpot groups on a multi-tenant cluster. Therefore, we recommend using xref:trusted-authentication.adoc[Trusted authentication], which supports just-in-time user creation, dynamic group mapping, and privilege assignment.
+ThoughtSpot doesn't support automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster. Therefore, we recommend using xref:trusted-authentication.adoc[Trusted authentication], which supports just-in-time user creation, dynamic group mapping, and privilege assignment.
 ====
 
 === Just-in-time user creation and dynamic privilege assignment
@@ -139,7 +139,7 @@ For more information, see xref:session-api.adoc#session-authToken[Obtain an auth
 
 [NOTE]
 =====
-Before you get started with Orgs, make sure you read the documentation and understand the feature limitations of a multi-tenant setup.
+Before you get started with Orgs, make sure you read the documentation and understand the features supported on a multi-tenant setup.
 =====
 To get started with Orgs:
 
