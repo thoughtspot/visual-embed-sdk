@@ -379,8 +379,6 @@ id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 
 ThoughtSpot will try to find a matching column from the Liveboard or visualization being accessed, using the `col` field as `name`. You can add any number of filters by incrementing the parameters, for example, `col2`, `op2`, and `val2`, and so on.
 
-
-
 ==== Add additional filters
 
 You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2, and so on. To add additional filters on a particular column, you can specify multiple values by separating them with an ampersand (&) as shown in the example here:
