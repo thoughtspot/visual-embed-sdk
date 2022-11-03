@@ -813,6 +813,11 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Present = 'present',
+    /**
+     * Get TML for the current search.
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
+     */
+    GetTML = 'getTML',
 }
 
 /**
