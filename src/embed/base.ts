@@ -94,6 +94,7 @@ const hostUrlToFeatureUrl = {
 /**
  * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
  * @param url The URL provided for prefetch
+ * @param prefetchFeatures Specify features which needs to be prefetched.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
  */
 export const prefetch = (
