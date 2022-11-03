@@ -1036,3 +1036,10 @@ export enum OperationType {
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
+
+export enum PrefetchFeatures {
+    FullApp = 'FullApp',
+    SearchEmbed = 'SearchEmbed',
+    LiveboardEmbed = 'LiveboardEmbed',
+    VizEmbed = 'VizEmbed',
+}

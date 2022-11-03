@@ -69,6 +69,25 @@ describe('Base TS Embed', () => {
         expect(firstIframe.src).toBe(url);
     });
 
+    test('Should add the prefetch iframe when prefetch is called with multiple options', async () => {
+        const url = 'https://10.87.90.95/';
+        const searchUrl = `${url}v2/#/embed/answer`;
+        const liveboardUrl = url;
+        index.prefetch(url, [
+            index.PrefetchFeatures.SearchEmbed,
+            index.PrefetchFeatures.LiveboardEmbed,
+        ]);
+        expect(getAllIframeEl().length).toBe(2);
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
+            '.prefetchIframe',
+        );
+        expect(prefetchIframe.length).toBe(2);
+        const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
+        expect(firstIframe.src).toBe(searchUrl);
+        const secondIframe = <HTMLIFrameElement>prefetchIframe[1];
+        expect(secondIframe.src).toBe(liveboardUrl);
+    });
+
     test('Should not generate a prefetch iframe when url is empty string', async () => {
         const url = '';
         index.prefetch(url);
