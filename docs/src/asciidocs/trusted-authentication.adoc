@@ -170,8 +170,8 @@ For example, you could implement the xref:group-api.adoc#create-group[create gro
 
 To disable trusted authentication, follow these steps:
 
-. Go to *Develop* > *Customizations* > *Settings*.
-. On the *Settings* page, click *Edit* and turn off the *Trusted authentication* toggle.
+. Go to *Develop* > *Customizations* > *Security settings*.
+. Click *Edit* and turn off the *Trusted authentication* toggle.
 +
 A pop-up window appears and prompts you to confirm the disable action.
 
