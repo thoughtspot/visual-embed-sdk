@@ -58,7 +58,16 @@ liveboardEmbed.trigger(HostEvent.CopyLink, {
 
 ==== DrillDown
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
-Triggers a drill-down event when a user clicks on a specific point in a column.  +
+Triggers a drill-down event on certain points of the specified column.  +
+
+Requires the following parameters:
+
+* `points` +
+Data points to drill down to. Returns clicked and selected data points of a visualization object.
+* `columnGuid`  __Optional__ +
+__String__. GUID of the column to drill by.
+* `autoDrillDown`  __Optional__ +
+__Boolean__. When set to `true`, automatically drills down to the selected points on the configured column.
 
 [div divider]
 --
@@ -116,6 +125,7 @@ liveboardEmbed.trigger(HostEvent.DownloadAsPDF {
 ==== Edit
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+
 Triggers the *Edit* mode on a Liveboard. To trigger the *Edit* action for a specific visualization on a Liveboard, specify the visualization GUID.
 
 [div divider]
@@ -123,11 +133,14 @@ Triggers the *Edit* mode on a Liveboard. To trigger the *Edit* action for a spec
 .Example
 [%collapsible]
 ====
+The following example triggers the `Edit` action on a Liveboard.
+
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit)
 ----
 
+The following example triggers the `Edit` action on the specified visualization in a Liveboard.
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit,  {
@@ -251,7 +264,7 @@ Triggers the *Manage alert*  action on a Liveboard visualization. This action is
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.ManageMonitor, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -269,8 +282,8 @@ Is triggered when a user navigates to an application page without reloading the 
 [source,javascript]
 ----
 appEmbed.trigger(HostEvent.Navigate, {
-   path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
-   noReload: true
+path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
+noReload: true
 });
 ----
 --
@@ -288,7 +301,7 @@ Triggers the *Pin* action on a Liveboard visualization.  +
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Pin, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -313,22 +326,7 @@ liveboardEmbed.trigger(HostEvent.Present)
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Present, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-====
---
-
-==== Search
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
-Is triggered when a search operation is executed. The event returns the data source GUID and search query details. +
-[div divider]
---
-.Example
-[%collapsible]
-====
-[source,javascript]
-----
-searchEmbed.trigger(HostEvent.Search)
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -347,6 +345,32 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [source, javascript]
 ----
 appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== Search
+Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
+Triggers a search query. +
+Requires the following parameters: +
+
+* `searchQuery`  __String__ +
+The search query string
+
+* `dataSourceIds` __String__ +
+Data source GUIDs
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,javascript]
+----
+searchEmbed.trigger(HostEvent.Search {
+searchQuery: "[sales] by [item type]"
+dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+})
 ----
 ====
 --
@@ -403,9 +427,30 @@ liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2'])
 ====
 --
 
+
 ==== UpdateRuntimeFilters
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.8.0` or later. +
-Triggers an event to update runtime filters. The following example shows how to register an event handler to trigger an event when the runtime filters are updated. +
+Triggers an event to update runtime filters. You can specify an array runtime filters with the following attributes:
+
+* `columnName`  +
+__String__. The name of the column to filter on.
+
+* `operator` +
+Runtime filter operator to apply.
+
+     * The operator to apply
+     */
+    operator: RuntimeFilterOp;
+    /**
+     * The list of operands. Some operators like EQ, LE accept
+     * a single operand, whereas other operators like BW and IN accept multiple operands.
+     */
+    values: (number | boolean | string)[];
+
+
+The following example shows how to register an event handler to trigger an event when the runtime filters are updated. +
+
+
 [div divider]
 --
 .Example
@@ -414,9 +459,9 @@ Triggers an event to update runtime filters. The following example shows how to 
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
-    columnName: "state",
-    operator: "EQ",
-    values: ["michigan"]
+columnName: "state",
+operator: "EQ",
+values: ["michigan"]
 }]);
 ----
 ====
@@ -458,7 +503,7 @@ Triggers all embed events. +
 [source, javascript]
 ----
 appEmbed.on(EmbedEvent.ALL, payload => {
-    console.log('Embed Events', payload)
+console.log('Embed Events', payload)
 })
 ----
 ====
@@ -477,7 +522,7 @@ Returns the GUIDs of the selected columns. +
 [source,Javascript]
 ----
 appEmbed.on(EmbedEvent.AddRemoveColumns, payload => {
-    console.log('AddRemoveColumns', payload);
+console.log('AddRemoveColumns', payload);
 })
 ----
 ====
@@ -513,7 +558,7 @@ Is triggered when a user switches to the chart or table view on the answer page.
 [source,Javascript]
 ----
 appEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
-    console.log('switch view', payload);
+console.log('switch view', payload);
 })
 ----
 ====
@@ -1235,3 +1280,4 @@ appEmbed.off(EmbedEvent.AuthInit)
 * For information about common use cases and how to use events for app integration, see xref:embed-events.adoc[Events and app integration].
 * For information about triggering events on React components, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
 * See also the link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.
+
