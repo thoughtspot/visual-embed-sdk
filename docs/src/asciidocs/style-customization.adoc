@@ -1,0 +1,77 @@
+= Customize styles and layout
+:toc: true
+:toclevels: 1
+
+:page-title: Customize styles and layout
+:page-pageid: style-customization
+:page-description: Customize styles, design, and layout of embedded ThoughtSpot app using UI and custom CSS
+
+ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following customization options to customize the appearance of embedded content and create a uniform experience for the users of your app.
+
+Style customization features in the ThoughtSpot UI::
+
+You can customize key UI components, such as your application logo & favicon, font style for charts and tables, background color of the UI, background color of the navigation panel, the color palette for your charts, page title, and footer text either using the *Style customization* menu in the Admin tab or by navigating to *Develop* > *Customizations* > *Styles*. To learn how to use these controls, see xref:customize-style.adoc[Customize layout and styles].
+
+Advanced style customization with custom CSS::
+Custom CSS allows developers to override the default styles and element specifications in their deployments. Custom CSS provides granular control over the appearance of UI elements and allows you to modify design elements such as buttons, labels, and typography.
++
+To customize themes and variables in the CSS, developers are required to know the basics of HTML and CSS framework and how to build themes. For more information, see xref:css-customization.adoc[Advanced customization with custom CSS].
++
+This feature is available only with the ThoughtSpot Everywhere Edition license.
+
+[IMPORTANT]
+====
+If you apply customization changes both via UI and custom CSS, the custom CSS changes take precedence and override the style customization settings in the UI.
+====
+
+== Scope of customization
+
+The following table lists the customizable elements:
+
+[div tableContainer]
+--
+[width="100%" cols="4,5,5"]
+[options='header']
+|=====
+|UI element|Customization via UI| Customization with CSS
+|Application-wide settings| [tag greenBackground]#✓# Background color +
+
+[tag greenBackground]#✓# Navigation panel color +
+
+[tag greenBackground]#✓# Logo +
+
+[tag greenBackground]#✓# Favicon | [tag greenBackground]#✓# Background color +
+
+[tag greenBackground]#✓# Navigation panel color +
+
+[tag greenBackground]#✓# Logo +
+[tag greenBackground]#✓# Favicon +
+|Fonts, text, and Typography|[tag greenBackground]#✓# Font face settings for charts and tables +
+
+[tag greenBackground]#✓# Page title +
+
+[tag greenBackground]#✓# Footer text +
+| [tag greenBackground]#✓# Font face, text color, and text-transform settings for the entire app +
+
+[tag greenBackground]#✓# Visualization and chart title styles +
+
+[tag greenBackground]#✓# Page title +
+
+[tag greenBackground]#✓# Footer text +
+
+|Charts and visualizations| [tag greenBackground]#✓# Color palette |
+
+[tag greenBackground]#✓# Header text and color settings +
+
+[tag greenBackground]#✓# Visualization area customization such as border-radius and background color. +
+
+|Buttons and labels|[tag greyBackground]#–# |[tag greenBackground]#✓# Color and border-radius of primary, secondary, and tertiary buttons
+|Search bar|[tag greyBackground]#–# |[tag greenBackground]#✓# Search bar +
+
+[tag greenBackground]#✓# The *Go* button on the search bar.
+|=====
+
+
+
+
+

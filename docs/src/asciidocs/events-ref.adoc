@@ -1170,8 +1170,10 @@ searchEmbed.on(EmbedEvent.RouteChange, payload => console.log('data', payload))
 --
 ==== Save
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when an answer is saved in the embedded view.
+Available with `SearchEmbed` and  `AppEmbed` in `V1.11.0` or later, and with `LiveboardEmbed` in 1.15.0 or later versions. +
+
+Is triggered when an answer or Liveboard (new Liveboard experience only) is saved in the embedded view. +
+
 [div divider]
 --
 .Example
@@ -1191,8 +1193,24 @@ searchEmbed.on(EmbedEvent.Save, payload => {
     console.log('Save', payload)
 })
 ----
+
+[source,javascript]
+----
+  //trigger when action starts
+liveboardEmbed.on(EmbedEvent.Save, payload => {
+    console.log('Save', payload)
+}, {
+    start: true
+})
+  //trigger when action ends
+liveboardEmbed.on(EmbedEvent.Save, payload => {
+    console.log('Save', payload)
+})
+----
+
 ====
 --
+
 
 ==== SaveAsView
 

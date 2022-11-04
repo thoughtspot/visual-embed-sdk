@@ -67,7 +67,9 @@
 ** link:{{navprefix}}=custom-action-payload[Callback response payload]
 
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
-** link:{{navprefix}}=customize-style[Customize layout and styles]
+** link:{{navprefix}}=customize-style[style-customization]
+*** link:{{navprefix}}=customize-style[Style customization in the UI]
+*** link:{{navprefix}}=custom-css[Advanced customization with custom CSS]
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
