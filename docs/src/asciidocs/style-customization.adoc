@@ -12,7 +12,7 @@ Style customization features in the ThoughtSpot UI::
 
 You can customize key UI components, such as your application logo & favicon, font style for charts and tables, background color of the UI, background color of the navigation panel, the color palette for your charts, page title, and footer text either using the *Style customization* menu in the Admin tab or by navigating to *Develop* > *Customizations* > *Styles*. To learn how to use these controls, see xref:customize-style.adoc[Customize layout and styles].
 
-Advanced style customization with custom CSS::
+Advanced style customization with custom CSS[beta betaBackground]^Beta^::
 Custom CSS allows developers to override the default styles and element specifications in their deployments. Custom CSS provides granular control over the appearance of UI elements and allows you to modify design elements such as buttons, labels, and typography.
 +
 To customize themes and variables in the CSS, developers are required to know the basics of HTML and CSS framework and how to build themes. For more information, see xref:css-customization.adoc[Advanced customization with custom CSS].
