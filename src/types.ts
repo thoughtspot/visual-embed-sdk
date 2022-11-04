@@ -1024,6 +1024,9 @@ export enum Action {
      * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     ReportError = 'reportError',
+    SyncToSheets = 'sync-to-sheets',
+    SyncToOtherApps = 'sync-to-other-apps',
+    ManagePipelines = 'manage-pipeline',
 }
 
 export interface SessionInterface {
