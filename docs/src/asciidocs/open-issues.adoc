@@ -6,12 +6,29 @@
 :page-pageid: known-issues
 :page-description: Bug fixes and improvements
 
-This page lists the known issues that you might run into while embedding ThoughtSpot in your app, using the embedded interface, or making REST API calls.
+This page lists the known issues that you might run into while embedding ThoughtSpot in your app, or when using the embedded interface or making REST API calls.
 
 
 == Version 8.9.0.cl
 
-<TBD>
+[cols="15%,35%,50%"]
+[options='header']
+|===
+|Issue ID |Description| Symptoms, conditions, and workaround
+
+|SCAL-117106| The User account gets locked after a single bad token login attempt a|
+*Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the  application locks that user's account. +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with the trusted authentication setup. +
+
+*Workaround*: If you are using the trusted authentication method to authenticate your users, make sure the `getAuthToken` function in the SDK returns a fresh token for each re-login. Avoid using older tokens to renew a user session.
+|SCAL-133342 a| The visualizations with no data take a long time to load in an embedded Liveboard. a|
+*Symptom*:  In the Liveboard classic experience mode, when chart visualizations have no data, they clog the render queue and slow down the Liveboard rendering process. The PDF download function also does not work on such Liveboards.  +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with 8.4.0.cl or 8.4.1.sw or later release versions. +
+
+*Workaround*: None
+|===
 
 == Version 8.8.0.cl
 
@@ -28,7 +45,7 @@ a| The REST API v2 Playground [beta betaBackground]^Beta^ does not load request 
 *Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl and 8.6.0.cl release versions. +
 
 *Workaround*: Use REST API v1 endpoints for production use cases.
-|SCAL-117106| User account gets locked after a single bad token login attempt a|
+|SCAL-117106| The user account gets locked after a single bad token login attempt a|
 *Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the  application locks that user's account. +
 
 *Condition*: This issue is observed in ThoughtSpot deployments with the trusted authentication setup. +
