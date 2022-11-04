@@ -70,8 +70,3 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# The *Go* button on the search bar.
 |=====
-
-
-
-
-
