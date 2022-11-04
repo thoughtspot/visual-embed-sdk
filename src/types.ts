@@ -58,11 +58,11 @@ interface customCssInterface {
 }
 interface CustomStyles {
     customCSSUrl?: string;
-    customCss?: customCssInterface;
+    customCSS?: customCssInterface;
 }
 export interface CustomisationsInterface {
-    style: CustomStyles;
-    content: {
+    style?: CustomStyles;
+    content?: {
         [key: string]: string;
     };
 }
@@ -215,7 +215,7 @@ export interface EmbedConfig {
      *
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl
      */
-    customisations?: CustomisationsInterface;
+    customizations?: CustomisationsInterface;
 }
 
 /**

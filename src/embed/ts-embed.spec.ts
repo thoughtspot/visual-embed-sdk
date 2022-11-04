@@ -66,7 +66,7 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                customisations,
+                customizations: customisations,
             });
         });
 
