@@ -484,7 +484,7 @@ columnName: "item type",
 operator: "EQ",
 values: ["Jackets"]
 }
-]);
+])
 ----
 ====
 --
