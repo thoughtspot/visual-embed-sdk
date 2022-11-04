@@ -27,6 +27,7 @@ import {
     DataSourceVisualMode,
     Action,
     EmbedConfig,
+    PrefetchFeatures,
 } from './types';
 
 export {
@@ -54,4 +55,5 @@ export {
     SearchBarViewConfig,
     LiveboardViewConfig,
     AppViewConfig,
+    PrefetchFeatures,
 };

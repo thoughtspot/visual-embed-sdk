@@ -8,8 +8,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
+import _ from 'lodash';
 import { getThoughtSpotHost } from '../config';
-import { AuthType, EmbedConfig } from '../types';
+import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
 import {
     authenticate,
     logout as _logout,
@@ -83,23 +84,42 @@ export const handleAuth = (): Promise<boolean> => {
     return authPromise;
 };
 
+const hostUrlToFeatureUrl = {
+    [PrefetchFeatures.SearchEmbed]: (url: string) => `${url}v2/#/embed/answer`,
+    [PrefetchFeatures.LiveboardEmbed]: (url: string) => url,
+    [PrefetchFeatures.FullApp]: (url: string) => url,
+    [PrefetchFeatures.VizEmbed]: (url: string) => url,
+};
+
 /**
  * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
  * @param url The URL provided for prefetch
+ * @param prefetchFeatures Specify features which needs to be prefetched.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
  */
-export const prefetch = (url?: string): void => {
+export const prefetch = (
+    url?: string,
+    prefetchFeatures?: PrefetchFeatures[],
+): void => {
     if (url === '') {
         // eslint-disable-next-line no-console
         console.warn('The prefetch method does not have a valid URL');
     } else {
-        const iFrame = document.createElement('iframe');
-        iFrame.src = url || config.thoughtSpotHost;
-        iFrame.style.width = '0';
-        iFrame.style.height = '0';
-        iFrame.style.border = '0';
-        iFrame.classList.add('prefetchIframe');
-        document.body.appendChild(iFrame);
+        const features = prefetchFeatures || [PrefetchFeatures.FullApp];
+        let hostUrl = url || config.thoughtSpotHost;
+        hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
+        _.uniq(
+            features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl)),
+        ).forEach((prefetchUrl, index) => {
+            const iFrame = document.createElement('iframe');
+            iFrame.src = prefetchUrl;
+            iFrame.style.width = '0';
+            iFrame.style.height = '0';
+            iFrame.style.border = '0';
+            iFrame.classList.add('prefetchIframe');
+            iFrame.classList.add(`prefetchIframeNum-${index}`);
+            document.body.appendChild(iFrame);
+        });
     }
 };
 

@@ -93,6 +93,9 @@
 						<a href="enums/Page.html" class="tsd-kind-icon">Page</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/PrefetchFeatures.html" class="tsd-kind-icon">Prefetch<wbr>Features</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/RuntimeFilterOp.html" class="tsd-kind-icon">Runtime<wbr>Filter<wbr>Op</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -100,6 +103,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/LiveboardEmbed.html" class="tsd-kind-icon">Liveboard<wbr>Embed</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/SearchBarEmbed.html" class="tsd-kind-icon">Search<wbr>Bar<wbr>Embed</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/SearchEmbed.html" class="tsd-kind-icon">Search<wbr>Embed</a>
@@ -115,6 +121,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/RuntimeFilter.html" class="tsd-kind-icon">Runtime<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/SearchBarViewConfig.html" class="tsd-kind-icon">Search<wbr>Bar<wbr>View<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/SearchViewConfig.html" class="tsd-kind-icon">Search<wbr>View<wbr>Config</a>
@@ -139,6 +148,7 @@
 						<section class="tsd-index-section">
 							<h3>Search Embed</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-class"><a href="classes/SearchBarEmbed.html" class="tsd-kind-icon">Search<wbr>Bar<wbr>Embed</a></li>
 								<li class="tsd-kind-class"><a href="classes/SearchEmbed.html" class="tsd-kind-icon">Search<wbr>Embed</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/SearchViewConfig.html" class="tsd-kind-icon">Search<wbr>View<wbr>Config</a></li>
 							</ul>
@@ -168,9 +178,11 @@
 								<li class="tsd-kind-enum"><a href="enums/EmbedEvent.html" class="tsd-kind-icon">Embed<wbr>Event</a></li>
 								<li class="tsd-kind-enum"><a href="enums/HostEvent.html" class="tsd-kind-icon">Host<wbr>Event</a></li>
 								<li class="tsd-kind-enum"><a href="enums/Page.html" class="tsd-kind-icon">Page</a></li>
+								<li class="tsd-kind-enum"><a href="enums/PrefetchFeatures.html" class="tsd-kind-icon">Prefetch<wbr>Features</a></li>
 								<li class="tsd-kind-enum"><a href="enums/RuntimeFilterOp.html" class="tsd-kind-icon">Runtime<wbr>Filter<wbr>Op</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/EmbedConfig.html" class="tsd-kind-icon">Embed<wbr>Config</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/RuntimeFilter.html" class="tsd-kind-icon">Runtime<wbr>Filter</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/SearchBarViewConfig.html" class="tsd-kind-icon">Search<wbr>Bar<wbr>View<wbr>Config</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#init" class="tsd-kind-icon">init</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#logout" class="tsd-kind-icon">logout</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#prefetch" class="tsd-kind-icon">prefetch</a></li>
@@ -191,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/32fc1db0/src/embed/base.ts#L116">embed/base.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/700a4563/src/embed/base.ts#L136">embed/base.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +244,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/32fc1db0/src/embed/base.ts#L151">embed/base.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/700a4563/src/embed/base.ts#L178">embed/base.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,13 +278,13 @@
 					<a name="prefetch" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> prefetch</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">prefetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">prefetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, prefetchFeatures<span class="tsd-signature-symbol">?: </span><a href="enums/PrefetchFeatures.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PrefetchFeatures</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/32fc1db0/src/embed/base.ts#L91">embed/base.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/700a4563/src/embed/base.ts#L100">embed/base.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,6 +303,12 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> url: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The URL provided for prefetch</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> prefetchFeatures: <a href="enums/PrefetchFeatures.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PrefetchFeatures</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specify features which needs to be prefetched.</p>
 									</div>
 								</li>
 							</ul>
