@@ -46,7 +46,7 @@ ThoughtSpot provides a default CSS file containing the most common variables and
 
 The following example shows the supported variables:
 
-[width="100%" cols="6,5,6"]
+[width="100%" cols="7,5,5"]
 [options='header']
 |======
 |Variable|UI element/area|  Description
@@ -69,15 +69,15 @@ Border-radius of main buttons. For example, the *Search data* button in the top 
 Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons.
 |`--ts-var-button--primary-color`|Primary buttons|Element-level setting +
 Font color of the text on primary buttons. For example, the *Go* button on the search bar, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
-|`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting
+|`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting +
 Font family specification for the text on primary buttons.
 |`--ts-var-button--primary-background`|Primary buttons|Element-level setting +
 Background color of the primary action buttons. For example, the primary action buttons such as *Pin* and *Save* on the answer page, data workspace, SpotIQ, or Home page.
 |`--ts-var-button--primary--hover-background`|Primary buttons|Element-level setting +
 Background color of the primary action buttons when a pointer hovers over these buttons.
-|`--ts-var-button--secondary-color`|Secondary button| Element-level setting
+|`--ts-var-button--secondary-color`|Secondary button| Element-level setting +
 Font color of the text on the secondary action buttons.
-|`--ts-var-button--secondary--font-family`|Secondary button| Element-level setting
+|`--ts-var-button--secondary--font-family`|Secondary button| Element-level setting +
 Font family specification for the text on the secondary action buttons.
 |`--ts-var-button--secondary-background`|Secondary action button|Element-level setting +
 Background color of the secondary action buttons.
