@@ -1,0 +1,141 @@
+= Customize CSS using SDK
+:toc: true
+:toclevels: 1
+
+:page-title: Customize styles and layout
+:page-pageid: custom-css
+:page-description: Customize styles, design, and layout of embedded ThoughtSpot app using custom CSS
+
+ThoughtSpot provides advanced style customization capabilities with the custom CSS framework. The custom CSS feature allows you to override the default styles, color schemes, design elements, and typography of ThoughtSpot elements to match the look and feel of your host application.
+
+== Before you begin
+
+* See xref:style-customization.adoc#_scope_of_customization[Scope of customization] to understand feature limitations. For best results, you can combine the customization settings in the UI and custom CSS. However,
+note that CSS overrides take precedence over the style customization settings configured in the UI.
+* Try it out in the Playground.
+The *Visual Embed* Playground now includes the *Apply Styles* checkbox, using which you can try out the variables and rules.
+To preview the CSS settings:
+. Go to *Develop* > *Visual Embed* > *Playground*.
+. Select *Full App*.
+. Select *Apply custom styles*.
++
+The following code text is added to the `init` function in the code panel on the Playground:
++
+[source,javascript]
+----
+customizations: {
+    style: {
+      customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css", // location of your style sheet
+      // To apply overrides for your style sheet in this init, provide variable values below, eg
+      customCSS: {
+        variables: {
+          "--ts-var-button--secondary-background": "#F0EBFF",
+          "--ts-var-button--secondary--hover-background": "#E3D9FC",
+          "--ts-var-root-background": "#F7F5FF",
+        },
+      },
+    },
+  },
+----
+. Change the style specifications for any variable and click `Run`. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+
+
+[#supported-variables]
+== Supported variables and rules
+ThoughtSpot provides a default CSS file containing the most common variables and rules supported in a given release version. You can apply the overrides within the given file or directly in the code.
+
+The following example shows the supported variables:
+
+[source,html]
+----
+:root {
+/******** App ********/
+
+  /* Application-wide background, app-wide text color, app-wide font, app-wide text transform */
+  --ts-var-root-background: #FFF0F0;
+  --ts-var-root-color: initial;
+  --ts-var-root-font-family: initial;
+  --ts-var-root-text-transform: initial;
+
+  /******** Navigation panel ********/
+  /*Font color and background color of the navigation panel*/
+  --ts-var-nav-color: #F9B3B9;
+  --ts-var-nav-background: #B6313E;
+
+  /******** Buttons ********/
+  /* App wide button design for main buttons*/
+  --ts-var-button-border-radius: 5px;
+
+  /* App wide button design for smaller buttons (ex: share, favorite, etc.)*/
+  --ts-var-button--icon-border-radius: 5px;
+
+  /* Primary buttons: For instance the Go button on the Search bar, when the search bar is clicked on */
+  /* Note: In Radiant design, primary button color will be shade 60, hover shade 70 */
+  --ts-var-button--primary-color: initial;
+  --ts-var-button--primary-background: #E22B3D;
+  --ts-var-button--primary--hover-background: #B6313E;
+  --ts-var-button--primary--font-family: initial;
+
+  /* Secondary buttons: For instance most of the buttons on a Liveboard */
+  /* Note: In Radiant design, secondary button color will be shade 20, hover shade 30 */
+  --ts-var-button--secondary-color: initial;
+  --ts-var-button--secondary-background: #FFEBEC;
+  --ts-var-button--secondary--hover-background: #FCD4D7;
+  --ts-var-button--secondary--font-family: initial;
+
+  /* Tertiary buttons: Example the forward / back buttons */
+  --ts-var-button--tertiary-color: initial;
+  --ts-var-button--tertiary-background: initial;
+  --ts-var-button--tertiary--hover-background: initial;
+
+  /******** Visualizations ********/
+  /* Viz title customizations*/
+  --ts-var-viz-title-color: charcoal;
+  --ts-var-viz-title-font-family: initial;
+  --ts-var-viz-title-text-transform: italic;
+
+  /* Viz subtitle customizations*/
+  --ts-var-viz-description-color: #A4A4A3;
+  --ts-var-viz-description-font-family: initial;
+  --ts-var-viz-description-text-transform: initial;
+
+  /* Viz area customizations*/
+  --ts-var-viz-border-radius: 15px;
+  --ts-var-viz-box-shadow: 1px 2px 5px #888888;
+  --ts-var-viz-background: initial;
+}
+----
+
+=== Get started with CSS customization
+
+To get started with CSS customization:
+
+. In the init call, add the location of the style sheet in the `customCssUrl` attribute.
+
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.None,
+    customCssUrl: "cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/complete.css"
+});
+----
++
+customCssUrl::
+__String__. The path of the CSS file with variables for customization. You can use the default CSS file containing the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file or directly in the code.
++
+The following example shows how to override the variables in the `init` code:
+
++
+[source,javascript]
+----
+customCSS: {
+    variables: {
+        "--ts-var-button--secondary-background": "#F0EBFF",
+        "--ts-var-button--secondary--hover-background": "#E3D9FC",
+        "--ts-var-root-background": "#F7F5FF",
+    },
+}
+----
+. After you modify the styles, load the CSS and start your application.
