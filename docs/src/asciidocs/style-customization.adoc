@@ -45,6 +45,7 @@ The following table lists the customizable elements:
 [tag greenBackground]#✓# Navigation panel color +
 
 [tag greenBackground]#✓# Logo +
+
 [tag greenBackground]#✓# Favicon +
 |Fonts, text, and Typography|[tag greenBackground]#✓# Font face settings for charts and tables +
 
