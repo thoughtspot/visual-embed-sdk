@@ -128,19 +128,19 @@ Background color of the visualization tiles and header panel on a Liveboard.
   --ts-var-root-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
   --ts-var-root-text-transform: initial;
 
-  /******** Navigation panel ********/
+  /******** Top navigation panel ********/
   /*Font color and background color of the navigation panel*/
   --ts-var-nav-color: #F9B3B9;
   --ts-var-nav-background: #B6313E;
 
   /******** Buttons ********/
-  /* App wide button design for main buttons*/
+  /* Application-wide button design for main buttons. For example, Search data*/
   --ts-var-button-border-radius: 5px;
 
-  /* App wide button design for smaller buttons. For example, share, favorite*/
+  /* Application-wide button design for smaller buttons. For example, share and favorite buttons*/
   --ts-var-button--icon-border-radius: 5px;
 
-  /* Primary buttons: For example, the Pin and Save button on a search results page */
+  /* Primary buttons: For example, the Pin and Save button on the search results page */
   --ts-var-button--primary-color: #ffffff;
   --ts-var-button--primary-background: #2770ef;
   --ts-var-button--primary--hover-background: #B6313E;
@@ -152,23 +152,23 @@ Background color of the visualization tiles and header panel on a Liveboard.
   --ts-var-button--secondary--hover-background: #FCD4D7;
   --ts-var-button--secondary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
 
-  /* Tertiary buttons. For example, the Undo, Redo buttons on the Answer pages*/
+  /* Tertiary buttons. For example, the Undo, Redo buttons on the search results page*/
   --ts-var-button--tertiary-color: #1d232;
   --ts-var-button--tertiary-background: #FFFFFF;
   --ts-var-button--tertiary--hover-background: #f5f5f5;
 
   /******** Visualizations ********/
-  /* Viz title customizations*/
+  /* Visualization title text customization*/
   --ts-var-viz-title-color: #C0C6CF;
   --ts-var-viz-title-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;;
   --ts-var-viz-title-text-transform: Capitalize;
 
-  /* Viz subtitle customizations*/
+  /* Visualization subtitle and description text customization*/
   --ts-var-viz-description-color: #A4A4A3;
   --ts-var-viz-description-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
   --ts-var-viz-description-text-transform: Capitalize;
 
-  /* Viz area customizations*/
+  /* Visualization tile customization*/
   --ts-var-viz-border-radius: 15px;
   --ts-var-viz-box-shadow: 1px 2px 5px #888888;
   --ts-var-viz-background: #F6F8FA;
