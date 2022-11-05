@@ -39,6 +39,9 @@ customizations: {
 ----
 . Change the style specifications for any variable and click `Run`. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
 
+++++
+<a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 [#supported-variables]
 == Supported variables and rules
@@ -205,3 +208,7 @@ customCSS: {
 }
 ----
 . After you modify the styles, load the CSS and start your application.
+
+== Additional resources
+
+* link:https://github.com/thoughtspot/custom-css-demo/blob/main/css-variables.css[Custom CSS demo GitHub Repo, window=_blank]
