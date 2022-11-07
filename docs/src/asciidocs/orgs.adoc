@@ -82,11 +82,11 @@ a| [tag greenBackground]#✓#  User creation and management +
 
 [tag greenBackground]#✓#  OIDC authentication configuration + 
 
-__SAML and OIDC group synchronization features are not supported at the All Orgs level__ a| [tag greenBackground]#✓#  Local authentication of clients +
+__SAML and OIDC group synchronization features are not supported at the All Orgs level__ a| 
+[tag greenBackground]#✓#  Trusted authentication at the Primary Org level (for embedded instances) +
 
-[tag greenBackground]#✓#  Trusted authentication (on embedded instances) +
+__With trusted authentication, administrators can create users just-in-time (JIT) and dynamically assign users to Orgs and groups.__
 
-__For just-in-time (JIT) user provisioning and dynamic group assignment, ThoughtSpot recommends using the Trusted Authentication method.__
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
 |Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
 
