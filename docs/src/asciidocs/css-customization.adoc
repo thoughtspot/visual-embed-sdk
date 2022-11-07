@@ -64,6 +64,7 @@ init({
 customCssUrl::
 __String__. The path of the CSS file. You can use the default CSS file provided by ThoughtSpot. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
 
++
 The following example shows how to override the style specifications for secondary buttons using variables directly in the `init` code:
 
 +
