@@ -109,7 +109,7 @@ Border-radius of main buttons. For example, the *Search data* button in the top 
 |`--ts-var-button--icon-border-radius`|Small buttons|Application-wide setting +
 Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons.
 |`--ts-var-button--primary-color`|Primary buttons|Element-level setting +
-Font color of the text on primary buttons. For example, the *Go* button on the search bar, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
+Font color of the text on primary buttons. For example, the *Go* button on the search bar that appears on clicking Search data, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
 |`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting +
 Font family specification for the text on primary buttons.
 |`--ts-var-button--primary-background`|Primary buttons|Element-level setting +
@@ -175,16 +175,16 @@ Background color of the visualization tiles and header panel on a Liveboard.
   /* Application-wide button design for main buttons. For example, Search data*/
   --ts-var-button-border-radius: 5px;
 
-  /* Application-wide button design for smaller buttons. For example, share and favorite buttons*/
+  /* Application-wide button design for smaller buttons. For example, buttons with share and favorite icons*/
   --ts-var-button--icon-border-radius: 5px;
 
-  /* Primary buttons: For example, the Pin and Save button on the search results page */
+  /* Primary buttons: For example, the Go button in the search bar, the Pin and Save buttons on the search results page */
   --ts-var-button--primary-color: #ffffff;
   --ts-var-button--primary-background: #2770ef;
   --ts-var-button--primary--hover-background: #B6313E;
   --ts-var-button--primary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
 
-  /* Secondary buttons. For example, the Go button on the search bar, the Edit and Explore buttons on the Liveboard page*/
+  /* Secondary buttons. For example, the Edit and Explore buttons on the Liveboard page*/
   --ts-var-button--secondary-color: #1d232f;
   --ts-var-button--secondary-background: #eaedf2;
   --ts-var-button--secondary--hover-background: #FCD4D7;
