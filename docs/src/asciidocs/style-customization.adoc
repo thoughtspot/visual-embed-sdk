@@ -6,18 +6,17 @@
 :page-pageid: style-customization
 :page-description: Customize styles, design, and layout of embedded ThoughtSpot app using UI and custom CSS
 
-ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following customization options to customize the appearance of embedded content and create a uniform experience for the users of your app.
+ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following customization options to customize the appearance of embedded content and create a uniform experience for the users of their app.
 
 Style customization features in the ThoughtSpot UI::
 
-You can customize key UI components, such as your application logo & favicon, font style for charts and tables, background color of the UI, background color of the navigation panel, the color palette for your charts, page title, and footer text either using the *Style customization* menu in the Admin tab or by navigating to *Develop* > *Customizations* > *Styles*. To learn how to use these controls, see xref:customize-style.adoc[Customize layout and styles].
+You can customize key UI components, such as your application logo, favicon, font style for charts and tables, background color of the UI, background color of the top navigation panel, the color palette for your charts, page title, and footer text by either using the *Style customization* menu in the *Admin* tab or  navigating to *Develop* > *Customizations* > *Styles*. To learn how to use these controls, see xref:customize-style.adoc[Customize layout and styles].
 
-Advanced style customization with custom CSS[beta betaBackground]^Beta^::
-Custom CSS allows developers to override the default styles and element specifications in their deployments. Custom CSS provides granular control over the appearance of UI elements and allows you to modify design elements such as buttons, labels, and typography.
+Advanced style customization with custom CSS [beta betaBackground]^Beta^::
+Custom CSS allows developers to override the default styles and UI element specifications in their deployments. Custom CSS provides granular control over the UI appearance and allows you to modify design elements such as buttons, labels, text styles, and typography. This feature is available only with the ThoughtSpot Everywhere Edition license.
 +
-To customize themes and variables in the CSS, developers are required to know the basics of HTML and CSS framework and how to build themes. For more information, see xref:css-customization.adoc[Advanced customization with custom CSS].
+To customize themes and variables in the CSS file, developers must know the basics of HTML and CSS framework and how to build custom themes. For more information, see xref:css-customization.adoc[Advanced customization with custom CSS].
 +
-This feature is available only with the ThoughtSpot Everywhere Edition license.
 
 [IMPORTANT]
 ====
@@ -44,15 +43,12 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# Navigation panel color +
 
-[tag greenBackground]#✓# Logo +
-
-[tag greenBackground]#✓# Favicon +
-|Fonts, text, and Typography|[tag greenBackground]#✓# Font face settings for charts and tables +
+|Fonts, text, and Typography|[tag greenBackground]#✓# Font styles for charts and tables +
 
 [tag greenBackground]#✓# Page title +
 
 [tag greenBackground]#✓# Footer text +
-| [tag greenBackground]#✓# Font face, text color, and text-transform settings for the entire app +
+| [tag greenBackground]#✓# Font styles, text color, and text-transform settings for the entire app +
 
 [tag greenBackground]#✓# Visualization and chart title styles +
 
@@ -64,10 +60,11 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# Header text and color settings +
 
-[tag greenBackground]#✓# Visualization area customization such as border-radius and background color. +
+[tag greenBackground]#✓# Visualization tile customization; for example, border-radius and background color. +
 
 |Buttons and labels|[tag greyBackground]#–# |[tag greenBackground]#✓# Color and border-radius of primary, secondary, and tertiary buttons
 |Search bar|[tag greyBackground]#–# |[tag greenBackground]#✓# Search bar +
 
 [tag greenBackground]#✓# The *Go* button on the search bar.
 |=====
+
