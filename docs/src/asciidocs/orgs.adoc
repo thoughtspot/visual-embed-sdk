@@ -82,8 +82,8 @@ a| [tag greenBackground]#✓#  User creation and management +
 
 [tag greenBackground]#✓#  OIDC authentication configuration +
 
-__SAML and OIDC group synchronization features are not supported at the All Orgs level.__  a|
-__OIDC authentication is supported only if users are already created and mapped to Orgs.__
+__SAML and OIDC group synchronization features are not supported at the All Orgs level.__
+__OIDC authentication is supported only if users are already created and mapped to Orgs.__a|
 
 [tag greenBackground]#✓#  Trusted authentication at the Primary Org level (for embedded instances) +
 
