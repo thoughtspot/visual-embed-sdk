@@ -76,7 +76,6 @@ If the API request is successful, ThoughtSpot returns an authentication token fo
 * If the user already exists in ThoughtSpot, `autocreate` is set to `true` and the group names are defined in the `groups` attribute, the user will be added to the groups specified in the API request. Similarly, if you have specified the `orgid` with `autocreate` set to `true`, the user will be assigned to the specified Org.
 * When `autocreate` is set to true, if the groups specified in the `groups` attribute do not exist in the specified Org ID, ThoughtSpot will create groups in the specified Org ID and assign the user to these groups.
 * The authentication token returned by ThoughtSpot can be used to access only the Org specified in the API request. If the client must be logged in to another Org, you must send another API request to get an authentication token from ThoughtSpot.
-====
 
 The following example shows the authentication token returned by ThoughtSpot after a successful API call.
 
