@@ -82,6 +82,7 @@ The following example shows the authentication token returned by ThoughtSpot aft
 ----
 JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0
 ----
+====
 
 === Response codes
 
