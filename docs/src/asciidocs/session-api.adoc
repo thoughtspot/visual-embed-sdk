@@ -510,6 +510,7 @@ curl -X DELETE \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/homepinboard
 ----
 
+
 === Example response
 If the home Liveboard is set in the currently logged-in user's account, the API returns the following response:
 
@@ -517,6 +518,7 @@ If the home Liveboard is set in the currently logged-in user's account, the API 
 Response Code
 200
 ----
+
 === Response codes
 [options="header", cols="1,4"]
 |===
