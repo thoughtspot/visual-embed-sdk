@@ -35,7 +35,7 @@ const Header = (props: { location: Location }) => {
                 <div className="headerWrapper">
                     <div>
                         <h2 className="m-0 d-inline-block logo">
-                            <a href="#" title={t('TS_LOGO_ALT_TEXT')}>
+                            <a href="?pageid=introduction" title={t('TS_LOGO_ALT_TEXT')}>
                                 <img
                                     src={TSLogo}
                                     alt={t('TS_LOGO_ALT_TEXT')}
