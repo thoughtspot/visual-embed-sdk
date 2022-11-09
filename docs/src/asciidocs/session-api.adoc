@@ -198,7 +198,6 @@ If the operation is successful, the API returns a response with the session info
 |**200**|Successful operation.
 |===
 
-
 [#orgSwitch]
 == Switch between Orgs
 
