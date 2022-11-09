@@ -34,7 +34,7 @@ Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1
 In the upcoming release, ThoughtSpot allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
 to match the look and feel of your host application.
 
-To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the "Apply custom styles" checkbox, which allows you to explore the variables available for customization.
+To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.
 
 For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS using SDK].
 
