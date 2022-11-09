@@ -21,7 +21,7 @@ The new version of the SDK introduces several new features and enhancements
 This enhancement does not introduce any breaking changes in your current implementation.
 |[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO`, which allows you to use your current SAML or OIDC authentication setup and redirect users to the IdP for authentication within the embedded iFrame.
 For more information, see xref:embed-authentication.adoc[Authentication].
-|[tag greenBackground]#NEW FEATURE#| Support for advanced style customization with custom CSS [beta betaBackground]^Beta^
+|[tag greenBackground]#NEW FEATURE#|
 The new version of the SDK introduces the `customizations` property, which allows you to specify a custom CSS URL and define style customization variables in the `init` function. For more information, see xref:css-customization.adoc[Customize CSS].
 |====
 

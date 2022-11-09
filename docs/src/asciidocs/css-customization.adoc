@@ -49,7 +49,11 @@ customizations: {
 To get started with CSS customization:
 
 . Make sure your deployments are upgraded to support Visual Embed SDK version 1.17.0 or later.
+. To allow your instance to use an external stylesheet:
+your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
 . In the `init` call, add the location of the stylesheet in the `customCssUrl` attribute.
++
+The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot.
 
 +
 [source,javascript]
@@ -57,7 +61,11 @@ To get started with CSS customization:
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.None,
-    customCssUrl: "cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/complete.css"
+    customizations: {
+    style: {
+      customCSSUrl: "cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/complete.css"
+      }
+    }
 });
 ----
 +
