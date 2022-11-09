@@ -53,7 +53,7 @@ To get started with CSS customization:
 your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
 . In the `init` call, add the location of the stylesheet in the `customCssUrl` attribute.
 +
-The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot.
+The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot:
 
 +
 [source,javascript]
