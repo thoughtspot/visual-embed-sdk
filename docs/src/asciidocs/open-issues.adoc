@@ -28,6 +28,12 @@ This page lists the known issues that you might run into while embedding Thought
 *Condition*: This issue is observed in ThoughtSpot deployments with 8.4.0.cl or 8.4.1.sw or later release versions. +
 
 *Workaround*: None
+|SCAL-132654 a| The `fullHeight` setting in the SDK doesn't take effect on embedded Liveboards when the new Liveboard experience is enabled. a|
+*Symptom*:  If the new Liveboard experience is enabled on an embedded view, the embedded Liveboard page shows a double scrollbar despite setting the `fullHeight` parameter to `true` in the SDK.  +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl or later release versions. +
+
+*Workaround*: None
 |===
 
 == Version 8.8.0.cl
