@@ -82,7 +82,8 @@ a| [tag greenBackground]#✓#  User creation and management +
 
 [tag greenBackground]#✓#  OIDC authentication configuration +
 
-__SAML and OIDC group synchronization features are not supported at the All Orgs level.__ + 
+__ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
+
 __OIDC authentication is supported only if users are already created and mapped to Orgs.__  a|
 
 [tag greenBackground]#✓#  Trusted authentication at the Primary Org level (for embedded instances) +
