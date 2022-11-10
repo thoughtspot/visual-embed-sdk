@@ -6,7 +6,7 @@
 :page-pageid: style-customization
 :page-description: Customize styles, design, and layout of embedded ThoughtSpot app using UI and custom CSS
 
-ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following customization options to customize the appearance of embedded content and create a uniform experience for the users of their app.
+ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following options to customize the appearance of embedded content and create a uniform experience for the users of their app.
 
 Style customization features in the ThoughtSpot UI::
 
@@ -52,10 +52,6 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# Visualization and chart title styles +
 
-[tag greenBackground]#✓# Page title +
-
-[tag greenBackground]#✓# Footer text +
-
 |Charts and visualizations| [tag greenBackground]#✓# Color palette |
 
 [tag greenBackground]#✓# Header text and color settings +
@@ -63,8 +59,11 @@ The following table lists the customizable elements:
 [tag greenBackground]#✓# Visualization tile customization; for example, border-radius and background color. +
 
 |Buttons and labels|[tag greyBackground]#–# |[tag greenBackground]#✓# Color and border-radius of primary, secondary, and tertiary buttons
-|Search bar|[tag greyBackground]#–# |[tag greenBackground]#✓# Search bar +
+|Search bar|[tag greyBackground]#–#  a|[tag greenBackground]#✓# Search text and tokens in the Search bar
 
-[tag greenBackground]#✓# The *Go* button on the search bar.
+[tag greenBackground]#✓# Buttons on the search bar +
+
+* The *Go* button (primary button)
+* Background color of the secondary button; for example, the delete icon (image:./images/icon-search-bar-close.png[]) that appears after you enter the search tokens.
 |=====
 

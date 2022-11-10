@@ -63,14 +63,14 @@ init({
     authType: AuthType.None,
     customizations: {
     style: {
-      customCSSUrl: "cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/complete.css"
+      customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css"
       }
     }
 });
 ----
 +
 customCssUrl::
-__String__. The path of the CSS file. You can use the default CSS file provided by ThoughtSpot. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
+__String__. The path of the CSS file. You can copy the default CSS file provided by ThoughtSpot to create your own. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
 
 +
 The following example shows how to override the style specifications for secondary buttons using variables directly in the `init` code:
@@ -112,7 +112,7 @@ Color of the text on application pages +
 |`--ts-var-root-font-family`|Text on application pages| Application-wide setting +
 Font type for the text on application pages
 |`--ts-var-root-text-transform`|Text on application pages|Application-wide setting +
-Capitalization specification for all text in the app.
+Text transformation specification for all UI elements in the app.
 |`--ts-var-nav-background`|Top navigation panel |Element-level setting +
 Background color of the top navigation panel.
 |`--ts-var-nav-color`|Top navigation panels |Element-level setting +
@@ -148,13 +148,13 @@ Font color of the title text of a visualization or answer.
 |`--ts-var-viz-title-font-family`|Title text of a visualization/answer|Element-level setting +
 Font family specification for the title text of a visualization/answer.
 |`--ts-var-viz-title-text-transform`|Title text of a visualization/answer|Element-level setting +
-Capitalization specification for the title text of a visualization/answer.
+Text transformation specification for visualization and answer titles.
 |`--ts-var-viz-description-color`|Visualization/answer description and subtitle |Element-level setting +
 Font color of the description text and subtitle of a visualization or answer.
 |`--ts-var-viz-description-font-family`|Visualization/answer description and subtitle|Element-level setting +
 Font family specification of description text and subtitle of a visualization or answer.
 |`--ts-var-viz-description-text-transform`|Visualization/answer description and subtitle|Element-level setting +
-Capitalization specification for description text and subtitle of a visualization or answer.
+Text transformation specification for  description text and subtitle of a visualization or answer.
 |`--ts-var-viz-border-radius`|Visualization tiles +
 Liveboard header panel|Element-level setting +
 Border-radius for the visualization tiles and header panel on a Liveboard.
@@ -174,15 +174,15 @@ Background color of the visualization tiles and header panel on a Liveboard.
 /******** App ********/
 
   /* Application-wide background, app-wide text color, app-wide font, app-wide text transform */
-  --ts-var-root-background: #FFF0F0;
-  --ts-var-root-color: #FFF0F0;
+  --ts-var-root-background: #FFFFFF;
+  --ts-var-root-color: #1D232F;
   --ts-var-root-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
   --ts-var-root-text-transform: initial;
 
   /******** Top navigation panel ********/
   /*Font color and background color of the navigation panel*/
-  --ts-var-nav-color: #F9B3B9;
-  --ts-var-nav-background: #B6313E;
+  --ts-var-nav-color: #F7F5FF;
+  --ts-var-nav-background: #163772;
 
   /******** Buttons ********/
   /* Application-wide button design for main buttons. For example, Search data*/
@@ -193,36 +193,36 @@ Background color of the visualization tiles and header panel on a Liveboard.
 
   /* Primary buttons: For example, the Go button in the search bar, the Pin and Save buttons on the search results page */
   --ts-var-button--primary-color: #ffffff;
-  --ts-var-button--primary-background: #2770ef;
-  --ts-var-button--primary--hover-background: #B6313E;
+  --ts-var-button--primary-background: #2770EF;
+  --ts-var-button--primary--hover-background: #1D232F;
   --ts-var-button--primary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
 
   /* Secondary buttons. For example, the Edit and Explore buttons on the Liveboard page*/
-  --ts-var-button--secondary-color: #1d232f;
-  --ts-var-button--secondary-background: #eaedf2;
-  --ts-var-button--secondary--hover-background: #FCD4D7;
+  --ts-var-button--secondary-color: #1D232F;
+  --ts-var-button--secondary-background: #EAEDF2;
+  --ts-var-button--secondary--hover-background: #2359B6;
   --ts-var-button--secondary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
 
   /* Tertiary buttons. For example, the Undo, Redo buttons on the search results page*/
-  --ts-var-button--tertiary-color: #1d232;
+  --ts-var-button--tertiary-color: #1D232F;
   --ts-var-button--tertiary-background: #FFFFFF;
-  --ts-var-button--tertiary--hover-background: #f5f5f5;
+  --ts-var-button--tertiary--hover-background: #EAEDF2;
 
   /******** Visualizations ********/
   /* Visualization title text customization*/
-  --ts-var-viz-title-color: #C0C6CF;
+  --ts-var-viz-title-color: #2359B6;
   --ts-var-viz-title-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;;
   --ts-var-viz-title-text-transform: Capitalize;
 
   /* Visualization subtitle and description text customization*/
-  --ts-var-viz-description-color: #A4A4A3;
+  --ts-var-viz-description-color: #C26232;
   --ts-var-viz-description-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
   --ts-var-viz-description-text-transform: Capitalize;
 
   /* Visualization tile customization*/
   --ts-var-viz-border-radius: 15px;
   --ts-var-viz-box-shadow: 1px 2px 5px #888888;
-  --ts-var-viz-background: #F6F8FA;
+  --ts-var-viz-background: #F2F7FF;
 }
 ----
 

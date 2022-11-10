@@ -191,6 +191,7 @@ If the operation is successful, the API returns a response with the session info
 }
 ----
 
+
 === Response codes
 [options="header", cols="1,4"]
 |===

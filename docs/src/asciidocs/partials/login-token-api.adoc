@@ -55,7 +55,6 @@ curl -X GET \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
 
-
 The following example shows a POST request with authentication attributes in the request body:
 
 .cURL
@@ -238,8 +237,6 @@ The API request also returns the application details in the response body.
 </body>
 </html>
 ----
-
-====
 
 === Response codes
 
