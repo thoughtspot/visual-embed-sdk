@@ -105,64 +105,92 @@ The following example shows the supported variables:
 |======
 |Variable|UI element/area|  Description
 |`--ts-var-root-background`|Application pages|Application-wide setting +
+
 Background color of the application page
 The color code setting applies to all pages in the app.
 |`--ts-var-root-color`|Text on application pages| Application-wide setting +
+
 Color of the text on application pages +
 |`--ts-var-root-font-family`|Text on application pages| Application-wide setting +
+
 Font type for the text on application pages
 |`--ts-var-root-text-transform`|Text on application pages|Application-wide setting +
+
 Text transformation specification for all UI elements in the app.
 |`--ts-var-nav-background`|Top navigation panel |Element-level setting +
+
 Background color of the top navigation panel.
 |`--ts-var-nav-color`|Top navigation panels |Element-level setting +
+
 Font color of the top navigation panel.
 |`--ts-var-button-border-radius`|Main button|Application-wide setting +
+
 Border-radius of main buttons. For example, the *Search data* button in the top navigation panel.
 |`--ts-var-button--icon-border-radius`|Small buttons|Application-wide setting +
+
 Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons.
 |`--ts-var-button--primary-color`|Primary buttons|Element-level setting +
+
 Font color of the text on primary buttons. For example, the *Go* button on the search bar that appears on clicking Search data, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
 |`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting +
+
 Font family specification for the text on primary buttons.
 |`--ts-var-button--primary-background`|Primary buttons|Element-level setting +
+
 Background color of the primary action buttons. For example, the primary action buttons such as *Pin* and *Save* on the answer page, data workspace, SpotIQ, or Home page.
 |`--ts-var-button--primary--hover-background`|Primary buttons|Element-level setting +
+
 Background color of the primary action buttons when a pointer hovers over these buttons.
 |`--ts-var-button--secondary-color`|Secondary button| Element-level setting +
+
 Font color of the text on the secondary action buttons.
 |`--ts-var-button--secondary--font-family`|Secondary button| Element-level setting +
+
 Font family specification for the text on the secondary action buttons.
 |`--ts-var-button--secondary-background`|Secondary action button|Element-level setting +
+
 Background color of the secondary action buttons.
 |`--ts-var-button--secondary--hover-background`|Secondary button|Element-level setting +
+
 Background color of the secondary action button when a pointer hovers over these buttons.
 |`--ts-var-button--tertiary-color`|Tertiary button|Element-level setting +
+
 Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the search results page.
 |`--ts-var-button--tertiary-background`|Tertiary button|Element-level setting +
+
 Background color of the tertiary button.
 |`--ts-var-button--tertiary--hover-background`|Tertiary button|Element-level setting +
+
 Background color of the tertiary button when a pointer hovers over these buttons.
 |`--ts-var-viz-title-color`|Title text of a visualization/answer|Element-level setting +
+
 Font color of the title text of a visualization or answer.
 |`--ts-var-viz-title-font-family`|Title text of a visualization/answer|Element-level setting +
+
 Font family specification for the title text of a visualization/answer.
 |`--ts-var-viz-title-text-transform`|Title text of a visualization/answer|Element-level setting +
+
 Text transformation specification for visualization and answer titles.
 |`--ts-var-viz-description-color`|Visualization/answer description and subtitle |Element-level setting +
+
 Font color of the description text and subtitle of a visualization or answer.
 |`--ts-var-viz-description-font-family`|Visualization/answer description and subtitle|Element-level setting +
+
 Font family specification of description text and subtitle of a visualization or answer.
 |`--ts-var-viz-description-text-transform`|Visualization/answer description and subtitle|Element-level setting +
+
 Text transformation specification for  description text and subtitle of a visualization or answer.
 |`--ts-var-viz-border-radius`|Visualization tiles +
 Liveboard header panel|Element-level setting +
+
 Border-radius for the visualization tiles and header panel on a Liveboard.
 |`--ts-var-viz-box-shadow`|Visualization tiles +
 Liveboard header panel|Element-level setting +
+
 Box shadow property for the visualization tiles and header panel on a Liveboard.
 |`--ts-var-viz-background`|Visualization tiles +
 Liveboard header panel| Element-level setting +
+
 Background color of the visualization tiles and header panel on a Liveboard.
 |======
 
