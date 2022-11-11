@@ -7,9 +7,9 @@
 :page-description: Apply filters to visualizations at runtime and pass them as URL parameters
 
 Runtime filters provide the ability to apply filters to data and pass them as URL query parameters at the time of data retrieval. Runtime filters allow you to apply filters to the data returned by the REST APIs, or to the visualization and Liveboard embedded in your host application.
-////
-You can use runtime filters alongside the REST API and Visual Embed SDK to create dynamic controls in your application. For example, you could use the REST API to get a list of possible filters for a visualization. Then use that data to populate a select list on your application instance. When a user makes a selection, you would then pass it as a runtime filter, and the result returned will apply the filter.
-////
+
+You can use runtime filters in the REST API calls or Visual Embed SDK to dynamically apply filters to the embedded objects in your application.
+
 [IMPORTANT]
 ====
 Runtime filters are passed as URL query parameters in the `GET` request methods. Make sure the filter values are URL encoded before passing them as parameters.
@@ -49,7 +49,14 @@ The runtime filters are specified in the request URL as parameters. To apply run
 
 === Embedded Liveboard and visualizations
 
-This example shows how to define RuntimeFilter parameters when rendering a Liveboard visualization using the Visual Embed SDK. Here, the runtime filter is operating on the `Revenue` column and will return values that equal to `100000`.
+The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and answer objects in the embedded app.
+
+[NOTE]
+====
+The `SearchEmbed` SDK package does not support runtime filters.
+====
+
+The following example shows how to apply runtime filters on an embedded visualization. Here, the runtime filter is operating on the `Revenue` column to filter revenue data matching `100000`.
 
 ----
 liveboardEmbed.render({
@@ -377,7 +384,7 @@ id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 &op1=EQ&val1=mfgr%2324
 ----
 
-ThoughtSpot will try to find a matching column from the Liveboard or visualization being accessed, using the `col` field as `name`. You can add any number of filters by incrementing the parameters, for example, `col2`, `op2`, and `val2`, and so on.
+ThoughtSpot will try to find a matching column from the Liveboard or visualization being accessed, using the `col` field as `name`. You can add any number of filters by incrementing the parameters, for example, `col2`, `op2` and `val2`.
 
 ==== Add additional filters
 
