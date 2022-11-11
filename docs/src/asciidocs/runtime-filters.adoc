@@ -293,7 +293,7 @@ liveboardEmbed.render({
     runtimeFilters: [{
         columnName: 'item type',
         operator: RuntimeFilterOp.IN,
-        values: ['jackets','bags', 'shirts']
+        values: ['jackets', 'bags', 'shirts']
     }]
 });
 ----
