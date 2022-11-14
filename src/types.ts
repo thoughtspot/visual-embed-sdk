@@ -692,16 +692,25 @@ export enum EmbedEvent {
 export enum HostEvent {
     /**
      * Trigger a search
-     * @param dataSourceIds - The list of data source GUIDs
-     * @param searchQuery - The search query
+     * @param - dataSourceIds - The list of data source GUIDs
+     * @param - searchQuery - The search query
+     * @example
+     * searchEmbed.trigger(HostEvent.Search, {
+     * searchQuery: "[sales] by [item type],
+     * "dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     * })
      */
     Search = 'search',
     /**
      * Trigger a drill on certain points by certain column
-     * @param points - an object containing selectedPoints/clickedPoints
+     * @param - points - an object containing selectedPoints/clickedPoints
      *              eg. { selectedPoints: []}
-     * @param columnGuid - a string guid of the column to drill by. This is optional,
+     * @param - columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column.
+     * @example searchEmbed.trigger(HostEvent.DrillDown, {
+     * points: clickedPointData,
+     * autoDrillDown: true,
+     * })
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     DrillDown = 'triggerDrillDown',
@@ -719,6 +728,8 @@ export enum HostEvent {
      * Set the visible visualizations on a Liveboard.
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
+     * @example
+     * liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c', 'd547ec54-2a37-4516-a222-2b06719af726'])
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
@@ -726,18 +737,25 @@ export enum HostEvent {
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+     * @example
+     * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
+     * {columnName: "state",operator: "EQ",values: ["michigan"]},
+     * {columnName: "item type",operator: "EQ",values: ["Jackets"]}
+     * ])
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
      * Navigate to a specific page in App embed without any reload.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`
-     * @param path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @param - path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @example appEmbed.navigateToPage(-1)
      * @version SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1-sw
      */
     Navigate = 'Navigate',
     /**
      * Gets the current pinboard content.
+     * @example liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
@@ -745,70 +763,82 @@ export enum HostEvent {
      * Triggers the Pin action on an embedded object
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
+     * @example liveboardEmbed.trigger(HostEvent.Pin, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Pin = 'pin',
     /**
      * Triggers the Show Liveboard details action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.LiveboardInfo)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Triggers the Schedule action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.Schedule)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Schedule = 'subscription',
     /**
      * Triggers the Manage schedule action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.ScheduleList)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     SchedulesList = 'schedule-list',
     /**
      * Triggers the Export TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.ExportTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ExportTML = 'exportTSL',
     /**
      * Triggers the Edit TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.EditTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     EditTML = 'editTSL',
     /**
      * Triggers the Update TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.UpdateTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     UpdateTML = 'updateTSL',
     /**
      * Triggers the Download PDF action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Triggers the Make a copy action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.MakeACopy)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     MakeACopy = 'makeACopy',
     /**
      * Triggers the Delete action on a Liveboard
+     * @example appEmbed.trigger(HostEvent.Remove)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Remove = 'delete',
     /**
      * Triggers the Explore action on a visualization
      * @param - an object with vizId as a key
-     * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
+     * @example liveboardEmbed.trigger(HostEvent.Explore, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Explore = 'explore',
     /**
      * Triggers the Create alert action on a visualization
      * @param - an object with vizId as a key
+     * @example liveboardEmbed.trigger(HostEvent.CreateMonitor {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CreateMonitor = 'createMonitor',
     /**
      * Triggers the Manage alert action on a visualization
      * @param - an object with vizId as a key
+     * @example liveboardEmbed.trigger(HostEvent.ManageMonitor, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ManageMonitor = 'manageMonitor',
@@ -844,10 +874,11 @@ export enum HostEvent {
     Present = 'present',
     /**
      * Get TML for the current search.
+     * @example searchEmbed.trigger(HostEvent.GetTML)
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
      */
     GetTML = 'getTML',
-    /*
+    /**
      * Triggers the Share action on a liveboard or answer
      * @example
      * liveboardEmbed.trigger(HostEvent.Share)
@@ -855,7 +886,7 @@ export enum HostEvent {
      * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
      */
     Share = 'share',
-    /*
+    /**
      * Trigger the Save action on a liveboard or answer
      * @example
      * liveboardEmbed.trigger(HostEvent.Save)
