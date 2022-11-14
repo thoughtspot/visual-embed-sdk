@@ -202,7 +202,7 @@ The following figures show the customizable elements and example definitions for
 
 image::./images/custom-css-search.png[CSS customization Search page]
 
-==== Liveboard and visualizations
+==== Liveboard page
 
 image::./images/custom-css-viz.png[CSS customization Liveboard page]
 
