@@ -847,6 +847,22 @@ export enum HostEvent {
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
      */
     GetTML = 'getTML',
+    /*
+     * Triggers the Share action on a liveboard or answer
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Share)
+     * searchEmbed.trigger(HostEvent.Share)
+     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     */
+    Share = 'share',
+    /*
+     * Trigger the Save action on a liveboard or answer
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Save)
+     * searchEmbed.trigger(HostEvent.Save)
+     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     */
+    Save = 'save',
 }
 
 /**
