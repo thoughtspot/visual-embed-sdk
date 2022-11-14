@@ -44,7 +44,7 @@ customizations: {
 ++++
 
 
-=== Get started with CSS customization
+== Get started with CSS customization
 
 To get started with CSS customization:
 
@@ -194,7 +194,20 @@ Liveboard header panel| Element-level setting +
 Background color of the visualization tiles and header panel on a Liveboard.
 |======
 
-==== Sample CSS file with variable definitions
+=== Examples
+
+The following figures show the customizable elements and example definitions for CSS variables.
+
+==== Search page
+
+image::./images/custom-css-search.png[CSS customization Search page]
+
+==== Liveboard and visualizations
+
+image::./images/custom-css-viz.png[CSS customization Liveboard page]
+
+
+=== Sample CSS file with variable definitions
 
 [source,html]
 ----
@@ -239,7 +252,7 @@ Background color of the visualization tiles and header panel on a Liveboard.
   /******** Visualizations ********/
   /* Visualization title text customization*/
   --ts-var-viz-title-color: #2359B6;
-  --ts-var-viz-title-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;;
+  --ts-var-viz-title-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
   --ts-var-viz-title-text-transform: Capitalize;
 
   /* Visualization subtitle and description text customization*/
