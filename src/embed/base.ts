@@ -8,7 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
-import _ from 'lodash';
+import uniq from 'lodash/uniq';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
 import {
@@ -109,7 +109,7 @@ export const prefetch = (
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || config.thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        _.uniq(
+        uniq(
             features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl)),
         ).forEach((prefetchUrl, index) => {
             const iFrame = document.createElement('iframe');

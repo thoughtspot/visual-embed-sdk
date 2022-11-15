@@ -214,11 +214,10 @@ async function samlPopupFlow(
     triggerText: string,
 ) {
     const containerEl = getDOMNode(triggerContainer);
-    containerEl.insertAdjacentHTML(
-        'beforeend',
-        `<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;">${triggerText}</button>`,
-    );
+    containerEl.innerHTML =
+        '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
     const authElem = document.getElementById('ts-auth-btn');
+    authElem.textContent = triggerText;
     samlCompletionPromise =
         samlCompletionPromise ||
         new Promise<void>((resolve, reject) => {
