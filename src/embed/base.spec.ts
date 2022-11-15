@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import { EmbedConfig } from '../index';
 import * as auth from '../auth';
 import * as index from '../index';
 import * as base from './base';
@@ -175,6 +176,43 @@ describe('Base TS Embed', () => {
             },
         );
         expect(base.getEmbedConfig().autoLogin).toBe(false);
+    });
+
+    test('config sanity, no ts host', () => {
+        expect(() => {
+            index.init({
+                authType: index.AuthType.None,
+            } as EmbedConfig);
+        }).toThrowError();
+    });
+
+    test('config sanity, no username in trusted auth', () => {
+        expect(() => {
+            index.init({
+                authType: index.AuthType.TrustedAuthToken,
+                thoughtSpotHost,
+            } as EmbedConfig);
+        }).toThrowError();
+    });
+
+    test('config sanity, no authEndpoint and getAuthToken', () => {
+        expect(() => {
+            index.init({
+                authType: index.AuthType.TrustedAuthToken,
+                thoughtSpotHost,
+                username: 'test',
+            });
+        }).toThrowError();
+    });
+
+    test('config sanity, pass triggerContainer with noRedirect', () => {
+        expect(() => {
+            index.init({
+                thoughtSpotHost,
+                authType: index.AuthType.SAMLRedirect,
+                noRedirect: true,
+            });
+        }).toThrowError();
     });
 });
 

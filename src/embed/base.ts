@@ -22,6 +22,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 let config = {} as EmbedConfig;
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
+    authTriggerText: 'Authorize',
     authType: AuthType.None,
 };
 
@@ -123,6 +124,29 @@ export const prefetch = (
     }
 };
 
+function sanity(embedConfig: EmbedConfig) {
+    if (embedConfig.thoughtSpotHost === undefined) {
+        throw new Error('ThoughtSpot host not provided');
+    }
+    if (embedConfig.authType === AuthType.TrustedAuthToken) {
+        if (!embedConfig.username) {
+            throw new Error('Username not provided with Trusted auth');
+        }
+
+        if (
+            !embedConfig.authEndpoint ||
+            typeof embedConfig.getAuthToken !== 'function'
+        ) {
+            throw new Error(
+                'Trusted auth should provide either authEndpoint or getAuthToken',
+            );
+        }
+    }
+    if (embedConfig.noRedirect && !embedConfig.authTriggerContainer) {
+        throw new Error('authTriggerContainer not provided with noRedirect');
+    }
+}
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable.
@@ -134,6 +158,7 @@ export const prefetch = (
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  */
 export const init = (embedConfig: EmbedConfig): EventEmitter => {
+    sanity(embedConfig);
     config = {
         ...CONFIG_DEFAULTS,
         ...embedConfig,
