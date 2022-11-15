@@ -14,6 +14,7 @@ import {
     embedEventStatus,
     setAttributes,
     getCustomisations,
+    getDOMNode,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -208,7 +209,7 @@ export class TsEmbed {
     private defaultHiddenActions = [Action.ReportError];
 
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
-        this.el = this.getDOMNode(domSelector);
+        this.el = getDOMNode(domSelector);
         // TODO: handle error
         this.embedConfig = getEmbedConfig();
         this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
@@ -218,17 +219,6 @@ export class TsEmbed {
         this.viewConfig = viewConfig;
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
-    }
-
-    /**
-     * Gets a reference to the root DOM node where
-     * the embedded content will appear.
-     * @param domSelector
-     */
-    private getDOMNode(domSelector: DOMSelector) {
-        return typeof domSelector === 'string'
-            ? document.querySelector(domSelector)
-            : domSelector;
     }
 
     /**

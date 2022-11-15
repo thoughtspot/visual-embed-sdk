@@ -245,6 +245,20 @@ export interface EmbedConfig {
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl
      */
     customisations?: CustomisationsInterface;
+    /**
+     * For noRedirect SSO Auth, we need a button which the user
+     * click to trigger the flow. This is the containing element
+     * for that button.
+     *
+     * @version SDK: 1.17.0 | ThoughtSpot: *
+     */
+    authTriggerContainer?: string | HTMLElement;
+    /**
+     * Text to show in the button which triggers the popup auth flow.
+     * Default: "Authorize".
+     * @version SDK: 1.17.0 | ThoughtSpot: *
+     */
+    authTriggerText?: string;
 }
 
 /**

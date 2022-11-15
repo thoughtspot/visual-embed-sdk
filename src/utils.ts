@@ -12,6 +12,7 @@ import {
     QueryParams,
     RuntimeFilter,
     CustomisationsInterface,
+    DOMSelector,
 } from './types';
 
 /**
@@ -187,3 +188,14 @@ export const getCustomisations = (
         customisations.style.customCSSUrl || customCssUrl;
     return customisations;
 };
+
+/**
+ * Gets a reference to the DOM node given
+ * a selector.
+ * @param domSelector
+ */
+export function getDOMNode(domSelector: DOMSelector): HTMLElement {
+    return typeof domSelector === 'string'
+        ? document.querySelector(domSelector)
+        : domSelector;
+}

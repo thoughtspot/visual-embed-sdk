@@ -1,6 +1,6 @@
 import { initMixpanel } from './mixpanel-service';
-import { AuthType, EmbedConfig, EmbedEvent } from './types';
-import { getRedirectUrl } from './utils';
+import { AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param } from './types';
+import { getDOMNode, getRedirectUrl } from './utils';
 // eslint-disable-next-line import/no-cycle
 import {
     fetchSessionInfoService,
@@ -208,12 +208,17 @@ export const doBasicAuth = async (
     return loggedInStatus;
 };
 
-async function samlPopupFlow(ssoURL: string) {
-    document.body.insertAdjacentHTML(
+async function samlPopupFlow(
+    ssoURL: string,
+    triggerContainer: DOMSelector,
+    triggerText: string,
+) {
+    const containerEl = getDOMNode(triggerContainer);
+    containerEl.insertAdjacentHTML(
         'beforeend',
-        '<div id="ts-saml-auth"></div>',
+        `<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;">${triggerText}</button>`,
     );
-    const authElem = document.getElementById('ts-saml-auth');
+    const authElem = document.getElementById('ts-auth-btn');
     samlCompletionPromise =
         samlCompletionPromise ||
         new Promise<void>((resolve, reject) => {
@@ -239,7 +244,6 @@ async function samlPopupFlow(ssoURL: string) {
         },
         { once: true },
     );
-    authElem.click();
     return samlCompletionPromise;
 }
 
@@ -271,7 +275,11 @@ const doSSOAuth = async (
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.noRedirect) {
-        await samlPopupFlow(ssoURL);
+        await samlPopupFlow(
+            ssoURL,
+            embedConfig.authTriggerContainer,
+            embedConfig.authTriggerText,
+        );
         loggedInStatus = true;
         return;
     }
