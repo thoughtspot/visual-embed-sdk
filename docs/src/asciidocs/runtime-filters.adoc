@@ -73,14 +73,15 @@ liveboardEmbed.render({
 [#runtimeFilterOp]
 === Runtime filter operators
 
-[width="100%" cols="2,1,7"]
+[width="100%" cols="3,7"]
 [options='header']
 |=====
-|Operator|Number of values allowed|Example (Visual Embed SDK)
+|Operator|Example (Visual Embed SDK)
 
 | `EQ` +
-equals
-| 1
+equals +
+Number of values allowed: 1
+
 a|
 
 [source,javascript]
@@ -96,8 +97,8 @@ liveboardEmbed.render({
 ----
 
 | `NE` +
-does not equal
-| 1
+does not equal +
+Number of values allowed: 1
 a| [source,javascript]
 ----
 liveboardEmbed.render({
@@ -111,9 +112,9 @@ liveboardEmbed.render({
 ----
 
 | `LT` +
-less than
+less than +
+Number of values allowed: 1
 
-| 1
 a|
 [source,javascript]
 ----
@@ -128,8 +129,8 @@ liveboardEmbed.render({
 ----
 
 | `LE` +
-less than or equal to
-| 1
+less than or equal to +
+Number of values allowed: 1
 a|
 [source,javascript]
 ----
@@ -144,8 +145,8 @@ liveboardEmbed.render({
 ----
 
 | `GT` +
-greater than
-| 1
+greater than +
+Number of values allowed: 1 +
 a|
 [source,javascript]
 ----
@@ -159,8 +160,8 @@ liveboardEmbed.render({
 });
 ----
 | `GE` +
-greater than or equal to
-| 1
+greater than or equal to +
+Number of values allowed: 1 +
 a|
 [source,javascript]
 ----
@@ -175,8 +176,8 @@ liveboardEmbed.render({
 ----
 
 | `CONTAINS` +
-contains
-| 1
+contains +
+Number of values allowed: 1 +
 a|
 [source,javascript]
 ----
@@ -191,8 +192,8 @@ liveboardEmbed.render({
 ----
 
 | `BEGINS_WITH` +
-begins with
-| 1
+begins with +
+Number of values allowed: 1 +
 a|
 [source,javascript]
 ----
@@ -208,8 +209,8 @@ liveboardEmbed.render({
 ----
 
 | `ENDS_WITH` +
-ends with
-| 1
+ends with +
+Number of values allowed: 1 +
 a| [source,javascript]
 ----
 liveboardEmbed.render({
@@ -223,8 +224,8 @@ liveboardEmbed.render({
 ----
 
 | `BW_INC_MAX` +
-between inclusive of the higher value
-| 2
+between inclusive of the higher value +
+Number of values allowed: 2 +
 a| [source,javascript]
 ----
 liveboardEmbed.render({
@@ -238,8 +239,8 @@ liveboardEmbed.render({
 ----
 
 | `BW_INC_MIN` +
-between inclusive of the lower value
-| 2
+between inclusive of the lower value +
+Number of values allowed: 2 +
 a| [source,javascript]
 ----
 liveboardEmbed.render({
@@ -253,8 +254,8 @@ liveboardEmbed.render({
 ----
 
 | `BW_INC` +
-between inclusive
-| 2
+between inclusive +
+Number of values allowed: 2 +
 a|
 [source,javascript]
 ----
@@ -269,8 +270,8 @@ liveboardEmbed.render({
 ----
 
 | `BW` +
-between non-inclusive
-| 2
+between non-inclusive +
+Number of values allowed: 2 +
 a|[source,javascript]
 ----
 liveboardEmbed.render({
@@ -284,8 +285,8 @@ liveboardEmbed.render({
 ----
 
 |`IN` +
-is included in this list of values
-|multiple
+is included in this list of values +
+Number of values allowed: multiple
 a|[source,javascript]
 ----
 liveboardEmbed.render({
@@ -303,29 +304,7 @@ liveboardEmbed.render({
 
 The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
 
-[source,javascript]
-----
-liveboardEmbed.render({
-    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
-    runtimeFilters: [{
-            columnName: 'item type',
-            operator: RuntimeFilterOp.EQ,
-            values: ['Jackets']
-        },
-        {
-            columnName: 'state',
-            operator: RuntimeFilterOp.EQ,
-            values: ['California']
-        },
-        {
-            columnName: 'city',
-            operator: RuntimeFilterOp.EQ,
-            values: ['Berkeley']
-        }
-    ]
-});
-----
-
+[#multiRuntimeFilters]
 [source,javascript]
 ----
 liveboardEmbed.render({
@@ -348,6 +327,30 @@ liveboardEmbed.render({
     ]
 });
 ----
+
+===== Example video
+
+The following video shows how to apply multiple runtime filters on a Liveboard.
+
+////
+[div boxDiv]
+
+--
+[.widthAuto]
+image::./images/runtime-filters.gif[Runtime filters gif]
+--
+////
+
+
+[div videoContainer]
+--
+video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
+++++
+<a href="?pageid=runtime-filters#multiRuntimeFilters"  id="preview-in-playground"> Copy sample code</a>
+<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+</div>
+++++
+--
 
 === Runtime filters in REST API calls
 

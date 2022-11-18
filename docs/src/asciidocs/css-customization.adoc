@@ -60,11 +60,10 @@ The following example sets an external stylesheet hosted on GitHub and uses `jsD
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.None,
     customizations: {
-    style: {
-      customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css"
-      }
+        style: {
+            customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css"
+        }
     }
 });
 ----
@@ -72,25 +71,72 @@ init({
 customCssUrl::
 __String__. The path of the CSS file. You can copy the default CSS file provided by ThoughtSpot to create your own. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
 
+customCSS::
+The custom CSS object with variables and rules to override style specifications in the code.
+
 +
-The following example shows how to override the style specifications for secondary buttons using variables directly in the `init` code:
+The following example shows how to override the style specifications for secondary buttons using `customCSS` variables directly in the `init` code:
 
 +
 [source,javascript]
 ----
-customizations: {
-    style: {
-        customCSS: {
-            variables: {
-                "--ts-var-button--secondary-background": "#F0EBFF",
-                "--ts-var-button--secondary--hover-background": "#E3D9FC",
-                "--ts-var-root-background": "#F7F5FF",
-            },
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSS: {
+                variables: {
+                    "--ts-var-button--secondary-background": "#F0EBFF",
+                    "--ts-var-button--secondary--hover-background": "#E3D9FC",
+                    "--ts-var-root-background": "#F7F5FF",
+                },
+            }
         }
     }
-}
+});
 ----
 +
+. If required, add a custom font:
++
+The following example shows how to add a custom font and apply the font to a variable in the CSS file:
+
++
+[source,CSS]
+----
+@font-face {
+        font-family: 'YourFontName'; /Name of the font/
+        src: url('http://domain.example/fonts/font.ttf'); /source URL of the font/
+    }
+    :root {
+        --ts-var-root-font-family: 'YourFontName';
+    }
+----
++
+The following example shows how to add a custom font and apply styles to variables in the `customCSS` object:
+
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSS: {
+                variables: {
+                    "--ts-var-root-font-family": 'YourFontName',
+                },
+                styles_UNSTABLE: {
+                    '@font-face': {
+                        'font-family': 'YourFontName',
+                        'src': "url('http://domain.example/fonts/font.ttf')"
+                    }
+                }
+            }
+        }
+    }
+});
+----
+
 . After you modify the styles, reload your application and verify the changes.
 
 
@@ -209,7 +255,7 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page]
 
 === Sample CSS file with variable definitions
 
-[source,html]
+[source,css]
 ----
 :root {
 /******** App ********/

@@ -117,6 +117,11 @@ button {
 
 /*Tags style start*/
 
+.video {
+   width: 800px;
+   height: 600px;
+}
+
 .tag {
     border-radius: $tag-border-radius;
     display: inline-block;
@@ -276,6 +281,16 @@ button {
     border: 0.5px solid $disabledcolor;
     padding: 0 0 0 5px;
     overflow-x: auto;
+}
+
+.videoContainer {
+    border-radius: 10px;
+    overflow-x: auto;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    margin: 10px;
+    padding: 15px;
 }
 
 summary.title  {
