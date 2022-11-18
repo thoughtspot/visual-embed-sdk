@@ -70,6 +70,59 @@ liveboardEmbed.render({
   });
 ----
 
+
+=== Apply multiple runtime filters in the SDK
+
+The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
+
+[#multiRuntimeFilters]
+[source,javascript]
+----
+liveboardEmbed.render({
+    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
+    runtimeFilters: [{
+            columnName: 'item type', // eg: color
+            operator: RuntimeFilterOp.EQ,
+            values: ['Jackets'] // eg: red
+        },
+        {
+            columnName: 'Region',
+            operator: RuntimeFilterOp.IN,
+            values: ['Midwest', 'East', 'West']
+        },
+        {
+            columnName: 'Date',
+            operator: RuntimeFilterOp.EQ,
+            values: ['1656680400']
+        }
+    ]
+});
+----
+
+===== Example video
+
+The following video shows how to apply multiple runtime filters on a Liveboard.
+
+////
+[div boxDiv]
+
+--
+[.widthAuto]
+image::./images/runtime-filters.gif[Runtime filters gif]
+--
+////
+
+
+[div videoContainer]
+--
+video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
+++++
+<a href="?pageid=runtime-filters#multiRuntimeFilters"  id="preview-in-playground"> Copy sample code</a>
+<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+</div>
+++++
+--
+
 [#runtimeFilterOp]
 === Runtime filter operators
 
@@ -300,57 +353,7 @@ liveboardEmbed.render({
 ----
 |=====
 
-==== Apply multiple filters in the SDK
 
-The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
-
-[#multiRuntimeFilters]
-[source,javascript]
-----
-liveboardEmbed.render({
-    liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
-    runtimeFilters: [{
-            columnName: 'item type', // eg: color
-            operator: RuntimeFilterOp.EQ,
-            values: ['Jackets'] // eg: red
-        },
-        {
-            columnName: 'Region',
-            operator: RuntimeFilterOp.IN,
-            values: ['Midwest', 'East', 'West']
-        },
-        {
-            columnName: 'Date',
-            operator: RuntimeFilterOp.EQ,
-            values: ['1656680400']
-        }
-    ]
-});
-----
-
-===== Example video
-
-The following video shows how to apply multiple runtime filters on a Liveboard.
-
-////
-[div boxDiv]
-
---
-[.widthAuto]
-image::./images/runtime-filters.gif[Runtime filters gif]
---
-////
-
-
-[div videoContainer]
---
-video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
-++++
-<a href="?pageid=runtime-filters#multiRuntimeFilters"  id="preview-in-playground"> Copy sample code</a>
-<a href="{{previewPrefix}}/playground/liveboard?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out in Playground</a>
-</div>
-++++
---
 
 === Runtime filters in REST API calls
 

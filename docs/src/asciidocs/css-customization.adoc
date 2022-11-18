@@ -246,12 +246,16 @@ The following figures show the customizable elements and example definitions for
 
 ==== Search page
 
+[div boxDiv]
+--
 image::./images/custom-css-search.png[CSS customization Search page]
-
+--
 ==== Liveboard page
 
+[div boxDiv]
+--
 image::./images/custom-css-viz.png[CSS customization Liveboard page]
-
+--
 
 === Sample CSS file with variable definitions
 

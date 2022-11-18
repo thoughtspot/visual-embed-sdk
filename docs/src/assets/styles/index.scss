@@ -225,6 +225,7 @@ button {
     display: inline-block;
     margin: 10px;
     box-shadow: var(--box-shadow);
+    border-top: 0.5px solid $lightgrey;
     border-radius: 10px;
     &:hover {
         box-shadow: var(--box-shadow-hover);
