@@ -14,7 +14,16 @@ This section describes the authentication methods supported in the SDK and when 
 
 The following figure shows the authentication methods best suited for production use cases:
 
-image::./images/auth-type-embed.png[Embed authentication types]
+++++
+<img src="../doc-images/images/auth-type-embed.png" alt="Embed authentication types" usemap="#image-map">
+
+<map name="image-map" id="image-map">
+    <area target="_blank" alt="Trusted authentication" title="Trusted authentication" href="?pageid=embed-auth#trusted-auth-embed" coords="429,1760,109,1639" shape="rect">
+    <area target="_blank" alt="SAMLRedirect authentication" title="SAMLRedirect authentication" href="?pageid=embed-auth#saml-sso-embed" coords="566,1643,896,1754" shape="rect">
+    <area target="_blank" alt="OIDCRedirect authentication" title="OIDCRedirect authentication" href="?pageid=embed-auth#oidc-auth" coords="924,1643,1242,1758" shape="rect">
+    <area target="_blank" alt="EmbeddedSSO authentication" title="EmbeddedSSO authentication" href="?pageid=embed-auth#embedSSO" coords="1257,1757,1585,1640" shape="rect">
+</map>
+++++
 
 The following table lists the general recommendations for choosing an authentication method to authenticate embedded application users.
 
