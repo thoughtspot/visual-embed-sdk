@@ -73,7 +73,7 @@ Triggers a drill-down event on certain points of the specified column.  +
 Includes the following parameters:
 
 * `points` +
-Data points to drill down to. Returns clicked and selected data points of a visualization object.
+An object containing `selectedPoints` or `clickedPoints` to drill down to. For example, `{ selectedPoints: []}`.
 * `columnGuid`  __Optional__ +
 __String__. GUID of the column to drill by.
 * `autoDrillDown`  __Optional__ +
@@ -379,7 +379,7 @@ Triggers a search query. +
 Requires the following parameters: +
 
 * `searchQuery` +
-__String__. Query string with search tokens.
+__String__. Query string with search tokens
 
 * `dataSourceIds` +
 __String__. Data source GUIDs
@@ -447,14 +447,14 @@ You can specify an array of Visualization GUIDs set as visible objects. The visu
 ====
 [source, javascript]
 ----
-liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2'])
+liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c','d547ec54-2a37-4516-a222-2b06719af726'])
 ----
 ====
 --
 
 ==== UpdateRuntimeFilters
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.8.0` or later. +
-Triggers an event to update runtime filters. You can specify an array of runtime filters with the following attributes:
+Updates runtime filters applied on Liveboard, visualization, or answer object. You can specify an array of runtime filters with the following attributes:
 
 * `columnName`  +
 __String__. The name of the column to filter on.
@@ -466,6 +466,7 @@ Runtime filter operator to apply. For information about supported operators, see
 The list of operands. The value can be an array of strings, integer, or boolean. Some operators such as `EQ`, `LE` allow a single value, whereas operators such as `BW` and `IN` accept multiple operands.
 
 The following example shows how to register an event handler to trigger an event to update runtime filters.
+
 
 [div divider]
 --
