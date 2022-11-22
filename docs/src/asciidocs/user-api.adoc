@@ -1304,7 +1304,7 @@ Use the example format for the JSON requests:
 ----
 [IMPORTANT]
 ====
-The above example covers user objects (with emails), group objects, and their relationships.
+The preceding example covers user objects (with emails), group objects, and their relationships.
 
 * You can leave the `created` and `modified` dates blank for new users.
 * You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.

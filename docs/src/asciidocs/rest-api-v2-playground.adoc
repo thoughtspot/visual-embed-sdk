@@ -59,11 +59,11 @@ Allows you to modify the client configuration settings. For example, you can upd
 +
 Allows you to download the API response JSON file to your local directory.
 
+////
 Language selection drop-down::
 
 The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples.
 
-////
 You can also use this drop-down to get language-specific SDK and client libraries.
 ////
 

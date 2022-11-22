@@ -111,7 +111,7 @@ fetch(
 });
 ----
 
-The JSON object created by the code above will match the format documented in the  xref:pinboarddata.adoc[Liveboard data API].
+The JSON object created by this code matches the format in the xref:pinboarddata.adoc[Liveboard data API].
 
 == Transform the REST API response
 In almost every case, you are required to transform the data format returned from ThoughtSpot to match the expected input for your charting library.

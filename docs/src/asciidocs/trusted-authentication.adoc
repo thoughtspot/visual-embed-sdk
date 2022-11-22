@@ -120,7 +120,7 @@ The simplest *authenticator service* does the following steps, assuming ThoughtS
 If user creation and group assignment must be performed at the time of the login token request, the *authenticator service* must follow the steps described in the xref:trusted-authentication.adoc#_just_in_time_user_provisioning_and_group_assignment[Just-in-time user provisioning and group assignment] section of this article.
 
 === Verify and parse the authentication message
-As mentioned above, the exact way you send the authentication details varies with your implementation. The *authenticator service* must verify the request and then parse out the details (at minimum, the *ThoughtSpot username* value) so that they can be used in the subsequent REST API requests to ThoughtSpot.
+As mentioned in the preceding section, the exact way you send the authentication details varies with your implementation. The *authenticator service* must verify the request and then parse out the details (at minimum, the *ThoughtSpot username* value) so that they can be used in the subsequent REST API requests to ThoughtSpot.
 
 The *authenticator service* will need access to whatever code and other services are necessary to parse out the authentication details. For example, if you are sending through an OAuth token from an IdP, the IdP may provide a library or set of instructions using standard libraries. If using the application's existing session system, there will be some way to retrieve the username based on the session details from the request. You can also define your own JWT or some other secure way for your web application to send the message securely.
 
@@ -163,7 +163,7 @@ The typical flow of REST API requests for user creation at the time of a login t
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
 
-For example, you could implement the xref:group-api.adoc#create-group[create group] REST API for ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow in the section above to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
+For example, you could implement the xref:group-api.adoc#create-group[create group] REST API for ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow described in the preceding section to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
 
 
 == Disable trusted authentication

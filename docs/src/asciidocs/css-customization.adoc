@@ -26,7 +26,7 @@ The following code text appears in the `init` function and is highlighted in the
 customizations: {
     style: {
       customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css", // location of your stylesheet
-      // To apply overrides for your stylesheet in this init, provide variable values below
+      // To apply overrides for your stylesheet in this init, provide variable values
       customCSS: {
         variables: {
           "--ts-var-button--secondary-background": "#F0EBFF",

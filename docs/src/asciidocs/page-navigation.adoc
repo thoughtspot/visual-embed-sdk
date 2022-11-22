@@ -123,7 +123,7 @@ metadataListRestApiCall(
 ----
 
 === Render navigation elements
-The response from the function above is an array of header objects, which can be parsed to render navigation.
+The response from the function in the preceding example is an array of header objects, which can be parsed to render navigation.
 
 The `name` and `id` property are used in almost all the navigation you build (`id` is the GUID necessary to load any ThoughtSpot object). Additional properties include:
 
@@ -209,7 +209,7 @@ If you want to render something very close to the 'Answers' or 'Pinboards' page 
     }
 ----
 
-The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
+The function in the preceding example merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
 
 [source,javascript]
 ----
