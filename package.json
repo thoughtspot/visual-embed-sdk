@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.17.0-alpha.2",
+    "version": "1.18.0-alpha.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -12,12 +12,16 @@
     ],
     "exports": {
         ".": "./lib/src/index.js",
-        "./react": "./lib/src/react/index.js"
+        "./react": {
+            "import": "./lib/src/react/index.js",
+            "require": "./cjs/src/react.index.js",
+            "types": "./lib/src/react/index.d.ts"
+        }
     },
     "scripts": {
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
-        "tsc": "tsc -p . --incremental false",
+        "tsc": "tsc -p . --incremental false; tsc -p . --incremental false --module commonjs --outDir cjs",
         "start": "gatsby develop",
         "build:gatsby": "npm run clean:gatsby && gatsby build --prefix-paths",
         "build:gatsby:noprefix": "npm run clean:gatsby && gatsby build",
@@ -117,7 +121,7 @@
         "typedoc": "0.21.6",
         "typedoc-neo-theme": "^1.1.0",
         "typedoc-plugin-toc-group": "0.0.5",
-        "typescript": "^4.1.0",
+        "typescript": "^4.9.4",
         "url-search-params-polyfill": "^8.1.0",
         "util": "^0.12.4"
     },

@@ -85,6 +85,7 @@ dist
 lib
 public/
 docs/public/
+cjs
 
 # Gatsby files
 .cache/
