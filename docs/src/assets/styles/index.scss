@@ -183,7 +183,7 @@ button {
 }
 
 .greyBackground {
-    background-color: $disabledcolor;
+    background-color: #EAEDF2;
 }
 
 .orangeBackground {
@@ -233,9 +233,54 @@ button {
 }
 
 .container {
-    margin-bottom: 20px;
-    padding: $padding-sm;
+    margin:0 0 10px 0;
+    padding: 5px;
     width: auto;
+
+}
+
+.homeHeader {
+    display: inline-block;
+    padding: 5px;
+    width: 550px;
+    max-width: 45%;
+    margin: 0;
+    vertical-align: top;
+}
+
+.homeHeaderText {
+      display: inline-block;
+      padding: 5px 5px 5px 20px;
+      width: 600px;
+      max-width: 33%;
+      margin: 0;
+      vertical-align: top;
+}
+
+.homeBullet {
+    border-radius: 25pt;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: $font-weight-bold;
+    line-height: $tag-line-height !important;
+    margin-right: $tag-margin-right;
+    text-align: center;
+    min-width: auto;
+    padding: 0 8px 0 8px;
+    color: $darkblue;
+}
+
+.blockHome{
+    border-top: 0.5px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-color);
+    margin: 20px 10px 5px 10px;
+
+}
+
+.blockHomeContent{
+    padding: 15px;
+    display: inline-block;
+    margin: 10px;
 }
 
 .boxHalfWidth {
@@ -270,7 +315,7 @@ button {
 
 
 .boxBody {
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: $font-weight-normal;
     line-height: 18pt;
     color: var(--primary-color);
@@ -411,8 +456,25 @@ a.anchor {
     .documentBody {
         width: calc(100% - 260px);
     }
+
+    .homeBanner {
+        display: none;
+    }
+
+    .homeHeader {
+         width: 100%;
+         max-width: 100%;
+        }
+
     .documentWrapper {
         width: 100%;
+    }
+    .homeHeaderText {
+         width: 100%;
+         max-width: 100%;
+    }
+    .homeHeader {
+         width: 100%;
     }
     .introTile {
          height: 100%;
@@ -429,6 +491,19 @@ a.anchor {
         padding: 5px;
     }
 
+    .homeBanner {
+       display: none;
+    }
+
+    .homeHeader {
+            width: 100%;
+            max-width: 100%;
+    }
+
+     .blockHome {
+         border: 0;
+     }
+
      .documentWrapper {
           documentView {
                  padding-left: 5px;
@@ -444,6 +519,15 @@ a.anchor {
         padding-left: 0;
     }
 
+    .homeHeaderText {
+        width: 100%;
+        max-width: 100%;
+        border-top: 0.5px solid var(--border-color);
+    }
+
+    .blockHome {
+             border: 0;
+    }
 
    .introCard {
         width: 100%;
