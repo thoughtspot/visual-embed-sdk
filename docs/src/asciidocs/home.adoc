@@ -11,7 +11,7 @@
       <h1>ThoughtSpot Everywhere Documentation</h1>
       <p>Learn how to use developer tools, APIs, and SDK available with ThoughtSpot Everywhere and embed ThoughtSpot content in your app!</p>
 </div>
-<div class="homeHeader"><img class="homeBanner" src="../doc-images/images/home-image-old.png" alt="Embed Search"></div>
+<div class="homeHeader"><img class="homeBanner" src="../doc-images/images/home-image.png" alt="Embed Search"></div>
 </div>
 ++++
 
