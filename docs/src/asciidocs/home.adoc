@@ -24,9 +24,6 @@
 <div class="boxDiv">
       <h5>Embed search </h5>
 			<p>Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
-<!--
-			<img src="../doc-images/images/search.png" alt="Embed Search">
--->
 			<p><a href="?pageid=search-embed">Learn more </a>  | <a href="{{previewPrefix}}/playground/search" target="_blank"> Try it out </a> </p>
 		</div>
 	</div>
@@ -34,18 +31,12 @@
     <div class="boxDiv">
 			<h5>Embed charts and tables</h5>
 			<p> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
-			<!--
-<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
--->
 			<p> <a href="?pageid=embed-a-viz"> Learn more</a> |  <a href="{{previewPrefix}}/playground/answer" target="_blank">Try it out </a></p></div>
 	</div>
 	<div class="col-md-4">
      <div class="boxDiv">
 			<h5>Embed Liveboards</h5>
 			<p> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
-			<!--
-			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
--->
 			<p> <a href="?pageid=embed-liveboard"> Learn more </a> | <a href="{{previewPrefix}}/playground/liveboard" target="_blank"> Try it out </a> </p>
 		</div>
 	</div>
