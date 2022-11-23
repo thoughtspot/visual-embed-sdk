@@ -95,8 +95,8 @@
    Sign up </p></a>
     <a href="?pageid=getting-started"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Install Visual Embed SDK</p>
    <a href="?pageid=rest-playground"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Try out REST APIs </p></a>
-   <a href="?pageid=rest-api-getstarted"> <p class="boxBody">  <span class="homeBullet greyBackground">-> </span>Get started with REST APIs </p></a>
-     <a href="?pageid=rest-api-reference"> <p class="boxBody"><span class="homeBullet greyBackground">-></span>Make API requests</p></a>
+   <a href="?pageid=rest-api-getstarted"> <p class="boxBody">  <span class="homeBullet greyBackground">-> </span> Get started with REST APIs </p></a>
+     <a href="?pageid=rest-api-reference"> <p class="boxBody"><span class="homeBullet greyBackground">-></span> Make API requests</p></a>
 </div>
  <div class="homeHeaderText">
        <h3>Release notes</h3>
@@ -104,8 +104,8 @@
     <span class="homeBullet greyBackground">-> </span> What's new </p></a>
     <a href="?pageid=embed-sdk-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> SDK changelog </p>
    <a href="?pageid=rest-v1-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> REST API changelog </p></a>
-   <a href="https://docs.thoughtspot.com/cloud/latest/notes" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span>ThoughtSpot Cloud Release Notes </p></a>
-     <a href="https://docs.thoughtspot.com/software/latest/" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span>ThoughtSpot Software Release Notes</p></a>
+   <a href="https://docs.thoughtspot.com/cloud/latest/notes" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Cloud Release Notes </p></a>
+     <a href="https://docs.thoughtspot.com/software/latest/" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Software Release Notes</p></a>
 </div>
 <div class="homeHeaderText">
       <h3>Additional resources</h3>
