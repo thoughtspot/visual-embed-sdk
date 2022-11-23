@@ -510,6 +510,9 @@ export class TsEmbed {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     this.iFrame.mozallowfullscreen = true;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    this.iFrame.allow = 'clipboard-read; clipboard-write';
                     const {
                         height: frameHeight,
                         width: frameWidth,
