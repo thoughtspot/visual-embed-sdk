@@ -21,7 +21,7 @@ Based on your embedding requirements and integration setup, you can use one of t
 
 To determine the method that best fits your embedding requirement, refer to the information in the following tables.
 
-[div boxAuto]
+[div tableContainer]
 --
 [width="100%" cols="4,7,7,7"]
 [options='header']

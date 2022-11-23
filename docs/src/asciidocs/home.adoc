@@ -4,13 +4,16 @@
 :page-pageid: introduction
 :page-description: ThoughtSpot Everywhere Developer Documentation
 
+++++
+ <div class="container">
+      <h1 align="center">ThoughtSpot Everywhere Documentation</h1>
+      <p align="center" >Learn how to use developer tools, APIs, and SDK available with ThoughtSpot Everywhere and embed ThoughtSpot content in your app!</p>
+    </div>
+++++
 
 
 ++++
 <div class="row">
-    <div class="container">
-      <h1 align="center">ThoughtSpot Everywhere Documentation</h1>
-    </div>
     <div class="col-md-3">
        <a href="?pageid=integration-guidelines"><div class="boxDiv">
         <p class="boxBody"> Explore our guides and code examples to build interactive data apps with engaging analytics. </p>
@@ -55,7 +58,7 @@
 			<h5>Embed search</h5>
 			<p class="boxBody">Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
 			<img src="../doc-images/images/search.png" alt="Embed Search">
-			<p><a href="?pageid=search-embed">Learn more about embedding search -> </a></p>
+			<p><a href="?pageid=search-embed">Learn more -> </a></p>
 		</div></a>
 	</div>
 	<div class="col-md-4">
@@ -63,7 +66,7 @@
 			<h5>Embed charts and tables</h5>
 			<p class="boxBody"> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
 			<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
-			<p> <a href="?pageid=embed-a-viz"> Learn more about embedding visualizations -></a> </p></div></a>
+			<p> <a href="?pageid=embed-a-viz"> Learn more -></a> </p></div></a>
 	</div>
 	<div class="col-md-4">
 		<a href="?pageid=embed-pinboard"><div class="boxDiv">
@@ -71,7 +74,7 @@
 			<p class="boxBody"> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
 			<p> </p>
 			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
-			<p> <a href="?pageid=embed-liveboard"> Learn more about embedding Liveboards -></a></p>
+			<p> <a href="?pageid=embed-liveboard"> Learn more -></a></p>
 		</div></a>
 	</div>
 	</div>
@@ -86,7 +89,7 @@
       <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and Liveboards. </p>
       <img src="../doc-images/images/full-app.png" alt="Embed full ThoughtSpot app">
       <p>
-        <a href="?pageid=full-embed"> Learn more about embedding full app -></a>
+        <a href="?pageid=full-embed"> Learn more -></a>
       </p>
     </div></a>
   </div>
@@ -96,17 +99,18 @@
       <p class="boxBody"> Add custom buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.</p>
       <img src="../doc-images/images/custom-actions-home.png" alt="Custom actions">
       <p>
-        <a href="?pageid=custom-action-intro"> Learn more about custom actions -></a>
+        <a href="?pageid=custom-action-intro"> Learn more -></a>
       </p>
     </div></a>
   </div>
   <div class="col-md-4">
-    <a href="?pageid=customize-style"><div class="boxDiv">
+    <a href="?pageid=style-customization"><div class="boxDiv">
       <h5>Customize UI</h5>
       <p class="boxBody"> Apply custom styles and themes to the embedded ThoughtSpot UI elements to match the look and feel of your app.</p>
       <img src="../doc-images/images/customize-styles.png" alt="Customize UI">
       <p>
-        <a href="?pageid=customize-style">Learn more about style customization -></a>
+        <a href="?pageid=customize-style">Learn more -></a>
+
       </p>
     </div></a>
   </div>
@@ -182,7 +186,3 @@
 </div>
 ++++
 
-
-++++
-<div class="divider"> </div
-++++

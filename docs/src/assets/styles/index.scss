@@ -232,6 +232,12 @@ button {
     }
 }
 
+.container {
+    margin-bottom: 20px;
+    padding: $padding-sm;
+    width: auto;
+}
+
 .boxHalfWidth {
     display: inline-block;
     padding: 15px;
@@ -264,11 +270,20 @@ button {
 
 
 .boxBody {
-    font-weight: $font-size-doc;
-    font-size: $font-size-normal;
-    line-height: $line-height-doc;
+    font-size: 13.5px;
+    font-weight: $font-weight-normal;
+    line-height: 18pt;
     color: var(--primary-color);
+    padding: 5px;
+}
 
+.introList {
+    font-size: 13px;
+    font-weight: $font-weight-normal;
+    line-height: 18pt;
+    color: var(--primary-color);
+    padding: 5px 5px $padding-md 5px;
+    overflow: auto;
 }
 
 .boxAuto {
@@ -302,6 +317,20 @@ summary.title  {
     line-height: $line-height-doc;
     color: var(--primary-color);
 
+}
+
+.introTile {
+    padding: $padding-md;
+    display: inline-block;
+    margin: 1px;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    border-top: 0.5px solid $lightgrey;
+    height: 700px;
+    border-radius: 10px;
+    &:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
 }
 
 .cardHead {
@@ -382,17 +411,39 @@ a.anchor {
     .documentBody {
         width: calc(100% - 260px);
     }
+    .documentWrapper {
+        width: 100%;
+    }
+    .introTile {
+         height: 100%;
+         margin: 10px;
+    }
+    .boxBody {
+        font-size: 12px;
+    }
 }
 
 @media screen and (max-width: $mobile-resolution-max) {
     .introWrapper {
         margin-top: $margin-top-mobile;
+        padding: 5px;
+    }
+
+     .documentWrapper {
+          documentView {
+                 padding-left: 5px;
+             }
+     }
+
+    .containerWrapper {
+        padding: 10px 10px 10px 12px;
     }
 
     .documentBody {
         width: 100%;
         padding-left: 0;
     }
+
 
    .introCard {
         width: 100%;
@@ -406,6 +457,10 @@ a.anchor {
         width: 100%;
     }
 
+    .introTile {
+        height: 100%;
+        margin: 5px;
+    }
     .tableContainer {
 	overflow: scroll;
 }
@@ -416,7 +471,6 @@ a.anchor {
         flex-direction: column;
     }
 }
-
 
 .searchResultHighlightColor {
     color: var(--secondary-color);

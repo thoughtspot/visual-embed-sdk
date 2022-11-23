@@ -29,5 +29,20 @@
                 color: var(--secondary-color);
             }
         }
+
     }
+
 }
+
+@media screen and (max-width: $mobile-resolution-max) {
+       .breadcrumsWrapper{
+           padding: 10px 5px 5px 20px;
+           font-size: $font-size-breadcrums-mobile;
+           line-height: 14pt;
+       }
+}
+
+
+
+
+

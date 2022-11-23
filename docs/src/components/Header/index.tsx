@@ -6,28 +6,29 @@ import './index.scss';
 
 const Header = (props: { location: Location }) => {
 		const headerLinks = [{
-				name: 'Playground',
-				href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere'
-			},
-
-			{
             	name: 'CodeSpot',
-            				href: 'https://developers.thoughtspot.com/codespot/'
-            			},
-
+            	href: 'https://developers.thoughtspot.com/codespot/'
+            },
+ 		    {
+ 				name: 'Playground',
+ 				href: 'https://try-everywhere.thoughtspot.cloud/v2/#/everywhere'
+ 			},
 			{
-				name: 'Docs',
+				name: 'Product Guides',
 				href: 'https://docs.thoughtspot.com/'
 			},
 			{
 				name: 'Community',
 				href: 'https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers',
 			},
-			{
-				name: 'Support',
-				href: 'https://www.thoughtspot.com/support'
-			},
 		];
+
+		const headerLinkSelf = [{
+                        name: 'APIs and SDK',
+                        href: '?pageid=apis-sdk'
+                    },
+        ];
+
 
     return (
         <header>
@@ -44,6 +45,14 @@ const Header = (props: { location: Location }) => {
                             </a>
                         </h2>
 
+                  <div className="d-inline-block headerLink">
+                            {headerLinkSelf.map(({ name, href }) => (
+                                <a href={href}>
+                                    {name}
+                                </a>
+                            ))}
+
+                    </div>
                         <div className="d-inline-block headerLink">
                             {headerLinks.map(({ name, href }) => (
                                 <a href={href} target="_blank">
