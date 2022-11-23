@@ -13,7 +13,7 @@ module.exports = {
             lines: 96,
         },
     },
-    testPathIgnorePatterns: ['/lib/', '/docs/'],
+    testPathIgnorePatterns: ['/lib/', '/docs/', '/cjs/'],
     testMatch: ['**/src/**/*.spec.(ts|tsx)'],
     setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     globals: {
