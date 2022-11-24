@@ -242,8 +242,7 @@ button {
 .homeHeader {
     display: inline-block;
     padding: 5px;
-    width: 550px;
-    max-width: 45%;
+    width: 100%;
     margin: 0;
     vertical-align: top;
 }
@@ -307,7 +306,7 @@ button {
 }
 
 .divider {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-color);
     display: block;
     width: 100%;
     margin: 5px auto;

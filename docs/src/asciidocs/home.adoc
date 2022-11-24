@@ -7,11 +7,11 @@
 
 ++++
 <div class="container">
-<div class="homeHeader">
-      <h1>ThoughtSpot Everywhere Documentation</h1>
-      <p>Learn how to use developer tools, APIs, and SDK available with ThoughtSpot Everywhere and embed ThoughtSpot content in your app!</p>
-</div>
+      <h1 align="center">ThoughtSpot Everywhere Documentation</h1>
+      <p class="divider" align="center">Learn how to use developer tools, APIs, and SDK available with ThoughtSpot Everywhere and embed ThoughtSpot content in your app!</p>
+<!--
 <div class="homeHeader"><img class="homeBanner" src="../doc-images/images/home-image.png" alt="Embed Search"></div>
+-->
 </div>
 ++++
 
@@ -22,8 +22,10 @@
 <div class="row">
 	<div class="col-md-4">
 <div class="boxDiv">
-      <h5>Embed search </h5>
+      <h5>Embed Search </h5>
 			<p>Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
+       <!--  <img src="../doc-images/images/search.png" alt="Embed Search">
+-->
 			<p><a href="?pageid=search-embed">Learn more </a>  | <a href="{{previewPrefix}}/playground/search" target="_blank"> Try it out </a> </p>
 		</div>
 	</div>
@@ -31,12 +33,17 @@
     <div class="boxDiv">
 			<h5>Embed charts and tables</h5>
 			<p> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
-			<p> <a href="?pageid=embed-a-viz"> Learn more</a> |  <a href="{{previewPrefix}}/playground/answer" target="_blank">Try it out </a></p></div>
+		<!--	<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
+-->
+<p> <a href="?pageid=embed-a-viz"> Learn more</a> |  <a href="{{previewPrefix}}/playground/answer" target="_blank">Try it out </a></p></div>
 	</div>
 	<div class="col-md-4">
      <div class="boxDiv">
 			<h5>Embed Liveboards</h5>
 			<p> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
+<!--
+<img src="../doc-images/images/pinboard.png" alt="Embed Liveboards">
+-->
 			<p> <a href="?pageid=embed-liveboard"> Learn more </a> | <a href="{{previewPrefix}}/playground/liveboard" target="_blank"> Try it out </a> </p>
 		</div>
 	</div>
@@ -87,7 +94,7 @@
 ++++
 
 ++++
-<div class="container">
+
 <div class="blockHome">
  <div class="homeHeaderText">
       <h3>APIs and SDK</h3>
@@ -121,7 +128,6 @@
       <p>
         <a href="https://developers.thoughtspot.com/codespot" target="_blank"><span class="homeBullet greyBackground">-> </span> Go to CodeSpot </a>
       </p>
-</div>
 </div>
 </div>
 ++++
