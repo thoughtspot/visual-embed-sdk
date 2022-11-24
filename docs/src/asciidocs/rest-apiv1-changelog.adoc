@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.9.0.cl, Coming soon
+== Version 8.9.0.cl, November 2022
 
 Session API::
 Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint includes the `autocreate` and `groups` properties to allow administrators to create a user just-in-time and assign groups and privileges to the user when requesting an authentication token from ThoughtSpot.

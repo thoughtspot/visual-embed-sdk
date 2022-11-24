@@ -42,7 +42,7 @@ OIDC;;
 Allows configuring redirects from the embedded app to OpenID Provider. When embedded content loads, the SDK redirects the app to the OpenID Provider login page for authentication.
 To allow embedded application users to authenticate to an OpenID provider, your ThoughtSpot instance must have the xref:configure-oidc.adoc[OIDC authentication support] enabled.
 
-TrustedAuth;;
+TrustedAuthToken;;
 Enables trusted authentication method. To use the trusted authentication method, specify the trusted authentication server in the `authEndpoint` attribute or use the `getAuthToken` method.
 
 +

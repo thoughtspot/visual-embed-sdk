@@ -69,7 +69,7 @@ The following example shows a callback function with a custom request using link
 ----
 init({
     thoughtSpotHost: tsURL,
-    authType:  AuthType.TrustedAuth,
+    authType:  AuthType.TrustedAuthToken,
     getAuthToken: getAuthToken,
     username: username
   });
