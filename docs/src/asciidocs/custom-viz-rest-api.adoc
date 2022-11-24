@@ -15,7 +15,7 @@ Rendering a custom visualization from ThoughtSpot data within a web application 
  4. Render the chart on the page using the charting library
 
 == Sign-in via Visual Embed SDK
-Any method of xref:embed-authentication.adoc[sign-in] establishes a ThoughtSpot session in the browser. After a session is established, you can make REST API requests from the browser as the signed-in user as long as xref:api-auth-session.adoc[credentials are included in the request]. 
+Any method of xref:embed-authentication.adoc[sign-in] establishes a ThoughtSpot session in the browser. After a session is established, you can make REST API requests from the browser as the signed-in user as long as xref:api-auth-session.adoc[credentials are included in the request].
 
 The trusted authentication SSO method issues a REST API sign-in command automatically when the `init()` function is called, without the need to render any ThoughtSpot embed components:
 
@@ -28,7 +28,7 @@ import {
 
 init({
    thoughtSpotHost: "{thoughtSpotFQDN}",
-   authType:  AuthType.AuthServer,  // Trusted Authentication
+   authType:  AuthType.TrustedAuth,  // Trusted Authentication
    username: tsUsername, // string variable of username to sign-in
    getAuthToken: tokenCallbackFunc // Trusted Auth token retrieval callback function
  });
@@ -39,9 +39,9 @@ You can request data from the xref:pinboarddata.adoc[visualizations on an existi
 
 Whether you make the API request using link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XMLHttpRequest (XHR), window=_blank] or link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank],  ensure that the browser cookies are included when making the request.
 
-The `tspublic/v1/pinboarddata` endpoint requires a URL with all parameters to be sent (there are no default values that can be left out) in the API request. The two most important parameters are the Liveboard GUID and the optional visualization GUIDs. The Liveboard GUID is visible in the URL when viewing the Liveboard in the ThoughtSpot UI. 
+The `tspublic/v1/pinboarddata` endpoint requires a URL with all parameters to be sent (there are no default values that can be left out) in the API request. The two most important parameters are the Liveboard GUID and the optional visualization GUIDs. The Liveboard GUID is visible in the URL when viewing the Liveboard in the ThoughtSpot UI.
 
-To get the visualization GUID of a given visualization on a Liveboard, right-click the **More** image:./images/icon-more-10px.png[the more options menu] menu for that visualization and click **Copy embed link**. 
+To get the visualization GUID of a given visualization on a Liveboard, right-click the **More** image:./images/icon-more-10px.png[the more options menu] menu for that visualization and click **Copy embed link**.
 The link will be in this format:
 
 ----
@@ -111,12 +111,12 @@ fetch(
 });
 ----
 
-The JSON object created by the code above will match the format documented in the  xref:pinboarddata.adoc[Liveboard data API].  
+The JSON object created by this code matches the format in the xref:pinboarddata.adoc[Liveboard data API].
 
 == Transform the REST API response
 In almost every case, you are required to transform the data format returned from ThoughtSpot to match the expected input for your charting library.
 
-The link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[dataclasses.js, window=_blank] file provides classes for each ThoughtSpot data response type with standardized methods for retrieving the data in various formats.  
+The link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[dataclasses.js, window=_blank] file provides classes for each ThoughtSpot data response type with standardized methods for retrieving the data in various formats.
 
 The `LiveboardData` class matches the Liveboard data API. The `LiveboardData.vizData[{vizId}]` object brings back all of the data for the given visualization. You can retrieve all of the data for a given column using the `.data[{columnName}]` object of the return from `.vizData`:
 
@@ -209,4 +209,3 @@ var xhr = new XMLHttpRequest();
  console.log("Sending REST API request to " + liveboardDataFullEndpoint);
  xhr.send();
 ----
-

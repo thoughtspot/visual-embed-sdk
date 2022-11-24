@@ -8,7 +8,19 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.8.0.cl, Coming soon
+== Version 8.9.0.cl, Coming soon
+
+Session API::
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint includes the `autocreate` and `groups` properties to allow administrators to create a user just-in-time and assign groups and privileges to the user when requesting an authentication token from ThoughtSpot.
+
+TML API::
+In 8.9.0.cl, ThoughtSpot will rebrand the object name `pinboard` to `liveboard` in the TML. The TML objects retrieved from ThoughtSpot via xref:tml-api.adoc#export[`/tspublic/v1/metadata/tml/export`] API endpoint will show the object name as `liveboard` in the API response.
+
+User API::
+
+The xref:user-api.adoc#create-user[POST /tspublic/v1/user/] and xref:user-api.adoc#update-user[PUT /tspublic/v1/user/{userid}] API endpoints allow you set the `triggeredbyadmin` to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+
+== Version 8.8.0.cl, October 2022
 
 The 8.8.0.cl release version introduces the following enhancements to connection API endpoints:
 

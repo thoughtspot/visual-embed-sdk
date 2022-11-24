@@ -65,7 +65,7 @@ In the SP-initiated SSO authentication flow, the SSO request originates from the
 +
 In the IdP-initiated SSO authentication flow, the user authenticates to the IdP first. The browser then redirects the login request to the host application and allows the user to access the requested content.
 
-== SAML authentication workflow for a ThoughtSpot embedded instance
+== SAML authentication workflow on an embedded instance
 
 With SAML SSO authentication, your host applications can allow federated users to access the embedded ThoughtSpot content without the need for a separate ThoughtSpot login.
 

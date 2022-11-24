@@ -10,6 +10,44 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
+=== Improvements to authentication methods and AuthType enums in the SDK
+
+The upcoming release introduces the following changes to the authentication framework in the Visual Embed SDK.
+
+* New auth type enum for embedded SSO authentication
++
+The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded instances. This authentication method allows you to use your current SAML IdP or OpenID Connect configuration and redirect users to the IdP for authentication within the embedded iFrame.
+
+* Changes to the existing `AuthType` enums: +
+** `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
+** `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
+** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
+
+For more information, see xref:embed-authentication.adoc[Authentication].
+
+=== Just-in-time user creation and dynamic privilege assignment
+
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
+
+=== Advanced style customization [beta betaBackground]^Beta^
+
+In the upcoming release, ThoughtSpot allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
+to match the look and feel of your host application.
+
+To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.
+
+For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS using SDK].
+
+=== Visual Embed SDK version 1.17.0
+
+For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
+== Version 8.8.0.cl
+
 === Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
 
 ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
@@ -29,28 +67,41 @@ For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.ad
 Bug fixes and new improvements in embedded user experience. +
 For more information, see xref:fixed-issues.adoc[Fixed issues].
 
-
 == Version 8.7.0.cl
 
-=== Liveboard tabs
+.Liveboard tabs
+[%collapsible]
+====
+The new Liveboard experience[beta blueBackground]^BETA^ now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 
-The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+This feature is available only on deployments that have the new Liveboard experience enabled. For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
-For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
-
-=== Visual Embed SDK version 1.15.0
+[IMPORTANT]
+The new Liveboard experience is in BETA on embedded ThoughtSpot instances. This feature is turned off by default on embedded ThoughtSpot instances.
+====
+.Visual Embed SDK version 1.15.0
+[%collapsible]
+====
 For information about the new features and enhancements in the Visual Embed SDK version 1.15.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-=== REST API v1
+.REST API v1
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+====
 
-=== REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta blueBackground]^BETA^
+[%collapsible]
+====
 The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in 8.10.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+====
 
 == Version 8.6.0.cl
 
-=== Liveboard new experience [beta blueBackground]^BETA^
-
+.Liveboard new experience [beta blueBackground]^BETA^
+[%collapsible]
+====
 The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
 
 Liveboard editing::
@@ -76,12 +127,13 @@ The following features are *_not_* available with the new Liveboard experience:
 
 For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
 
+[discrete]
 ==== New Liveboard experience rollout on embedded instances
 
 The new Liveboard experience is currently available in BETA on embedded ThoughtSpot instances. The new liveboard experience will be rolled out on embedded instances in phases:
 
 In ThoughtSpot Cloud 8.6.0.cl::
-The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
+The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` and enable the new experience globally for all users on your instance. +
 +
 ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
 
@@ -89,20 +141,27 @@ In later releases::
 The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
 
 [NOTE]
-====
 The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
-====
 
+[discrete]
 ==== Actions and Events in the SDK
 If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
 
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
 
-=== Visual Embed SDK version 1.14.0
-For information about the new features and enhancements in the Visual Embed SDK version 1.14.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-=== REST API
+.Visual Embed SDK version 1.14.0
+[%collapsible]
+====
+For information about the new features and enhancements in the Visual Embed SDK version 1.14.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+
+.REST API
+[%collapsible]
+====
 For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+====
 
 == Version 8.5.0.cl
 
@@ -147,13 +206,13 @@ For more information, see xref:customize-links.adoc[Customize links].
 The Visual Embed SDK version 1.12.0 introduces new events. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
 ====
 
-.REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta betaBackground]^Beta^
 [%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST v2 [beta blueBackground]^BETA^ endpoints: +
+|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST v2 [beta betaBackground]^Beta^ endpoints: +
 
 * Data +
 ** `*GET* /tspublic/rest/v2/data/answer/querysql` +
@@ -175,13 +234,13 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 The Visual Embed SDK version 1.11.0 introduces several new events for embedded components. For more information, see xref:api-changelog.adoc[Visual Embed changelog].
 ====
 
-.REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta betaBackground]^Beta^
 [%collapsible]
 ====
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta blueBackground]^BETA^ endpoints are now available:
+|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta betaBackground]^Beta^ endpoints are now available:
 
 * Connection endpoints +
 ** `GET /tspublic/rest/v2/connection/database` +
@@ -206,19 +265,19 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ** `DELETE /tspublic/rest/v2/customactions/association/delete`
 
 |[tag orangeBackground]#MODIFIED# a|
-* The `x-requested-by` header is not mandatory in REST v2 [beta blueBackground]^BETA^ API calls.
+* The `x-requested-by` header is not mandatory in REST v2 [beta betaBackground]^Beta^ API calls.
 * The `createdBy` attribute in the `/tspublic/rest/v2/metadata/header/search` API is renamed to `author`.
 * The attributes with the `boolean` data type in the API endpoints are changed to `string` data type. If a boolean attribute was set as `true` in your existing setup, the value will be changed to `"true"`.
 |[tag redBackground]#BREAKING CHANGES# a|
 
-* Note the change in HTTP request method for the following REST API v2 [beta blueBackground]^BETA^ endpoints: +
+* Note the change in HTTP request method for the following REST API v2 [beta betaBackground]^Beta^ endpoints: +
 ** `**PUT** /tspublic/rest/v2/metadata/tag/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/tag/unassign` +
 ** `**PUT** /tspublic/rest/v2/metadata/favorite/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/favorite/unassign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/assign` +
 ** `**PUT** /tspublic/rest/v2/metadata/homeliveboard/unassign` +
-* In the REST API SDK [beta blueBackground]^BETA^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated.
+* In the REST API SDK [beta betaBackground]^Beta^, the classes corresponding to enumerations used for string fields such as the `type` field in metadata API, are renamed. If you are using the REST API SDK in your environments, make sure the class names are updated.
 |[tag redBackground]#REMOVED# a| The `ownedBy` attribute is removed from the `/tspublic/rest/v2/metadata/header/search` API endpoint.
 |====
 ====
@@ -232,9 +291,9 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ||
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>App actions for Slack integration</h5>+++
 
-ThoughtSpot introduces app actions[beta blueBackground]^BETA^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
+ThoughtSpot introduces app actions[beta betaBackground]^Beta^ to support seamless integration with third-party business apps such as Slack. Your application users can now connect ThoughtSpot with their Slack workspaces and deliver insights directly to Slack channels.
 
-Users with developer or admin privileges can create an app action for Slack[beta blueBackground]^BETA^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
+Users with developer or admin privileges can create an app action for Slack[beta betaBackground]^Beta^ in the Developer portal and add it as a menu action on visualizations and saved answers. On clicking this action, ThoughtSpot users can initiate the Slack integration workflow and send data to their Slack channels without leaving the ThoughtSpot UI.
 
 For more information, see xref:app-actions.adoc[App actions] and xref:push-data-to-slack.adoc[Push data to a Slack workspace].
 |====
@@ -252,11 +311,11 @@ The Visual Embed SDK version 1.10.x introduces new attributes and bug fixes. For
 New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
 ====
 
-.REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta betaBackground]^Beta^
 
 [%collapsible]
 ====
-Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta blueBackground]^BETA^ feature is enabled by default on ThoughtSpot instances.
+Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground and SDK] [beta betaBackground]^Beta^ feature is enabled by default on ThoughtSpot instances.
 
 The 8.2.0.cl release also introduces the following features:
 
@@ -298,7 +357,7 @@ For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference]
 The Visual Embed SDK version 1.9.x introduces new action enumerations, events, and attributes. For more information, see xref:api-changelog.adoc[Visual Embed Changelog].
 ====
 
-.REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta betaBackground]^Beta^
 [%collapsible]
 ====
 The following REST API v2 endpoints are now available on instances on which the REST API v2 Playground and SDK feature is enabled.
@@ -381,7 +440,7 @@ For more information, see xref:events-ref.adoc[Events reference].
 |====
 ====
 
-.REST API Playground and SDK [beta blueBackground]^BETA^
+.REST API Playground and SDK [beta betaBackground]^Beta^
 
 [%collapsible]
 ====

@@ -1,4 +1,4 @@
-= App actions [beta blueBackground]^BETA^
+= App actions [beta betaBackground]^Beta^
 :toc: true
 
 :page-title: App actions for business application integration

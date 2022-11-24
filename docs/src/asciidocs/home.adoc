@@ -5,184 +5,131 @@
 :page-description: ThoughtSpot Everywhere Developer Documentation
 
 
-
 ++++
-<div class="row">
-    <div class="container">
+<div class="container">
       <h1 align="center">ThoughtSpot Everywhere Documentation</h1>
-    </div>
-    <div class="col-md-3">
-       <a href="?pageid=integration-guidelines"><div class="boxDiv">
-        <p class="boxBody"> Explore our guides and code examples to build interactive data apps with engaging analytics. </p>
-        <p>
-          <a href="?pageid=integration-guidelines">Read the guidelines -></a>
-        </p>
-      </div></a>
-    </div>
-    <div class="col-md-3">
-    <a href="?pageid=getting-started">  <div class="boxDiv">
-        <p class="boxBody"> Download the Visual Embed SDK and start embedding ThoughtSpot in your applications.</p>
-        <p>
-          <a href="?pageid=getting-started"> Get started with embedding -></a></p>
-      </div></a>
-    </div>
-    <div class="col-md-3">
-     <a href="?pageid=rest-api-getstarted"> <div class="boxDiv">
-        <p class="boxBody"> Use our REST APIs to query data, manage users and sessions, and automate deployments. </p>
-        <p>
-          <a href="?pageid=rest-api-getstarted"> Get started with REST APIs -></a>
-        </p>
-      </div></a>
-    </div>
-    <div class="col-md-3">
-       <a href="?pageid=whats-new"><div class="boxDiv">
-        <p class="boxBody"> See what's new in ThoughtSpot Everywhere and try out new features and enhancements. </p>
-        <p>
-          <a href="?pageid=whats-new"> Check what's new -></a>
-        </p>
-      </div></a>
-    </div>
-  </div>
-  </div>
+      <p class="divider" align="center">Learn how to use developer tools, APIs, and SDK available with ThoughtSpot Everywhere and embed ThoughtSpot content in your app!</p>
+<!--
+<div class="homeHeader"><img class="homeBanner" src="../doc-images/images/home-image.png" alt="Embed Search"></div>
+-->
+</div>
 ++++
+
 
 [.non-link]
-+++<h2 align="center">Embedding and customization </h2>+++
+
 ++++
 <div class="row">
 	<div class="col-md-4">
-	<a href="?pageid=search-embed">	<div class="boxDiv">
-			<h5>Embed search</h5>
-			<p class="boxBody">Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
-			<img src="../doc-images/images/search.png" alt="Embed Search">
-			<p><a href="?pageid=search-embed">Learn more about embedding search -> </a></p>
-		</div></a>
+<div class="boxDiv">
+      <h5>Embed Search </h5>
+			<p>Embed ThoughtSpot search to implement search-driven analytics in your application and help your users find answers instantly! </p>
+       <!--  <img src="../doc-images/images/search.png" alt="Embed Search">
+-->
+			<p><a href="?pageid=search-embed">Learn more </a>  | <a href="{{previewPrefix}}/playground/search" target="_blank"> Try it out </a> </p>
+		</div>
 	</div>
 	<div class="col-md-4">
-		<a href="?pageid=embed-a-viz"> <div class="boxDiv">
+    <div class="boxDiv">
 			<h5>Embed charts and tables</h5>
-			<p class="boxBody"> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
-			<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
-			<p> <a href="?pageid=embed-a-viz"> Learn more about embedding visualizations -></a> </p></div></a>
+			<p> Embed ThoughtSpot visualizations in your application to empower your users with insights that are easy to read and modify.</p>
+		<!--	<img src="../doc-images/images/charts-viz.png" alt="Embed charts and tables">
+-->
+<p> <a href="?pageid=embed-a-viz"> Learn more</a> |  <a href="{{previewPrefix}}/playground/answer" target="_blank">Try it out </a></p></div>
 	</div>
 	<div class="col-md-4">
-		<a href="?pageid=embed-pinboard"><div class="boxDiv">
+     <div class="boxDiv">
 			<h5>Embed Liveboards</h5>
-			<p class="boxBody"> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
-			<p> </p>
-			<img src="../doc-images/images/pinboard.png" alt="Embed pinboards">
-			<p> <a href="?pageid=embed-liveboard"> Learn more about embedding Liveboards -></a></p>
-		</div></a>
+			<p> Embed Liveboards with visualizations and insights that your users can view, explore, analyze, and act on. </p>
+<!--
+<img src="../doc-images/images/pinboard.png" alt="Embed Liveboards">
+-->
+			<p> <a href="?pageid=embed-liveboard"> Learn more </a> | <a href="{{previewPrefix}}/playground/liveboard" target="_blank"> Try it out </a> </p>
+		</div>
 	</div>
 	</div>
 ++++
+
 
 
 ++++
 <div class="row">
   <div class="col-md-4">
-     <a href="?pageid=full-embed"><div class="boxDiv">
+    <div class="boxDiv">
       <h5>Embed ThoughtSpot app</h5>
-      <p class="boxBody"> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and Liveboards. </p>
-      <img src="../doc-images/images/full-app.png" alt="Embed full ThoughtSpot app">
+      <p> Embed the full ThoughtSpot experience in your application, including search, charts and tables, automated insights, and Liveboards. </p>
+      <!--
+<img src="../doc-images/images/full-app.png" alt="Embed full ThoughtSpot app">
+-->
       <p>
-        <a href="?pageid=full-embed"> Learn more about embedding full app -></a>
+        <a href="?pageid=full-embed"> Learn more </a> | <a href="{{previewPrefix}}/playground/fullApp"  target="_blank"> Try it out</a>
       </p>
-    </div></a>
+    </div>
   </div>
   <div class="col-md-4">
-     <a href="?pageid=custom-action-intro"><div class="boxDiv">
-      <h5>Configure custom actions</h5>
-      <p class="boxBody"> Add custom buttons and actions in the ThoughtSpot UI to let your users send data or trigger a callback workflow.</p>
+     <div class="boxDiv">
+      <h5>Customize embedded view</h5>
+      <p>Show or hide menu actions, trigger and handle events, add custom buttons, and trigger callback to your host app.</p>
+    <!--
       <img src="../doc-images/images/custom-actions-home.png" alt="Custom actions">
+-->
       <p>
-        <a href="?pageid=custom-action-intro"> Learn more about custom actions -></a>
+      <a href="?pageid=action-config"> Actions</a> | <a href="?pageid=events"> Events</a> | <a href="?pageid=custom-action-intro"> Custom actions </a>
       </p>
-    </div></a>
+    </div>
   </div>
   <div class="col-md-4">
-    <a href="?pageid=customize-style"><div class="boxDiv">
+    <div class="boxDiv">
       <h5>Customize UI</h5>
       <p class="boxBody"> Apply custom styles and themes to the embedded ThoughtSpot UI elements to match the look and feel of your app.</p>
-      <img src="../doc-images/images/customize-styles.png" alt="Customize UI">
+         <!--
+<img src="../doc-images/images/customize-styles.png" alt="Customize UI">
+-->
       <p>
-        <a href="?pageid=customize-style">Learn more about style customization -></a>
+        <a href="?pageid=style-customization">Learn more </a> | <a href="{{previewPrefix}}/playground/fullApp" target="_blank"> Try it out </a>
       </p>
-    </div></a>
+    </div>
   </div>
 </div>
 ++++
 
-[.non-link]
-+++<h2 align="center">APIs and SDK</h2>+++
-++++
-<div class="row">
-  <div class="col-md-4">
-    <a href="{{previewPrefix}}/playground/search" target="_blank"> <div class="boxDiv">
-      <h5>Try out Embed APIs</h5>
-      <p class="boxBody">Explore Visual Embed APIs in the Developer Playground and view results instantly.</p>
-      <p>
-        <a href="{{previewPrefix}}/playground/search" target="_blank">Take me to Playground -></a>
-    </div></a>
-  </div>
-  <div class="col-md-4">
-    <a href="{{tshost}}/external/swagger" target="_blank"><div class="boxDiv">
-      <h5>Try REST APIs</h5>
-      <p class="boxBody">Explore REST APIs, query data, and manage users, sessions, and user groups.</p>
-      <p>
-        <a href="{{tshost}}/external/swagger" target="_blank">Go to the REST API portal (requires login) -></a>
-      </p>
-    </div></a>
-  </div>
-  <div class="col-md-4">
-    <a href="?pageid=code-samples"><div class="boxDiv">
-      <h5>View code samples</h5>
-      <p class="boxBody"> View code examples for embed features, REST APIs, and custom actions. </p>
-      <p>
-        <a href="?pageid=code-samples">Take me to code samples -></a>
-      </p>
-    </div></a>
-  </div>
-</div>
-</div>
 ++++
 
-[.non-link]
-+++<h2 align="center">Related resources</h2>+++
-++++
-
-<div class="row">
-  <div class="col-md-4">
-      <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><div class="boxDiv">
-      <h5>Get trained</h5>
-      <p class="boxBody"> Learn how to use Developer portal, Playground, and embed ThoughtSpot content.</p>
+<div class="blockHome">
+ <div class="homeHeaderText">
+      <h3>APIs and SDK</h3>
+          <a href="?pageid=get-started-tse"> <p class="boxBody"><span class="homeBullet greyBackground">-></span>
+   Sign up </p></a>
+    <a href="?pageid=getting-started"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Install Visual Embed SDK</p>
+   <a href="?pageid=rest-playground"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Try out REST APIs </p></a>
+   <a href="?pageid=rest-api-getstarted"> <p class="boxBody">  <span class="homeBullet greyBackground">-> </span> Get started with REST APIs </p></a>
+     <a href="?pageid=rest-api-reference"> <p class="boxBody"><span class="homeBullet greyBackground">-></span> Make API requests</p></a>
+</div>
+ <div class="homeHeaderText">
+       <h3>Release notes</h3>
+            <a href="?pageid=whats-new"> <p class="boxBody">
+    <span class="homeBullet greyBackground">-> </span> What's new </p></a>
+    <a href="?pageid=embed-sdk-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> SDK changelog </p>
+   <a href="?pageid=rest-v1-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> REST API changelog </p></a>
+   <a href="https://docs.thoughtspot.com/cloud/latest/notes" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Cloud Release Notes </p></a>
+     <a href="https://docs.thoughtspot.com/software/latest/" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Software Release Notes</p></a>
+</div>
+<div class="homeHeaderText">
+      <h3>Additional resources</h3>
+       <p><strong> Get trained </strong></p>
       <p>
-        <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"> Learn more -></a>
+        <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><span class="homeBullet greyBackground">-> </span> Go to ThoughtSpot U </a>
       </p>
-    </div></a>
-  </div>
-  <div class="col-md-4">
-   <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank"> <div class="boxDiv">
-      <h5>Join ThoughtSpot community</h5>
-      <p class="boxBody">Join the ThoughtSpot community, ask questions and find answers. </p>
+      <p><strong>Join ThoughtSpot community</strong></p>
       <p>
-        <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank">Visit ThoughtSpot Community -></a>
+        <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank"><span class="homeBullet greyBackground">-> </span> Go to Community </a>
       </p>
-    </div><a>
-  </div>
-  <div class="col-md-4">
-    <a href="https://cloud-docs.thoughtspot.com/" target="_blank"><div class="boxDiv">
-      <h5> Learn more about ThoughtSpot</h5>
-      <p class="boxBody">Visit our product documentation site to know more about ThoughtSpot.</p>
+        <p><strong> View code samples</p>
       <p>
-        <a href="https://cloud-docs.thoughtspot.com/" target="_blank">View product documentation -></a>
-    </div></a>
-  </div>
+        <a href="https://developers.thoughtspot.com/codespot" target="_blank"><span class="homeBullet greyBackground">-> </span> Go to CodeSpot </a>
+      </p>
 </div>
 </div>
 ++++
 
 
-++++
-<div class="divider"> </div
-++++

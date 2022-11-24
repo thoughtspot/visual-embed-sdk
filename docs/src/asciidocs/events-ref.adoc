@@ -18,6 +18,7 @@ Host events use the `.trigger()` method to send the event message to embedded Th
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
 Triggers the *Create alert* action to create a threshold-based alert for KPI charts. +
+Requires the `vizId` key.
 
 [div divider]
 --
@@ -35,30 +36,48 @@ liveboardEmbed.trigger(HostEvent.CreateMonitor {
 ==== CopyLink
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
-Triggers the *Copy link* action on a Liveboard or a specific visualization on a Liveboard.
+Triggers the *Copy link* action on a Liveboard or visualization on a Liveboard. +
+To trigger the *Copy link* action on a specific visualization on a Liveboard, pass the `vizId` key.
 
 [div divider]
 --
 .Examples
 [%collapsible]
 ====
+The following example triggers the `CopyLink` action on a Liveboard.
 
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.CopyLink)
 ----
 
+The following example triggers the `CopyLink` action on the specified visualization in a Liveboard.
+
 [source, javascript]
 ----
-liveboardEmbed.trigger(HostEvent.CopyLink, {
+liveboardEmbed.trigger(HostEvent.CopyLink,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+
+If you have embedded only chart or table visualization, you can trigger the `CopyLink` action on the object.
+[source, javascript]
+----
+vizEmbed.trigger(HostEvent.CopyLink)
 ----
 ====
 --
 
 ==== DrillDown
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
-Triggers a drill-down event when a user clicks on a specific point in a column.  +
+Triggers a drill-down event on certain points of the specified column.  +
+Includes the following parameters:
+
+* `points` +
+An object containing `selectedPoints` or `clickedPoints` to drill down to. For example, `{ selectedPoints: []}`.
+* `columnGuid`  __Optional__ +
+__String__. GUID of the column to drill by.
+* `autoDrillDown`  __Optional__ +
+__Boolean__. When set to `true`, automatically drills down to the selected points on the configured column.
 
 [div divider]
 --
@@ -104,35 +123,40 @@ Triggers the *Download PDF* action on a Liveboard.
 ----
 liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
 ----
-
-[source, javascript]
-----
-liveboardEmbed.trigger(HostEvent.DownloadAsPDF {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
 ====
 --
 
 ==== Edit
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
-Triggers the *Edit* mode on a Liveboard. To trigger the *Edit* action for a specific visualization on a Liveboard, specify the visualization GUID.
+Triggers the *Edit* action on a Liveboard or visualization in a Liveboard.  +
+To trigger the *Edit* action for a specific visualization on a Liveboard, pass the `vizId` key.
 
 [div divider]
 --
 .Example
 [%collapsible]
 ====
+The following example triggers the `Edit` action on a Liveboard.
+
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit)
 ----
 
+The following example triggers the `Edit` action on the specified visualization in a Liveboard.
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
+
+If you have embedded only chart or table visualization, you can trigger the `Edit` action on the object.
+[source, javascript]
+----
+vizEmbed.trigger(HostEvent.Edit)
+----
+
 ====
 --
 
@@ -157,6 +181,7 @@ liveboardEmbed.trigger(HostEvent.EditTML)
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
 Triggers the *Explore* action for a Liveboard visualization. +
+Requires the `vizId` key.
 
 [div divider]
 --
@@ -242,6 +267,7 @@ liveboardEmbed.trigger(HostEvent.MakeACopy)
 ==== ManageMonitor
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
 Triggers the *Manage alert*  action on a Liveboard visualization. This action is available for KPI visualizations that support threshold-based alerts.  +
+Requires the `vizId` key: +
 
 [div divider]
 --
@@ -251,7 +277,7 @@ Triggers the *Manage alert*  action on a Liveboard visualization. This action is
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.ManageMonitor, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -259,7 +285,18 @@ liveboardEmbed.trigger(HostEvent.ManageMonitor, {
 ==== Navigate
 
 Available with `AppEmbed` in `V1.12.0` or later. +
-Is triggered when a user navigates to an application page without reloading the page. +
+Triggers navigation to the specified application page without triggering a reload +
+Requires the following parameters: +
+
+* `path`  +
+__String__ |__Integer__. The application path to navigate to.
+* `noReload` +
+__Boolean__. When set to `true`, the user is navigated to the specified application page.
+
+[NOTE]
+====
+You can also use the `appEmbed.navigateToPage(path, true)` function for page navigation within the embedded ThoughtSpot app.
+====
 
 [div divider]
 --
@@ -269,8 +306,8 @@ Is triggered when a user navigates to an application page without reloading the 
 [source,javascript]
 ----
 appEmbed.trigger(HostEvent.Navigate, {
-   path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
-   noReload: true
+path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
+noReload: true
 });
 ----
 --
@@ -279,6 +316,7 @@ appEmbed.trigger(HostEvent.Navigate, {
 
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
 Triggers the *Pin* action on a Liveboard visualization.  +
+Requires the `vizId` key.
 
 [div divider]
 --
@@ -288,7 +326,7 @@ Triggers the *Pin* action on a Liveboard visualization.  +
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Pin, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -309,26 +347,10 @@ Triggers the *Present* action on a Liveboard or visualization on a Liveboard.  +
 liveboardEmbed.trigger(HostEvent.Present)
 ----
 
-
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.Present, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-====
---
-
-==== Search
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
-Is triggered when a search operation is executed. The event returns the data source GUID and search query details. +
-[div divider]
---
-.Example
-[%collapsible]
-====
-[source,javascript]
-----
-searchEmbed.trigger(HostEvent.Search)
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
@@ -347,6 +369,32 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [source, javascript]
 ----
 appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== Search
+Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
+Triggers a search query. +
+Requires the following parameters: +
+
+* `searchQuery` +
+__String__. Query string with search tokens
+
+* `dataSourceIds` +
+__String__. Data source GUIDs
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,javascript]
+----
+searchEmbed.trigger(HostEvent.Search {
+searchQuery: "[sales] by [item type]"
+dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+})
 ----
 ====
 --
@@ -389,7 +437,8 @@ liveboardEmbed.trigger(HostEvent.ScheduleList)
 
 ==== SetVisibleVizs
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.6.0` or later. +
-Sets specific visualizations as visible objects on a Liveboard. The visualization IDs that are not passed in the parameter are hidden on the Liveboard. +
+Sets specific visualizations as visible objects on a Liveboard.
+You can specify an array of Visualization GUIDs set as visible objects. The visualization IDs not included in the array are hidden on the Liveboard. +
 
 [div divider]
 --
@@ -398,14 +447,27 @@ Sets specific visualizations as visible objects on a Liveboard. The visualizatio
 ====
 [source, javascript]
 ----
-liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2'])
+liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c','d547ec54-2a37-4516-a222-2b06719af726'])
 ----
 ====
 --
 
 ==== UpdateRuntimeFilters
 Available with `LiveboardEmbed` and `AppEmbed` in `V1.8.0` or later. +
-Triggers an event to update runtime filters. The following example shows how to register an event handler to trigger an event when the runtime filters are updated. +
+Updates runtime filters applied on Liveboard, visualization, or answer object. You can specify an array of runtime filters with the following attributes:
+
+* `columnName`  +
+__String__. The name of the column to filter on.
+
+* `operator` +
+Runtime filter operator to apply. For information about supported operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filter operators].
+
+* `values` +
+The list of operands. The value can be an array of strings, integer, or boolean. Some operators such as `EQ`, `LE` allow a single value, whereas operators such as `BW` and `IN` accept multiple operands.
+
+The following example shows how to register an event handler to trigger an event to update runtime filters.
+
+
 [div divider]
 --
 .Example
@@ -414,10 +476,16 @@ Triggers an event to update runtime filters. The following example shows how to 
 [source, javascript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
-    columnName: "state",
-    operator: "EQ",
-    values: ["michigan"]
-}]);
+columnName: "state",
+operator: "EQ",
+values: ["michigan"]
+},
+{
+columnName: "item type",
+operator: "EQ",
+values: ["Jackets"]
+}
+])
 ----
 ====
 --
@@ -458,7 +526,7 @@ Triggers all embed events. +
 [source, javascript]
 ----
 appEmbed.on(EmbedEvent.ALL, payload => {
-    console.log('Embed Events', payload)
+console.log('Embed Events', payload)
 })
 ----
 ====
@@ -477,17 +545,17 @@ Returns the GUIDs of the selected columns. +
 [source,Javascript]
 ----
 appEmbed.on(EmbedEvent.AddRemoveColumns, payload => {
-    console.log('AddRemoveColumns', payload);
+console.log('AddRemoveColumns', payload);
 })
 ----
 ====
-
 --
 
 ==== Alert
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
-Is triggered when the embedded object sends an alert.
+Is triggered when the embedded object sends an alert.  +
+Returns an alert object or message.
 [div divider]
 --
 .Example
@@ -513,7 +581,7 @@ Is triggered when a user switches to the chart or table view on the answer page.
 [source,Javascript]
 ----
 appEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
-    console.log('switch view', payload);
+console.log('switch view', payload);
 })
 ----
 ====
@@ -544,8 +612,11 @@ appEmbed.on(EmbedEvent.AnswerDelete, payload => {
 ==== AuthInit
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
-Is emitted when authentication is initiated. Returns user GUID as data.
-You can also subscribe to the `AuthInit` event to be notified when user authentication is successful, and `AuthExpire` to trigger an alert when an authenticated session expires.
+Is emitted when authentication is initiated. Returns user GUID as data. +
+Returns the `isLoggedIn` boolean to indicate if authentication was successful.
+
+You can register the `AuthInit` event to be notified about the authentication status, and `AuthExpire` to trigger an alert when an authenticated session expires.
+
 [div divider]
 --
 .Example
@@ -629,7 +700,7 @@ seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
 Is triggered when a custom action is initiated. +
-Returns the custom action ID and the response payload with the answer or Liveboard data.
+Returns the custom action ID and response payload with the answer or Liveboard data.
 For more information, see xref:embed-events.adoc#customAction[Custom action events].
 
 [div divider]
@@ -651,7 +722,9 @@ appEmbed.on(EmbedEvent.customAction, payload => {
 ==== Data
 
 Available with `SearchEmbed` and `AppEmbed` in `V1.1.0` or later. +
-Is triggered when data pertaining to an answer or Liveboard object is received. +
+Is triggered when the answer or Liveboard object data is received. +
+Returns the answer or Liveboard data.
+
 [source, javascript]
 [div divider]
 --
@@ -818,7 +891,17 @@ searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
 Is triggered when the *Drill down* action is executed. +
-Returns the IDs of the column on which the drill down operation was performed, any additional filters applied during the operation, and the columns that were not filtered.
+Returns the following data:  +
+
+* Drill columns +
+The GUIDs of the columns on which the `Drill down` action was applied.
+
+* Additional filters +
+Additional filters applied during the operation
+
+* Non-filtered columns +
+The GUIDs of the columns that were excluded from filter application.
+
 [div divider]
 --
 .Example
@@ -831,7 +914,6 @@ searchEmbed.on(EmbedEvent.Drilldown, payload => {
 })
 ----
 ====
-
 --
 
 ==== DrillExclude
@@ -917,7 +999,9 @@ searchEmbed.on(EmbedEvent.ExportTML, payload => {
 ==== Error
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
-Indicates that an error has occurred.
+Indicates that an error has occurred. +
+Returns an error object or message.
+
 [div divider]
 --
 .Example
@@ -938,13 +1022,16 @@ function showErrorMsg() {
 ==== Init
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
+Is triggered when the embedded object rendering initializes. +
+Returns the timestamp of the event.
 
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-Is triggered when the embedded object rendering initializes. In this example, a showLoader function is called to show a loader when the `Init` event is emitted.
+
+In this example, a showLoader function is called to show a loader when the `Init` event is emitted.
 
 [source,javascript]
 ----
@@ -960,7 +1047,7 @@ function showLoader() {
 ==== LiveboardRendered
 
 Available with `LiveboardEmbed`, `AppEmbed` in `V1.9.1` or later. +
-Is emitted when a Liveboard has completed rendering. This event can be used as a hook to trigger other events on a rendered Liveboard.
+Is emitted when a Liveboard has completed rendering. You can use this event as a hook to trigger other events on a rendered Liveboard.
 [div divider]
 --
 .Examples
@@ -978,7 +1065,7 @@ The following example shows how to trigger `SetVisibleVizs` event using `Liveboa
 ----
 const embedRef = useEmbedRef();
 const onLiveboardRendered = () => {
-embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+embed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
 };
 ----
 ====
@@ -988,7 +1075,9 @@ embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
 ==== Load
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
-Indicates if the embedded ThoughtSpot object has loaded.
+Is triggered when an embedded ThoughtSpot object loads. +
+Returns the timestamp of the event.
+
 [div divider]
 --
 .Example
@@ -1082,8 +1171,10 @@ searchEmbed.on(EmbedEvent.RouteChange, payload => console.log('data', payload))
 --
 ==== Save
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
-Is triggered when an answer is saved in the embedded view.
+Available with `SearchEmbed` and  `AppEmbed` in `V1.11.0` or later, and with `LiveboardEmbed` in 1.15.0 or later versions. +
+
+Is triggered when an answer or Liveboard (new Liveboard experience only) is saved in the embedded view. +
+
 [div divider]
 --
 .Example
@@ -1103,8 +1194,24 @@ searchEmbed.on(EmbedEvent.Save, payload => {
     console.log('Save', payload)
 })
 ----
+
+[source,javascript]
+----
+  //trigger when action starts
+liveboardEmbed.on(EmbedEvent.Save, payload => {
+    console.log('Save', payload)
+}, {
+    start: true
+})
+  //trigger when action ends
+liveboardEmbed.on(EmbedEvent.Save, payload => {
+    console.log('Save', payload)
+})
+----
+
 ====
 --
+
 
 ==== SaveAsView
 
@@ -1169,7 +1276,9 @@ searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
 ==== VizPointClick
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.11.0` or later. +
-Is triggered when an area or data point on a chart is clicked.
+Is triggered when an area or data point on a chart is clicked. +
+Returns the data point that was clicked.
+
 [div divider]
 --
 .Example
@@ -1187,7 +1296,9 @@ searchEmbed.on(EmbedEvent.VizPointClick, payload => {
 ==== VizPointDoubleClick
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
-Is triggered when an area or data point on a chart is double-clicked.
+Is triggered when an area or data point on a chart is double-clicked. +
+Returns the data point that was double-clicked.
+
 [div divider]
 --
 .Example
@@ -1235,3 +1346,4 @@ appEmbed.off(EmbedEvent.AuthInit)
 * For information about common use cases and how to use events for app integration, see xref:embed-events.adoc[Events and app integration].
 * For information about triggering events on React components, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
 * See also the link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.
+

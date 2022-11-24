@@ -12,8 +12,7 @@ You can use the Visual Embed SDK for the following purposes:
 * Embed specific components of the ThoughtSpot application; for example, search, Liveboards, and visualizations.
 * Render full ThoughtSpot application within a host application.
 
-Follow the steps described in the sections below to embed ThoughtSpot features in your application.
-
+Refer to the following articles for more information:
 
 [div boxDiv boxFullWidth]
 --
@@ -86,9 +85,12 @@ Learn how to xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
 
 [div boxDiv boxFullWidth]
 --
-+++<h5>Register and interact events</h5>+++
++++<h5>Customize your embedded view</h5>+++
 
-Learn how to xref:embed-events.adoc[register event handlers, trigger and interact with events].
+* Learn how to xref:embed-events.adoc[register event handlers, trigger and interact with events].
+* xref:embed-actions.adoc[Show or hide menu actions]
+* Configure xref:custom-actions.adoc[custom actions]
+* xref:style-customization.adoc[Customize styles and UI layout]
 --
 
 == Useful resources

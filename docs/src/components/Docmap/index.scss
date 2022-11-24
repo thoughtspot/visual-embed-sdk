@@ -2,12 +2,11 @@
 
 .docmapLinks {
     width: 16%;
-    padding: $padding-md;
+    padding: 10px $padding-md $padding-md $padding-md;
     border-left: 1px var(--border-color) solid;
-    box-shadow: var(--box-shadow);
     position: fixed;
     right: 0;
-    font-size: $font-size-normal;
+    font-size: 14px;
     height: 100vh;
     overflow-y: auto;
 

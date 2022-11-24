@@ -5,7 +5,7 @@
 :page-pageid: rest-api-v2
 :page-description: ThoughtSpot REST API v2 provides service endpoints for user management, group administration, and metadata object queries.
 
-The REST API v2 framework [beta blueBackground]^BETA^ is built upon the existing core API functionality and resource representation model, and offers several new features and enhancements.
+The REST API v2 framework [beta betaBackground]^Beta^ is built upon the existing core API functionality and resource representation model, and offers several new features and enhancements.
 
 Enhanced usability and developer experience::
 

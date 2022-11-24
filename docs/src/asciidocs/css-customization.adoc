@@ -1,0 +1,322 @@
+= Customize CSS [beta betaBackground]^Beta^
+:toc: true
+:toclevels: 1
+
+:page-title: Customize styles and layout
+:page-pageid: custom-css
+:page-description: Customize styles, design, and layout of embedded ThoughtSpot app using custom CSS
+
+ThoughtSpot provides advanced style customization capabilities with the custom CSS framework. The custom CSS feature allows you to override the default styles, color schemes, design elements, and typography of ThoughtSpot elements to match the look and feel of your host application.
+
+== Before you begin
+
+* See xref:style-customization.adoc#_scope_of_customization[Scope of customization] to understand feature limitations. For best results, you can combine the customization settings in the UI and custom CSS. However,
+note that CSS overrides take precedence over the style customization settings configured in the UI.
+* Try it out in the Playground.
+The *Visual Embed* Playground now includes the *Apply Styles* checkbox, using which you can try out the variables and rules. +
+To preview the CSS settings:
+. Go to *Develop* > *Visual Embed* > *Playground*.
+. Select the embed element. For example,  *Full App*.
+. Select *Apply custom styles*.
++
+The following code text appears in the `init` function and is highlighted in the code panel:
++
+[source,javascript]
+----
+customizations: {
+    style: {
+      customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css", // location of your stylesheet
+      // To apply overrides for your stylesheet in this init, provide variable values
+      customCSS: {
+        variables: {
+          "--ts-var-button--secondary-background": "#F0EBFF",
+          "--ts-var-button--secondary--hover-background": "#E3D9FC",
+          "--ts-var-root-background": "#F7F5FF",
+        },
+      },
+    },
+  },
+----
+. Change the style specifications for any variable and click `Run`. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+
+++++
+<a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+
+== Get started with CSS customization
+
+To get started with CSS customization:
+
+. Make sure your deployments are upgraded to support Visual Embed SDK version 1.17.0 or later.
+. To allow your instance to use an external stylesheet:
+your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
+. In the `init` call, add the location of the stylesheet in the `customCssUrl` attribute.
++
+The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot:
+
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css"
+        }
+    }
+});
+----
++
+customCssUrl::
+__String__. The path of the CSS file. You can copy the default CSS file provided by ThoughtSpot to create your own. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
+
+customCSS::
+The custom CSS object with variables and rules to override style specifications in the code.
+
++
+The following example shows how to override the style specifications for secondary buttons using `customCSS` variables directly in the `init` code:
+
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSS: {
+                variables: {
+                    "--ts-var-button--secondary-background": "#F0EBFF",
+                    "--ts-var-button--secondary--hover-background": "#E3D9FC",
+                    "--ts-var-root-background": "#F7F5FF",
+                },
+            }
+        }
+    }
+});
+----
++
+. If required, add a custom font:
++
+The following example shows how to add a custom font and apply the font to a variable in the CSS file:
+
++
+[source,CSS]
+----
+@font-face {
+        font-family: 'YourFontName'; /Name of the font/
+        src: url('http://domain.example/fonts/font.ttf'); /source URL of the font/
+    }
+    :root {
+        --ts-var-root-font-family: 'YourFontName';
+    }
+----
++
+The following example shows how to add a custom font and apply styles to variables in the `customCSS` object:
+
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSS: {
+                variables: {
+                    "--ts-var-root-font-family": 'YourFontName',
+                },
+                styles_UNSTABLE: {
+                    '@font-face': {
+                        'font-family': 'YourFontName',
+                        'src': "url('http://domain.example/fonts/font.ttf')"
+                    }
+                }
+            }
+        }
+    }
+});
+----
+
+. After you modify the styles, reload your application and verify the changes.
+
+
+[#supported-variables]
+== Supported variables and rules
+ThoughtSpot provides a default CSS file containing the most common variables and rules supported in a given release version. You can apply the overrides within the given file or add variable definitions directly in the code.
+
+The following example shows the supported variables:
+
+[width="100%" cols="7,5,5"]
+[options='header']
+|======
+|Variable|UI element/area|  Description
+|`--ts-var-root-background`|Application pages|Application-wide setting +
+
+Background color of the application page
+The color code setting applies to all pages in the app.
+|`--ts-var-root-color`|Text on application pages| Application-wide setting +
+
+Color of the text on application pages +
+|`--ts-var-root-font-family`|Text on application pages| Application-wide setting +
+
+Font type for the text on application pages
+|`--ts-var-root-text-transform`|Text on application pages|Application-wide setting +
+
+Text transformation specification for all UI elements in the app.
+|`--ts-var-nav-background`|Top navigation panel |Element-level setting +
+
+Background color of the top navigation panel.
+|`--ts-var-nav-color`|Top navigation panels |Element-level setting +
+
+Font color of the top navigation panel.
+|`--ts-var-button-border-radius`|Main button|Application-wide setting +
+
+Border-radius of main buttons. For example, the *Search data* button in the top navigation panel.
+|`--ts-var-button--icon-border-radius`|Small buttons|Application-wide setting +
+
+Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons.
+|`--ts-var-button--primary-color`|Primary buttons|Element-level setting +
+
+Font color of the text on primary buttons. For example, the *Go* button on the search bar that appears on clicking Search data, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
+|`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting +
+
+Font family specification for the text on primary buttons.
+|`--ts-var-button--primary-background`|Primary buttons|Element-level setting +
+
+Background color of the primary action buttons. For example, the primary action buttons such as *Pin* and *Save* on the answer page, data workspace, SpotIQ, or Home page.
+|`--ts-var-button--primary--hover-background`|Primary buttons|Element-level setting +
+
+Background color of the primary action buttons when a pointer hovers over these buttons.
+|`--ts-var-button--secondary-color`|Secondary button| Element-level setting +
+
+Font color of the text on the secondary action buttons.
+|`--ts-var-button--secondary--font-family`|Secondary button| Element-level setting +
+
+Font family specification for the text on the secondary action buttons.
+|`--ts-var-button--secondary-background`|Secondary action button|Element-level setting +
+
+Background color of the secondary action buttons.
+|`--ts-var-button--secondary--hover-background`|Secondary button|Element-level setting +
+
+Background color of the secondary action button when a pointer hovers over these buttons.
+|`--ts-var-button--tertiary-color`|Tertiary button|Element-level setting +
+
+Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the search results page.
+|`--ts-var-button--tertiary-background`|Tertiary button|Element-level setting +
+
+Background color of the tertiary button.
+|`--ts-var-button--tertiary--hover-background`|Tertiary button|Element-level setting +
+
+Background color of the tertiary button when a pointer hovers over these buttons.
+|`--ts-var-viz-title-color`|Title text of a visualization/answer|Element-level setting +
+
+Font color of the title text of a visualization or answer.
+|`--ts-var-viz-title-font-family`|Title text of a visualization/answer|Element-level setting +
+
+Font family specification for the title text of a visualization/answer.
+|`--ts-var-viz-title-text-transform`|Title text of a visualization/answer|Element-level setting +
+
+Text transformation specification for visualization and answer titles.
+|`--ts-var-viz-description-color`|Visualization/answer description and subtitle |Element-level setting +
+
+Font color of the description text and subtitle of a visualization or answer.
+|`--ts-var-viz-description-font-family`|Visualization/answer description and subtitle|Element-level setting +
+
+Font family specification of description text and subtitle of a visualization or answer.
+|`--ts-var-viz-description-text-transform`|Visualization/answer description and subtitle|Element-level setting +
+
+Text transformation specification for  description text and subtitle of a visualization or answer.
+|`--ts-var-viz-border-radius`|Visualization tiles +
+Liveboard header panel|Element-level setting +
+
+Border-radius for the visualization tiles and header panel on a Liveboard.
+|`--ts-var-viz-box-shadow`|Visualization tiles +
+Liveboard header panel|Element-level setting +
+
+Box shadow property for the visualization tiles and header panel on a Liveboard.
+|`--ts-var-viz-background`|Visualization tiles +
+Liveboard header panel| Element-level setting +
+
+Background color of the visualization tiles and header panel on a Liveboard.
+|======
+
+=== Examples
+
+The following figures show the customizable elements and example definitions for CSS variables.
+
+==== Search page
+
+[div boxDiv]
+--
+image::./images/custom-css-search.png[CSS customization Search page]
+--
+==== Liveboard page
+
+[div boxDiv]
+--
+image::./images/custom-css-viz.png[CSS customization Liveboard page]
+--
+
+=== Sample CSS file with variable definitions
+
+[source,css]
+----
+:root {
+/******** App ********/
+
+  /* Application-wide background, app-wide text color, app-wide font, app-wide text transform */
+  --ts-var-root-background: #FFFFFF;
+  --ts-var-root-color: #1D232F;
+  --ts-var-root-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
+  --ts-var-root-text-transform: initial;
+
+  /******** Top navigation panel ********/
+  /*Font color and background color of the navigation panel*/
+  --ts-var-nav-color: #F7F5FF;
+  --ts-var-nav-background: #163772;
+
+  /******** Buttons ********/
+  /* Application-wide button design for main buttons. For example, Search data*/
+  --ts-var-button-border-radius: 5px;
+
+  /* Application-wide button design for smaller buttons. For example, buttons with share and favorite icons*/
+  --ts-var-button--icon-border-radius: 5px;
+
+  /* Primary buttons: For example, the Go button in the search bar, the Pin and Save buttons on the search results page */
+  --ts-var-button--primary-color: #ffffff;
+  --ts-var-button--primary-background: #2770EF;
+  --ts-var-button--primary--hover-background: #1D232F;
+  --ts-var-button--primary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
+
+  /* Secondary buttons. For example, the Edit and Explore buttons on the Liveboard page*/
+  --ts-var-button--secondary-color: #1D232F;
+  --ts-var-button--secondary-background: #EAEDF2;
+  --ts-var-button--secondary--hover-background: #2359B6;
+  --ts-var-button--secondary--font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
+
+  /* Tertiary buttons. For example, the Undo, Redo buttons on the search results page*/
+  --ts-var-button--tertiary-color: #1D232F;
+  --ts-var-button--tertiary-background: #FFFFFF;
+  --ts-var-button--tertiary--hover-background: #EAEDF2;
+
+  /******** Visualizations ********/
+  /* Visualization title text customization*/
+  --ts-var-viz-title-color: #2359B6;
+  --ts-var-viz-title-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
+  --ts-var-viz-title-text-transform: Capitalize;
+
+  /* Visualization subtitle and description text customization*/
+  --ts-var-viz-description-color: #C26232;
+  --ts-var-viz-description-font-family: Optimo-Plain,Helvetica Neue,Helvetica,Arial,sans-serif;
+  --ts-var-viz-description-text-transform: Capitalize;
+
+  /* Visualization tile customization*/
+  --ts-var-viz-border-radius: 15px;
+  --ts-var-viz-box-shadow: 1px 2px 5px #888888;
+  --ts-var-viz-background: #F2F7FF;
+}
+----
+
+== Additional resources
+
+* link:https://github.com/thoughtspot/custom-css-demo/blob/main/css-variables.css[Custom CSS demo GitHub Repo, window=_blank]

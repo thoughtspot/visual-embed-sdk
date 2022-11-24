@@ -66,7 +66,7 @@ After importing the package, specify the hostname or IP address of your ThoughtS
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.EmbeddedSSO,
 });
 ----
 thoughtSpotHost::
@@ -85,7 +85,6 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 include::{path}/embed-config.adoc[]
 
 == Embed objects
-
 After you initialize the SDK, create embed object classes and define object properties. +
 For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages: +
 
@@ -100,4 +99,3 @@ For more information about embedding ThoughtSpot app and its objects using SDK, 
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub repository, window=_blank]
 * link:https://github.com/thoughtspot/ts_everywhere_resources[ThoughtSpot Everywhere Resources on GitHub, window=_blank]
 * link:https://developers.thoughtspot.com/guides[Visual Embed Tutorials]
-

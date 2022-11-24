@@ -46,7 +46,7 @@ For information about how to install React framework on Windows, see  link:https
 npx create-react-app ts-data-app
 ----
 +
-In the above example, the name of the app is `ts-data-app`.
+In this example, the name of the app is `ts-data-app`.
 
 .. Initialize the app. 
 +

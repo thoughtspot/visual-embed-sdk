@@ -1,7 +1,7 @@
 @import '../../assets/styles/variables.scss';
 
 .searchWrapper {
-    padding: $padding-md;
+    padding: 30px $padding-md 15px $padding-md;
     border-bottom: 1px var(--border-color) solid;
     box-shadow: var(--box-shadow);
     position: fixed;
@@ -100,19 +100,20 @@
 
 @media screen and (min-width: $tablet-resolution-min) and (max-width: $tablet-resolution-max) {
     .searchInputWrapper {
-        width: 78%;
+        width: 50%;
+
     }
 }
 
 @media screen and (max-width: $mobile-resolution-max) {
     .searchWrapper {
         left: 0;
-        padding: 15px;
+        padding: 20px 5px 10px 10px;
         margin-right: 5px;
         width: 100%;
 
         .searchInputWrapper {
-            width: 78%;
+            width: 75%;
         }
     }
 

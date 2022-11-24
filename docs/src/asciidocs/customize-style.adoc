@@ -1,4 +1,4 @@
-= Customize layout and styles
+= Customize layout and styles in the UI
 :toc: true
 :toclevels: 1
 
@@ -146,6 +146,25 @@ You can also add a HEX color code.
 == Customize color palette for charts
 You can define a set of primary and secondary colors for chart visualizations. The customized color palette is used for all visualizations in Liveboards and answers.
 
+=== How chart colors work
+ThoughtSpot picks colors and hues in a specific order. For example, a primary color, lighter hue, and a hue that is darker than the primary color. The standard color palette in ThoughtSpot uses the following color format by default:
+[width="100%"]
+[options='header']
+|====
+| Primary 1 (P1) | Primary 2 (P2) | Primary 3 (P3) | Primary 4 (P4) | Primary 5 (P5) | Primary 6 (P6) | Primary 7 (P7) | Primary 8 (P8)
+| Lightest 1 (L1) | Lightest 2 (L2) | Lightest 3 (L3) | Lightest 4 (L4) | Lightest 5 (L5) | Lightest 6 (L6) | Lightest 7 (L7) | Lightest 8 (L8)
+| Light 1 (l1) | Light 2 (l2) | Light 3 (l3) | Light 4 (l4) | Light 5 (l5) | Light 6 (l6) | Light 7 (l7) | Light 8 (l8)
+| Dark 1 (d1) | Dark 2 (d2) | Dark 3 (d3) | Dark 4 (d4) | Dark 5 (d5) | Dark 6 (d6) | Dark 7 (d7) | Dark 8 (d8)
+| Darkest 1 (D1) | Darkest 2 (D2) | Darkest 3 (D3) | Darkest 4 (D4) | Darkest 5 (D5) | Darkest 6 (D6) | Darkest 7 (D7) | Darkest 8 (D8)
+|====
+
+
+image::./images/chart-color-palette-format.png[Standard chart color format]
+
+ThoughtSpot applies the same format for custom color palettes. To know more about the color selection algorithm and criteria for charts, see link:https://docs.thoughtspot.com/cloud/latest/chart-color-change#_how_chart_colors_work[How chart colors work, window=_blank].
+
+=== Define a custom color palette for charts
+
 To change the color palette for charts:
 
 . Go to *Develop* > *Customizations* > *Styles*.
@@ -153,23 +172,17 @@ To change the color palette for charts:
 . Click the color you would like to change in the *primary* color palette, and use the color menu to choose your new color.
 +
 You can also add a HEX color code.
-
-+
-All of the colors in the primary color palette are used in a chart before any from the secondary palette are used.
-Therefore, the primary palette usually consists of primary colors.
-
 . Click the color you would like to change in the *secondary* color palette, and use the color menu to choose your new color.
 You can also add a HEX color code.
 +
-The colors from the secondary color palette are used after all of the colors have been exhausted from the primary palette.
+The colors from the secondary color palette are used after all of the primary colors from the primary palette have been exhausted.
 Therefore, the secondary palette usually consists of secondary colors.
 
-=== Disable color rotation
+=== Configure color rotation
 
-You can disable color rotation for single-color charts.
+If the chart requires only one color, ThoughtSpot selects a primary color depending on whether you enabled color rotation. The *Color rotation* feature determines whether single-color charts use a random primary color or always use the first primary color in the palette. If you enable Color Rotation, ThoughtSpot picks colors randomly and may choose any color from Primary 1 through Primary 6 in your color palette for single-color charts. If you disable Color Rotation, ThoughtSpot always chooses Primary 1.
+
 If you disable color rotation, ThoughtSpot generates single-color charts in the order of your color palette, left to right.
-If color rotation is enabled, ThoughtSpot chooses colors randomly.
-
 
 [#footer-text]
 == Customize footer text

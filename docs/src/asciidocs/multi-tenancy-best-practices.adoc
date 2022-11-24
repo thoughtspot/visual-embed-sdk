@@ -70,7 +70,7 @@ We will call a database multi-tenanted when a single set of credentials can see 
 
 If the rules of multi-tenancy are more complex than a simple tenant key on each row of data, there should at least be one table which defines the tenants and can be joined in a way to filter the other tables appropriately.
 
-If the cloud data warehouse you are connecting to is multi-tenanted as described above, then you will only need one set of data objects in ThoughtSpot. The tables will be configured with link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[row-level security (RLS), window=_blank], so that every query will filter against the tenant key in the database.
+If the cloud data warehouse you are connecting to is set as a multi-tenant instance, you need only one set of data objects in ThoughtSpot. The tables will be configured with link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[row-level security (RLS), window=_blank], so that every query will filter against the tenant key in the database.
 
 If there is a separate database connection for each customer organization, then the database pattern is single-tenant, and you will need to create objects for each tenant. ThoughtSpot represents all data and content objects using the link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language, window=_blank], with xref:tml-api.adoc[REST APIs] for automating the creation or  deployment of each tenant’s data and content objects via TML.
 
@@ -168,7 +168,7 @@ The template content itself will be built by the app developer, but will not be 
 Each tenant should have a group used to give access to the content provided by the app developer—a tenant application group. Only the application developer would publish content to this group, and it should be set to *NOT SHARABLE*.
 
 ==== Content belonging to individual tenants
-To allow users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHARABLE*, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHARABLE*.
+To allow users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHARABLE*, or you may want additional groups under the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHARABLE*.
 
 ==== Summary of access groups for single-tenant databases model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups.
@@ -188,7 +188,7 @@ image::./images/single-tenant-database-model.png[Single-tenant database model]
 == Development and test content groups
 Most software development processes involve creating content in a restricted “development” environment, and then once the changes are finished, placing it in a “test” environment. Within a single ThoughtSpot instance, development and test content can be considered as another tenant's, with access restricted to only app developer users.
 
-For both of the multi-tenancy patterns above, add additional groups for dev and test with only members of your app development team.
+For both of the multi-tenancy patterns described in this article, add additional groups for dev and test with only members of your app development team.
 
 == Privilege groups
 link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Privileges, window=_blank] in ThoughtSpot control the set of product features a user has access to. Privileges are assigned to users through groups.
@@ -205,7 +205,7 @@ ThoughtSpot groups can be hierarchical; one group can be the parent of another g
 When groups are hierarchical, the rules for how privileges and row-level security are derived become complex. In particular, row-level security is achieved by returning the string value of the names of all groups a user belongs to. Hierarchical groups can vastly inflate the number of group names returned in an RLS query, reducing performance and introducing complexity in auditing.
 
 == Test user accounts
-As mentioned above, you will want to use REST API automation to synchronize the group structures and audit that you have configured them correctly. Another tool for auditing is to create test user accounts — user accounts that belong to the app developer, but are configured as if they are part of a customer organization.
+You can use REST API automation to synchronize the group structures and audit that you have configured them correctly. Another tool for auditing is to create test user accounts, user accounts that belong to the app developer but are configured as if they are part of a customer organization.
 
 Depending on your internal security policies, you may only want your test user accounts to log in to content attached to test data, rather than production customer data. In this case, you will create a full suite of test content groups simulating at least two “customers”, and test user accounts for each “access level” that exists for the end customer users.
 

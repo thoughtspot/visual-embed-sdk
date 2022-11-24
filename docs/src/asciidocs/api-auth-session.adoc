@@ -33,7 +33,7 @@ return async fetch(
 
 [TIP]
 ====
-If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API below using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the REST API call.
+If you are accessing the REST API outside a web browser, create a long-lived session object in your code, and then call the log-in API using that session object. Make subsequent REST API calls with the same session object to send the session cookies along with the other aspects of the REST API call.
 ==== 
 
 == Sign in a ThoughtSpot user

@@ -117,6 +117,11 @@ button {
 
 /*Tags style start*/
 
+.video {
+   width: 800px;
+   height: 600px;
+}
+
 .tag {
     border-radius: $tag-border-radius;
     display: inline-block;
@@ -150,7 +155,7 @@ button {
 .beta {
     border-radius: $beta-border-radius;
     display: inline-block;
-    font-size: $font-size-small;
+    font-size: 13px;
     font-weight: $font-weight-normal;
     height: 22px;
     line-height: $line-height-doc;
@@ -178,7 +183,7 @@ button {
 }
 
 .greyBackground {
-    background-color: $disabledcolor;
+    background-color: #EAEDF2;
 }
 
 .orangeBackground {
@@ -195,6 +200,10 @@ button {
 
 .lightBackground {
     background-color: $tag-color-light;
+}
+
+.betaBackground {
+    background-color: #06BF7F;
 }
 
 /*Tags style end*/
@@ -216,10 +225,61 @@ button {
     display: inline-block;
     margin: 10px;
     box-shadow: var(--box-shadow);
+    border-top: 0.5px solid $lightgrey;
     border-radius: 10px;
     &:hover {
         box-shadow: var(--box-shadow-hover);
     }
+}
+
+.container {
+    margin:0 0 10px 0;
+    padding: 5px;
+    width: auto;
+
+}
+
+.homeHeader {
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    margin: 0;
+    vertical-align: top;
+}
+
+.homeHeaderText {
+      display: inline-block;
+      padding: 5px 5px 5px 20px;
+      width: 600px;
+      max-width: 33%;
+      margin: 0;
+      vertical-align: top;
+}
+
+.homeBullet {
+    border-radius: 25pt;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: $font-weight-bold;
+    line-height: $tag-line-height !important;
+    margin-right: $tag-margin-right;
+    text-align: center;
+    min-width: auto;
+    padding: 0 8px 0 8px;
+    color: $darkblue;
+}
+
+.blockHome{
+    border-top: 0.5px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-color);
+    margin: 20px 10px 5px 10px;
+
+}
+
+.blockHomeContent{
+    padding: 15px;
+    display: inline-block;
+    margin: 10px;
 }
 
 .boxHalfWidth {
@@ -246,7 +306,7 @@ button {
 }
 
 .divider {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 0.5px solid var(--border-color);
     display: block;
     width: 100%;
     margin: 5px auto;
@@ -254,11 +314,20 @@ button {
 
 
 .boxBody {
-    font-weight: $font-size-doc;
-    font-size: $font-size-normal;
-    line-height: $line-height-doc;
+    font-size: 13px;
+    font-weight: $font-weight-normal;
+    line-height: 18pt;
     color: var(--primary-color);
+    padding: 5px;
+}
 
+.introList {
+    font-size: 13px;
+    font-weight: $font-weight-normal;
+    line-height: 18pt;
+    color: var(--primary-color);
+    padding: 5px 5px $padding-md 5px;
+    overflow: auto;
 }
 
 .boxAuto {
@@ -274,6 +343,16 @@ button {
     overflow-x: auto;
 }
 
+.videoContainer {
+    border-radius: 10px;
+    overflow-x: auto;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    margin: 10px;
+    padding: 15px;
+}
+
 summary.title  {
     font-size: $font-size-summ-title;
     margin-top: $margin-sm;
@@ -282,6 +361,20 @@ summary.title  {
     line-height: $line-height-doc;
     color: var(--primary-color);
 
+}
+
+.introTile {
+    padding: $padding-md;
+    display: inline-block;
+    margin: 1px;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    border-top: 0.5px solid $lightgrey;
+    height: 700px;
+    border-radius: 10px;
+    &:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
 }
 
 .cardHead {
@@ -362,16 +455,77 @@ a.anchor {
     .documentBody {
         width: calc(100% - 260px);
     }
+
+    .homeBanner {
+        display: none;
+    }
+
+    .homeHeader {
+         width: 100%;
+         max-width: 100%;
+        }
+
+    .documentWrapper {
+        width: 100%;
+    }
+    .homeHeaderText {
+         width: 100%;
+         max-width: 100%;
+    }
+    .homeHeader {
+         width: 100%;
+    }
+    .introTile {
+         height: 100%;
+         margin: 10px;
+    }
+    .boxBody {
+        font-size: 12px;
+    }
 }
 
 @media screen and (max-width: $mobile-resolution-max) {
     .introWrapper {
         margin-top: $margin-top-mobile;
+        padding: 5px;
+    }
+
+    .homeBanner {
+       display: none;
+    }
+
+    .homeHeader {
+            width: 100%;
+            max-width: 100%;
+    }
+
+     .blockHome {
+         border: 0;
+     }
+
+     .documentWrapper {
+          documentView {
+                 padding-left: 5px;
+             }
+     }
+
+    .containerWrapper {
+        padding: 10px 10px 10px 12px;
     }
 
     .documentBody {
         width: 100%;
         padding-left: 0;
+    }
+
+    .homeHeaderText {
+        width: 100%;
+        max-width: 100%;
+        border-top: 0.5px solid var(--border-color);
+    }
+
+    .blockHome {
+             border: 0;
     }
 
    .introCard {
@@ -386,6 +540,10 @@ a.anchor {
         width: 100%;
     }
 
+    .introTile {
+        height: 100%;
+        margin: 5px;
+    }
     .tableContainer {
 	overflow: scroll;
 }
@@ -396,7 +554,6 @@ a.anchor {
         flex-direction: column;
     }
 }
-
 
 .searchResultHighlightColor {
     color: var(--secondary-color);
