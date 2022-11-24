@@ -719,7 +719,7 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: HostEvent, data: any): Promise<any> {
+    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
         uploadMixpanelEvent(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
         );
