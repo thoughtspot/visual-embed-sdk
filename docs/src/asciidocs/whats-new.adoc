@@ -8,7 +8,7 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.9.0.cl
 
 === Improvements to authentication methods and AuthType enums in the SDK
 
@@ -21,7 +21,7 @@ The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded insta
 * Changes to the existing `AuthType` enums: +
 ** `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
 ** `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
-** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
+** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 
 For more information, see xref:embed-authentication.adoc[Authentication].
 
