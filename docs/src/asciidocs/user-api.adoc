@@ -35,20 +35,23 @@ POST /tspublic/v1/user/
 
 === Request parameters
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`name` |__String__. Name of the user. The username string must be unique.
-|`password`|__String__. Password for the user account.
-|`displayname`|__String__. A unique display name string for the user, usually their first and last name.
-|`properties` __Optional__|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
-|`groups` __Optional__|__Array of strings__. A JSON array of the GUIDs of groups to which you want to assign the user. The user privileges are determined by the group to which you assign the user. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
-|`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.
-|`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
-|`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
+|Parameter|Type|Description
+|`name` |Form parameter|__String__. Name of the user. The username string must be unique.
+|`password`|Form parameter|__String__. Password for the user account.
+|`displayname`|Form parameter|__String__. A unique display name string for the user, usually their first and last name.
+|`properties` __Optional__|Form parameter|__String__. A JSON map of user properties fetched from external systems such as LDAP. If you are using Active Directory to authenticate users, and your LDAP configuration requires users to be created manually, you can upload the user properties as a JSON file.
+|`groups` __Optional__|Form parameter|__Array of strings__. A JSON array of the GUIDs of groups to which you want to assign the user. The user privileges are determined by the group to which you assign the user. For example, if you assign the user to a group that has the `ADMINISTRATION` privilege, the user will have admin privileges.
+|`usertype` __Optional__ a|Form parameter|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.
+|`tenantid` __Optional__|Form parameter|__String__. GUID of the tenant for which the user is being created.
+|`visibility` __Optional__|Form parameter|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
 |`orgids` +
-__Optional__|__Integer__. A JSON array of org IDs to which you want to add the user. If `orgids` is not defined, ThoughtSpot assigns the user to an Org based on the administrator's session. For example, if the administrator sends the API request from the `Org 0` context, the user is added to `Org 0`.
+__Optional__|Form parameter|__Integer__. A JSON array of org IDs to which you want to add the user. If `orgids` is not defined, ThoughtSpot assigns the user to an Org based on the administrator's session. For example, if the administrator sends the API request from the `Org 0` context, the user is added to `Org 0`.
+|`triggeredbyadmin` a|Form parameter|__Boolean__. Indicates if the API request is initiated by a ThoughtSpot administrator or an external application. The default value is `false`. +
+When set to `true`, the `displayNameLastUpdatedBy` property is set to `ADMIN` in the API response, Else, `displayNameLastUpdatedBy` is set to `AUTO`.
+|`orgScope` __Optional__|Query parameter|__String__. The Org scope. If you want to add the user to a specific Org, you must set the Org scope to `ALL`.
 |===
 
 === Example request
@@ -60,9 +63,8 @@ __Optional__|__Integer__. A JSON array of org IDs to which you want to add the u
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \
--d 'name=TS%20User&password=testy1%4022&displayname=TS%20User&usertype=LOCAL_USER&visibility=DEFAULT' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/'
+-d 'name=test-user2&password=123%40Cloud&#33;&displayname=test-user2&usertype=LOCAL_USER&visibility=DEFAULT&orgids=%5B%221188864399%22%5D&triggeredbyadmin=false' \
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?orgScope=ALL'
 ----
 
 .Request URL
@@ -129,6 +131,9 @@ If the user is successfully created in ThoughtSpot, the API returns the user GUI
 |===
 |HTTP status code|Description
 |**200**| Successful operation
+|**400**| Invalid parameter values +
+Unauthorized user addition to an org
+|**409**| Username is not unique
 |**403**| Unauthorized request
 |**500**| Incorrect password format
 |===
@@ -157,13 +162,22 @@ PUT /tspublic/v1/user/{userid}
 ----
 
 === Request parameters
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`userid`|__String__. GUID of the user.
-|`content`|__String__. A JSON map of strings with the user profile attributes.
-|`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account.
+|Parameter|Type|Description
+|`userid`|Form parameter|__String__. GUID of the user.
+|`content`|Form parameter|__String__. A JSON map of strings with the user profile attributes.
+|`password` __Optional__|Form parameter|__String__. Password string for the user account. Use this attribute to change the password of the user account.
+|`triggeredbyadmin` a|Form parameter|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
+
+* When set to `true`, ThoughtSpot updates the `displayNameLastUpdatedBy` property to `ADMIN`. Else, the `displayNameLastUpdatedBy` property is set to `AUTO` for the specified user object.
+
+[NOTE]
+====
+Starting from 8.9.0.cl, ThoughtSpot users can update their display name on the profile setting page in the UI. If a user updates their display name, ThoughtSpot sets `displayNameLastUpdatedBy` to `USER` in the object properties.
+====
+|`orgScope` __Optional__|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -178,13 +192,13 @@ curl -X PUT \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'userid=4391d676-2dd8-4248-b6db-d973811f0122' \
 -d 'content={"displayName": "Guest", "header": {"id": "4391d676-2dd8-4248-b6db-d973811f0122", "name": "guest1234", "displayName": "Guest", "owner": "4391d676-2dd8-4248-b6db-d973811f0122"}}' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}' \
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}?orgScope=ALL' \
 -b 'JSESSIONID=0e97a2a6-7e9a-496a-b48b-2d66ec8b1e15'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}?orgScope=ALL
 ----
 
 ==== JSON file example for updating user profile
@@ -339,9 +353,10 @@ POST /tspublic/v1/user/addtoorg
 [width="100%" cols="1,4"]
 [options='header']
 |===
-|Form parameter|Description
-|`userids`|__String__. A JSON array of user GUIDs to add to the specified org.
-|`orgid`|__Integer__. ID of the Org object to which you want to assign the users.
+|Parameter|Type|Description
+|`userids`|Form parameter|__String__. A JSON array of user GUIDs to add to the specified org.
+|`orgid`|Query parameter|__Integer__. ID of the Org object to which you want to assign the users.
+|`orgScope`|Query parameter|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -723,6 +738,7 @@ DELETE /tspublic/v1/user/{userid}
 If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. +
 If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed only from the specified Org and not from the ThoughtSpot system. +
 To remove the user from all Orgs and the ThoughtSpot system, specify the `orgid` as `-1`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
 
 === Example request
@@ -1257,25 +1273,27 @@ This API uses the `multipart/form-data` content-type.
 Make sure you use a JSON file encoded as `application/json` or `text/json` for the  `principals` attribute. The other arguments use standard form-encoding. Each is sent as its own part of the multi-part request.
 ====
 
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
-|Form parameter|Description
+|Parameter|Type|Description
 
-|`principals`|__String__. Specify a list of principal objects in xref:user-api.adoc#principalJson[the JSON file format]. The JSON file can contain all users and groups present in the external database.
+|`principals`|Form parameter|__String__. Specify a list of principal objects in xref:user-api.adoc#principalJson[the JSON file format]. The JSON file can contain all users and groups present in the external database.
 
-|`applyChanges`|
+|`applyChanges`|Form parameter|
 __Boolean__.
 Specify whether to sync the users and groups to the system and apply the difference evaluated.
  By default, this attribute is set to `false`.
 
-|`removeDeleted`|
+|`removeDeleted`|Form parameter|
 __Boolean__.
 Specify whether to remove the deleted users and user groups. By default, this attribute is set to `true`. If you do not want to remove deleted users or user groups, make sure to set `removeDeleted` to `false`.
 
-|`password`
+|`password`|Form parameter|
 |__String__. Assign a password for new users added during the sync operation. By default, all new users will have the same password.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 |===
+
 
 === Example request
 

@@ -33,7 +33,7 @@ POST /tspublic/v1/org/
 |Parameter|Type|Description
 |`name` |FormData|__String__. Name of the Org. The Org name string must be unique. Make sure the name string length does not exceed 48 characters.
 |`description`|FormData|__String__. Description of the Org. Make sure the description text does not exceed 124 characters.
-|`orgScope`|Query|__String__.The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
 
 |===
 
