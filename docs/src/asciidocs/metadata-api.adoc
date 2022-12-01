@@ -188,6 +188,7 @@ GET /tspublic/v1/metadata/details
 |`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
 |`dropquestiondetails`|__Boolean__. When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
 |`version` __Optional__|__Long integer__. Object version. By default, the API returns metadata for all versions of the object.
+|`orgScope`|__Optional__. The Org scope. To query user metadata for all Orgs on your cluster, set the Org scope to `ALL`. If the Org scope is not set, ThoughtSpot returns metadata for only the user objects in your current Org context.
 |====
 
 === Example request

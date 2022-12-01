@@ -33,7 +33,7 @@ POST /tspublic/v1/org/
 |Parameter|Type|Description
 |`name` |FormData|__String__. Name of the Org. The Org name string must be unique. Make sure the name string length does not exceed 48 characters.
 |`description`|FormData|__String__. Description of the Org. Make sure the description text does not exceed 124 characters.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 
 |===
 
@@ -104,7 +104,7 @@ PUT /tspublic/v1/org/
 |`name`|FormData|__String__. Name of the Org.
 |`description`|FormData|__String__. Description text associated with the Org.
 |`active`|FormData|__Boolean__. Enables or disables the Org object.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -172,7 +172,7 @@ GET /tspublic/v1/org/
 |Query parameter|Description
 |`id`|__Integer__. The ID of the Org object that you want to edit.
 |`name` |__String__. Name of the Org.
-|`orgScope`|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -238,7 +238,7 @@ POST /tspublic/v1/org/search
 |`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
 |`name`|FormData|__String__. Name of the Org.
 |`showinactive`|FormData|__Boolean__. Allows including or excluding inactive Org objects in the API response.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -348,7 +348,7 @@ DELETE /tspublic/v1/org/
 |Parameter|Type|Description
 |`id`|FormData|__Integer__. The ID of the Org object that you want to edit.
 |`name`|FormData|__String__. Name of the Org.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request

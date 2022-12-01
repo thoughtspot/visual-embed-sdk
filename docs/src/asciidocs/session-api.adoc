@@ -354,7 +354,7 @@ GET /tspublic/v1/session/orgs/users/{userid}
 |===
 |Parameter|Type|Description
 |`userid` |Path parameter|__String__. GUID of the user.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request

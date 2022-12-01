@@ -49,7 +49,7 @@ An Org user can access only the Orgs to which they belong. A user can belong to 
 
 On a multi-tenant ThoughtSpot instance, all operations are run in the context of the Org.
 
-If a cluster administrator wants to perform a Create, Read, Update, or Delete (CRUD) operation or apply a configuration change to all Orgs, they must override the Org context and apply the changes at the All Orgs level via the UI or API calls. If using API, the cluster administrator must explicitly set the Org scope to `ALL` in their API requests.
+If a cluster administrator wants to perform a Create, Read, Update, or Delete (CRUD) operation or apply a configuration change to all Orgs, they must override the Org context and apply the changes at the `All` Orgs level via the UI or API calls. If using API, the cluster administrator must explicitly set the Org scope to `ALL` in their API requests.
 
 [NOTE]
 ====
@@ -153,7 +153,7 @@ To get started with Orgs:
 If the Orgs feature is enabled on your cluster, a Primary Org is created by default, and you will be logged in to the Primary Org context.
 . Create Orgs in the *Admin* page of the UI or via xref:org-api.adoc#createOrg[REST API].
 +
-To create and manage Orgs, you must set the Org context to `All Orgs`. To do this, you can switch to the *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
+To create and manage Orgs, you must set the Org context to `All`. To do this, you can switch to the *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
 . Create users and map the users to Orgs.
 +
 You can create an administrator profile for each Org and let these Org administrators manage users, groups, and role privileges in their respective Orgs.

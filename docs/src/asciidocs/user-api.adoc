@@ -69,7 +69,7 @@ curl -X POST \
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?orgScope=ALL
 ----
 
 === Example response
@@ -114,6 +114,10 @@ If the user is successfully created in ThoughtSpot, the API returns the user GUI
     "modified": 1624796017810,
     "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
     "owner": "79c4cb2a-18cd-44a7-a077-6de65d1b468e",
+    "isHidden": false,
+    "orgIds": [
+      0
+    ],
     "tags": [],
     "isExternal": false,
     "isDeprecated": false
@@ -177,7 +181,7 @@ PUT /tspublic/v1/user/{userid}
 ====
 Starting from 8.9.0.cl, ThoughtSpot users can update their display name on the profile setting page in the UI. If a user updates their display name, ThoughtSpot sets `displayNameLastUpdatedBy` to `USER` in the object properties.
 ====
-|`orgScope` __Optional__|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope` __Optional__|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -246,8 +250,11 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}?orgScope=ALL
       "modified":1624846987754,
       "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",
       "owner":"d1f4f2c8-c5bb-4f20-a81d-1f24af0b3286",
+      "isHidden": false,
+      "orgIds": [
+         0
+       ],
       "tags":[
-
       ],
       "isExternal":false,
       "isDeprecated":false
@@ -356,7 +363,7 @@ POST /tspublic/v1/user/addtoorg
 |Parameter|Type|Description
 |`userids`|Form parameter|__String__. A JSON array of user GUIDs to add to the specified org.
 |`orgid`|Query parameter|__Integer__. ID of the Org object to which you want to assign the users.
-|`orgScope`|Query parameter|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query parameter|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -369,12 +376,12 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'userids=%5B4391d676-2dd8-4248-b6db-d973811f0122%2C37539499-624a-4d3d-8f88-e9be5653c114%5D&orgid=3' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg'
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL
 ----
 
 === Example response
@@ -418,8 +425,10 @@ GET /tspublic/v1/user/
 |Query parameter|Description
 |`userid` +
 __Optional__|__String__. The GUID of the user account to query.
+
 |`name` +
 __Optional__|__String__. Username of the user that you want to query.
+|`orgScope` __Optional__|__String__. The Org scope. If you want to query user details for all Orgs on a cluster, specify `ALL` to set the Org scope to all Orgs.
 |===
 
 [NOTE]
@@ -436,12 +445,12 @@ You can use either `userid` or `name` to query data for a specific user. If usin
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2&orgScope=ALL'
 ----
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2&orgScope=ALL
 ----
 
 === Example response
@@ -494,6 +503,10 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-48
     "owner": "b995e481-d0a7-4820-b1e8-54051ede77a2",
     "isDeleted": false,
     "isHidden": false,
+    "orgIds": [
+      0,
+      1188864399
+    ],
     "tags": [],
     "type": "LOCAL_USER",
     "isExternal": false,
@@ -737,8 +750,8 @@ DELETE /tspublic/v1/user/{userid}
 |`orgid`|Query|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has multi-tenancy enabled. +
 If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. +
 If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed only from the specified Org and not from the ThoughtSpot system. +
-To remove the user from all Orgs and the ThoughtSpot system, specify the `orgid` as `-1`.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+To remove the user from all Orgs and the ThoughtSpot system, set the `orgScope` to `ALL`.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
 |===
 
 === Example request
@@ -750,13 +763,13 @@ To remove the user from all Orgs and the ThoughtSpot system, specify the `orgid`
 curl -X DELETE \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d'
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d?orgScope=ALL'
 ----
 
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d?orgScope=ALL
 ----
 === Example response
 
@@ -1291,7 +1304,7 @@ Specify whether to remove the deleted users and user groups. By default, this at
 
 |`password`|Form parameter|
 |__String__. Assign a password for new users added during the sync operation. By default, all new users will have the same password.
-|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to All Orgs.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs if you are synchronizing user data at the cluster level.
 |===
 
 
@@ -1307,12 +1320,12 @@ curl -X POST \
 -F 'applyChanges=false' \
 -F 'removeDeleted=false'
 -F 'principals=@principals.json;type=application/json' \
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync?orgScope=ALL
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/sync?orgScope=ALL
 ----
 
 [#principalJson]
