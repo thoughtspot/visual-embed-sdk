@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-== Version 1.17.0, Coming soon
+== Version 1.17.0, November 2022
 
 The new version of the SDK introduces several new features and enhancements
 [width="100%" cols="1,4"]
@@ -17,7 +17,7 @@ The new version of the SDK introduces several new features and enhancements
 
 * `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
 * `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
-* `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
+* `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 This enhancement does not introduce any breaking changes in your current implementation.
 |[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO`, which allows you to use your current SAML or OIDC authentication setup and redirect users to the IdP for authentication within the embedded iFrame.
 For more information, see xref:embed-authentication.adoc[Authentication].
@@ -202,7 +202,7 @@ Bug fixes and improvements to React components.
 |====
 |[tag greenBackground]#NEW FEATURE#| The SDK now supports the `disableLoginRedirect` attribute to improve the login experience for your application users. When enabled, this attribute prevents your app from redirecting users to the login page when their session expires. +
 You can use this attribute along with `autoLogin` to automatically authenticate and re-login a user. +
-This feature is applicable to token-based authentication, that is, when the `AuthType` is set as `TrustedAuth` in the SDK.
+This feature is applicable to token-based authentication, that is, when the `AuthType` is set as `TrustedAuthToken` in the SDK.
 
 For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Authentication].
 |====

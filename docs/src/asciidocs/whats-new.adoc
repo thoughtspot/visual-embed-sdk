@@ -8,7 +8,7 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.9.0.cl
 
 === Improvements to authentication methods and AuthType enums in the SDK
 
@@ -21,7 +21,7 @@ The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded insta
 * Changes to the existing `AuthType` enums: +
 ** `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
 ** `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
-** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuth` +
+** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 
 For more information, see xref:embed-authentication.adoc[Authentication].
 
@@ -72,7 +72,7 @@ For more information, see xref:fixed-issues.adoc[Fixed issues].
 .Liveboard tabs
 [%collapsible]
 ====
-The new Liveboard experience[beta blueBackground]^BETA^ now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+The new Liveboard experience[beta betaBackground]^Beta^ now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 
 This feature is available only on deployments that have the new Liveboard experience enabled. For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
@@ -91,15 +91,15 @@ For information about the new features and enhancements in the Visual Embed SDK 
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
 ====
 
-.REST API v2 [beta blueBackground]^BETA^
+.REST API v2 [beta betaBackground]^Beta^
 [%collapsible]
 ====
-The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in 8.10.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+The REST v2 API [beta betaBackground]^Beta^ feature will be deprecated in 8.10.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
 ====
 
 == Version 8.6.0.cl
 
-.Liveboard new experience [beta blueBackground]^BETA^
+.Liveboard new experience [beta betaBackground]^Beta^
 [%collapsible]
 ====
 The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:

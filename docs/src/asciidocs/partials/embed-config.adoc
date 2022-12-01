@@ -4,7 +4,7 @@ autoLogin __Optional__::
 __Boolean__. When set to `true`, an expired or timed-out user session is renewed automatically based on the authentication information from the previous session. This allows users to log in automatically without entering their credentials again. By default, the `autoLogin` attribute is set to `false`.
 
 +
-This attribute is valid for only token-based authentication, that is if the `authType` is set as `TrustedAuth`.
+This attribute is valid for only token-based authentication, that is if the `authType` is set as `TrustedAuthToken`.
 
 +
 [source,javascript]

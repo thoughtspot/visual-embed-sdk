@@ -69,7 +69,7 @@
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
 ** link:{{navprefix}}=style-customization[Customize styles and layout]
 *** link:{{navprefix}}=customize-style[Customize styles in the UI]
-*** link:{{navprefix}}=custom-css[Customize CSS]
+*** link:{{navprefix}}=custom-css[Customize CSS ^*Beta*^]
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 
@@ -83,10 +83,10 @@
 *** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
 *** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
 *** link:{{navprefix}}=rest-api-pagination[Paginate API response]
-** link:{{navprefix}}=rest-api-v2[REST API v2 ^*BETA*^]
+** link:{{navprefix}}=rest-api-v2[REST API v2 ^*Beta*^]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
-*** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*BETA*^]
-*** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*BETA*^]
+*** link:{{navprefix}}=api-authv2[REST API v2 authentication ^*Beta*^]
+*** link:{{navprefix}}=restV2-playground[REST API v2 Playground ^*Beta*^]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
 *** link:{{navprefix}}=user-api[User API]
 *** link:{{navprefix}}=group-api[Group API]
@@ -103,7 +103,7 @@
 *** link:{{navprefix}}=logs-api[Audit logs API]
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database API]
-** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference ^*BETA*^]
+** link:{{navprefix}}=rest-apiv2-reference[REST API v2 Reference ^*Beta*^]
 * link:{{navprefix}}=runtime-filters[Runtime filters]
 
 * Additional resources

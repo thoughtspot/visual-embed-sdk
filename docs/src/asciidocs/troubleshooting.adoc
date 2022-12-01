@@ -87,7 +87,7 @@ In most cases, SAML authentication errors occur due to incorrect IdP settings an
 * Check if the `authType` property and SAML authentication attributes in the SDK are configured correctly.
     * For SAML authentication, you must set the `authType` as `AuthType.SSO`. +
 +
-If you are using Visual Embed SDK version 1.13.0 or later, you can set `authType` as `AuthType.SAML`.
+If you are using Visual Embed SDK version 1.17.0 or later, you can set `authType` as `AuthType.SAMLRedirect`.
     * You can also set redirection parameters in the SDK to handle SAML redirect scenarios. For more information, see xref:embed-authentication.adoc#_saml_redirection[SAML redirection].
 * If embedding ThoughtSpot objects in an iFrame, xref:configure-saml.adoc#_configure_idp_to_allow_iframe_embedding[configure your IdP to allow iframe embedding].
 

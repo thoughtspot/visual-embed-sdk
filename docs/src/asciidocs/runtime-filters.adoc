@@ -103,16 +103,6 @@ liveboardEmbed.render({
 
 The following video shows how to apply multiple runtime filters on a Liveboard.
 
-////
-[div boxDiv]
-
---
-[.widthAuto]
-image::./images/runtime-filters.gif[Runtime filters gif]
---
-////
-
-
 [div videoContainer]
 --
 video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
@@ -353,7 +343,9 @@ liveboardEmbed.render({
 ----
 |=====
 
+==== SDK Events
 
+See xref:events-ref.adoc#_updateruntimefilters[UpdateRuntimeFilters] and xref:embed-events.adoc#_filters_in_embedded_ui[Filters in embedded UI].
 
 === Runtime filters in REST API calls
 

@@ -116,7 +116,7 @@ In the following example, the `authType` is set to `SAML` to use SAML SSO authen
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.SAMLRedirect,
 });
 ---- 
 
