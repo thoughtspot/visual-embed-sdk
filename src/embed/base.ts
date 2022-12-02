@@ -134,7 +134,7 @@ function sanity(embedConfig: EmbedConfig) {
         }
 
         if (
-            !embedConfig.authEndpoint ||
+            !embedConfig.authEndpoint &&
             typeof embedConfig.getAuthToken !== 'function'
         ) {
             throw new Error(
