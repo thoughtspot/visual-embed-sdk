@@ -171,11 +171,11 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         authType: config.authType,
         host: config.thoughtSpotHost,
         usedCustomizationSheet:
-            embedConfig.customisations?.style?.customCSSUrl != null,
+            embedConfig.customizations?.style?.customCSSUrl != null,
         usedCustomizationVariables:
-            embedConfig.customisations?.style?.customCss?.variables != null,
+            embedConfig.customizations?.style?.customCSS?.variables != null,
         usedCustomizationRules:
-            embedConfig.customisations?.style?.customCss?.rules_UNSTABLE !=
+            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE !=
             null,
     });
 

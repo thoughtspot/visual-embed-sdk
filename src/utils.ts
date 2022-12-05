@@ -181,12 +181,14 @@ export const getCustomisations = (
     embedConfig: EmbedConfig,
 ): CustomisationsInterface => {
     const { customCssUrl } = embedConfig;
-    let { customisations } = embedConfig;
-    customisations = customisations || ({} as CustomisationsInterface);
-    customisations.style = customisations.style || {};
-    customisations.style.customCSSUrl =
-        customisations.style.customCSSUrl || customCssUrl;
-    return customisations;
+    let customizations =
+        embedConfig.customizations ||
+        ((embedConfig as any).customisations as CustomisationsInterface);
+    customizations = customizations || ({} as CustomisationsInterface);
+    customizations.style = customizations.style || {};
+    customizations.style.customCSSUrl =
+        customizations.style.customCSSUrl || customCssUrl;
+    return customizations;
 };
 
 /**
