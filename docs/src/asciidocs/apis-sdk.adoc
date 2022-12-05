@@ -1,0 +1,102 @@
+:toc: true
+
+:page-title: APIs and SDK
+:page-pageid: apis-sdk
+:page-description: Browse through the list to find the SDK and APIs required for your setup
+
+++++
+ <div class="container">
+      <h1>APIs and SDK</h1>
+      <p>Explore the developer tools, SDK libraries, and REST API endpoints. Learn how to use the APIs and SDK to embed and customize ThoughtSpot application.
+</p>
+    </div>
+++++
+
+
+
+
+++++
+<div class="row">
+  <div class="col-md-4">
+     <div class="introTile">
+      <h5>Visual Embed SDK</h5>
+      <div class="boxBody">Use Visual Embed SDK to embed ThoughtSpot components, pages, or the full application in your app and customize embedded objects as per your business needs. </div>
+<div class="introList">
+<p>
+        <a href="?pageid=visual-embed-sdk">Learn more</a>
+        </a>
+       <p>
+        <a href="?pageid=getting-started">Get started</a>
+        </a> </p>
+      <p>
+        <a href="?pageid=dev-playground">Try it out</a>
+        </a> </p>
+         <p><a href="?pageid=action-config">Show or hide menu actions</a></p>
+         <p> <a href="?pageid=events-app-integration">Register and handle events</a></p>
+        <p>
+        <p> <a href="?pageid=custom-action-intro">Configure custom actions</a></p>
+        <p>
+        <a href="?pageid=style-customization">Customize UI</a>
+        </a> </p>
+         <p>
+        <a href="?pageid=embed-sdk-changelog">See what's new</a>
+        </a> </p>
+     </div>
+
+    </div>
+    </div>
+  <div class="col-md-4">
+    <div class="introTile">
+      <h5>REST APIs (v1)</h5>
+      <div class="boxBody">Explore the REST API v1 endpoints. Learn how to create and modify objects, upload and download TML objects, query data, manage and authenticate users, create groups, and assign privileges.</div>
+<div class="introList">
+      <p>
+        <a href="?pageid=rest-api-v1">Learn more</a>
+        </a> </p> <p>
+        <a href="?pageid=rest-api-getstarted">Get started</a>
+        </a> </p>
+        <p> <a href="{{previewPrefix}}/api/rest/playgroundV1" target="_blank">Try it out</a>
+        </a> </p>
+         <p> <a href="?pageid=rest-api-reference">View API docs</a></p>
+         <p> <a href="?pageid=embed-data-restapi">Embed objects using REST API</a></p>
+        <p>
+        <p> <a href="?pageid=custom-viz-rest-api">Create custom visualization</a></p>
+        <p>
+        <a href="?pageid=rest-v1-changelog">See what's new</a>
+        </a> </p>
+</div>
+    </div>
+</div>
+    <div class="col-md-4">
+    <div class="introTile">
+      <h5>REST APIs (v2) <sup class="beta betaBackground">Beta</sup></h5>
+      <div class="boxBody">Explore the REST API v2 endpoints. View REST API v2 Playground, explore the API request and response workflows, read documentation, and download code samples.</div>
+      <div class="introList">
+        <p>
+        <a href="?pageid=rest-api-v2">Learn more</a>
+        </a> </p> <p>
+       <p>
+        <a href="?pageid=rest-apiv2-getstarted">Get started</a>
+        </a> </p>
+        <p>
+       <a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">Try it out</a>
+        </a> </p>
+
+        <p> <a href="?pageid=rest-apiv2-reference">View API docs</a></p>
+       <p>
+        <a href="?pageid=whats-new">See what's new</a>
+        </a> </p>
+ </div>
+    </div>
+</div>
+  </div>
+++++
+
+
+ 
+ 
+////
+<a href="{{previewPrefix}}/tspublic/rest/playgroundV2" target=_blank> <p align=center>Code samples</p></a>
+
+////
+ 

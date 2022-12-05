@@ -46,7 +46,7 @@ For information about how to install React framework on Windows, see  link:https
 npx create-react-app ts-data-app
 ----
 +
-In the above example, the name of the app is `ts-data-app`.
+In this example, the name of the app is `ts-data-app`.
 
 .. Initialize the app. 
 +
@@ -116,7 +116,7 @@ In the following example, the `authType` is set to `SAML` to use SAML SSO authen
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.SAMLRedirect,
 });
 ---- 
 

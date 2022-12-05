@@ -188,15 +188,14 @@ Data objects represent the various components of the data model within ThoughtSp
 
 Connections and joins do not have TML representations.
 
-The order in which to handle and publish data objects is:
+The order in which to handle and publish data objects is as follows:
 
  . *connections* (created manually or via REST API)
  . *tables*
  . *views*
  . *worksheets*
 
-Each level in this hierarchy may reference objects above it, so you need to ensure all of the objects above in the hierarchy exist before publishing objects in the level below.
-
+Each level in this hierarchy may reference preceding objects, so you must ensure that the objects at a higher level in the hierarchy exist before publishing the objects in the level below.
 Once all of the data objects exist, you can publish *answers* and *Liveboards* in any order. *Liveboards* do not reference separate *answer* objects, they are fully self-contained.
 
 ==== Connections
@@ -231,7 +230,7 @@ table:
 ===== Change table properties
 The `db`, `schema`, and `db_table` properties can all be changed with the appropriate text values when preparing a *table* object for the next environment, as long as the schema/structure (field names and data types) of the individual table being referenced after the changes is identical to the original object.
 
-It is possible to do even more transformations when changing environments, such as adding new columns or adjusting calculations or RLS rules. The example libraries and scripts in the Additional Resources section below cover some of these more advanced use cases.
+It is possible to do even more transformations when changing environments, such as adding new columns or adjusting calculations or RLS rules. The example libraries and scripts in the Additional Resources section cover some of these more advanced use cases.
 
 
 ===== Join relationships and row-level security rules
@@ -292,7 +291,7 @@ view:
 ==== Worksheets
 Worksheets combine several *tables*, including *views*, into a coherent data model optimized for searches. The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-worksheets[TML syntax for worksheets, window=_blank] defines all of the aspects of the worksheet, including the tables it joins together, the columns and their properties, filters, and so on.
 
-If you are taking a *worksheet* from one environment and promoting it to another environment, and you added the `fqn` property per the instructions above, you simply use the __parent:child guid__ map to swap out the guid in the original `fqn` property for the one in the child environment.
+If you are taking a *worksheet* from one environment and promoting it to another environment, and you added the `fqn` property as described in this article, you simply use the __parent:child guid__ map to swap out the guid in the original `fqn` property for the one in the child environment.
 
 If you want to change the values for an existing *worksheet* object, the `tables`, `joins` and `table_paths` sections are the most important.
 
@@ -350,7 +349,7 @@ Content objects are *answers* (saved searches) and *Liveboards*. An answer on a 
 The best practice recommendation is to only connect *answers* and *Liveboards* to *worksheets*. Although they can connect directly to *tables* and *views*, it is far simpler to adjust references within the *answer* and *Liveboard* TML to *worksheets* than many individual *tables*. The only exception is if you use a single *table* or *view* for the underlying search answer.
 
 ==== Answers
-The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view*, or *worksheet* objects, whichever the answer is connected to. As mentioned above, it is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
+The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view*, or *worksheet* objects, whichever the answer is connected to. It is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
 
 [source,yaml]
 ----
@@ -376,7 +375,7 @@ For the parent:child guid mapping process for SDLC promotion to work, you *must 
 
 [source,yaml]
 ----
-pinboard:
+liveboard:
   name: <Liveboard_name>
   description:
     This is a multi-line description of the Liveboard
@@ -409,7 +408,7 @@ The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be use
 The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] endpoint can be sorted by the `MODIFIED` keyword and then retrieved in batches, allowing a TML retrieval script to only retrieve objects modified since the last run date or some other reasonable time period. Remember to xref:development-and-deployment.adoc#addGuids[Add GUIDs of associated objects to TML] when downloading each TML object.
 
 === Copy from one instance to a separate instance
-When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the `name` property under the `connection` (value labeled `connection_name` below) within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
+When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the `name` property under the `connection` (value labeled `connection_name`) within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
 
 [source,yaml]
 ----
@@ -444,7 +443,7 @@ Example pattern:
 Using this namespace prefix scheme, you can export the TML files related to `dev_Connection A` and simply update any name references by replacing `dev_` with `test_`. When moving from test to prod, remove the prefix from the names entirely.
 
 ==== Duplicate object names
-If you are not using prefixes to namespace, you must rely on adding the GUIDs as the `fqn` property using the `export_associated=true` option outlined above, and then keeping the mapping of parent:child guids for each environment.
+If you are not using prefixes to namespace, you must rely on adding the GUIDs as the `fqn` property using the `export_associated=true` option, and then keeping the mapping of parent:child guids for each environment.
 
 ==== Access control
 Dev and test content should be xref:multi-tenancy-best-practices.adoc[shared only to specific groups] designed to give access to the correct app developer users. Individual tenant users will never see content that is not shared with them.

@@ -1,9 +1,11 @@
 @import '../../assets/styles/variables.scss';
 
 header {
-    background: $gray-80;
+    background: var(--header-color);
     position: fixed;
     width: 100%;
+    height: 60px;
+    border-bottom: var(--header-border-color);
     z-index: $header-zIndex;
 
     .thoughtspotLogo {
@@ -15,11 +17,11 @@ header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 5px;
     }
 
     .logo {
-        border-right: 1.5px solid $lightgrey;
-        padding-right: 15px;
+        padding-right: 0px;
     }
 
     .docsWrapper {
@@ -34,8 +36,20 @@ header {
             cursor: pointer;
             color: $lightgrey;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 820px) {
             display: none;
         }
     }
+
+    .headerLinkSelf {
+            a {
+                margin-left: $header-link-margin;
+                cursor: pointer;
+                color: $lightgrey;
+            }
+            @media (max-width: 820px) {
+                display: none;
+            }
+        }
+
 }

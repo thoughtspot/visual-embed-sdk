@@ -8,7 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
-import _ from 'lodash';
+import uniq from 'lodash/uniq';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
 import {
@@ -22,6 +22,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 let config = {} as EmbedConfig;
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
+    authTriggerText: 'Authorize',
     authType: AuthType.None,
 };
 
@@ -108,7 +109,7 @@ export const prefetch = (
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || config.thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        _.uniq(
+        uniq(
             features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl)),
         ).forEach((prefetchUrl, index) => {
             const iFrame = document.createElement('iframe');
@@ -123,6 +124,29 @@ export const prefetch = (
     }
 };
 
+function sanity(embedConfig: EmbedConfig) {
+    if (embedConfig.thoughtSpotHost === undefined) {
+        throw new Error('ThoughtSpot host not provided');
+    }
+    if (embedConfig.authType === AuthType.TrustedAuthToken) {
+        if (!embedConfig.username) {
+            throw new Error('Username not provided with Trusted auth');
+        }
+
+        if (
+            !embedConfig.authEndpoint &&
+            typeof embedConfig.getAuthToken !== 'function'
+        ) {
+            throw new Error(
+                'Trusted auth should provide either authEndpoint or getAuthToken',
+            );
+        }
+    }
+    if (embedConfig.noRedirect && !embedConfig.authTriggerContainer) {
+        throw new Error('authTriggerContainer not provided with noRedirect');
+    }
+}
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable.
@@ -134,6 +158,7 @@ export const prefetch = (
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  */
 export const init = (embedConfig: EmbedConfig): EventEmitter => {
+    sanity(embedConfig);
     config = {
         ...CONFIG_DEFAULTS,
         ...embedConfig,
@@ -191,14 +216,16 @@ let renderQueue: Promise<any> = Promise.resolve();
  * Renders functions in a queue, resolves to next function only after the callback next is called
  * @param fn The function being registered
  */
-export const renderInQueue = (fn: (next?: (val?: any) => void) => void) => {
+export const renderInQueue = (
+    fn: (next?: (val?: any) => void) => Promise<any>,
+): Promise<any> => {
     const { queueMultiRenders = false } = config;
     if (queueMultiRenders) {
         renderQueue = renderQueue.then(() => new Promise((res) => fn(res)));
-    } else {
-        // Sending an empty function to keep it consistent with the above usage.
-        fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+        return renderQueue;
     }
+    // Sending an empty function to keep it consistent with the above usage.
+    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 // For testing purposes only

@@ -18,22 +18,51 @@ export enum AuthType {
      */
     None = 'None',
     /**
+     * Passthrough SSO to the embedded App within the iframe. Requires least configuration, but may not
+     * be supported by all IDPs. This will behave like `None` if SSO is not configured on ThoughtSpot.
+     * @version: SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl
+     */
+    EmbeddedSSO = 'EmbeddedSSO',
+    /**
      * SSO using SAML
-     * @deprecated Use {@link SAML} instead
+     * @deprecated Use {@link SAMLRedirect} instead
+     * @hidden
      */
     SSO = 'SSO_SAML',
     /**
      * SSO using SAML
+     * @deprecated Use {@link SAMLRedirect} instead
+     * @hidden
      */
     SAML = 'SSO_SAML',
     /**
+     * SSO using SAML
+     * Will make the host application redirect to the SAML Idp.
+     */
+    SAMLRedirect = 'SSO_SAML',
+    /**
      * SSO using OIDC
+     * @hidden
+     * @deprecated Use {@link OIDCRedirect} instead
      */
     OIDC = 'SSO_OIDC',
     /**
+     * SSO using OIDC
+     * Will make the host application redirect to the OIDC Idp.
+     */
+    OIDCRedirect = 'SSO_OIDC',
+    /**
      * Trusted authentication server
+     * @hidden
+     * @deprecated Use {@link TrustedAuth} instead
      */
     AuthServer = 'AuthServer',
+    /**
+     * Trusted authentication server, Use you own authentication server
+     * which returns a bearer token, generated using the secret_key obtained from
+     * ThoughtSpot.
+     */
+    TrustedAuthToken = 'AuthServer',
     /**
      * Use the ThoughtSpot login API to authenticate to the cluster directly.
      *
@@ -216,6 +245,20 @@ export interface EmbedConfig {
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl
      */
     customizations?: CustomisationsInterface;
+    /**
+     * For noRedirect SSO Auth, we need a button which the user
+     * click to trigger the flow. This is the containing element
+     * for that button.
+     *
+     * @version SDK: 1.17.0 | ThoughtSpot: *
+     */
+    authTriggerContainer?: string | HTMLElement;
+    /**
+     * Text to show in the button which triggers the popup auth flow.
+     * Default: "Authorize".
+     * @version SDK: 1.17.0 | ThoughtSpot: *
+     */
+    authTriggerText?: string;
 }
 
 /**
@@ -663,16 +706,25 @@ export enum EmbedEvent {
 export enum HostEvent {
     /**
      * Trigger a search
-     * @param dataSourceIds - The list of data source GUIDs
-     * @param searchQuery - The search query
+     * @param - dataSourceIds - The list of data source GUIDs
+     * @param - searchQuery - The search query
+     * @example
+     * searchEmbed.trigger(HostEvent.Search, {
+     * searchQuery: "[sales] by [item type],
+     * "dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     * })
      */
     Search = 'search',
     /**
      * Trigger a drill on certain points by certain column
-     * @param points - an object containing selectedPoints/clickedPoints
+     * @param - points - an object containing selectedPoints/clickedPoints
      *              eg. { selectedPoints: []}
-     * @param columnGuid - a string guid of the column to drill by. This is optional,
+     * @param - columnGuid - a string guid of the column to drill by. This is optional,
      *                     if not provided it will auto drill by the configured column.
+     * @example searchEmbed.trigger(HostEvent.DrillDown, {
+     * points: clickedPointData,
+     * autoDrillDown: true,
+     * })
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     DrillDown = 'triggerDrillDown',
@@ -690,6 +742,8 @@ export enum HostEvent {
      * Set the visible visualizations on a Liveboard.
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
+     * @example
+     * liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c', 'd547ec54-2a37-4516-a222-2b06719af726'])
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
@@ -697,18 +751,25 @@ export enum HostEvent {
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+     * @example
+     * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
+     * {columnName: "state",operator: "EQ",values: ["michigan"]},
+     * {columnName: "item type",operator: "EQ",values: ["Jackets"]}
+     * ])
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
      * Navigate to a specific page in App embed without any reload.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`
-     * @param path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @param - path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @example appEmbed.navigateToPage(-1)
      * @version SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1-sw
      */
     Navigate = 'Navigate',
     /**
      * Gets the current pinboard content.
+     * @example liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
@@ -716,70 +777,88 @@ export enum HostEvent {
      * Triggers the Pin action on an embedded object
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Pin, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.Pin)
+     * searchEmbed.trigger(HostEvent.Pin)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Pin = 'pin',
     /**
      * Triggers the Show Liveboard details action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.LiveboardInfo)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Triggers the Schedule action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.Schedule)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Schedule = 'subscription',
     /**
      * Triggers the Manage schedule action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.ScheduleList)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     SchedulesList = 'schedule-list',
     /**
      * Triggers the Export TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.ExportTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ExportTML = 'exportTSL',
     /**
      * Triggers the Edit TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.EditTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     EditTML = 'editTSL',
     /**
      * Triggers the Update TML action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.UpdateTML)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     UpdateTML = 'updateTSL',
     /**
      * Triggers the Download PDF action on a Liveboard
+     * @example liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
-     * Triggers the Make a copy action on a Liveboard
+     * Triggers the Make a copy action on a Liveboard, search or visualization
+     * @example
+     * liveboardEmbed.trigger(HostEvent.MakeACopy, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.MakeACopy)
+     * searchEmbed.trigger(HostEvent.MakeACopy)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     MakeACopy = 'makeACopy',
     /**
      * Triggers the Delete action on a Liveboard
+     * @example appEmbed.trigger(HostEvent.Remove)
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Remove = 'delete',
     /**
      * Triggers the Explore action on a visualization
      * @param - an object with vizId as a key
-     * eg: {vizId: '730496d6-6903-4601-937e-2c691821af3c'}
+     * @example liveboardEmbed.trigger(HostEvent.Explore, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Explore = 'explore',
     /**
      * Triggers the Create alert action on a visualization
      * @param - an object with vizId as a key
+     * @example liveboardEmbed.trigger(HostEvent.CreateMonitor {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CreateMonitor = 'createMonitor',
     /**
      * Triggers the Manage alert action on a visualization
      * @param - an object with vizId as a key
+     * @example liveboardEmbed.trigger(HostEvent.ManageMonitor, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     ManageMonitor = 'manageMonitor',
@@ -815,9 +894,112 @@ export enum HostEvent {
     Present = 'present',
     /**
      * Get TML for the current search.
+     * @example searchEmbed.trigger(HostEvent.GetTML)
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
      */
     GetTML = 'getTML',
+    /**
+     * Triggers the ShowUnderlyingData action on visualization or search
+     * @param - an object with vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.ShowUnderlyingData, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.ShowUnderlyingData)
+     * searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    ShowUnderlyingData = 'showUnderlyingData',
+    /**
+     * Triggers the Delete action on visualization or search
+     * @param - incase of Liveboard embed, takes in an object with vizId as a key
+     * can be left empty for search and visualization embeds
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Delete, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.Delete)
+     * searchEmbed.trigger(HostEvent.Delete)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    Delete = 'delete',
+    /**
+     * Triggers the SpotIQAnalyze action on visualization or search
+     * @param - incase of Liveboard embed, takes in an object with vizId as a key
+     * can be left empty for search and visualization embeds
+     * @example
+     * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.SpotIQAnalyze)
+     * searchEmbed.trigger(HostEvent.SpotIQAnalyze)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    SpotIQAnalyze = 'spotIQAnalyze',
+    /**
+     * Triggers the Download action on visualization or search when Displaymode is Chart
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.Download)
+     * searchEmbed.trigger(HostEvent.Download)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    Download = 'download',
+    /**
+     * Triggers the downloadAsCSV action on visualization or search when Displaymode is Table
+     * @example
+     * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.DownloadAsCsv)
+     * searchEmbed.trigger(HostEvent.DownloadAsCsv)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    DownloadAsCsv = 'downloadAsCSV',
+    /**
+     * Triggers the downloadAsXLSX action on visualization or search when Displaymode is Table
+     * @example
+     * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    DownloadAsXlsx = 'downloadAsXLSX',
+    /**
+     * Triggers the Share action on a liveboard or answer
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Share)
+     * searchEmbed.trigger(HostEvent.Share)
+     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     */
+    Share = 'share',
+    /**
+     * Trigger the Save action on a liveboard or answer
+     * @example
+     * liveboardEmbed.trigger(HostEvent.Save)
+     * searchEmbed.trigger(HostEvent.Save)
+     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     */
+    Save = 'save',
+    /**
+     * Triggers the SyncToSheets action on visualization
+     * @param - an object with vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.SyncToSheets, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.SyncToSheets)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    SyncToSheets = 'sync-to-sheets',
+    /**
+     * Triggers the SyncToOtherApps action on visualization
+     * @param - an object with vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.SyncToOtherApps)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    SyncToOtherApps = 'sync-to-other-apps',
+    /**
+     * Triggers the ManagePipelines action on visualization
+     * @param - an object with vizId as a key
+     * @example
+     * liveboardEmbed.trigger(HostEvent.ManagePipelines, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * vizEmbed.trigger(HostEvent.ManagePipelines)
+     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     */
+    ManagePipelines = 'manage-pipeline',
 }
 
 /**
@@ -878,6 +1060,9 @@ export enum Param {
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
     CustomStyle = 'customStyle',
+    ForceSAMLAutoRedirect = 'forceSAMLAutoRedirect',
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    AuthType = 'authType',
 }
 
 /**
@@ -1024,6 +1209,9 @@ export enum Action {
      * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     ReportError = 'reportError',
+    SyncToSheets = 'sync-to-sheets',
+    SyncToOtherApps = 'sync-to-other-apps',
+    ManagePipelines = 'manage-pipeline',
 }
 
 export interface SessionInterface {

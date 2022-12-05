@@ -5,7 +5,7 @@
 :page-pageid: restV2-playground
 :page-description: ThoughtSpot REST API v2 Playground
 
-The REST API v2 Playground [beta blueBackground]^BETA^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+The REST API v2 Playground [beta betaBackground]^Beta^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
 ////
 The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
 ////
@@ -59,11 +59,11 @@ Allows you to modify the client configuration settings. For example, you can upd
 +
 Allows you to download the API response JSON file to your local directory.
 
+////
 Language selection drop-down::
 
 The language selection drop-down above the code explorer allows you to switch between different programming languages and view code samples.
 
-////
 You can also use this drop-down to get language-specific SDK and client libraries.
 ////
 

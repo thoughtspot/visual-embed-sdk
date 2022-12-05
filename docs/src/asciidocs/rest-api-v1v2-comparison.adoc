@@ -6,7 +6,7 @@
 :page-pageid: v1v2-comparison
 :page-description: Difference between REST API v1 and v2
 
-Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2[beta blueBackground]^BETA^ is a new framework that expands the core API functionality with additional features and improved user experience.
+Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2[beta betaBackground]^Beta^ is a new framework that expands the core API functionality with additional features and improved user experience.
 
 [div tableContainer]
 --
@@ -14,7 +14,7 @@ Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and ma
 [width="100%" cols="4,^5,^5"]
 [options='header']
 |=====
-||REST API v1| REST API v2[beta blueBackground]^BETA^
+||REST API v1| REST API v2[beta betaBackground]^Beta^
 |Developer Playground|Swagger API explorer
 
 The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal

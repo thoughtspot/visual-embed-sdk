@@ -8,6 +8,17 @@
 
 This page lists the issues resolved in ThoughtSpot Everywhere.
 
+== Version 8.9.0.cl
+
+[cols="20%,80%"]
+[options='header']
+|===
+|Issue ID |Description
+|SCAL-128033 a| The REST API v2 Playground [beta betaBackground]^Beta^ does not load request parameters for some API endpoints.
+|SCAL-129920 a| Custom actions in the context menu do not work on Liveboards if the new Liveboard experience is enabled.
+|===
+
+
 == Version 8.8.0.cl
 [cols="20%,80%"]
 [options='header']

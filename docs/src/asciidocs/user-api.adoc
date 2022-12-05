@@ -45,6 +45,8 @@ POST /tspublic/v1/user/
 |`usertype` __Optional__ a|__String__. Type of user. The default value is `LOCAL_USER`, which indicates that the user is created locally in the ThoughtSpot system.
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user is being created.
 |`visibility` __Optional__|__String__. Visibility of the user. The `visibility` attribute is set to `DEFAULT` when creating a user. The `DEFAULT` attribute makes a user visible to other users and user groups, and thus allows them to share objects.
+|`triggeredbyadmin` a|__Boolean__. Indicates if the API request is initiated by a ThoughtSpot administrator or an external application. The default value is `false`. +
+ When set to `true`, the `displayNameLastUpdatedBy` property is set to `ADMIN` in the API response, Else, `displayNameLastUpdatedBy` is set to `AUTO`.
 |===
 
 === Example request
@@ -79,7 +81,9 @@ If the user is successfully created in ThoughtSpot, the API returns the user GUI
       "showWalkMe": true,
       "analystOnboardingComplete": false
     },
-    "userProperties": {},
+     "userProperties": {
+      "displayNameLastUpdatedBy": "ADMIN"
+    },
     "userActivityProto": {
       "first_login": -1,
       "welcome_email_sent": false
@@ -160,6 +164,14 @@ PUT /tspublic/v1/user/{userid}
 |`userid`|__String__. GUID of the user.
 |`content`|__String__. A JSON map of strings with the user profile attributes.
 |`password` __Optional__|__String__. Password string for the user account. Use this attribute to change the password of the user account.
+|`triggeredbyadmin` a|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
+
+* When set to `true`, ThoughtSpot updates the `displayNameLastUpdatedBy` property to `ADMIN`. Else, the `displayNameLastUpdatedBy` property is set to `AUTO` for the specified user object.
+
+[NOTE]
+====
+Starting from 8.9.0.cl, ThoughtSpot users can update their display name on the profile setting page in the UI. If a user updates their display name, ThoughtSpot sets `displayNameLastUpdatedBy` to `USER` in the object properties.
+====
 |===
 
 === Example request
@@ -193,9 +205,6 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
          "notifyOnShare":false,
          "showWalkMe":true,
          "analystOnboardingComplete":false
-      },
-      "userProperties":{
-
       },
       "userActivityProto":{
          "first_login":-1,
@@ -381,8 +390,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-48
       "analystOnboardingComplete": false
     },
     "userProperties": {
-        "persona": "business_user",
-        "mail": "tsadmin@thoughtspot.com",
+        "displayNameLastUpdatedBy": "ADMIN",
+        "persona": "BUSINESS_USER"
+        "mail": "tsUser@thoughtspot.com",
         "companyName": "",
         "activatedAtMs": 1649842964294
      },
@@ -826,8 +836,12 @@ The email address of the user. This field is populated only for the user objects
 +
 Type of the user created in the ThoughtSpot system. For example:
 
-** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system.  
-** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system.
+** `LOCAL_USER` for users that are created and authenticated locally in the ThoughtSpot system
+** `LOCAL_GROUP` for groups that are saved in the local database of the ThoughtSpot system
+** `SAML_USER` for SSO users authenticated by a SAML IdP
+** `OIDC_USER` for SSO users authenticated by an OpenID provider via OIDC protocol
+** `LDAP_GROUP` for groups synchronized from an LDAP server
+** `LOCAL_GROUP` for groups that are created locally on ThoughtSpot.
 
 * `password`
 +
@@ -1290,7 +1304,7 @@ Use the example format for the JSON requests:
 ----
 [IMPORTANT]
 ====
-The above example covers user objects (with emails), group objects, and their relationships.
+The preceding example covers user objects (with emails), group objects, and their relationships.
 
 * You can leave the `created` and `modified` dates blank for new users.
 * You can specify if the principal is a user or user group in the `principalTypeEnum` keyword.

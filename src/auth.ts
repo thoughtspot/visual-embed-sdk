@@ -1,6 +1,6 @@
 import { initMixpanel } from './mixpanel-service';
-import { AuthType, EmbedConfig, EmbedEvent } from './types';
-import { getRedirectUrl } from './utils';
+import { AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param } from './types';
+import { getDOMNode, getRedirectUrl } from './utils';
 // eslint-disable-next-line import/no-cycle
 import {
     fetchSessionInfoService,
@@ -208,12 +208,16 @@ export const doBasicAuth = async (
     return loggedInStatus;
 };
 
-async function samlPopupFlow(ssoURL: string) {
-    document.body.insertAdjacentHTML(
-        'beforeend',
-        '<div id="ts-saml-auth"></div>',
-    );
-    const authElem = document.getElementById('ts-saml-auth');
+async function samlPopupFlow(
+    ssoURL: string,
+    triggerContainer: DOMSelector,
+    triggerText: string,
+) {
+    const containerEl = getDOMNode(triggerContainer);
+    containerEl.innerHTML =
+        '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
+    const authElem = document.getElementById('ts-auth-btn');
+    authElem.textContent = triggerText;
     samlCompletionPromise =
         samlCompletionPromise ||
         new Promise<void>((resolve, reject) => {
@@ -239,7 +243,6 @@ async function samlPopupFlow(ssoURL: string) {
         },
         { once: true },
     );
-    authElem.click();
     return samlCompletionPromise;
 }
 
@@ -271,7 +274,11 @@ const doSSOAuth = async (
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.noRedirect) {
-        await samlPopupFlow(ssoURL);
+        await samlPopupFlow(
+            ssoURL,
+            embedConfig.authTriggerContainer,
+            embedConfig.authTriggerText,
+        );
         loggedInStatus = true;
         return;
     }
@@ -338,11 +345,14 @@ export const authenticate = async (
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:
+        case AuthType.SAMLRedirect:
         case AuthType.SAML:
             return doSamlAuth(embedConfig);
         case AuthType.OIDC:
+        case AuthType.OIDCRedirect:
             return doOIDCAuth(embedConfig);
         case AuthType.AuthServer:
+        case AuthType.TrustedAuthToken:
             return doTokenAuth(embedConfig);
         case AuthType.Basic:
             return doBasicAuth(embedConfig);

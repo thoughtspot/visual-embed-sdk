@@ -17,13 +17,14 @@ import {
     getIFrameSrc,
     getRootEl,
     postMessageToParent,
+    defaultParamsForPinboardEmbed,
+    waitFor,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
 import * as baseInstance from './base';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
-import { version } from '../../package.json';
 
 const defaultViewConfig = {
     frameParams: {
@@ -34,7 +35,6 @@ const defaultViewConfig = {
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
-const defaultParamsForPinboardEmbed = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&hideAction=[%22${Action.ReportError}%22]`;
 const defaultParamsPost = '';
 
 beforeAll(() => {
@@ -274,10 +274,9 @@ describe('Unit test case for ts embed', () => {
         });
 
         beforeEach(() => {
-            jest.spyOn(
-                baseInstance,
-                'getAuthPromise',
-            ).mockRejectedValueOnce(() => Promise.reject());
+            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
+                false,
+            );
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
@@ -548,6 +547,28 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
                     `&locale=ja-JP${defaultParamsPost}#/home`,
             );
+        });
+        xit('Sets the forceSAMLAutoRedirect param', async (done) => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.EmbeddedSSO,
+            });
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
+                expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
+                done();
+            });
         });
     });
 

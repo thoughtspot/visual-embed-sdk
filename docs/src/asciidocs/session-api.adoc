@@ -15,7 +15,6 @@ include::{path}/session-api-list.adoc[]
 
 You require ThoughtSpot login credentials to create a session object and obtain a login token.
 
-
 [#session-login]
 == Sign in as a ThoughtSpot user
 
@@ -192,6 +191,7 @@ If the operation is successful, the API returns a response with the session info
 }
 ----
 
+
 === Response codes
 [options="header", cols="1,4"]
 |===
@@ -283,7 +283,7 @@ If the home Liveboard is set in the currently logged-in user's account, the API 
 
 [#del-home-liveboard]
 == Remove a home Liveboard
-To remove the home Liveboard setting from the currently logged-in user's account, send a DELETE request to the `/tspublic/v1/session/homepinboard` API endpoint.
+To remove the home Liveboard setting from the currently logged-in user's account, send a `DELETE` request to the `/tspublic/v1/session/homepinboard` API endpoint.
 
 === Resource URL
 ----

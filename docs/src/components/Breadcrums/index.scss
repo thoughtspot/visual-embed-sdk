@@ -1,7 +1,7 @@
 @import '../../assets/styles/variables.scss';
 
 .breadcrumsWrapper {
-    padding: $padding-md $padding-md 0px;
+    padding: $padding-sm $padding-md 0px;
     .breadcrumb {
         margin: 0;
         list-style: none;
@@ -29,5 +29,20 @@
                 color: var(--secondary-color);
             }
         }
+
     }
+
 }
+
+@media screen and (max-width: $mobile-resolution-max) {
+       .breadcrumsWrapper{
+           padding: 10px 5px 5px 20px;
+           font-size: $font-size-breadcrums-mobile;
+           line-height: 14pt;
+       }
+}
+
+
+
+
+

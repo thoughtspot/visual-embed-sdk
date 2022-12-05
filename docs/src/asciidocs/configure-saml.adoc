@@ -65,7 +65,7 @@ In the SP-initiated SSO authentication flow, the SSO request originates from the
 +
 In the IdP-initiated SSO authentication flow, the user authenticates to the IdP first. The browser then redirects the login request to the host application and allows the user to access the requested content.
 
-== SAML authentication workflow for a ThoughtSpot embedded instance
+== SAML authentication workflow on an embedded instance
 
 With SAML SSO authentication, your host applications can allow federated users to access the embedded ThoughtSpot content without the need for a separate ThoughtSpot login.
 
@@ -86,7 +86,7 @@ image::./images/saml-auth.png[SAML authentication]
 
 === Visual Embed SDK flow
 
-When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SAML`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
+When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SAMLRedirect`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
 
 === Enabling automatic SAML redirect
 
@@ -177,7 +177,7 @@ If you want to use SSO authentication for embedded ThoughtSpot content, make sur
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.SAMLRedirect,
 });
 ----
 

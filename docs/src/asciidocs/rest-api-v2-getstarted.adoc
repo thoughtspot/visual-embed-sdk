@@ -6,7 +6,7 @@
 :page-pageid: rest-apiv2-getstarted
 :page-description: Get started with REST API v2 to access, create, and manage ThoughtSpot resources programmatically.
 
-To get started with REST API v2, visit the REST API v2 Playground [beta blueBackground]^BETA^ to view the endpoints and API request parameters.
+To get started with REST API v2, visit the REST API v2 Playground [beta betaBackground]^Beta^ to view the endpoints and API request parameters.
 
 == Access the Playground
 

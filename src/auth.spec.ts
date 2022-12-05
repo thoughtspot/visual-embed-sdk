@@ -1,7 +1,7 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
 import * as checkReleaseVersionInBetaInstance from './utils';
-import { AuthType, EmbedConfig } from './types';
+import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { executeAfterWait } from './test/test-utils';
 
 const thoughtSpotHost = 'http://localhost:3000';
@@ -42,6 +42,12 @@ export const embedConfig: any = {
     },
     doSamlAuth: {
         thoughtSpotHost,
+    },
+    doSamlAuthNoRedirect: {
+        thoughtSpotHost,
+        noRedirect: true,
+        authTriggerContainer: document.body,
+        authTriggerText: 'auth',
     },
     doOidcAuth: {
         thoughtSpotHost,
@@ -393,10 +399,12 @@ describe('Unit test for auth', () => {
             expect(await authInstance.samlCompletionPromise).not.toBe(null);
             expect(
                 await authInstance.doSamlAuth({
-                    ...embedConfig.doSamlAuth,
-                    noRedirect: true,
+                    ...embedConfig.doSamlAuthNoRedirect,
                 }),
             ).toBe(true);
+            document.getElementById('ts-auth-btn').click();
+            window.postMessage({ type: EmbedEvent.SAMLComplete }, '*');
+            await authInstance.samlCompletionPromise;
             expect(authService.fetchSessionInfoService).toBeCalled();
         });
     });

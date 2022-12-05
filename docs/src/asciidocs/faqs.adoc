@@ -303,13 +303,13 @@ You can use REST APIs along with Visual Embed SDK to programmatically deploy, ma
 .Can I make REST API calls in a language-specific way?
 [%collapsible]
 ====
-The REST API v2[beta blueBackground]^BETA^ supports SDK and client libraries for Java, TypeScript, Python, and .NET clients. For more information. see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+The REST API v2[beta betaBackground]^Beta^ supports SDK and client libraries for Java, TypeScript, Python, and .NET clients. For more information. see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
 ====
 
 .How is REST API v1 different from REST API v2?
 [%collapsible]
 ====
-The REST API v2 framework [beta blueBackground]^BETA^ is built upon the existing core API functionality and extends it further to provide additional features and benefits. It simplifies the request and response workflow and provides an enhanced developer experience with an interactive Playground.
+The REST API v2 framework [beta betaBackground]^Beta^ is built upon the existing core API functionality and extends it further to provide additional features and benefits. It simplifies the request and response workflow and provides an enhanced developer experience with an interactive Playground.
 
 For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v1v2-comparison.adoc[REST v1 and REST v2 API comparison].
 ====
@@ -358,9 +358,9 @@ To learn more about ThoughtSpot REST API, refer to the following pages on the De
 
 * xref:about-rest-apis.adoc[ThoughtSpot REST APIs]
 * xref:rest-api-v1.adoc[REST API v1]
-* xref:rest-api-v2.adoc[REST API v2][beta blueBackground]^BETA^
+* xref:rest-api-v2.adoc[REST API v2][beta betaBackground]^Beta^
 * xref:rest-api-reference.adoc[REST API v1 Reference]
-* xref:rest-api-v2-reference.adoc[REST API v2 Reference][beta blueBackground]^BETA^
+* xref:rest-api-v2-reference.adoc[REST API v2 Reference][beta betaBackground]^Beta^
 * link:{{previewPrefix}}/api/rest/playgroundV1[REST API v1 Playground, window=_blank]
 * link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank]
 ====
@@ -375,5 +375,5 @@ Check the following resources for REST API v1 code samples:
 * link:https://developers.thoughtspot.com/codespot[CodeSpot, window=_blank]
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 
-You can also view and download the REST API v2 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank][beta blueBackground]^BETA^.
+You can also view and download the REST API v2 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank][beta betaBackground]^Beta^.
 ====
