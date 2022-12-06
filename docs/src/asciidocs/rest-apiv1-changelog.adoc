@@ -18,7 +18,7 @@ In 8.9.0.cl, ThoughtSpot will rebrand the object name `pinboard` to `liveboard` 
 
 User API::
 
-The xref:user-api.adoc#create-user[POST /tspublic/v1/user/] and xref:user-api.adoc#update-user[PUT /tspublic/v1/user/{userid}] API endpoints allow you set the `triggeredbyadmin` to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+The xref:user-api.adoc#create-user[POST /tspublic/v1/user/] and xref:user-api.adoc#update-user[PUT /tspublic/v1/user/{userid}] API endpoints allow you set the `triggeredbyadmin` flag to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
 
 == Version 8.8.0.cl, October 2022
 

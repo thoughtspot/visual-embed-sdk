@@ -97,7 +97,7 @@
 
 <div class="blockHome">
  <div class="homeHeaderText">
-      <h3>APIs and SDK</h3>
+      <h3>Get started</h3>
           <a href="?pageid=get-started-tse"> <p class="boxBody"><span class="homeBullet greyBackground">-></span>
    Sign up </p></a>
     <a href="?pageid=getting-started"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Install Visual Embed SDK</p>

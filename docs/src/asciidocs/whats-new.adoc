@@ -10,18 +10,28 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
-=== Ability to embed only Search bar
-
+=== Ability to embed only the Search bar in an app
 In the upcoming release, you can embed the ThoughtSpot search bar component in your app. If you are using Google Sheets or Microsoft Excel for data analysis, you can embed ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve search results from a query as raw data and let you host application render it the way you want.
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-=== CSS customization
+=== Advanced style customization with custom CSS [beta betaBackground]^Beta^
 
-<TBD>
+The CSS customization [beta betaBackground]^Beta^ feature supports new variables to customize the look and feel of following UI elements:
 
-=== Multi-tenancy with Orgs
-<TBD>
+* Search data button in the navigation panel
+* Font type and text style of search tokens
+* Data panel on the Search and saved answer pages
+* Filter chips on Liveboard, visualizations, and answer pages
+* Menu components
+* X-axis and Y-axis titles and labels on charts
+
+For more information, see xref:css-customization.adoc[Customize CSS].
+
+=== Multi-tenancy with Orgs [beta betaBackground]^Beta^
+
+In the upcoming release, you can set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical workspaces called *Orgs* and isolate each tenant's data.
+
 
 === Visual Embed SDK version 1.18.0
 Visual Embed SDK version 1.17.0
@@ -36,7 +46,7 @@ For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.ad
 
 === Improvements to authentication methods and AuthType enums in the SDK
 
-The upcoming release introduces the following changes to the authentication framework in the Visual Embed SDK.
+The following changes are introduced in the Visual Embed SDK to improve the authentication framework and options for embedded application users:
 
 * New auth type enum for embedded SSO authentication
 +
@@ -55,7 +65,7 @@ Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1
 
 === Advanced style customization [beta betaBackground]^Beta^
 
-In the upcoming release, ThoughtSpot allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
+ThoughtSpot now allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
 to match the look and feel of your host application.
 
 To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.
