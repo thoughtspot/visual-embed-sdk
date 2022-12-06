@@ -20,9 +20,9 @@ For more specific information on Embed options and functions, see the  link:http
 * link:{{visualEmbedSDKPrefix}}/classes/AppEmbed.html[AppEmbed^, window=_blank]
 * link:{{visualEmbedSDKPrefix}}/classes/LiveboardEmbed.html[LiveboardEmbed, window=_blank]
 * link:{{visualEmbedSDKPrefix}}/classes/SearchEmbed.html[SearchEmbed, window=_blank]
+* link:{{visualEmbedSDKPrefix}}/classes/SearchBarEmbed.html[SearchBarEmbed, window=_blank]
 
 For more specific information on Embed options and functions, see the link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank].
-
 
 == Additional resources
 

@@ -140,11 +140,212 @@ init({
 . After you modify the styles, reload your application and verify the changes.
 
 
+
+
+
+----
+:root {
+
+
+
+
+
+  /* Chart */
+  --ts-var-answer-chart-select-background: initial;
+  --ts-var-answer-chart-hover-background: initial;
+  /* Viz */
+  --ts-var-viz-title-color: var(--ts-var-root-color);
+  --ts-var-viz-title-font-family: var(--ts-var-root-font-family);
+  --ts-var-viz-title-text-transform: var(--ts-var-root-text-transform);
+  --ts-var-viz-description-color: var(--ts-var-root-color);
+  --ts-var-viz-description-font-family: var(--ts-var-root-font-family);
+  --ts-var-viz-description-text-transform: var(--ts-var-root-text-transform);
+  --ts-var-viz-border-radius: initial;
+  --ts-var-viz-box-shadow: initial;
+  --ts-var-viz-background: initial;
+  --ts-var-viz-legend-hover-background:initial;
+  /* Chip */
+  --ts-var-chip-border-radius: initial;
+  --ts-var-chip-title-font-family: var(--ts-var-root-font-family);
+  --ts-var-chip-box-shadow: initial;
+  --ts-var-chip-background: initial;
+  --ts-var-chip-color: var(--ts-var-root-color);
+  --ts-var-chip--hover-background:initial;
+  --ts-var-chip--hover-color:var(--ts-var-root-color);
+  --ts-var-chip--active-background:initial;
+  --ts-var-chip--active-color:initial;
+  /* Axis */
+  --ts-var-axis-title-color: var(--ts-var-root-color);
+  --ts-var-axis-title-font-family: var(--ts-var-root-font-family);
+  --ts-var-axis-data-label-color: var(--ts-var-root-color);
+  --ts-var-axis-data-label-font-family: var(--ts-var-root-font-family);
+  /* Menu */
+  --ts-var-menu-color: var(--ts-var-root-color);
+  --ts-var-menu-background: initial;
+  --ts-var-menu-font-family: var(--ts-var-root-font-family);
+  --ts-var-menu-text-transform: var(--ts-var-root-text-transform);
+  --ts-var-menu--hover-background: initial;
+}
+
+/*# sourceMappingURL=custom_variables.css.map */
+----
+
+
+
+
+
+
+
+
 [#supported-variables]
 == Supported variables and rules
 ThoughtSpot provides a default CSS file containing the most common variables and rules supported in a given release version. You can apply the overrides within the given file or add variable definitions directly in the code.
 
+=== App customization
+
 The following example shows the supported variables:
+
+[width="100%" cols="5,7"]
+[options='header']
+|======
+|Variable| Description
+|`--ts-var-root-background`|
+Background color of the application page. +
+The color code setting applies to all pages in the app.
+|`--ts-var-root-color`| Color of the text on application pages +
+|`--ts-var-root-font-family`| Font type for the text on application pages.
+|`--ts-var-root-text-transform`|Text transformation specification for all UI elements in the app. +
+|======
+
+=== Navigation bar customization
+
+[width="100%" cols="5,7"]
+[options='header']
+|======
+|Variable| Description
+|`--ts-var-nav-background`| Background color of the top navigation panel.
+|`--ts-var-nav-color`| Font color of the top navigation panel.
+|`--ts-var-search-data-button-background`| Background color of the *Search data* button.
+|`--ts-var-search-data-button-font-color`| Color of the text on the *Search data* button.
+|`--ts-var-search-data-button-font-family`| Font of the text on the *Search data* button.
+|======
+
+=== Search bar and data panel customization
+
+[width="100%" cols="5,7"]
+[options='header']
+|======
+|Variable| Description
+|`--ts-var-search-bar-text-font-color`|Font color of the search tokens in the Search bar.
+|`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
+|`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
+|`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
+|======
+
+=== Button customization
+
+[width="100%" cols="7,4,7"]
+[options='header']
+|======
+|Variable|Element type|Description
+|`--ts-var-button-border-radius`|Main button| Border-radius of main buttons. +
+For example, the *Search data* button in the top navigation panel.
+|`--ts-var-button--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
+For example, share and favorite buttons.
+|`--ts-var-button--primary-color`|Primary button|
+Font color of the text on primary buttons. For example, the *Go* button on the search bar that appears on clicking Search data, the primary action buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
+|`--ts-var-button--primary--font-family`|Primary button|
+
+Font family specification for the text on primary buttons.
+|`--ts-var-button--primary-background`|Primary button|
+
+Background color of the primary action buttons. For example, the primary action buttons such as *Pin* and *Save* on the answer page, data workspace, SpotIQ, or Home page.
+|`--ts-var-button--primary--hover-background`|Primary button|
+
+Background color of the primary action buttons when a pointer hovers over these buttons.
+|`--ts-var-button--secondary-color`|Secondary button|
+
+Font color of the text on the secondary action buttons.
+|`--ts-var-button--secondary--font-family`|Secondary button|
+
+Font family specification for the text on the secondary action buttons.
+|`--ts-var-button--secondary-background`|Secondary button|Element-level setting +
+
+Background color of the secondary action buttons.
+|`--ts-var-button--secondary--hover-background`|Secondary button|
+Background color of the secondary action button when a pointer hovers over these buttons.
+|`--ts-var-button--tertiary-color`|Tertiary button|
+
+Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the search results page.
+|`--ts-var-button--tertiary-background`|Tertiary button|
+
+Background color of the tertiary button.
+|`--ts-var-button--tertiary--hover-background`|Tertiary button|
+
+Background color of the tertiary button when a pointer hovers over these buttons.
+|======
+
+=== Charts and visualization style customization
+
+[width="100%" cols="7,7"]
+[options='header']
+|======
+|Variable|Description
+`--ts-var-answer-chart-select-background`|Background color of the selected chart type in the chart selection widget that appears on clicking the chart icon image:./images/icon-more-10px.png[Chart selection icon].
+|`--ts-var-viz-title-color`|
+Font color of the title text of a visualization or answer.
+|`--ts-var-viz-title-font-family`|Title text of a visualization/answer|
+Font family specification for the title text of a visualization/answer.
+|`--ts-var-viz-title-text-transform`|Title text of a visualization/answer|
+Text transformation specification for visualization and answer titles.
+|`--ts-var-viz-description-color`|Visualization/answer description and subtitle |
+Font color of the description text and subtitle of a visualization or answer.
+|`--ts-var-viz-description-font-family`|Visualization/answer description and subtitle|
+Font family specification of description text and subtitle of a visualization or answer.
+|`--ts-var-viz-description-text-transform`|Visualization/answer description and subtitle|
+
+Text transformation specification for  description text and subtitle of a visualization or answer.
+|`--ts-var-viz-border-radius`|Visualization tiles +
+Liveboard header panel|
+Border-radius for the visualization tiles and header panel on a Liveboard.
+|`--ts-var-viz-box-shadow`|Visualization tiles +
+Liveboard header panel|Element-level setting +
+
+Box shadow property for the visualization tiles and header panel on a Liveboard.
+|`--ts-var-viz-background`|Visualization tiles +
+Liveboard header panel| Element-level setting +
+
+Background color of the visualization tiles and header panel on a Liveboard.
+|======
+
+
+
+/* Chart */
+--ts-var-answer-chart-select-background: initial;
+--ts-var-answer-chart-hover-background: initial;
+/* Viz */
+--ts-var-viz-title-color: var(--ts-var-root-color);
+--ts-var-viz-title-font-family: var(--ts-var-root-font-family);
+--ts-var-viz-title-text-transform: var(--ts-var-root-text-transform);
+--ts-var-viz-description-color: var(--ts-var-root-color);
+--ts-var-viz-description-font-family: var(--ts-var-root-font-family);
+--ts-var-viz-description-text-transform: var(--ts-var-root-text-transform);
+--ts-var-viz-border-radius: initial;
+--ts-var-viz-box-shadow: initial;
+--ts-var-viz-background: initial;
+--ts-var-viz-legend-hover-background:initial;
+
+[width="100%" cols="7,5,5"]
+[options='header']
+|======
+|Variable|Element type|Description
+|`--ts-var-answer-chart-select-background`|Chart|
+|`--ts-var-answer-chart-hover-background`|Chart|
+|-ts-var-viz-title-color:|
+||
+|======
+
+
 
 [width="100%" cols="7,5,5"]
 [options='header']
@@ -258,6 +459,13 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page]
 --
 
 === Sample CSS file with variable definitions
+
+----
+    "--ts-var-search-bar-text-font-color": "#163772",
+    "--ts-var-search-bar-text-font-family": "initial",
+    "--ts-var-search-bar-text-font-style": "italic",
+----
+
 
 [source,css]
 ----

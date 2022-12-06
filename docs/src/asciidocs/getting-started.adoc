@@ -41,11 +41,18 @@ Based on integration requirements, import any of the following embed modules and
 
 SearchEmbed::
 
-Use this package to xref:embed-search.adoc[embed the ThoughtSpot search] functionality.
+Use this package to xref:embed-search.adoc[embed the ThoughtSpot search page components].
 +
-The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer. +
+The **SearchEmbed** component allows you to embed the search bar and data panel. You can load it with a pre-selected data source and let your users define search keywords or show a set of example search tokens on load, either from a datasource or an existing saved answer. +
 +
-In all cases, the search bar will appear along with full capabilities to edit and modify the search and the resulting chart or table.
+In all cases, the search bar will appear along with full capabilities to edit search tokens and the resulting chart or table.
+
+SearchBarEmbed::
+
+Use this package to xref:embed-searchbar.adoc[embed only Search bar].
+
++
+The **SearchBarEmbed** component allows you to embed only the ThoughtSpot Search bar and data panel. The embedded search bar is responsive and can be adjusted to fit the screen width of your app.
 
 LiveboardEmbed::
 Use this package to embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[Liveboards].
@@ -88,7 +95,8 @@ include::{path}/embed-config.adoc[]
 After you initialize the SDK, create embed object classes and define object properties. +
 For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages: +
 
-* xref:embed-search.adoc[Embed Search]
+* xref:embed-search.adoc[Embed Search page]
+* xref:embed-searchbar.adoc[Embed Search bar]
 * xref:embed-pinboard.adoc[Embed a Liveboard]
 * xref:embed-a-viz.adoc[Embed a Liveboard visualization]
 * xref:full-embed.adoc[Embed full ThoughtSpot app]
