@@ -28,7 +28,7 @@
 ** link:{{navprefix}}=embed-object-access[Access control and data security]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 ** link:{{navprefix}}=orgs[Multi-tenancy with Orgs ^*Beta*^]
-** link:{{navprefix}}=orgs-api-op[Orgs administration and management ^*Beta*^]
+** link:{{navprefix}}=orgs-api-op[Orgs administration ^*Beta*^]
 ** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy without Orgs]
 
 * link:{{navprefix}}=auth-overview[Authentication and security]
