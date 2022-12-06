@@ -18,6 +18,11 @@ ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` +
 Modifies the email address of a user.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
 ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:user-api.adoc#addOrg[*POST* /tspublic/v1/user/addtoorg]` +
+Adds one or several users to the specified Org.
+|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+
 |`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]` +
 Gets details of the users in a ThoughtSpot system.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#
@@ -62,78 +67,3 @@ Removes a user from the specified user groups.|ThoughtSpot Cloud [version noBack
 ThoughtSpot Software [version noBackground]#7.2.1#
 |=====
 --
-////
---
-`xref:user-api.adoc#create-user[*POST* /tspublic/v1/user/]` 
-
-+++<p class="divider">Creates a user account. </p>+++
-
-`xref:user-api.adoc#activate-user[**POST** /tspublic/v1/user/activate]` 
-
-+++<p class="divider">Activates a user account.</p>+++
-
-`xref:user-api.adoc#update-user[*PUT* /tspublic/v1/user/{userid}]`  
-
-+++<p class="divider">Modifies a user account.</p>+++
-
-`xref:user-api.adoc#addEmail[**PUT** /tspublic/v1/user/email]` 
-
-+++<p class="divider">Modifies the email address of a user. </p>+++
-
-`xref:user-api.adoc#get-user-details[*GET* /tspublic/v1/user/]`
-
-+++<p class="divider">Gets details of the users in a ThoughtSpot system. </p>+++
-
-`xref:user-api.adoc#delete-user[*DELETE* /tspublic/v1/user/{userid}]`
-
-+++<p class="divider">Deletes a user account.</p>+++
-
-`xref:user-api.adoc#user-list[*GET* /tspublic/v1/user/list]`
-
-+++<p class="divider">Gets all users, groups, and their inter-dependencies.</p>+++
-
-`xref:user-api.adoc#updatepreference-api[**POST** /tspublic/v1/user/updatepreference]`
-
-+++<p class="divider">Modifies a user profile.</p>+++
-
-`xref:user-api.adoc#transfer-ownership[**POST** /tspublic/v1/user/transfer/ownership]`  
-
-+++<p class="divider">Transfers the ownership of objects from one user to another. </p>+++
-
-`xref:user-api.adoc#change-pwd[**POST** /tspublic/v1/user/updatepassword]`
-
-+++<p class="divider">Changes the password of a user account. </p>+++
-
-`xref:user-api.adoc#resetpassword[**POST** /tspublic/v1/user/resetpassword]`
-
-+++<p class="divider">Resets the password of a user account. </p>+++
-
-`xref:user-api.adoc#invalidate-user-session[**POST** /tspublic/v1/user/session/invalidate]` 
-
-+++<p class="divider">Invalidates a user session. </p>+++
-
-`xref:user-api.adoc#deactivate-user[**POST** /tspublic/v1/user/inactivate]`  
-
-+++<p class="divider">Deactivates a user account.</p>+++
-
-`xref:user-api.adoc#user-sync[**POST** /tspublic/v1/user/sync]`
-
-+++<p class="divider">Synchronizes user and group properties from an external database with the user data on ThoughtSpot. </p>+++
-
-`xref:user-api.adoc#assignUserToGroups [**POST** /tspublic/v1/user/{userid}/groups]` 
-
-+++<p class="divider">Assigns a user to the specified user groups. </p>+++
-
-`xref:user-api.adoc#getGroupsUser [**GET** /tspublic/v1/user/{userid}/groups]` 
-
-+++<p class="divider">Gets details of the user groups associated with a specific user. </p>+++
-
-`xref:user-api.adoc#editGroupsforUser[**PUT** /tspublic/v1/user/{userid}/groups]`  
-
-+++<p class="divider">Updates the user group data for a specific user. </p>+++
-
-`xref:user-api.adoc#removeUserGroupAssoc[**DELETE** /tspublic/v1/user/{userid}/groups]`
-
-+++<p class="divider">Removes a user from the specified user groups.</p>+++
---
-////

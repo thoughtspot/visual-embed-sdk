@@ -29,6 +29,15 @@ ThoughtSpot Software [version noBackground]#6.0.x#
 |`xref:session-api.adoc#session-info[*GET* /tspublic/v1/session/info]` +
 Gets session information.|ThoughtSpot Cloud [version noBackground]#ts7.oct.cl# +
 ThoughtSpot Software [version noBackground]#7.2.1#
+|`xref:session-api.adoc#orgSwitch[*PUT* /tspublic/v1/session/orgs]` +
+Allows switching between organizations on a multi-tenant instance.| ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:session-api.adoc#getOrgs[*GET* /tspublic/v1/session/orgs]` +
+Gets Orgs for the logged-in user. | ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:session-api.adoc#getOrgsForUser[*GET* /tspublic/v1/session/orgs/users/{userid}]` +
+Gets Orgs for a specific user. | ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
 |`xref:session-api.adoc#set-home-liveboard[**POST** /tspublic/v1/session/homepinboard]` +
 Sets a specific Liveboard as a home Liveboard.|ThoughtSpot Cloud [version noBackground]#ts7.jun.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#

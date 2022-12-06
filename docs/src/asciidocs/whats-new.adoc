@@ -32,6 +32,7 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 In the upcoming release, you can set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical workspaces called *Orgs* and isolate each tenant's data.
 
+For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
 
 === Visual Embed SDK version 1.18.0
 Visual Embed SDK version 1.17.0

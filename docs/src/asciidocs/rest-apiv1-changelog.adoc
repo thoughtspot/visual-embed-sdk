@@ -8,6 +8,26 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
+== Version 8.10.0.cl, Coming soon
+
+The upcoming release introduces the following features and enhancements on ThoughtSpot Cloud clusters with Orgs [beta betaBackground]^Beta^ feature enabled.
+
+Org API endpoints::
+For multi-tenant clusters with Orgs [beta betaBackground]^Beta^ feature enabled, ThoughtSpot provides new endpoints to allow CRUD operations on Org objects.
++
+For more information, see xref:org-api.adoc[Org API] and xref:org-manage-api.adoc[Org administration and management via REST API].
+
+Session API endpoints::
+If the Orgs[beta betaBackground]^Beta^ feature is enabled on your cluster and Orgs are created, the cluster administrators can use the `/tspublic/v1/session/orgs` to xref:session-api#orgSwitch[Switch between Orgs].
+
++
+For deployments with trusted authentication framework, you can use the /tspublic/v1/session/auth/token API endpoint allows xref:session-api.adoc#session-authToken[to create a user just-in-time and dynamically assign Orgs, groups, and privileges to the user].
++
+For more information, see xref:session-api.adoc#orgSwitch[Switch between Orgs].
+
+User API::
+ThoughtSpot clusters with Orgs [beta betaBackground]^Beta^ feature support mapping user data to Orgs. For more information, see xref:user-api.adoc#create-user[create a user], xref:user-api.adoc#update-user[update user details], and xref:user-api.adoc##delete-user[delete a user account].
+
 == Version 8.9.0.cl, November 2022
 
 Session API::

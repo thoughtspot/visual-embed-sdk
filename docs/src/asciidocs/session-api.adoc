@@ -199,6 +199,211 @@ If the operation is successful, the API returns a response with the session info
 |**200**|Successful operation.
 |===
 
+
+
+[#orgSwitch]
+== Switch between Orgs
+
+If your ThoughtSpot instance has multiple Orgs, you can switch between Orgs by using the `/tspublic/v1/session/orgs` endpoint.
+
+Only the cluster administrator and users that belong to multiple Orgs can switch between the Orgs.
+
+=== Resource URL
+----
+PUT /tspublic/v1/session/orgs
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Form parameter|Description
+|`orgid` a|__Integer__. ID of the Org object. The org ID `0` indicates `Primary Org`. To switch to another Org, specify the Org ID.   +
+To know the Org IDs of the Orgs that you can access, send a GET request to the `/tspublic/v1/session/orgs` endpoint.
+|===
+
+=== Example request
+
+.cURL
+
+[source, cURL]
+----
+curl -X PUT \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+-d 'orgid=-1' \
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs'
+----
+
+.Request URL
+----
+https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs
+----
+
+=== Example response
+If the API request is successful, ThoughtSpot returns the 204 response code:
+
+----
+Response Code
+204
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**400**| Invalid parameter
+|**403**| Unauthorized request
+|===
+
+[#getOrgs]
+== Get Orgs for the logged-in user
+
+To get a list of Orgs for the current logged-in user, send a `GET` request to the `/tspublic/v1/session/orgs` API endpoint. +
+
+* If the logged-in user is a cluster administrator, the API returns all active Orgs. +
+* If the logged-in user belongs to more than one Org, the API returns all the active Orgs to which the user belongs.
+
+=== Resource URL
+----
+GET /tspublic/v1/session/orgs
+----
+
+=== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Query parameter|Description
+|`batchsize`  __Optional__ |__Integer__. The batch size of the Org objects returned in the API response. The system default is -1. A value of -1 implies all items starting from the offset value.
+|`offset` __Optional__ |__Integer__. The batch offset value that indicates the index point starting from which the list of Org objects are retrieved. The system default is -1, which implies the first item in the list.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs?batchsize=-1&offset=-1'
+----
+
+.Request URL
+----
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs?batchsize=-1&offset=-1
+----
+
+=== Example response
+
+If the API request is successful, ThoughtSpot returns a list of active Orgs for the logged-in user:
+
+[source,JSON]
+----
+{
+  "orgs": [
+    {
+      "orgId": 0,
+      "orgName": "Primary",
+      "description": "Primary Org",
+      "allUserGroupId": "b25ee394-9d13-49e3-9385-cd97f5b253b4",
+      "defaultAdminUserGroupId": "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+      "isActive": true
+    },
+    {
+      "orgId": 1776311864,
+      "orgName": "my-org1",
+      "description": "",
+      "allUserGroupId": "a4ef5fe2-0f90-4632-bd2c-d447428495b8",
+      "defaultAdminUserGroupId": "203182f3-3ae1-422f-ae65-30c72f92b665",
+      "isActive": true
+    },
+    {
+      "orgId": 255226812,
+      "orgName": "my-org2",
+      "description": "",
+      "allUserGroupId": "d15f3347-1e3a-48a9-bbb5-c31c368b054e",
+      "defaultAdminUserGroupId": "1ce55b07-42f1-434f-b1e5-a71b2f78289d",
+      "isActive": true
+    },
+  ],
+  "canAdministerAllOrgs": true,
+  "currentOrgId": 0
+}
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**403**| Unauthorized request
+|===
+
+[#getOrgsForUser]
+== Get Orgs for a specific user
+
+To get a list of Orgs for a specific user, send a `GET` request to the `tspublic/v1/session/orgs/users/{userid}` API endpoint.
+
+
+=== Resource URL
+----
+GET /tspublic/v1/session/orgs/users/{userid}
+----
+
+=== Request parameters
+[width="100%" cols="1,1,4"]
+[options='header']
+|===
+|Parameter|Type|Description
+|`userid` |Path parameter|__String__. GUID of the user.
+|`orgScope`|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
+|===
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X GET \
+--header 'Accept: application/json' \
+'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL'
+----
+
+.Request URL
+----
+http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/orgs/users/59481331-ee53-42be-a548-bd87be6ddd4a?orgScope=ALL
+----
+
+=== Example response
+
+If the API request is successful, ThoughtSpot returns a list of active Orgs for the specified user GUID:
+
+[source,JSON]
+----
+{
+  "orgs": [
+    {
+      "orgId": 255226812,
+      "orgName": "Primary",
+      "description": "Primary Org",
+      "isActive": true
+    }
+  ],
+  "canAdministerAllOrgs": false,
+  "currentOrgId": 255226812
+}
+----
+
+=== Response codes
+[options="header", cols="1,4"]
+|===
+|HTTP status code|Description
+|**204** | Successful operation
+|**400**| Invalid parameter
+|**403**| Unauthorized request
+|===
+
 [#set-home-liveboard]
 == Set a home Liveboard
 To set a Liveboard as a home Liveboard for a user account, send a `POST` request to the `/tspublic/v1/session/homepinboard` API endpoint. If a home Liveboard is configured for a user account, ThoughtSpot displays it as the default home page when the user logs in.

@@ -227,8 +227,33 @@ liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
 .then(data => {
 console.log('Liveboard Data: ', data);
 })
+----
 ====
 --
+
+
+==== GetTML
+Available with `LiveboardEmbed`, `SearchEmbed`, and `AppEmbed` in V1.18.0 or later. +
+
+Gets TML of the visualization or answer object when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+The event trigger from a Liveboard visualization includes the `vizId` key: +
+[source,javascript]
+----
+liveboardEmbed.trigger(HostEvent.ShowUnderlyingData), {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+
+----
+searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+----
+====
+--
+
 
 ==== LiveboardInfo
 
