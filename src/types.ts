@@ -753,8 +753,8 @@ export enum HostEvent {
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
-     * {columnName: "state",operator: "EQ",values: ["michigan"]},
-     * {columnName: "item type",operator: "EQ",values: ["Jackets"]}
+     * {columnName: "state",operator: "RuntimeFilterOp.EQ",values: ["michigan"]},
+     * {columnName: "item type",operator: "RuntimeFilterOp.EQ",values: ["Jackets"]}
      * ])
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
