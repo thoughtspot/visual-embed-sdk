@@ -41,7 +41,7 @@
 
 * link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
-*** link:{{navprefix}}=embed-searchbar[Embed search bar]
+*** link:{{navprefix}}=embed-searchbar[Embed search bar ^*Beta*^]
 *** link:{{navprefix}}=search-embed[Embed search page]
 *** link:{{navprefix}}=embed-liveboard[Embed a Liveboard]
 *** link:{{navprefix}}=embed-a-viz[Embed a visualization]

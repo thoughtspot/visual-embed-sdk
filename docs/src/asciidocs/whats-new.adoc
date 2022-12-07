@@ -10,7 +10,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Coming soon
 
-=== Ability to embed only the Search bar in an app
+=== Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
 In the upcoming release, you can embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
