@@ -97,7 +97,7 @@ init({
 +
 . If custom fonts are required, import fonts.
 +
-The following example shows how to add a custom font and apply it in the CSS file:
+The following example shows how to add a custom font in the CSS file:
 
 +
 [source,CSS]
@@ -152,7 +152,6 @@ The following example shows the supported variables:
 |Variable| Description
 |`--ts-var-root-background`|
 Background color of the Liveboard, visualization, Search, and answer pages. +
-The color code setting applies to all pages in the app.
 |`--ts-var-root-color`| Color of the text on application pages. +
 |`--ts-var-root-font-family`| Font type for the text on application pages.
 |`--ts-var-root-text-transform`|Text transformation specification for UI elements in the app. +
@@ -202,7 +201,7 @@ s
 Buttons that trigger additional actions. For example, **More** menu image:./images/icon-more-10px.png[the more options menu] and *Edit* buttons on a Liveboard.
 
 * Tertiary  +
-Buttons that are less prominent and trigger independent actions for sub-tasks on a page. For example,the *Undo*, *Redo*, *Reset* buttons on the *Search* page.
+Buttons that are less prominent and trigger independent actions for sub-tasks on a page. For example,the *Undo*, *Redo*, *Reset* buttons on the Search page.
 
 Use the following variables to customize buttons.
 
