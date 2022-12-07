@@ -8,10 +8,10 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Coming soon
+== Version 8.10.0.cl
 
 === Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
-In the upcoming release, you can embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
+You can now embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
@@ -30,7 +30,7 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 === Multi-tenancy with Orgs [beta betaBackground]^Beta^
 
-In the upcoming release, you can set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
+You can now set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. Each Org can have its own users, groups, and metadata, and stay independent of and invisible to other Orgs configured on the same application instance.
 
 [IMPORTANT]
 ====
@@ -38,6 +38,8 @@ In the upcoming release, you can set up your ThoughtSpot Cloud instance as a mul
 * After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
 If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
 ====
+
+For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
 
 === Visual Embed SDK version 1.18.0
 
