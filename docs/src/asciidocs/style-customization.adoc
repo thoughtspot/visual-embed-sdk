@@ -33,15 +33,15 @@ The following table lists the customizable elements:
 [options='header']
 |=====
 |UI element|Customization via UI| Customization with CSS
-|Application-wide settings| [tag greenBackground]#✓# Background color +
+|Application-wide settings| [tag greenBackground]#✓# Background color application pages +
 
-[tag greenBackground]#✓# Navigation panel color +
+[tag greenBackground]#✓# Navigation panel color+
 
 [tag greenBackground]#✓# Logo +
 
-[tag greenBackground]#✓# Favicon | [tag greenBackground]#✓# Background color +
+[tag greenBackground]#✓# Favicon | [tag greenBackground]#✓# Background color of Liveboard, visualization, and answer pages +
 
-[tag greenBackground]#✓# Navigation panel color +
+[tag greenBackground]#✓# Navigation panel and its contents +
 
 |Fonts, text, and Typography|[tag greenBackground]#✓# Font styles for charts and tables +
 
@@ -50,20 +50,19 @@ The following table lists the customizable elements:
 [tag greenBackground]#✓# Footer text +
 | [tag greenBackground]#✓# Font styles, text color, and text-transform settings for the entire app +
 
-[tag greenBackground]#✓# Visualization and chart title styles +
+|Charts and visualizations| [tag greenBackground]#✓# Color palette of charts and tables |
 
-|Charts and visualizations| [tag greenBackground]#✓# Color palette |
-
-[tag greenBackground]#✓# Header text and color settings +
+[tag greenBackground]#✓# Font styles, text color, and text-transform settings for visualization and answer titles, description text, and axis labels and titles on charts +
 
 [tag greenBackground]#✓# Visualization tile customization; for example, border-radius and background color. +
 
-|Buttons and labels|[tag greyBackground]#–# |[tag greenBackground]#✓# Color and border-radius of primary, secondary, and tertiary buttons
+|Buttons elements|[tag greyBackground]#–# |[tag greenBackground]#✓# Color and border-radius of primary, secondary, and tertiary buttons
 |Search bar|[tag greyBackground]#–#  a|[tag greenBackground]#✓# Search text and tokens in the Search bar
 
 [tag greenBackground]#✓# Buttons on the search bar +
 
 * The *Go* button (primary button)
 * Background color of the secondary button; for example, the delete icon (image:./images/icon-search-bar-close.png[]) that appears after you enter the search tokens.
+|Menu components|[tag greyBackground]#–# |[tag greenBackground]#✓# Background color and text style of menu panels.
 |=====
 

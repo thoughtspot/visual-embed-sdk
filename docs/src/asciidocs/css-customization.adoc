@@ -11,8 +11,8 @@ ThoughtSpot provides advanced style customization capabilities with the custom C
 == Before you begin
 
 * Identify the UI elements you want to customize.
-* See xref:style-customization.adoc#_scope_of_customization[Scope of customization] to understand feature limitations. For best results, you can combine the customization settings in the UI and custom CSS. However,
-note that CSS overrides take precedence over the style customization settings configured in the UI.
+* For best results, you can combine the customization settings in the UI and custom CSS. However,
+note that CSS overrides take precedence over the style customization settings configured in the UI. For more information,  see xref:style-customization.adoc#_scope_of_customization[Scope of customization].
 * Try it out in the Playground.
 The *Visual Embed* Playground now includes the *Apply Styles* checkbox, using which you can try out the variables and rules. +
 To preview the CSS settings:
@@ -44,14 +44,12 @@ customizations: {
 <a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-
 == Get started with CSS customization
 
 To get started with CSS customization:
 
 . Make sure your deployments are upgraded to support Visual Embed SDK version 1.17.0 or later.
-. To allow your instance to use an external stylesheet:
-your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
+. To allow your instance to use an external stylesheet, your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
 . In the `init` call, add the location of the stylesheet in the `customCssUrl` attribute.
 +
 The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot:
@@ -70,7 +68,7 @@ init({
 ----
 +
 customCssUrl::
-__String__. The path of the CSS file. You can copy the default CSS file provided by ThoughtSpot to create your own. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
+__String__. CSS file path. You can copy the default CSS file provided by ThoughtSpot to create your own. This file includes the most common variables and rules that ThoughtSpot supports. You can apply the overrides within the given file and load it, or add style specifications directly in the code.
 
 customCSS::
 The custom CSS object that defines variables and rules to override style specifications in the code.
@@ -97,9 +95,9 @@ init({
 });
 ----
 +
-. If required, add a custom font:
+. If custom fonts are required, import fonts.
 +
-The following example shows how to add a custom font and apply the font to a variable in the CSS file:
+The following example shows how to add a custom font and apply it in the CSS file:
 
 +
 [source,CSS]
@@ -113,7 +111,7 @@ The following example shows how to add a custom font and apply the font to a var
     }
 ----
 +
-The following example shows how to add a custom font and apply styles to variables in the `customCSS` object:
+The following example shows how to add a custom font and apply it to CSS variables in the `customCSS` object:
 
 +
 [source,javascript]
@@ -153,11 +151,11 @@ The following example shows the supported variables:
 |======
 |Variable| Description
 |`--ts-var-root-background`|
-Background color of the application page. +
+Background color of the Liveboard, visualization, Search, and answer pages. +
 The color code setting applies to all pages in the app.
-|`--ts-var-root-color`| Color of the text on application pages +
+|`--ts-var-root-color`| Color of the text on application pages. +
 |`--ts-var-root-font-family`| Font type for the text on application pages.
-|`--ts-var-root-text-transform`|Text capitalization specification for all UI elements in the app. +
+|`--ts-var-root-text-transform`|Text transformation specification for UI elements in the app. +
 |======
 
 === Navigation panel
@@ -243,6 +241,10 @@ Background color of the tertiary button when a user hovers over these buttons.
 |======
 
 === Visualization and answer charts
+Use the following variables to customize UI elements on Liveboard, visualization and answer pages.
+
+==== Tiles on Liveboard, title and description of charts and tables
+You can customize the look and feel of the visualization tiles on a Liveboard, styles for title and description text of charts and tables.
 
 [width="100%" cols="5,7"]
 [options='header']
@@ -310,7 +312,7 @@ Use the following variables to customize X-axis and Y-axis titles and labels on 
 |`--ts-var-axis-data-label-font-family`| Font family specification for X and Y axis labels .
 |======
 
-=== Menu element
+=== Menu elements
 CSS Variables for **More** menu image:./images/icon-more-10px.png[the more options menu], contextual menu, and dropdown selection panels.
 The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and several other application pages. Contextual menu appears when you right-click on a data point on a chart or table.
 
