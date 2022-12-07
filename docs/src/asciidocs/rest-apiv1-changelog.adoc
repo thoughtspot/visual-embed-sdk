@@ -8,7 +8,7 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
-== Version 8.10.0.cl
+== Version 8.10.0.cl, January 2023
 
 This release introduces new REST v1 API endpoints and object properties to support Org operations on a multi-tenant cluster.
 
