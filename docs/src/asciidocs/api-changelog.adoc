@@ -12,15 +12,17 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW# |The new version of the SDK provides the `SearchBarEmbed` JavaScript package to embed only the ThoughtSpot Search bar in your app.
+|[tag greenBackground]#NEW FEATURE# |The new version of the SDK provides the `SearchBarEmbed` JavaScript package to embed only the ThoughtSpot Search bar in your app.
 +
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-|[tag greenBackground]#NEW# |The `customCSS` property in the `customizations` object supports new variables.
-+
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and answer pages. You can also use these variables to define custom styles in the CSS file. +
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag greenBackground]#NEW# |The upcoming version of the SDK allows fetching TML objects via `Get TML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page.
-|[tag greenBackground]#NEW# a| The upcoming version of the SDK adds the following enums to the `Action` object:
+|[tag greenBackground]#NEW FEATURE# |The upcoming version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page. +
+
+For more information, see xref:events-ref.adoc#_gettml[GetTML].
+
+|[tag greenBackground]#NEW FEATURE# a| The upcoming version of the SDK adds the following enums to the `Action` object:
 
 * `Action.SyncToOtherApps` +
 * `Action.SyncToSheets` +

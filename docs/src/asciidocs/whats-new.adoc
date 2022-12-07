@@ -11,13 +11,13 @@ This page provides information about new features, enhancements, and deprecated 
 == Coming soon
 
 === Ability to embed only the Search bar in an app
-In the upcoming release, you can embed the ThoughtSpot search bar component in your app. If you are using Google Sheets or Microsoft Excel for data analysis, you can embed ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve search results from a query as raw data and let you host application render it the way you want.
+In the upcoming release, you can embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
 === Advanced style customization with custom CSS [beta betaBackground]^Beta^
 
-The CSS customization [beta betaBackground]^Beta^ feature supports new variables to customize the look and feel of following UI elements:
+The CSS customization [beta betaBackground]^Beta^ feature supports new variables to customize the look and feel of the following UI elements:
 
 * Search data button in the navigation panel
 * Font type and text style of search tokens
@@ -30,12 +30,16 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 === Multi-tenancy with Orgs [beta betaBackground]^Beta^
 
-In the upcoming release, you can set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical workspaces called *Orgs* and isolate each tenant's data.
+In the upcoming release, you can set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
 
-For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
+[IMPORTANT]
+====
+* The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support. +
+* After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
+If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
+====
 
 === Visual Embed SDK version 1.18.0
-Visual Embed SDK version 1.17.0
 
 For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
 

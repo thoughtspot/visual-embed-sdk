@@ -1,4 +1,4 @@
-= Multi-tenancy with Orgs
+= Multi-tenancy with Orgs [beta betaBackground]^Beta^
 :toc:
 :toclevels: 1
 
@@ -6,15 +6,22 @@
 :page-pageid: orgs
 :page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate Org containers for your tenants.
 
-ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster.
-In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace.
-In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
+ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. +
 
-By default, ThoughtSpot operates in the single-tenant mode. If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, you can opt for a multi-tenant setup.
+* In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. +
+* In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs* [beta betaBackground]^Beta^. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
 
 The following figure illustrates the primary difference between a single-tenant and multi-tenant deployment:
 
 image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
+
+By default, ThoughtSpot operates in the single-tenant mode. If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, use the Orgs feature. The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
+
+[WARNING]
+====
+After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
+If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
+====
 
 == Orgs in ThoughtSpot
 
