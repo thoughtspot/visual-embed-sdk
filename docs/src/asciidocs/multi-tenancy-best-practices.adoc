@@ -18,7 +18,7 @@ Just like in physical housing, tenancy within software system takes many differe
 == Multi-tenancy in ThoughtSpot is achieved using groups
 ////
 
-ThoughtSpot recommends using Orgs [beta betaBackground]^Beta^ for multi-tenancy. If you do not have this feature enabled on your instance and do not want to create Orgs, you can use the following options:
+ThoughtSpot recommends using Orgs for multi-tenancy. If you do not have this feature enabled on your instance and do not want to create Orgs, you can use the following options:
 
 * Multi-tenancy at the ThoughtSpot user level
 +

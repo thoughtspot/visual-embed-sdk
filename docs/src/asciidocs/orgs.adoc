@@ -1,4 +1,4 @@
-= Multi-tenancy with Orgs [beta betaBackground]^Beta^
+= Multi-tenancy with Orgs
 :toc:
 :toclevels: 1
 
@@ -9,7 +9,7 @@
 ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. +
 
 * In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. +
-* In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs* [beta betaBackground]^Beta^. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
+* In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces called *Orgs*. The Orgs feature allows you to set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
 
 The following figure illustrates the primary difference between a single-tenant and multi-tenant deployment:
 

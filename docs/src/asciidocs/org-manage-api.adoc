@@ -6,7 +6,7 @@
 :page-pageid: orgs-api-op
 :page-description: You can administer Orgs on your mult-tenant cluster using REST API
 
-ThoughtSpot supports administering and managing Orgs using the UI or REST API. This article describes how to programmatically create and manage Orgs and map users to Orgs. For information about the Org administration workflows in the UI, see link:https://beta-docs.thoughtspot.com/cloud/8.8.0.cl-beta/orgs-overview[Multi-tenancy with Orgs in ThoughtSpot cloud Documentation, window=_blank].
+ThoughtSpot supports administering and managing Orgs using the UI or REST API. This article describes how to programmatically create and manage Orgs and map users to Orgs. For information about the Org administration workflows in the UI, see link:https://docs.thoughtspot.com/cloud/latest/orgs-overview[Multi-tenancy with Orgs in ThoughtSpot cloud Documentation, window=_blank].
 
 [#_create_and_manage_orgs]
 == Org CRUD operations via REST API v1
