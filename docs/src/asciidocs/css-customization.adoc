@@ -531,13 +531,13 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-
   --ts-var-chip--active-background: #369FAA;
   --ts-var-chip--active-color: #ffffff;
 
-  /* Axis */
+  /* Axis titles and labels*/
   --ts-var-axis-title-color: var(--ts-var-root-color);
   --ts-var-axis-title-font-family: var(--ts-var-root-font-family);
   --ts-var-axis-data-label-color: #163772;
   --ts-var-axis-data-label-font-family: var(--ts-var-root-font-family);
 
-  /******** Menu panel customization ********/
+  /******** Menu components ********/
   --ts-var-menu-color: var(--ts-var-root-color);
   --ts-var-menu-background: #DEE8FA;
   --ts-var-menu-font-family: var(--ts-var-root-font-family);
