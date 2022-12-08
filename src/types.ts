@@ -285,7 +285,7 @@ export type MessageOptions = {
 export type MessageCallback = (
     /* payload: Message payload contain type, data and status */
     payload: MessagePayload,
-    /* responder: Messsage callback function triggered when embed event initiated */
+    /* responder: Message callback function triggered when embed event initiated */
     responder?: (data: any) => void,
 ) => void;
 /**
@@ -753,8 +753,8 @@ export enum HostEvent {
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
-     * {columnName: "state",operator: "EQ",values: ["michigan"]},
-     * {columnName: "item type",operator: "EQ",values: ["Jackets"]}
+     * {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
+     * {columnName: "item type",operator: RuntimeFilterOp.EQ,values: ["Jackets"]}
      * ])
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
@@ -905,7 +905,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.ShowUnderlyingData, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.ShowUnderlyingData)
      * searchEmbed.trigger(HostEvent.ShowUnderlyingData)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
@@ -916,7 +916,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Delete, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.Delete)
      * searchEmbed.trigger(HostEvent.Delete)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Delete = 'delete',
     /**
@@ -927,7 +927,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.SpotIQAnalyze)
      * searchEmbed.trigger(HostEvent.SpotIQAnalyze)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
@@ -936,7 +936,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.Download)
      * searchEmbed.trigger(HostEvent.Download)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Download = 'download',
     /**
@@ -945,7 +945,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.DownloadAsCsv)
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsCsv = 'downloadAsCSV',
     /**
@@ -954,7 +954,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.DownloadAsXlsx)
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsXlsx = 'downloadAsXLSX',
     /**
@@ -962,7 +962,7 @@ export enum HostEvent {
      * @example
      * liveboardEmbed.trigger(HostEvent.Share)
      * searchEmbed.trigger(HostEvent.Share)
-     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Share = 'share',
     /**
@@ -970,7 +970,7 @@ export enum HostEvent {
      * @example
      * liveboardEmbed.trigger(HostEvent.Save)
      * searchEmbed.trigger(HostEvent.Save)
-     * @version SDK: 1.18.0 | Thoughtspot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Save = 'save',
     /**
@@ -979,7 +979,7 @@ export enum HostEvent {
      * @example
      * liveboardEmbed.trigger(HostEvent.SyncToSheets, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.SyncToSheets)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToSheets = 'sync-to-sheets',
     /**
@@ -988,7 +988,7 @@ export enum HostEvent {
      * @example
      * liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.SyncToOtherApps)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToOtherApps = 'sync-to-other-apps',
     /**
@@ -997,7 +997,7 @@ export enum HostEvent {
      * @example
      * liveboardEmbed.trigger(HostEvent.ManagePipelines, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.ManagePipelines)
-     * @version SDK: 1.18.0 | ThoughtSpot: 9.0.0.cl
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ManagePipelines = 'manage-pipeline',
 }

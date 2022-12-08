@@ -7,7 +7,7 @@
 	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/svg+xml" href='assets/images/favicon.svg' />
+	<link rel="icon" type="image/svg+xml" href="../assets/images/favicon.png" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
@@ -130,6 +130,12 @@
 								<a href="EmbedConfig.html#authEndpoint" class="tsd-kind-icon">auth<wbr>Endpoint</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="EmbedConfig.html#authTriggerContainer" class="tsd-kind-icon">auth<wbr>Trigger<wbr>Container</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="EmbedConfig.html#authTriggerText" class="tsd-kind-icon">auth<wbr>Trigger<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="EmbedConfig.html#authType" class="tsd-kind-icon">auth<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -142,7 +148,7 @@
 								<a href="EmbedConfig.html#customCssUrl" class="tsd-kind-icon">custom<wbr>Css<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="EmbedConfig.html#customisations" class="tsd-kind-icon">customisations</a>
+								<a href="EmbedConfig.html#customizations" class="tsd-kind-icon">customizations</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="EmbedConfig.html#detectCookieAccessSlow" class="tsd-kind-icon">detect<wbr>Cookie<wbr>Access<wbr>Slow</a>
@@ -238,11 +244,13 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#authEndpoint" class="tsd-kind-icon">auth<wbr>Endpoint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#authTriggerContainer" class="tsd-kind-icon">auth<wbr>Trigger<wbr>Container</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#authTriggerText" class="tsd-kind-icon">auth<wbr>Trigger<wbr>Text</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#authType" class="tsd-kind-icon">auth<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#autoLogin" class="tsd-kind-icon">auto<wbr>Login</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#callPrefetch" class="tsd-kind-icon">call<wbr>Prefetch</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#customCssUrl" class="tsd-kind-icon">custom<wbr>Css<wbr>Url</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#customisations" class="tsd-kind-icon">customisations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#customizations" class="tsd-kind-icon">customizations</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#detectCookieAccessSlow" class="tsd-kind-icon">detect<wbr>Cookie<wbr>Access<wbr>Slow</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#disableLoginRedirect" class="tsd-kind-icon">disable<wbr>Login<wbr>Redirect</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#loginFailedMessage" class="tsd-kind-icon">login<wbr>Failed<wbr>Message</a></li>
@@ -274,7 +282,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L121">types.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L121">types.ts:121</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -288,12 +296,55 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="authTriggerContainer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> auth<wbr>Trigger<wbr>Container</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Trigger<wbr>Container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L255">types.ts:255</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>For noRedirect SSO Auth, we need a button which the user
+								click to trigger the flow. This is the containing element
+							for that button.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.17.0 | ThoughtSpot: *</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="authTriggerText" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> auth<wbr>Trigger<wbr>Text</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Trigger<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L261">types.ts:261</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Text to show in the button which triggers the popup auth flow.
+							Default: &quot;Authorize&quot;.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.17.0 | ThoughtSpot: *</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="authType" class="tsd-anchor"></a>
 					<h3>auth<wbr>Type</h3>
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/AuthType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L113">types.ts:113</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L113">types.ts:113</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,7 +359,7 @@
 					<div class="tsd-signature tsd-kind-icon">auto<wbr>Login<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L190">types.ts:190</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L190">types.ts:190</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -328,7 +379,7 @@
 					<div class="tsd-signature tsd-kind-icon">call<wbr>Prefetch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L210">types.ts:210</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L210">types.ts:210</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -348,7 +399,7 @@
 					<div class="tsd-signature tsd-kind-icon">custom<wbr>Css<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L227">types.ts:227</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L227">types.ts:227</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -367,12 +418,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="customisations" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customisations</h3>
-					<div class="tsd-signature tsd-kind-icon">customisations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomisationsInterface</span></div>
+					<a name="customizations" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customizations</h3>
+					<div class="tsd-signature tsd-kind-icon">customizations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CustomisationsInterface</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L247">types.ts:247</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L247">types.ts:247</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -392,7 +443,7 @@
 					<div class="tsd-signature tsd-kind-icon">detect<wbr>Cookie<wbr>Access<wbr>Slow<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L235">types.ts:235</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L235">types.ts:235</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -414,7 +465,7 @@
 					<div class="tsd-signature tsd-kind-icon">disable<wbr>Login<wbr>Redirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L198">types.ts:198</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L198">types.ts:198</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -438,7 +489,7 @@
 					<div class="tsd-signature tsd-kind-icon">login<wbr>Failed<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L204">types.ts:204</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L204">types.ts:204</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -458,7 +509,7 @@
 					<div class="tsd-signature tsd-kind-icon">no<wbr>Redirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L154">types.ts:154</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L154">types.ts:154</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -479,7 +530,7 @@
 					<div class="tsd-signature tsd-kind-icon">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L146">types.ts:146</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L146">types.ts:146</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -496,7 +547,7 @@
 					<div class="tsd-signature tsd-kind-icon">queue<wbr>Multi<wbr>Renders<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L219">types.ts:219</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L219">types.ts:219</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -521,7 +572,7 @@
 					<div class="tsd-signature tsd-kind-icon">redirect<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L164">types.ts:164</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L164">types.ts:164</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -544,7 +595,7 @@
 					<div class="tsd-signature tsd-kind-icon">should<wbr>Encode<wbr>Url<wbr>Query<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L175">types.ts:175</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L175">types.ts:175</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -566,7 +617,7 @@
 					<div class="tsd-signature tsd-kind-icon">suppress<wbr>NoCookie<wbr>Access<wbr>Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L184">types.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L184">types.ts:184</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -589,7 +640,7 @@
 					<div class="tsd-signature tsd-kind-icon">suppress<wbr>Search<wbr>Embed<wbr>Beta<wbr>Warning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L241">types.ts:241</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L241">types.ts:241</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -609,7 +660,7 @@
 					<div class="tsd-signature tsd-kind-icon">thought<wbr>Spot<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L109">types.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L109">types.ts:109</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -624,7 +675,7 @@
 					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L138">types.ts:138</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L138">types.ts:138</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -647,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/71407dac/src/types.ts#L133">types.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/66496f2c/src/types.ts#L133">types.ts:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
