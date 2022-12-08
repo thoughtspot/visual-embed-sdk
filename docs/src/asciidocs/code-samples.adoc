@@ -43,6 +43,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 searchEmbed.render();
 ----
 
+[#searchBarEmbedCode]
 The following example shows how to embed ThoughtSpot search bar:
 
 [source,javascript]
