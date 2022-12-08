@@ -28,6 +28,11 @@ The CSS customization [beta betaBackground]^Beta^ feature supports new variables
 
 For more information, see xref:css-customization.adoc[Customize CSS].
 
+=== CSP allowlist for font, image and stylesheet sources
+
+You can now enable CSP overrides for font, stylesheet, and image sources. If you want to load fonts, stylesheets, image, or favicon from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page in the *Develop* tab. +
+For more information, see xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[Security Settings].
+
 === Multi-tenancy with Orgs
 
 You can now set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. Each Org can have its own users, groups, and metadata, and stay independent of and invisible to other Orgs configured on the same application instance.

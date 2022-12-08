@@ -49,7 +49,7 @@ customizations: {
 To get started with CSS customization:
 
 . Make sure your deployments are upgraded to support Visual Embed SDK version 1.17.0 or later.
-. To allow your instance to use an external stylesheet, your instance must allow a CSP override by setting the `style-src` property. Contact ThoughtSpot Support to enable this setting on your cluster.
+. To load fonts, images, favicons, and stylesheets from an external source, your instance must allow a CSP override. You must explicitly xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[set the source URLs as trusted domains] on the *Security Settings* page in the *Develop* tab.
 . In the `init` call, add the location of the stylesheet in the `customCssUrl` attribute.
 +
 The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot:

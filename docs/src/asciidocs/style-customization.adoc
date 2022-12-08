@@ -43,7 +43,7 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# Navigation panel and its contents +
 
-|Fonts, text, and Typography|[tag greenBackground]#✓# Font styles for charts and tables +
+|Typography|[tag greenBackground]#✓# Font styles for charts and tables +
 
 [tag greenBackground]#✓# Page title +
 
