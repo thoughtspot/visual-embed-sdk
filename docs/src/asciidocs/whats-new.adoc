@@ -30,7 +30,7 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 === CSP allowlist for font, image and stylesheet sources
 
-You can now enable CSP overrides for font, stylesheet, and image sources. If you want to load fonts, stylesheets, image, or favicon from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page in the *Develop* tab.
+You can now enable CSP overrides for font, stylesheet, and image sources in ThoughtSpot UI. If you want to load fonts, stylesheets, images, or favicons from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page.
 
 For more information, see xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[Security Settings].
 
