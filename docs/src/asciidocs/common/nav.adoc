@@ -72,7 +72,7 @@
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
 ** link:{{navprefix}}=style-customization[Customize styles and layout]
 *** link:{{navprefix}}=customize-style[Customize styles in the UI]
-*** link:{{navprefix}}=custom-css[Customize CSS ^*Beta*^]
+*** link:{{navprefix}}=custom-css[Customize CSS]
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 

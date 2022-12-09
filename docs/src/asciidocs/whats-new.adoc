@@ -15,9 +15,9 @@ You can now embed the ThoughtSpot search bar component in your app. For example,
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-=== Advanced style customization with custom CSS [beta betaBackground]^Beta^
+=== Advanced style customization with custom CSS
 
-The CSS customization [beta betaBackground]^Beta^ feature supports new variables to customize the look and feel of the following UI elements:
+The CSS customization feature supports new variables to customize the look and feel of the following UI elements:
 
 * Search data button in the navigation panel
 * Font type and text style of search tokens
