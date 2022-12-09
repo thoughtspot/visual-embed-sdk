@@ -160,7 +160,7 @@ __String__. The database associated with the account.
 [%collapsible]
 ====
 
- `host`
+* `host`
 +
 __String__. The hostname of Denodo server.
 
