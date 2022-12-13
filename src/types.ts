@@ -261,6 +261,103 @@ export interface EmbedConfig {
     authTriggerText?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface LayoutConfig {}
+
+/**
+ * Embedded iFrame configuration
+ */
+export interface FrameParams {
+    /**
+     * The width of the iFrame (unit is pixels if numeric).
+     */
+    width?: number | string;
+    /**
+     * The height of the iFrame (unit is pixels if numeric).
+     */
+    height?: number | string;
+    /**
+     * This parameters will be passed on the iframe
+     * as is.
+     */
+    [key: string]: string | number | boolean | undefined;
+}
+
+/**
+ * The configuration object for an embedded view.
+ */
+export interface ViewConfig {
+    /**
+     * @hidden
+     */
+    layoutConfig?: LayoutConfig;
+    /**
+     * The <b>width</b> and <b>height</b> dimensions to render an embedded object inside your app.  Specify the values in pixels or percentage.
+     */
+    frameParams?: FrameParams;
+    /**
+     * @hidden
+     */
+    theme?: string;
+    /**
+     * @hidden
+     */
+    // eslint-disable-next-line camelcase
+    styleSheet__unstable?: string;
+    /**
+     * The list of actions to disable from the primary menu, more menu
+     * (...), and the contextual menu.
+     */
+    disabledActions?: Action[];
+    /**
+     * The tooltip to display for disabled actions.
+     */
+    disabledActionReason?: string;
+    /**
+     * The list of actions to hide from the primary menu, more menu
+     * (...), and the contextual menu.
+     */
+    hiddenActions?: Action[];
+    /**
+     * The list of actions to display from the primary menu, more menu
+     * (...), and the contextual menu.
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
+     */
+    visibleActions?: Action[];
+    /**
+     * Show alert messages and toast messages in the embedded view.
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
+     */
+    showAlerts?: boolean;
+    /**
+     * The list of runtime filters to apply to a search answer,
+     * visualization, or Liveboard.
+     */
+    runtimeFilters?: RuntimeFilter[];
+    /**
+     * The locale/language to use for the embedded view.
+     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1-sw
+     */
+    locale?: string;
+    /**
+     * This is an object (key/val) of override flags which will be applied
+     * to the internal embedded object. This can be used to add any
+     * URL flag.
+     * Warning: This option is for advanced use only and is used internally
+     * to control embed behavior in non-regular ways. We do not publish the
+     * list of supported keys and values associated with each.
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
+     */
+    additionalFlags?: { [key: string]: string | number | boolean };
+    /**
+     * Dynamic CSSUrl and customCSS to be injected in the loaded application.
+     * You would also need to set `style-src` in the CSP settings.
+     * @version SDK: 1.17.2 | ThoughtSpot: 8.4.1-sw, 8.4.0.cl
+     * @default ''
+     */
+    customizations?: CustomisationsInterface;
+}
+
 /**
  * MessagePayload: Embed event payload: message type, data and status (start/end)
  */

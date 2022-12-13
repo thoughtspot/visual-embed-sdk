@@ -10,9 +10,9 @@ import {
     LiveboardEmbed as _LiveboardEmbed,
     LiveboardViewConfig,
 } from '../embed/liveboard';
-import { TsEmbed, ViewConfig } from '../embed/ts-embed';
+import { TsEmbed } from '../embed/ts-embed';
 
-import { EmbedEvent } from '../types';
+import { EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 
 const componentFactory = <

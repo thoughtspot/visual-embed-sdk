@@ -1,6 +1,6 @@
-import { DOMSelector, Param, Action } from '../types';
+import { DOMSelector, Param, Action, ViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
-import { TsEmbed, ViewConfig } from './ts-embed';
+import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
 
 export interface SearchBarViewConfig extends ViewConfig {

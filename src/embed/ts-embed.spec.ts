@@ -48,6 +48,13 @@ const customisations = {
     content: {},
 };
 
+const customisationsView = {
+    style: {
+        customCSSUrl: 'http://localhost:8000',
+    },
+    content: {},
+};
+
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(
         mixpanelInstance,
@@ -67,6 +74,7 @@ describe('Unit test case for ts embed', () => {
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
                 customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
             });
         });
 
@@ -92,6 +100,36 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.APP_INIT,
                 data: { customisations },
             });
+        });
+
+        test('verify Customisations from viewConfig', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                customizations: customisationsView,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                    mockPort,
+                );
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: { customisations: customisationsView },
+            });
+            expect(getIFrameSrc()).toContain(
+                `customCssUrl=${customisationsView.style.customCSSUrl}`,
+            );
         });
 
         test('when Embed event status have start status', (done) => {

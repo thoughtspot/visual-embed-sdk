@@ -10,8 +10,14 @@
  */
 
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { Param, RuntimeFilter, DOMSelector, HostEvent } from '../types';
-import { V1Embed, ViewConfig } from './ts-embed';
+import {
+    Param,
+    RuntimeFilter,
+    DOMSelector,
+    HostEvent,
+    ViewConfig,
+} from '../types';
+import { V1Embed } from './ts-embed';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
