@@ -13,6 +13,7 @@ import {
     RuntimeFilter,
     CustomisationsInterface,
     DOMSelector,
+    ViewConfig,
 } from './types';
 
 /**
@@ -179,15 +180,24 @@ export const checkReleaseVersionInBeta = (
 
 export const getCustomisations = (
     embedConfig: EmbedConfig,
+    viewConfig: ViewConfig,
 ): CustomisationsInterface => {
-    const { customCssUrl } = embedConfig;
+    const customCssFromEmbedConfig = embedConfig.customCssUrl;
+    const customizationsFromViewConfig =
+        viewConfig.customizations ||
+        ((viewConfig as any).customisations as CustomisationsInterface);
     let customizations =
         embedConfig.customizations ||
         ((embedConfig as any).customisations as CustomisationsInterface);
     customizations = customizations || ({} as CustomisationsInterface);
     customizations.style = customizations.style || {};
     customizations.style.customCSSUrl =
-        customizations.style.customCSSUrl || customCssUrl;
+        customizationsFromViewConfig?.style.customCSSUrl ||
+        customizations.style.customCSSUrl ||
+        customCssFromEmbedConfig;
+    customizations.style.customCSS =
+        customizationsFromViewConfig?.style.customCSS ||
+        customizations.style.customCSS;
     return customizations;
 };
 

@@ -7,9 +7,15 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DataSourceVisualMode, DOMSelector, Param, Action } from '../types';
+import {
+    DataSourceVisualMode,
+    DOMSelector,
+    Param,
+    Action,
+    ViewConfig,
+} from '../types';
 import { getQueryParamString, checkReleaseVersionInBeta } from '../utils';
-import { ViewConfig, TsEmbed } from './ts-embed';
+import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
 import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise, getEmbedConfig } from './base';

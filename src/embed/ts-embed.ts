@@ -30,12 +30,13 @@ import {
     EmbedEvent,
     MessageCallback,
     Action,
-    RuntimeFilter,
     Param,
     EmbedConfig,
     MessageOptions,
     MessagePayload,
     MessageCallbackObj,
+    ViewConfig,
+    FrameParams,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData } from '../utils/processData';
@@ -59,96 +60,6 @@ export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const V1EventMap = {
     [EmbedEvent.Data]: [EmbedEvent.V1Data],
 };
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
-
-/**
- * Embedded iFrame configuration
- */
-export interface FrameParams {
-    /**
-     * The width of the iFrame (unit is pixels if numeric).
-     */
-    width?: number | string;
-    /**
-     * The height of the iFrame (unit is pixels if numeric).
-     */
-    height?: number | string;
-    /**
-     * This parameters will be passed on the iframe
-     * as is.
-     */
-    [key: string]: string | number | boolean | undefined;
-}
-
-/**
- * The configuration object for an embedded view.
- */
-export interface ViewConfig {
-    /**
-     * @hidden
-     */
-    layoutConfig?: LayoutConfig;
-    /**
-     * The <b>width</b> and <b>height</b> dimensions to render an embedded object inside your app.  Specify the values in pixels or percentage.
-     */
-    frameParams?: FrameParams;
-    /**
-     * @hidden
-     */
-    theme?: string;
-    /**
-     * @hidden
-     */
-    // eslint-disable-next-line camelcase
-    styleSheet__unstable?: string;
-    /**
-     * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu.
-     */
-    disabledActions?: Action[];
-    /**
-     * The tooltip to display for disabled actions.
-     */
-    disabledActionReason?: string;
-    /**
-     * The list of actions to hide from the primary menu, more menu
-     * (...), and the contextual menu.
-     */
-    hiddenActions?: Action[];
-    /**
-     * The list of actions to display from the primary menu, more menu
-     * (...), and the contextual menu.
-     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
-     */
-    visibleActions?: Action[];
-    /**
-     * Show alert messages and toast messages in the embedded view.
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
-     */
-    showAlerts?: boolean;
-    /**
-     * The list of runtime filters to apply to a search answer,
-     * visualization, or Liveboard.
-     */
-    runtimeFilters?: RuntimeFilter[];
-    /**
-     * The locale/language to use for the embedded view.
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1-sw
-     */
-    locale?: string;
-    /**
-     * This is an object (key/val) of override flags which will be applied
-     * to the internal embedded object. This can be used to add any
-     * URL flag.
-     * Warning: This option is for advanced use only and is used internally
-     * to control embed behavior in non-regular ways. We do not publish the
-     * list of supported keys and values associated with each.
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
-     */
-    additionalFlags?: { [key: string]: string | number | boolean };
-}
 
 /**
  * Base class for embedding v2 experience
@@ -310,7 +221,12 @@ export class TsEmbed {
     private appInitCb = (_: any, responder: any) => {
         responder({
             type: EmbedEvent.APP_INIT,
-            data: { customisations: getCustomisations(this.embedConfig) },
+            data: {
+                customisations: getCustomisations(
+                    this.embedConfig,
+                    this.viewConfig,
+                ),
+            },
         });
     };
 
@@ -369,10 +285,6 @@ export class TsEmbed {
         ) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
-        // TODO remove this
-        if (this.embedConfig.customCssUrl) {
-            queryParams[Param.CustomCSSUrl] = this.embedConfig.customCssUrl;
-        }
         if (this.embedConfig.authType === AuthType.EmbeddedSSO) {
             queryParams[Param.ForceSAMLAutoRedirect] = true;
         }
@@ -385,6 +297,7 @@ export class TsEmbed {
             showAlerts,
             additionalFlags,
             locale,
+            customizations,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -392,6 +305,15 @@ export class TsEmbed {
                 'You cannot have both hidden actions and visible actions',
             );
             return queryParams;
+        }
+
+        // TODO remove embedConfig.customCssUrl
+        const cssUrlParam =
+            customizations?.style?.customCSSUrl ||
+            this.embedConfig.customCssUrl;
+
+        if (cssUrlParam) {
+            queryParams[Param.CustomCSSUrl] = cssUrlParam;
         }
 
         if (disabledActions?.length) {

@@ -17,9 +17,10 @@ import {
     RuntimeFilter,
     DOMSelector,
     HostEvent,
+    ViewConfig,
 } from '../types';
 import { getFilterQuery, getQueryParamString } from '../utils';
-import { V1Embed, ViewConfig } from './ts-embed';
+import { V1Embed } from './ts-embed';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
