@@ -520,7 +520,50 @@ describe('Unit test case for ts embed', () => {
             );
         });
     });
-
+    describe('get Encoded query param string', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                shouldEncodeUrlQueryParams: true,
+            });
+        });
+        afterAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                shouldEncodeUrlQueryParams: false,
+            });
+        });
+        it('should return the correct encoded query params string', async () => {
+            const tsEmbed = new SearchEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            tsEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
+            });
+        });
+        it('should return the correct encoded query params string when app is embeded', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
+            });
+        });
+    });
     describe('Iframe flags', () => {
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
