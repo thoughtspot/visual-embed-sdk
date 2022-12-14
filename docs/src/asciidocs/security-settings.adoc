@@ -124,7 +124,7 @@ a|Domain URL strings without port
 If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string.
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
-|Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported| [tag redBackground]#x# Not supported |[tag greyDarkBackground]#x# Not recommended
+|Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported| [tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported
 |Wildcard +++(*)+++ before the domain name extension +
 `\https://*.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |Plain text string without the domain name extension. +
@@ -132,13 +132,13 @@ If your domain URL has a non-standard port, for example `mysite.com:8080`, make 
 `thoughtspot`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |Domain name with wildcard (*) and a leading dot +
 
-`+++.*.thoughtspot.com +++` |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag greenBackground]#✓# Supported
+`+++.*.thoughtspot.com +++` |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported
 
 a|Wildcard before the domain name +
 
 `+++*+++.thoughtspot.com`
 
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag redBackground]#x# Not supported
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
 
 
 a| Domain names with space, backslash (\), and wildcard (*).
@@ -150,7 +150,7 @@ a| Domain names with space, backslash (\), and wildcard (*).
 |URLs with query parameters +
 `\http://thoughtspot.com?2rjl6`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |URLs with path parameters +
-`thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag redBackground]#x# Not supported
+`thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
 |URLs with path and query parameters +
 `thoughtspot.com/products?id=1&page=2`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |IPv4 addresses +
