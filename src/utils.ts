@@ -182,22 +182,30 @@ export const getCustomisations = (
     embedConfig: EmbedConfig,
     viewConfig: ViewConfig,
 ): CustomisationsInterface => {
-    const customCssFromEmbedConfig = embedConfig.customCssUrl;
-    const customizationsFromViewConfig =
-        viewConfig.customizations ||
-        ((viewConfig as any).customisations as CustomisationsInterface);
-    let customizations =
+    const customCssUrlFromEmbedConfig = embedConfig.customCssUrl;
+    const customizationsFromViewConfig = viewConfig.customizations;
+    const customizationsFromEmbedConfig =
         embedConfig.customizations ||
         ((embedConfig as any).customisations as CustomisationsInterface);
-    customizations = customizations || ({} as CustomisationsInterface);
-    customizations.style = customizations.style || {};
-    customizations.style.customCSSUrl =
-        customizationsFromViewConfig?.style.customCSSUrl ||
-        customizations.style.customCSSUrl ||
-        customCssFromEmbedConfig;
-    customizations.style.customCSS =
-        customizationsFromViewConfig?.style.customCSS ||
-        customizations.style.customCSS;
+
+    const customizations: CustomisationsInterface = {
+        style: {
+            ...customizationsFromEmbedConfig?.style,
+            ...customizationsFromViewConfig?.style,
+            customCSS: {
+                ...customizationsFromEmbedConfig?.style?.customCSS,
+                ...customizationsFromViewConfig?.style?.customCSS,
+            },
+            customCSSUrl:
+                customizationsFromViewConfig?.style?.customCSSUrl ||
+                customizationsFromEmbedConfig?.style?.customCSSUrl ||
+                customCssUrlFromEmbedConfig,
+        },
+        content: {
+            ...customizationsFromEmbedConfig?.content,
+            ...customizationsFromViewConfig?.content,
+        },
+    };
     return customizations;
 };
 
