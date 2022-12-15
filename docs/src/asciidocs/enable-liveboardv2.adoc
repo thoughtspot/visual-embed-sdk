@@ -75,8 +75,7 @@ The following figure illustrates the menu actions available on a Liveboard page:
 [.widthAuto]
 image:./images/liveboard-exp-diff.png[Liveboard experience comparison]
 
-Liveboard layout in embedded mode::
-If the new Liveboard experience is enabled, ThoughtSpot displays the embedded Liveboard in a single-column layout if the screen resolution is 1024px or less. If your app is responsive and requires the embedded Liveboard to dynamically adjust its layout according to the screen width and orientation of the device, we recommend using the classic Liveboard experience.
+
 
 == Customize embedded Liveboards
 
