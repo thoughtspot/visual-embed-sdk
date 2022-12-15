@@ -3,11 +3,16 @@ import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
 
-export interface SearchBarViewConfig extends ViewConfig {
-    /**
-     * If set to true, hides the data sources panel.
-     */
-    hideDataSources?: boolean;
+export interface SearchBarViewConfig
+    extends Omit<
+        ViewConfig,
+        | 'disabledActions'
+        | 'hiddenActions'
+        | 'visibleActions'
+        | 'disabledActionReason'
+        | 'runtimeFilters'
+        | 'showAlerts'
+    > {
     /**
      * The array of data source GUIDs to set on load.
      */
