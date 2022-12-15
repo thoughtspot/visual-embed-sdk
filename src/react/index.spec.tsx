@@ -129,7 +129,6 @@ describe('React Components', () => {
         it('Should Render the Iframe with props', async () => {
             const { container } = render(
                 <SearchBarEmbed
-                    hideDataSources={true}
                     className="embedClass"
                     dataSources={['test']}
                     searchOptions={{
