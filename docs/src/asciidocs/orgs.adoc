@@ -85,18 +85,21 @@ a| [tag greenBackground]#✓#  User creation and management +
 |Groups and privileges| [tag greyBackground]#–# |__Groups and privilege configuration and management are restricted to Org context only.__
 |Authentication a| [tag greenBackground]#✓#  Local authentication configuration +
 
-[tag greenBackground]#✓#  SAML authentication configuration +
+[tag greenBackground]#✓#  Trusted authentication +
 
-[tag greenBackground]#✓#  OIDC authentication configuration +
+////
+__With trusted authentication, administrators can create users just-in-time (JIT) and dynamically assign users to Orgs and groups.__
+////
+[tag greyBackground]#-#  SAML authentication configuration +
 
+[tag greyBackground]#-#  OIDC authentication configuration +
+////
 __ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
 
-__OIDC authentication is supported only if users are already created and mapped to Orgs.__  a|
-
-[tag greenBackground]#✓#  Trusted authentication at the Primary Org level (for embedded instances) +
-
-__With trusted authentication, administrators can create users just-in-time (JIT) and dynamically assign users to Orgs and groups.__
-
+__OIDC authentication is supported only if users are already created and mapped to Orgs.__
+////
+a|
+[tag greyBackground]#–#
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
 |Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
 
@@ -127,8 +130,12 @@ a|__All API operations are supported except for the CRUD operations of Orgs__.
 
 == Authentication considerations for embedded apps
 
+////
 The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to authenticate the embedded app users. To determine the authentication method that best suits your deployment, refer to the recommendations listed on the xref:embed-authentication.adoc[Authentication].
+////
+On a multi-tenant cluster with Orgs, ThoughtSpot supports local and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication and `AuthType.TrustedAuthToken` for trusted authentication. For more information, see xref:embed-authentication.adoc[Authentication].
 
+////
 If you are using SAML SSO to authenticate the embedded application users, you must configure the `orgs` attribute in the SAML authentication profile on ThoughtSpot to map the user to Orgs. To configure SAML authentication support for Orgs, contact ThoughtSpot Support.
 
 Your IdP must also have the `orgs` attribute configured to send the Org information in SAML assertion so that the SSO user can be logged in to the appropriate Org. The `orgs` attribute must include all Org names that the user can access.
@@ -137,6 +144,7 @@ Your IdP must also have the `orgs` attribute configured to send the Org informat
 ====
 ThoughtSpot doesn't support automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster. Therefore, we recommend using xref:trusted-authentication.adoc[Trusted authentication], which supports just-in-time user creation, dynamic group mapping, and privilege assignment.
 ====
+////
 
 === Just-in-time user creation and dynamic privilege assignment
 
