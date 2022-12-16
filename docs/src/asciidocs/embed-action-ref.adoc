@@ -64,14 +64,14 @@ Presents the Liveboard in fullscreen mode.
 `AppEmbed` |
  *Liveboard info* +
  Displays information about the Liveboard.|
-
+ 
 `Action.EditTML`|`AppEmbed` | *Edit TML* +
-Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server.
+Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
 |`Action.ImportTML`|`AppEmbed` | *Import TML* +
-Allows importing the TML representation of a Liveboard object to ThoughtSpot.
+Allows importing the TML representation of a Liveboard object to ThoughtSpot. 
 |`Action.ExportTML`| `LiveboardEmbed` +
 `AppEmbed` | *Export TML* +
-Exports the TML representation of a Liveboard object from ThoughtSpot.
+Exports the TML representation of a Liveboard object from ThoughtSpot. 
 |`Action.UpdateTML`|`LiveboardEmbed` +
 `AppEmbed` | *Update TML* +
 Publishes the modified TML representation of a Liveboard object.
@@ -194,8 +194,7 @@ Removes the visualization from the Liveboard.
 |
 `Action.ToggleSize`|`LiveboardEmbed` +
 `AppEmbed`| The *Resize* icons in the **More** actions menu. +
-Allows resizing a visualization on a Liveboard.
-|
+Allows resizing a visualization on a Liveboard.|
 `Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
  Allows drilling down the visualization to get granular data. Available as a contextual menu action.
@@ -257,8 +256,16 @@ Removes the visualization from the Liveboard.
 |`Action.ToggleSize`|`LiveboardEmbed` +
 `AppEmbed`| The *Resize* icons in the **More** actions menu. +
 Allows resizing a visualization on a Liveboard.
-|
-`Action.DrillDown`|`LiveboardEmbed` +
+|`Action.SyncToSheets`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
+Allows creating a sync to send data to the Google Sheets app.|
+`Action.SyncToOtherApps`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to other apps* action in the **More** actions menu. +
+Allows creating a sync to send data to external business apps such as Slack, Salesforce, and Microsoft Teams.
+|`Action.ManagePipelines`|`LiveboardEmbed` +
+`AppEmbed`| The *Manage pipelines* action in the **More** actions menu. +
+Allows managing data sync pipelines to external business apps set as sync destinations in ThoughtSpot.
+|`Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
 Allows drilling down the visualization to get granular data. Available as a contextual menu action.
 |`Action.DrillExclude`|`LiveboardEmbed` +
@@ -303,7 +310,7 @@ a|The *Query visualizer* and *Query SQL* buttons in *Query details* +
 
 |`Action.Save`|`SearchEmbed` +
 `AppEmbed` | *Save* +
- Saves the answer and any modifications made to the answer.
+ Saves the answer and any modifications made to the answer. 
 
 |`Action.Download`|`SearchEmbed` +
 `AppEmbed`|*Download* +
@@ -317,12 +324,22 @@ Deletes the answer.
 `AppEmbed` |*Download as CSV* +
 Downloads the answer data in the CSV file format. Available only for tables.
 |`Action.DownloadAsXLSX`|`SearchEmbed` +
-`AppEmbed`|
+`AppEmbed`| 
 *Download as XLSX* +
 Downloads the answer data in the XLSX file format. Available only for tables.
 |`Action.DownloadAsPdf`|`SearchEmbed` +
 `AppEmbed` |*Download as PDF* +
 Downloads the answer data as a PDF file. Available only for tables.
+
+|`Action.SyncToSheets`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
+Allows creating a sync to send data to the Google Sheets app.|
+`Action.SyncToOtherApps`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to other apps* action in the **More** actions menu. +
+Allows creating a sync to send data to external business apps such as Slack, Salesforce, and Microsoft Teams.
+|`Action.ManagePipelines`|`LiveboardEmbed` +
+`AppEmbed`| The *Manage pipelines* action in the **More** actions menu. +
+Allows managing data sync pipelines to external business apps set as sync destinations in ThoughtSpot.
 
 |`Action.DrillExclude`|`SearchEmbed` +
 `AppEmbed`|*Exclude* +

@@ -58,11 +58,11 @@ Some browsers (Safari in particular) default to strict settings on cookie origin
 +
 Fires if SSO does not complete and if the ThoughtSpot session times out at some point. Listen to the `AuthExpire` event in the load process to determine when it is safe to show the ThoughtSpot content, and listen to it after loading to hide the ThoughtSpot login screen if the session expires for some reason.
 
-. `AuthInit`
+. `AuthInit` 
 +
 Fires when the SSO process has completed correctly. The event does not fire when an SSO process fails, instead `AuthExpire` fires in that situation. The logged-in user GUID is available in the response of the `AuthInit` event.
 
-. `Error`
+. `Error` 
 
 +
 Fires if any other error occurs in the Visual Embed SDK process. Does not fire for errors within the embedded ThoughtSpot content
@@ -80,7 +80,7 @@ Fires only on `SearchEmbed` components. Does not fire on a `LiveboardEmbed` comp
 Fires only on `LiveboardEmbed` components, after all visualizations have completed loading.
 
 
-`AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state.
+`AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state. 
 
 [source,javascript]
 ----
@@ -123,7 +123,7 @@ Filtering from a selection on a chart or table can be implemented by combining t
 The callback function from the `VizPointClick` event will need to read the response, parse out the attributes from the response that will be sent to the Runtime Filters, and then send the attributes and their target fields in the format used by `UpdateRuntimeFilters`.
 
 ==== ThoughtSpot filters overview
-ThoughtSpot Liveboards have four levels of filters.
+ThoughtSpot Liveboards have four levels of filters. 
 
 Row-level security (RLS) rules::
 Tied to the logged-in user and their group memberships. Completely secure and cannot be altered by the logged-in user.

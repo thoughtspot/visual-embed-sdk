@@ -6,7 +6,19 @@
 :page-pageid: embed-liveboard
 :page-description: You can use the LiveboardEmbed SDK library to embed a ThoughtSpot Liveboard in your app and use it for live insights
 
-This page explains, through an example, how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
+This page explains how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
+
+== Overview
+
+A ThoughtSpot Liveboard is an interactive dashboard that presents a collection of visualizations pinned by a user. ThoughtSpot Liveboards are available the following modes:
+
+* Classic experience mode
+* New experience mode [beta betaBackground]^Beta^
++
+By default, the new Liveboard experience is turned off on embedded instances. You can enable it using the `liveboardV2` setting in the `LiveboardEmbed` SDK. However, ThoughtSpot recommends using classic Liveboard experience on embedded apps until the new Liveboard experience is GA.
+
+==== Liveboard layout in embedded mode
+In the new Liveboard experience mode, the embedded Liveboard resizes to one-column layout if the screen width is 1024px or less. In classic experience mode, the embedded Liveboard adjusts its layout to two-column or one-column view to fit the screen width and orientation of the user's device.
 
 == Import the LiveboardEmbed package
 
@@ -111,13 +123,9 @@ _Integer_. Minimum height to set for embedded objects on a Liveboard page and th
 <a href="{{previewPrefix}}/playground/liveboard?fullHeight=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-////
-defaultHeight::
-_Integer_. Minimum height to set for embedded objects on a pinboard page and the corresponding visualization pages that a user can navigate to from the pinboard page. The default value is `500` pixels.
-////
 
 visibleActions __Optional__::
-_Array of strings_. Displays the specified actions on the *Liveboards* page. These actions can appear as buttons, or as menu actions in **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.
+_Array of strings_. Displays the specified actions on the *Liveboards* page. These actions can appear as buttons, or as menu actions in **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
 
 +
 ----
@@ -135,7 +143,7 @@ Use either `visibleActions` or `hiddenActions` to show or hide the actions in th
 ====
 
 hiddenActions __Optional__::
-_Array of strings_. Hides specified actions from the list of available actions on the embedded *Liveboards* page. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined.
+_Array of strings_. Hides specified actions from the list of available actions on the embedded *Liveboards* page. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined. 
 
 +
 For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.AddFilter` in the `hiddenActions` attribute.
@@ -159,7 +167,6 @@ For example, to disable the *Present* action from the *More* menu image:./images
 ----
 disabledActions: [Action.Present]
 ----
-
 +
 ++++
 <a href="{{previewPrefix}}/playground/liveboard?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -168,7 +175,7 @@ disabledActions: [Action.Present]
 include::{path}/custom-action-note.adoc[]
 
 disabledActionReason __Optional__::
-_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 liveboardId::
 _String_. The GUID of the Liveboard.
@@ -176,8 +183,11 @@ _String_. The GUID of the Liveboard.
 liveboardV2 __Optional__::
 __Boolean__. Use this parameter to turn on or off the xref:enable-liveboardv2.adoc[new Liveboard experience]. By default, the `liveboardV2` attribute is set to `false`.
 
+////
 enableVizTransformations __Optional__::
 _Boolean_. When set to `true`, it displays the contextual menu for visualizations. The contextual menu allows users to drill down a visualization, apply filters, and view detailed insights.
+
+////
 
 [#filter-removal]
 preventLiveboardFilterRemoval __Optional__::
@@ -251,7 +261,7 @@ liveboardEmbed.render();
 
 * Load the client application.
 * Try accessing a Liveboard embedded in your application.
-* Verify if the embedded content renders correctly on your application page.
+* Verify if the embedded content renders correctly on your application page. 
 * If you have disabled an action, verify if the action appears as disabled on the *Liveboards* page.
 * If runtime filters are configured, verify if the filters are applied to the visualizations on the Liveboard.
 

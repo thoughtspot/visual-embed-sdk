@@ -65,7 +65,7 @@ In the SP-initiated SSO authentication flow, the SSO request originates from the
 +
 In the IdP-initiated SSO authentication flow, the user authenticates to the IdP first. The browser then redirects the login request to the host application and allows the user to access the requested content.
 
-== SAML authentication workflow for a ThoughtSpot embedded instance
+== SAML authentication workflow on an embedded instance
 
 With SAML SSO authentication, your host applications can allow federated users to access the embedded ThoughtSpot content without the need for a separate ThoughtSpot login.
 
@@ -86,7 +86,7 @@ image::./images/saml-auth.png[SAML authentication]
 
 === Visual Embed SDK flow
 
-When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SAML`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
+When using the Visual Embed SDK, the embedding application page is redirected to the IdP when the `init()` function is called using `AuthType.SAMLRedirect`. This flow happens outside of embedded ThoughtSpot component and returns the browser eventually back to the page of the embedding app, where the Visual Embed SDK will load the ThoughtSpot content.
 
 === Enabling automatic SAML redirect
 
@@ -100,7 +100,7 @@ disableSAMLAutoRedirect=true
 
 [NOTE]
 ====
-Note all the redirects within the SAML workflow. Each server must be configured properly to allow the inbound and outbound portions of the SAML flow. If you encounter errors while configuring and testing, go to the *Network* tab of the browser's developer tools to see which server within the workflow is generating the error.
+Make a note of all of the redirects within the SAML workflow. Each server must be configured properly to allow the inbound and outbound portions of the SAML flow. If you encounter errors while configuring and testing, go to the *Network* tab of the browser's developer tools to see which server within the workflow is generating the error.
 ====
 
 == Configuration steps
@@ -140,7 +140,7 @@ The IdP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider
 +
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to ThoughtSpot upon their first successful SSO login.
-If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must link:https://docs.thoughtspot.com/software/latest/user-management.html[add users manually, window=_blank].
+If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
 +
 ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
@@ -177,7 +177,7 @@ If you want to use SSO authentication for embedded ThoughtSpot content, make sur
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.SAMLRedirect,
 });
 ----
 
@@ -195,7 +195,7 @@ To add a SAML redirect domain, follow these steps:
 +
 
 * Domain name strings without port and protocol. For example, `thoughtspot.com`,`www.thoughtspot.com`
-* Comma-separated values. For example, `thoughtspot.com,thoughtspot.io`
+* Comma-separated values. For example, `thoughtspot.com,thoughtspot.cloud`
 * IPv4 addresses. For example, `255.255.255.255`
 
 +

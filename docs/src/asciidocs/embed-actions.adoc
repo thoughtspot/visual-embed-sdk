@@ -6,7 +6,7 @@
 :page-pageid: action-config
 :page-description: Show or hide actions in embedded Liveboards, visualizations and ThoughtSpot application
 
-ThoughtSpot visualizations, Liveboards, and saved search answers support several actions and menu commands for various user-initiated operations. These actions appear as primary buttons, or as menu commands in *More* image:./images/icon-more-10px.png[the more options menu] or contextual menu. When you embed a ThoughtSpot Liveboard, visualization, or the entire application experience in another app, xref:embed-actions.adoc#standard-actions[these actions] will be available to all users by default. However, your application users may not require all the available menu actions, or you might want to restrict access to certain features.
+ThoughtSpot visualizations, Liveboards, and saved search answers support several actions and menu commands for various user-initiated operations. These actions appear as primary buttons, or as menu commands in *More* image:./images/icon-more-10px.png[the more options menu] or contextual menu. When you embed a ThoughtSpot Liveboard, visualization, or the entire application experience in another app, xref:embed-actions.adoc#standard-actions[these actions] will be available to all users by default. However, your application users may not require all the available menu actions, or you might want to restrict access to certain features. 
 
 With Visual Embed SDK APIs, you can define a set of actions that your application users can access and use. The Visual Embed SDK packages support the following APIs to configure the visibility and availability of actions:
 
@@ -23,15 +23,15 @@ include::{path}/custom-action-note.adoc[]
 
 == Configuration recommendations
 
-* Use `visibleActions` when you want to show only a small subset of actions in the embedded ThoughtSpot UI.
-* The SDK doesn't support configuring both `visibleActions` and `hiddenActions`. Before you define `visibleActions`, make sure there are no hidden actions configured.
+* Use `visibleActions` when you want to show only a small subset of actions in the embedded ThoughtSpot UI.  
+* The SDK doesn't support configuring both `visibleActions` and `hiddenActions`. Before you define `visibleActions`, make sure there are no hidden actions configured. 
 * If you want to show all menu actions to your users and hide only a few, use the `hiddenActions` attribute to hide these actions.
-* If you are configuring `visibleActions` in the AppEmbed SDK package, make sure to include all the actions that you want to show on **Liveboards**, **Visualizations**, and the *Saved Answers* page.
-* Use the appropriate action string to show or hide a UI action. For a comprehensive list of UI actions and the action strings in the SDK, see xref:embed-actions.adoc#standard-actions[Supported actions].
+* If you are configuring `visibleActions` in the AppEmbed SDK package, make sure to include all the actions that you want to show on **Liveboards**, **Visualizations**, and the *Saved Answers* page. 
+* Use the appropriate action string to show or hide a UI action. For a comprehensive list of UI actions and the action strings in the SDK, see xref:embed-actions.adoc#standard-actions[Supported actions].  
 
 == Define visible actions
 
-The Visual Embed SDK packages support the `visibleActions` attribute, which allows you to define an array of action strings.
+The Visual Embed SDK packages support the `visibleActions` attribute, which allows you to define an array of action strings. 
 For example, if you set the attribute as:
 
 [source,Javascript]
@@ -51,9 +51,9 @@ If the `visibleActions` attribute is set as an empty array, no actions will appe
 
 [source,Javascript]
 ----
-visibleActions: []
+visibleActions: [] 
 ----
-
+ 
 ++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
@@ -65,7 +65,7 @@ If you set both `visibleActions` and `disabledActions` attributes as empty array
 [source,Javascript]
 ----
 visibleActions: []
-disabledActions: []
+disabledActions: [] 
 ----
 
 ++++
@@ -76,7 +76,7 @@ disabledActions: []
 
 If you specify some action strings in both `visibleActions` and `disabledActions` attributes, the specified menu actions will appear in the embedded UI. However, users will not be able to access the actions set as `disabledActions`.
 
-In the following example, the **Download**, **Save**, **Share**, and **Pin** actions are defined as visible actions and therefore will be visible in the embedded UI. However, the *Download* menu action will be disabled.
+In the following example, the **Download**, **Save**, **Share**, and **Pin** actions are defined as visible actions and therefore will be visible in the embedded UI. However, the *Download* menu action will be disabled. 
 [source,Javascript]
 ----
 visibleActions: [Action.Download,Action.Save,Action.Share,Action.Pin]

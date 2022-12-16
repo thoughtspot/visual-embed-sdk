@@ -1,8 +1,8 @@
-= Data connection API
+= Data connection APIs
 :toc: true
 :toclevels: 1
 
-:page-title: Data connection API
+:page-title: Data connection APIs
 :page-pageid: connections-api
 :page-description: The connection API endpoints allow you to query data connections used for live query services on a ThoughtSpot instance
 
@@ -24,7 +24,7 @@ ThoughtSpot supports connecting to external data warehouses and using these as d
 
 The connection API endpoints allow you to create, edit, delete, export, and query data connections on a ThoughtSpot cluster.
 
-This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://docs.thoughtspot.com/software/latest/connections[Connections, window=_blank].
+This article describes the procedures for setting and managing data connections through the REST APIs. For information about how to set up a data connection in the ThoughtSpot UI, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/embrace.html[Data Connections in ThoughtSpot, window=_blank].
 
 == Supported operations
 
@@ -43,7 +43,7 @@ To create or modify data connections through REST APIs, you need to provide a ma
 
 [%collapsible]
 ====
-image::./images/connection_metadata_json.png[Connection metadata]
+image::./images/connection_metadata_json.png[Connection metadata] 
 ====
 
 [#connection-attr]
@@ -160,7 +160,7 @@ __String__. The database associated with the account.
 [%collapsible]
 ====
 
- `host`
+* `host`
 +
 __String__. The hostname of Denodo server.
 
@@ -408,16 +408,16 @@ POST /tspublic/v1/connection/create
 |Form parameter|Description
 |`name` |__String__. Name of the connection.
 |`description` |__String__ A short description of data connection.
-|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`.
-
+|`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. 
+   
 Valid values for `type` map to the *name* property in the API response returned by the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`createEmpty`|__Boolean__. Allows creating a connection without tables. If you want to store only the configuration attributes and import tables later, you can set this attribute to `true`. The default value is `false`.
-|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, you can create a connection without tables by setting the `createEmpty` attribute to `true`.
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, you can create a connection without tables by setting the `createEmpty` attribute to `true`. 
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
-=== Example request
-
+=== Example request 
+ 
 .cURL
 [source,cURL]
 ----
@@ -435,7 +435,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
 
 ==== Example metadata JSON without tables
 
-The following example shows the metadata JSON map for creating a Snowflake data connection without tables.
+The following example shows the metadata JSON map for creating a Snowflake data connection without tables. 
 
 [source, JSON]
 ----
@@ -448,11 +448,11 @@ The following example shows the metadata JSON map for creating a Snowflake data 
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
-
+      
    ]
 }
 ----
-
+ 
 
 ==== Example metadata JSON with tables
 
@@ -741,7 +741,7 @@ If the connection creation is successful, the API returns a response body with t
 [#edit-connection]
 == Edit an existing data connection
 
-To update or modify the connection attributes of a data connection, use the `/tspublic/v1/connection/update` API.
+To update or modify the connection attributes of a data connection, use the `/tspublic/v1/connection/update` API. 
 
 === Resource URL
 ----
@@ -758,14 +758,14 @@ POST /tspublic/v1/connection/update
 |`description` |__String__. The description of the data connection.
 |`type`|__String__. Type of the data connection. For example, `RDBMS_SNOWFLAKE`, `RDBMS_REDSHIFT`. Valid values for `type` map to the *name* attribute from the in the response to the xref:connections-api.adoc#connection-types[/tspublic/v1/connection/types API endpoint].
 |`createEmpty`|__Boolean__. Allows updating a connection without importing tables. If you want to update only the configuration attributes,  you can set this attribute to `true`. The default value is `false`.
-|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, if the  `createEmpty` attribute to `true`, you can update the connection attributes without importing tables.
+|`metadata` a|__String__. A JSON map of the connection metadata. The metadata must include xref:connections-api.adoc#connection-attr[configuration attributes], database, schema, and table objects. However, if the  `createEmpty` attribute to `true`, you can update the connection attributes without importing tables. 
 |`id`|__String__. The GUID of the data connection that you want to modify.
-|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes].
+|`metadata` a|__String__. A JSON map of the xref:connections-api.adoc#connection-attr[connection attributes]. 
 |`state`|_Integer_. The GUID of the OAuth redirect URI. This attribute is automatically populated and cannot be set by users.
 |====
 
-=== Example request
-
+=== Example request 
+ 
 .cURL
 [source,cURL]
 ----
@@ -783,7 +783,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
 
 ==== Example metadata JSON without tables
 
-The following example shows the metadata JSON map for modifying a Snowflake connection without importing tables.
+The following example shows the metadata JSON map for modifying a Snowflake connection without importing tables. 
 
 [source, JSON]
 ----
@@ -796,11 +796,11 @@ The following example shows the metadata JSON map for modifying a Snowflake conn
       "warehouse":"MEDIUM_WH"
    },
    "externalDatabases":[
-
+   
    ]
 }
 ----
-
+ 
 
 ==== Example metadata JSON with tables
 
@@ -1081,8 +1081,8 @@ GET /tspublic/v1/connection/types
 
 None
 
-=== Example request
-
+=== Example request 
+ 
 .cURL
 [source,cURL]
 ----
@@ -1209,7 +1209,7 @@ Gets a list of live query objects that are set up on your cluster.
 * `DEFAULT` to use the default sort order in the response.
 * `NAME` to sort headers by the connection name.
 * `DISPLAY_NAME` to sort  headers by the display name of the connections.
-* `AUTHOR` to sort the headers by the author who set up the live query connection.
+* `AUTHOR` to sort the headers by the author who set up the live query connection.  
 * `CREATED` to sort headers by the timestamp at which live query connections were set up.
 * `MODIFIED` to sort headers by the timestamp at which the live query connections were modified.
 | `sortascending` a|__Boolean__. A flag to specify the sort order. A null value defines the default order.
@@ -1219,7 +1219,7 @@ Gets a list of live query objects that are set up on your cluster.
 |`offset` __Optional__|__Integer__. Batch offset to value to fetch page headers. The default value is `-1`, which implies first page.
 |`batchsize` __Optional__ |__Integer__. Number of batches in which you want to fetch page headers in a single query. The default value is `-1`, which implies no pagination.
 |`tagname` __Optional__  |__Array of strings__. A JSON array of tag names to filter response headers by tags. A tag is a  label applied to a ThoughtSpot object.
-|`pattern` __Optional__  |__String__. A pattern to match the name of the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
+|`pattern` __Optional__  |__String__. A pattern to match the name of the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.  
 |====
 
 === Example request
@@ -1239,7 +1239,7 @@ curl -X GET \
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
 ----
 
-=== Example response
+=== Example response 
 
 [source,JSON]
 ----
@@ -1371,7 +1371,7 @@ POST /tspublic/v1/connection/fetchConnection
 [options='header']
 |====
 |Form Data Parameter|Description
-|`id`|__String__. GUID of the data connection.
+|`id`|__String__. GUID of the data connection. 
 |`includeColumns`|__Boolean__. A flag to include or exclude column metadata in the API response. By default, the API returns data for all columns in the response.
 |`config` +
 __Optional__  a|__String__. Configuration attributes to override the connection metadata details in the API response. Use this attribute to query data from a specific database. For example, if your connection has a database named `PROD`, and you want to fetch details with the database name as `DEVELOPMENT`, you can define the `config` string as `{"database":"DEVELOPMENT"}`.
@@ -1380,7 +1380,7 @@ __Optional__  a|__String__. Configuration attributes to override the connection 
 ====
 Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update a connection, you must use the `/tspublic/v1/connection/update` endpoint.
 ====
-|`authentication_type` [tag greenBackground]#NEW in 8.8.0.sw# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
+|`authentication_type` [tag greenBackground]#NEW in 8.8.0.cl# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
 
 * `SERVICE_ACCOUNT` +
 For data connections that require service account credentials to authenticate to the Cloud Data Warehouse and fetch data.
@@ -1394,7 +1394,7 @@ For data connections that have the IAM OAuth set up. This authentication type is
 
 * `EXTOAUTH` +
 For data connections that have external OAuth set up. ThoughtSpot supports external OAuth with Microsoft Azure Active Directory (AD) and Okta for Snowflake data connections. For more information, see link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-okta-oauth[Configure Okta OAuth for a Snowflake connection, window=_blank] and link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-azure-ad-oauth[Configure Azure AD external OAuth for a Snowflake connection, window=_blank].
-|====
+|==== 
 
 === Example request
 
@@ -1880,7 +1880,7 @@ POST /tspublic/v1/connection/fetchLiveColumns
 [options='header']
 |====
 |Form Data Parameter|Description
-|`connection_id`|__String__. GUID of the data connection.
+|`connection_id`|__String__. GUID of the data connection. 
 |`tables` a|__String__. The external tables to include in the output. The `tables` string allows you to fetch one or several tables from multiple external databases.
 
 * To get column data for a specific table, specify the string as shown here: +
@@ -1905,7 +1905,7 @@ __Optional__ a|__String__. Configuration attributes to override the metadata det
 ====
 Note that the `config` attribute does not update the connection metadata in the ThoughtSpot system. It only allows you to modify the metadata in the API response. To update the connection metadata, you must use the `/tspublic/v1/connection/update` endpoint.
 ====
-|`authentication_type` [tag greenBackground]#NEW in 8.8.0.sw# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
+|`authentication_type` [tag greenBackground]#NEW in 8.8.0.cl# a|__String__. Type of authentication to use when fetching data from the Cloud Data Warehouse. Valid values are: +
 
 * `SERVICE_ACCOUNT` __Default__  +
 For data connections that require service account credentials to authenticate to the Cloud Data Warehouse and fetch data.
@@ -1919,7 +1919,7 @@ For data connections that have the IAM OAuth set up. This authentication type is
 
 * `EXTOAUTH` +
 For data connections that have external OAuth set up. ThoughtSpot supports external OAuth with Microsoft Azure Active Directory (AD) and Okta for Snowflake data connections. For more information, see link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-okta-oauth[Configure Okta OAuth for a Snowflake connection, window=_blank] and link:https://docs.thoughtspot.com/cloud/latest/connections-snowflake-azure-ad-oauth[Configure Azure AD external OAuth for a Snowflake connection, window=_blank].
-|====
+|==== 
 
 === Example request
 
@@ -2623,7 +2623,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/connection/fetchLiveColumns
 [#export-connections]
 == Export a connection map
 
-To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API.
+To export the metadata of an active connection map, send a `GET` request to the `/tspublic/v1/connection/export` API. 
 
 === Resource URL
 ----
@@ -2636,16 +2636,16 @@ GET /tspublic/v1/connection/export
 [options='header']
 |====
 |Query parameter|Description
-|`id`|__String__. The GUID of the data connection you want to export.
+|`id`|__String__. The GUID of the data connection you want to export. 
 |====
 
-=== Example request
-
+=== Example request 
+ 
 .cURL
 [source,cURL]
 ----
-curl -X GET
---header 'Accept: text/yaml'
+curl -X GET 
+--header 'Accept: text/yaml' 
 --header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82'
 ----
 
@@ -2655,9 +2655,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb
 ----
 === Example response
 
-If the specified GUID is valid and points to an existing data connection on your cluster, the API returns a YAML file containing the connection mapping data.
+If the specified GUID is valid and points to an existing data connection on your cluster, the API returns a YAML file containing the connection mapping data. 
 
-Click the link in the `Response body` to download the YAML file.
+Click the link in the `Response body` to download the YAML file. 
 
 === Response codes
 
@@ -2678,13 +2678,13 @@ Click the link in the `Response body` to download the YAML file.
 [#del-connection]
 == Delete a data connection
 
-To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API.
+To delete a data connection, send a `POST` request to the `/tspublic/v1/connection/delete` API. 
 
 [IMPORTANT]
 ====
-A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation.
+A connection can be used in multiple data sources or visualizations. If a data connection has dependent objects, make sure you remove its associations before running the delete operation. 
 ====
-
+ 
 === Resource URL
 ----
 POST /tspublic/v1/connection/delete
@@ -2695,11 +2695,11 @@ POST /tspublic/v1/connection/delete
 [options='header']
 |====
 |Form parameter|Description
-|`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete.
+|`ids`|__Array of Strings__. A JSON array of data connection GUIDs to delete. 
 |====
 
-=== Example request
-
+=== Example request 
+ 
 .cURL
 [source,cURL]
 ----
@@ -2732,7 +2732,7 @@ Response Code
 |===
 |HTTP status code | Description
 
-| **204**
+| **204**  
 |Successful deletion of the connection object
 
 | **401**
@@ -2741,3 +2741,4 @@ Response Code
 | **500**
 | The connection could not be deleted due to table dependencies
 |===
+

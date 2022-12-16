@@ -46,7 +46,7 @@ For information about how to install React framework on Windows, see  link:https
 npx create-react-app ts-data-app
 ----
 +
-In the above example, the name of the app is `ts-data-app`.
+In this example, the name of the app is `ts-data-app`.
 
 .. Initialize the app. 
 +
@@ -116,7 +116,7 @@ In the following example, the `authType` is set to `SAML` to use SAML SSO authen
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.SAML,
+    authType: AuthType.SAMLRedirect,
 });
 ---- 
 
@@ -293,7 +293,7 @@ const Search = () => {
 };
 ----
 
-For a complete list of `SearchEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/SearchViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `SearchEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/SearchViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a Liveboard 
 
@@ -429,7 +429,7 @@ const Liveboard = () => {
   );
 };
 ----
-For a complete list of `LiveboardEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 == Embed a visualization
 
@@ -559,7 +559,7 @@ const viz= () => {
 };
 ----
 
-For a complete list of `LiveboardEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `LiveboardEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/LiveboardViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 For more information about custom action events, see xref:custom-actions-callback.adoc[Callback custom actions].
 
@@ -674,7 +674,7 @@ const FullApp = () => {
   );
 };
 ----
-For a complete list of `AppEmbed` attributes and events, see  link:https://developers.thoughtspot.com/docs/typedoc/interfaces/AppViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
+For a complete list of `AppEmbed` attributes and events, see  link:{{visualEmbedSDKPrefix}}/interfaces/AppViewConfig.html[Visual Embed SDK Reference Guide,  window=_blank] and xref:embed-events.adoc[Interact with events].
 
 [#react-routes]
 == Add routes for navigation
@@ -702,7 +702,7 @@ export default App;
  
 == Additional resources
 
-* For information about events, see xref:embed-events.adoc[Events and app integration].
+* For information about events, see xref:embed-events.adoc[Interact with events].
 * For information about Action enumerations, see xref:embed-actions.adoc[Show or hide UI actions].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
 * For Javascript code examples, see link:https://github.com/thoughtspot/quickstarts/tree/main/react-starter-app[Code samples, window=_blank].

@@ -36,9 +36,9 @@ REST API calls are asynchronous. The following is an example function returning 
         let type = args['type'].toLowerCase();
         const publicApiUrl = 'callosum/v1/tspublic/v1/';
         let endpoint = 'metadata/list';
-
+        
         // Easy type names match ThoughtSpot UI names for objects
-        const typesToApiType = {
+        const typesToApiType = { 
             'liveboard': 'PINBOARD_ANSWER_BOOK',
             'answer': 'QUESTION_ANSWER_BOOK',
             'datasource' : 'LOGICAL_TABLE', // datasource doesn't distinguish sub-types
@@ -112,9 +112,9 @@ The results of this REST API request can be directed into a rendering function u
 ----
 metadataListRestApiCall(
     {
-        'type': 'liveboard',
-        'sortOn': 'NAME',
-        'sortAsc' : true,
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
         'category': 'ALL'
     })
 .then(
@@ -123,7 +123,7 @@ metadataListRestApiCall(
 ----
 
 === Render navigation elements
-The response from the function above is an array of header objects, which can be parsed to render navigation.
+The response from the function in the preceding example is an array of header objects, which can be parsed to render navigation.
 
 The `name` and `id` property are used in almost all the navigation you build (`id` is the GUID necessary to load any ThoughtSpot object). Additional properties include:
 
@@ -155,7 +155,7 @@ If you want to render something very close to the 'Answers' or 'Pinboards' page 
         console.log(listResponse);
         let t = document.createElement('table');
 
-        // Make table headers
+        // Make table headers 
         let thead = document.createElement('thead');
         t.append(thead);
         let thr = document.createElement('tr');
@@ -170,14 +170,14 @@ If you want to render something very close to the 'Answers' or 'Pinboards' page 
         // Go through response and build rows
         for (let i=0, len=listResponse.length; i < len; i++){
             let tr = document.createElement('tr');
-
+            
             // Name Column
             let name_td = document.createElement('td');
             name_td.innerHTML = '<a href="#" onclick="loadContent("' + listResponse[i]['id'] + '")>' +  listResponse[i]['name'] +  '</a>';
             //name_td.append(name_text);
             console.log(name_td);
             tr.append(name_td);
-
+            
             // Tags column
             let tags_td = document.createElement('td');
             console.log(listResponse[i]['tags']);
@@ -209,15 +209,15 @@ If you want to render something very close to the 'Answers' or 'Pinboards' page 
     }
 ----
 
-The above function merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
+The function in the preceding example merely creates the table, it does not place it into the page. You can continue chaining using `.then()` to place the table in the appropriate place on your web application page :
 
 [source,javascript]
 ----
 metadataListRestApiCall(
     {
-        'type': 'liveboard',
-        'sortOn': 'NAME',
-        'sortAsc' : true,
+        'type': 'liveboard', 
+        'sortOn': 'NAME', 
+        'sortAsc' : true, 
         'category': 'ALL'
     })
 .then(
@@ -270,7 +270,7 @@ async function metadataGetVizHeadersRestApiCall(liveboardGuid){
         credentials: "include"
         })
     .then(response =>  response.json())
-    //
+    // 
     .then(data => data)  // metadata/list info is really in the 'headers' property returned
     .catch(error => {
     console.error("Unable to get the metadata/listvizheaders response: " + error)
@@ -289,8 +289,8 @@ To add a custom action for in-app navigation, follow these steps:
 . Make sure you have embedded the full ThoughtSpot app in your application. The `navigateToPage` API is available only with the `AppEmbed` package.
 . xref:custom-actions-callback.adoc[Add a custom action].
 . Register the callback in the Visual Embed SDK
-. Define the page path
-
+. Define the page path 
+ 
 In this example, the **view-report ** action on a Liveboard page calls the `navigateTo` method to open a specific saved answer page when a user clicks the **View report** button in the embedded app.
 
 [source,javascript]

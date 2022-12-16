@@ -28,7 +28,8 @@
 
 * link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
-*** link:{{navprefix}}=search-embed[Embed search component]
+*** link:{{navprefix}}=embed-searchbar[Embed search bar ^*Beta*^]
+*** link:{{navprefix}}=search-embed[Embed search page]
 *** link:{{navprefix}}=embed-liveboard[Embed a Liveboard]
 *** link:{{navprefix}}=embed-a-viz[Embed a visualization]
 *** link:{{navprefix}}=full-embed[Embed full application]
@@ -56,7 +57,9 @@
 ** link:{{navprefix}}=custom-action-payload[Callback response payload]
 
 * link:{{navprefix}}=customization-intro[Customization and rebranding]
-** link:{{navprefix}}=customize-style[Customize layout and styles]
+** link:{{navprefix}}=style-customization[Customize styles and layout]
+*** link:{{navprefix}}=customize-style[Customize styles in the UI]
+*** link:{{navprefix}}=custom-css[Customize CSS]
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 

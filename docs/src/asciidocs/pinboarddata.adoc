@@ -43,12 +43,11 @@ POST /tspublic/v1/pinboarddata
 ----
 == Request parameters
 
-[width="100%" cols="3,4"]
+[width="100%" cols="1,4"]
 [options='header']
-|======
+|====
 |Query parameter|Description
 |`id`|__String__. The GUID of the Liveboard.
-|`transient_pinboard_content` [tag greenBackground]#New in 8.4.1-sw# |__String__. If the Liveboard has unsaved changes, pass this parameter with the script in the xref:pinboarddata.adoc#transient-pinboard[browser fetch request].
 |`vizid` __Optional__|__String__. A JSON array of GUIDs of the visualizations.
 |`transient_pinboard_content`|__String__. If the Liveboard has unsaved changes, pass this parameter in the xref:pinboard-export-api.adoc#transient-pinboard[browser fetch request].
 |`batchsize`|__Integer__. The batch size for loading Liveboard objects. The system default is -1.
@@ -59,38 +58,48 @@ POST /tspublic/v1/pinboarddata
 
 For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 records, and the `offset` value is set to `1`, the charts will display data from the second record onwards. If the `pagenumber` attribute is set to `3` and `batchsize` is defined as `1`, then the offset value changes to 2, and all 10 charts will display data from the third record onwards.
 |`formattype`|__String__. Valid values are `COMPACT` or `FULL` JSON. The system default is `COMPACT`.
-|======
+|====
 
 [#transient-pinboard]
 == Liveboard data with unsaved changes
 
-To download Liveboards with unsaved changes as PDFs, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
+To download retrieve a Liveboard with unsaved changes, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
 
 [source,javascript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
 
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+The promise returned resolves to a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes if any.
+
+The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including unsaved changes to the following:
+
+* Liveboard filters
+* Runtime filters applied on visualizations on a Liveboard
+* Liveboard layout
+
+If the new Liveboard experience is enabled, the transient content includes ad hoc changes to visualizations such as sorting, toggling of legends, and data drill down.
 
 === Sample browser fetch request
 [source,javascript]
 ----
-<iframe src="http://ts_host:port/" id="ts-embed"></iframe>
-<script src="/path/to/ts-api.js"></script>
-<script>
-    const tsFrame = document.getElementById("ts-embed");
-async function liveboardData() {
-    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
-    const liveboardDataResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/pinboarddata", {
+< iframe src = "http://ts_host:port/" id = "ts-embed" > < /iframe>
+< script src = "/path/to/liveboard.js" > < /script>
+< script >
+    const embed = new LiveboardEmbed("#embed", {
+        frameParams: {},
+    });
+    async function liveboardData() {
+    const transientPinboardContent = await embed.trigger(HostEvent.getExportRequestForCurrentPinboard);
+    const liveboardDataResponse = await fetch("https://ts_host:port/callosum/v1/tspublic/v1/pinboarddata", {
         method: "POST",
         body: createFormDataObjectWith({
-           "formattype": "COMPACT",
-           "transient_pinboard_content": transientPinboardContent,
-    }),
-  });
-}
-</script>
+            "formattype": "COMPACT",
+            "transient_pinboard_content": transientPinboardContent,
+        }),
+    });
+ }
+< /script>
 ----
 
 == Example requests
@@ -246,38 +255,6 @@ If you make a call to obtain data for a specific visualization on a Liveboard, T
     "name": "Inactive Users"
   }
 }
-----
-
-[#transient-pinboard]
-== Embedded Liveboard with unsaved changes
-
-If you have embedded ThoughtSpot in your host application, and you want to download Liveboards with unsaved changes, pass the `transient_pinboard_content` parameter in the browser fetch request with the  `getExportRequestForCurrentPinboard` method.
-
-[source,javascript]
-----
-function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
-----
-
-The promise returned resolves to  a string that contains the transient Liveboard content, which is encoded as JSON and is sent to the `/tspublic/v1/pinboarddata` endpoint with the `transient_pinboard_content` key. This content resembles the current Liveboard as is, including the unsaved changes.
-
-=== Sample browser fetch request
-[source,javascript]
-----
-<iframe src="http://ts_host:port/" id="ts-embed"></iframe>
-<script src="/path/to/ts-api.js"></script>
-<script>
-    const tsFrame = document.getElementById("ts-embed");
-    async function downloadLiveboard() {
-    const transientPinboardContent = await thoughtspot.getExportRequestForCurrentPinboard(tsFrame);
-    const liveboardResponse = await fetch("http://ts_host:port/callosum/v1/tspublic/v1/pinboarddata", {
-        method: "POST",
-        body: createFormDataObjectWith({
-           "transient_pinboard_content": transientPinboardContent,
-    }),
-  });
-  // Do something with liveboardResponse.blob()
-}
-</script>
 ----
 
 === Runtime filters

@@ -13,19 +13,24 @@ You can use the following code snippets to build your code and embed ThoughtSpot
 
 === Embed ThoughtSpot Search
 
+The following example shows how to embed the ThoughtSpot Search page:
+
 [source,javascript]
 ----
 import {
     SearchEmbed,
     AuthType,
-    init
+    init,
+    prefetch,
+    EmbedEvent,
+    HostEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: "<%=tshost%>",
-    authType: AuthType.SAML,
+    authType: AuthType.EmbeddedSSO,
 });
 const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -33,8 +38,39 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
         height: '100%',
     },
     dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
+    collapseDataSources: true,
 });
 searchEmbed.render();
+----
+
+[#searchBarEmbedCode]
+The following example shows how to embed ThoughtSpot search bar:
+
+[source,javascript]
+----
+import {
+    SearchBarEmbed,
+    AuthType,
+    init,
+    prefetch,
+    EmbedEvent,
+    HostEvent
+}
+from '@thoughtspot/visual-embed-sdk';
+// If not using npm, use the following for an ES6 standard import:
+// from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
+init({
+    thoughtSpotHost: "<%=tshost%>",
+    authType: AuthType.EmbeddedSSO,
+});
+const searchBarEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
+    frameParams: {
+        width: '100%',
+        height: '100%',
+    },
+    dataSources: ['4f289824-e301-4001-ad06-8888f69c4748'],
+});
+searchBarEmbed.render();
 ----
 
 === Embed charts and tables
@@ -44,14 +80,17 @@ searchEmbed.render();
 import {
     LiveboardEmbed,
     AuthType,
-    init
+    init,
+    prefetch,
+    EmbedEvent,
+    HostEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.SAML,
+    authType: AuthType.EmbeddedSSO,
 });
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -71,14 +110,17 @@ liveboardEmbed.render();
 import {
     LiveboardEmbed,
     AuthType,
-    init
+    init,
+    prefetch,
+    EmbedEvent,
+    HostEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.SAML,
+    authType: AuthType.EmbeddedSSO,
 });
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -98,14 +140,17 @@ import {
     AppEmbed,
     Page,
     AuthType,
-    init
+    init,
+    prefetch,
+    EmbedEvent,
+    HostEvent
 }
 from '@thoughtspot/visual-embed-sdk';
 // If not using npm, use the following for an ES6 standard import:
 // from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 init({
     thoughtSpotHost: '<%=tshost%>',
-    authType: AuthType.None,
+    authType: AuthType.EmbeddedSSO,
 });
 const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -119,7 +164,7 @@ appEmbed.render();
 
 == Event trigger
 
-The following example shows how to register the `VizPointDoubleClick` event, which is triggered when a user drills down on a visualization in embedded ThoughtSpot interface.
+The following example shows how to trigger an event from the embedded ThoughtSpot interface:
 
 [source,JAVASCRIPT]
 ----
@@ -155,7 +200,7 @@ const MyComponent = () => {
             onLiveboardRendered={onLiveboardRendered}
         />
     );
-};
+}; 
 ----
 
 == REST APIs
@@ -270,7 +315,7 @@ See the following pages:
 * xref:home.adoc[Developer documentation] +
 * xref:rest-api-reference.adoc[REST API Reference Guide] +
 * link:https://developers.thoughtspot.com/guides[Tutorials, window=_blank] +
-* link:https://developers.thoughtspot.com/docs/typedoc/modules.html[Visual Embed SDK Reference Guide, window=_blank] +
+* link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank] +
 * link:https://github.com/thoughtspot/visual-embed-sdk/blob/main/README.md[Visual Embed SDK GitHub respository, window=_blank] +
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 * link:https://github.com/thoughtspot/ts_everywhere_resources[Visual Embed SDK examples, window=_blank] +

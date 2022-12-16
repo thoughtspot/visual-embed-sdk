@@ -6,18 +6,26 @@
 :page-pageid: full-embed
 :page-description: You can embed full ThoughtSpot experience in your application and allow your users to create content for live analytics
 
-To integrate full ThoughtSpot experience in your application, you can use the full app embedding method.
+To embed the full ThoughtSpot experience in your application, use the full app embedding method. The full app embedding allows you to integrate the following features and pages of the ThoughtSpot application into your app:
 
-The full app embedding allows you to integrate many features and pages of the ThoughtSpot application, and provide your users the ability to perform the following tasks:
+* Search
+* Answers
+* Liveboards
+* Data workspace for data management
+* SpotIQ
+* Home page for quick access to saved Answers and Liveboards
+* Object sharing
 
-* create answers and Liveboards
-* share objects with other users
-* upload data, create views, and worksheets
-* relate uploaded data to existing worksheets
-* use saved answers
-* use SpotIQ
+Full app embedding gives you all the features of ThoughtSpot, with the ability to use additional features and customization from the Visual Embed SDK, such as custom actions and CSS styling rules. 
 
-To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.
+The basic layout and feature set of the various pages of the ThoughtSpot application in full app embedding is relatively fixed, so if you need more control, use the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components. You can xref:page-navigation.adoc[control/customize navigation] within your web application using the full app or other embed components.
+
+[NOTE]
+====
+We do not recommend mixing full app embedding with the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components.
+====
+
+To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
 
 == Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
@@ -116,7 +124,7 @@ https://<ThoughtSpot-Host>/?embedApp=true&primaryNavHidden=true&profileAndHelpIn
 ////
 
 visibleActions __Optional__::
-_Array of strings_. Displays the specified actions in the embedded ThoughtSpot UI. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.
+_Array of strings_. Displays the specified actions in the embedded ThoughtSpot UI. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
 
 +
 [NOTE]
@@ -135,7 +143,7 @@ visibleActions: [Action.Download,Action.Share,Action.Pin,Action.ShowUnderlyingDa
 
 
 hiddenActions __Optional__::
-_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined.
+_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
 
 +
 For example, to hide the *Share* action, specify `Action.Share` in the `hiddenActions` attribute.
@@ -159,7 +167,6 @@ For example, to disable the *Show underlying data* action in the *More* menu ima
 ----
 disabledActions: [Action.ShowUnderlyingData]
 ----
-
 +
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -168,7 +175,7 @@ disabledActions: [Action.ShowUnderlyingData]
 include::{path}/custom-action-note.adoc[]
 
 disabledActionReason __Optional__::
-_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 disableProfileAndHelp __Optional__::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
@@ -192,7 +199,6 @@ Search Assist uses the predefined queries and answers from the worksheet. Users 
 hideObjects [small]_optional_::
 __Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain Liveboards, you can specify the GUIDs of the Liveboards in the `hideObjects` attribute.
 
-+
 [source,JavaScript]
 ----
 hideObjects: ['11f5d5e8-2328-4817-a106-9eff17531e77','e2f49cdd-4d54-466a-841a-e7ecbd9b4400']
@@ -211,7 +217,6 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 path::
 _String_. The URL path of the ThoughtSpot application page to embed.
 
-+
 [NOTE]
 If both `path` and `pageId` attributes are defined, the path definition takes precedence.
 
@@ -236,7 +241,7 @@ Displays the *Data* page
 
 * `Page.Home`
 +
-Displays the *Home* page
+Displays the *Home* page 
 
 * `Page.SpotIQ`
 +
@@ -292,7 +297,6 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners.
 
-Register event listeners.
 [source, javascript]
 ----
 appEmbed.on(EmbedEvent.init, showLoader)
