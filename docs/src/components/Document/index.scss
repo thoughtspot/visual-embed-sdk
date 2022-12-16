@@ -44,8 +44,6 @@
 
     img {
         width: 100%;
-
-
     }
 
     pre {
@@ -61,6 +59,7 @@
         max-height: 700px;
         line-height: $line-height-code;
         box-shadow: var(--box-shadow);
+
     }
 
     pre.highlight {
