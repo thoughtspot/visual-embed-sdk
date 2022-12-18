@@ -43,6 +43,7 @@ beforeAll(() => {
 
 const customisations = {
     style: {
+        customCSS: {},
         customCSSUrl: 'http://localhost:3000',
     },
     content: {},
@@ -50,6 +51,7 @@ const customisations = {
 
 const customisationsView = {
     style: {
+        customCSS: {},
         customCSSUrl: 'http://localhost:8000',
     },
     content: {},
