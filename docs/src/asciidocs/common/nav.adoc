@@ -29,7 +29,7 @@
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 ** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
 ** link:{{navprefix}}=orgs-api-op[Orgs administration]
-** link:{{navprefix}}=multi-tenancy-best-practices[Multi-tenancy with groups]
+** link:{{navprefix}}=multitenancy-without-orgs[Multi-tenancy with groups]
 
 * link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]

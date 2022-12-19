@@ -31,11 +31,11 @@ For more information about system privileges, see  link:https://cloud-docs.thoug
 
 == Sharing visibility
 
-The Sharing visibility configuration allows users and groups to be set as *SHARABLE* or *NOT SHARABLE*.
+The Sharing visibility configuration allows users and groups to be set as *SHAREABLE* or *NOT SHAREABLE*.
 
-For example, if _UserA_ is marked as *SHARABLE*, other users can view _UserA_ in the *Share* dialog when they try to share an object.
+For example, if _UserA_ is marked as *SHAREABLE*, other users can view _UserA_ in the *Share* dialog when they try to share an object.
 
-Similarly, if a user group is set as *NOT SHARABLE*, it does not appear in the *Share* dialog when a user tries to share an object.
+Similarly, if a user group is set as *NOT SHAREABLE*, it does not appear in the *Share* dialog when a user tries to share an object.
 
 [NOTE]
 ====
