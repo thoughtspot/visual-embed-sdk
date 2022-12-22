@@ -332,7 +332,7 @@ To programmatically delete an Org object, send a `DELETE` request to the `/tspub
 
 [NOTE]
 ====
-* Before deleting an Org, you must manually delete the data objects, connections, groups, and user associations.
+* Before deleting an Org, you must manually delete the data objects, connections, groups, and users in the Org.
 * ThoughtSpot does not allow deleting the primary Org (Org 0).
 ====
 
