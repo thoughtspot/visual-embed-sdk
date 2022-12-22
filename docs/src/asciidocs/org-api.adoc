@@ -331,9 +331,10 @@ If the request is successful, the API returns the org details in the JSON respon
 To programmatically delete an Org object, send a `DELETE` request to the `/tspublic/v1/org/` API endpoint. You must specify at least the Org `Id` or `name` in the API request to delete the Org object.
 
 [NOTE]
-----
-ThoughtSpot does not allow deleting the primary Org (Org 0).
-----
+====
+* Before deleting an Org, you must manually delete the data objects, connections, groups, and user associations.
+* ThoughtSpot does not allow deleting the primary Org (Org 0).
+====
 
 === Resource URL
 ----
