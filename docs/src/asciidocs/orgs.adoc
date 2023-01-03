@@ -134,8 +134,7 @@ a|__All API operations are supported except for the CRUD operations of Orgs__.
 The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to authenticate the embedded app users. To determine the authentication method that best suits your deployment, refer to the recommendations listed on the xref:embed-authentication.adoc[Authentication].
 ////
 
-On a multi-tenant cluster with Orgs, ThoughtSpot supports local and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication and `AuthType.TrustedAuthToken` for trusted authentication. For more information, see xref:embed-authentication.adoc[Authentication].
-
+On a multi-tenant cluster with Orgs, ThoughtSpot supports local, SAML, and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication, `AuthType.TrustedAuthToken` for trusted authentication, and `AuthType.EmbeddedSSO` or `AuthType.SAMLRedirect` for SAML SSO authentication. For more information, see xref:embed-authentication.adoc[Authentication].
 
 === Just-in-time user creation and dynamic privilege assignment
 
