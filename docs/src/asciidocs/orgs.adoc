@@ -90,9 +90,9 @@ a| [tag greenBackground]#✓#  User creation and management +
 ////
 __With trusted authentication, administrators can create users just-in-time (JIT) and dynamically assign users to Orgs and groups.__
 ////
-[tag greyBackground]#-#  SAML authentication configuration +
+[tag greenBackground]#✓# SAML authentication configuration +
 
-[tag greyBackground]#-#  OIDC authentication configuration +
+[tag greyBackground]#-# OIDC authentication configuration +
 ////
 __ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
 
@@ -133,7 +133,33 @@ a|__All API operations are supported except for the CRUD operations of Orgs__.
 ////
 The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to authenticate the embedded app users. To determine the authentication method that best suits your deployment, refer to the recommendations listed on the xref:embed-authentication.adoc[Authentication].
 ////
+
 On a multi-tenant cluster with Orgs, ThoughtSpot supports local and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication and `AuthType.TrustedAuthToken` for trusted authentication. For more information, see xref:embed-authentication.adoc[Authentication].
+
+
+=== Just-in-time user creation and dynamic privilege assignment
+
+If trusted authentication is configured in the SDK, the *authenticator service* can send an API request to `/tspublic/v1/session/auth/token` to obtain an authentication token for a given user. If the user doesn't exist in the ThoughtSpot system, you can `autocreate` a user account just-in-time and dynamically assign privileges by adding the user to `groups`.
+
+The `/tspublic/v1/session/auth/token` also allows defining the Org context to which the user must be logged in to after successful authentication. If the user should be logged in to a different Org context, you can specify the Org ID in the `orgid` property and set `autocreate` to `true`.
+
+For more information, see xref:session-api.adoc#session-authToken[Obtain an authentication token] and xref:trusted-authentication.adoc[Trusted authentication].
+
+=== SAML authentication
+
+For SAML authentication, you must ensure that the Org support is enabled for SAML authentication.
+You must also configure the Org information on your IdP so that the SAML users are allowed to access the Orgs to which they belong. To enable Orgs support for SAML authentication on ThoughtSpot, contact ThoughtSpot Support.
+
+The following conditions apply to SAML authentication on a multi-tenant setup:
+
+* If Orgs support is enabled for SAML authentication, and the Org objects to which the user belongs are configured on ThoughtSpot:
+** Multiple Org names can be sent in the SAML assertion.
+** If the Org names are not sent in the SAML assertion, the user is logged in to the default Org (Primary Org).
+** If the user already exists in ThoughtSpot, the user is allowed to access the Orgs sent in the SAML assertion.
+** If the user does not exist in ThoughtSpot, the user is assigned to the Orgs sent in the SAML assertion but is not assigned to any group.
+** If the user is already created in ThoughtSpot and assigned to Orgs and the SAML assertion has different Org names, the user is assigned to only the Orgs sent in the SAML assertion. For example, if a user belongs to Org A and Org B and the SAML assertion includes Org C and Org D, the user is assigned to Org C and Org D and removed from Org A and Org B.
+* If Orgs support is enabled for SAML authentication and the Org objects are not configured ThoughtSpot, the authentication process returns an error.
+* If the Orgs support is not enabled for SAML authentication and Org objects are not configured, the user is assigned to the default Org (Primary Org).
 
 ////
 If you are using SAML SSO to authenticate the embedded application users, you must configure the `orgs` attribute in the SAML authentication profile on ThoughtSpot to map the user to Orgs. To configure SAML authentication support for Orgs, contact ThoughtSpot Support.
@@ -146,13 +172,6 @@ ThoughtSpot doesn't support automatic mapping of SAML groups to ThoughtSpot grou
 ====
 ////
 
-=== Just-in-time user creation and dynamic privilege assignment
-
-If trusted authentication is configured in the SDK, the *authenticator service* can send an API request to `/tspublic/v1/session/auth/token` to obtain an authentication token for a given user. If the user doesn't exist in the ThoughtSpot system, you can `autocreate` a user account just-in-time and dynamically assign privileges by adding the user to `groups`.
-
-The `/tspublic/v1/session/auth/token` also allows defining the Org context to which the user must be logged in to after successful authentication. If the user should be logged in to a different Org context, you can specify the Org ID in the `orgid` property and set `autocreate` to `true`.
-
-For more information, see xref:session-api.adoc#session-authToken[Obtain an authentication token] and xref:trusted-authentication.adoc[Trusted authentication].
 
 == Get started with Orgs
 
