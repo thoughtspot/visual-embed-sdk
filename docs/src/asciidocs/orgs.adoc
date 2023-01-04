@@ -92,7 +92,7 @@ __With trusted authentication, administrators can create users just-in-time (JIT
 ////
 [tag greenBackground]#✓# SAML authentication configuration +
 
-[tag greyBackground]#-# OIDC authentication configuration +
+[tag greyBackground]#–# OIDC authentication configuration +
 ////
 __ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
 
