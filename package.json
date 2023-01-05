@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.18.0-alpha.0",
+    "version": "1.18.0-alpha.4",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -16,6 +16,13 @@
             "import": "./lib/src/react/index.js",
             "require": "./cjs/src/react.index.js",
             "types": "./lib/src/react/index.d.ts"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "react": [
+                "./lib/src/react/index.d.ts"
+            ]
         }
     },
     "scripts": {
