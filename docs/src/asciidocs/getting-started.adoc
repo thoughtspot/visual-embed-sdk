@@ -117,7 +117,7 @@ To avoid page scroll as visualizations load on a Liveboard, you can set the `ful
 
 Call init early::
 
-Call the `init` method as early as possible to complete authentication before the embedded content loads.
+Call the `init` method as early as possible and complete authentication before the embedded content loads.
 
 Prefetch and cache resources::
 

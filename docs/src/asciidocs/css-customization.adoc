@@ -1,4 +1,4 @@
-= Customize CSS [beta betaBackground]^Beta^
+= Customize CSS
 :toc: true
 :toclevels: 2
 
