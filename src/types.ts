@@ -623,9 +623,9 @@ export enum EmbedEvent {
      */
     DialogClose = 'dialog-close',
     /**
-     * Emitted when a liveboard has completed rendering,
-     * this event can be used as a hook to trigger events on the
-     * rendered liveboard
+     * Emitted when the Liveboard shell loads.
+     * You can use this event as a hook to trigger
+     * other events on the rendered Liveboard.
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     LiveboardRendered = 'PinboardRendered',
