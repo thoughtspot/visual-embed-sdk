@@ -15,6 +15,7 @@ The `prefetch` method in the SDK allows your web browsers to prefetch static res
 +
 
 [source,javascript]
+////
 ----
 import {
    LiveboardEmbed,
@@ -29,6 +30,38 @@ prefetch
       url: "https://<hostname>:<port>",
       prefetchFeatures: [PrefetchFeatures.LiveboardEmbed,PrefetchFeatures.VizEmbed]
    });
+init
+   ({
+      thoughtSpotHost: "https://<hostname>:<port>",
+      authType: AuthType.None,
+   });
+----
+////
++
+[source,javascript]
+----
+// App.jsx
+import {
+   prefetch,
+   PrefetchFeatures
+}
+from '@thoughtspot/visual-embed-sdk';
+...
+prefetch
+   ({
+      url: "https://<hostname>:<port>",
+      prefetchFeatures: [PrefetchFeatures.LiveboardEmbed,PrefetchFeatures.VizEmbed]
+   });
+...
+// post-login.jsx
+// might need to be called post application login to get
+// the user's context.
+
+import {
+   AuthType,
+   init,
+}
+from '@thoughtspot/visual-embed-sdk';
 init
    ({
       thoughtSpotHost: "https://<hostname>:<port>",
