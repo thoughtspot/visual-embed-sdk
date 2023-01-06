@@ -121,7 +121,7 @@ Call the `init` method as early as possible and complete authentication before t
 
 Prefetch and cache resources::
 
-Use the `prefetch` method in the SDK to xref:prefetch-and-cache.adoc[prefetch and cache] static resources required for loading the embedded components. Make sure you call prefetch in the `init` method before login process and cache static assets as early as possible.
+Use the `prefetch` method in the SDK to xref:prefetch-and-cache.adoc[prefetch and cache] static resources required for loading the embedded components. Make sure you call the `prefetch` method before calling `init` and cache static assets as early as possible.
 
 Cache query results::
 

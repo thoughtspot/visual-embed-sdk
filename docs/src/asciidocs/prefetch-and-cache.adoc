@@ -5,24 +5,55 @@
 :page-pageid: prefetch
 :page-description: Prefetch static resources before loading an application.
 
-By default, the SDK fetches application resources when the embedded content loads. For optimal performance and faster loading of embedded objects, we recommend prefetching static resources and serving static assets from the local cache of user's browser.
+By default, the SDK fetches application resources when the embedded content loads. For optimal performance and faster loading of embedded objects, we recommend prefetching static resources and serving static assets from the local cache of the user's browser.
 
-The `prefetch` method in the SDK allows your web browsers to prefetch static resources from a given URL before the embedded objects load. You can define the prefetch URL and specify the embed feature components for which they want to prefetch resources and call the prefetch function in the `init` method by setting `callPrefetch` attribute to `true`. You must call the prefetch function before the user login and cache static assets early on. The prefetched resources can then be served from the user's local disk to load your application content fast.
+To prefetch static resources, use one of these options:
+
+* Use the `prefetch` method (Recommended)
++
+The `prefetch` method in the SDK allows your web browsers to prefetch static resources from a given URL before initiating authentication and loading an embedded object. You can define the prefetch URL and specify the embed feature components for which you want to prefetch resources in the `prefetch` method. To improve application response time, call the `prefetch` method before calling the `init` method and initiating authentication.
++
 
 [source,javascript]
 ----
 import {
-    SearchEmbed,
-    AuthType,
-    init,
-    prefetch,
-    PrefetchFeatures
+   LiveboardEmbed,
+   AuthType,
+   init,
+   prefetch,
+   PrefetchFeatures
+}
+from '@thoughtspot/visual-embed-sdk';
+prefetch
+   ({
+      url: "https://<hostname>:<port>",
+      prefetchFeatures: [PrefetchFeatures.LiveboardEmbed,PrefetchFeatures.VizEmbed]
+   });
+init
+   ({
+      thoughtSpotHost: "https://<hostname>:<port>",
+      authType: AuthType.None,
+   });
+----
+
+* Call prefetch in `init`
++
+You can call prefetch in the `init` method by setting `callPrefetch` attribute to `true`.
+
++
+[source,javascript]
+----
+import {
+   LiveboardEmbed,
+   AuthType,
+   init,
+   prefetch,
 }
 from '@thoughtspot/visual-embed-sdk';
 init
-    ({
-        thoughtSpotHost: "https://<hostname>:<port>",
-        authType: AuthType.None,
-        callPrefetch: true,
-    });
+   ({
+      thoughtSpotHost: "https://<hostname>:<port>",
+      authType: AuthType.None,
+      callPrefetch: true
+   });
 ----
