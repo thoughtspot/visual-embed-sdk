@@ -1072,7 +1072,7 @@ function showLoader() {
 ==== LiveboardRendered
 
 Available with `LiveboardEmbed`, `AppEmbed` in `V1.9.1` or later. +
-Is emitted when a Liveboard container has rendered. You can use this event as a hook to trigger other events on a rendered Liveboard.
+Is emitted when a Liveboard container loads. You can use this event as a hook to trigger other events on a rendered Liveboard.
 
 [NOTE]
 ====
