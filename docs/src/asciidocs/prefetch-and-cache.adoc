@@ -5,38 +5,15 @@
 :page-pageid: prefetch
 :page-description: Prefetch static resources before loading an application.
 
-By default, the SDK fetches application resources when the embedded content loads. For optimal performance and faster loading of embedded objects, we recommend prefetching static resources and serving static assets from the local cache of the user's browser.
+By default, the SDK fetches application resources when the embedded app content is requested. For optimal performance and faster loading of embedded objects, we recommend prefetching static resources and serving these static assets from the local cache of the user's browser.
 
 To prefetch static resources, use one of these options:
 
 * Use the `prefetch` method (Recommended)
 +
-The `prefetch` method in the SDK allows your web browsers to prefetch static resources from a given URL before initiating authentication and loading an embedded object. You can define the prefetch URL and specify the embed feature components for which you want to prefetch resources in the `prefetch` method. To improve application response time, call the `prefetch` method before calling the `init` method and initiating authentication.
+The `prefetch` method in the SDK allows your web browsers to prefetch static resources from a given URL on application load. In the `prefetch` method, you can define the prefetch URL and specify the embed components for which you want to prefetch resources. To improve application response time, ThoughtSpot recommends that you call the `prefetch` method as soon as possible when your application initializes.
 +
-
-[source,javascript]
-////
-----
-import {
-   LiveboardEmbed,
-   AuthType,
-   init,
-   prefetch,
-   PrefetchFeatures
-}
-from '@thoughtspot/visual-embed-sdk';
-prefetch
-   ({
-      url: "https://<hostname>:<port>",
-      prefetchFeatures: [PrefetchFeatures.LiveboardEmbed,PrefetchFeatures.VizEmbed]
-   });
-init
-   ({
-      thoughtSpotHost: "https://<hostname>:<port>",
-      authType: AuthType.None,
-   });
-----
-////
+In the following example, the `prefetch` method is called before the `init` method to prefetch resources before the authentication process is initialized.
 +
 [source,javascript]
 ----
@@ -54,7 +31,7 @@ prefetch
    });
 ...
 // post-login.jsx
-// might need to be called post application login to get
+// might need to be called after login to get
 // the user's context.
 
 import {
@@ -71,7 +48,7 @@ init
 
 * Call prefetch in `init`
 +
-You can call prefetch in the `init` method by setting `callPrefetch` attribute to `true`.
+You can call prefetch in the `init` method by setting the `callPrefetch` attribute to `true`.
 
 +
 [source,javascript]
