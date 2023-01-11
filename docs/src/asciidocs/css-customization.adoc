@@ -138,8 +138,9 @@ init({
 
 . After you modify the styles, reload your application and verify the changes.
 
+
 [#supported-variables]
-== Supported variables and rules
+== Supported variables
 ThoughtSpot provides a default CSS file containing the most common variables and rules supported in a given release version. You can apply the overrides within the given file or add variable definitions directly in the code.
 
 === Application-wide settings
@@ -446,6 +447,39 @@ image::./images/custom-css-search.png[CSS customization Search page,link="./doc-
 --
 image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-images/images/custom-css-viz.png"]
 --
+
+== Rules
+
+The `rules` option in the `customCSS` object allows you to apply style overrides to the UI components and elements that cannot be customized using the variables provided by ThoughtSpot. While the `rules` option allows granular customization of individual elements, you must exercise caution because the rule-based style overrides may break when your ThoughtSpot instance is upgraded to a new release version.
+
+When applying style overrides using `rules`, make sure you use the correct style class and values in your rule statements. To find the class name of an element, select the element and click *Inspect* on your browser. The *Elements* tab in the Developer Tools console shows the style classes for the selected element.
+
+The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns that appear on the *Home* page of the ThoughtSpot application. Make sure you add the `_UNSTABLE` suffix to the `rules` property.
+
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    customizations: {
+        style: {
+            customCSS: {
+                rules_UNSTABLE: {
+                    '[data-testid="select-dropdown-header"]':{
+                    "background-color":"#ABC7F9"
+                }
+            }
+         },
+      },
+   },
+});
+----
+
+
+The following figure shows the style override applied using `rules`:
+[.widthAuto]
+[.bordered]
+image::./images/selection-dropdown-after.png[selection dropdown style override]
+
 
 == Sample CSS file with variable definitions
 
