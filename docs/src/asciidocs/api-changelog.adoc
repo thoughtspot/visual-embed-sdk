@@ -59,6 +59,14 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 The new version of the SDK includes bug fixes and improvements to the new Liveboard experience.
 
+== Version 1.15.1, September 2022
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE#|
+The `prefetch` method now supports the `url` and `prefetchFeatures` parameters. You can use these parameters to call the prefetch method before `init` and prefetch static resources on application load. +
+For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources].
+|====
+
 == Version 1.15.0, September 2022
 [width="100%" cols="1,4"]
 |====

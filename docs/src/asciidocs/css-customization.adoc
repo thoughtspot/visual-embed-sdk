@@ -450,11 +450,22 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-
 
 == Rules
 
-The `rules` option in the `customCSS` object allows you to apply style overrides to the UI components and elements that cannot be customized using the variables provided by ThoughtSpot. While the `rules` option allows granular customization of individual elements, you must exercise caution because the rule-based style overrides may break when your ThoughtSpot instance is upgraded to a new release version.
+The `rules` option in the `customCSS` object allows you to apply style overrides to the UI components and elements that cannot be customized using the variables provided by ThoughtSpot.
 
-When applying style overrides using `rules`, make sure you use the correct style class and values in your rule statements. To find the class name of an element, select the element and click *Inspect* on your browser. The *Elements* tab in the Developer Tools console shows the style classes for the selected element.
+[WARNING]
+====
+While the `rules` option allows granular customization of individual elements, note that the rule-based style overrides can break when your ThoughtSpot instance is upgraded to a new release version.
+====
 
-The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns that appear on the *Home* page of the ThoughtSpot application. Make sure you add the `_UNSTABLE` suffix to the `rules` property.
+When defining rules for style overrides:
+
+* Use the correct style class and values in your rule statements. +
+To find the class name of an element: +
+. Right-click on the element and select *Inspect*.
+. Note the style class for the selected element in the *Elements* tab on the *Developer Tools* console.
+* Add the `_UNSTABLE` suffix to the `rules` property.
+
+The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns on the *Home* page of the ThoughtSpot application.
 
 [source,javascript]
 ----
@@ -474,8 +485,7 @@ init({
 });
 ----
 
-
-The following figure shows the style override applied using `rules`:
+The following figure shows the style override applied using the above code example:
 [.widthAuto]
 [.bordered]
 image::./images/selection-dropdown-after.png[selection dropdown style override]
