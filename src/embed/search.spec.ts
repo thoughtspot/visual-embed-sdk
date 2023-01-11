@@ -1,7 +1,7 @@
 import { SearchEmbed, HiddenActionItemByDefaultForSearchEmbed } from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
-import { Action, AuthType } from '../types';
+import { Action, AuthType, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -154,6 +154,32 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('should add runtime filters', async () => {
+        const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSources,
+            searchOptions,
+            runtimeFilters: [
+                {
+                    columnName: 'city',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['berkeley'],
+                },
+            ],
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}&col1=city&op1=EQ&val1=berkeley#/embed/answer`,
             );
         });
     });
