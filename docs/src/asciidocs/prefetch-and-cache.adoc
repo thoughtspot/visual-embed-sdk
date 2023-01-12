@@ -13,7 +13,7 @@ To prefetch static resources, use one of these options:
 +
 The `prefetch` method in the SDK allows your web browsers to prefetch static resources from a given URL on application load. In the `prefetch` method, you can define the prefetch URL and specify the embed components for which you want to prefetch resources. To improve application response time, ThoughtSpot recommends that you call the `prefetch` method as soon as possible when your application initializes.
 +
-In the following example, the `prefetch` method is called before the `init` method to prefetch resources before the authentication process is initialized.
+In the following example, the `prefetch` method is called before `init` to prefetch resources before the authentication process is initialized.
 +
 [source,javascript]
 ----
