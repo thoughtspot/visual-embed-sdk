@@ -8,6 +8,21 @@
 
 This page lists the known issues that you might run into while embedding ThoughtSpot in your app, or when using the embedded interface or making REST API calls.
 
+== Version 8.10.0.cl
+
+[cols="15%,35%,50%"]
+[options='header']
+|===
+|Issue ID |Description| Symptoms, conditions, and workaround
+
+|SCAL-117106| The User account gets locked after a single bad token login attempt a|
+*Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the application locks that user's account. +
+
+*Condition*: This issue is observed in ThoughtSpot deployments with the trusted authentication setup. +
+
+*Workaround*: If you are using the trusted authentication method to authenticate your users, make sure the `getAuthToken` function in the SDK returns a fresh token for each re-login. Avoid using older tokens to renew a user session.
+|===
+
 
 == Version 8.9.0.cl
 
@@ -17,21 +32,15 @@ This page lists the known issues that you might run into while embedding Thought
 |Issue ID |Description| Symptoms, conditions, and workaround
 
 |SCAL-117106| The User account gets locked after a single bad token login attempt a|
-*Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the  application locks that user's account. +
+*Symptom*: If a user attempts to log in to the embedded ThoughtSpot app with an invalid token, the application locks that user's account. +
 
 *Condition*: This issue is observed in ThoughtSpot deployments with the trusted authentication setup. +
 
 *Workaround*: If you are using the trusted authentication method to authenticate your users, make sure the `getAuthToken` function in the SDK returns a fresh token for each re-login. Avoid using older tokens to renew a user session.
-|SCAL-133342 a| The visualizations with no data take a long time to load in an embedded Liveboard. a|
+|SCAL-126662 a| The visualizations with no data take a long time to load in an embedded Liveboard. |
 *Symptom*:  In the Liveboard classic experience mode, when chart visualizations have no data, they clog the render queue and slow down the Liveboard rendering process. The PDF download function also does not work on such Liveboards.  +
 
 *Condition*: This issue is observed in ThoughtSpot deployments with 8.4.0.cl or 8.4.1.sw or later release versions. +
-
-*Workaround*: None
-|SCAL-132654 a| The `fullHeight` setting in the SDK doesn't take effect on embedded Liveboards when the new Liveboard experience is enabled. a|
-*Symptom*:  If the new Liveboard experience is enabled on an embedded view, the embedded Liveboard page shows a double scrollbar despite setting the `fullHeight` parameter to `true` in the SDK.  +
-
-*Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl or later release versions. +
 
 *Workaround*: None
 |===
