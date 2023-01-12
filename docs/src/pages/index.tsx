@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
+import algoliasearch from 'algoliasearch';
 import { queryStringParser, isPublicSite } from '../utils/app-utils';
 import { passThroughHandler, fetchChild } from '../utils/doc-utils';
 import Header from '../components/Header';
@@ -35,7 +36,6 @@ import {
 import { SearchQueryResult } from '../interfaces';
 import { getAllPageIds } from '../components/LeftSidebar/helper';
 import t from '../utils/lang-utils';
-import algoliasearch from 'algoliasearch';
 
 // markup
 const IndexPage = ({ location }) => {
@@ -62,7 +62,11 @@ const IndexPage = ({ location }) => {
     const [leftNavOpen, setLeftNavOpen] = useState(false);
     const [keyword, updateKeyword] = useState('');
     const [isPublicSiteOpen, setIsPublicSiteOpen] = useState(false);
-    const [isDarkMode, setDarkMode] = useState(false);
+    const checkout =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('theme') === 'dark'
+            : null;
+    const [isDarkMode, setDarkMode] = useState(checkout);
 
     useEffect(() => {
         // based on query params set if public site is open or not
@@ -102,7 +106,7 @@ const IndexPage = ({ location }) => {
                 // get and set page title
                 setDocTitle(
                     edges[edgeIndex].node.document.title ||
-                    edges[edgeIndex].node.pageAttributes.title,
+                        edges[edgeIndex].node.pageAttributes.title,
                 );
 
                 // get and set doc page content with dynamic data replaced
@@ -127,7 +131,10 @@ const IndexPage = ({ location }) => {
             setNavTitle(edges[navIndex].node.pageAttributes.title);
 
             // get & set left navigation area content with dynamic link creation
-            const navContentData = passThroughHandler(edges[navIndex].node.html, params)
+            const navContentData = passThroughHandler(
+                edges[navIndex].node.html,
+                params,
+            );
             setNavContent(navContentData);
 
             // set breadcrums data
@@ -149,7 +156,10 @@ const IndexPage = ({ location }) => {
         setNavTitle(edges[navIndex].node.pageAttributes.title);
 
         // get & set left navigation area content with dynamic link creation
-        const navContentData = passThroughHandler(edges[navIndex].node.html, params)
+        const navContentData = passThroughHandler(
+            edges[navIndex].node.html,
+            params,
+        );
         setNavContent(navContentData);
 
         // set breadcrums data
@@ -195,48 +205,49 @@ const IndexPage = ({ location }) => {
     useEffect(() => {
         setAllPageIds(getAllPageIds(navContent));
     }, [navContent]);
-    const [results,setResults]=useState([]);
+    const [results, setResults] = useState([]);
 
     const searchClient = React.useMemo(
         () =>
-          algoliasearch(
-            process.env.GATSBY_ALGOLIA_APP_ID,
-            process.env.GATSBY_ALGOLIA_SEARCH_KEY
-          ),
-        []
-      );
+            algoliasearch(
+                process.env.GATSBY_ALGOLIA_APP_ID,
+                process.env.GATSBY_ALGOLIA_SEARCH_KEY,
+            ),
+        [],
+    );
     const searchIndex = searchClient.initIndex(getAlgoliaIndex());
 
-    useEffect(()=>{
-        if(keyword) {
+    useEffect(() => {
+        if (keyword) {
             searchIndex
-            .search(keyword,{
-                highlightPreTag: '<em class="searchResultHighlightColor">',
-                highlightPostTag: '</em>'
-            })
-            .then(({ hits }) => {
-                const t = hits.reduce((acc, cur:any) => {
-                    if(cur.typedoc) {
-                        acc.push(cur);
-                    }
-                    else if(cur.pageid) {
-                        if (
-                            !acc.some((data) => data.pageid === cur.pageid) &&
-                            allPageIds.includes(cur.pageid)
-                        ) {
+                .search(keyword, {
+                    highlightPreTag: '<em class="searchResultHighlightColor">',
+                    highlightPostTag: '</em>',
+                })
+                .then(({ hits }) => {
+                    const t = hits.reduce((acc, cur: any) => {
+                        if (cur.typedoc) {
                             acc.push(cur);
+                        } else if (cur.pageid) {
+                            if (
+                                !acc.some(
+                                    (data) => data.pageid === cur.pageid,
+                                ) &&
+                                allPageIds.includes(cur.pageid)
+                            ) {
+                                acc.push(cur);
+                            }
                         }
-                    }
-                    return acc;
-                },[]);
-                setResults(t);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                        return acc;
+                    }, []);
+                    setResults(t);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
-    },[keyword]);
-    
+    }, [keyword]);
+
     const optionSelected = (pageid: string, sectionId: string) => {
         updateKeyword('');
         navigate(`${params[NAV_PREFIX]}=${pageid}#${sectionId}`);
@@ -263,7 +274,6 @@ const IndexPage = ({ location }) => {
         return '100%';
     };
     const shouldShowRightNav = params[TS_PAGE_ID_PARAM] !== HOME_PAGE_ID;
-
 
     return (
         <div id="wrapper" data-theme={isDarkMode ? 'dark' : 'light'}>
@@ -322,7 +332,7 @@ const IndexPage = ({ location }) => {
                             breadcrumsData={breadcrumsData}
                             isPublicSiteOpen={isPublicSiteOpen}
                         />
-                        {shouldShowRightNav &&
+                        {shouldShowRightNav && (
                             <div>
                                 <Docmap
                                     docContent={docContent}
@@ -330,7 +340,7 @@ const IndexPage = ({ location }) => {
                                     options={results}
                                 />
                             </div>
-                        }
+                        )}
                     </div>
                 </div>
             </main>

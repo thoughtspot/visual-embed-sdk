@@ -43,7 +43,16 @@ beforeAll(() => {
 
 const customisations = {
     style: {
+        customCSS: {},
         customCSSUrl: 'http://localhost:3000',
+    },
+    content: {},
+};
+
+const customisationsView = {
+    style: {
+        customCSS: {},
+        customCSSUrl: 'http://localhost:8000',
     },
     content: {},
 };
@@ -66,7 +75,8 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                customisations,
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
             });
         });
 
@@ -92,6 +102,36 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.APP_INIT,
                 data: { customisations },
             });
+        });
+
+        test('verify Customisations from viewConfig', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                customizations: customisationsView,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                    mockPort,
+                );
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: { customisations: customisationsView },
+            });
+            expect(getIFrameSrc()).toContain(
+                `customCssUrl=${customisationsView.style.customCSSUrl}`,
+            );
         });
 
         test('when Embed event status have start status', (done) => {
@@ -480,7 +520,50 @@ describe('Unit test case for ts embed', () => {
             );
         });
     });
-
+    describe('get Encoded query param string', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                shouldEncodeUrlQueryParams: true,
+            });
+        });
+        afterAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                shouldEncodeUrlQueryParams: false,
+            });
+        });
+        it('should return the correct encoded query params string', async () => {
+            const tsEmbed = new SearchEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            tsEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
+            });
+        });
+        it('should return the correct encoded query params string when app is embeded', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
+            });
+        });
+    });
     describe('Iframe flags', () => {
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(

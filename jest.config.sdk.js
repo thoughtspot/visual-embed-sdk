@@ -8,12 +8,12 @@ module.exports = {
     coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
     coverageThreshold: {
         './src/': {
-            branches: 87,
+            branches: 88,
             functions: 88,
             lines: 96,
         },
     },
-    testPathIgnorePatterns: ['/lib/', '/docs/'],
+    testPathIgnorePatterns: ['/lib/', '/docs/', '/cjs/'],
     testMatch: ['**/src/**/*.spec.(ts|tsx)'],
     setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     globals: {

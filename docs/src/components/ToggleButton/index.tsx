@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.scss';
 
 const ToggleButton = (props: {
@@ -11,7 +11,13 @@ const ToggleButton = (props: {
                 data-testid="toggle-btn"
                 type="checkbox"
                 id="togBtn"
-                onChange={(e) => props.setDarkMode(e.target.checked)}
+                onChange={(e) => {
+                    props.setDarkMode(e.target.checked);
+                    localStorage.setItem(
+                        'theme',
+                        e.target.checked ? 'dark' : 'light',
+                    );
+                }}
                 checked={props.isDarkMode}
             />
             <div data-testid="slider" className="slider round"></div>
