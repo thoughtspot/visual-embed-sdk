@@ -450,7 +450,7 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-
 
 == Rules
 
-The `rules` option in the `customCSS` object allows you to apply style overrides to the UI components and elements that cannot be customized using the variables provided by ThoughtSpot.
+The `rules` option in the `customCSS` object allows you to apply style overrides to UI components and elements that cannot be customized using the variables provided by ThoughtSpot.
 
 [WARNING]
 ====
