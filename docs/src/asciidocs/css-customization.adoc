@@ -183,6 +183,15 @@ The search bar element that allows passing search tokens.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
 |`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
+|`--ts-var-search-bar-background`|
+--ts-var-search-auto-complete-background
+--ts-var-search-navigation-button-background
+--ts-var-search-bar-navigation-help-text-background
+--ts-var-search-bar-auto-complete-hover-background
+--ts-var-answer-view-table-chart-switcher-background
+--ts-var-answer-view-table-chart-switcher-active-background|
+
+
 |======
 
 === Button elements
@@ -197,7 +206,7 @@ The *Go* button appears as a primary button when the search bar is in the focuse
 ====
 +
 Primary buttons may contain text, text with an icon, or just an icon.
-s
+
 * Secondary  +
 Buttons that trigger additional actions. For example, **More** menu image:./images/icon-more-10px.png[the more options menu] and *Edit* buttons on a Liveboard.
 
