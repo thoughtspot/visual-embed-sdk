@@ -364,7 +364,7 @@ CSS variables for dialogs that prompt the user to select an option or enter info
 [options='header']
 |======
 |Variable|Description
-|`-ts-var-dialog-body-background`|Background color of the dialogs.
+|`--ts-var-dialog-body-background`|Background color of the dialogs.
 |`--ts-var-dialog-body-color`| Font color of the body text displayed on dialogs.
 |`--ts-var-dialog-header-background`|Background color of the header text on dialogs.
 |`--ts-var-dialog-header-color`|Font color of the header text on dialogs.
