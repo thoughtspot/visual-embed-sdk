@@ -4,7 +4,7 @@
 :page-pageid: multi-tenancy
 :page-description: You can set up your ThoughtSpot instance as a multi-tenant cluster
 
-ThoughtSpot supports setting up your cloud application instance to a single-tenant or multi-tenant cluster. +
+ThoughtSpot supports setting up your cloud application instance as a single-tenant or multi-tenant cluster. +
 
 * In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. +
 * In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces.
