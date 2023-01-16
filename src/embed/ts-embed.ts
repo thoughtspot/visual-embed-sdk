@@ -57,9 +57,7 @@ export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
  * We cannot rename v1 event types to maintain backward compatibility
  * @internal
  */
-const V1EventMap = {
-    [EmbedEvent.Data]: [EmbedEvent.V1Data],
-};
+const V1EventMap = {};
 
 /**
  * Base class for embedding v2 experience
