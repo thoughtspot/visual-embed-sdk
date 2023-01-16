@@ -197,10 +197,10 @@ The following figure shows customizable search page components:
 image::./images/search-components-css.png[Search components]
 --
 
-=== Chart switcher on search results and Answer pages
+=== Chart switcher
 The chart switcher icon image:./images/chart-switcher-icon.png[chart switcher] appears on search results and Answer pages:
 
-[width="100%" cols="7,7"]
+[width="100%" cols="8,5"]
 [options='header']
 |======
 |Variable| Description
