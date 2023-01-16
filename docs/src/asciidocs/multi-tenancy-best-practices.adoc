@@ -18,7 +18,7 @@ Just like in physical housing, tenancy within software system takes many differe
 == Multi-tenancy in ThoughtSpot is achieved using groups
 ////
 
-ThoughtSpot recommends using xref:orgs.adoc[Orgs for multi-tenancy]. If you don't want to use Orgs, try the following options:
+ThoughtSpot recommends using xref:orgs.adoc[Orgs for multi-tenancy]. If you don't intend to enable Orgs on your instance, use the following options to segregate and isolate your tenants' data:
 
 * Multi-tenancy at the ThoughtSpot user level
 +
