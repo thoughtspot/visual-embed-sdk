@@ -183,15 +183,29 @@ The search bar element that allows passing search tokens.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
 |`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
-|`--ts-var-search-bar-background`|
---ts-var-search-auto-complete-background
---ts-var-search-navigation-button-background
---ts-var-search-bar-navigation-help-text-background
---ts-var-search-bar-auto-complete-hover-background
---ts-var-answer-view-table-chart-switcher-background
---ts-var-answer-view-table-chart-switcher-active-background|
+|`--ts-var-search-bar-background`| Background color of the search bar.
+|`--ts-var-search-auto-complete-background`| Background color of the search suggestions panel.
+|`--ts-var-search-navigation-button-background`|Background color of the navigation panel that allows you to undo, redo, and reset search operations.
+|`--ts-var-search-bar-navigation-help-text-background`| Background color of the navigation help text that appears at the bottom of the search suggestions panel.
+|`--ts-var-search-bar-auto-complete-hover-background`|Background color of the search suggestion block on hover.
+|======
 
+The following figure shows customizable search page components:
+[div boxDiv]
+[.widthAuto]
+--
+image::./images/search-components-css.png[Search components]
+--
 
+=== Chart switcher on search results and Answer pages
+The chart switcher icon image:./images/chart-switcher-icon.png[chart switcher] appears on search results and Answer pages:
+
+[width="100%" cols="5,7"]
+[options='header']
+|======
+|Variable| Description
+|`--ts-var-answer-view-table-chart-switcher-background`| Background color of the chart switcher on search results and Answer pages.
+`--ts-var-answer-view-table-chart-switcher-active-background`|Background color of the currently selected chart type in the chart switcher.
 |======
 
 === Button elements
@@ -288,12 +302,12 @@ The chart selection widget appears on clicking the *Change visualization* icon i
 image::./images/chart-selection.png[Chart selection widget]
 
 Use the following variables to customize the background color of the chart type icons:
-[width="100%" cols="7,7"]
+[width="100%" cols="5,7"]
 [options='header']
 |======
 |Variable|Description
-|`--ts-var-answer-chart-select-background`|Background color of the selected chart type on the chart selection widget.
-|`--ts-var-answer-chart-hover-background`|Background color of the chart type element when a user hovers over a chart type on the chart selection widget.
+|`--ts-var-answer-chart-select-background` |Background color of the selected chart type on the chart selection widget.|
+`--ts-var-answer-chart-hover-background` |Background color of the chart type element when a user hovers over a chart type on the chart selection widget.
 |======
 
 ==== Filter chips on visualization and answer pages
@@ -342,6 +356,20 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu-text-transform`|Text capitalization specification for the menu items.
 |`--ts-var-menu--hover-background`|Background color for menu items on hover.
 |======
+
+=== Dialogs
+CSS variables for dialogs that prompt the user to select an option or enter information. For example, the Liveboard pin dialog that appears on clicking *Pin* on the Search results or Answer page, the *Show underlying data* dialog that appears on clicking *Show underlying data* on a Liveboard visualization or Answer.
+
+[width="100%" cols="7,7"]
+[options='header']
+|======
+|`-ts-var-dialog-body-background`|Background color of the dialogs.
+|`--ts-var-dialog-body-color`| Font color of the body text displayed on dialogs.
+|`--ts-var-dialog-header-background`|Background color of the header text on dialogs.
+|`--ts-var-dialog-header-color`|Font color of the header text on dialogs.
+|`--ts-var-dialog-footer-background`|Background color of the footer area on dialogs.
+|======
+
 
 ////
 [width="100%" cols="7,5,5"]
@@ -520,12 +548,17 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-search-data-button-font-color: var(--ts-var-root-color);
   --ts-var-search-data-button-font-family: var(--ts-var-root-font-family);
 
-  /******** Search bar ********/
-  --ts-var-search-bar-text-font-color: #ffffff;
+  /******** Search bar, search navigation and auto-suggestion panels ********/
+  --ts-var-search-bar-text-font-color: #1D232F;
   --ts-var-search-bar-text-font-family: var(--ts-var-root-font-family);
   --ts-var-search-bar-text-font-style: normal;
+  --ts-var-search-bar-background: #000000;
+  --ts-var-search-auto-complete-background: #EAEDF2;
+  --ts-var-search-navigation-button-background: #EAEDF2;
+  --ts-var-search-bar-navigation-help-text-background: #EAEDF2;
+  --ts-var-search-bar-auto-complete-hover-background: #C0C6CF;
 
-  /******** Data panel on Search and answers page ********/
+ /******** Data panel on Search and answers page ********/
   --ts-var-answer-data-panel-background-color: initial;
 
   /******** Buttons ********/
@@ -596,6 +629,14 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-menu-font-family: var(--ts-var-root-font-family);
   --ts-var-menu-text-transform: capitalize;
   --ts-var-menu--hover-background: #ABC7F9;
+
+  /**** Dialogs and modals that prompt users to perform an action or enter information *******/
+  --ts-var-dialog-body-background: var(--ts-var-root-background);
+  --ts-var-dialog-body-color: var(--ts-var-root-color);
+  --ts-var-dialog-header-background: #CEDCF5;
+  --ts-var-dialog-header-color: var(--ts-var-root-color);
+  --ts-var-dialog-footer-background: var(--ts-var-root-background);
+
 }
 ----
 

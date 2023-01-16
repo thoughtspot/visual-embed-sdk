@@ -8,6 +8,10 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
+== Version 9.0.0.cl, Coming soon
+
+<TBD>
+
 == Version 8.10.0.cl, January 2023
 
 The 8.10.0.cl release version introduces the following features and enhancements:
