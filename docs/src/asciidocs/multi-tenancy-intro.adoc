@@ -17,7 +17,7 @@ By default, ThoughtSpot operates in the single-tenant mode. If your deployment r
 	<a href="?orgs"><div class="boxHalfWidth">
 <h5>Multi-tenancy with Orgs (Recommended)</h5>
 <p class="boxBody">
-Partition your ThoughtSpot cloud application instance into multiple tenant-specific workspaces called <strong>Orgs</strong>.</p>
+Partition your ThoughtSpot cloud application instance into multiple tenant-specific workspaces called <strong>Orgs</strong></p>
 
 <p class="boxBody"><a href="?orgs">Learn more -></a></p>
 </div>
