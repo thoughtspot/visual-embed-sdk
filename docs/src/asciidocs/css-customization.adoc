@@ -175,7 +175,7 @@ The navigation panel appears at the top of the application page.
 === Search bar and Data panel
 The search bar element that allows passing search tokens.
 
-[width="100%" cols="5,7"]
+[width="100%" cols="7,7"]
 [options='header']
 |======
 |Variable| Description
@@ -200,12 +200,12 @@ image::./images/search-components-css.png[Search components]
 === Chart switcher on search results and Answer pages
 The chart switcher icon image:./images/chart-switcher-icon.png[chart switcher] appears on search results and Answer pages:
 
-[width="100%" cols="5,7"]
+[width="100%" cols="7,7"]
 [options='header']
 |======
 |Variable| Description
 |`--ts-var-answer-view-table-chart-switcher-background`| Background color of the chart switcher on search results and Answer pages.
-`--ts-var-answer-view-table-chart-switcher-active-background`|Background color of the currently selected chart type in the chart switcher.
+|`--ts-var-answer-view-table-chart-switcher-active-background`| Background color of the currently selected chart type in the chart switcher.
 |======
 
 === Button elements
@@ -363,6 +363,7 @@ CSS variables for dialogs that prompt the user to select an option or enter info
 [width="100%" cols="7,7"]
 [options='header']
 |======
+|Variable|Description
 |`-ts-var-dialog-body-background`|Background color of the dialogs.
 |`--ts-var-dialog-body-color`| Font color of the body text displayed on dialogs.
 |`--ts-var-dialog-header-background`|Background color of the header text on dialogs.
