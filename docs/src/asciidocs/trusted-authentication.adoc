@@ -126,9 +126,10 @@ The *authenticator service* will need access to whatever code and other services
 
 If your *authenticator service* must also create users and give them access, you must parse out additional details from the request:
 
-- user email address
-- user display name
-- ThoughtSpot group names to add a user to
+- user email address +
+- user display name +
+- ThoughtSpot group names to add a user to +
+- Org ID to which the user belongs +
 
 User password is not required in the login token request. It can be randomly generated if creating a user account in ThoughtSpot so that the user can only sign in via the embedding application.
 
@@ -150,15 +151,22 @@ Access control (sharing) can be granted during the login token request process b
 
 Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
 
-The typical flow of REST API requests for user creation at the time of a login token request is as follows:
+The typical flow of REST API requests for user creation at the time of a login token request is as follows: +
 
 1. Make a REST API request to xref:user-api.adoc#get-user-details[get the user details].
-2. If the user already exists, compare the `assignedGroups` property for the user with the group they should belong to.
-3. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API request to the `/tspublic/v1/session/auth/token` endpoint. You can also specify the group names to add the user to groups in the same API request.
-4. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint. 
+2. If the user already exists, check the `assignedGroups` property. On clusters with Orgs feature enabled, check the `orgIds` property to verify if athe user mapped to any Org.
+3. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API request to the `/tspublic/v1/session/auth/token` endpoint. You can also specify the Org ID and group name to add the user to the Org and groups in the same API request.
+4. If the user should be logged in to a different Org context, specify the Org ID in the `orgid` property and set `autocreate` to `true`. +
++
+[NOTE]
+====
+Org IDs are integers that are created automatically when a cluster administrator creates an Org. To know the Org IDs of Orgs, you can send a `GET` request to the `/tspublic/v1/session/orgs` API endpoint. If you have cluster administrator privileges, you can use the `/tspublic/v1/org/search` endpoint to get a list of all Orgs available on your cluster.
+====
+
+5. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint. If these groups don't exist in the specified `orgid`, set `autocreate` to `true` to add these groups to the Org.
 6. Request a login token from ThoughtSpot via `/tspublic/v1/session/auth/token` API endpoint.
 7. Return the token to the user's web browser.
- 
+
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.

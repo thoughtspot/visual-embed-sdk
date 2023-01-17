@@ -8,6 +8,37 @@
 
 This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
 
+== Version 8.10.0.cl, January 2023
+
+The 8.10.0.cl release version introduces the following features and enhancements:
+
+TML import API::
+
+The xref:tml-api.adoc#import[`/tspublic/v1/metadata/tml/import`] endpoint now supports re-using GUIDs for new objects created during the import if the `guid` in the imported TML is not being used by any other object on the server.
+
+APIs for Orgs::
+
+This release introduces new REST v1 API endpoints and object properties to support Org operations on a multi-tenant cluster.
+
+Org API endpoints;;
+For multi-tenant clusters with Orgs, ThoughtSpot provides new endpoints to allow CRUD operations for Org objects.
++
+For more information, see xref:org-api.adoc[Org API] and xref:org-manage-api.adoc[Org administration and management via REST API].
+
+Session API endpoints;;
+If the Orgs feature is enabled and Orgs are created on your cluster, the cluster administrators can use the `/tspublic/v1/session/orgs` to xref:session-api#orgSwitch[Switch between Orgs].
+
++
+For deployments with the trusted authentication framework, you can use the `/tspublic/v1/session/auth/token` API endpoint lets you xref:session-api.adoc#session-authToken[create a user just-in-time and dynamically assign Orgs, groups, and privileges to that user].
+
+Mapping Orgs to users and groups;;
+On multi-tenant clusters with Orgs, the `user` and `group` API endpoints allow assigning users and groups to an Org object.
+For more information, refer to the following articles:
+* xref:user-api.adoc#create-user[create a user]
+* xref:user-api.adoc#update-user[update user details]
+* xref:user-api.adoc##delete-user[delete a user account]
+* xref:group-api.adoc#create-group[create a group]
+
 == Version 8.9.0.cl, November 2022
 
 Session API::
@@ -18,7 +49,7 @@ In 8.9.0.cl, ThoughtSpot will rebrand the object name `pinboard` to `liveboard` 
 
 User API::
 
-The xref:user-api.adoc#create-user[POST /tspublic/v1/user/] and xref:user-api.adoc#update-user[PUT /tspublic/v1/user/{userid}] API endpoints allow you set the `triggeredbyadmin` to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+The xref:user-api.adoc#create-user[POST /tspublic/v1/user/] and xref:user-api.adoc#update-user[PUT /tspublic/v1/user/{userid}] API endpoints allow you set the `triggeredbyadmin` flag to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
 
 == Version 8.8.0.cl, October 2022
 

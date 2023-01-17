@@ -8,9 +8,9 @@
 
 When you embed ThoughtSpot into your app, your application URL will be set as  `<your-company-name>.thoughtspot.cloud` by default. The system-generated email notifications from your embedded ThoughtSpot instance will also include `thoughtspot.cloud` in the domain name.
 
-To ensure that embedding works on browsers that don't allow third-party cookies, such as Safari's default security setting and Firefox when in strict mode, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. For example, you might want to use `<app-name>.<your-company-name>.com` as your base URL, instead of `<your-company-name>.thoughtspot.cloud`. 
+To ensure that embedding works on browsers that don't allow third-party cookies, such as Safari's default security setting and Firefox when in strict mode, you may want to set the domain name of the ThoughtSpot instance to the same domain as your host application. For example, you might want to use `<app-name>.<your-company-name>.com` as your base URL, instead of `<your-company-name>.thoughtspot.cloud`.
 
-Similarly, you might want to include your business domain name instead of `thoughtspot.com` in all system-generated notifications. For example, you might want your Liveboard schedule notifications to show the sender's address as `<user-name>@<your-domain-name>`, instead of the default `TS Admin no-reply@notifications.thoughtspot.com`.
+Similarly, you may want to include your business domain name instead of `thoughtspot.com` in all system-generated notifications. For example, you might want your Liveboard schedule notifications to show the sender's address as `<user-name>@<your-domain-name>`, instead of the default `TS Admin no-reply@notifications.thoughtspot.com`.
 
 For all such domain-related customizations, we recommend that you contact ThoughtSpot Support. We also recommend that you read the following guidelines before initiating a request for the domain name or URL change.
 

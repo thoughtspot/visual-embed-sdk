@@ -1,0 +1,193 @@
+= Multi-tenancy with Orgs
+:toc:
+:toclevels: 1
+
+:page-title: Multi-tenancy and orgs
+:page-pageid: orgs
+:page-description: You can now configure your ThoughtSpot instance as a mult-tenant cluster with separate Org containers for your tenants.
+
+If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, use the *Orgs* feature. Using Orgs, you can set boundaries within the ThoughtSpot system and isolate each tenant's data in such a way that it is independent of and invisible to other tenant workspaces configured on the same application instance.
+
+The following figure illustrates the primary difference between a single-tenant and multi-tenant deployment:
+
+image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
+
+The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
+
+[WARNING]
+====
+After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
+If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
+====
+
+== Orgs in ThoughtSpot
+
+If the Orgs feature is enabled on your instance, a *Primary Org* will be created by default. This default Org is identified as Org `0`. The cluster administrator can create an Org for each tenant account, configure groups and assign users, and define access to data objects within that org.  Each Org serves as an independent container with its own set of users, groups, and data objects, and provides the same user experience as that of a regular ThoughtSpot instance.
+
+The following diagram depicts the Orgs presentation on a multi-tenant ThoughtSpot instance.
+
+image::./images/org-hierarchy.png[Multi-tenant ThoughtSpot environment]
+
+=== User roles
+
+On a multi-tenant instance, ThoughtSpot supports the following user roles:
+
+* Cluster administrator +
+By default, the administrator of the primary Org (Org 0) is assigned the privileges of a cluster administrator.
+The cluster administrator can access all Orgs and perform the following CRUD operations:
+
+** Create and manage Orgs
+** Add users to Orgs
+** Administer cluster
+** Manage user identity and access management (IAM)
++
+The cluster administrator can also act as an individual Org administrator and perform administration tasks within an Org context.
+
+* Org administrator +
+An Org administrator administers and manages users, groups, and data objects of their respective Org. Typically, Org administrators create groups within their Org and assign privileges to the users of their Org.
+
+* Org users +
+An Org user can access only the Orgs to which they belong. A user can belong to more than one Org and access data objects and metadata based on the privileges assigned to the groups to which they belong.
+
+=== All Orgs scope
+
+On a multi-tenant ThoughtSpot instance, all operations are run in the context of the Org.
+
+If a cluster administrator wants to perform a Create, Read, Update, or Delete (CRUD) operation or apply a configuration change to all Orgs, they must override the Org context and apply the changes at the `All` Orgs level via the UI or API calls. If using API, the cluster administrator must explicitly set the Org scope to `ALL` in their API requests.
+
+[NOTE]
+====
+* The `Primary Org (Org 0)` is the default Org and cannot be deleted.
+* Each Org is identified by a unique name and ID, and can have its own users and groups.
+* Groups are unique to an Org and can be created only within the context of an Org.
+* A user can belong to multiple Orgs and can switch between the Org context. At any given time, a user can only access objects and data in the Org they have logged into.
+* A user from one Org cannot share an object with the users of another Org.
+====
+
+== Feature availability on a multi-tenant instance
+
+On an Orgs-enabled cluster, certain UI and API operations are allowed only at the cluster level. The following table lists the features and configuration operations allowed at the cluster or individual Org level.
+
+
+[width="100%" cols="5,7,7"]
+[options='header']
+|=====
+|Feature category|At the cluster (All Orgs) level|At the Org level +
+|User management a| [tag greenBackground]#✓# User creation and management +
+
+[tag greenBackground]#✓# User association to Orgs
+a| [tag greenBackground]#✓#  User creation and management +
+
+[tag greenBackground]#✓# User association to groups
+|Groups and privileges| [tag greyBackground]#–# |__Groups and privilege configuration and management are restricted to Org context only.__
+|Authentication a| [tag greenBackground]#✓#  Local authentication configuration +
+
+[tag greenBackground]#✓#  Trusted authentication +
+
+////
+__With trusted authentication, administrators can create users just-in-time (JIT) and dynamically assign users to Orgs and groups.__
+////
+[tag greenBackground]#✓# SAML authentication configuration +
+
+[tag greyBackground]#–# OIDC authentication configuration +
+////
+__ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
+
+__OIDC authentication is supported only if users are already created and mapped to Orgs.__
+////
+a|
+[tag greyBackground]#–#
+|Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
+|Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
+
+[tag greenBackground]#✓#  Object creation and management
+| Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
+
+[tag greenBackground]#✓# User mapping to Orgs  +
+
+a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
+
+[tag greenBackground]#✓#  Object sharing with other users and groups in the Org
+|Customization|[tag greenBackground]#✓#  Style customization +
+
+[tag greenBackground]#✓#  Custom domain configuration +
+
+[tag greenBackground]#✓#  From ID customization for system notifications +
+
+[tag greenBackground]#✓#  Onboarding settings and welcome message customization |[tag greyBackground]#–#|
+Custom actions| [tag greyBackground]#–# |__Custom action creation and group association are supported only at the Primary Org (Org 0) level.__
+|Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
+|Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
+|REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
+
+__Group provisioning and custom action group association API operations are not supported__.
+a|__All API operations are supported except for the CRUD operations of Orgs__.
+|REST API v2[beta blueBackground]^BETA^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
+|=====
+
+== Authentication considerations for embedded apps
+
+////
+The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to authenticate the embedded app users. To determine the authentication method that best suits your deployment, refer to the recommendations listed on the xref:embed-authentication.adoc[Authentication].
+////
+
+On a multi-tenant cluster with Orgs, ThoughtSpot supports local, SAML, and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication, `AuthType.TrustedAuthToken` for trusted authentication, and `AuthType.EmbeddedSSO` or `AuthType.SAMLRedirect` for SAML SSO authentication. For more information, see xref:embed-authentication.adoc[Authentication].
+
+=== Just-in-time user creation and dynamic privilege assignment
+
+If trusted authentication is configured in the SDK, the *authenticator service* can send an API request to `/tspublic/v1/session/auth/token` to obtain an authentication token for a given user. If the user doesn't exist in the ThoughtSpot system, you can `autocreate` a user account just-in-time and dynamically assign privileges by adding the user to `groups`.
+
+The `/tspublic/v1/session/auth/token` also allows defining the Org context to which the user must be logged in to after successful authentication. If the user should be logged in to a different Org context, you can specify the Org ID in the `orgid` property and set `autocreate` to `true`.
+
+For more information, see xref:session-api.adoc#session-authToken[Obtain an authentication token] and xref:trusted-authentication.adoc[Trusted authentication].
+
+=== SAML authentication
+
+For SAML authentication, you must ensure that the Org support is enabled for SAML authentication.
+You must also configure the Org information on your IdP so that the SAML users are allowed to access the Orgs to which they belong. To enable Orgs support for SAML authentication on ThoughtSpot, contact ThoughtSpot Support.
+
+The following conditions apply to SAML authentication on a multi-tenant setup:
+
+* If Orgs support is enabled for SAML authentication, and the Org objects to which the user belongs are configured on ThoughtSpot:
+** Multiple Org names can be sent in the SAML assertion.
+** If the Org names are not sent in the SAML assertion, the user is logged in to the default Org (Primary Org).
+** If the user already exists in ThoughtSpot, the user is allowed to access the Orgs sent in the SAML assertion.
+** If the user does not exist in ThoughtSpot, the user is assigned to the Orgs sent in the SAML assertion but is not assigned to any group.
+** If the user is already created in ThoughtSpot and assigned to Orgs and the SAML assertion has different Org names, the user is assigned to only the Orgs sent in the SAML assertion. For example, if a user belongs to Org A and Org B and the SAML assertion includes Org C and Org D, the user is assigned to Org C and Org D and removed from Org A and Org B.
+* If Orgs support is enabled for SAML authentication and the Org objects are not configured ThoughtSpot, the authentication process returns an error.
+* If the Orgs support is not enabled for SAML authentication and Org objects are not configured, the user is assigned to the default Org (Primary Org).
+
+////
+If you are using SAML SSO to authenticate the embedded application users, you must configure the `orgs` attribute in the SAML authentication profile on ThoughtSpot to map the user to Orgs. To configure SAML authentication support for Orgs, contact ThoughtSpot Support.
+
+Your IdP must also have the `orgs` attribute configured to send the Org information in SAML assertion so that the SSO user can be logged in to the appropriate Org. The `orgs` attribute must include all Org names that the user can access.
+
+[IMPORTANT]
+====
+ThoughtSpot doesn't support automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster. Therefore, we recommend using xref:trusted-authentication.adoc[Trusted authentication], which supports just-in-time user creation, dynamic group mapping, and privilege assignment.
+====
+////
+
+
+== Get started with Orgs
+
+[NOTE]
+=====
+Before you get started with Orgs, make sure you read the documentation and understand the features supported on a multi-tenant setup.
+=====
+To get started with Orgs:
+
+. Configure your ThoughtSpot instance as a multi-tenant cluster. To enable multi-tenant setup on your instance, contact ThoughtSpot support.
+. Log in to your application instance as an administrator.
++
+If the Orgs feature is enabled on your cluster, a Primary Org is created by default, and you will be logged in to the Primary Org context.
+. Create Orgs in the *Admin* page of the UI or via xref:org-api.adoc#createOrg[REST API].
++
+To create and manage Orgs, you must set the Org context to `All`. To do this, you can switch to the *All Orgs* tab in the Admin page of UI or pass the Org scope `ALL` in your API requests to Orgs API endpoints. For more information, see xref:org-api.adoc[Org API].
+. Create users and map the users to Orgs.
++
+You can create an administrator profile for each Org and let these Org administrators manage users, groups, and role privileges in their respective Orgs.
+
++
+
+Note that ThoughtSpot allows provisioning groups only within the context of an Org. You must ensure that ThoughtSpot users are mapped to appropriate Orgs and the groups within these Orgs for user access control and data security.

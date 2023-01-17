@@ -194,8 +194,7 @@ Removes the visualization from the Liveboard.
 |
 `Action.ToggleSize`|`LiveboardEmbed` +
 `AppEmbed`| The *Resize* icons in the **More** actions menu. +
-Allows resizing a visualization on a Liveboard.
-|
+Allows resizing a visualization on a Liveboard.|
 `Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
  Allows drilling down the visualization to get granular data. Available as a contextual menu action.
@@ -257,8 +256,16 @@ Removes the visualization from the Liveboard.
 |`Action.ToggleSize`|`LiveboardEmbed` +
 `AppEmbed`| The *Resize* icons in the **More** actions menu. +
 Allows resizing a visualization on a Liveboard.
-|
-`Action.DrillDown`|`LiveboardEmbed` +
+|`Action.SyncToSheets`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
+Allows creating a sync to send data to the Google Sheets app.|
+`Action.SyncToOtherApps`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to other apps* action in the **More** actions menu. +
+Allows creating a sync to send data to external business apps such as Slack, Salesforce, and Microsoft Teams.
+|`Action.ManagePipelines`|`LiveboardEmbed` +
+`AppEmbed`| The *Manage pipelines* action in the **More** actions menu. +
+Allows managing data sync pipelines to external business apps set as sync destinations in ThoughtSpot.
+|`Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
 Allows drilling down the visualization to get granular data. Available as a contextual menu action.
 |`Action.DrillExclude`|`LiveboardEmbed` +
@@ -323,6 +330,16 @@ Downloads the answer data in the XLSX file format. Available only for tables.
 |`Action.DownloadAsPdf`|`SearchEmbed` +
 `AppEmbed` |*Download as PDF* +
 Downloads the answer data as a PDF file. Available only for tables.
+
+|`Action.SyncToSheets`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
+Allows creating a sync to send data to the Google Sheets app.|
+`Action.SyncToOtherApps`|`LiveboardEmbed` +
+`AppEmbed`| The *Sync to other apps* action in the **More** actions menu. +
+Allows creating a sync to send data to external business apps such as Slack, Salesforce, and Microsoft Teams.
+|`Action.ManagePipelines`|`LiveboardEmbed` +
+`AppEmbed`| The *Manage pipelines* action in the **More** actions menu. +
+Allows managing data sync pipelines to external business apps set as sync destinations in ThoughtSpot.
 
 |`Action.DrillExclude`|`SearchEmbed` +
 `AppEmbed`|*Exclude* +

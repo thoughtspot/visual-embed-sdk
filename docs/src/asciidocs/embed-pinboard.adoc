@@ -6,7 +6,19 @@
 :page-pageid: embed-liveboard
 :page-description: You can use the LiveboardEmbed SDK library to embed a ThoughtSpot Liveboard in your app and use it for live insights
 
-This page explains, through an example, how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
+This page explains how to embed a ThoughtSpot Liveboard in your Web page, portal, or application.
+
+== Overview
+
+A ThoughtSpot Liveboard is an interactive dashboard that presents a collection of visualizations pinned by a user. ThoughtSpot Liveboards are available the following modes:
+
+* Classic experience mode
+* New experience mode [beta betaBackground]^Beta^
++
+By default, the new Liveboard experience is turned off on embedded instances. You can enable it using the `liveboardV2` setting in the `LiveboardEmbed` SDK. However, ThoughtSpot recommends using classic Liveboard experience on embedded apps until the new Liveboard experience is GA.
+
+==== Liveboard layout in embedded mode
+In the new Liveboard experience mode, the embedded Liveboard resizes to one-column layout if the screen width is 1024px or less. In classic experience mode, the embedded Liveboard adjusts its layout to two-column or one-column view to fit the screen width and orientation of the user's device.
 
 == Import the LiveboardEmbed package
 

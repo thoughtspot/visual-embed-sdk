@@ -165,7 +165,7 @@ module.exports = {
         {
             resolve: 'gatsby-plugin-manifest',
             options: {
-                name: 'ThoughtSpot Software Documentation',
+                name: 'ThoughtSpot Everywhere Documentation',
                 short_name: 'Documentation',
                 icon: `${__dirname}/docs/src/assets/icons/favicon.png`,
             },

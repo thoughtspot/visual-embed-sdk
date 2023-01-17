@@ -1,40 +1,41 @@
-= Embed ThoughtSpot Search page
+= Embed ThoughtSpot search bar [beta betaBackground]^Beta^
 :toc: true
 :toclevels: 1
 
-:page-title: Embed Search page
-:page-pageid: search-embed
-:page-description: You can use the SearchEmbed SDK library to embed ThoughtSpot search and use it for live queries.
+:page-title: Embed Search
+:page-pageid: embed-searchbar
+:page-description: You can use the SearchBarEmbed SDK library to embed ThoughtSpot search bar in your application.
 
-The `SearchEmbed` package in the Visual Embed SDK allows you to embed the entire ThoughtSpot Search page with the following components:
+If you want to embed just the ThoughtSpot search bar in applications such as Google Sheets, use the `SearchBarEmbed` package in the Visual Embed SDK.
+
+The `SearchBarEmbed` package allows you to embed the following components:
 
 * Search bar +
 +
-ThoughtSpot search bar that allows passing search tokens. The embedded search bar includes the *Go*, *Undo*, *Redo*, and *Reset* buttons. +
+ThoughtSpot search bar that allows passing search tokens. The search bar is responsive and can be adjusted to fit the screen width of your web application or mobile app.
+
+* *Get data* button
++
+The *Get data* button triggers the `data` embed event (`EmbedEvent.Data`), which returns the answer data. Your host application can use this raw data as a payload and render it in the way you want.
 
 * Data panel +
-The panel that allows your application users to choose data sources, and apply formula and filters. You can choose to hide or collapse the data panel using `hideDataSources` or `collapseDataSources` properties.
+The data sources panel that allows users to choose the data sources to search from, and apply formulas and filters. The current version of the SDK doesn't allow you to hide or collapse data panel.
 
-* Search results +
-The part of the search page that displays charts and tables. The embedded page will show menu options to modify charts and tables. The SDK allows you to customize your menu options by using the `visibleActions`, `hiddenActions` and `disabledActions` properties,
-You can also choose to hide the chart or table and display the retrieved from a search query in the format you like.
 
-The following figure shows a ThoughtSpot search page with search bar, data panel, and chart generated from a search query:
+The following figure shows an example of an embedded search bar with the data panel.
 
 [.bordered]
-image::./images/searchembed-with-chart.png[Search page embed]
+image::./images/searchbarembed.png[Search bar embed]
 
-To embed ThoughtSpot search page in your app, complete the following steps:
+== Import the SearchBarEmbed package
 
-== Import the SearchEmbed package
-
-Import the `SearchEmbed` SDK library to your application environment:
+Import the `SearchBarEmbed` SDK library to your application environment:
 
 **npm**
 [source,javascript]
 ----
 import {
-    SearchEmbed,
+    SearchBarEmbed,
     AuthType,
     init,
     prefetch,
@@ -49,7 +50,7 @@ from '@thoughtspot/visual-embed-sdk';
 ----
 <script type = 'module'>
     import {
-        SearchEmbed,
+        SearchBarEmbed,
         AuthType,
         init,
         prefetch,
@@ -62,27 +63,18 @@ from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es
 
 xref:getting-started.adoc#initSdk[Initialize the SDK] and define authentication attributes.
 
-== Create an instance of the SearchEmbed class
+== Create an instance of the SearchBarEmbed class
 
-Create an instance of the SearchEmbed object and customize your search page view.
+Create an instance of the SearchBarEmbed object and customize your search page view.
 
 [source,javascript]
 ----
-const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+const searchBarEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
     frameParams: {
         width: '100%',
         height: '100%',
     },
-    answerId: "<%=savedAnswerGUID%>",
     dataSources: ['<%=datasourceGUID%>'],
-    collapseDataSources: false,
-    disabledActions: [],
-    disabledActionReason: '<reason for disabling>',
-    enableSearchAssist: true,
-    forceTable: false,
-    hiddenActions: [],
-    hideDataSources: false,
-    hideResults: false,
     searchOptions: {
         searchTokenString: '<TML-query-string>',
         executeSearch: true,
@@ -92,7 +84,7 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 ////
 [source,javascript]
 ----
-const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
+const searchEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
     frameParams: {
         width: '100%',
         height: '100%',
@@ -134,17 +126,9 @@ answerID __Optional__::
 _String_. The Global Unique Identifiers (GUID) of the answers saved in a user profile.
 
 dataSources::
-_Array of strings_. The GUIDs of the data sources for running a search query on.
+_Array of strings_. The GUIDs of the data sources which you want to query.
 
-collapseDataSources __Optional__::
-_Boolean_. When set to true, it minimizes the Data Source panel.
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?collapseDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
+////
 visibleActions __Optional__::
 _Array of strings_. Displays the specified actions on the search result page. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
 
@@ -162,7 +146,6 @@ visibleActions: [Action.DownloadAsPDF,Action.DownloadAsCSV,Action.Save,Action.Sh
 ++++
 <a href="{{previewPrefix}}/playground/search?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
 
 hiddenActions __Optional__::
 _Array of strings_. Hides the specified actions on the search result page. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
@@ -207,36 +190,7 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 ++++
 <a href="{{previewPrefix}}/playground/search?hideDataSources=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
-
-enableSearchAssist _optional_::
-_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
-
-+
-Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-forceTable __Optional__::
-_Boolean_. When set to `true`, the tabular view is set as the default format for presenting search data. 
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
-hideResults __Optional__::
-_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved answer.
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
+////
 [#search-query]
 searchOptions __Optional__::
 Allows you to specify a search token string and execute search.
@@ -264,18 +218,17 @@ searchOptions: {
 <a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-== Define a method to process callback custom action payloads
-
-include::{path}/callback-payload.adoc[]
-
 == Register, handle, and trigger events
 
 Register event listeners. 
 
 [source, javascript]
 ----
-searchEmbed.on(EmbedEvent.Init, showLoader)
-searchEmbed.on(EmbedEvent.Load, hideLoader)
+searchBarEmbed.on(EmbedEvent.Init, showLoader)
+searchBarEmbed.on(EmbedEvent.Load, hideLoader)
+searchBarEmbed.on(EmbedEvent.Data, payload => {
+    console.log('data', payload);
+})
 ----
  
 For more information, see xref:embed-events.adoc[Interact with events].
@@ -284,18 +237,16 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 [source, javascript]
 ----
-searchEmbed.render();
+searchBarEmbed.render();
 ----
 
 == Test the embedded workflow
 
 * Load your application.
-* Perform a search operation and verify the results. 
-* Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
-* Verify if the actions are displayed or hidden as configured in the SDK.
+* Perform a search operation.
 * Check the console log and verify if the registered events are emitted.
- 
+
 == Additional resources
 
-* For code examples, see xref:code-samples.adoc[Code samples].
+* For code examples, see xref:code-samples.adoc#_embed_thoughtspot_search[Code samples].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].

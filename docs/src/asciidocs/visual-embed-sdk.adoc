@@ -48,7 +48,7 @@ Learn how to set up xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentic
 --
 +++<h5>Embed search</h5>+++
 
-Learn xref:embed-search.adoc[how to embed ThoughtSpot search] in your application. 
+Learn how to embed xref:embed-searchbar.adoc[ThoughtSpot Search bar] and xref:embed-search.adoc[Search page elements] in your application.
 --
 
 [div boxDiv boxFullWidth]

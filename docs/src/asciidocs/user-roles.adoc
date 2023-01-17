@@ -35,7 +35,7 @@ Name of the group. For example, `Developer Group`.
 Display name::
 Name of the group as it appears in ThoughtSpot. For example, `Embed Developer`.
 Sharing visibility::
-Specify if users can share objects with this group. When set to `SHARABLE`, ThoughtSpot allows other users to share objects with the members of this group.
+Specify if users can share objects with this group. When set to `SHAREABLE`, ThoughtSpot allows other users to share objects with the members of this group.
 Description::
 __Optional__. Enter a description for the group.
 Privileges::
@@ -59,7 +59,7 @@ A unique login name for the user. Usernames must be in lowercase.
 Display name::
 A unique name for the user. For example, the first and last name of the user.
 Sharing visibility::
-Specify if other users can share objects with this user. When set to *SHARABLE*, this user is visible in the *Share* dialog when another user tries to share an object.
+Specify if other users can share objects with this user. When set to *SHAREABLE*, this user is visible in the *Share* dialog when another user tries to share an object.
 Change password::
 A password for the user account. 
 Confirm password::

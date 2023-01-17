@@ -6,7 +6,7 @@
 :page-pageid: Liveboard-new-experience
 :page-description: You can enable the new Liveboard experience on Liveboards embedded using the `LiveboardEmbed` or `AppEmbed` SDK library.
 
-The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. The new Liveboard experience is in Beta on embedded instances and is turned off by default. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
+The new Liveboard experience [beta betaBackground]^Beta^ in ThoughtSpot includes several new features and user-experience improvements. The new Liveboard experience is in Beta on embedded instances and is turned off by default. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
 
 == Enable new Liveboard experience for all users
 
@@ -46,7 +46,7 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
 
 == Liveboard experience
 
-The actions and menu options on the embedded Liveboard page vary based on the Liveboard experience setting. If the new Liveboard experience is enabled, you will see the following menu options and enhancements:
+The new Liveboard experience introduces notable changes, new menu options, and enhancements.
 
 Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page. For example, to delete a visualization on a Liveboard, the user must click *Edit*, and then navigate to the *Delete* option on a visualization.
@@ -74,6 +74,8 @@ The following figure illustrates the menu actions available on a Liveboard page:
 [.bordered]
 [.widthAuto]
 image:./images/liveboard-exp-diff.png[Liveboard experience comparison]
+
+
 
 == Customize embedded Liveboards
 
@@ -135,6 +137,14 @@ If the custom tile size feature is enabled on your instance, and you have edit a
 . On the Liveboard page, click the *Edit* button in the top menu bar.
 . Select a visualization tile, click the size-changing icon in the bottom right corner, and drag the visualization tile to the desired size.
 . Repeat the steps to resize other visualizations on the Liveboard.
+
+=== Known issues and limitations
+
+Note the following issues and limitations before you enable new Liveboard experience on your embedded instance:
+
+* Custom actions, particularly __local__ actions, may not show on visualization pages or work as expected.
+* The `locale` setting translates only some parts of the embedded Liveboard such as the menu action labels.
+* The *Upload TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

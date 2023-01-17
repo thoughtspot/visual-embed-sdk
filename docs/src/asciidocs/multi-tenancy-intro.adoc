@@ -1,0 +1,48 @@
+= Multi-tenancy
+
+:page-title: Multi-tenancy overview
+:page-pageid: multi-tenancy
+:page-description: You can set up your ThoughtSpot instance as a multi-tenant cluster
+
+ThoughtSpot supports setting up your cloud application instance as a single-tenant or multi-tenant cluster. +
+
+* In the single-tenant mode, ThoughtSpot lets you manage all of your organization's objects, data, users, and groups from a single workspace. +
+* In the multi-tenant mode, a ThoughtSpot cloud application instance can be partitioned into multiple logical tenant-specific workspaces.
+
+By default, ThoughtSpot operates in the single-tenant mode. If your deployment requires logical separation of departments within your organization, or if it involves supporting many distinct organizations from a single application instance, use one of the following features:
+
+++++
+<div class="row">
+<div class="col-md-6">
+	<a href="?orgs"><div class="boxHalfWidth">
+<h5>Multi-tenancy with Orgs (Recommended)</h5>
+<p class="boxBody">
+Partition your ThoughtSpot cloud application instance into multiple tenant-specific workspaces called <strong>Orgs</strong></p>
+
+<p class="boxBody"><a href="?orgs">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+<div class="col-md-6">
+	<a href="?multitenancy-without-orgs">	<div class="boxHalfWidth">
+<h5>Multi-tenancy with Groups</h5>
+<p class="boxBody">
+Use the sharing visibility property of ThoughtSpot Groups to isolate and secure tenant data</p>
+<p><a href="?multitenancy-without-orgs">Learn more -></a></p>
+</div>
+</a>
+</div>
+
+</div>
+
+++++
+
+
+== Related information
+
+* xref:orgs.adoc#_get_started_with_orgs[Get started with orgs]
+* xref:org-manage-api.adoc[Org administration and management via REST API]
+* xref:multi-tenancy-best-practices.adoc#_best_practices_for_multi_tenant_database_and_single_tenant_databases_models[Multi-tenancy best practices]
+* xref:group-api.adoc[Group API]
+* xref:user-api.adoc[User API]

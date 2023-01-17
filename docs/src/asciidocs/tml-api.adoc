@@ -69,9 +69,9 @@ Validates the objects but does not import them.|`PARTIAL`
 a|
 `force_create` a| __Boolean__. Specifies if you are updating or creating objects. To create new objects, specify `true`.
 
-By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the GUID property in the imported TML is replaced on the server, and the response headers will include the `id_guid` property with the GUID of the new object. 
-
-The new object will be assigned a new GUID, even if the imported TML file included a `guid` value. Thus, there is no need to include the `guid` in the TML file if you set `force_create` to `true`.
+By default, ThoughtSpot updates existing objects that have the same GUID as the objects you are importing. When set to `true`, the `guid` property in the imported TML is replaced with a new GUID if the GUID is being used by another object on the server.  +
+If the imported TML file includes a `guid` that is not used by any other object, ThoughtSpot creates a new object with the same `guid` from the imported TML file. +
+To know GUID assigned to the new object created from TML import, check the `id_guid` property in the response headers.
 
 |`false`|
 |====

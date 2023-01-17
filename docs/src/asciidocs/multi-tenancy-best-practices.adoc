@@ -1,11 +1,12 @@
-= Multi-tenancy best practices
+= Multi-tenancy with groups
 :toc: true
 :toclevels: 1
 
 :page-title: Multi-tenancy best practices
-:page-pageid: multi-tenancy-best-practices
-:page-description: Multi-tenancy is achieved in ThoughtSpot via group configuration
+:page-pageid: multitenancy-without-orgs
+:page-description: Multi-tenancy can be achieved in ThoughtSpot via group configuration
 
+////
 There are many situations where ThoughtSpot must be configured for multi-tenancy. With ThoughtSpot Everywhere, almost every deployment involves an application developer providing content to many distinct organizations. A ThoughtSpot Enterprise deployment may require separation between departments within the larger company. In both cases, the techniques in this article for creating separation of users and content will apply.
 
 == What is multi-tenancy?
@@ -13,50 +14,53 @@ Multi-tenancy describes a single software system serving users from many distinc
 
 Just like in physical housing, tenancy within software system takes many different physical and logical forms. Within this section, a "multi-tenanted" system is one where an administrator sees everything at once from a single login, while a "single-tenanted" system does have an “all content” view available, even to an administrator account.
 
+
 == Multi-tenancy in ThoughtSpot is achieved using groups
-ThoughtSpot link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[groups, window=_blank] are the best mechanism for all access control and security within ThoughtSpot. Groups serve the purpose of folders, roles, and row-level security assignment in ThoughtSpot. When configured correctly, users from one organization never see content, groups, or other users from different organizations.
+////
 
-Because search is the primary organization method within ThoughtSpot and group membership is the mechanism for access control, when viewing the server as an administrator, all of the users, groups and content will be available and the multi-tenanted nature presented to the individual users may not be obvious at a glance.
-
-Creating and auditing the groups, group membership and the sharing settings are best accomplished via the xref:rest-api-reference.adoc[REST API]. All settings and configurations are available through the ThoughtSpot UI, but at production scale all synchronization between the web application and ThoughtSpot is typically accomplished via the REST API.
-
-== Types of multi-tenancy in ThoughtSpot
-Because ThoughtSpot has its own users, groups, and data objects, and connects to cloud data warehouses that have their own set of objects, there are two separate but interacting forms of multi-tenancy to set up correctly:
+ThoughtSpot recommends using xref:orgs.adoc[Orgs for multi-tenancy]. If you don't intend to enable Orgs on your instance, use the following options to segregate and isolate your tenants' data:
 
 * Multi-tenancy at the ThoughtSpot user level
 +
-Each instance of ThoughtSpot has users, who belong to various groups. When configured correctly, groups control what sets of users see and who they can share with.
+Each instance of ThoughtSpot has users, who belong to various groups. ThoughtSpot link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[groups, window=_blank] are the best mechanism for all access control and security within ThoughtSpot. Groups serve the purpose of folders, roles, and row-level security assignment in ThoughtSpot. When configured correctly, users from one organization never see content, groups, or other users from different organizations.
+
++
+Because search is the primary organization method within ThoughtSpot and group membership is the mechanism for access control, when viewing the server as an administrator, all of the users, groups and content will be available and the multi-tenanted nature presented to the individual users may not be obvious at a glance.
+
++
+Creating and auditing the groups, group membership and the sharing settings are best accomplished via the xref:rest-api-reference.adoc[REST API]. All settings and configurations are available through the ThoughtSpot UI, but at production scale all synchronization between the web application and ThoughtSpot is typically accomplished via the REST API.
 
 * Multi-tenancy at the data level
 +
 ThoughtSpot connects to cloud data warehouses (CDW) to retrieve data. CDWs can be configured as multi-tenant or single-tenant.
 
++
 There are two aspects of groups which interact to create the “wall” between customer organizations: “shared content” and the “sharing visibility” property of groups and users.
 
 == Multi-tenancy at the user level
-Each group and user has a "sharing visibility" property, which can be set to *SHARABLE* or *NOT SHARABLE*.
+Each group and user has a "sharing visibility" property, which can be set to *SHAREABLE* or *NOT SHAREABLE*.
 
-When a group is *NOT SHARABLE*, the users within that group cannot share to that group or to other users in that group.
+When a group is *NOT SHAREABLE*, the users within that group cannot share to that group or to other users in that group.
 
-*NOT SHARABLE* groups provide access to content (or privileges) without breaking user separation. Each user has no concept they belong to the group; they simply have access to the content.
+*NOT SHAREABLE* groups provide access to content (or privileges) without breaking user separation. Each user has no concept they belong to the group; they simply have access to the content.
 
-When a user is set to *SHARABLE*, other users within the same *SHARABLE* group as that user can share content to them individually.
+When a user is set to *SHAREABLE*, other users within the same *SHAREABLE* group as that user can share content to them individually.
 
 [NOTE]
 ====
-Any user with *Share with all* privilege, including administrators, can share objects with any group regardless of the shareable property. Every user is automatically added to the *NOT SHARABLE* "All" group within ThoughtSpot.
+Any user with *Share with all* privilege, including administrators, can share objects with any group regardless of the shareable property. Every user is automatically added to the *NOT SHAREABLE* "All" group within ThoughtSpot.
 
 *Only grant the separate "Share with all privilege" to app developer / system level users, not to end customer users*
 ====
 
 The non-admin users can only share to:
 
-. *SHARABLE* groups they belong to
-. *SHARABLE* users within those groups.
+. *SHAREABLE* groups they belong to
+. *SHAREABLE* users within those groups.
 
-*SHARABLE* users' names are never seen by other users unless both users belong to the same *SHARABLE* group.
+*SHAREABLE* users' names are never seen by other users unless both users belong to the same *SHAREABLE* group.
 
-To allow for multi-tenanted self-service, *SHARABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable is up to you; if you prefer all sharing to be done at the group level, you can set all users to *NOT SHARABLE*.
+To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable is up to you; if you prefer all sharing to be done at the group level, you can set all users to *NOT SHAREABLE*.
 
 
 [NOTE]
@@ -70,7 +74,7 @@ We will call a database multi-tenanted when a single set of credentials can see 
 
 If the rules of multi-tenancy are more complex than a simple tenant key on each row of data, there should at least be one table which defines the tenants and can be joined in a way to filter the other tables appropriately.
 
-If the cloud data warehouse you are connecting to is set as a multi-tenant instance, you need only one set of data objects in ThoughtSpot. The tables will be configured with link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[row-level security (RLS), window=_blank], so that every query will filter against the tenant key in the database.
+If the cloud data warehouse you are connecting to is multi-tenanted as described above, then you will only need one set of data objects in ThoughtSpot. The tables will be configured with link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[row-level security (RLS), window=_blank], so that every query will filter against the tenant key in the database.
 
 If there is a separate database connection for each customer organization, then the database pattern is single-tenant, and you will need to create objects for each tenant. ThoughtSpot represents all data and content objects using the link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language, window=_blank], with xref:tml-api.adoc[REST APIs] for automating the creation or  deployment of each tenant’s data and content objects via TML.
 
@@ -101,7 +105,7 @@ RLS link:https://cloud-docs.thoughtspot.com/admin/data-security/row-level-securi
 
 RLS groups must have names that exactly match values in the database. When RLS rules are in place, a user's set of groups is placed into the WHERE clauses of queries in the form of `WHERE [field] IN ('group_1', 'group_2', ...)`.
 
-RLS groups should be set to *NOT SHARABLE*. This way you know that content sharing only occurs via the content access groups. It is much simpler to audit content access by using separate groups for each functionality.
+RLS groups should be set to *NOT SHAREABLE*. This way you know that content sharing only occurs via the content access groups. It is much simpler to audit content access by using separate groups for each functionality.
 
 RLS can be considerably more complex than just splitting at the tenant level and ThoughtSpot does facilitate these more complex models (see the link:https://community.thoughtspot.com/s/article/How-to-secure-your-data-in-ThoughtSpot-Examples-and-Best-Practices[comprehensive examples and best practices guide, window=_blank]). However, the basics of RLS to split at the tenant key level are always present and require the creation of the RLS groups.
 
@@ -124,26 +128,26 @@ The multi-tenant database model is simpler to implement within ThoughtSpot than 
 ==== Content provided by app developer
 The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and Liveboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same Liveboards and worksheets.
 
-Objects created by the application developer to be shared with all users can be published by a single group that all users belong to; we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as *NOT SHARABLE*, because every user will belong to this group.
+Objects created by the application developer to be shared with all users can be published by a single group that all users belong to; we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as *NOT SHAREABLE*, because every user will belong to this group.
 
 In most cases, only worksheets should be shared to the end users, while the tables within the worksheet do not (this is allowed by the default ThoughtSpot configuration). Thus there should be a separate group for just the tables; we’ll call this the “app data model group”.
 
 If you want, you can publish all content in the application group from a single user representing the app developer or the application itself.
 
 ==== Content belonging to individual tenants
-To allow users to create their own content and share only within their organization, you will create at least one group for each tenant. This group should be set to *SHARABLE*, since only those users within the group will see that content. If the app developer will be building custom content per tenant, you could create a separate group for that content, set to *NOT SHARABLE*.
+To allow users to create their own content and share only within their organization, you will create at least one group for each tenant. This group should be set to *SHAREABLE*, since only those users within the group will see that content. If the app developer will be building custom content per tenant, you could create a separate group for that content, set to *NOT SHAREABLE*.
 
 ==== Summary of access groups for multi-tenant database model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups. 
 
-Reminder: when a group is set to *NOT SHARABLE*, administrators can still share content to that group. *NOT SHARABLE* groups are used for content provided by the app developer to end users.
+Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share content to that group. *NOT SHAREABLE* groups are used for content provided by the app developer to end users.
 [width="100%" cols="3,4,2,2"]
 [options='header']
 |===
 |Group type|Content shared to group|Users in group|Sharability
-|prod data model group|tables|app developer|NOT SHARABLE
-|standard content group|worksheets, answers, Liveboards|all users|NOT SHARABLE
-|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHARABLE
+|prod data model group|tables|app developer|NOT SHAREABLE
+|standard content group|worksheets, answers, Liveboards|all users|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHAREABLE
 |===
 
 image::./images/multi-tenant-database-model.png[Multi-tenant database model]
@@ -165,30 +169,30 @@ We can describe the template as the parent content, with child objects that desc
 The template content itself will be built by the app developer, but will not be accessible to the customer organizations. Instead, there will be a deployment process that copies the template content and makes the necessary changes, and then publishes to the appropriate group for each customer.
 
 ==== Content provided by app developer to each tenant group
-Each tenant should have a group used to give access to the content provided by the app developer—a tenant application group. Only the application developer would publish content to this group, and it should be set to *NOT SHARABLE*.
+Each tenant should have a group used to give access to the content provided by the app developer—a tenant application group. Only the application developer would publish content to this group, and it should be set to *NOT SHAREABLE*.
 
 ==== Content belonging to individual tenants
-To allow users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHARABLE*, or you may want additional groups under the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHARABLE*.
+To allow users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHAREABLE*, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHAREABLE*.
 
 ==== Summary of access groups for single-tenant databases model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups.
 
-Reminder: when a group is set to *NOT SHARABLE*, administrators can still share content to that group. *NOT SHARABLE* groups are used for the content provided by the app developer to end users.
+Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share content to that group. *NOT SHAREABLE* groups are used for the content provided by the app developer to end users.
 [width="100%" cols="3,4,2,2"]
 [options='header']
 |===
 |Group type|Content shared to group|Users in group|Sharability
-|prod template group|Template tables, worksheets, answers, Liveboards|app developer|SHARABLE
-|standard data groups (1 per tenant)|tables (connected to tenant connection)|app developer|NOT SHARABLE
-|standard content groups (1 per tenant)|worksheets, answers, Liveboards|tenant users per group|NOT SHARABLE
-|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHARABLE
+|prod template group|Template tables, worksheets, answers, Liveboards|app developer|SHAREABLE
+|standard data groups (1 per tenant)|tables (connected to tenant connection)|app developer|NOT SHAREABLE
+|standard content groups (1 per tenant)|worksheets, answers, Liveboards|tenant users per group|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, Liveboards|tenant users per group|SHAREABLE
 |===
 
 image::./images/single-tenant-database-model.png[Single-tenant database model]
 == Development and test content groups
 Most software development processes involve creating content in a restricted “development” environment, and then once the changes are finished, placing it in a “test” environment. Within a single ThoughtSpot instance, development and test content can be considered as another tenant's, with access restricted to only app developer users.
 
-For both of the multi-tenancy patterns described in this article, add additional groups for dev and test with only members of your app development team.
+For both of the multi-tenancy patterns above, add additional groups for dev and test with only members of your app development team.
 
 == Privilege groups
 link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Privileges, window=_blank] in ThoughtSpot control the set of product features a user has access to. Privileges are assigned to users through groups.
@@ -205,7 +209,7 @@ ThoughtSpot groups can be hierarchical; one group can be the parent of another g
 When groups are hierarchical, the rules for how privileges and row-level security are derived become complex. In particular, row-level security is achieved by returning the string value of the names of all groups a user belongs to. Hierarchical groups can vastly inflate the number of group names returned in an RLS query, reducing performance and introducing complexity in auditing.
 
 == Test user accounts
-You can use REST API automation to synchronize the group structures and audit that you have configured them correctly. Another tool for auditing is to create test user accounts, user accounts that belong to the app developer but are configured as if they are part of a customer organization.
+As mentioned above, you will want to use REST API automation to synchronize the group structures and audit that you have configured them correctly. Another tool for auditing is to create test user accounts — user accounts that belong to the app developer, but are configured as if they are part of a customer organization.
 
 Depending on your internal security policies, you may only want your test user accounts to log in to content attached to test data, rather than production customer data. In this case, you will create a full suite of test content groups simulating at least two “customers”, and test user accounts for each “access level” that exists for the end customer users.
 

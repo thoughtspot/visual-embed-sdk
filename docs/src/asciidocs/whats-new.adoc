@@ -8,11 +8,58 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 8.10.0.cl
+
+=== Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
+You can now embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
+
+For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
+
+=== Advanced style customization with custom CSS
+
+The CSS customization feature supports new variables to customize the look and feel of the following UI elements:
+
+* Search data button in the navigation panel
+* Font type and text style of search tokens
+* Data panel on the Search and saved answer pages
+* Filter chips on Liveboard, visualizations, and answer pages
+* Menu components
+* X-axis and Y-axis titles and labels on charts
+
+For more information, see xref:css-customization.adoc[Customize CSS].
+
+=== CSP allowlist for font, image and stylesheet sources
+
+You can now enable CSP overrides for font, stylesheet, and image sources in ThoughtSpot UI. If you want to load fonts, stylesheets, images, or favicons from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page.
+
+For more information, see xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[Security Settings].
+
+=== Multi-tenancy with Orgs
+
+You can now set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. Each Org can have its own users, groups, and metadata, and stay independent of and invisible to other Orgs configured on the same application instance.
+
+[IMPORTANT]
+====
+* The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support. +
+* After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
+If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
+====
+
+For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
+
+=== Visual Embed SDK version 1.18.0
+
+For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+
 == Version 8.9.0.cl
 
 === Improvements to authentication methods and AuthType enums in the SDK
 
-The upcoming release introduces the following changes to the authentication framework in the Visual Embed SDK.
+The following changes are introduced in the Visual Embed SDK to improve the authentication framework and options for embedded application users:
 
 * New auth type enum for embedded SSO authentication
 +
@@ -31,7 +78,7 @@ Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1
 
 === Advanced style customization [beta betaBackground]^Beta^
 
-In the upcoming release, ThoughtSpot allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
+ThoughtSpot now allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
 to match the look and feel of your host application.
 
 To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.

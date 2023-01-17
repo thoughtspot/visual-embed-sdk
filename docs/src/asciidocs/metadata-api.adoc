@@ -65,7 +65,7 @@ For example, if you want to assign a tag named `Sales` to a Liveboard and answer
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \ 
+-d 'id=%5B%225772aaf1-555d-44c4-a24c-ae6fba6684c3%22%5D&type=%5B%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%22c4db6274-dec3-4902-ba0e-493734fef9c0%22%5D' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/assigntag'
 ----
 
@@ -131,7 +131,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot'
--d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \ 
+-d 'id=%5B%2216d94e69-305a-44c2-abfe-bffb70041f0c"%22%2C%20%22eaf4abc0-8d30-4511-be00-7ad219de3244%22%5D&type=%5B%22PINBOARD_ANSWER_BOOK%22%2C%20%22QUESTION_ANSWER_BOOK%22%5D&tagid=%5B%2253a10282-42be-492e-9560-66d5c5f6657d%22%5D&tagname=%5B%22stick%20me%22%5D' \
 'https:/<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/unassigntag'
 ----
 
@@ -188,6 +188,7 @@ GET /tspublic/v1/metadata/details
 |`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
 |`dropquestiondetails`|__Boolean__. When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
 |`version` __Optional__|__Long integer__. Object version. By default, the API returns metadata for all versions of the object.
+|`orgScope`|__Optional__. The Org scope. To query user metadata for all Orgs on your cluster, set the Org scope to `ALL`. If the Org scope is not set, ThoughtSpot returns metadata for only the user objects in your current Org context.
 |====
 
 === Example request
@@ -552,7 +553,7 @@ GET /tspublic/v1/metadata/list
 ====
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
-|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
+|`subtypes` __Optional__ a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes:
 
 * For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
@@ -590,7 +591,7 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 
 * To set an ascending order, specify `true`.
 * To set a descending order, specify `false`.
-|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects are retrieved. The system default is -1, which implies the first item in the list. 
+|`offset` __Optional__|__Integer__. The batch offset value that indicates the index point starting from which the list of objects are retrieved. The system default is -1, which implies the first item in the list.
 |`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the API response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
@@ -1015,7 +1016,7 @@ GET /tspublic/v1/metadata/listobjectheaders
 The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types are deprecated.
 ====
 
-|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes: 
+|`subtypes` __Optional__  a|__String__. A JSON array specifying the sub-types of a metadata object. Based on the value specified for the `type` attribute, you can query data objects of specific subtypes:
 
 * For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
@@ -1701,7 +1702,7 @@ POST /tspublic/v1/metadata/markunmarkfavoritefor
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' \
--d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \ 
+-d 'type=PINBOARD_ANSWER_BOOK&ids=%5B%227e38be97-e66f-4274-923f-6fd29a7141f3%22%5D&userid=59481331-ee53-42be-a548-bd87be6ddd4a' \
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/markunmarkfavoritefor'
 ----
 .Request URL

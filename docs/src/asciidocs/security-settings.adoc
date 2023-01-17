@@ -5,14 +5,17 @@
 :page-pageid: security-settings
 :page-description: Security settings for embedding
 
-As a security measure, most browsers block cross-site scripting, cross-domain requests, and third-party cookies by default. Web browsers also have built-in security mechanisms such as same-origin and content security policies. These policies restrict how applications and scripts from one origin (domain) can interact with the resources hosted on another origin (domain). 
+For security purpose, most web browsers block cross-site scripting, cross-domain requests, and third-party cookies by default. Web browsers also have built-in security mechanisms such as same-origin and content security policies. These policies restrict how applications and scripts from one origin (domain) can interact with the resources hosted on another origin (domain).
 
-* To ensure that ThoughtSpot embedding works on browsers that don’t allow third-party cookies, such as Safari’s default security setting and Firefox when in strict mode, you can set the domain name of your embedded ThoughtSpot instance to the same domain name as your host application. For more information about hosting ThoughtSpot on a custom domain, see xref:custom-domain-configuration.adoc[Custom domain configuration].
-* If you have embedded ThoughtSpot content within your application page using an inline frame, web browsers may block the embedded content. If your host application and embedded ThoughtSpot instance are on different domains, most web browsers also block cross-domain requests by default. To enable seamless interaction between your host application and the embedded ThoughtSpot instance, you need to configure the following security settings in ThoughtSpot:
+== Add trusted domains for embed support
+
+If you have embedded ThoughtSpot content within your application page using an inline frame, web browsers may block the embedded content. If your host application and embedded ThoughtSpot instance are on different domains, most web browsers also block cross-domain requests by default.
+
+To enable seamless interaction between your host application and the embedded ThoughtSpot instance, you need to configure the following security settings in ThoughtSpot:
  
 ** Trusted hosts for CORS
 +
-To allow your application to call ThoughtSpot, access its resources, and render embedded content, you must add your domain as a trusted host and enable Cross-Origin Resource Sharing (CORS). 
+To allow your application to call ThoughtSpot, access its resources, and render embedded content, you must add your domain as a trusted host and enable Cross-Origin Resource Sharing (CORS).
 
 ** Trusted hosts for CSP
 +
@@ -22,7 +25,7 @@ To allow your application to embed ThoughtSpot and access its content via web br
 Users with admin or developer privileges can configure the CORS and CSP allowlists on the *Security Settings* page in the *Develop* tab of the ThoughtSpot UI.
 
 [#csp-viz-embed-hosts]
-== Add CSP visual embed hosts
+=== Add CSP visual embed hosts
 To allow your host domain to set the `frame-ancestors` CSP policy header and embed a ThoughtSpot object within your application frame, add your application domain as a CSP visual embed host. 
 
 . Log in to your ThoughtSpot application instance.
@@ -33,7 +36,7 @@ To allow your host domain to set the `frame-ancestors` CSP policy header and emb
 . Click *Save changes*.
 
 [#csp-connect-src]
-== Add URLs to CSP connect-src allowlist
+=== Add URLs to CSP connect-src allowlist
 If you plan to create custom actions with URL targets, you must add the domain names of these URLs to the `CSP connect-src` allowlist. This allows JavaScript events triggered by the custom action URLs. 
 
 . Log in to your ThoughtSpot application instance.
@@ -44,7 +47,7 @@ If you plan to create custom actions with URL targets, you must add the domain n
 . Click *Save changes*.
 
 [#cors-hosts]
-== Enable CORS
+=== Enable CORS
 
 The CORS configuration for your cluster controls which domains can access and modify your application content. To allow your application to call ThoughtSpot or its REST API endpoints, and request resources, you must add your application domain to the CORS allowlist. For example, if your website is hosted on the `example.com` domain and the embedded ThoughtSpot content is hosted on the `example.thoughtspot.com`, you must add the `example.com` domain to the CORS allowlist for cross-domain communication. You can also add `\http://localhost:8080` to the CORS allowlist to test your deployments locally. However, we recommend that you disable `localhost` access in production environments.
 
@@ -59,6 +62,19 @@ To add domain names to the CORS allowlist, follow these steps:
 . In the *CORS whitelisted domains* text box, add the domain names. For valid domain name formats, See xref:security-settings.adoc#csp-cors-hosts[Domain name format for CSP and CORS configuration].
 . Click *Save changes*.
 
+== Add trusted domains for font, CSS, and image import
+
+Starting from ThoughtSpot Cloud 8.10.0.cl release, you can add trusted source URLs from which images, fonts, and stylesheets can be retrieved.
+
+. To define an allowed list of source URLs and domains, go to *Develop* > *Customizations* > *Security Settings*.
+. Click *Edit*.
+. In the *CSP img-src domains* field, add the domains from which you want to load images and favicons.
+. In the *CSP font-src domains* field, add the domains from which you want to load fonts.
+. In the *CSP style-src domains* field, add the domains from which you want to load stylesheets.
+. Make sure the domain names are valid and listed as comma-separated values.
+. Click *Save changes*.
+
+
 [#csp-cors-hosts]
 == Domain name format for CSP and CORS configuration
 
@@ -69,81 +85,83 @@ Note the following points if using port or protocol in the domain name string:
 
 * The UI allows you to add a domain URL with or without the protocol (`http/https`) in the CSP allowlist. To avoid long URLs in the CSP header, we recommend that you don't include the protocol in the domain name string. However, for non-HTTPS domains, such as your local testing environment, do include `http` in the domain name string.
 
-* Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings. 
+* Although you can add a domain URL with the protocol (`http/https`) to the CORS allowlist, ThoughtSpot ignores the protocol in the domain names of CORS hosts. Therefore, you can exclude the protocol in the domain name strings.
 * If your domain URL has a non-standard port such as 8080, specify the port number in the domain name string.
 ====
 
-The following table shows the valid domain name strings for the CORS and CSP allowlists. 
+The following table shows the valid domain name strings for the CORS and CSP allowlists.
 
 [div tableContainer]
 --
 
-[width="100%" cols="5,2,2,2"]
+[width="100%" cols="4,2,2,2,2"]
 [options='header']
 |====
-|Domain name format|CSP Visual Embed host|CSP connect-src|CORS
+|Domain name format|CSP Visual Embed host|CSP connect-src |CORS |CSP font-src +
+CSP style-src +
+CSP img-src
 
 a|Domain URL strings without protocol
 
 
-* `thoughtspot.com` 
+* `thoughtspot.com`
 * `www.thoughtspot.com` +
 
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 
-a|Domain URL strings for localhost 
+a|Domain URL strings for localhost
 
-* `localhost`  
-* `localhost:3000` 
+* `localhost`
+* `localhost:3000`
 * `\http://localhost:3000`
 
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 a|Domain URL strings without port
 
 * `thoughtspot.com`
 * `mysite.com`
 
-If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string. 
+If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string.
 
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
-|Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
+|Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported| [tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported
 |Wildcard +++(*)+++ before the domain name extension +
-`\https://*.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+`\https://*.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |Plain text string without the domain name extension. +
 
-`thoughtspot`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+`thoughtspot`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |Domain name with wildcard (*) and a leading dot +
 
-`+++.*.thoughtspot.com +++` |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
+`+++.*.thoughtspot.com +++` |[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported
 
 a|Wildcard before the domain name +
 
 `+++*+++.thoughtspot.com`
 
-|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
 
 
-a| Domain names with space, backslash (\), and wildcard (*). 
+a| Domain names with space, backslash (\), and wildcard (*).
 
 * `www.+++*+++.+++*+++.thoughtspot.com` +
 * `www.thoughtspot.com/*` +
 * `thoughtspot  .com` +
-|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |URLs with query parameters +
-`\http://thoughtspot.com?2rjl6`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+`\http://thoughtspot.com?2rjl6`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |URLs with path parameters +
-`thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag redBackground]#x# Not supported
+`thoughtspot.com/products`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
 |URLs with path and query parameters +
-`thoughtspot.com/products?id=1&page=2`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+`thoughtspot.com/products?id=1&page=2`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |IPv4 addresses +
-`255.255.255.255`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
+`255.255.255.255`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 |Semicolons as separators +
-`thoughtspot.com; thoughtspot.com;`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
+`thoughtspot.com; thoughtspot.com;`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
 |Comma-separated values +
-`thoughtspot.com, thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
-|`mail://xyz.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported
-a|+++Wildcard (*) for port+++ 
+`thoughtspot.com, thoughtspot.com`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
+|`mail://xyz.com`|[tag redBackground]#x# Not supported|[tag redBackground]#x# Not supported 2*|[tag redBackground]#x# Not supported
+a|+++Wildcard (*) for port+++
 
-`thoughtspot:*`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported
+`thoughtspot:*`|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 |====
 --

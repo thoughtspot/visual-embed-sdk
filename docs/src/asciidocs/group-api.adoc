@@ -14,16 +14,19 @@ The Group API endpoints allow you to programmatically create and manage user gro
 include::{path}/group-privileges.adoc[]
 
 == Supported operations
- 
+
 include::{path}/group-api-list.adoc[]
 
 === Required permissions
 
 You must have administrator access to create, edit, or delete group objects, configure privileges, and assign users.
 
+If you have a multi-tenant instance, the cluster admin can associate a group to an `orgid`. For more information about Orgs, see xref:orgs.adoc[Multi-tenancy with Orgs].
+
+
 [#create-group]
 == Create a user group
-To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.  
+To programmatically create a user group, send a `POST` request to the `/tspublic/v1/group/` API endpoint.
 
 [NOTE]
 ====
@@ -41,25 +44,25 @@ POST /tspublic/v1/group/
 [options='header']
 |===
 |Form parameter|Description
-|`name` |__String__.  Name of the user group. The group name string must be unique.  
+|`name` |__String__.  Name of the user group. The group name string must be unique.
 |`displayname`|__String__. A unique display name string for the user group, for example, `Developer`.
 |`description`|__String__. Description text for the group.
 |`privileges` __Optional__ a|__Array of strings__. A JSON array of the xref:group-api.adoc#group-privilege[privileges to assign to the group]. Valid values for the `privileges` string are:
 
-* `ADMINISTRATION`   
+* `ADMINISTRATION`
 * `DEVELOPER`
 * `USERDATAUPLOADING`
 * `DATADOWNLOADING`
-* `DATAMANAGEMENT` 
+* `DATAMANAGEMENT`
 * `SHAREWITHALL`
 * `EXPERIMENTALFEATUREPRIVILEGE`
 * `JOBSCHEDULING`
 * `RANALYSIS`
 * `A3ANALYSIS`
 * `BYPASSRLS`
-|`grouptype` __Optional__ a|__String__. Type of user group. Default value is `LOCAL_GROUP`, which indicates that the user group is created locally in the ThoughtSpot system.    
+|`grouptype` __Optional__ a|__String__. Type of user group. Default value is `LOCAL_GROUP`, which indicates that the user group is created locally in the ThoughtSpot system.
 |`tenantid` __Optional__|__String__. GUID of the tenant for which the user group is being created.
-|`visibility` __Optional__|__String__. Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.  
+|`visibility` __Optional__|__String__. Visibility of the user group. The `visibility` attribute is set to `DEFAULT`. The `DEFAULT` attribute makes the user group visible for other user groups and allows them to share  objects.
 |===
 
 === Example request
@@ -250,7 +253,7 @@ GET /tspublic/v1/group/
 
 [NOTE]
 ====
-You can use either `groupid` or `name` to query data for a specific user group. If using both, make sure the values for these parameters point to the same user group. If neither of these parameters is defined, the API returns a response with the details of all user groups in the ThoughtSpot system. 
+You can use either `groupid` or `name` to query data for a specific user group. If using both, make sure the values for these parameters point to the same user group. If neither of these parameters is defined, the API returns a response with the details of all user groups in the ThoughtSpot system.
 ====
 
 === Example request
@@ -317,15 +320,15 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-
 [options='header']
 |===
 |HTTP status code|Description
-|**200**| Successful retrieval of user group details 
+|**200**| Successful retrieval of user group details
 |**400**| Invalid parameter
 |===
 
 [#add-privilege]
 == Add a privilege to a user group
-For ease of user management and access control, ThoughtSpot administrators can create user groups and assign privileges to these groups. The privileges determine the actions that the users belonging to a group are allowed to do.  
+For ease of user management and access control, ThoughtSpot administrators can create user groups and assign privileges to these groups. The privileges determine the actions that the users belonging to a group are allowed to do.
 
-If you have admin user credentials, you can programmatically assign a privilege to a user group using the `/tspublic/v1/group/addprivilege` API endpoint. 
+If you have admin user credentials, you can programmatically assign a privilege to a user group using the `/tspublic/v1/group/addprivilege` API endpoint.
 
 [NOTE]
 ====
@@ -339,19 +342,19 @@ POST /tspublic/v1/group/addprivilege
 
 === Request parameters
 
-Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`.
 
-[width="100%" cols="2,4"] 
+[width="100%" cols="2,4"]
 [options='header']
 |====
 |Form parameter|Description
 |`privilege` a|__String__. The xref:group-api.adoc#group-privilege[type of privilege] to add. Valid values for the `privileges` string are:
 
-* `ADMINISTRATION`   
+* `ADMINISTRATION`
 * `DEVELOPER`
 * `USERDATAUPLOADING`
 * `DATADOWNLOADING`
-* `DATAMANAGEMENT` 
+* `DATAMANAGEMENT`
 * `SHAREWITHALL`
 * `EXPERIMENTALFEATUREPRIVILEGE`
 * `JOBSCHEDULING`
@@ -367,7 +370,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 
 [source, cURL]
 ----
-curl -X POST \   
+curl -X POST \
 --header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
@@ -400,7 +403,7 @@ If the privilege assignment is successful, the API returns the group metadata wi
 [#remove-privilege]
 == Remove a privilege assigned to a group
 
-To programmatically delete a privilege assigned to a user group, use the `/tspublic/v1/group/removeprivilege` API. 
+To programmatically delete a privilege assigned to a user group, use the `/tspublic/v1/group/removeprivilege` API.
 
 === Resource URL
 ----
@@ -408,7 +411,7 @@ POST /tspublic/v1/group/removeprivilege
 ----
 === Request parameters
 
-Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`.
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -416,11 +419,11 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 |Form parameter|Description
 |`privilege` a|__String__. The xref:group-api.adoc#group-privilege[group privilege] to delete. Valid values are:
 
-* `ADMINISTRATION`   
+* `ADMINISTRATION`
 * `DEVELOPER`
 * `USERDATAUPLOADING`
 * `DATADOWNLOADING`
-* `DATAMANAGEMENT` 
+* `DATAMANAGEMENT`
 * `SHAREWITHALL`
 * `EXPERIMENTALFEATUREPRIVILEGE`
 * `JOBSCHEDULING`
@@ -436,7 +439,7 @@ Make sure you set the API request's `Content-Type` header as `multipart/form-dat
 .cURL
 [source, cURL]
 ----
-curl -X POST \   
+curl -X POST \
 --header 'Content-Type: multipart/form-data' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
@@ -463,9 +466,9 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
 
 [#add-user-to-group]
 == Add a user to a group
-To programmatically add an existing ThoughtSpot user to a user group, send a `POST` request to the `/tspublic/v1/group/{groupid}/user/{userid}` API endpoint. 
+To programmatically add an existing ThoughtSpot user to a user group, send a `POST` request to the `/tspublic/v1/group/{groupid}/user/{userid}` API endpoint.
 
-When you assign a user to a group, the user inherits the privileges assigned to that group. 
+When you assign a user to a group, the user inherits the privileges assigned to that group.
 
 === Resource URL
 ----
@@ -519,7 +522,7 @@ Response Code
 
 [#get-users-group]
 == Get a list of users assigned to a group
-To get the details of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/listuser/{groupid}` API endpoint. 
+To get the details of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/listuser/{groupid}` API endpoint.
 
 === Resource URL
 ----
@@ -652,7 +655,7 @@ POST /tspublic/v1/group/{groupid}/users
 |`groupid`|path parameter|__String__. The GUID of the user group to which you want to add users.
 |`userids`|query parameter|__String__. A JSON array of the user GUIDs to add to the specified group.
 |====
- 
+
 === Example request
 
 .cURL
@@ -708,7 +711,7 @@ PUT /tspublic/v1/group/{groupid}/users
 |`groupid`|__String__. The GUID of the user group to which the specified user IDs belong.
 |`userids`|__String__. A JSON array of the user GUIDs that you want to add or modify.
 |====
- 
+
 === Example request
 
 .cURL
@@ -748,7 +751,7 @@ Response Code
 
 [#get-usersInGroup]
 == Get a list of users in a group
-To get a list of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/{groupid}/users` API endpoint. 
+To get a list of users assigned to a group, send a `GET` request to the `/tspublic/v1/group/{groupid}/users` API endpoint.
 
 === Resource URL
 ----
@@ -869,7 +872,7 @@ DELETE /tspublic/v1/group/{groupid}/users
 |`groupid`|path parameter|__String__. The GUID of the user group from which you want to remove users.
 |`userids`|query parameter|__String__. A JSON array of the GUIDs of users that you want to remove from the specified group.
 |====
- 
+
 === Example request
 
 .cURL
@@ -918,7 +921,7 @@ POST /tspublic/v1/group/addmemberships
 
 === Request parameters
 
-Make sure you set the `Content-Type` header as `multipart/form-data`. 
+Make sure you set the `Content-Type` header as `multipart/form-data`.
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -962,7 +965,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addmemberships
 [#assign-group]
 == Assign groups to another group
 
-ThoughtSpot allows you to configure hierarchical groups. You can create a master group and assign other groups to it. For example, you can create a master group called `Site` and assign your tenant or ThoughtSpot user groups to this group. The subgroups inherit the privileges from their parent group. 
+ThoughtSpot allows you to configure hierarchical groups. You can create a master group and assign other groups to it. For example, you can create a master group called `Site` and assign your tenant or ThoughtSpot user groups to this group. The subgroups inherit the privileges from their parent group.
 
 To assign groups to a specific group, send a `POST` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
 
@@ -974,7 +977,7 @@ POST /tspublic/v1/group/{groupid}/groups
 
 === Request parameters
 
-Make sure you set the API request's `Content-Type` header as `multipart/form-data`. 
+Make sure you set the API request's `Content-Type` header as `multipart/form-data`.
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -1221,11 +1224,11 @@ If the GET operation is successful, the API returns the details of the subgroups
 [#del-child-groups]
 == Remove subgroups from a group
 
-To delete subgroup from a group object, send a `DELETE` request to the `/tspublic/v1/group/{groupid}/groups` endpoint. 
+To delete subgroup from a group object, send a `DELETE` request to the `/tspublic/v1/group/{groupid}/groups` endpoint.
 
 [NOTE]
 ====
-The `DELETE /tspublic/v1/group/{groupid}/groups` operation removes only the group associations. If you want to delete the remove the group from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/group/{groupid}` endpoint. 
+The `DELETE /tspublic/v1/group/{groupid}/groups` operation removes only the group associations. If you want to delete the remove the group from the ThoughtSpot system, send a `DELETE` request to the `/tspublic/v1/group/{groupid}` endpoint.
 ====
 
 === Resource URL
@@ -1239,7 +1242,7 @@ DELETE /tspublic/v1/group/{groupid}/groups
 |===
 |Form parameter|Description
 |`principalids`|__String__. A JSON array of the subgroup GUIDs that you want to delete.
-|`groupid`|__String__. The GUID of the group from which you want to remove the group association. 
+|`groupid`|__String__. The GUID of the group from which you want to remove the group association.
 |===
 
 === Example request
@@ -1249,7 +1252,7 @@ DELETE /tspublic/v1/group/{groupid}/groups
 [source,cURL]
 ----
 curl -X DELETE \
---header 'Accept: application/json' \ 
+--header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'principalids=%5B%2224ac76b8-c1ec-43ee-84d4-3974b95bf163%22%5D&groupid=982d6da9-9cd1-479e-b9a6-35aa05f9282a'\
 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/groups'
@@ -1388,7 +1391,7 @@ Response Code
 |HTTP status code|Description
 |**204** | Successful operation
 |**403**| Unauthorized request
-|**500**| Invalid group or user ID 
+|**500**| Invalid group or user ID
 |===
 
 
@@ -1398,7 +1401,7 @@ To remove a user group from the ThoughtSpot system, send a `DELETE` request to t
 
 [IMPORTANT]
 ====
-ThoughtSpot does not recommend removing a user from the `All` group. 
+ThoughtSpot does not recommend removing a user from the `All` group.
 ====
 
 
@@ -1447,5 +1450,5 @@ Response Code
 |HTTP status code|Description
 |**204** | Successful operation
 |**403**| Forbidden client
-|**500**| Invalid group ID 
+|**500**| Invalid group ID
 |===

@@ -227,8 +227,33 @@ liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
 .then(data => {
 console.log('Liveboard Data: ', data);
 })
+----
 ====
 --
+
+
+==== GetTML
+Available with `LiveboardEmbed`, `SearchEmbed`, and `AppEmbed` in V1.18.0 or later. +
+
+Gets TML of the visualization or answer object when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+The event trigger from a Liveboard visualization includes the `vizId` key: +
+[source,javascript]
+----
+liveboardEmbed.trigger(HostEvent.ShowUnderlyingData), {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+
+----
+searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+----
+====
+--
+
 
 ==== LiveboardInfo
 
@@ -1047,7 +1072,13 @@ function showLoader() {
 ==== LiveboardRendered
 
 Available with `LiveboardEmbed`, `AppEmbed` in `V1.9.1` or later. +
-Is emitted when a Liveboard has completed rendering. You can use this event as a hook to trigger other events on a rendered Liveboard.
+Is emitted when a Liveboard container loads. You can use this event as a hook to trigger other events on a rendered Liveboard.
+
+[NOTE]
+====
+The `LiveboardRendered` event is triggered when the Liveboard container loads. The data on the Liveboard visualizations are loaded asynchronously and may not be loaded fully when the event is emitted.
+====
+
 [div divider]
 --
 .Examples

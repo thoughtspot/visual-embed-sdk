@@ -1,0 +1,25 @@
+
+[div tableContainer]
+--
+[width="100%" cols="2,1"]
+[options='header']
+|=====
+|API endpoint| Available from
+|`xref:org-api.adoc#createOrg[*POST* /tspublic/v1/org/]` +
+Creates an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:org-api.adoc#getOrg[*GET* /tspublic/v1/org/]` +
+Gets an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:org-api.adoc#editOrg[*PUT* /tspublic/v1/org/]` +
+Edits the specified Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:org-api.adoc#getOrgs[*POST* /tspublic/v1/org/search]` +
+Gets all Org objects.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|`xref:org-api.adoc#deleteOrg[*DELETE* /tspublic/v1/org/]` +
+Deletes an Org object.|ThoughtSpot Cloud [version noBackground]#Coming soon# +
+ThoughtSpot Software [version noBackground]#Not available#
+|=====
+--
+
