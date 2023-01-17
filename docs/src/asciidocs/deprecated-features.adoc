@@ -37,7 +37,7 @@ The upcoming REST v2.0 API endpoints and Playground will not support the SDK in 
 
 [NOTE]
 ====
-If you are using the REST API SDK, the existing version continues to  work with REST v2 API [beta betaBackground]^Beta^ endpoints. ThoughtSpot does not recommend using REST v2.0 API endpoints with the SDK in its current state.
+If you are using the REST API SDK, the existing version continues to work with REST v2 API [beta betaBackground]^Beta^ endpoints. ThoughtSpot does not recommend using REST v2.0 API endpoints with the SDK in its current state.
 ====
 
 === Documentation changes
