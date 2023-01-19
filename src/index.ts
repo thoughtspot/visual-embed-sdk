@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022
+ * Copyright (c) 2023
  *
  * ThoughtSpot Visual Embed SDK for embedding ThoughtSpot analytics
  * in other web applications.

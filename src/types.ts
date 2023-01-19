@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022
+ * Copyright (c) 2023
  *
  * TypeScript type definitions for ThoughtSpot Visual Embed SDK
  *
