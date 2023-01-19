@@ -8,18 +8,11 @@
 
 This page provides information about new features and enhancements available for embedded ThoughtSpot instances.
 
-== Version 8.8.0-sw (Limited Availability release), October 2022
+== Version 8.8.1-sw, January 2023
 
-ThoughtSpot 8.8.0-sw is a limited availability release. To upgrade your ThoughtSpot cluster to 8.8.0-sw, contact ThoughtSpot Support.
+ThoughtSpot 8.8.1-sw release version is now generally available. To upgrade your ThoughtSpot cluster to 8.8.0-sw, contact ThoughtSpot Support.
 
-The 8.8.0-sw release introduces the following new features and enhancements:
-
-=== New Data workspace
-
-The new Data workspace is Generally Available (GA) on embedded ThoughtSpot Software deployments. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/software/latest/data-workspace[ThoughtSpot product documentation].
-
-[IMPORTANT]
-While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+The 8.8.1-sw release introduces the following new features and enhancements:
 
 === Search Assist support for embedded instances
 
@@ -29,7 +22,9 @@ For more information, see xref:search-assist-tse.adoc[Enable Search Assist, wind
 
 === New Liveboard experience [beta blueBackground]^BETA^
 
-The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
+This release introduces the new Liveboard experience [beta blueBackground]^BETA^ on ThoughtSpot instances. The new Liveboard experience is in Beta on embedded instances and is turned off by default.
+
+The new Liveboard experience includes several new features and user-experience improvements to the *Liveboard* page:
 
 Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
@@ -37,16 +32,13 @@ The edit mode allows you to edit the Liveboard title and description text, apply
 
 Liveboard tabs::
 
-The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+The new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 +
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
 Custom tile size for visualizations on a Liveboard::
 
-ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
-
-+
-This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
+The new Liveboard experience allows you to customize the tile size of a visualization on a Liveboard. In the classic experience, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
 
 Liveboard filters::
 * The Liveboard filter configuration options are available on a single modal.
@@ -65,11 +57,13 @@ The following features are *_not_* available with the new Liveboard experience:
 * The edit title icon on visualization tiles
 * The *Share* button on visualizations
 
++
 For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
 
 Actions and Events in the SDK::
 If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
 
++
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
 
 

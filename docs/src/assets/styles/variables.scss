@@ -24,7 +24,7 @@ $highlight-fadedgreen: #dfd;
 $highlight-yellow:#e18114;
 
 $header-zIndex: 99;
-$header-logo-width: 158px;
+$header-logo-width: 273px;
 $header-link-margin: 45px;
 $font-weight-normal: 300;
 $font-weight-bold: 500;
@@ -70,7 +70,6 @@ $padding-left-search-input: 36px;
 $font-family-code: Roboto,Consolas,Monaco,monospace;
 $font-family-doc: Optimo-Plain;
 $font-family-back-button: Optimo-Plain;
-$font-color-back-button: #777e8b;
 $width-back-button: 32px;
 $height-back-button: 32px;
 $font-color-back-button: #777e8b;
@@ -88,6 +87,7 @@ $font-size-h4: 20px;
 $font-size-h5: 18px;
 $font-size-summ-title: 17px;
 $font-size-breadcrums: 13px;
+$font-size-breadcrums-mobile: 10px;
 $icon-width: 16px;
 $icon-height: 16px;
 $arrow-icon-width: 20px;
@@ -141,9 +141,9 @@ $admonition-font-factor-pre: 15;
 
 
 /*Tag variables*/
-$beta-border-radius: 5px;
+$beta-border-radius: 6px;
 $beta-padding: 0 5px;
-$tag-border-radius: 10px;
+$tag-border-radius: 20px;
 $tag-font-size: 13px;
 $tag-font-weight: 400;
 $tag-height: 28px;
@@ -159,6 +159,8 @@ $tag-color-light: $lightgrey;
 :root {
     --body-background-color: #fff;
     --primary-color: #1d232f;
+    --header-color: #000000;
+    --header-border-color: #000000;
     --breadcrums-font-color: #5f6368;
     --announcement-block-color: #f1f1f1;
     --admonition-background: #fff;
@@ -166,6 +168,7 @@ $tag-color-light: $lightgrey;
     --text-color-code-lang: #999;
     --icon-color: #999;
     --back-button-background: #eaedf2;
+    --block-background: #eaedf2;
     --border-color: #c0c6cf;
     --table-header-color: #fff;
     --border-color-tr: #e6e6e6;
@@ -187,16 +190,18 @@ $tag-color-light: $lightgrey;
 
 #wrapper[data-theme='dark'] {
     --body-background-color: #21252c;
+    --header-color: #323946;
+    --header-border-color: #777E8B;
     --primary-color: #E8EAED;
     --breadcrums-font-color: #a5acb9;
     --announcement-block-color: #3c4356;
     --admonition-background: #3c4356;
-    --announcement-block-color: #3c4356;
     --code-block-color: #3c4356;
     --text-color-code-lang: #fff;
     --icon-color: #fff;
     --table-header-color: #3c4356;
     --back-button-background: #a4abb8;
+    --block-background: none;
     --border-color: #3c4356;
     --border-color-tr:#3c4356;
     --scrollbar-color: #3c4356;
