@@ -150,8 +150,18 @@ export interface EmbedConfig {
      * flow in a popup, instead of redirecting browser in place.
      *
      * @default false
+     * @deprecated
      */
     noRedirect?: boolean;
+
+    /**
+     * [SSO] For SSO Authentication, if `inPopup` is set to true, it will open the SAML auth
+     * flow in a popup, instead of redirecting browser in place.
+     *
+     * @default false
+     * @version SDK: 1.18.0
+     */
+    inPopup?: boolean;
 
     /**
      * [SSO] For SSO Authentication, one can supply an optional path param,
