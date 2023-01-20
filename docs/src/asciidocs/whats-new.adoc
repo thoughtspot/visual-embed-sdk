@@ -62,15 +62,15 @@ Allows making multiple edits to a chart configuration and applying all changes a
 Allows displaying data labels in a lighter color on charts with a dark background.
 #<add ref to docs>#
 
-=== Visual Embed SDK version 1.18.0
+=== Visual Embed SDK version 1.19.0
 
-For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.19.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
 
-== Version 8.10.0.cl, January 2023
+== Version 8.10.0.cl
 
 === Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
 You can now embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
@@ -111,7 +111,7 @@ For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
 
 === Visual Embed SDK version 1.18.0
 
-For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.18.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 
@@ -119,8 +119,9 @@ For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.ad
 
 == Version 8.9.0.cl
 
-=== Improvements to authentication methods and AuthType enums in the SDK
-
+.Improvements to authentication methods and AuthType enums in the SDK
+[%collapsible]
+====
 The following changes are introduced in the Visual Embed SDK to improve the authentication framework and options for embedded application users:
 
 * New auth type enum for embedded SSO authentication
@@ -133,48 +134,59 @@ The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded insta
 ** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 
 For more information, see xref:embed-authentication.adoc[Authentication].
+====
 
-=== Just-in-time user creation and dynamic privilege assignment
-
+.Just-in-time user creation and dynamic privilege assignment
+[%collapsible]
+====
 Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
-
-=== Advanced style customization [beta betaBackground]^Beta^
-
+====
+.Advanced style customization [beta betaBackground]^Beta^
+[%collapsible]
+====
 ThoughtSpot now allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
 to match the look and feel of your host application.
 
 To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.
 
 For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS using SDK].
-
-=== Visual Embed SDK version 1.17.0
-
-For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
-
-=== REST API
-
+====
+.Visual Embed SDK version 1.17.0
+[%collapsible]
+====
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+.REST API
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+====
 
 == Version 8.8.0.cl
 
-=== Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
-
+.Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
+[%collapsible]
+====
 ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
 
 This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
-
-=== Visual Embed SDK version 1.16.0
-
-For information about the new features and enhancements in the Visual Embed SDK version 1.16.0, see xref:api-changelog.adoc[Visual Embed changelog].
-
-=== REST API v1
-
+====
+.Visual Embed SDK version 1.16.0
+[%collapsible]
+====
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.16.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+.REST API v1
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
-
-=== Bug fixes and improvements
-
+====
+.Bug fixes and improvements
+[%collapsible]
+====
 Bug fixes and new improvements in embedded user experience. +
 For more information, see xref:fixed-issues.adoc[Fixed issues].
+====
 
 == Version 8.7.0.cl
 
