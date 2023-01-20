@@ -273,7 +273,7 @@ const doSSOAuth = async (
     }
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
-    if (embedConfig.noRedirect) {
+    if (embedConfig.noRedirect || embedConfig.inPopup) {
         await samlPopupFlow(
             ssoURL,
             embedConfig.authTriggerContainer,
@@ -311,13 +311,14 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be loaded
     // again and the same JS will execute again.
-    const ssoRedirectUrl = embedConfig.noRedirect
-        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : getRedirectUrl(
-              window.location.href,
-              SSO_REDIRECTION_MARKER_GUID,
-              embedConfig.redirectPath,
-          );
+    const ssoRedirectUrl =
+        embedConfig.noRedirect || embedConfig.inPopup
+            ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+            : getRedirectUrl(
+                  window.location.href,
+                  SSO_REDIRECTION_MARKER_GUID,
+                  embedConfig.redirectPath,
+              );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(
