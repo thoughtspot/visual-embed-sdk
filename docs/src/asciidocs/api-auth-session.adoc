@@ -22,8 +22,7 @@ include::{path}/auth-token-api.adoc[]
 
 include::{path}/login-token-api.adoc[]
 
-[#rest-api-call]
-
+[#sessionCookies]
 == Session cookies for subsequent API calls
 
 If the login operation is successful, the API returns cookie details in the response header.
