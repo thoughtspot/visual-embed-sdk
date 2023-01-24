@@ -77,7 +77,7 @@ https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 
 If the API request is successful, ThoughtSpot returns the following:
 
-* If `no_url_redirection` is set to `true`, the API returns 204 response code
+* If `no_url_redirection` is set to `true`, the API returns 204 response code.
 * If `no_url_redirection` is set to `false`, the API returns a response body and redirects the user to the requested URL.
 +
 [source, HTML]
