@@ -6,7 +6,7 @@
 :page-description: REST API Reference
 
 The REST v2 API endpoints[beta betaBackground]^Beta^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
-
+////
 == Session
 
 --
@@ -25,11 +25,10 @@ Signs in a user to ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-////
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/session/login" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
-////
+
 
 
 `**POST** /tspublic/rest/v2/session/gettoken`
@@ -891,10 +890,14 @@ Gets security audit logs from the ThoughtSpot system.
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/logs/get-log-events" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
 +++<p class="divider"> </p>+++
 --
 
 ////
+
+////
+
 == Materialization
 --
 `*PUT* /tspublic/rest/v2/materialization/refreshview`
@@ -912,6 +915,5 @@ This endpoint is applicable to ThoughtSpot Software deployments only.
 == Database
 
 The Database endpoints are applicable to ThoughtSpot Falcon-based Software deployments only.
-
 
 ////
