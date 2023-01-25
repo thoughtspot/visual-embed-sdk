@@ -225,4 +225,4 @@ const MyComponent = () => {
 <br/>
 <br/>
 
-Visual-Embed-SDK, © ThoughtSpot, Inc. 2022
+Visual-Embed-SDK, © ThoughtSpot, Inc. 2023

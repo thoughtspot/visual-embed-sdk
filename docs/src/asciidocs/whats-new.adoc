@@ -150,6 +150,7 @@ to match the look and feel of your host application.
 To help users visualize and preview the CSS overrides, the *Visual Embed* playground will include the *Apply custom styles* checkbox, which allows you to explore the variables available for customization.
 
 For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS using SDK].
+
 ====
 .Visual Embed SDK version 1.17.0
 [%collapsible]

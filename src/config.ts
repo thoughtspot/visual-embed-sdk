@@ -2,7 +2,7 @@ import { ERROR_MESSAGE } from './errors';
 import { EmbedConfig } from './types';
 
 /**
- * Copyright (c) 2022
+ * Copyright (c) 2023
  *
  * Utilities related to reading configuration objects
  *
