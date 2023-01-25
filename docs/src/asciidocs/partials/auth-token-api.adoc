@@ -2,7 +2,7 @@ If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted
 
 After you get the authentication token from ThoughtSpot via a REST API call to the `/tspublic/v1/session/auth/token` endpoint, use this token in your API request to the `/tspublic/v1/session/login/token` endpoint to authenticate and log in a user.
 
-== Automate user provisioning and group assignment
+=== Just-in-time provisioning and dynamic group assignment
 
 Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports adding a user Just-in-Time (JIT) and dynamically assigning groups and privileges. If a user for whom you want to request an authentication token doesn't exist in the ThoughtSpot system, you can set the `autocreate` and `groups` properties in the API call to add the user and assign groups.
 
@@ -20,16 +20,17 @@ POST /tspublic/v1/session/auth/token
 |`username` a|__String__. The username of the user configured in ThoughtSpot. +
 
 If the user doesn't exist in the ThoughtSpot system, you can set the `autocreate` flag to `true` to create a user account in ThoughtSpot.
-|`access_level` a|__String__. User access privilege. Valid values are:
+|`access_level` a|__String__. User access privilege. Valid values are: +
+
 * `FULL` - Creates a session with full access.
 * `REPORT_BOOK_VIEW` - Allows view access to the visualization or Liveboard.
 |`id` |__String__. GUID of the ThoughtSpot object. If you have set the `access_level` attribute to `REPORT_BOOK_VIEW`, specify the GUID of the Liveboard or visualization object.
 |`orgid`  a|__Integer__. ID of the Org to which the user belongs. This parameter is required if your ThoughtSpot instance is set as a multi-tenant environment and logically partitioned into Orgs. +
 
 * If the user exists in ThoughtSpot and no `orgid` is specified, the API returns the authentication token to log the user in to their last logged-in Org.
-* If the user exists in ThoughtSpot but not assigned to any Org, and `autocreate` is set to `true`, the user will be added to the specified Org.
+* If the user exists in ThoughtSpot but is not assigned to any Org, and `autocreate` is set to `true`, the user will be added to the specified Org.
 * If the user doesn't exist in ThoughtSpot and `autocreate` is set to `true`, the user is created and added to the specified Org ID.
-* If the user already exists in the ThoughtSpot system and the user does not belong to the specified `orgid`, the API returns an error.
+* If the user already exists in the ThoughtSpot system, and the user does not belong to the specified `orgid`, the API returns an error.
 
 [NOTE]
 ====
@@ -72,11 +73,10 @@ If the API request is successful, ThoughtSpot returns an authentication token fo
 ====
 * If the username specified in the API request exists in the ThoughtSpot system, the API returns the token, else it returns the `user not found` error.
 * If the user does not exist in ThoughtSpot and the `autocreate` property is set to `true`, the user is created. If `groups` and `orgid` attributes are defined, ThoughtSpot assigns the user to the specified groups and Org ID.
-*If the user already exists in ThoughtSpot, `autocreate` is set to `true` and the group names are defined in the `groups` attribute, the user will be added to the groups specified in the API request. Similarly, if you have specified the `orgid` with `autocreate` set to `true`, the user will be assigned to the specified Org.
+* If the user already exists in ThoughtSpot, `autocreate` is set to `true`, and the group names are defined in the `groups` attribute, the user will be added to the groups specified in the API request. Similarly, if you have specified the `orgid` with `autocreate` set to `true`, the user will be assigned to the specified Org.
 * When `autocreate` is set to true, if the groups specified in the `groups` attribute do not exist in the specified Org ID, ThoughtSpot will create groups in the specified Org ID and assign the user to these groups.
 * The authentication token returned by ThoughtSpot can be used to access only the Org specified in the API request. If the client must be logged in to another Org, you must send another API request to get an authentication token from ThoughtSpot.
 ====
-
 
 The following example shows the authentication token returned by ThoughtSpot after a successful API call.
 ----

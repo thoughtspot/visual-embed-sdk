@@ -49,7 +49,7 @@ For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
 
 === Visual Embed SDK version 1.18.0
 
-For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.18.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 
@@ -87,7 +87,7 @@ For more information, see xref:style-customization.adoc[Customize styles and lay
 
 === Visual Embed SDK version 1.17.0
 
-For information about the new features and enhancements in the Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 
