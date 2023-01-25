@@ -35,7 +35,7 @@ The session cookie is automatically set in the request header when you make your
 == Make a test API call
 You can make a test API call to verify if your token is valid and allows access to ThoughtSpot objects. For example, you can send a `GET` request `/tspublic/v1/metadata/listvizheaders` to fetch the visualization headers of a Liveboard.
 
-Note that if you are using the Web browser or Postman to make a REST API call, the session cookie obtained from the  `/tspublic/v1/session/login/token` API call is automatically set. REST clients in a non-browser environment must pass the session cookie in the request header as shown in the following example:
+Note that if you are using a Web browser or Postman to make a REST API call, the session cookie obtained from the  `/tspublic/v1/session/login/token` or `/tspublic/v1/session/login` API call is automatically set. REST clients in a non-browser environment must include the session cookie in the request header as shown in the following example:
 
 [source,cURL]
 ----
