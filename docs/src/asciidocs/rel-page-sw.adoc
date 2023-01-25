@@ -10,7 +10,7 @@ This page provides information about new features and enhancements available for
 
 == Version 8.8.1-sw, January 2023
 
-ThoughtSpot 8.8.1-sw release version is now generally available. To upgrade your ThoughtSpot cluster to 8.8.0-sw, contact ThoughtSpot Support.
+ThoughtSpot 8.8.1-sw release version is now generally available!
 
 The 8.8.1-sw release introduces the following new features and enhancements:
 
