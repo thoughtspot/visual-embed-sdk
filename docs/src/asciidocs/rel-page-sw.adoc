@@ -20,9 +20,9 @@ Your application users can now access sample search walkthrough lessons created 
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 
-=== New Liveboard experience [beta blueBackground]^BETA^
+=== New Liveboard experience [beta betaBackground]^Beta^
 
-This release introduces the new Liveboard experience [beta blueBackground]^BETA^ on ThoughtSpot instances. The new Liveboard experience is in Beta on embedded instances and is turned off by default.
+This release introduces the new Liveboard experience [beta betaBackground]^Beta^  on ThoughtSpot instances. The new Liveboard experience is in Beta on embedded instances and is turned off by default.
 
 The new Liveboard experience includes several new features and user-experience improvements to the *Liveboard* page:
 
@@ -32,7 +32,7 @@ The edit mode allows you to edit the Liveboard title and description text, apply
 
 Liveboard tabs::
 
-The new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+The new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to Tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 +
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
@@ -66,18 +66,9 @@ If you have enabled the new Liveboard experience on your instance, you can use t
 +
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
 
-
 ==== New Liveboard experience rollout on embedded instances
 
-The new Liveboard experience is currently available in BETA on embedded ThoughtSpot instances.
-
-The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
-
-ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
-
-////
-The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
-////
+The new Liveboard experience [beta betaBackground]^Beta^  is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
 
 [NOTE]
 ====
@@ -92,7 +83,7 @@ For more information about the SDK versions, supported methods and classes, see 
 
 === REST API v1
 
-ThoughtSpot 8.8.0-sw introduces the following enhancements to REST API v1.
+ThoughtSpot 8.8.1-sw introduces the following enhancements to REST API v1.
 
 * The `/tspublic/v1/connection/fetchLiveColumns` and `/tspublic/v1/connection/fetchConnection` API endpoints now allow filtering API response by authentication type.
 +
@@ -106,8 +97,8 @@ For more information, see xref:connections-api.adoc#cre-connection[Create a data
 +
 For more information, see xref:tml-api.adoc#export[Export TML].
 
-=== REST API v2 [beta blueBackground]^BETA^
-The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in the future release and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+=== REST API v2 [beta betaBackground]^Beta^
+The REST v2 API [beta betaBackground]^Beta^  feature will be deprecated in the future release and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
 
 == Version 8.4.1-sw, September 2022
 
@@ -149,7 +140,7 @@ Users with administrator or developer privileges can now access the *Develop* ta
 
 The *Develop* tab provides access to Visual Embed SDK playground, style, action, and link customization features, and advanced security options for your embedded instance.
 
-You can also REST API v1 and REST API v2 [beta blueBackground]^BETA^ Playground. request and response workflows. The REST API v2 [beta blueBackground]^BETA^ Playground provides an interactive code panel to explore the API request and response workflows, build code samples, and view API documentation.
+You can also REST API v1 and REST API v2 [beta betaBackground]^Beta^  Playground. request and response workflows. The REST API v2 [beta betaBackground]^Beta^  Playground provides an interactive code panel to explore the API request and response workflows, build code samples, and view API documentation.
 
 For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
 

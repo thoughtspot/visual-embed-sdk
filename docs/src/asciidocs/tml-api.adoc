@@ -214,7 +214,7 @@ For example:
 
 |`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`. | `YAML`
 |`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.| `false`
-a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
+a|`export_fqn` [tag greenBackground]#NEW in 8.8.1-sw# a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
 Note that the FQN of a referenced object is the same as the GUID of that object. +
 
 ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced worksheet. +

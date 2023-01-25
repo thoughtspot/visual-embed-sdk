@@ -156,7 +156,7 @@ __String__. Password of the Dremio server account.
 __String__. The database associated with the account.
 ====
 
-.Denodo connection [tag greenBackground]#NEW in 8.6.0.cl#
+.Denodo connection
 [%collapsible]
 ====
 

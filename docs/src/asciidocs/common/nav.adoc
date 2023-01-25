@@ -7,6 +7,8 @@
 * link:{{navprefix}}=introduction[Home]
 * link:{{navprefix}}=rel-notes[Release Notes]
 ** link:{{navprefix}}=deprecated-features[Deprecation announcements]
+** link:{{navprefix}}=fixed-issues[Fixed issues]
+** link:{{navprefix}}=known-issues[Known issues]
 
 * link:{{navprefix}}=embed-ts[Embed ThoughtSpot]
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
