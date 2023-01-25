@@ -6,15 +6,14 @@
 :page-pageid: v1v2-comparison
 :page-description: Difference between REST API v1 and v2
 
-Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2[beta betaBackground]^Beta^ is a new framework that expands the core API functionality with additional features and improved user experience.
+Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2 is a new framework that expands the core API functionality with additional features and improved user experience.
 
 [div tableContainer]
 --
-
 [width="100%" cols="4,^5,^5"]
 [options='header']
 |=====
-||REST API v1| REST API v2[beta betaBackground]^Beta^
+||REST API v1| REST API v2
 |Developer Playground|Swagger API explorer
 
 The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
@@ -29,104 +28,224 @@ a| [tag greenBackground]#✓# Basic authentication +
 [tag greenBackground]#✓# OAuth Bearer token authentication +
 
 [tag greenBackground]#✓# Trusted authentication
-|Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
+|Access control| Requires admin privileges for certain API operations a|* Requires admin privileges for certain API operations
+
+* Requires admin or developer privileges to access the API Playground
+
 |Input and output parameters| Not fully standardized |Standardized
 
-|Resource collections a| * Data
-* admin
-* connection
-* dependency
-* export
-* group
-* logs
-* metadata
-* TML
-* security
-* session
-* user
+|Resource categories a|*Admin services* +
+API endpoints for cluster-level administration operations
 
+*Data APIs* +
+Data query APIs for searching data from a data source and querying a Liveboard and its visualization data.
 
-a| * Session
-* User 
-* Group
-* Connection
-* Metadata
-* Data 
-* Report
-* Logs
-* Security
-* Admin
-* Custom actions
+*Data connection and live query services* +
+API endpoints for CRUD operations of data connection objects
 
-|API services a|[tag greenBackground]#✓# User APIs 
+*Database services* +
+Data management API services for databases such as Falcon +
+__Applicable to ThoughtSpot Software deployments only__
 
-[tag greenBackground]#✓# Group APIs
+*Dependency services* +
+API endpoints for querying dependent object details.
 
-[tag greenBackground]#✓# Session APIs
+*Groups* +
+API endpoints for group administration and management
 
-[tag greenBackground]#✓# Connection APIs
+*Liveboard export* +
+API for downloading Liveboard and visualizations data in the PDF format
 
-[tag greenBackground]#✓# Metadata APIs
+*Logs* +
+API for audit logs +
+__Applicable to ThoughtSpot Cloud deployments__
 
-[tag greenBackground]#✓# Admin APIs 
+*Materialization services* +
+API endpoint for refreshing a materialized view. +
+__Applicable to ThoughtSpot Software deployments only__
 
-[tag greenBackground]#✓# TML APIs 
+*Metadata services* +
+API for querying metadata objects, assigning tags, setting favorites, and importing and exporting TML objects
 
-[tag greenBackground]#✓# APIs for dependent objects
+*Orgs* +
+API endpoints for Org administration and management
 
-[tag greenBackground]#✓# Search data API
+*Session* +
+API endpoints for user login, authentication token generation, default Liveboard assignment, and user logout.
 
-[tag greenBackground]#✓# Liveboard data API
+*Security* +
+API endpoints for sharing objects and assigning permissions
 
-[tag greenBackground]#✓# Liveboard export API
+*Subscription* +
+API endpoints for managing scheduled jobs for a given Liveboard
 
-[tag greenBackground]#✓# Security APIs
-
-[tag greenBackground]#✓# Log Streaming Service API
+*User* +
+API endpoints for user administration and management
 
 See xref:rest-api-reference.adoc[REST API v1 Reference] for a complete list of endpoints.
 
+a|
+*Authentication* +
+API endpoints for user login, authentication, and session management
 
-a| 
-[tag greenBackground]#✓# Session APIs
+*Data* +
+API endpoints for fetching data from a search query, saved Answer, and Liveboard
 
-[tag greenBackground]#✓# User APIs 
+*Groups* +
+API endpoints for group administration and management
 
-[tag greenBackground]#✓# Group APIs
+*Logs* +
+API endpoints to fetch audit logs from a ThoughtSpot application instance deployed on Cloud.
+__Applicable to ThoughtSpot Cloud deployments__
 
-[tag greenBackground]#✓# Connection APIs
+*Metadata* +
+API endpoints for querying and deleting metadata objects, and importing and exporting TML representation of metadata objects such as Liveboard, Worksheets, and Answers.
 
-[tag greenBackground]#✓# Metadata APIs
+*Orgs* +
+API endpoints for Org administration and management
 
-[tag greenBackground]#✓# Admin APIs
+*Reports* +
+API endpoints for downloading Liveboards and Asnwers in the PDF, PNG, XLS, and CSV format.
 
-[tag greenBackground]#✓# TML APIs
+*Security* +
+API endpoints for sharing objects and assigning permissions.
 
-[tag greenBackground]#✓# APIs for dependent objects
+*System* +
+API endpoints for querying system information
 
-[tag greenBackground]#✓# Data API
+*Tags* +
+API endpoints for tags creation, update, and assignment
 
-[tag greenBackground]#✓# Visualization export API
+*Users* +
+API endpoints for user administration and management
 
-[tag greenBackground]#✓# Custom actions API
-
-[tag greenBackground]#✓# Liveboard export API
-
-[tag greenBackground]#✓# Security APIs
-
-[tag greenBackground]#✓# Log Streaming Service API
-
+[IMPORTANT]
+====
+In the current release, REST API v2 does not support CRUD operations of data connection, Liveboard subscription, and endpoints for database services and refreshing a materialized view.
 See xref:rest-api-v2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
+====
+|HTTP methods a| `GET` for query APIs  +
+`POST` for create operations. API calls that support mutliple fields for filtering data also use the `POST` method.  +
+`PUT` for update operations +
+`DELETE` for delete operations +
 
-|Resource URL  a| 
-Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/`
-
+Some `GET` and `DELETE` operations support query and path parameters, whereas the `POST` and `PUT` require a JSON request body.
+a|`POST` +
+In REST API v2 framework, you can pass several parameters in a single API call. Hence, most of the API operations use the `POST` method.
+`GET` +
+The `System` API supports `GET` method to query system information.
+a|
+Resource URL  a|
+Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/` +
 Resource path:  `tspublic/v1/<resource-group>/<resource>/`
+|Base URI:   `\https://<your-thoughtspot-hostname>/` +
+Resource path:  `/api/rest/2.0/<resource-group>/<resource>`
+|Metadata object types a|
+* `QUESTION_ANSWER_BOOK` for Answers
+* `PINBOARD_ANSWER_BOOK` for Liveboards
+* `LOGICAL_TABLE` for data objects such as table, worksheet, or view
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins
+* `TAG` for tag objects
+* `DATA_SOURCE` for data source objects
+* `USER` for user objects
+* `USER_GROUP` for user group objects
+a|
+* `LIVEBOARD` for Liveboards
+* `ANSWER` for saved Answer object
+* `CONNECTION` for data connections
+* `TAG` for tag objects
+* `USER` for user objects
+* `USER_GROUP` for groups
+* `LOGICAL_TABLE` for worksheets, tables and views
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_RELATIONSHIP` for table and worksheet joins
+|Metadata object sub-types  a|
+The sub-types for LOGICAL_TABLE include:
 
-|Base URI:   `\https://<your-thoughtspot-hostname>/tspublic/rest/v2/`
+** `ONE_TO_ONE_LOGICAL` for tables
+** `WORKSHEET` for worksheets.
+** `USER_DEFINED` for data imported by users
+** `AGGR_WORKSHEET` for views
 
-Resource path:  `<resource-group>/<resource>`
+The sub-types for `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata types are:
+
+** `FORMULA` to query a list of formulas applied to a worksheet column +
+** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet +
+** `CALENDAR_TABLE` to query columns that have a custom calendar configured
+a| Querying metadata objects by sub-types is not supported in the current release
 |====
-
 --
+
+== API operations, request and response workflows
+
+In REST API v2, the API endpoints let you define several request parameters for CRUD operations. Each endpoint is designed to support operations on several types of objects in a single API request.
+
+The following example shows the REST API v1 and v2 endpoints available for user administration and provisioning:
+
+image::./images/chart-selection.png[Chart selection widget]
+
+Note that REST API v2 has fewer endpoints but supports all user operations that were available with REST API v1.
+
+==== Request body
+The following example shows the difference in the request body for user creation operation:
+
+REST API v1::
+
+`POST /tspublic/v1/user/`
+
++
+----
+curl -X POST \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+-d 'name=UserA&password=GuestTest123!&displayname=User A&properties={ "userContent": {"userPreferences": {"showWalkMe": true}}}&groups=["d0326b56-ef23-4c8a-8327-a30e99bcc72b"]&usertype=LOCAL_USER&visibility=DEFAULT&triggeredbyadmin=true' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/'
+----
+
+
+REST API v2::
+
+`POST /api/rest/2.0/users/create`
+
++
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/users/create' \
+  -H 'Authorization: Bearer {OAUTH_TOKEN}'\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "name": "UserB",
+  "display_name": "User B",
+  "password": "123Cloud!",
+  "email": "UserA@example.com",
+  "account_type": "LOCAL_USER",
+  "account_status": "ACTIVE",
+  "group_identifiers": [
+    "ADMINISTRATOR"
+  ],
+  "visibility": "SHARABLE",
+  "show_onboarding_experience": true,
+  "notify_on_share": true,
+  "home_liveboard_identifier": "eee701ad-10d2-4bd5-b268-e07c123569c8",
+  "favorite_metadata": [
+    {
+      "identifier": "59a8ae34-3609-4385-9f6b-871b74c901a3",
+      "type": "LIVEBOARD"
+    },
+    {
+      "identifier": "beb2344c-215b-46a0-b518-3e933365bfc2",
+      "type": "ANSWER"
+    }
+  ]
+}'
+
+----
+
+
+
+
+
+
 

@@ -180,7 +180,7 @@ The search bar element that allows passing search tokens.
 [options='header']
 |======
 |Variable| Description
-|`--ts-var-search-bar-text-font-color`|Font color of the search tokens in the Search bar.
+|`--ts-var-search-bar-text-font-color`|Font color of the text in the Search bar.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
 |`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
@@ -358,7 +358,6 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu-text-transform`|Text capitalization specification for the menu items.
 |`--ts-var-menu--hover-background`|Background color for menu items on hover.
 |======
-
 
 === Dialogs
 CSS variables for dialogs that prompt the user to select an option or enter information. For example, the Liveboard pin dialog that appears on clicking *Pin* on the Search results or Answer page, the *Show underlying data* dialog that appears on clicking *Show underlying data* on a Liveboard visualization or Answer.

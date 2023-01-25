@@ -10,7 +10,28 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 == Version 1.19.0, Coming soon
 
-<TBD>
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK provides the `SearchBarEmbed` JavaScript package to embed only the ThoughtSpot Search bar in your app. +
+
+For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
+
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and answer pages. You can also use these variables to define custom styles in the CSS file. +
+For more information, see xref:css-customization.adoc[Customize CSS].
+|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page. +
+
+For more information, see xref:events-ref.adoc#_gettml[GetTML].
+
+|[tag greenBackground]#NEW FEATURE# a| The new version of the SDK introduces the following enums in the `Action` object:
+
+* `Action.SyncToOtherApps` +
+* `Action.SyncToSheets` +
+* `Action.ManagePipelines` +
+
+You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or answer.
+
+For more information, see xref:embed-action-ref.adoc[Actions].
+|====
 
 == Version 1.18.0, January 2023
 
