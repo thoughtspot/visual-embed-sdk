@@ -9,7 +9,7 @@
 --
 Starting from the ThoughtSpot Cloud 9.0.0.cl release, REST v2 API endpoints[beta betaBackground]^Beta^ are deprecated and removed from the ThoughtSpot API Playground. The API Playground will display the REST API v2 endpoints that are qualified for General Availability (GA).
 
-For detailed information about the endpoints, request and response workflows, see link:https://visual-embed-sdk-git-redoc-api-docs-thoughtspot-site.vercel.app/docs/apiv2Beta/index.html[REST API v2 (Beta) documentation, window=_blank].
+For detailed information about the endpoints listed in this article, see link:https://visual-embed-sdk-git-redoc-api-docs-thoughtspot-site.vercel.app/docs/apiv2Beta/index.html[REST API v2 (Beta) documentation, window=_blank].
 --
 
 The REST v2 API endpoints[beta betaBackground]^Beta^ includes the following resource collections and endpoints.
