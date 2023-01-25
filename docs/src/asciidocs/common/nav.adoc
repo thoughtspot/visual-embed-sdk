@@ -120,4 +120,4 @@
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
 ** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
 ** link:https://training.thoughtspot.com/page/developer[Training resources, window=_blank]
-** link:https://visual-embed-sdk-git-redoc-api-docs-thoughtspot-site.vercel.app/docs/apiv2Beta/index.html[REST API v2(Beta) documentation, window=_blank] 
+** link:{{navprefix}}=rest-apiv2-beta-reference[REST API v2 Reference ^*Beta*^]
