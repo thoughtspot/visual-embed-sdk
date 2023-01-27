@@ -65,7 +65,7 @@ For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 re
 
 To download retrieve a Liveboard with unsaved changes, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
 
-[source,javascript]
+[source,JavaScript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
@@ -81,7 +81,7 @@ The promise returned resolves to  a string that contains the transient Liveboard
 If the new Liveboard experience is enabled, the transient content includes ad hoc changes to visualizations such as sorting, toggling of legends, and data drill down.
 
 === Sample browser fetch request
-[source,javascript]
+[source,JavaScript]
 ----
 < iframe src = "http://ts_host:port/" id = "ts-embed" > < /iframe>
 < script src = "/path/to/liveboard.js" > < /script>

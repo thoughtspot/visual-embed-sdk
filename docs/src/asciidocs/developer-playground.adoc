@@ -99,7 +99,7 @@ Enables Runtime Filters.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'color',
@@ -161,7 +161,7 @@ Enables Runtime Filters on a visualization in a Liveboard.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Revenue',
@@ -212,7 +212,7 @@ Enables Runtime Filters on a visualization in a Liveboard.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Revenue',

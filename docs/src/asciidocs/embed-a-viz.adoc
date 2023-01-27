@@ -22,7 +22,7 @@ You cannot embed a saved answer as an individual visualization. Saved answers ca
 Import the visualization SDK library to your application environment:
 
 **npm**
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     LiveboardEmbed,
@@ -35,7 +35,7 @@ from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
-[source,javascript]
+[source,JavaScript]
 ----
 <script type = 'module'>
     import {
@@ -178,7 +178,7 @@ Runtime filters provide the ability to filter data at the time of retrieval. Run
 +
 For example, to sort values equal to `red` in the `Color` column for a visualization, you can pass the runtime filters as shown here:
 +
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Product Type',
@@ -212,7 +212,7 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners:
 
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.on(EmbedEvent.init, showLoader)
 liveboardEmbed.on(EmbedEvent.load, hideLoader)

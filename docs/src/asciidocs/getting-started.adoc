@@ -69,7 +69,7 @@ Use this package to embed xref:full-embed.adoc[the full ThoughtSpot application]
 
 After importing the package, specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",

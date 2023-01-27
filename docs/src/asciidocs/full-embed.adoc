@@ -284,7 +284,7 @@ __String__. Filters objects by the specified tag. If the Liveboards and answers 
 This attribute applies the tag filter at the application level. All metadata objects in the application, such as Liveboards and answers, would be filtered by the tag.
 
 +
-[source, javascript]
+[source,JavaScript]
 ----
 tag: 'sales'
 ----
@@ -297,7 +297,7 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners.
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.init, showLoader)
 appEmbed.on(EmbedEvent.load, hideLoader)
@@ -309,7 +309,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 Render the embedded application.
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.render();
 ----

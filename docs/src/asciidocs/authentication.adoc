@@ -645,3 +645,33 @@ If the API request is successful, the currently logged-in user is signed out of 
 |**200**|The user is logged out of ThoughtSpot
 |**500**|Logout failure/unauthorized request
 |===
+
+== v2 GA
+
+
+==== Bearer token workflow - object token
+
+----
+{"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSMGRqQTJSMUZIU1ZSekwweE5WRlp2ZGs5VE4wUkJQVDBrVFVwNGNUUkxiemhHTnl0cmIySldjM1pKUlRGbE1FbG9VaXRKTjBzeVdEQjRla1pNZW1OaUswVkxORDA=","creation_time_in_millis":1674665089872,"expiration_time_in_millis":1674665389872,"scope":{"access_type":"REPORT_BOOK_VIEW","org_id":0,"metadata_id":"9bd202f5-d431-44bf-9a07-b4f7be372125"},"valid_for_user_id":"59481331-ee53-42be-a548-bd87be6ddd4a","valid_for_username":"tsadmin"}
+----
+
+Full access token
+
+----
+{"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSVFdFWnJUMGRZWm5veWRrVmhRV2g1YjJ4aGFWcEJQVDBrZUhOaVEwVm5WVTlYYkdReWFqTlROR0ZIVEdoT1QyODVlaXRYYlRaMWIxcENkMnRDUlZNelpEQjZUVDA=","creation_time_in_millis":1674743997227,"expiration_time_in_millis":1674744297227,"scope":{"access_type":"FULL","org_id":0,"metadata_id":null},"valid_for_user_id":"59481331-ee53-42be-a548-bd87be6ddd4a","valid_for_username":"tsadmin"}
+
+----
+
+
+Trusted authentication workflow
+
+----
+{"token":"dHNhZG1pbjpKSE5vYVhKdk1TUlRTRUV0TWpVMkpEVXdNREF3TUNSNFkwUkpkVmRxUlN0RmMySklUbGxCVVZWSmEyVlJQVDBrZUZCb2FYRkliRmhYUmpKR1FUVlNUeTl0Vkc1d2FXVnJMek5rVVhSemJ6QjBSekpVYVZGMU9HcFlPRDA=","creation_time_in_millis":1674744249303,"expiration_time_in_millis":1674744549303,"scope":{"access_type":"FULL","org_id":0,"metadata_id":null},"valid_for_user_id":"59481331-ee53-42be-a548-bd87be6ddd4a","valid_for_username":"tsadmin"}
+----
+
+
+Auto create
+
+----
+{"token":"YWRtaW5Vc2VyOkpITm9hWEp2TVNSVFNFRXRNalUySkRVd01EQXdNQ1JLYW05NFJXTnJiRzVxTDFCdlNVOVZiMWxNVVhCblBUMGtlRGgyT0RBclNVSTNiamwwZFhWM1p6aFZMMlphU200clRDdFNVVmwwVEhJd05qRXJkRW8wUjBka1FUMA==","creation_time_in_millis":1674744324592,"expiration_time_in_millis":1674744624592,"scope":{"access_type":"FULL","org_id":0,"metadata_id":null},"valid_for_user_id":"63a095cf-7d2a-4424-960d-93331d51b2fe","valid_for_username":"adminUser"}
+----

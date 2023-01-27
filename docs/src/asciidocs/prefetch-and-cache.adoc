@@ -15,7 +15,7 @@ The `prefetch` method in the SDK allows your web browsers to prefetch static res
 +
 In the following example, the `prefetch` method is called before `init` to prefetch resources before the authentication process is initialized.
 +
-[source,javascript]
+[source,JavaScript]
 ----
 // App.jsx
 import {
@@ -51,7 +51,7 @@ init
 You can call prefetch in the `init` method by setting the `callPrefetch` attribute to `true`.
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 import {
    LiveboardEmbed,

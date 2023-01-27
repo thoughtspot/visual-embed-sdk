@@ -305,7 +305,7 @@ The user authentication may fail due to an incomplete SSO login process, expired
 
 The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
 
-[source,Typescript]
+[source,TypeScript]
 ----
 authStatus = init(embedConfig); authStatus.on(AuthStatus.FAILURE, (reason) => {
 console.log('Authentication failed');
@@ -348,7 +348,7 @@ For more information about triggering these events, see xref:embed-events.adoc[I
 
 To log out embed users, you can use the `Logout` method to call the `xref:session-api.adoc#session-logout[/callosum/v1/session/logout]` API endpoint.
 
-[source,Typescript]
+[source,TypeScript]
 ----
 import { logout } from "@thoughtspot/visual-embed-sdk";
 

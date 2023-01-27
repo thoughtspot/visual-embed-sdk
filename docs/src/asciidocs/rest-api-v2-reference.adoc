@@ -5,7 +5,308 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints[beta betaBackground]^Beta^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
+This API Reference page lists the REST API v2 endpoints and provides basic information about the resource URLs and supported operations. If you want to try out these APIs, view detailed documentation, and download code samples, visit the +++ <a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2 Playground</a>+++.
+
+
+== Authentication
+
+[div divider]
+--
++++<h4> Get Current User Info</h4>+++
+
+`GET /api/rest/2.0/auth/session/user` +
+
+Gets session information for the currently logged-in user.
+--
+
+[div divider]
+--
++++<h4> Get Current User Info</h4>+++
+
+`GET /api/rest/2.0/auth/session/user` +
+
+Gets session information for the currently logged-in user.
+--
+
+[div divider]
+--
++++<h4>Login</h4>+++
+
+`POST /api/rest/2.0/auth/session/login` +
+
+Allows a user to log in to ThoughtSpot with username and password. If the login is successful, a user session is established.
+--
+
+[div divider]
+--
++++<h4>Get Object Access Token</h4>+++
+
+`POST /api/rest/2.0/auth/token/object` +
+
+Allows obtaining an authentication token from ThoughtSpot to access a specific metadata object. The token obtained from this API call does not provide full access to ThoughtSpot.
+
+* To get a bearer token, specify the username, password, and object ID in the API request.
+* To get a token for trusted authentication, specify the username, object ID, orgId, and `secret_key`.
+
++
+If the user object is not created in ThoughtSpot, you can select `autocreate` to provision the user and assign groups and privileges.
++
+The ThoughtSpot generates a `secret key` if Trusted authentication is enabled on your instance. You can copy the `secret key` from *Develop* > *Customizations* > *Security Settings* page.
+--
+
+[div divider]
+--
++++<h4>Get Full Access Token</h4>+++
+
+`POST /api/rest/2.0/auth/token/full` +
+
+Gets an authentication token from ThoughtSpot for a user. The token obtained from this API call provides full access to ThoughtSpot. +
+
+* To get a bearer token, specify the username and password in the API request.
+* To get a token for trusted authentication, specify the username, orgId, and `secret_key`.
++
+The ThoughtSpot generates a `secret key` if Trusted authentication is enabled on your instance. You can copy the `secret key` from the *Develop* > *Customizations* > *Security Settings* page.
++
+If the user object is not created in ThoughtSpot, you can select `autocreate` to provision the user and assign groups and privileges.
+--
+
+[div divider]
+--
++++<h4>Logout</h4>+++
+
+`POST /api/rest/2.0/auth/session/logout` +
+
+Logs out the currently logged-in user.
+--
+
+[div divider]
+--
++++<h4>Revoke token</h4>+++
+
+`POST /api/rest/2.0/auth/token/revoke` +
+
+Revokes authentication token for a user.
+--
+
+== Users
+
+[div divider]
+--
++++<h4>Search Users</h4>+++
+
+`POST /api/rest/2.0/users/search`
+
+Gets user details. You can get the details of a specific user or all user objects available in the ThoughtSpot system. You can specify additional parameters to filter API response.
+--
+
+[div divider]
+--
++++<h4>Create User</h4>+++
+
+`POST /api/rest/2.0/users/create`
+
+Creates a user object. +
+
+This API also supports the following operations:
+
+* add the email address of the user
+* add the user to Orgs and groups.
+* set account status
+* define sharing visibility
+* set a default Liveboard for the user
+* add to the user's favourites list
+* set user preferences to start or stop onboarding walkthrough, and receive email notification when another user shares an object
+--
+
+[div divider]
+--
++++<h4>Update User</h4>+++
+
+`POST /api/rest/2.0/users/{user_identifier}/update`
+
+Allows modifying the properties of a user object.
+--
+
+[div divider]
+--
++++<h4>Delete User</h4>+++
+
+`POST /api/rest/2.0/users/{user_identifier}/delete`
+
+Deletes a user from ThoughtSpot.
+--
+
+[div divider]
+--
++++<h4>Import Users</h4>+++
+
+`POST /api/rest/2.0/users/import`
+
+Allows importing user data from external databases into ThoughtSpot.
+
+During this operation:
+
+* If the specified user is not available in ThoughtSpot, users are created and assigned a default password. The `default_password` parameter is optional.
+* If the `delete_unspecified_users` property is set to `true`, ThoughtSpot users not specified in the API request, except for `tsadmin`, `guest` system and su users, are deleted.
+* If the specified user objects are already available in ThoughtSpot, the object properties are modified in ThoughtSpot and synchronized as per the data defined in the API request.
+
+A successful API call returns the object that represents the changes made in the ThoughtSpot system.
+--
+
+
+[div divider]
+--
++++<h4> Change User Password</h4>+++
+
+
+== Report
+
+--
+`*POST* /tspublic/rest/v2/report/answer`
+
+Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/answer-report" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/report/liveboard`
+
+Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/liveboard-report" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+--
+
+== Security
+
+`*POST* /tspublic/rest/v2/security/share/tsobject`
+
+Allows sharing an object with another user or group in ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-object" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**POST** /tspublic/rest/v2/security/share/visualization`
+
+Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-visualization" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`**GET** /tspublic/rest/v2/security/permission/tsobject`
+
+Gets access permission details for a metadata object.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-on-object" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*GET* /tspublic/rest/v2/security/permission/principal`
+
+Gets a list of objects that the specified user or group has access to.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-for-principal" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/security/permission/tsobject/search`
+
+Gets permission details for specific objects, and users and groups who have access to these objects.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-on-objects" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
++++<p class="divider"> </p>+++
+
+`*POST* /tspublic/rest/v2/security/permission/principal/search`
+
+Gets a list objects to which a user or group has `READ_ONLY` or `MODIFY` permissions.
+
+++++
+<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-for-principals" id="preview-in-playground" target="_blank">View in Playground</a>
+++++
+
+
+
+== Authentication
+
+include::{path}/org-api-list.adoc[]
+== User management
+
+include::{path}/user-api-list.adoc[]
+
+== Groups and privileges
+
+include::{path}/group-api-list.adoc[]
+
+== Session management
+
+include::{path}/session-api-list.adoc[]
+
+== Metadata management
+
+include::{path}/metadata-api-list.adoc[]
+
+== Configuration management
+
+include::{path}/admin-api-list.adoc[]
+
+== Data connections
+
+include::{path}/data-connection-apis.adoc[]
+
+== TML objects
+
+include::{path}/tml-api-list.adoc[]
+
+== Liveboard data
+
+include::{path}/pinboard-api-list.adoc[]
+
+== Search data
+
+include::{path}/search-api-list.adoc[]
+
+== Dependent objects
+
+include::{path}/dependency-api-list.adoc[]
+
+== Security
+
+include::{path}/security-api-list.adoc[]
+
+== Audit logs
+
+include::{path}/audit-log-api.adoc[]
+
+== Materialization service
+
+include::{path}/materialization-api-list.adoc[]
+
+== Database and schema
+
+include::{path}/database-api-list.adoc[]
+
+
+
+
+
+
 ////
 == Session
 
@@ -714,89 +1015,6 @@ Retrieves SQL for a visualization on a Liveboard.
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/data/liveboard-query-sql" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
 --
-
-== Report
-
---
-`*POST* /tspublic/rest/v2/report/answer`
-
-Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/answer-report" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**POST** /tspublic/rest/v2/report/liveboard`
-
-Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/liveboard-report" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
---
-
-== Security
-
-`*POST* /tspublic/rest/v2/security/share/tsobject`
-
-Allows sharing an object with another user or group in ThoughtSpot.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-object" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**POST** /tspublic/rest/v2/security/share/visualization`
-
-Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-visualization" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**GET** /tspublic/rest/v2/security/permission/tsobject`
-
-Gets access permission details for a metadata object.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-on-object" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*GET* /tspublic/rest/v2/security/permission/principal`
-
-Gets a list of objects that the specified user or group has access to.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-for-principal" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*POST* /tspublic/rest/v2/security/permission/tsobject/search`
-
-Gets permission details for specific objects, and users and groups who have access to these objects.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-on-objects" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*POST* /tspublic/rest/v2/security/permission/principal/search`
-
-Gets a list objects to which a user or group has `READ_ONLY` or `MODIFY` permissions.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-for-principals" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
 
 == Custom actions
 

@@ -179,7 +179,7 @@ An example of this setting is the link:https://help.okta.com/en/prod/Content/Top
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SAML` in the SDK when calling the `init` function from your application.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",

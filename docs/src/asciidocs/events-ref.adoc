@@ -25,7 +25,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.CreateMonitor {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -46,21 +46,21 @@ To trigger the *Copy link* action on a specific visualization on a Liveboard, pa
 ====
 The following example triggers the `CopyLink` action on a Liveboard.
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.CopyLink)
 ----
 
 The following example triggers the `CopyLink` action on the specified visualization in a Liveboard.
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.CopyLink,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 
 If you have embedded only chart or table visualization, you can trigger the `CopyLink` action on the object.
-[source, javascript]
+[source,JavaScript]
 ----
 vizEmbed.trigger(HostEvent.CopyLink)
 ----
@@ -84,7 +84,7 @@ __Boolean__. When set to `true`, automatically drills down to the selected point
 .Examples
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.DrillDown, {
         points: clickedPointData,
@@ -93,7 +93,7 @@ searchEmbed.trigger(HostEvent.DrillDown, {
 ----
 In this example, the `VizPointDoubleClick` event is used for triggering the `DrillDown` event when an area or specific data point on a table or chart is double-clicked.
 
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
     const {
@@ -119,7 +119,7 @@ Triggers the *Download PDF* action on a Liveboard.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
 ----
@@ -139,20 +139,20 @@ To trigger the *Edit* action for a specific visualization on a Liveboard, pass t
 ====
 The following example triggers the `Edit` action on a Liveboard.
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit)
 ----
 
 The following example triggers the `Edit` action on the specified visualization in a Liveboard.
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 
 If you have embedded only chart or table visualization, you can trigger the `Edit` action on the object.
-[source, javascript]
+[source,JavaScript]
 ----
 vizEmbed.trigger(HostEvent.Edit)
 ----
@@ -170,7 +170,7 @@ Triggers the *Edit TML* action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.EditTML)
 ----
@@ -188,7 +188,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Explore, {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -206,7 +206,7 @@ Triggers the *Export TML* action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ExportTML)
 ----
@@ -221,7 +221,7 @@ Fires when a user triggers the Liveboard export workflow with the `getExportRequ
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
 .then(data => {
@@ -243,7 +243,7 @@ Gets TML of the visualization or answer object when a user on the *Show underlyi
 [%collapsible]
 ====
 The event trigger from a Liveboard visualization includes the `vizId` key: +
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ShowUnderlyingData), {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
@@ -265,7 +265,7 @@ Triggers the *Show Liveboard details*  action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.LiveboardInfo)
 ----
@@ -282,7 +282,7 @@ Triggers the *Make a copy*  action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.MakeACopy)
 ----
@@ -299,7 +299,7 @@ Requires the `vizId` key: +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ManageMonitor, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -328,7 +328,7 @@ You can also use the `appEmbed.navigateToPage(path, true)` function for page nav
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Navigate, {
 path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
@@ -348,7 +348,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Pin, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -367,12 +367,12 @@ Triggers the *Present* action on a Liveboard or visualization on a Liveboard.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Present)
 ----
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Present, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -391,7 +391,7 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Remove)
 ----
@@ -414,7 +414,7 @@ __String__. Data source GUIDs
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.Search {
 searchQuery: "[sales] by [item type]"
@@ -435,7 +435,7 @@ Triggers the *Schedule* action for scheduling a Liveboard job.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Schedule)
 ----
@@ -453,7 +453,7 @@ Triggers the *Manage schedules* action to manage Liveboard job schedules.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ScheduleList)
 ----
@@ -470,7 +470,7 @@ You can specify an array of Visualization GUIDs set as visible objects. The visu
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c','d547ec54-2a37-4516-a222-2b06719af726'])
 ----
@@ -498,7 +498,7 @@ The following example shows how to register an event handler to trigger an event
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
 columnName: "state",
@@ -526,7 +526,7 @@ Triggers the *Update TML* action for a Liveboard object.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateTML)
 ----
@@ -548,7 +548,7 @@ Triggers all embed events. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.ALL, payload => {
 console.log('Embed Events', payload)
@@ -647,7 +647,7 @@ You can register the `AuthInit` event to be notified about the authentication st
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.AuthInit, payload => {
     console.log('AuthInit', payload);
@@ -668,7 +668,7 @@ Indicates if an authenticated session has expired. +
 ====
 In this example, the `AuthExpire` event calls the `showAuthExpired` function to show a banner when an authenticated session expires. +
 
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
   //show auth expired banner
@@ -689,7 +689,7 @@ Is triggered when a user clicks *Copy and edit* on a saved answer. +
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 appEmbed.on(EmbedEvent.CopyAEdit, payload => {
@@ -706,7 +706,7 @@ appEmbed.on(EmbedEvent.CopyAEdit, payload => {
 
 Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
 Is triggered when a user selects the table cells of an answer and selects *Copy to clipboard* from the context menu. +
-[source,javascript]
+[source,JavaScript]
 
 [div divider]
 --
@@ -750,7 +750,7 @@ Available with `SearchEmbed` and `AppEmbed` in `V1.1.0` or later. +
 Is triggered when the answer or Liveboard object data is received. +
 Returns the answer or Liveboard data.
 
-[source, javascript]
+[source,JavaScript]
 [div divider]
 --
 .Example
@@ -774,7 +774,7 @@ Returns the GUIDs of the data sources selected.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
     console.log('DataSourceSelected', payload);
@@ -793,7 +793,7 @@ Is triggered when a modal dialog is opened.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DialogOpen, payload => {
     console.log('dialog open', payload);
@@ -812,7 +812,7 @@ Is triggered when a modal dialog is closed.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DialogClose, payload => {
     console.log('dialog close', payload);
@@ -832,7 +832,7 @@ Is triggered when the *Download* action is initiated on a Liveboard or answer, a
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.Download, payload => {
@@ -854,7 +854,7 @@ Is triggered when the *Download As CSV* action is initiated on a Liveboard or an
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
@@ -877,7 +877,7 @@ Is triggered when a Liveboard or answer object is downloaded as a PDF file and o
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
@@ -899,7 +899,7 @@ Is triggered when the Liveboard or answer data is downloaded as an Excel file an
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
@@ -932,7 +932,7 @@ The GUIDs of the columns that were excluded from filter application.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.Drilldown, payload => {
     console.log('Drilldown', payload);
@@ -951,7 +951,7 @@ Returns the IDs of the column and the filters applied during the operation.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DrillExclude, payload => {
     console.log('Drill exclude', payload);
@@ -972,7 +972,7 @@ Returns the IDs of the column and the filters that were applied during the opera
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DrillInclude, payload => {
     console.log('Drill include', payload);
@@ -990,7 +990,7 @@ Is triggered when a user clicks the *Edit TML* action on the answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.EditTML, payload => {
     console.log('Edit TML', payload);
@@ -1009,7 +1009,7 @@ Is triggered when a user clicks the *Export TML* action on the answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.ExportTML, payload => {
@@ -1032,7 +1032,7 @@ Returns an error object or message.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
 //show error messaage
@@ -1058,7 +1058,7 @@ Returns the timestamp of the event.
 
 In this example, a showLoader function is called to show a loader when the `Init` event is emitted.
 
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.on(EmbedEvent.Init, showLoader)
   //show a loader
@@ -1137,7 +1137,7 @@ Is emitted when third-party cookies are blocked by a user's browser. +
 ====
 In this example, the `NoCookieAccess` event calls the `showCookieSettingsMsg` function to show a message about setting cookies.
 
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.NoCookieAccess, showCookieSettingsMsg)
 ----
@@ -1154,7 +1154,7 @@ Is triggered when a user tries to pin an answer to a Liveboard.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.Pin, payload => {
@@ -1179,7 +1179,7 @@ Is triggered when a search query is updated.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
 ----
@@ -1194,7 +1194,7 @@ Is triggered when a user navigates from one page to another in the embedded Thou
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.RouteChange, payload => console.log('data', payload))
 ----
@@ -1212,7 +1212,7 @@ Is triggered when an answer or Liveboard (new Liveboard experience only) is save
 [%collapsible]
 ====
 
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.Save, payload => {
@@ -1226,7 +1226,7 @@ searchEmbed.on(EmbedEvent.Save, payload => {
 })
 ----
 
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 liveboardEmbed.on(EmbedEvent.Save, payload => {
@@ -1262,7 +1262,7 @@ Is triggered when a user clicks the *Share* icon on the answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.Share, payload => {
@@ -1288,7 +1288,7 @@ Is triggered when the *SpotIQ Analyze* action is initiated on an answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
@@ -1315,7 +1315,7 @@ Returns the data point that was clicked.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointClick, payload => {
     console.log('VizPointClick', payload)
@@ -1336,7 +1336,7 @@ Returns the data point that was double-clicked.
 [%collapsible]
 ====
 
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
     console.log('VizPointDoubleClick', payload)
@@ -1367,7 +1367,7 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
 
 The following example shows how to unsubscribe from an event:
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.off(EmbedEvent.AuthInit)
 ----

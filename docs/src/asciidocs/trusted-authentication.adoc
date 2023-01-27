@@ -65,7 +65,7 @@ When using `getAuthToken`, you specify a function that returns a Promise that re
 
 The following example shows a callback function with a custom request using link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], which returns a Promise. You can also use link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XHR, window=_blank] and build the link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise[Promise, window=_blank] manually.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: tsURL,

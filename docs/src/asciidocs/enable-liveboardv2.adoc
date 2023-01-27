@@ -21,7 +21,7 @@ If the `liveboardv2` attribute is not set in the SDK, ThoughtSpot will use the L
 The following examples show how to enable the new Liveboard experience on a ThoughtSpot embedded application:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -33,7 +33,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 ----
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -109,7 +109,7 @@ You can also pin a visualization to a Liveboard tab using the Pin action on the 
 
 By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the Visual Embed SDK as shown in the example here:
 
-[source,javascript]
+[source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {

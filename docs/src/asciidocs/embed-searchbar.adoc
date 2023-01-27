@@ -32,7 +32,7 @@ image::./images/searchbarembed.png[Search bar embed]
 Import the `SearchBarEmbed` SDK library to your application environment:
 
 **npm**
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     SearchBarEmbed,
@@ -46,7 +46,7 @@ from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
-[source,javascript]
+[source,JavaScript]
 ----
 <script type = 'module'>
     import {
@@ -67,7 +67,7 @@ xref:getting-started.adoc#initSdk[Initialize the SDK] and define authentication 
 
 Create an instance of the SearchBarEmbed object and customize your search page view.
 
-[source,javascript]
+[source,JavaScript]
 ----
 const searchBarEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -82,7 +82,7 @@ const searchBarEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
 });
 ----
 ////
-[source,javascript]
+[source,JavaScript]
 ----
 const searchEmbed = new SearchBarEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -206,7 +206,7 @@ __String__. The ThoughtSpot Modeling Language (TML) query string. For example, t
 __Boolean__. When set to `true`, the  focus is placed on search results. When set to `false`, the focus is placed at the end of search tokens in the search bar.
 +
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchOptions: {
     searchTokenString: '[product][sales][date].daily',
@@ -222,7 +222,7 @@ searchOptions: {
 
 Register event listeners. 
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchBarEmbed.on(EmbedEvent.Init, showLoader)
 searchBarEmbed.on(EmbedEvent.Load, hideLoader)
@@ -235,7 +235,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded search
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchBarEmbed.render();
 ----

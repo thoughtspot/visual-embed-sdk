@@ -1,6 +1,7 @@
 = REST v1 and REST v2 API comparison
 :toc: true
 :toclevels: 1
+:source-highlighter: pygments
 
 :page-title: Difference between REST API v1 and v2
 :page-pageid: v1v2-comparison
@@ -8,6 +9,7 @@
 
 Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2 is a new framework that expands the core API functionality with additional features and improved user experience.
 
+== Feature comparison
 [div tableContainer]
 --
 [width="100%" cols="4,^5,^5"]
@@ -32,9 +34,30 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 * Requires admin or developer privileges to access the API Playground
 
-|Input and output parameters| Not fully standardized |Standardized
+|Request and Response structure| Not fully standardized |Standardized
 
-|Resource categories a|*Admin services* +
+|API services a| See xref:rest-api-reference.adoc[REST API v1 Reference].
+a|REST API v2 introduces APIs for CRUD operations of Tags, object deletion, and default Liveboard assignment for users. +
+You can also download Liveboard and Answer data in PDF, PNG, CSV, and XLS formats. +
+Data APIs in REST API v2 support runtime filters and runtime sorting of filters. +
+For a complete list of REST API v2 endpoints, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
+a|
+Resource URL  a|
+Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/` +
+Resource path:  `tspublic/v1/<resource-group>/<resource>/`
+|Base URI:   `\https://<your-thoughtspot-hostname>/` +
+Resource path:  `/api/rest/2.0/<resource-group>/<resource>`
+|====
+--
+
+== Resource categories
+[div tableContainer]
+--
+[width="100%" cols="7,7"]
+[options='header']
+|=====
+|REST API v1| REST API v2
+a|*Admin services* +
 API endpoints for cluster-level administration operations
 
 *Data APIs* +
@@ -82,8 +105,6 @@ API endpoints for managing scheduled jobs for a given Liveboard
 *User* +
 API endpoints for user administration and management
 
-See xref:rest-api-reference.adoc[REST API v1 Reference] for a complete list of endpoints.
-
 a|
 *Authentication* +
 API endpoints for user login, authentication, and session management
@@ -122,72 +143,94 @@ API endpoints for user administration and management
 [IMPORTANT]
 ====
 In the current release, REST API v2 does not support CRUD operations of data connection, Liveboard subscription, and endpoints for database services and refreshing a materialized view.
-See xref:rest-api-v2-reference.adoc[REST API v2 Reference] for a complete list of endpoints.
 ====
-|HTTP methods a| `GET` for query APIs  +
-`POST` for create operations. API calls that support mutliple fields for filtering data also use the `POST` method.  +
-`PUT` for update operations +
-`DELETE` for delete operations +
+
+|=====
+--
+
+== Request methods
+[div tableContainer]
+--
+[width="100%" cols="7,7"]
+[options='header']
+|=====
+|REST API v1| REST API v2
+a|
+* `GET` for query APIs  +
+* `POST` for create operations. API calls that support mutliple fields for filtering data also use the `POST` method.  +
+* `PUT` for update operations +
+* `DELETE` for delete operations +
 
 Some `GET` and `DELETE` operations support query and path parameters, whereas the `POST` and `PUT` require a JSON request body.
-a|`POST` +
-In REST API v2 framework, you can pass several parameters in a single API call. Hence, most of the API operations use the `POST` method.
-`GET` +
-The `System` API supports `GET` method to query system information.
+a|* `POST` +
+In REST API v2 framework, most of the API operations require you to use the `POST` method.
+
+* `GET` +
+To query system or user session information, use the `GET` method.
+|=====
+--
+== Object types and naming convention
+
+The following table lists the metadata object types and sub-types supported in REST API v1 and REST API v2:
+
+[div tableContainer]
+--
+[width="100%" cols="7,5"]
+[options='header']
+|=====
+|REST API v1 | REST API v2
 a|
-Resource URL  a|
-Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/` +
-Resource path:  `tspublic/v1/<resource-group>/<resource>/`
-|Base URI:   `\https://<your-thoughtspot-hostname>/` +
-Resource path:  `/api/rest/2.0/<resource-group>/<resource>`
-|Metadata object types a|
-* `QUESTION_ANSWER_BOOK` for Answers
-* `PINBOARD_ANSWER_BOOK` for Liveboards
-* `LOGICAL_TABLE` for data objects such as table, worksheet, or view
-* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views
-* `LOGICAL_RELATIONSHIP` for table or worksheet joins
+Metadata object types in REST API v1:
+
+* `QUESTION_ANSWER_BOOK` for Answers +
+* `PINBOARD_ANSWER_BOOK` for Liveboards +
+* `LOGICAL_TABLE` for data objects such as table, worksheet, or view. +
+Includes the following sub-types:
+** `ONE_TO_ONE_LOGICAL` for tables +
+** `WORKSHEET` for worksheets. +
+** `USER_DEFINED` for data imported by users +
+** `AGGR_WORKSHEET` for views +
 * `TAG` for tag objects
 * `DATA_SOURCE` for data source objects
 * `USER` for user objects
 * `USER_GROUP` for user group objects
-a|
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins
++
+The `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata types include the following sub-types:
+
+** `FORMULA` to query a list of formulas applied to a worksheet column +
+** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet +
+** `CALENDAR_TABLE` to query columns that have a custom calendar configured
+a| Metadata object types in REST API v2:
+
 * `LIVEBOARD` for Liveboards
 * `ANSWER` for saved Answer object
 * `CONNECTION` for data connections
 * `TAG` for tag objects
 * `USER` for user objects
 * `USER_GROUP` for groups
-* `LOGICAL_TABLE` for worksheets, tables and views
+* `LOGICAL_TABLE` for worksheets, tables and views.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table and worksheet joins
-|Metadata object sub-types  a|
-The sub-types for LOGICAL_TABLE include:
 
-** `ONE_TO_ONE_LOGICAL` for tables
-** `WORKSHEET` for worksheets.
-** `USER_DEFINED` for data imported by users
-** `AGGR_WORKSHEET` for views
+__Querying metadata objects by sub-types is not supported in the current release__.
 
-The sub-types for `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata types are:
-
-** `FORMULA` to query a list of formulas applied to a worksheet column +
-** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet +
-** `CALENDAR_TABLE` to query columns that have a custom calendar configured
-a| Querying metadata objects by sub-types is not supported in the current release
-|====
+|=====
 --
+== Request and response structure
 
-== API operations, request and response workflows
-
-In REST API v2, the API endpoints let you define several request parameters for CRUD operations. Each endpoint is designed to support operations on several types of objects in a single API request.
+In REST API v2, the API endpoints let you pass several request parameters in a single API call. User and group administration and metadata query APIs support several distinct operations.
 
 The following example shows the REST API v1 and v2 endpoints available for user administration and provisioning:
 
-image::./images/chart-selection.png[Chart selection widget]
+[.widthAuto]
+[.bordered]
+image::./images/v1-v2-comparison.png[REST API v1 and V2 comparison,link="./doc-images/images/v1-v2-comparison.png"]
 
-Note that REST API v2 has fewer endpoints but supports all user operations that were available with REST API v1.
+Although the REST API v2 has fewer endpoints, it supports all user administration and CRUD operations that were available with REST API v1.
 
-==== Request body
+=== Request body
 The following example shows the difference in the request body for user creation operation:
 
 REST API v1::
@@ -195,6 +238,7 @@ REST API v1::
 `POST /tspublic/v1/user/`
 
 +
+[source,cURL]
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -203,12 +247,12 @@ curl -X POST \
 'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/'
 ----
 
-
 REST API v2::
 
 `POST /api/rest/2.0/users/create`
 
 +
+[source,cURL]
 ----
 curl -X POST \
   --url 'https://{ThoughtSpot-Host}/api/rest/2.0/users/create' \
@@ -243,9 +287,156 @@ curl -X POST \
 
 ----
 
+=== Response structure
+[div tableContainer]
+--
+[width="100%" cols="7,7"]
+[options='header']
+|=====
+|REST API v1| REST API v2
+a|
+API response for `GET /tspublic/v1/user/`:
 
-
-
-
-
-
+[source,JSON]
+----
+{
+  "userContent": {
+    "userPreferences": {
+      "notifyOnShare": true,
+      "showWalkMe": true,
+      "analystOnboardingComplete": false,
+      "numTimesDisplayNameDialogShown": 1,
+      "preferredLocale": "en-US"
+    },
+    "userProperties": {
+      "persona": "BUSINESS_USER",
+      "mail": "tsadmin@thoughtspot.com"
+    }
+  },
+  "state": "ACTIVE",
+  "assignedGroups": [
+    "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "inheritedGroups": [
+    "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+    "b25ee394-9d13-49e3-9385-cd97f5b253b4"
+  ],
+  "privileges": [],
+  "type": "LOCAL_USER",
+  "parenttype": "USER",
+  "visibility": "DEFAULT",
+  "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+  "displayName": "Administrator",
+  "header": {
+    "id": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "indexVersion": 55,
+    "generationNum": 55,
+    "name": "tsadmin",
+    "displayName": "Administrator",
+    "author": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "created": 1354006445722,
+    "modified": 1674640734259,
+    "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "owner": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "isDeleted": false,
+    "isHidden": false,
+    "clientState": {
+      "preferences": {
+        "sageDataSource": [
+          "540c4503-5bc7-4727-897b-f7f4d78dd2ff"
+        ],
+        "homePinboardId": "b2d68a4f-cf67-4723-966f-8a592fdbf8b9",
+        "SAGE_SEARCH_BUTTON_TOUR_SEEN": true
+      },
+      "parameters": {
+        "parametersIntroSplashScreenAppearanceCount": 5
+      },
+      "tips": {
+        "navBarHelpTip": true
+      }
+    },
+    "belongToAllOrgs": true,
+    "tags": [],
+    "type": "LOCAL_USER",
+    "isExternal": false,
+    "isDeprecated": false,
+    "isSharedViaConnection": false
+  },
+  "complete": true,
+  "incompleteDetail": [],
+  "isSuperUser": false,
+  "isSystemPrincipal": true
+}
+----
+a|
+API reponse for `POST /api/rest/2.0/users/search`
+[source,JSON]
+----
+[
+  {
+    "id": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "name": "tsadmin",
+    "display_name": "Administrator",
+    "visibility": "SHARABLE",
+    "author_id": "0f0dd0f7-7411-4195-a4aa-0dc6b58413c9",
+    "can_change_password": true,
+    "complete_detail": true,
+    "creation_time_in_millis": 1354006445722,
+    "current_org": {
+      "id": 0,
+      "name": "Primary"
+    },
+    "deleted": false,
+    "deprecated": false,
+    "account_type": "LOCAL_USER",
+    "account_status": "ACTIVE",
+    "email": "",
+    "expiration_time_in_millis": 1674636710,
+    "external": false,
+    "favorite_metadata": [],
+    "first_login_time_in_millis": 1638322388839,
+    "group_mask": 6,
+    "hidden": false,
+    "home_liveboard": null,
+    "incomplete_details": [],
+    "is_first_login": false,
+    "modification_time_in_millis": 1674608622609,
+    "modifier_id": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "notify_on_share": true,
+    "onboarding_experience_completed": false,
+    "orgs": null,
+    "owner_id": "59481331-ee53-42be-a548-bd87be6ddd4a",
+    "parent_type": "USER",
+    "privileges": [
+      "ADMINISTRATION",
+      "AUTHORING",
+      "USERDATAUPLOADING",
+      "DATADOWNLOADING",
+      "DATAMANAGEMENT",
+      "SHAREWITHALL",
+      "A3ANALYSIS"
+    ],
+    "show_onboarding_experience": true,
+    "super_user": false,
+    "system_user": true,
+    "tags": [],
+    "tenant_id": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",
+    "user_groups": [
+      {
+        "id": "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+        "name": "Administrator"
+      }
+    ],
+    "user_inherited_groups": [
+      {
+        "id": "d0326b56-ef23-4c8a-8327-a30e99bcc72b",
+        "name": "Administrator"
+      }
+    ],
+    "welcome_email_sent": false
+  }
+]
+----
+|=====
+--

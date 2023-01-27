@@ -17,7 +17,7 @@ To enable the Search Assist walkthrough on an embedded instance, the following s
 
 To enable Search Assist, set the `enableSearchAssist` parameter to `true`. The following example shows how to enable Search Assist in the `SearchEmbed` SDK.
 
-[source,javascript]
+[source,JavaScript]
 ----
 const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
     frameParams: {

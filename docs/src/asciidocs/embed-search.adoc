@@ -252,7 +252,7 @@ __String__. The ThoughtSpot Modeling Language (TML) query string. For example, t
 __Boolean__. When set to `true`, the  focus is placed on search results. When set to `false`, the focus is placed at the end of search tokens in the search bar.
 +
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchOptions: {
     searchTokenString: '[product][sales][date].daily',
@@ -272,7 +272,7 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners. 
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.Init, showLoader)
 searchEmbed.on(EmbedEvent.Load, hideLoader)
@@ -282,7 +282,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded search
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.render();
 ----

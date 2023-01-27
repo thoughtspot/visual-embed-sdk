@@ -25,7 +25,7 @@ In the new Liveboard experience mode, the embedded Liveboard resizes to one-colu
 Import the `LiveboardEmbed` SDK library to your application environment:
 
 **npm**
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     LiveboardEmbed,
@@ -38,7 +38,7 @@ from '@thoughtspot/visual-embed-sdk';
 ----
 
 **ES6**
-[source,javascript]
+[source,JavaScript]
 ----
 <script type = 'module'>
     import {
@@ -207,7 +207,7 @@ Runtime filters do not appear to the user in the Liveboard UI. They do not adjus
 For example, to sort values equal to `red` in the `Color` column for a visualization in a Liveboard, you can pass the runtime filter in the URL query parameters as shown here:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Region',
@@ -240,7 +240,7 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners.
 
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.on(EmbedEvent.init, showLoader)
 liveboardEmbed.on(EmbedEvent.load, hideLoader)
