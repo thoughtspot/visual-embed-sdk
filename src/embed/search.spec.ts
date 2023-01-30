@@ -184,6 +184,25 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('Should add dataSource', async () => {
+        const dataSource = 'data-source-1';
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSource,
+            searchOptions,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
     test('should disable actions', async () => {
         const dataSources = ['data-source-1'];
         const searchOptions = {
