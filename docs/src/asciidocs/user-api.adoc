@@ -351,7 +351,7 @@ POST /tspublic/v1/user/addtoorg
 ----
 
 === Request parameters
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1, 4"]
 [options='header']
 |===
 |Parameter|Type|Description

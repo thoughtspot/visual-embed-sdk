@@ -45,7 +45,6 @@ Data APIs to search data, fetch Liveboard details and export Liveboard
 * session
 * user
 
-
 a| * Authentication
 * Users
 * Groups
