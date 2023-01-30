@@ -75,8 +75,15 @@ export interface SearchViewConfig extends ViewConfig {
     forceTable?: boolean;
     /**
      * The array of data source GUIDs to set on load.
+     * Only a single dataSource supported currently.
+     * @deprecated Use dataSource instead
      */
     dataSources?: string[];
+    /**
+     * The array of data source GUIDs to set on load.
+     * @version: SDK: 1.19.0
+     */
+    dataSource?: string;
     /**
      * The initial search query to load the answer with.
      * @deprecated Use {@link searchOptions} instead
@@ -145,6 +152,7 @@ export class SearchEmbed extends TsEmbed {
             forceTable,
             searchOptions,
             runtimeFilters,
+            dataSource,
         } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = this.getBaseQueryParams();
@@ -156,6 +164,9 @@ export class SearchEmbed extends TsEmbed {
 
         if (dataSources && dataSources.length) {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
+        }
+        if (dataSource) {
+            queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
         if (searchOptions?.searchTokenString) {
             queryParams[Param.searchTokenString] = encodeURIComponent(

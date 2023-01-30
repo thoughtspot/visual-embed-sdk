@@ -54,7 +54,11 @@ const customisationsView = {
         customCSS: {},
         customCSSUrl: 'http://localhost:8000',
     },
-    content: {},
+    content: {
+        strings: {
+            DATA: 'data',
+        },
+    },
 };
 
 describe('Unit test case for ts embed', () => {
@@ -629,6 +633,22 @@ describe('Unit test case for ts embed', () => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
                     `&locale=ja-JP${defaultParamsPost}#/home`,
+            );
+        });
+        it('Sets the iconSprite url', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                customizations: {
+                    iconSpriteUrl: 'https://iconSprite.com',
+                },
+            });
+            await appEmbed.render();
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
         xit('Sets the forceSAMLAutoRedirect param', async (done) => {
