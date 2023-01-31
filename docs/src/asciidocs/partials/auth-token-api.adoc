@@ -45,7 +45,6 @@ Org IDs are integers that are created automatically when a cluster administrator
 * If `autocreate` is set to `true` and the group names are not defined in the `groups` property, ThoughtSpot does not update the user object.
 
 |`autocreate` __Optional__ a|__Boolean__. When set to `true`, if the specified `username` does not exist in the ThoughtSpot system, a new user is created without a password. By default, the `autocreate` property is set to `false`.
-
 |====
 
 === Example request

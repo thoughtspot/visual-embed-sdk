@@ -15,7 +15,7 @@ Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and ma
 [width="100%" cols="4,^5,^5"]
 [options='header']
 |=====
-||REST API v1| REST API v2
+|Feature|REST API v1| REST API v2
 |Developer Playground|Swagger API explorer
 
 The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
@@ -27,7 +27,7 @@ The Swagger UI is also accessible via Developer portal|Interactive Playground in
 
 a| [tag greenBackground]#✓# Basic authentication +
 
-[tag greenBackground]#✓# OAuth Bearer token authentication +
+[tag greenBackground]#✓#  Bearer token authentication +
 
 [tag greenBackground]#✓# Trusted authentication
 |Access control| Requires admin privileges for certain API operations a|* Requires admin privileges for certain API operations
@@ -43,107 +43,96 @@ Data APIs in REST API v2 support runtime filters and runtime sorting of filters.
 For a complete list of REST API v2 endpoints, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
 a|
 Resource URL  a|
-Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/` +
-Resource path:  `tspublic/v1/<resource-group>/<resource>/`
-|Base URI:   `\https://<your-thoughtspot-hostname>/` +
-Resource path:  `/api/rest/2.0/<resource-group>/<resource>`
+*Base URI* +
+`\https://{your-thoughtspot-hostname}/callosum/v1/` +
+*Resource path* +
+`tspublic/v1/{resource-group}/{resource}/`
+|*Base URI* +
+`\https://{your-thoughtspot-hostname}/` +
+*Resource path* +
+`/api/rest/2.0/{resource-group}/{resource}`
 |====
 --
 
-== Resource categories
+== API operations
 [div tableContainer]
 --
-[width="100%" cols="7,7"]
+[width="100%" cols="5,4,4"]
 [options='header']
 |=====
-|REST API v1| REST API v2
+|API service|REST API v1| REST API v2
 a|*Admin services* +
-API endpoints for cluster-level administration operations
+API endpoints for cluster-level administration | [tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available +
+__Available under *system* category__ +
+__The current release supports only query APIs__.
 
-*Data APIs* +
-Data query APIs for searching data from a data source and querying a Liveboard and its visualization data.
+|*Authentication* +
+API endpoints for user login, authentication, and session management|[tag greenBackground]#✓# Available +
+__The login, authentication, token generation, amd logout services are available under *session*__.
+|[tag greenBackground]#✓# Available +
 
-*Data connection and live query services* +
-API endpoints for CRUD operations of data connection objects
+|*Data APIs* +
+Data query APIs for searching data from a data source and querying a Liveboard and its visualization data.|[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
-*Database services* +
+|*Data connection and live query services*
+API endpoints for CRUD operations of data connection objects |[tag greenBackground]#✓# Available| [tag greyBackground]#–#
+
+|*Database services* +
 Data management API services for databases such as Falcon +
-__Applicable to ThoughtSpot Software deployments only__
+__Applicable to ThoughtSpot Software deployments only__ |[tag greenBackground]#✓# Available| [tag greyBackground]#–#
 
-*Dependency services* +
+|*Dependency services* +
 API endpoints for querying dependent object details.
+__The dependent object querying is supported in metadata APIs__.|[tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available
 
-*Groups* +
-API endpoints for group administration and management
+|*Groups* +
+API endpoints for group administration and management|[tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available
 
-*Liveboard export* +
-API for downloading Liveboard and visualizations data in the PDF format
+|*Liveboard export* +
+API for downloading Liveboard and visualizations data in the PDF format|
+[tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available +
+__This API service is available under *report*.__
 
-*Logs* +
+|*Logs* +
 API for audit logs +
-__Applicable to ThoughtSpot Cloud deployments__
+__Applicable to ThoughtSpot Cloud deployments only__ |[tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available
 
-*Materialization services* +
+|*Materialization services* +
 API endpoint for refreshing a materialized view. +
-__Applicable to ThoughtSpot Software deployments only__
+__Applicable to ThoughtSpot Software deployments only__ |[tag greenBackground]#✓# Available| [tag greyBackground]#–#
 
-*Metadata services* +
-API for querying metadata objects, assigning tags, setting favorites, and importing and exporting TML objects
+|*Metadata services* +
+API for querying metadata objects, assigning tags, setting favorites, and importing and exporting TML objects|[tag greenBackground]#✓# Available +
+__The metadata API service does not support deleting metadata objects and fetching SQL query information from Answer and Liveboard objects__|[tag greenBackground]#✓# Available +
+__Includes API services for importing and exporting TML representation of metadata objects such as Liveboard, Worksheets, and Answers.__
 
-*Orgs* +
-API endpoints for Org administration and management
+|*Orgs* +
+API endpoints for Org administration and management | [tag greenBackground]#✓# Available |[tag greenBackground]#✓# Available
 
-*Session* +
-API endpoints for user login, authentication token generation, default Liveboard assignment, and user logout.
+|*Reports* +
+API endpoints for downloading Liveboards and Answers in the PDF, PNG, XLS, and CSV format.| [tag greenBackground]#✓# Available +
+__The Answer download API service is not available__ |[tag greenBackground]#✓# Available
 
-*Security* +
-API endpoints for sharing objects and assigning permissions
+|*Session* +
+API endpoints for user login, authentication token generation, default Liveboard assignment, and user logout.| [tag greenBackground]#✓# Available |[tag greenBackground]#✓# Available +
+__The login, authentication, token generation, and logout services are available in *session* collection and under the *Authentication* category in the Playground__.
 
-*Subscription* +
-API endpoints for managing scheduled jobs for a given Liveboard
+|*Security* +
+API endpoints for sharing objects and assigning permissions. |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
-*User* +
-API endpoints for user administration and management
+|*Subscription* +
+API endpoints for managing scheduled jobs for a given Liveboard|[tag greenBackground]#✓# Available| [tag greyBackground]#–#
 
-a|
-*Authentication* +
-API endpoints for user login, authentication, and session management
+|*System* +
+API endpoints for querying system information |[tag greenBackground]#✓# Available +
+__The system administration API operations are available as *Admin services*|[tag greenBackground]#✓# Available
 
-*Data* +
-API endpoints for fetching data from a search query, saved Answer, and Liveboard
+|*TML* +
+API endpoints for importing and exporting TML representation of metadata objects|[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available +
+__The import and export metadata API service is available under *metadata*__.
 
-*Groups* +
-API endpoints for group administration and management
-
-*Logs* +
-API endpoints to fetch audit logs from a ThoughtSpot application instance deployed on Cloud.
-__Applicable to ThoughtSpot Cloud deployments__
-
-*Metadata* +
-API endpoints for querying and deleting metadata objects, and importing and exporting TML representation of metadata objects such as Liveboard, Worksheets, and Answers.
-
-*Orgs* +
-API endpoints for Org administration and management
-
-*Reports* +
-API endpoints for downloading Liveboards and Asnwers in the PDF, PNG, XLS, and CSV format.
-
-*Security* +
-API endpoints for sharing objects and assigning permissions.
-
-*System* +
-API endpoints for querying system information
-
-*Tags* +
-API endpoints for tags creation, update, and assignment
-
-*Users* +
-API endpoints for user administration and management
-
-[IMPORTANT]
-====
-In the current release, REST API v2 does not support CRUD operations of data connection, Liveboard subscription, and endpoints for database services and refreshing a materialized view.
-====
+|*User* +
+API endpoints for user administration and management |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
 |=====
 --
@@ -157,7 +146,7 @@ In the current release, REST API v2 does not support CRUD operations of data con
 |REST API v1| REST API v2
 a|
 * `GET` for query APIs  +
-* `POST` for create operations. API calls that support mutliple fields for filtering data also use the `POST` method.  +
+* `POST` for create operations. API calls that support multiple fields for filtering data also use the `POST` method.  +
 * `PUT` for update operations +
 * `DELETE` for delete operations +
 
@@ -231,7 +220,7 @@ image::./images/v1-v2-comparison.png[REST API v1 and V2 comparison,link="./doc-i
 Although the REST API v2 has fewer endpoints, it supports all user administration and CRUD operations that were available with REST API v1.
 
 === Request body
-The following example shows the difference in the request body for user creation operation:
+The following example shows the API v1 and v2 request body for user creation operation:
 
 REST API v1::
 
@@ -440,3 +429,11 @@ API reponse for `POST /api/rest/2.0/users/search`
 ----
 |=====
 --
+
+== Related information
+
+* xref:rest-api-v1.adoc[REST API v1]
+* xref:rest-api-v2.adoc[REST API v2]
+* xref:rest-api-reference.adoc[REST API v1 reference]
+* xref:rest-api-v2-reference.adoc[REST API v2 reference]
+

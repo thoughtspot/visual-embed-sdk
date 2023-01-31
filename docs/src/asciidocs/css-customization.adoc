@@ -429,7 +429,7 @@ init({
 });
 ----
 
-The following figure shows the style override applied using the above code example:
+The following figure shows the style override applied using the preceding code example:
 [.widthAuto]
 [.bordered]
 image::./images/selection-dropdown-after.png[selection dropdown style override]
