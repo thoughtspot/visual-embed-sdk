@@ -494,6 +494,7 @@ export class TsEmbed {
                     nextInQueue();
                     uploadMixpanelEvent(
                         MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                        { error: JSON.stringify(error) },
                     );
                     this.el.innerHTML = this.embedConfig.loginFailedMessage;
                     this.handleError(error);
@@ -730,7 +731,7 @@ export class V1Embed extends TsEmbed {
         options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
         const eventType = this.getCompatibleEventType(messageType);
-
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`);
         return super.on(eventType, callback, options);
     }
 }

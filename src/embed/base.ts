@@ -177,6 +177,10 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         usedCustomizationRules:
             embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE !=
             null,
+        usedCustomizationStrings: !!embedConfig.customizations?.content
+            ?.strings,
+        usedCustomizationIconSprite: !!embedConfig.customizations
+            ?.iconSpriteUrl,
     });
 
     if (config.callPrefetch) {

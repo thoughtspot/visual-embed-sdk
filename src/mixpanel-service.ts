@@ -10,40 +10,34 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_COMPLETE: 'visual-sdk-render-complete',
     VISUAL_SDK_RENDER_FAILED: 'visual-sdk-render-failed',
     VISUAL_SDK_TRIGGER: 'visual-sdk-trigger',
+    VISUAL_SDK_ON: 'visual-sdk-on',
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
 };
 
-let isEventCollectorOn = false;
-const eventCollectorQueue: { eventId: string; eventProps: any }[] = [];
-
-function setEventCollectorOn() {
-    isEventCollectorOn = true;
-}
-
-function getEventCollectorOnValue() {
-    return isEventCollectorOn;
-}
+let isMixpanelInitialized = false;
+let eventQueue: { eventId: string; eventProps: any }[] = [];
 
 /**
  * Pushes the event with its Property key-value map to mixpanel.
  * @param eventId
  * @param eventProps
  */
-export async function uploadMixpanelEvent(
-    eventId: string,
-    eventProps = {},
-): Promise<any> {
-    if (!getEventCollectorOnValue()) {
-        eventCollectorQueue.push({ eventId, eventProps });
-        return Promise.resolve();
+export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
+    if (!isMixpanelInitialized) {
+        eventQueue.push({ eventId, eventProps });
+        return;
     }
-    return new Promise(() => mixpanel.track(eventId, eventProps));
+    mixpanel.track(eventId, eventProps);
 }
 
 function emptyQueue() {
-    eventCollectorQueue.forEach((event) => {
+    if (!isMixpanelInitialized) {
+        return;
+    }
+    eventQueue.forEach((event) => {
         uploadMixpanelEvent(event.eventId, event.eventProps);
     });
+    eventQueue = [];
 }
 
 export function initMixpanel(sessionInfo: any): void {
@@ -58,7 +52,12 @@ export function initMixpanel(sessionInfo: any): void {
         if (!isPublicCluster) {
             mixpanel.identify(sessionInfo.userGUID);
         }
-        setEventCollectorOn();
+        isMixpanelInitialized = true;
         emptyQueue();
     }
+}
+
+export function testResetMixpanel() {
+    isMixpanelInitialized = false;
+    eventQueue = [];
 }
