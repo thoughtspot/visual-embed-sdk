@@ -334,6 +334,9 @@ describe('Unit test case for ts embed', () => {
             );
             expect(mockMixPanelEvent).toBeCalledWith(
                 MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                {
+                    error: 'false',
+                },
             );
         });
     });
