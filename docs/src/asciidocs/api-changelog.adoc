@@ -27,7 +27,7 @@ liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
       })
 ----
 
-To view the data structure of the response payload, see the xref:callback-response-payload.adoc#_liveboard_new_experience[sample response payload].
+To view the data structure of the response payload, see xref:callback-response-payload.adoc#_liveboard_new_experience[sample response payload].
 
 |[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
 
