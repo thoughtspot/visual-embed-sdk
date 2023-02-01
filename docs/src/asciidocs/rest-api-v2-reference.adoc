@@ -53,7 +53,7 @@ __Requires administrator privileges__.
 
 * `POST /api/rest/2.0/auth/token/full`
 +
-Gets an authentication token from ThoughtSpot, which provides full access to ThoughtSpot application.
+Gets an authentication token from ThoughtSpot, which provides access to full application.
 +
 ** To obtain a bearer token, specify the username and password in the API request.
 ** To obtain a token on behalf of a user, specify the username and secret key.
@@ -127,7 +127,7 @@ Creates a user in ThoughtSpot. This API also supports the following operations: 
 * set account status
 * define sharing visibility
 * set a default Liveboard for the user
-* add Liveboard, Answer, and Worksheet objects to the user's favourites list
+* add Liveboard, Answer, and Worksheet objects to the user's favorites list
 * set user preferences to start or stop onboarding walkthrough, and receive an email notification when another user shares an object
 
 __Requires administrator privileges__.
@@ -178,7 +178,7 @@ __Requires administrator privileges__.
 During this operation:
 
 * If the specified users are not available in ThoughtSpot, the users are created and assigned a default password. The `default_password` definition in the API request is optional.
-* If the `delete_unspecified_users` property is set to `true`, users not specified in the API request, except for `tsadmin`, `guest` system and su users, are deleted.
+* If the `delete_unspecified_users` property is set to `true`, users not specified in the API request, excluding `tsadmin`, `guest`, `system` and `su` users, are deleted.
 * If the specified user objects are already available in ThoughtSpot, the object properties of these users are modified and synchronized as per the input data in the API request.
 
 A successful API call returns the object that represents the changes made in the ThoughtSpot system.
@@ -265,7 +265,7 @@ You can perform CRUD operations on Org objects if the Orgs feature is enabled on
 
 [NOTE]
 ====
-* In the current release, REST API v2 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST v2 endpoints via a Web browser, Postman or other such tools.
+* In the current release, REST API v2 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST v2 endpoints via a Web browser, Postman, or other such tools.
 * Before you perform any operation on the objects in an Org, make sure you use the token issued by ThoughtSpot for that specific Org.
 ====
 
@@ -478,7 +478,7 @@ __Requires administrator privileges__.
 During this operation:
 
 * If the specified group is not available in ThoughtSpot, it will be added to ThoughtSpot.
-* If the `delete_unspecified_groups` property is set to `true`, the groups not specified in the API request, except `administrator`, are deleted.
+* If the `delete_unspecified_groups` property is set to `true`, the groups not specified in the API request, excluding administrator and system user groups, are deleted.
 * If the specified groups are already available in ThoughtSpot, the object properties of these groups are modified and synchronized as per the input data in the API request.
 
 A successful API call returns the object that represents the changes made in the ThoughtSpot system.
@@ -735,6 +735,8 @@ __Requires at least view access to the Answer object__.
 `POST /api/rest/2.0/logs/fetch`
 
 Gets security audit logs from the ThoughtSpot system.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
 
 

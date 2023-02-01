@@ -22,7 +22,7 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 === REST API v2 endpoints and Playground
 
-Starting with 9.0.0.cl, the REST API v2[beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. The REST API v2 API Playground will include a set of new endpoints generally available (GA) on all ThoughtSpot instances.
+Starting with 9.0.0.cl, the REST API v2[beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. The REST API v2 API Playground will include a set of new endpoints that will be generally available (GA) on all ThoughtSpot instances.
 
 With the new version of the REST API v2 endpoints, you can perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
 
@@ -30,37 +30,33 @@ With the new version of the REST API v2 endpoints, you can perform more tasks in
 ====
 * All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
 * No new endpoint collections or resources will be introduced in the REST API v2 [beta betaBackground]^Beta^ framework.
-* The new REST v2 API endpoints are not an extension of the REST v2 API [beta betaBackground]^Beta^ endpoints. The resource categories, base path, and endpoint URIs are not the same as those of the REST API v2 [beta betaBackground]^Beta^ version.
+* The new REST v2.0 API endpoints are not an extension of the REST v2 API [beta betaBackground]^Beta^ endpoints. The resource categories, base path, and endpoint URIs are not the same as those of the REST API v2 [beta betaBackground]^Beta^ version. The v2.0 version of API endpoints may break your current implementation REST API v2 [beta betaBackground]^Beta^ endpoints.
 * Some API operations for data connections, Liveboard schedules, and Orgs are not available in the initial release. For more information, see xref:rest-api-v2-reference.adoc[REST API v2 reference].
 ====
 
 === GraphQL Playground[beta betaBackground]^Beta^
 
-<TBD>
+In 9.0.0.cl, the *Develop* tab in ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations.
 
 === Early access features
 
 Starting from 9.0.0.cl, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use, but are not enabled by default on ThoughtSpot instances until the features are GA.
 
-In the upcoming release, your administrators can enable the following Early Access features:
+ThoughtSpot administrators can enable the following Early Access features on your instances:
 
 * Custom maps
 +
 Allows uploading map files (TopoJSON) to configure custom regions and visualize data on these regions.
- #<add ref to docs>#
 * Mandatory filters
 +
 Allows setting certain filters as mandatory on a Liveboard.
-#<add ref to docs>#
 * Chart configuration experience
 +
 Allows making multiple edits to a chart configuration and applying all changes at once.
-#<add ref to docs>#
 
 * Chart data labels
 +
 Allows displaying data labels in a lighter color on charts with a dark background.
-#<add ref to docs>#
 
 === Visual Embed SDK version 1.19.0
 

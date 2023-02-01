@@ -18,7 +18,7 @@ Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and ma
 |Feature|REST API v1| REST API v2
 |Developer Playground|Swagger API explorer
 
-The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
+The Swagger UI is also accessible via API Playground|Interactive Playground in the Developer portal
 |Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
 
 |Authentication methods a| [tag greenBackground]#✓# Basic authentication +
@@ -38,7 +38,7 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 |API services a| See xref:rest-api-reference.adoc[REST API v1 Reference].
 a|REST API v2 introduces APIs for CRUD operations of Tags, object deletion, and default Liveboard assignment for users. +
-You can also download Liveboard and Answer data in PDF, PNG, CSV, and XLS formats. +
+You can also download Liveboard and Answer data in PDF, PNG, CSV, or XLS format. +
 Data APIs in REST API v2 support runtime filters and runtime sorting of filters. +
 For a complete list of REST API v2 endpoints, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
 a|
@@ -63,12 +63,12 @@ Resource URL  a|
 |API service|REST API v1| REST API v2
 a|*Admin services* +
 API endpoints for cluster-level administration | [tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available +
-__Available under *system* category__ +
+__Available under *system*__ +
 __The current release supports only query APIs__.
 
 |*Authentication* +
 API endpoints for user login, authentication, and session management|[tag greenBackground]#✓# Available +
-__The login, authentication, token generation, amd logout services are available under *session*__.
+__The login, authentication, token generation, and logout services are available under *session*__.
 |[tag greenBackground]#✓# Available +
 
 |*Data APIs* +
@@ -89,7 +89,7 @@ __The dependent object querying is supported in metadata APIs__.|[tag greenBackg
 API endpoints for group administration and management|[tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available
 
 |*Liveboard export* +
-API for downloading Liveboard and visualizations data in the PDF format|
+API for downloading Liveboard and visualizations data as PDF|
 [tag greenBackground]#✓# Available| [tag greenBackground]#✓# Available +
 __This API service is available under *report*.__
 
@@ -110,12 +110,12 @@ __Includes API services for importing and exporting TML representation of metada
 API endpoints for Org administration and management | [tag greenBackground]#✓# Available |[tag greenBackground]#✓# Available
 
 |*Reports* +
-API endpoints for downloading Liveboards and Answers in the PDF, PNG, XLS, and CSV format.| [tag greenBackground]#✓# Available +
+API endpoints for downloading Liveboards and Answers in PDF, PNG, XLS, or CSV format.| [tag greenBackground]#✓# Available +
 __The Answer download API service is not available__ |[tag greenBackground]#✓# Available
 
 |*Session* +
 API endpoints for user login, authentication token generation, default Liveboard assignment, and user logout.| [tag greenBackground]#✓# Available |[tag greenBackground]#✓# Available +
-__The login, authentication, token generation, and logout services are available in *session* collection and under the *Authentication* category in the Playground__.
+__The login, authentication, token generation, and logout services are available as *session* resource and are listed under the *Authentication* category in the Playground__.
 
 |*Security* +
 API endpoints for sharing objects and assigning permissions. |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
@@ -150,7 +150,7 @@ a|
 * `PUT` for update operations +
 * `DELETE` for delete operations +
 
-Some `GET` and `DELETE` operations support query and path parameters, whereas the `POST` and `PUT` require a JSON request body.
+Some `GET` and `DELETE` operations support query and path parameters, whereas the `POST` and `PUT` calls require a JSON request body.
 a|* `POST` +
 In REST API v2 framework, most of the API operations require you to use the `POST` method.
 
@@ -173,7 +173,7 @@ Metadata object types in REST API v1:
 
 * `QUESTION_ANSWER_BOOK` for Answers +
 * `PINBOARD_ANSWER_BOOK` for Liveboards +
-* `LOGICAL_TABLE` for data objects such as table, worksheet, or view. +
+* `LOGICAL_TABLE` for a Table, Worksheet, or View. +
 Includes the following sub-types:
 ** `ONE_TO_ONE_LOGICAL` for tables +
 ** `WORKSHEET` for worksheets. +
@@ -199,7 +199,7 @@ a| Metadata object types in REST API v2:
 * `TAG` for tag objects
 * `USER` for user objects
 * `USER_GROUP` for groups
-* `LOGICAL_TABLE` for worksheets, tables and views.
+* `LOGICAL_TABLE` for Table, Worksheet, or View.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 * `LOGICAL_RELATIONSHIP` for table and worksheet joins
 
@@ -359,7 +359,7 @@ API response for `GET /tspublic/v1/user/`:
 }
 ----
 a|
-API reponse for `POST /api/rest/2.0/users/search`
+API response for `POST /api/rest/2.0/users/search`
 [source,JSON]
 ----
 [
