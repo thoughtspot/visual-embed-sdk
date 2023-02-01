@@ -12,25 +12,42 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 [width="100%" cols="1,4"]
 |====
-|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK provides the `SearchBarEmbed` JavaScript package to embed only the ThoughtSpot Search bar in your app. +
-
-For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
-
-|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and answer pages. You can also use these variables to define custom styles in the CSS file. +
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the styles for dialogs, search bar, search navigation and search suggestions panels.
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page. +
+|[tag redBackground]#BREAKING CHANGE# a| The new Liveboard experience mode introduces changes in the data structure of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` metadata contents are modified, and the custom action properties are now part of the `embedAnswerData` object. These changes may break your current custom action event handlers. We recommend including `payload.data.id` in your code to handle callback custom action events as shown in this example. You may also want to update the data classes in your scripts to process the JSON response payload.
 
-For more information, see xref:events-ref.adoc#_gettml[GetTML].
+[source,JavaScript]
+----
+liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
+     if (payload.data.id === 'show-data') {
+      const showActionId = 'show-data';
+          if (payload.id === showActionId \|\| payload.data.id === showActionId) {
+               showData(payload);
+          }
+      })
+----
 
-|[tag greenBackground]#NEW FEATURE# a| The new version of the SDK introduces the following enums in the `Action` object:
+To view the data structure of the response payload, see the xref:callback-response-payload.adoc#_liveboard_new_experience[sample response payload].
 
-* `Action.SyncToOtherApps` +
-* `Action.SyncToSheets` +
-* `Action.ManagePipelines` +
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
 
-You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or answer.
+* HostEvent.Delete
+* HostEvent.Download
+* HostEvent.DownloadAsCsv
+* HostEvent.DownloadAsXlsx
+* HostEvent.ManagePipelines
+* HostEvent.Save
+* HostEvent.ShowUnderlyingData
+* HostEvent.Share
+* HostEvent.SpotIQAnalyze
+* HostEvent.SyncToOtherApps
+* HostEvent.SyncToSheets
 
-For more information, see xref:embed-action-ref.adoc[Actions].
+For more information, see xref:events-ref.adoc#host-events[Host events].
+
+|[tag greenBackground]#DEPRECATED# a|In the upcoming SDK version, the `noRedirect` property in the SDK is deprecated and replaced with the `inPopup` attribute. When set to `true`, the `inPopup` attribute allows the SAML SSO authentication flow in a pop-up window.
+
+For more information, see xref:embed-authentication.adoc#_saml_redirection[SAML Redirection].
 |====
 
 == Version 1.18.0, January 2023

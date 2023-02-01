@@ -156,11 +156,23 @@ If you have added a xref:customize-actions-menu.adoc[custom action] set as a xre
 ----
 searchEmbed.on(EmbedEvent.customAction, payload => {
     const data = payload.data;
-    if (data.id === 'insert Custom Action ID here') {
+    if (data.id === 'show-data') {
         console.log('Custom Action event:', data.embedAnswerData);
     }
 })
 ----
+
+[source,JavaScript]
+----
+liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
+     if (payload.data.id === 'show-data') {
+      const showActionId = 'show-data';
+          if (payload.id === showActionId \|\| payload.data.id === showActionId) {
+               showData(payload);
+          }
+      })
+----
+
 
 == Related resources
 * For a complete list of host and embed events, see xref:events-ref.adoc[Events reference].
