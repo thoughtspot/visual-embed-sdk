@@ -852,8 +852,7 @@ The following example shows the Liveboard data payload for a callback custom act
                     "complete": true,
                     "incompleteDetail": []
                   },
-                  "question": {
-                    "sageContextProto": "CuwHCgMKATAakwUKpwEKB1JldmVudWUQAhgHIAEqJDllNzhhNjY0LTE5ZDYtNGE0NC1iZTUzLWVlZGJmYzdkZjU4NTIkZjMxNzEyZDUtZDUyOC00YzdhLTkzZGUtN2Q0MzFiYzFlNTdiOgoKAwoBMRoDCgExUhUSB1JldmVudWUiAwoBMSoDCgExMABYAGEAAAAAAADwP4ABAZABAOoBB1JldmVudWWAAgCQAgGaAgIIAKICAAqlAQoDdXNkEAQYAiAAKiQ2MTY0NTFhMC1hYmY1LTQ3ZTAtOTk4YS1hZGNhODZiYWY4ODIyJGY4ZjI4Nzg1LWE3ZWQtNTNlNC05ZDIzLTU2NTY3M2FlMzkwMjoKCgMKATEaAwoBMVIbEg1DdXJyZW5jeSBDb2RlIgMKATEqAwoBMTAAWABhzczMjGK4PkGAAQGQAQDqAQN1c2SAAgGQAj2aAgIIAKICAAqIAQoDVGVhEAMYAiokNzI5MWM4NzUtZjAzOC00MzgzLTk3YTAtNGJiY2VhZDg0NWNjMiQ1YjM3YmUwNy03YzIzLTRmOGYtYWQyYS0xODc2YTUxZTYzODM6CgoDCgExGgMKATFSERIDVGVhIgMKATEqAwoBMTAAgAEB6gEDVGVhgAICmgICCACiAgAKiwEKBFR5cGUQAxgCKiRiMjZlZWMzOC1hZWRmLTQ2ODQtOWNiYy0zYzY5ZTMzMjlmNWIyJDhiOTFjNmEwLWNjN2ItNDJkZi04YjNmLWE3YjIzNjc5ZjMyNToKCgMKATEaAwoBMVISEgRUeXBlIgMKATEqAwoBMTAAgAEA6gEEVHlwZYACA5oCAggBogIAEggIARAAGAEgARIICAMQARgBIAESCAgCEAIYASABEggIAhADGAEgATIUMTAwNzg0Mjg1MjIzODM3MjQzMjQ6ngISmwIKJSACOANAAHIXCAEiEQoDCgEzGgoKAwoBMRoDCgExQAeCAQMKATQKJxgBIAFAAGAEchcIASIRCgMKATUaCgoDCgExGgMKATFAAoIBAwoBNgonGAEgAUAAYAZyFwgBIhEKAwoBNxoKCgMKATEaAwoBMUACggEDCgE4CiQYASABchcIASIRCgMKATkaCgoDCgExGgMKATFAAoIBBAoCMTASTxgAKgN1c2SCARcIASIRCgMKATkaCgoDCgExGgMKATFAApIBBAoCMTDaASQwYjk3MDJmYS03MzA3LTVjMTQtYmU3NS0xMzI3M2Y5ZDBkYzZKAwoBMlokODQ4MTViN2YtZjg4NC00ZDg5LWJkN2ItNjQyMDkyN2NmNTQ3SgoKBAgAEgASAhIAWA96CmVuX0dCLnV0ZjgyMgokODgxYmFiOTItMTcxOS00YmY3LTg2YzctMzFlYzI3OGM5OGJiEgpOZXcgVGFibGUwMjEKJDg0ODE1YjdmLWY4ODQtNGQ4OS1iZDdiLTY0MjA5MjdjZjU0NxIJVGVhIFNhbGVzMiYKJDAyMmY2NjhkLWFkODctNDk2Ni05YWExLTUwNTc1Y2M2OGYwNjIvCiQ5ZTc4YTY2NC0xOWQ2LTRhNDQtYmU1My1lZWRiZmM3ZGY1ODUSB1JldmVudWUyJgokZjMxNzEyZDUtZDUyOC00YzdhLTkzZGUtN2Q0MzFiYzFlNTdiMisKJDcyOTFjODc1LWYwMzgtNDM4My05N2EwLTRiYmNlYWQ4NDVjYxIDVGVhMiYKJDViMzdiZTA3LTdjMjMtNGY4Zi1hZDJhLTE4NzZhNTFlNjM4MzIsCiRiMjZlZWMzOC1hZWRmLTQ2ODQtOWNiYy0zYzY5ZTMzMjlmNWISBFR5cGUyJgokOGI5MWM2YTAtY2M3Yi00MmRmLThiM2YtYTdiMjM2NzlmMzI1MjUKJDYxNjQ1MWEwLWFiZjUtNDdlMC05OThhLWFkY2E4NmJhZjg4MhINQ3VycmVuY3kgQ29kZTImCiRmOGYyODc4NS1hN2VkLTUzZTQtOWQyMy01NjU2NzNhZTM5MDI4Ag",
+                  "question": {,
                     "sageContextIndex": 0,
                     "text": "revenue usd tea type",
                     "isChasmTrapQuery": false
@@ -1173,178 +1172,6 @@ The following example shows the Liveboard data payload for a callback custom act
                               "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
                             ]
                           },
-                          "BAR": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "LINE": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "PIE": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "SCATTER": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "STACKED_COLUMN": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "AREA": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "PARETO": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "WATERFALL": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "HEATMAP": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383"
-                            ],
-                            "y": [
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ],
-                            "size": "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                          },
-                          "STACKED_AREA": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "FUNNEL": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "PIVOT_TABLE": {
-                            "x": [
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325",
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383"
-                            ]
-                          },
-                          "SANKEY": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325",
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "GRID_TABLE": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325",
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902",
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "SPIDER_WEB": {
-                            "x": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          },
-                          "STACKED_BAR": {
-                            "x": [
-                              "f8f28785-a7ed-53e4-9d23-565673ae3902"
-                            ],
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ],
-                            "color": [
-                              "5b37be07-7c23-4f8f-ad2a-1876a51e6383",
-                              "8b91c6a0-cc7b-42df-8b3f-a7b23679f325"
-                            ]
-                          },
-                          "KPI": {
-                            "y": [
-                              "f31712d5-d528-4c7a-93de-7d431bc1e57b"
-                            ]
-                          }
                         },
                         "title": {
                           "value": {
@@ -1704,6 +1531,7 @@ The following example shows the Liveboard data payload for a callback custom act
 
 ----
 
+////
 The following example shows the data payload for a callback custom action in the context menu of a Liveboard visualization:
 
 [source, JSON]
@@ -1912,7 +1740,7 @@ The following example shows the data payload for a callback custom action in the
 }
 
 ----
-
+////
 === Liveboard (New experience)
 
 The following example shows the data payload for a callback custom action in the *More* menu of a Liveboard visualization:
@@ -2394,7 +2222,7 @@ The following example shows the data payload for a callback custom action in the
   "query": "query GetTableWithHeadlineData($session: BachSessionIdInput!, $dataPaginationParams: DataPaginationParamsInput!) {\n  getAnswer(session: $session) {\n    id {\n      ...bachSession\n    }\n    answer {\n      id\n      headlineVisibilityMap {\n        ...headlineVisibility\n      }\n      permission {\n        ...permission\n      }\n      queryableDataSource\n      \n      visualizations {\n        id\n        ... on TableViz {\n          data(pagination: $dataPaginationParams)\n          ...tableViz\n        }\n        ... on HeadlineViz {\n          data(pagination: $dataPaginationParams)\n          ...headlineViz\n        }\n      }\n    }\n  }\n}\n\nfragment bachSession on BachSessionId {\n  sessionId\n  genNo\n  acSession {\n    sessionId\n    genNo\n  }\n}\n\nfragment headlineVisibility on HeadlineVisibility {\n  columnId\n  isVisible\n}\n\nfragment permission on ObjectPermission {\n  objectAccessLevel\n  dataSourceAccessLevel\n  dataSourceNamesWithNoAccess\n}\n\nfragment tableViz on TableViz {\n  id\n  clientState\n  vizProp {\n    ...tableVizProps\n  }\n  columns {\n    ...vizColumn\n  }\n  sortInfo {\n    columnId\n    sortAscending\n  }\n  topInfo {\n    columnId\n    sortAscending\n  }\n}\n\nfragment tableVizProps on TableVizProps {\n  tableVizPropVersion\n  wrapTableHeader\n  widthState {\n    columnId\n    width\n  }\n  theme\n  showTableFooter\n  showGridSummary\n  density\n  orderedColumnIds\n  columnProperties {\n    columnId\n    columnProperty {\n      wrapColumnText\n      conditionalFormatting {\n        ...conditionalFormatting\n      }\n    }\n  }\n}\n\nfragment conditionalFormatting on ConditionalFormatting {\n  rows {\n    backgroundFormatType\n    value\n    operator\n    fontProperties {\n      bold\n      color\n      italic\n      strikeThrough\n      underline\n    }\n    gradientBackgroundAttrs {\n      backgroundFormatMidpoint\n      colors\n    }\n    plotAsBand\n    rangeValues {\n      max\n      min\n    }\n    solidBackgroundAttrs {\n      color\n    }\n  }\n}\n\nfragment vizColumn on VizColumn {\n  column {\n    ...answerColumn\n  }\n  legacyMetricDefinition {\n    row {\n      color\n      plotAsBand\n      range {\n        max\n        min\n      }\n    }\n  }\n}\n\nfragment answerColumn on AnswerColumn {\n  id\n  name\n  type\n  baseColumnType\n  formulaId\n  columnProps {\n    version\n    columnProperties {\n      format {\n        ...formatConfig\n      }\n    }\n  }\n  dataType\n  isAggregateApplied\n  aggregationType\n  formatPattern\n  isGroupBy\n  isUserDefinedTitle\n  isAdditive\n  showGrowth\n  customCalendarType\n  formatType\n  calendarGuid\n  format {\n    pattern\n    currencyFormat {\n      column\n      type\n      isoCode\n    }\n  }\n  referencedColumns {\n    guid\n    displayName\n  }\n  referencedTables {\n    guid\n    displayName\n  }\n  legacySheetProperties\n  legacyColumnFormatProperties\n  timeBucket\n  geoConfig {\n    type\n    fixedValue\n    columnGuid\n    customFileGuid\n    parent {\n      type\n      fixedValue\n      columnGuid\n      customFileGuid\n    }\n  }\n}\n\nfragment formatConfig on FormatConfig {\n  category\n  numberFormatConfig {\n    decimals\n    negativeValueFormat\n    removeTrailingZeroes\n    toSeparateThousands\n    unit\n  }\n  percentageFormatConfig {\n    decimals\n    removeTrailingZeroes\n  }\n  currencyFormatConfig {\n    decimals\n    locale\n    removeTrailingZeroes\n    toSeparateThousands\n    unit\n  }\n  customFormatConfig {\n    format\n  }\n  isCategoryEditable\n}\n\nfragment headlineViz on HeadlineViz {\n  id\n  title\n  vizProp {\n    ...headlineVizProps\n  }\n  aggregationType\n  possibleAggregations\n  showPossibleAggregates\n  headlineColumn {\n    ...answerColumn\n  }\n  sortInfo {\n    columnId\n    sortAscending\n  }\n}\n\nfragment headlineVizProps on HeadlineVizProps {\n  headlineVizPropVersion\n  columnProperty {\n    conditionalFormatting {\n      ...conditionalFormatting\n    }\n    summariesNumberFormatConfig {\n      ...formatConfig\n    }\n  }\n}\n"
 }
 ----
-
+////
 The following example shows the data payload of callback custom action in the context menu of a Liveboard visualization:
 
 [source,JSON]
@@ -2921,3 +2749,4 @@ The following example shows the data payload of callback custom action in the co
   }
 }
 ----
+////
