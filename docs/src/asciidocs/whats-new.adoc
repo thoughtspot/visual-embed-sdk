@@ -22,9 +22,9 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 === REST API v2 endpoints and Playground
 
-Starting with 9.0.0.cl, the REST API v2[beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. The REST API v2 API Playground will include a set of new endpoints that will be generally available (GA) on all ThoughtSpot instances.
+Starting with 9.0.0.cl, the REST API v2[beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. The REST API v2.0 API Playground will include a set of new endpoints that will be generally available (GA) on all ThoughtSpot instances.
 
-With the new version of the REST API v2 endpoints, you can perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
+The REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
 
 [IMPORTANT]
 ====
