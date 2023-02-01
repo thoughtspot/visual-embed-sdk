@@ -1200,10 +1200,10 @@ export enum Action {
     Share = 'share',
     AddFilter = 'addFilter',
     ConfigureFilter = 'configureFilter',
-    /**
-     * @hidden
-     */
+    CollapseDataSources = 'collapseDataSources',
+    ChooseDataSources = 'chooseDataSources',
     AddFormula = 'addFormula',
+    AddParameter = 'addParameter',
     /**
      * @hidden
      */
