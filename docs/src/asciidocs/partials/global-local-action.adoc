@@ -1,7 +1,7 @@
 
 [IMPORTANT]
 ====
-By default, the global actions are added as a menu action in the **More** menu image:./images/icon-more-10px.png[the more options menu] on all visualizations and saved answers. The local custom actions are not added as a clickable action on any answer page or visualization. You can assign a local action to a xref:custom-actions-edit.adoc[specific visualization or saved answer], or xref:custom-actions-worksheet.adoc[all new answers built from a specific worksheet] and xref:custom-actions-edit.adoc[set its position]. 
+By default, the global actions are added as a menu action in the **More** menu image:./images/icon-more-10px.png[the more options menu] on all visualizations and saved answers. The local custom actions are not added as a clickable action on any Answer page or visualization. You can assign a local action to a xref:custom-actions-edit.adoc[specific visualization or saved Answer], or xref:custom-actions-worksheet.adoc[all new answers built from a specific worksheet] and xref:custom-actions-edit.adoc[add it to a menu component].
 ====
 
  

@@ -34,15 +34,19 @@ The REST API v2.0 endpoints introduce several improvements to the request and re
 * Some API operations for data connections, Liveboard schedules, and Orgs are not available in the initial release. For more information, see xref:rest-api-v2-reference.adoc[REST API v2 reference].
 ====
 
+=== New Liveboard experience
+
+The new Liveboard experience is GA on embedded instances and is enabled by default.
+
 === GraphQL Playground[beta betaBackground]^Beta^
 
 In 9.0.0.cl, the *Develop* tab in ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations.
 
 === Early access features
 
-Starting from 9.0.0.cl, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use, but are not enabled by default on ThoughtSpot instances until the features are GA.
+Starting from 9.0.0.cl, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
 
-ThoughtSpot administrators can enable the following Early Access features on your instances:
+The 9.0.0.cl release introduces the following Early Access features:
 
 * Custom maps
 +

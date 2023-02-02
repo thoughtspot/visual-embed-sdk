@@ -14,20 +14,7 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |====
 |[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the styles for dialogs, search bar, search navigation and search suggestions panels.
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag redBackground]#BREAKING CHANGE# a| The new Liveboard experience mode introduces changes in the data structure of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` metadata contents are modified, and the custom action properties are now part of the `embedAnswerData` object. These changes may break your current custom action event handlers. We recommend including `payload.data.id` in your code to handle callback custom action events as shown in this example. You may also want to update the data classes in your scripts to process the JSON response payload.
-
-[source,JavaScript]
-----
-liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
-     if (payload.data.id === 'show-data') {
-      const showActionId = 'show-data';
-          if (payload.id === showActionId \|\| payload.data.id === showActionId) {
-               showData(payload);
-          }
-      })
-----
-
-To view the data structure of the response payload, see xref:callback-response-payload.adoc#_liveboard_new_experience[sample response payload].
+|[tag redBackground]#BREAKING CHANGE# a|The new Liveboard experience mode introduces changes to the data format of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` metadata contents are modified, and the custom action property is now part of the `data` object. These changes may break your current custom action event handlers. We recommend including `payload.data.id` in your code to handle callback custom action events on Liveboards in the new experience mode. You may also want to update the data classes in your scripts to process the JSON response payload. For more information, see xref:custom-actions-callback.adoc[Callback custom actions] and xref:callback-response-payload.adoc[Callback JSON payloads].
 
 |[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
 

@@ -1,4 +1,4 @@
-= Callback response payload
+= Callback JSON response payloads
 :toc: true
 
 :page-title: Sample response payload for callback actions
