@@ -14,10 +14,11 @@ image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
 
 The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
 
-[WARNING]
+[IMPORTANT]
 ====
-After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
-If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
+* The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
+* After you enable the Orgs feature on your instance, you must create an *Org* to activate the multi-tenancy mode. If your instance has no *Orgs*, it will function as a single-tenant environment.
+* The Orgs feature __cannot be turned off__. However, if you want to disable the multi-tenancy mode, you can delete all *Org* objects and revert your instance to the single-tenant mode.
 ====
 
 == Orgs in ThoughtSpot
