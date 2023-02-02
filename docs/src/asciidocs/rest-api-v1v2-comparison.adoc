@@ -125,7 +125,7 @@ API endpoints for managing scheduled jobs for a given Liveboard|[tag greenBackgr
 
 |*System* +
 API endpoints for querying system information |[tag greenBackground]#✓# Available +
-__The system administration API operations are available as *Admin services*|[tag greenBackground]#✓# Available
+__The system administration API operations are available as *Admin services*__|[tag greenBackground]#✓# Available
 
 |*TML* +
 API endpoints for importing and exporting TML representation of metadata objects|[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available +
