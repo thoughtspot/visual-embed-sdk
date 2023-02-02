@@ -92,8 +92,10 @@ interface CustomStyles {
 export interface CustomisationsInterface {
     style?: CustomStyles;
     content?: {
-        [key: string]: string;
+        strings?: Record<string, any>;
+        [key: string]: any;
     };
+    iconSpriteUrl?: string;
 }
 
 /**
@@ -813,7 +815,9 @@ export enum EmbedEvent {
 export enum HostEvent {
     /**
      * Trigger a search
-     * @param - dataSourceIds - The list of data source GUIDs
+     * @param - dataSourceIds - The data source GUID to Search on
+     *                        - Although an array, only a single source
+     *                          is supported at this time.
      * @param - searchQuery - The search query
      * @example
      * searchEmbed.trigger(HostEvent.Search, {
@@ -874,6 +878,28 @@ export enum HostEvent {
      * @version SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1-sw
      */
     Navigate = 'Navigate',
+    /**
+     * Opens the filter panel for a particular column.
+     * Works with Search embed.
+     * @param - { columnId: string, name: string, type: INT64/CHAR/DATE, dataType: ATTRIBUTE/MEASURE }
+     * @example searchEmbed.trigger(HostEvent.OpenFilter, { columnId: '123', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE' })
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    OpenFilter = 'openFilter',
+    /**
+     * Adds the columns to the current Search.
+     * @param - { columnIds: string[] }
+     * @example searchEmbed.trigger(HostEvent.AddColumns, { columnIds: ['123', '456'] })
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AddColumns = 'addColumns',
+    /**
+     * Removes a column from the current Search.
+     * @param - { columnId: string }
+     * @example - searchEmbed.trigger(HostEvent.RemoveColumn, { columnId: '123' })
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    RemoveColumn = 'removeColumn',
     /**
      * Gets the current pinboard content.
      * @example liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
@@ -1170,6 +1196,7 @@ export enum Param {
     ForceSAMLAutoRedirect = 'forceSAMLAutoRedirect',
     // eslint-disable-next-line @typescript-eslint/no-shadow
     AuthType = 'authType',
+    IconSpriteUrl = 'iconSprite',
 }
 
 /**

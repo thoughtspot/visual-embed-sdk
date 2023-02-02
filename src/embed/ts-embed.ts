@@ -327,6 +327,15 @@ export class TsEmbed {
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
+
+        const spriteUrl = customizations?.iconSpriteUrl;
+        if (spriteUrl) {
+            queryParams[Param.IconSpriteUrl] = spriteUrl.replace(
+                'https://',
+                '',
+            );
+        }
+
         if (showAlerts !== undefined) {
             queryParams[Param.ShowAlerts] = showAlerts;
         }
