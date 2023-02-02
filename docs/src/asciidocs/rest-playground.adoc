@@ -30,7 +30,7 @@ For more information about REST API v1 endpoints, API request and response workf
 
 == REST API v2 Playground
 
-The REST API v2.0 Playground displays a list of v2 endpoints, and a code panel to try out API calls.
+The REST API v2.0 Playground displays a list of v2 API endpoints, and a code panel to try out API calls.
 
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">Try it out</a>
