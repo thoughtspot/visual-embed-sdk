@@ -110,7 +110,7 @@ if (data.id === 'show-data') {
 ----
 
 [#handle-data]
-== Parse the JSON payload
+== Parse JSON response payload
 
 The callback actions can return JSON payloads that are complex and need to be parsed before using it for application needs. The format of the JSON response payload can vary based on the type of the embedded object and the placement of the custom action in the menu. For example, the format of the data payload triggered by an action in the context menu of Liveboard is different from the data retrieved for an Answer. When defining functions in your code to parse and handle data, make sure you use the correct classes.
 
