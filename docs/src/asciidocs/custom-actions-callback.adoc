@@ -144,9 +144,14 @@ The following code sample shows sample classes and functions for parsing JSON da
 
 [source,JavaScript]
 ----
+/**
+ * This class handles data from Liveboard visualizations if the callback action is set as
+ * a More menu or primary action.
+ * It does not work for Search or saved Answer data payloads or callback actions in the context menus.
+ */
 class LiveboardActionData {
   /**
-   * Creates a new LiveboardContextActionData from the payload.
+   * Creates a new LiveboardContextActionData  from the payload.
    * @param jsonData  A string from payload.data
    * @returns {LiveboardContextActionData}
    */
@@ -241,6 +246,10 @@ const zip = (arrays) => {
         })
     });
 }
+/**
+ * This class handles data from Search and Answers if the callback action is set as a More menu or primary action.
+ * It does not work for Liveboard visualizations or callback actions in the context menu.
+ */
 class ActionData {
     // Wrapper for the data sent when a custom action is triggered.
     constructor() {
@@ -311,7 +320,6 @@ export {
 ----
 
 
-
 [#callback-initiate]
 == Initiate a callback and test your implementation
 
@@ -322,3 +330,12 @@ To initiate a callback action:
 Custom actions appear as disabled on unsaved charts and tables. If you have generated a chart or table from a new search query, you must save the answer to use the custom action.
 . Click the callback action.
 . Verify if the callback action triggers a payload and initiates a callback to the host app.
+
+
+== Additional resources
+
+* link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[ThoughtSpot Everywhere Resources, window=_blank]
+
+////
+* link:https://github.com/thoughtspot/ts_everywhere_resources/tree/master/example_actions/download_csv[Custom action examples, window=_blank]
+////

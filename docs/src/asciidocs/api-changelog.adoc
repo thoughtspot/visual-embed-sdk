@@ -19,7 +19,7 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 [source,JavaScript]
 
 ----
-.on(EmbedEvent.CustomAction, payload => {
+liveboardEmbed.on(EmbedEvent.CustomAction, payload => {
     if (payload.id === "callback-action-id" \|\| payload.data.id === "callback-action-id") {
         console.log('Custom Action event:', payload.data);
     }
