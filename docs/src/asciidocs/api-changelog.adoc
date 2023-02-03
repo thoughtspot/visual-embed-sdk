@@ -18,17 +18,17 @@ For more information, see xref:css-customization.adoc[Customize CSS].
 
 |[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
 
-* HostEvent.Delete
-* HostEvent.Download
-* HostEvent.DownloadAsCsv
-* HostEvent.DownloadAsXlsx
-* HostEvent.ManagePipelines
-* HostEvent.Save
-* HostEvent.ShowUnderlyingData
-* HostEvent.Share
-* HostEvent.SpotIQAnalyze
-* HostEvent.SyncToOtherApps
-* HostEvent.SyncToSheets
+* `HostEvent.Delete`
+* `HostEvent.Download`
+* `HostEvent.DownloadAsCsv`
+* `HostEvent.DownloadAsXlsx`
+* `HostEvent.ManagePipelines`
+* `HostEvent.Save`
+* `HostEvent.Share`
+* `HostEvent.ShowUnderlyingData`
+* `HostEvent.SpotIQAnalyze`
+* `HostEvent.SyncToOtherApps`
+* `HostEvent.SyncToSheets`
 
 For more information, see xref:events-ref.adoc#host-events[Host events].
 

@@ -16,19 +16,19 @@ A de-supported feature no longer exists in the product. When you upgrade to a ne
 
 == Deprecation of REST v2 API
 
-Starting from the ThoughtSpot 8.10.0.cl, ThoughtSpot will deprecate the REST v2 API [beta betaBackground]^Beta^ endpoints. +
+The REST v2 API [beta betaBackground]^Beta^ endpoints will be deprecated starting from 8.10.0.cl release. +
 The REST v2 API [beta betaBackground]^Beta^ endpoints will remain functional, but will be removed from the Playground page in the *Develop* tab when the REST v2.0 API endpoints are rolled out.
 
 [NOTE]
 ====
-If your current deployment is using REST v2 API [beta betaBackground]^Beta^ endpoints, your implementation will continue to work. However, ThoughtSpot recommends that you start using the REST v2.0 API endpoints as and when they are made Generally Available (GA).
+If your current deployment is using REST v2 API [beta betaBackground]^Beta^ endpoints, your implementation will continue to work. However, ThoughtSpot recommends that you start using the REST v2.0 API endpoints as and when they are Generally Available (GA).
 ====
 
 === REST v2.0 API rollout
 
 To ensure a smooth transition for early adopters of the REST v2 API [beta betaBackground]^Beta^ feature, ThoughtSpot will roll out the REST v2.0 API feature in the following manner:
 
-* The new REST v2.0 API endpoints will be introduced incrementally over the subsequent releases and replace all API operations supported by the current REST v2 API [beta betaBackground]^Beta^ version. ThoughtSpot encourages you to transition to the REST v2.0 API endpoints as and when they are GA.
+* The new REST v2.0 API endpoints will be introduced incrementally over the subsequent releases and replace all API operations supported by the current REST v2 API [beta betaBackground]^Beta^ version. ThoughtSpot encourages you to transition to the REST v2.0 API endpoints as and when they are GA and fully qualified for production use cases.
 * With the introduction of the new REST v2.0 API endpoints, the current REST v2 API [beta betaBackground]^Beta^ endpoints will be deprecated. The current REST Playground v2 in the *Develop* tab will be replaced with the new REST v2.0 API Playground.
 
 === REST API SDK
