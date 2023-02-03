@@ -31,7 +31,7 @@ The REST API v2.0 endpoints introduce several improvements to the request and re
 * All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
 * No new endpoint collections or resources will be introduced in the REST API v2 [beta betaBackground]^Beta^ framework.
 * The new REST v2.0 API endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, and endpoint URIs are not the same as those of the REST API v2 [beta betaBackground]^Beta^ version.
-* Some API operations for data connections, Liveboard schedules, and Orgs are not available in the initial release. For more information, see xref:rest-api-v2-reference.adoc[REST API v2 reference].
+* Some API operations for data connections, Liveboard schedules, and Orgs are not available in the initial release. For more information, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison] and xref:rest-api-v2-reference.adoc[REST API v2 reference].
 ====
 
 === New Liveboard experience
