@@ -14,7 +14,18 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 |====
 |[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the styles for dialogs, search bar, search navigation and search suggestions panels.
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag redBackground]#BREAKING CHANGE# a|The new Liveboard experience mode introduces changes to the data format of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` metadata contents are modified, and the custom action property is now part of the `data` object. These changes may break your current custom action event handlers. We recommend including `payload.data.id` in your code to handle callback custom action events on Liveboards in the new experience mode. You may also want to update the data classes in your scripts to process the JSON response payload. For more information, see xref:custom-actions-callback.adoc[Callback custom actions] and xref:callback-response-payload.adoc[Callback JSON payloads].
+|[tag redBackground]#BREAKING CHANGE# a|The new Liveboard experience mode introduces changes to the data format of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` attributes are modified, and the custom action `id` now is part of the data payload. These changes may break your current custom action event handlers. For interoperability, we recommend adding the data attribute to `payload` in your code as shown in the example here:
+
+[source,Javascript]
+----
+.on(EmbedEvent.CustomAction, payload => {
+    if (payload.id === "callback-action-id" \|\| payload.data.id === "callback-action-id") {
+        console.log('Custom Action event:', payload.data);
+    }
+})
+----
+
+You may also want to update the data classes in your scripts to process the JSON response payload and handle complex data. For more information, see xref:custom-actions-callback.adoc#_define_functions_and_classes_to_handle_liveboard_data[Callback custom actions].
 
 |[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
 
