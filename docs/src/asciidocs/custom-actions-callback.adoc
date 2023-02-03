@@ -116,10 +116,9 @@ The callback actions can return JSON payloads that are complex and need to be pa
 
 === Define functions and classes to handle Liveboard data
 
-The format of the data payload for Liveboards varies if the callback action is triggered from a Liveboard in the experience mode. 
-
-To view the payload structure, refer to the examples on xref:callback-response-payload.adoc[Custom action response payload] page.
 The following example shows how to get data from a callback action triggered on a Liveboard visualization:
+
+[source,JavaScript]
 ----
 const onCustomAction = () => {
         const embed = new LiveboardEmbed("#embed", {
@@ -139,21 +138,21 @@ const onCustomAction = () => {
         }
 ----
 
+The format of the data payload for Liveboard visualization varies if the callback action is triggered from a Liveboard in the experience mode. To view the payload structure, refer to the examples on xref:callback-response-payload.adoc[Custom action response payload] page.
+
 The following code sample shows sample classes and functions for parsing JSON data from a Liveboard. This example assumes that the callback action is placed in the **More** options menu of the Liveboard visualization.
 
 [source,JavaScript]
 ----
 class LiveboardActionData {
-    //** Creates a new LiveboardActionData object from JSON.
-    * Liveboard actions pass the JSON as a string, so it has to be
-        *
-        converted first.*@param jsonData A string from the payload.data.*@returns {
-            LiveboardActionData
-        }
-        */
+  /**
+   * Creates a new LiveboardContextActionData from the payload.
+   * @param jsonData  A string from payload.data
+   * @returns {LiveboardContextActionData}
+   */
     static createFromJSON(jsonData) {
         let isV1 = true;
-        // Handle data structure differences between Liveboard v1 and v2.
+        // Handle data structure differences between Liveboards operating in the classic and new experience modes.
         if (typeof jsonData.data === 'string' || jsonData.data instanceof String) {
             jsonData = JSON.parse(jsonData.data);
             isV1 = true;
