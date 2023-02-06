@@ -28,7 +28,7 @@ You can set your preference to trigger the contextual menu on right-click or lef
 
 * New event to monitor right-click menu actions
 +
-If you have set the contextual menu as a right-click menu on Liveboard visualizations and Answers, you can register the `EmbedEvent.VizPointRightClick` event to listen to `right-click` actions. You can use this event to customize the workflow based on the menu action selected from a right-click menu.
+If you have set the contextual menu as a right-click menu on Liveboard visualizations and Answers, you can register the `EmbedEvent.VizPointRightClick` event to listen to right-click actions. You can use this event to customize the workflow based on the menu action selected from a right-click menu.
 
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
