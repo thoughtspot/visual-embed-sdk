@@ -172,7 +172,7 @@ PUT /tspublic/v1/user/{userid}
 |`userid`|Form parameter|__String__. GUID of the user.
 |`content`|Form parameter|__String__. A JSON map of strings with the user profile attributes.
 |`password` __Optional__|Form parameter|__String__. Password string for the user account. Use this attribute to change the password of the user account.
-|`triggeredbyadmin` a|Form parameter|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
+|`triggeredbyadmin` a|Form parameter a|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
 
 * When set to `true`, ThoughtSpot updates the `displayNameLastUpdatedBy` property to `ADMIN`. Else, the `displayNameLastUpdatedBy` property is set to `AUTO` for the specified user object.
 
