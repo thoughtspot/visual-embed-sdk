@@ -8,6 +8,30 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== New features in upcoming releases
+
+=== Contextual menu behavior change
+
+Starting from 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently appears on right-clicking a data point on a Liveboard visualization will show as a left-click-triggered pop-up menu. ThoughtSpot is introducing this change to improve the application experience of users who access ThoughtSpot via touch devices and to enhance the discoverability of features such as Drill Down.
+
+If your deployment uses `EmbedEvent.VizPointClick` to listen to click events on a Liveboard visualization or Answer on your embedded instance, note that the embedded object will now emit the `VizPointClick` event whenever a user clicks a contextual menu action such as Drill down, Filter, Copy to clipboard and so on.
+
+If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualizations, the click events from the new contextual menu may impact your app’s current behavior. To minimize this impact, ThoughtSpot provides the following options in the upcoming Visual Embed SDK versions (version 1.21.0 and later):
+
+* Ability to turn off the contextual menu in the SDK
++
+You can specify `Action.CrossFilter` in the `hiddenActions` attribute to hide the menu. If you are using the `visibleActions` property to show or hide menu actions, do not add `Action.CrossFilter`.
+
+* Ability to retain your app’s current behavior
++
+You can set your preference to trigger the contextual menu on right-click or left-click (the regular single-click) using the `ContextMenuTrigger` property in the SDK. To force your app to open the contextual menu on right-click, set the `ContextMenuTrigger` to `right-click`. This will allow your app to fire the `VizPointClick` event only when left-click user actions are detected and keep your customization unaffected.
+
+* New event to monitor right-click menu actions
++
+If you have set the contextual menu as a right-click menu on Liveboard visualizations and Answers, you can register the `EmbedEvent.VizPointRightClick` event to listen to `right-click` actions. You can use this event to customize the workflow based on the menu action selected from a right-click menu.
+
+We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
+
 == Version 9.0.0.cl, Coming soon
 
 === CSS variables for custom styling
@@ -69,30 +93,6 @@ Allows making multiple edits to a chart configuration and applying all changes a
 * Chart data labels
 +
 Allows displaying data labels in a lighter color on charts with a dark background.
-
-== New features in upcoming releases
-
-=== Contextual menu behavior change
-
-Starting from 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently appears on right-clicking a data point on a Liveboard visualization will show as a left-click-triggered pop-up menu. ThoughtSpot is introducing this change to improve the application experience of users who access ThoughtSpot via touch devices and to enhance the discoverability of features such as Drill Down.
-
-If your deployment uses `EmbedEvent.VizPointClick` to listen to click events on a Liveboard visualization or Answer on your embedded instance, note that the embedded object will now emit the `VizPointClick` event whenever a user clicks a contextual menu action such as Drill down, Filter, Copy to clipboard and so on.
-
-If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualizations, the click events from the new contextual menu may impact your app’s current behavior. To minimize this impact, ThoughtSpot provides the following options in the upcoming Visual Embed SDK versions (version 1.21.0 and later):
-
-* Ability to turn off the contextual menu in the SDK
-+
-You can specify `Action.CrossFilter` in the `hiddenActions` attribute to hide the menu. If you are using the `visibleActions` property to show or hide menu actions, do not add `Action.CrossFilter`.
-
-* Ability to retain your app’s current behavior
-+
-You can set your preference to trigger the contextual menu on right-click or left-click (the regular single-click) using the `ContextMenuTrigger` property in the SDK. To force your app to open the contextual menu on right-click, set the `ContextMenuTrigger` to `right-click`. This will allow your app to fire the `VizPointClick` event only when left-click user actions are detected and keep your customization unaffected.
-
-* New event to monitor right-click menu actions
-+
-If you have set the contextual menu as a right-click menu on Liveboard visualizations and Answers, you can register the `EmbedEvent.VizPointRightClick` event to listen to `right-click` actions. You can use this event to customize the workflow based on the menu action selected from a right-click menu.
-
-We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
 == Version 8.10.0.cl
 
