@@ -70,7 +70,7 @@ Allows making multiple edits to a chart configuration and applying all changes a
 +
 Allows displaying data labels in a lighter color on charts with a dark background.
 
-== Upcoming features in future releases
+== New features in upcoming releases
 
 === Contextual menu behavior change
 
