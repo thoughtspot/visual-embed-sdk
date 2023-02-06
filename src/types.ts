@@ -802,6 +802,11 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CopyLink = 'embedDocument',
+    /**
+     * Emitted when a user interacts with cross filters on a visualization or liveboard
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    CrossFilterChanged = 'cross-filter-changed',
 }
 
 /**
@@ -1346,6 +1351,14 @@ export enum Action {
     SyncToSheets = 'sync-to-sheets',
     SyncToOtherApps = 'sync-to-other-apps',
     ManagePipelines = 'manage-pipeline',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    CrossFilter = 'context-menu-item-cross-filter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    RemoveCrossFilter = 'context-menu-item-remove-cross-filter',
 }
 
 export interface SessionInterface {
