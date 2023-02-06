@@ -18,7 +18,7 @@ If your deployment uses `EmbedEvent.VizPointClick` to listen to click events on 
 
 If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the new contextual menu may impact your app’s current behavior. To avoid this issue, use the following settings in the Visual Embed SDK from v1.21.0 and later versions:
 
-* Set contextual menu preference to right-click
+* Set contextual menu preference
 +
 By default, the contextual menu will open when a user left-clicks on a data point. You can force your app to open the contextual menu as a right-click menu by setting the `ContextMenuTrigger` property to `right-click` in the SDK. This will allow your app to fire the `VizPointClick` event as per your current workflow.
 
