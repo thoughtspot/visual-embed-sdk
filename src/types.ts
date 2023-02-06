@@ -1143,6 +1143,13 @@ export enum HostEvent {
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ManagePipelines = 'manage-pipeline',
+    /**
+     * Triggers the Reset search in answer
+     * @example
+     * searchEmbed.trigger(HostEvent.SearchReset
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.2.0.cl, 9.0.1-sw
+     */
+    ResetSearch = 'resetSearch',
 }
 
 /**
