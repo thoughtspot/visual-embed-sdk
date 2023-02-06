@@ -807,6 +807,11 @@ export enum EmbedEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     CrossFilterChanged = 'cross-filter-changed',
+    /**
+     * Emitted when a user right clicks on chart or table
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    VizPointRightClick = 'vizPointRightClick',
 }
 
 /**
