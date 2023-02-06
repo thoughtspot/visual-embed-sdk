@@ -24,7 +24,7 @@ You can specify `Action.CrossFilter` in the `hiddenActions` attribute to hide th
 
 * Ability to retain your app’s current behavior
 +
-You can set your preference to trigger the contextual menu on right-click or left-click (the regular single-click) using the `ContextMenuTrigger` property in the SDK. To force your app to open the contextual menu on right-click, set the `ContextMenuTrigger` to `right-click`. This will allow your app to fire the `VizPointClick` event only when left-click user actions are detected and keep your customization unaffected.
+You can set your preference to trigger the contextual menu on right-click or left-click (the regular single-click) using the `ContextMenuTrigger` property in the SDK. To force your app to open the contextual menu on right-click, set `ContextMenuTrigger` to `right-click`. This will allow your app to fire the `VizPointClick` event only when left-click user actions are detected and keep your customization unaffected.
 
 * New event to monitor right-click menu actions
 +
