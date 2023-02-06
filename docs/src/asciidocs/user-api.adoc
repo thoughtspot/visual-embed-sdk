@@ -193,10 +193,8 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=4391d676-2dd8-4248-b6db-d973811f0122' \
--d 'content={"displayName": "Guest", "header": {"id": "4391d676-2dd8-4248-b6db-d973811f0122", "name": "guest1234", "displayName": "Guest", "owner": "4391d676-2dd8-4248-b6db-d973811f0122"}}' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}' \
--b 'JSESSIONID=0e97a2a6-7e9a-496a-b48b-2d66ec8b1e15'
+-d 'userid=6deb3976-e7c9-4f6a-94cc-90d790ee828d&content={    "userContent":{       "userPreferences":{          "notifyOnShare":true,          "showWalkMe":true,          "analystOnboardingComplete":false       },       "userProperties":{          "displayNameLastUpdatedBy":"ADMIN"       },       "userActivityProto":{          "first_login":-1,          "welcome_email_sent":false       }    },    "state":"ACTIVE",    "assignedGroups":[       "b25ee394-9d13-49e3-9385-cd97f5b253b4"    ],    "inheritedGroups":[       "b25ee394-9d13-49e3-9385-cd97f5b253b4"    ],    "privileges":[           ],    "type":"LOCAL_USER",    "parenttype":"USER",    "visibility":"DEFAULT",    "tenantId":"982d6da9-9cd1-479e-b9a6-35aa05f9282a",    "displayName":"TS Test User",    "header":{       "id":"6deb3976-e7c9-4f6a-94cc-90d790ee828d",       "name":"tsTest",       "displayName":"tsTest",       "author":"59481331-ee53-42be-a548-bd87be6ddd4a",       "created":1675661280328,       "modified":1675661280328,       "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",       "owner":"6deb3976-e7c9-4f6a-94cc-90d790ee828d",       "isDeleted":false,       "isHidden":false,       "orgIds":[          0       ],       "tags":[                 ],       "type":"LOCAL_USER",       "isExternal":false,       "isDeprecated":false,       "isSharedViaConnection":false    },    "complete":true,    "incompleteDetail":[           ],    "isSuperUser":false,    "isSystemPrincipal":false }&triggeredbyadmin=true'\
+'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}'
 ----
 
 .Request URL

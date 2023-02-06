@@ -27,9 +27,9 @@ You must have at least view access to the objects to export the TML data. To imp
 == Import TML
 To validate and import the TML objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
 
-The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, and you do not add the `fqn` parameter, the connection or table you reference does not have a unique name and can lead to invalid object references.
+The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, the connection or table you reference in your TML does not have a unique name and thus can lead to invalid object references. Adding `fqn` helps ThoughtSpot differentiate a table from another with the same name.
 
-By default, the `fqn` parameter is not present in the TML file, but you can add it to differentiate a table from another table with the same name.
+By default, the `fqn` parameter is not present in the TML file. However, you can export TML with FQNs and use it during the import.
 
 [NOTE]
 ====
@@ -217,7 +217,7 @@ For example:
 
 |`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`. | `YAML`
 |`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.| `false`
-a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
+a|`export_fqn`  a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
 Note that the FQN of a referenced object is the same as the GUID of that object. +
 
 ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced worksheet. +
