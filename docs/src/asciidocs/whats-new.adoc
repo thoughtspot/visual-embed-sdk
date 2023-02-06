@@ -12,13 +12,15 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Cross-filters and contextual menu behavior change
 
-Starting from 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently opens on right-clicking a data point on a visualization will appear as a __left-click-triggered__ pop-up menu. ThoughtSpot is introducing this change to improve the application experience for users who access ThoughtSpot via touch devices, and to enhance the discoverability of features such as *Drill down*.
+Starting from 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
+
+As part of this feature, the contextual menu that currently opens on right-clicking a data point on a visualization will appear as a __left-click-triggered__ pop-up menu. This change makes features like *Drill down* more easily discoverable and improves the user experience for those accessing ThoughtSpot on touch devices.
 
 If your deployment uses `EmbedEvent.VizPointClick` to listen to click events on a Liveboard visualization on your embedded instance, note that the embedded object will now emit the `VizPointClick` event when a user clicks a contextual menu action such as *Drill down*, *Filter*, and so on.
 
-If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the new contextual menu may impact your app’s current behavior. To avoid this issue, use the following settings in the Visual Embed SDK from v1.21.0 and later versions:
+If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the new contextual menu may impact your app’s current workflow. To avoid this issue, use the following settings in the Visual Embed SDK from v1.21.0 and later versions:
 
-* Set contextual menu preference
+* Define your preferred settings for the contextual menu
 +
 By default, the contextual menu will open when a user left-clicks on a data point. You can force your app to open the contextual menu as a right-click menu by setting the `ContextMenuTrigger` property to `right-click` in the SDK. This will allow your app to fire the `VizPointClick` event as per your current workflow.
 
