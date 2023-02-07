@@ -95,6 +95,78 @@ appEmbed.trigger(HostEvent.Delete)
 ====
 --
 
+==== Download
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.19.0` or later. +
+
+Triggers the *Download* action on a visualization or Answer in the Chart view mode.  +
+
+Requires the `vizId` key for event trigger on a Liveboard.
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+--
+
+==== DownloadAsPDF
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Triggers the *Download PDF* action on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
+----
+====
+--
+
+==== Download as CSV
+
+Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `V1.19.0` or later. +
+
+Triggers the *Download As CSV* action on a Liveboard visualization or Answer in the table view mode.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Download as XLSX
+
+Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `V1.19.0` or later. +
+
+Triggers the *Download As XLXS* action on a Liveboard visualization or Answer in the table view mode.
+
+[div divider]the
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== DrillDown
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
 Triggers a drill-down event on certain points of the specified column.  +
@@ -133,23 +205,6 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
         autoDrillDown: true,
     });
 })
-----
-====
---
-
-==== DownloadAsPDF
-
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
-Triggers the *Download PDF* action on a Liveboard.
-
-[div divider]
---
-.Example
-[%collapsible]
-====
-[source,JavaScript]
-----
-liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
 ----
 ====
 --
@@ -335,6 +390,28 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ====
 --
 
+==== ManagePipelines
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.19.0` or later. +
+
+Triggers the *ManagePipelines* action on a Liveboard visualization or saved Answer.
+
+Requires the `vizId` key for event trigger on Liveboard visualizations:
+
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.ManagePipelines, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== Navigate
 
 Available with `AppEmbed` in `V1.12.0` or later. +
@@ -411,6 +488,7 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ==== Remove
 
 Available with `AppEmbed` in `V1.15.0` or later. +
+
 Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 
 [div divider]
@@ -422,6 +500,25 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== Save
+
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.19.0` or later. +
+
+Triggers the *Save* action on a Liveboard or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Save)
 ----
 ====
 --
@@ -505,13 +602,11 @@ liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691
 ====
 --
 
-== ShowUnderlyingData
+==== Share
 
 Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `V1.19.0` or later.
 
-Triggers the ShowUnderlyingData action on visualization or Answer.
-
-Requires `vizId` key.
+Triggers the `*Share*` action on visualization, Answer, or worksheet.
 
 [div divider]
 --
@@ -519,27 +614,97 @@ Requires `vizId` key.
 [%collapsible]
 ====
 
-.Example code for event trigger on embedded Liveboard
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Share)
+----
+--
+
+
+==== ShowUnderlyingData
+
+Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `V1.19.0` or later.
+
+Triggers the *ShowUnderlyingData* action on visualization or Answer.
+
+Requires the `vizId` key for event trigger on a Liveboard.
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
 
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ShowUnderlyingData,
 {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
+--
 
-.Example code for event trigger on embedded visualization
+==== SpotIQAnalyze
+
+Available with `AppEmbed`, `SearchEmbed`, and `LiveboardEmbed` in `V1.19.0` or later. +
+
+Triggers the *SpotIQAnalyze* action on a Liveboard visualization, search result, or saved Answer.
+
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.SpotIQAnalyze,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+
+==== SyncToSheets
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.19.0` or later.
+
+Triggers the *SyncToSheets* action on a saved Answer or visualization.
+
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
 
 [source,JavaScript]
 ----
-vizEmbed.trigger(HostEvent.ShowUnderlyingData)
+liveboardEmbed.trigger(HostEvent.SyncToSheets,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
+====
+--
 
-.Example code for event trigger on search embed
+==== SynToOtherApps
+
+Available with `LiveboardEmbed` and `AppEmbed` in `V1.19.0` or later.
+
+Triggers the *SyncToOherApps* action on a saved Answer or visualization.
+
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
 [source,JavaScript]
 ----
-searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+liveboardEmbed.trigger(HostEvent.SyncToOtherApps,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
-
 ====
 --
 
@@ -591,119 +756,12 @@ Triggers the *Update TML* action for a Liveboard object.  +
 .Example
 [%collapsible]
 ====
-
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateTML)
 ----
 ====
 --
-
-=== SpotIQAnalyze
-
-Available with `AppEmbed`, `SearchEmbed`, and `LiveboardEmbed` in `V1.19.0` or later. +
-
-Triggers the *SpotIQAnalyze* action on a Liveboard visualization, search result, or saved Answer.
-
-Requires `vizId` key for event trigger on Liveboards.
-
-[div divider]
---
-.Example
-[%collapsible]
-====
-.Example code for embedded Liveboards
-[source,JavaScript]
-----
-liveboardEmbed.trigger(HostEvent.SpotIQAnalyze,
-{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-====
---
-////
-.Example code for embedded visualization
-
-.Example code for
-
-     * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.SpotIQAnalyze)
-     * searchEmbed.trigger(HostEvent.SpotIQAnalyze)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    SpotIQAnalyze = 'spotIQAnalyze',
-    /**
-     * Triggers the Download action on visualization or search when Displaymode is Chart
-     * @example
-     * liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.Download)
-     * searchEmbed.trigger(HostEvent.Download)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    Download = 'download',
-    /**
-     * Triggers the downloadAsCSV action on visualization or search when Displaymode is Table
-     * @example
-     * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.DownloadAsCsv)
-     * searchEmbed.trigger(HostEvent.DownloadAsCsv)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    DownloadAsCsv = 'downloadAsCSV',
-    /**
-     * Triggers the downloadAsXLSX action on visualization or search when Displaymode is Table
-     * @example
-     * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.DownloadAsXlsx)
-     * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    DownloadAsXlsx = 'downloadAsXLSX',
-    /**
-     * Triggers the Share action on a liveboard or answer
-     * @example
-     * liveboardEmbed.trigger(HostEvent.Share)
-     * searchEmbed.trigger(HostEvent.Share)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    Share = 'share',
-    /**
-     * Trigger the Save action on a liveboard or answer
-     * @example
-     * liveboardEmbed.trigger(HostEvent.Save)
-     * searchEmbed.trigger(HostEvent.Save)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    Save = 'save',
-    /**
-     * Triggers the SyncToSheets action on visualization
-     * @param - an object with vizId as a key
-     * @example
-     * liveboardEmbed.trigger(HostEvent.SyncToSheets, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.SyncToSheets)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    SyncToSheets = 'sync-to-sheets',
-    /**
-     * Triggers the SyncToOtherApps action on visualization
-     * @param - an object with vizId as a key
-     * @example
-     * liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.SyncToOtherApps)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    SyncToOtherApps = 'sync-to-other-apps',
-    /**
-     * Triggers the ManagePipelines action on visualization
-     * @param - an object with vizId as a key
-     * @example
-     * liveboardEmbed.trigger(HostEvent.ManagePipelines, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * vizEmbed.trigger(HostEvent.ManagePipelines)
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
-     */
-    ManagePipelines = 'manage-pipeline',
-}
-
-////
 
 [#embed-events]
 == Embed events
