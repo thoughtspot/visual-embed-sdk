@@ -30,7 +30,6 @@ By default, your cluster URL is set as the base path for your API requests.
 
 To provide secure access to ThoughtSpot resources, the REST API v2 framework supports token-based authentication method. However, for local development or testing purposes, you can use basic authentication with `userName` and `password`.
 
-+
 To get a token that provides access to ThoughtSpot resources, you can send a `POST` request to one of the following API endpoints:
 
 * `/api/rest/2.0/auth/token/object`
