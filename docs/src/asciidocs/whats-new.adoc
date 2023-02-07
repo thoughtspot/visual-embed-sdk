@@ -24,8 +24,8 @@ By default, the contextual menu will open when a user left-clicks on a data poin
 Turn off cross-filters::
 You can turn off the cross-filters feature by setting `Action.CrossFilter` and `Action.RemoveCrossFilter` as hidden attributes in the SDK. For more information about hiding a menu action, see xref:embed-actions.adoc[Show or hide menu items].
 
-Use the VizPointRightClick event to monitor right-click menu actions::
-If you have set the contextual menu preference to `right-click` in the `ContextMenuTrigger` property, you can register the `EmbedEvent.VizPointRightClick` event to listen to right-click menu actions. You can use this event to customize the workflow based on the type of action selected from the contextual menu.
+Use VizPointRightClick to monitor right-click events::
+If you have set the contextual menu preference to `right-click` in the `ContextMenuTrigger` property, you can register the `EmbedEvent.VizPointRightClick` event to listen to the right-click events on a chart of table.
 
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
