@@ -10,9 +10,7 @@ The TML API endpoints allow you to programmatically export, validate, and import
 
 [NOTE]
 ====
-Starting with 8.9.0.cl, the `pinboard` object name appears as `liveboard` in the TML files exported from ThoughtSpot. The older version of TML files with `pinboard` can be imported into ThoughtSpot instances running 8.9.0.cl, but ThoughtSpot  replaces `pinboard` with `liveboard` when exporting TML objects.
-
-However, if you try to import the Liveboard TML files exported from a ThoughtSpot 8.9.0.cl instance into an environment running 8.8.0.cl or an earlier version, the import operation fails. To resolve this issue, replace `liveboard` with `pinboard` and then retry importing to earlier versions.
+Starting with version 8.9.0.cl, ThoughtSpot exports TML files with `liveboard` as the object name instead of `pinboard`. Older TML files with the `pinboard` object name can still be imported into ThoughtSpot instances on 8.9.0.cl release version, but it will be replaced with `liveboard` during TML export. Importing a TML file generated from ThoughtSpot 8.9.0.cl into 8.8.0.cl or earlier versions is not supported if the object name is set to `liveboard`. To resolve this issue, replace `liveboard` with `pinboard` and then try to import it into earlier versions.
 ====
 
 == Supported operations
@@ -25,7 +23,7 @@ You must have at least view access to the objects to export the TML data. To imp
 
 [#import]
 == Import TML
-To validate and import the TML objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
+To import TML representation of objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
 
 The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, the connection or table you reference in your TML does not have a unique name and thus can lead to invalid object references. Adding `fqn` helps ThoughtSpot differentiate a table from another with the same name.
 
