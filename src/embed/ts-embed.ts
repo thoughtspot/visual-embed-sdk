@@ -417,7 +417,7 @@ export class TsEmbed {
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
-                        this.el.innerHTML = this.embedConfig.loginFailedMessage;
+                        this.insertIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
                     }
 
@@ -478,8 +478,7 @@ export class TsEmbed {
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
-                    this.el.innerHTML = '';
-                    this.el.appendChild(this.iFrame);
+                    this.insertIntoDOM(this.iFrame);
                     const prefetchIframe = document.querySelectorAll(
                         '.prefetchIframe',
                     );
@@ -496,10 +495,27 @@ export class TsEmbed {
                         MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
                         { error: JSON.stringify(error) },
                     );
-                    this.el.innerHTML = this.embedConfig.loginFailedMessage;
+                    this.insertIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
                 });
         });
+    }
+
+    protected insertIntoDOM(child: string | Node): void {
+        if (this.viewConfig.insertAsSibling) {
+            if (typeof child === 'string') {
+                const div = document.createElement('div');
+                div.innerHTML = child;
+                // eslint-disable-next-line no-param-reassign
+                child = div;
+            }
+            this.el.parentElement.insertBefore(child, this.el.nextSibling);
+        } else if (typeof child === 'string') {
+            this.el.innerHTML = child;
+        } else {
+            this.el.innerHTML = '';
+            this.el.appendChild(child);
+        }
     }
 
     /**
