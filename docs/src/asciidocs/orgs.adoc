@@ -121,7 +121,7 @@ Custom actions| [tag greyBackground]#–# |__Custom action creation and group as
 
 __Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
-|REST API v2[beta betaBackground]^Beta^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
+|REST API v2 [beta betaBackground]^Beta^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
 |=====
 
 == Authentication considerations for embedded apps

@@ -1,12 +1,12 @@
-= REST API v2 Authentication
+= REST API v2.0 Authentication
 :toc: true
 :toclevels: 1
 
 :page-title: User authentication and session management
 :page-pageid: api-authv2
-:page-description: REST V2 APIs support basic and token-based authentication methods.
+:page-description: REST v2 APIs support basic and token-based authentication methods.
 
-The REST API v2 framework supports the following types of authentication:
+The REST API v2.0 framework supports the following types of authentication:
 
 Basic authentication::
 In this method, REST clients can access ThoughtSpot objects using `username` and `password` parameters.

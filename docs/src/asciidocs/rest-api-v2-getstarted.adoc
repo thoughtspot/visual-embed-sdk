@@ -1,16 +1,16 @@
-= Get started with REST API v2
+= Get started with REST API v2.0
 :toc: true
 :toclevels: 2
 
-:page-title: Getting started with REST API v2
+:page-title: Getting started with REST API v2.0
 :page-pageid: rest-apiv2-getstarted
-:page-description: Get started with REST API v2 to access, create, and manage ThoughtSpot resources programmatically.
+:page-description: Get started with REST API v2.0 to access, create, and manage ThoughtSpot resources programmatically.
 
-Before you get started with REST API v2, visit the REST API V2 Playground to view the endpoints and try out the API requests.
+Before you get started with REST API v2.0, visit the REST API v2.0 Playground to view the endpoints and try out the API requests.
 
 == Visit the API Playground
 
-To access the REST API v2 Playground, go to **Develop** > **REST API** > **REST Playground v2.0**.
+To access the REST API v2.0 Playground, go to **Develop** > **REST API** > **REST Playground v2.0**.
 
 The Playground allows you to make API calls, view the request and response workflows, and create and download code samples.
 
@@ -28,7 +28,7 @@ By default, your cluster URL is set as the base path for your API requests.
 
 == Authorize your client
 
-To provide secure access to ThoughtSpot resources, the REST API v2 framework supports token-based authentication method. However, for local development or testing purposes, you can use basic authentication with `userName` and `password`.
+To provide secure access to ThoughtSpot resources, the REST API v2.0 framework supports token-based authentication method. However, for local development or testing purposes, you can use basic authentication with `userName` and `password`.
 
 To get a token that provides access to ThoughtSpot resources, you can send a `POST` request to one of the following API endpoints:
 
@@ -163,7 +163,7 @@ curl -X POST \
 
 === API response
 
-A successful API call returns a response body or the 204 response code. The REST API v2 framework supports standard HTTP response codes to indicate the status of a request.
+A successful API call returns a response body or the 204 response code. The REST API v2.0 framework supports standard HTTP response codes to indicate the status of a request.
 
 * *200*
 +
@@ -193,5 +193,5 @@ Indicates an internal server error. Check if the data format of the request is s
 If an API call returns an error in the Playground, you can view the error details by navigating to *root* > *error* > *message* > *debug* in the error response body.
 
 [.widthAuto]
-image::./images/rest-v2-error.png[REST API v2 error codes width=auto]
+image::./images/rest-v2-error.png[REST API v2.0 error codes width=auto]
 

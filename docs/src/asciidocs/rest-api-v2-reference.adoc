@@ -1,4 +1,4 @@
-= REST API v2 Reference
+= REST API v2.0 Reference
 :toc: true
 
 
@@ -6,7 +6,7 @@
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-This API Reference page lists the REST API v2 endpoints and provides basic information about the resource URLs and supported operations. If you want to try out these APIs, view detailed documentation, and download code samples, visit the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2 Playground</a>+++.
+This API Reference page lists the REST API v2.0 endpoints and provides basic information about the resource URLs and supported operations. If you want to try out these APIs, view detailed documentation, and download code samples, visit the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
 
 
 == Authentication
@@ -69,7 +69,7 @@ You can copy the `secret key` from *Develop* > *Customizations* > *Security Sett
 
 The `/api/rest/2.0/auth/token/object` and `/api/rest/2.0/auth/token/full` API endpoints also let you provision a user just-in-time (JIT) and assign the new user to Orgs and groups. If a user is not available in ThoughtSpot, administrators can create a user profile by setting `auto_create` to `true`, and provision the user to an Org and groups in an Org.
 
-For more information, see xref:authentication.adoc[REST API v2 authentication].
+For more information, see xref:authentication.adoc[REST API v2.0 authentication].
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -265,7 +265,7 @@ You can perform CRUD operations on Org objects if the Orgs feature is enabled on
 
 [NOTE]
 ====
-* In the current release, REST API v2 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST v2 endpoints via a Web browser, Postman, or other such tools.
+* In the current release, REST API v2.0 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST API v2 endpoints via a Web browser, Postman, or other such tools.
 * Before you perform any operation on the objects in an Org, make sure you use the token issued by ThoughtSpot for that specific Org.
 ====
 
@@ -517,7 +517,7 @@ __Requires at least view access to metadata objects__.
 
 [NOTE]
 ====
-Searching by metadata sub-types such as `CALENDAR_TYPE` and `FORMULA` is not supported in REST API v2.
+Searching by metadata sub-types such as `CALENDAR_TYPE` and `FORMULA` is not supported in REST API v2.0.
 ====
 
 The search metadata API allows you to define several parameters to filter the output. For example, you can filter objects created or modified by specific users, or based on the tags assigned to an object. Similarly, you can exclude or include dependent, hidden, and incomplete objects in the output.

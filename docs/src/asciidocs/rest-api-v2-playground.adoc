@@ -1,9 +1,9 @@
-= REST API v2 Playground
+= REST API v2.0 Playground
 :toc: true
 
-:page-title: ThoughtSpot REST API v2 Playground
+:page-title: ThoughtSpot REST API v2.0 Playground
 :page-pageid: restV2-playground
-:page-description: ThoughtSpot REST API v2 Playground
+:page-description: ThoughtSpot REST API v2.0 Playground
 
 The REST API v2.0 Playground offers an interactive portal with API resources, comprehensive documentation, and a code panel to view the request and response workflows.
 

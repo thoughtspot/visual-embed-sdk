@@ -1,13 +1,13 @@
-= REST API v1 and v2 comparison
+= REST API v1 and v2.0 comparison
 :toc: true
 :toclevels: 1
 
 
-:page-title: Difference between REST API v1 and v2
+:page-title: Difference between REST API v1 and v2.0
 :page-pageid: v1v2-comparison
-:page-description: Difference between REST API v1 and v2
+:page-description: Difference between REST API v1 and v2.0
 
-Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2 is a new framework that expands the core API functionality with additional features and improved user experience.
+Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API v2.0 is a new framework that expands the core API functionality with additional features and improved user experience.
 
 == Feature comparison
 [div tableContainer]
@@ -15,7 +15,7 @@ Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and ma
 [width="100%" cols="4,^5,^5"]
 [options='header']
 |=====
-|Feature|REST API v1| REST API v2
+|Feature|REST API v1| REST API v2.0
 |API Playground|Go to *Develop* > *REST API* > *REST API v1 Playground*.
 
 REST API v1 endpoints can be accessed via Swagger API explorer.  +
@@ -62,7 +62,7 @@ Resource URL  a|
 [width="100%" cols="5,4,4"]
 [options='header']
 |=====
-|API service|REST API v1| REST API v2
+|API service|REST API v1| REST API v2.0
 a|*Admin services* +
 API endpoints for cluster-level administration | [tag greenBackground]#✓# Available a| [tag greenBackground]#✓# Available +
 
@@ -157,7 +157,7 @@ API endpoints for user administration and management |[tag greenBackground]#✓#
 [width="100%" cols="7,7"]
 [options='header']
 |=====
-|REST API v1| REST API v2
+|REST API v1| REST API v2.0
 a|
 * `GET` for query APIs  +
 * `POST` for create operations. API calls that support multiple fields for filtering data also use the `POST` method.  +
@@ -166,7 +166,7 @@ a|
 
 Some `GET` and `DELETE` operations support query and path parameters, whereas the `POST` and `PUT` calls require a JSON request body.
 a|* `POST` +
-In REST API v2 framework, most of the API operations require you to use the `POST` method.
+In REST API v2.0 framework, most of the API operations require you to use the `POST` method.
 
 * `GET` +
 To query system or user session information, use the `GET` method.
@@ -174,14 +174,14 @@ To query system or user session information, use the `GET` method.
 --
 == Object types and naming convention
 
-The following table lists the metadata object types and sub-types supported in REST API v1 and REST API v2:
+The following table lists the metadata object types and sub-types supported in REST API v1 and REST API v2.0:
 
 [div tableContainer]
 --
 [width="100%" cols="7,5"]
 [options='header']
 |=====
-|REST API v1 | REST API v2
+|REST API v1 | REST API v2.0
 a|
 Metadata object types in REST API v1:
 
@@ -205,7 +205,7 @@ The `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata types include the follo
 ** `FORMULA` to query a list of formulas applied to a worksheet column +
 ** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet +
 ** `CALENDAR_TABLE` to query columns that have a custom calendar configured
-a| Metadata object types in REST API v2:
+a| Metadata object types in REST API v2.0:
 
 * `LIVEBOARD` for Liveboards
 * `ANSWER` for saved Answer object
@@ -223,15 +223,15 @@ __Querying metadata objects by sub-types is not supported in the current release
 --
 == Request and response structure
 
-In REST API v2, the API endpoints let you pass several request parameters in a single API call. User and group administration and metadata query APIs support several distinct operations.
+In REST API v2.0, the API endpoints let you pass several request parameters in a single API call. User and group administration and metadata query APIs support several distinct operations.
 
 The following example shows the REST API v1 and v2 endpoints available for user administration and provisioning:
 
 [.widthAuto]
 [.bordered]
-image::./images/v1-v2-comparison.png[REST API v1 and V2 comparison,link="./doc-images/images/v1-v2-comparison.png"]
+image::./images/v1-v2-comparison.png[REST API v1 and v2 comparison,link="./doc-images/images/v1-v2-comparison.png"]
 
-Although the REST API v2 has fewer endpoints, it supports all user administration and CRUD operations that were available with REST API v1.
+Although the REST API v2.0 has fewer endpoints, it supports all user administration and CRUD operations that were available with REST API v1.
 
 === Request body
 The following example shows the API v1 and v2 request body for user creation operation:
@@ -250,7 +250,7 @@ curl -X POST \
 'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/'
 ----
 
-REST API v2::
+REST API v2.0::
 
 `POST /api/rest/2.0/users/create`
 
@@ -296,7 +296,7 @@ curl -X POST \
 [width="100%" cols="7,7"]
 [options='header']
 |=====
-|REST API v1| REST API v2
+|REST API v1| REST API v2.0
 a|
 API response for `GET /tspublic/v1/user/`:
 
@@ -447,7 +447,7 @@ API response for `POST /api/rest/2.0/users/search`
 == Related information
 
 * xref:rest-api-v1.adoc[REST API v1]
-* xref:rest-api-v2.adoc[REST API v2]
+* xref:rest-api-v2.adoc[REST API v2.0]
 * xref:rest-api-reference.adoc[REST API v1 reference]
 * xref:rest-api-v2-reference.adoc[REST API v2 reference]
 

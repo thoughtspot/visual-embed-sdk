@@ -14,7 +14,7 @@ Trusted authentication defines a method for requesting *login tokens* using the 
 ////
 Trusted authentication establishes a ThoughtSpot session in the browser without requiring a user to sign in directly to ThoughtSpot or be redirected to a third-party IdP. It is the most seamless method of single sign-on (SSO), but requires more of the application developer to secure the process.
 
-The *login token* from the ThoughtSpot V1 REST API is a simple, proprietary token. The authentication token of the V2 REST API is not currently used in the trusted authentication flow.
+The *login token* from the ThoughtSpot v1 REST API is a simple, proprietary token. The authentication token of the v2 REST API is not currently used in the trusted authentication flow.
 
 *Securely requesting the login token* requires passing authentication details from the embedding application securely to an *authenticator service* with access to the `secret_key` for the ThoughtSpot instance and ThoughtSpot admin user's credentials.
 
@@ -222,7 +222,7 @@ The Visual Embed SDK handles the final REST API request to create the session, b
 * The REST API v2[beta betaBackground]^Beta^ does have an OAuth token mechanism, which is also separate from the REST API v1 login token and not part of the trusted authentication flow at this time.
 ====
 
-REST v1 clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
+REST API clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
 
 ----
 https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>

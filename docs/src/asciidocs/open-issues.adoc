@@ -55,7 +55,7 @@ This page lists the known issues that you might run into while embedding Thought
 
 a| The REST API v2 Playground [beta betaBackground]^Beta^ does not load request parameters for some API endpoints. a|
 
-*Symptom*: Some REST V2 API [beta betaBackground]^Beta^ endpoints may not show request parameters in the Playground. +
+*Symptom*: Some REST v2 API [beta betaBackground]^Beta^ endpoints may not show request parameters in the Playground. +
 
 *Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl and 8.6.0.cl release versions. +
 

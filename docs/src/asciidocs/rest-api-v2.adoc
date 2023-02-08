@@ -1,11 +1,11 @@
-= REST API v2
+= REST API v2.0
 :toc: true
 
-:page-title: REST API v2
+:page-title: REST API v2.0
 :page-pageid: rest-api-v2
-:page-description: ThoughtSpot REST API v2 provides service endpoints for user management, group administration, and metadata object queries.
+:page-description: ThoughtSpot REST API v2.0 provides service endpoints for user management, group administration, and metadata object queries.
 
-The REST API v2 framework is built upon the existing core API functionality and resource representation model but offers several new features and enhancements.
+The REST API v2.0 framework is built upon the existing core API functionality and data models but offers several new features and enhancements.
 
 Enhanced usability and developer experience::
 
@@ -26,17 +26,17 @@ For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and clie
 
 Token-based authentication and authorization::
 
-To provide secure access to ThoughtSpot resources, REST API v2 supports the Bearer token and trusted authentication methods. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
+To provide secure access to ThoughtSpot resources, REST API v2.0 supports the Bearer token and Trusted authentication methods. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
 
 +
-For more information, see xref:authentication.adoc[REST v2 authentication].
+For more information, see xref:authentication.adoc[REST API v2 authentication].
 
 Consistent request and response workflow::
 
-With REST API v2, the JSON data structure for request and response payloads is standardized.
+With REST API v2.0, the JSON data structure for request and response payloads is standardized.
 
 +
-The REST API v2 supports the standard Create, Read, Update, and Delete (CRUD) operations, and the following HTTP verbs in API requests.
+The REST API v2.0 supports the standard Create, Read, Update, and Delete (CRUD) operations, and the following HTTP verbs in API requests.
 
 * **GET** to query information, such as getting system or session information
 * **POST** to create new objects, add, modify, or delete object properties
@@ -50,7 +50,7 @@ The resource endpoints are grouped logically based on the objects they operate o
 
 Starting with 9.0.0.cl release, the REST API v2.0 Playground and API endpoints are generally available (GA) on all ThoughtSpot instances.
 
-If you are not a ThoughtSpot user yet, you can preview the REST API v2 endpoints link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot API Playground, window=_blank] or sign up for a free trial to evaluate the API and Playground experience.
+If you are not a ThoughtSpot user yet, you can preview the REST API v2.0 endpoints link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot API Playground, window=_blank] or sign up for a free trial to evaluate the API and Playground experience.
 
 == Interoperability with REST API v1 and REST API v2[beta betaBackground]^Beta^ version
 

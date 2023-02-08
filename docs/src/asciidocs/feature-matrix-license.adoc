@@ -53,14 +53,14 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 |[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–# 
 
-a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]  +
+a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]
 
 |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# | [tag greenBackground]#✓#  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST v2 API] [beta betaBackground]^Beta^  |[tag greenBackground]#✓#  +
+a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST API v2] [beta betaBackground]^Beta^  |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
@@ -157,13 +157,13 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 |=====
 --
 
-== REST API v2 operations
+== REST API v2.0 operations
 [div tableContainer]
 --
 [width="100%" cols="8,4,4,4,4"]
 [options='header']
 |=====
-|REST API v2 endpoints[beta betaBackground]^Beta^ |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+|REST API v2.0 endpoints[beta betaBackground]^Beta^ |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
 (Evaluation only) |Developer Playground on public instance +
 (Evaluation only)
 a|Session API endpoints +
