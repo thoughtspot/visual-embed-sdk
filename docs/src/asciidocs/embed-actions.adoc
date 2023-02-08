@@ -148,7 +148,7 @@ hiddenActions: []
 
 If you want to restrict user access to certain actions in the embedded ThoughtSpot Liveboard, visualization, or search results page, you can disable these actions in the embed config view.
 
-The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions and disable these actions on a Liveboard, answer, or visualization page.
+The `disabledActions` attribute in the Visual Embed SDK allows you to specify one or several actions and disable these actions on a Liveboard, Answer, or visualization page.
 
 For example, to disable the *Show underlying data* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], you can specify the `ShowUnderlyingData` action string in the `disabledActions` attribute.
 

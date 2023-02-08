@@ -33,7 +33,7 @@ We recommend using a development environment to test your customizations before 
 
 === New Liveboard experience
 
-The new Liveboard experience is now Generally Available (GA) on embedded instances and is enabled by default.
+The xref:enable-liveboardv2.adoc[new Liveboard experience] is now Generally Available (GA) on embedded instances and is enabled by default.
 
 === New CSS variables for custom styling
 
@@ -53,10 +53,10 @@ The new REST API v2.0 endpoints introduce several improvements to the request an
 
 [IMPORTANT]
 ====
-* The new REST v2.0 API endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, endpoint URIs, and the structure of API requests and responses are different from those of the REST API v2 [beta betaBackground]^Beta^ version.
+* The new REST API v2.0 endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, endpoint URIs, and the structure of API requests and responses are different from those of the REST API v2 [beta betaBackground]^Beta^ version.
 * Some API operations such as the CRUD operations for data connections and passing runtime filters on Liveboard visualizations are not available in the initial release. For more information, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison] and xref:rest-api-v2-reference.adoc[REST API v2.0 reference].
 * For Org CRUD operations in production environments, ThoughtSpot recommends using xref:org-manage-api.adoc[REST API v1 endpoints].
-* All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated, but remain functional until further notice. The REST API SDK that was available REST API v2 [beta betaBackground]^Beta^ version is no longer supported. +
+* All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated, but remain functional until further notice. The REST API SDK that was available with REST API v2 [beta betaBackground]^Beta^ version is no longer supported. +
 ThoughtSpot does not recommend using REST API v2 [beta betaBackground]^Beta^ endpoints for production use cases. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
 ====
 
@@ -86,7 +86,7 @@ For information about the new features and enhancements introduced in Visual Emb
 
 === REST API
 
-For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog].
 
 ////
 === GraphQL Playground[beta betaBackground]^Beta^
@@ -108,8 +108,8 @@ The CSS customization feature supports new variables to customize the look and f
 
 * Search data button in the navigation panel
 * Font type and text style of search tokens
-* Data panel on the Search and saved answer pages
-* Filter chips on Liveboard, visualizations, and answer pages
+* Data panel on the Search and saved Answer pages
+* Filter chips on Liveboard, visualizations, and Answer pages
 * Menu components
 * X-axis and Y-axis titles and labels on charts
 
@@ -315,7 +315,7 @@ For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[
 .Search Assist support for embedded instances
 [%collapsible]
 ====
-Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the Worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 ====
@@ -341,7 +341,7 @@ While some customizable actions from the Visual Embed SDK will be honored from w
 .Link customization
 [%collapsible]
 ====
-This release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
+This release allows query parameters in the Liveboard, saved Answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
 
 For more information, see xref:customize-links.adoc[Customize links].
 ====
@@ -632,7 +632,7 @@ As part of rebranding, we have made some terminology changes in the ThoughtSpot 
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++
 
-ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a worksheet, answer, or visualization.
+ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a Worksheet, Answer, or visualization.
 
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
@@ -732,9 +732,9 @@ If you have created custom actions with the *Only allow in context menu* setting
 +
 You can xref:custom-actions-edit.adoc[modify the position of this action] by using the *Edit* option in the *Custom actions* panel on a visualization or search results page.
 
-* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a Worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
 
-* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a Worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-Worksheet.adoc[Add custom actions to a Worksheet].
 
 |====
 ====
@@ -845,7 +845,7 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
 
-The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved Answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
 
 For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
@@ -928,11 +928,11 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 ||
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom actions for worksheets</h5>+++
 
-The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
+The Worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a Worksheet and place them as primary actions or menu items in the new visualizations built from that Worksheet.
 
-This feature is available to all ThoughtSpot users who have edit privileges to a worksheet.
+This feature is available to all ThoughtSpot users who have edit privileges to a Worksheet.
 
-For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a Worksheet].
 
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Query parameters for URL-based custom actions</h5>+++
 
@@ -985,11 +985,11 @@ You can now convert query parameters in the ThoughtSpot generated URLs to base64
 
 * The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
-* The answer payload for custom actions includes the following metadata:
+* The Answer payload for custom actions includes the following metadata:
 
 ** `reportBookmetadata`
 +
-Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the Answer creation, and modification.
 
 ** user data
 +
@@ -1009,7 +1009,7 @@ You can now set custom alerts for `noCookieAccess` events. By default, the SDK t
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Support for fetching callback custom action payload in batches</h5>+++
 
 The Visual Embed SDK now supports processing data in batches for callback custom action responses.
-The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
+The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the Answer payload and send the records in batches.
 
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
 |====
@@ -1093,11 +1093,11 @@ Use this API to get a login token for a ThoughtSpot user when trusted authentica
 
 * `POST /tspublic/v1/metadata/assigntag`
 +
-Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, answer, table, or  worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, Answer, table, or  Worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
 
 * `POST /tspublic/v1/metadata/details`
 +
-Use this API to query metadata details for a specific data object such as a pinboard, answer, or a worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
+Use this API to query metadata details for a specific data object such as a pinboard, Answer, or a Worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
 
 * `POST /tspublic/v1/metadata/markunmarkfavoritefor`
 +

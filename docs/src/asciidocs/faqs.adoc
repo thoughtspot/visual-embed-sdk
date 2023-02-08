@@ -247,7 +247,7 @@ For more information, see xref:custom-actions.adoc[Custom actions] and see xref:
 ====
 * Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in the **More** image:./images/icon-more-10px.png[the more options menu] menu of your visualization. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* image:./images/custom-action-icon.png[custom action icon] panel on your visualization page.
 
-* If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved answer, or worksheet of your choice and place it in the context menu.
+* If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved Answer, or Worksheet of your choice and place it in the context menu.
 
 [NOTE]
 By default, custom actions are visible only to users with administrator or developer privilege. To make the custom action available to your end users, select the user group in *Show Advanced Availability Settings* and allow access.
@@ -317,7 +317,7 @@ For more information, see xref:rest-api-v2.adoc[REST API v2.0] and xref:rest-api
 .Can I embed ThoughtSpot components using the REST API?
 [%collapsible]
 ====
-ThoughtSpot REST API framework supports data APIs, using which you can embed an answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the Visual Embed SDK to embed ThoughtSpot content in your app.
+ThoughtSpot REST API framework supports data APIs, using which you can embed an Answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the Visual Embed SDK to embed ThoughtSpot content in your app.
 
 For more information, see the following pages:
 

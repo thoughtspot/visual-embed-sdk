@@ -153,7 +153,7 @@ If you have the required privileges and still get an error, perform the followin
 
 === The Search Data REST API call returns an error 
 
-**Error**: When I try to use the Search Data REST API, I get the error `Cannot create answer from empty query`. +
+**Error**: When I try to use the Search Data REST API, I get the error `Cannot create Answer from empty query`. +
 
 **How to fix**:  Check the request URL and verify the query string.  Try removing the `-d [parameters]` option and append the query string to the end of the URL as shown here:
 

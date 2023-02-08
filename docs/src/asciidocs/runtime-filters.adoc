@@ -49,7 +49,7 @@ The runtime filters are specified in the request URL as parameters. To apply run
 
 === Embedded Liveboard and visualizations
 
-The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and answer objects in the embedded app.
+The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and Answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and Answer objects in the embedded app.
 
 [NOTE]
 ====
@@ -405,14 +405,14 @@ col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2
 ----
 [NOTE]
 ====
-If the Liveboard or answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
+If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
 ====
 
 == Limitations of runtime filters
 
 * Runtime filter on `DATE` or `DATE_TIME` must be specified in EPOCH time (Unix or POSIX time).
-* Runtime filters do not work directly on top of tables. You must create a worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a worksheet.
-* If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
+* Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
+* If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
 

@@ -57,9 +57,9 @@ For more information, see xref:embed-authentication.adoc#_saml_redirection[SAML 
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and answer pages. You can also use these variables to define custom styles in the CSS file. +
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and Answer pages. You can also use these variables to define custom styles in the CSS file. +
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page. +
+|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or Answer page. +
 
 For more information, see xref:events-ref.adoc#_gettml[GetTML].
 
@@ -69,7 +69,7 @@ For more information, see xref:events-ref.adoc#_gettml[GetTML].
 * `Action.SyncToSheets` +
 * `Action.ManagePipelines` +
 
-You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or answer.
+You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or Answer.
 
 For more information, see xref:embed-action-ref.adoc[Actions].
 |====
@@ -416,7 +416,7 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
 
-The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved Answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
 
 For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
@@ -486,11 +486,11 @@ You can now convert query parameters in the ThoughtSpot generated URLs to base64
 
 * The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
-* The answer payload for custom actions includes the following metadata:
+* The Answer payload for custom actions includes the following metadata:
 
 ** `reportBookmetadata`
 +
-Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the Answer creation, and modification.
 
 ** user data
 +
@@ -510,7 +510,7 @@ You can now set custom alerts for `noCookieAccess` events. By default, the SDK t
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Support for fetching callback custom action payload in batches</h5>+++
 
 The Visual Embed SDK now supports processing data in batches for callback custom action responses.
-The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
+The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the Answer payload and send the records in batches.
 
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
 |====

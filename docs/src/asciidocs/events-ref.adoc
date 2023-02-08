@@ -606,7 +606,7 @@ liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691
 
 Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later.
 
-Triggers the `*Share*` action on visualization, Answer, or worksheet.
+Triggers the `*Share*` action on visualization, Answer, or Worksheet.
 
 [div divider]
 --

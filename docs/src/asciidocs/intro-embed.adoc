@@ -36,7 +36,7 @@ If you want to customize the look and feel of ThoughtSpot UI to match your organ
 For more information, see xref:customize-style.adoc[Customize styles and layout].
 
 Custom actions::
-If you want to add a custom action to an embedded visualization or saved answer, use the xref:custom-actions.adoc[Custom actions] menu.
+If you want to add a custom action to an embedded visualization or saved Answer, use the xref:custom-actions.adoc[Custom actions] menu.
 
 Custom link format::
 To customize the host URL and resource path in the system-generated links, use the *Link settings* menu. For example, when your application user shares an embedded Liveboard with another user or group, ThoughtSpot can generate a link with your host application URL and the resource path specified in *Link settings*.

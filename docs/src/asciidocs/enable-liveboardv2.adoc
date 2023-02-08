@@ -108,7 +108,7 @@ To create, edit, or move visualizations to a tab, you require edit access to a L
 Note that each new tab object is assigned a unique GUID.
 * To add a visualization to a tab on a Liveboard, click *Move to tab* from the More image:./images/icon-more-10px.png[the more options menu] menu.
 +
-You can also pin a visualization to a Liveboard tab using the Pin action on the answer page.
+You can also pin a visualization to a Liveboard tab using the Pin action on the Answer page.
 
 ==== Set a tab as an active tab
 

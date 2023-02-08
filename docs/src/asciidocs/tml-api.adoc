@@ -31,9 +31,9 @@ By default, the `fqn` parameter is not present in the TML file. However, you can
 
 [NOTE]
 ====
-You can import single or multiple objects using the `tml/import` API. If you import only a worksheet object, it may take some time for the worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and Liveboards.
+You can import single or multiple objects using the `tml/import` API. If you import only a Worksheet object, it may take some time for the Worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and Liveboards.
 
-However, if you import a worksheet along with Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
+However, if you import a Worksheet along with Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
 ====
 
 === Resource URL
@@ -215,16 +215,16 @@ For example:
 
 |`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`. | `YAML`
 |`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.| `false`
-a|`export_fqn`  a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
+a|`export_fqn`  a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced Worksheet. +
 Note that the FQN of a referenced object is the same as the GUID of that object. +
 
-ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced worksheet. +
+ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced Worksheet. +
 
 The `export_fqn` attribute is useful when ThoughtSpot has multiple objects with the same name and you want to eliminate ambiguity during TML import. The `export_fqn=true` property adds the FQNs of the referenced objects in the TML export API response and saves the manual effort of adding FQNs for TML import.
 
 [NOTE]
 ====
-When you try to xref:tml-api.adoc#import[import] multiple objects in bulk and create objects using the `force_create` attribute, the new object may refer to an existing object with the same FQN in the ThoughtSpot system instead of the other objects provided in the TML import request. For example, when you upload a TML representation of a Liveboard and the associated worksheet with the FQNs obtained from the TML export API, the imported Liveboard may refer to an existing worksheet with the same FQN in the ThoughtSpot system instead of the new worksheet created during the TML import. +
+When you try to xref:tml-api.adoc#import[import] multiple objects in bulk and create objects using the `force_create` attribute, the new object may refer to an existing object with the same FQN in the ThoughtSpot system instead of the other objects provided in the TML import request. For example, when you upload a TML representation of a Liveboard and the associated Worksheet with the FQNs obtained from the TML export API, the imported Liveboard may refer to an existing Worksheet with the same FQN in the ThoughtSpot system instead of the new Worksheet created during the TML import. +
 If you want the new objects created during the TML import to refer to the other associated objects created during the same import operation, set the `export_fqn` attribute to `false` during TML export or remove the FQNs manually before the TML import.
 ====
 |`false`

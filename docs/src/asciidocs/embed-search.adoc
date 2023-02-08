@@ -210,10 +210,10 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 
 enableSearchAssist _optional_::
-_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your Worksheet.
 
 +
-Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
+Search Assist uses the predefined queries and answers from the Worksheet. Users with edit permissions to a Worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
 
 +
 ++++

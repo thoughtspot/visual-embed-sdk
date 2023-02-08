@@ -198,7 +198,7 @@ __Require `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBac
 a|Custom action API endpoints +
 
 * __Require `ADMINISTRATION` or `DEVELOPER` privilege__ +
-* __Require edit access to saved answer or Liveboard visualization object to associate custom action__ |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+* __Require edit access to saved Answer or Liveboard visualization object to associate custom action__ |[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 a|Security API endpoints +
 __Require edit access to metadata objects to share and view permission details__ |
 [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#

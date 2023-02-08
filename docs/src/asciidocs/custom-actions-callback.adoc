@@ -16,7 +16,7 @@ Callback custom actions allow you to get data payloads from an embedded ThoughtS
 * Users with developer or admin privileges can create a callback custom action in the Developer portal.
 * Developers can set a callback action as a global or local action.
 * To access callback actions, users must have the **New Answer Experience** enabled on their application instance.
-* Users with edit permissions to a worksheet or visualization can add a local callback action to a visualization or answer of their choice.
+* Users with edit permissions to a Worksheet or visualization can add a local callback action to a visualization or Answer of their choice.
 * Developers must register the callback in the Visual Embed SDK and define data classes and functions to parse and process the JSON data payload retrieved from the callback event.
 --
 

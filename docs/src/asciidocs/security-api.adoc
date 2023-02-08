@@ -41,7 +41,7 @@ POST /tspublic/v1/security/share
 
 * `QUESTION_ANSWER_BOOK` to share answers.
 * `PINBOARD_ANSWER_BOOK` to share Liveboards.
-* `LOGICAL_TABLE` to share a data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` to share a data object such as a table, Worksheet, or View.
 * `LOGICAL_COLUMN` to share a column of any data object such as tables, worksheets, or views.
 
 |`id`|__String__. A JSON array of the GUIDs of the objects to be shared.
@@ -185,7 +185,7 @@ Response code
 
 ThoughtSpot users can get access to objects through the privileges assigned to the groups to which they belong. This type of object permission is referred to as `EFFECTIVE`.
 
-Users can also access objects when another user shares a Liveboard or answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
+Users can also access objects when another user shares a Liveboard or Answer directly with them or the user group to which they belong. This type of object permission is referred to as `DEFINED`.
 
 To get permission details for a specific metadata type and ID, send a `GET` request to the `/tspublic/v1/security/metadata/permissions` endpoint.
 
@@ -203,7 +203,7 @@ GET /tspublic/v1/security/metadata/permissions
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or View.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 |`id`| Query parameter|__String__. A JSON array of the GUIDs of the objects.
@@ -334,7 +334,7 @@ GET /tspublic/v1/security/metadata/{id}/permissions
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or View.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 |`id`| Path parameter|__String__. The GUID of the object to query.
@@ -448,7 +448,7 @@ POST /tspublic/v1/security/effectivepermissionbulk
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or View.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 For example, to get permission details for specific Liveboards and answers, specify the value of `idsbytype` as shown here:

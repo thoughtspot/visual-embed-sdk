@@ -1100,7 +1100,7 @@ POST /tspublic/v1/user/updatepreference
 |`preferences` a|__String__. The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
-* receive email notifications when another user shares an answer or Liveboard
+* receive email notifications when another user shares an Answer or Liveboard
 * enable the onboarding experience
 |`preferencesProto` __Optional__|__String__. A 64-bit encoded string to set user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
 |===

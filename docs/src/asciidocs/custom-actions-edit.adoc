@@ -4,7 +4,7 @@
 :page-pageid: edit-custom-action
 :page-description: You can set a custom action as a primary button or as a menu action in the More options or the contextual menu.
 
-ThoughtSpot lets you add custom actions globally to all your visualizations. When creating a custom action, developers can set the action as *Global* or *Local*. By default, the global custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The local custom actions are not placed anywhere in the UI until they are assigned to a worksheet, Liveboard visualization, or saved answer. 
+ThoughtSpot lets you add custom actions globally to all your visualizations. When creating a custom action, developers can set the action as *Global* or *Local*. By default, the global custom actions are placed in the **More** menu image:./images/icon-more-10px.png[the more options menu]. The local custom actions are not placed anywhere in the UI until they are assigned to a Worksheet, Liveboard visualization, or saved answer.
 
 You can place a custom action as a primary button, in the **More** image:./images/icon-more-10px.png[the more options menu] menu, or the context menu that appears when a user right-clicks on an answer or Liveboard visualization. For example, if you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. 
 
