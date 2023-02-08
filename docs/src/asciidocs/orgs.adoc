@@ -99,6 +99,10 @@ a|
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
 |Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
 
+__Cluster administrators can create and edit connections in any Org__. +
+__Org administrators can create and edit their own connections in their respective Org__. +
+__Starting from 9.0.0.cl, Cluster administrators can share connections with Org administrators. Org administrators cannot edit the connections created by the Cluster administrators unless it is shared with them__.
+
 [tag greenBackground]#✓#  Object creation and management
 | Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
 
@@ -118,10 +122,11 @@ Custom actions| [tag greyBackground]#–# |__Custom action creation and group as
 |Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
 |Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
-
+()
 __Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
 |REST API v2 [beta betaBackground]^Beta^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
+|REST API v2.0 endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
 |=====
 
 == Authentication considerations for embedded apps
