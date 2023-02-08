@@ -41,9 +41,7 @@ describe('React Components', () => {
             await waitFor(() => getIFrameEl(container));
 
             expect(
-                getIFrameEl(container).parentElement.classList.contains(
-                    'embedClass',
-                ),
+                getIFrameEl(container).classList.contains('embedClass'),
             ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
@@ -130,7 +128,7 @@ describe('React Components', () => {
             const { container } = render(
                 <SearchBarEmbed
                     className="embedClass"
-                    dataSources={['test']}
+                    dataSource={'test'}
                     searchOptions={{
                         searchTokenString: '[revenue]',
                         executeSearch: true,
@@ -141,9 +139,7 @@ describe('React Components', () => {
             await waitFor(() => getIFrameEl(container));
 
             expect(
-                getIFrameEl(container).parentElement.classList.contains(
-                    'embedClass',
-                ),
+                getIFrameEl(container).classList.contains('embedClass'),
             ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&hideAction=[%22${Action.ReportError}%22]&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,

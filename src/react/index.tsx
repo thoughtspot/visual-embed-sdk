@@ -1,5 +1,6 @@
 import React from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { deepMerge } from '../utils';
 import {
     SearchBarEmbed as _SearchBarEmbed,
     SearchBarViewConfig,
@@ -31,9 +32,18 @@ const componentFactory = <
                 V
             >(embedProps);
             useDeepCompareEffect(() => {
-                const tsEmbed = new EmbedConstructor(ref!.current, {
-                    ...viewConfig,
-                });
+                const tsEmbed = new EmbedConstructor(
+                    ref!.current,
+                    deepMerge(
+                        {
+                            insertAsSibling: true,
+                            frameParams: {
+                                class: className || '',
+                            },
+                        },
+                        viewConfig,
+                    ),
+                );
                 Object.keys(listeners).forEach((eventName) => {
                     tsEmbed.on(
                         eventName as EmbedEvent,
@@ -48,11 +58,11 @@ const componentFactory = <
             }, [viewConfig, listeners]);
 
             return (
-                <div
+                <span
                     data-testid="tsEmbed"
                     ref={ref}
-                    className={className}
-                ></div>
+                    style={{ position: 'absolute' }}
+                ></span>
             );
         },
     );

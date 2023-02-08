@@ -219,3 +219,16 @@ export function getDOMNode(domSelector: DOMSelector): HTMLElement {
         ? document.querySelector(domSelector)
         : domSelector;
 }
+
+export const deepMerge = (target: any, source: any) => {
+    // Iterate through `source` properties and if an `Object` set property to merge of `target` and `source` properties
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of Object.keys(source)) {
+        if (source[key] instanceof Object)
+            Object.assign(source[key], deepMerge(target[key], source[key]));
+    }
+
+    // Join `target` and modified `source`
+    Object.assign(target || {}, source);
+    return target;
+};

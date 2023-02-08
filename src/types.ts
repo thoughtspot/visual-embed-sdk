@@ -368,6 +368,10 @@ export interface ViewConfig {
      * @default ''
      */
     customizations?: CustomisationsInterface;
+    /**
+     * Insert as a sibling of the target container, instead of appending to a child inside it.
+     */
+    insertAsSibling?: boolean;
 }
 
 /**
