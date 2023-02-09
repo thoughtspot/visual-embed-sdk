@@ -41,6 +41,7 @@ export {
     AppEmbed,
     AuthFailureType,
     AuthStatus,
+    AuthEvent,
     // types
     Page,
     AuthType,
