@@ -16,6 +16,11 @@ import {
     logout as _logout,
     AuthFailureType,
     AuthStatus,
+    notifyAuthFailure,
+    notifyAuthSDKSuccess,
+    notifyAuthSuccess,
+    notifyLogout,
+    setAuthEE,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -32,39 +37,13 @@ export const getEmbedConfig = (): EmbedConfig => config;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
-let authEE: EventEmitter;
+export {
+    notifyAuthFailure,
+    notifyAuthSDKSuccess,
+    notifyAuthSuccess,
+    notifyLogout,
+};
 
-export function notifyAuthSDKSuccess(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.SDK_SUCCESS);
-}
-
-export function notifyAuthSuccess(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.SUCCESS);
-}
-
-export function notifyAuthFailure(failureType: AuthFailureType): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.FAILURE, failureType);
-}
-
-export function notifyLogout(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.LOGOUT);
-}
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
  */
@@ -142,9 +121,6 @@ function sanity(embedConfig: EmbedConfig) {
             );
         }
     }
-    if (embedConfig.noRedirect && !embedConfig.authTriggerContainer) {
-        throw new Error('authTriggerContainer not provided with noRedirect');
-    }
 }
 
 /**
@@ -164,7 +140,8 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         ...embedConfig,
         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     };
-    authEE = new EventEmitter();
+    const authEE = new EventEmitter();
+    setAuthEE(authEE);
     handleAuth();
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
@@ -235,6 +212,6 @@ export const renderInQueue = (
 // For testing purposes only
 export function reset(): void {
     config = {} as any;
-    authEE = null;
+    setAuthEE(null);
     authPromise = null;
 }

@@ -204,16 +204,6 @@ describe('Base TS Embed', () => {
             });
         }).toThrowError();
     });
-
-    test('config sanity, pass triggerContainer with noRedirect', () => {
-        expect(() => {
-            index.init({
-                thoughtSpotHost,
-                authType: index.AuthType.SAMLRedirect,
-                noRedirect: true,
-            });
-        }).toThrowError();
-    });
 });
 
 describe('Base without init', () => {

@@ -17,7 +17,7 @@ import {
 } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { AuthFailureType, AuthStatus } from './auth';
+import { AuthFailureType, AuthStatus, AuthEvent } from './auth';
 import {
     AuthType,
     RuntimeFilter,

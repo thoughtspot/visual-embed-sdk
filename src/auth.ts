@@ -1,3 +1,4 @@
+import EventEmitter from 'eventemitter3';
 import { initMixpanel } from './mixpanel-service';
 import { AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param } from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
@@ -58,6 +59,62 @@ export enum AuthStatus {
      * Emits when a user logs out
      */
     LOGOUT = 'LOGOUT',
+    /**
+     * Emitted when inPopup: true in the SAMLRedirect flow.
+     * And, we are waiting for popup to be triggered either programatically
+     * or by the trigger button.
+     * @version SDK: 1.19.0
+     */
+    WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
+}
+
+export enum AuthEvent {
+    /**
+     * Manually trigger the SSO popup.
+     */
+    TRIGGER_SSO_POPUP = 'TRIGGER_SSO_POPUP',
+}
+
+let authEE: EventEmitter;
+
+export function getAuthEE(): EventEmitter {
+    return authEE;
+}
+
+export function setAuthEE(eventEmitter: EventEmitter): void {
+    authEE = eventEmitter;
+}
+
+export function notifyAuthSDKSuccess(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.SDK_SUCCESS);
+}
+
+export function notifyAuthSuccess(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.SUCCESS);
+}
+
+export function notifyAuthFailure(failureType: AuthFailureType): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.FAILURE, failureType);
+}
+
+export function notifyLogout(): void {
+    if (!authEE) {
+        console.error('SDK not initialized');
+        return;
+    }
+    authEE.emit(AuthStatus.LOGOUT);
 }
 
 /**
@@ -213,11 +270,26 @@ async function samlPopupFlow(
     triggerContainer: DOMSelector,
     triggerText: string,
 ) {
+    const openPopup = () => {
+        if (samlAuthWindow === null || samlAuthWindow.closed) {
+            samlAuthWindow = window.open(
+                ssoURL,
+                '_blank',
+                'location=no,height=570,width=520,scrollbars=yes,status=yes',
+            );
+        } else {
+            samlAuthWindow.focus();
+        }
+    };
+    authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
-    containerEl.innerHTML =
-        '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
-    const authElem = document.getElementById('ts-auth-btn');
-    authElem.textContent = triggerText;
+    if (containerEl) {
+        containerEl.innerHTML =
+            '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
+        const authElem = document.getElementById('ts-auth-btn');
+        authElem.textContent = triggerText;
+        authElem.addEventListener('click', openPopup, { once: true });
+    }
     samlCompletionPromise =
         samlCompletionPromise ||
         new Promise<void>((resolve, reject) => {
@@ -228,21 +300,8 @@ async function samlPopupFlow(
                 }
             });
         });
-    authElem.addEventListener(
-        'click',
-        () => {
-            if (samlAuthWindow === null || samlAuthWindow.closed) {
-                samlAuthWindow = window.open(
-                    ssoURL,
-                    '_blank',
-                    'location=no,height=570,width=520,scrollbars=yes,status=yes',
-                );
-            } else {
-                samlAuthWindow.focus();
-            }
-        },
-        { once: true },
-    );
+
+    authEE?.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
     return samlCompletionPromise;
 }
 
