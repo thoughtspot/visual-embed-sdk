@@ -7,12 +7,6 @@
 
 ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license.
 
-
-
-
-ThoughtSpot Analytics (TSA)
-
-
 == Feature availability
 [div tableContainer]
 --
