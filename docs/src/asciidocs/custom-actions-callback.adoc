@@ -112,7 +112,7 @@ if (data.id === 'show-data') {
 [#handle-data]
 == Parse JSON response payload
 
-The callback actions can return JSON payloads that are complex and need to be parsed before using it for application needs. The format of the JSON response payload can vary based on the type of the embedded object and the placement of the custom action in the menu. For example, the format of the data payload triggered by an action in the context menu of Liveboard is different from the data retrieved for an Answer. When defining functions in your code to parse and handle data, make sure you use the correct classes.
+The callback actions can return JSON payloads that are complex and need to be parsed before using it for application needs. The format of the JSON response payload can vary based on the type of the embedded object and the placement of the custom action in the menu. For example, the format of the data payload triggered by an action on a Liveboard visualization is different from the data retrieved for an Answer. When defining functions in your code to parse and handle data, make sure you use the correct classes.
 
 === Define functions and classes to handle Liveboard data
 
@@ -138,7 +138,7 @@ const onCustomAction = () => {
         }
 ----
 
-The format of the data payload for Liveboard visualization varies if the callback action is triggered from a Liveboard in the experience mode. To view the payload structure, refer to the examples on xref:callback-response-payload.adoc[Custom action response payload] page.
+The format of the data payload for Liveboard visualization varies if the callback action is triggered from a Liveboard in the new experience mode. To view the payload structure, refer to the examples on xref:callback-response-payload.adoc[Custom action response payload] page.
 
 The following code sample shows sample classes and functions for parsing JSON data from a Liveboard. This example assumes that the callback action is placed in the **More** options menu of the Liveboard visualization.
 
