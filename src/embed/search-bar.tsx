@@ -4,15 +4,7 @@ import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
 
 export interface SearchBarViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'disabledActions'
-        | 'hiddenActions'
-        | 'visibleActions'
-        | 'disabledActionReason'
-        | 'runtimeFilters'
-        | 'showAlerts'
-    > {
+    extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts'> {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single dataSource supported currently.
