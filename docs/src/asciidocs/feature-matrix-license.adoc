@@ -18,7 +18,6 @@ ThoughtSpot offers a separate license for customers who want to embed the Though
 (Evaluation only) |Developer Playground on public instance +
 (Evaluation only) 
 
-
 |Access to **Develop** tab +
 
 (Requires developer or admin  privileges) |[tag greenBackground]#✓# | [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#  
@@ -68,7 +67,8 @@ a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availabil
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
-|UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
+|Basic style customization (UI workflow)|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+|Custom CSS|[tag greyBackground]#–#|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 |Link customization|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–# 
 |Security settings for embedding ThoughtSpot +
 
@@ -99,6 +99,49 @@ a|Runtime filters
 (Basic authentication only)
 
 ////
+
+
+== REST API v2.0 operations
+
+[div tableContainer]
+--
+[width="100%" cols="8,4,4,4,4"]
+[options='header']
+|=====
+|REST API v2.0 endpoints |ThoughtSpot Enterprise Cloud Service|ThoughtSpot Everywhere Edition License|Free Trial account +
+(Evaluation only) |Developer Playground on public instance +
+(Evaluation only)
+a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–# +
+__Query APIs only__.
+a|xref:rest-api-v2-reference.adoc#_users[User API endpoints]
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_system[System API endpoints]
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_orgs[Org API endpoints]
+
+|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_metadata[Metadata API endpoints]
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
+__Query APIs only__.
+
+a|xref:rest-api-v2-reference.adoc#_reports[Report API endpoints]
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
+__Query APIs only__.
+
+a|xref:rest-api-v2-reference.adoc#_security[Security API endpoints]
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+
+a|xref:rest-api-v2-reference.adoc#_data[Data API endpoints]
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greenBackground]#✓#  |[tag greenBackground]#✓#
+
+a|xref:rest-api-v2-reference.adoc#_data[Log API endpoints]
+|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+|=====
+--
 
 == REST API v1 operations
 
@@ -157,7 +200,12 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 |=====
 --
 
-== REST API v2.0 operations
+== REST API v2[beta betaBackground]^Beta^ operations
+
+Starting from 9.0.0.cl, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. The APIs remain functional until further notice. However, we recommend using the new REST API 2.0 endpoints that are currently available in the REST API Playground.
+
+////
+=== Supported operations
 [div tableContainer]
 --
 [width="100%" cols="8,4,4,4,4"]
@@ -206,6 +254,9 @@ a|Audit logs API endpoint +
 __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#|
 |=====
 --
+////
+
+
 
 == Additional resources
 
