@@ -37,6 +37,7 @@ import {
     MessageCallbackObj,
     ViewConfig,
     FrameParams,
+    ContextMenuTriggerOptions,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData } from '../utils/processData';
@@ -296,6 +297,7 @@ export class TsEmbed {
             additionalFlags,
             locale,
             customizations,
+            contextMenuTrigger,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -326,6 +328,17 @@ export class TsEmbed {
         ];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
+        }
+
+        /** Default behavior for context menu will be left-click
+         *  from version 9.2.0.cl the user have an option to override context menu click
+         */
+        if (contextMenuTrigger === ContextMenuTriggerOptions.LEFT_CLICK) {
+            queryParams[Param.ContextMenuTrigger] = true;
+        } else if (
+            contextMenuTrigger === ContextMenuTriggerOptions.RIGHT_CLICK
+        ) {
+            queryParams[Param.ContextMenuTrigger] = false;
         }
 
         const spriteUrl = customizations?.iconSpriteUrl;
