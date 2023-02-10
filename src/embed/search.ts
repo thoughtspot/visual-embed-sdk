@@ -100,7 +100,7 @@ export interface SearchViewConfig extends ViewConfig {
     /**
      * If set to true, search page will render without the Search Bar
      * The chart/table should still be visible.
-     * @version SDK: 1.18.1 | ThoughtSpot: 9.2.0.cl (TBD)
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     hideSearchBar?: boolean;
 }

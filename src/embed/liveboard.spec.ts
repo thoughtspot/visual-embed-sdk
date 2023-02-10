@@ -3,6 +3,7 @@ import { init } from '../index';
 import {
     Action,
     AuthType,
+    ContextMenuTriggerOptions,
     EmbedEvent,
     HostEvent,
     RuntimeFilterOp,
@@ -260,6 +261,20 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&preventPinboardFilterRemoval=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+            );
+        });
+    });
+    test('Should set contextMenuTrigger options', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            liveboardId,
+            activeTabId,
+            liveboardV2: true,
+            contextMenuTrigger: ContextMenuTriggerOptions.LEFT_CLICK,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toBe(
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isContextMenuEnabledOnLeftClick=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
             );
         });
     });
