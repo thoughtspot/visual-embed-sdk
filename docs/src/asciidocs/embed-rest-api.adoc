@@ -60,14 +60,14 @@ For a Liveboard, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>
 ----
 +
 For a visualization, the URL is as follows:
 
 +
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D
 ----
 +
 [NOTE]
@@ -83,7 +83,7 @@ For example, to sort values equal to `red` in the `Color` column for a visualiza
 
 +
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata
 ?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D
 &col1=color&op1=EQ&val1=red
 ----

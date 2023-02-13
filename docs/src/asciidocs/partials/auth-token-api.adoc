@@ -56,12 +56,12 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' \
 -d 'secret_key=82749a88-1506-4cd9-803c-8316c7d41d7c&username=testUser2&access_level=FULL&groups=%5B%22sales%22%2C%20%22marketing%22%5D&autocreate=true' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/auth/token'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/auth/token
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/auth/token
 ----
 
 === Example response

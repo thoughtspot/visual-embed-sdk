@@ -25,7 +25,7 @@ The trusted authentication method also supports creating a user just-in-time and
 == Basic authentication
 In the basic authentication method, user credentials are sent in the API request.
 
-To sign in to ThoughtSpot and create a session, REST clients must send a `POST` request with the following attributes to the `/api/rest/2.0/auth/token/object` API endpoint:
+To sign in to ThoughtSpot and create a session, REST clients must send a `POST` request with the following attributes to the `/api/rest/2.0/auth/session/login` API endpoint:
 
 [width="100%" cols="1,4"]
 [options='header']

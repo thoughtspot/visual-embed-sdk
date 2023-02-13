@@ -358,26 +358,26 @@ To add a runtime filter to your API call or the embedded object:
 The URL format for applying runtime filters to a Liveboard in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The URL format for applying runtime filters to a Liveboard visualization in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The following example shows the URL to access a Liveboard with a filter. Here the runtime filter is operating on the column `Color` and will only return values that equal (EQ) to `red`.
 
 ----
-http://<ThoughtSpot-host>/?col1=Color&op1=EQ&val1=red#
+http://{ThoughtSpot-Host}/?col1=Color&op1=EQ&val1=red#
 /pinboard/e36ee65e-64be-436b-a29a-22d8998c4fae
 ----
 
 The following example shows the URL for a REST API request URL with a filter. Here the runtime filter is operating on the column `Category` and returning values that are equal to `mfgr%2324`.
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?
 id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 &op1=EQ&val1=mfgr%2324
 ----

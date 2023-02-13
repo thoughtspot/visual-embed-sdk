@@ -130,13 +130,14 @@ curl -X POST --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot
 	}
 }]'
 --data-urlencode 'import_policy=PARTIAL'
---data-urlencode 'force_create=true' 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import'
+--data-urlencode 'force_create=true'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/import'
 
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/import
 ----
 
 === Example response
@@ -248,12 +249,12 @@ curl -X POST
 --data-urlencode 'formattype=JSON' \
 --data-urlencode 'export_associated=false' \
 --data-urlencode 'export_fqn=true' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/export'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/export
 ----
 
 === Example response

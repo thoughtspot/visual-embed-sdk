@@ -38,12 +38,12 @@ Make sure the API request has the following headers:
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/admin/configinfo'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/admin/configinfo
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/admin/configinfo
 ----
 === Request parameters
 

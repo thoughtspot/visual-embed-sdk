@@ -225,7 +225,7 @@ The Visual Embed SDK handles the final REST API request to create the session, b
 REST API clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
 ----
 
 ThoughtSpot recommends sending the authentication attributes in a `POST` request body instead of a `GET` call.

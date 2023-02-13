@@ -43,12 +43,13 @@ POST /tspublic/v1/materialization/refreshview/{id}
 curl -X POST \
 --header 'Content-Type: */*' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/materialization/refreshview/e27f3c1c-a9cd-4996-9029-097449cd6f60
 ----
 
 == Response Example

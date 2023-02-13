@@ -15,12 +15,13 @@ POST /tspublic/v1/session/logout
 curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout'
+--header 'X-Requested-By: ThoughtSpot'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/logout'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/logout
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/logout
 ----
 
 If the logout request is sent as an AJAX call, add the following parameter to send credentials with the request:

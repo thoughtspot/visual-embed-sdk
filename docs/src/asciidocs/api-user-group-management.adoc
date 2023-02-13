@@ -42,12 +42,13 @@ POST /tspublic/v1/group/addprivilege
 
 [source, cURL]
 ----
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=All' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege'
+curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' --header 'X-Requested-By: ThoughtSpot' -d 'privilege=DATADOWNLOADING&groupNames=All'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/addprivilege'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
 === Example response
@@ -86,12 +87,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'privilege=USERDATAUPLOADING&groupNames=All' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
 === Example response

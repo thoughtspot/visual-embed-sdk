@@ -47,7 +47,7 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'name=OrgA&description=This%20org%20is%20for%20A' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/org/?orgScope=ALL'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/org/?orgScope=ALL'
 ----
 
 .Request URL
