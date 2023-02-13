@@ -8,6 +8,10 @@
 
 This API Reference page lists the REST API v2.0 endpoints and provides basic information about the resource URLs and supported operations. If you want to try out these APIs, view detailed documentation, and download code samples, visit the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
 
+[NOTE]
+====
+Access to ThoughtSpot data via API is restricted based on xref:api-user-management.adoc#group-privileges[user privileges] and xref:configure-user-access.adoc#_object_level_permissions[object-level permissions]. Some operations are available for all users, but require at least view access to the metadata object. ThoughtSpot users are assigned access privileges based on the group to which they belong. Additionally, metadata owners can restrict access to the object by assigning view-only or edit permissions when sharing an object with other users and groups.
+====
 
 == Authentication
 
@@ -21,7 +25,6 @@ Gets session information for the currently logged-in user.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
-
 
 
 [div divider]
@@ -194,9 +197,7 @@ __Requires administrator privileges__.
 
 `POST /api/rest/2.0/users/change_password`
 
-Allows changing a given user's password.
-
-__Requires administrator privileges__.
+Allows ThoughtSpot users to change the password of their account.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -381,9 +382,9 @@ __Requires administrator privileges__.
 
 `POST /api/rest/2.0/tags/assign`
 
-Deletes a tag object from ThoughtSpot.
+Assigns a tag to metadata objects.
 
-__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+__Requires administrator privilege or edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -397,7 +398,7 @@ __Requires edit access to the metadata object (Liveboard, saved Answer, or the W
 
 Removes the tag assigned to a metadata object.
 
-__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+__Requires administrator privilege or edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
