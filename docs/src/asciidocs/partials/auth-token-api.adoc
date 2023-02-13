@@ -2,15 +2,15 @@ If you have enabled xref:trusted-authentication.adoc#trusted-auth-enable[trusted
 
 After you get the authentication token from ThoughtSpot via a REST API call to the `/tspublic/v1/session/auth/token` endpoint, use this token in your API request to the `/tspublic/v1/session/login/token` endpoint to authenticate and log in a user.
 
-=== Just-in-time provisioning and dynamic group assignment
+==== Just-in-time provisioning and dynamic group assignment
 
 Starting from 8.9.0.cl, the `/tspublic/v1/session/auth/token` API endpoint supports adding a user Just-in-Time (JIT) and dynamically assigning groups and privileges. If a user for whom you want to request an authentication token doesn't exist in the ThoughtSpot system, you can set the `autocreate` and `groups` properties in the API call to add the user and assign groups.
 
-=== Resource URL
+==== Resource URL
 ----
 POST /tspublic/v1/session/auth/token
 ----
-=== Request parameters
+==== Request parameters
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -47,7 +47,7 @@ Org IDs are integers that are created automatically when a cluster administrator
 |`autocreate` __Optional__ a|__Boolean__. When set to `true`, if the specified `username` does not exist in the ThoughtSpot system, a new user is created without a password. By default, the `autocreate` property is set to `false`.
 |====
 
-=== Example request
+==== Example request
 
 .cURL
 [source, cURL]
@@ -64,7 +64,7 @@ curl -X POST \
 https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/auth/token
 ----
 
-=== Example response
+==== Example response
 
 If the API request is successful, ThoughtSpot returns an authentication token for the user.
 
@@ -82,7 +82,7 @@ The following example shows the authentication token returned by ThoughtSpot aft
 JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0
 ----
 
-=== Response codes
+==== Response codes
 
 [options="header", cols="1,4"]
 |===

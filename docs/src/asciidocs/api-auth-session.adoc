@@ -10,15 +10,21 @@ To create, access, and modify ThoughtSpot objects and resources through the REST
 
 When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful login using the Visual Embed SDK via either of those two methods will establish the session within the web browser.
 
-== Sign in as a ThoughtSpot user (Basic authentication)
+== Basic authentication
 
 include::{path}/log-in-api.adoc[]
 
-== Obtain authentication token (Trusted authentication)
+A successful login returns a session cookie that can be used in your subsequent API calls. For more information, see xref:api-auth-session.adoc#sessionCookies[Session cookies for subsequent API calls]
+
+== Trusted authentication
+
+For trusted authentication, you must obtain a token from ThoughtSpot via `/tspublic/v1/session/auth/token` and send it in your login request to the `/tspublic/v1/session/login/token` API endpoint.
+
+=== Obtain a token for trusted authentication
 
 include::{path}/auth-token-api.adoc[]
 
-== Authenticate and log in with a token (Trusted authentication)
+=== Authenticate and log in with a token (trusted authentication)
 
 include::{path}/login-token-api.adoc[]
 
@@ -31,7 +37,6 @@ Set-Cookie: JSESSIONID=b9a5b821-fa91-49ea-99fc-12817a141e76; Path=/; HttpOnly
 Set-Cookie: clientId=76d83461-1b8a-425a-9116-66c8d6f006bb; Path=/; Secure; HttpOnly
 ----
 The session cookie is automatically set in the request header when you make your subsequent API calls via a web browser. REST clients in a non-browser environment must pass this cookie in the request header in their subsequent API calls.
-
 
 == Make a test API call
 You can make a test API call to verify if your token is valid and allows access to ThoughtSpot objects. For example, you can send a `GET` request `/tspublic/v1/metadata/listvizheaders` to fetch the visualization headers of a Liveboard.
