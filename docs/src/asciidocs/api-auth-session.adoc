@@ -14,7 +14,7 @@ When using the REST API through a web browser, ThoughtSpot recommends that you u
 
 include::{path}/log-in-api.adoc[]
 
-A successful login returns a session cookie that can be used in your subsequent API calls. For more information, see xref:api-auth-session.adoc#sessionCookies[Session cookies for subsequent API calls]
+A successful login returns a session cookie that can be used in your subsequent API calls. For more information, see xref:api-auth-session.adoc#sessionCookies[Session cookies for subsequent API calls].
 
 == Trusted authentication
 
