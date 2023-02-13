@@ -55,3 +55,9 @@ Allows access to the following operations:
 
 ** Create, edit, or delete existing RLS rules
 ** Enable or disable Bypass RLS on a worksheet
+
+* `SYNCMANAGEMENT`
+
+Allows setting up secure pipelines to external business apps and sync data using ThoughtSpot Sync.
+
+
