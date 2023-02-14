@@ -425,12 +425,13 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded'  \
 --header 'Accept: application/json'  \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'name=Snowflake&description=Snowflake_connection&type=RDBMS_SNOWFLAKE&metadata=<metadata-JSON-map>' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create'
+-d 'name=Snowflake&description=Snowflake_connection&type=RDBMS_SNOWFLAKE&metadata=<metadata-JSON-map>' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/create'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/create
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/create
 ----
 
 ==== Example metadata JSON without tables
@@ -773,12 +774,13 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'name=Snow_TEST&description=Test_connection&type=RDBMS_SNOWFLAKE&id=9114f105-fc9e-48c9-a8f1-57f2fda4f056&metadata=<metadata-JSON-map>' \ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update'
+-d 'name=Snow_TEST&description=Test_connection&type=RDBMS_SNOWFLAKE&id=9114f105-fc9e-48c9-a8f1-57f2fda4f056&metadata=<metadata-JSON-map>' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/update'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/update
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/update
 ----
 
 ==== Example metadata JSON without tables
@@ -1089,12 +1091,12 @@ None
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/types'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/types
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/types
 ----
 
 === Example response
@@ -1231,12 +1233,12 @@ Gets a list of live query objects that are set up on your cluster.
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/list'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/list
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/list
 ----
 
 === Example response 
@@ -2646,12 +2648,13 @@ GET /tspublic/v1/connection/export
 ----
 curl -X GET 
 --header 'Accept: text/yaml' 
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82'
+--header 'X-Requested-By: ThoughtSpot'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/export?id=627c35cb-768d-45c7-b41d-346a2220cd82
 ----
 === Example response
 
@@ -2708,12 +2711,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'ids=%5B%229114f105-fc9e-48c9-a8f1-57f2fda4f056%22%5D' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/delete'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/delete'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/connection/delete
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/connection/delete
 ----
 
 === Example response

@@ -19,7 +19,7 @@ Any method of xref:embed-authentication.adoc[sign-in] establishes a ThoughtSpot 
 
 The trusted authentication SSO method issues a REST API sign-in command automatically when the `init()` function is called, without the need to render any ThoughtSpot embed components:
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     init,
@@ -50,7 +50,7 @@ The link will be in this format:
 
 The following is an example of creating the full REST API URL. Note that `vizIds` is an array that gets converted to a string representation before being added to the URL.
 
-[source,javascript]
+[source,JavaScript]
 ----
  let tsURL = "https://{}.thoughtspot.cloud";// Adjust to your instance name
  // IDs to retrieve - you can find these by clicking "Copy Embed Link" in the menu of any item on a Liveboard
@@ -72,7 +72,7 @@ The following is an example of creating the full REST API URL. Note that `vizIds
 
 Now you can make the API request. The following is an example using `XMLHttpRequest`, showing all necessary settings for the request to be accepted by the ThoughtSpot instance:
 
-[source,javascript]
+[source,JavaScript]
 ----
  var xhr = new XMLHttpRequest();
  xhr.open('POST', encodeURI(liveboardDataFullEndpoint), true);
@@ -94,7 +94,7 @@ Now you can make the API request. The following is an example using `XMLHttpRequ
 
 A more modern form, using Fetch and Promises, would look like:
 
-[source,javascript]
+[source,JavaScript]
 ----
 fetch(
     liveboardDataFullEndpoint, {
@@ -120,7 +120,7 @@ The link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis
 
 The `LiveboardData` class matches the Liveboard data API. The `LiveboardData.vizData[{vizId}]` object brings back all of the data for the given visualization. You can retrieve all of the data for a given column using the `.data[{columnName}]` object of the return from `.vizData`:
 
-[source,javascript]
+[source,JavaScript]
 ----
  // Using the LiveboardData class from dataclasses.js to make operations on the data easier
  let lbDataObj = LiveboardData.createFromJSON(JSON.parse(this.responseText));
@@ -139,7 +139,7 @@ There are additional methods such as `getDataAsTable` available in the link:http
 == Render the chart
 After you have transformed the data into the input format, you can render the chart into the page. Your overall steps will look like the following:
 
-[source,javascript]
+[source,JavaScript]
 ----
 
 function transformVizData(responseFromApi){

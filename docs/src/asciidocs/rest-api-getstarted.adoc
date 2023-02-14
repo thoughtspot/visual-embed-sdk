@@ -16,7 +16,7 @@ Note that after you add your host domain for CORS, ThoughtSpot adds the `access-
 
 == Access resource endpoints
 
-You can access the REST v1 explorer using one of the following options:
+You can access the REST API v1 explorer using one of the following options:
 
 * Using the *REST Playground v1* menu option in the Developer portal (Requires Developer or Administrator privilege)
 +
@@ -37,7 +37,7 @@ https://<your-thoughtspot.com>/external/swagger
 ++++
 <a href="{{tshost}}/external/swagger" id="preview-in-playground" target="_blank"> Try it out</a> 
 ++++
-The REST v1 Explorer displays a list of REST API services available for the logged-in ThoughtSpot users.
+The REST API v1 Explorer displays a list of REST API services available for the logged-in ThoughtSpot users.
 
 +
 To make an API call and view results:
@@ -73,7 +73,7 @@ To call a REST API, send a request to the endpoint URL with the attributes requi
 Specify the HTTP request method in your API request. 
 
 * `GET` to query information, such as getting a list of users or groups.
-* `POST` to create and add new properties to a resource, such as a user, group, answer, worksheet, or data object.
+* `POST` to create and add new properties to a resource, such as a user, group, Answer, Worksheet, or data object.
 * `PUT` to update the properties of an existing resource, such as modifying the properties of a user or user group. 
 * `DELETE` to remove an object or object association.
 

@@ -8,6 +8,47 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 1.19.0, February 2023
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the styles for dialogs, search bar, search navigation and search suggestions panels.
+For more information, see xref:css-customization.adoc[Customize CSS].
+|[tag redBackground]#BREAKING CHANGE# a|The new Liveboard experience mode introduces changes to the data format of the JSON response payload triggered by callback custom actions. For example, the `reportBookData`, and `vizData` attributes are modified, and the custom action `id` now is part of the data attribute. These changes may break your current custom action event handlers. For interoperability, we recommend adding the data attribute to `payload` in your code as shown in the example here:
+
+[source,JavaScript]
+
+----
+liveboardEmbed.on(EmbedEvent.CustomAction, payload => {
+    if (payload.id === "callback-action-id" \|\| payload.data.id === "callback-action-id") {
+        console.log('Custom Action event:', payload.data);
+    }
+})
+----
+
+You may also want to update the data classes in your scripts to process the JSON response payload and handle complex data. For more information, see xref:custom-actions-callback.adoc#_define_functions_and_classes_to_handle_liveboard_data[Callback custom actions].
+
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following Host events:
+
+* `HostEvent.Delete`
+* `HostEvent.Download`
+* `HostEvent.DownloadAsCsv`
+* `HostEvent.DownloadAsXlsx`
+* `HostEvent.ManagePipelines`
+* `HostEvent.Save`
+* `HostEvent.Share`
+* `HostEvent.ShowUnderlyingData`
+* `HostEvent.SpotIQAnalyze`
+* `HostEvent.SyncToOtherApps`
+* `HostEvent.SyncToSheets`
+
+For more information, see xref:events-ref.adoc#host-events[Host events].
+
+|[tag redBackground]#DEPRECATED# a|The `noRedirect` property in the SDK is deprecated and replaced with the `inPopup` attribute. When set to `true`, the `inPopup` attribute allows the SAML SSO authentication flow in a pop-up window.
+
+For more information, see xref:embed-authentication.adoc#_saml_redirection[SAML Redirection].
+|====
+
 == Version 1.18.0, January 2023
 
 [width="100%" cols="1,4"]
@@ -16,9 +57,9 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and answer pages. You can also use these variables to define custom styles in the CSS file. +
+|[tag greenBackground]#NEW FEATURE# a|The `customCSS` property in the `customizations` object supports new variables to customize the UI elements on Liveboard, visualization, and Answer pages. You can also use these variables to define custom styles in the CSS file. +
 For more information, see xref:css-customization.adoc[Customize CSS].
-|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or answer page. +
+|[tag greenBackground]#NEW FEATURE# |The new version of the SDK allows fetching TML objects via `GetTML` host event. This event is triggered when a user clicks on the *Show underlying data* action on a Liveboard visualization or Answer page. +
 
 For more information, see xref:events-ref.adoc#_gettml[GetTML].
 
@@ -28,7 +69,7 @@ For more information, see xref:events-ref.adoc#_gettml[GetTML].
 * `Action.SyncToSheets` +
 * `Action.ManagePipelines` +
 
-You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or answer.
+You can use these enums to show, hide, or disable *Sync to sheets*, *Sync to other apps*, and *Manage pipelines* menu actions on a Liveboard visualization or Answer.
 
 For more information, see xref:embed-action-ref.adoc[Actions].
 |====
@@ -48,7 +89,7 @@ The new version of the SDK introduces several new features and enhancements
 * `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
 * `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 This enhancement does not introduce any breaking changes to your current implementation.
-|[tag greenBackground]#NEW FEATURE# a|The upcoming version of the SDK introduces `AuthType.EmbeddedSSO`, which allows you to use your current SAML or OIDC authentication setup and redirect users to the IdP for authentication within the embedded iFrame. +
+|[tag greenBackground]#NEW FEATURE# a|To use your current SAML or OIDC authentication setup and redirect users to the IdP for authentication within the embedded iFrame, you can now use `AuthType.EmbeddedSSO`. +
 For more information, see xref:embed-authentication.adoc[Authentication].
 |[tag greenBackground]#NEW FEATURE#|
 The `customizations` object in the SDK allows you to specify a custom CSS URL. You can also use this object to define CSS variables directly in the `init` code. +
@@ -124,10 +165,10 @@ For more information, see xref:events-ref.adoc#host-events[Events reference].
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE#|
-The upcoming version of Visual Embed SDK introduces the `navigate` host event, which is triggered when a user navigates to an application page without a page reload.
+This version of Visual Embed SDK introduces the `navigate` host event, which is triggered when a user navigates to an application page without a page reload.
 
 For more information, see xref:events-ref.adochost-events[Events reference].
-|[tag greenBackground]#NEW FEATURE# | The upcoming version of SDK includes the `getThoughtSpotPostUrlParams` method, which fetches ThoughtSpot URL query parameters prefixed with `ts-`.
+|[tag greenBackground]#NEW FEATURE# | The new `getThoughtSpotPostUrlParams` method fetches ThoughtSpot URL query parameters prefixed with `ts-`.
 |====
 
 == Version 1.11.2, June 2022
@@ -375,7 +416,7 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
 
-The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved Answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
 
 For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
@@ -445,11 +486,11 @@ You can now convert query parameters in the ThoughtSpot generated URLs to base64
 
 * The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
-* The answer payload for custom actions includes the following metadata:
+* The Answer payload for custom actions includes the following metadata:
 
 ** `reportBookmetadata`
 +
-Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the Answer creation, and modification.
 
 ** user data
 +
@@ -469,7 +510,7 @@ You can now set custom alerts for `noCookieAccess` events. By default, the SDK t
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Support for fetching callback custom action payload in batches</h5>+++
 
 The Visual Embed SDK now supports processing data in batches for callback custom action responses.
-The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
+The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the Answer payload and send the records in batches.
 
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
 |====

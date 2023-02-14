@@ -22,7 +22,7 @@ To preview the CSS settings:
 +
 The following code text appears in the `init` function and is highlighted in the code panel:
 +
-[source,javascript]
+[source,JavaScript]
 ----
 customizations: {
     style: {
@@ -55,7 +55,7 @@ To get started with CSS customization:
 The following example sets an external stylesheet hosted on GitHub and uses `jsDelivr` to provide the CSS overrides to ThoughtSpot:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
@@ -77,7 +77,7 @@ The custom CSS object that defines variables and rules to override style specifi
 The following example shows how to override the style specifications for secondary buttons using `customCSS` variables directly in the `init` code:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
@@ -114,7 +114,7 @@ The following example shows how to add a custom font in the CSS file:
 The following example shows how to add a custom font and apply it to CSS variables in the `customCSS` object:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
@@ -152,7 +152,7 @@ The following example shows the supported variables:
 |======
 |Variable| Description
 |`--ts-var-root-background`|
-Background color of the Liveboard, visualization, Search, and answer pages. +
+Background color of the Liveboard, visualization, Search, and Answer pages. +
 |`--ts-var-root-color`| Color of the text on application pages. +
 |`--ts-var-root-font-family`| Font type for the text on application pages.
 |`--ts-var-root-text-transform`|Text transformation specification for UI elements in the app. +
@@ -173,17 +173,40 @@ The navigation panel appears at the top of the application page.
 |======
 
 === Search bar and Data panel
-The search bar element allows passing search tokens.
 
-[width="100%" cols="5,7"]
+The search bar element that allows passing search tokens.
+
+[width="100%" cols="7,7"]
 [options='header']
 |======
 |Variable| Description
-|`--ts-var-search-bar-text-font-color`|Font color of the search tokens in the Search bar.
+|`--ts-var-search-bar-text-font-color`|Font color of the text in the Search bar.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
 |`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
+|`--ts-var-search-bar-background`| Background color of the search bar.
+|`--ts-var-search-auto-complete-background`| Background color of the search suggestions panel.
+|`--ts-var-search-navigation-button-background`|Background color of the navigation panel that allows you to undo, redo, and reset search operations.
+|`--ts-var-search-bar-navigation-help-text-background`| Background color of the navigation help text that appears at the bottom of the search suggestions panel.
+|`--ts-var-search-bar-auto-complete-hover-background`|Background color of the search suggestion block on hover.
+|======
 
+The following figure shows customizable search page components:
+[div boxDiv]
+[.widthAuto]
+--
+image::./images/search-components-css.png[Search components]
+--
+
+=== Chart switcher
+The chart switcher icon image:./images/chart-switcher-icon.png[chart switcher] appears on search results and Answer pages:
+
+[width="100%" cols="8,5"]
+[options='header']
+|======
+|Variable| Description
+|`--ts-var-answer-view-table-chart-switcher-background`| Background color of the chart switcher on search results and Answer pages.
+|`--ts-var-answer-view-table-chart-switcher-active-background`| Background color of the currently selected chart type in the chart switcher.
 |======
 
 === Button elements
@@ -216,7 +239,7 @@ For example, the *Search data* button in the top navigation panel.
 |`--ts-var-button--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
 For example, share and favorite buttons.
 |`--ts-var-button--primary-color`|Primary button a|
-Font color of the text on primary buttons. For example, the primary buttons on  *Liveboard*, answer, *Data* workspace, *SpotIQ*, or *Home* page.
+Font color of the text on primary buttons. For example, the primary buttons on *Liveboard*, Answer, *Data* workspace, *SpotIQ*, or *Home* page.
 |`--ts-var-button--primary--font-family`|Primary button|
 
 Font family specification for the text on primary buttons.
@@ -248,8 +271,8 @@ Background color of the tertiary button.
 Background color of the tertiary button when a user hovers over these buttons.
 |======
 
-=== Visualization and answer charts
-Use the following variables to customize UI elements on Liveboard, visualization and answer pages.
+=== Visualization and Answer charts
+Use the following variables to customize UI elements on Liveboard, visualization and Answer pages.
 
 ==== Tiles on Liveboard, title and description of charts and tables
 You can customize the look and feel of the visualization tiles on a Liveboard, styles for title and description text of charts and tables.
@@ -259,27 +282,28 @@ You can customize the look and feel of the visualization tiles on a Liveboard, s
 |======
 |Variable|Description
 |`--ts-var-viz-title-color`|
-Font color of the title text of a visualization or answer.
-|`--ts-var-viz-title-font-family`|Font family specification for the title text of a visualization/answer.
-|`--ts-var-viz-title-text-transform`| Text transformation specification for visualization and answer titles.
-|`--ts-var-viz-description-color`|Font color of the description text and subtitle of a visualization or answer.
-|`--ts-var-viz-description-font-family`|Font family specification of description text and subtitle of a visualization or answer.
-|`--ts-var-viz-description-text-transform`|Text transformation specification for  description text and subtitle of a visualization or answer.
+Font color of the title text of a visualization or Answer.
+|`--ts-var-viz-title-font-family`|Font family specification for the title text of a visualization/Answer.
+|`--ts-var-viz-title-text-transform`| Text transformation specification for visualization and Answer titles.
+|`--ts-var-viz-description-color`|Font color of the description text and subtitle of a visualization or Answer.
+|`--ts-var-viz-description-font-family`|Font family specification of description text and subtitle of a visualization or Answer.
+|`--ts-var-viz-description-text-transform`|Text transformation specification for  description text and subtitle of a visualization or Answer.
 |`--ts-var-viz-border-radius`|
 Border-radius for the visualization tiles and header panel on a Liveboard.
 |`--ts-var-viz-box-shadow`|
 Box shadow property for the visualization tiles and header panel on a Liveboard.
 |`--ts-var-viz-background`|
 Background color of the visualization tiles and header panel on a Liveboard.
-|`--ts-var-viz-legend-hover-background`| Background color of the legend on a visualization or answer.
+|`--ts-var-viz-legend-hover-background`| Background color of the legend on a visualization or Answer.
 |======
 
 ==== Chart selection widget
-The chart selection widget appears on clicking the *Change visualization* icon image:./images/icon-chart-20px.png[the Change visualization icon] on the answer page or when you open a visualization in the *Edit* mode.
+The chart selection widget appears on clicking the *Change visualization* icon image:./images/icon-chart-20px.png[the Change visualization icon] on the Answer page or when you open a visualization in the *Edit* mode.
 
 image::./images/chart-selection.png[Chart selection widget]
 
 Use the following variables to customize the background color of the chart type icons:
+
 [width="100%" cols="7,7"]
 [options='header']
 |======
@@ -289,7 +313,7 @@ Use the following variables to customize the background color of the chart type 
 |======
 
 ==== Filter chips on visualization and answer pages
-Filter chips appear on the Liveboard, answer, and visualization pages if filters are applied on charts and tables. You can use the following variables to customize the look and feel of filter chips.
+Filter chips appear on the Liveboard, Answer, and visualization pages if filters are applied on charts and tables. You can use the following variables to customize the look and feel of filter chips.
 
 [width="100%" cols="7,7"]
 [options='header']
@@ -335,101 +359,20 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu--hover-background`|Background color for menu items on hover.
 |======
 
-////
-[width="100%" cols="7,5,5"]
+=== Dialogs
+CSS variables for dialogs that prompt the user to select an option or enter information. For example, the Liveboard pin dialog that appears on clicking *Pin* on the Search results or Answer page, the *Show underlying data* dialog that appears on clicking *Show underlying data* on a Liveboard visualization or Answer.
+
+[width="100%" cols="7,7"]
 [options='header']
 |======
-|Variable|UI element/area|  Description
-|`--ts-var-root-background`|Application pages|Application-wide setting +
-
-Background color of the application page
-The color code setting applies to all pages in the app.
-|`--ts-var-root-color`|Text on application pages| Application-wide setting +
-
-Color of the text on application pages +
-|`--ts-var-root-font-family`|Text on application pages| Application-wide setting +
-
-Font type for the text on application pages
-|`--ts-var-root-text-transform`|Text on application pages|Application-wide setting +
-
-Text transformation specification for all UI elements in the app.
-|`--ts-var-nav-background`|Top navigation panel |Element-level setting +
-
-Background color of the top navigation panel.
-|`--ts-var-nav-color`|Top navigation panels |Element-level setting +
-
-Font color of the top navigation panel.
-|`--ts-var-button-border-radius`|Main button|Application-wide setting +
-
-Border-radius of main buttons. For example, the *Search data* button in the top navigation panel.
-|`--ts-var-button--icon-border-radius`|Small buttons|Application-wide setting +
-
-Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons.
-|`--ts-var-button--primary-color`|Primary buttons|Element-level setting +
-
-Font color of the text on primary buttons. For example, the *Go* button on the search bar that appears on clicking Search data, the primary buttons on  Liveboard, answer, data workspace, SpotIQ, or Home page.
-|`--ts-var-button--primary--font-family`|Primary buttons|Element-level setting +
-
-Font family specification for the text on primary buttons.
-|`--ts-var-button--primary-background`|Primary buttons|Element-level setting +
-
-Background color of the primary buttons. For example, the primary buttons such as *Pin* and *Save* on the answer page, data workspace, SpotIQ, or Home page.
-|`--ts-var-button--primary--hover-background`|Primary buttons|Element-level setting +
-
-Background color of the primary buttons when a pointer hovers over these buttons.
-|`--ts-var-button--secondary-color`|Secondary button| Element-level setting +
-
-Font color of the text on the secondary buttons.
-|`--ts-var-button--secondary--font-family`|Secondary button| Element-level setting +
-
-Font family specification for the text on the secondary buttons.
-|`--ts-var-button--secondary-background`|Secondary button|Element-level setting +
-
-Background color of the secondary buttons.
-|`--ts-var-button--secondary--hover-background`|Secondary button|Element-level setting +
-
-Background color of the secondary button when a pointer hovers over these buttons.
-|`--ts-var-button--tertiary-color`|Tertiary button|Element-level setting +
-
-Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the search page.
-|`--ts-var-button--tertiary-background`|Tertiary button|Element-level setting +
-
-Background color of the tertiary button.
-|`--ts-var-button--tertiary--hover-background`|Tertiary button|Element-level setting +
-
-Background color of the tertiary button when a pointer hovers over these buttons.
-|`--ts-var-viz-title-color`|Title text of a visualization/answer|Element-level setting +
-
-Font color of the title text of a visualization or answer.
-|`--ts-var-viz-title-font-family`|Title text of a visualization/answer|Element-level setting +
-
-Font family specification for the title text of a visualization/answer.
-|`--ts-var-viz-title-text-transform`|Title text of a visualization/answer|Element-level setting +
-
-Text transformation specification for visualization and answer titles.
-|`--ts-var-viz-description-color`|Visualization/answer description and subtitle |Element-level setting +
-
-Font color of the description text and subtitle of a visualization or answer.
-|`--ts-var-viz-description-font-family`|Visualization/answer description and subtitle|Element-level setting +
-
-Font family specification of description text and subtitle of a visualization or answer.
-|`--ts-var-viz-description-text-transform`|Visualization/answer description and subtitle|Element-level setting +
-
-Text transformation specification for  description text and subtitle of a visualization or answer.
-|`--ts-var-viz-border-radius`|Visualization tiles +
-Liveboard header panel|Element-level setting +
-
-Border-radius for the visualization tiles and header panel on a Liveboard.
-|`--ts-var-viz-box-shadow`|Visualization tiles +
-Liveboard header panel|Element-level setting +
-
-Box shadow property for the visualization tiles and header panel on a Liveboard.
-|`--ts-var-viz-background`|Visualization tiles +
-Liveboard header panel| Element-level setting +
-
-Background color of the visualization tiles and header panel on a Liveboard.
+|Variable|Description
+|`--ts-var-dialog-body-background`|Background color of the dialogs.
+|`--ts-var-dialog-body-color`| Font color of the body text displayed on dialogs.
+|`--ts-var-dialog-header-background`|Background color of the header text on dialogs.
+|`--ts-var-dialog-header-color`|Font color of the header text on dialogs.
+|`--ts-var-dialog-footer-background`|Background color of the footer area on dialogs.
 |======
-////
+
 == UI element reference
 
 The following figures show the customizable elements and example definitions for CSS variables.
@@ -468,7 +411,7 @@ To find the class name of an element: +
 
 The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns on the *Home* page of the ThoughtSpot application.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
@@ -486,7 +429,7 @@ init({
 });
 ----
 
-The following figure shows the style override applied using the above code example:
+The following figure shows the style override applied using the preceding code example:
 [.widthAuto]
 [.bordered]
 image::./images/selection-dropdown-after.png[selection dropdown style override]
@@ -512,12 +455,17 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-search-data-button-font-color: var(--ts-var-root-color);
   --ts-var-search-data-button-font-family: var(--ts-var-root-font-family);
 
-  /******** Search bar ********/
-  --ts-var-search-bar-text-font-color: #ffffff;
+  /******** Search bar, search navigation and auto-suggestion panels ********/
+  --ts-var-search-bar-text-font-color: #1D232F;
   --ts-var-search-bar-text-font-family: var(--ts-var-root-font-family);
   --ts-var-search-bar-text-font-style: normal;
+  --ts-var-search-bar-background: #000000;
+  --ts-var-search-auto-complete-background: #EAEDF2;
+  --ts-var-search-navigation-button-background: #EAEDF2;
+  --ts-var-search-bar-navigation-help-text-background: #EAEDF2;
+  --ts-var-search-bar-auto-complete-hover-background: #C0C6CF;
 
-  /******** Data panel on Search and answers page ********/
+ /******** Data panel on Search and answers page ********/
   --ts-var-answer-data-panel-background-color: initial;
 
   /******** Buttons ********/
@@ -588,6 +536,14 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-menu-font-family: var(--ts-var-root-font-family);
   --ts-var-menu-text-transform: capitalize;
   --ts-var-menu--hover-background: #ABC7F9;
+
+  /**** Dialogs and modals that prompt users to perform an action or enter information *******/
+  --ts-var-dialog-body-background: var(--ts-var-root-background);
+  --ts-var-dialog-body-color: var(--ts-var-root-color);
+  --ts-var-dialog-header-background: #CEDCF5;
+  --ts-var-dialog-header-color: var(--ts-var-root-color);
+  --ts-var-dialog-footer-background: var(--ts-var-root-background);
+
 }
 ----
 

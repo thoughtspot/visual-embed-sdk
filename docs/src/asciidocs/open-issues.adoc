@@ -8,6 +8,21 @@
 
 This page lists the known issues that you might run into while embedding ThoughtSpot in your app, or when using the embedded interface or making REST API calls.
 
+== Version 9.0.0.cl
+[cols="15%,35%,50%"]
+[options='header']
+|===
+|Issue ID |Description| Symptoms, conditions, and workaround
+|SCAL-142933|The REST API v2.0 session login endpoint does not return session cookies. a|*Symptom*: The `/api/rest/2.0/auth/session/login` endpoint does not return session cookies after a successful API call. +
+
+*Condition*: This issue is observed when a REST client tries to log in to ThoughtSpot with basic authentication using the REST API v2.0 `session/login` endpoint. +
+
+*Workaround*: Use one of the following options: +
+
+* Use the `/api/rest/2.0/auth/token/full` API endpoint xref:authentication.adoc#bearerToken[to get a bearer token] and use it in the `Authorization` header to authorize your subsequent API requests.
+* Use the REST API v1 endpoint `/tspublic/v1/session/login` to log in to ThoughtSpot and obtain session cookies.
+|===
+
 == Version 8.10.0.cl
 
 [cols="15%,35%,50%"]
@@ -55,7 +70,7 @@ This page lists the known issues that you might run into while embedding Thought
 
 a| The REST API v2 Playground [beta betaBackground]^Beta^ does not load request parameters for some API endpoints. a|
 
-*Symptom*: Some REST V2 API [beta betaBackground]^Beta^ endpoints may not show request parameters in the Playground. +
+*Symptom*: Some REST v2 API [beta betaBackground]^Beta^ endpoints may not show request parameters in the Playground. +
 
 *Condition*: This issue is observed in ThoughtSpot deployments with 8.7.0.cl and 8.6.0.cl release versions. +
 

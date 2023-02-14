@@ -10,7 +10,7 @@ This request method sends the user authentication attributes as query string par
 +
 This request method sends the user authentication attributes as `formData` parameters in the request body of the API call. For secure exchange of authentication information, we recommend using the `POST`request method. 
  
-=== Resource URLs
+==== Resource URLs
 
 ----
 GET /tspublic/v1/session/login/token
@@ -20,7 +20,7 @@ GET /tspublic/v1/session/login/token
 POST /tspublic/v1/session/login/token
 ----
 
-=== Request parameters
+==== Request parameters
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -36,7 +36,7 @@ For example, if the user has requested access to a specific visualization on a L
 |`no_url_redirection`|__Boolean__. By default, the API returns a 302 code and redirects the user to the requested URL. If you do not want to redirect users, set this parameter to `true`.
 |====
 
-=== Example requests
+==== Example requests
 
 The following example shows a GET request with query parameters in the request URL:
  
@@ -46,13 +46,13 @@ The following example shows a GET request with query parameters in the request U
 curl -X GET \
 --header 'Accept: text/html' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
  
 .Request URL
 [source, URL]
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
 
 The following example shows a POST request with authentication attributes in the request body:
@@ -73,7 +73,7 @@ curl -X POST \
 https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 ----
 
-=== Example response
+==== Example response
 
 If the API request is successful, ThoughtSpot returns the following:
 
@@ -238,7 +238,7 @@ If the API request is successful, ThoughtSpot returns the following:
 </html>
 ----
 
-=== Response codes
+==== Response codes
 
 [options="header", cols="1,4"]
 |===

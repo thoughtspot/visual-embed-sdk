@@ -28,7 +28,7 @@ ThoughtSpot uses groups and sharing to control the visibility of content to diff
 For a thorough explanation of how to control object access using ThoughtSpot groups, see xref:multi-tenancy-best-practices.adoc[Multi-tenancy best practices].
 
 === Release build and publish processes
-The rest of this article covers the aspects of the *release build* and *release publish* processes. The xref:development-and-deployment.adoc#relatedResources[Additional Resources] section at the end contains links to libraries and code examples implementing these development and deployment workflows. Any example code you see within this document has been implemented and tested within the libraries available in the  xref:development-and-deployment.adoc#relatedResources[Additional Resources] and we recommend that you start with these libraries. 
+The rest of this article covers the aspects of the *release build* and *release publish* processes. The xref:development-and-deployment.adoc#relatedResources[Additional Resources] section at the end contains links to libraries and code examples implementing these development and deployment workflows. Any example code you see within this document has been implemented and tested within the libraries available in the xref:development-and-deployment.adoc#relatedResources[Additional Resources] and we recommend that you start with these libraries.
 
 == ThoughtSpot modeling language
 Every object type in ThoughtSpot has a representation in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[TML, window=_blank]. TML documents are available by default in the easy-to-read link:https://en.wikipedia.org/wiki/YAML[YAML, window=_blank] format, and can also be requested in JSON format from the ThoughtSpot REST API.
@@ -53,7 +53,7 @@ The `formattype` argument can be set to `YAML` or `JSON`. YAML is more human-rea
 ==== Add GUIDs of associated objects to TML
 Although TML files do not include the GUIDs of associated objects on export, you can use the `export_associated=true` argument to retrieve and add the GUIDs as the `fqn` property. Including the GUIDs in the saved files on disk allows you to substitute in the GUIDs for the equivalent objects in another environment.
 
-For example, if you export a worksheet, you can see that the items in the `tables:` list only include a `name:` property, representing the name of the ThoughtSpot *table* object (as opposed to the table's name in the data warehouse).
+For example, if you export a Worksheet, you can see that the items in the `tables:` list only include a `name:` property, representing the name of the ThoughtSpot *table* object (as opposed to the table's name in the data warehouse).
 
 If there are *table* objects with duplicate names, specify the GUID of the object using the `fqn:` property. This will distinguish the correct object when importing the TML back.
 
@@ -62,7 +62,7 @@ When you set `export_associated=true` in the TML export command, the first item 
 [source,yaml]
 ----
 guid: 0a0bb654-b0e8-482c-a6c8-9ed396d1cb92
-worksheet:
+Worksheet:
   name: Markspot 2 Worksheet
   tables:
   - name: DIM_CUSTOMERS_2
@@ -103,7 +103,7 @@ for obj in objs:
     name_guid_map[obj['info']['name']] = obj['info']['id']
 ----
 
-Because we know that these are the GUIDs that match to the name values in this particular TML file, we can now use the map we created to add in the `fqn` properties, to result in the *worksheet* TML looking like this:
+Because we know that these are the GUIDs that match to the name values in this particular TML file, we can now use the map we created to add in the `fqn` properties, to result in the *Worksheet* TML looking like this:
 
 [source,yaml]
 ----
@@ -199,7 +199,7 @@ Each level in this hierarchy may reference preceding objects, so you must ensure
 Once all of the data objects exist, you can publish *answers* and *Liveboards* in any order. *Liveboards* do not reference separate *answer* objects, they are fully self-contained.
 
 ==== Connections
-Connections contain the details and credentials necessary to connect to a cloud data warehouse. Every table, join, view, and worksheet all are linked to a particular connection, and relationships between those objects can only exist within the scope of the connection.
+Connections contain the details and credentials necessary to connect to a cloud data warehouse. Every table, join, view, and Worksheet all are linked to a particular connection, and relationships between those objects can only exist within the scope of the connection.
 
 Connections do not have a TML representation, but can be created and modified via the xref:connections-api.adoc[data connection REST APIs].
 
@@ -251,7 +251,7 @@ If you cannot upload all at once and you are encountering errors with Import, yo
 
 ==== Views
 
-link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a worksheet. The best practice is to make views available to answers and Liveboards through a worksheet.
+link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a Worksheet. The best practice is to make views available to answers and Liveboards through a worksheet.
 
 The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server and join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
 
@@ -261,7 +261,7 @@ guid: <view_guid>
 view:
   name: <view_name>
   description:
-    This is a multi-line description of the View.
+    This is a multi-line description of the view.
     Description line 2
   tables:
   - name: <table_name_1>
@@ -289,7 +289,7 @@ view:
 ----
 
 ==== Worksheets
-Worksheets combine several *tables*, including *views*, into a coherent data model optimized for searches. The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-worksheets[TML syntax for worksheets, window=_blank] defines all of the aspects of the worksheet, including the tables it joins together, the columns and their properties, filters, and so on.
+Worksheets combine several *tables*, including *views*, into a coherent data model optimized for searches. The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-worksheets[TML syntax for Worksheets, window=_blank] defines all of the aspects of the worksheet, including the tables it joins together, the columns and their properties, filters, and so on.
 
 If you are taking a *worksheet* from one environment and promoting it to another environment, and you added the `fqn` property as described in this article, you simply use the __parent:child guid__ map to swap out the guid in the original `fqn` property for the one in the child environment.
 
@@ -349,7 +349,7 @@ Content objects are *answers* (saved searches) and *Liveboards*. An answer on a 
 The best practice recommendation is to only connect *answers* and *Liveboards* to *worksheets*. Although they can connect directly to *tables* and *views*, it is far simpler to adjust references within the *answer* and *Liveboard* TML to *worksheets* than many individual *tables*. The only exception is if you use a single *table* or *view* for the underlying search answer.
 
 ==== Answers
-The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *table*, *view*, or *worksheet* objects, whichever the answer is connected to. It is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
+The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *Table*, *View*, or *Worksheet* objects, whichever the answer is connected to. It is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
 
 [source,yaml]
 ----
@@ -478,7 +478,7 @@ Each prod tenant copy will have the same name so that each tenant will not see t
 pip install thoughtspot-tml
 ----
 
-* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
+* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot v1 REST API. You can install it via pip:
 
 +
 ----

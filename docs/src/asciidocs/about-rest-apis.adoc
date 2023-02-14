@@ -13,21 +13,21 @@ ThoughtSpot REST API supports several resource collections and operations in two
 +
 The legacy framework with several endpoints to create, edit, administer and manage ThoughtSpot objects and data. 
 
-* REST API V2 
+* REST API v2.0
 +
-The REST API v2 [beta betaBackground]^Beta^ framework is a new developer-focused solution that provides additional functionality and interactive Playground experience.
+The REST API v2.0 framework provides enhanced functionality and improved API experience with an interactive Playground.
 
-For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2 comparison].
+For more information about the differences between these two REST API versions, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison].
 
 == REST API Playground
 
-ThoughtSpot users with Developer or Administrator privileges can access the REST v1 and v2[beta betaBackground]^Beta^ endpoints in the *Develop* tab. The portal provides a separate Playground for each REST API version and lets you explore the API endpoints, request and response workflows.
+ThoughtSpot users with Developer or Administrator privileges can access the REST API v1 and v2.0 endpoints in the *Develop* tab. The portal provides a separate Playground for each REST API version and lets you explore the API endpoints, request and response workflows.
 
-* To try out the xref:rest-api-v1.adoc[REST v1 APIs], click **REST Playground v1**. +
-* To access the xref:rest-api-v2.adoc[REST v2 Playground][beta betaBackground]^Beta^, click **REST Playground v2**.
+* To try out the xref:rest-api-v1.adoc[REST API v1 endpoints], click **REST Playground v1**. +
+* To access the xref:rest-api-v2.adoc[REST API v2 Playground], click **REST Playground v2**.
 
 ==  API endpoints
 For a complete list of API endpoints and information about how to make an API call to these endpoints, see the following reference pages:
 
 * xref:rest-api-reference.adoc[REST API v1 Reference]
-* xref:rest-api-v2-reference.adoc[REST API v2 Reference]
+* xref:rest-api-v2-reference.adoc[REST API v2.0 Reference]

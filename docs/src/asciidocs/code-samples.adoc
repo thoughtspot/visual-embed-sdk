@@ -15,7 +15,7 @@ You can use the following code snippets to build your code and embed ThoughtSpot
 
 The following example shows how to embed the ThoughtSpot Search page:
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     SearchEmbed,
@@ -46,7 +46,7 @@ searchEmbed.render();
 [#searchBarEmbedCode]
 The following example shows how to embed ThoughtSpot search bar:
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     SearchBarEmbed,
@@ -75,7 +75,7 @@ searchBarEmbed.render();
 
 === Embed charts and tables
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     LiveboardEmbed,
@@ -105,7 +105,7 @@ liveboardEmbed.render();
 
 === Embed a Liveboard
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     LiveboardEmbed,
@@ -134,7 +134,7 @@ liveboardEmbed.render();
 
 === Embed full application
 
-[source,javascript]
+[source,JavaScript]
 ----
 import {
     AppEmbed,
@@ -209,10 +209,10 @@ The following examples show how to call REST APIs to query and import data using
 
 === Search data API
 
-[source,javascript]
+[source,JavaScript]
 ----
 export const getSearchData = async (worksheetId, search) => {
-    console.log(`Getting data from the SearchAPI from worksheet ${worksheetId} with search ${search}`);
+    console.log(`Getting data from the SearchAPI from Worksheet ${worksheetId} with search ${search}`);
     let getSearchDataURL = `${store_state.<ThoughtSpot-Host>}/callosum/v1/tspublic/v1/searchdata?`;
     getSearchDataURL += `"batchSize=-1&data_source_guid=${worksheetId}&query_string=${search}`;
     return await fetch(
@@ -232,7 +232,7 @@ export const getSearchData = async (worksheetId, search) => {
 ----
 === Embed visualization data from a Liveboard
 
-[source,javascript]
+[source,JavaScript]
 ----
 export const getLiveboardData = async (liveboardId, vizIds) => {
     // Returns visualization data
@@ -262,7 +262,7 @@ export const getLiveboardData = async (liveboardId, vizIds) => {
 ----
 === Get a list of visualizations on a Liveboard
 
-[source,javascript]
+[source,JavaScript]
 ----
 export const getVisualizationList = async (liveboardId) => {
     // Returns a list of visualizations pinned on a Liveboard
@@ -282,7 +282,7 @@ export const getVisualizationList = async (liveboardId) => {
 
 === Get a list of Liveboards for a user
 
-[source,javascript]
+[source,JavaScript]
 ----
 export const getLiveboardList = async () => {
     // Returns a list of Liveboards

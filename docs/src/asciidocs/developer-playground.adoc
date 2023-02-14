@@ -19,7 +19,7 @@ You can explore the following SDK components in the Playground.
 To explore the Search embed function:
 
 . Go to *Playground* > *Search*.
-. Select a data source or a saved answer.
+. Select a data source or a saved Answer.
 . Try using any of the following customization settings and click *Run* to preview the result.
 
 [width="100%"]
@@ -43,7 +43,7 @@ Hides the default data panel. You can use this function to create a custom data 
 
 a|**Hide chart or table**
 
-Hides the charts and tables that appear beneath the search bar by default. For example, if you want to create a custom visualization using raw data from an existing answer, you can enable this checkbox.
+Hides the charts and tables that appear beneath the search bar by default. For example, if you want to create a custom visualization using raw data from an existing Answer, you can enable this checkbox.
 
 ++++
 <a href="{{previewPrefix}}/playground/search?hideResults=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -99,7 +99,7 @@ Enables Runtime Filters.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'color',
@@ -120,7 +120,7 @@ Allows you to view the code for a custom action event. If the embedded instance 
 
 |**Enable Search Assist**
 
-Enables the Search Assist feature that provides a custom onboarding experience for users searching data on an embedded instance. With Search Assist, data engineers and worksheet owners can create a set of questions to assist users with the search.
+Enables the Search Assist feature that provides a custom onboarding experience for users searching data on an embedded instance. With Search Assist, data engineers and Worksheet owners can create a set of questions to assist users with the search.
 
 ++++
 <a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
@@ -161,7 +161,7 @@ Enables Runtime Filters on a visualization in a Liveboard.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Revenue',
@@ -212,7 +212,7 @@ Enables Runtime Filters on a visualization in a Liveboard.
 Runtime filters provide the ability to filter data at the time of retrieval.
 To apply Runtime Filters, pass the `columnName`, `operator`, and `value` parameters in the `runtimeFilters` attribute.
 
-[source,javascript]
+[source,JavaScript]
 ----
 runtimeFilters: [{
     columnName: 'Revenue',
@@ -242,7 +242,7 @@ Allows you to view the code for a custom action event. If the embedded instance 
 ////
 +
 Disable Search Assist::
-Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+Disables the Search Assist feature. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your Worksheet.
 +
 
 ////

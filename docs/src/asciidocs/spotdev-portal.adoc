@@ -65,14 +65,14 @@ Guide;;
 Opens the REST API documentation.
 
 REST Playground v1;;
-Opens the REST API v1 Explorer page. This page allows you to make API calls to the REST v1 endpoints through the Swagger UI.
+Opens the REST API v1 Explorer page. This page allows you to make API calls to the REST API v1 endpoints through the Swagger UI.
 +
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-REST Playground v2 [beta betaBackground]^Beta^;;
-Opens the REST API v2 Playground [beta betaBackground]^Beta^. This Playground allows you to view the REST v2 endpoints, make API calls, and explore the request and response workflows.
+REST Playground v2.0;;
+Opens the REST API v2.0 Playground, which allows you to view the v2.0 endpoints, make API calls, and explore the request and response workflows.
 +
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>

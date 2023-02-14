@@ -8,6 +8,15 @@ Allows users to perform the following functions:
 ** View and edit access to all data
 ** Download a saved answer
 
+////
++
+In REST API v2.0, you can also use the following types of privileges for granular access: +
+** `USER_ADMINISTRATION` for user management
+** `GROUP_ADMINISTRATION` for group management
+
++
+////
+
 * `DEVELOPER`
 +
 Allows users to perform the following functions:
@@ -55,3 +64,9 @@ Allows access to the following operations:
 
 ** Create, edit, or delete existing RLS rules
 ** Enable or disable Bypass RLS on a worksheet
+
+* `SYNCMANAGEMENT`
+
++
+Allows setting up secure pipelines to external business apps and sync data using ThoughtSpot Sync.
+

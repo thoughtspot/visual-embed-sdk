@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Redoc</title>
+  <!-- needed for adaptive design -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700|Roboto+Mono:300,400,600,700" rel="stylesheet" />
+  <style>
+
+ <@font-face {
+    font-family: 'Optimo-Plain';
+    src: url('docs/src/assets/fonts/Plain-Medium.otf') format('opentype');
+    font-weight: $font-weight-bold;
+}
+>
+<@font-face {
+    font-family: 'Optimo-Plain';
+    src: url('docs/src/assets/fonts/Plain-Light.otf') format('opentype');
+    font-weight: $font-weight-normal;
+}
+>
+
+  body {
+    margin: 0px;
+    padding: 0px;
+    },
+  </style>
+  <!--
+    Redoc doesn't change outer page styles
+    -->
+</head>
+
+<body>
+<div id='redoc-container'>
+</div>
+
+
+  <!--
+    Redoc element with link to your OpenAPI definition
+    -->
+  <!-- <redoc spec-url="openapiSpecv3-tsv2.json"></redoc> -->
+  <!--
+    Link to Redoc JavaScript on CDN for rendering standalone element
+    -->
+  <redoc spec-url='https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/redoc-test/static/apiv2Beta/openapi.yaml'></redoc>
+  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+  <script>
+  Redoc.init('https://raw.githubusercontent.com/thoughtspot/visual-embed-sdk/redoc-test/static/apiv2Beta/openapi.yaml', {
+   "scrollYOffset":"0",
+   "hideDownloadButton":true,
+   "hideLoading":true,
+   "hideHostname":true,
+   "layout":{
+      "showDarkRightPanel":true
+   },
+   "generateCodeSamples": {
+      "languages": [{ "lang": "cURL" }],
+      "skipOptionalParameters": false
+    },
+   "menuToggle":true,
+   "hideSecuritySection":true,
+   "pagination":"section",
+   "pathInMiddlePanel":false,
+   "sortEnumValuesAlphabetically":true,
+   "sortPropsAlphabetically":true,
+   "expandSingleSchemaField":true,
+   "hideSingleRequestSampleTab":false,
+   "showObjectSchemaExamples":true,
+   "jsonSampleExpandLevel":"1",
+   "nativeScrollbars": false,
+   "sideNavStyle":"summary-only",
+   "theme":{
+      "breakpoints":{
+         "small":"50rem",
+         "medium":"60rem",
+         "large":"105rem"
+      },
+      "logo": {
+         "gutter": "11px",
+         "maxWidth": "200px",
+         "maxHeight": "60px"
+      },
+      "components":{
+            "layoutControls":{
+               "top":"10px"
+            },
+            "httpBadges":{
+               "borderRadius":"5px",
+               "fontWeight":"700",
+               "fontFamily":"Roboto Mono",
+               "sizes":{
+                  "medium":{
+                     "fontSize":"15px",
+                     "lineHeight":"1.6em",
+                  }
+               }
+            }
+      },
+      "spacing":{
+         "sectionVertical":"3",
+         "paddingVertical":"5"
+      },
+      "colors":{
+         "primary":{
+            "main":"rgba(29, 35, 47, 1)",
+            "light":"rgba(255, 255, 255, 1)"
+         },
+         "error":{
+            "main":"rgba(246, 20, 63, 1)",
+            "light":"rgba(246, 20, 63, 0.42)"
+         },
+         "http":{
+            "get":"rgba(4, 145, 96, 1)",
+            "post":"rgba(255, 157, 43, 1)",
+            "put":"rgba(39, 112, 239, 1)",
+            "delete":"rgba(242, 71, 34, 1)"
+         }
+      },
+      "sidebar":{
+         "width":"260px",
+         "textColor":"#1D232F",
+         "fontFamily":"Optimo-Plain,Roboto",
+         "fontSize":"15px",
+         "activeTextColor":"rgba(39, 112, 239, 1)",
+         "backgroundColor":"#F5F5F5",
+         "arrow":{
+            "color":"rgba(29, 35, 47, 1)"
+         },
+         "spacing":{
+            "paddingVertical":"8",
+            "sectionVertical":"8"
+         },
+         "groupItems":{
+            "subItemsColor":"#000000",
+            "fontFamily":"Optimo-Plain,Roboto",
+            "fontSize":"15px",
+            "fontWeight":"600",
+         },
+         "level1items":{
+            "fontWeight":"600"
+         },
+         "colors":{
+            "http":{
+               "get":"rgba(6, 191, 127, 1)",
+               "post":"rgba(252, 200, 56, 1)",
+               "put":"rgba(39, 112, 239, 1)",
+               "delete":"rgba(226, 43, 61, 1)"
+            }
+         }
+      },
+      "rightPanel":{
+         "backgroundColor":"#1D232F",
+         "textColor":"#ffffff",
+         "fontSize":"14px",
+         "width":"32%",
+         "colors":{
+            "http":{
+               "get":"rgba(6, 191, 127, 1)",
+               "post":"rgba(252, 200, 56, 1)",
+               "put":"rgba(39, 112, 239, 1)",
+               "delete":"rgba(226, 43, 61, 1)"
+            }
+         }
+      },
+      "panel":{
+         "backgroundColor":"#ffffff",
+         "title":{
+            "color":"#1D232F",
+            "fontFamily":"Optimo-Plain,Roboto",
+            "fontSize":"20px",
+            "lineHeight":"1em"
+         },
+         "subTitle":{
+            "color":"#1D232F",
+            "fontFamily":"Optimo-Plain,Roboto",
+            "fontSize":"20px",
+            "lineHeight":"1em"
+         }
+      },
+      "typography":{
+         "fontFamily":"Optimo-Plain,Roboto",
+         "fontSize":"15px",
+         "lineHeight":"1.6em",
+         "fontWeightRegular":"400",
+         "fontWeightBold":"600",
+         "fontWeightLight":"300",
+         "fontColor":"#1D232F",
+         "codeBlock":{
+            "backgroundColor":"#777E8B",
+            "fontSize":"14px",
+            "fontFamily":"Roboto Mono",
+            "maxHeight":"250px"
+         },
+         "links":{
+            "color":"#2770EF",
+            "visited":"rgba(8, 37, 89, 1)",
+            "hover":"rgba(35, 89, 182, 1)"
+         },
+         "code":{
+            "backgroundColor":"#777E8B",
+            "fontSize":"15px",
+            "fontColor":"rgba(255, 255, 255, 1)",
+            "fontFamily":"Roboto Mono",
+            "wrap":true,
+            "fontWeight":"400"
+         },
+         "headings":{
+            "fontFamily":"Optimo-Plain,Roboto",
+            "fontWeight":"400",
+            "lineHeight":"1.6em",
+            "spacing":{
+               "sectionVertical":"3",
+               "paddingVertical":"10"
+            }
+         },
+      }
+   }
+}, document.getElementById('redoc-container'));
+  </script>
+</body>
+</html>

@@ -1,23 +1,24 @@
-= REST API v2 Playground
+= REST API v2.0 Playground
 :toc: true
 
-:page-title: ThoughtSpot REST API v2 Playground
+:page-title: ThoughtSpot REST API v2.0 Playground
 :page-pageid: restV2-playground
-:page-description: ThoughtSpot REST API v2 Playground
+:page-description: ThoughtSpot REST API v2.0 Playground
 
-The REST API v2 Playground [beta betaBackground]^Beta^ offers an interactive portal with comprehensive information about the API endpoints, request and response workflows.
+The REST API v2.0 Playground offers an interactive portal with API resources, comprehensive documentation, and a code panel to view the request and response workflows.
+
 ////
 The Playground allows you to make REST API calls in the programming language of your choice. You can also view the SDK, request and response workflow.
 ////
-== Access Playground
+To access the Playground, click *Develop* > *REST API* > **REST Playground v2.0**.
 
-To access the REST Playground v2, click *Develop* > *REST API* > **REST Playground v2**.
-
-image::./images/rest-apiv2-playground.png[REST API v2 Playground]
+[.bordered]
+[.widthAuto]
+image::./images/v2-0-playground.png[REST API v2.0 Playground]
 
 == Explore the interface
 
-The API Playground consists of following areas:
+The API Playground consists of the following areas:
 
 Resource pane::
 
@@ -28,12 +29,12 @@ The search bar in the resource pane allows you to search for an endpoint and nav
 
 API request editor::
 
-The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each array separately. For example, if you are assigning privileges to a group, you can add each privilege string as an array.
+The middle section of the portal provides a short description of the endpoint, endpoint URL, request parameters, and response codes. For parameters that require a JSON array, you can add each string in the array as a separate item.
 
 +
 [.bordered]
 [.widthAuto]
-image::./images/array-input.png[REST API v2 Playground]
+image::./images/array-example.png[REST API v2 Playground]
 
 Code explorer::
 
@@ -41,19 +42,19 @@ The code explorer offers several distinct features:
 
 * Code panel
 +
-Shows a preview of the API request code. You can view the request body as you edit the input parameters and define attributes in the API editor area. The code explorer dynamically changes the API request format based on the language you select.
+Shows a preview of the API request code. You can view the request body as you edit the input parameters and define attributes in the API editor area.
 
 * Try it out
 +
-Allows you to trigger an API call. If the request succeeds, the API returns the 200 response code. You can copy or download the entire API response. You can also copy the individual attributes using the copy button that appears next to the field. To try another API call, click **Back**.
+Allows you to trigger an API call. If the request succeeds, the API returns the 200 response code. You can copy or download the entire API response. You can also copy the individual attributes using the copy button that appears next to the field. To try another API call, click the **Request** tab.
 
-* Copy  icon
+* Copy icon
 +
 Allows you to copy API requests and responses.
 
 * Configuration panel
 +
-Allows you to modify the client configuration settings. For example, you can update the access token of the client. You can also specify if you want to download the code files with bootstrapping and error handling details. To view this panel, click **Configure**.
+Allows you to modify the client configuration settings. For example, you can update the access token of the client. To view this panel, click **Configure**.
 
 * Download icon
 +
@@ -68,7 +69,7 @@ You can also use this drop-down to get language-specific SDK and client librarie
 ////
 
 ++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2" id="preview-in-playground" target="_blank">Try it out</a>
+<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
 ////

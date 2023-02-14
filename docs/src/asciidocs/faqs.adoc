@@ -247,7 +247,7 @@ For more information, see xref:custom-actions.adoc[Custom actions] and see xref:
 ====
 * Did you select the *On by default on all visualizations* checkbox when creating a custom action? If yes, the action will appear in the **More** image:./images/icon-more-10px.png[the more options menu] menu of your visualization. If you want to add it to the contextual menu, edit the position of the action by using the edit icon in the *Custom actions* image:./images/custom-action-icon.png[custom action icon] panel on your visualization page.
 
-* If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved answer, or worksheet of your choice and place it in the context menu.
+* If you did not select the *On by default on all visualizations* checkbox in the custom action creation pop-up, the action will be designated as a `Local` action. You must assign this action to a visualization, saved Answer, or Worksheet of your choice and place it in the context menu.
 
 [NOTE]
 By default, custom actions are visible only to users with administrator or developer privilege. To make the custom action available to your end users, select the user group in *Show Advanced Availability Settings* and allow access.
@@ -303,7 +303,7 @@ You can use REST APIs along with Visual Embed SDK to programmatically deploy, ma
 .Can I make REST API calls in a language-specific way?
 [%collapsible]
 ====
-The REST API v2[beta betaBackground]^Beta^ supports SDK and client libraries for Java, TypeScript, Python, and .NET clients. For more information. see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
+The REST API v2 [beta betaBackground]^Beta^ supports SDK and client libraries for Java, TypeScript, Python, and .NET clients. For more information. see xref:rest-api-sdk-libraries.adoc[REST API SDK and client libraries].
 ====
 
 .How is REST API v1 different from REST API v2?
@@ -311,13 +311,13 @@ The REST API v2[beta betaBackground]^Beta^ supports SDK and client libraries for
 ====
 The REST API v2 framework [beta betaBackground]^Beta^ is built upon the existing core API functionality and extends it further to provide additional features and benefits. It simplifies the request and response workflow and provides an enhanced developer experience with an interactive Playground.
 
-For more information, see xref:rest-api-v2.adoc[REST API v2] and xref:rest-api-v1v2-comparison.adoc[REST v1 and REST v2 API comparison].
+For more information, see xref:rest-api-v2.adoc[REST API v2.0] and xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison].
 ====
 
 .Can I embed ThoughtSpot components using the REST API?
 [%collapsible]
 ====
-ThoughtSpot REST API framework supports data APIs, using which you can embed an answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the Visual Embed SDK to embed ThoughtSpot content in your app.
+ThoughtSpot REST API framework supports data APIs, using which you can embed an Answer, Liveboard, or a specific visualization from a Liveboard. You can use these APIs with or without the Visual Embed SDK to embed ThoughtSpot content in your app.
 
 For more information, see the following pages:
 
@@ -360,9 +360,9 @@ To learn more about ThoughtSpot REST API, refer to the following pages on the De
 * xref:rest-api-v1.adoc[REST API v1]
 * xref:rest-api-v2.adoc[REST API v2][beta betaBackground]^Beta^
 * xref:rest-api-reference.adoc[REST API v1 Reference]
-* xref:rest-api-v2-reference.adoc[REST API v2 Reference][beta betaBackground]^Beta^
+* xref:rest-api-v2-reference.adoc[REST API v2.0 Reference][beta betaBackground]^Beta^
 * link:{{previewPrefix}}/api/rest/playgroundV1[REST API v1 Playground, window=_blank]
-* link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank]
+* link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2.0 Playground, window=_blank]
 ====
 
 .Where can I find REST API code samples?
@@ -375,5 +375,5 @@ Check the following resources for REST API v1 code samples:
 * link:https://developers.thoughtspot.com/codespot[CodeSpot, window=_blank]
 * link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[REST API and TML Python library and examples, window=_blank] +
 
-You can also view and download the REST API v2 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2 Playground, window=_blank][beta betaBackground]^Beta^.
+You can also view and download the REST API v2.0 code samples from the link:{{previewPrefix}}/api/rest/playgroundV2[REST API v2.0 Playground, window=_blank][beta betaBackground]^Beta^.
 ====

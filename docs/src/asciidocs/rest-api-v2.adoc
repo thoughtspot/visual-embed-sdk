@@ -1,15 +1,15 @@
-= REST API v2
+= REST API v2.0
 :toc: true
 
-:page-title: REST API v2
+:page-title: REST API v2.0
 :page-pageid: rest-api-v2
-:page-description: ThoughtSpot REST API v2 provides service endpoints for user management, group administration, and metadata object queries.
+:page-description: ThoughtSpot REST API v2.0 provides service endpoints for user management, group administration, and metadata object queries.
 
-The REST API v2 framework [beta betaBackground]^Beta^ is built upon the existing core API functionality and resource representation model, and offers several new features and enhancements.
+The REST API v2.0 framework is built upon the existing core API functionality and data models but offers several new features and enhancements.
 
 Enhanced usability and developer experience::
 
-With REST API v2, ThoughtSpot offers a user-friendly, interactive Playground to explore the endpoints, try out API requests and view responses. The Playground provides detailed information about how to get started, authenticate to ThoughtSpot, and interact with the endpoints.
+With REST API v2.0, ThoughtSpot offers a user-friendly, interactive Playground to explore the endpoints, try out API requests, and view responses. The Playground provides detailed information about how to get started, authenticate to ThoughtSpot, and interact with the endpoints.
 +
 For more information, see xref:rest-api-v2-playground.adoc[REST Playground v2].
 ////
@@ -26,37 +26,53 @@ For more information, see xref:rest-api-sdk-libraries.adoc[REST API SDK and clie
 
 Token-based authentication and authorization::
 
-To provide secure access to ThoughtSpot resources, REST API v2 supports the OAuth 2.0 Bearer token and trusted authentication methods. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
+To provide secure access to ThoughtSpot resources, REST API v2.0 supports the Bearer token and Trusted authentication methods. You must obtain an access token before making an API call and pass the token in the `Authorization` header in the subsequent API calls.
 
 +
-For more information, see xref:authentication.adoc[REST v2 authentication].
+For more information, see xref:authentication.adoc[REST API v2 authentication].
 
 Consistent request and response workflow::
 
-With REST API v2, the API request and response format is standardized. The endpoints return data in the same format for all queries.
+With REST API v2.0, the JSON data structure for request and response payloads is standardized.
 
 +
-The REST API v2 supports the standard Create, Read, Update and Delete (CRUD) operations and allow applications to use the standard HTTP verbs in API requests.
+The REST API v2.0 supports the standard Create, Read, Update, and Delete (CRUD) operations, and the following HTTP verbs in API requests.
 
-* **GET** to query information, such as getting a list of users, objects, or metadata headers
-* **POST** to create or add new objects
-* **PUT** to update object properties
-* **DELETE** to remove objects and their associations
+* **GET** to query information, such as getting system or session information
+* **POST** to create new objects, add, modify, or delete object properties
 +
 
 Simplified resource collections and endpoint categories::
 +
-The resource endpoints are grouped logically based on the objects they operate on. The endpoint URLs are easy to understand and predictable. For example, you can find all metadata resource endpoints, including TML and dependent objects, in the `/metadata/` resource collection.
+The resource endpoints are grouped logically based on the objects they operate on. The endpoint URLs are easy to understand and predictable. For example, you can find all metadata resource endpoints, including TML operations, in the `/metadata/` resource collection.
 
 == Feature availability
 
-The REST API v2 Playground feature and is in beta.
+Starting with 9.0.0.cl release, the REST API v2.0 Playground and API endpoints are generally available (GA) on all ThoughtSpot instances.
 
-////
-If you have ThoughtSpot Everywhere Edition license or access to the *Develop* tab, you can visit the Playground and explore the API endpoints.
-////
+If you are not a ThoughtSpot user yet, you can preview the REST API v2.0 endpoints link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot API Playground, window=_blank] or sign up for a free trial to evaluate the API and Playground experience.
 
-If you are not a ThoughtSpot user, you can preview this feature on link:https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/[ThoughtSpot Live Playground,  window=_blank] or sign up for a free trial to evaluate the API and Playground experience.
+== Interoperability with REST API v1 and REST API v2[beta betaBackground]^Beta^ version
+
+Authentication tokens generated via `POST` requests to REST API v1 endpoints can be used for authorizing REST API v2.0 requests.
+
+The REST API v2.0 introduces several breaking changes that may affect interoperability between REST API v1 and REST API v2.0, or REST API v2[beta betaBackground]^Beta^ and REST API v2.0 versions.
+
+We recommend using REST API v2.0 API endpoints for development and testing purposes in the initial release. ThoughtSpot will provide migration instructions when REST API v2.0 framework is fully ready to replace the REST API v1 endpoints in a production setup.
+
+== Feature limitations
+
+* The REST API v2.0 `session/login` endpoint does not return session cookies. However, you can use obtain a bearer token from ThoughtSpot via `/api/rest/2.0/auth/token/full` and use it to authorize your subsequent API requests.
+* The following REST API v2.0 endpoints require administrator or data download privilege, and at least view access to the metadata object specified in the API request.
+
+** `POST /api/rest/2.0/searchdata`
+** `POST /api/rest/2.0/metadata/liveboard/data`
+** `POST /api/rest/2.0/metadata/answer/data`
+** `POST /api/rest/2.0/report/liveboard`
+** `POST /api/rest/2.0/report/answer`
+
+* Object sharing via `/api/rest/2.0/security/metadata/share` requires administrator privileges.
+If you have edit permissions or view access to the metadata object, but don't have administrator privileges, use the REST API v1 endpoint (`/tspublic/v1/security/share`) or the *Share* action in the UI to share an object.
 
 == Related information
 

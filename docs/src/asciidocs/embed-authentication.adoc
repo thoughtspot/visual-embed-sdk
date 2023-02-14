@@ -214,6 +214,7 @@ The SAML authentication workflow occurs when the actual ThoughtSpot content is l
 
 For a seamless SSO experience, the user must already have a valid session with the IdP, so that the IdP can automatically send a SAML assertion back to ThoughtSpot.
 
+[#samlRedirection]
 === SAML redirection
 
 If you want the SAML SSO authentication workflow to terminate on a specific path on the host origin, you can set the redirect path in the `redirectPath` attribute. For example, when a user's attempt to sign on using SSO fails, you might want to redirect your users to the main page or a specific application page, instead of showing your application in an error state.
@@ -227,14 +228,14 @@ init({
 });
 ----
 
-If you want the SAML SSO authentication page to open as a pop-up window, instead of refreshing the application page to show the SAML login page, you can set the `noRedirect` parameter to `true`.
+If you want the SAML SSO authentication page to open as a pop-up window, instead of refreshing the application page to show the SAML login page, you can set the `inPopup` parameter to `true`.
 
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.SAMLRedirect,
-    noRedirect: true,
+    inPopup: true,
 });
 ----
 
@@ -305,7 +306,7 @@ The user authentication may fail due to an incomplete SSO login process, expired
 
 The `init` method returns an event emitter, which you can use to listen to `AuthStatus` such as authentication failure, success, or user logout, and respond to these events with a message or corrective action.
 
-[source,Typescript]
+[source,TypeScript]
 ----
 authStatus = init(embedConfig); authStatus.on(AuthStatus.FAILURE, (reason) => {
 console.log('Authentication failed');
@@ -348,7 +349,7 @@ For more information about triggering these events, see xref:embed-events.adoc[I
 
 To log out embed users, you can use the `Logout` method to call the `xref:session-api.adoc#session-logout[/callosum/v1/session/logout]` API endpoint.
 
-[source,Typescript]
+[source,TypeScript]
 ----
 import { logout } from "@thoughtspot/visual-embed-sdk";
 

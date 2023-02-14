@@ -48,7 +48,7 @@ POST /tspublic/v1/metadata/assigntag
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 For example, if you want to assign a tag named `Sales` to a Liveboard and answer, specify a JSON array of the Liveboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
@@ -113,7 +113,7 @@ POST /tspublic/v1/metadata/unassigntag
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
 
 For example, if you want to remove a tag named `Sales` from a Liveboard and answer, specify a JSON array of the Liveboard and answer GUIDs in `id` and set the `type` as `["PINBOARD_ANSWER_BOOK","QUESTION_ANSWER_BOOK"]`.
@@ -177,16 +177,16 @@ GET /tspublic/v1/metadata/details
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
-* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
+* `LOGICAL_RELATIONSHIP` for table or Worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `TAG` for tag objects.
 * `DATA_SOURCE` for data source connections from which the metadata objects were loaded.
 * `USER` for user objects.
 * `USER_GROUP` for user group objects.
 |`id`|__String__. A JSON array of GUIDs of the objects.
-|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
-|`dropquestiondetails`|__Boolean__. When set to `true`, the search assist data associated with a worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
+|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a Worksheet or a table. By default, this attribute is set to `false`.
+|`dropquestiondetails`|__Boolean__. When set to `true`, the search assist data associated with a Worksheet is not included in the API response. This attribute is applicable only for `LOGICAL_TABLE` data type. By default, this attribute is set to `false`.
 |`version` __Optional__|__Long integer__. Object version. By default, the API returns metadata for all versions of the object.
 |`orgScope`|__Optional__. The Org scope. To query user metadata for all Orgs on your cluster, set the Org scope to `ALL`. If the Org scope is not set, ThoughtSpot returns metadata for only the user objects in your current Org context.
 |====
@@ -541,9 +541,9 @@ GET /tspublic/v1/metadata/list
 
 * `QUESTION_ANSWER_BOOK` for answers.
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
-* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_TABLE` for any data object such as a table, Worksheet, or view.
 * `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
-* `LOGICAL_RELATIONSHIP` for table or worksheet joins. A join combines columns from one or several data objects by using matching values.
+* `LOGICAL_RELATIONSHIP` for table or Worksheet joins. A join combines columns from one or several data objects by using matching values.
 * `DATA_SOURCE` for external data source connections that are mapped in ThoughtSpot to support live query of data.
 * `TAG` for tag objects.
 * `USER` for user objects.
@@ -558,7 +558,7 @@ The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types ar
 * For the `LOGICAL_TABLE` metadata object `type`, the valid `subtypes` are:
 
 ** `ONE_TO_ONE_LOGICAL` for tables
-** `WORKSHEET` for worksheets. A worksheet is a collection of related tables.
+** `WORKSHEET` for worksheets. A Worksheet is a collection of related tables.
 ** `USER_DEFINED` for imported data; For example, the tables uploaded from a CSV file.
 ** `AGGR_WORKSHEET` for views. A *View* in ThoughtSpot refers to a table materialized from a saved answer that was saved as a view by a user.
 
@@ -568,8 +568,8 @@ The `QUESTION_ANSWER_SHEET` and `PINBOARD_ANSWER_SHEET` metadata object types ar
 The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 ====
 * For `LOGICAL_COLUMN` and `LOGICAL_RELATIONSHIP` metadata object types, the valid `subtypes` include:
-** `FORMULA` to query a list of formulas applied to a worksheet column.
-** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a worksheet.
+** `FORMULA` to query a list of formulas applied to a Worksheet column.
+** `CALENDAR_TYPE` to query the type of calendar used by the DATE TYPE column in a Worksheet.
 ** `CALENDAR_TABLE` to query columns that have a custom calendar configured.
 
 |`ownertypes` __Optional__|__String__. A JSON array of owner types for metadata object subtypes such as `ONE_TO_ONE_LOGICAL`, `WORKSHEET`, `USER_DEFINED`, and `AGGR_WORKSHEET`.
@@ -595,7 +595,7 @@ The `PRIVATE_WORKSHEET` metadata `subtype` is deprecated.
 |`batchsize` __Optional__|__Integer__. The batch size of the objects returned in the API response. A value of -1 implies all items starting from the offset value.
 |`tagname` __Optional__|__String__. A JSON array containing a set of tag names to filter headers by.
 |`pattern` __Optional__|__String__. A pattern to match the name of the metadata object or the username associated with the object. This parameter supports matching case-insensitive strings. For a wildcard match, use `%`.
-|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a worksheet or a table. By default, this attribute is set to `false`.
+|`showhidden` |__Boolean__. When set to `true`, returns details of the hidden objects, such as a column in a Worksheet or a table. By default, this attribute is set to `false`.
 |`skipids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to exclude.
 |`fetchids` __Optional__|__String__. A JSON array containing the GUIDs of the metadata objects that you want to fetch.
 |`auto_created` __Optional__|__Boolean__. A flag to indicate whether to list only the auto-created objects. A value of null returns all objects.

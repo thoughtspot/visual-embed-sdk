@@ -18,7 +18,7 @@ The xref:tml-api.adoc#import[`/tspublic/v1/metadata/tml/import`] endpoint now su
 
 APIs for Orgs::
 
-This release introduces new REST v1 API endpoints and object properties to support Org operations on a multi-tenant cluster.
+This release introduces new REST API v1 endpoints and object properties to support Org operations on a multi-tenant cluster.
 
 Org API endpoints;;
 For multi-tenant clusters with Orgs, ThoughtSpot provides new endpoints to allow CRUD operations for Org objects.
@@ -27,7 +27,6 @@ For more information, see xref:org-api.adoc[Org API] and xref:org-manage-api.ado
 
 Session API endpoints;;
 If the Orgs feature is enabled and Orgs are created on your cluster, the cluster administrators can use the `/tspublic/v1/session/orgs` to xref:session-api#orgSwitch[Switch between Orgs].
-
 +
 For deployments with the trusted authentication framework, you can use the `/tspublic/v1/session/auth/token` API endpoint lets you xref:session-api.adoc#session-authToken[create a user just-in-time and dynamically assign Orgs, groups, and privileges to that user].
 
@@ -81,7 +80,7 @@ For more information, see xref:pinboarddata.adoc[Liveboard data API].
 
 == Version 8.2.0.cl, April 2022
 
-New REST v1 API endpoints for data connection queries: +
+New REST API v1 endpoints for data connection queries: +
 
 * `xref:connections-api.adoc#connMetadata[*POST* /tspublic/v1/connection/fetchConnection]` +
 * `xref:connections-api.adoc#fetchLiveColums[*POST* /tspublic/v1/connection/fetchLiveColumns]` +

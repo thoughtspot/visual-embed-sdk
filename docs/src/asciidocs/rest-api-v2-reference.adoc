@@ -1,12 +1,750 @@
-= REST API v2 Reference
+= REST API v2.0 Reference
 :toc: true
+
 
 :page-title: REST API Reference Guide
 :page-pageid: rest-apiv2-reference
 :page-description: REST API Reference
 
-The REST v2 API endpoints[beta betaBackground]^Beta^ are categorized based on the type of object they operate on. The REST v2 framework includes the following resource collections and endpoints.
+This API Reference page lists the REST API v2.0 endpoints and provides basic information about the resource URLs and supported operations. If you want to try out these APIs, view detailed documentation, and download code samples, visit the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
 
+[NOTE]
+====
+Access to ThoughtSpot data is controlled based on xref:api-user-management.adoc#group-privileges[user privileges] and xref:configure-user-access.adoc#_object_level_permissions[object-level permissions]. Some operations are available to all users and may require at least view access to the metadata object. ThoughtSpot users are assigned access privileges based on the group to which they belong. Additionally, object owners can control access to a metadata object using `MODIFY` (*Can edit*), `READ_ONLY` (*Can view*), or `NO_ACCESS` permission when sharing an object with other users and groups.
+====
+
+== Authentication
+
+[div divider]
+--
++++<h4> Get current user information</h4>+++
+
+`GET /api/rest/2.0/auth/session/user` +
+
+Gets session information for the currently logged-in user.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+[div divider]
+--
++++<h4>Login</h4>+++
+
+`POST /api/rest/2.0/auth/session/login` +
+
+Creates a login session for a ThoughtSpot user.
+
+If the login is successful, a user session is established.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Get authentication token</h4>+++
+
+* `POST /api/rest/2.0/auth/token/object`
++
+Gets an authentication token from ThoughtSpot, which allows access to a specific metadata object in ThoughtSpot. The token obtained from this API call provides only view access to the object specified in the API request.
++
+** To obtain a bearer token, specify the username, password, and object ID in the API request.
+** To obtain a token on behalf of a user, specify the username, secret key, and object ID.
++
+__Requires administrator privileges__.
+
+
+* `POST /api/rest/2.0/auth/token/full`
++
+Gets an authentication token from ThoughtSpot, which provides access to full application.
++
+** To obtain a bearer token, specify the username and password in the API request.
+** To obtain a token on behalf of a user, specify the username and secret key.
++
+__Requires administrator privileges__.
+
+[NOTE]
+====
+You can copy the `secret key` from *Develop* > *Customizations* > *Security Settings* page if xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication] is enabled on your instance.
+====
+
++++ <h5>Just-in-time user provisioning</h5> +++
+
+The `/api/rest/2.0/auth/token/object` and `/api/rest/2.0/auth/token/full` API endpoints also let you provision a user just-in-time (JIT) and assign the new user to Orgs and groups. If a user is not available in ThoughtSpot, administrators can create a user profile by setting `auto_create` to `true`, and provision the user to an Org and groups in an Org.
+
+For more information, see xref:authentication.adoc[REST API v2.0 authentication].
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Logout</h4>+++
+
+`POST /api/rest/2.0/auth/session/logout` +
+
+Logs out the currently logged-in user.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Revoke token</h4>+++
+
+`POST /api/rest/2.0/auth/token/revoke` +
+
+Revokes authentication token granted for a user.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Users
+
+[div divider]
+--
++++<h4>Search users</h4>+++
+
+`POST /api/rest/2.0/users/search`
+
+Gets user details. You can get the details of a specific user or all user objects available in the ThoughtSpot system.
+You can also filter the API output based on groups, Org ID, visibility, account status, user type, and user preference settings.
+
+__Available to all users. Does not require administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Create a user</h4>+++
+
+`POST /api/rest/2.0/users/create`
+
+Creates a user in ThoughtSpot. This API also supports the following operations: +
+
+* add the email address of the user
+* add the user to xref:orgs.adoc[Orgs] and groups.
+* set account status
+* define sharing visibility
+* set a default Liveboard for the user
+* add Liveboard, Answer, and Worksheet objects to the user's favorites list
+* set user preferences to start or stop onboarding walkthrough, and receive an email notification when another user shares an object
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Update a user</h4>+++
+
+`POST /api/rest/2.0/users/{user_identifier}/update`
+
+Allows modifying the properties of a user object.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Delete a user</h4>+++
+
+`POST /api/rest/2.0/users/{user_identifier}/delete`
+
+Deletes a user from ThoughtSpot.
+
+[NOTE]
+====
+In the current release, deleting a user removes the user from ThoughtSpot. If you want to remove a user from a specific Org, update the group and Org mapping properties of the user object via a `POST` API call to the `/api/rest/2.0/users/{user_identifier}/update` endpoint.
+====
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Import users</h4>+++
+
+`POST /api/rest/2.0/users/import`
+
+Allows importing user data from external databases into ThoughtSpot.
+
+__Requires administrator privileges__.
+
+During this operation:
+
+* If the specified users are not available in ThoughtSpot, the users are created and assigned a default password. The `default_password` definition in the API request is optional.
+* If the `delete_unspecified_users` property is set to `true`, users not specified in the API request, excluding `tsadmin`, `guest`, `system` and `su` users, are deleted.
+* If the specified user objects are already available in ThoughtSpot, the object properties of these users are modified and synchronized as per the input data in the API request.
+
+A successful API call returns the object that represents the changes made in the ThoughtSpot system.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Change password</h4>+++
+
+`POST /api/rest/2.0/users/change_password`
+
+Allows ThoughtSpot users to change the password of their account. Administrators can also change the password on behalf of a user.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Reset password</h4>+++
+
+`POST /api/rest/2.0/users/reset_password`
+
+Resets a user's password.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Force logout</h4>+++
+
+`POST /api/rest/2.0/users/force_logout`
+
+Forces logout on user sessions.
+
+[WARNING]
+* Use this API with caution as it may invalidate active user sessions and force users to re-login.
+* Make sure you specify the usernames or GUIDs. If you pass null values in the API call, all user sessions on your cluster become invalid, and the users are forced to re-login.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== System
+
+[div divider]
+--
++++<h4>Get system information</h4>+++
+
+`GET /api/rest/2.0/system`
+
+Gets system information of your current logged-in cluster.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Get System Config</h4>+++
+
+`GET /api/rest/2.0/system`
+
+Gets details of the current configuration running on your cluster.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Orgs
+
+You can perform CRUD operations on Org objects if the Orgs feature is enabled on your cluster. For Org operations, cluster administration privileges are required.
+
+[NOTE]
+====
+* In the current release, REST API v2.0 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST API v2 endpoints via a Web browser, Postman, or other such tools.
+* Before you perform any operation on the objects in an Org, make sure you use the token issued by ThoughtSpot for that specific Org.
+====
+
+[div divider]
+--
++++<h4>Search Orgs</h4>+++
+
+`POST /api/rest/2.0/orgs/search`
+
+Gets Org objects from ThoughtSpot. To filter the API output based on Org status, visibility, and user association, set `visibility`, `status`, and `user_identifiers` properties in your API request.
+
+__Requires cluster administration privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Create an Org</h4>+++
+
+`POST /api/rest/2.0/orgs/create`
+
+Creates an Org object.
+
+__Requires cluster administration privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Update an Org</h4>+++
+
+`POST /api/rest/2.0/orgs/{org_identifier}/update`
+
+Modifies the object properties of an Org.
+
+__Requires cluster administration privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Delete an Org</h4>+++
+
+`POST /api/rest/2.0/orgs/{org_identifier}/delete`
+
+Deletes an Org object from ThoughtSpot.
+
+__Requires cluster administration privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Tags
+
+API endpoints for CRUD operations on tag objects and metadata association.
+
+[div divider]
+--
++++<h4>Search tags</h4>+++
+
+`POST /api/rest/2.0/tags/search`
+
+Gets details of tag objects from ThoughtSpot.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Create a tag</h4>+++
+
+`POST /api/rest/2.0/tags/create`
+
+Creates a tag object in ThoughtSpot.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Update a tag</h4>+++
+
+`POST /api/rest/2.0/tags/{tag_identifier}/update`
+
+Modifies the object properties of a tag.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Delete a tag</h4>+++
+
+`POST /api/rest/2.0/tags/{tag_identifier}/delete`
+
+Deletes a tag object from ThoughtSpot.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Assign a tag</h4>+++
+
+`POST /api/rest/2.0/tags/assign`
+
+Assigns a tag to metadata objects.
+
+__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+[div divider]
+--
++++<h4>Unassign a tag</h4>+++
+
+`POST /api/rest/2.0/tags/unassign`
+
+Removes the tag assigned to a metadata object.
+
+__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+== Groups
+
+API endpoints for CRUD operations on groups objects and groups data import from external databases.
+
+[div divider]
+--
++++<h4>Search groups</h4>+++
+
+`POST /api/rest/2.0/groups/search`
+
+Gets the details of group objects from ThoughtSpot. You can get the details of a specific group or all groups available in the ThoughtSpot system. You can also filter the API output based on user association, privileges, Org ID, visibility, and group type.
+
+__Available to all users. Does not require administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Create a group</h4>+++
+
+`POST /api/rest/2.0/groups/create`
+
+Creates a user in ThoughtSpot. This API also supports the following operations: +
+
+* assign privileges
+* add users
+* define sharing visibility
+* add sub-groups
+* set a default Liveboard for the users in a group
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Update a group</h4>+++
+
+`POST /api/rest/2.0/groups/{group_identifier}/update`
+
+Allows modifying the object properties of a group. You can also use this API to add or remove users, groups, and privileges.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Delete a group</h4>+++
+
+`POST /api/rest/2.0/users/{user_identifier}/delete`
+
+Deletes a group from ThoughtSpot.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Import groups</h4>+++
+
+`POST /api/rest/2.0/groups/import`
+
+Allows importing group objects from external databases into ThoughtSpot.
+
+__Requires administrator privileges__.
+
+During this operation:
+
+* If the specified group is not available in ThoughtSpot, it will be added to ThoughtSpot.
+* If the `delete_unspecified_groups` property is set to `true`, the groups not specified in the API request, excluding administrator and system user groups, are deleted.
+* If the specified groups are already available in ThoughtSpot, the object properties of these groups are modified and synchronized as per the input data in the API request.
+
+A successful API call returns the object that represents the changes made in the ThoughtSpot system.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Metadata
+
+API endpoints for querying metadata objects, importing and exporting TML representation of metadata objects, and deleting metadata objects.
+
+[div divider]
+--
++++<h4>Search metadata objects</h4>+++
+
+`POST /api/rest/2.0/metadata/search`
+
+Gets details of metadata objects from ThoughtSpot.
+
+__Requires at least view access to metadata objects. The `USER` and `USER_GROUP` metadata object queries require administrator privileges__.
+
+* To fetch data for a metadata object, specify the object ID and type.
+* To fetch data for a specific object type, for example, Liveboard or saved Answer, specify an object type from the `type` list:
+
+** `LIVEBOARD` for Liveboards
+** `ANSWER` for saved Answer object
+** `CONNECTION` for data connections
+** `TAG` for tag objects
+** `USER` for user objects
+** `USER_GROUP` for groups
+** `LOGICAL_TABLE` for worksheets, tables and views.
+** `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+** `LOGICAL_RELATIONSHIP` for table and worksheet joins
+
+[NOTE]
+====
+Searching by metadata sub-types such as `CALENDAR_TYPE` and `FORMULA` is not supported in REST API v2.0.
+====
+
+The search metadata API allows you to define several parameters to filter the output. For example, you can filter objects created or modified by specific users, or based on the tags assigned to an object. Similarly, you can exclude or include dependent, hidden, and incomplete objects in the output.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Fetch SQL query details for a Liveboard</h4>+++
+
+`POST /api/rest/2.0/metadata/liveboard/sql`
+
+Gets SQL query data for the visualizations on a Liveboard.
+
+__Requires at least view access to Liveboard__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Fetch SQL query details for an Answer</h4>+++
+
+`POST /api/rest/2.0/metadata/answer/sql`
+
+Gets SQL query data for a saved Answer.
+
+__Requires at least view access to the Answer object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Import metadata objects</h4>+++
+
+`POST /api/rest/2.0/metadata/tml/import`
+
+Imports TML representation of the metadata objects into ThoughtSpot.
+
+__Requires data management privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Export metadata objects</h4>+++
+
+`POST /api/rest/2.0/metadata/tml/export`
+
+Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML format.
+
+__Requires data management privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Delete metadata objects</h4>+++
+
+`POST /api/rest/2.0/metadata/delete`
+
+Deletes a metadata object from ThoughtSpot.
+
+__Requires edit access to metadata objects__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Reports
+
+API endpoints to download Liveboard or Answer from ThoughtSpot.
+
+[div divider]
+--
++++<h4>Download a Liveboard report</h4>+++
+
+`POST /api/rest/2.0/report/liveboard`
+
+Downloads a Liveboard and its visualizations as a PDF, CSV, XLSX, or PNG file.
+
+__Requires data download privileges and at least view access to the Liveboard object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Download an Answer report</h4>+++
+
+`POST /api/rest/2.0/report/answer`
+
+Downloads the Answer data in PDF, CSV, PNG, or XLSX format.
+
+__Requires data download privileges and at least view access to the Answer object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Security
+
+API endpoints that let you share objects and fetch permission details for metadata objects.
+
+[NOTE]
+====
+By default, the JSON response from the `api/rest/2.0/security/principals/fetch-permissions` and `/api/rest/2.0/security/metadata/fetch-permissions` API calls show `group_permissions` as a null object. To allow ThoughtSpot to return group permission details in the API response, the `groupWisePermissionEnabled` flag must be enabled on your instance. For more information, contact ThoughtSpot Support.
+====
+
+[div divider]
+--
++++<h4>Fetch object permission details for users or groups</h4>+++
+
+`POST /api/rest/2.0/security/principals/fetch-permissions`
+
+Gets a list of objects that a user or group has access to. You can also specify the metadata type to fetch user permission details for Liveboards, Worksheets, or Answers.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Fetch permission details for metadata objects </h4>+++
+
+`POST /api/rest/2.0/security/metadata/fetch-permissions`
+
+Fetches access permission details for metadata objects. To get object access details for a user or group, specify the user or group identifiers.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Transfer object ownership and assign author</h4>+++
+
+`POST /api/rest/2.0/security/metadata/assign`
+
+Assigns a new author or changes the author of a metadata object.
+
+__Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Share metadata objects</h4>+++
+
+`POST /api/rest/2.0/security/metadata/share`
+
+Allows sharing metadata objects, such as Liveboards, saved Answers, and Worksheets with another user or group in ThoughtSpot.
+
+__Requires administrator privileges and at least view access to the metadata object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+== Data
+
+API endpoints to search data from a data source, fetch Liveboard and Answer data.
+
+[div divider]
+--
++++<h4>Search data</h4>+++
+
+`POST /api/rest/2.0/searchdata`
+
+Allows searching data from a data source by passing query strings in the API request.
+
+__Requires data download privileges and at least view access to the data source object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+[div divider]
+--
++++<h4>Fetch Liveboard data</h4>+++
+
+`POST /api/rest/2.0/metadata/liveboard/data`
+
+Gets Liveboard and visualization data from ThoughtSpot.
+
+__Requires data download privileges and at least view access to the Liveboard object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+[div divider]
+--
++++<h4>Fetch Answer data</h4>+++
+
+`POST /api/rest/2.0/metadata/answer/data`
+
+Gets Answer data from ThoughtSpot. You can fetch data for saved Answers only.
+
+__Requires data download privileges and at least view access to the Answer object__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+== Logs
+
+[div divider]
+--
++++<h4>Fetch audit logs</h4>+++
+
+`POST /api/rest/2.0/logs/fetch`
+
+Gets security audit logs from the ThoughtSpot system.
+
+--Requires administrator privileges__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
+
+////
 == Session
 
 --
@@ -25,11 +763,10 @@ Signs in a user to ThoughtSpot.
 
 +++<p class="divider"> </p>+++
 
-////
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/session/login" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
-////
+
 
 
 `**POST** /tspublic/rest/v2/session/gettoken`
@@ -716,89 +1453,6 @@ Retrieves SQL for a visualization on a Liveboard.
 ++++
 --
 
-== Report
-
---
-`*POST* /tspublic/rest/v2/report/answer`
-
-Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/answer-report" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**POST** /tspublic/rest/v2/report/liveboard`
-
-Downloads a given Liveboard and its visualizations as a PDF, CSV, XLSX, or PNF file.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/report/liveboard-report" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
---
-
-== Security
-
-`*POST* /tspublic/rest/v2/security/share/tsobject`
-
-Allows sharing an object with another user or group in ThoughtSpot.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-object" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**POST** /tspublic/rest/v2/security/share/visualization`
-
-Allows sharing a Liveboard visualization  with another user or group in ThoughtSpot.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/share-visualization" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`**GET** /tspublic/rest/v2/security/permission/tsobject`
-
-Gets access permission details for a metadata object.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-on-object" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*GET* /tspublic/rest/v2/security/permission/principal`
-
-Gets a list of objects that the specified user or group has access to.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/get-permission-for-principal" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*POST* /tspublic/rest/v2/security/permission/tsobject/search`
-
-Gets permission details for specific objects, and users and groups who have access to these objects.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-on-objects" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-+++<p class="divider"> </p>+++
-
-`*POST* /tspublic/rest/v2/security/permission/principal/search`
-
-Gets a list objects to which a user or group has `READ_ONLY` or `MODIFY` permissions.
-
-++++
-<a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/security/search-permission-for-principals" id="preview-in-playground" target="_blank">View in Playground</a>
-++++
-
-
 == Custom actions
 
 `*GET* /tspublic/rest/v2/customaction`
@@ -891,10 +1545,12 @@ Gets security audit logs from the ThoughtSpot system.
 ++++
 <a href="{{previewPrefix}}/api/rest/playgroundV2?apiResourceId=/http/api-endpoints/logs/get-log-events" id="preview-in-playground" target="_blank">View in Playground</a>
 ++++
+
 +++<p class="divider"> </p>+++
 --
 
-////
+
+
 == Materialization
 --
 `*PUT* /tspublic/rest/v2/materialization/refreshview`
@@ -912,6 +1568,5 @@ This endpoint is applicable to ThoughtSpot Software deployments only.
 == Database
 
 The Database endpoints are applicable to ThoughtSpot Falcon-based Software deployments only.
-
 
 ////

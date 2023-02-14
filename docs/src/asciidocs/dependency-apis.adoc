@@ -10,14 +10,14 @@ The `tspublic/v1/dependency` endpoints allow you to query dependent objects for 
 
 Dependency in ThoughtSpot is defined as a relation between the referenced and referencing objects. If the referenced object cannot be deleted without first deleting the referencing object, the referenced object is considered as a dependent object.  
 
-Consider a worksheet (`Worksheet1`) that has a derived logical column (`Column1`), which in turn has a reference to a base logical column (`Column2`).
+Consider a Worksheet (`Worksheet1`) that has a derived logical column (`Column1`), which in turn has a reference to a base logical column (`Column2`).
 
 [.widthAuto]
 image::./images/dependency.png[Dependent objects, width=auto]
 
 In this example, `Worksheet1` has a dependency on `Column2`, which means that `Worksheet1` is a referencing object and `Column2` is a referenced object. ThoughtSpot does not allow you to delete `Column2` if you have not deleted `Worksheet1`, because the deletion of `Column2` will be prevented by the relationship between `Worksheet1’s` `Column1` and `Column2`. Similarly, `Column1` has a dependency on `Column2`; that is, `Column1` is a referencing object and `Column2` is a referenced object. You cannot delete `Column2` without first deleting `Column1`.
 
-Before deleting a data object such as a worksheet, table, or column, you must check if it has any dependent objects, and remove its associations.
+Before deleting a data object such as a Worksheet, table, or column, you must check if it has any dependent objects, and remove its associations.
 
 == Data object types
 
@@ -29,7 +29,7 @@ The `tspublic/v1/dependency` endpoint allows you to query and edit dependency fo
 
 * `PINBOARD_ANSWER_BOOK` for Liveboards.
 
-* `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
+* `LOGICAL_COLUMN` for columns of a table, Worksheet, or View.
 
 * `LOGICAL_RELATIONSHIP` for table joins.
 +
@@ -70,7 +70,7 @@ POST /tspublic/v1/dependency/listdependents
 |`type` a|_String_. Type of the data object. Valid values are:
 
 * `LOGICAL_TABLE` for data objects such as tables, worksheets, or views.
-* `LOGICAL_COLUMN` for columns of a table, worksheet, or view.
+* `LOGICAL_COLUMN` for columns of a table, worksheet, or View.
 * `LOGICAL_RELATIONSHIP` for table joins.
 * `PHYSICAL_COLUMN` for physical column objects
 * `PHYSICAL_TABLE` for a physical table
@@ -146,7 +146,7 @@ If the `POST` operation is successful, the API returns a response body with depe
 
 [#get-column-dependents]
 == Get dependent objects for a column
-To get the details of dependent objects for a logical column in a worksheet, table, or view, send a `GET` request to `/tspublic/v1/dependency/logicalcolumn` API endpoint.
+To get the details of dependent objects for a logical column in a worksheet, table, or View, send a `GET` request to `/tspublic/v1/dependency/logicalcolumn` API endpoint.
 
 === Resource URL
 ----
@@ -158,7 +158,7 @@ GET /tspublic/v1/dependency/logicalcolumn
 [options='header']
 |====
 |Query parameter|Description
-|`id`|__Array of strings__. A JSON array of GUIDs of the columns of a table, worksheet, or view.
+|`id`|__Array of strings__. A JSON array of GUIDs of the columns of a Table, Worksheet, or View.
 |====
 
 === Example request
@@ -299,7 +299,7 @@ If the GET operation is successful, the API returns a list of dependent objects 
 
 [#get-table-dependents]
 == Get dependent details for data objects
-To get the details of dependent objects for a worksheet, table, or view, send a `GET` request to the  `/tspublic/v1/dependency/logicaltable` API endpoint.
+To get the details of dependent objects for a Worksheet, Table, or View, send a `GET` request to the  `/tspublic/v1/dependency/logicaltable` API endpoint.
 
 === Resource URL
 ----

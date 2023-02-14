@@ -17,7 +17,7 @@ For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 == REST API
 ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
 
-The REST API v2[beta betaBackground]^Beta^ introduces new endpoints, improved request and response workflows, and an interactive Playground experience.
+The REST API v2 [beta betaBackground]^Beta^ introduces new endpoints, improved request and response workflows, and an interactive Playground experience.
 
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 
@@ -25,7 +25,7 @@ For more information, see xref:about-rest-apis.adoc[REST APIs].
 
 ThoughtSpot Everywhere users with Developer or admin privilege can access the *Develop* tab in the ThoughtSpot UI. The *Visual Embed Playground* allows you to explore the embedding options available with the SDK and view results instantly.
 
-The *Develop* tab also provides separate playgrounds for REST API v1 and REST API v2, and several customization features.
+The *Develop* tab also provides separate playgrounds for REST API v1 and REST API v2.0, and several customization features.
 
 For more information, see xref:spotdev-portal.adoc[ThoughtSpot Developer portal].
 
@@ -36,7 +36,7 @@ If you want to customize the look and feel of ThoughtSpot UI to match your organ
 For more information, see xref:customize-style.adoc[Customize styles and layout].
 
 Custom actions::
-If you want to add a custom action to an embedded visualization or saved answer, use the xref:custom-actions.adoc[Custom actions] menu.
+If you want to add a custom action to an embedded visualization or saved Answer, use the xref:custom-actions.adoc[Custom actions] menu.
 
 Custom link format::
 To customize the host URL and resource path in the system-generated links, use the *Link settings* menu. For example, when your application user shares an embedded Liveboard with another user or group, ThoughtSpot can generate a link with your host application URL and the resource path specified in *Link settings*.

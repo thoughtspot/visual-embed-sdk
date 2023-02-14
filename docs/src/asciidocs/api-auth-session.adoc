@@ -10,15 +10,21 @@ To create, access, and modify ThoughtSpot objects and resources through the REST
 
 When using the REST API through a web browser, ThoughtSpot recommends that you use the xref:configure-saml.adoc[SAML SSO] or xref:trusted-authentication.adoc[trusted authentication] service to authenticate to ThoughtSpot. A successful login using the Visual Embed SDK via either of those two methods will establish the session within the web browser.
 
-== Sign in as a ThoughtSpot user
+== Basic authentication
 
 include::{path}/log-in-api.adoc[]
 
-== Obtain authentication token
+A successful login returns a session cookie that can be used in your subsequent API calls. For more information, see xref:api-auth-session.adoc#sessionCookies[Session cookies for subsequent API calls].
+
+== Trusted authentication
+
+For trusted authentication, you must obtain a token from ThoughtSpot via `/tspublic/v1/session/auth/token` and send it in your login request to the `/tspublic/v1/session/login/token` API endpoint.
+
+=== Obtain a token for trusted authentication
 
 include::{path}/auth-token-api.adoc[]
 
-== Authenticate and log in with a token
+=== Authenticate and log in with a token (trusted authentication)
 
 include::{path}/login-token-api.adoc[]
 

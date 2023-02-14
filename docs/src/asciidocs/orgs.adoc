@@ -11,14 +11,21 @@ If your deployment requires logical separation of departments within your organi
 The following figure illustrates the primary difference between a single-tenant and multi-tenant deployment:
 
 image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
+////
+[IMPORTANT]
+====
+* The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot Support.
+* After you enable the Orgs feature on your instance, you must create *Orgs* for multi-tenancy. If your instance has no *Orgs*, it will function as a single-tenant environment.
+* The Orgs feature __cannot be turned off__. However, if you want to disable multi-tenancy, you can delete all the *Org* objects and revert to single-tenant mode.
+====
+////
 
-The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
 
 [IMPORTANT]
 ====
-* The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support.
-* After you enable the Orgs feature on your instance, you must create an *Org* to activate the multi-tenancy mode. If your instance has no *Orgs*, it will function as a single-tenant environment.
-* The Orgs feature __cannot be turned off__. However, if you want to disable the multi-tenancy mode, you can delete all *Org* objects and revert your instance to the single-tenant mode.
+* The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot Support.
+* Once you enable the Orgs feature on your instance, there will be one non-deletable Org referred to as the *Primary Org* in your instance.
+* After you enable the Orgs feature on a cluster, you can't turn off the ability to create Orgs.
 ====
 
 == Orgs in ThoughtSpot
@@ -99,9 +106,15 @@ __OIDC authentication is supported only if users are already created and mapped 
 a|
 [tag greyBackground]#–#
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
-|Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓#  Data connection creation and management +
+|Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓# Object creation and management +
 
-[tag greenBackground]#✓#  Object creation and management
+[tag greenBackground]#✓#  Data connection creation and management
+
+* __Cluster administrators can create and edit connections in any Org__. +
+* __Org administrators can create and edit their own connections in their respective Org__. +
+* __Starting from 9.0.0.cl, cluster administrators can share connections with Org administrators and also with users who have data management privileges. Org administrators cannot view or edit the connections created by the Cluster administrators if the connection object is shared with them__.
+
+
 | Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
 
 [tag greenBackground]#✓# User mapping to Orgs  +
@@ -120,10 +133,12 @@ Custom actions| [tag greyBackground]#–# |__Custom action creation and group as
 |Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
 |Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
-
+()
 __Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
-|REST API v2[beta blueBackground]^BETA^ endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
+|REST API v2 [beta betaBackground]^Beta^ endpoints +
+(Deprecated from 9.0.0.cl onwards)| [tag greyBackground]#–#| [tag greyBackground]#–#
+|REST API v2.0 endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
 |=====
 
 == Authentication considerations for embedded apps

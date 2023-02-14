@@ -6,7 +6,12 @@
 :page-pageid: Liveboard-new-experience
 :page-description: You can enable the new Liveboard experience on Liveboards embedded using the `LiveboardEmbed` or `AppEmbed` SDK library.
 
-The new Liveboard experience [beta betaBackground]^Beta^ in ThoughtSpot includes several new features and user-experience improvements. The new Liveboard experience is in Beta on embedded instances and is turned off by default. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
+The new Liveboard experience in ThoughtSpot includes several new features and user-experience improvements. Users with developer or administrator privileges can enable the new Liveboard experience at the cluster level and set it as the default experience for all users. Individual application users can also set the Liveboard experience preference on their profile settings page.
+
+[NOTE]
+====
+The new Liveboard experience is Generally Available (GA) on embedded instances starting from 9.0.0.cl.
+====
 
 == Enable new Liveboard experience for all users
 
@@ -21,7 +26,7 @@ If the `liveboardv2` attribute is not set in the SDK, ThoughtSpot will use the L
 The following examples show how to enable the new Liveboard experience on a ThoughtSpot embedded application:
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -33,7 +38,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 ----
 
 +
-[source,javascript]
+[source,JavaScript]
 ----
 const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -75,8 +80,6 @@ The following figure illustrates the menu actions available on a Liveboard page:
 [.widthAuto]
 image:./images/liveboard-exp-diff.png[Liveboard experience comparison]
 
-
-
 == Customize embedded Liveboards
 
 === Customize actions
@@ -103,13 +106,13 @@ To create, edit, or move visualizations to a tab, you require edit access to a L
 Note that each new tab object is assigned a unique GUID.
 * To add a visualization to a tab on a Liveboard, click *Move to tab* from the More image:./images/icon-more-10px.png[the more options menu] menu.
 +
-You can also pin a visualization to a Liveboard tab using the Pin action on the answer page.
+You can also pin a visualization to a Liveboard tab using the Pin action on the Answer page.
 
 ==== Set a tab as an active tab
 
 By default, the first tab created on a Liveboard is set as the home tab. You can set any tab as an active tab using the `activeTabId` property in the Visual Embed SDK as shown in the example here:
 
-[source,javascript]
+[source,JavaScript]
 ----
 const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     frameParams: {
@@ -127,10 +130,7 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
 The `activeTabId` property is available only in the `LiveboardEmbed` package and not supported in the full application embed mode.
 ====
 
-=== Customize visualization tiles [beta betaBackground]^Beta^
-
-ThoughtSpot supports customizing visualization tile size on a Liveboard. This feature is in beta and turned off by default. To enable this feature on your instance, contact ThoughtSpot Support.
-
+=== Customize visualization tiles
 If the custom tile size feature is enabled on your instance, and you have edit access to the Liveboard, you can resize the visualization tiles as described in the following steps:
 
 . Navigate to the Liveboard.
@@ -140,11 +140,11 @@ If the custom tile size feature is enabled on your instance, and you have edit a
 
 === Known issues and limitations
 
-Note the following issues and limitations before you enable new Liveboard experience on your embedded instance:
+Note the following issues and limitations before you enable the new Liveboard experience on your embedded instance:
 
-* Custom actions, particularly __local__ actions, may not show on visualization pages or work as expected.
+* The `Rename` action in the **More** menu image:./images/icon-more-10px.png[the more options menu] of an embedded Liveboard cannot be disabled or hidden using Visual Embed SDK.
 * The `locale` setting translates only some parts of the embedded Liveboard such as the menu action labels.
-* The *Upload TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
+* The *Update from TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

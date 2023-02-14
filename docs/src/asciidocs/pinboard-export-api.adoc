@@ -61,7 +61,7 @@ POST /tspublic/v1/export/pinboard/pdf
 
 To download a Liveboards with unsaved change, pass the `transient_pinboard_content` parameter in the browser fetch request, using the `getExportRequestForCurrentPinboard` method.
 
-[source,javascript]
+[source,JavaScript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
@@ -76,7 +76,7 @@ If the new Liveboard experience is enabled, the transient content includes ad ho
 
 ==== Sample browser fetch request with Visual Embed SDK
 
-[source,javascript]
+[source,JavaScript]
 ----
 < iframe src = "http://ts_host:port/" id = "ts-embed" > </iframe>
 < script src="/path/to/liveboard.js" > < /script>
@@ -101,7 +101,7 @@ If the new Liveboard experience is enabled, the transient content includes ad ho
 
 This example calls the `getExportRequestForCurrentPinboard` function from the `api.js` file used in the legacy embed method.
 
-[source,javascript]
+[source,JavaScript]
 ----
 < iframe src = "http://ts_host:port/" id = "ts-embed" > < /iframe>
 < script src = "/path/to/ts-api.js" > < /script>
@@ -132,7 +132,7 @@ Make sure the API request has the following headers:
 .cURL
 [source,curl]
 ----
- curl --location --request POST 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/export/pinboard/pdf' \
+ curl --location --request POST 'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/export/pinboard/pdf' \
 --header 'Content-Type: multipart/form-data \
 --header 'Accept: application/octet-stream' \
 --header 'X-Requested-By: ThoughtSpot' \
@@ -151,7 +151,7 @@ Make sure the API request has the following headers:
 
 [source,html]
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/export/pinboard/pdf
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/export/pinboard/pdf
 ----
 
 == Example response
@@ -165,7 +165,7 @@ You can modify the API's output by passing runtime filters as parameters in the 
 For example:
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/export/pinboard/pdf?col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/export/pinboard/pdf?col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
 ----
 
 You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.

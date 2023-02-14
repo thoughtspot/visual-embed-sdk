@@ -43,7 +43,7 @@ SearchEmbed::
 
 Use this package to xref:embed-search.adoc[embed the ThoughtSpot search page components].
 +
-The **SearchEmbed** component allows you to embed the search bar and data panel. You can load it with a pre-selected data source and let your users define search keywords or show a set of example search tokens on load, either from a datasource or an existing saved answer. +
+The **SearchEmbed** component allows you to embed the search bar and data panel. You can load it with a pre-selected data source and let your users define search keywords or show a set of example search tokens on load, either from a datasource or an existing saved Answer. +
 +
 In all cases, the search bar will appear along with full capabilities to edit search tokens and the resulting chart or table.
 
@@ -57,9 +57,9 @@ The **SearchBarEmbed** component allows you to embed only the ThoughtSpot Search
 LiveboardEmbed::
 Use this package to embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[Liveboards].
 +
-You can use the **LiveboardEmbed** component to embed a full Liveboard with multiple answers, as well as a specific answer on a Liveboard without the search bar. These answers are referred to as Liveboard visualizations. +
+You can use the **LiveboardEmbed** component to embed a full Liveboard with multiple answers, as well as a specific Answer on a Liveboard without the search bar. These answers are referred to as Liveboard visualizations. +
 +
-Although you can use a saved answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a Liveboard using the `liveboardId` and `vizId` properties of LiveboardEmbed.
+Although you can use a saved Answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved Answer. However, you can embed a specific visualization from a Liveboard using the `liveboardId` and `vizId` properties of LiveboardEmbed.
 
 AppEmbed::
 Use this package to embed xref:full-embed.adoc[the full ThoughtSpot application].
@@ -69,7 +69,7 @@ Use this package to embed xref:full-embed.adoc[the full ThoughtSpot application]
 
 After importing the package, specify the hostname or IP address of your ThoughtSpot application instance and the authentication type.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",

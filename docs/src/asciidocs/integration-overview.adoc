@@ -11,7 +11,7 @@ ThoughtSpot recommends that you browse through the following guidelines before e
 
 The ThoughtSpot Visual Embed SDK includes a Javascript library to programmatically embed search, Liveboards, visualizations, and or the full ThoughtSpot experience.
 
-In addition to the Visual Embed SDK, ThoughtSpot provides REST APIs to query data from the ThoughtSpot application. For example, you can construct a search answer using the data APIs and use this link to embed search answers with your application.
+In addition to the Visual Embed SDK, ThoughtSpot provides REST APIs to query data from the ThoughtSpot application. For example, you can construct a search Answer using the data APIs and use this link to embed search answers with your application.
 
 Irrespective of the method you use for embedding, make sure you define your application workflows and authentication criteria to enable seamless navigation between the host and embedded interfaces.
 

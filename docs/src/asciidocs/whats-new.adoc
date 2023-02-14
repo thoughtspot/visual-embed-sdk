@@ -8,57 +8,153 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Upcoming changes (Version 9.2.0.cl and later)
+
+=== Cross-filters and contextual menu changes
+
+Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently opens on right-clicking a data point on a visualization will appear as a __left-click-triggered__ pop-up menu. This change makes features like *Drill down* more easily discoverable and improves the user experience for those accessing ThoughtSpot on touch devices.
+
+If your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, once you activate the Cross-filters feature, you will notice that the `VizPointClick` event is triggered whenever a user clicks a contextual menu action, such as *Drill down* or *Filter*.
+
+If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the contextual menu may impact your app’s current workflow. To avoid this issue, use the following settings in the Visual Embed SDK v1.21.0 and later:
+
+Define your preferred settings for the contextual menu::
+By default, the contextual menu will open when a user left-clicks on a data point. You can force your app to open the contextual menu as a right-click menu by setting the `ContextMenuTrigger` property to `right-click` in the SDK. This will allow your app to fire the `VizPointClick` event as per your current workflow.
+
+Turn off cross-filters::
+You can turn off the cross-filters feature by setting `Action.CrossFilter` and `Action.RemoveCrossFilter` as hidden attributes in the SDK. For more information about hiding a menu action, see xref:embed-actions.adoc[Show or hide menu items].
+
+Use VizPointRightClick to monitor right-click events::
+To listen to the right-click events on a chart or table, use the `EmbedEvent.VizPointRightClick` event.
+
+We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
+
+== Version 9.0.0.cl
+
+=== New Liveboard experience
+
+The xref:enable-liveboardv2.adoc[new Liveboard experience] is now Generally Available (GA) on embedded instances and is enabled by default.
+
+=== New CSS variables for custom styling
+
+The CSS customization feature supports new variables to customize the look and feel of the following UI elements:
+
+* Search bar and navigation panel
+* Search suggestion panel
+* Dialogs
+
+For more information, see xref:css-customization.adoc[Customize CSS].
+
+=== REST API v2.0 endpoints and Playground
+
+Starting with 9.0.0.cl, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. A set of new endpoints are now generally available (GA) on all ThoughtSpot instances.
+
+The new REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
+
+[IMPORTANT]
+====
+* All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated, but remain functional until further notice. The REST API SDK that was available with REST API v2 [beta betaBackground]^Beta^ version is no longer supported. +
+ThoughtSpot does not recommend using REST API v2 [beta betaBackground]^Beta^ endpoints for production use cases. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
+* The new REST API v2.0 endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, endpoint URIs, and the structure of API requests and responses are different from those of the REST API v2 [beta betaBackground]^Beta^ version.
+* Some API operations such as the CRUD operations for data connections and passing runtime filters on Liveboard visualizations are not available in the initial release. For more information, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison] and xref:rest-api-v2-reference.adoc[REST API v2.0 reference].
+* For Org CRUD operations in production environments, ThoughtSpot recommends using xref:org-manage-api.adoc[REST API v1 endpoints].
+====
+
+=== Early access features
+
+Starting from 9.0.0.cl, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
+
+The 9.0.0.cl release introduces the following Early Access features:
+
+* Custom maps
++
+Allows uploading map files (TopoJSON) to configure custom regions and visualize data on these regions. For more information, see link:https://docs.thoughtspot.com/cloud/latest/geomaps-custom[Upload custom geo maps, window=_blank].
+
+* Mandatory filters
++
+Allows setting certain filters as mandatory on a Liveboard. For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-filters-mandatory[Mandatory Liveboard filter, window=_blank].
+
+* Chart configuration experience
++
+Allows making multiple edits to a chart configuration and applying all changes at once. For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-x-axis[Reorder labels on the axis or legend, window=_blank].
+
+* Chart data labels
++
+Allows displaying data labels in a lighter color on charts with a dark background. For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-data-labels[Show data labels, window=_blank].
+
+=== Visual Embed SDK version 1.19.0
+
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.19.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog].
+
+////
+=== GraphQL Playground[beta betaBackground]^Beta^
+
+In 9.0.0.cl, the *Develop* tab in ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations.
+////
+
+
 == Version 8.10.0.cl
 
-=== Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
+.Ability to embed only the Search bar in an app [beta betaBackground]^Beta^
+[%collapsible]
+====
 You can now embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
 
 For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
+====
 
-=== Advanced style customization with custom CSS
-
+.Advanced style customization with custom CSS
+[%collapsible]
+====
 The CSS customization feature supports new variables to customize the look and feel of the following UI elements:
 
 * Search data button in the navigation panel
 * Font type and text style of search tokens
-* Data panel on the Search and saved answer pages
-* Filter chips on Liveboard, visualizations, and answer pages
+* Data panel on the Search and saved Answer pages
+* Filter chips on Liveboard, visualizations, and Answer pages
 * Menu components
 * X-axis and Y-axis titles and labels on charts
 
 For more information, see xref:css-customization.adoc[Customize CSS].
+====
 
-=== CSP allowlist for font, image and stylesheet sources
-
+.CSP allowlist for font, image and stylesheet sources
+[%collapsible]
+====
 You can now enable CSP overrides for font, stylesheet, and image sources in ThoughtSpot UI. If you want to load fonts, stylesheets, images, or favicons from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page.
 
 For more information, see xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[Security Settings].
+====
 
-=== Multi-tenancy with Orgs
-
+.Multi-tenancy with Orgs
+[%collapsible]
+====
 You can now set up your ThoughtSpot Cloud instance as a multi-tenant cluster and partition it into logical and isolated workspaces called *Orgs*. Each Org can have its own users, groups, and metadata, and stay independent of and invisible to other Orgs configured on the same application instance.
 
-[IMPORTANT]
-====
-* The Orgs feature is turned off by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot support. +
-* After the Orgs feature is enabled, you cannot disable it, or revert your cluster to its previous state. However, your environment remains a single-tenant environment until you create an Org. +
-If you don't want to use the multi-tenant mode at any time, you can delete the Orgs created on your instance and reset your cluster to single-tenant mode.
-====
-
 For more information, see xref:orgs.adoc[Multi-tenancy with Orgs].
+====
 
-=== Visual Embed SDK version 1.18.0
-
+.Visual Embed SDK version 1.18.0
+[%collapsible]
+====
 For information about the new features and enhancements introduced in Visual Embed SDK version 1.18.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-=== REST API
-
+.REST API
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+====
 
 == Version 8.9.0.cl
 
-=== Improvements to authentication methods and AuthType enums in the SDK
-
+.Improvements to authentication methods and AuthType enums in the SDK
+[%collapsible]
+====
 The following changes are introduced in the Visual Embed SDK to improve the authentication framework and options for embedded application users:
 
 * New auth type enum for embedded SSO authentication
@@ -71,13 +167,16 @@ The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded insta
 ** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
 
 For more information, see xref:embed-authentication.adoc[Authentication].
+====
 
-=== Just-in-time user creation and dynamic privilege assignment
-
+.Just-in-time user creation and dynamic privilege assignment
+[%collapsible]
+====
 Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
-
-=== Advanced style customization [beta betaBackground]^Beta^
-
+====
+.Advanced style customization [beta betaBackground]^Beta^
+[%collapsible]
+====
 ThoughtSpot now allows you to override style specifications of the embedded UI pages and elements with custom CSS. Custom CSS provides granular control over the design elements and lets you modify the properties of these elements
 to match the look and feel of your host application.
 
@@ -85,34 +184,43 @@ To help users visualize and preview the CSS overrides, the *Visual Embed* playgr
 
 For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS using SDK].
 
-=== Visual Embed SDK version 1.17.0
-
+====
+.Visual Embed SDK version 1.17.0
+[%collapsible]
+====
 For information about the new features and enhancements introduced in Visual Embed SDK version 1.17.0, see xref:api-changelog.adoc[Visual Embed changelog].
-
-=== REST API
-
+====
+.REST API
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
+====
 
 == Version 8.8.0.cl
 
-=== Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
-
+.Custom tile size for visualizations on a Liveboard (New Liveboard experience only)
+[%collapsible]
+====
 ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
 
 This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
-
-=== Visual Embed SDK version 1.16.0
-
-For information about the new features and enhancements in the Visual Embed SDK version 1.16.0, see xref:api-changelog.adoc[Visual Embed changelog].
-
-=== REST API v1
-
+====
+.Visual Embed SDK version 1.16.0
+[%collapsible]
+====
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.16.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
+.REST API v1
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API changelog].
-
-=== Bug fixes and improvements
-
+====
+.Bug fixes and improvements
+[%collapsible]
+====
 Bug fixes and new improvements in embedded user experience. +
 For more information, see xref:fixed-issues.adoc[Fixed issues].
+====
 
 == Version 8.7.0.cl
 
@@ -141,7 +249,7 @@ For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.ad
 .REST API v2 [beta betaBackground]^Beta^
 [%collapsible]
 ====
-The REST v2 API [beta betaBackground]^Beta^ feature will be deprecated in 8.10.0.cl and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+The REST API v2 [beta betaBackground]^Beta^ feature will be deprecated in 8.10.0.cl and replaced with the new v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
 ====
 
 == Version 8.6.0.cl
@@ -215,7 +323,7 @@ For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[
 .Search Assist support for embedded instances
 [%collapsible]
 ====
-Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the Worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
 
 For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 ====
@@ -241,7 +349,7 @@ While some customizable actions from the Visual Embed SDK will be honored from w
 .Link customization
 [%collapsible]
 ====
-This release allows query parameters in the Liveboard, saved answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
+This release allows query parameters in the Liveboard, saved Answer, and visualization URLs that are customized for an embedded ThoughtSpot instance. For example, you can customize the *Unsubscribe* link sent in email notifications for KPI charts by adding `{ts-query-params}` to the visualization URL, and thus allow users to unsubscribe from KPI threshold alerts at any time.
 
 For more information, see xref:customize-links.adoc[Customize links].
 ====
@@ -259,7 +367,7 @@ The Visual Embed SDK version 1.12.0 introduces new events. For more information,
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST v2 [beta betaBackground]^Beta^ endpoints: +
+|[tag greenBackground]#NEW ENDPOINTS#  a| This release introduces the following new REST API v2 [beta betaBackground]^Beta^ endpoints: +
 
 * Data +
 ** `*GET* /tspublic/rest/v2/data/answer/querysql` +
@@ -287,7 +395,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 [width="100%" cols="1,4"]
 |====
 ||
-|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2[beta betaBackground]^Beta^ endpoints are now available:
+|[tag greenBackground]#NEW ENDPOINTS#  a| The following REST API v2 [beta betaBackground]^Beta^ endpoints are now available:
 
 * Connection endpoints +
 ** `GET /tspublic/rest/v2/connection/database` +
@@ -312,7 +420,7 @@ The Visual Embed SDK version 1.11.0 introduces several new events for embedded c
 ** `DELETE /tspublic/rest/v2/customactions/association/delete`
 
 |[tag orangeBackground]#MODIFIED# a|
-* The `x-requested-by` header is not mandatory in REST v2 [beta betaBackground]^Beta^ API calls.
+* The `x-requested-by` header is not mandatory for API requests to the REST API v2 [beta betaBackground]^Beta^ endpoints.
 * The `createdBy` attribute in the `/tspublic/rest/v2/metadata/header/search` API is renamed to `author`.
 * The attributes with the `boolean` data type in the API endpoints are changed to `string` data type. If a boolean attribute was set as `true` in your existing setup, the value will be changed to `"true"`.
 |[tag redBackground]#BREAKING CHANGES# a|
@@ -355,7 +463,7 @@ The Visual Embed SDK version 1.10.x introduces new attributes and bug fixes. For
 .REST API v1
 [%collapsible]
 ====
-New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
+New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog].
 ====
 
 .REST API v2 [beta betaBackground]^Beta^
@@ -367,7 +475,7 @@ Starting from 8.2.0.cl release, the xref:rest-api-v2.adoc[REST API Playground an
 The 8.2.0.cl release also introduces the following features:
 
 Endpoint URL path::
-The REST v2 API endpoint URL path is changed from `/api/rest/v2` to `/tspublic/rest/v2/`. For example, the `GET /api/rest/v2/connection` endpoint is now available as `GET /tspublic/rest/v2/connection`.
+The REST API v2 [beta betaBackground]^Beta^ endpoint URL path is changed from `/api/rest/v2` to `/tspublic/rest/v2/`. For example, the `GET /api/rest/v2/connection` endpoint is now available as `GET /tspublic/rest/v2/connection`.
 
 Trusted authentication::
 If trusted authentication is enabled on your instance, you can now obtain a login token to authenticate to ThoughtSpot and authorize your API requests.
@@ -392,7 +500,7 @@ New API endpoints::
 * `POST /tspublic/rest/v2/report/answer`
 * `GET /tspublic/rest/v2/logs/events`
 
-For more information, see xref:rest-api-v2-reference.adoc[REST API v2 Reference].
+For more information, see xref:rest-api-v2-reference-beta.adoc[REST API v2 Reference].
 
 ====
 
@@ -496,7 +604,7 @@ For more information, see xref:events-ref.adoc[Events reference].
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>REST API Playground and SDK</h5> +++
 
-ThoughtSpot introduces the REST v2 framework with new API endpoints and an interactive Playground to explore the API request and response workflows.
+ThoughtSpot introduces the v2 [beta betaBackground]^Beta^ version of REST API endpoints and an interactive Playground to explore the API request and response workflows.
 
 The API Playground offers several distinct features, such as an interactive code panel, a catalog of resource-oriented endpoint URLs, language-specific SDK and client libraries, code samples, and API reference documentation.
 
@@ -532,7 +640,7 @@ As part of rebranding, we have made some terminology changes in the ThoughtSpot 
 |====
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom action association to user groups</h5> +++
 
-ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a worksheet, answer, or visualization.
+ThoughtSpot now allows you to restrict a custom action's availability to specific user groups. Developers can associate a custom action to one or several user groups in the Developer portal and allow only authorized users to view and access the custom action on a Worksheet, Answer, or visualization.
 
 For more information, see xref:customize-actions-menu.adoc#access-control[Custom actions] and xref:custom-actions-url.adoc[Configure a custom URL action].
 |====
@@ -632,9 +740,9 @@ If you have created custom actions with the *Only allow in context menu* setting
 +
 You can xref:custom-actions-edit.adoc[modify the position of this action] by using the *Edit* option in the *Custom actions* panel on a visualization or search results page.
 
-* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled and the action is already assigned to a Worksheet, visualization, chart, or table, the configuration setting _is_ preserved and the custom action shows up in the contextual menu.
 
-* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+* If you have a *Local* custom action with the *Only allow in context menu* setting enabled, but it is not assigned to a Worksheet, visualization, chart, or table, the action will not be available as a menu item or button. You must add the action to a visualization, chart, or table, and configure its position as required. For more information, see xref:custom-actions-viz.adoc[Add a custom action to a visualization] and xref:custom-actions-Worksheet.adoc[Add custom actions to a Worksheet].
 
 |====
 ====
@@ -745,7 +853,7 @@ For more information, see xref:prefetch-and-cache.adoc[Prefetch static resources
 
 |[tag greenBackground]#NEW FEATURE# a|+++<h5>+++In-app page navigation+++</h5>+++
 
-The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
+The `navigateToPage` method in the SDK lets you provide quick and direct access to a specific pinboard, saved Answer, or an application page. You can add a custom menu action or button in your application UI that calls the `navigateToPage` method and leads your users to the page specified in the `path` parameter.
 
 For more information, see xref:page-navigation.adoc[Add a custom action for in-app navigation].
 
@@ -828,11 +936,11 @@ The ThoughtSpot 7 Cloud September release includes the following new endpoints a
 ||
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Custom actions for worksheets</h5>+++
 
-The worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a worksheet and place them as primary actions or menu items in the new visualizations built from that worksheet.
+The Worksheet pages now include a `Custom actions` tab that shows the custom actions created in the Developer portal. ThoughtSpot users can add these  actions to a Worksheet and place them as primary actions or menu items in the new visualizations built from that Worksheet.
 
-This feature is available to all ThoughtSpot users who have edit privileges to a worksheet.
+This feature is available to all ThoughtSpot users who have edit privileges to a Worksheet.
 
-For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a worksheet].
+For more information, see xref:custom-actions-worksheet.adoc[Add custom actions to a Worksheet].
 
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Query parameters for URL-based custom actions</h5>+++
 
@@ -885,11 +993,11 @@ You can now convert query parameters in the ThoughtSpot generated URLs to base64
 
 * The  data structure passed in the custom action response for search now shows as `payload.data.embedAnswerData` instead of `payload.data.columnsAndData`.
 
-* The answer payload for custom actions includes the following metadata:
+* The Answer payload for custom actions includes the following metadata:
 
 ** `reportBookmetadata`
 +
-Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the answer creation, and modification.
+Includes visualization metadata attributes such as description, object header metadata, author details, timestamp of the Answer creation, and modification.
 
 ** user data
 +
@@ -909,7 +1017,7 @@ You can now set custom alerts for `noCookieAccess` events. By default, the SDK t
 |[tag greenBackground]#NEW FEATURE# a| +++<h5>Support for fetching callback custom action payload in batches</h5>+++
 
 The Visual Embed SDK now supports processing data in batches for callback custom action responses.
-The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the answer payload and send the records in batches.
+The callback custom action event in the SDK package supports defining `batchSize` and `offset` values to paginate the Answer payload and send the records in batches.
 
 For more information, see xref:push-data-to-external-app.adoc#large-dataset[Callback custom action workflow].
 |====
@@ -993,11 +1101,11 @@ Use this API to get a login token for a ThoughtSpot user when trusted authentica
 
 * `POST /tspublic/v1/metadata/assigntag`
 +
-Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, answer, table, or  worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
+Use this API to programmatically assign a tag to a ThoughtSpot object such as a pinboard, Answer, table, or  Worksheet. For more information, see xref:metadata-api.adoc#assign-tag[Assign tags to metadata objects].
 
 * `POST /tspublic/v1/metadata/details`
 +
-Use this API to query metadata details for a specific data object such as a pinboard, answer, or a worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
+Use this API to query metadata details for a specific data object such as a pinboard, Answer, or a Worksheet. For more information, see xref:metadata-api.adoc#metadata-details[Get metadata details].
 
 * `POST /tspublic/v1/metadata/markunmarkfavoritefor`
 +

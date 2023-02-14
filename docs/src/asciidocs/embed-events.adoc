@@ -26,14 +26,14 @@ You can define a *listener* for an EmbedEvent with a callback function to handle
 
 You can import the event library from the Visual Embed SDK package.
 
-[source,javascript]
+[source,JavaScript]
 ----
 import { EmbedEvent, HostEvent } from '@thoughtspot/visual-embed-sdk';
 ----
 
 To trigger events on ThoughtSpot components embedded in a React app, import the `useEmbedRef` hook.
 
-[source,javascript]
+[source,JavaScript]
 ----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
 ----
@@ -81,7 +81,7 @@ Fires only on `LiveboardEmbed` components when the Livebaord or visualization co
 
 `AuthExpire` and `AuthInit` can be used together to determine if the SSO process is completed correctly. To determine if `AuthExpire` is firing because SSO did not complete or if the ThoughtSpot session has timed out, you can set a variable to act as a flag to determine if SSO is completed. When `AuthInit` fires, set the flag to *true*. You can also associate a callback function to `AuthExpire` to look up the flag to determine which state change has caused the `AuthExpire` event to fire. In the following example, the `tsLoggedIn` flag is set to indicate the SSO login state. 
 
-[source,javascript]
+[source,JavaScript]
 ----
 // Instantiate class for embedding a Liveboard
 const embed = new LiveboardEmbed("#thoughtspot-embed", {
@@ -152,15 +152,27 @@ Fires when a change occurs in the search bar, including the initial load of the 
 
 If you have added a xref:customize-actions-menu.adoc[custom action] set as a xref:custom-action-callback.adoc[callback action], you must register an event handler to send data in a payload when the custom action is triggered:
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.customAction, payload => {
     const data = payload.data;
-    if (data.id === 'insert Custom Action ID here') {
+    if (data.id === 'show-data') {
         console.log('Custom Action event:', data.embedAnswerData);
     }
 })
 ----
+
+[source,JavaScript]
+----
+liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
+     if (payload.data.id === 'show-data') {
+      const showActionId = 'show-data';
+          if (payload.id === showActionId \|\| payload.data.id === showActionId) {
+               showData(payload);
+          }
+      })
+----
+
 
 == Related resources
 * For a complete list of host and embed events, see xref:events-ref.adoc[Events reference].

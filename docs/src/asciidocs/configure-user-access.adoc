@@ -46,7 +46,7 @@ Avoid using the same group for sharing permissions and other privileges. Because
 
 ThoughtSpot users can share objects such as Liveboards, answers, tables, worksheets, and table columns. Users can set either `read-only` or `edit` permissions at the individual object level when sharing an object with another user or a user group. A user can automatically share objects with anyone else in the groups to which they belong.
 
-When an object is shared, users can view all the data regardless of the permissions set at the parent object level. For example, a user can view a shared Liveboard without having access to its underlying worksheet or table from which the visualizations in the Liveboard are built.
+When an object is shared, users can view all the data regardless of the permissions set at the parent object level. For example, a user can view a shared Liveboard without having access to its underlying Worksheet or table from which the visualizations in the Liveboard are built.
 
 [NOTE]
 ====

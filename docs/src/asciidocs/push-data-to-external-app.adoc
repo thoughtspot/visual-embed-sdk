@@ -44,6 +44,7 @@ embed
     })
     .render();
 ----
+
 [#callback-initiate]
 === Initiate the callback action
 Define the function and classes to handle the data that you want to send as a payload when a custom action is triggered.
@@ -83,7 +84,7 @@ if (data.id === 'show-data') {
 
 [#handle-data]
 === Define functions and classes to handle custom action data
-The following code snippet shows the sample classes and functions for handling custom action data:
+The following code snippet shows the sample classes and functions for handling custom action data. For an up-to-date version of the code sample, see link:https://github.com/thoughtspot/ts_everywhere_resources/blob/master/apis/dataclasses.js[dataclasses.js, window=_blank].
 
 [source, Javascript]
 ----
@@ -164,4 +165,4 @@ export {
 }
 ----
 
-For sample response payload, see xref:callback-response-payload.adoc[Custom action response payload].
+For sample response payloads, see xref:callback-response-payload.adoc[Custom action response payload].

@@ -10,9 +10,7 @@ The TML API endpoints allow you to programmatically export, validate, and import
 
 [NOTE]
 ====
-Starting with 8.9.0.cl, the `pinboard` object name appears as `liveboard` in the TML files exported from ThoughtSpot. The older version of TML files with `pinboard` can be imported into ThoughtSpot instances running 8.9.0.cl, but ThoughtSpot  replaces `pinboard` with `liveboard` when exporting TML objects.
-
-However, if you try to import the Liveboard TML files exported from a ThoughtSpot 8.9.0.cl instance into an environment running 8.8.0.cl or an earlier version, the import operation fails. To resolve this issue, replace `liveboard` with `pinboard` and then retry importing to earlier versions.
+Starting with version 8.9.0.cl, ThoughtSpot exports TML files with `liveboard` as the object name instead of `pinboard`. Older TML files with the `pinboard` object name can still be imported into ThoughtSpot instances on 8.9.0.cl release version, but it will be replaced with `liveboard` during TML export. Importing a TML file generated from ThoughtSpot 8.9.0.cl into 8.8.0.cl or earlier versions is not supported if the object name is set to `liveboard`. To resolve this issue, replace `liveboard` with `pinboard` and then try to import it into earlier versions.
 ====
 
 == Supported operations
@@ -25,17 +23,17 @@ You must have at least view access to the objects to export the TML data. To imp
 
 [#import]
 == Import TML
-To validate and import the TML objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
+To import TML representation of objects into ThoughtSpot, use the `/tspublic/v1/metadata/tml/import` API endpoint.
 
-The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, and you do not add the `fqn` parameter, the connection or table you reference does not have a unique name and can lead to invalid object references.
+The import TML API endpoint allows you to upload multiple TML files at a time. If you are importing TML files one at a time, include the `fqn` property to distinguish objects that have the same name. For example, if you have multiple connections or tables with the same name, the connection or table you reference in your TML does not have a unique name and thus can lead to invalid object references. Adding `fqn` helps ThoughtSpot differentiate a table from another with the same name.
 
-By default, the `fqn` parameter is not present in the TML file, but you can add it to differentiate a table from another table with the same name.
+By default, the `fqn` parameter is not present in the TML file. However, you can export TML with FQNs and use it during the import.
 
 [NOTE]
 ====
-You can import single or multiple objects using the `tml/import` API. If you import only a worksheet object, it may take some time for the worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and Liveboards.
+You can import single or multiple objects using the `tml/import` API. If you import only a Worksheet object, it may take some time for the Worksheet to become available in the ThoughtSpot system. You may need to wait for a few seconds to create answers and Liveboards.
 
-However, if you import a worksheet along with Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
+However, if you import a Worksheet along with Liveboards, answers, and other dependent objects in a single API call, the imported objects will be immediately available for use.
 ====
 
 === Resource URL
@@ -132,13 +130,14 @@ curl -X POST --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot
 	}
 }]'
 --data-urlencode 'import_policy=PARTIAL'
---data-urlencode 'force_create=true' 'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import'
+--data-urlencode 'force_create=true'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/import'
 
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/import
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/import
 ----
 
 === Example response
@@ -217,16 +216,16 @@ For example:
 
 |`formattype`|__String__. The format in which to export the objects. Valid values are `JSON` and `YAML`. | `YAML`
 |`export_associated`|__Boolean__. Specifies if you would like to export the associated objects. To export the objects associated with the objects specified in `export_ids`, set the value to `true`. When set to `true`, the API exports any underlying worksheets, tables, or views for a given object. By default, the API does not export these underlying objects.| `false`
-a|`export_fqn` [tag greenBackground]#NEW in 8.7.0.cl# a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced worksheet. +
+a|`export_fqn`  a|__Boolean__. When set to `true`, the API exports the FQNs of the referenced objects in the TML data. For example, if you are exporting a Liveboard and its associated objects, the API returns the Liveboard TML data with the FQNs of the referenced Worksheet. +
 Note that the FQN of a referenced object is the same as the GUID of that object. +
 
-ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced worksheet. +
+ThoughtSpot recommends adding the `fqn` property before importing the TML objects into the system, because only the name of a referenced object is not sufficient to identify the referenced object during TML import. For example, if your ThoughtSpot instance has two worksheets with the same name, the TML import for a Liveboard that uses one of these worksheets would fail unless the Liveboard TML includes the FQN of the referenced Worksheet. +
 
 The `export_fqn` attribute is useful when ThoughtSpot has multiple objects with the same name and you want to eliminate ambiguity during TML import. The `export_fqn=true` property adds the FQNs of the referenced objects in the TML export API response and saves the manual effort of adding FQNs for TML import.
 
 [NOTE]
 ====
-When you try to xref:tml-api.adoc#import[import] multiple objects in bulk and create objects using the `force_create` attribute, the new object may refer to an existing object with the same FQN in the ThoughtSpot system instead of the other objects provided in the TML import request. For example, when you upload a TML representation of a Liveboard and the associated worksheet with the FQNs obtained from the TML export API, the imported Liveboard may refer to an existing worksheet with the same FQN in the ThoughtSpot system instead of the new worksheet created during the TML import. +
+When you try to xref:tml-api.adoc#import[import] multiple objects in bulk and create objects using the `force_create` attribute, the new object may refer to an existing object with the same FQN in the ThoughtSpot system instead of the other objects provided in the TML import request. For example, when you upload a TML representation of a Liveboard and the associated Worksheet with the FQNs obtained from the TML export API, the imported Liveboard may refer to an existing Worksheet with the same FQN in the ThoughtSpot system instead of the new Worksheet created during the TML import. +
 If you want the new objects created during the TML import to refer to the other associated objects created during the same import operation, set the `export_fqn` attribute to `false` during TML export or remove the FQNs manually before the TML import.
 ====
 |`false`
@@ -250,12 +249,12 @@ curl -X POST
 --data-urlencode 'formattype=JSON' \
 --data-urlencode 'export_associated=false' \
 --data-urlencode 'export_fqn=true' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/export'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/metadata/tml/export
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/metadata/tml/export
 ----
 
 === Example response

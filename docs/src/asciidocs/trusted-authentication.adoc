@@ -6,12 +6,17 @@
 :page-pageid: trusted-auth
 :page-description: You can configure support for token-based authentication service on ThoughtSpot.
 
-Trusted authentication defines a *method* for requesting *login tokens* using the ThoughtSpot REST API. The login token is only necessary during the login process, after which any request to ThoughtSpot will include session cookies identifying the signed-in user.
+Trusted authentication defines a method for requesting *login tokens* using the ThoughtSpot REST API. The login token is only necessary during the login process, after which any request to ThoughtSpot will include session cookies identifying the signed-in user.
 
 == Overview
-Trusted authentication establishes a ThoughtSpot session in the browser without requiring a user to sign in directly to ThoughtSpot or be redirected to a third-party IdP. It is the most seamless method of single sign-on (SSO), but requires more of the application developer to secure the process.
 
-The *login token* from the ThoughtSpot V1 REST API is a simple, proprietary token. The authentication token of the V2 REST API is not currently used in the trusted authentication flow.
+Trusted authentication establishes a ThoughtSpot session in the browser without requiring a user to sign in directly to ThoughtSpot or be redirected to a third-party IdP. It is the most seamless method of single sign-on (SSO) but requires more of the application developer to secure the process.
+
+The *login token* from the ThoughtSpot v1 REST API is a simple, proprietary token.
+
+////
+The authentication token of the v2 REST API is not currently used in the trusted authentication flow.
+////
 
 *Securely requesting the login token* requires passing authentication details from the embedding application securely to an *authenticator service* with access to the `secret_key` for the ThoughtSpot instance and ThoughtSpot admin user's credentials.
 
@@ -65,7 +70,7 @@ When using `getAuthToken`, you specify a function that returns a Promise that re
 
 The following example shows a callback function with a custom request using link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], which returns a Promise. You can also use link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XHR, window=_blank] and build the link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise[Promise, window=_blank] manually.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: tsURL,
@@ -109,7 +114,7 @@ Because the requirements around matching domain hosting can be difficult to set 
 
 The authenticator service should exist at the web application tier of your networks, with secure access to the ThoughtSpot `secret_key` and the credentials of a ThoughtSpot administrator user (typically a service account).
 
-There are no requirements to how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. ThoughtSpot generates a `secret_key` when trusted authentication is enabled on a ThoughtSpot application instance. When using a ThoughtSpot cloud instance, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
+There are no requirements for how the authenticator service is built or hosted, other than being able to issue REST API commands to the ThoughtSpot instance and having access to the `secret_key`. ThoughtSpot generates a `secret_key` when trusted authentication is enabled on a ThoughtSpot application instance. When using a ThoughtSpot cloud instance, the authenticator service will need outbound request access to the hosted ThoughtSpot cloud instance.
 
 The simplest *authenticator service* does the following steps, assuming ThoughtSpot users already exist from another process:
 
@@ -134,7 +139,7 @@ If your *authenticator service* must also create users and give them access, you
 User password is not required in the login token request. It can be randomly generated if creating a user account in ThoughtSpot so that the user can only sign in via the embedding application.
 
 === REST API session sign-in
-The *authenticator service* makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the *authenticator service* must have xref:api-auth-session.adoc[created an active session] with ThoughtSpot user with *server administrator* privileges, typically a service account created only for use by the *authenticator service*.
+The *authenticator service* makes REST API requests to ThoughtSpot. To make a REST API request for a login token, the *authenticator service* must have xref:api-auth-session.adoc[created an active session] as a ThoughtSpot user with *server administrator* privileges, typically a service account created only for use by the *authenticator service*.
 
 The authenticator service code will need logic to log in if there is no active session and secure access to the service account credentials. How you protect and securely access the service account credentials is up to you in the design of the service. Any examples with a username and password entered directly in the code are for *testing purposes only*.
 
@@ -143,7 +148,7 @@ The only other REST API call *necessary* after sign-in is the xref:session-api.a
 
 When a token has been requested in `FULL` mode, it will create a full ThoughtSpot session in the browser and application. The token for `FULL` access mode persists through several sessions and stays valid until another token is generated.
 
-There is the option to request a limited token using the `access_level=REPORT_BOOK_VIEW` option, but this is rarely used and not recommended. Access control in ThoughtSpot (called Sharing) prohibits a signed-in user from loading any content they aren't assigned access to.
+There is the option to request a limited token using the `access_level=REPORT_BOOK_VIEW` option in REST API v1 and `/api/rest/2.0/auth/token/object` endpoint in REST API v2.0, but this is rarely used and not recommended. Access control in ThoughtSpot (called Sharing) prohibits a signed-in user from loading any content they aren't assigned access to.
 
 Access control (sharing) can be granted during the login token request process by adding the user to the appropriate ThoughtSpot groups.
 
@@ -154,7 +159,7 @@ Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1
 The typical flow of REST API requests for user creation at the time of a login token request is as follows: +
 
 1. Make a REST API request to xref:user-api.adoc#get-user-details[get the user details].
-2. If the user already exists, check the `assignedGroups` property. On clusters with Orgs feature enabled, check the `orgIds` property to verify if athe user mapped to any Org.
+2. If the user already exists, check the `assignedGroups` property. On clusters with Orgs feature enabled, check the `orgIds` property to verify if the user mapped to any Org.
 3. If the user doesn't exist in ThoughtSpot, you can either xref:user-api.adoc#create-user[create a new user] or set the `autocreate` property to `true` in your API request to the `/tspublic/v1/session/auth/token` endpoint. You can also specify the Org ID and group name to add the user to the Org and groups in the same API request.
 4. If the user should be logged in to a different Org context, specify the Org ID in the `orgid` property and set `autocreate` to `true`. +
 +
@@ -163,15 +168,19 @@ The typical flow of REST API requests for user creation at the time of a login t
 Org IDs are integers that are created automatically when a cluster administrator creates an Org. To know the Org IDs of Orgs, you can send a `GET` request to the `/tspublic/v1/session/orgs` API endpoint. If you have cluster administrator privileges, you can use the `/tspublic/v1/org/search` endpoint to get a list of all Orgs available on your cluster.
 ====
 
-5. If the user should belong to other groups, add group names in the `groups` property when making API call to the `/tspublic/v1/session/auth/token` endpoint. If these groups don't exist in the specified `orgid`, set `autocreate` to `true` to add these groups to the Org.
+5. If the user should belong to other groups, add group names in the `groups` property when making an API call to the `/tspublic/v1/session/auth/token` endpoint. If these groups don't exist in the specified `orgid`, set `autocreate` to `true` to add these groups to the Org.
 6. Request a login token from ThoughtSpot via `/tspublic/v1/session/auth/token` API endpoint.
 7. Return the token to the user's web browser.
 
+[NOTE]
+====
+The `/api/rest/2.0/auth/token/object` and `/api/rest/2.0/auth/token/full` endpoints in REST API v2.0 also support JIT  provisioning and assigning the user to groups and Orgs.
+====
 
 === Additional REST API requests
 Because all of ThoughtSpot administration is possible via the REST API, you can incorporate even more functionality into the *authenticator service* if necessary, building it into an authentication and authorization service. The xref:api-user-management.adoc[user and group privileges] REST API documentation covers the additional requests related to authorization.
 
-For example, you could implement the xref:group-api.adoc#create-group[create group] REST API for ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow described in the preceding section to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
+For example, you could use the xref:rest-api-reference.adoc#_groups_and_privileges[REST API v1] or xref:rest-api-v2-reference.adoc#_groups[REST API v2.0] group endpoints to implement ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow described in the preceding section to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
 
 
 == Disable trusted authentication
@@ -211,18 +220,22 @@ All SSO methods in ThoughtSpot create a ThoughtSpot session using cookies. Pleas
 ====
 
 == Implement without Visual Embed SDK
-The Visual Embed SDK handles the final REST API request to create the session, but it is possible to perform the login using the xref:session-api.adoc#session-loginToken[/session/login/token endpoint] directly.
+The Visual Embed SDK handles the final REST API request to create the session, but it is possible to perform the login using xref:session-api.adoc#session-loginToken[/session/login/token] or the xref:rest-api-v2-reference.adoc#_authentication[ REST API v2.0 token access endpoints]. For more information, see xref:api-auth-session.adoc#_authenticate_and_log_in_with_a_token_trusted_authentication[REST API v1 authentication] and xref:authentication.adoc#trusted-auth-v2[REST API v2.0 authentication].
 
 [NOTE]
 ====
-* The REST API v1 login token is not used for establishing a REST API session for backend processes or administration scripts. Use the xref:session-api.adoc#session-login[/session/login] endpoint with username and password to create a REST API session.
-* The REST API v2[beta betaBackground]^Beta^ does have an OAuth token mechanism, which is also separate from the REST API v1 login token and not part of the trusted authentication flow at this time.
+The REST API v1 `session/login/token` and v2.0 token access endpoints are not used for establishing a REST API session for backend processes or administration scripts. Use the xref:session-api.adoc#session-login[/session/login] endpoint with `username` and `password` to create a REST API session.
+
+////
+* The REST API v2.0 allows using bearer or trusted authentication tokens. The authentication tokens obtained from REST API separate from the REST API v1 login token.
+////
 ====
 
-REST v1 clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
+////
+REST API clients can make a `GET` or `POST` API call to the xref:session-api.adoc#session-loginToken[tspublic/v1/session/login/token] API endpoint to log in a user. Note that the `GET` call to the `tspublic/v1/session/login/token` endpoint must include a fully-encoded URL with the authentication token and resource endpoint in the request URL.
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsUser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<redirect-domain>/?authtoken=<auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<Liveboard_id>/<visualization_id>
 ----
 
 ThoughtSpot recommends sending the authentication attributes in a `POST` request body instead of a `GET` call.
@@ -250,6 +263,7 @@ _String_. The URL to which the user is redirected after successful authenticatio
 ----
 https://<redirect-domain>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
+////
 
 == Additional resources
 

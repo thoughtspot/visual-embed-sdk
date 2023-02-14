@@ -69,12 +69,15 @@
 </div>
     <div class="col-md-4">
     <div class="introTile">
-      <h5>REST APIs (v2) <sup class="beta betaBackground">Beta</sup></h5>
-      <div class="boxBody">Explore the REST API v2 endpoints. View REST API v2 Playground, explore the API request and response workflows, read documentation, and download code samples.</div>
+      <h5>REST APIs (v2)</h5>
+      <div class="boxBody">Explore the REST API v2.0 endpoints. View REST API v2.0 Playground, explore the API request and response workflows, read documentation, and download code samples.</div>
       <div class="introList">
         <p>
         <a href="?pageid=rest-api-v2">Learn more</a>
-        </a> </p> <p>
+        </a> </p>
+      <p>
+        <a href="?pageid=v1v2-comparison">Compare API v2.0 and v1 features</a>
+        </a> </p>
        <p>
         <a href="?pageid=rest-apiv2-getstarted">Get started</a>
         </a> </p>

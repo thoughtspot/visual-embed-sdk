@@ -210,10 +210,10 @@ _Boolean_. When set to true, it hides the default Data Source panel. Use this at
 
 
 enableSearchAssist _optional_::
-_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
+_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your Worksheet.
 
 +
-Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
+Search Assist uses the predefined queries and answers from the Worksheet. Users with edit permissions to a Worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
 
 +
 ++++
@@ -252,7 +252,7 @@ __String__. The ThoughtSpot Modeling Language (TML) query string. For example, t
 __Boolean__. When set to `true`, the  focus is placed on search results. When set to `false`, the focus is placed at the end of search tokens in the search bar.
 +
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchOptions: {
     searchTokenString: '[product][sales][date].daily',
@@ -272,7 +272,7 @@ include::{path}/callback-payload.adoc[]
 
 Register event listeners. 
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.Init, showLoader)
 searchEmbed.on(EmbedEvent.Load, hideLoader)
@@ -282,7 +282,7 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 == Render the embedded search
 
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.render();
 ----

@@ -1,0 +1,131 @@
+= REST API v1 and V2 comparison
+:toc: true
+:toclevels: 1
+
+:page-title: Difference between REST API v1 and v2
+:page-pageid: v1v2-comparison-beta
+:page-description: Difference between REST API v1 and v2
+
+Both v1 and v2 REST API frameworks allow you to access, retrieve, create, and manage ThoughtSpot objects and resources. REST API V2 is a new framework that expands the core API functionality with additional features and improved user experience.
+
+[div tableContainer]
+--
+[width="100%" cols="4,^5,^5"]
+[options='header']
+|=====
+||REST API v1| REST API V2
+|Developer Playground|Swagger API explorer
+
+The Swagger UI is also accessible via Developer portal|Interactive Playground in the Developer portal
+|Code sample availability|[tag greyBackground]#–# |[tag greenBackground]#✓# Available
+
+|Authentication methods a| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# Trusted authentication 
+
+a| [tag greenBackground]#✓# Basic authentication +
+
+[tag greenBackground]#✓# OAuth Bearer token authentication +
+
+[tag greenBackground]#✓# Trusted authentication
+|Access control| Requires admin privileges for certain API operations| Requires admin or developer privileges to access the API console
+|Input and output parameters| Not fully standardized |Standardized
+
+|Resource collections a| * Data +
+Data APIs to search data, fetch Liveboard details and export Liveboard
+* admin
+* connection
+* dependency
+* export
+* group
+* logs
+* metadata
+* TML
+* security
+* session
+* user
+
+a| * Authentication
+* Users
+* Groups
+* Connection
+* Metadata
+* Data 
+* Report
+* Logs
+* Security
+* Admin
+* Custom actions
+
+|API services a|[tag greenBackground]#✓# User APIs 
+
+[tag greenBackground]#✓# Group APIs
+
+[tag greenBackground]#✓# Session APIs
+
+[tag greenBackground]#✓# Connection APIs
+
+[tag greenBackground]#✓# Metadata APIs
+
+[tag greenBackground]#✓# Admin APIs 
+
+[tag greenBackground]#✓# TML APIs 
+
+[tag greenBackground]#✓# APIs for dependent objects
+
+[tag greenBackground]#✓# Search data API
+
+[tag greenBackground]#✓# Liveboard data API
+
+[tag greenBackground]#✓# Liveboard export API
+
+[tag greenBackground]#✓# Security APIs
+
+[tag greenBackground]#✓# Log Streaming Service API
+
+See xref:rest-api-reference.adoc[REST API v1 Reference] for a complete list of endpoints.
+
+
+a| 
+[tag greenBackground]#✓# Session APIs
+
+[tag greenBackground]#✓# User APIs 
+
+[tag greenBackground]#✓# Group APIs
+
+[tag greenBackground]#✓# Connection APIs
+
+[tag greenBackground]#✓# Metadata APIs
+
+[tag greenBackground]#✓# Admin APIs
+
+[tag greenBackground]#✓# TML APIs
+
+[tag greenBackground]#✓# APIs for dependent objects
+
+[tag greenBackground]#✓# Data API
+
+[tag greenBackground]#✓# Visualization export API
+
+[tag greenBackground]#✓# Custom actions API
+
+[tag greenBackground]#✓# Liveboard export API
+
+[tag greenBackground]#✓# Security APIs
+
+[tag greenBackground]#✓# Log Streaming Service API
+
+See xref:rest-api-v2-reference.adoc[REST API V2 Reference] for a complete list of endpoints.
+
+|Resource URL  a| 
+Base URI:  `\https://<your-thoughtspot-hostname>/callosum/v1/`
+
+Resource path:  `tspublic/v1/<resource-group>/<resource>/`
+
+|Base URI:   `\https://<your-thoughtspot-hostname>/tspublic/rest/v2/`
+
+Resource path:  `<resource-group>/<resource>`
+|====
+
+--
+

@@ -58,7 +58,7 @@ The following table lists the features available with each embed flavor:
 .5+|**Embed options**|Search|[tag greenBackground]#✓#|[tag greyBackground]#–#| [tag greyBackground]#–#
 |Visualization|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
 Liveboard - Classic experience|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
-Liveboard - New experience|[tag greenBackground]#✓#|Coming soon|[tag greyBackground]#–#|
+Liveboard - New experience|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|
 Full ThoughtSpot experience|[tag greenBackground]#✓# a|[tag greenBackground]#✓#|[tag greenBackground]#✓#
 
 .5+|**Authentication**|SAML|[tag greenBackground]#✓#|[tag greenBackground]#✓# +

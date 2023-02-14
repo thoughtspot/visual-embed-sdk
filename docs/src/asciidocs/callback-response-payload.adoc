@@ -1,9 +1,9 @@
-= Callback response payload
+= Callback JSON response payloads
 :toc: true
 
 :page-title: Sample response payload for callback actions
 :page-pageid: custom-action-payload
-:page-description: View examples of the answer or visualization data payload for callback actions
+:page-description: View examples of the Answer or visualization data payload for callback actions
 
 The examples in this section show the contents of the payload sent from ThoughtSpot for the custom action workflows.
 
@@ -12,7 +12,7 @@ The examples in this section show the contents of the payload sent from ThoughtS
 [#search-data-payload]
 === Search data payload
 
-The following example shows the visualization data payload passed in a callback custom action for search:
+The following example shows the data payload for a callback custom action on a search result:
 
 [source, JSON]
 ----
@@ -65,8 +65,7 @@ The following example shows the visualization data payload passed in a callback 
     },
     "name": "Total Account Balance",
     "suggestedDisplayMode": "TABLE_MODE",
-    "visualizations": [
-      {
+    "visualizations": {
         "id": "47805958-d92b-4301-a1ca-59b84d57c25e",
         "title": "Headline Account Balance",
         "vizProp": {
@@ -139,82 +138,6 @@ The following example shows the visualization data payload passed in a callback 
         "sortInfo": [],
         "__typename": "HeadlineViz"
       },
-      {
-        "id": "f2524330-7c21-4b23-8cd9-10d74bb75b53",
-        "clientState": {},
-        "vizProp": {
-          "tableVizPropVersion": "V1",
-          "wrapTableHeader": null,
-          "widthState": [],
-          "theme": null,
-          "showTableFooter": null,
-          "showGridSummary": null,
-          "density": null,
-          "orderedColumnIds": [],
-          "columnProperties": [],
-          "__typename": "TableVizProps"
-        },
-        "columns": [
-          {
-            "column": {
-              "id": "f70df70d-b37f-4cfc-b3b6-28af82183d2d",
-              "name": "Account Balance",
-              "type": "MEASURE",
-              "baseColumnType": "SAGE_COLUMN",
-              "formulaId": "",
-              "columnProps": {
-                "version": null,
-                "columnProperties": null,
-                "__typename": "AnswerColumnProps"
-              },
-              "dataType": "DOUBLE",
-              "aggregationType": "SUM",
-              "formatPattern": null,
-              "isGroupBy": false,
-              "isUserDefinedTitle": false,
-              "isAdditive": true,
-              "customCalendarType": null,
-              "formatType": "CURRENCY",
-              "calendarGuid": "",
-              "format": {
-                "pattern": "",
-                "currencyFormat": {
-                  "column": "",
-                  "type": "ISO_CODE",
-                  "isoCode": "USD",
-                  "__typename": "CurrencyFormat"
-                },
-                "__typename": "AnswerColumnFormat"
-              },
-              "referencedColumns": [
-                {
-                  "guid": "93861df4-220d-4c82-b5ac-6c14c810ddd3",
-                  "displayName": "Account Balance",
-                  "__typename": "EntityHeader"
-                }
-              ],
-              "referencedTables": [
-                {
-                  "guid": "0d3713c5-9b7d-473f-a262-b2f23ae4fce6",
-                  "displayName": "Retail Banking",
-                  "__typename": "EntityHeader"
-                }
-              ],
-              "legacySheetProperties": null,
-              "legacyColumnFormatProperties": null,
-              "timeBucket": "NO_BUCKET",
-              "geoConfig": null,
-              "__typename": "AnswerColumn"
-            },
-            "legacyMetricDefinition": null,
-            "__typename": "VizColumn"
-          }
-        ],
-        "sortInfo": [],
-        "topInfo": [],
-        "__typename": "TableViz"
-      }
-    ],
     "headerMetadata": {
       "id": "f5d85d72-1234-4f11-a850-5f76191251bb",
       "name": "Total Account Balance",
@@ -227,7 +150,7 @@ The following example shows the visualization data payload passed in a callback 
 }
 ----
 
-The following example shows the cell-level data payload for a callback custom action set as a context menu for a search result:
+The following example shows the data payload for a callback custom action in the context menu of a saved Answer:
 
 [source, JSON]
 ----
@@ -360,559 +283,291 @@ The following example shows the cell-level data payload for a callback custom ac
 }
 ----
 
-=== Liveboard payload
+=== Liveboard payload (Classic experience)
 
-The following example shows the Liveboard data payload for a callback custom action in a Liveboard visualization page:
+The following example shows the Liveboard data payload for a callback custom action on a Liveboard visualization:
 
-[source, JSON]
+[source,JSON]
 ----
 {
-  "completionRatio": 1,
-  "reportBookData": {
-    "0928f6ee-faaf-4623-aeb5-2143bbff5edb": {
-      "vizData": {
-        "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb": {
-          "dataSets": {
-            "PINBOARD_VIZ": {
-              "id": "d5fb3361-5766-46d9-b997-46136650647a",
-              "clientState": {},
-              "vizProp": {
-                "tableVizPropVersion": "V1",
-                "wrapTableHeader": true,
-                "widthState": [],
-                "theme": null,
-                "showTableFooter": null,
-                "showGridSummary": null,
-                "density": null,
-                "orderedColumnIds": [],
-                "columnProperties": []
-              },
-              "columns": [
-                {
-                  "column": {
-                    "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                    "name": "Total Number of results",
-                    "type": "MEASURE",
-                    "baseColumnType": "SAGE_COLUMN",
-                    "formulaId": "",
-                    "columnProps": {
-                      "version": "V1",
-                      "columnProperties": null
-                    },
-                    "dataType": "INT32",
-                    "aggregationType": "SUM",
-                    "isGroupBy": false,
-                    "isUserDefinedTitle": false,
-                    "isAdditive": true,
-                    "customCalendarType": null,
-                    "formatType": "NONE",
-                    "calendarGuid": "",
-                    "formatPattern": null,
-                    "format": {
-                      "pattern": "",
-                      "currencyFormat": null
-                    },
-                    "referencedColumns": [
-                      {
-                        "guid": "7edea0a6-59ce-499a-886e-f106951d849f",
-                        "displayName": "Number of results"
-                      }
-                    ],
-                    "referencedTables": [
-                      {
-                        "guid": "2b9d083a-275c-4984-9cfe-90b036affa17",
-                        "displayName": "Discover Monitoring Data"
-                      }
-                    ],
-                    "legacySheetProperties": null,
-                    "legacyColumnFormatProperties": null,
-                    "timeBucket": "NO_BUCKET",
-                    "geoConfig": null
-                  },
-                  "legacyMetricDefinition": null
-                }
-              ],
-              "sortInfo": [],
-              "topInfo": [],
-              "data": {
-                "columnDataLite": [
-                  {
-                    "columnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                    "columnDataType": "INT64",
-                    "dataValue": [
-                      0
-                    ]
-                  }
-                ],
-                "completionRatio": 1,
-                "samplingRatio": 1,
-                "totalRowCount": "1"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "reportBookMetadata": {
-    "reportContent": {
-      "sheets": [
-        {
-          "sheetType": "PINBOARD",
-          "sheetContent": {
-            "sheetContentType": "PINBOARD",
-            "pinboardFilterDetails": {
-              "pinboardFiltersAnswerIds": [],
-              "filterLogicalTableIds": [],
-              "logicalTableIdToPinboardFilterVizIds": {},
-              "filterIdToLinkedFilterIds": {},
-              "filterIdToExcludedVizs": {}
-            },
-            "visualizations": [
-              {
-                "vizContent": {
-                  "refAnswerSheetIndex": 0,
-                  "refVizId": "d5fb3361-5766-46d9-b997-46136650647a",
-                  "locked": false,
-                  "dataOnDemand": false,
-                  "refAnswerBook": {
-                    "id": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
-                    "name": "Total Number of results",
-                    "sheets": [
-                      {
-                        "id": "634f2535-ffef-49cc-a435-a6d749b194ff",
-                        "name": "Total Number of results",
-                        "owner": "01020e97-9b7e-4de9-b1d8-5d832864a1f8"
-                      }
-                    ]
-                  },
-                  "vizType": "PINBOARD_VIZ"
-                },
-                "relatedLinks": [],
-                "header": {
-                  "id": "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb",
-                  "indexVersion": 2331,
-                  "generationNum": 2331,
-                  "name": "Answer: Total Number of resu Viz: Table Viz number of ",
-                  "author": "34395682-42c9-45b7-a950-e135471311fa",
-                  "authorName": "sandeep2",
-                  "authorDisplayName": "sandeep-dev2",
-                  "created": 1622096925970,
-                  "modified": 1622096925970,
-                  "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-                  "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
-                  "isDeleted": false,
-                  "isHidden": false,
-                  "tags": [],
-                  "isExternal": false,
-                  "isDeprecated": false
-                },
-                "complete": true,
-                "incompleteDetail": []
-              }
-            ],
-            "canGenerateLeafData": false,
-            "layout": {
-              "tiles": [
-                {
-                  "id": "9e3a1330-2ac9-4490-89c3-aa9aa5a9f1cb",
-                  "size": "l",
-                  "order": 0,
-                  "x": 1
-                }
-              ]
-            }
-          },
-          "header": {
-            "id": "0928f6ee-faaf-4623-aeb5-2143bbff5edb",
-            "indexVersion": 2331,
-            "generationNum": 2331,
-            "name": "ksandeep-test2",
-            "author": "34395682-42c9-45b7-a950-e135471311fa",
-            "authorName": "sandeep2",
-            "authorDisplayName": "sandeep-dev2",
-            "created": 1622096925965,
-            "modified": 1622096925970,
-            "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-            "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
-            "isDeleted": false,
-            "isHidden": false,
-            "tags": [],
-            "isExternal": false,
-            "isDeprecated": false
-          },
-          "complete": true,
-          "incompleteDetail": []
-        }
-      ]
-    },
-    "type": "PINBOARD",
-    "header": {
-      "hasTabs": false,
-      "id": "977f6606-ef28-4456-9678-91d7b54796c9",
-      "indexVersion": 2331,
-      "generationNum": 2331,
-      "name": "ksandeep-test2",
-      "author": "34395682-42c9-45b7-a950-e135471311fa",
-      "authorName": "sandeep2",
-      "authorDisplayName": "sandeep-dev2",
-      "created": 1622096925965,
-      "modified": 1622096925970,
-      "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-      "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
-      "isDeleted": false,
-      "isHidden": false,
-      "isAutoCreated": false,
-      "isAutoDelete": false,
-      "resolvedObjects": {
-        "d5fb3361-5766-46d9-b997-46136650647a": {
-          "reportContent": {
-            "sheets": [
-              {
-                "sheetType": "QUESTION",
-                "sheetContent": {
-                  "headlineVisibilityMap": {},
-                  "defaultQueryableSource": "FALCON",
-                  "querableSources": [
-                    "FALCON"
-                  ],
-                  "externalQueryableDataSource": "DEFAULT",
-                  "bestDisplayMode": "TABLE_MODE",
-                  "canGenerateLeafData": true,
-                  "sheetContentType": "QUESTION",
-                  "question": {
-                    "sageContextProto": "CsEDCgMKATAarQIK6gEKEU51bWJlciBvZiByZXN1bHRzEAIYBCABKiQ3ZWRlYTBhNi01OWNlLTQ5OWEtODg2ZS1mMTA2OTUxZDg0OWYyJDZiY2Y0ZDkzLWQzYzAtNDc4Yy1hNDM4LWQzZjFhMzk0ZTRhNToKCgMKATEaAwoBMVIfEhFOdW1iZXIgb2YgcmVzdWx0cyIDCgExKgMKATEwAFgAYc4jGjGeb3FBgAEBkAEA6gERTnVtYmVyIG9mIHJlc3VsdHOAAgCQAoMBmgICCACiAiQ4Y2MyODgxYy0zYjg5LTRjZDItYThjMi03YjAwOWZmOTk0ZWEKNAoAgAEAgAIBmgICCAGiAiQxMTA1MjYwMi01YTNlLTRiYTQtOGVmMC0wODgwOWMyYWQ1MDUSCAgBEAAYASABKgMKATIyEzc4Njk3NDg1NDYwOTA1MjgzMzU6VhJSCiUgAjgDQAByFwgBIhEKAwoBNBoKCgMKATEaAwoBMUAEggEDCgEySgMKATNaJDJiOWQwODNhLTI3NWMtNDk4NC05Y2ZlLTkwYjAzNmFmZmExNxgASgoKBAgAEgASAhIAWAp6CmVuX1VTLnV0ZjgyMgokZDcwNmM5M2ItZGNmMS00N2YxLWI2OGItMTFmZGEyMTdhYmViEgpOZXcgVGFibGUwMkAKJDJiOWQwODNhLTI3NWMtNDk4NC05Y2ZlLTkwYjAzNmFmZmExNxIYRGlzY292ZXIgTW9uaXRvcmluZyBEYXRhMjkKJDZiY2Y0ZDkzLWQzYzAtNDc4Yy1hNDM4LWQzZjFhMzk0ZTRhNRIRTnVtYmVyIG9mIHJlc3VsdHMyJgokNWRiNDg3ZTgtOWM1Yi00MGE1LTk3NWYtOWE3ZDFlNzQ2NDQ5MjkKJDdlZGVhMGE2LTU5Y2UtNDk5YS04ODZlLWYxMDY5NTFkODQ5ZhIRTnVtYmVyIG9mIHJlc3VsdHM4Ag",
-                    "sageContextIndex": 0,
-                    "text": "number of results",
-                    "isChasmTrapQuery": false
-                  },
-                  "visualizations": [
-                    {
-                      "vizContent": {
-                        "vizType": "HEADLINE",
-                        "template": "MEASURE",
-                        "columns": [
-                          {
-                            "column": {
-                              "isUserSorted": false,
-                              "aggrTypeOverride": "SUM",
-                              "typeOverride": "MEASURE",
-                              "dataTypeOverride": "UNKNOWN",
-                              "formatTypeOverride": "NONE",
-                              "groupBy": false,
-                              "uniqueValues": -1,
-                              "sageOutputColumnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                              "outputIdsWithMatchingLogicalKey": [],
-                              "aggrApplied": true,
-                              "isVisible": true,
-                              "columnToFormatPatternType": {},
-                              "effectiveAggrType": "SUM",
-                              "effectiveDataType": "INT32",
-                              "effectiveType": "MEASURE",
-                              "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                              "effectiveColumnGuid": "463f9b8d-b856-3ecb-af6e-11b897fbe3a8",
-                              "effectiveColumnIdString": "7edea0a6-59ce-499a-886e-f106951d849f#SUM#MEASURE#null",
-                              "baseColumnName": "Number of results",
-                              "baseAggrType": "SUM",
-                              "baseDataType": "INT32",
-                              "baseType": "MEASURE",
-                              "isBaseColumnAdditive": true,
-                              "baseDataRecency": 1612685173,
-                              "referencedTableHeaders": [
-                                {
-                                  "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
-                                  "name": "Discover Monitoring Data"
-                                }
-                              ],
-                              "referencedColumnHeaders": [
-                                {
-                                  "id": "7edea0a6-59ce-499a-886e-f106951d849f",
-                                  "name": "Number of results"
-                                }
-                              ],
-                              "allLevelReferencedTableHeaders": [
-                                {
-                                  "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
-                                  "name": "Discover Monitoring Data"
-                                },
-                                {
-                                  "id": "182f1e7c-c461-4535-b9da-c5297147631a",
-                                  "name": "MetricsMonitoring"
-                                }
-                              ],
-                              "allLevelReferencedColumnHeaders": [
-                                {
-                                  "id": "7edea0a6-59ce-499a-886e-f106951d849f",
-                                  "name": "Number of results"
-                                },
-                                {
-                                  "id": "3e180ce3-24cb-43d4-9576-6a0c3d47465c",
-                                  "name": "number_of_results"
-                                }
-                              ]
-                            },
-                            "possibleAggrs": [
-                              "SUM",
-                              "AVERAGE",
-                              "STD_DEVIATION",
-                              "VARIANCE",
-                              "MIN",
-                              "MAX"
-                            ],
-                            "aggrs": [
-                              "SUM"
-                            ],
-                            "tableSummary": true
-                          }
-                        ],
-                        "showSummaryAggrs": false,
-                        "title": {
-                          "value": {
-                            "text": "Headline Total Number of results"
-                          }
-                        },
-                        "customTitle": false,
-                        "locked": true
-                      },
-                      "relatedLinks": [],
-                      "header": {
-                        "id": "da015726-1ec1-4c26-98ff-477f060d02e7",
-                        "indexVersion": 2331,
-                        "generationNum": 2331,
-                        "name": "Headline Total Number of results",
-                        "author": "34395682-42c9-45b7-a950-e135471311fa",
-                        "authorName": "sandeep2",
-                        "authorDisplayName": "sandeep-dev2",
-                        "created": 1622096925970,
-                        "modified": 1622096925970,
-                        "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-                        "owner": "634f2535-ffef-49cc-a435-a6d749b194ff",
-                        "isDeleted": false,
-                        "isHidden": false,
-                        "clientState": {
-                          "headlineVizPropVersion": "V1"
-                        },
-                        "tags": [],
-                        "type": "QUESTION",
-                        "isExternal": false,
-                        "isDeprecated": false
-                      },
-                      "complete": true,
-                      "incompleteDetail": []
-                    },
-                    {
-                      "vizContent": {
-                        "vizType": "TABLE",
-                        "columns": [
-                          {
-                            "isUserSorted": false,
-                            "aggrTypeOverride": "SUM",
-                            "typeOverride": "MEASURE",
-                            "dataTypeOverride": "UNKNOWN",
-                            "formatTypeOverride": "NONE",
-                            "groupBy": false,
-                            "uniqueValues": -1,
-                            "sageOutputColumnId": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                            "outputIdsWithMatchingLogicalKey": [],
-                            "aggrApplied": true,
-                            "isVisible": true,
-                            "columnToFormatPatternType": {},
-                            "effectiveAggrType": "SUM",
-                            "effectiveDataType": "INT32",
-                            "effectiveType": "MEASURE",
-                            "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-                            "effectiveColumnGuid": "463f9b8d-b856-3ecb-af6e-11b897fbe3a8",
-                            "effectiveColumnIdString": "7edea0a6-59ce-499a-886e-f106951d849f#SUM#MEASURE#null",
-                            "baseColumnName": "Number of results",
-                            "baseAggrType": "SUM",
-                            "baseDataType": "INT32",
-                            "baseType": "MEASURE",
-                            "isBaseColumnAdditive": true,
-                            "baseDataRecency": 1612685173,
-                            "referencedTableHeaders": [
-                              {
-                                "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
-                                "name": "Discover Monitoring Data"
-                              }
-                            ],
-                            "referencedColumnHeaders": [
-                              {
-                                "id": "7edea0a6-59ce-499a-886e-f106951d849f",
-                                "name": "Number of results"
-                              }
-                            ],
-                            "allLevelReferencedTableHeaders": [
-                              {
-                                "id": "2b9d083a-275c-4984-9cfe-90b036affa17",
-                                "name": "Discover Monitoring Data"
-                              },
-                              {
-                                "id": "182f1e7c-c461-4535-b9da-c5297147631a",
-                                "name": "MetricsMonitoring"
-                              }
-                            ],
-                            "allLevelReferencedColumnHeaders": [
-                              {
-                                "id": "7edea0a6-59ce-499a-886e-f106951d849f",
-                                "name": "Number of results"
-                              },
-                              {
-                                "id": "3e180ce3-24cb-43d4-9576-6a0c3d47465c",
-                                "name": "number_of_results"
-                              }
-                            ],
-                            "clientState": {
-                              "version": "V1"
-                            }
-                          }
-                        ],
-                        "title": {
-                          "value": {
-                            "text": "Table 1"
-                          }
-                        },
-                        "customTitle": false,
-                        "locked": false
-                      },
-                      "relatedLinks": [],
-                      "header": {
-                        "id": "d5fb3361-5766-46d9-b997-46136650647a",
-                        "indexVersion": 2331,
-                        "generationNum": 2331,
-                        "name": "Table Viz number of results",
-                        "author": "34395682-42c9-45b7-a950-e135471311fa",
-                        "authorName": "sandeep2",
-                        "authorDisplayName": "sandeep-dev2",
-                        "created": 1622096925970,
-                        "modified": 1622096925970,
-                        "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-                        "owner": "634f2535-ffef-49cc-a435-a6d749b194ff",
-                        "isDeleted": false,
-                        "isHidden": false,
-                        "clientState": {
-                          "tableVizPropVersion": "V1",
-                          "wrapTableHeader": true
-                        },
-                        "tags": [],
-                        "type": "QUESTION",
-                        "isExternal": false,
-                        "isDeprecated": false
-                      },
-                      "complete": true,
-                      "incompleteDetail": []
-                    }
-                  ]
-                },
-                "header": {
-                  "id": "634f2535-ffef-49cc-a435-a6d749b194ff",
-                  "indexVersion": 2331,
-                  "generationNum": 2331,
-                  "name": "Total Number of results",
-                  "author": "34395682-42c9-45b7-a950-e135471311fa",
-                  "authorName": "sandeep2",
-                  "authorDisplayName": "sandeep-dev2",
-                  "created": 1622096925970,
-                  "modified": 1622096925970,
-                  "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-                  "owner": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
-                  "isDeleted": false,
-                  "isHidden": true,
-                  "tags": [],
-                  "type": "QUESTION",
-                  "isExternal": false,
-                  "isDeprecated": false
-                },
-                "complete": true,
-                "incompleteDetail": []
-              }
-            ]
-          },
-          "type": "QUESTION",
-          "header": {
-            "id": "01020e97-9b7e-4de9-b1d8-5d832864a1f8",
-            "indexVersion": 2331,
-            "generationNum": 2331,
-            "name": "Total Number of results",
-            "author": "34395682-42c9-45b7-a950-e135471311fa",
-            "authorName": "sandeep2",
-            "authorDisplayName": "sandeep-dev2",
-            "created": 1622096925970,
-            "modified": 1622096925970,
-            "modifiedBy": "34395682-42c9-45b7-a950-e135471311fa",
-            "owner": "977f6606-ef28-4456-9678-91d7b54796c9",
-            "isDeleted": false,
-            "isHidden": true,
-            "isAutoCreated": false,
-            "isAutoDelete": false,
-            "tags": [],
-            "isExternal": false,
-            "isDeprecated": false
-          },
-          "complete": true,
-          "incompleteDetail": []
-        }
-      },
-      "tags": [],
-      "isExternal": false,
-      "isDeprecated": false
-    },
-    "complete": true,
-    "incompleteDetail": []
-  },
-  "user": {
-    "userName": "tsadmin",
-    "userGUID": "59481331-ee53-42be-a548-bd87be6ddd4a",
-    "userEmail": "TSadmin1@thoughtspot.com"
-  }
-}
+   "completionRatio":1,
+   "reportBookData":{
+      "d836410b-db43-4c60-84d6-963bd25c50cc":{
+         "vizData":{
+            "2c9a59ec-c741-45c8-bb35-84928aece3fb":{
+               "dataSets":{
+                  "PINBOARD_VIZ":{
+                     "id":"3c0e1f61-2521-49cb-b95a-4c762bdce44e",
+                     "clientState":{
 
+                     },
+                     "vizProp":{
+                        "tableVizPropVersion":"V1",
+                        "wrapTableHeader":true,
+                        "widthState":[
+
+                        ],
+                        "theme":null,
+                        "showTableFooter":null,
+                        "showGridSummary":null,
+                        "density":null,
+                        "orderedColumnIds":[
+
+                        ],
+                        "columnProperties":[
+
+                        ]
+                     },
+                     "columns":{
+                        "column":{
+                           "id":"f31712d5-d528-4c7a-93de-7d431bc1e57b",
+                           "name":"Total Revenue",
+                           "type":"MEASURE",
+                           "baseColumnType":"SAGE_COLUMN",
+                           "formulaId":"",
+                           "columnProps":{
+                              "version":"V1",
+                              "columnProperties":null
+                           },
+                           "dataType":"DOUBLE",
+                           "isAggregateApplied":true,
+                           "aggregationType":"SUM",
+                           "isGroupBy":false,
+                           "isUserDefinedTitle":false,
+                           "isAdditive":true,
+                           "showGrowth":false,
+                           "customCalendarType":null,
+                           "formatType":"CURRENCY",
+                           "calendarGuid":"",
+                           "formatPattern":null,
+                           "format":{
+                              "pattern":"",
+                              "currencyFormat":{
+                                 "column":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+                                 "type":"COLUMN",
+                                 "isoCode":""
+                              }
+                           },
+                           "referencedColumns":[
+                              {
+                                 "guid":"9e78a664-19d6-4a44-be53-eedbfc7df585",
+                                 "displayName":"Revenue"
+                              }
+                           ],
+                           "referencedTables":[
+                              {
+                                 "guid":"84815b7f-f884-4d89-bd7b-6420927cf547",
+                                 "displayName":"Tea Sales"
+                              }
+                           ],
+                           "legacySheetProperties":{
+
+                           },
+                           "legacyColumnFormatProperties":null,
+                           "timeBucket":"NO_BUCKET",
+                           "geoConfig":null
+                        },
+                        "legacyMetricDefinition":null
+                     },
+                     "sortInfo":[
+
+                     ],
+                     "topInfo":[
+
+                     ],
+                     "data":{
+                        "columnDataLite":{
+                           "columnId":"8b91c6a0-cc7b-42df-8b3f-a7b23679f325",
+                           "columnDataType":"CHAR",
+                           "dataValue":[
+                              "compressed",
+                              "loose leaves",
+                              "loose leaves"
+                           ]
+                        },
+                        "completionRatio":1,
+                        "samplingRatio":1,
+                        "totalRowCount":"3"
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "reportBookMetadata":{
+      "reportContent":{
+         "sheets":{
+            "sheetType":"PINBOARD",
+            "sheetContent":{
+               "sheetContentType":"PINBOARD",
+               "pinboardFilterDetails":{
+                  "pinboardFiltersAnswerIds":[
+
+                  ],
+                  "filterLogicalTableIds":[
+
+                  ],
+                  "logicalTableIdToPinboardFilterVizIds":{
+
+                  },
+                  "filterIdToLinkedFilterIds":{
+
+                  },
+                  "filterIdToExcludedVizs":{
+
+                  }
+               },
+               "visualizations":[
+                  {
+                     "vizContent":{
+                        "refAnswerSheetIndex":0,
+                        "refVizId":"3c0e1f61-2521-49cb-b95a-4c762bdce44e",
+                        "locked":false,
+                        "dataOnDemand":false,
+                        "refAnswerBook":{
+                           "id":"f8ab03d4-1f5f-427f-b556-0662fd2b4fba",
+                           "name":"Total Sales",
+                           "description":"",
+                           "sheets":[
+                              {
+                                 "id":"d5a268e4-4885-40b5-ab2a-ab6707a53860",
+                                 "name":"Total Sales",
+                                 "description":"",
+                                 "owner":"f8ab03d4-1f5f-427f-b556-0662fd2b4fba"
+                              }
+                           ]
+                        },
+                        "vizType":"PINBOARD_VIZ"
+                     },
+                     "relatedLinks":[
+
+                     ],
+                     "header":{
+                        "id":"2c9a59ec-c741-45c8-bb35-84928aece3fb",
+                        "indexVersion":80,
+                        "generationNum":80,
+                        "name":"Answer: Total Sales Viz: Table Viz sales tea ",
+                        "description":"",
+                        "author":"59481331-ee53-42be-a548-bd87be6ddd4a",
+                        "authorName":"tsadmin",
+                        "hasLenientDiscoverability":false,
+                        "authorDisplayName":"Administrator",
+                        "created":1675229689782,
+                        "modified":1675233586391,
+                        "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",
+                        "owner":"34258eca-b729-4e31-8018-ac931d57a1dd",
+                        "isDeleted":false,
+                        "isHidden":false,
+                        "tags":[
+
+                        ],
+                        "isExternal":false,
+                        "isDeprecated":false,
+                        "isSharedViaConnection":false
+                     },
+                     "complete":true,
+                     "incompleteDetail":[
+
+                     ]
+                  }
+               ],
+               "layout":{
+                  "layoutMode":"auto",
+                  "tiles":[
+                     {
+                        "id":"2c9a59ec-c741-45c8-bb35-84928aece3fb",
+                        "x":1,
+                        "y":0,
+                        "width":0,
+                        "height":0,
+                        "order":0,
+                        "size":"l"
+                     }
+                  ]
+               },
+               "vizLayout":"CAAaTgokMmM5YTU5ZWMtYzc0MS00NWM4LWJiMzUtODQ5MjhhZWNlM2ZiEQAAAAAAAPA/GQAAAAAAAAAAIQAAAAAAAAAAKQAAAAAAAAAAMAA4Aw",
+               "canGenerateLeafData":false
+            },
+            "header":{
+               "id":"d836410b-db43-4c60-84d6-963bd25c50cc",
+               "indexVersion":80,
+               "generationNum":80,
+               "name":"Total sales",
+               "description":"",
+               "author":"59481331-ee53-42be-a548-bd87be6ddd4a",
+               "authorName":"tsadmin",
+               "hasLenientDiscoverability":false,
+               "authorDisplayName":"Administrator",
+               "created":1675229689743,
+               "modified":1675233586390,
+               "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",
+               "owner":"34258eca-b729-4e31-8018-ac931d57a1dd",
+               "isDeleted":false,
+               "isHidden":false,
+               "tags":[
+
+               ],
+               "isExternal":false,
+               "isDeprecated":false,
+               "isSharedViaConnection":false
+            },
+            "complete":true,
+            "incompleteDetail":[
+
+            ]
+         }
+      }
+   },
+   "user":{
+      "userName":"tsadmin",
+      "userGUID":"59481331-ee53-42be-a548-bd87be6ddd4a",
+      "userEmail":""
+   },
+   "vizId":"2c9a59ec-c741-45c8-bb35-84928aece3fb"
+}
 ----
 
-The following example shows the Liveboard data payload for a callback custom action set as a context menu in a Liveboard visualization page:
-
+The following example shows the data payload for a callback custom action in the context menu of a Liveboard visualization:
 
 [source, JSON]
 ----
 {
   "clickedPoint": {
-    "selectedAttributes": [],
-    "deselectedAttributes": [],
-    "selectedMeasures": [],
-    "deselectedMeasures": [
+    "selectedAttributes": [
       {
         "column": {
-          "id": "6bcf4d93-d3c0-478c-a438-d3f1a394e4a5",
-          "name": "Total Number of results",
-          "type": "MEASURE",
+          "id": "c30d89ee-6b57-5f3f-86ea-13d60efef40c",
+          "name": "Currency Code",
+          "type": "ATTRIBUTE",
           "baseColumnType": "SAGE_COLUMN",
           "formulaId": "",
           "columnProps": {
             "version": "V1",
             "columnProperties": null
           },
-          "dataType": "INT32",
-          "aggregationType": "SUM",
-          "isGroupBy": false,
+          "dataType": "CHAR",
+          "isAggregateApplied": false,
+          "aggregationType": "NONE",
+          "isGroupBy": true,
           "isUserDefinedTitle": false,
-          "isAdditive": true,
+          "isAdditive": false,
+          "showGrowth": false,
           "customCalendarType": null,
-          "formatType": "NONE",
+          "formatType": null,
           "calendarGuid": "",
           "formatPattern": null,
-          "format": {
-            "pattern": "",
-            "currencyFormat": null
-          },
+          "format": null,
           "referencedColumns": [
             {
-              "guid": "7edea0a6-59ce-499a-886e-f106951d849f",
-              "displayName": "Number of results"
+              "guid": "616451a0-abf5-47e0-998a-adca86baf882",
+              "displayName": "Currency Code"
             }
           ],
           "referencedTables": [
             {
-              "guid": "2b9d083a-275c-4984-9cfe-90b036affa17",
-              "displayName": "Discover Monitoring Data"
+              "guid": "84815b7f-f884-4d89-bd7b-6420927cf547",
+              "displayName": "Tea Sales"
             }
           ],
           "legacySheetProperties": null,
@@ -920,11 +575,740 @@ The following example shows the Liveboard data payload for a callback custom act
           "timeBucket": "NO_BUCKET",
           "geoConfig": null
         },
-        "value": 0
+        "value": "usd"
+      }
+    ],
+    "deselectedAttributes": [],
+    "selectedMeasures": [
+      {
+        "column": {
+          "id": "e99b3d11-a10a-496e-b036-2f6882edc873",
+          "name": "Total Sales",
+          "type": "MEASURE",
+          "baseColumnType": "SAGE_COLUMN",
+          "formulaId": "",
+          "columnProps": {
+            "version": "V1",
+            "columnProperties": null
+          },
+          "dataType": "INT64",
+          "isAggregateApplied": true,
+          "aggregationType": "SUM",
+          "isGroupBy": false,
+          "isUserDefinedTitle": false,
+          "isAdditive": true,
+          "showGrowth": false,
+          "customCalendarType": null,
+          "formatType": "CURRENCY",
+          "calendarGuid": "",
+          "formatPattern": null,
+          "format": {
+            "pattern": "",
+            "currencyFormat": {
+              "column": "",
+              "type": "ISO_CODE",
+              "isoCode": "INR"
+            }
+          },
+          "referencedColumns": [
+            {
+              "guid": "3abe8d75-a732-482c-898d-d8460ca9e806",
+              "displayName": "Sales"
+            }
+          ],
+          "referencedTables": [
+            {
+              "guid": "84815b7f-f884-4d89-bd7b-6420927cf547",
+              "displayName": "Tea Sales"
+            }
+          ],
+          "legacySheetProperties": null,
+          "legacyColumnFormatProperties": null,
+          "timeBucket": "NO_BUCKET",
+          "geoConfig": null
+        },
+        "value": 2310
+      }
+    ],
+    "deselectedMeasures": []
+  },
+  "selectedPoints": [
+    {
+      "selectedAttributes": [
+        {
+          "column": {
+            "id": "c30d89ee-6b57-5f3f-86ea-13d60efef40c",
+            "name": "Currency Code",
+            "type": "ATTRIBUTE",
+            "baseColumnType": "SAGE_COLUMN",
+            "formulaId": "",
+            "columnProps": {
+              "version": "V1",
+              "columnProperties": null
+            },
+            "dataType": "CHAR",
+            "isAggregateApplied": false,
+            "aggregationType": "NONE",
+            "isGroupBy": true,
+            "isUserDefinedTitle": false,
+            "isAdditive": false,
+            "showGrowth": false,
+            "customCalendarType": null,
+            "formatType": null,
+            "calendarGuid": "",
+            "formatPattern": null,
+            "format": null,
+            "referencedColumns": [
+              {
+                "guid": "616451a0-abf5-47e0-998a-adca86baf882",
+                "displayName": "Currency Code"
+              }
+            ],
+            "referencedTables": [
+              {
+                "guid": "84815b7f-f884-4d89-bd7b-6420927cf547",
+                "displayName": "Tea Sales"
+              }
+            ],
+            "legacySheetProperties": null,
+            "legacyColumnFormatProperties": null,
+            "timeBucket": "NO_BUCKET",
+            "geoConfig": null
+          },
+          "value": "usd"
+        }
+      ],
+      "deselectedAttributes": [],
+      "selectedMeasures": [
+        {
+          "column": {
+            "id": "e99b3d11-a10a-496e-b036-2f6882edc873",
+            "name": "Total Sales",
+            "type": "MEASURE",
+            "baseColumnType": "SAGE_COLUMN",
+            "formulaId": "",
+            "columnProps": {
+              "version": "V1",
+              "columnProperties": null
+            },
+            "dataType": "INT64",
+            "isAggregateApplied": true,
+            "aggregationType": "SUM",
+            "isGroupBy": false,
+            "isUserDefinedTitle": false,
+            "isAdditive": true,
+            "showGrowth": false,
+            "customCalendarType": null,
+            "formatType": "CURRENCY",
+            "calendarGuid": "",
+            "formatPattern": null,
+            "format": {
+              "pattern": "",
+              "currencyFormat": {
+                "column": "",
+                "type": "ISO_CODE",
+                "isoCode": "INR"
+              }
+            },
+            "referencedColumns": [
+              {
+                "guid": "3abe8d75-a732-482c-898d-d8460ca9e806",
+                "displayName": "Sales"
+              }
+            ],
+            "referencedTables": [
+              {
+                "guid": "84815b7f-f884-4d89-bd7b-6420927cf547",
+                "displayName": "Tea Sales"
+              }
+            ],
+            "legacySheetProperties": null,
+            "legacyColumnFormatProperties": null,
+            "timeBucket": "NO_BUCKET",
+            "geoConfig": null
+          },
+          "value": 2310
+        }
+      ],
+      "deselectedMeasures": []
+    }
+  ]
+}
+
+----
+
+=== Liveboard (New experience)
+
+The following example shows the data payload for a callback custom action in the *More* menu of a Liveboard visualization:
+
+[source,JSON]
+----
+{
+   "id":"callback-action",
+   "embedAnswerData":{
+      "__typename":"TableViz",
+      "clientState":{
+
+      },
+      "description":"",
+      "filterGroups":[
+         {
+            "__typename":"FilterGroup",
+            "columnInfo":{
+               "__typename":"FilterColumn",
+               "aggregationType":"NONE",
+               "calendarGuid":"",
+               "dataType":"CHAR",
+               "formulaId":"",
+               "isAggregateApplied":false,
+               "name":"Currency Code",
+               "referencedColumns":[
+                  {
+                     "__typename":"EntityHeader",
+                     "displayName":"Currency Code",
+                     "guid":"616451a0-abf5-47e0-998a-adca86baf882"
+                  }
+               ],
+               "referencedTables":[
+                  {
+                     "__typename":"EntityHeader",
+                     "displayName":"Tea Sales",
+                     "guid":"84815b7f-f884-4d89-bd7b-6420927cf547"
+                  }
+               ],
+               "timeBucket":"NO_BUCKET",
+               "type":"ATTRIBUTE"
+            },
+            "displayName":null,
+            "filters":[
+               {
+                  "__typename":"Filter",
+                  "filterContent":[
+                     {
+                        "__typename":"FilterContent",
+                        "filterType":"EQ",
+                        "negate":false,
+                        "value":[
+                           {
+                              "__typename":"FilterContentValue",
+                              "key":"usd"
+                           }
+                        ]
+                     }
+                  ],
+                  "filterId":"0b9702fa-7307-5c14-be75-13273f9d0dc6"
+               }
+            ],
+            "groupId":{
+               "__typename":"FilterGroupId",
+               "answerColumnId":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+               "dataSourceId":null,
+               "logicalColumnId":null
+            },
+            "isEditable":true,
+            "isMandatory":null
+         }
+      ],
+      "hashKey":"10078428522383724324",
+      "headlineVisibilityMap":[
+         {
+            "__typename":"HeadlineVisibility",
+            "columnId":"8b91c6a0-cc7b-42df-8b3f-a7b23679f325",
+            "isVisible":false
+         },
+         {
+            "__typename":"HeadlineVisibility",
+            "columnId":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+            "isVisible":false
+         }
+      ],
+      "id":"3c0e1f61-2521-49cb-b95a-4c762bdce44e",
+      "name":"Total Sales",
+      "permission":{
+         "__typename":"ObjectPermission",
+         "dataSourceAccessLevel":"MODIFY",
+         "dataSourceNamesWithNoAccess":[
+
+         ],
+         "objectAccessLevel":"MODIFY"
+      },
+      "queryableDataSource":"DEFAULT",
+      "visualizations":[
+         {
+            "__typename":"TableViz",
+            "clientState":{
+
+            },
+            "columns":[
+               {
+                  "__typename":"VizColumn",
+                  "column":{
+                     "__typename":"AnswerColumn",
+                     "aggregationType":"NONE",
+                     "baseColumnType":"SAGE_COLUMN",
+                     "calendarGuid":"",
+                     "columnProps":{
+                        "__typename":"AnswerColumnProps",
+                        "columnProperties":null,
+                        "version":"V1"
+                     },
+                     "customCalendarType":null,
+                     "dataType":"CHAR",
+                     "format":null,
+                     "formatPattern":null,
+                     "formatType":null,
+                     "formulaId":"",
+                     "geoConfig":null,
+                     "id":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+                     "isAdditive":false,
+                     "isAggregateApplied":false,
+                     "isGroupBy":true,
+                     "isUserDefinedTitle":false,
+                     "legacyColumnFormatProperties":null,
+                     "legacySheetProperties":{
+
+                     },
+                     "name":"Currency Code",
+                     "referencedColumns":[
+                        {
+                           "__typename":"EntityHeader",
+                           "displayName":"Currency Code",
+                           "guid":"616451a0-abf5-47e0-998a-adca86baf882"
+                        }
+                     ],
+                     "referencedTables":[
+                        {
+                           "__typename":"EntityHeader",
+                           "displayName":"Tea Sales",
+                           "guid":"84815b7f-f884-4d89-bd7b-6420927cf547"
+                        }
+                     ],
+                     "showGrowth":false,
+                     "timeBucket":"NO_BUCKET",
+                     "type":"ATTRIBUTE"
+                  },
+                  "legacyMetricDefinition":null
+               },
+               {
+                  "__typename":"VizColumn",
+                  "column":{
+                     "__typename":"AnswerColumn",
+                     "aggregationType":"SUM",
+                     "baseColumnType":"SAGE_COLUMN",
+                     "calendarGuid":"",
+                     "columnProps":{
+                        "__typename":"AnswerColumnProps",
+                        "columnProperties":null,
+                        "version":"V1"
+                     },
+                     "customCalendarType":null,
+                     "dataType":"DOUBLE",
+                     "format":{
+                        "__typename":"AnswerColumnFormat",
+                        "currencyFormat":{
+                           "__typename":"CurrencyFormat",
+                           "column":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+                           "isoCode":"",
+                           "type":"COLUMN"
+                        },
+                        "pattern":""
+                     },
+                     "formatPattern":null,
+                     "formatType":"CURRENCY",
+                     "formulaId":"",
+                     "geoConfig":null,
+                     "id":"f31712d5-d528-4c7a-93de-7d431bc1e57b",
+                     "isAdditive":true,
+                     "isAggregateApplied":true,
+                     "isGroupBy":false,
+                     "isUserDefinedTitle":false,
+                     "legacyColumnFormatProperties":null,
+                     "legacySheetProperties":{
+
+                     },
+                     "name":"Total Revenue",
+                     "referencedColumns":[
+                        {
+                           "__typename":"EntityHeader",
+                           "displayName":"Revenue",
+                           "guid":"9e78a664-19d6-4a44-be53-eedbfc7df585"
+                        }
+                     ],
+                     "referencedTables":[
+                        {
+                           "__typename":"EntityHeader",
+                           "displayName":"Tea Sales",
+                           "guid":"84815b7f-f884-4d89-bd7b-6420927cf547"
+                        }
+                     ],
+                     "showGrowth":false,
+                     "timeBucket":"NO_BUCKET",
+                     "type":"MEASURE"
+                  },
+                  "legacyMetricDefinition":null
+               }
+            ],
+            "id":"3c0e1f61-2521-49cb-b95a-4c762bdce44e",
+            "sortInfo":[
+
+            ],
+            "topInfo":[
+
+            ],
+            "vizProp":{
+               "__typename":"TableVizProps",
+               "columnProperties":[
+
+               ],
+               "density":null,
+               "orderedColumnIds":[
+
+               ],
+               "showGridSummary":null,
+               "showTableFooter":null,
+               "tableVizPropVersion":"V1",
+               "theme":null,
+               "widthState":[
+
+               ],
+               "wrapTableHeader":true
+            }
+         }
+      ],
+      "columns":[
+         {
+            "__typename":"VizColumn",
+            "column":{
+               "__typename":"AnswerColumn",
+               "dataType":"CHAR",
+               "format":null,
+               "id":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+               "name":"Currency Code",
+               "referencedColumns":[
+                  {
+                     "__typename":"EntityHeader",
+                     "displayName":"Currency Code"
+                  }
+               ],
+               "timeBucket":"NO_BUCKET",
+               "type":"ATTRIBUTE"
+            }
+         },
+         {
+            "__typename":"VizColumn",
+            "column":{
+               "__typename":"AnswerColumn",
+               "dataType":"DOUBLE",
+               "format":{
+                  "__typename":"AnswerColumnFormat",
+                  "currencyFormat":{
+                     "__typename":"CurrencyFormat",
+                     "column":"f8f28785-a7ed-53e4-9d23-565673ae3902",
+                     "isoCode":"",
+                     "type":"COLUMN"
+                  },
+                  "pattern":""
+               },
+               "id":"f31712d5-d528-4c7a-93de-7d431bc1e57b",
+               "name":"Total Revenue",
+               "referencedColumns":[
+                  {
+                     "__typename":"EntityHeader",
+                     "displayName":"Revenue"
+                  }
+               ],
+               "timeBucket":"NO_BUCKET",
+               "type":"MEASURE"
+            }
+         }
+      ],
+      "data":{
+         "columnDataLite":[
+            {
+               "columnId":"5b37be07-7c23-4f8f-ad2a-1876a51e6383",
+               "columnDataType":"CHAR",
+               "dataValue":[
+                  "chamomile",
+                  "earl gray",
+                  "mint"
+               ]
+            },
+            {
+               "columnId":"f31712d5-d528-4c7a-93de-7d431bc1e57b",
+               "columnDataType":"DOUBLE",
+               "dataValue":[
+                  54.87,
+                  18.36,
+                  193.19
+               ]
+            }
+         ],
+         "completionRatio":1,
+         "samplingRatio":1,
+         "totalRowCount":"3",
+         "queryPerfStats":{
+            "timeTakenDatamanager":"4"
+         }
+      },
+      "user":{
+         "userName":"tsadmin",
+         "userGUID":"59481331-ee53-42be-a548-bd87be6ddd4a",
+         "userEmail":""
+      },
+      "reportBookMetadata":{
+         "headerMetadata":{
+            "id":"f8ab03d4-1f5f-427f-b556-0662fd2b4fba",
+            "name":"Total Sales",
+            "description":"",
+            "isNewAnswer":false,
+            "isHidden":true,
+            "loading":false
+         }
+      },
+      "isAnswerUnsaved":false,
+      "vizId":"2c9a59ec-c741-45c8-bb35-84928aece3fb"
+   },
+   "operation":"GetTableWithHeadlineData",
+   "session":{
+      "genNo":0,
+      "sessionId":"54c45759-84f0-4805-96cf-f15f84755de2",
+      "acSession":{
+         "sessionId":"acedc647-d438-44b2-b48f-f1d1a7c05a82",
+         "genNo":1
+      }
+   },
+   "query":""
+}
+----
+
+The following example shows the data payload of callback custom action in the context menu of a Liveboard visualization:
+
+[source,JSON]
+----
+{
+  "id": "ac-callback",
+  "contextMenuPoints": {
+    "clickedPoint": {
+      "selectedAttributes": [],
+      "deselectedAttributes":
+        {
+          "column": {
+            "__typename": "AnswerColumn",
+            "aggregationType": "NONE",
+            "baseColumnType": "SAGE_COLUMN",
+            "calendarGuid": "",
+            "columnProps": {
+              "__typename": "AnswerColumnProps",
+              "columnProperties": null,
+              "version": "V1"
+            },
+            "customCalendarType": null,
+            "dataType": "CHAR",
+            "format": null,
+            "formatPattern": null,
+            "formatType": null,
+            "formulaId": "",
+            "geoConfig": null,
+            "id": "c30d89ee-6b57-5f3f-86ea-13d60efef40c",
+            "isAdditive": false,
+            "isAggregateApplied": false,
+            "isGroupBy": true,
+            "isUserDefinedTitle": false,
+            "legacyColumnFormatProperties": null,
+            "legacySheetProperties": null,
+            "name": "Currency Code",
+            "referencedColumns": [
+              {
+                "__typename": "EntityHeader",
+                "displayName": "Currency Code",
+                "guid": "616451a0-abf5-47e0-998a-adca86baf882"
+              }
+            ],
+            "referencedTables": [
+              {
+                "__typename": "EntityHeader",
+                "displayName": "Tea Sales",
+                "guid": "84815b7f-f884-4d89-bd7b-6420927cf547"
+              }
+            ],
+            "showGrowth": false,
+            "timeBucket": "NO_BUCKET",
+            "type": "ATTRIBUTE"
+          },
+          "value": "usd"
+        },
+      "selectedMeasures": [
+      ],
+      "deselectedMeasures": [
+        {
+          "column": {
+            "__typename": "AnswerColumn",
+            "aggregationType": "SUM",
+            "baseColumnType": "SAGE_COLUMN",
+            "calendarGuid": "",
+            "columnProps": {
+              "__typename": "AnswerColumnProps",
+              "columnProperties": null,
+              "version": "V1"
+            },
+            "customCalendarType": null,
+            "dataType": "DOUBLE",
+            "format": {
+              "__typename": "AnswerColumnFormat",
+              "currencyFormat": {
+                "__typename": "CurrencyFormat",
+                "column": "c30d89ee-6b57-5f3f-86ea-13d60efef40c",
+                "isoCode": "",
+                "type": "COLUMN"
+              },
+              "pattern": ""
+            },
+            "formatPattern": null,
+            "formatType": "CURRENCY",
+            "formulaId": "",
+            "geoConfig": null,
+            "id": "57dcb444-162e-4965-9d99-4f2ab9b49d2b",
+            "isAdditive": true,
+            "isAggregateApplied": true,
+            "isGroupBy": false,
+            "isUserDefinedTitle": false,
+            "legacyColumnFormatProperties": null,
+            "legacySheetProperties": null,
+            "name": "Total Revenue",
+            "referencedColumns": [
+              {
+                "__typename": "EntityHeader",
+                "displayName": "Revenue",
+                "guid": "9e78a664-19d6-4a44-be53-eedbfc7df585"
+              }
+            ],
+            "referencedTables": [
+              {
+                "__typename": "EntityHeader",
+                "displayName": "Tea Sales",
+                "guid": "84815b7f-f884-4d89-bd7b-6420927cf547"
+              }
+            ],
+            "showGrowth": false,
+            "timeBucket": "NO_BUCKET",
+            "type": "MEASURE"
+          },
+          "value": 54.87
+        }
+      ]
+    },
+    "selectedPoints": [
+      {
+        "selectedAttributes": [],
+        "deselectedAttributes":
+          {
+            "column": {
+              "__typename": "AnswerColumn",
+              "aggregationType": "NONE",
+              "baseColumnType": "SAGE_COLUMN",
+              "calendarGuid": "",
+              "columnProps": {
+                "__typename": "AnswerColumnProps",
+                "columnProperties": null,
+                "version": "V1"
+              },
+              "customCalendarType": null,
+              "dataType": "CHAR",
+              "format": null,
+              "formatPattern": null,
+              "formatType": null,
+              "formulaId": "",
+              "geoConfig": null,
+              "id": "c30d89ee-6b57-5f3f-86ea-13d60efef40c",
+              "isAdditive": false,
+              "isAggregateApplied": false,
+              "isGroupBy": true,
+              "isUserDefinedTitle": false,
+              "legacyColumnFormatProperties": null,
+              "legacySheetProperties": null,
+              "name": "Currency Code",
+              "referencedColumns": [
+                {
+                  "__typename": "EntityHeader",
+                  "displayName": "Currency Code",
+                  "guid": "616451a0-abf5-47e0-998a-adca86baf882"
+                }
+              ],
+              "referencedTables": [
+                {
+                  "__typename": "EntityHeader",
+                  "displayName": "Tea Sales",
+                  "guid": "84815b7f-f884-4d89-bd7b-6420927cf547"
+                }
+              ],
+              "showGrowth": false,
+              "timeBucket": "NO_BUCKET",
+              "type": "ATTRIBUTE"
+            },
+            "value": "usd"
+          },
+        "selectedMeasures": [
+          {
+            "column": {
+              "__typename": "AnswerColumn",
+              "aggregationType": "SUM",
+              "baseColumnType": "SAGE_COLUMN",
+              "calendarGuid": "",
+              "columnProps": {
+                "__typename": "AnswerColumnProps",
+                "columnProperties": null,
+                "version": "V1"
+              },
+              "customCalendarType": null,
+              "dataType": "INT64",
+              "format": {
+                "__typename": "AnswerColumnFormat",
+                "currencyFormat": {
+                  "__typename": "CurrencyFormat",
+                  "column": "",
+                  "isoCode": "INR",
+                  "type": "ISO_CODE"
+                },
+                "pattern": ""
+              },
+              "formatPattern": null,
+              "formatType": "CURRENCY",
+              "formulaId": "",
+              "geoConfig": null,
+              "id": "e99b3d11-a10a-496e-b036-2f6882edc873",
+              "isAdditive": true,
+              "isAggregateApplied": true,
+              "isGroupBy": false,
+              "isUserDefinedTitle": false,
+              "legacyColumnFormatProperties": null,
+              "legacySheetProperties": null,
+              "name": "Total Sales",
+              "referencedColumns": [
+                {
+                  "__typename": "EntityHeader",
+                  "displayName": "Sales",
+                  "guid": "3abe8d75-a732-482c-898d-d8460ca9e806"
+                }
+              ],
+              "referencedTables": [
+                {
+                  "__typename": "EntityHeader",
+                  "displayName": "Tea Sales",
+                  "guid": "84815b7f-f884-4d89-bd7b-6420927cf547"
+                }
+              ],
+              "showGrowth": false,
+              "timeBucket": "NO_BUCKET",
+              "type": "MEASURE"
+            },
+            "value": 558
+          }
+        ],
+        "deselectedMeasures": [
+        ]
       }
     ]
-  },
-  "selectedPoints": []
+  }
 }
 
 ----

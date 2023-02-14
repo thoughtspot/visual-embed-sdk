@@ -42,7 +42,8 @@ Sharing can be accomplished through the UI or the xref:security-api.adoc#share-o
 [#group-privileges]
 == Group privileges
 
-Each user group includes a set of privileges for its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. The group privileges allow users belonging to a group to perform specific operations and access workflows. If a user belongs to more than one group, they will have the highest level of privileges from all the groups they belong to. 
+Each user group includes a set of privileges for its users. When a user is assigned to a group in ThoughtSpot, the default privileges associated with a group are assigned to its users. The group privileges allow users belonging to a group to perform specific operations and access workflows. If a user belongs to more than one group, they will have the highest level of privileges from all the groups they belong to.
+
 
 [NOTE]
 ====

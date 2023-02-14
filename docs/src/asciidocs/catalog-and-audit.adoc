@@ -36,7 +36,7 @@ The `security/metadata/permissions` endpoint also takes an argument for the `per
 
 The response from `security/metadata/permissions` is a nested object with mostly GUIDs: 
 
-[source,javascript]
+[source,JavaScript]
 ----
 {
   "41a39422-2da0-4601-9d4a-59c27181c5f5": {   // Object GUID
@@ -51,7 +51,7 @@ The response from `security/metadata/permissions` is a nested object with mostly
 
 * To get a human-readable version of the response, create maps of GUID:name for the object, users, and groups, then add the names in where only GUIDs are provided.
 
-* `shareMode` will be either `READ_ONLY` (*View* in the UI) or `MODIFY` (*Edit* in the UI).
+* `shareMode` will be either `READ_ONLY` (*Can view* in the UI) or `MODIFY` (*Can edit* in the UI).
 
 The example link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/audit_object_access.py[audit_object_access.py, window=_blank] script includes functions to retrieve and add in the matching names to the permissions response, which can then be used to answer many of the different questions around permissions. 
 
@@ -67,4 +67,4 @@ There are also `assignedGroups` and `inheritedGroups` arrays within the response
 == Dependency tracking
 The xref:dependency-apis.adoc[dependency REST APIs] allow you to see which content objects rely on a data object. You can request the dependencies of a *table* object, which will return *worksheets*, *answers*, *Liveboards* and other objects that use the *table*. 
 
-To go up the chain, from an object to what it depends upon, you need to either export and process the object's TML or use the `/metadata/details` API endpoint, which returns a very large and complex data structure. For example, the `tables` property of the TML of an answer or Liveboard provides the name of the table, worksheet, or view that the data comes from. Worksheet TML responses similarly have a property referencing the tables or views they connect to.
+To go up the chain, from an object to what it depends upon, you need to either export and process the object's TML or use the `/metadata/details` API endpoint, which returns a very large and complex data structure. For example, the `tables` property of the TML of an answer or Liveboard provides the name of the table, Worksheet, or view that the data comes from. Worksheet TML responses similarly have a property referencing the tables or views they connect to.

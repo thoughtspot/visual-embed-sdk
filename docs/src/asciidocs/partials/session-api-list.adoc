@@ -10,15 +10,16 @@
 Signs in a user to ThoughtSpot.| ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
 ThoughtSpot Software [version noBackground]#6.0.x#
 |`xref:session-api.adoc#session-authToken[*POST* /tspublic/v1/session/auth/token]` +
-Generates an authentication token for a user session.|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
+Generates an authentication token for a user session. +
+Use this API endpoint to obtain a token for trusted authentication. a|ThoughtSpot Cloud [version noBackground]#ts7.april.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#
-|`xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` +
-Authenticates and logs in a user using a token.
+|`xref:session-api.adoc#session-loginToken[*GET* /tspublic/v1/session/login/token]` (Deprecated) +
+Authenticates and logs in a user using a token obtained from the `/tspublic/v1/session/auth/token` API call. +
 This request method sends authentication attributes as query string parameters in the request URL. +
 __This API call is not required if you are using Visual Embed SDK__. |ThoughtSpot Cloud [version noBackground]#ts7.may.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:session-api.adoc#session-loginToken[*POST* /tspublic/v1/session/login/token]` +
-Authenticates and logs in a user using a token.
+Authenticates and logs in a user using a token obtained from the `/tspublic/v1/session/auth/token` API call. +
 This request method sends authentication attributes in the request body as `formData` parameters. For secure exchange of authentication information, we recommend using the `POST` request method. +
 __This API call is not required if you are using Visual Embed SDK__.
 |ThoughtSpot Cloud [version noBackground]#ts8.nov.cl# +
