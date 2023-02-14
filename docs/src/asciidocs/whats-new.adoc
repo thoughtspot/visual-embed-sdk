@@ -14,7 +14,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently opens on right-clicking a data point on a visualization will appear as a __left-click-triggered__ pop-up menu. This change makes features like *Drill down* more easily discoverable and improves the user experience for those accessing ThoughtSpot on touch devices.
 
-If your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, once you activate the Cross-filters feature, you will notice that the `VizPointClick` event is triggered when a user clicks a contextual menu action, such as *Drill down* or *Filter*.
+If your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, once you activate the Cross-filters feature, you will notice that the `VizPointClick` event is triggered whenever a user clicks a contextual menu action, such as *Drill down* or *Filter*.
 
 If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the contextual menu may impact your app’s current workflow. To avoid this issue, use the following settings in the Visual Embed SDK v1.21.0 and later:
 
