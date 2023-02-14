@@ -47,8 +47,8 @@ function processAuthInit(e: any) {
 }
 
 function processAuthExpire(e: any) {
-    const { autoLogin = false } = getEmbedConfig(); // Set default to false
-    if (autoLogin) {
+    const { autoLogin = false, authType } = getEmbedConfig(); // Set autoLogin default to false
+    if (autoLogin && authType !== AuthType.TrustedAuthToken) {
         handleAuth();
     }
     notifyAuthFailure(AuthFailureType.EXPIRY);

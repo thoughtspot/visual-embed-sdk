@@ -14,6 +14,7 @@ import {
     embedEventStatus,
     setAttributes,
     getCustomisations,
+    getAuthToken,
     getDOMNode,
 } from '../utils';
 import {
@@ -216,7 +217,8 @@ export class TsEmbed {
     /**
      * Send Custom style as part of payload of APP_INIT
      */
-    private appInitCb = (_: any, responder: any) => {
+    private appInitCb = async (_: any, responder: any) => {
+        const authToken = await getAuthToken(this.embedConfig);
         responder({
             type: EmbedEvent.APP_INIT,
             data: {
@@ -224,7 +226,19 @@ export class TsEmbed {
                     this.embedConfig,
                     this.viewConfig,
                 ),
+                authToken,
             },
+        });
+    };
+
+    /**
+     * Sends updated auth token to the iFrame to avoid user logout
+     */
+    private updateAuthToken = async (_: any, responder: any) => {
+        const authToken = await getAuthToken(this.embedConfig);
+        responder({
+            type: EmbedEvent.AuthExpire,
+            data: { authToken },
         });
     };
 
@@ -233,6 +247,7 @@ export class TsEmbed {
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb);
+        this.on(EmbedEvent.AuthExpire, this.updateAuthToken);
     };
 
     /**

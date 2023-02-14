@@ -180,6 +180,22 @@ export const doTokenAuth = async (
 };
 
 /**
+ * Perform token based authentication
+ * @param embedConfig The embed configuration
+ */
+export const doCookielessTokenAuth = async (
+    embedConfig: EmbedConfig,
+): Promise<boolean> => {
+    const { authEndpoint, getAuthToken } = embedConfig;
+    if (!authEndpoint && !getAuthToken) {
+        throw new Error(
+            'Either auth endpoint or getAuthToken function must be provided',
+        );
+    }
+    return Promise.resolve(true);
+};
+
+/**
  * Perform basic authentication to the ThoughtSpot cluster using the cluster
  * credentials.
  *
@@ -352,8 +368,10 @@ export const authenticate = async (
         case AuthType.OIDC:
         case AuthType.OIDCRedirect:
             return doOIDCAuth(embedConfig);
-        case AuthType.AuthServer:
         case AuthType.TrustedAuthToken:
+            return doCookielessTokenAuth(embedConfig);
+        case AuthType.AuthServer:
+        case AuthType.TrustedAuthTokenLegacy:
             return doTokenAuth(embedConfig);
         case AuthType.Basic:
             return doBasicAuth(embedConfig);
