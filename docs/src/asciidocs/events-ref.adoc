@@ -1,6 +1,6 @@
 = Events Reference
 :toc: true
-:toclevels: 1
+:toclevels: 2
 
 :page-title: Events and app integration
 :page-pageid: events
@@ -55,7 +55,7 @@ liveboardEmbed.trigger(HostEvent.CopyLink,  {
 --
 
 
-=== Delete
+==== Delete
 Available with  `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
 Triggers the Delete action on embedded visualization or search Answer. +
 Requires `vizID` key for embedded Liveboards.
