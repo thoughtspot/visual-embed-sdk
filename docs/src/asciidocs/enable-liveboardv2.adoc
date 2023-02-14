@@ -80,8 +80,6 @@ The following figure illustrates the menu actions available on a Liveboard page:
 [.widthAuto]
 image:./images/liveboard-exp-diff.png[Liveboard experience comparison]
 
-
-
 == Customize embedded Liveboards
 
 === Customize actions
@@ -144,9 +142,9 @@ If the custom tile size feature is enabled on your instance, and you have edit a
 
 Note the following issues and limitations before you enable the new Liveboard experience on your embedded instance:
 
-* Custom actions, particularly __local__ actions, may not show on visualization pages or work as expected.
+* The `Rename` action in the **More** menu image:./images/icon-more-10px.png[the more options menu] of an embedded Liveboard cannot be disabled or hidden using Visual Embed SDK.
 * The `locale` setting translates only some parts of the embedded Liveboard such as the menu action labels.
-* The *Upload TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
+* The *Update from TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
 
 == Additional resources
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

@@ -169,7 +169,7 @@ a|* `POST` +
 In REST API v2.0 framework, most of the API operations require you to use the `POST` method.
 
 * `GET` +
-For a few API operations, such as querying system information or session information, use the `GET` method.
+For some API operations, such as querying system information or session information, you can use the `GET` method.
 |=====
 --
 == Object types and naming convention

@@ -10,7 +10,7 @@ This API Reference page lists the REST API v2.0 endpoints and provides basic inf
 
 [NOTE]
 ====
-Access to ThoughtSpot data via API is restricted based on xref:api-user-management.adoc#group-privileges[user privileges] and xref:configure-user-access.adoc#_object_level_permissions[object-level permissions]. Some operations are available for all users, but require at least view access to the metadata object. ThoughtSpot users are assigned access privileges based on the group to which they belong. Additionally, metadata owners can restrict access to the object by assigning view-only or edit permissions when sharing an object with other users and groups.
+Access to ThoughtSpot data is controlled based on xref:api-user-management.adoc#group-privileges[user privileges] and xref:configure-user-access.adoc#_object_level_permissions[object-level permissions]. Some operations are available to all users and may require at least view access to the metadata object. ThoughtSpot users are assigned access privileges based on the group to which they belong. Additionally, object owners can control access to a metadata object using `MODIFY` (*Can edit*), `READ_ONLY` (*Can view*), or `NO_ACCESS` permission when sharing an object with other users and groups.
 ====
 
 == Authentication
@@ -112,7 +112,7 @@ __Requires administrator privileges__.
 Gets user details. You can get the details of a specific user or all user objects available in the ThoughtSpot system.
 You can also filter the API output based on groups, Org ID, visibility, account status, user type, and user preference settings.
 
-__Requires administrator privileges__.
+__Available to all users. Does not require administrator privileges__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -197,7 +197,7 @@ __Requires administrator privileges__.
 
 `POST /api/rest/2.0/users/change_password`
 
-Allows ThoughtSpot users to change the password of their account.
+Allows ThoughtSpot users to change the password of their account. Administrators can also change the password on behalf of a user.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -384,7 +384,7 @@ __Requires administrator privileges__.
 
 Assigns a tag to metadata objects.
 
-__Requires administrator privilege or edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -398,7 +398,7 @@ __Requires administrator privilege or edit access to the metadata object (Livebo
 
 Removes the tag assigned to a metadata object.
 
-__Requires administrator privilege or edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
+__Requires edit access to the metadata object (Liveboard, saved Answer, or the Worksheet)__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -416,7 +416,7 @@ API endpoints for CRUD operations on groups objects and groups data import from 
 
 Gets the details of group objects from ThoughtSpot. You can get the details of a specific group or all groups available in the ThoughtSpot system. You can also filter the API output based on user association, privileges, Org ID, visibility, and group type.
 
-__Requires administrator privileges__.
+__Available to all users. Does not require administrator privileges__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -501,7 +501,7 @@ API endpoints for querying metadata objects, importing and exporting TML represe
 
 Gets details of metadata objects from ThoughtSpot.
 
-__Requires at least view access to metadata objects__.
+__Requires at least view access to metadata objects. The `USER` and `USER_GROUP` metadata object queries require administrator privileges__.
 
 * To fetch data for a metadata object, specify the object ID and type.
 * To fetch data for a specific object type, for example, Liveboard or saved Answer, specify an object type from the `type` list:
@@ -573,7 +573,7 @@ __Requires data management privileges__.
 
 Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML format.
 
-__Requires at least view access to the metadata object__.
+__Requires data management privileges__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -603,7 +603,7 @@ API endpoints to download Liveboard or Answer from ThoughtSpot.
 
 Downloads a Liveboard and its visualizations as a PDF, CSV, XLSX, or PNG file.
 
-__Requires at least view access to the Liveboard object__.
+__Requires data download privileges and at least view access to the Liveboard object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -616,7 +616,7 @@ __Requires at least view access to the Liveboard object__.
 
 Downloads the Answer data in PDF, CSV, PNG, or XLSX format.
 
-__Requires at least view access to the Answer object__.
+__Requires data download privileges and at least view access to the Answer object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -677,7 +677,7 @@ __Requires administrator privileges__.
 
 Allows sharing metadata objects, such as Liveboards, saved Answers, and Worksheets with another user or group in ThoughtSpot.
 
-__Requires at least view access to the metadata object__.
+__Requires administrator privileges and at least view access to the metadata object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -694,7 +694,7 @@ API endpoints to search data from a data source, fetch Liveboard and Answer data
 
 Allows searching data from a data source by passing query strings in the API request.
 
-__Requires at least view access to the data source__.
+__Requires data download privileges and at least view access to the data source object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -707,7 +707,7 @@ __Requires at least view access to the data source__.
 
 Gets Liveboard and visualization data from ThoughtSpot.
 
-__Requires at least view access to the Liveboard object__.
+__Requires data download privileges and at least view access to the Liveboard object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -721,7 +721,7 @@ __Requires at least view access to the Liveboard object__.
 
 Gets Answer data from ThoughtSpot. You can fetch data for saved Answers only.
 
-__Requires at least view access to the Answer object__.
+__Requires data download privileges and at least view access to the Answer object__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -736,6 +736,8 @@ __Requires at least view access to the Answer object__.
 `POST /api/rest/2.0/logs/fetch`
 
 Gets security audit logs from the ThoughtSpot system.
+
+--Requires administrator privileges__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
