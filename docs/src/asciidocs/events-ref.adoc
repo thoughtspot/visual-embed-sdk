@@ -41,28 +41,15 @@ To trigger the *Copy link* action on a specific visualization on a Liveboard, pa
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
 The following example triggers the `CopyLink` action on a Liveboard.
 
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.CopyLink)
-----
-
-The following example triggers the `CopyLink` action on the specified visualization in a Liveboard.
-
-[source,JavaScript]
-----
 liveboardEmbed.trigger(HostEvent.CopyLink,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-
-If you have embedded only chart or table visualization, you can trigger the `CopyLink` action on the object.
-[source,JavaScript]
-----
-vizEmbed.trigger(HostEvent.CopyLink)
 ----
 ====
 --
@@ -70,27 +57,20 @@ vizEmbed.trigger(HostEvent.CopyLink)
 
 === Delete
 Available with  `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
-
-Triggers the Delete action on embedded visualization or search Answer
-
+Triggers the Delete action on embedded visualization or search Answer. +
 Requires `vizID` key for embedded Liveboards.
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
-.Example code for embedded Liveboards
+The following example triggers the `Delete` action on an embedded Liveboard.
+
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Delete,
 {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-
-.Example code for embedded Answers
-[source,JavaScript]
-----
-appEmbed.trigger(HostEvent.Delete)
 ----
 ====
 --
@@ -98,20 +78,19 @@ appEmbed.trigger(HostEvent.Delete)
 ==== Download
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
-
 Triggers the *Download* action on a visualization or Answer in the Chart view mode.  +
-
 Requires the `vizId` key for event trigger on a Liveboard.
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
+====
 --
 
 ==== DownloadAsPDF
@@ -131,10 +110,9 @@ liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
 ====
 --
 
-==== Download as CSV
+==== DownloadAsCSV
 
 Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
-
 Triggers the *Download As CSV* action on a Liveboard visualization or Answer in the table view mode.
 
 [div divider]
@@ -149,13 +127,12 @@ liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e
 ====
 --
 
-==== Download as XLSX
+==== DownloadAsXLSX
 
 Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
-
 Triggers the *Download As XLXS* action on a Liveboard visualization or Answer in the table view mode.
 
-[div divider]the
+[div divider]
 --
 .Example
 [%collapsible]
@@ -243,7 +220,7 @@ vizEmbed.trigger(HostEvent.Edit)
 ====
 --
 
-==== Edit TML
+==== EditTML
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Edit TML* action on a Liveboard. +
@@ -279,7 +256,7 @@ liveboardEmbed.trigger(HostEvent.Explore, {
 ====
 --
 
-==== Export TML
+==== ExportTML
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Export TML* action on a Liveboard. +
@@ -308,7 +285,7 @@ Fires when a user triggers the Liveboard export workflow with the `getExportRequ
 ----
 liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
 .then(data => {
-console.log('Liveboard Data: ', data);
+console.log('Liveboard Data:', data);
 })
 ----
 ====
@@ -316,27 +293,26 @@ console.log('Liveboard Data: ', data);
 
 
 ==== GetTML
-Available with `LiveboardEmbed`, `SearchEmbed`, and `AppEmbed` in v1.18.0 or later. +
+Available with `SearchEmbed`, and `AppEmbed` in v1.18.0 or later. +
 
-Gets TML of the visualization or answer object when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+Gets TML of the visualization or answer object.
+
+////
+when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+
+////
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
-The event trigger from a Liveboard visualization includes the `vizId` key: +
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.ShowUnderlyingData), {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-
-----
-searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+searchEmbed.trigger(HostEvent.GetTML)
 ----
 ====
 --
-
 
 ==== LiveboardInfo
 
@@ -393,9 +369,7 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ==== ManagePipelines
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
-
-Triggers the *ManagePipelines* action on a Liveboard visualization or saved Answer.
-
+Triggers the *ManagePipelines* action on a Liveboard visualization or saved Answer. +
 Requires the `vizId` key for event trigger on Liveboard visualizations:
 
 
@@ -488,7 +462,6 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ==== Remove
 
 Available with `AppEmbed` in `v1.15.0` or later. +
-
 Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 
 [div divider]
@@ -507,7 +480,6 @@ appEmbed.trigger(HostEvent.Remove)
 ==== Save
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
-
 Triggers the *Save* action on a Liveboard or Answer.
 
 [div divider]
@@ -605,7 +577,6 @@ liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691
 ==== Share
 
 Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later.
-
 Triggers the `*Share*` action on visualization, Answer, or Worksheet.
 
 [div divider]
@@ -623,10 +594,8 @@ liveboardEmbed.trigger(HostEvent.Share)
 
 ==== ShowUnderlyingData
 
-Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later.
-
-Triggers the *ShowUnderlyingData* action on visualization or Answer.
-
+Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *ShowUnderlyingData* action on visualization or Answer. +
 Requires the `vizId` key for event trigger on a Liveboard.
 
 [div divider]
@@ -645,9 +614,7 @@ liveboardEmbed.trigger(HostEvent.ShowUnderlyingData,
 ==== SpotIQAnalyze
 
 Available with `AppEmbed`, `SearchEmbed`, and `LiveboardEmbed` in `v1.19.0` or later. +
-
-Triggers the *SpotIQAnalyze* action on a Liveboard visualization, search result, or saved Answer.
-
+Triggers the *SpotIQAnalyze* action on a Liveboard visualization, search result, or saved Answer. +
 Requires `vizId` key for event trigger on Liveboards.
 
 [div divider]
@@ -666,10 +633,8 @@ liveboardEmbed.trigger(HostEvent.SpotIQAnalyze,
 
 ==== SyncToSheets
 
-Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later.
-
-Triggers the *SyncToSheets* action on a saved Answer or visualization.
-
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *SyncToSheets* action on a saved Answer or visualization. +
 Requires `vizId` key for event trigger on Liveboards.
 
 [div divider]
@@ -688,10 +653,8 @@ liveboardEmbed.trigger(HostEvent.SyncToSheets,
 
 ==== SynToOtherApps
 
-Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later.
-
-Triggers the *SyncToOherApps* action on a saved Answer or visualization.
-
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *SyncToOherApps* action on a saved Answer or visualization. +
 Requires `vizId` key for event trigger on Liveboards.
 
 [div divider]
