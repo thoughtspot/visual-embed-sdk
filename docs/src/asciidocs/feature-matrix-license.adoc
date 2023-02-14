@@ -52,18 +52,18 @@ a| [tag greenBackground]#✓# Basic authentication +
 
 |[tag greenBackground]#✓# Basic authentication | [tag greyBackground]#–# 
 
-a|xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1]
+a|xref:feature-matrix-license.adoc#_rest_api_v1_operations[REST API v1]
 
 |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# | [tag greenBackground]#✓#  +
 (Basic authentication only)| [tag greenBackground]#✓#  +
 (Basic authentication only)
 
-a|xref:feature-matrix-license.adoc#_rest_api_v2beta_bluebackgroundbeta_availability[REST API v2] [beta betaBackground]^Beta^  |[tag greenBackground]#✓#  +
+a|xref:feature-matrix-license.adoc#_rest_api_v2_0_operations[REST API v2] |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 (Basic authentication only) |[tag greyBackground]#–#
 
-|REST API Playground [beta betaBackground]^Beta^|[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|REST API Playground |[tag greenBackground]#✓#  | [tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
 |Callback custom actions|[tag greyBackground]#–# |[tag greenBackground]#✓# |[tag greyBackground]#–#|[tag greyBackground]#–#
