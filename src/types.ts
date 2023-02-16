@@ -1387,6 +1387,54 @@ export enum Action {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     RemoveCrossFilter = 'context-menu-item-remove-cross-filter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuAggregate = 'axisMenuAggregate',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuTimeBucket = 'axisMenuTimeBucket',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuFilter = 'axisMenuFilter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuConditionalFormat = 'axisMenuConditionalFormat',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuSort = 'axisMenuSort',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuGroup = 'axisMenuGroup',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuPosition = 'axisMenuPosition',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuRename = 'axisMenuRename',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuEdit = 'axisMenuEdit',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuNumberFormat = 'axisMenuNumberFormat',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuTextWrapping = 'axisMenuTextWrapping',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuRemove = 'axisMenuRemove',
 }
 
 export interface SessionInterface {
