@@ -844,10 +844,12 @@ export enum HostEvent {
      *                        - Although an array, only a single source
      *                          is supported at this time.
      * @param - searchQuery - The search query
+     * @param - execute - execute the existing / updated query
      * @example
      * searchEmbed.trigger(HostEvent.Search, {
      * searchQuery: "[sales] by [item type],
      * "dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     * "execute": true
      * })
      */
     Search = 'search',
