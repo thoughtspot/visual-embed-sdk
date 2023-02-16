@@ -612,6 +612,12 @@ export enum EmbedEvent {
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
+     * Emitted when  the "Get Data" button in Search Bar embed
+     * is clicked.
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.0-sw
+     */
+    GetDataClick = 'getDataClick',
+    /**
      * Detects the route change.
      */
     RouteChange = 'ROUTE_CHANGE',
