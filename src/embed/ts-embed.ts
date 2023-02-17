@@ -299,6 +299,7 @@ export class TsEmbed {
             locale,
             customizations,
             contextMenuTrigger,
+            linkOverride,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -359,6 +360,9 @@ export class TsEmbed {
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);
         }
+        if (linkOverride) {
+            queryParams[Param.LinkOverride] = linkOverride;
+        }
         return queryParams;
     }
 
@@ -380,9 +384,11 @@ export class TsEmbed {
         const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
         const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
         const enableSearchAssistParam = `&${Param.EnableSearchAssist}=${enableSearchAssist}`;
-        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${isAppEmbed ? disableProfileAndHelpParam : ''
-            }${enableSearchAssist ? enableSearchAssistParam : ''
-            }${queryStringFrag}`;
+        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
+            isAppEmbed ? disableProfileAndHelpParam : ''
+        }${
+            enableSearchAssist ? enableSearchAssistParam : ''
+        }${queryStringFrag}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryParams.substr(1),
