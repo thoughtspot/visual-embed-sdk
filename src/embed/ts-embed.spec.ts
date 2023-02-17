@@ -666,6 +666,19 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getRootEl().nextSibling).toBe(getIFrameEl());
         });
+        it('Should remove existing embed when rerendering', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getRootEl().nextSibling).toBe(getIFrameEl());
+            await appEmbed.render();
+            expect(getRootEl().nextSibling.nextSibling).not.toBe(getIFrameEl());
+        });
         xit('Sets the forceSAMLAutoRedirect param', async (done) => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
             init({

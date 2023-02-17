@@ -9,7 +9,7 @@
  */
 
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
-import { init, prefetch, logout } from './embed/base';
+import { init, prefetch, logout, getEmbedConfig } from './embed/base';
 import {
     PinboardEmbed,
     LiveboardViewConfig,
@@ -34,6 +34,7 @@ export {
     init,
     logout,
     prefetch,
+    getEmbedConfig as getInitConfig,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
