@@ -377,6 +377,11 @@ export interface ViewConfig {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
+    /**
+     * flag to override openNew tab context menu link
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    linkOverride?: boolean;
 }
 
 /**
@@ -1230,6 +1235,7 @@ export enum Param {
     AuthType = 'authType',
     IconSpriteUrl = 'iconSprite',
     ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
+    LinkOverride = 'linkOverride',
 }
 
 /**
