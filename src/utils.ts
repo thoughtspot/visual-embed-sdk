@@ -225,7 +225,10 @@ export const deepMerge = (target: any, source: any) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(source)) {
         if (source[key] instanceof Object)
-            Object.assign(source[key], deepMerge(target[key], source[key]));
+            Object.assign(
+                source[key],
+                deepMerge(target[key] || {}, source[key]),
+            );
     }
 
     // Join `target` and modified `source`
