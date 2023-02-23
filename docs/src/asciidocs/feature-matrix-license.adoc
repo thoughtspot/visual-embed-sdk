@@ -100,7 +100,7 @@ a|Runtime filters
 [width="100%" cols="8,4,4,4,4,4"]
 [options='header']
 |=====
-|REST API v1 endpoints|ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license|ThoughtSpot Everywhere License|Free Trial account +
+|REST API v1 endpoints|ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license|ThoughtSpot Everywhere license|Free Trial account +
 
 (Evaluation only) |API Playground on public instance +
 (Evaluation only)
@@ -212,7 +212,7 @@ __Requires `ADMINISTRATION` privilege__
 
 [div tableContainer]
 --
-[width="100%" cols="8,4,4,4,4,4"]
+[width="100%" cols="8,5,4,4,4,4"]
 [options='header']
 |=====
 |REST API v2.0 endpoints |ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license| ThoughtSpot Everywhere License|Free Trial account +
@@ -220,7 +220,11 @@ __Requires `ADMINISTRATION` privilege__
 (Evaluation only)
 a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
 
-|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
+|[tag greenBackground]#✓# +
+
+__The token generation endpoints, `auth/token/object` and `auth/token/full`, allow bearer token requests only__.
+
+2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 __Session information API only__
 a|xref:rest-api-v2-reference.adoc#_users[User API endpoints]
 
