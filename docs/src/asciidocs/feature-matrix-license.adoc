@@ -39,7 +39,7 @@ __Requires developer or admin  privileges__ |[tag greenBackground]#✓# 2*| [tag
 5+|*REST APIs* + |
 
 a|Embedding Liveboards and charts using data APIs +
-|[tag greenBackground]#✓#  +
+|[tag greyBackground]#–#  +
 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 |[tag greyBackground]#–#
 
@@ -54,7 +54,7 @@ a|REST API v2.0 endpoints |[tag greenBackground]#✓#
 5+|*REST API authentication options* + |
 
 |Basic authentication + |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
-|Bearer token authentication (REST APi v2.0 only)|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+|Bearer token authentication (REST API v2.0 only)|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 |Trusted authentication |[tag greyBackground]#–#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
 
 5+|*Custom actions* + |
@@ -123,7 +123,10 @@ a|xref:session-api.adoc[Session API endpoints] +
 * __The API calls to `/tspublic/v1/session/auth/token` and  `/tspublic/v1/session/login/token` require ThoughtSpot Everywhere license__ +
 * __The home Liveboard CRUD operations require view or edit access to Liveboard objects__
 ////
-|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
+|[tag greenBackground]#✓# +
+
+__The xref:api-auth-session.adoc#_obtain_a_token_for_trusted_authentication[`session/auth/token`] and xref:api-auth-session.adoc#_authenticate_and_log_in_with_a_token_trusted_authentication[`session/login/token`] endpoints are not available__ 2*|[tag greenBackground]#✓#
+ |[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 
 __Session information and home Liveboard APIs only__
 a|xref:connections-api.adoc[Connection API endpoints] +
@@ -201,7 +204,7 @@ a|xref:logs-api.adoc[Audit logs API endpoint] +
 ////
 __Requires `ADMINISTRATION` privilege__
 ////
-|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#||[tag greyBackground]#–#|
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|
 |=====
 --
 
