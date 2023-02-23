@@ -123,6 +123,12 @@ function sanity(embedConfig: EmbedConfig) {
     }
 }
 
+function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
+    const newConfig = { ...embedConfig };
+    newConfig.inPopup = embedConfig.noRedirect;
+    return newConfig;
+}
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable.
@@ -140,6 +146,7 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         ...embedConfig,
         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     };
+    config = backwardCompat(config);
     const authEE = new EventEmitter();
     setAuthEE(authEE);
     handleAuth();
