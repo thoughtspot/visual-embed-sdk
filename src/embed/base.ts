@@ -125,7 +125,12 @@ function sanity(embedConfig: EmbedConfig) {
 
 function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
     const newConfig = { ...embedConfig };
-    newConfig.inPopup = embedConfig.noRedirect;
+    if (
+        embedConfig.noRedirect !== undefined &&
+        embedConfig.inPopup === undefined
+    ) {
+        newConfig.inPopup = embedConfig.noRedirect;
+    }
     return newConfig;
 }
 
