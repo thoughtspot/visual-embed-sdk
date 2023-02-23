@@ -212,6 +212,15 @@ describe('Base TS Embed', () => {
         });
         expect(base.getEmbedConfig().inPopup).toBe(true);
     });
+    test('config backward compat, should not override inPopup with noRedirect', () => {
+        index.init({
+            authType: index.AuthType.None,
+            thoughtSpotHost,
+            noRedirect: true,
+            inPopup: false,
+        });
+        expect(base.getEmbedConfig().inPopup).toBe(false);
+    });
 });
 
 describe('Base without init', () => {
