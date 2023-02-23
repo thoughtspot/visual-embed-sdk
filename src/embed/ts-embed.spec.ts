@@ -607,7 +607,7 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -622,7 +622,7 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                `&showAlerts=true${defaultParamsPost}#/home`,
+                    `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -636,7 +636,7 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                `&locale=ja-JP${defaultParamsPost}#/home`,
+                    `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -652,7 +652,7 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getIFrameSrc()).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
         it('inserts as sibling of root node if configured', async () => {

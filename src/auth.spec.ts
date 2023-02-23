@@ -45,7 +45,7 @@ export const embedConfig: any = {
     },
     doSamlAuthNoRedirect: {
         thoughtSpotHost,
-        noRedirect: true,
+        inPopup: true,
         authTriggerContainer: document.body,
         authTriggerText: 'auth',
     },
