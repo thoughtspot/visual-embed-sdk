@@ -212,7 +212,7 @@ __Requires `ADMINISTRATION` privilege__
 
 [div tableContainer]
 --
-[width="100%" cols="8,5,4,4,4,4"]
+[width="100%" cols="8,8,4,4,4,4"]
 [options='header']
 |=====
 |REST API v2.0 endpoints |ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license| ThoughtSpot Everywhere License|Free Trial account +
@@ -220,9 +220,9 @@ __Requires `ADMINISTRATION` privilege__
 (Evaluation only)
 a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
 
-|[tag greenBackground]#✓# +
+a|[tag greenBackground]#✓# +
 
-__The token generation endpoints, `auth/token/object` and `auth/token/full`, allow bearer token requests only__.
+__The token generation option with `username` and `secret_key` and the JIT user provisioning parameters in `auth/token/object` and `auth/token/full` endpoints require an embedding license__.
 
 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 __Session information API only__
