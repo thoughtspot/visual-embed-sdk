@@ -23,7 +23,7 @@ image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
 
 [IMPORTANT]
 ====
-* The Orgs multi-tenancy features require the link:https://www.thoughtspot.com/pricing[ThoughtSpot Analytics Enterprise Edition license, window=_blank] or link:https://www.thoughtspot.com/pricing[ThoughtSpot Everywhere Enterprise Edition licence, window=_blank].  
+* The Orgs multi-tenancy features require the link:https://www.thoughtspot.com/pricing[ThoughtSpot Analytics Enterprise Edition, window=_blank] or link:https://www.thoughtspot.com/pricing[ThoughtSpot Everywhere Enterprise Edition, window=_blank] licence.  
 * The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot Support.
 * Once you enable the Orgs feature on your instance, there will be one non-deletable Org referred to as the *Primary Org* in your instance.
 * After you enable the Orgs feature on a cluster, you can't turn off the ability to create Orgs.
