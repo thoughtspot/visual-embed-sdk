@@ -37,7 +37,7 @@ To access style customization settings:
 [TIP]
 ====
 Style customization settings are also available in the ThoughtSpot *Admin* tab.
-For more information on setting UI styles from the *Admin* tab, see link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/style-customization.html[Style Customization, window=_blank].
+For more information on setting UI styles from the *Admin* tab, see link:https://docs.thoughtspot.com/software/latest/customization[Style Customization, window=_blank].
 ====
 
 [#logo-change]
@@ -161,7 +161,7 @@ ThoughtSpot picks colors and hues in a specific order. For example, a primary co
 
 image::./images/chart-color-palette-format.png[Standard chart color format]
 
-ThoughtSpot applies the same format for custom color palettes. To know more about the color selection algorithm and criteria for charts, see link:https://docs.thoughtspot.com/cloud/latest/chart-color-change#_how_chart_colors_work[How chart colors work, window=_blank].
+ThoughtSpot applies the same format for custom color palettes. To know more about the color selection algorithm and criteria for charts, see link:https://docs.thoughtspot.com/software/latest/chart-color-change#_how_chart_colors_work[How chart colors work, window=_blank].
 
 === Define a custom color palette for charts
 

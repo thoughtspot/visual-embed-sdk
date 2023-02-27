@@ -1,14 +1,16 @@
+
 To authenticate and log in a user, you must xref:session-api.adoc#session-authToken[obtain a login token] from the ThoughtSpot system. After you receive the login token, you can send the authentication attributes to the `/tspublic/v1/session/login/token` endpoint using a `POST` or `GET` request.
+
 
 * `GET /tspublic/v1/session/login/token`
 +
 This request method sends the user authentication attributes as query string parameters in the request URL.
 
-* `POST /tspublic/v1/session/login/token`
+* `POST /tspublic/v1/session/login/token` (Recommended)
 +
-This request method sends the user authentication attributes as `formData` parameters in the request body of the API call. For secure exchange of authentication information, we recommend using the `POST`request method.
-
-=== Resource URLs
+This request method sends the user authentication attributes as `formData` parameters in the request body of the API call. For secure exchange of authentication information, we recommend using the `POST`request method. 
+ 
+==== Resource URLs
 
 ----
 GET /tspublic/v1/session/login/token
@@ -18,7 +20,7 @@ GET /tspublic/v1/session/login/token
 POST /tspublic/v1/session/login/token
 ----
 
-=== Request parameters
+==== Request parameters
 
 [width="100%" cols="1,4"]
 [options='header']
@@ -31,28 +33,27 @@ POST /tspublic/v1/session/login/token
 `\https://<redirect-domain>/?authtoken=<user_auth_token>&embedApp=true&primaryNavHidden=true#/embed/viz/<pinboard_id>/<viz-id>`
 
 For example, if the user has requested access to a specific visualization on a Liveboard, the redirect URL includes the host domain to which the user will be redirected, the authentication token, and the visualization and Liveboard IDs.
+|`no_url_redirection`|__Boolean__. By default, the API returns a 302 code and redirects the user to the requested URL. If you do not want to redirect users, set this parameter to `true`.
 |====
 
-=== Example requests
+==== Example requests
 
 The following example shows a GET request with query parameters in the request URL:
-
-
+ 
 .cURL
 [source, cURL]
 ----
 curl -X GET \
 --header 'Accept: text/html' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsuser&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F'
 ----
-
+ 
 .Request URL
 [source, URL]
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login/token?username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F
 ----
-
 
 The following example shows a POST request with authentication attributes in the request body:
 
@@ -61,25 +62,24 @@ The following example shows a POST request with authentication attributes in the
 ----
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Accept: text/html' \
---header 'X-Requested-By: ThoughtSpot' \
--d  'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCREMUlCcWV5VVJMb2lZaFpnTUhjMHVnPT0kZklpQVFGTFp0RU5QTFFwcGxOUmF5WWU4ZGtGU1d6THdlUDBEOUY4WkhSWT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F' \
+--header 'Accept: text/plain' \
+-d 'username=tsadmin&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRyNGRXRmsxclVVOFY3dXJjTUNGMUh3PT0kSlZwSTZQZUl2Zm5iQjIwWlZ2Nzd2VysvMUpmTmFSL21sRDFLbTNWNWk3QT0&redirect_url=https://<ThoughtSpot-Host>/?embedV2=true#/pinboard/7a9a6715-e154-431b-baaf-7b58246c13dd%2F&no_url_redirection=false' \
 'https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token'
 ----
-
-
+ 
 .Request URL
 [source, URL]
 ----
 https://<ThoughtSpot-Host>/callosum/v1/tspublic/v1/session/login/token
 ----
 
-=== Example response
+==== Example response
 
-If the API request is successful, ThoughtSpot returns the response header for `set-cookie`. REST  clients can use the cookies from the response to make subsequent REST calls in a non-browser environment.
+If the API request is successful, ThoughtSpot returns the following:
 
-The API request also returns the application details in the response body.
-
+* If `no_url_redirection` is set to `true`, the API returns 204 response code.
+* If `no_url_redirection` is set to `false`, the API returns a response body and redirects the user to the requested URL.
++
 [source, HTML]
 ----
 <!doctype html>
@@ -224,7 +224,7 @@ The API request also returns the application details in the response body.
         var chrome = ua && ua.indexOf('Chrome');
 
     </script>
-
+    
         <link type="text/css" rel="stylesheet" href="resources/css/all.min.90630a0a141abec0.css">
 
         <script src="js/lib.min.bcef417e2b193abd.js"></script>
@@ -238,14 +238,13 @@ The API request also returns the application details in the response body.
 </html>
 ----
 
-====
-
-=== Response codes
+==== Response codes
 
 [options="header", cols="1,4"]
 |===
 |HTTP status code|Description
 |**200**|The user is logged in successfully.
-|**302**|The user is redirected to the specified URL.
+|**204**|No URL redirection.
+|**302**|The user is redirected to the specified URL. 
 |**401**|Unauthorized request or invalid token.
 |===

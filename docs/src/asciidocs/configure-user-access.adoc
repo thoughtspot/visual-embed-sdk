@@ -27,7 +27,7 @@ ThoughtSpot allows you to define several types of privileges for a given user gr
 * Workflow-specific privileges to enable or disable access to features such as SpotIQ analysis, scheduling Liveboards, or the experimental features available for evaluation and early adoption.
 * Sharing privilege to control a user's or group's visibility in the *Share* dialog. 
 
-For more information about system privileges, see  link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Understand groups and privileges, window=_blank].
+For more information about system privileges, see  link:https://docs.thoughtspot.com/software/latest/groups-privileges[Understand groups and privileges, window=_blank].
 
 == Sharing visibility
 
@@ -59,7 +59,7 @@ When a user shares an object with a user group, all users in that group can view
 
 Row-level Security::
 
-Using link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row Level Security, window=_blank] (RLS), you can restrict access to sensitive data and filter tables to show only relevant data for the signed-in user. 
+Using link:https://docs.thoughtspot.com/software/latest/security-rls[Row Level Security, window=_blank] (RLS), you can restrict access to sensitive data and filter tables to show only relevant data for the signed-in user.
 
 +
 *RLS rules* are defined on table objects, and automatically extend to all worksheets, saved answers, and Liveboards based on that table, every time.
@@ -87,7 +87,7 @@ Column-level security::
 CLS restricts user access to specific columns of a table. When CLS is applied, users see only the columns that they are allowed to view. Object owners can configure CLS by sharing a relevant set of columns in a table with a specific user or user group. 
 
 +
-For more information, see link:https://cloud-docs.thoughtspot.com/admin/data-security/share-source-tables.html[Sharing tables and columns, window=_blank].
+For more information, see link:https://docs.thoughtspot.com/software/latest/share-source-tables[Sharing tables and columns, window=_blank].
 
 == Granular access to menu actions
 

@@ -50,6 +50,7 @@ The endpoint URL to which the user's browser sends the SAML response received fr
 +
 A unique service name to identify the client application from which the SSO login request originates.
 
+
 * *SAML attributes*
 +
 The attributes associated with the user; for example, username and email address.
@@ -130,7 +131,12 @@ A fully qualified and resolvable domain name for the ThoughtSpot service. For ex
 Port::
 Port of the server where your ThoughtSpot instance is running. For example, port `443`.
 Unique Service Name::
-The unique key used by your Identity Provider to identify the client. For example, *urn:thoughtspot:callosum:saml*. You may know this as the Entity ID.
+The unique key used by your Identity Provider to identify the client.
+For example, *urn:thoughtspot:callosum:saml*, or *\https://ssoappname.microsoft.com/ab12c3de4*.
+
++
+This is also called the *SP Entity ID*.
+
 Skew Time in Seconds::
 The allowed skew time, after which the authentication response is rejected and sent back from the IdP. The commonly used value is `86400`. The default value is *3600*.
 Protocol::
@@ -140,7 +146,7 @@ The IdP metadata file. For example, *idp-meta.xml*. Upload the Identity Provider
 +
 Automatically add SAML users to ThoughtSpot upon first authentication::
 Specify if you want to add SAML users to ThoughtSpot when they first authenticate. If you select *yes*, the new users will be added to ThoughtSpot upon their first successful SSO login.
-If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-user.html[add users manually, window=_blank].
+If you select *no*, the SAML users will not be added in ThoughtSpot upon their first successful SSO login. Instead, you must  link:https://docs.thoughtspot.com/software/latest/user-management[add users manually, window=_blank].
 +
 ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
@@ -173,7 +179,7 @@ An example of this setting is the link:https://help.okta.com/en/prod/Content/Top
 === Enable SSO authentication in the Visual Embed SDK
 If you want to use SSO authentication for embedded ThoughtSpot content, make sure you set the `AuthType` parameter to `SAML` in the SDK when calling the `init` function from your application.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
@@ -201,7 +207,7 @@ To add a SAML redirect domain, follow these steps:
 +
 [NOTE]
 ====
-Do NOT include the protocol in the SAML redirect domain name string to avoid configuration errors.
+To avoid configuration errors, do NOT include the protocol in the SAML redirect domain name string.
 ====
 +
 . Click *Save changes*.

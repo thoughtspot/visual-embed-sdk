@@ -59,19 +59,19 @@ Downloads the Liveboard as a PDF file.
 Presents the Liveboard in fullscreen mode.
 |`Action.SchedulesList`| `LiveboardEmbed` +
 `AppEmbed` | *Manage schedules*  +
- Allows you to manage Liveboard jobs.
+Allows you to manage Liveboard jobs.
 |`Action.LiveboardInfo`|`LiveboardEmbed` +
 `AppEmbed` |
  *Liveboard info* +
  Displays information about the Liveboard.|
- 
-`Action.EditTML`|`AppEmbed` | *Edit TML* +
-Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
-|`Action.ImportTML`|`AppEmbed` | *Import TML* +
-Allows importing the TML representation of a Liveboard object to ThoughtSpot. 
+
+`Action.EditTML`| `AppEmbed` | *Edit TML* +
+Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server.
+|`Action.ImportTML`| `AppEmbed` | *Import TML* +
+Allows importing the TML representation of a Liveboard object to ThoughtSpot.
 |`Action.ExportTML`| `LiveboardEmbed` +
 `AppEmbed` | *Export TML* +
-Exports the TML representation of a Liveboard object from ThoughtSpot. 
+Exports the TML representation of a Liveboard object from ThoughtSpot.
 |`Action.UpdateTML`|`LiveboardEmbed` +
 `AppEmbed` | *Update TML* +
 Publishes the modified TML representation of a Liveboard object.
@@ -126,8 +126,8 @@ Presents the Liveboard in fullscreen mode.
 Allows scheduling Liveboard notifications.
 |`Action.SchedulesList`| `LiveboardEmbed` +
 `AppEmbed` | *Manage schedules* +
- Allows you to manage Liveboard jobs.
- Saves Liveboard modifications.
+Allows you to manage Liveboard jobs.
+Saves Liveboard modifications.
 |`Action.ExportTML`|`AppEmbed` +
 `LiveboardEmbed`| *Export TML* +
 Exports the TML representation of a Liveboard object from ThoughtSpot.
@@ -197,7 +197,7 @@ Removes the visualization from the Liveboard.
 Allows resizing a visualization on a Liveboard.|
 `Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
- Allows drilling down the visualization to get granular data. Available as a contextual menu action.
+Allows drilling down the visualization to get granular data. Available as a contextual menu action.
 |`Action.DrillExclude`|`LiveboardEmbed` +
 `AppEmbed`|*Exclude* +
 Allows you to exclude a specific data point on a search answer. Available as a contextual menu action.
@@ -310,7 +310,7 @@ a|The *Query visualizer* and *Query SQL* buttons in *Query details* +
 
 |`Action.Save`|`SearchEmbed` +
 `AppEmbed` | *Save* +
- Saves the answer and any modifications made to the answer. 
+Saves the answer and any modifications made to the answer.
 
 |`Action.Download`|`SearchEmbed` +
 `AppEmbed`|*Download* +
@@ -324,7 +324,7 @@ Deletes the answer.
 `AppEmbed` |*Download as CSV* +
 Downloads the answer data in the CSV file format. Available only for tables.
 |`Action.DownloadAsXLSX`|`SearchEmbed` +
-`AppEmbed`| 
+`AppEmbed`|
 *Download as XLSX* +
 Downloads the answer data in the XLSX file format. Available only for tables.
 |`Action.DownloadAsPdf`|`SearchEmbed` +

@@ -8,32 +8,133 @@
 
 This page provides information about new features and enhancements available for embedded ThoughtSpot instances.
 
-== Version 9.0.0-sw, Coming soon
+== Version 9.0.0.sw, Coming soon
 
-<TBD>
+=== Advanced style customization
 
-== Version 8.8.1-sw, January 2023
+You can now override style specifications of the embedded UI pages and elements using custom CSS properties. Custom CSS provides granular control over the design elements and lets you modify the styles
+to match the look and feel of your host application.
 
-ThoughtSpot 8.8.0-sw is a limited availability release. To upgrade your ThoughtSpot cluster to 8.8.0-sw, contact ThoughtSpot Support.
+You can also preview the allowed style overrides in the Visual Embed Playground by selecting the *Apply custom styles* checkbox.
 
-The 8.8.0-sw release introduces the following new features and enhancements:
+For more information, see xref:style-customization.adoc[Customize styles and layout] and xref:css-customization.adoc[Customize CSS].
 
-=== New Data workspace
+=== New Liveboard experience
 
-The new Data workspace is Generally Available (GA) on embedded ThoughtSpot Software deployments. For more information about the new Data tab, SpotApps, and other related features, see link:https://docs.thoughtspot.com/software/latest/data-workspace[ThoughtSpot product documentation].
+The xref:enable-liveboardv2.adoc[new Liveboard experience] is now Generally Available (GA) on embedded instances and is enabled by default.
+
+=== REST API v2.0 endpoints and Playground
+
+Starting with 9.0.0.sw, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. A set of new endpoints are now generally available (GA) on all ThoughtSpot instances.
+
+The new REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
 
 [IMPORTANT]
-While some customizable actions from the Visual Embed SDK will be honored from within an embedded instance of the new Data workspace page, full support of this page in embedded ThoughtSpot instances is planned for a future release. If you are actively embedding and customizing the `Data` tab for your application and wish to retain the legacy `Data` tab, contact ThoughtSpot Support.
+====
+* All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated, but remain functional until further notice. The REST API SDK that was available with REST API v2 [beta betaBackground]^Beta^ version is no longer supported. +
+ThoughtSpot does not recommend using REST API v2 [beta betaBackground]^Beta^ endpoints for production use cases. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
+* The new REST API v2.0 endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, endpoint URIs, and the structure of API requests and responses are different from those of the REST API v2 [beta betaBackground]^Beta^ version.
+* Some API operations such as the CRUD operations for data connections and passing runtime filters on Liveboard visualizations are not available in the initial release. For more information, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison] and xref:rest-api-v2-reference.adoc[REST API v2.0 reference].
+====
 
-=== Search Assist support for embedded instances
+=== Search bar embedding
+You can now embed the ThoughtSpot search bar component in your app. For example, if you are using Google Sheets for data analysis, you can embed the ThoughtSpot search bar and let your users search data from a specific data source. The embedded Search bar allows passing search tokens and modifying search options. You can also retrieve the search results as raw data and let your host application render it in the format you want.
 
-Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+For more information, see xref:embed-searchbar.adoc[Embed ThoughtSpot search bar].
 
-For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
+=== CSP allowlist for font, image and stylesheet sources
 
-=== New Liveboard experience [beta blueBackground]^BETA^
+You can now enable CSP overrides for font, stylesheet, and image sources in ThoughtSpot UI. If you want to load fonts, stylesheets, images, or favicons from an external source, add the source URLs to the CSP allowlist on the *Security Settings* page.
 
-The new Liveboard experience is now available on embedded ThoughtSpot instances. In addition to the existing Liveboard features, the new experience introduces several notable changes to the *Liveboard* page:
+For more information, see xref:security-settings.adoc#_add_trusted_domains_for_font_css_and_image_import[Security Settings].
+
+=== Just-in-time user creation and dynamic privilege assignment
+
+Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
+
+=== Improvements to authentication methods and AuthType enums in the SDK
+
+The following changes are introduced in the Visual Embed SDK to improve the authentication framework and options for embedded application users:
+
+* New auth type enum for embedded SSO authentication
++
+The `AuthType.EmbeddedSSO` enum allows you to enable SSO login on embedded instances. This authentication method allows you to use your current SAML IdP or OpenID Connect configuration and redirect users to the IdP for authentication within the embedded iFrame.
+
+* Changes to the existing `AuthType` enums: +
+** `AuthType.SAML` is renamed as `AuthType.SAMLRedirect` +
+** `AuthType.OIDC` is renamed as `AuthType.OIDCRedirect` +
+** `AuthType.AuthServer` is renamed to `AuthType.TrustedAuthToken` +
+
+For more information, see xref:embed-authentication.adoc[Authentication].
+
+=== Early access features
+
+Starting from 9.0.0.sw, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
+
+The 9.0.0.sw release introduces the following Early Access features:
+
+* Custom maps
++
+Allows uploading map files (TopoJSON) to configure custom regions and visualize data on these regions.
+
+////
+For more information, see link:https://docs.thoughtspot.com/cloud/latest/geomaps-custom[Upload custom geo maps, window=_blank].
+////
+
+* Mandatory filters
++
+Allows setting certain filters as mandatory on a Liveboard.
+
+////
+For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-filters-mandatory[Mandatory Liveboard filter, window=_blank].
+////
+* Chart configuration experience
++
+Allows making multiple edits to a chart configuration and applying all changes at once.
+
+////
+For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-x-axis[Reorder labels on the axis or legend, window=_blank].
+////
+* Chart data labels
++
+Allows displaying data labels in a lighter color on charts with a dark background.
+
+////
+For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-data-labels[Show data labels, window=_blank].
+////
+
+=== Support for Visual Embed SDK version 1.19.0
+
+If you have upgraded your ThoughtSpot instance to 9.0.0.sw, we recommend that you use the Visual Embed SDK v1.19.0 for smooth app integration and embedding experience.
+
+For information about the new features, enhancements, and breaking changes introduced in v1.19.0, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank].
+
+=== REST API v1
+The 9.0.0.sw release version introduces the following enhancements:
+
+Session API::
+The `/tspublic/v1/session/auth/token` endpoint includes the `autocreate` and `groups` properties to allow administrators to provision a user just-in-time and assign privileges.
+
+TML API::
+
+* The TML objects retrieved from ThoughtSpot via `/tspublic/v1/metadata/tml/export` API endpoint show the object name as `liveboard` instead of `pinboard` in the API response.
+
+* The `/tspublic/v1/metadata/tml/import` endpoint now supports re-using GUIDs for new objects created during the import if the guid in the imported TML is not being used by any other object on the server.
+
+User API::
+The `POST /tspublic/v1/user/` and `PUT /tspublic/v1/user/{userid}` API endpoints allow you set the `triggeredbyadmin` flag to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+
+== Version 8.8.1.sw, January 2023
+
+ThoughtSpot 8.8.1.sw release version is now generally available!
+
+The 8.8.1.sw release introduces the following new features and enhancements:
+
+=== New Liveboard experience [beta betaBackground]^Beta^
+
+This release introduces the new Liveboard experience [beta betaBackground]^Beta^  on ThoughtSpot instances. The new Liveboard experience is in Beta on embedded instances and is turned off by default.
+
+The new Liveboard experience includes several new features and user-experience improvements to the *Liveboard* page:
 
 Liveboard editing::
 To edit a Liveboard, users must switch to the edit mode by clicking the *Edit* button on the Liveboard page.
@@ -41,16 +142,13 @@ The edit mode allows you to edit the Liveboard title and description text, apply
 
 Liveboard tabs::
 
-The new Liveboard experience now supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
+The new Liveboard experience supports organizing visualizations in tabs. Users with edit access to a Liveboard can add, edit, and move visualizations to Tabs on a Liveboard. On embedded ThoughtSpot instances, developers can set a specific tab as an active tab using the Visual Embed SDK.
 +
 For more information, see xref:enable-liveboardv2.adoc#_customize_liveboard_tabs[Customize Liveboard tabs].
 
 Custom tile size for visualizations on a Liveboard::
 
-ThoughtSpot users can now customize the tile size of a visualization on a Liveboard. In the earlier versions, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
-
-+
-This feature is in beta and disabled by default on all Thoughtspot instances. To enable this feature on your instance, contact ThoughtSpot Support.
+The new Liveboard experience allows you to customize the tile size of a visualization on a Liveboard. In the classic experience, ThoughtSpot allowed resizing visualizations using predefined layout options available in the *More* menu image:./images/icon-more-10px.png[the more options menu]. With custom tile size, users can now change the size of a visualization just by clicking and dragging the tile to the desired size.
 
 Liveboard filters::
 * The Liveboard filter configuration options are available on a single modal.
@@ -69,30 +167,29 @@ The following features are *_not_* available with the new Liveboard experience:
 * The edit title icon on visualization tiles
 * The *Share* button on visualizations
 
++
 For more information about the new Liveboard experience, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[New Liveboard experience, window=_blank].
 
 Actions and Events in the SDK::
 If you have enabled the new Liveboard experience on your instance, you can use the `Action` and `Event` enumeration members available in the SDK package to customize an embedded object and improve interactivity.
 
++
 For example, to disable the *Delete* action for a visualization object on the Liveboard, you can use the `Action.Remove` enum. Similarly, you can trigger events such as  `VizPointClick`  on visualizations in an embedded Liveboard.
-
 
 ==== New Liveboard experience rollout on embedded instances
 
-The new Liveboard experience is currently available in BETA on embedded ThoughtSpot instances.
-
-The new Liveboard experience is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
-
-ThoughtSpot users with administrator privileges can also link:https://docs.thoughtspot.com/cloud/latest/liveboard-experience-new[turn on the new Liveboard experience, window=_blank] at the cluster level.
-
-////
-The new Liveboard Experience will be turned on by default for all embed application users. To switch to the classic experience, you can set the `liveboardV2` parameter to `false` in the SDK, or change the Liveboard experience preference in the `Admin` tab of the ThoughtSpot UI.
-////
+The new Liveboard experience [beta betaBackground]^Beta^  is turned off by default on embedded ThoughtSpot instances. If you are using the Visual Embed SDK to embed ThoughtSpot, you can xref:enable-liveboardv2.adoc[set the `liveboardV2` parameter] in the SDK package to `true` to enable the new experience globally for all users on your instance. +
 
 [NOTE]
 ====
 The Liveboard experience setting in the SDK takes precedence over the cluster-level settings in the *Admin* tab.
 ====
+
+=== Search Assist support for embedded instances
+
+Your application users can now access sample search walkthrough lessons created using Search Assist on embedded ThoughtSpot instances. If the Search Assist feature is enabled in the SDK, and the Search Assist lessons are created on the worksheet, users can view sample search questions and follow the actions in the walkthrough to get answers.
+
+For more information, see xref:search-assist-tse.adoc[Enable Search Assist, window=_blank].
 
 === Support for Visual Embed SDK version 1.16.0
 
@@ -102,7 +199,7 @@ For more information about the SDK versions, supported methods and classes, see 
 
 === REST API v1
 
-ThoughtSpot 8.8.0-sw introduces the following enhancements to REST API v1.
+ThoughtSpot 8.8.1-sw introduces the following enhancements to REST API v1.
 
 * The `/tspublic/v1/connection/fetchLiveColumns` and `/tspublic/v1/connection/fetchConnection` API endpoints now allow filtering API response by authentication type.
 +
@@ -116,16 +213,16 @@ For more information, see xref:connections-api.adoc#cre-connection[Create a data
 +
 For more information, see xref:tml-api.adoc#export[Export TML].
 
-=== REST API v2 [beta blueBackground]^BETA^
-The REST v2 API [beta blueBackground]^BETA^ feature will be deprecated in the future release and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
+=== REST API v2 [beta betaBackground]^Beta^
+The REST v2 API [beta betaBackground]^Beta^  feature will be deprecated in the future release and replaced with the new REST v2.0 API endpoints. For more information, see xref:deprecated-features.adoc[Deprecation announcements].
 
-== Version 8.4.1-sw, September 2022
+== Version 8.4.1.sw, September 2022
 
 === Support for ThoughtSpot Everywhere and Visual Embed SDK
 
 ThoughtSpot Software clusters now support ThoughtSpot Everywhere and embedding with Visual Embed SDK!
 
-Starting from the 8.4.1-sw release, customers with a license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK to embed ThoughtSpot objects in their apps.
+Starting from the 8.4.1.sw release, customers with a license to embed ThoughtSpot can use ThoughtSpot Everywhere features and Visual Embed SDK to embed ThoughtSpot objects in their apps.
 
 ==== Visual Embed SDK
 

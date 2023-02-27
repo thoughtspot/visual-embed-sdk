@@ -355,7 +355,7 @@ The Visual Embed SDK version 1.10.x introduces new attributes and bug fixes. For
 .REST API v1
 [%collapsible]
 ====
-New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API V1 changelog].
+New endpoints for data connection queries. For more information, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog].
 ====
 
 .REST API v2 [beta betaBackground]^Beta^

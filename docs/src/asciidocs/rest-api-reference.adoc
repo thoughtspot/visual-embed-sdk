@@ -8,11 +8,17 @@
 
 [div announcementBlock]
 --
-*Pinboards are now Liveboards!*
-
-Effective from the ThoughtSpot 8.4.1-sw release, ThoughtSpot pinboards are rebranded as Liveboards in ThoughtSpot UI, documentation, and learning resources.
-Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 endpoint URLs and request and response workflows are not rebranded.
+Starting from the ThoughtSpot Cloud ts8.nov.cl and ThoughtSpot Software 8.4.1-sw releases, pinboards are rebranded as *Liveboards* in ThoughtSpot UI, documentation, and learning resources.
+Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 endpoint URLs, request and response workflows are not rebranded.
 --
+
+== Orgs management
+
+The Orgs feature is supported only on ThoughtSpot application instances hosted on Cloud.
+
+////
+include::{path}/org-api-list.adoc[]
+////
 
 == User management
 
@@ -38,10 +44,6 @@ include::{path}/admin-api-list.adoc[]
 
 include::{path}/data-connection-apis.adoc[]
 
-== Materialization service
-
-include::{path}/materialization-api-list.adoc[]
-
 == TML objects
 
 include::{path}/tml-api-list.adoc[]
@@ -62,9 +64,9 @@ include::{path}/dependency-api-list.adoc[]
 
 include::{path}/security-api-list.adoc[]
 
-== Database and schema
+== Audit logs
 
-include::{path}/database-api-list.adoc[]
+include::{path}/audit-log-api.adoc[]
 
 == Materialization service
 
@@ -73,9 +75,3 @@ include::{path}/materialization-api-list.adoc[]
 == Database and schema
 
 include::{path}/database-api-list.adoc[]
-
-
-////
-== Audit logs
-include::{path}/audit-log-api.adoc[]
-////

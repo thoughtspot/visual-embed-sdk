@@ -64,7 +64,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     hiddenActions: [],
     liveboardId: '<%=liveboardGUID%>',
     vizId: '<%=vizGUID%>',
-    enableVizTransformations: true,
     preventLiveboardFilterRemoval: true,
     runtimeFilters: [],
 });

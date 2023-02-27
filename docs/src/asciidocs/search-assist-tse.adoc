@@ -37,9 +37,11 @@ const searchEmbed = new SearchEmbed(document.getElementById('ts-embed'), {
 
 == Configure Search Assist content
 
+////
 By default, the Sample Retail link:https://docs.thoughtspot.com/cloud/latest/system-worksheet[system worksheet, window=_blank] includes a Search Assist lesson with a predefined set of questions and instructions to guide your application users.
 
-To provide Search Assist walkthrough to your users with your own data, you must create a Search Assist lesson on your worksheet. ThoughtSpot provides sample question templates, using which you can create your own Search Assist content. Any ThoughtSpot user with `Can manage data` privilege and edit access to the worksheet can configure a Search Assist lesson. For more information about configuring a sample search lesson, see link:https://docs.thoughtspot.com/cloud/latest/search-assist-coach[Search Assist Coach, window=_blank].
+////
+To provide Search Assist walkthrough to your users with your own data, you must create a Search Assist lesson on your worksheet. ThoughtSpot provides sample question templates, using which you can create your own Search Assist content. Any ThoughtSpot user with `Can manage data` privilege and edit access to the worksheet can configure a Search Assist lesson. For more information about configuring a sample search lesson, see link:https://docs.thoughtspot.com/software/latest/search-assist-coach[Search Assist Coach, window=_blank].
 
 ////
 If Search Assist is enabled on your embedded instance, the sample queries and instructions will appear when your users log in to ThoughtSpot for the first time and go through the onboarding process.
@@ -62,5 +64,5 @@ Similarly, you can add keywords, such as *_product_* and *_this year_* to your s
 
 == Related resources
 
-* link:https://docs.thoughtspot.com/cloud/latest/search-assist-coach[Search Assist Coach, window=_blank]
-* link:https://docs.thoughtspot.com/cloud/latest/search-assist[Search Assist, window=_blank]
+* link:https://docs.thoughtspot.com/software/latest/search-assist-coach[Search Assist Coach, window=_blank]
+* link:https://docs.thoughtspot.com/software/latest/search-assist[Search Assist, window=_blank]

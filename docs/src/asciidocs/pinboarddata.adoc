@@ -65,7 +65,7 @@ For example, if a Liveboard has 10 charts and each chart has 5 columns and 10 re
 
 To download retrieve a Liveboard with unsaved changes, pass the `transient_pinboard_content` script with `getExportRequestForCurrentPinboard` method in the browser fetch request .
 
-[source,javascript]
+[source,JavaScript]
 ----
 function getExportRequestForCurrentPinboard(frame: HTMLIframeElement): Promise<string>;
 ----
@@ -81,7 +81,7 @@ The promise returned resolves to  a string that contains the transient Liveboard
 If the new Liveboard experience is enabled, the transient content includes ad hoc changes to visualizations such as sorting, toggling of legends, and data drill down.
 
 === Sample browser fetch request
-[source,javascript]
+[source,JavaScript]
 ----
 < iframe src = "http://ts_host:port/" id = "ts-embed" > < /iframe>
 < script src = "/path/to/liveboard.js" > < /script>
@@ -111,14 +111,15 @@ If the new Liveboard experience is enabled, the transient content includes ad ho
 [source,cURL]
 ----
 curl -X POST \
---header 'Content-Type: application/json' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+--header 'X-Requested-By: ThoughtSpot' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 === Visualization data
@@ -128,14 +129,15 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5
 [source,cURL]
 ----
 curl -X POST \
---header 'Content-Type: application/json' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
---header 'X-Requested-By: ThoughtSpot' https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+--header 'X-Requested-By: ThoughtSpot'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=bea79810-145f-4ad0-a02c-4177a6e7d861&vizid=['fa934657-e347-4de7-b02d-3b46609233cc','62f98ad3-6ddd-4aed-8f13-58054295b7e3','eb77ba14-15de-4d4d-aac4-625ebd58b1c6']&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 == Example response
@@ -263,7 +265,7 @@ You can modify the API's output by passing runtime filters as parameters in the 
 For example:
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=f4533461-caa5-4efa-a189-13815ab86770&batchsize=-1&col1=COL_NAME1&op1=OP_TYPE1&val1=VALUE1&coln=COL_NAMEn&opn=OP_TYPEn&valn=VALUEn
 ----
 
 You can add more than one filter by specifying `col2`, `op2`, `val2`, and so on.
