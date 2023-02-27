@@ -271,6 +271,11 @@ export interface EmbedConfig {
      * @version SDK: 1.17.0 | ThoughtSpot: *
      */
     authTriggerText?: string;
+    /**
+     * Disable Full App access from iFrame to a new tab
+     * @default true
+     */
+    blockNonEmbedFullAppAccess?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -1238,6 +1243,7 @@ export enum Param {
     IconSpriteUrl = 'iconSprite',
     ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
     LinkOverride = 'linkOverride',
+    blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
 }
 
 /**

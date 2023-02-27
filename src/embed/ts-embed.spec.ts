@@ -572,6 +572,29 @@ describe('Unit test case for ts embed', () => {
             });
         });
     });
+    describe('Block full app access while naviagting from embed app', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                blockNonEmbedFullAppAccess: true,
+            });
+        });
+        it('should contain blockNonEmbedFullAppAccess in query params', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            waitFor(() => {
+                return !!getIFrameEl();
+            }).then(() => {
+                expect(getIFrameSrc()).toContain('?blockNonEmbedFullAppAccess=false');
+            });
+        });
+    });
     describe('Iframe flags', () => {
         beforeEach(() => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
