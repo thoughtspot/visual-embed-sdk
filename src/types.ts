@@ -58,18 +58,18 @@ export enum AuthType {
      */
     AuthServer = 'AuthServer',
     /**
-     * Trusted authentication server, Use you own authentication server
-     * which returns a bearer token, generated using the secret_key obtained from
-     * ThoughtSpot. This uses a cookieless authentication approach, recommended
-     * to by pass third-party cookie-blocking restriction implemented by some browsers.
-     */
-    TrustedAuthToken = 'AuthServer',
-    /**
-     * Trusted authentication server Legacy, Use you own authentication server
+     * Trusted authentication server, Use your own authentication server
      * which returns a bearer token, generated using the secret_key obtained from
      * ThoughtSpot.
      */
-    TrustedAuthTokenLegacy = 'AuthServerLegacy',
+    TrustedAuthToken = 'AuthServer',
+    /**
+     * Trusted authentication server Cookieless, Use you own authentication server
+     * which returns a bearer token, generated using the secret_key obtained from
+     * ThoughtSpot. This uses a cookieless authentication approach, recommended
+     * to by pass third-party cookie-blocking restriction implemented by some browsers
+     */
+    TrustedAuthTokenCookieless = 'AuthServerCookieless',
     /**
      * Use the ThoughtSpot login API to authenticate to the cluster directly.
      *

@@ -368,11 +368,11 @@ export const authenticate = async (
         case AuthType.OIDC:
         case AuthType.OIDCRedirect:
             return doOIDCAuth(embedConfig);
-        case AuthType.TrustedAuthToken:
-            return doCookielessTokenAuth(embedConfig);
         case AuthType.AuthServer:
-        case AuthType.TrustedAuthTokenLegacy:
+        case AuthType.TrustedAuthToken:
             return doTokenAuth(embedConfig);
+        case AuthType.TrustedAuthTokenCookieless:
+            return doCookielessTokenAuth(embedConfig);
         case AuthType.Basic:
             return doBasicAuth(embedConfig);
         default:

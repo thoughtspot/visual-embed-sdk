@@ -213,7 +213,7 @@ export const getCustomisations = (
 
 export const getAuthToken = async (embedConfig: EmbedConfig): Promise<any> => {
     const { authType, authEndpoint, getAuthToken } = embedConfig;
-    if (authType === AuthType.TrustedAuthToken) {
+    if (authType === AuthType.TrustedAuthTokenCookieless) {
         if (getAuthToken) {
             return await getAuthToken();
         } else {
