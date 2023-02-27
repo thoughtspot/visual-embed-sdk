@@ -139,7 +139,7 @@ For example, if `Store Region` is set to `west, southwest` in the Liveboard filt
 
 **Cause**: This issue occurs if you do not have the required privileges to create or modify the data objects.
 
-**How to fix**: Check if your API requests are authorized. Make sure your ThoughtSpot user account has edit privileges to access and modify ThoughtSpot objects.  For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_availability[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_operations[REST API v2 operations].
+**How to fix**: Check if your API requests are authorized. Make sure your ThoughtSpot user account has edit privileges to access and modify ThoughtSpot objects.  For more information, see xref:feature-matrix-license.adoc#_rest_api_v1_operations[REST API v1 operations] and xref:feature-matrix-license.adoc#_rest_api_v2_0_operations[REST API v2.0 operations].
 
 
 === Unable to embed a Liveboard using REST API
