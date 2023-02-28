@@ -13,9 +13,9 @@ This page explains how to embed a ThoughtSpot Liveboard in your Web page, portal
 A ThoughtSpot Liveboard is an interactive dashboard that presents a collection of visualizations pinned by a user. ThoughtSpot Liveboards are available the following modes:
 
 * Classic experience mode
-* New experience mode [beta betaBackground]^Beta^
+* New experience mode
 +
-By default, the new Liveboard experience is turned off on embedded instances. You can enable it using the `liveboardV2` setting in the `LiveboardEmbed` SDK. However, ThoughtSpot recommends using classic Liveboard experience on embedded apps until the new Liveboard experience is GA.
+The new Liveboard experience can be turned off or on using the `liveboardV2` parameter in the `LiveboardEmbed` SDK.
 
 ==== Liveboard layout in embedded mode
 In the new Liveboard experience mode, the embedded Liveboard resizes to one-column layout if the screen width is 1024px or less. In classic experience mode, the embedded Liveboard adjusts its layout to two-column or one-column view to fit the screen width and orientation of the user's device.
@@ -229,10 +229,6 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 ++++
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
 
 == Register, handle, and trigger events
 

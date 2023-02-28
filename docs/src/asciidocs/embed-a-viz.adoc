@@ -190,7 +190,7 @@ columnName;;
 __String__. Name of the column to filter by.
 
 operator;;
-__String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+__String__. The runtime filter operator. For more information, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
 
 values;;
 __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
@@ -201,10 +201,6 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 ++++
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
 
 == Register, handle, and trigger events
 

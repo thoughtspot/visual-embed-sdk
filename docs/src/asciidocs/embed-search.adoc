@@ -264,10 +264,6 @@ searchOptions: {
 <a href="{{previewPrefix}}/playground/search/searchOptions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-== Define a method to process callback custom action payloads
-
-include::{path}/callback-payload.adoc[]
-
 == Register, handle, and trigger events
 
 Register event listeners. 
