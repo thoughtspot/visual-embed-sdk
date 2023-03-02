@@ -1204,6 +1204,7 @@ export enum Param {
     // eslint-disable-next-line @typescript-eslint/no-shadow
     AuthType = 'authType',
     IconSpriteUrl = 'iconSprite',
+    cookieless = 'cookieless',
 }
 
 /**

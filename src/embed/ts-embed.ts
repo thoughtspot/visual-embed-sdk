@@ -291,6 +291,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
+        queryParams[Param.cookieless] = this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless;
         queryParams[Param.AuthType] = this.embedConfig.authType;
         if (
             this.embedConfig.disableLoginRedirect === true ||
