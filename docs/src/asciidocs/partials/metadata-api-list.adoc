@@ -22,6 +22,10 @@ Gets visualization headers from the ThoughtSpot system.|ThoughtSpot Software [ve
 |`xref:metadata-api.adoc#set-favorite[**POST** /tspublic/v1/metadata/markunmarkfavoritefor]` +
 Adds objects to favorites for a given user account.|ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]` +
-Removes the objects from a user's favorites list.|ThoughtSpot Software [version noBackground]#7.1.1#
+Removes the objects from a user's favorites list.|
+ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:metadata-api.adoc#del-obj[**POST** /tspublic/v1/metadata/delete]`  +
+Deletes one or several metadata objects.|
+ThoughtSpot Software [version noBackground]#9.0.1.sw#
 |=====
 --

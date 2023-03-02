@@ -1723,7 +1723,7 @@ Response Code
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
-|*204*|The object is successfully added to favorites
+|*204*|Successful operation
 |*400*|Invalid object or user ID
 |*500*| Invalid metadata type
 |===
@@ -1777,6 +1777,68 @@ Response Code
 [options="header"]
 |====
 |HTTP status code|Description
-|*204*|The object is successfully added to favorites
+|*204*|Successful operation
+|*400*|Invalid object or user ID
+|====
+
+[#del-obj]
+== Delete metadata objects
+
+To delete a metadata object, send a POST request to the  `/tspublic/v1/metadata/delete` API endpoint.
+
+=== Resource URL
+----
+POST /tspublic/v1/metadata/delete
+----
+
+=== Request parameters
+[width="100%" cols="1,3"]
+[options='header']
+|====
+|Form parameter|Description
+|`type` a|__String__. Type of the metadata object: +
+
+* `QUESTION_ANSWER_BOOK` for answers.
+* `PINBOARD_ANSWER_BOOK` for Liveboards.
+* `LOGICAL_TABLE` for any data object such as a table, worksheet, or view.
+* `LOGICAL_COLUMN` for a column of any data object such as tables, worksheets, or views.
+* `LOGICAL_RELATIONSHIP` for table or worksheet joins.
+* `TAG` for tags assigned to a metadata object.
+
+|`id`|__String__. A JSON array of metadata object GUIDs.
+|`includedisabled`|__Boolean__. Allows including metadata objects that are hidden, disabled, or marked for deletion.
+|====
+
+=== Example request
+
+.cURL
+[source, cURL]
+----
+curl -X POST \--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+-d 'type=QUESTION_ANSWER_BOOK&id=%5B%22e387ba3c-12f8-4a2d-a088-fe0ea9e93c5b%22%5D&includedisabled=true'  \
+'https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/metadata/delete'
+
+----
+
+.Request URL
+----
+https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/metadata/delete
+----
+
+=== Example response
+
+When the specified object is successfully deleted from ThoughtSpot, the API returns the 204 response code.
+
+----
+Response Code
+204
+----
+=== Response codes
+[width="100%" cols="2,4"]
+[options="header"]
+|====
+|HTTP status code|Description
+|*204*|Successful operation
 |*400*|Invalid object or user ID
 |====

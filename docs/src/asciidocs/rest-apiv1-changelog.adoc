@@ -6,7 +6,13 @@
 :page-pageid: rest-v1-changelog
 :page-description: Changelog of REST APIs
 
-This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see  xref:whats-new.adoc[What's New].
+This changelog lists only the changes introduced in REST API v1. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
+
+== Version 9.0.0.cl, February 2023
+
+The 9.0.0.cl release introduces the `/tspublic/v1/metadata/delete` endpoint, using which you can delete a metadata object.
+
+For more information, see xref:metadata-api.adoc#del-obj[Delete metadata objects].
 
 == Version 8.8.0.cl, Coming soon
 
