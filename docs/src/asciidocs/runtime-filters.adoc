@@ -49,12 +49,7 @@ The runtime filters are specified in the request URL as parameters. To apply run
 
 === Embedded Liveboard and visualizations
 
-The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and answer objects in the embedded app.
-
-[NOTE]
-====
-The `SearchEmbed` SDK package does not support runtime filters.
-====
+The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and Answer objects. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and Answer objects in the embedded app.
 
 The following example shows how to apply runtime filters on an embedded visualization. Here, the runtime filter is operating on the `Revenue` column to filter revenue data matching `100000`.
 
@@ -415,5 +410,3 @@ If the Liveboard or answer you're filtering already has one or more filters appl
 * If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
-
-
