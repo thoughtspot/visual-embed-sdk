@@ -6,17 +6,9 @@
 :page-pageid: full-embed
 :page-description: You can embed full ThoughtSpot experience in your application and allow your users to create content for live analytics
 
-To embed the full ThoughtSpot experience in your application, use the full app embedding method. The full app embedding allows you to integrate the following features and pages of the ThoughtSpot application into your app:
+The full app embedding allows you to embed the full ThoughtSpot application or the individual application pages in your app.
 
-* Search
-* Answers
-* Liveboards
-* Data workspace for data management
-* SpotIQ
-* Home page for quick access to saved Answers and Liveboards
-* Object sharing
-
-Full app embedding gives you all the features of ThoughtSpot, with the ability to use additional features and customization from the Visual Embed SDK, such as custom actions and CSS styling rules. 
+Full app embedding gives you all the features of ThoughtSpot, with the ability to use additional features and customization from the Visual Embed SDK, such as custom actions and CSS styling rules.
 
 The basic layout and feature set of the various pages of the ThoughtSpot application in full app embedding is relatively fixed, so if you need more control, use the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components. You can xref:page-navigation.adoc[control/customize navigation] within your web application using the full app or other embed components.
 
@@ -74,14 +66,14 @@ const appEmbed = new AppEmbed(document.getElementById('ts-embed'), {
         width: '100%',
         height: '100%',
     },
+    pageId: Page.Data,
+    path: '<url-string>',
     disabledActions: [],
     disabledActionReason: '<reason for disabling>',
     disableHelpAndProfile: false,
     hideObjects: ['<object-id>'],
     hiddenActions: [],
-    showPrimaryNavbar: true,
-    pageId: Page.Data,
-    path: '<url-string>',
+    showPrimaryNavbar: false,
     runtimeFilters: [],
     tag: '<tag-name>',
 });
@@ -123,24 +115,68 @@ https://<ThoughtSpot-Host>/?embedApp=true&primaryNavHidden=true&profileAndHelpIn
 ----
 ////
 
-visibleActions __Optional__::
-_Array of strings_. Displays the specified actions in the embedded ThoughtSpot UI. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
+
+pageId::
+The unique identifier for the ThoughtSpot application page. The value specified in the `pageId` attribute will be set as the active tab, which is displayed by default when the embedded ThoughtSpot UI loads. You can also use this attribute to embed a specific ThoughtSpot application page.
++
+Valid values for this attribute are:
+
+* `Page.Home` for the ThoughtSpot *Home* page
+
+* `Page.Search` for the ThoughtSpot *Search* page
+
+* `Page.Answers` for the *Answers* page
+
+* `Page.Liveboards` for the *Liveboards* page
+
+* `Page.Data` for the *Data* page
+
+* `Page.SpotIQ` for the *SpotIQ* analyses page
 
 +
-[NOTE]
-====
-Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.adoc[Show or hide UI actions].
-====
+++++
+<a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Try it out</a>
+++++
+
+path::
+_String_. The URL path of the ThoughtSpot application page that you want to embed. You can use this parameter to navigate your users to a specific page on your embedded instance. For example, to navigate your users to the `Monitor` page or a saved Answer, you can specify the `path` as shown here:
 
 +
 ----
-visibleActions: [Action.Download,Action.Share,Action.Pin,Action.ShowUnderlyingData]
+path: 'monitor'
+----
+
++
+----
+path: 'saved-answer/96a1cf0b-a159-4cc8-8af4-1a297c492ff9'
+----
+
++
+To try it out on +++ <a href="{{previewPrefix}}/playground/fullApp" target="_blank"> Playground</a>+++, select the *Navigate to URL* checkbox and define the URL path.
+
+
+[NOTE]
+====
+When both `path` and `pageId` attributes are defined, the `path` definition takes precedence.
+====
+
+
+disabledActions __Optional__::
+_Array of strings_. Disables the specified actions. You can use this attribute to restrict user access to certain features.
++
+For example, to disable the *Show underlying data* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.ShowUnderlyingData` in the `disabledActions` attribute.
+
++
+----
+disabledActions: [Action.ShowUnderlyingData]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
+disabledActionReason __Optional__::
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 hiddenActions __Optional__::
 _Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
@@ -158,24 +194,26 @@ hiddenActions: [Action.Share]
 ++++
 
 
-disabledActions __Optional__::
-_Array of strings_. Disables the specified actions. You can use this attribute to restrict user access to certain features.
+visibleActions __Optional__::
+_Array of strings_. Displays the specified actions in the embedded ThoughtSpot UI. These actions can appear as buttons, or as menu actions in  **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.
+
 +
-For example, to disable the *Show underlying data* action in the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.ShowUnderlyingData` in the `disabledActions` attribute.
+[NOTE]
+====
+Use either `visibleActions` or `hiddenActions` to show or hide the actions in the embedded UI. For more information, see xref:embed-actions.adoc[Show or hide UI actions].
+====
 
 +
 ----
-disabledActions: [Action.ShowUnderlyingData]
+visibleActions: [Action.Download,Action.Share,Action.Pin,Action.ShowUnderlyingData]
 ----
 +
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?modifyActions=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
++
 include::{path}/custom-action-note.adoc[]
-
-disabledActionReason __Optional__::
-_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
 
 disableProfileAndHelp __Optional__::
 _Boolean_. When set to `true`, the help and user profile buttons are hidden on the top navigation bar. You can use this attribute to hide these icons if the `showPrimaryNavbar` attribute is set to `true`.
@@ -184,26 +222,13 @@ _Boolean_. When set to `true`, the help and user profile buttons are hidden on t
 <a href="{{previewPrefix}}/playground/fullApp?disableProfileAndHelp=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-enableSearchAssist _optional_::
-_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
-
-+
-Search Assist uses the predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
-
-+
-++++
-<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
-
-hideObjects [small]_optional_::
+hideObjects _optional_::
 __Array of Strings__. Hides the specified objects. For example, if you do not want your application users to view certain Liveboards, you can specify the GUIDs of the Liveboards in the `hideObjects` attribute.
 
 [source,JavaScript]
 ----
 hideObjects: ['11f5d5e8-2328-4817-a106-9eff17531e77','e2f49cdd-4d54-466a-841a-e7ecbd9b4400']
 ----
-
 
 showPrimaryNavbar __Optional__::
 _Boolean_. Shows or hides the ThoughtSpot navigation bar.
@@ -212,47 +237,6 @@ _Boolean_. Shows or hides the ThoughtSpot navigation bar.
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
-
-path::
-_String_. The URL path of the ThoughtSpot application page to embed.
-
-[NOTE]
-If both `path` and `pageId` attributes are defined, the path definition takes precedence.
-
-pageId::
-The unique identifier for the ThoughtSpot application page. The value specified in the `pageId` attribute will be set as the active tab, which is displayed by default when the embedded ThoughtSpot UI loads. Valid values are:
-
-* `Page.Search`
-+
-Displays the page showing ThoughtSpot search bar
-
-* `Page.Answers`
-+
-Displays the saved answers (*Answers*) page
-
-* `Page.Liveboards`
-+
-Displays the *Liveboards* page
-
-* `Page.Data`
-+
-Displays the *Data* page
-
-* `Page.Home`
-+
-Displays the *Home* page 
-
-* `Page.SpotIQ`
-+
-Displays the *SpotIQ* page.
-
-
-+
-++++
-<a href="{{previewPrefix}}/playground/fullApp?pageId=search" id="preview-in-playground" target="_blank">Try it out</a>
-++++
-
 
 runtimeFilters [small]_optional_::
 Runtime filters to be applied when the Liveboard or visualization page loads.
@@ -269,14 +253,21 @@ runtimeFilters: [{
 }]
 ----
 
+columnName;;
+__String__. Name of the column to filter by.
 
+operator;;
+__String__. The runtime filter operator. For more information, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+
+values;;
+__String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
++
+For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
+
++
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?runtimeFilters=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-
-include::{path}/runtime-filter.adoc[]
-
-For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
 tag [small]_optional_::
 __String__. Filters objects by the specified tag. If the Liveboards and answers in your application are tagged as `Sales`, you can specify the tag string as `Sales` to show only those objects that have the `Sales` tag assigned.
@@ -289,9 +280,16 @@ This attribute applies the tag filter at the application level. All metadata obj
 tag: 'sales'
 ----
 
-== Define a method to process callback custom actions payload
+enableSearchAssist _optional_::
+_Boolean_. When set to true, it enables Search Assist. Search Assist allows you to create a custom onboarding experience for your users by demonstrating how to search data from the example queries created on your worksheet.
 
-include::{path}/callback-payload.adoc[]
++
+Search Assist uses predefined queries and answers from the worksheet. Users with edit permissions to a worksheet can define Search Assist queries and answers to assist users with search. For more information, see xref:search-assist-tse.adoc[Enable Search Assist].
+
++
+++++
+<a href="{{previewPrefix}}/playground/search?enableSearchAssist=true" id="preview-in-playground" target="_blank">Try it out</a>
+++++
 
 == Register, handle, and trigger events
 

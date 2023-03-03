@@ -13,9 +13,9 @@ This page explains how to embed a ThoughtSpot Liveboard in your Web page, portal
 A ThoughtSpot Liveboard is an interactive dashboard that presents a collection of visualizations pinned by a user. ThoughtSpot Liveboards are available the following modes:
 
 * Classic experience mode
-* New experience mode [beta betaBackground]^Beta^
+* New experience mode
 +
-By default, the new Liveboard experience is turned off on embedded instances. You can enable it using the `liveboardV2` setting in the `LiveboardEmbed` SDK. However, ThoughtSpot recommends using classic Liveboard experience on embedded apps until the new Liveboard experience is GA.
+The new Liveboard experience can be turned off or on using the `liveboardV2` parameter in the `LiveboardEmbed` SDK.
 
 ==== Liveboard layout in embedded mode
 In the new Liveboard experience mode, the embedded Liveboard resizes to one-column layout if the screen width is 1024px or less. In classic experience mode, the embedded Liveboard adjusts its layout to two-column or one-column view to fit the screen width and orientation of the user's device.
@@ -68,8 +68,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     disabledActionReason: '<reason for disabling>',
     hiddenActions: [],
     liveboardId: '<%=liveboardGUID%>',
-    enableVizTransformations: true,
-    preventLiveboardFilterRemoval: true,
     visibleVizs: [],
     runtimeFilters: [],
 });
@@ -125,7 +123,7 @@ _Integer_. Minimum height to set for embedded objects on a Liveboard page and th
 
 
 visibleActions __Optional__::
-_Array of strings_. Displays the specified actions on the *Liveboards* page. These actions can appear as buttons, or as menu actions in **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions. 
+_Array of strings_. Displays the specified actions on the *Liveboards* page. These actions can appear as buttons, or as menu actions in **More** image:./images/icon-more-10px.png[the more options menu] or the contextual menu. You can use this attribute to show a small subset of actions from the list of available actions.
 
 +
 ----
@@ -143,7 +141,7 @@ Use either `visibleActions` or `hiddenActions` to show or hide the actions in th
 ====
 
 hiddenActions __Optional__::
-_Array of strings_. Hides specified actions from the list of available actions on the embedded *Liveboards* page. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined. 
+_Array of strings_. Hides specified actions from the list of available actions on the embedded *Liveboards* page. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined.
 
 +
 For example, to hide *Add filters* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.AddFilter` in the `hiddenActions` attribute.
@@ -175,7 +173,7 @@ disabledActions: [Action.Present]
 include::{path}/custom-action-note.adoc[]
 
 disabledActionReason __Optional__::
-_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 liveboardId::
 _String_. The GUID of the Liveboard.
@@ -232,10 +230,6 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
 
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
-
 == Register, handle, and trigger events
 
 Register event listeners.
@@ -261,7 +255,7 @@ liveboardEmbed.render();
 
 * Load the client application.
 * Try accessing a Liveboard embedded in your application.
-* Verify if the embedded content renders correctly on your application page. 
+* Verify if the embedded content renders correctly on your application page.
 * If you have disabled an action, verify if the action appears as disabled on the *Liveboards* page.
 * If runtime filters are configured, verify if the filters are applied to the visualizations on the Liveboard.
 

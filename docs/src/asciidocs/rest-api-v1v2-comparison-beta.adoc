@@ -1,4 +1,4 @@
-= REST API v1 and V2 comparison
+= REST API v1 and v2 comparison
 :toc: true
 :toclevels: 1
 

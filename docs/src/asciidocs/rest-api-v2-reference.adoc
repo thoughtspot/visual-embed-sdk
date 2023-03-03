@@ -266,8 +266,7 @@ You can perform CRUD operations on Org objects if the Orgs feature is enabled on
 
 [NOTE]
 ====
-* In the current release, REST API v2.0 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can access the REST API v2 endpoints via a Web browser, Postman, or other such tools.
-* Before you perform any operation on the objects in an Org, make sure you use the token issued by ThoughtSpot for that specific Org.
+In the current release, REST API v2.0 Playground is accessible only in the primary Org (Org 0) context. However, REST clients can call the REST API v2 endpoints via a Web browser, Postman, or other such tools.
 ====
 
 [div divider]

@@ -6,7 +6,7 @@
 :page-pageid: embed-a-viz
 :page-description: You can use the LiveboardEmbed SDK library to embed visualizations on a Liveboard and view them in your application context.
 
-This article explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application. 
+This article explains how to embed a single ThoughtSpot visualization in your Web page, portal, or application.
 
 A visualization is a single answer pinned to a Liveboard. Pinned visualizations appear without the search bar or other options to change the visualization.
 
@@ -64,8 +64,6 @@ const liveboardEmbed = new LiveboardEmbed(document.getElementById('ts-embed'), {
     hiddenActions: [],
     liveboardId: '<%=liveboardGUID%>',
     vizId: '<%=vizGUID%>',
-    enableVizTransformations: true,
-    preventLiveboardFilterRemoval: true,
     runtimeFilters: [],
 });
 ----
@@ -123,7 +121,7 @@ Use either `visibleActions` or `hiddenActions` to show or hide the actions in th
 ====
 
 hiddenActions __Optional__::
-_Array of strings_. Hides specified actions from the list of available actions on the embedded visualization. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined. 
+_Array of strings_. Hides specified actions from the list of available actions on the embedded visualization. You can use this attribute to remove the actions that are not relevant to your application context. Do not use this attribute if `visibleActions` are defined.
 
 +
 For example, to hide *Download* action from the *More* menu image:./images/icon-more-10px.png[the more options menu], specify `Action.Download` in the `hiddenActions` attribute.
@@ -155,7 +153,7 @@ disabledActions: [Action.Present]
 include::{path}/custom-action-note.adoc[]
 
 disabledActionReason __Optional__::
-_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`. 
+_String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 vizId::
 _String_. The Global Unique Identifier (GUID) of the visualization.
@@ -192,7 +190,7 @@ columnName;;
 __String__. Name of the column to filter by.
 
 operator;;
-__String__. The runtime filter operator. For more information about the runtime filter operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
+__String__. The runtime filter operator. For more information, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filters].
 
 values;;
 __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands.
@@ -203,10 +201,6 @@ __String, Integer, or Boolean__. The list of operands. Operators like EQ, LE acc
 ++++
 
 For more information about the supported data types and how to use runtime filters, see xref:runtime-filters.adoc[Runtime filters].
-
-== Define a method to process callback custom actions payload
-
-include::{path}/callback-payload.adoc[]
 
 == Register, handle, and trigger events
 
@@ -232,7 +226,7 @@ liveboardEmbed.render();
 
 * Load the client application.
 * Try accessing a visualization embedded in your application.
-* Verify if the embedded content renders correctly on your application page. 
+* Verify if the embedded content renders correctly on your application page.
 * If you have disabled an action, verify if the action appears as disabled.
 * If runtime filters are configured, verify if the filters are applied to the visualizations on the Liveboard.
 

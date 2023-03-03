@@ -17,7 +17,7 @@ For more information, see xref:visual-embed-sdk.adoc[Visual Embed SDK].
 == REST API
 ThoughtSpot REST API v1 framework allows your client applications to query data, add and modify ThoughtSpot objects, and perform administrative tasks.
 
-The REST API v2 [beta betaBackground]^Beta^ introduces new endpoints, improved request and response workflows, and an interactive Playground experience.
+The REST API v2.0 introduces new endpoints, improved request and response workflows, and an interactive Playground experience.
 
 For more information, see xref:about-rest-apis.adoc[REST APIs].
 

@@ -16,7 +16,7 @@
 ** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
 ** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
-** link:{{navprefix}}=get-started-tse[Get started]
+** link:{{navprefix}}=get-started-tse[Get started with embedding]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
 
 * link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]

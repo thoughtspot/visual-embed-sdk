@@ -1,4 +1,4 @@
-= REST API V2 endpoints (Deprecated)
+= REST API v2 ^Beta^ endpoints (Deprecated)
 :toc: true
 
 :page-title: REST API Reference Guide
