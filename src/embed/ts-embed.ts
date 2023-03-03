@@ -300,6 +300,7 @@ export class TsEmbed {
             customizations,
             contextMenuTrigger,
             linkOverride,
+            insertInToSlide,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -362,6 +363,9 @@ export class TsEmbed {
         }
         if (linkOverride) {
             queryParams[Param.LinkOverride] = linkOverride;
+        }
+        if (insertInToSlide) {
+            queryParams[Param.ShowInsertToSlide] = insertInToSlide;
         }
         return queryParams;
     }

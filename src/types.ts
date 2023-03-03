@@ -382,6 +382,12 @@ export interface ViewConfig {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     linkOverride?: boolean;
+    /**
+     * flag to enable insert into slides action
+     * @hidden
+     * @private
+     */
+    insertInToSlide?: boolean;
 }
 
 /**
@@ -1238,6 +1244,7 @@ export enum Param {
     IconSpriteUrl = 'iconSprite',
     ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
     LinkOverride = 'linkOverride',
+    ShowInsertToSlide = 'insertInToSlide',
 }
 
 /**
@@ -1443,6 +1450,10 @@ export enum Action {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     AxisMenuRemove = 'axisMenuRemove',
+    /**
+     * @hidden
+     */
+    InsertInToSlide = 'insertInToSlide',
 }
 
 export interface SessionInterface {
