@@ -110,19 +110,27 @@ If you have upgraded your ThoughtSpot instance to 9.0.0.sw, we recommend that yo
 For information about the new features, enhancements, and breaking changes introduced in v1.19.0, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank].
 
 === REST API v1
-The 9.0.0.sw release version introduces the following enhancements:
+The 9.0.0.sw release version introduces the following features and enhancements:
 
 Session API::
-The `/tspublic/v1/session/auth/token` endpoint includes the `autocreate` and `groups` properties to allow administrators to provision a user just-in-time and assign privileges.
+The `/tspublic/v1/session/auth/token` endpoint includes the `autocreate` and `groups` properties to allow administrators to provision a user just in time (JIT) and assign privileges.
 
 TML API::
 
 * The TML objects retrieved from ThoughtSpot via `/tspublic/v1/metadata/tml/export` API endpoint show the object name as `liveboard` instead of `pinboard` in the API response.
 
-* The `/tspublic/v1/metadata/tml/import` endpoint now supports re-using GUIDs for new objects created during the import if the guid in the imported TML is not being used by any other object on the server.
+* The `/tspublic/v1/metadata/tml/import` endpoint now supports re-using GUIDs for new objects created during the import if the `guid` in the imported TML is not being used by any other object on the server.
 
 User API::
-The `POST /tspublic/v1/user/` and `PUT /tspublic/v1/user/{userid}` API endpoints allow you set the `triggeredbyadmin` flag to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+The `POST /tspublic/v1/user/` and `PUT /tspublic/v1/user/{userid}` API endpoints allow you to set the `triggeredbyadmin` flag to indicate if the user creation or update request is initiated by the ThoughtSpot admin or an external application.
+
+Metadata API::
+
+This release introduces the `POST /tspublic/v1/metadata/delete` endpoint, using which you can delete a metadata object.
+
+////
+For more information, see xref:metadata-api.adoc#del-obj[Delete metadata objects].
+////
 
 == Version 8.8.1.sw, January 2023
 
