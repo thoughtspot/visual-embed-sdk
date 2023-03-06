@@ -3,6 +3,7 @@ import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { useResizeDetector } from 'react-resize-detector';
 import { useFlexSearch } from 'react-use-flexsearch';
 import algoliasearch from 'algoliasearch';
+import DOMPurify from 'dompurify';
 import { queryStringParser, isPublicSite } from '../utils/app-utils';
 import { passThroughHandler, fetchChild } from '../utils/doc-utils';
 import Header from '../components/Header';
@@ -310,9 +311,13 @@ const IndexPage = ({ location }) => {
                 >
                     <Search
                         keyword={keyword}
-                        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                            updateKeyword((e.target as HTMLInputElement).value)
-                        }
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                            updateKeyword(
+                                DOMPurify.sanitize(
+                                    (e.target as HTMLInputElement).value,
+                                ),
+                            );
+                        }}
                         options={results}
                         optionSelected={optionSelected}
                         leftNavOpen={leftNavOpen}
