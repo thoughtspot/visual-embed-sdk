@@ -16,6 +16,11 @@ import {
     logout as _logout,
     AuthFailureType,
     AuthStatus,
+    notifyAuthFailure,
+    notifyAuthSDKSuccess,
+    notifyAuthSuccess,
+    notifyLogout,
+    setAuthEE,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -32,39 +37,13 @@ export const getEmbedConfig = (): EmbedConfig => config;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
-let authEE: EventEmitter;
+export {
+    notifyAuthFailure,
+    notifyAuthSDKSuccess,
+    notifyAuthSuccess,
+    notifyLogout,
+};
 
-export function notifyAuthSDKSuccess(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.SDK_SUCCESS);
-}
-
-export function notifyAuthSuccess(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.SUCCESS);
-}
-
-export function notifyAuthFailure(failureType: AuthFailureType): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.FAILURE, failureType);
-}
-
-export function notifyLogout(): void {
-    if (!authEE) {
-        console.error('SDK not initialized');
-        return;
-    }
-    authEE.emit(AuthStatus.LOGOUT);
-}
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
  */
@@ -142,9 +121,17 @@ function sanity(embedConfig: EmbedConfig) {
             );
         }
     }
-    if (embedConfig.noRedirect && !embedConfig.authTriggerContainer) {
-        throw new Error('authTriggerContainer not provided with noRedirect');
+}
+
+function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
+    const newConfig = { ...embedConfig };
+    if (
+        embedConfig.noRedirect !== undefined &&
+        embedConfig.inPopup === undefined
+    ) {
+        newConfig.inPopup = embedConfig.noRedirect;
     }
+    return newConfig;
 }
 
 /**
@@ -164,7 +151,9 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         ...embedConfig,
         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     };
-    authEE = new EventEmitter();
+    config = backwardCompat(config);
+    const authEE = new EventEmitter();
+    setAuthEE(authEE);
     handleAuth();
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
@@ -177,6 +166,10 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         usedCustomizationRules:
             embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE !=
             null,
+        usedCustomizationStrings: !!embedConfig.customizations?.content
+            ?.strings,
+        usedCustomizationIconSprite: !!embedConfig.customizations
+            ?.iconSpriteUrl,
     });
 
     if (config.callPrefetch) {
@@ -231,6 +224,6 @@ export const renderInQueue = (
 // For testing purposes only
 export function reset(): void {
     config = {} as any;
-    authEE = null;
+    setAuthEE(null);
     authPromise = null;
 }

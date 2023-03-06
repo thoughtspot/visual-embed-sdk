@@ -56,7 +56,7 @@
         justify-content: space-between;
         overflow: auto;
         font-size: $font-size-code;
-        max-height: 700px;
+        max-height: 900px;
         line-height: $line-height-code;
         box-shadow: var(--box-shadow);
 
@@ -88,7 +88,6 @@
                 top: -20px;
                 padding: 5px;
                 right: 36px;
-                text-transform: uppercase;
                 color: var(--text-color-code-lang);
             }
 

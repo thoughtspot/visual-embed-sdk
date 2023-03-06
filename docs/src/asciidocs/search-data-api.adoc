@@ -135,7 +135,7 @@ For example, Columns `[Revenue]` and `[revenue]` are not unique.
 
 * Values must be enclosed in quotes, `‘’`, but they cannot contain quotes.
 
-* The API does not support **in-query formula** definitions. To use a formula, create it on the worksheet or a table using the ThoughtSpot UI, and then use the named formula inside the API query.
+* The API does not support **in-query formula** definitions. To use a formula, create it on the Worksheet or a table using the ThoughtSpot UI, and then use the named formula inside the API query.
 
 * Users must be authenticated and have read access to the data source.
 
@@ -159,7 +159,7 @@ Alternatively, navigate to the following address:
  https://<your-thoughtspot-instance>/#/data/tables/
 ----
 
-. Select a data source that you plan to query: a worksheet, a table, or a view.
+. Select a data source that you plan to query: a Worksheet, a table, or a View.
 
 . In the address bar of the web browser, note the GUID of the selected data source; it is the last string of the address.  For example, in the following address string, the GUID is `9d93a6b8-ca3a-4146-a1a1-e908b71b963f`:
 +
@@ -238,7 +238,7 @@ POST /tspublic/v1/searchdata
 | Query parameter | Description
 |`query_string` |__String__. The data search query string. For more information, see xref:search-data-api.adoc#components[Components of a search query].
 
-|`data_source_guid` |__String__.  The GUID of the data source, either a worksheet, a view, or a table.
+|`data_source_guid` |__String__.  The GUID of the data source, either a Worksheet, a View, or a table.
 
 |`batchsize`  |__Integer__. The batch size for loading search objects.
 
@@ -264,7 +264,7 @@ curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT'
 ----
 
 .cURL (FULL)
@@ -275,19 +275,19 @@ curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL’
 ----
 
 .Request URL (COMPACT)
 [source, html]
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT
 ----
 
 .Request URL (FULL)
 [source,html]
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/searchdata?query_string=%5Bsales%5D%20%5Bstore%20region%5D&data_source_guid=06517bd1-84c0-4bc6-bd09-f57af52e8316&batchsize=-1&pagenumber=-1&offset=-1&formattype=FULL
 ----
 
 === Example response
@@ -299,7 +299,7 @@ The data the API response contains four components:
 . A sampling ratio.
 +
 The sampling ratio tells you the percentage of total data returned.
-A sampling ratio of `1` indicates that all the data in the answer object was returned in the API response.
+A sampling ratio of `1` indicates that all the data in the Answer object was returned in the API response.
 
 [source,JSON]
 ----

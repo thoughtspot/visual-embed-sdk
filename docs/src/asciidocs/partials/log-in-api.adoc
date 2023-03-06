@@ -1,4 +1,4 @@
-You can programmatically sign in to ThoughtSpot using the `/tspublic/v1/session/login` API.
+In the basic authentication method, REST clients can access ThoughtSpot objects using `username` and `password` parameters and programmatically sign in to ThoughtSpot using the `/tspublic/v1/session/login` API.
 
 === Resource URL
 ----
@@ -25,12 +25,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'username=test&password=fhfh2323bbn&rememberme=false'\
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/session/login
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/session/login
 ----
 === Response codes
 

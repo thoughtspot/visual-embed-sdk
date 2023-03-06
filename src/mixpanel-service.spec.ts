@@ -1,14 +1,15 @@
 import * as mixpanel from 'mixpanel-browser';
-import { initMixpanel, uploadMixpanelEvent } from './mixpanel-service';
+import {
+    initMixpanel,
+    uploadMixpanelEvent,
+    MIXPANEL_EVENT,
+    testResetMixpanel,
+} from './mixpanel-service';
 import { AuthType } from './types';
 
 const config = {
     thoughtSpotHost: 'https://10.87.89.232',
     authType: AuthType.None,
-};
-
-const MIXPANEL_EVENT = {
-    VISUAL_SDK_CALLED_INIT: 'visual-sdk-called-init',
 };
 
 jest.mock('mixpanel-browser', () => ({
@@ -19,6 +20,9 @@ jest.mock('mixpanel-browser', () => ({
 }));
 
 describe('Unit test for mixpanel', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     test('initMixpanel and test upload event', () => {
         const sessionInfo = {
             mixpanelToken: 'abc123',
@@ -48,5 +52,22 @@ describe('Unit test for mixpanel', () => {
         expect(mixpanel.identify).not.toHaveBeenCalledWith(
             sessionInfo.userGUID,
         );
+    });
+
+    test('when not init, should queue events and flush on init', () => {
+        testResetMixpanel();
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+            authType: config.authType,
+            host: config.thoughtSpotHost,
+        });
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_TRIGGER);
+        expect(mixpanel.track).not.toHaveBeenCalled();
+        const sessionInfo = {
+            mixpanelToken: 'abc123',
+            userGUID: '12345',
+            isPublicUser: false,
+        };
+        initMixpanel(sessionInfo);
+        expect(mixpanel.track).toHaveBeenCalledTimes(2);
     });
 });

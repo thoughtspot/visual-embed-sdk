@@ -49,7 +49,7 @@ The runtime filters are specified in the request URL as parameters. To apply run
 
 === Embedded Liveboard and visualizations
 
-The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and answer objects in the embedded app.
+The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and Answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and Answer objects in the embedded app.
 
 [NOTE]
 ====
@@ -76,7 +76,7 @@ liveboardEmbed.render({
 The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
 
 [#multiRuntimeFilters]
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -127,7 +127,7 @@ Number of values allowed: 1
 
 a|
 
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -142,7 +142,7 @@ liveboardEmbed.render({
 | `NE` +
 does not equal +
 Number of values allowed: 1
-a| [source,javascript]
+a| [source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -159,7 +159,7 @@ less than +
 Number of values allowed: 1
 
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -175,7 +175,7 @@ liveboardEmbed.render({
 less than or equal to +
 Number of values allowed: 1
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -191,7 +191,7 @@ liveboardEmbed.render({
 greater than +
 Number of values allowed: 1 +
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -206,7 +206,7 @@ liveboardEmbed.render({
 greater than or equal to +
 Number of values allowed: 1 +
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -222,7 +222,7 @@ liveboardEmbed.render({
 contains +
 Number of values allowed: 1 +
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -238,7 +238,7 @@ liveboardEmbed.render({
 begins with +
 Number of values allowed: 1 +
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -254,7 +254,7 @@ liveboardEmbed.render({
 | `ENDS_WITH` +
 ends with +
 Number of values allowed: 1 +
-a| [source,javascript]
+a| [source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -269,7 +269,7 @@ liveboardEmbed.render({
 | `BW_INC_MAX` +
 between inclusive of the higher value +
 Number of values allowed: 2 +
-a| [source,javascript]
+a| [source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -284,7 +284,7 @@ liveboardEmbed.render({
 | `BW_INC_MIN` +
 between inclusive of the lower value +
 Number of values allowed: 2 +
-a| [source,javascript]
+a| [source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -300,7 +300,7 @@ liveboardEmbed.render({
 between inclusive +
 Number of values allowed: 2 +
 a|
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -315,7 +315,7 @@ liveboardEmbed.render({
 | `BW` +
 between non-inclusive +
 Number of values allowed: 2 +
-a|[source,javascript]
+a|[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -330,7 +330,7 @@ liveboardEmbed.render({
 |`IN` +
 is included in this list of values +
 Number of values allowed: multiple
-a|[source,javascript]
+a|[source,JavaScript]
 ----
 liveboardEmbed.render({
     liveboardId: '543619d6-0015-4667-b257-eff547d13a12',
@@ -358,26 +358,26 @@ To add a runtime filter to your API call or the embedded object:
 The URL format for applying runtime filters to a Liveboard in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The URL format for applying runtime filters to a Liveboard visualization in a REST API call is:
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
 ----
 
 The following example shows the URL to access a Liveboard with a filter. Here the runtime filter is operating on the column `Color` and will only return values that equal (EQ) to `red`.
 
 ----
-http://<ThoughtSpot-host>/?col1=Color&op1=EQ&val1=red#
+http://{ThoughtSpot-Host}/?col1=Color&op1=EQ&val1=red#
 /pinboard/e36ee65e-64be-436b-a29a-22d8998c4fae
 ----
 
 The following example shows the URL for a REST API request URL with a filter. Here the runtime filter is operating on the column `Category` and returning values that are equal to `mfgr%2324`.
 
 ----
-http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/pinboarddata?
+http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?
 id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 &op1=EQ&val1=mfgr%2324
 ----
@@ -405,14 +405,14 @@ col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2
 ----
 [NOTE]
 ====
-If the Liveboard or answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
+If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
 ====
 
 == Limitations of runtime filters
 
 * Runtime filter on `DATE` or `DATE_TIME` must be specified in EPOCH time (Unix or POSIX time).
-* Runtime filters do not work directly on top of tables. You must create a worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a worksheet.
-* If the worksheet was created from an answer (it is an aggregated worksheet), runtime filters will only work if the answer was formed using a single worksheet. If the answer from which the worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
+* Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
+* If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
 

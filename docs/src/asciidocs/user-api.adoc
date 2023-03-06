@@ -65,12 +65,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'name=TS%20User&password=testy1%4022&displayname=TS%20User&usertype=LOCAL_USER&visibility=DEFAULT' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/
 ----
 
 === Example response
@@ -172,7 +172,7 @@ PUT /tspublic/v1/user/{userid}
 |`userid`|Form parameter|__String__. GUID of the user.
 |`content`|Form parameter|__String__. A JSON map of strings with the user profile attributes.
 |`password` __Optional__|Form parameter|__String__. Password string for the user account. Use this attribute to change the password of the user account.
-|`triggeredbyadmin` a|Form parameter|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
+|`triggeredbyadmin` a|Form parameter a|__Boolean__. Indicates if the user update API request is initiated by the ThoughtSpot administrator or an external application. By default, the `triggeredbyadmin` flag is set to `false`. The default value is `false`. +
 
 * When set to `true`, ThoughtSpot updates the `displayNameLastUpdatedBy` property to `ADMIN`. Else, the `displayNameLastUpdatedBy` property is set to `AUTO` for the specified user object.
 
@@ -193,15 +193,13 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=4391d676-2dd8-4248-b6db-d973811f0122' \
--d 'content={"displayName": "Guest", "header": {"id": "4391d676-2dd8-4248-b6db-d973811f0122", "name": "guest1234", "displayName": "Guest", "owner": "4391d676-2dd8-4248-b6db-d973811f0122"}}' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}' \
--b 'JSESSIONID=0e97a2a6-7e9a-496a-b48b-2d66ec8b1e15'
+-d 'userid=6deb3976-e7c9-4f6a-94cc-90d790ee828d&content={    "userContent":{       "userPreferences":{          "notifyOnShare":true,          "showWalkMe":true,          "analystOnboardingComplete":false       },       "userProperties":{          "displayNameLastUpdatedBy":"ADMIN"       },       "userActivityProto":{          "first_login":-1,          "welcome_email_sent":false       }    },    "state":"ACTIVE",    "assignedGroups":[       "b25ee394-9d13-49e3-9385-cd97f5b253b4"    ],    "inheritedGroups":[       "b25ee394-9d13-49e3-9385-cd97f5b253b4"    ],    "privileges":[           ],    "type":"LOCAL_USER",    "parenttype":"USER",    "visibility":"DEFAULT",    "tenantId":"982d6da9-9cd1-479e-b9a6-35aa05f9282a",    "displayName":"TS Test User",    "header":{       "id":"6deb3976-e7c9-4f6a-94cc-90d790ee828d",       "name":"tsTest",       "displayName":"tsTest",       "author":"59481331-ee53-42be-a548-bd87be6ddd4a",       "created":1675661280328,       "modified":1675661280328,       "modifiedBy":"59481331-ee53-42be-a548-bd87be6ddd4a",       "owner":"6deb3976-e7c9-4f6a-94cc-90d790ee828d",       "isDeleted":false,       "isHidden":false,       "orgIds":[          0       ],       "tags":[                 ],       "type":"LOCAL_USER",       "isExternal":false,       "isDeprecated":false,       "isSharedViaConnection":false    },    "complete":true,    "incompleteDetail":[           ],    "isSuperUser":false,    "isSystemPrincipal":false }&triggeredbyadmin=true'\
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/{userid}'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/{userid}
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/{userid}
 ----
 
 ==== JSON file example for updating user profile
@@ -312,12 +310,13 @@ curl -X PUT \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
--d 'userid=a8aeda00-dc3c-4485-b8d1-fd6ac701a819&emailid=user123%40thoughtspot.com'\ 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email'
+-d 'userid=a8aeda00-dc3c-4485-b8d1-fd6ac701a819&emailid=user123%40thoughtspot.com'\
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/email'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/email
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/email
 ----
 
 === Example response
@@ -351,7 +350,7 @@ POST /tspublic/v1/user/addtoorg
 ----
 
 === Request parameters
-[width="100%" cols="1,4"]
+[width="100%" cols="1,1,4"]
 [options='header']
 |===
 |Parameter|Type|Description
@@ -370,12 +369,12 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json' \
 -d 'userids=%5B4391d676-2dd8-4248-b6db-d973811f0122%2C37539499-624a-4d3d-8f88-e9be5653c114%5D&orgid=3' \
-'http://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL'
+'http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/addtoorg?orgScope=ALL
 ----
 
 === Example response
@@ -437,12 +436,12 @@ You can use either `userid` or `name` to query data for a specific user. If usin
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2'
 ----
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/?userid=b995e481-d0a7-4820-b1e8-54051ede77a2
 ----
 
 === Example response
@@ -553,14 +552,14 @@ POST /tspublic/v1/user/inactivate
 curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: text/plain' --header 'X-Requested-By: ThoughtSpot' \
--d 'username=usr1&url=https%3A%2F%2F<ThoughtSpot-host>.cloud%2F' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate'
+-d 'username=usr1&url=https%3A%2F%2F<ThoughtSpot-Host>.cloud%2F' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/inactivate'
 ----
 
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/inactivate
 ----
 
 === Example response
@@ -568,7 +567,7 @@ https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/inactivate
 If the user deactivation operation is successful, the API returns the following response:
 
 ----
-https://<ThoughtSpot-host>/#/activate?id=5fe00a84-e7eb-4a8b-b58d-ec205de9c645&token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCR1WUlOQ0VLbGtWMXZyMWtXUGdKSG9nPT0kTjY3Znd2STA1bURMMXNVMDMzVUkvK2tybllaZUUwUktTUWNEUEJZNWQwbz0
+https://{ThoughtSpot-Host}/#/activate?id=5fe00a84-e7eb-4a8b-b58d-ec205de9c645&token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCR1WUlOQ0VLbGtWMXZyMWtXUGdKSG9nPT0kTjY3Znd2STA1bURMMXNVMDMzVUkvK2tybllaZUUwUktTUWNEUEJZNWQwbz0
 ----
 
 Note the user ID and auth token string. You will need this information to re-activate a user account.
@@ -624,14 +623,15 @@ curl -X POST \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --header 'Accept: application/json'  \
 --header 'X-Requested-By: ThoughtSpot'  \
--d 'userid=996969b6-0a4c-4e3d-9f38-a976fe821790&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRKWE9MWU4yalVHYUdZaXdHS0dsbWFRPT0kUDRvODVkS1dsRHMyNWd0Njg5K0ZDZVl5R2h1MFBTKzBlQk1pRGNyaW9CQT0&password=fooFoo123!&properties=%5B%7B%22mail%22%3A%22test_user1%40thoughtspot.com%22%7D%5D' 'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate'
+-d 'userid=996969b6-0a4c-4e3d-9f38-a976fe821790&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRKWE9MWU4yalVHYUdZaXdHS0dsbWFRPT0kUDRvODVkS1dsRHMyNWd0Njg5K0ZDZVl5R2h1MFBTKzBlQk1pRGNyaW9CQT0&password=fooFoo123!&properties=%5B%7B%22mail%22%3A%22test_user1%40thoughtspot.com%22%7D%5D'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/activate'
 
 ----
 
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/activate
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/activate
 ----
 
 === Example response
@@ -692,13 +692,13 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'username=%5B%22tsadmin%22%5D'  \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/session/invalidate'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/session/invalidate'
 ----
 
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/session/invalidate
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/session/invalidate
 ----
 
 === Example response
@@ -751,13 +751,13 @@ To remove the user from all Orgs and the ThoughtSpot system, set the `orgScope` 
 curl -X DELETE \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d'
 ----
 
 .Request URL
 
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/ee74b737-da39-4667-95ad-cc06c81ab13d
 ----
 === Example response
 
@@ -795,12 +795,12 @@ GET /tspublic/v1/user/list
 ----
 curl -X GET \
 --header 'Accept: application/json' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/list'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/list
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/list
 ----
 
 === Example response
@@ -972,12 +972,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'name=guest&currentpassword=test&password=foobarfoobar' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/updatepassword'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepassword
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/updatepassword
 ----
 
 === Example response
@@ -1028,12 +1028,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&auth_token=JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRPMFA2S0ZlNm51Qlo4NFBlZUppdzZ3PT0kMnJKaSswSHN6Yy96ZGxqdXUwd1dXZkovNVlHUW40d3FLMVdBT3hYVVgxaz0&password=foobarA@123' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/resetpassword'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/resetpassword
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/resetpassword
 ----
 
 === Example response
@@ -1102,7 +1102,7 @@ POST /tspublic/v1/user/updatepreference
 |`preferences` a|__String__. The JSON map of user preferences. In the JSON map, you can define the attributes to set the following preferences for a user:
 
 * change the display language of the ThoughtSpot UI
-* receive email notifications when another user shares an answer or Liveboard
+* receive email notifications when another user shares an Answer or Liveboard
 * enable the onboarding experience
 |`preferencesProto` __Optional__|__String__. A 64-bit encoded string to set user preferences in a secure manner. For example, `CgoKCAgBEAEYASAB`.
 |===
@@ -1122,12 +1122,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'userid=59481331-ee53-42be-a548-bd87be6ddd4a&preferences=%7B%22showWalkMe%22%3Atrue%2C%22notifyOnShare%22%3Atrue%2C%22analystOnboardingComplete%22%3Afalse%2C%22preferredLocale%22%3A%22en-IN%22%7D' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/updatepreference'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/user/updatepreference
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/user/updatepreference
 ----
 
 .Example JSON String

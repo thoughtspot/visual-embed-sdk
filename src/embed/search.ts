@@ -97,6 +97,12 @@ export interface SearchViewConfig extends ViewConfig {
      * The GUID of a saved answer to load initially.
      */
     answerId?: string;
+    /**
+     * If set to true, search page will render without the Search Bar
+     * The chart/table should still be visible.
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    hideSearchBar?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [

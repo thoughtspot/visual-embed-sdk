@@ -17,11 +17,11 @@ The following figure illustrates the object model hierarchy in ThoughtSpot.
 image::./images/object_model_hierarchy.png[Object Model Hierarchy]
 
 == Data modeling
-You must create a data model comprising at least one link:https://docs.thoughtspot.com/cloud/latest/connections[connection, window=_blank] with one link:https://docs.thoughtspot.com/cloud/latest/connect-data[table, window=_blank] to begin using link:https://docs.thoughtspot.com/cloud/latest/search-data[Search data, window=_blank] to create content. Most often there will be multiple *tables*, with a variety of link:https://docs.thoughtspot.com/cloud/latest/tables-join[joins, window=_blank] defined in ThoughtSpot, with a link:https://docs.thoughtspot.com/cloud/latest/worksheet-create[worksheet, window=_blank] bringing those tables together into a presentable analytic data model for the end-users.
+You must create a data model comprising at least one link:https://docs.thoughtspot.com/cloud/latest/connections[connection, window=_blank] with one link:https://docs.thoughtspot.com/cloud/latest/connect-data[table, window=_blank] to begin using link:https://docs.thoughtspot.com/cloud/latest/search-data[Search data, window=_blank] to create content. Most often there will be multiple *tables*, with a variety of link:https://docs.thoughtspot.com/cloud/latest/tables-join[joins, window=_blank] defined in ThoughtSpot, with a link:https://docs.thoughtspot.com/cloud/latest/worksheet-create[Worksheet, window=_blank] bringing those tables together into a presentable analytic data model for the end-users.
 
 Data engineers with *Can manage data* privilege can add connections either link:https://docs.thoughtspot.com/cloud/latest/connections[in the UI, window=_blank] or via xref:connections-api.adoc[REST API]. Connections are owned and accessible only to their creator, who then imports *tables* from the connection. Once imported, tables can be shared with other Thoughtspot groups and users.
 
-*Tables* can have link:https://docs.thoughtspot.com/cloud/latest/security-rls[Row Level Security (RLS), window=_blank] rules that filter the data results based on the signed-in link:https://docs.thoughtspot.com/cloud/latest/user-management[username, window=_blank] or the link:https://docs.thoughtspot.com/cloud/latest/group-management[ThoughtSpot groups, window=_blank] to which the user belongs, and those rules apply to any *worksheet* that uses the *table*.
+*Tables* can have link:https://docs.thoughtspot.com/cloud/latest/security-rls[Row Level Security (RLS), window=_blank] rules that filter the data results based on the signed-in link:https://docs.thoughtspot.com/cloud/latest/user-management[username, window=_blank] or the link:https://docs.thoughtspot.com/cloud/latest/group-management[ThoughtSpot groups, window=_blank] to which the user belongs, and those rules apply to any *Worksheet* that uses the *table*.
 
 === Data modeling workflow
 1. Create a *connection* to a cloud data warehouse.
@@ -86,7 +86,7 @@ GUID of the object. Unique within a given ThoughtSpot instance
 * `author` +
 GUID of the user who created / uploaded the object, or had the object transferred to them.
 * `owner` +
-GUID representing the relationship between hierarchical objects, For example, a *column* would have the GUID of a *table* or *worksheet* as owner.
+GUID representing the relationship between hierarchical objects, For example, a *column* would have the GUID of a *table* or *Worksheet* as owner.
 * `created` +
 timestamp of object creation
 * `modified` +

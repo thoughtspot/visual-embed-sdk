@@ -375,6 +375,20 @@ export interface ViewConfig {
      * @default ''
      */
     customizations?: CustomisationsInterface;
+    /**
+     * Insert as a sibling of the target container, instead of appending to a child inside it.
+     */
+    insertAsSibling?: boolean;
+    /**
+     * flag to set ContextMenu Trigger to either left or right click.
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    contextMenuTrigger?: ContextMenuTriggerOptions;
+    /**
+     * flag to override openNew tab context menu link
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    linkOverride?: boolean;
 }
 
 /**
@@ -610,6 +624,12 @@ export enum EmbedEvent {
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
+     * Emitted when  the "Get Data" button in Search Bar embed
+     * is clicked.
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.0-sw
+     */
+    GetDataClick = 'getDataClick',
+    /**
      * Detects the route change.
      */
     RouteChange = 'ROUTE_CHANGE',
@@ -809,6 +829,16 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     CopyLink = 'embedDocument',
+    /**
+     * Emitted when a user interacts with cross filters on a visualization or liveboard
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    CrossFilterChanged = 'cross-filter-changed',
+    /**
+     * Emitted when a user right clicks on chart or table
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    VizPointRightClick = 'vizPointRightClick',
 }
 
 /**
@@ -826,10 +856,12 @@ export enum HostEvent {
      *                        - Although an array, only a single source
      *                          is supported at this time.
      * @param - searchQuery - The search query
+     * @param - execute - execute the existing / updated query
      * @example
      * searchEmbed.trigger(HostEvent.Search, {
      * searchQuery: "[sales] by [item type],
      * "dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     * "execute": true
      * })
      */
     Search = 'search',
@@ -1140,6 +1172,13 @@ export enum HostEvent {
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ManagePipelines = 'manage-pipeline',
+    /**
+     * Triggers the Reset search in answer
+     * @example
+     * searchEmbed.trigger(HostEvent.SearchReset
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.0.1-sw
+     */
+    ResetSearch = 'resetSearch',
 }
 
 /**
@@ -1205,6 +1244,8 @@ export enum Param {
     AuthType = 'authType',
     IconSpriteUrl = 'iconSprite',
     cookieless = 'cookieless',
+    ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
+    LinkOverride = 'linkOverride',
 }
 
 /**
@@ -1235,10 +1276,10 @@ export enum Action {
     Share = 'share',
     AddFilter = 'addFilter',
     ConfigureFilter = 'configureFilter',
-    /**
-     * @hidden
-     */
+    CollapseDataSources = 'collapseDataSources',
+    ChooseDataSources = 'chooseDataSources',
     AddFormula = 'addFormula',
+    AddParameter = 'addParameter',
     /**
      * @hidden
      */
@@ -1354,6 +1395,62 @@ export enum Action {
     SyncToSheets = 'sync-to-sheets',
     SyncToOtherApps = 'sync-to-other-apps',
     ManagePipelines = 'manage-pipeline',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    CrossFilter = 'context-menu-item-cross-filter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    RemoveCrossFilter = 'context-menu-item-remove-cross-filter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuAggregate = 'axisMenuAggregate',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuTimeBucket = 'axisMenuTimeBucket',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuFilter = 'axisMenuFilter',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuConditionalFormat = 'axisMenuConditionalFormat',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuSort = 'axisMenuSort',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuGroup = 'axisMenuGroup',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuPosition = 'axisMenuPosition',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuRename = 'axisMenuRename',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuEdit = 'axisMenuEdit',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuNumberFormat = 'axisMenuNumberFormat',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuTextWrapping = 'axisMenuTextWrapping',
+    /**
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     */
+    AxisMenuRemove = 'axisMenuRemove',
 }
 
 export interface SessionInterface {
@@ -1377,4 +1474,9 @@ export enum PrefetchFeatures {
     SearchEmbed = 'SearchEmbed',
     LiveboardEmbed = 'LiveboardEmbed',
     VizEmbed = 'VizEmbed',
+}
+
+export enum ContextMenuTriggerOptions {
+    LEFT_CLICK = 'left-click',
+    RIGHT_CLICK = 'right-click',
 }

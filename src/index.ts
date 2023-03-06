@@ -9,7 +9,7 @@
  */
 
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
-import { init, prefetch, logout } from './embed/base';
+import { init, prefetch, logout, getEmbedConfig } from './embed/base';
 import {
     PinboardEmbed,
     LiveboardViewConfig,
@@ -17,7 +17,7 @@ import {
 } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { AuthFailureType, AuthStatus } from './auth';
+import { AuthFailureType, AuthStatus, AuthEvent } from './auth';
 import {
     AuthType,
     RuntimeFilter,
@@ -34,6 +34,7 @@ export {
     init,
     logout,
     prefetch,
+    getEmbedConfig as getInitConfig,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
@@ -41,6 +42,7 @@ export {
     AppEmbed,
     AuthFailureType,
     AuthStatus,
+    AuthEvent,
     // types
     Page,
     AuthType,

@@ -39,7 +39,7 @@ The following table lists the customizable elements:
 
 [tag greenBackground]#✓# Logo +
 
-[tag greenBackground]#✓# Favicon | [tag greenBackground]#✓# Background color of Liveboard, visualization, and answer pages +
+[tag greenBackground]#✓# Favicon | [tag greenBackground]#✓# Background color of Liveboard, visualization, and Answer pages +
 
 [tag greenBackground]#✓# Navigation panel and its contents +
 
@@ -52,7 +52,7 @@ The following table lists the customizable elements:
 
 |Charts and visualizations| [tag greenBackground]#✓# Color palette of charts and tables |
 
-[tag greenBackground]#✓# Font styles, text color, and text-transform settings for visualization and answer titles, description text, and axis labels and titles on charts +
+[tag greenBackground]#✓# Font styles, text color, and text-transform settings for visualization and Answer titles, description text, and axis labels and titles on charts +
 
 [tag greenBackground]#✓# Visualization tile customization; for example, border-radius and background color. +
 

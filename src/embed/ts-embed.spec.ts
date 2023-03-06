@@ -325,6 +325,7 @@ describe('Unit test case for ts embed', () => {
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
             jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
+            spyOn(console, 'error');
             tsEmbed.render();
         });
 
@@ -334,6 +335,9 @@ describe('Unit test case for ts embed', () => {
             );
             expect(mockMixPanelEvent).toBeCalledWith(
                 MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                {
+                    error: 'false',
+                },
             );
         });
     });
@@ -650,6 +654,30 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
                     `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
+        });
+        it('inserts as sibling of root node if configured', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getRootEl().nextSibling).toBe(getIFrameEl());
+        });
+        it('Should remove existing embed when rerendering', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getRootEl().nextSibling).toBe(getIFrameEl());
+            await appEmbed.render();
+            expect(getRootEl().nextSibling.nextSibling).not.toBe(getIFrameEl());
         });
         xit('Sets the forceSAMLAutoRedirect param', async (done) => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);

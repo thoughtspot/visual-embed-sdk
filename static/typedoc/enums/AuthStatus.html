@@ -80,6 +80,9 @@
 						<a href="Action.html" class="tsd-kind-icon">Action</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="AuthEvent.html" class="tsd-kind-icon">Auth<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="AuthFailureType.html" class="tsd-kind-icon">Auth<wbr>Failure<wbr>Type</a>
 					</li>
 				</ul>
@@ -98,6 +101,9 @@
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="AuthStatus.html#SUCCESS" class="tsd-kind-icon">SUCCESS</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthStatus.html#WAITING_FOR_POPUP" class="tsd-kind-icon">WAITING_<wbr>FOR_<wbr>POPUP</a>
 							</li>
 						</ul>
 					</li>
@@ -178,6 +184,7 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#LOGOUT" class="tsd-kind-icon">LOGOUT</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#SDK_SUCCESS" class="tsd-kind-icon">SDK_<wbr>SUCCESS</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#SUCCESS" class="tsd-kind-icon">SUCCESS</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="AuthStatus.html#WAITING_FOR_POPUP" class="tsd-kind-icon">WAITING_<wbr>FOR_<wbr>POPUP</a></li>
 							</ul>
 						</section>
 					</div>
@@ -191,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">FAILURE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;FAILURE&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5844c970/src/auth.ts#L48">auth.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/3dc89a5c/src/auth.ts#L49">auth.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -206,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">LOGOUT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;LOGOUT&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5844c970/src/auth.ts#L60">auth.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/3dc89a5c/src/auth.ts#L61">auth.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">SDK_<wbr>SUCCESS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SDK_SUCCESS&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5844c970/src/auth.ts#L52">auth.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/3dc89a5c/src/auth.ts#L53">auth.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,13 +243,35 @@
 					<div class="tsd-signature tsd-kind-icon">SUCCESS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SUCCESS&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5844c970/src/auth.ts#L56">auth.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/3dc89a5c/src/auth.ts#L57">auth.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Emits when the app sends an authentication success message</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="WAITING_FOR_POPUP" class="tsd-anchor"></a>
+					<h3>WAITING_<wbr>FOR_<wbr>POPUP</h3>
+					<div class="tsd-signature tsd-kind-icon">WAITING_<wbr>FOR_<wbr>POPUP<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;WAITING_FOR_POPUP&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/3dc89a5c/src/auth.ts#L68">auth.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when inPopup: true in the SAMLRedirect flow.
+								And, we are waiting for popup to be triggered either programatically
+							or by the trigger button.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.19.0</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>

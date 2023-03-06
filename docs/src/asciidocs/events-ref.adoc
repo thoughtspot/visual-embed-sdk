@@ -1,6 +1,6 @@
 = Events Reference
 :toc: true
-:toclevels: 1
+:toclevels: 2
 
 :page-title: Events and app integration
 :page-pageid: events
@@ -16,7 +16,7 @@ Host events use the `.trigger()` method to send the event message to embedded Th
 
 ==== CreateMonitor
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Create alert* action to create a threshold-based alert for KPI charts. +
 Requires the `vizId` key.
 
@@ -25,7 +25,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.CreateMonitor {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -35,40 +35,117 @@ liveboardEmbed.trigger(HostEvent.CreateMonitor {
 
 ==== CopyLink
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Copy link* action on a Liveboard or visualization on a Liveboard. +
 To trigger the *Copy link* action on a specific visualization on a Liveboard, pass the `vizId` key.
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
 The following example triggers the `CopyLink` action on a Liveboard.
 
-[source, javascript]
-----
-liveboardEmbed.trigger(HostEvent.CopyLink)
-----
-
-The following example triggers the `CopyLink` action on the specified visualization in a Liveboard.
-
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.CopyLink,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
+====
+--
 
-If you have embedded only chart or table visualization, you can trigger the `CopyLink` action on the object.
-[source, javascript]
+
+==== Delete
+Available with  `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
+Triggers the Delete action on embedded visualization or search Answer. +
+Requires `vizID` key for embedded Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+The following example triggers the `Delete` action on an embedded Liveboard.
+
+[source,JavaScript]
 ----
-vizEmbed.trigger(HostEvent.CopyLink)
+liveboardEmbed.trigger(HostEvent.Delete,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== Download
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *Download* action on a visualization or Answer in the Chart view mode.  +
+Requires the `vizId` key for event trigger on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== DownloadAsPDF
+
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
+Triggers the *Download PDF* action on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
+----
+====
+--
+
+==== DownloadAsCSV
+
+Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *Download As CSV* action on a Liveboard visualization or Answer in the table view mode.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== DownloadAsXLSX
+
+Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *Download As XLXS* action on a Liveboard visualization or Answer in the table view mode.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 ====
 --
 
 ==== DrillDown
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.5.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.5.0` or later. +
 Triggers a drill-down event on certain points of the specified column.  +
 Includes the following parameters:
 
@@ -84,7 +161,7 @@ __Boolean__. When set to `true`, automatically drills down to the selected point
 .Examples
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.DrillDown, {
         points: clickedPointData,
@@ -93,7 +170,7 @@ searchEmbed.trigger(HostEvent.DrillDown, {
 ----
 In this example, the `VizPointDoubleClick` event is used for triggering the `DrillDown` event when an area or specific data point on a table or chart is double-clicked.
 
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
     const {
@@ -109,26 +186,9 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
 ====
 --
 
-==== DownloadAsPDF
-
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
-Triggers the *Download PDF* action on a Liveboard.
-
-[div divider]
---
-.Example
-[%collapsible]
-====
-[source, javascript]
-----
-liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
-----
-====
---
-
 ==== Edit
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Edit* action on a Liveboard or visualization in a Liveboard.  +
 To trigger the *Edit* action for a specific visualization on a Liveboard, pass the `vizId` key.
 
@@ -139,20 +199,20 @@ To trigger the *Edit* action for a specific visualization on a Liveboard, pass t
 ====
 The following example triggers the `Edit` action on a Liveboard.
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit)
 ----
 
 The following example triggers the `Edit` action on the specified visualization in a Liveboard.
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Edit,  {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ----
 
 If you have embedded only chart or table visualization, you can trigger the `Edit` action on the object.
-[source, javascript]
+[source,JavaScript]
 ----
 vizEmbed.trigger(HostEvent.Edit)
 ----
@@ -160,9 +220,9 @@ vizEmbed.trigger(HostEvent.Edit)
 ====
 --
 
-==== Edit TML
+==== EditTML
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Edit TML* action on a Liveboard. +
 
 [div divider]
@@ -170,7 +230,7 @@ Triggers the *Edit TML* action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.EditTML)
 ----
@@ -179,7 +239,7 @@ liveboardEmbed.trigger(HostEvent.EditTML)
 
 ==== Explore
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Explore* action for a Liveboard visualization. +
 Requires the `vizId` key.
 
@@ -188,7 +248,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Explore, {
     vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -196,9 +256,9 @@ liveboardEmbed.trigger(HostEvent.Explore, {
 ====
 --
 
-==== Export TML
+==== ExportTML
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Export TML* action on a Liveboard. +
 
 [div divider]
@@ -206,7 +266,7 @@ Triggers the *Export TML* action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ExportTML)
 ----
@@ -214,18 +274,18 @@ liveboardEmbed.trigger(HostEvent.ExportTML)
 --
 
 ==== getExportRequestForCurrentPinboard
-Available with `LiveboardEmbed` in V1.13.0 or later. +
+Available with `LiveboardEmbed` in v1.13.0 or later. +
 Fires when a user triggers the Liveboard export workflow with the `getExportRequestForCurrentPinboard` method in the browser fetch request to download a Liveboard in its current state, including unsaved changes if any.
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
 .then(data => {
-console.log('Liveboard Data: ', data);
+console.log('Liveboard Data:', data);
 })
 ----
 ====
@@ -233,31 +293,30 @@ console.log('Liveboard Data: ', data);
 
 
 ==== GetTML
-Available with `LiveboardEmbed`, `SearchEmbed`, and `AppEmbed` in V1.18.0 or later. +
+Available with `SearchEmbed`, and `AppEmbed` in v1.18.0 or later. +
 
-Gets TML of the visualization or answer object when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+Gets TML of the visualization or answer object.
+
+////
+when a user on the *Show underlying data* action on a Liveboard visualization or answer. +
+
+////
 
 [div divider]
 --
-.Examples
+.Example
 [%collapsible]
 ====
-The event trigger from a Liveboard visualization includes the `vizId` key: +
-[source,javascript]
+[source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.ShowUnderlyingData), {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-----
-
-----
-searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+searchEmbed.trigger(HostEvent.GetTML)
 ----
 ====
 --
 
-
 ==== LiveboardInfo
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Show Liveboard details*  action on a Liveboard. +
 
 [div divider]
@@ -265,7 +324,7 @@ Triggers the *Show Liveboard details*  action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.LiveboardInfo)
 ----
@@ -274,7 +333,7 @@ liveboardEmbed.trigger(HostEvent.LiveboardInfo)
 
 ==== MakeACopy
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Make a copy*  action on a Liveboard. +
 
 [div divider]
@@ -282,7 +341,7 @@ Triggers the *Make a copy*  action on a Liveboard. +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.MakeACopy)
 ----
@@ -290,7 +349,7 @@ liveboardEmbed.trigger(HostEvent.MakeACopy)
 --
 
 ==== ManageMonitor
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Manage alert*  action on a Liveboard visualization. This action is available for KPI visualizations that support threshold-based alerts.  +
 Requires the `vizId` key: +
 
@@ -299,7 +358,7 @@ Requires the `vizId` key: +
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ManageMonitor, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -307,9 +366,29 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 ====
 --
 
+==== ManagePipelines
+
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *ManagePipelines* action on a Liveboard visualization or saved Answer. +
+Requires the `vizId` key for event trigger on Liveboard visualizations:
+
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.ManagePipelines, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== Navigate
 
-Available with `AppEmbed` in `V1.12.0` or later. +
+Available with `AppEmbed` in `v1.12.0` or later. +
 Triggers navigation to the specified application page without triggering a reload +
 Requires the following parameters: +
 
@@ -328,7 +407,7 @@ You can also use the `appEmbed.navigateToPage(path, true)` function for page nav
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Navigate, {
 path: 'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e',
@@ -339,7 +418,7 @@ noReload: true
 
 ==== Pin
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Pin* action on a Liveboard visualization.  +
 Requires the `vizId` key.
 
@@ -348,7 +427,7 @@ Requires the `vizId` key.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Pin, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -358,7 +437,7 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 
 ==== Present
 
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.15.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Present* action on a Liveboard or visualization on a Liveboard.  +
 
 [div divider]
@@ -367,12 +446,12 @@ Triggers the *Present* action on a Liveboard or visualization on a Liveboard.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Present)
 ----
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Present, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'})
@@ -382,7 +461,7 @@ vizId: '730496d6-6903-4601-937e-2c691821af3c'})
 
 ==== Remove
 
-Available with `AppEmbed` in `V1.15.0` or later. +
+Available with `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 
 [div divider]
@@ -391,15 +470,33 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Remove)
 ----
 ====
 --
 
+==== Save
+
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *Save* action on a Liveboard or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Save)
+----
+====
+--
+
 ==== Search
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.1.0` or later. +
 Triggers a search query. +
 Requires the following parameters: +
 
@@ -414,7 +511,7 @@ __String__. Data source GUIDs
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.Search {
 searchQuery: "[sales] by [item type]"
@@ -426,7 +523,7 @@ dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
 
 ==== Schedule
 
-Available with `AppEmbed` in `V1.15.0` or later. +
+Available with `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Schedule* action for scheduling a Liveboard job.  +
 
 [div divider]
@@ -435,7 +532,7 @@ Triggers the *Schedule* action for scheduling a Liveboard job.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Schedule)
 ----
@@ -444,7 +541,7 @@ liveboardEmbed.trigger(HostEvent.Schedule)
 
 ==== ScheduleList
 
-Available with `AppEmbed` in `V1.15.0` or later. +
+Available with `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Manage schedules* action to manage Liveboard job schedules.  +
 
 [div divider]
@@ -453,7 +550,7 @@ Triggers the *Manage schedules* action to manage Liveboard job schedules.  +
 [%collapsible]
 ====
 
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ScheduleList)
 ----
@@ -461,7 +558,7 @@ liveboardEmbed.trigger(HostEvent.ScheduleList)
 --
 
 ==== SetVisibleVizs
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.6.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.6.0` or later. +
 Sets specific visualizations as visible objects on a Liveboard.
 You can specify an array of Visualization GUIDs set as visible objects. The visualization IDs not included in the array are hidden on the Liveboard. +
 
@@ -470,15 +567,112 @@ You can specify an array of Visualization GUIDs set as visible objects. The visu
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.SetVisibleVizs, ['730496d6-6903-4601-937e-2c691821af3c','d547ec54-2a37-4516-a222-2b06719af726'])
 ----
 ====
 --
 
+==== Share
+
+Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later.
+Triggers the `*Share*` action on visualization, Answer, or Worksheet.
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.Share)
+----
+--
+
+
+==== ShowUnderlyingData
+
+Available with `LiveboardEmbed` `SearchEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *ShowUnderlyingData* action on visualization or Answer. +
+Requires the `vizId` key for event trigger on a Liveboard.
+
+[div divider]
+--
+.Examples
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.ShowUnderlyingData,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+--
+
+==== SpotIQAnalyze
+
+Available with `AppEmbed`, `SearchEmbed`, and `LiveboardEmbed` in `v1.19.0` or later. +
+Triggers the *SpotIQAnalyze* action on a Liveboard visualization, search result, or saved Answer. +
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.SpotIQAnalyze,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+
+==== SyncToSheets
+
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *SyncToSheets* action on a saved Answer or visualization. +
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.SyncToSheets,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
+==== SynToOtherApps
+
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.19.0` or later. +
+Triggers the *SyncToOherApps* action on a saved Answer or visualization. +
+Requires `vizId` key for event trigger on Liveboards.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.SyncToOtherApps,
+{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+----
+====
+--
+
 ==== UpdateRuntimeFilters
-Available with `LiveboardEmbed` and `AppEmbed` in `V1.8.0` or later. +
+Available with `LiveboardEmbed` and `AppEmbed` in `v1.8.0` or later. +
 Updates runtime filters applied on Liveboard, visualization, or answer object. You can specify an array of runtime filters with the following attributes:
 
 * `columnName`  +
@@ -498,18 +692,18 @@ The following example shows how to register an event handler to trigger an event
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [{
-columnName: "state",
-operator: "EQ",
-values: ["michigan"]
-},
-{
-columnName: "item type",
-operator: "EQ",
-values: ["Jackets"]
-}
+        columnName: "state",
+        operator: "EQ",
+        values: ["michigan"]
+    },
+    {
+        columnName: "item type",
+        operator: "EQ",
+        values: ["Jackets"]
+    }
 ])
 ----
 ====
@@ -517,7 +711,7 @@ values: ["Jackets"]
 
 ==== UpdateTML
 
-Available with `AppEmbed` in `V1.15.0` or later. +
+Available with `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Update TML* action for a Liveboard object.  +
 
 [div divider]
@@ -525,8 +719,7 @@ Triggers the *Update TML* action for a Liveboard object.  +
 .Example
 [%collapsible]
 ====
-
-[source, javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.UpdateTML)
 ----
@@ -541,14 +734,14 @@ The embed events are generated by the embedded ThoughtSpot application component
 Embed events are triggered when ThoughtSpot components initialize and load, and when users interact with these components. The `EmbedEvent` library also includes events that can be triggered when an action is initiated in the embedded view. For example, you can register an event handler to trigger `EmbedEvent.Save` when a user clicks the *Save* action on the answer page in the embedded UI. For some of these action-triggered events, you can register event handlers to emit events when the corresponding action starts and ends.
 
 ==== ALL
-Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.11.0` or later. +
 Triggers all embed events. +
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.ALL, payload => {
 console.log('Embed Events', payload)
@@ -559,7 +752,7 @@ console.log('Embed Events', payload)
 --
 
 ==== AddRemoveColumns
-Available with `SearchEmbed` and `AppEmbed` in `V1.10.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `v1.10.0` or later. +
 Is emitted when one or more columns are selected or removed during a search operation. +
 Returns the GUIDs of the selected columns. +
 [div divider]
@@ -578,7 +771,7 @@ console.log('AddRemoveColumns', payload);
 
 ==== Alert
 
-Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.1.0` or later. +
 Is triggered when the embedded object sends an alert.  +
 Returns an alert object or message.
 [div divider]
@@ -596,7 +789,7 @@ searchEmbed.on(EmbedEvent.Alert)
 
 ==== AnswerChartSwitcher
 
-Available with `SearchEmbed` and `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a user switches to the chart or table view on the answer page. +
 [div divider]
 --
@@ -615,7 +808,7 @@ console.log('switch view', payload);
 
 ==== AnswerDelete
 
-Available with `SearchEmbed` and `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `v1.11.0` or later. +
 [div divider]
 --
 .Example
@@ -636,7 +829,7 @@ appEmbed.on(EmbedEvent.AnswerDelete, payload => {
 
 ==== AuthInit
 
-Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.1.0` or later. +
 Is emitted when authentication is initiated. Returns user GUID as data. +
 Returns the `isLoggedIn` boolean to indicate if authentication was successful.
 
@@ -647,7 +840,7 @@ You can register the `AuthInit` event to be notified about the authentication st
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.AuthInit, payload => {
     console.log('AuthInit', payload);
@@ -658,7 +851,7 @@ appEmbed.on(EmbedEvent.AuthInit, payload => {
 
 ==== AuthExpire
 
-Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.4.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.4.0` or later. +
 Indicates if an authenticated session has expired. +
 
 [div divider]
@@ -668,7 +861,7 @@ Indicates if an authenticated session has expired. +
 ====
 In this example, the `AuthExpire` event calls the `showAuthExpired` function to show a banner when an authenticated session expires. +
 
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
   //show auth expired banner
@@ -682,14 +875,14 @@ function showAuthExpired() {
 
 ==== CopyAEdit
 
-Available with `AppEmbed` in `V1.11.0` or later. +
+Available with `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a user clicks *Copy and edit* on a saved answer. +
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 appEmbed.on(EmbedEvent.CopyAEdit, payload => {
@@ -704,9 +897,9 @@ appEmbed.on(EmbedEvent.CopyAEdit, payload => {
 
 ==== CopyToClipboard
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a user selects the table cells of an answer and selects *Copy to clipboard* from the context menu. +
-[source,javascript]
+[source,JavaScript]
 
 [div divider]
 --
@@ -723,7 +916,7 @@ seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
 
 ==== CustomAction
 
-Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.1.0` or later. +
 Is triggered when a custom action is initiated. +
 Returns the custom action ID and response payload with the answer or Liveboard data.
 For more information, see xref:embed-events.adoc#customAction[Custom action events].
@@ -746,11 +939,11 @@ appEmbed.on(EmbedEvent.customAction, payload => {
 
 ==== Data
 
-Available with `SearchEmbed` and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed` and `AppEmbed` in `v1.1.0` or later. +
 Is triggered when the answer or Liveboard object data is received. +
 Returns the answer or Liveboard data.
 
-[source, javascript]
+[source,JavaScript]
 [div divider]
 --
 .Example
@@ -766,7 +959,7 @@ searchEmbed.on(EmbedEvent.Data, payload => {
 --
 ==== DataSourceSelected
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.1.0` or later. +
 Is triggered when one or more data sources are selected. +
 Returns the GUIDs of the data sources selected.
 [div divider]
@@ -774,7 +967,7 @@ Returns the GUIDs of the data sources selected.
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
     console.log('DataSourceSelected', payload);
@@ -786,14 +979,14 @@ searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
 
 ==== DialogOpen
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.6.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.6.0` or later. +
 Is triggered when a modal dialog is opened.
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DialogOpen, payload => {
     console.log('dialog open', payload);
@@ -805,14 +998,14 @@ appEmbed.on(EmbedEvent.DialogOpen, payload => {
 
 ==== DialogClose
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.6.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.6.0` or later. +
 Is triggered when a modal dialog is closed.
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DialogClose, payload => {
     console.log('dialog close', payload);
@@ -824,7 +1017,7 @@ appEmbed.on(EmbedEvent.DialogClose, payload => {
 
 ==== Download
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
 
 [div divider]
@@ -832,7 +1025,7 @@ Is triggered when the *Download* action is initiated on a Liveboard or answer, a
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.Download, payload => {
@@ -847,14 +1040,14 @@ searchEmbed.on(EmbedEvent.Download, payload => {
 
 ==== DownloadAsCSV
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when the *Download As CSV* action is initiated on a Liveboard or answer and on download completion. +
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
@@ -869,7 +1062,7 @@ searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
 
 ==== DownloadAsPDF
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a Liveboard or answer object is downloaded as a PDF file and on download completion. +
 
 [div divider]
@@ -877,7 +1070,7 @@ Is triggered when a Liveboard or answer object is downloaded as a PDF file and o
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
@@ -892,14 +1085,14 @@ searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
 
 ==== DownloadAsXlsx
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when the Liveboard or answer data is downloaded as an Excel file and on download completion. +
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
@@ -914,7 +1107,7 @@ searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
 
 ==== Drilldown
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.1.0` or later. +
 Is triggered when the *Drill down* action is executed. +
 Returns the following data:  +
 
@@ -932,7 +1125,7 @@ The GUIDs of the columns that were excluded from filter application.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.Drilldown, payload => {
     console.log('Drilldown', payload);
@@ -943,7 +1136,7 @@ searchEmbed.on(EmbedEvent.Drilldown, payload => {
 
 ==== DrillExclude
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a filter is applied to exclude a data point in the drilled-down view. +
 Returns the IDs of the column and the filters applied during the operation.
 [div divider]
@@ -951,7 +1144,7 @@ Returns the IDs of the column and the filters applied during the operation.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DrillExclude, payload => {
     console.log('Drill exclude', payload);
@@ -964,7 +1157,7 @@ appEmbed.on(EmbedEvent.DrillExclude, payload => {
 
 ==== DrillInclude
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a filter is applied to include a data point in the drilled-down view. +
 Returns the IDs of the column and the filters that were applied during the operation.
 [div divider]
@@ -972,7 +1165,7 @@ Returns the IDs of the column and the filters that were applied during the opera
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.DrillInclude, payload => {
     console.log('Drill include', payload);
@@ -983,14 +1176,14 @@ appEmbed.on(EmbedEvent.DrillInclude, payload => {
 --
 
 ==== EditTML
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a user clicks the *Edit TML* action on the answer page.
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.EditTML, payload => {
     console.log('Edit TML', payload);
@@ -1002,14 +1195,14 @@ appEmbed.on(EmbedEvent.EditTML, payload => {
 
 ==== ExportTML
 
-Available with `SearchEmbed`  and  `AppEmbed` in `V1.11.0` or later. +
+Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
 Is triggered when a user clicks the *Export TML* action on the answer page.
 [div divider]
 --
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.ExportTML, payload => {
@@ -1023,7 +1216,7 @@ searchEmbed.on(EmbedEvent.ExportTML, payload => {
 
 ==== Error
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.1.0` or later. +
 Indicates that an error has occurred. +
 Returns an error object or message.
 
@@ -1032,7 +1225,7 @@ Returns an error object or message.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
 //show error messaage
@@ -1046,7 +1239,7 @@ function showErrorMsg() {
 
 ==== Init
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.1.0` or later. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.1.0` or later. +
 Is triggered when the embedded object rendering initializes. +
 Returns the timestamp of the event.
 
@@ -1058,7 +1251,7 @@ Returns the timestamp of the event.
 
 In this example, a showLoader function is called to show a loader when the `Init` event is emitted.
 
-[source,javascript]
+[source,JavaScript]
 ----
 liveboardEmbed.on(EmbedEvent.Init, showLoader)
   //show a loader
@@ -1137,7 +1330,7 @@ Is emitted when third-party cookies are blocked by a user's browser. +
 ====
 In this example, the `NoCookieAccess` event calls the `showCookieSettingsMsg` function to show a message about setting cookies.
 
-[source,javascript]
+[source,JavaScript]
 ----
 appEmbed.on(EmbedEvent.NoCookieAccess, showCookieSettingsMsg)
 ----
@@ -1154,7 +1347,7 @@ Is triggered when a user tries to pin an answer to a Liveboard.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
  //trigger when action starts
 searchEmbed.on(EmbedEvent.Pin, payload => {
@@ -1179,7 +1372,7 @@ Is triggered when a search query is updated.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
 ----
@@ -1194,7 +1387,7 @@ Is triggered when a user navigates from one page to another in the embedded Thou
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.RouteChange, payload => console.log('data', payload))
 ----
@@ -1212,7 +1405,7 @@ Is triggered when an answer or Liveboard (new Liveboard experience only) is save
 [%collapsible]
 ====
 
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.Save, payload => {
@@ -1226,7 +1419,7 @@ searchEmbed.on(EmbedEvent.Save, payload => {
 })
 ----
 
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 liveboardEmbed.on(EmbedEvent.Save, payload => {
@@ -1262,7 +1455,7 @@ Is triggered when a user clicks the *Share* icon on the answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.Share, payload => {
@@ -1288,7 +1481,7 @@ Is triggered when the *SpotIQ Analyze* action is initiated on an answer page.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
   //trigger when action starts
 searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
@@ -1315,7 +1508,7 @@ Returns the data point that was clicked.
 .Example
 [%collapsible]
 ====
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointClick, payload => {
     console.log('VizPointClick', payload)
@@ -1336,7 +1529,7 @@ Returns the data point that was double-clicked.
 [%collapsible]
 ====
 
-[source,javascript]
+[source,JavaScript]
 ----
 searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
     console.log('VizPointDoubleClick', payload)
@@ -1367,7 +1560,7 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
 
 The following example shows how to unsubscribe from an event:
 
-[source, javascript]
+[source,JavaScript]
 ----
 appEmbed.off(EmbedEvent.AuthInit)
 ----

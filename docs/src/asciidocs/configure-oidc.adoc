@@ -186,7 +186,7 @@ The unique ID issued for the user at the OpenID provider. Maps to `oktauserid` a
 
 To enable OIDC authentication support on an embedded ThoughtSpot instance, make sure you set the `AuthType` parameter to `OIDCRedirect` in the SDK when calling the `init` function from your application.
 
-[source,javascript]
+[source,JavaScript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",

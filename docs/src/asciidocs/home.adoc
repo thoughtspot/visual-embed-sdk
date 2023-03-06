@@ -98,35 +98,35 @@
 <div class="blockHome">
  <div class="homeHeaderText">
       <h3>Get started</h3>
-          <a href="?pageid=get-started-tse"> <p class="boxBody"><span class="homeBullet greyBackground">-></span>
+          <a href="?pageid=get-started-tse"> <p class="boxBody"><span class="homeBullet greyLightBackground">-></span>
    Sign up </p></a>
-    <a href="?pageid=getting-started"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Install Visual Embed SDK</p>
-   <a href="?pageid=rest-playground"> <p class="boxBody"> <span class="homeBullet greyBackground">-></span> Try out REST APIs </p></a>
-   <a href="?pageid=rest-api-getstarted"> <p class="boxBody">  <span class="homeBullet greyBackground">-> </span> Get started with REST APIs </p></a>
-     <a href="?pageid=rest-api-reference"> <p class="boxBody"><span class="homeBullet greyBackground">-></span> Make API requests</p></a>
+    <a href="?pageid=getting-started"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-></span> Install Visual Embed SDK</p>
+   <a href="?pageid=rest-playground"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-></span> Try out REST APIs </p></a>
+   <a href="?pageid=rest-api-getstarted"> <p class="boxBody">  <span class="homeBullet greyLightBackground">-> </span> Get started with REST APIs </p></a>
+     <a href="?pageid=rest-api-reference"> <p class="boxBody"><span class="homeBullet greyLightBackground">-></span> Make API requests</p></a>
 </div>
  <div class="homeHeaderText">
        <h3>Release notes</h3>
             <a href="?pageid=whats-new"> <p class="boxBody">
-    <span class="homeBullet greyBackground">-> </span> What's new </p></a>
-    <a href="?pageid=embed-sdk-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> SDK changelog </p>
-   <a href="?pageid=rest-v1-changelog"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> REST API changelog </p></a>
-   <a href="https://docs.thoughtspot.com/cloud/latest/notes" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Cloud Release Notes </p></a>
-     <a href="https://docs.thoughtspot.com/software/latest/" target="_blank"> <p class="boxBody"> <span class="homeBullet greyBackground">-> </span> ThoughtSpot Software Release Notes</p></a>
+    <span class="homeBullet greyLightBackground">-> </span> What's new </p></a>
+    <a href="?pageid=embed-sdk-changelog"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-> </span> SDK changelog </p>
+   <a href="?pageid=rest-v1-changelog"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-> </span> REST API changelog </p></a>
+   <a href="https://docs.thoughtspot.com/cloud/latest/notes" target="_blank"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-> </span> ThoughtSpot Cloud Release Notes </p></a>
+     <a href="https://docs.thoughtspot.com/software/latest/" target="_blank"> <p class="boxBody"> <span class="homeBullet greyLightBackground">-> </span> ThoughtSpot Software Release Notes</p></a>
 </div>
 <div class="homeHeaderText">
       <h3>Additional resources</h3>
        <p><strong> Get trained </strong></p>
       <p>
-        <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><span class="homeBullet greyBackground">-> </span> Go to ThoughtSpot U </a>
+        <a href="https://training.thoughtspot.com/getting-started-with-thoughtspot-everywhere"  target="_blank"><span class="homeBullet greyLightBackground">-> </span> Go to ThoughtSpot U </a>
       </p>
       <p><strong>Join ThoughtSpot community</strong></p>
       <p>
-        <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank"><span class="homeBullet greyBackground">-> </span> Go to Community </a>
+        <a href="https://community.thoughtspot.com/customers/s/topic/0TO3n000000erVyGAI/developers" target="_blank"><span class="homeBullet greyLightBackground">-> </span> Go to Community </a>
       </p>
         <p><strong> View code samples</p>
       <p>
-        <a href="https://developers.thoughtspot.com/codespot" target="_blank"><span class="homeBullet greyBackground">-> </span> Go to CodeSpot </a>
+        <a href="https://developers.thoughtspot.com/codespot" target="_blank"><span class="homeBullet greyLightBackground">-> </span> Go to CodeSpot </a>
       </p>
 </div>
 </div>

@@ -204,15 +204,22 @@ describe('Base TS Embed', () => {
             });
         }).toThrowError();
     });
-
-    test('config sanity, pass triggerContainer with noRedirect', () => {
-        expect(() => {
-            index.init({
-                thoughtSpotHost,
-                authType: index.AuthType.SAMLRedirect,
-                noRedirect: true,
-            });
-        }).toThrowError();
+    test('config backward compat, should assign inPopup when noRedirect is set', () => {
+        index.init({
+            authType: index.AuthType.None,
+            thoughtSpotHost,
+            noRedirect: true,
+        });
+        expect(base.getEmbedConfig().inPopup).toBe(true);
+    });
+    test('config backward compat, should not override inPopup with noRedirect', () => {
+        index.init({
+            authType: index.AuthType.None,
+            thoughtSpotHost,
+            noRedirect: true,
+            inPopup: false,
+        });
+        expect(base.getEmbedConfig().inPopup).toBe(false);
     });
 });
 

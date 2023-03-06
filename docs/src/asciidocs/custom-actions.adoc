@@ -4,14 +4,14 @@
 :page-pageid: custom-action-intro
 :page-description: You can add custom buttons or menu items to the ThoughtSpot UI to let your application users to analyze insights and trigger an action on the data.
 
-ThoughtSpot provides a set of standard menu commands as buttons and toggle switches in the primary menu bar, actions in the **More** menu image:./images/icon-more-10px.png[the more options menu], and the contextual menu that appears when a user right-clicks on an answer or visualization.
+ThoughtSpot provides a set of standard menu commands as buttons and toggle switches in the primary menu bar, actions in the **More** menu image:./images/icon-more-10px.png[the more options menu], and the contextual menu that appears when a user right-clicks on an Answer or visualization.
 
-ThoughtSpot supports adding custom actions to an answer or visualization page. For example, you may want to create a custom action that allows pushing business insights from ThoughtSpot to an external app or a specific URL. 
+ThoughtSpot supports adding custom actions to an Answer or visualization page. For example, you may want to create a custom action that allows pushing business insights from ThoughtSpot to an external app or a specific URL.
 
 Similarly, if you have embedded ThoughtSpot in another app, you can add a custom action to trigger a callback event to the host application and initiate a response payload.
 
 ////
-If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or worksheet can add a custom action as a primary button or menu item on a visualization page.
+If your user account has the `Developer` privilege, you can create custom actions in the ThoughtSpot Developer portal. Users with edit access to a visualization or Worksheet can add a custom action as a primary button or menu item on a visualization page.
 ////
 
 
@@ -133,8 +133,8 @@ Trigger a callback to the host app and push a response payload</p>
 	<a href="?pageid=custom-action-url">	<div class="boxHalfWidth">
 <h5>Assign local actions to a chart or table</h5>
 <p class="boxBody">
-Assign local actions to a specific visualization or saved answer of your choice</p>
-<p class="boxBody"><em>Requires edit permissions to a saved answer or visualization</em>.</p>
+Assign local actions to a specific visualization or saved Answer of your choice</p>
+<p class="boxBody"><em>Requires edit permissions to a saved Answer or visualization</em>.</p>
 <p class="boxBody"><a href="?pageid=add-action-viz">Learn more -></a></p>
 </div>
 </a>
@@ -143,10 +143,10 @@ Assign local actions to a specific visualization or saved answer of your choice<
 
 <div class="col-md-6">
 	<a href="?pageid=custom-action-url"><div class="boxHalfWidth">
-<h5>Assign local actions to a worksheet</h5>
+<h5>Assign local actions to a Worksheet</h5>
 <p class="boxBody">
-Assign local actions to an answer or visualization generated from a specific worksheet</p>
-<p class="boxBody"><em>Requires edit permissions to a worksheet</em>.</p>
+Assign local actions to an Answer or visualization generated from a specific Worksheet</p>
+<p class="boxBody"><em>Requires edit permissions to a Worksheet</em>.</p>
 
 <p class="boxBody"><a href="?pageid=add-action-worksheet">Learn more -></a></p>
 </div>

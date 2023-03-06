@@ -1,4 +1,4 @@
-= Add custom actions to a worksheet
+= Add custom actions to a Worksheet
 :toc: true
 
 :page-title: Actions customization

@@ -75,12 +75,12 @@ curl -X POST \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'name=TS%20Group&display_name=TS%20Group&grouptype=LOCAL_GROUP&visibility=DEFAULT'\
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/
 ----
 
 === Example response
@@ -165,12 +165,12 @@ curl -X PUT \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f&content={   "userGroupContent": {     "schemaVersion": "4"   },   "groupIdx": 2,   "metadataVersion": -1,   "assignedPinboards": [],   "assignedGroups": [],   "inheritedGroups": [],   "privileges": [],   "type": "LOCAL_GROUP",   "parenttype": "GROUP",   "visibility": "DEFAULT",   "tenantId": "982d6da9-9cd1-479e-b9a6-35aa05f9282a",   "displayName": "TS Group",   "header": {     "id": "0f7af46f-e48c-4cca-b60f-d63d5ddbe59f",     "indexVersion": 0,     "generationNum": 0,     "name": "TS Group",     "author": "59481331-ee53-42be-a548-bd87be6ddd4a",     "created": 1624882497992,     "modified": 1624882497992,     "modifiedBy": "59481331-ee53-42be-a548-bd87be6ddd4a",     "owner": "0f7af46f-e48c-4cca-b60f-d63d5ddbe59f",     "tags": [],     "isExternal": false,     "isDeprecated": false   },   "complete": true,   "incompleteDetail": [],   "isSystemPrincipal": false }' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/{groupid}'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/{groupid}
 ----
 
 ==== Example JSON for user group update
@@ -265,12 +265,12 @@ You can use either `groupid` or `name` to query data for a specific user group. 
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/?groupid=0f7af46f-e48c-4cca-b60f-d63d5ddbe59f
 ----
 
 === Example response
@@ -376,12 +376,12 @@ curl -X POST \
 --header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATADOWNLOADING' \
 -F 'groupNames=["Analyst"]' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/addprivilege'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/addprivilege
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/addprivilege
 ----
 
 === Example response
@@ -445,12 +445,12 @@ curl -X POST \
 --header 'X-Requested-By: ThoughtSpot' \
 -F 'privilege=DATAUPLOADING' \
 -F 'groupNames=["Analyst"]' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/removeprivilege'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/removeprivilege
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/removeprivilege
 ----
 
 === Response codes
@@ -495,12 +495,12 @@ curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/1f58ba19-83a8-48ee-86e7-9c16f61157e3/user/80560f25-f24e-4c2a-b015-10b9770287c6
 ----
 
 === Example response
@@ -546,12 +546,12 @@ GET /tspublic/v1/group/listuser/{groupid}
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/listuser/e5fc80ce-db65-4921-8ece-c7bb44fceca1
 ----
 
 === Example response
@@ -666,12 +666,12 @@ curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users?userids=%5B%22fab84cbc-b7ed-4fed-b241-9af2cbb453de%22%5D
 ----
 
 === Example response
@@ -723,12 +723,12 @@ curl -X PUT \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
 -d 'groupid=876b3cf1-8a20-4210-b671-506eaaa5005e&userids=["d02210b1-f836-4f84-a0dd-5f555f0a65d1","982d6da9-9cd1-479e-b9a6-35aa05f9282a"]' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/users'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/{groupid}/users'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/{groupid}/users
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/{groupid}/users
 ----
 
 === Example response
@@ -775,12 +775,12 @@ GET /tspublic/v1/group/{groupid}/users
 curl -X GET \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users'
 ----
 
 .Request URL
 ----
-https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/b8cc6029-3749-4596-9a33-263688a2732e/users
 ----
 
 === Example response
@@ -882,7 +882,7 @@ DELETE /tspublic/v1/group/{groupid}/users
 curl -X DELETE \
 --header 'Accept: application/json' \
 --header 'X-Requested-By: ThoughtSpot' \
-'https://<ThoughtSpot-host>/callosum/v1/tspublic/v1/group/062caeb3-8b31-4039-819b-a6c4b02b3791/users?userids=%5B%22164913ae-ee45-49ff-bcf7-4a1f893e78e5%22%2C%22692749ac-a01b-41f1-b2ac-3e38a5131590%22%5D'
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/group/062caeb3-8b31-4039-819b-a6c4b02b3791/users?userids=%5B%22164913ae-ee45-49ff-bcf7-4a1f893e78e5%22%2C%22692749ac-a01b-41f1-b2ac-3e38a5131590%22%5D'
 ----
 
 .Request URL
