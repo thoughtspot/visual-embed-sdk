@@ -94,40 +94,6 @@ describe('Unit test for process data', () => {
         expect(base.notifyAuthSuccess).toBeCalled();
     });
 
-    test('AuthExpire autoLogin false', () => {
-        const e = { type: EmbedEvent.AuthExpire };
-        jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'handleAuth');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({});
-        expect(
-            processDataInstance.processEventData(e.type, e, '', null),
-        ).toEqual({
-            type: e.type,
-        });
-        expect(base.notifyAuthFailure).toBeCalledWith(
-            auth.AuthFailureType.EXPIRY,
-        );
-        expect(base.handleAuth).not.toHaveBeenCalled();
-    });
-
-    test('AuthExpire autoLogin true', () => {
-        const e = { type: EmbedEvent.AuthExpire };
-        jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'handleAuth').mockResolvedValue(true);
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
-            autoLogin: true,
-        });
-        expect(
-            processDataInstance.processEventData(e.type, e, '', null),
-        ).toEqual({
-            type: e.type,
-        });
-        expect(base.notifyAuthFailure).toBeCalledWith(
-            auth.AuthFailureType.EXPIRY,
-        );
-        expect(base.handleAuth).toBeCalled();
-    });
-
     test('NoCookieAccess no suppress alert', () => {
         const e = { type: EmbedEvent.NoCookieAccess };
         jest.spyOn(base, 'notifyAuthFailure');

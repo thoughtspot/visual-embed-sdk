@@ -14,7 +14,6 @@ import {
     embedEventStatus,
     setAttributes,
     getCustomisations,
-    getAuthToken,
     getDOMNode,
 } from '../utils';
 import {
@@ -44,7 +43,14 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
-import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
+import {
+    getAuthPromise,
+    getEmbedConfig,
+    renderInQueue,
+    handleAuth,
+    notifyAuthFailure,
+} from './base';
+import { AuthFailureType, getAuthenticaionToken } from '../auth';
 
 const { version } = pkgInfo;
 
@@ -220,7 +226,10 @@ export class TsEmbed {
      * Send Custom style as part of payload of APP_INIT
      */
     private appInitCb = async (_: any, responder: any) => {
-        const authToken = await getAuthToken(this.embedConfig);
+        let authToken = '';
+        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+            authToken = await getAuthenticaionToken(this.embedConfig);
+        }
         responder({
             type: EmbedEvent.APP_INIT,
             data: {
@@ -237,11 +246,17 @@ export class TsEmbed {
      * Sends updated auth token to the iFrame to avoid user logout
      */
     private updateAuthToken = async (_: any, responder: any) => {
-        const authToken = await getAuthToken(this.embedConfig);
-        responder({
-            type: EmbedEvent.AuthExpire,
-            data: { authToken },
-        });
+        const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
+        if (authType === AuthType.TrustedAuthTokenCookieless) {
+            const authToken = await getAuthenticaionToken(this.embedConfig);
+            responder({
+                type: EmbedEvent.AuthExpire,
+                data: { authToken },
+            });
+        } else if (autoLogin) {
+            handleAuth();
+        }
+        notifyAuthFailure(AuthFailureType.EXPIRY);
     };
 
     /**
@@ -293,7 +308,6 @@ export class TsEmbed {
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
-        queryParams[Param.cookieless] = this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless;
         queryParams[Param.AuthType] = this.embedConfig.authType;
         if (
             this.embedConfig.disableLoginRedirect === true ||
@@ -303,6 +317,9 @@ export class TsEmbed {
         }
         if (this.embedConfig.authType === AuthType.EmbeddedSSO) {
             queryParams[Param.ForceSAMLAutoRedirect] = true;
+        }
+        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+            queryParams[Param.cookieless] = true;
         }
 
         const {

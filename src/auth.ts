@@ -187,6 +187,21 @@ function removeSSORedirectUrlMarker(): void {
     );
 }
 
+export const getAuthenticaionToken = async (
+    embedConfig: EmbedConfig,
+): Promise<any> => {
+    const { authEndpoint, getAuthToken } = embedConfig;
+    let authToken = null;
+    if (getAuthToken) {
+        authToken = await getAuthToken();
+        alertForDuplicateToken(authToken);
+    } else {
+        const response = await fetchAuthTokenService(authEndpoint);
+        authToken = await response.text();
+    }
+    return authToken;
+};
+
 /**
  * Perform token based authentication
  * @param embedConfig The embed configuration
@@ -207,14 +222,7 @@ export const doTokenAuth = async (
     }
     loggedInStatus = await isLoggedIn(thoughtSpotHost);
     if (!loggedInStatus) {
-        let authToken = null;
-        if (getAuthToken) {
-            authToken = await getAuthToken();
-            alertForDuplicateToken(authToken);
-        } else {
-            const response = await fetchAuthTokenService(authEndpoint);
-            authToken = await response.text();
-        }
+        const authToken = await getAuthenticaionToken(embedConfig);
         let resp;
         try {
             resp = await fetchAuthPostService(
@@ -237,7 +245,7 @@ export const doTokenAuth = async (
 };
 
 /**
- * Perform token based authentication
+ * Validate embedConfig parameters required for cookielessTokenAuth
  * @param embedConfig The embed configuration
  */
 export const doCookielessTokenAuth = async (

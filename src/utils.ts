@@ -14,9 +14,7 @@ import {
     CustomisationsInterface,
     DOMSelector,
     ViewConfig,
-    AuthType,
 } from './types';
-import { fetchAuthTokenService } from './utils/authService';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -209,18 +207,6 @@ export const getCustomisations = (
         },
     };
     return customizations;
-};
-
-export const getAuthToken = async (embedConfig: EmbedConfig): Promise<any> => {
-    const { authType, authEndpoint, getAuthToken } = embedConfig;
-    if (authType === AuthType.TrustedAuthTokenCookieless) {
-        if (getAuthToken) {
-            return await getAuthToken();
-        } else {
-            const response = await fetchAuthTokenService(authEndpoint);
-            return await response.text();
-        }
-    }
 };
 
 /**
