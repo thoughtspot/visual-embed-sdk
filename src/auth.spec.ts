@@ -108,7 +108,8 @@ describe('Unit test for auth', () => {
 
     test('when session info giving response', async () => {
         authInstance.initSession(mockSessionInfo);
-        expect(authInstance.getSessionInfo()).toStrictEqual(mockSessionInfo);
+        const sessionInfo = await authInstance.getSessionInfo();
+        expect(sessionInfo).toStrictEqual(mockSessionInfo);
     });
 
     test('doTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {
