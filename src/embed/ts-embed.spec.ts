@@ -361,7 +361,7 @@ describe('Unit test case for ts embed', () => {
                 expect(baseInstance.handleAuth).toHaveBeenCalled();
             });
         });
-        test('AutoLogin true scenario', async () => {
+        test('AutoLogin false scenario', async () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
