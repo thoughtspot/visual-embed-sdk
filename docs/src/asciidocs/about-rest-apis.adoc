@@ -5,13 +5,13 @@
 :page-pageid: rest-apis
 :page-description: ThoughtSpot REST API provides service endpoints for administration, embedding, and data management.
 
-The ThoughtSpot REST API framework lets you create, access, edit, and manage objects and resources in the ThoughtSpot system programmatically. 
- 
-ThoughtSpot REST API supports several resource collections and operations in two distinct versions: 
+The ThoughtSpot REST API framework lets you create, access, edit, and manage objects and resources in the ThoughtSpot system programmatically.
+
+ThoughtSpot REST API supports several resource collections and operations in two distinct versions:
 
 * REST API v1
 +
-The legacy framework with several endpoints to create, edit, administer and manage ThoughtSpot objects and data. 
+The legacy framework with several endpoints to create, edit, administer and manage ThoughtSpot objects and data.
 
 * REST API v2.0
 +
@@ -24,10 +24,52 @@ For more information about the differences between these two REST API versions, 
 ThoughtSpot users with Developer or Administrator privileges can access the REST API v1 and v2.0 endpoints in the *Develop* tab. The portal provides a separate Playground for each REST API version and lets you explore the API endpoints, request and response workflows.
 
 * To try out the xref:rest-api-v1.adoc[REST API v1 endpoints], click **REST Playground v1**. +
-* To access the xref:rest-api-v2.adoc[REST API v2 Playground], click **REST Playground v2**.
+* To access the xref:rest-api-v2.adoc[REST API v2 Playground], click **REST Playground v2.0**.
 
 ==  API endpoints
 For a complete list of API endpoints and information about how to make an API call to these endpoints, see the following reference pages:
 
 * xref:rest-api-reference.adoc[REST API v1 Reference]
 * xref:rest-api-v2-reference.adoc[REST API v2.0 Reference]
+
+== Certificate requirements for REST API calls
+
+To communicate and exchange data with a ThoughtSpot application server securely via HTTPS:
+
+* Your ThoughtSpot application instance must have SSL configured. +
++
+If the REST API endpoint uses a certificate that's registered with an internal certificate registry, your REST API request via tools like Postman returns an SSL error. For production environments, ThoughtSpot recommends using HTTPS with valid SSL certificates issued by a trusted Certificate Authority (CA). If your application instance doesn't have a trusted certificate issued by a CA, contact your security administrator.
+
+////
+Postman allows you to link:https://learning.postman.com/docs/sending-requests/certificates/[add the trusted CA certificate, window=_blank] or turn off SSL verification.
+////
+
+* Your REST client must have access to the server certificate in the Keystore or Truststore on your client environment.
++
+One of the common causes for certificate errors during a REST API operation is the non-availability of trusted SSL certificates in the Keystore or Truststore in your client environment.
++
+You can choose to skip the SSL certificate verification step in development or test environments. However, in production environments, use SSL verification checks to ensure that your REST client uses trusted server certificates when calling a REST API.
++
+If you don't have the server certificate in your client environment, you can xref:about-rest-apis.adoc#_export_ssl_certificate_from_a_thoughtspot_cluster[export the SSL certificate from your ThoughtSpot cluster] and xref:about-rest-apis.adoc#_import_server_certificate_into_the_keystoretruststore[import it into your client application framework].
+
+=== Export SSL certificate from a ThoughtSpot cluster
+You can export an SSL certificate or certificate chain via Web browsers. For example, on Chrome, you can perform the following steps to export the SSL certificate:
+
+. Open your ThoughtSpot application in a web browser.
+. Click the padlock icon in the address bar.
+. Click *Connection is secure* > *Certificate is valid*.
++
+The Certificate viewer opens.
+. Navigate to the *Details* tab to view the certificates.
+. Select the certificates in the certificate hierarchy.
++
+If your application requires a certificate chain that contains a sequence of certificates, select the root certificate.
+. Download and save the certificate in the *Base-64 encoded X.509 (.CER)* format.
+
+=== Import server certificate into the Keystore/TrustStore
+
+You must add the SSL certificates obtained from your ThoughtSpot instance to Truststore or Keystore on your client environment. The steps to import a certificate vary based on your client's application framework. For example, in a JDK-based implementation, the trusted certificates and required keys are stored in the Java Keystore of your client application. In a Python-based implementation, the SSL certificates must be available in the certificate store used by Python.
+
+* For a Java-based client, refer to the instructions at link:https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html[https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html, window=_blank].
+
+* For Python clients, see link:https://docs.python.org/3/library/ssl.html[https://docs.python.org/3/library/ssl.html, window=_blank].

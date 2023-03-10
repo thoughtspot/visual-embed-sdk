@@ -255,9 +255,7 @@ Font color of the text on the secondary buttons.
 |`--ts-var-button--secondary--font-family`|Secondary button|
 
 Font family specification for the text on the secondary buttons.
-|`--ts-var-button--secondary-background`|Secondary button|Element-level setting +
-
-Background color of the secondary buttons.
+|`--ts-var-button--secondary-background`|Secondary button|Background color of the secondary buttons.
 |`--ts-var-button--secondary--hover-background`|Secondary button|
 Background color of the secondary button on hover.
 |`--ts-var-button--tertiary-color`|Tertiary button|

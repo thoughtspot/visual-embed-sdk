@@ -19,6 +19,10 @@ export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
 let sessionInfo: any = null;
+let sessionInfoResolver: (value: any) => void = null;
+const sessionInfoPromise = new Promise((resolve) => {
+    sessionInfoResolver = resolve;
+});
 let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID =
@@ -98,7 +102,7 @@ export function notifyAuthSuccess(): void {
         console.error('SDK not initialized');
         return;
     }
-    authEE.emit(AuthStatus.SUCCESS);
+    authEE.emit(AuthStatus.SUCCESS, sessionInfo);
 }
 
 export function notifyAuthFailure(failureType: AuthFailureType): void {
@@ -142,15 +146,17 @@ export function getReleaseVersion() {
 }
 
 /**
- * Return sessionInfo if available else make a loggedIn check to fetch the sessionInfo
+ * Return a promise that resolves with the session info when authentication is
+ * successful. And info is available.
  */
-export function getSessionInfo() {
-    return sessionInfo;
+export function getSessionInfo(): Promise<any> {
+    return sessionInfoPromise;
 }
 
 export function initSession(sessionDetails: any) {
     sessionInfo = sessionDetails;
     initMixpanel(sessionInfo);
+    sessionInfoResolver(sessionInfo);
 }
 
 const DUPLICATE_TOKEN_ERR =

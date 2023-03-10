@@ -109,6 +109,10 @@ if (data.id === 'show-data') {
 }
 ----
 
+== Process large datasets in batches
+
+include::{path}/callback-payload.adoc[]
+
 [#handle-data]
 == Parse JSON response payload
 

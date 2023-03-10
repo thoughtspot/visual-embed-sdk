@@ -1,4 +1,4 @@
-= REST API v2.0 Authentication
+= REST API v2.0 authentication
 :toc: true
 :toclevels: 1
 
@@ -251,7 +251,7 @@ The token issued from ThoughtSpot can be used to log in a user. By default, the 
 
 To request a token on behalf of another user, you need administrator privileges and a `secret key` that allows you to securely pass the authentication details of an embedded application user in a secure manner. The `secret key` is generated xref:trusted-authentication.adoc#trusted-auth-enable[when `Trusted authentication` is enabled on a ThoughtSpot instance].
 
-The trusted authentication method can also be used to create a user just-in-time and dynamically assign privileges, groups, and Org to the new user.
+The token generation API endpoints also allow creating a user just-in-time and dynamically assign privileges, groups, and Org to the new user.
 
 ==== Get an authentication token for object access
 

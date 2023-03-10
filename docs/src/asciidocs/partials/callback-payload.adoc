@@ -5,7 +5,7 @@ If your application instance requires callback custom actions to retrieve large 
 ----
 .on(EmbedEvent.CustomAction, async(payload: any) => {
 	const data = payload.data;
-	if(data.id === 'insert custom action ID') {
+	if(data.id === 'show-data') {
 		const fetchAnswerData = await payload.answerService.fetchData(offset, batchSize);
 		console.log('fetchAnswerData:::', fetchAnswerData);
 	}

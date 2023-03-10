@@ -23,6 +23,7 @@ image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
 
 [IMPORTANT]
 ====
+* The Orgs multi-tenancy features require the link:https://www.thoughtspot.com/pricing[ThoughtSpot Analytics Enterprise Edition, window=_blank] or link:https://www.thoughtspot.com/pricing[ThoughtSpot Everywhere Enterprise Edition, window=_blank] licence.  
 * The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot Support.
 * Once you enable the Orgs feature on your instance, there will be one non-deletable Org referred to as the *Primary Org* in your instance.
 * After you enable the Orgs feature on a cluster, you can't turn off the ability to create Orgs.
@@ -111,8 +112,8 @@ a|
 [tag greenBackground]#✓#  Data connection creation and management
 
 * __Cluster administrators can create and edit connections in any Org__. +
-* __Org administrators can create and edit their own connections in their respective Org__. +
-* __Starting from 9.0.0.cl, cluster administrators can share connections with Org administrators and also with users who have data management privileges. Org administrators cannot view or edit the connections created by the Cluster administrators if the connection object is shared with them__.
+* __Org administrators can create and edit their connections in their respective Orgs__. +
+* __Starting from 9.0.0.cl, cluster administrators can share connections with Org administrators and also with users who have data management privileges. Org administrators cannot view or edit the connections created by the Cluster administrators if the connection object is not shared with them__.
 
 
 | Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
@@ -133,7 +134,7 @@ Custom actions| [tag greyBackground]#–# |__Custom action creation and group as
 |Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
 |Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
-()
+
 __Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
 |REST API v2 [beta betaBackground]^Beta^ endpoints +

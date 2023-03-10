@@ -16,20 +16,9 @@ A de-supported feature no longer exists in the product. When you upgrade to a ne
 
 == Deprecation of REST API v2 [beta betaBackground]^Beta^ endpoints
 
-The REST API v2 [beta betaBackground]^Beta^ endpoints will be deprecated starting from 8.10.0.cl release. +
-The REST API v2 [beta betaBackground]^Beta^ endpoints will remain functional but will be removed from the Playground page in the *Develop* tab when the REST API v2.0 endpoints are rolled out.
+The REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated starting from 8.10.0.cl release. The REST API v2 [beta betaBackground]^Beta^ endpoints will remain functional but are not accessible from the REST API Playground page starting from 9.0.0.cl.
 
-[NOTE]
-====
-If your current deployment is using REST API v2 [beta betaBackground]^Beta^ endpoints, your implementation will continue to work. However, ThoughtSpot recommends that you start using the REST API v2.0 endpoints as and when they are Generally Available (GA).
-====
-
-=== REST API v2.0 rollout
-
-To ensure a smooth transition for early adopters of the REST API v2 [beta betaBackground]^Beta^ feature, ThoughtSpot will roll out the REST API v2.0 endpoints in the following manner:
-
-* The new v2.0 API endpoints will be introduced incrementally over the subsequent releases and all API operations supported by the REST API v2 [beta betaBackground]^Beta^ version will be replaced. ThoughtSpot encourages you to start using the REST API v2.0 endpoints as and when they are GA and fully qualified for production use cases.
-* With the introduction of the new REST API v2.0 endpoints, the current REST API v2 [beta betaBackground]^Beta^ endpoints will be deprecated. The current REST Playground v2 in the *Develop* tab will be replaced with the new REST API v2.0 Playground.
+If your current deployment uses REST API v2 [beta betaBackground]^Beta^ endpoints, your implementation will continue to work. To ensure a smooth transition for early adopters of the REST API v2 [beta betaBackground]^Beta^ feature, ThoughtSpot will roll out the REST API v2.0 endpoints incrementally over the subsequent releases. You can start using the REST API v2.0 endpoints as and when they are Generally Available (GA) and fully qualified for production use cases.
 
 === REST API SDK
 The current REST API SDK version will be deprecated from 8.8.0.cl onwards.
@@ -37,10 +26,15 @@ The upcoming REST API v2.0 endpoints and Playground will not support the SDK in 
 
 [NOTE]
 ====
-If you are using the REST API SDK, the existing version continues to work with REST API v2 [beta betaBackground]^Beta^ endpoints. ThoughtSpot does not recommend using REST API v2.0 endpoints with the SDK in its current state.
+The REST API SDK is supported only with REST API v2 [beta betaBackground]^Beta^ endpoints. ThoughtSpot does not recommend using the current version of the REST API SDK to call REST API v2.0 endpoints.
 ====
 
 === Documentation changes
-The API documentation for the REST API v2 [beta betaBackground]^Beta^ will continue to be available until the REST API v2 endpoints are functional. However, all references to the REST API SDK will be removed in the upcoming versions of Developer Documentation.
+Starting from 9.0.0.cl, the API documentation for the REST API v2 [beta betaBackground]^Beta^ endpoints will not be available on the REST API Playground.
+For information about the REST API v2 [beta betaBackground]^Beta^ endpoints, see xref:rest-api-v2-reference-beta.adoc[REST API v2 ^Beta^ reference].
 
-The API documentation for the new REST API v2.0 endpoints will be made available when the new endpoints are released for customer use.
+For information about REST API v2.0 endpoints, refer to the following articles:
+
+* xref:rest-api-v2.adoc[REST API v2.0]
+* xref:rest-api-v2-reference.adoc[REST API v2 reference]
+* xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison]

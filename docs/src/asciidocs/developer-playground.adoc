@@ -201,9 +201,16 @@ Displays the ThoughtSpot top navigation bar. By default, the navigation bar is h
 ++++
 <a href="{{previewPrefix}}/playground/fullApp?showNavBar=true" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
-|**Navigate to URL**
+a|**Navigate to URL**
 
-Allows you to define a specific URL path for loading a ThoughtSpot application page. If a particular ThoughtSpot page is set as a homepage in  the `pageID` attribute and the URL path is also defined in the `path` attribute, the path definition takes precedence.
+Allows you to define a specific URL path for loading a ThoughtSpot application page.
+
+For example, you can set the path to a specific Liveboard page as shown here:
+----
+path: 'pinboard/d084c256-e284-4fc4-b80c-111cb606449a'
+----
+
+If both `pageID` and `path` attributes are defined, the `path` definition takes precedence.
 
 a|**Set runtime filters**
 

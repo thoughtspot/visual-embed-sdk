@@ -5,12 +5,12 @@
 :page-pageid: embed-ts
 :page-description: ThoughtSpot supports several embedding options to embed ThoughtSpot in your web application or portal.
 
-ThoughtSpot supports embedding Search, Liveboard, visualizations, and the full ThoughtSpot experience in a web application, product, or portal.
+ThoughtSpot supports embedding Search bar, Search page, Liveboard, visualizations, and the full ThoughtSpot experience in a web application, product, or portal.
 
-[NOTE]
-====
-Starting from the 8.4.1-sw release, ThoughtSpot Software clusters support ThoughtSpot Everywhere features and embedding with Visual Embed SDK. For more information, see xref:rel-page-sw.adoc[Now available on ThoughtSpot Software].
-====
+[div announcementBlock]
+--
+Starting from 8.4.1-sw release, ThoughtSpot Software clusters support ThoughtSpot Everywhere and embedding with Visual Embed SDK.
+--
 
 == Supported embedding methods
 Based on your embedding requirements and integration setup, you can use one of the following embedding methods:
@@ -21,7 +21,7 @@ Based on your embedding requirements and integration setup, you can use one of t
 
 To determine the method that best fits your embedding requirement, refer to the information in the following tables.
 
-[div tableContainer]
+[div boxAuto]
 --
 [width="100%" cols="4,7,7,7"]
 [options='header']
@@ -58,7 +58,7 @@ The following table lists the features available with each embed flavor:
 .5+|**Embed options**|Search|[tag greenBackground]#✓#|[tag greyBackground]#–#| [tag greyBackground]#–#
 |Visualization|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
 Liveboard - Classic experience|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|
-Liveboard - New experience|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|
+Liveboard - New experience|Coming soon|Coming soon|[tag greyBackground]#–#|
 Full ThoughtSpot experience|[tag greenBackground]#✓# a|[tag greenBackground]#✓#|[tag greenBackground]#✓#
 
 .5+|**Authentication**|SAML|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
