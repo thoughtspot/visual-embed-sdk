@@ -23,6 +23,7 @@ import {
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
+import * as authInstance from '../auth';
 import * as baseInstance from './base';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -104,7 +105,7 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations },
+                data: { customisations, authToken: '' },
             });
         });
 
@@ -131,7 +132,7 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations: customisationsView },
+                data: { customisations: customisationsView, authToken: '' },
             });
             expect(getIFrameSrc()).toContain(
                 `customCssUrl=${customisationsView.style.customCSSUrl}`,
@@ -242,6 +243,154 @@ describe('Unit test case for ts embed', () => {
                     0,
                 );
             }, 1000);
+        });
+    });
+
+    describe('Appinit embedEvent in cookieless authentication authType', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token1'),
+            });
+        });
+
+        test('check for authToken based on getAuthToken function', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                    mockPort,
+                );
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: { customisations, authToken: 'test_auth_token1' },
+                });
+            });
+        });
+    });
+
+    describe('AuthExpire embedEvent in cookieless authentication authType', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+            });
+        });
+
+        test('check for new authToken based on getAuthToken function', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                    mockPort,
+                );
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(baseInstance.handleAuth).not.toHaveBeenCalled();
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test_auth_token2' },
+                });
+            });
+        });
+    });
+
+    xdescribe('AuthExpire embedEvent in TrustedAuthToken authType', () => {
+        test('AutoLogin true scenario', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthToken,
+                username: 'tsadmin',
+                getAuthToken: () => Promise.resolve('test_auth_token3'),
+                autoLogin: true,
+            });
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+            searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(baseInstance.handleAuth).toHaveBeenCalled();
+            });
+        });
+        test('AutoLogin false scenario', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthToken,
+                username: 'tsadmin',
+                getAuthToken: () => Promise.resolve('test_auth_token4'),
+            });
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+            searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
+                );
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(baseInstance.handleAuth).not.toHaveBeenCalled();
+            });
         });
     });
 

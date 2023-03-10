@@ -43,7 +43,14 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
-import { getAuthPromise, getEmbedConfig, renderInQueue } from './base';
+import {
+    getAuthPromise,
+    getEmbedConfig,
+    renderInQueue,
+    handleAuth,
+    notifyAuthFailure,
+} from './base';
+import { AuthFailureType, getAuthenticaionToken } from '../auth';
 
 const { version } = pkgInfo;
 
@@ -218,7 +225,11 @@ export class TsEmbed {
     /**
      * Send Custom style as part of payload of APP_INIT
      */
-    private appInitCb = (_: any, responder: any) => {
+    private appInitCb = async (_: any, responder: any) => {
+        let authToken = '';
+        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+            authToken = await getAuthenticaionToken(this.embedConfig);
+        }
         responder({
             type: EmbedEvent.APP_INIT,
             data: {
@@ -226,8 +237,26 @@ export class TsEmbed {
                     this.embedConfig,
                     this.viewConfig,
                 ),
+                authToken,
             },
         });
+    };
+
+    /**
+     * Sends updated auth token to the iFrame to avoid user logout
+     */
+    private updateAuthToken = async (_: any, responder: any) => {
+        const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
+        if (authType === AuthType.TrustedAuthTokenCookieless) {
+            const authToken = await getAuthenticaionToken(this.embedConfig);
+            responder({
+                type: EmbedEvent.AuthExpire,
+                data: { authToken },
+            });
+        } else if (autoLogin) {
+            handleAuth();
+        }
+        notifyAuthFailure(AuthFailureType.EXPIRY);
     };
 
     /**
@@ -235,6 +264,7 @@ export class TsEmbed {
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb);
+        this.on(EmbedEvent.AuthExpire, this.updateAuthToken);
     };
 
     /**
@@ -287,6 +317,9 @@ export class TsEmbed {
         }
         if (this.embedConfig.authType === AuthType.EmbeddedSSO) {
             queryParams[Param.ForceSAMLAutoRedirect] = true;
+        }
+        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+            queryParams[Param.cookieless] = true;
         }
 
         const {

@@ -1,7 +1,6 @@
 import {
     disableAutoLogin,
     getEmbedConfig,
-    handleAuth,
     notifyAuthFailure,
     notifyAuthSuccess,
     notifyLogout,
@@ -44,15 +43,6 @@ function processAuthInit(e: any) {
             userGUID: e.data?.userGUID || e.payload?.userGUID,
         },
     };
-}
-
-function processAuthExpire(e: any) {
-    const { autoLogin = false } = getEmbedConfig(); // Set default to false
-    if (autoLogin) {
-        handleAuth();
-    }
-    notifyAuthFailure(AuthFailureType.EXPIRY);
-    return e;
 }
 
 function processNoCookieAccess(e: any, containerEl: Element) {
@@ -102,8 +92,6 @@ export function processEventData(
             return processCustomAction(e, thoughtSpotHost);
         case EmbedEvent.AuthInit:
             return processAuthInit(e);
-        case EmbedEvent.AuthExpire:
-            return processAuthExpire(e);
         case EmbedEvent.NoCookieAccess:
             return processNoCookieAccess(e, containerEl);
         case EmbedEvent.AuthFailure:

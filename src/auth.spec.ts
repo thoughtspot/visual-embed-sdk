@@ -1,7 +1,7 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
 import * as checkReleaseVersionInBetaInstance from './utils';
-import { AuthType, EmbedConfig, EmbedEvent } from './types';
+import { AuthType, EmbedEvent } from './types';
 import { executeAfterWait } from './test/test-utils';
 
 const thoughtSpotHost = 'http://localhost:3000';
@@ -68,6 +68,13 @@ export const embedConfig: any = {
         getAuthToken: null,
         authType: AuthType.AuthServer,
     },
+    authServerCookielessFailure: {
+        thoughtSpotHost,
+        username,
+        authEndpoint: '',
+        getAuthToken: null,
+        authType: AuthType.TrustedAuthTokenCookieless,
+    },
     basicAuthSuccess: {
         thoughtSpotHost,
         username,
@@ -110,6 +117,18 @@ describe('Unit test for auth', () => {
         authInstance.initSession(mockSessionInfo);
         const sessionInfo = await authInstance.getSessionInfo();
         expect(sessionInfo).toStrictEqual(mockSessionInfo);
+    });
+
+    test('doCookielessTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {
+        try {
+            await authInstance.doCookielessTokenAuth(
+                embedConfig.doTokenAuthFailureWithoutAuthEndPoint,
+            );
+        } catch (e) {
+            expect(e.message).toBe(
+                'Either auth endpoint or getAuthToken function must be provided',
+            );
+        }
     });
 
     test('doTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {
@@ -456,6 +475,15 @@ describe('Unit test for auth', () => {
         await authInstance.authenticate(embedConfig.authServerFailure);
         expect(window.location.hash).toBe('');
         expect(authInstance.doTokenAuth).toBeCalled();
+    });
+
+    it('authenticate: when authType is AuthServerCookieless', async () => {
+        spyOn(authInstance, 'doCookielessTokenAuth');
+        await authInstance.authenticate(
+            embedConfig.authServerCookielessFailure,
+        );
+        expect(window.location.hash).toBe('');
+        expect(authInstance.doCookielessTokenAuth).toBeCalled();
     });
 
     it('authenticate: when authType is Basic', async () => {
