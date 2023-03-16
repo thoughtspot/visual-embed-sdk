@@ -75,6 +75,14 @@ const V1EventMap = {};
  */
 export class TsEmbed {
     /**
+     * The DOM node which was inserted by the SDK to either
+     * render the iframe or display an error message.
+     * This is useful for removing the DOM node when the
+     * embed instance is destroyed.
+     */
+    private insertedDomEl: Node;
+
+    /**
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
     private el: Element;
@@ -570,11 +578,14 @@ export class TsEmbed {
                 this.el.nextElementSibling.remove();
             }
             this.el.parentElement.insertBefore(child, this.el.nextSibling);
+            this.insertedDomEl = child;
         } else if (typeof child === 'string') {
             this.el.innerHTML = child;
+            this.insertedDomEl = this.el.children[0];
         } else {
             this.el.innerHTML = '';
             this.el.appendChild(child);
+            this.insertedDomEl = child;
         }
     }
 
@@ -776,6 +787,18 @@ export class TsEmbed {
         tsParams = tsParams ? `?${tsParams}` : '';
 
         return tsParams;
+    }
+
+    /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.19.1 | ThoughtSpot: *
+     */
+    public destroy(): void {
+        try {
+            this.insertedDomEl.parentNode.removeChild(this.insertedDomEl);
+        } catch (e) {
+            console.log('Error destroying TS Embed', e);
+        }
     }
 }
 

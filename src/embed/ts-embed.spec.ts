@@ -852,6 +852,54 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('When destroyed', () => {
+        it('should remove the iframe', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            expect(getIFrameEl()).toBeTruthy();
+            appEmbed.destroy();
+            expect(getIFrameEl()).toBeFalsy();
+        });
+
+        it('should remove the iframe when insertAsSibling is true', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getIFrameEl()).toBeTruthy();
+            appEmbed.destroy();
+            expect(getIFrameEl()).toBeFalsy();
+        });
+
+        it("Should remove the error message on destroy if it's present", async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(
+                false,
+            );
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getRootEl().nextElementSibling.innerHTML).toContain(
+                'Not logged in',
+            );
+            appEmbed.destroy();
+            expect(getRootEl().nextElementSibling.innerHTML).toBe('');
+        });
+    });
+
     describe('validate getThoughtSpotPostUrlParams', () => {
         const { location } = window;
 
