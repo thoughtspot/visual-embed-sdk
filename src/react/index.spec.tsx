@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { Action, EmbedEvent, HostEvent } from '../types';
+import { Action, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -120,6 +120,26 @@ describe('React Components', () => {
                     expect.anything(),
                 );
             });
+        });
+
+        it('Should render liveboard with runtime filters', async () => {
+            const { container } = render(
+                <LiveboardEmbed
+                    liveboardId="abcd"
+                    runtimeFilters={[
+                        {
+                            columnName: 'revenue',
+                            operator: RuntimeFilterOp.EQ,
+                            values: [100],
+                        },
+                    ]}
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+            expect(getIFrameSrc(container)).toContain(
+                'col1=revenue&op1=EQ&val1=100',
+            );
         });
     });
 

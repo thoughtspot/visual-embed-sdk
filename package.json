@@ -61,6 +61,7 @@
         "html-react-parser": "^1.4.12",
         "lodash": "^4.17.21",
         "mixpanel-browser": "^2.45.0",
+        "ts-deepmerge": "^6.0.2",
         "use-deep-compare-effect": "^1.8.1"
     },
     "devDependencies": {
