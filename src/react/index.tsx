@@ -36,7 +36,7 @@ const componentFactory = <
                     ref!.current,
                     deepMerge(
                         {
-                            insertAsSibling: true,
+                            insertAsSibling: viewConfig.insertAsSibling,
                             frameParams: {
                                 class: className || '',
                             },
