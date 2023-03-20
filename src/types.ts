@@ -845,6 +845,11 @@ export enum EmbedEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     VizPointRightClick = 'vizPointRightClick',
+    /**
+     * Emitted when a user clicks on Insert to slide on a visualization
+     * @hidden
+     */
+    InsertIntoSlide = 'insertInToSlide',
 }
 
 /**
