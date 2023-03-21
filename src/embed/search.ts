@@ -45,7 +45,7 @@ export interface SearchOptions {
 /**
  * The configuration attributes for the embedded search view.
  *
- * @Category Search Embed
+ * @group Embed components
  */
 export interface SearchViewConfig extends ViewConfig {
     /**
@@ -120,7 +120,7 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 /**
  * Embed ThoughtSpot search
  *
- * @Category Search Embed
+ * @group Embed components
  */
 export class SearchEmbed extends TsEmbed {
     /**

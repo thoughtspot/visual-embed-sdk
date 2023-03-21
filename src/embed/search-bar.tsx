@@ -3,6 +3,9 @@ import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
 
+/**
+ * @group Embed components
+ */
 export interface SearchBarViewConfig
     extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts'> {
     /**
@@ -25,8 +28,8 @@ export interface SearchBarViewConfig
 /**
  * Embed ThoughtSpot search bar
  *
- * @Category Search Embed
  * @version: SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1-sw
+ * @group Embed components
  */
 export class SearchBarEmbed extends TsEmbed {
     /**
