@@ -7,7 +7,6 @@
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
-
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import { init, prefetch, logout, getEmbedConfig } from './embed/base';
 import {
@@ -17,7 +16,13 @@ import {
 } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { AuthFailureType, AuthStatus, AuthEvent, getSessionInfo } from './auth';
+import {
+    AuthFailureType,
+    AuthStatus,
+    AuthEvent,
+    AuthEventEmitter,
+    getSessionInfo,
+} from './auth';
 import {
     AuthType,
     RuntimeFilter,
@@ -28,6 +33,14 @@ import {
     Action,
     EmbedConfig,
     PrefetchFeatures,
+    FrameParams,
+    DOMSelector,
+    MessageOptions,
+    MessageCallback,
+    MessagePayload,
+    CustomisationsInterface,
+    CustomStyles,
+    customCssInterface,
 } from './types';
 
 export {
@@ -44,6 +57,7 @@ export {
     AuthFailureType,
     AuthStatus,
     AuthEvent,
+    AuthEventEmitter,
     // types
     Page,
     AuthType,
@@ -59,4 +73,12 @@ export {
     LiveboardViewConfig,
     AppViewConfig,
     PrefetchFeatures,
+    FrameParams,
+    DOMSelector,
+    MessageOptions,
+    MessageCallback,
+    MessagePayload,
+    CustomisationsInterface,
+    CustomStyles,
+    customCssInterface,
 };

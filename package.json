@@ -128,8 +128,7 @@
         "ts-jest": "^26.5.5",
         "ts-loader": "8.0.4",
         "typedoc": "0.21.6",
-        "typedoc-neo-theme": "^1.1.0",
-        "typedoc-plugin-toc-group": "0.0.5",
+        "typedoc-plugin-toc-group": "thoughtspot/typedoc-plugin-toc-group",
         "typescript": "^4.9.4",
         "url-search-params-polyfill": "^8.1.0",
         "util": "^0.12.4"

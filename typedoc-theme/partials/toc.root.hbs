@@ -4,7 +4,7 @@
     {{/if}}
     <li class="{{#if isInPath}}current{{/if}} {{cssClasses}}">
         {{#if groupTitle}}
-        <h3>{{{wbr groupTitle}}}</h3>
+        <div class="group-title">{{{wbr groupTitle}}}</div>
         {{else}}
         <a href="{{relativeURL url}}" class="tsd-kind-icon">{{{wbr title}}}</a>
         {{/if}}

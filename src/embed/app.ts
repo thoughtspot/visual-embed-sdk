@@ -56,7 +56,7 @@ export enum Page {
 
 /**
  * The view configuration for full app embedding.
- * @Category App Embed
+ * @group Embed components
  */
 export interface AppViewConfig extends ViewConfig {
     /**
@@ -105,7 +105,7 @@ export interface AppViewConfig extends ViewConfig {
 
 /**
  * Embeds full ThoughtSpot experience in a host application.
- * @Category App Embed
+ * @group Embed components
  */
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
