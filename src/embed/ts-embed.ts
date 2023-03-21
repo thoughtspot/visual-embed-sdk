@@ -692,6 +692,20 @@ export class TsEmbed {
      * @param messageType The message type
      * @param callback A callback as a function
      * @param options The message options
+     * @example
+     * ```js
+     * tsEmbed.on(EmbedEvent.Error, (data) => {
+     *   console.error(data);
+     * });
+     * ```
+     * @example
+     * ```js
+     * tsEmbed.on(EmbedEvent.Save, (data) => {
+     *   console.log("Answer save clicked", data);
+     * }, {
+     *   start: true // This will trigger the callback on start of save
+     * });
+     * ```
      */
     public on(
         messageType: EmbedEvent,
@@ -806,6 +820,8 @@ export class TsEmbed {
  * Base class for embedding v1 experience
  * Note: The v1 version of ThoughtSpot Blink works on the AngularJS stack
  * which is currently under migration to v2
+ *
+ * @inheritdoc
  */
 export class V1Embed extends TsEmbed {
     protected viewConfig: ViewConfig;
@@ -816,14 +832,31 @@ export class V1Embed extends TsEmbed {
     }
 
     /**
-     * Render the app in an iframe and set up event handlers
+     * Render the ap    p in an iframe and set up event handlers
      * @param iframeSrc
      */
     protected renderV1Embed(iframeSrc: string): any {
         return this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
     }
 
-    // @override
+    /**
+     * @inheritdoc TsEmbed.on
+     *
+     * @example
+     * ```js
+     * tsEmbed.on(EmbedEvent.Error, (data) => {
+     *   console.error(data);
+     * });
+     * ```
+     * @example
+     * ```js
+     * tsEmbed.on(EmbedEvent.Save, (data) => {
+     *   console.log("Answer save clicked", data);
+     * }, {
+     *   start: true // This will trigger the callback on start of save
+     * });
+     * ```
+     */
     public on(
         messageType: EmbedEvent,
         callback: MessageCallback,

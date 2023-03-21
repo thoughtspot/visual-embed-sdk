@@ -24,7 +24,7 @@ import { V1Embed } from './ts-embed';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
- * @Category Liveboards and Charts
+ * @group Embed components
  */
 export interface LiveboardViewConfig extends ViewConfig {
     /**
@@ -92,7 +92,7 @@ export interface LiveboardViewConfig extends ViewConfig {
 
 /**
  * Embed a ThoughtSpot Liveboard or visualization
- * @Category Liveboards and Charts
+ * @group Embed components
  */
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;

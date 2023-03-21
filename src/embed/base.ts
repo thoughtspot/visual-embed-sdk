@@ -16,11 +16,13 @@ import {
     logout as _logout,
     AuthFailureType,
     AuthStatus,
+    AuthEvent,
     notifyAuthFailure,
     notifyAuthSDKSuccess,
     notifyAuthSuccess,
     notifyLogout,
     setAuthEE,
+    AuthEventEmitter,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -32,7 +34,13 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
 };
 
 export let authPromise: Promise<boolean>;
-
+/**
+ * Gets the configuration embed was initialized with.
+ *
+ * @returns {@link EmbedConfig} The configuration embed was initialized with.
+ * @version SDK: 1.19.0 | ThoughtSpot: *
+ * @group Global methods
+ */
 export const getEmbedConfig = (): EmbedConfig => config;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
@@ -76,6 +84,7 @@ const hostUrlToFeatureUrl = {
  * @param url The URL provided for prefetch
  * @param prefetchFeatures Specify features which needs to be prefetched.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
+ * @group Global methods
  */
 export const prefetch = (
     url?: string,
@@ -139,12 +148,21 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * authentication if applicable.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
- * example: authStatus = init(config);
- * authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
- * @returns event emitter which emits events on authentication success, failure and logout. See {@link AuthStatus}
+ *
+ * @example
+ * ```js
+ *   const authStatus = init({
+ *     thoughtSpotHost: 'https://my.thoughtspot.cloud',
+ *     authType: AuthType.None,
+ *   });
+ *   authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
+ * ```
+ *
+ * @returns {@link AuthEventEmitter} event emitter which emits events on authentication success, failure and logout. See {@link AuthStatus}
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
+ * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): EventEmitter => {
+export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
     config = {
         ...CONFIG_DEFAULTS,
@@ -152,7 +170,7 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     };
     config = backwardCompat(config);
-    const authEE = new EventEmitter();
+    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
 
@@ -175,7 +193,7 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
     if (config.callPrefetch) {
         prefetch(config.thoughtSpotHost);
     }
-    return authEE;
+    return authEE as AuthEventEmitter;
 };
 
 export function disableAutoLogin(): void {
@@ -192,6 +210,7 @@ export function disableAutoLogin(): void {
  * @param doNotDisableAutoLogin This flag when passed will not disable autoLogin
  * @returns Promise which resolves when logout completes.
  * @version SDK: 1.10.1 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
+ * @group Global methods
  */
 export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
     if (!doNotDisableAutoLogin) {

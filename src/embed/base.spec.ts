@@ -20,7 +20,7 @@ describe('Base TS Embed', () => {
         authEE = index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
-        });
+        }) as EventEmitter;
     });
 
     beforeEach(() => {
@@ -148,9 +148,9 @@ describe('Base TS Embed', () => {
         });
 
         authEmitter.on(auth.AuthStatus.FAILURE, failureCallback);
-        authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (reason) => {
+        authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (...args) => {
             expect(failureCallback).not.toBeCalled();
-            expect(reason).toBe(undefined);
+            expect(args.length).toBe(0);
             done();
         });
     });

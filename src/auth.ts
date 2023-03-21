@@ -39,6 +39,11 @@ export const EndPoints = {
     LOGOUT: '/callosum/v1/session/logout',
 };
 
+/**
+ * Enum for auth failure types. This is the parameter passed to the listner
+ * of {@link AuthStatus.FAILURE}.
+ * @group Authentication / Init
+ */
 export enum AuthFailureType {
     SDK = 'SDK',
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
@@ -46,6 +51,10 @@ export enum AuthFailureType {
     OTHER = 'OTHER',
 }
 
+/**
+ * Enum for auth status emitted by the emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
 export enum AuthStatus {
     /**
      * Emits when the SDK fails to authenticate
@@ -72,20 +81,56 @@ export enum AuthStatus {
     WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
 }
 
+/**
+ * Event emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
+export interface AuthEventEmitter {
+    /**
+     * Registed a listener on Auth failure.
+     * @param event
+     * @param listener
+     */
+    on(
+        event: AuthStatus.FAILURE,
+        listener: (failureType: AuthFailureType) => void,
+    ): this;
+    on(
+        event:
+            | AuthStatus.SDK_SUCCESS
+            | AuthStatus.LOGOUT
+            | AuthStatus.WAITING_FOR_POPUP,
+        listener: () => void,
+    ): this;
+    on(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
+    /**
+     * Trigger an event on the emitter returned from init.
+     * @param {@link AuthEvent}
+     */
+    emit(event: AuthEvent): void;
+}
+
+/**
+ * Events which can be triggered on the emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
 export enum AuthEvent {
     /**
-     * Manually trigger the SSO popup.
+     * Manually trigger the SSO popup. This is useful with
+     * authStatus: SAMLRedirect/OIDCRedicre and inPopup: true
      */
     TRIGGER_SSO_POPUP = 'TRIGGER_SSO_POPUP',
 }
 
-let authEE: EventEmitter;
+let authEE: EventEmitter<AuthStatus | AuthEvent>;
 
-export function getAuthEE(): EventEmitter {
+export function getAuthEE(): EventEmitter<AuthStatus | AuthEvent> {
     return authEE;
 }
 
-export function setAuthEE(eventEmitter: EventEmitter): void {
+export function setAuthEE(
+    eventEmitter: EventEmitter<AuthStatus | AuthEvent>,
+): void {
     authEE = eventEmitter;
 }
 
@@ -146,8 +191,9 @@ export function getReleaseVersion() {
 }
 
 /**
- * Return a promise that resolves with the session info when authentication is
+ * Return a promise that resolves with the session information when authentication is
  * successful. And info is available.
+ * @group Global methods
  */
 export function getSessionInfo(): Promise<any> {
     return sessionInfoPromise;

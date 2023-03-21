@@ -5,54 +5,54 @@ name: CI
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  push:
-    branches: [ main, release ]
-  pull_request:
-    branches: [ main, release ]
+    push:
+        branches: [main, release]
+    pull_request:
+        branches: [main, release]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # This workflow contains a single job called "build"
+    build:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            - uses: actions/checkout@v2
 
-      # Use NodeJS v14.19.0
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.19.0'
+            # Use NodeJS v14.19.0
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '16.19.0'
 
-      # Run npm install
-      - name: Run npm install
-        run: npm install
+            # Run npm install
+            - name: Run npm install
+              run: npm install --legacy-peer-deps
 
-      # Runs linter
-      - name: Run linter
-        run: npm run lint
+            # Runs linter
+            - name: Run linter
+              run: npm run lint
 
-      # Runs tests
-      - name: Run tests
-        run: npm test
+            # Runs tests
+            - name: Run tests
+              run: npm test
 
-      # Collect coverage report
-      - uses: 5monkeys/cobertura-action@master
-        continue-on-error: true
-        with:
-          path: coverage/sdk/cobertura-coverage.xml
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          minimum_coverage: 0
+            # Collect coverage report
+            - uses: 5monkeys/cobertura-action@master
+              continue-on-error: true
+              with:
+                  path: coverage/sdk/cobertura-coverage.xml
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  minimum_coverage: 0
 
-      # Runs TypeScript compiler
-      - name: Run TypeScript compiler
-        run: npm run tsc
+            # Runs TypeScript compiler
+            - name: Run TypeScript compiler
+              run: npm run tsc
 
-      # Collect artifacts
-      - uses: actions/upload-artifact@v2
-        with:
-          name: test-coverage
-          path: coverage/
+            # Collect artifacts
+            - uses: actions/upload-artifact@v2
+              with:
+                  name: test-coverage
+                  path: coverage/
