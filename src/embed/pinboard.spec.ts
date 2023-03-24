@@ -1,6 +1,8 @@
 import { PinboardEmbed, LiveboardViewConfig } from './liveboard';
 import { init } from '../index';
-import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
+import {
+    Action, AuthType, EmbedEvent, RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -8,6 +10,7 @@ import {
     getRootEl,
     defaultParams,
     defaultParamsWithoutHiddenActions,
+    expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 
@@ -41,7 +44,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -49,18 +53,15 @@ describe('Pinboard/viz embed tests', () => {
 
     test('should set disabled actions', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
-            disabledActions: [
-                Action.DownloadAsCsv,
-                Action.DownloadAsPdf,
-                Action.DownloadAsXlsx,
-            ],
+            disabledActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
             disabledActionReason: 'Action denied',
             ...defaultViewConfig,
             pinboardId,
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsWithoutHiddenActions}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied&hideAction=[%22${Action.ReportError}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -68,17 +69,14 @@ describe('Pinboard/viz embed tests', () => {
 
     test('should set hidden actions', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
-            hiddenActions: [
-                Action.DownloadAsCsv,
-                Action.DownloadAsPdf,
-                Action.DownloadAsXlsx,
-            ],
+            hiddenActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
             ...defaultViewConfig,
             pinboardId,
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22,%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -86,17 +84,14 @@ describe('Pinboard/viz embed tests', () => {
 
     test('should set visible actions', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
-            visibleActions: [
-                Action.DownloadAsCsv,
-                Action.DownloadAsPdf,
-                Action.DownloadAsXlsx,
-            ],
+            visibleActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
             ...defaultViewConfig,
             pinboardId,
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -110,7 +105,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[]${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -124,7 +120,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=true${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -138,7 +135,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableVizTransform=false${prefixParams}#/embed/viz/${pinboardId}`,
             );
         });
@@ -152,7 +150,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
@@ -173,7 +172,8 @@ describe('Pinboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         pinboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&col1=sales&op1=EQ&val1=1000${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
@@ -191,10 +191,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
 
         executeAfterWait(() => {
-            expect(onSpy).toHaveBeenCalledWith(
-                EmbedEvent.EmbedHeight,
-                expect.anything(),
-            );
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
         });
     });
 });

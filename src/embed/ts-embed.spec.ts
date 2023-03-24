@@ -19,6 +19,7 @@ import {
     postMessageToParent,
     defaultParamsForPinboardEmbed,
     waitFor,
+    expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
@@ -63,10 +64,7 @@ const customisationsView = {
 };
 
 describe('Unit test case for ts embed', () => {
-    const mockMixPanelEvent = jest.spyOn(
-        mixpanelInstance,
-        'uploadMixpanelEvent',
-    );
+    const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
@@ -97,11 +95,7 @@ describe('Unit test case for ts embed', () => {
             };
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                    mockPort,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
@@ -124,11 +118,7 @@ describe('Unit test case for ts embed', () => {
             };
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                    mockPort,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
@@ -159,10 +149,7 @@ describe('Unit test case for ts embed', () => {
 
             executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             });
         });
 
@@ -182,13 +169,8 @@ describe('Unit test case for ts embed', () => {
             executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 iframe.contentWindow.postMessage = jest.fn();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
-                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(
-                    0,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(0);
             });
         });
 
@@ -208,10 +190,7 @@ describe('Unit test case for ts embed', () => {
 
             executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             }, 1000);
         });
 
@@ -235,14 +214,41 @@ describe('Unit test case for ts embed', () => {
             executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 iframe.contentWindow.postMessage = jest.fn();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(0);
+            }, 1000);
+        });
+
+        test('should remove event listener when called off method', async (done) => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+                status: 'end',
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const mockFn = jest.fn();
+            searchEmbed.on(EmbedEvent.Save, mockFn).render();
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
                 postMessageToParent(
                     iframe.contentWindow,
                     mockEmbedEventPayload,
                 );
-                expect(iframe.contentWindow.postMessage).toHaveBeenCalledTimes(
-                    0,
+            });
+
+            searchEmbed.off(EmbedEvent.Save, mockFn);
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    mockEmbedEventPayload,
                 );
-            }, 1000);
+            });
+            await executeAfterWait(() => {
+                expect(mockFn).toHaveBeenCalledTimes(1);
+                done();
+            }, 100);
         });
     });
 
@@ -269,11 +275,7 @@ describe('Unit test case for ts embed', () => {
             };
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                    mockPort,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
@@ -309,11 +311,7 @@ describe('Unit test case for ts embed', () => {
             };
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                    mockPort,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
                 expect(baseInstance.notifyAuthFailure).toBeCalledWith(
@@ -349,10 +347,7 @@ describe('Unit test case for ts embed', () => {
             searchEmbed.render();
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             });
             await executeAfterWait(() => {
                 expect(baseInstance.notifyAuthFailure).toBeCalledWith(
@@ -380,10 +375,7 @@ describe('Unit test case for ts embed', () => {
             searchEmbed.render();
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             });
             await executeAfterWait(() => {
                 expect(baseInstance.notifyAuthFailure).toBeCalledWith(
@@ -416,9 +408,7 @@ describe('Unit test case for ts embed', () => {
                 },
             );
             const iFrame: any = document.createElement('div');
-            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(
-                isLoggedIn,
-            );
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(isLoggedIn);
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             iFrame.contentWindow = null;
             tsEmbed.on(EmbedEvent.CustomAction, jest.fn());
@@ -433,19 +423,13 @@ describe('Unit test case for ts embed', () => {
 
         test('mixpanel should call with VISUAL_SDK_RENDER_COMPLETE', async () => {
             await setup(true);
-            expect(mockMixPanelEvent).toBeCalledWith(
-                MIXPANEL_EVENT.VISUAL_SDK_RENDER_START,
-            );
-            expect(mockMixPanelEvent).toBeCalledWith(
-                MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
-            );
+            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
         });
 
         test('Should remove prefetch iframe', async () => {
             await setup(true);
-            const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-                '.prefetchIframe',
-            );
+            const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
             expect(prefetchIframe.length).toBe(0);
         });
 
@@ -467,9 +451,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         beforeEach(() => {
-            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
-                false,
-            );
+            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(false);
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
@@ -479,15 +461,10 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('mixpanel should call with VISUAL_SDK_RENDER_FAILED', () => {
-            expect(mockMixPanelEvent).toBeCalledWith(
-                MIXPANEL_EVENT.VISUAL_SDK_RENDER_START,
-            );
-            expect(mockMixPanelEvent).toBeCalledWith(
-                MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
-                {
-                    error: 'false',
-                },
-            );
+            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
+                error: 'false',
+            });
         });
     });
 
@@ -516,6 +493,11 @@ describe('Unit test case for ts embed', () => {
             expect(pinboardEmbed['isError']).toBe(false);
         });
 
+        /**
+         *
+         * @param hiddenActions
+         * @param visibleActions
+         */
         async function testActionsForLiveboards(
             hiddenActions: Array<Action>,
             visibleActions: Array<Action>,
@@ -534,10 +516,7 @@ describe('Unit test case for ts embed', () => {
             );
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
-            await testActionsForLiveboards(
-                [Action.DownloadAsCsv],
-                [Action.DownloadAsCsv],
-            );
+            await testActionsForLiveboards([Action.DownloadAsCsv], [Action.DownloadAsCsv]);
         });
         test('should throw error when there are both visible and hidden actions arrays as empty', async () => {
             await testActionsForLiveboards([], []);
@@ -568,9 +547,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('when thoughtSpotHost is empty', () => {
         beforeAll(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => '',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => '');
             init({
                 thoughtSpotHost: '',
                 authType: AuthType.None,
@@ -591,10 +568,7 @@ describe('Unit test case for ts embed', () => {
     describe('V1Embed ', () => {
         test('when isRendered is true than isError will be true', () => {
             spyOn(console, 'error');
-            const viEmbedIns = new tsEmbedInstance.V1Embed(
-                getRootEl(),
-                defaultViewConfig,
-            );
+            const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
             expect(viEmbedIns['isError']).toBe(false);
             viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
@@ -609,9 +583,7 @@ describe('Unit test case for ts embed', () => {
         const path = 'viz/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
 
         beforeEach(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => 'http://tshost',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
         test('when app is PinboardEmbed after navigateToPage function call, new path should be set to iframe', async () => {
@@ -620,7 +592,8 @@ describe('Unit test case for ts embed', () => {
             });
             await pinboardEmbed.render();
             // pinboardEmbed.navigateToPage(path);
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&isLiveboardEmbed=true${defaultParamsPost}#/embed/${path}`,
             );
         });
@@ -633,8 +606,9 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             await appEmbed.render();
-            appEmbed.navigateToPage(path);
-            expect(getIFrameSrc()).toBe(
+            appEmbed.navigateToPage(path, false);
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });
@@ -647,7 +621,7 @@ describe('Unit test case for ts embed', () => {
                     height: '100%',
                 },
             });
-            appEmbed.navigateToPage(path);
+            appEmbed.navigateToPage(path, false);
             await appEmbed.render();
             expect(console.log).toHaveBeenCalledWith(
                 'Please call render before invoking this method',
@@ -658,9 +632,7 @@ describe('Unit test case for ts embed', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
 
         beforeEach(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => 'http://tshost',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
         test('when app is AppEmbed after navigateToPage function call, new path should be set to iframe', async () => {
@@ -671,8 +643,9 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             await appEmbed.render();
-            appEmbed.navigateToPage(path);
-            expect(getIFrameSrc()).toBe(
+            appEmbed.navigateToPage(path, false);
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });
@@ -700,9 +673,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             tsEmbed.render();
-            waitFor(() => {
-                return !!getIFrameEl();
-            }).then(() => {
+            waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -714,18 +685,14 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => {
-                return !!getIFrameEl();
-            }).then(() => {
+            waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
     });
     describe('Iframe flags', () => {
         beforeEach(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => 'http://tshost',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
         test('Set Frame params to the iframe as attributes', async () => {
@@ -754,9 +721,10 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             await appEmbed.render();
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -769,9 +737,10 @@ describe('Unit test case for ts embed', () => {
                 showAlerts: true,
             });
             await appEmbed.render();
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&showAlerts=true${defaultParamsPost}#/home`,
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -783,9 +752,10 @@ describe('Unit test case for ts embed', () => {
                 locale: 'ja-JP',
             });
             await appEmbed.render();
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&locale=ja-JP${defaultParamsPost}#/home`,
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -799,11 +769,13 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             await appEmbed.render();
-            expect(getIFrameSrc()).toBe(
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
+
         it('inserts as sibling of root node if configured', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -842,9 +814,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => {
-                return !!getIFrameEl();
-            }).then(() => {
+            waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
                 expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
                 done();
@@ -881,9 +851,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         it("Should remove the error message on destroy if it's present", async () => {
-            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(
-                false,
-            );
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(false);
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -892,9 +860,7 @@ describe('Unit test case for ts embed', () => {
                 insertAsSibling: true,
             });
             await appEmbed.render();
-            expect(getRootEl().nextElementSibling.innerHTML).toContain(
-                'Not logged in',
-            );
+            expect(getRootEl().nextElementSibling.innerHTML).toContain('Not logged in');
             appEmbed.destroy();
             expect(getRootEl().nextElementSibling.innerHTML).toBe('');
         });
@@ -912,9 +878,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         beforeEach(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => 'http://tshost',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
         afterAll((): void => {
@@ -922,29 +886,20 @@ describe('Unit test case for ts embed', () => {
         });
 
         it('get url params for TS', () => {
-            const tsEmbed = new tsEmbedInstance.TsEmbed(
-                getRootEl(),
-                defaultViewConfig,
-            );
-            const urlHash =
-                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            const tsEmbed = new tsEmbedInstance.TsEmbed(getRootEl(), defaultViewConfig);
+            const urlHash = '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
             window.location.hash = urlHash;
             const postHashParams = '?ts-app=thoughtspot&ts-id=123';
             expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
         });
 
         it('validate query params and postHash params for TS', () => {
-            const tsEmbed = new tsEmbedInstance.TsEmbed(
-                getRootEl(),
-                defaultViewConfig,
-            );
-            const urlHash =
-                '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
+            const tsEmbed = new tsEmbedInstance.TsEmbed(getRootEl(), defaultViewConfig);
+            const urlHash = '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
             window.location.hash = urlHash;
             const urlSearch = '?ts-type=subscribe&search-title=abc';
             window.location.search = urlSearch;
-            const postHashParams =
-                '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
+            const postHashParams = '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
             expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
         });
     });

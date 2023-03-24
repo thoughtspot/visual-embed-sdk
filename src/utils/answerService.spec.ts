@@ -11,11 +11,9 @@ describe('Unit test for getAnswerServiceInstance', () => {
 
     test('fetchData, when api giving answer data', async () => {
         const mockAnswerResponse = { data: {} };
-        global.fetch = jest.fn(() =>
-            Promise.resolve({
-                json: () => mockAnswerResponse,
-            }),
-        );
+        global.fetch = jest.fn(() => Promise.resolve({
+            json: () => mockAnswerResponse,
+        }));
         const answerService = getAnswerServiceInstance(
             session,
             query,

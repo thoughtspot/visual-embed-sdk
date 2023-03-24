@@ -62,9 +62,7 @@ describe('Base TS Embed', () => {
             callPrefetch: true,
         });
         expect(getAllIframeEl().length).toBe(1);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(1);
         const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
         expect(firstIframe.src).toBe(url);
@@ -79,9 +77,7 @@ describe('Base TS Embed', () => {
             index.PrefetchFeatures.LiveboardEmbed,
         ]);
         expect(getAllIframeEl().length).toBe(2);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(2);
         const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
         expect(firstIframe.src).toBe(searchUrl);
@@ -93,9 +89,7 @@ describe('Base TS Embed', () => {
         const url = '';
         index.prefetch(url);
         expect(getAllIframeEl().length).toBe(0);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(0);
     });
 

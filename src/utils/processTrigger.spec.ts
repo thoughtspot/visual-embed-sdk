@@ -17,12 +17,7 @@ describe('Unit test for processTrigger', () => {
         const messageType = HostEvent.Reload;
         const thoughtSpotHost = 'http://localhost:3000';
         const data = {};
-        _processTriggerInstance.processTrigger(
-            iFrameElement,
-            messageType,
-            thoughtSpotHost,
-            data,
-        );
+        _processTriggerInstance.processTrigger(iFrameElement, messageType, thoughtSpotHost, data);
         expect(divFrame.childNodes[0]).not.toBe(iFrameElement);
     });
 

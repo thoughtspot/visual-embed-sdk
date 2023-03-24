@@ -1,6 +1,8 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
-import { Action, AuthType, HostEvent, RuntimeFilterOp } from '../types';
+import {
+    Action, AuthType, HostEvent, RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -11,6 +13,7 @@ import {
     defaultParams,
     defaultParamsForPinboardEmbed,
     defaultParamsWithoutHiddenActions,
+    expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -44,7 +47,8 @@ describe('App embed tests', () => {
         const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
@@ -57,7 +61,8 @@ describe('App embed tests', () => {
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
@@ -70,7 +75,8 @@ describe('App embed tests', () => {
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
@@ -101,7 +107,8 @@ describe('App embed tests', () => {
                 appEmbed.render();
 
                 await executeAfterWait(() => {
-                    expect(getIFrameSrc()).toBe(
+                    expectUrlMatchesWithParams(
+                        getIFrameSrc(),
                         `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/${route}`,
                     );
                     cleanUp();
@@ -117,7 +124,8 @@ describe('App embed tests', () => {
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/foo/bar`,
             );
         });
@@ -138,7 +146,8 @@ describe('App embed tests', () => {
 
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&col1=sales&op1=EQ&val1=1000${defaultParams}${defaultParamsPost}#/home`,
             );
         });
@@ -155,7 +164,8 @@ describe('App embed tests', () => {
 
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&${defaultParamsWithoutHiddenActions}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]${defaultParamsPost}#/home`,
             );
         });
@@ -170,7 +180,8 @@ describe('App embed tests', () => {
 
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance${defaultParamsPost}#/home`,
             );
         });
@@ -184,7 +195,8 @@ describe('App embed tests', () => {
 
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
@@ -193,9 +205,7 @@ describe('App embed tests', () => {
     describe('Navigate to Page API', () => {
         const path = 'pinboard/e0836cad-4fdf-42d4-bd97-567a6b2a6058';
         beforeEach(() => {
-            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-                () => 'http://tshost',
-            );
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
         test('when app is AppEmbed after navigateToPage function call, new path should be set to iframe', async () => {
@@ -207,7 +217,8 @@ describe('App embed tests', () => {
             });
             await appEmbed.render();
             appEmbed.navigateToPage(path);
-            expect(getIFrameSrc()).toBe(
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });

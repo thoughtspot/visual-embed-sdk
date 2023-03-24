@@ -15,11 +15,7 @@ import {
     ViewConfig,
     RuntimeFilter,
 } from '../types';
-import {
-    getQueryParamString,
-    checkReleaseVersionInBeta,
-    getFilterQuery,
-} from '../utils';
+import { getQueryParamString, checkReleaseVersionInBeta, getFilterQuery } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
 import { ERROR_MESSAGE } from '../errors';
@@ -37,7 +33,8 @@ export interface SearchOptions {
     /**
      * Boolean to determine if the search should be executed or not.
      * if it is executed, put the focus on the results.
-     * if it’s not executed, put the focus in the search bar - at the end of the tokens
+     * if it’s not executed, put the focus in the search bar - at the end of
+     * the tokens
      */
     executeSearch?: boolean;
 }
@@ -65,6 +62,7 @@ export interface SearchViewConfig extends ViewConfig {
     hideResults?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
+     *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     enableSearchAssist?: boolean;
@@ -76,16 +74,19 @@ export interface SearchViewConfig extends ViewConfig {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single dataSource supported currently.
+     *
      * @deprecated Use dataSource instead
      */
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
+     *
      * @version: SDK: 1.19.0
      */
     dataSource?: string;
     /**
      * The initial search query to load the answer with.
+     *
      * @deprecated Use {@link searchOptions} instead
      */
     searchQuery?: string;
@@ -100,6 +101,7 @@ export interface SearchViewConfig extends ViewConfig {
     /**
      * If set to true, search page will render without the Search Bar
      * The chart/table should still be visible.
+     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     hideSearchBar?: boolean;
@@ -145,13 +147,7 @@ export class SearchEmbed extends TsEmbed {
         return dataSourceMode;
     }
 
-    /**
-     * Construct the URL of the embedded ThoughtSpot search to be
-     * loaded in the iframe
-     * @param answerId The GUID of a saved answer
-     * @param dataSources A list of data source GUIDs
-     */
-    private getIFrameSrc(answerId: string, dataSources?: string[]) {
+    protected getEmbedParams(): string {
         const {
             hideResults,
             enableSearchAssist,
@@ -159,8 +155,8 @@ export class SearchEmbed extends TsEmbed {
             searchOptions,
             runtimeFilters,
             dataSource,
+            dataSources,
         } = this.viewConfig;
-        const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const queryParams = this.getBaseQueryParams();
 
         queryParams[Param.HideActions] = [
@@ -205,11 +201,21 @@ export class SearchEmbed extends TsEmbed {
         if (filterQuery) {
             query += `&${filterQuery}`;
         }
+        return query;
+    }
+
+    /**
+     * Construct the URL of the embedded ThoughtSpot search to be
+     * loaded in the iframe
+     *
+     * @param answerId The GUID of a saved answer
+     * @param dataSources A list of data source GUIDs
+     */
+    private getIFrameSrc(answerId: string) {
+        const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
 
-        return `${this.getEmbedBasePath(
-            query,
-        )}/${answerPath}${tsPostHashParams}`;
+        return `${this.getRootIframeSrc()}/embed/${answerPath}${tsPostHashParams}`;
     }
 
     /**
@@ -217,10 +223,10 @@ export class SearchEmbed extends TsEmbed {
      */
     public render(): SearchEmbed {
         super.render();
-        const { answerId, dataSources } = this.viewConfig;
+        const { answerId } = this.viewConfig;
 
-        const src = this.getIFrameSrc(answerId, dataSources);
-        this.renderIFrame(src, this.viewConfig.frameParams);
+        const src = this.getIFrameSrc(answerId);
+        this.renderIFrame(src);
         getAuthPromise().then(() => {
             if (
                 checkReleaseVersionInBeta(

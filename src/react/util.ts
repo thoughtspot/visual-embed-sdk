@@ -1,8 +1,6 @@
 import { EmbedEvent, MessageCallback, ViewConfig } from '../types';
 
-// eslint-disable-next-line prettier/prettier
 export type EmbedEventHandlers = { [key in keyof typeof EmbedEvent as `on${Capitalize<key>}`]?: MessageCallback };
-
 
 export interface EmbedProps extends ViewConfig, EmbedEventHandlers {
     className?: string;
@@ -13,7 +11,13 @@ export interface ViewConfigAndListeners<T extends ViewConfig> {
     listeners: { [key in EmbedEvent]?: MessageCallback };
 }
 
-export function getViewPropsAndListeners<T extends EmbedProps, U extends ViewConfig>(props: T): ViewConfigAndListeners<U> {
+/**
+ *
+ * @param props
+ */
+export function getViewPropsAndListeners<
+    T extends EmbedProps,
+    U extends ViewConfig>(props: T): ViewConfigAndListeners<U> {
     return Object.keys(props).reduce(
         (accu, key) => {
             if (key.startsWith('on')) {

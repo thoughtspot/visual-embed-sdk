@@ -9,20 +9,19 @@ import { AuthFailureType, initSession } from '../auth';
 import { AuthType, EmbedEvent, OperationType } from '../types';
 import { getAnswerServiceInstance } from './answerService';
 
+/**
+ *
+ * @param e
+ * @param thoughtSpotHost
+ */
 export function processCustomAction(e: any, thoughtSpotHost: string) {
     if (
-        [
-            OperationType.GetChartWithData,
-            OperationType.GetTableWithHeadlineData,
-        ].includes(e.data?.operation)
+        [OperationType.GetChartWithData, OperationType.GetTableWithHeadlineData].includes(
+            e.data?.operation,
+        )
     ) {
         const { session, query, operation } = e.data;
-        const answerService = getAnswerServiceInstance(
-            session,
-            query,
-            operation,
-            thoughtSpotHost,
-        );
+        const answerService = getAnswerServiceInstance(session, query, operation, thoughtSpotHost);
         return {
             ...e,
             answerService,
@@ -31,6 +30,10 @@ export function processCustomAction(e: any, thoughtSpotHost: string) {
     return e;
 }
 
+/**
+ *
+ * @param e
+ */
 function processAuthInit(e: any) {
     // Store user session details sent by app.
     initSession(e.data);
@@ -45,11 +48,13 @@ function processAuthInit(e: any) {
     };
 }
 
+/**
+ *
+ * @param e
+ * @param containerEl
+ */
 function processNoCookieAccess(e: any, containerEl: Element) {
-    const {
-        loginFailedMessage,
-        suppressNoCookieAccessAlert,
-    } = getEmbedConfig();
+    const { loginFailedMessage, suppressNoCookieAccessAlert } = getEmbedConfig();
     if (!suppressNoCookieAccessAlert) {
         // eslint-disable-next-line no-alert
         alert(
@@ -62,6 +67,11 @@ function processNoCookieAccess(e: any, containerEl: Element) {
     return e;
 }
 
+/**
+ *
+ * @param e
+ * @param containerEl
+ */
 function processAuthFailure(e: any, containerEl: Element) {
     const { loginFailedMessage, authType } = getEmbedConfig();
     if (authType !== AuthType.None) {
@@ -72,6 +82,11 @@ function processAuthFailure(e: any, containerEl: Element) {
     return e;
 }
 
+/**
+ *
+ * @param e
+ * @param containerEl
+ */
 function processAuthLogout(e: any, containerEl: Element) {
     const { loginFailedMessage } = getEmbedConfig();
     // eslint-disable-next-line no-param-reassign
@@ -81,6 +96,13 @@ function processAuthLogout(e: any, containerEl: Element) {
     return e;
 }
 
+/**
+ *
+ * @param type
+ * @param e
+ * @param thoughtSpotHost
+ * @param containerEl
+ */
 export function processEventData(
     type: EmbedEvent,
     e: any,

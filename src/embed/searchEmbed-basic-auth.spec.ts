@@ -19,27 +19,27 @@ init({
 });
 
 describe('Search embed tests when authType is Basic', () => {
+    /**
+     *
+     * @param version
+     */
     function setupVersion(version: string) {
-        jest.spyOn(window, 'addEventListener').mockImplementationOnce(
-            (event, handler, options) => {
-                handler({
-                    data: {
-                        type: 'xyz',
-                    },
-                    ports: [3000],
-                    source: null,
-                });
-            },
-        );
-        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
-            async () => ({
-                json: () => ({
-                    ...mockSessionInfo,
-                    releaseVersion: version,
-                }),
-                status: 200,
+        jest.spyOn(window, 'addEventListener').mockImplementationOnce((event, handler, options) => {
+            handler({
+                data: {
+                    type: 'xyz',
+                },
+                ports: [3000],
+                source: null,
+            });
+        });
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(async () => ({
+            json: () => ({
+                ...mockSessionInfo,
+                releaseVersion: version,
             }),
-        );
+            status: 200,
+        }));
         jest.spyOn(authInstance, 'getReleaseVersion').mockReturnValue(version);
     }
     beforeEach(() => {
@@ -76,9 +76,7 @@ describe('Search embed tests when authType is Basic', () => {
 
     test('releaseVersion is above 8.4.0.sw', async () => {
         setupVersion('8.8.0.sw');
-        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-            () => 'http://tshost',
-        );
+        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         const mockAlert = jest.spyOn(window, 'alert');
         const searchEmbed = new SearchEmbed(getRootEl(), {});
         await searchEmbed.render();
@@ -87,9 +85,7 @@ describe('Search embed tests when authType is Basic', () => {
 
     test('Alert should not appear when suppressSearchEmbedBetaWarning is true and releaseVersion is ts7.dec.cl', async () => {
         setupVersion('ts7.dec.cl');
-        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-            () => 'http://tshost',
-        );
+        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         jest.spyOn(baseInstance, 'getEmbedConfig').mockReturnValue({
             suppressSearchEmbedBetaWarning: true,
         });
@@ -101,9 +97,7 @@ describe('Search embed tests when authType is Basic', () => {
 
     test('Alert should not appear when suppressSearchEmbedBetaWarning is true and releaseVersion is 8.4.0.sw', async () => {
         setupVersion('8.4.0.sw');
-        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(
-            () => 'http://tshost',
-        );
+        jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         jest.spyOn(baseInstance, 'getEmbedConfig').mockReturnValue({
             suppressSearchEmbedBetaWarning: true,
         });
