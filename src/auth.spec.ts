@@ -1,6 +1,7 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
 import * as checkReleaseVersionInBetaInstance from './utils';
+import * as mixPanelService from './mixpanel-service';
 import { AuthType, EmbedEvent } from './types';
 import { executeAfterWait } from './test/test-utils';
 
@@ -91,6 +92,9 @@ export const embedConfig: any = {
 
 const originalWindow = window;
 export const mockSessionInfo = {
+    userGUID: '1234',
+    mixpanelToken: 'abc123',
+    isPublicUser: false,
     sessionId: '6588e7d9-710c-453e-a7b4-535fb3a8cbb2',
     genNo: 3,
     acSession: {
@@ -110,6 +114,7 @@ describe('Unit test for auth', () => {
     });
 
     test('when session info giving response', async () => {
+        jest.spyOn(mixPanelService, 'initMixpanel').mockImplementation(() => Promise.resolve());
         authInstance.initSession(mockSessionInfo);
         const sessionInfo = await authInstance.getSessionInfo();
         expect(sessionInfo).toStrictEqual(mockSessionInfo);
@@ -138,11 +143,17 @@ describe('Unit test for auth', () => {
     });
 
     test('doTokenAuth: when user is loggedIn', async () => {
-        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(async () => ({
-            json: () => mockSessionInfo,
-            status: 200,
-        }));
-        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess('authToken'));
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            async () => ({
+                json: () => mockSessionInfo,
+                status: 200,
+            }),
+        );
+        jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
+        jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authInstance.loggedInStatus).toBe(true);
     });
@@ -260,14 +271,24 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn', async () => {
-            spyOn(checkReleaseVersionInBetaInstance, 'checkReleaseVersionInBeta');
-            jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(async () => ({
+            spyOn(
+                checkReleaseVersionInBetaInstance,
+                'checkReleaseVersionInBeta',
+            );
+            jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
+            jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
+            jest.spyOn(
+                authService,
+                'fetchSessionInfoService',
+            ).mockImplementation(async () => ({
                 json: () => mockSessionInfo,
                 status: 200,
             }));
             await authInstance.doBasicAuth(embedConfig.doBasicAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(authInstance.loggedInStatus).toBe(true);
+            expect(authInstance.getSessionDetails).toBeCalled();
+            expect(authInstance.initSession).toBeCalled();
         });
 
         it('when user is not loggedIn', async () => {
@@ -304,6 +325,8 @@ describe('Unit test for auth', () => {
                 json: () => mockSessionInfo,
                 status: 200,
             }));
+            jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
+            jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
             await authInstance.doSamlAuth(embedConfig.doSamlAuth);
             expect(authService.fetchSessionInfoService).toBeCalled();
             expect(window.location.hash).toBe('');
@@ -340,7 +363,14 @@ describe('Unit test for auth', () => {
             });
             spyOn(authInstance, 'samlCompletionPromise');
             global.window.open = jest.fn();
-            jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
+            jest.spyOn(authService, 'fetchSessionInfoService')
+                .mockImplementationOnce(() => Promise.reject())
+                .mockImplementationOnce(async () => ({
+                    json: () => mockSessionInfo,
+                    status: 200,
+                }));
+            jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
+            jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
             expect(await authInstance.samlCompletionPromise).not.toBe(null);
             expect(
                 await authInstance.doSamlAuth({
@@ -351,6 +381,8 @@ describe('Unit test for auth', () => {
             window.postMessage({ type: EmbedEvent.SAMLComplete }, '*');
             await authInstance.samlCompletionPromise;
             expect(authService.fetchSessionInfoService).toBeCalled();
+            expect(authInstance.getSessionDetails).toBeCalled();
+            expect(authInstance.initSession).toBeCalled();
         });
     });
 
