@@ -38,7 +38,9 @@ const componentFactory = <
                         {
                             insertAsSibling: viewConfig.insertAsSibling,
                             frameParams: {
-                                class: className || '',
+                                class: viewConfig.insertAsSibling
+                                    ? className || ''
+                                    : '',
                             },
                         },
                         viewConfig,
@@ -60,12 +62,18 @@ const componentFactory = <
                 };
             }, [viewConfig, listeners]);
 
-            return (
+            return viewConfig.insertAsSibling ? (
                 <span
                     data-testid="tsEmbed"
                     ref={ref}
                     style={{ position: 'absolute' }}
                 ></span>
+            ) : (
+                <div
+                    data-testid="tsEmbed"
+                    ref={ref}
+                    className={className}
+                ></div>
             );
         },
     );
