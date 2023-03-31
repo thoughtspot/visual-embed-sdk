@@ -1,8 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { Action, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
+import {
+    cleanup, fireEvent, render, waitFor,
+} from '@testing-library/react';
+import {
+    Action, EmbedEvent, HostEvent, RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -11,11 +15,7 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed,
-    AppEmbed,
-    LiveboardEmbed,
-    useEmbedRef,
-    SearchBarEmbed,
+    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed,
 } from './index';
 import { AuthType, init } from '../index';
 
@@ -86,10 +86,7 @@ describe('React Components', () => {
             const TestComponent = () => {
                 const embedRef = useEmbedRef();
                 const onLiveboardRendered = () => {
-                    embedRef.current.trigger(HostEvent.SetVisibleVizs, [
-                        'viz1',
-                        'viz2',
-                    ]);
+                    embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
                 };
 
                 return (
@@ -139,9 +136,36 @@ describe('React Components', () => {
             );
 
             await waitFor(() => getIFrameEl(container));
-            expect(getIFrameSrc(container)).toContain(
-                'col1=revenue&op1=EQ&val1=100',
+            expect(getIFrameSrc(container)).toContain('col1=revenue&op1=EQ&val1=100');
+        });
+
+        it('Should have the correct container element', async () => {
+            const { container } = render(
+                <LiveboardEmbed liveboardId="abcd" className="def" />,
             );
+
+            await waitFor(() => getIFrameEl(container));
+            expect(container.querySelector('div')).not.toBe(null);
+            expect(
+                container.querySelector('div').classList.contains('def'),
+            ).toBe(true);
+
+            const { container: containerSibling } = render(
+                <LiveboardEmbed
+                    liveboardId="abcd"
+                    className="def"
+                    insertAsSibling={true}
+                />,
+            );
+            await waitFor(() => getIFrameEl(containerSibling));
+            expect(containerSibling.querySelector('span')).not.toBe(null);
+            expect(containerSibling.querySelector('span').style.position).toBe(
+                'absolute',
+            );
+            expect(
+                getIFrameEl(containerSibling).classList.contains('def'),
+            ).toBe(true);
+            expect(containerSibling.querySelector('div')).toBe(null);
         });
 
         it('Should have the correct container element', async () => {

@@ -1,6 +1,8 @@
 import EventEmitter from 'eventemitter3';
 import { initMixpanel } from './mixpanel-service';
-import { AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param } from './types';
+import {
+    AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
+} from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
 // eslint-disable-next-line import/no-cycle
 import {
@@ -25,15 +27,12 @@ const sessionInfoPromise = new Promise((resolve) => {
 });
 let releaseVersion = '';
 
-export const SSO_REDIRECTION_MARKER_GUID =
-    '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
+export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
 
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
-    SAML_LOGIN_TEMPLATE: (targetUrl: string) =>
-        `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
-    OIDC_LOGIN_TEMPLATE: (targetUrl: string) =>
-        `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
+    SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
+    OIDC_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
     BASIC_LOGIN: '/callosum/v1/session/login',
     LOGOUT: '/callosum/v1/session/logout',
@@ -42,6 +41,7 @@ export const EndPoints = {
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
  * of {@link AuthStatus.FAILURE}.
+ *
  * @group Authentication / Init
  */
 export enum AuthFailureType {
@@ -53,6 +53,7 @@ export enum AuthFailureType {
 
 /**
  * Enum for auth status emitted by the emitter returned from {@link init}.
+ *
  * @group Authentication / Init
  */
 export enum AuthStatus {
@@ -76,6 +77,7 @@ export enum AuthStatus {
      * Emitted when inPopup: true in the SAMLRedirect flow.
      * And, we are waiting for popup to be triggered either programatically
      * or by the trigger button.
+     *
      * @version SDK: 1.19.0
      */
     WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
@@ -83,28 +85,37 @@ export enum AuthStatus {
 
 /**
  * Event emitter returned from {@link init}.
+ *
  * @group Authentication / Init
  */
 export interface AuthEventEmitter {
     /**
-     * Registed a listener on Auth failure.
+     * Register a listener on Auth failure.
+     *
+     * @param event
+     * @param listener
+     */
+    on(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
+    /**
+     * Register a listener on Auth SDK success.
+     *
      * @param event
      * @param listener
      */
     on(
-        event: AuthStatus.FAILURE,
-        listener: (failureType: AuthFailureType) => void,
-    ): this;
-    on(
-        event:
-            | AuthStatus.SDK_SUCCESS
-            | AuthStatus.LOGOUT
-            | AuthStatus.WAITING_FOR_POPUP,
+        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP,
         listener: () => void,
     ): this;
     on(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
+    once(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
+    once(
+        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP,
+        listener: () => void,
+    ): this;
+    once(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
     /**
      * Trigger an event on the emitter returned from init.
+     *
      * @param {@link AuthEvent}
      */
     emit(event: AuthEvent): void;
@@ -112,6 +123,7 @@ export interface AuthEventEmitter {
 
 /**
  * Events which can be triggered on the emitter returned from {@link init}.
+ *
  * @group Authentication / Init
  */
 export enum AuthEvent {
@@ -124,16 +136,24 @@ export enum AuthEvent {
 
 let authEE: EventEmitter<AuthStatus | AuthEvent>;
 
+/**
+ *
+ */
 export function getAuthEE(): EventEmitter<AuthStatus | AuthEvent> {
     return authEE;
 }
 
-export function setAuthEE(
-    eventEmitter: EventEmitter<AuthStatus | AuthEvent>,
-): void {
+/**
+ *
+ * @param eventEmitter
+ */
+export function setAuthEE(eventEmitter: EventEmitter<AuthStatus | AuthEvent>): void {
     authEE = eventEmitter;
 }
 
+/**
+ *
+ */
 export function notifyAuthSDKSuccess(): void {
     if (!authEE) {
         console.error('SDK not initialized');
@@ -142,6 +162,9 @@ export function notifyAuthSDKSuccess(): void {
     authEE.emit(AuthStatus.SDK_SUCCESS);
 }
 
+/**
+ *
+ */
 export function notifyAuthSuccess(): void {
     if (!authEE) {
         console.error('SDK not initialized');
@@ -150,6 +173,10 @@ export function notifyAuthSuccess(): void {
     authEE.emit(AuthStatus.SUCCESS, sessionInfo);
 }
 
+/**
+ *
+ * @param failureType
+ */
 export function notifyAuthFailure(failureType: AuthFailureType): void {
     if (!authEE) {
         console.error('SDK not initialized');
@@ -158,6 +185,9 @@ export function notifyAuthFailure(failureType: AuthFailureType): void {
     authEE.emit(AuthStatus.FAILURE, failureType);
 }
 
+/**
+ *
+ */
 export function notifyLogout(): void {
     if (!authEE) {
         console.error('SDK not initialized');
@@ -168,6 +198,7 @@ export function notifyLogout(): void {
 
 /**
  * Check if we are logged into the ThoughtSpot cluster
+ *
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
@@ -191,24 +222,32 @@ export function getReleaseVersion() {
 }
 
 /**
- * Return a promise that resolves with the session information when authentication is
- * successful. And info is available.
+ * Return a promise that resolves with the session information when
+ * authentication is successful. And info is available.
+ *
  * @group Global methods
  */
 export function getSessionInfo(): Promise<any> {
     return sessionInfoPromise;
 }
 
+/**
+ *
+ * @param sessionDetails
+ */
 export function initSession(sessionDetails: any) {
     sessionInfo = sessionDetails;
     initMixpanel(sessionInfo);
     sessionInfoResolver(sessionInfo);
 }
 
-const DUPLICATE_TOKEN_ERR =
-    'Duplicate token, please issue a new token every time getAuthToken callback is called.' +
-    'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
+const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
+    + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
 let prevAuthToken: string = null;
+/**
+ *
+ * @param authtoken
+ */
 function alertForDuplicateToken(authtoken: string) {
     if (prevAuthToken === authtoken) {
         // eslint-disable-next-line no-alert
@@ -230,18 +269,14 @@ function isAtSSORedirectUrl(): boolean {
  */
 function removeSSORedirectUrlMarker(): void {
     // Note (sunny): This will leave a # around even if it was not in the URL
-    // to begin with. Trying to remove the hash by changing window.location will reload
-    // the page which we don't want. We'll live with adding an unnecessary hash to the
-    // parent page URL until we find any use case where that creates an issue.
-    window.location.hash = window.location.hash.replace(
-        SSO_REDIRECTION_MARKER_GUID,
-        '',
-    );
+    // to begin with. Trying to remove the hash by changing window.location will
+    // reload the page which we don't want. We'll live with adding an
+    // unnecessary hash to the parent page URL until we find any use case where
+    // that creates an issue.
+    window.location.hash = window.location.hash.replace(SSO_REDIRECTION_MARKER_GUID, '');
 }
 
-export const getAuthenticaionToken = async (
-    embedConfig: EmbedConfig,
-): Promise<any> => {
+export const getAuthenticaionToken = async (embedConfig: EmbedConfig): Promise<any> => {
     const { authEndpoint, getAuthToken } = embedConfig;
     let authToken = null;
     if (getAuthToken) {
@@ -256,40 +291,30 @@ export const getAuthenticaionToken = async (
 
 /**
  * Perform token based authentication
+ *
  * @param embedConfig The embed configuration
  */
-export const doTokenAuth = async (
-    embedConfig: EmbedConfig,
-): Promise<boolean> => {
+export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const {
-        thoughtSpotHost,
-        username,
-        authEndpoint,
-        getAuthToken,
+        thoughtSpotHost, username, authEndpoint, getAuthToken,
     } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
-        throw new Error(
-            'Either auth endpoint or getAuthToken function must be provided',
-        );
+        throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     loggedInStatus = await isLoggedIn(thoughtSpotHost);
     if (!loggedInStatus) {
         const authToken = await getAuthenticaionToken(embedConfig);
         let resp;
         try {
-            resp = await fetchAuthPostService(
-                thoughtSpotHost,
-                username,
-                authToken,
-            );
+            resp = await fetchAuthPostService(thoughtSpotHost, username, authToken);
         } catch (e) {
             resp = await fetchAuthService(thoughtSpotHost, username, authToken);
         }
         // token login issues a 302 when successful
         loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
         if (loggedInStatus && embedConfig.detectCookieAccessSlow) {
-            // When 3rd party cookie access is blocked, this will fail because cookies will
-            // not be sent with the call.
+            // When 3rd party cookie access is blocked, this will fail because
+            // cookies will not be sent with the call.
             loggedInStatus = await isLoggedIn(thoughtSpotHost);
         }
     }
@@ -298,16 +323,13 @@ export const doTokenAuth = async (
 
 /**
  * Validate embedConfig parameters required for cookielessTokenAuth
+ *
  * @param embedConfig The embed configuration
  */
-export const doCookielessTokenAuth = async (
-    embedConfig: EmbedConfig,
-): Promise<boolean> => {
+export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { authEndpoint, getAuthToken } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
-        throw new Error(
-            'Either auth endpoint or getAuthToken function must be provided',
-        );
+        throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     return Promise.resolve(true);
 };
@@ -318,19 +340,14 @@ export const doCookielessTokenAuth = async (
  *
  * Warning: This feature is primarily intended for developer testing. It is
  * strongly advised not to use this authentication method in production.
+ *
  * @param embedConfig The embed configuration
  */
-export const doBasicAuth = async (
-    embedConfig: EmbedConfig,
-): Promise<boolean> => {
+export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost, username, password } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (!loggedIn) {
-        const response = await fetchBasicAuthService(
-            thoughtSpotHost,
-            username,
-            password,
-        );
+        const response = await fetchBasicAuthService(thoughtSpotHost, username, password);
         loggedInStatus = response.ok;
         if (embedConfig.detectCookieAccessSlow) {
             loggedInStatus = await isLoggedIn(thoughtSpotHost);
@@ -341,11 +358,13 @@ export const doBasicAuth = async (
     return loggedInStatus;
 };
 
-async function samlPopupFlow(
-    ssoURL: string,
-    triggerContainer: DOMSelector,
-    triggerText: string,
-) {
+/**
+ *
+ * @param ssoURL
+ * @param triggerContainer
+ * @param triggerText
+ */
+async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, triggerText: string) {
     const openPopup = () => {
         if (samlAuthWindow === null || samlAuthWindow.closed) {
             samlAuthWindow = window.open(
@@ -360,15 +379,13 @@ async function samlPopupFlow(
     authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
     if (containerEl) {
-        containerEl.innerHTML =
-            '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
+        containerEl.innerHTML = '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
         const authElem = document.getElementById('ts-auth-btn');
         authElem.textContent = triggerText;
         authElem.addEventListener('click', openPopup, { once: true });
     }
-    samlCompletionPromise =
-        samlCompletionPromise ||
-        new Promise<void>((resolve, reject) => {
+    samlCompletionPromise = samlCompletionPromise
+        || new Promise<void>((resolve, reject) => {
             window.addEventListener('message', (e) => {
                 if (e.data.type === EmbedEvent.SAMLComplete) {
                     (e.source as Window).close();
@@ -383,12 +400,11 @@ async function samlPopupFlow(
 
 /**
  * Perform SAML authentication
+ *
  * @param embedConfig The embed configuration
+ * @param ssoEndPoint
  */
-const doSSOAuth = async (
-    embedConfig: EmbedConfig,
-    ssoEndPoint: string,
-): Promise<void> => {
+const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise<void> => {
     const { thoughtSpotHost } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (loggedIn) {
@@ -409,11 +425,7 @@ const doSSOAuth = async (
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(
-            ssoURL,
-            embedConfig.authTriggerContainer,
-            embedConfig.authTriggerText,
-        );
+        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
         loggedInStatus = true;
         return;
     }
@@ -423,20 +435,18 @@ const doSSOAuth = async (
 
 export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
-    // redirect for SSO, when the SSO authentication is done, this page will be loaded
-    // again and the same JS will execute again.
+    // redirect for SSO, when the SSO authentication is done, this page will be
+    // loaded again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.inPopup
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
         : getRedirectUrl(
-              window.location.href,
-              SSO_REDIRECTION_MARKER_GUID,
-              embedConfig.redirectPath,
-          );
+            window.location.href,
+            SSO_REDIRECTION_MARKER_GUID,
+            embedConfig.redirectPath,
+        );
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(
-        encodeURIComponent(ssoRedirectUrl),
-    )}`;
+    const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
     return loggedInStatus;
@@ -444,21 +454,18 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
 
 export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
-    // redirect for SSO, when the SSO authentication is done, this page will be loaded
-    // again and the same JS will execute again.
-    const ssoRedirectUrl =
-        embedConfig.noRedirect || embedConfig.inPopup
-            ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-            : getRedirectUrl(
-                  window.location.href,
-                  SSO_REDIRECTION_MARKER_GUID,
-                  embedConfig.redirectPath,
-              );
+    // redirect for SSO, when the SSO authentication is done, this page will be
+    // loaded again and the same JS will execute again.
+    const ssoRedirectUrl = embedConfig.noRedirect || embedConfig.inPopup
+        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        : getRedirectUrl(
+            window.location.href,
+            SSO_REDIRECTION_MARKER_GUID,
+            embedConfig.redirectPath,
+        );
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(
-        encodeURIComponent(ssoRedirectUrl),
-    )}`;
+    const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
     return loggedInStatus;
@@ -473,11 +480,10 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
 
 /**
  * Perform authentication on the ThoughtSpot cluster
+ *
  * @param embedConfig The embed configuration
  */
-export const authenticate = async (
-    embedConfig: EmbedConfig,
-): Promise<boolean> => {
+export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { authType } = embedConfig;
     switch (authType) {
         case AuthType.SSO:

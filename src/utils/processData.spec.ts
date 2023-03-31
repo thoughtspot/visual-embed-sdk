@@ -26,24 +26,17 @@ describe('Unit test for process data', () => {
                 operation: OperationType.GetChartWithData,
             },
         };
-        jest.spyOn(
-            answerServiceInstance,
-            'getAnswerServiceInstance',
-        ).mockReturnValue(answerService);
+        jest.spyOn(answerServiceInstance, 'getAnswerServiceInstance').mockReturnValue(
+            answerService,
+        );
         expect(
-            processDataInstance.processCustomAction(
-                processChartData,
-                thoughtSpotHost,
-            ),
+            processDataInstance.processCustomAction(processChartData, thoughtSpotHost),
         ).toStrictEqual(processChartData);
     });
 
     test('ProcessData, when Action is CustomAction', async () => {
         const processedData = { type: EmbedEvent.CustomAction };
-        jest.spyOn(
-            processDataInstance,
-            'processCustomAction',
-        ).mockImplementation(async () => ({}));
+        jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
         expect(
             processDataInstance.processEventData(
                 EmbedEvent.CustomAction,
@@ -56,20 +49,12 @@ describe('Unit test for process data', () => {
 
     test('ProcessData, when Action is non CustomAction', () => {
         const processedData = { type: EmbedEvent.Data };
-        jest.spyOn(
-            processDataInstance,
-            'processCustomAction',
-        ).mockImplementation(async () => ({}));
+        jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
         jest.spyOn(
             answerServiceInstance,
             'getAnswerServiceInstance',
         ).mockImplementation(async () => ({}));
-        processDataInstance.processEventData(
-            EmbedEvent.Data,
-            processedData,
-            thoughtSpotHost,
-            null,
-        );
+        processDataInstance.processEventData(EmbedEvent.Data, processedData, thoughtSpotHost, null);
         expect(processDataInstance.processCustomAction).not.toBeCalled();
     });
 
@@ -82,9 +67,7 @@ describe('Unit test for process data', () => {
         const e = { type: EmbedEvent.AuthInit, data: sessionInfo };
         jest.spyOn(auth, 'initSession').mockReturnValue(null);
         jest.spyOn(base, 'notifyAuthSuccess');
-        expect(
-            processDataInstance.processEventData(e.type, e, '', null),
-        ).toEqual({
+        expect(processDataInstance.processEventData(e.type, e, '', null)).toEqual({
             type: e.type,
             data: {
                 userGUID: sessionInfo.userGUID,
@@ -103,14 +86,10 @@ describe('Unit test for process data', () => {
         });
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         const el: any = {};
-        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
-            {
-                type: e.type,
-            },
-        );
-        expect(base.notifyAuthFailure).toBeCalledWith(
-            auth.AuthFailureType.NO_COOKIE_ACCESS,
-        );
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
         expect(window.alert).toBeCalled();
         expect(el.innerHTML).toBe('Hello');
     });
@@ -125,14 +104,10 @@ describe('Unit test for process data', () => {
         jest.spyOn(window, 'alert').mockReset();
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         const el: any = {};
-        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
-            {
-                type: e.type,
-            },
-        );
-        expect(base.notifyAuthFailure).toBeCalledWith(
-            auth.AuthFailureType.NO_COOKIE_ACCESS,
-        );
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
         expect(window.alert).not.toBeCalled();
         expect(el.innerHTML).toBe('Hello');
     });
@@ -144,14 +119,10 @@ describe('Unit test for process data', () => {
             loginFailedMessage: 'Hello',
         });
         const el: any = {};
-        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
-            {
-                type: e.type,
-            },
-        );
-        expect(base.notifyAuthFailure).toBeCalledWith(
-            auth.AuthFailureType.OTHER,
-        );
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.OTHER);
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -163,11 +134,9 @@ describe('Unit test for process data', () => {
             authType: AuthType.None,
         });
         const el: any = {};
-        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
-            {
-                type: e.type,
-            },
-        );
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
         expect(base.notifyAuthFailure).not.toBeCalled();
         expect(el.innerHTML).not.toBe('Hello');
     });
@@ -183,11 +152,9 @@ describe('Unit test for process data', () => {
         const e = { type: EmbedEvent.AuthLogout };
         jest.spyOn(base, 'notifyLogout');
         const el: any = {};
-        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual(
-            {
-                type: e.type,
-            },
-        );
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
         expect(base.notifyLogout).toBeCalled();
         expect(el.innerHTML).toBe('Hello');
         expect(base.getEmbedConfig().autoLogin).toBe(false);

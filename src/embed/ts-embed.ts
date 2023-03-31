@@ -15,6 +15,8 @@ import {
     setAttributes,
     getCustomisations,
     getDOMNode,
+    getFilterQuery,
+    getQueryParamString,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -38,6 +40,7 @@ import {
     ViewConfig,
     FrameParams,
     ContextMenuTriggerOptions,
+    RuntimeFilter,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData } from '../utils/processData';
@@ -64,6 +67,7 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
+ *
  * @internal
  */
 const V1EventMap = {};
@@ -86,6 +90,8 @@ export class TsEmbed {
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
     private el: Element;
+
+    protected isAppInitialized = false;
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -128,6 +134,7 @@ export class TsEmbed {
      * Should we encode URL Query Params using base64 encoding which thoughtspot
      * will generate for embedding. This provides additional security to
      * thoughtspot clusters against Cross site scripting attacks.
+     *
      * @default false
      */
     private shouldEncodeUrlQueryParams = false;
@@ -156,6 +163,7 @@ export class TsEmbed {
 
     /**
      * Handles errors within the SDK
+     *
      * @param error The error message or object
      */
     protected handleError(error: string | Record<string, unknown>) {
@@ -169,6 +177,7 @@ export class TsEmbed {
 
     /**
      * Extracts the type field from the event payload
+     *
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
@@ -178,6 +187,7 @@ export class TsEmbed {
 
     /**
      * Extracts the port field from the event payload
+     *
      * @param event  The window message event
      * @returns
      */
@@ -191,6 +201,9 @@ export class TsEmbed {
     /**
      * fix for ts7.sep.cl
      * will be removed for ts7.oct.cl
+     *
+     * @param event
+     * @param eventType
      * @hidden
      */
     private formatEventData(event: MessageEvent, eventType: string) {
@@ -218,12 +231,7 @@ export class TsEmbed {
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processEventData(
-                        eventType,
-                        eventData,
-                        this.thoughtSpotHost,
-                        this.el,
-                    ),
+                    processEventData(eventType, eventData, this.thoughtSpotHost, this.el),
                     eventPort,
                 );
             }
@@ -232,19 +240,20 @@ export class TsEmbed {
 
     /**
      * Send Custom style as part of payload of APP_INIT
+     *
+     * @param _
+     * @param responder
      */
     private appInitCb = async (_: any, responder: any) => {
         let authToken = '';
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
             authToken = await getAuthenticaionToken(this.embedConfig);
         }
+        this.isAppInitialized = true;
         responder({
             type: EmbedEvent.APP_INIT,
             data: {
-                customisations: getCustomisations(
-                    this.embedConfig,
-                    this.viewConfig,
-                ),
+                customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
             },
         });
@@ -252,6 +261,9 @@ export class TsEmbed {
 
     /**
      * Sends updated auth token to the iFrame to avoid user logout
+     *
+     * @param _
+     * @param responder
      */
     private updateAuthToken = async (_: any, responder: any) => {
         const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
@@ -277,6 +289,8 @@ export class TsEmbed {
 
     /**
      * Constructs the base URL string to load the ThoughtSpot app.
+     *
+     * @param query
      */
     protected getEmbedBasePath(query: string): string {
         let queryString = query;
@@ -285,31 +299,25 @@ export class TsEmbed {
                 queryString.substr(1),
             )}`;
         }
-        const basePath = [
-            this.thoughtSpotHost,
-            this.thoughtSpotV2Base,
-            queryString,
-        ]
+        const basePath = [this.thoughtSpotHost, this.thoughtSpotV2Base, queryString]
             .filter((x) => x.length > 0)
             .join('/');
 
-        return `${basePath}#/embed`;
+        return `${basePath}#`;
     }
 
     /**
      * Common query params set for all the embed modes.
+     *
+     * @param queryParams
      * @returns queryParams
      */
-    protected getBaseQueryParams() {
-        const queryParams = {};
+    protected getBaseQueryParams(queryParams = {}) {
         let hostAppUrl = window?.location?.host || '';
 
-        // The below check is needed because TS Cloud firewall, blocks localhost/127.0.0.1
-        // in any url param.
-        if (
-            hostAppUrl.includes('localhost') ||
-            hostAppUrl.includes('127.0.0.1')
-        ) {
+        // The below check is needed because TS Cloud firewall, blocks
+        // localhost/127.0.0.1 in any url param.
+        if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
@@ -317,10 +325,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        if (
-            this.embedConfig.disableLoginRedirect === true ||
-            this.embedConfig.autoLogin === true
-        ) {
+        if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
         if (this.embedConfig.authType === AuthType.EmbeddedSSO) {
@@ -345,16 +350,12 @@ export class TsEmbed {
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
-            this.handleError(
-                'You cannot have both hidden actions and visible actions',
-            );
+            this.handleError('You cannot have both hidden actions and visible actions');
             return queryParams;
         }
 
         // TODO remove embedConfig.customCssUrl
-        const cssUrlParam =
-            customizations?.style?.customCSSUrl ||
-            this.embedConfig.customCssUrl;
+        const cssUrlParam = customizations?.style?.customCSSUrl || this.embedConfig.customCssUrl;
 
         if (cssUrlParam) {
             queryParams[Param.CustomCSSUrl] = cssUrlParam;
@@ -366,31 +367,25 @@ export class TsEmbed {
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
-        queryParams[Param.HideActions] = [
-            ...this.defaultHiddenActions,
-            ...(hiddenActions ?? []),
-        ];
+        queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
 
-        /** Default behavior for context menu will be left-click
-         *  from version 9.2.0.cl the user have an option to override context menu click
+        /**
+         * Default behavior for context menu will be left-click
+         *  from version 9.2.0.cl the user have an option to override context
+         *  menu click
          */
         if (contextMenuTrigger === ContextMenuTriggerOptions.LEFT_CLICK) {
             queryParams[Param.ContextMenuTrigger] = true;
-        } else if (
-            contextMenuTrigger === ContextMenuTriggerOptions.RIGHT_CLICK
-        ) {
+        } else if (contextMenuTrigger === ContextMenuTriggerOptions.RIGHT_CLICK) {
             queryParams[Param.ContextMenuTrigger] = false;
         }
 
         const spriteUrl = customizations?.iconSpriteUrl;
         if (spriteUrl) {
-            queryParams[Param.IconSpriteUrl] = spriteUrl.replace(
-                'https://',
-                '',
-            );
+            queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
 
         if (showAlerts !== undefined) {
@@ -414,48 +409,72 @@ export class TsEmbed {
     /**
      * Constructs the base URL string to load v1 of the ThoughtSpot app.
      * This is used for embedding Liveboards, visualizations, and full application.
+     *
      * @param queryString The query string to append to the URL.
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
      */
-    protected getV1EmbedBasePath(
-        queryString: string,
-        showPrimaryNavbar = false,
-        disableProfileAndHelp = false,
-        isAppEmbed = false,
-        enableSearchAssist = false,
-    ): string {
-        const queryStringFrag = queryString ? `&${queryString}` : '';
-        const primaryNavParam = `&primaryNavHidden=${!showPrimaryNavbar}`;
-        const disableProfileAndHelpParam = `&profileAndHelpInNavBarHidden=${disableProfileAndHelp}`;
-        const enableSearchAssistParam = `&${Param.EnableSearchAssist}=${enableSearchAssist}`;
-        let queryParams = `?embedApp=true${isAppEmbed ? primaryNavParam : ''}${
-            isAppEmbed ? disableProfileAndHelpParam : ''
-        }${
-            enableSearchAssist ? enableSearchAssistParam : ''
-        }${queryStringFrag}`;
-        if (this.shouldEncodeUrlQueryParams) {
-            queryParams = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
-                queryParams.substr(1),
-            )}`;
-        }
-        let path = `${this.thoughtSpotHost}/${queryParams}#`;
-        if (!isAppEmbed) {
-            path = `${path}/embed`;
-        }
+    protected getV1EmbedBasePath(queryString: string): string {
+        const queryParams = this.shouldEncodeUrlQueryParams
+            ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
+            : `?${queryString}`;
+        const path = `${this.thoughtSpotHost}/${queryParams}#`;
         return path;
+    }
+
+    protected getEmbedParams() {
+        const queryParams = this.getBaseQueryParams();
+        return getQueryParamString(queryParams);
+    }
+
+    protected getRootIframeSrc() {
+        const query = this.getEmbedParams();
+        return this.getEmbedBasePath(query);
+    }
+
+    protected createIframeEl(frameSrc: string): HTMLIFrameElement {
+        const iFrame = document.createElement('iframe');
+
+        iFrame.src = frameSrc;
+        iFrame.id = TS_EMBED_ID;
+
+        // according to screenfull.js documentation
+        // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be
+        // true
+        iFrame.allowFullscreen = true;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        iFrame.webkitallowfullscreen = true;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        iFrame.mozallowfullscreen = true;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        iFrame.allow = 'clipboard-read; clipboard-write';
+
+        const {
+            height: frameHeight,
+            width: frameWidth, ...restParams
+        } = this.viewConfig.frameParams || {};
+        const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
+        const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
+        setAttributes(iFrame, restParams);
+
+        iFrame.style.width = `${width}`;
+        iFrame.style.height = `${height}`;
+        iFrame.style.border = '0';
+        iFrame.name = 'ThoughtSpot Embedded Analytics';
+        return iFrame;
     }
 
     /**
      * Renders the embedded ThoughtSpot app in an iframe and sets up
      * event listeners.
+     *
      * @param url
      * @param frameOptions
      */
-    protected async renderIFrame(
-        url: string,
-        frameOptions: FrameParams = {},
-    ): Promise<any> {
+    protected async renderIFrame(url: string): Promise<any> {
         if (this.isError) {
             return null;
         }
@@ -484,45 +503,8 @@ export class TsEmbed {
                         return;
                     }
 
-                    uploadMixpanelEvent(
-                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
-                    );
-
-                    this.iFrame =
-                        this.iFrame || document.createElement('iframe');
-
-                    this.iFrame.src = url;
-                    this.iFrame.id = TS_EMBED_ID;
-
-                    // according to screenfull.js documentation
-                    // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
-                    this.iFrame.allowFullscreen = true;
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    this.iFrame.webkitallowfullscreen = true;
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    this.iFrame.mozallowfullscreen = true;
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    this.iFrame.allow = 'clipboard-read; clipboard-write';
-                    const {
-                        height: frameHeight,
-                        width: frameWidth,
-                        ...restParams
-                    } = frameOptions;
-                    const width = getCssDimension(
-                        frameWidth || DEFAULT_EMBED_WIDTH,
-                    );
-                    const height = getCssDimension(
-                        frameHeight || DEFAULT_EMBED_HEIGHT,
-                    );
-                    setAttributes(this.iFrame, restParams);
-
-                    this.iFrame.style.width = `${width}`;
-                    this.iFrame.style.height = `${height}`;
-                    this.iFrame.style.border = '0';
-                    this.iFrame.name = 'ThoughtSpot Embedded Analytics';
+                    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
+                    this.iFrame = this.iFrame || this.createIframeEl(url);
                     this.iFrame.addEventListener('load', () => {
                         nextInQueue();
                         const loadTimestamp = Date.now();
@@ -532,20 +514,15 @@ export class TsEmbed {
                             },
                             type: EmbedEvent.Load,
                         });
-                        uploadMixpanelEvent(
-                            MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE,
-                            {
-                                timeTookToLoad: loadTimestamp - initTimestamp,
-                            },
-                        );
+                        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE, {
+                            timeTookToLoad: loadTimestamp - initTimestamp,
+                        });
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
                     this.insertIntoDOM(this.iFrame);
-                    const prefetchIframe = document.querySelectorAll(
-                        '.prefetchIframe',
-                    );
+                    const prefetchIframe = document.querySelectorAll('.prefetchIframe');
                     if (prefetchIframe.length) {
                         prefetchIframe.forEach((el) => {
                             el.remove();
@@ -555,10 +532,9 @@ export class TsEmbed {
                 })
                 .catch((error) => {
                     nextInQueue();
-                    uploadMixpanelEvent(
-                        MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
-                        { error: JSON.stringify(error) },
-                    );
+                    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
+                        error: JSON.stringify(error),
+                    });
                     this.insertIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
                 });
@@ -591,6 +567,7 @@ export class TsEmbed {
 
     /**
      * Sets the height of the iframe
+     *
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number): void {
@@ -599,6 +576,7 @@ export class TsEmbed {
 
     /**
      * Executes all registered event handlers for a particular event type
+     *
      * @param eventType The event type
      * @param data The payload invoked with the event handler
      * @param eventPort The event Port for a specific MessageChannel
@@ -608,16 +586,18 @@ export class TsEmbed {
         data: any,
         eventPort?: MessagePort | void,
     ): void {
-        const callbacks = this.eventHandlerMap.get(eventType) || [];
+        const eventHandlers = this.eventHandlerMap.get(eventType) || [];
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
-        callbacks.push(...allHandlers);
+        const callbacks = [...eventHandlers, ...allHandlers];
         const dataStatus = data?.status || embedEventStatus.END;
         callbacks.forEach((callbackObj) => {
             if (
-                (callbackObj.options.start &&
-                    dataStatus === embedEventStatus.START) || // When start status is true it trigger only start releated payload
-                (!callbackObj.options.start &&
-                    dataStatus === embedEventStatus.END) // When start status is false it trigger only end releated payload
+                // When start status is true it trigger only start releated
+                // payload
+                (callbackObj.options.start && dataStatus === embedEventStatus.START)
+                // When start status is false it trigger only end releated
+                // payload
+                || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
                 callbackObj.callback(data, (payload) => {
                     this.triggerEventOnPort(eventPort, payload);
@@ -635,6 +615,7 @@ export class TsEmbed {
 
     /**
      * Gets the v1 event type (if applicable) for the EmbedEvent type
+     *
      * @param eventType The v2 event type
      * @returns The corresponding v1 event type if one exists
      * or else the v2 event type itself
@@ -647,6 +628,7 @@ export class TsEmbed {
      * Calculates the iframe center for the current visible viewPort
      * of iframe using Scroll position of Host App, offsetTop for iframe
      * in Host app. ViewPort height of the tab.
+     *
      * @returns iframe Center in visible viewport,
      *  Iframe height,
      *  View port height.
@@ -661,18 +643,11 @@ export class TsEmbed {
         let iframeOffset;
 
         if (iframeScrolled < 0) {
-            iframeVisibleViewPort =
-                viewPortHeight - (offsetTopClient - scrollTopClient);
-            iframeVisibleViewPort = Math.min(
-                iframeHeight,
-                iframeVisibleViewPort,
-            );
+            iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
+            iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
             iframeOffset = 0;
         } else {
-            iframeVisibleViewPort = Math.min(
-                iframeHeight - iframeScrolled,
-                viewPortHeight,
-            );
+            iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
             iframeOffset = iframeScrolled;
         }
         const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
@@ -713,9 +688,7 @@ export class TsEmbed {
         options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
         if (this.isRendered) {
-            this.handleError(
-                'Please register event handlers before calling render',
-            );
+            this.handleError('Please register event handlers before calling render');
         }
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
@@ -724,10 +697,37 @@ export class TsEmbed {
     }
 
     /**
+     * Removes an event listener for a particular event type.
+     *
+     * @param messageType The message type
+     * @param callback The callback to remove
+     * @example
+     * ```js
+     * const errorHandler = (data) => { console.error(data); };
+     * tsEmbed.on(EmbedEvent.Error, errorHandler);
+     * tsEmbed.off(EmbedEvent.Error, errorHandler);
+     * ```
+     */
+    public off(
+        messageType: EmbedEvent,
+        callback: MessageCallback,
+    ): typeof TsEmbed.prototype {
+        const callbacks = this.eventHandlerMap.get(messageType) || [];
+        const index = callbacks.findIndex((cb) => cb.callback === callback);
+        if (index > -1) {
+            callbacks.splice(index, 1);
+        }
+        return this;
+    }
+
+    /**
      * Triggers an event on specific Port registered against
      * for the EmbedEvent
+     *
      * @param eventType The message type
      * @param data The payload to send
+     * @param eventPort
+     * @param payload
      */
     private triggerEventOnPort(eventPort: MessagePort | void, payload: any) {
         if (eventPort) {
@@ -747,25 +747,20 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
+     *
      * @param messageType The event type
      * @param data The payload to send with the message
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
-        uploadMixpanelEvent(
-            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
-        );
-        return processTrigger(
-            this.iFrame,
-            messageType,
-            this.thoughtSpotHost,
-            data,
-        );
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
     /**
      * Marks the ThoughtSpot object to have been rendered
      * Needs to be overridden by subclasses to do the actual
      * rendering of the iframe.
+     *
      * @param args
      */
     public render(): TsEmbed {
@@ -778,6 +773,7 @@ export class TsEmbed {
      * Get the Post Url Params for THOUGHTSPOT from the current
      * host app URL.
      * THOUGHTSPOT URL params starts with a prefix "ts-"
+     *
      * @version SDK: 1.14.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw
      */
     public getThoughtSpotPostUrlParams(): string {
@@ -805,6 +801,7 @@ export class TsEmbed {
 
     /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     *
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
@@ -813,6 +810,15 @@ export class TsEmbed {
         } catch (e) {
             console.log('Error destroying TS Embed', e);
         }
+    }
+
+    public getUnderlyingFrameElement(): HTMLIFrameElement {
+        return this.iFrame;
+    }
+
+    public async prerenderGeneric(): Promise<any> {
+        const prerenderFrameSrc = this.getRootIframeSrc();
+        return this.renderIFrame(prerenderFrameSrc);
     }
 }
 
@@ -833,15 +839,23 @@ export class V1Embed extends TsEmbed {
 
     /**
      * Render the ap    p in an iframe and set up event handlers
+     *
      * @param iframeSrc
      */
     protected renderV1Embed(iframeSrc: string): any {
-        return this.renderIFrame(iframeSrc, this.viewConfig.frameParams);
+        return this.renderIFrame(iframeSrc);
+    }
+
+    protected getRootIframeSrc(): string {
+        const runtimeFilters = this.viewConfig.runtimeFilters;
+        const filterQuery = getFilterQuery(runtimeFilters || []);
+        const queryParams = this.getEmbedParams();
+        const queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+        return this.getV1EmbedBasePath(queryString);
     }
 
     /**
-     * @inheritdoc TsEmbed.on
-     *
+     * @inheritdoc
      * @example
      * ```js
      * tsEmbed.on(EmbedEvent.Error, (data) => {

@@ -1,4 +1,6 @@
-import { init, AuthType, SearchEmbed, EmbedEvent } from '../index';
+import {
+    init, AuthType, SearchEmbed, EmbedEvent,
+} from '../index';
 import {
     EVENT_WAIT_TIME,
     executeAfterWait,
@@ -59,8 +61,7 @@ describe('test view config', () => {
         await executeAfterWait(() => {
             expect(onErrorSpy).toHaveBeenCalledWith(
                 {
-                    error:
-                        'Please register event handlers before calling render',
+                    error: 'Please register event handlers before calling render',
                 },
                 expect.any(Function),
             );
@@ -84,9 +85,7 @@ describe('Custom CSS Url', () => {
         embed.render();
         executeAfterWait(() => {
             const iframe = getIFrameEl();
-            expect(iframe.src.includes('customCssUrl=bla.com/foo.css')).toBe(
-                true,
-            );
+            expect(iframe.src.includes('customCssUrl=bla.com/foo.css')).toBe(true);
             done();
         });
     });

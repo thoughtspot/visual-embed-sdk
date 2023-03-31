@@ -19,6 +19,7 @@ let eventQueue: { eventId: string; eventProps: any }[] = [];
 
 /**
  * Pushes the event with its Property key-value map to mixpanel.
+ *
  * @param eventId
  * @param eventProps
  */
@@ -30,6 +31,9 @@ export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
     mixpanel.track(eventId, eventProps);
 }
 
+/**
+ *
+ */
 function emptyQueue() {
     if (!isMixpanelInitialized) {
         return;
@@ -40,11 +44,16 @@ function emptyQueue() {
     eventQueue = [];
 }
 
+/**
+ *
+ * @param sessionInfo
+ */
 export function initMixpanel(sessionInfo: any): void {
     if (!sessionInfo || !sessionInfo.mixpanelToken) {
         return;
     }
-    // On a public cluster the user is anonymous, so don't set the identify to userGUID
+    // On a public cluster the user is anonymous, so don't set the identify to
+    // userGUID
     const isPublicCluster = !!sessionInfo.isPublicUser;
     const token = sessionInfo.mixpanelToken;
     if (token) {
@@ -57,6 +66,9 @@ export function initMixpanel(sessionInfo: any): void {
     }
 }
 
+/**
+ *
+ */
 export function testResetMixpanel() {
     isMixpanelInitialized = false;
     eventQueue = [];

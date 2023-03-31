@@ -8,20 +8,14 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
-import { init, prefetch, logout, getEmbedConfig } from './embed/base';
 import {
-    PinboardEmbed,
-    LiveboardViewConfig,
-    LiveboardEmbed,
-} from './embed/liveboard';
+    init, prefetch, logout, getEmbedConfig,
+} from './embed/base';
+import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import {
-    AuthFailureType,
-    AuthStatus,
-    AuthEvent,
-    AuthEventEmitter,
-    getSessionInfo,
+    AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter, getSessionInfo,
 } from './auth';
 import {
     AuthType,

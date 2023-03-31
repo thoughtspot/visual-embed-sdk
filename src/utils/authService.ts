@@ -1,10 +1,12 @@
 // eslint-disable-next-line import/no-cycle
 import { EndPoints } from '../auth';
 
-function failureLoggedFetch(
-    url: string,
-    options: RequestInit = {},
-): Promise<Response> {
+/**
+ *
+ * @param url
+ * @param options
+ */
+function failureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return fetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
             console.error('Failure', await r.text?.());
@@ -13,20 +15,30 @@ function failureLoggedFetch(
     });
 }
 
-export function fetchSessionInfoService(
-    authVerificationUrl: string,
-): Promise<any> {
+/**
+ *
+ * @param authVerificationUrl
+ */
+export function fetchSessionInfoService(authVerificationUrl: string): Promise<any> {
     return failureLoggedFetch(authVerificationUrl, {
         credentials: 'include',
     });
 }
 
-export async function fetchAuthTokenService(
-    authEndpoint: string,
-): Promise<any> {
+/**
+ *
+ * @param authEndpoint
+ */
+export async function fetchAuthTokenService(authEndpoint: string): Promise<any> {
     return fetch(authEndpoint);
 }
 
+/**
+ *
+ * @param thoughtSpotHost
+ * @param username
+ * @param authToken
+ */
 export async function fetchAuthService(
     thoughtSpotHost: string,
     username: string,
@@ -36,12 +48,19 @@ export async function fetchAuthService(
         `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?username=${username}&auth_token=${authToken}`,
         {
             credentials: 'include',
-            // We do not want to follow the redirect, as it starts giving a CORS error
+            // We do not want to follow the redirect, as it starts giving a CORS
+            // error
             redirect: 'manual',
         },
     );
 }
 
+/**
+ *
+ * @param thoughtSpotHost
+ * @param username
+ * @param authToken
+ */
 export async function fetchAuthPostService(
     thoughtSpotHost: string,
     username: string,
@@ -53,15 +72,22 @@ export async function fetchAuthPostService(
             'content-type': 'application/x-www-form-urlencoded',
             'x-requested-by': 'ThoughtSpot',
         },
-        body: `username=${encodeURIComponent(
-            username,
-        )}&auth_token=${encodeURIComponent(authToken)}`,
+        body: `username=${encodeURIComponent(username)}&auth_token=${encodeURIComponent(
+            authToken,
+        )}`,
         credentials: 'include',
-        // We do not want to follow the redirect, as it starts giving a CORS error
+        // We do not want to follow the redirect, as it starts giving a CORS
+        // error
         redirect: 'manual',
     });
 }
 
+/**
+ *
+ * @param thoughtSpotHost
+ * @param username
+ * @param password
+ */
 export async function fetchBasicAuthService(
     thoughtSpotHost: string,
     username: string,
@@ -73,16 +99,16 @@ export async function fetchBasicAuthService(
             'content-type': 'application/x-www-form-urlencoded',
             'x-requested-by': 'ThoughtSpot',
         },
-        body: `username=${encodeURIComponent(
-            username,
-        )}&password=${encodeURIComponent(password)}`,
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
         credentials: 'include',
     });
 }
 
-export async function fetchLogoutService(
-    thoughtSpotHost: string,
-): Promise<any> {
+/**
+ *
+ * @param thoughtSpotHost
+ */
+export async function fetchLogoutService(thoughtSpotHost: string): Promise<any> {
     return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
         credentials: 'include',
         method: 'POST',
