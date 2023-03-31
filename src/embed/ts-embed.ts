@@ -816,6 +816,14 @@ export class TsEmbed {
         return this.iFrame;
     }
 
+    /**
+     * Prerenders a generic instance of the TS component.
+     * This means without the path but with the flags already applied.
+     * This is useful for prerendering the component in the background.
+     *
+     * @version SDK: 1.21.0 | ThoughtSpot: * / Search: 9.3.0.cl
+     * @returns
+     */
     public async prerenderGeneric(): Promise<any> {
         const prerenderFrameSrc = this.getRootIframeSrc();
         return this.renderIFrame(prerenderFrameSrc);

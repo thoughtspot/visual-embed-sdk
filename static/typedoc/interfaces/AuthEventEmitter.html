@@ -91,6 +91,9 @@
 									<li class=" tsd-kind-method tsd-parent-kind-interface">
 										<a href="AuthEventEmitter.html#on" class="tsd-kind-icon">on</a>
 									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-interface">
+										<a href="AuthEventEmitter.html#once" class="tsd-kind-icon">once</a>
+									</li>
 								</ul>
 							</li>
 							<li class=" tsd-kind-interface">
@@ -247,6 +250,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="AuthEventEmitter.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="AuthEventEmitter.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="AuthEventEmitter.html#once" class="tsd-kind-icon">once</a></li>
 							</ul>
 						</section>
 					</div>
@@ -264,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a4fd9b93/src/auth.ts#L110">auth.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L121">auth.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,12 +298,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a4fd9b93/src/auth.ts#L94">auth.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L98">auth.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Registed a listener on Auth failure.</p>
+									<p>Register a listener on Auth failure.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -336,7 +340,124 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a4fd9b93/src/auth.ts#L98">auth.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L105">auth.ts:105</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a listener on Auth SDK success.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <a href="../enums/AuthStatus.html#SDK_SUCCESS" class="tsd-signature-type" data-tsd-kind="Enumeration member">SDK_SUCCESS</a><span class="tsd-signature-symbol"> | </span><a href="../enums/AuthStatus.html#LOGOUT" class="tsd-signature-type" data-tsd-kind="Enumeration member">LOGOUT</a><span class="tsd-signature-symbol"> | </span><a href="../enums/AuthStatus.html#WAITING_FOR_POPUP" class="tsd-signature-type" data-tsd-kind="Enumeration member">WAITING_FOR_POPUP</a></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L109">auth.ts:109</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <a href="../enums/AuthStatus.html#SUCCESS" class="tsd-signature-type" data-tsd-kind="Enumeration member">SUCCESS</a></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>sessionInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>sessionInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>sessionInfo: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="../enums/AuthStatus.html#FAILURE" class="tsd-signature-type" data-tsd-kind="Enumeration member">FAILURE</a>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>failureType<span class="tsd-signature-symbol">: </span><a href="../enums/AuthFailureType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthFailureType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="../enums/AuthStatus.html#SDK_SUCCESS" class="tsd-signature-type" data-tsd-kind="Enumeration member">SDK_SUCCESS</a><span class="tsd-signature-symbol"> | </span><a href="../enums/AuthStatus.html#LOGOUT" class="tsd-signature-type" data-tsd-kind="Enumeration member">LOGOUT</a><span class="tsd-signature-symbol"> | </span><a href="../enums/AuthStatus.html#WAITING_FOR_POPUP" class="tsd-signature-type" data-tsd-kind="Enumeration member">WAITING_FOR_POPUP</a>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="../enums/AuthStatus.html#SUCCESS" class="tsd-signature-type" data-tsd-kind="Enumeration member">SUCCESS</a>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>sessionInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L110">auth.ts:110</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <a href="../enums/AuthStatus.html#FAILURE" class="tsd-signature-type" data-tsd-kind="Enumeration member">FAILURE</a></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>failureType<span class="tsd-signature-symbol">: </span><a href="../enums/AuthFailureType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthFailureType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>failureType<span class="tsd-signature-symbol">: </span><a href="../enums/AuthFailureType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthFailureType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>failureType: <a href="../enums/AuthFailureType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthFailureType</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="AuthEventEmitter.html" class="tsd-signature-type" data-tsd-kind="Interface">AuthEventEmitter</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L111">auth.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -365,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/a4fd9b93/src/auth.ts#L105">auth.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/auth.ts#L115">auth.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
