@@ -846,6 +846,12 @@ export enum EmbedEvent {
      */
     Download = 'download',
     /**
+     * Emitted when the download action is triggered on an answer
+     *
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0-sw
+     */
+    DownloadAsPng='downloadAsPng',
+    /**
      * Emitted when the Download as PDF action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
@@ -1426,12 +1432,29 @@ export enum HostEvent {
      * '730496d6-6903-4601-937e-2c691821af3c'})
      * vizEmbed.trigger(HostEvent.Download)
      * searchEmbed.trigger(HostEvent.Download)
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw, Please use DownloadAsPng
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
-    Download = 'download',
+    Download = 'downloadAsPng',
     /**
-     * Triggers the downloadAsCSV action on visualization or search when Displaymode is
-     * Table
+     * Triggers the Download action on visualization or search when Displaymode is Chart
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DownloadAsPng,
+     * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * ```js
+     * vizEmbed.trigger(HostEvent.DownloadAsPng)
+     * ```
+     * ```js
+     * searchEmbed.trigger(HostEvent.DownloadAsPng)
+     * ```
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw
+     */
+    DownloadAsPng = 'downloadAsPng',
+    /**
+     * Triggers the downloadAsCSV action on visualization or search
      *
      * @example
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
@@ -1442,8 +1465,7 @@ export enum HostEvent {
      */
     DownloadAsCsv = 'downloadAsCSV',
     /**
-     * Triggers the downloadAsXLSX action on visualization or search when Displaymode is
-     * Table
+     * Triggers the downloadAsXLSX action on visualization or search
      *
      * @example
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
@@ -1637,6 +1659,7 @@ export enum Action {
     ReplaySearch = 'replaySearch',
     ShowUnderlyingData = 'showUnderlyingData',
     Download = 'download',
+    DownloadAsPng='downloadAsPng',
     DownloadAsPdf = 'downloadAsPdf',
     DownloadAsCsv = 'downloadAsCSV',
     DownloadAsXlsx = 'downloadAsXLSX',
