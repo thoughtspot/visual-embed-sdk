@@ -83,6 +83,7 @@
 ** link:{{navprefix}}=rest-api-v2[REST API v2.0]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
 *** link:{{navprefix}}=api-authv2[REST API v2.0 authentication]
+*** link:{{navprefix}}=rest-apiv2-js[REST API v2.0 in JavaScript]
 *** link:{{navprefix}}=restV2-playground[REST API v2.0 Playground]
 *** link:{{navprefix}}=rest-apiv2-reference[REST API v2.0 Reference]
 ** link:{{navprefix}}=rest-api-v1[REST API v1]
