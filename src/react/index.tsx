@@ -79,6 +79,21 @@ export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConf
 
 interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
 
+/**
+ * React component for Liveboard embed.
+ *
+ * @example
+ * ```tsx
+ * function Liveboard() {
+ *  return <LiveboardEmbed
+ *      liveboardId="liveboardId"
+ *      fullHeight={true} {/* default false *\/}
+ *      onLiveboardRendered={() => console.log('Liveboard rendered')}
+ *      vizId="vizId" {/* if doing viz embed *\/}
+ *  />
+ * }
+ * ```
+ */
 export const LiveboardEmbed = componentFactory<
     typeof _LiveboardEmbed,
     LiveboardProps,
