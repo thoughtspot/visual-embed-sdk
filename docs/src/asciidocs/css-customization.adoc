@@ -124,7 +124,7 @@ init({
                 variables: {
                     "--ts-var-root-font-family": 'YourFontName',
                 },
-                styles_UNSTABLE: {
+                rules_UNSTABLE: {
                     '@font-face': {
                         'font-family': 'YourFontName',
                         'src': "url('http://domain.example/fonts/font.ttf')"
@@ -419,11 +419,11 @@ rules_UNSTABLE: {
     '{selector2}'...
 }
 ----
-The 'selector' is not direct CSS, but wraps CSS selector syntax within square brackets. Selector forms that already have square brackets remain as they are in standard CSS, and other CSS operators work as expected. For example:
+The `selector` is not direct CSS, but wraps CSS selector syntax within square brackets. Selector forms that already have square brackets remain as they are in standard CSS, and other CSS operators work as expected. For example:
 
- - #an-id : '[id="an-id"]'
- - .classname : '[class="className"]'
- - .classname [aria-colid="6"] : '[class="className"] [aria-colid="6"]'
+ - `#an-id : '[id="an-id"]'`
+ - `.classname : '[class="className"]'`
+ - `.classname [aria-colid="6"] : '[class="className"] [aria-colid="6"]'`
 
 The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns on the *Home* page of the ThoughtSpot application.
 
