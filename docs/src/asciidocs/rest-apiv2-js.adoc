@@ -98,7 +98,7 @@ async function callSearchDataApi(tmlSearchString, datasourceId){
     );
 }
 
-let vizTmlSearchString = '[Product] [Region]";
+let vizTmlSearchString = '[Product] [Region]';
 let dsId = '80c9b38f-1b2a-4ff4-a759-378259130f58';
 callSearchDataApi(vizTmlSearchString, dsId).then(
   // process the response
