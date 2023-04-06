@@ -383,7 +383,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = false;
         }
 
-        const spriteUrl = customizations?.iconSpriteUrl;
+        const spriteUrl = customizations?.iconSpriteUrl
+            || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
