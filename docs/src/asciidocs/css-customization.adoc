@@ -124,7 +124,7 @@ init({
                 variables: {
                     "--ts-var-root-font-family": 'YourFontName',
                 },
-                styles_UNSTABLE: {
+                rules_UNSTABLE: {
                     '@font-face': {
                         'font-family': 'YourFontName',
                         'src': "url('http://domain.example/fonts/font.ttf')"
@@ -392,7 +392,7 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-
 
 == Rules
 
-The `rules` option in the `customCSS` object allows you to apply style overrides to UI components and elements that cannot be customized using the variables provided by ThoughtSpot.
+The `rules` option in the `customCSS` object allows you to apply style overrides to UI components and elements that cannot be customized using the variables provided by ThoughtSpot, inline in your code without having to include a separate stylesheet file.
 
 [WARNING]
 ====
@@ -406,6 +406,24 @@ To find the class name of an element: +
 . Right-click on the element and select *Inspect*.
 . Note the style class for the selected element in the *Elements* tab on the *Developer Tools* console.
 * Add the `_UNSTABLE` suffix to the `rules` property.
+
+A rule is defined in a JSON notation for styles, rather than direct CSS.
+
+[source,javascript]
+----
+rules_UNSTABLE: { 
+      '{selector1}' : {
+        "{css-property-name}" : "{value}",
+        "{css-property-name2}" : "{value}"
+    },
+    '{selector2}'...
+}
+----
+The `selector` is not direct CSS, but wraps CSS selector syntax within square brackets. Selector forms that already have square brackets remain as they are in standard CSS, and other CSS operators work as expected. For example:
+
+ - `#an-id : '[id="an-id"]'`
+ - `.classname : '[class="className"]'`
+ - `.classname [aria-colid="6"] : '[class="className"] [aria-colid="6"]'`
 
 The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns on the *Home* page of the ThoughtSpot application.
 
