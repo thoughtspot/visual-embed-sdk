@@ -182,6 +182,9 @@
 										<a href="HostEvent.html#DownloadAsPdf" class="tsd-kind-icon">Download<wbr>AsPdf</a>
 									</li>
 									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="HostEvent.html#DownloadAsPng" class="tsd-kind-icon">Download<wbr>AsPng</a>
+									</li>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 										<a href="HostEvent.html#DownloadAsXlsx" class="tsd-kind-icon">Download<wbr>AsXlsx</a>
 									</li>
 									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -355,6 +358,7 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#Download" class="tsd-kind-icon">Download</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DownloadAsCsv" class="tsd-kind-icon">Download<wbr>AsCsv</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DownloadAsPdf" class="tsd-kind-icon">Download<wbr>AsPdf</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DownloadAsPng" class="tsd-kind-icon">Download<wbr>AsPng</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DownloadAsXlsx" class="tsd-kind-icon">Download<wbr>AsXlsx</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#DrillDown" class="tsd-kind-icon">Drill<wbr>Down</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="HostEvent.html#Edit" class="tsd-kind-icon">Edit</a></li>
@@ -399,7 +403,7 @@
 					<div class="tsd-signature tsd-kind-icon">Add<wbr>Columns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;addColumns&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1167">types.ts:1167</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1205">types.ts:1205</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -425,7 +429,7 @@
 					<div class="tsd-signature tsd-kind-icon">Copy<wbr>Link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;embedDocument&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1358">types.ts:1358</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1396">types.ts:1396</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -455,7 +459,7 @@
 					<div class="tsd-signature tsd-kind-icon">Create<wbr>Monitor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;createMonitor&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1318">types.ts:1318</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1356">types.ts:1356</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -484,7 +488,7 @@
 					<div class="tsd-signature tsd-kind-icon">Delete<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;delete&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1407">types.ts:1407</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1445">types.ts:1445</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -511,10 +515,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Download" class="tsd-anchor"></a>
 					<h3>Download</h3>
-					<div class="tsd-signature tsd-kind-icon">Download<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;download&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Download<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsPng&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1431">types.ts:1431</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1470">types.ts:1470</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -528,6 +532,9 @@
 									vizEmbed.trigger(HostEvent.Download)
 								searchEmbed.trigger(HostEvent.Download)</p>
 							</dd>
+							<dt class="deprecated">deprecated</dt>
+							<dd><p>from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw, Please use DownloadAsPng</p>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw</p>
 							</dd>
@@ -540,13 +547,12 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsCsv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsCSV&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1443">types.ts:1443</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1498">types.ts:1498</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Triggers the downloadAsCSV action on visualization or search when Displaymode is
-							Table</p>
+							<p>Triggers the downloadAsCSV action on visualization or search</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="example">example</dt>
@@ -567,7 +573,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsPdf<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsPdf&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1272">types.ts:1272</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1310">types.ts:1310</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -586,18 +592,46 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="DownloadAsPng" class="tsd-anchor"></a>
+					<h3>Download<wbr>AsPng</h3>
+					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsPng<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsPng&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1487">types.ts:1487</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Triggers the Download action on visualization or search when Displaymode is Chart</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #001080">liveboardEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">trigger</span><span style="color: #000000">(</span><span style="color: #001080">HostEvent</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPng</span><span style="color: #000000">,</span>
+<span style="color: #000000">{</span><span style="color: #001080">vizId:</span><span style="color: #A31515">&#039;730496d6-6903-4601-937e-2c691821af3c&#039;</span><span style="color: #000000">})</span>
+</code></pre>
+								<pre><code class="language-js"><span style="color: #001080">vizEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">trigger</span><span style="color: #000000">(</span><span style="color: #001080">HostEvent</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPng</span><span style="color: #000000">)</span>
+</code></pre>
+								<pre><code class="language-js"><span style="color: #001080">searchEmbed</span><span style="color: #000000">.</span><span style="color: #795E26">trigger</span><span style="color: #000000">(</span><span style="color: #001080">HostEvent</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPng</span><span style="color: #000000">)</span>
+</code></pre>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DownloadAsXlsx" class="tsd-anchor"></a>
 					<h3>Download<wbr>AsXlsx</h3>
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsXlsx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsXLSX&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1455">types.ts:1455</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1509">types.ts:1509</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Triggers the downloadAsXLSX action on visualization or search when Displaymode is
-							Table</p>
+							<p>Triggers the downloadAsXLSX action on visualization or search</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="example">example</dt>
@@ -618,7 +652,7 @@
 					<div class="tsd-signature tsd-kind-icon">Drill<wbr>Down<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;triggerDrillDown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1091">types.ts:1091</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1129">types.ts:1129</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -654,7 +688,7 @@
 					<div class="tsd-signature tsd-kind-icon">Edit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;edit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1344">types.ts:1344</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1382">types.ts:1382</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -684,7 +718,7 @@
 					<div class="tsd-signature tsd-kind-icon">EditTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;editTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1252">types.ts:1252</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1290">types.ts:1290</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -708,7 +742,7 @@
 					<div class="tsd-signature tsd-kind-icon">Explore<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;explore&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1305">types.ts:1305</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1343">types.ts:1343</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -735,7 +769,7 @@
 					<div class="tsd-signature tsd-kind-icon">ExportTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;exportTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1242">types.ts:1242</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1280">types.ts:1280</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -759,7 +793,7 @@
 					<div class="tsd-signature tsd-kind-icon">GetTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;getTML&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1382">types.ts:1382</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1420">types.ts:1420</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -783,7 +817,7 @@
 					<div class="tsd-signature tsd-kind-icon">Liveboard<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pinboardInfo&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1212">types.ts:1212</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1250">types.ts:1250</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -807,7 +841,7 @@
 					<div class="tsd-signature tsd-kind-icon">MakeACopy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;makeACopy&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1284">types.ts:1284</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1322">types.ts:1322</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -833,7 +867,7 @@
 					<div class="tsd-signature tsd-kind-icon">Manage<wbr>Monitor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;manageMonitor&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1331">types.ts:1331</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1369">types.ts:1369</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -862,7 +896,7 @@
 					<div class="tsd-signature tsd-kind-icon">Manage<wbr>Pipelines<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;manage-pipeline&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1506">types.ts:1506</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1560">types.ts:1560</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -890,7 +924,7 @@
 					<div class="tsd-signature tsd-kind-icon">Navigate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Navigate&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1140">types.ts:1140</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1178">types.ts:1178</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -918,7 +952,7 @@
 					<div class="tsd-signature tsd-kind-icon">Open<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;openFilter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1156">types.ts:1156</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1194">types.ts:1194</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -950,7 +984,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pin&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1202">types.ts:1202</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1240">types.ts:1240</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -980,7 +1014,7 @@
 					<div class="tsd-signature tsd-kind-icon">Present<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;present&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1372">types.ts:1372</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1410">types.ts:1410</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1010,7 +1044,7 @@
 					<div class="tsd-signature tsd-kind-icon">Remove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;delete&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1294">types.ts:1294</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1332">types.ts:1332</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1034,7 +1068,7 @@
 					<div class="tsd-signature tsd-kind-icon">Remove<wbr>Column<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;removeColumn&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1178">types.ts:1178</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1216">types.ts:1216</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1060,7 +1094,7 @@
 					<div class="tsd-signature tsd-kind-icon">Reset<wbr>Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;resetSearch&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1514">types.ts:1514</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1568">types.ts:1568</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1083,7 +1117,7 @@
 					<div class="tsd-signature tsd-kind-icon">Save<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;save&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1473">types.ts:1473</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1527">types.ts:1527</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1107,7 +1141,7 @@
 					<div class="tsd-signature tsd-kind-icon">Schedule<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;subscription&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1222">types.ts:1222</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1260">types.ts:1260</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1131,7 +1165,7 @@
 					<div class="tsd-signature tsd-kind-icon">Schedules<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;schedule-list&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1232">types.ts:1232</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1270">types.ts:1270</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1155,7 +1189,7 @@
 					<div class="tsd-signature tsd-kind-icon">Search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;search&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1073">types.ts:1073</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1111">types.ts:1111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1191,7 +1225,7 @@
 					<div class="tsd-signature tsd-kind-icon">Set<wbr>Visible<wbr>Vizs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SetPinboardVisibleVizs&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1115">types.ts:1115</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1153">types.ts:1153</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1220,7 +1254,7 @@
 					<div class="tsd-signature tsd-kind-icon">Share<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;share&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1464">types.ts:1464</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1518">types.ts:1518</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1244,7 +1278,7 @@
 					<div class="tsd-signature tsd-kind-icon">Show<wbr>Underlying<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;showUnderlyingData&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1394">types.ts:1394</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1432">types.ts:1432</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1273,7 +1307,7 @@
 					<div class="tsd-signature tsd-kind-icon">SpotIQAnalyze<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;spotIQAnalyze&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1420">types.ts:1420</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1458">types.ts:1458</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1303,7 +1337,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sync<wbr>ToOther<wbr>Apps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;sync-to-other-apps&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1495">types.ts:1495</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1549">types.ts:1549</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1331,7 +1365,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sync<wbr>ToSheets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;sync-to-sheets&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1484">types.ts:1484</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1538">types.ts:1538</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1359,7 +1393,7 @@
 					<div class="tsd-signature tsd-kind-icon">Update<wbr>Runtime<wbr>Filters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;UpdateRuntimeFilters&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1128">types.ts:1128</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1166">types.ts:1166</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1389,7 +1423,7 @@
 					<div class="tsd-signature tsd-kind-icon">UpdateTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;updateTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1262">types.ts:1262</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1300">types.ts:1300</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1413,7 +1447,7 @@
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Export<wbr>Request<wbr>For<wbr>Current<wbr>Pinboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;getExportRequestForCurrentPinboard&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/16035a0f/src/types.ts#L1188">types.ts:1188</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/b64a23fb/src/types.ts#L1226">types.ts:1226</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
