@@ -44,8 +44,23 @@ export enum AuthType {
     SAML = 'SSO_SAML',
     /**
      * SSO using SAML
-     * Will make the host application redirect to the SAML Idp.
+     * Will make the host application redirect to the SAML Idp. Use this
+     * when the idp does not allow itself to be embedded.
      *
+     * This redirects the host application to the SAML Idp. The host application
+     * will be redirected back to the ThoughtSpot app after authentication.
+     *
+     * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.SAMLRedirect,
+     *  });
+     * ```
+     *
+     * This opens the SAML Idp in a popup window. The popup is triggered
+     * when the user clicks the trigger button. The popup window will be
+     * closed automatically after authentication.
      * @example
      * ```js
      * init({
@@ -53,7 +68,23 @@ export enum AuthType {
      *   authType: AuthType.SAMLRedirect,
      *   authTriggerText: 'Login with SAML',
      *   authTriggerContainer: '#embed-container',
-     *  });
+     *   inPopup: true,
+     * });
+     * ```
+     *
+     * Can also use event to trigger the popup flow. Works the same
+     * as above example.
+     * @example
+     * ```js
+     * const authEE = init({
+     *  // ...
+     *  authType: AuthType.SAMLRedirect,
+     *  inPopup: true,
+     * });
+     *
+     * someButtonOnYourPage.addEventListener('click', () => {
+     *  authEE.emit(AuthEvent.TRIGGER_SSO_POPUP);
+     * });
      * ```
      */
     SAMLRedirect = 'SSO_SAML',
@@ -67,6 +98,7 @@ export enum AuthType {
     /**
      * SSO using OIDC
      * Will make the host application redirect to the OIDC Idp.
+     * See code samples in {@link SAMLRedirect}.
      */
     OIDCRedirect = 'SSO_OIDC',
     /**
@@ -850,7 +882,7 @@ export enum EmbedEvent {
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0-sw
      */
-    DownloadAsPng='downloadAsPng',
+    DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an answer
      *
@@ -1659,7 +1691,7 @@ export enum Action {
     ReplaySearch = 'replaySearch',
     ShowUnderlyingData = 'showUnderlyingData',
     Download = 'download',
-    DownloadAsPng='downloadAsPng',
+    DownloadAsPng = 'downloadAsPng',
     DownloadAsPdf = 'downloadAsPdf',
     DownloadAsCsv = 'downloadAsCSV',
     DownloadAsXlsx = 'downloadAsXLSX',

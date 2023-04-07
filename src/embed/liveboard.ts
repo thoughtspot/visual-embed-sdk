@@ -102,8 +102,18 @@ export interface LiveboardViewConfig extends ViewConfig {
 }
 
 /**
- * Embed a ThoughtSpot Liveboard or visualization
+ * Embed a ThoughtSpot Liveboard or a Thoughtspot visualization. When rendered it already
+ * waits for the authentication to complete, so no need to wait for AuthStatus.SUCCESS.
  *
+ * @example
+ * ```js
+ * import { .. } from '@thoughtspot/visual-embed-sdk';
+ * init({ ... });
+ * const embed = new LiveboardEmbed("#container", {
+ *   liveboardId: <your-id-here>,
+ * // .. other params here.
+ * })
+ * ```
  * @group Embed components
  */
 export class LiveboardEmbed extends V1Embed {
