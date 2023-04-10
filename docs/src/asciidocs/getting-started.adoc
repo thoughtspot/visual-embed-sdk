@@ -12,14 +12,17 @@ The ThoughtSpot Visual Embed SDK is a JavaScript library that enables you to emb
 
 This section lists the tasks you need to complete before embedding ThoughtSpot content in your applications.
 
-== Prerequisites
+== Adjust CORS and CSP allowed domains in Security Settings
+ThoughtSpot is configured by default to only allow embedding and REST API commands from specified domains. 
 
-* Verify if the ThoughtSpot admin has enabled the authentication service.
-+
-ThoughtSpot supports xref:configure-saml.adoc[SAML SSO] and xref:trusted-authentication.adoc[trusted authentication] services.
+If you encounter any errors with using the Visual Embed SDK components, first ferify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
 
-* Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
-* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to the ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
+== Enable Developer Portal access
+The Developer Portal is accessed via "DEVELOP"in the top ThoughtSpot menu.
+
+Only Administrators and users who belong to a group with the privlege called "Has Developer privilege" can see the "DEVELOP" menu link. 
+
+Please have your administrator add any users who will be developing embedded solutions to a group with "Has Developer privilege"
 
 == Prepare your project environment
 The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package. Make sure the link:https://www.npmjs.com/get-npm[NPM is installed, window=_blank] in your environment.
