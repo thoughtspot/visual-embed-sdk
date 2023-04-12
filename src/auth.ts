@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import _ from 'lodash';
 import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
@@ -20,9 +21,9 @@ export let loggedInStatus = false;
 export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
-let sessionInfo: any = null;
-let sessionInfoResolver: (value: any) => void = null;
-const sessionInfoPromise = new Promise((resolve) => {
+let sessionInfo: sessionInfoInterface = null;
+let sessionInfoResolver: (value: sessionInfoInterface) => void = null;
+const sessionInfoPromise = new Promise((resolve:(value: sessionInfoInterface) => void) => {
     sessionInfoResolver = resolve;
 });
 let releaseVersion = '';
@@ -37,6 +38,13 @@ export const EndPoints = {
     BASIC_LOGIN: '/callosum/v1/session/login',
     LOGOUT: '/callosum/v1/session/logout',
 };
+
+interface sessionInfoInterface {
+    userGUID: any;
+    isPublicUser: any;
+    mixpanelToken: any;
+    [key:string]:any;
+}
 
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
@@ -196,6 +204,28 @@ export function notifyLogout(): void {
     authEE.emit(AuthStatus.LOGOUT);
 }
 
+export const initSession = (sessionDetails: sessionInfoInterface) => {
+    if (_.isNull(sessionInfo)) {
+        sessionInfo = sessionDetails;
+        initMixpanel(sessionInfo);
+        sessionInfoResolver(sessionInfo);
+    }
+};
+
+export const getSessionDetails = (sessionInfoResp: any):sessionInfoInterface => {
+    const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
+    const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
+    const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
+        ? prodMixpanelToken
+        : devMixpanelToken;
+    return {
+        userGUID: sessionInfoResp.userGUID,
+        mixpanelToken,
+        isPublicUser: sessionInfoResp.configInfo.isPublicUser,
+        ...sessionInfoResp,
+    };
+};
+
 /**
  * Check if we are logged into the ThoughtSpot cluster
  *
@@ -207,6 +237,9 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     try {
         response = await fetchSessionInfoService(authVerificationUrl);
         const sessionInfoResp = await response.json();
+        const sessionDetails = getSessionDetails(sessionInfoResp);
+        // Store user session details from session info
+        initSession(sessionDetails);
         releaseVersion = sessionInfoResp.releaseVersion;
     } catch (e) {
         return false;
@@ -227,18 +260,8 @@ export function getReleaseVersion() {
  *
  * @group Global methods
  */
-export function getSessionInfo(): Promise<any> {
+export function getSessionInfo(): Promise<sessionInfoInterface> {
     return sessionInfoPromise;
-}
-
-/**
- *
- * @param sessionDetails
- */
-export function initSession(sessionDetails: any) {
-    sessionInfo = sessionDetails;
-    initMixpanel(sessionInfo);
-    sessionInfoResolver(sessionInfo);
 }
 
 const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
@@ -425,8 +448,12 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
-        loggedInStatus = true;
+        await samlPopupFlow(
+            ssoURL,
+            embedConfig.authTriggerContainer,
+            embedConfig.authTriggerText,
+        );
+        loggedInStatus = await isLoggedIn(thoughtSpotHost);
         return;
     }
 
