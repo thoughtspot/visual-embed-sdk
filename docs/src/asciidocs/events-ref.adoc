@@ -164,23 +164,30 @@ __Boolean__. When set to `true`, automatically drills down to the selected point
 [source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.DrillDown, {
-        points: clickedPointData,
-        autoDrillDown: true,
-    });
+    points: {
+        clickedPoint,
+        selectedPoints: selectedPoint
+    },
+    autoDrillDown: true,
+})
 ----
 In this example, the `VizPointDoubleClick` event is used for triggering the `DrillDown` event when an area or specific data point on a table or chart is double-clicked.
 
 [source,JavaScript]
 ----
-searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
-    const {
-        payload: clickedPointData
-    } = data;
-    console.log('>>> called', clickedPointData);
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+    console.log(payload);
+    const clickedPoint = payload.data.clickedPoint;
+    const selectedPoint = payload.data.selectedPoints;
+    console.log('>>> called', clickedPoint);
     embed.trigger(HostEvent.DrillDown, {
-        points: clickedPointData,
+        points: {
+            clickedPoint,
+            selectedPoints: selectedPoint
+        },
         autoDrillDown: true,
-    });
+
+    })
 })
 ----
 ====
