@@ -12,14 +12,17 @@ The ThoughtSpot Visual Embed SDK is a JavaScript library that enables you to emb
 
 This section lists the tasks you need to complete before embedding ThoughtSpot content in your applications.
 
-== Prerequisites
+== Adjust CORS and CSP allowed domains
+By default, ThoughtSpot is configured to only allow embedding and REST API commands from specified domains.
 
-* Verify if the ThoughtSpot admin has enabled the authentication service.
-+
-ThoughtSpot supports xref:configure-saml.adoc[SAML SSO] and xref:trusted-authentication.adoc[trusted authentication] services.
+If you encounter any errors with using the Visual Embed SDK components, verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP] in the *Develop* > *Security Settings* page.
 
-* Verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP].
-* If you want to rebrand and white-label the embedded content or add custom actions to the embedded visualizations, you will require access to the ThoughtSpot Developer portal. Make sure you have administrator or developer  privileges to access the *Customizations* menu in the *Develop* tab.
+== Enable Developer Portal access
+ThoughtSpot users can access Developer Portal via *Develop* tab in the UI.
+
+Only administrators and users with `Developer` privilege can access the *Develop* tab. Please have your administrator add any users who will be developing embedded solutions to a ThoughtSpot group with *Has Developer privilege*.
+
+For more information, see xref:user-roles.adoc[Developer access].
 
 == Prepare your project environment
 The Visual Embed SDK is available for installation as a Node Package Manager (NPM) package. Make sure the link:https://www.npmjs.com/get-npm[NPM is installed, window=_blank] in your environment.
@@ -43,13 +46,13 @@ SearchEmbed::
 
 Use this package to xref:embed-search.adoc[embed the ThoughtSpot search page components].
 +
-The **SearchEmbed** component allows you to embed the search bar and data panel. You can load it with a pre-selected data source and let your users define search keywords or show a set of example search tokens on load, either from a datasource or an existing saved Answer. +
+The **SearchEmbed** component allows you to embed the search bar and data panel. You can load it with a pre-selected data source and let your users define search keywords or show a set of example search tokens on load, either from a data source or an existing saved Answer. +
 +
 In all cases, the search bar will appear along with full capabilities to edit search tokens and the resulting chart or table.
 
 SearchBarEmbed::
 
-Use this package to xref:embed-searchbar.adoc[embed only Search bar].
+Use this package to xref:embed-searchbar.adoc[embed only the Search bar].
 
 +
 The **SearchBarEmbed** component allows you to embed only the ThoughtSpot Search bar and data panel. The embedded search bar is responsive and can be adjusted to fit the screen width of your app.
@@ -93,7 +96,7 @@ include::{path}/embed-config.adoc[]
 
 == Embed objects
 After you initialize the SDK, create embed object classes and define object properties. +
-For more information about embedding ThoughtSpot app and its objects using SDK, see the following pages: +
+For more information about embedding ThoughtSpot app or its objects using SDK, see the following pages: +
 
 * xref:embed-search.adoc[Embed Search page]
 * xref:embed-searchbar.adoc[Embed Search bar]
