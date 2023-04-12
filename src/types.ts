@@ -709,18 +709,17 @@ export enum EmbedEvent {
     Load = 'load',
     /**
      * Data pertaining to answer or Liveboard is received
-     *
-     * @returns data - The answer or Liveboard data
+     * @return data - The answer or Liveboard data
+     * @important
      */
     Data = 'data',
     /**
-     * Search/answer/Liveboard filters have been applied/updated
-     *
+     * Search/answer/Liveboard filters have been applied/updated by the user.
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
     /**
-     * Search query has been updated
+     * Search query has been updated by the user.
      */
     QueryChanged = 'queryChanged',
     /**
@@ -752,17 +751,29 @@ export enum EmbedEvent {
      */
     CustomAction = 'customAction',
     /**
-     * A double click has been triggered on table/chart
-     *
-     * @returns ContextMenuInputPoints - data point that is double clicked
+     * Listen to double clicks on a visualization
+     * @return ContextMenuInputPoints - data point that is double clicked
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
-     * A click has been triggered on table/chart
+     * Listen to clicks on a visualization in a liveboard or Search result.
      *
-     * @returns ContextMenuInputPoints - data point that is clicked
+     * @example
+     * ```js
+     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, (data) => {
+     *   console.log(
+     *    data.vizId, // viz id
+     *    data.clickedPoint.selectedAttributes[0].value,
+     *    data.clickedPoint.selectedAttributes[0].column.name,
+     *    data.clickedPoint.selectedMeasures[0].value,
+     *    data.clickedPoint.selectedMeasures[0].column.name,
+     *   )
+     * });
+     * ```
+     * @return {vizId, clickedPoint} - metadata about point that is clicked
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
+     * @important
      */
     VizPointClick = 'vizPointClick',
     /**
@@ -1066,8 +1077,7 @@ export enum EmbedEvent {
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
-     * Emitted when a user right clicks on chart or table
-     *
+     * Emitted when a user right clicks on a visualization (chart or table)
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     VizPointRightClick = 'vizPointRightClick',
@@ -1158,10 +1168,11 @@ export enum HostEvent {
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
-     * {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
-     * {columnName: "item type",operator: RuntimeFilterOp.EQ,values:
-     * ["Jackets"]} ])
+     *   {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
+     *   {columnName: "item type",operator: RuntimeFilterOp.EQ,values: ["Jackets"]}
+     * ])
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
+     * @important
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
@@ -1413,9 +1424,14 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * searchEmbed.trigger(HostEvent.GetTML)
+     * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
+     *   console.log(
+     *      tml.search_query // TML representation of the search query
+     *   );
+     * })
      * ```
-     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1-sw
+     * @important
      */
     GetTML = 'getTML',
     /**
