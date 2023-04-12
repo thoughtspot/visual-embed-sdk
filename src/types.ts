@@ -709,12 +709,14 @@ export enum EmbedEvent {
     Load = 'load',
     /**
      * Data pertaining to answer or Liveboard is received
+     *
      * @return data - The answer or Liveboard data
      * @important
      */
     Data = 'data',
     /**
      * Search/answer/Liveboard filters have been applied/updated by the user.
+     *
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
@@ -752,6 +754,7 @@ export enum EmbedEvent {
     CustomAction = 'customAction',
     /**
      * Listen to double clicks on a visualization
+     *
      * @return ContextMenuInputPoints - data point that is double clicked
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
@@ -761,7 +764,7 @@ export enum EmbedEvent {
      *
      * @example
      * ```js
-     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, (data) => {
+     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {
      *   console.log(
      *    data.vizId, // viz id
      *    data.clickedPoint.selectedAttributes[0].value,
@@ -1078,6 +1081,7 @@ export enum EmbedEvent {
     CrossFilterChanged = 'cross-filter-changed',
     /**
      * Emitted when a user right clicks on a visualization (chart or table)
+     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     VizPointRightClick = 'vizPointRightClick',
