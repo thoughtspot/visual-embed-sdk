@@ -168,15 +168,19 @@ The following example shows how to trigger an event from the embedded ThoughtSpo
 
 [source,JAVASCRIPT]
 ----
-searchEmbed.on(EmbedEvent.VizPointDoubleClick, (data) => {
-    const {
-        payload: clickedPointData
-    } = data;
-    console.log('>>> called', clickedPointData);
-    embed.trigger(HostEvent.DrillDown, {
-        points: clickedPointData,
-        autoDrillDown: true,
-    });
+searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+   console.log(payload);
+   const clickedPoint = payload.data.clickedPoint;
+   const selectedPoint = payload.data.selectedPoints;
+   console.log('>>> called', clickedPoint);
+   embed.trigger(HostEvent.DrillDown, {
+      points: {
+         clickedPoint,
+         selectedPoints: selectedPoint
+      },
+      autoDrillDown: true,
+
+   })
 })
 ----
 
