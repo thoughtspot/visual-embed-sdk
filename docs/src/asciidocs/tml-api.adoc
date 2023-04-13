@@ -6,7 +6,7 @@
 :page-pageid: tml-api
 :page-description: The TML API endpoints allow you to export and import TML files
 
-The TML API endpoints allow you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com//admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these API endpoints to automate the change management and deployment processes between your development and production environments. With TML API, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
+The TML API endpoints allow you to programmatically export, validate, and import scriptable link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files. You can use these API endpoints to automate the change management and deployment processes between your development and production environments. With TML API, you can easily migrate your ThoughtSpot content from one environment to another by automating the entire change management process and thereby reducing the risk of human error.
 
 [NOTE]
 ====

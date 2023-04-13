@@ -44,7 +44,14 @@ If you plan to use a token-based authentication service to authenticate user ses
 Use xref:authentication-authorization.adoc[REST APIs or the ThoughtSpot UI to define authorization settings] for object-level access and sharing privileges.
 --
 
-== Application security and browser setting
+[div boxDiv boxFullWidth]
+--
++++<h5>Access control and data security</h5>+++
+
+Learn how to use various ThoughtSpot features, such as group privileges, object sharing, Row-level security (RLS), and Column-level security (CLS), to xref:configure-user-access.adoc[control user access to ThoughtSpot application workflows and data objects].
+--
+
+== CORS and CSP allowed domains
 
 [div boxDiv boxFullWidth]
 --
@@ -52,6 +59,8 @@ Use xref:authentication-authorization.adoc[REST APIs or the ThoughtSpot UI to de
 
 xref:security-settings.adoc[Add your application domain to the CORS and CSP allowed list] and set your application as a trusted host for secure data exchange.
 --
+
+
 
 == Additional resources
 

@@ -6,54 +6,239 @@
 :page-pageid: development-and-deployment
 :page-description: Development and deployment following the SDLC practices can be achieved using TML and REST API
 
-When deploying embedded analytics, there is a set of defined practices for the development, testing, and deployment of content similar to the processes used for development of code for integration between the systems.
+When deploying embedded analytics, each organization will have defined practices for development, testing, and deployment of content to ThoughtSpot. ThoughtSpot instances act as a constantly running service, so deployment only involves publishing *ThoughtSpot content*, in the form of link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files to a given ThoughtSpot instance.
 
-The ThoughtSpot system contains many types of objects that link together. These objects can broadly be split into data objects and content objects. All of the objects are modeled using the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot modeling language (TML), window=_blank]. The TML for an object can be viewed and edited through the UI and via REST APIs. With the proper understanding of TML and how the APIs work, you can integrate ThoughtSpot into your source control system and programmatically move content through your development and deployment phases.
+NOTE: Any example workflow you see within this document has been implemented and tested within the libraries available in the xref:development-and-deployment.adoc#relatedResources[Additional Resources] and we recommend that you start with these libraries and tools.
 
-== Development and deployment process (SDLC)
-Most development and deployment starts with a *development (dev)* environment, and then the content is promoted from that *dev* environment through varying *stages* until it reaches a stage called *production (prod)*. The process for moving from one stage to another, regardless of your process, is relatively the same:
+== Overview
+The three steps to building an SDLC process with ThoughtSpot are:
 
- . Content is developed within the ThoughtSpot UI in the *dev* environment, connected to *dev* data connections
- . The *dev* content in ThoughtSpot is exported as TML to a source control *dev branch*
- . A *Release build process* copies the TML of the *dev* content with changes to objects to connect the next stage and any GUIDs for objects that will be updated (already exist in the next stage)
- . A *Release publish process* imports the new TML to the next stage environment and shares it to the appropriate groups for that stage's __environment__
- . The GUIDs of any new objects are recorded with their relationship to the *dev* content to allow for future updates
+ . *xref:linkExportSource[Export source]*: Downloading ThoughtSpot objects as TML files into a source control system (Git, etc.)
+ . *xref:linkBuildRelease[Build release]*: Altering copies of the TML files for the next stage / environment
+ . *xref:linkImportRelease[Import release]*: Importing the TML files into the new environment
 
+Every object on a ThoughtSpot instance has a *GUID* as a unique reference.
+
+The *most essential* aspect of steps 2 and 3 is recording any newly created object GUIDs from the destination environment into a *xref:guidMapping[mapping file]* along with the GUID of the source object.
+
+When publishing to a new environment on the same ThoughtSpot instance, you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only destination environment content is referenced.
+
+== Deployment scenarios
+
+=== Instance-to-instance deployment
+The simplest deployment scenario is moving content from one ThoughtSpot instance to another separate instance.
+
+The TML Import process will use the `guid:` property of the imported TML files as the GUID for the new objects on the destination instance on all instances later than 9.0.0, which includes all ThoughtSpot Cloud deployments.
+
+This means that a mapping file or swapping in and out GUIDs is not required. You simply make sure that all Connections have the same unique names on both instances and TML files should import without any modifications.
+
+If your instance is running a ThoughtSpot release version lower than 9.0.0.cl, refer to the xref:development-and-deployment.adoc#_notes_for_older_releases[Notes for older releases].
+
+=== Multiple environments on the same instance
+
+Many ThoughtSpot customers have multiple "environments" on the same instance, either using xref:orgs.adoc[Orgs] or well-defined xref:multitenancy-without-orgs.adoc[Access Control].
+
+In this scenario, you must track the equivalent GUIDS between source and destination environments, and swap them out within the TML files for your deployment process to work correctly.
+
+The workflow for a very simple "dev" to "prod" flow on the same environment shown here, is the same pattern for any source-to-destination environment flow:
 
 image::./images/development-deployment-process.png[Development and deployment workflow]
 
-=== Environments / stages
-ThoughtSpot uses groups and sharing to control the visibility of content to different groups. The word __environment__ in this document refers to a logical grouping in ThoughtSpot, which is not necessarily a separate cluster or other form of separation. In a multi-tenanted ThoughtSpot deployment, the __environments__ for each stage are enforced by sharing to the correct groups after publish time.
+[#guidMapping]
+== GUID mapping file
+As noted above, keeping a *mapping file* of GUIDs of source objects and their descendant objects in the destination environment is essential. The exact structure of the file will depend on the complexity of your deployment needs.
 
-For a thorough explanation of how to control object access using ThoughtSpot groups, see xref:multi-tenancy-best-practices.adoc[Multi-tenancy best practices].
+The simplest pattern is to assume that releases are built exclusively from the "dev" environment, regardless of the destination environment. This pattern can be represented in the simple JSON structure:
 
-=== Release build and publish processes
-The rest of this article covers the aspects of the *release build* and *release publish* processes. The xref:development-and-deployment.adoc#relatedResources[Additional Resources] section at the end contains links to libraries and code examples implementing these development and deployment workflows. Any example code you see within this document has been implemented and tested within the libraries available in the xref:development-and-deployment.adoc#relatedResources[Additional Resources] and we recommend that you start with these libraries.
+[source,json]
+----
+{
+  "test": {
+    "<dev-env-guid>" :  "<test-env-guid>"
+  },
+  "uat": {
+    "<dev-env-guid>" :  "<uat-env-guid>"
+  },
+  "prod": {
+    "<dev-env-guid>" :  "<prod-env-guid>"
+  }
+  ...
+}
+----
 
-== ThoughtSpot modeling language
-Every object type in ThoughtSpot has a representation in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[TML, window=_blank]. TML documents are available by default in the easy-to-read link:https://en.wikipedia.org/wiki/YAML[YAML, window=_blank] format, and can also be requested in JSON format from the ThoughtSpot REST API.
+More complex data structures can be used if you have the possibility of multiple source environments. The important aspect is recording the source GUID along with the GUID of the equivalent object in the destination.
 
-Almost every aspect of an object can be defined or modified via TML, with a few limitations around making updates to very complicated data modeling features. While building content in ThoughtSpot is most easily achieved via the web-based UI, TML allows for integrating into common SDLC processes, deploying changes across a whole environment, and scripting complex SaaS deployments.
+Note that this pattern assumes 1:1 equivalence between the source and destination environment.
 
-=== REST API endpoints for TML
-There are two REST API endpoints for working with TML, one to xref:tml-api.adoc#export[export (download)] and another to xref:tml-api#import[import (upload)] objects. The APIs can retrieve and upload multiple TML files at a time, which tells the system to look at name references within the set of uploaded TML files first, before looking for the existing objects on the ThoughtSpot server. If you are importing TML files one at a time, you will often need to include the `fqn` property to specify between objects with the same name.
+[#linkExportSource]
+== Export source process
+The process for exporting TML files into source control is:
 
-The TML import REST API call itself does not specify any objects. All details of the object to be created or modified are specified __within the uploaded TML file__, including the GUID of an object you wish to update.
+ . Use Metadata APIs (xref:metadata-api.adoc#metadata-list[/metadata/list] in v1 or xref:rest-apiv2-reference.adoc#_metadata[/metadata/search] in v2.0) to get a filtered list of objects
+ . Use `/metadata/tml/export` endpoint in REST API xref:tml-api.adoc#export[v1] or v2.0 with `export_fqns=true` argument and `formmattype=YAML` to retrieve the TML of the object
+ . Save the TML response strings to disk in a Git-enabled directory using a consistent name format
 
-==== Download object TML
-If you want to store TML within Git or any other version control system, use the xref:tml-api.adoc#export[export REST API endpoint] to retrieve the TML representations of the objects on the ThoughtSpot server. Alternatively, you might use the ThoughtSpot server itself as your system of record, but export TML and apply changes programmatically before importing these modified TML files as new objects.
+You can use the link:https://thoughtspot.github.io/cs_tools/cs-tools/scriptability/[CS Tool Scriptibility, window=_blank] package for a pre-built tool for programmatic exporting or build your own equivalent using the link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot_rest_api_v1 Python library, window=_blank].
 
-You can pass any number of GUIDs in the `export_ids` argument, although it is simpler to retrieve one at a time, particularly when processing the results from using the `export_associated=true` option. The `export_associated` argument retrieves the TML objects for all related objects when used, including the GUID of each object within the headers.
+=== Best practices with TML export API
+The `formattype` argument can be set to `YAML` or `JSON`.
 
-If you want to retrieve TML representation of objects with `fqn` data, you can set the `export_fqn` attribute to `true`.
+Export in YAML for saving to disk for source control or use with the `thoughtspot_tml` library. Export in JSON when you need details from TML within a web browser or just need to read values programmatically.
 
-The `formattype` argument can be set to `YAML` or `JSON`. YAML is more human-readable and matches the view when you edit TML within the ThoughtSpot UI, while JSON may be easier to process for programmatic manipulation.
+You can pass any number of GUIDs in the `export_ids` argument, although it is simpler to retrieve one at a time, particularly when processing the results obtained from the `export_associated=true` option.
 
-[#addGuids]
-==== Add GUIDs of associated objects to TML
-Although TML files do not include the GUIDs of associated objects on export, you can use the `export_associated=true` argument to retrieve and add the GUIDs as the `fqn` property. Including the GUIDs in the saved files on disk allows you to substitute in the GUIDs for the equivalent objects in another environment.
+The `export_associated` argument retrieves the TML objects for all related objects when used, including the GUID of each object within the headers. This is useful for dependency checking, and was valuable in versions lower than 8.9.0.cl to fill in fqn values. For more information, see xref:olderReleaseNotes[Notes for older releases].
 
-For example, if you export a Worksheet, you can see that the items in the `tables:` list only include a `name:` property, representing the name of the ThoughtSpot *table* object (as opposed to the table's name in the data warehouse).
+[#linkBuildRelease]
+== Build release process
+To change the source environment TML files so that they can be imported into the destination environment, you need a process that correctly manipulates the TML files.
+
+Common adjustments include:
+
+ - Switching connections at the Table level
+ - Changing database details within Table objects
+ - Adding or removing columns
+ - Renaming columns for translations
+
+For information about the specific TML changes to achieve these goals, see xref:modify-tml.adoc[Modify TML files]. There are also functioning code examples of many of these changes in the link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml, window=_blank] repository.
+
+=== GUIDs in TML files determine create vs update operations
+
+Objects of the same or different types can have the same display name in ThoughtSpot, so the GUID is necessary to identify the particular object.
+
+In the REST APIs, `id` properties are the GUIDs.
+
+In TML:
+
+ - the `guid:` property will be at the top of the file
+ - `fqn:` properties are used to reference other connected objects (typically data sources) with a GUID
+
+==== Rules for create vs. update operations
+Object names are *never used* for determining an object to update, because object names are not unique within ThoughtSpot.
+
+Whether an imported TML will create a new object or update an existing object depends on:
+
+ - The presence/absence of the *guid:* property in the TML file
+ - Whether that GUID matches an existing object on that ThoughtSpot instance
+ - The `force_create=true` parameter
+
+Creation vs. update is determined by the following rules:
+
+ - *No GUID* in the TML file: always creates a new object with a new GUID
+ - *GUID in TML file*, where an object with the *same GUID already exists* in instance: update object
+ - *GUID in TML file*, where *no object with same GUID exists* in ThoughtSpot instance: creates a new object with the GUID from the TML file
+ - *Table objects* match on fully-qualified tables in the database (each Connection can only have one Table object per table in the database), not GUID: If a Table object representing the same database table is found, the GUID of the original object is maintained, but the updates are applied from the new TML file
+ - *force_create=true* parameter of the TML Import API is used: every uploaded TML file results in new objects being created
+
+[NOTE]
+====
+In versions prior to 9.0.0.cl, ThoughtSpot did not consistently use the GUID provided in the TML file for a new object when that GUID was not already in use on that ThoughtSpot instance.
+====
+
+=== GUID mapping and swapping
+Regardless of the other changes you make, building a release for an environment on the same instance will require swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
+
+The *guid mapping file* is referenced when creating the final TML files for publishing and then should be updated with any new object GUIDs after publishing:
+
+ . Check the *guid mapping file*
+ .. If no key-value pair exists for the *dev GUID* for the new environment: *remove the guid property from the TML file*. This will cause a *create* action
+ .. If a key-value pair exists: *swap* the TML file *guid* value from the *dev GUID* to the *destination environment GUID*. This will cause an *update* action
+ . When a new object is published for the first time, record the *dev GUID* as the key, and the *new object GUID* as the value
+ . Perform the same process for any *fqn* properties, which specify data object references. Remove the *fqn* property if the data object is being newly created, or swap it to the mapped GUID for that environment
+
+The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml library, window=_blank] provides a helper function called `disambiguate()` which implements the logic described above when provided with a Dict representing the GUID map. For information about how to use the library, see the README and examples or look at the source code if building an equivalent process yourself in another language.
+
+
+[#linkImportRelease]
+== Import release process
+The xref:tml-api#import[/metadata/tml/import] REST API endpoint is used to upload any number of TML files at one time.
+
+All details of the objects to be created or modified are specified *within the uploaded TML file*, including the GUID which determines which existing object a given TML file will update.
+
+The xref:development-and-deployment#linkBuildRelease[Build release process] section above describes the process for getting the TML files prepared for the import release process. The following describes the Import TML REST API call and what to do with the responses, which do feed back into the build release process in the form of the *GUID mapping file*.
+
+=== TML import options and responses
+
+==== Import related TML files together
+ThoughtSpot does not consider object display name for a TML file, but does use name matching for data object references within a TML file.
+
+All data objects are referenced as "tables" within TML, whether they are a ThoughtSpot table, Worksheet, View, SQL view, or any other data object type.
+
+The following heuristic is used to find matching objects by name within `tables` or `joins` sections:
+
+ . Data object names within the same TML Import operation: Must only be one single object with that name
+ . Searches the entire ThoughtSpot instance: Must be only one single object with that name
+
+The best practice is to create and upload "packages" of related objects together at once:
+
+* Give data objects within a package unique names, even though not enforced by ThoughtSpot
+* All Table objects that use the same Connection object and all Worksheets connected to those tables should be uploaded together in a single TML Import
+* If a data object already exists, swap out the *fqn* references to avoid the name matching heuristic
+
+==== Storing new GUIDs in a mapping
+To track relationships between objects in different environments, particularly on the same instance, you must store a *mapping* of the child object GUID to its source object GUID when you first publish the child object.
+
+The xref:tml-api#import[import REST API endpoint] returns the GUID in the response after a successful import. The `object` key of the response to the import call contains an array, where each element has a `["response"]["header"]["id_guid"]` key providing the GUID. If you import multiple TML files at once, the response array will be in the same order as the request. This allows you to record a mapping of the originating GUID to the newly created GUIDs.
+
+[source,json]
+----
+{
+  "object": [
+    {
+      "response": {
+        "status": {
+          "status_code": "OK"
+        },
+        "header": {
+          "id_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
+          "name": "Basic Answer 1",
+          "description": "This is basic answer with table and headline visualizations.",
+          "author_guid": "59481331-ee53-42be-a548-bd87be6ddd4a",
+          "owner_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
+          "metadata_type": "QUESTION_ANSWER_BOOK"
+        }
+      }
+    }
+  ]
+}
+----
+
+Update the *mapping file* with the new pair of source object GUID and destination environment object GUID, so that the release build process can do the appropriate swaps the next time the object needs to be updated.
+
+
+[#relatedResources]
+== Additional Resources
+
+* The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is written in Python providing classes to work with the TML files as Python objects. You can install it via pip:
+
++
+----
+pip install thoughtspot_tml
+----
+
+* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
+
++
+----
+pip install thoughtspot_rest_api_v1
+----
+
+* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides examples of workflows using the REST API and TML modification possible with the `thoughtspot_tml` and `thoughtspot_rest_api_v1` modules. This library is intended to provide working examples and is not maintained or supported by ThoughtSpot.
+
+* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/[examples/tml_and_sdlc/, window=_blank] directory includes many different example scripts for these TML-based workflows.
++
+
+Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/tml_download.py[tml_download.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system.
+
+* For command-line administration tools including many pre-built TML-based workflows, the link:https://github.com/thoughtspot/cs_tools[cs_tools project, window=_blank] is available.
+
+== Notes for older releases (8.9.0.cl or earlier versions)
+
+[#olderReleaseNotes]
+=== Add FQNs of associated objects in TML
+Prior to ThoughtSpot 8.9.0.cl, TML files did not include the GUIDs of associated objects on export. However, you can use the `export_associated=true` argument to retrieve the GUIDs of the associated objects, then programmatically add the `fqn` property to the downloaded TML with the correct GUIDs. Including the GUIDs in the saved files on disk allows you to substitute the GUIDs for the equivalent objects in another environment.
+
+For example, in these earlier versions, the items in the `tables:` list of this example worksheet TML only include a `name:` property, representing the name of the ThoughtSpot *table* object (as opposed to the table's name in the data warehouse).
 
 If there are *table* objects with duplicate names, specify the GUID of the object using the `fqn:` property. This will distinguish the correct object when importing the TML back.
 
@@ -62,7 +247,7 @@ When you set `export_associated=true` in the TML export command, the first item 
 [source,yaml]
 ----
 guid: 0a0bb654-b0e8-482c-a6c8-9ed396d1cb92
-Worksheet:
+worksheet:
   name: Markspot 2 Worksheet
   tables:
   - name: DIM_CUSTOMERS_2
@@ -94,7 +279,9 @@ The overall response will be structured as a JSON array, with an `edoc` property
 }
 ----
 
-Parse through this array and record a simple mapping of name to guid (Python example of this process):
+Parse through this array and record a simple mapping of name to `guid`:
+
+.Python example of this process
 [source,python]
 ----
 name_guid_map = {}
@@ -103,7 +290,7 @@ for obj in objs:
     name_guid_map[obj['info']['name']] = obj['info']['id']
 ----
 
-Because we know that these are the GUIDs that match to the name values in this particular TML file, we can now use the map we created to add in the `fqn` properties, to result in the *Worksheet* TML looking like this:
+Because we know that these are the GUIDs that match the name values in this particular TML file, we can now use the map we created to add in the `fqn` properties, to result in the *worksheet* TML looking like this:
 
 [source,yaml]
 ----
@@ -119,376 +306,3 @@ worksheet:
     join_path:
     - {}
 ----
-
-*Table* objects do not need this process to add in the `fqn` property, because *connection name* is unique on a ThoughtSpot cluster. There is no value in adding the *fqn* property to the connection name section of a `table` object.
-
-==== Create new objects
-To force the creation of a new object on the server, call the xref:tml-api#import[import REST API endpoint] with the *force_create* property set to `true`. Even if the TML document has a GUID, `force_create=true` should result in a new object on the server with a new GUID.
-
-You can also remove the `guid` property from the TML document, which guarantees that a new object will be created. Use this method when importing a mix of TML documents to create new objects and update existing objects.
-
-==== Update existing objects
-To update an existing object on the ThoughtSpot server, you must find the GUID of the object to be updated, and then update the TML document's *guid* property. If you are seeking to update an existing object, particularly if promoting through different environments, xref:development-and-deployment.adoc#addGuids[Add GUIDs of associated objects to TML] along with recording a mapping of the original object guid ("parent guid") when you create the new object ("child guid") in a different environment the first time (See xref:development-and-deployment.adoc#linkChildGuid[Linking GUIDs from different environments]).
-
-==== Naming constraints and GUIDs
-
-ThoughtSpot enforces unique names only on *connections*. Duplicate names are allowed for all other object types (tables, worksheets, Liveboards, and answers). Every object has a globally unique ID (GUID) for identifying the object without any ambiguity. Within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[TML specification, window=_blank], the `fqn` property is available to specify a GUID when names might be ambiguous.
-
-You can simplify some processes by setting your own best practice rules for giving objects unique names. If your objects have unique names, you won't have to look up GUIDS via the REST API to use TML. For some multi-tenanted use cases, you will want many objects with the same display name, with access control rules determining which objects a given user sees, and then you will need to use GUIDs to differentiate those objects when uploading TML.
-
-[#linkChildGuid]
-==== Link GUIDs from different environments
-GUIDs are randomly generated when an object is first created. To track relationships between objects in different environments, you should store the relationships between various GUIDs for later reference when you first publish the child objects.
-
-For example, if you want to know which Liveboards are copied from a particular template, store the returned GUIDs of the child versions when you first publish them, so that you can push future updates from the parent Liveboard to its descendants.
-
-The xref:tml-api#import[import REST API endpoint] returns the GUID in the response after a successful import. The `object` key of the response to the import call contains an array, where each element has a `["response"]["header"]["id_guid"]` key providing the GUID. If you import multiple TML files at once, the response array will be in the same order as the request. This allows you to record a mapping of the originating GUID to the newly created GUIDs.
-
-[source,json]
-----
-{
-  "object": [
-    {
-      "response": {
-        "status": {
-          "status_code": "OK"
-        },
-        "header": {
-          "id_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
-          "name": "Basic Answer 1",
-          "description": "This is basic answer with table and headline visualizations.",
-          "author_guid": "59481331-ee53-42be-a548-bd87be6ddd4a",
-          "owner_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
-          "metadata_type": "QUESTION_ANSWER_BOOK"
-        }
-      }
-    }
-  ]
-}
-----
-
-You should always map the original object GUID (from the 'dev branch') to the GUID for whatever new environment you are publishing to. This allows for continuous pushing of changes from the active develop branch all the way up through to any environment. An example of simple JSON structure to store the relationship in this way is as follows:
-
-[source,json]
-----
-{
-  "test": {
-    "<dev-env-guid>" :  "<test-env-guid>"
-  },
-  "prod": {
-    "<dev-env-guid>" :  "<prod-env-guid>"
-  }
-}
-----
-
-The 'dev environment' becomes the source of truth that can be relied upon. You will be able to swap any TML file to another environment by doing simple substitution of any `guid` or `fqn` property from the parent/dev environment to the GUID from the appropriate child environment.
-
-=== Data objects
-Data objects represent the various components of the data model within ThoughtSpot, such as *connections*, *tables*, *joins*, *views*, and *worksheets*.
-
-Connections and joins do not have TML representations.
-
-The order in which to handle and publish data objects is as follows:
-
- . *connections* (created manually or via REST API)
- . *tables*
- . *views*
- . *worksheets*
-
-Each level in this hierarchy may reference preceding objects, so you must ensure that the objects at a higher level in the hierarchy exist before publishing the objects in the level below.
-Once all of the data objects exist, you can publish *answers* and *Liveboards* in any order. *Liveboards* do not reference separate *answer* objects, they are fully self-contained.
-
-==== Connections
-Connections contain the details and credentials necessary to connect to a cloud data warehouse. Every table, join, view, and Worksheet all are linked to a particular connection, and relationships between those objects can only exist within the scope of the connection.
-
-Connections do not have a TML representation, but can be created and modified via the xref:connections-api.adoc[data connection REST APIs].
-
-Connections __must have unique names__ within the entire ThoughtSpot server. Connections do have GUIDs, but __only the name is necessary in TML__ files due to this uniqueness constraint.
-
-==== Tables
-link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[Table objects, window=_blank] represent an actual table (or view) within a database.
-
-Within ThoughtSpot, the display names for tables __do not have uniqueness constraints__. You can create or import tables with the same display names.
-
-When importing a table through the ThoughtSpot UI, a table's display name will default to the table's name in the data warehouse, but you can change the display name to whatever you'd like. You can specify the display name within the TML document when creating a table via TML import by changing the `name` property, while leaving the `db_table` property as it was originally imported.
-
-[source,yaml]
-----
-guid: <table_guid>
-table:
-  name: <table_name>
-  db: <database_name>
-  schema: <schema_name>
-  db_table: <database_table_name>
-  connection:
-    name: <connection_name>
-    type: <connection_type>
- ...
-----
-
-
-===== Change table properties
-The `db`, `schema`, and `db_table` properties can all be changed with the appropriate text values when preparing a *table* object for the next environment, as long as the schema/structure (field names and data types) of the individual table being referenced after the changes is identical to the original object.
-
-It is possible to do even more transformations when changing environments, such as adding new columns or adjusting calculations or RLS rules. The example libraries and scripts in the Additional Resources section cover some of these more advanced use cases.
-
-
-===== Join relationships and row-level security rules
-
-ThoughtSpot will import join relationships between tables when adding the table through the UI if the relationships are defined within the database. You can also manually define join relationships through the UI or table TML.
-
-Joins do not have separate TML representations, but are defined in table objects in the `joins_with` section.
-
-Row-level security (RLS) rules are defined in the `rls_rules` section of the table TML. Similar to the `joins_with` section, RLS rules must reference existing table objects for the TML to validate.
-
-For this reason, you should upload all *table* objects using the same *connection* as a single TML Import REST API command. ThoughtSpot will parse all of the uploaded documents as related, allowing it to correctly identify JOINed objects even if there might be naming conflicts when uploading individually.
-
-If you cannot upload all at once and you are encountering errors with Import, you can try the following process to minimize any unresolved references:
-
- . Remove the `rls_rules` and `joins_with` sections from the TML document on the initial import of each table TML. Save the GUID of each newly created object where it can be referenced to the original GUID.
- . Check that all table objects have been created successfully on the ThoughtSpot server.
- . Do a second import of the TML documents with the `rls_rules` and `joins_with` sections. To update the new objects rather than the original objects,  specify the GUIDs of the newly created table objects on the server in the TML documents' `guid` property .
-
-==== Views
-
-link:https://cloud-docs.thoughtspot.com/complex-search/about-query-on-query.html[Views, window=_blank] transform a saved search into a data source, allowing for analysis that would require complex sub-queries in SQL. Views can be joined with other data objects in a Worksheet. The best practice is to make views available to answers and Liveboards through a worksheet.
-
-The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-views[TML syntax for views, window=_blank] is similar to that of worksheets, in that it defines links to table objects on the ThoughtSpot server and join overrides using the `joins` and `table_paths` sections. What truly distinguishes a view is the `search_query` element, which contains a string using the xref:search-data-api.adoc[ThoughtSpot search syntax].
-
-[source,yaml]
-----
-guid: <view_guid>
-view:
-  name: <view_name>
-  description:
-    This is a multi-line description of the view.
-    Description line 2
-  tables:
-  - name: <table_name_1>
-    id : <optional_table_id>
-    fqn : <optional_GUID_of_table_name>
-  - name: <table_name_2>
-  - name: <table_name_n>
-  joins:
-  - name: <join_name_1>
-    source: <source_table_name>
-    destination: <destination_table_name>
-    type: [RIGHT_OUTER | LEFT_OUTER | INNER | OUTER]
-    on: <join_expression_string>
-    is_one_to_one: [ false | true ]
-  table_paths:
-  - id: <table_path_name_1>
-    table: <table_name_1>
-    join_path:
-    - join:
-      - <join_name_1>
-      - <join_name_n>
- ...
-  search_query: <query_string>
- ...
-----
-
-==== Worksheets
-Worksheets combine several *tables*, including *views*, into a coherent data model optimized for searches. The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-worksheets[TML syntax for Worksheets, window=_blank] defines all of the aspects of the worksheet, including the tables it joins together, the columns and their properties, filters, and so on.
-
-If you are taking a *worksheet* from one environment and promoting it to another environment, and you added the `fqn` property as described in this article, you simply use the __parent:child guid__ map to swap out the guid in the original `fqn` property for the one in the child environment.
-
-If you want to change the values for an existing *worksheet* object, the `tables`, `joins` and `table_paths` sections are the most important.
-
-The `tables` section is a list of table objects that exist on the ThoughtSpot Server. The `name` property is all that is included in an exported TML file, and this matches the `name` property of the table object. If there is more than one table object on the server with identical name properties, you must use the `fqn` property to specify the GUID of the particular table you want. However, the string value of `name` is used in the `joins` section, so the correct process for adding an `fqn` property is as follows:
-
-. Find the GUID of the specific table from the ThoughtSpot server.
-. Add the `fqn` element. Set the GUID as the value.
-. Copy the value from the `name` element.
-. Create an `id` property and set the value as the `name` value.
-. Remove the `name` element entirely.
-
-So you go from
-[source,yaml]
-----
-  tables:
-  - name: <table_name_1>
-----
-
-to
-
-[source,yaml]
-----
-  tables:
-  - id : <table_name_1>
-    fqn : <GUID_of_table_name>
-----
-
-The `name` property, which is now transformed into the `id` property, is used in the `joins` and `table_paths` sections that follow. Under `joins`, the `source` and `destination` properties take the string `id` property of a table in the tables list. In a TML file exported from ThoughtSpot, you won't have to make any changes, because this value will already be set to what was defined in the `name` property, and we've maintained that value by switching it to the `id` property.
-
-Under `table_paths`, the `table` property also uses the values we moved to `id`. The list of join names under `join_path` will need to match the text value of the `name` element of an item in the `joins`. This should be valid as exported and not require any changes, but if you do change the `name` value of a join, you will need to update the value in the `join_path` list in `table_paths`.
-
-[source,yaml]
-----
-  joins:
-  - name: <join_name_1>
-    source: <source_table_name>
-    destination: <destination_table_name>
-    type: [RIGHT_OUTER | LEFT_OUTER | INNER | OUTER]
-    on: <join_expression_string>
-    is_one_to_one: [ false | true ]
-  - ...
-  table_paths:
-  - id: <table_path_name_1>
-    table: <table_name_1>
-    join_path:
-    - join:
-      - <join_name_1>
-      - <join_name_n>
-----
-
-=== Content objects
-
-Content objects are *answers* (saved searches) and *Liveboards*. An answer on a Liveboard is not linked in any way to an answer outside that Liveboard. When you pin an answer to a Liveboard, the full definition of the answer is copied into the Liveboard definition at that time. However, the capabilities and definitions for answers stored separately or on a Liveboard are identical.
-
-The best practice recommendation is to only connect *answers* and *Liveboards* to *worksheets*. Although they can connect directly to *tables* and *views*, it is far simpler to adjust references within the *answer* and *Liveboard* TML to *worksheets* than many individual *tables*. The only exception is if you use a single *table* or *view* for the underlying search answer.
-
-==== Answers
-The link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-answers[answer TML syntax, window=_blank] defines all aspects of a saved search and how it is visualized. The `tables` property is used to point to ThoughtSpot *Table*, *View*, or *Worksheet* objects, whichever the answer is connected to. It is simpler to connect an answer to a single *worksheet*, so that you only have to update one reference in the `tables` section.
-
-[source,yaml]
-----
-guid: <answer_guid>
-answer:
-  name: <answer_name>
-  description:
-    This is a multi-line description of the answer
-    Description line 2
-  tables:
-  - id: <table_id>
-    name: <table_name_1>
-    fqn : <optional_GUID_of_table_name>
- ...
-----
-
-==== Liveboards
-link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-pinboards[Liveboards, window=_blank] include many different answers and define a layout of the answer elements.
-
-The answers elements on a *Liveboard* are referred to as visualizations and are defined in the `visualizations` section. The answer syntax here matches exactly as a separate answer stored on its own, with the `guid` property of an individual answer replaced by an `id` property. The value for the `id` property is typically the word `Viz` and a number, `Viz 1`, `Viz 10`.
-
-For the parent:child guid mapping process for SDLC promotion to work, you *must not* create visualizations on a single *Liveboard* that connect to different *worksheets* with the *same name* (this is possible, as *worksheet* names are not unique). The current best practices rely on matching a name to a GUID value, so using two separate *worksheets* results in an indeterminate situation.
-
-[source,yaml]
-----
-liveboard:
-  name: <Liveboard_name>
-  description:
-    This is a multi-line description of the Liveboard
-    Description line 2
-  visualizations:
-  - id: <viz_id_1>
-    answer:
- ...
-----
-
-The `layout` section is an ordered list with a `size` property for each visualization tile. If a visualization is added programmatically, it needs a matching entry in the layout section to determine how it appears within the Liveboard. Adjustments to the order within the Liveboard can be made by reordering the layout list. The `visualization_id` property must match to an existing `id` value in the `visualizations` list.
-
-[source,yaml]
-----
-  layout:
-    tiles:
-    - visualization_id: <visualization_id_1>
-      size: <viz_id_1_size>
-    - visualization_id: <visualization_id_2>
-----
-
-== Deployment methods
-
-=== Change tracking and source control
-
-In the development phase, most content creation and updates occurs within the ThoughtSpot web application. Changes can be made directly to TML files and uploaded, but ThoughtSpot's interface is designed for creating new searches and Liveboards with maximum speed and control. This presents the question of when and how to track content changes for content in the `development environment`.
-
-The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] can be used to retrieve the GUIDs for the various objects on the ThoughtSpot server. Looping through those GUIDs with the xref:tml-api.adoc#export[export TML REST API endpoint] allows for saving the current state of all objects to disk. A simple form of Git (or other source control) integration can be achieved simply by exporting all the TML files to a Git-enabled directory, with Git determining if there are any changes.
-
-The xref:metadata-api.adoc#object-header[/metadata/listobjectheaders] endpoint can be sorted by the `MODIFIED` keyword and then retrieved in batches, allowing a TML retrieval script to only retrieve objects modified since the last run date or some other reasonable time period. Remember to xref:development-and-deployment.adoc#addGuids[Add GUIDs of associated objects to TML] when downloading each TML object.
-
-=== Copy from one instance to a separate instance
-When moving content from one instance of ThoughtSpot to another, object names can be left exactly as they are from the first environment to the other. Changes like referencing a different *connection* can be achieved by changing the `name` property under the `connection` (value labeled `connection_name`) within the link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html#syntax-tables[table TML objects, window=_blank]:
-
-[source,yaml]
-----
-table:
-  name: <table_name>
-  db: <database_name>
-  schema: <schema_name>
-  db_table: <database_table_name>
-  connection:
-    name: <connection_name>
- ...
-----
-
-You should still record the mapping of parent:child guids when you publish, to allow for future updates.
-
-=== Dev -> test -> prod
-A standard pattern for software development life cycle (SDLC) is moving content from a development (dev) environment to a test environment, and then eventually to production (prod) where end customers can see it.
-
-==== Prefixes on content names as namespaces
-The easiest way to avoid name collisions is by adding `dev_` or `test_` before the name of any object. By using a consistent __namespace prefix__, deployment scripts can easily find and replace when moving from __dev__ to __test__, or remove the prefix entirely when copying the content to prod where end customers can see it.
-
-Example pattern:
-
-[width="100%" cols="3,3,3"]
-[options='header']
-|===
-|dev name|test name|prod name
-|dev_Connection A|test_Connection A|Connection A
-|dev_Table A|test_Table A|Table A
-|===
-
-Using this namespace prefix scheme, you can export the TML files related to `dev_Connection A` and simply update any name references by replacing `dev_` with `test_`. When moving from test to prod, remove the prefix from the names entirely.
-
-==== Duplicate object names
-If you are not using prefixes to namespace, you must rely on adding the GUIDs as the `fqn` property using the `export_associated=true` option, and then keeping the mapping of parent:child guids for each environment.
-
-==== Access control
-Dev and test content should be xref:multi-tenancy-best-practices.adoc[shared only to specific groups] designed to give access to the correct app developer users. Individual tenant users will never see content that is not shared with them.
-
-=== Single-tenant databases deployment model
-As described in the xref:multi-tenancy-best-practices.adoc[Multi-tenancy best practices] article, the single-tenant databases model requires separate connections for each tenant, along with replicas of all other standardized objects. In this model, there is one additional tier of deployment: dev, test, prod template, and prod tenant content.
-
-Prod template content is the finalized data model and other content for a given prod release, before being published to each tenant with the necessary changes to their tenant connection.
-
-==== Namespacing in the single-tenant databases model
-When you have a different database for each of your tenants, you'll programmatically build a connection for each tenant, and then copy your prod template for each tenant. In this pattern, you namespace dev, test, and prod template content, and remove the namespace for the tenant-specific content.
-
-Example pattern:
-
-[width="100%" cols="3,3,3,3"]
-[options='header']
-|===
-|dev name|test name|prod name|tenant name (per tenant)
-|dev_Connection A|test_Connection A|prod_Connection A|Connection A
-|dev_Table A|test_Table A|prod_Table A|Table A
-|===
-
-Each prod tenant copy will have the same name so that each tenant will not see their customer name or ID listed out. Access control through sharing will ensure they never have any awareness of the other objects that exist with the same name for the other tenants.
-
-[#relatedResources]
-== Additional Resources
-
-* The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is written in Python providing classes to work with the TML files as Python objects. You can install it via pip:
-
-+
-----
-pip install thoughtspot-tml
-----
-
-* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot v1 REST API. You can install it via pip:
-
-+
-----
-pip install thoughtspot-rest-api-v1
-----
-
-* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides examples of workflows using the REST API and TML modification possible with the `thoughtspot-tml` and `thoughtspot-rest-api-v1` modules. This library is intended to provide working examples and is not maintained or supported by ThoughtSpot.
-
-* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/[examples/tml_and_sdlc/, window=_blank] directory includes many different example scripts for these TML based workflows.
-+
-Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/tml_download.py[tml_download.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system.
-
-* For command-line administration tools including many pre-built TML-based workflows, the link:https://github.com/thoughtspot/cs_tools[cs_tools project, window=_blank] is available.
