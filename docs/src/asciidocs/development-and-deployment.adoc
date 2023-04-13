@@ -146,7 +146,7 @@ The *guid mapping file* is referenced when creating the final TML files for publ
  . When a new object is published for the first time, record the *dev GUID* as the key, and the *new object GUID* as the value
  . Perform the same process for any *fqn* properties, which specify data object references. Remove the *fqn* property if the data object is being newly created, or swap it to the mapped GUID for that environment
 
-The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml library, window=_blank] provides a helper function called `disambiguate()` which implements the logic above when provided with a Dict representing the GUID map. Please see the README and examples for how to use if using the library, or look at the source code if building an equivalent process yourself in another language.
+The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml library, window=_blank] provides a helper function called `disambiguate()` which implements the logic described above when provided with a Dict representing the GUID map. For information about how to use the library, see the README and examples or look at the source code if building an equivalent process yourself in another language.
 
 
 [#linkImportRelease]
