@@ -266,6 +266,9 @@ export interface EmbedConfig {
      * [SSO] For SSO Authentication, if `inPopup` is set to true, it will open
      * the SAML auth flow in a popup, instead of redirecting browser in place.
      *
+     * Need to use this with authTriggerContainer. Or manually trigger
+     * the AuthEvent.TRIGGER_SSO_POPUP event on a user interaction.
+     *
      * @default false
      * @version SDK: 1.18.0
      */
@@ -378,13 +381,28 @@ export interface EmbedConfig {
      */
     customizations?: CustomisationsInterface;
     /**
-     * For noRedirect SSO Auth, we need a button which the user
+     * For inPopup SAMLRedirect or OIDCRedirect Auth, we need a button which the user
      * click to trigger the flow. This is the containing element
      * for that button.
      *
+     * @example
+     * ```js
+     * init({
+     *   authType: AuthType.SAMLRedirect,
+     *   inPopup: true,
+     *   authTriggerContainer: '#auth-trigger-container'
+     * })
+     * ```
      * @version SDK: 1.17.0 | ThoughtSpot: *
      */
     authTriggerContainer?: string | HTMLElement;
+    /**
+     * Specify that we want to use the AuthEvent.TRIGGER_SSO_POPUP event to trigger
+     * SAML popup. This is useful when you want to trigger the popup on a custom user
+     * action.
+     *
+     */
+    useEventForSAMLPopup?: boolean;
     /**
      * Text to show in the button which triggers the popup auth flow.
      * Default: "Authorize".
@@ -448,7 +466,17 @@ export interface ViewConfig {
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu.
+     * (...), and the contextual menu. These actions will be disabled
+     * for the user.
+     * Use this to disable actions.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   disabledActions: [Action.Download, Action.Save]
+     * });
+     * ```
      */
     disabledActions?: Action[];
     /**
@@ -456,15 +484,30 @@ export interface ViewConfig {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the primary menu, more menu
-     * (...), and the contextual menu.
+     * The list of actions to hide from the embedded.
+     * This actions will be hidden from the user.
+     * Use this to hide an action.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   hiddenActions: [Action.Download, Action.Export]
+     * });
+     * ```
+     * @important
      */
     hiddenActions?: Action[];
     /**
      * The list of actions to display from the primary menu, more menu
-     * (...), and the contextual menu.
+     * (...), and the contextual menu. These will be only actions that
+     * are visible to the user.
+     * Use this to hide all actions except the ones you want to show.
+     *
+     * Use either this or hiddenActions.
      *
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
+     * @important
      */
     visibleActions?: Action[];
     /**
@@ -685,6 +728,18 @@ export interface RuntimeFilter {
  * To add an event listener use the corresponding
  * {@link LiveboardEmbed.on} or {@link AppEmbed.on} or {@link SearchEmbed.on} method.
  *
+ *  @example
+ * ```js
+ * import { EmbedEvent } from '@thoughtspot/visual-embed-sdk';
+ * // Or
+ * // const { EmbedEvent } = window.tsembed;
+ *
+ * // create the liveboard embed.
+ *
+ * liveboardEmbed.on(EmbedEvent.Drilldown, (drilldown) => {
+ *   console.log('Drilldown event', drilldown);
+ * }));
+ * ```
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -1101,6 +1156,18 @@ export enum EmbedEvent {
  * {@link LiveboardEmbed.trigger} or {@link AppEmbed.trigger} or {@link
  * SearchEmbed.trigger} method.
  *
+ * @example
+ * ```js
+ * import { HostEvent } from '@thoughtspot/visual-embed-sdk';
+ * // Or
+ * // const { HostEvent } = window.tsembed;
+ *
+ * // create the liveboard embed.
+ *
+ * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
+ *   { columnName: 'state, operator: RuntimeFilterOp.EQ, values: ['california']}
+ * ]);
+ * ```
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -1662,6 +1729,19 @@ export enum Param {
 /**
  * The list of actions that can be performed on visual ThoughtSpot
  * entities, such as answers and Liveboards.
+ *
+ * This enum is used to specify the actions that could be disabled,
+ * hidden or made visible.
+ *
+ * @example
+ * ```js
+ * const embed = new LiveboardEmbed('#embed-container', {
+ *    ... // other options
+ *    visibleActions: [Action.Save, Action.Explore],
+ *    disableActions: [Action.Save],
+ *    hiddenActions: [Action.Download], // Set either this or visibleActions
+ * })
+ * ```
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
@@ -1757,12 +1837,18 @@ export enum Action {
      * @hidden
      */
     DownloadEmbraceQueries = 'downloadEmbraceQueries',
+    /**
+     * Pin action.
+     */
     Pin = 'pin',
     /**
      * @hidden
      */
     AnalysisInfo = 'analysisInfo',
     Subscription = 'subscription',
+    /**
+     * Explore action.
+     */
     Explore = 'explore',
     DrillInclude = 'context-menu-item-include',
     DrillExclude = 'context-menu-item-exclude',

@@ -145,6 +145,9 @@ export class TsEmbed {
         this.el = getDOMNode(domSelector);
         // TODO: handle error
         this.embedConfig = getEmbedConfig();
+        if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
+            this.embedConfig.authTriggerContainer = domSelector;
+        }
         this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
