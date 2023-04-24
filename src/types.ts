@@ -1953,6 +1953,11 @@ export enum Action {
      * @hidden
      */
     InsertInToSlide = 'insertInToSlide',
+
+    /**
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     */
+    RenameModalTitleDescription = 'renameModalTitleDescription',
 }
 
 export interface SessionInterface {
