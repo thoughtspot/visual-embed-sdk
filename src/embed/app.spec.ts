@@ -1,7 +1,7 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
 import {
-    Action, AuthType, HostEvent, RuntimeFilterOp,
+    Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp,
 } from '../types';
 import {
     executeAfterWait,
@@ -17,6 +17,7 @@ import {
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
+import { TsEmbed, V1Embed } from './ts-embed';
 
 const defaultViewConfig = {
     frameParams: {
@@ -200,6 +201,37 @@ describe('App embed tests', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
+    });
+
+    test('should register event handlers to adjust iframe height', async () => {
+        const onSpy = jest.spyOn(AppEmbed.prototype, 'on')
+            .mockImplementation((event, callback) => {
+                if (event === EmbedEvent.RouteChange) {
+                    callback({ data: { currentPath: '/answers' } }, jest.fn());
+                }
+                if (event === EmbedEvent.EmbedHeight) {
+                    callback({ data: '100%' });
+                }
+                if (event === EmbedEvent.EmbedIframeCenter) {
+                    callback({}, jest.fn());
+                }
+                return null;
+            });
+        jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
+        jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+
+        await executeAfterWait(() => {
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
+        });
+        jest.clearAllMocks();
     });
 
     describe('Navigate to Page API', () => {

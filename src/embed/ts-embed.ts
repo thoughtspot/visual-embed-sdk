@@ -574,8 +574,8 @@ export class TsEmbed {
      *
      * @param height The height in pixels
      */
-    protected setIFrameHeight(height: number): void {
-        this.iFrame.style.height = `${height}px`;
+    protected setIFrameHeight(height: number | string): void {
+        this.iFrame.style.height = getCssDimension(height);
     }
 
     /**
