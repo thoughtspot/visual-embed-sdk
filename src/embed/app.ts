@@ -9,9 +9,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getFilterQuery, getQueryParamString } from '../utils';
+import { getQueryParamString } from '../utils';
 import {
-    Param, RuntimeFilter, DOMSelector, HostEvent, ViewConfig,
+    Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -101,6 +101,13 @@ export interface AppViewConfig extends ViewConfig {
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     enableSearchAssist?: boolean;
+     /**
+      * If set to true, the embedded object container dynamically resizes
+      * according to the height of the pages which support fullHeight mode.
+      *
+      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
+      */
+    fullHeight?:boolean;
 }
 
 /**
@@ -111,9 +118,16 @@ export interface AppViewConfig extends ViewConfig {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
+    private defaultHeight = '100%';
+
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         super(domSelector, viewConfig);
+        if (this.viewConfig.fullHeight === true) {
+            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+        }
     }
 
     /**
@@ -128,6 +142,7 @@ export class AppEmbed extends V1Embed {
             showPrimaryNavbar,
             disableProfileAndHelp,
             enableSearchAssist,
+            fullHeight,
         } = this.viewConfig;
 
         let params = {};
@@ -136,6 +151,10 @@ export class AppEmbed extends V1Embed {
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
 
         params = this.getBaseQueryParams(params);
+
+        if (fullHeight === true) {
+            params[Param.fullHeight] = true;
+        }
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -171,6 +190,30 @@ export class AppEmbed extends V1Embed {
 
         return url;
     }
+
+    /**
+     * Set the iframe height as per the computed height received
+     * from the ThoughtSpot app.
+     *
+     * @param data The event payload
+     */
+    protected updateIFrameHeight = (data: MessagePayload) => {
+        this.setIFrameHeight(Math.max(data.data, this.iFrame?.scrollHeight));
+    }
+
+    private embedIframeCenter = (data: MessagePayload, responder: any) => {
+        const obj = this.getIframeCenter();
+        responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
+    };
+
+    private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
+        const {
+            height: frameHeight, ...restParams
+        } = this.viewConfig.frameParams || {};
+        if (!data.data.currentPath.startsWith('/pinboard/')) {
+            this.setIFrameHeight(frameHeight || this.defaultHeight);
+        }
+    };
 
     /**
      * Gets the ThoughtSpot route of the page for a particular page ID.
