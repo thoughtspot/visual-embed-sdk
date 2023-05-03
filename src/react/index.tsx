@@ -69,12 +69,39 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
 interface SearchProps extends EmbedProps, SearchViewConfig {}
 
+/**
+ * React component for Search Embed.
+ *
+ * @example
+ * ```tsx
+ * function Search() {
+ *  return <SearchEmbed
+ *      dataSource="dataSourceId"
+ *      searchOptions={{ searchTokenString: "[revenue]" }}
+ *  />
+ * }
+ * ```
+ */
 export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, SearchViewConfig>(
     _SearchEmbed,
 );
 
 interface AppProps extends EmbedProps, AppViewConfig {}
 
+/**
+ * React component for Full app Embed.
+ *
+ * @example
+ * ```tsx
+ * function Search() {
+ *  return <AppEmbed
+ *      showPrimaryNavbar={false}
+ *      pageId={Page.Liveboards}
+ *      onError={(error) => console.error(error)}
+ *  />
+ * }
+ * ```
+ */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
 interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
@@ -100,18 +127,44 @@ export const LiveboardEmbed = componentFactory<
     LiveboardViewConfig
 >(_LiveboardEmbed);
 
-export const PinboardEmbed = componentFactory<
-    typeof _LiveboardEmbed,
-    LiveboardProps,
-    LiveboardViewConfig
->(_LiveboardEmbed);
+export const PinboardEmbed = LiveboardEmbed;
 
 interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
 
+/**
+ * React component for Search bar embed.
+ *
+ * @example
+ * ```tsx
+ * function SearchBar() {
+ *  return <SearchBarEmbed
+ *      dataSource="dataSourceId"
+ *      searchOptions={{ searchTokenString: "[revenue]" }}
+ *  />
+ * }
+ * ```
+ */
 export const SearchBarEmbed = componentFactory<
     typeof _SearchBarEmbed,
     SearchBarEmbedProps,
     SearchBarViewConfig
 >(_SearchBarEmbed);
 
+/**
+ * Get a reference to the embed component to trigger events on the component.
+ *
+ * @example
+ * ```
+ * function Component() {
+ * const ref = useEmbedRef();
+ * useEffect(() => {
+ * ref.current.trigger(
+ *  EmbedEvent.UpdateRuntimeFilter,
+ *  [{ columnName: 'name', operator: 'EQ', values: ['value']}]);
+ * }, [])
+ * return <LiveboardEmbed ref={ref} liveboardId={<id>} />
+ * }
+ * ```
+ * @returns {React.MutableRefObject<TsEmbed>} ref
+ */
 export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => React.useRef<TsEmbed>(null);
