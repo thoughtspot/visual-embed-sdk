@@ -10,7 +10,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Version 9.2.0.cl
 
-=== Per-Org tokens and secret key for Trusted authentication
+=== Per-Org secret key and tokens for Trusted authentication
 
 ThoughtSpot now supports generating secret keys per Org. Org administrators can generate a secret key for trusted authentication in their Org context and allow their Org users to obtain authentication tokens using this secret key.
 
@@ -26,10 +26,12 @@ The 9.2.0.cl release introduces the following new variables for custom styling o
 * `--ts-var-search-auto-complete-subtext-font-color`
 * `--ts-var-answer-edit-panel-background-color`
 
-For more information, see xref:css-customization.adoc[Customize CSS].
+For more information, see xref:css-customization.adoc#_search_bar_and_data_panel[Customize CSS].
 
 === GraphQL playground [beta betaBackground]^Beta^
-The *Develop* tab in the ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations. To enable this feature on your instance, contact ThoughtSpot Support.
+The *Develop* tab in the ThoughtSpot UI introduces the GraphQL playground to allow users to interact with GraphQL endpoints and run query and mutation operations. To enable this feature on your instance, contact ThoughtSpot Support.
+
+For more information, see xref:group-api.adoc[GraphQL Playground].
 
 === Runtime Parameter overrides
 
@@ -73,6 +75,8 @@ We recommend using a development environment to test your customizations before 
 === Note tiles on Liveboards [eaTag eaBackground]#Early Access#
 
 In the new Liveboard experience mode, you can now add Note tiles with custom text, images, and links. This feature is turned off by default and can be enabled by ThoughtSpot administrators.
+
+For more information, see xref:enable-liveboardv2.adoc#noteTiles[Note tiles].
 
 === Visual Embed SDK
 

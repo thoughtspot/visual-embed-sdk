@@ -14,9 +14,15 @@ You can use Parameters within formulas when querying your data via search, Liveb
 * link:https://docs.thoughtspot.com/cloud/latest/parameters-use[Using Parameters, window=_blank]
 * link:https://docs.thoughtspot.com/cloud/latest/parameters-create[Creating Parameters, window=_blank]
 
+
 == Runtime overrides
 
 You can apply overrides to Parameter values at runtime and visualize data with the adjusted values. Like runtime filters, you can append the Parameters to the end of the URL to modify the resulting output.
+
+[NOTE]
+====
+The runtime override operation returns an error if the URL exceeds 2000 characters.
+====
 
 To apply overrides to a Liveboard or Answer object, Parameters must be defined in the Worksheet from which the data is retrieved for live analytics.
 

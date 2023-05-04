@@ -237,10 +237,23 @@ Pins a visualization to a Liveboard.
 | `LiveboardEmbed` +
 `AppEmbed`| *Show underlying data* +
 Displays detailed information and raw data for a given visualization. Available as a contextual menu action
-|`Action.Download`
-| `LiveboardEmbed` +
-`AppEmbed`|*Download*  +
-Downloads the visualization.
+
+|`Action.Download`|`LiveboardEmbed` +
+`AppEmbed`|*Download* +
+The Download submenu with actions to download a visualization as CSV, PDF, PNG, and XLSX.
+|`Action.DownloadAsCsv`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *CSV* +
+Downloads the answer data in the CSV file format.
+|`Action.DownloadAsXLSX`|`LiveboardEmbed` +
+`AppEmbed`|
+*Download* > *XLSX* +
+Downloads the answer data in the XLSX file format.
+|`Action.DownloadAsPdf`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *PDF* +
+Downloads the answer data as a PDF file. Available only for tables.
+|`Action.DownloadAsPng`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *PNG* +
+Downloads the chart as a PNG file. Available only for charts.
 |`Action.Present`|
 `LiveboardEmbed` +
 `AppEmbed`| *Present* +
@@ -320,23 +333,26 @@ a|The *Query visualizer* and *Query SQL* buttons in *Query details* +
 
 |`Action.Download`|`SearchEmbed` +
 `AppEmbed`|*Download* +
-Downloads the answer.
+The Download submenu with actions to download the Answer data as CSV, PDF, PNG, and XLSX.
+|`Action.DownloadAsCsv`|`SearchEmbed` +
+`AppEmbed` |*Download* > *CSV* +
+Downloads the answer data in the CSV file format.
+|`Action.DownloadAsXLSX`|`SearchEmbed` +
+`AppEmbed`|
+*Download* > *XLSX* +
+Downloads the answer data in the XLSX file format.
+|`Action.DownloadAsPdf`|`SearchEmbed` +
+`AppEmbed` |*Download* > *PDF* +
+Downloads the answer data as a PDF file. Available only for tables.
+|`Action.DownloadAsPng`|`SearchEmbed` +
+`AppEmbed` |*Download* > *PNG* +
+Downloads the chart as a PNG file. Available only for charts.
+
 |`Action.ShowUnderlyingData`|`SearchEmbed` +
 `AppEmbed`|*Show underlying data* +
 Displays detailed information and raw data for a given visualization. Available as a menu action in the *More* menu image:./images/icon-more-10px.png[the more options menu] and the contextual menu.
 |`Action.AnswerDelete`| `AppEmbed`|**Delete** +
 Deletes the answer.
-|`Action.DownloadAsCsv`|`SearchEmbed` +
-`AppEmbed` |*Download as CSV* +
-Downloads the answer data in the CSV file format. Available only for tables.
-|`Action.DownloadAsXLSX`|`SearchEmbed` +
-`AppEmbed`| 
-*Download as XLSX* +
-Downloads the answer data in the XLSX file format. Available only for tables.
-|`Action.DownloadAsPdf`|`SearchEmbed` +
-`AppEmbed` |*Download as PDF* +
-Downloads the answer data as a PDF file. Available only for tables.
-
 |`Action.SyncToSheets`|`LiveboardEmbed` +
 `AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
 Allows creating a sync to send data to the Google Sheets app.|

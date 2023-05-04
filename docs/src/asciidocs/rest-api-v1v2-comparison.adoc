@@ -150,11 +150,6 @@ API endpoints for user administration and management |[tag greenBackground]#✓#
 |=====
 --
 
-////
-|*Subscription* +
-API endpoints for managing scheduled jobs for a given Liveboard|[tag greenBackground]#✓# Available| [tag greyBackground]#–#
-////
-
 == Request methods
 [div tableContainer]
 --

@@ -8,7 +8,6 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-
 == Version 1.21,0, May 2023
 [width="100%" cols="1,4"]
 |====
@@ -43,6 +42,16 @@ For more information, see xref:embed-action-ref.adoc[Action reference].
 
 For more information, see xref:events-ref.adoc[Events reference].
 
+|[tag redBackground]#DEPRECATED# a|
+
+The following events are deprecated from version 1.21.0 onwards.
+
+* `HostEvent.Download` +
+* `EmbedEvent.Download`
+
+You can use the `DownloadAsPng`, `DownloadAsXlsx`, `DownloadAsCsv` and `DownloadAsPdf` events for download actions.
+
+For more information, see xref:events-ref.adoc[Events reference].
 |[tag greenBackground]#NEW FEATURE# a| The SDK includes new attributes to customize the experience for embedded app users:
 
 * `linkOverride`

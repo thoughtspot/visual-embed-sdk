@@ -10,7 +10,7 @@ Runtime sorting allows applying sort criteria to a Liveboard or Answer object on
 
 == How runtime sorting works
 
-You can add Runtime sort properties by appending sort attributes and their values as query parameters in the URL. The query parameter format for the sort is as follows:
+You can add runtime sort attributes as query parameters to the URL. The query parameter format of a runtime sort operation is as follows:
 
 ----
 ?sortCol1=<COL_NAME>&asc1=<BOOL>
@@ -20,8 +20,7 @@ sortCol1::
 __String__. Name of the column to sort by. For example, if you want to sort the `Sales` column in ascending order, you can specify the column name as `sortCol1=Sales`.
 
 asc1::
-__Boolean__. Optional. Indicates Sorting order. To sort a column in descending order, specify `asc1=false`. By default, the `asc1` value is set to `true`.
-
+__Boolean__. Optional. Indicates the sorting order. To sort a column in descending order, specify `asc1=false`. By default, the `asc1` value is set to `true`.
 
 The following example shows the URL parameters to sort the `Sales` column in descending order on a Liveboard.
 
@@ -29,9 +28,15 @@ The following example shows the URL parameters to sort the `Sales` column in des
 https://{ThoughtSpot-host}/#/pinboard/c476b285-6285-4038-87af-d69d32531e48?sortCol1=Sales&asc1=false
 ----
 
+
+[NOTE]
+====
+The runtime sort operation returns an error if the URL exceeds 2000 characters.
+====
+
 === Support for multiple sort parameters
 
-You can append multiple runtime sorting properties to a Liveboard or Answer URL. Unlike runtime Filters, the runtime sort attribute-value pair must be applied in a specific order
+You can append multiple runtime sort attributes to a Liveboard or Answer URL. Unlike runtime Filters, the runtime sort attribute-value pair must be applied in a specific order.
 
 The following example shows the correct order of runtime sort parameters:
 ----
@@ -48,7 +53,9 @@ You can use the REST API v1 or REST API v2 endpoints to apply runtime sorting pa
 
 === REST API v1
 
-If you are using REST API v1 endpoints, runtime sorts can be applied when fetching a Liveboard or Answer object from ThoughtSpot. To sort columns when fetching data from a Liveboard object, add sort properties to the Liveboard data API request URL as shown in the example here:
+If you are using REST API v1 endpoints, runtime sorts can be applied when fetching a Liveboard or Answer object from ThoughtSpot.
+
+To sort columns when fetching data from a Liveboard object, add sort properties to the Liveboard data API request URL as shown in the example here:
 
 ----
 http://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&sortCol1=Sales&asc1=false
@@ -57,7 +64,7 @@ http://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-
 https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&sortCol1=Sales&asc1=false&sortCol2=Tea
 ----
 
-To apply overrides to an Answer, add Parameters to the search data API request URL as shown here:
+To sort columns of an Answer object, add the sort attributes to the search data API request URL as shown in the following examples:
 ----
 https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/searchdata?batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&sortCol1=Sales&asc1=false
 ----
