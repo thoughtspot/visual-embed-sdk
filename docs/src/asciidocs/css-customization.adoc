@@ -183,12 +183,15 @@ The search bar element that allows passing search tokens.
 |`--ts-var-search-bar-text-font-color`|Font color of the text in the Search bar.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
-|`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
 |`--ts-var-search-bar-background`| Background color of the search bar.
 |`--ts-var-search-auto-complete-background`| Background color of the search suggestions panel.
 |`--ts-var-search-navigation-button-background`|Background color of the navigation panel that allows you to undo, redo, and reset search operations.
 |`--ts-var-search-bar-navigation-help-text-background`| Background color of the navigation help text that appears at the bottom of the search suggestions panel.
 |`--ts-var-search-bar-auto-complete-hover-background`|Background color of the search suggestion block on hover.
+|`--ts-var-search-auto-complete-font-color`| Font color of the text in the search suggestion panel.
+|`--ts-var-search-auto-complete-subtext-font-color`| Font color of the sub-text that appears below the keyword in the search suggestion panel.
+|`--ts-var-answer-data-panel-background-color`|Background color of the data panel.
+|`--ts-var-answer-edit-panel-background-color`|Background color of the vertical panel on the right side of the Answer page, which includes the options to edit charts and tables.
 |======
 
 The following figure shows customizable search page components:
@@ -480,9 +483,12 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-search-navigation-button-background: #EAEDF2;
   --ts-var-search-bar-navigation-help-text-background: #EAEDF2;
   --ts-var-search-bar-auto-complete-hover-background: #C0C6CF;
+  --ts-var-search-auto-complete-font-color: #000000;
+  --ts-var-search-auto-complete-subtext-font-color: #1D232F;
 
- /******** Data panel on Search and answers page ********/
+ /******** Data and edit panels on Answer page ********/
   --ts-var-answer-data-panel-background-color: initial;
+  --ts-var-answer-edit-panel-background-color: #1D232F;
 
   /******** Buttons ********/
   /* Application-wide button design for main buttons. For example, Search data*/

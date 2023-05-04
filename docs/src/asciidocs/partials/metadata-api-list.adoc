@@ -34,6 +34,9 @@ ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:metadata-api.adoc#del-object-fav[**DELETE** /tspublic/v1/metadata/markunmarkfavoritefor]` +
 Removes the objects from a user's favorites list.|ThoughtSpot Cloud [version noBackground]#ts7.jun.cl# +
 ThoughtSpot Software [version noBackground]#7.1.1#
+|`xref:metadata-api.adoc#del-obj[**POST** /tspublic/v1/metadata/delete]`  +
+Deletes one or several metadata objects.|ThoughtSpot Cloud [version noBackground]#9.0.0.cl# +
+ThoughtSpot Software [version noBackground]#9.0.1.sw#
 |=====
 --
 

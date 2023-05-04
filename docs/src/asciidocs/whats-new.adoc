@@ -8,35 +8,95 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Upcoming changes (Version 9.2.0.cl and later)
+== Version 9.2.0.cl
 
-=== Cross-filters and contextual menu changes
+=== Per-Org secret key and tokens for Trusted authentication
 
-Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations using cross-filters. Cross-filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. As part of this feature, the contextual menu that currently opens on right-clicking a data point on a visualization will appear as a __left-click-triggered__ pop-up menu. This change makes features like *Drill down* more easily discoverable and improves the user experience for those accessing ThoughtSpot on touch devices.
+ThoughtSpot now supports generating secret keys per Org. Org administrators can generate a secret key for trusted authentication in their Org context and allow their Org users to obtain authentication tokens using this secret key.
 
-If your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, once you activate the Cross-filters feature, you will notice that the `VizPointClick` event is triggered whenever a user clicks a contextual menu action, such as *Drill down* or *Filter*.
+Starting from 9.2.0.cl, Org users require Org-specific authentication tokens issued for their user accounts when switching between Orgs. When generating an authentication token via REST API, make sure to request separate tokens for each Org context.
 
-If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from the contextual menu may impact your app’s current workflow. To avoid this issue, use the following settings in the Visual Embed SDK v1.21.0 and later:
+For more information, see xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication].
+
+=== Custom styles
+
+The 9.2.0.cl release introduces the following new variables for custom styling of the ThoughtSpot Search page:
+
+* `--ts-var-search-auto-complete-font-color`
+* `--ts-var-search-auto-complete-subtext-font-color`
+* `--ts-var-answer-edit-panel-background-color`
+
+For more information, see xref:css-customization.adoc#_search_bar_and_data_panel[Customize CSS].
+
+=== GraphQL playground [beta betaBackground]^Beta^
+The *Develop* tab in the ThoughtSpot UI introduces the GraphQL playground to allow users to interact with GraphQL endpoints and run query and mutation operations. To enable this feature on your instance, contact ThoughtSpot Support.
+
+For more information, see xref:graphql-playground.adoc[GraphQL Playground].
+
+=== Runtime Parameter overrides
+
+Embedded application users can now create Worksheet and Answer Parameters to optimize data queries. You can also adjust values and apply overrides at runtime on a Liveboard or Answer either via REST API or by appending Parameters to the query URL in the UI.
+
+For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrides].
+
+[NOTE]
+====
+In the 9.2.0.cl release, ThoughtSpot does not support applying runtime Parameter overrides via Visual Embed SDK or REST API v2.0 endpoints.
+====
+
+=== Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
+
+Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
+
+[NOTE]
+====
+The Cross filters feature is turned off by default in 9.2.0.cl. To enable this feature on your instance, contact ThoughtSpot Support.
+====
+
+==== Contextual menu behavior
+
+For embedded instances with cross filters feature enabled, ThoughtSpot provides an option to set the contextual menu on visualizations as right-click or left-click pop-up menu.
+
+If the contextual menu is set as left-click menu, and your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, you will notice that the `VizPointClick` event is triggered whenever a user clicks a contextual menu action, such as *Drill down* or *Filter*. If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from left-click contextual menu may impact your app’s current workflow.
+
+To avoid this issue, you can use the following settings in the Visual Embed SDK v1.21.0 and later:
 
 Define your preferred settings for the contextual menu::
-By default, the contextual menu will open when a user left-clicks on a data point. You can force your app to open the contextual menu as a right-click menu by setting the `ContextMenuTrigger` property to `right-click` in the SDK. This will allow your app to fire the `VizPointClick` event as per your current workflow.
+You can use the `ContextMenuTrigger` property in the SDK to trigger the contextual menu on right-click or left-click. This will allow your app to fire the `VizPointClick` event as per your current workflow.
 
 Turn off cross-filters::
-You can turn off the cross-filters feature by setting `Action.CrossFilter` and `Action.RemoveCrossFilter` as hidden attributes in the SDK. For more information about hiding a menu action, see xref:embed-actions.adoc[Show or hide menu items].
+You can turn off the cross-filters feature by setting `Action.CrossFilter` and `Action.RemoveCrossFilter` as hidden actions in the SDK. For more information about hiding a menu action, see xref:embed-actions.adoc[Show or hide menu items].
 
 Use VizPointRightClick to monitor right-click events::
-To listen to the right-click events on a chart or table, use the `EmbedEvent.VizPointRightClick` event.
+If the contextual menu is set as left-click menu, use the `EmbedEvent.VizPointRightClick` event to listen to the right-click events on a chart or table.
 
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
+=== Note tiles on Liveboards [eaTag eaBackground]#Early Access#
+
+In the new Liveboard experience mode, you can now add Note tiles with custom text, images, and links. This feature is turned off by default and can be enabled by ThoughtSpot administrators.
+
+For more information, see xref:enable-liveboardv2.adoc#noteTiles[Note tiles].
+
+=== Visual Embed SDK
+
+For information about the new features and enhancements introduced in Visual Embed SDK versions 1.20.0 and 1.21.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog] and xref:rest-apiv2-changelog.adoc[REST API v2.0 changelog].
+
 == Version 9.0.0.cl
 
-=== New Liveboard experience
-
+.New Liveboard experience
+[%collapsible]
+====
 The xref:enable-liveboardv2.adoc[new Liveboard experience] is now Generally Available (GA) on embedded instances and is enabled by default.
+====
 
-=== New CSS variables for custom styling
-
+.New CSS variables for custom styling
+[%collapsible]
+====
 The CSS customization feature supports new variables to customize the look and feel of the following UI elements:
 
 * Search bar and navigation panel
@@ -44,9 +104,10 @@ The CSS customization feature supports new variables to customize the look and f
 * Dialogs
 
 For more information, see xref:css-customization.adoc[Customize CSS].
-
-=== REST API v2.0 endpoints and Playground
-
+====
+.REST API v2.0 endpoints and Playground
+[%collapsible]
+====
 Starting with 9.0.0.cl, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. A set of new endpoints are now generally available (GA) on all ThoughtSpot instances.
 
 The new REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
@@ -60,8 +121,11 @@ ThoughtSpot does not recommend using REST API v2 [beta betaBackground]^Beta^ end
 * For Org CRUD operations in production environments, ThoughtSpot recommends using xref:org-manage-api.adoc[REST API v1 endpoints].
 ====
 
-=== Early access features
+====
 
+.Early Access features
+[%collapsible]
+====
 Starting from 9.0.0.cl, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
 
 The 9.0.0.cl release introduces the following Early Access features:
@@ -81,21 +145,19 @@ Allows making multiple edits to a chart configuration and applying all changes a
 * Chart data labels
 +
 Allows displaying data labels in a lighter color on charts with a dark background. For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-data-labels[Show data labels, window=_blank].
+====
 
-=== Visual Embed SDK version 1.19.0
-
+.Visual Embed SDK version 1.19.0
+[%collapsible]
+====
 For information about the new features and enhancements introduced in Visual Embed SDK version 1.19.0, see xref:api-changelog.adoc[Visual Embed changelog].
+====
 
-=== REST API
-
+.REST API
+[%collapsible]
+====
 For information about REST API v1 enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog].
-
-////
-=== GraphQL Playground[beta betaBackground]^Beta^
-
-In 9.0.0.cl, the *Develop* tab in ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations.
-////
-
+====
 
 == Version 8.10.0.cl
 

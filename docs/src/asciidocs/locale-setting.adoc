@@ -6,8 +6,10 @@
 :page-pageid: set-locale
 :page-description: You can change the locale settings of your embedded app to display the UI elements in your preferred language
 
-The display language of the embedded ThoughtSpot UI is determined by the user's locale preference setting. 
-If your browser locale matches one of the locale options supported by ThoughtSpot, the ThoughtSpot UI automatically changes to that locale. If your browser locale is not supported by ThoughtSpot, the embedded UI is displayed in US English by default. 
+The display language of the embedded ThoughtSpot UI is determined by the user's system locale.
+If your browser locale matches one of the locale options supported by ThoughtSpot, the ThoughtSpot UI automatically changes to that locale. If your browser locale is not supported by ThoughtSpot, the embedded UI is displayed in US English by default.  For example, if your browser locale is an unsupported Central American locale, such as Spanish (Mexico) (es-MX), ThoughtSpot launches in en-US. If your browser doesn't allow you to change the locale, ThoughtSpot launches in the OS locale.
+
+Note that if your organization manages your browser settings, and your administrator or developer has already set your browser locale, ThoughtSpot automatically defaults to that locale. In the full application embed mode, users can override locale by updating their language preference in profile settings.
 
 == Locale settings for embedded ThoughtSpot app
 
@@ -34,7 +36,7 @@ ThoughtSpot supports the following locale identifiers in the `locale` string:
 |====================
 | Locale | Language
 | `da-DK` | Dansk
-| `de-DE` | Deutsche
+| `de-DE` | Deutsch
 | `en-AU` | English (Australia)
 | `en-CA` | English (Canada)
 | `en-IN` | English (India)
@@ -52,9 +54,9 @@ ThoughtSpot supports the following locale identifiers in the `locale` string:
 | `fi-FI` | Suomi
 | `sv-SE` | Svenska
 | `zh-CN` | 中文(简体)
+| `zh-HANT`| 中文 (繁體)
 | `ja-JP` | 日本語
 |====================
-
 
 This example sets the locale of the embedded ThoughtSpot app to Español. 
 

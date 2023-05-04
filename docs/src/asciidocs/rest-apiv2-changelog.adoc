@@ -1,0 +1,63 @@
+= REST API v2.0 changelog
+:toc: true
+:toclevels: 1
+
+:page-title: Changelog
+:page-pageid: rest-v2-changelog
+:page-description: Changelog of REST APIs
+
+This changelog lists the features and enhancements introduced in REST API v2.0. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
+
+== Version 9.2.0.cl, May 2023
+
+New endpoints::
+
+* System
++
+** `POST /api/rest/2.0/system/config-update` +
+Updates system configuration
++
+** `GET /api/rest/2.0/system/config-overrides` +
+Gets system configuration overrides
+
+* Connections
++
+** POST /api/rest/2.0/connection/create +
+Creates a data connection
+
+** `POST /api/rest/2.0/connection/search` +
+Gets a list of data connections
+
+** `POST /api/rest/2.0/connection/update` +
+Updates a data connection
+
+** `POST /api/rest/2.0/connection/delete` +
+Deletes a data connection
+
+Enhancements::
+
+* Support for runtime filters and runtime sorting of columns +
+The following REST API v2.0 endpoints support applying xref:runtime-filters.adoc#_apply_runtime_filters_in_rest_api_v2_requests[runtime filters] and xref:runtime-sort.adoc[sorting column data]:
++
+** `POST /api/rest/2.0/report/liveboard` +
+** `POST /api/rest/2.0/report/answer`
+
+* Search users by their favorites
++
+The `/api/rest/2.0/users/search` API endpoint allows searching users by their favorite objects and home Liveboard setting.
+
+* Ability to log in to a specific Org
++
+The `/api/rest/2.0/auth/session/login` API endpoint now allows ThoughtSpot users to log in to a specific Org context.
+
+== Version 9.0.0.cl, February 2023
+
+The ThoughtSpot Cloud 9.0.0.cl release introduces the REST API v2.0 endpoints and Playground. For information about REST API v2.0 endpoints and Playground, see the following articles:
+
+* xref:rest-api-v2.adoc[REST API v2.0]
+* xref:rest-api-v2-getstarted.adoc[Get started with REST API v2.0]
+* xref:rest-api-v2-reference.adoc[REST API v2.0 reference]
+* xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison]
+
+
+

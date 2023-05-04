@@ -1,0 +1,194 @@
+= GraphQL Playground
+:toc: true
+
+:page-title: GraphQL Playground
+:page-pageid: graphql-playground
+:page-description: ThoughtSpot GraphQL Playground
+
+The GraphQL Playground [beta betaBackground]^Beta^ allows you to interact with v2.0 API endpoints using GraphQL.
+
+[NOTE]
+====
+This feature is in beta and enabled by default on ThoughtSpot clusters.
+====
+
+== How to access GraphQL Playground
+
+ThoughtSpot users with developer or administrator privileges can access the GraphQL Playground from the *Develop* tab.
+
+To open the Playground, click *Develop* > *REST API* > *GraphQL Playground*.
+
+++++
+<a href="{{previewPrefix}}/api/graphql/playground" id="preview-in-playground" target="_blank">View the Playground</a>
+++++
+
+== Playground experience
+The GraphQL Playground provides an interactive development environment within your ThoughtSpot application instance. The Playground includes documentation, downloadable Schema, syntax highlighting, and error indicators.
+
+Code editor::
+The GraphQL code editor allows you to run queries and mutations and view API responses. Build your queries in the tab on the left side and click the Play button to view the API response. The code syntax is validated against the Schema and validation errors are highlighted as you type.
++
+The editor also allows you to add variables and HTTP headers to your query, and copy cURL commands for a GrpahQL operation.
+
+Settings icon::
+Allows defining schema polling attributes, query and response tracing parameters, font specification, and line width for the GraphQL code editor.
+
+Schema::
+The GraphQL schema consists of the data that a client can access. The schema defines the GraphQL API type and its objects, fields, and relationships. Note that the API calls are validated against the Schema.
++
+* To view all types defined in the Schema, click *Schema*. You can also use the following query snippet to get a list of types.
+
++
+[source,JSON]
+----
+query {
+  __schema {
+    types {
+      name
+      kind
+      description
+      fields {
+        name
+      }
+    }
+  }
+}
+----
+
+* To download the Schema, click *Schema* > *Download*.
+
+Docs::
+Each type in the GraphQL schema includes a description field which is complied as documentation. To view documentation, click *Docs*.
+
+== GraphQL queries and mutations
+The GraphQL Playground supports `query` and `mutation` operations. Both these types of operations consist of multiline JSON. You can also use copy Curl commands from an API request.
+
+[NOTE]
+----
+The GraphQL clients must have a valid authorization token and user privileges to run query and mutation operations.
+----
+
+=== Query
+A query operation is similar to a `GET` request that retrieves data in REST API. To fetch objects, data, and other details, you can run  `query` operations.
+A `query` must include the JSON object and all its sub-fields. For example, to get the details of a Liveboard, you must specify the Liveboard GUID in `fetchLiveboardData` and include the sub-fields.
+
+////
+If you try to return a field that is not a scalar, schema validation returns an error.
+////
+
+[source,JSON]
+----
+query fetchLiveboardData {
+  fetchLiveboardData(metadata_identifier:"d084c256-e284-4fc4-b80c-111cb606449a") {
+    metadata_id
+    metadata_name
+    contents{
+      column_names
+    }
+  }
+}
+----
+
+If the request is valid, the endpoint returns the Liveboard data as shown in the example here:
+
+[source,json]
+----
+{
+  "data": {
+    "fetchLiveboardData": {
+      "metadata_id": "d084c256-e284-4fc4-b80c-111cb606449a",
+      "metadata_name": "(Sample) Sales Performance",
+      "contents": [
+        {
+          "column_names": [
+            "store",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "item type",
+            "Month(date)",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "item type",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "item type",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "product",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "product",
+            "Total quantity purchased"
+          ]
+        },
+        {
+          "column_names": [
+            "state",
+            "Total sales"
+          ]
+        },
+        {
+          "column_names": [
+            "item type",
+            "Month(date)",
+            "Total quantity purchased"
+          ]
+        }
+      ]
+    }
+  }
+}
+----
+
+=== Mutation
+A `mutation` operation creates, updates, or deletes a data object or its properties. It operates like the `POST` `PUT` or `DELETE` requests in REST API.
+
+A `mutation` request must include the following properties:
+
+* Mutation name
+* Input properties of the mutable object
+* Object properties to return from the server
+
+The following example shows the mutation code snippet for creating a user:
+
+[source,JSON]
+----
+mutation {
+  createUser(name:"tsUser123", display_name:"tsUser123", password:"wiuefiouhwef@8213", email:"testUser@thoughtspot.com"){
+   id,
+    name
+  }
+}
+----
+If the mutation request is successful, the GraphQL endpoint returns the following data in response:
+
+[source,JSON]
+----
+{
+  "data": {
+    "createUser": {
+      "id": "7f2b481c-256e-46fd-80a2-a23d251714e8",
+      "name": "tsUser123"
+    }
+  }
+}
+----
+
+== Additional resources
+
+For detailed information about GraphQL operations and terminology, see link:https://graphql.org/learn/[GraphQL Documentation, window=_blank].

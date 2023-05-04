@@ -13,6 +13,7 @@ POST /tspublic/v1/session/login
 |`username`|__String__. Username of the user account.
 |`password`|__String__. The password of the user account.
 |`rememberme`|__Boolean__. A flag to remember the user session. When set to `true`, a session cookie that persists in subsequent API calls is set. The system default is `false`.
+|`orgid`|__Integer__. Org ID. If no Org ID is specified, the user will be logged in to the Org context of their last session.
 |====
 
 === Example requests

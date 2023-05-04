@@ -237,10 +237,23 @@ Pins a visualization to a Liveboard.
 | `LiveboardEmbed` +
 `AppEmbed`| *Show underlying data* +
 Displays detailed information and raw data for a given visualization. Available as a contextual menu action
-|`Action.Download`
-| `LiveboardEmbed` +
-`AppEmbed`|*Download*  +
-Downloads the visualization.
+
+|`Action.Download`|`LiveboardEmbed` +
+`AppEmbed`|*Download* +
+The Download submenu with actions to download a visualization as CSV, PDF, PNG, and XLSX.
+|`Action.DownloadAsCsv`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *CSV* +
+Downloads the answer data in the CSV file format.
+|`Action.DownloadAsXLSX`|`LiveboardEmbed` +
+`AppEmbed`|
+*Download* > *XLSX* +
+Downloads the answer data in the XLSX file format.
+|`Action.DownloadAsPdf`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *PDF* +
+Downloads the answer data as a PDF file. Available only for tables.
+|`Action.DownloadAsPng`|`LiveboardEmbed` +
+`AppEmbed` |*Download* > *PNG* +
+Downloads the chart as a PNG file. Available only for charts.
 |`Action.Present`|
 `LiveboardEmbed` +
 `AppEmbed`| *Present* +
@@ -265,6 +278,12 @@ Allows creating a sync to send data to external business apps such as Slack, Sal
 |`Action.ManagePipelines`|`LiveboardEmbed` +
 `AppEmbed`| The *Manage pipelines* action in the **More** actions menu. +
 Allows managing data sync pipelines to external business apps set as sync destinations in ThoughtSpot.
+|`Action.CrossFilter`| `LiveboardEmbed` +
+`AppEmbed` | *Filter* menu action in the left click menu on a visualization. +
+Applies filters across visualizations for brushing and linking data on a Liveboard. This menu action is available only when the *Cross* filters* feature is enabled on your cluster.
+|`Action.RemoveCrossFilter`| `LiveboardEmbed` +
+`AppEmbed` | *Remove filter* option in the left-click menu on a visualization. +
+Removes the cross-filters applied on a visualization.
 |`Action.DrillDown`|`LiveboardEmbed` +
 `AppEmbed`|*Drill down* +
 Allows drilling down the visualization to get granular data. Available as a contextual menu action.
@@ -314,23 +333,26 @@ a|The *Query visualizer* and *Query SQL* buttons in *Query details* +
 
 |`Action.Download`|`SearchEmbed` +
 `AppEmbed`|*Download* +
-Downloads the answer.
+The Download submenu with actions to download the Answer data as CSV, PDF, PNG, and XLSX.
+|`Action.DownloadAsCsv`|`SearchEmbed` +
+`AppEmbed` |*Download* > *CSV* +
+Downloads the answer data in the CSV file format.
+|`Action.DownloadAsXLSX`|`SearchEmbed` +
+`AppEmbed`|
+*Download* > *XLSX* +
+Downloads the answer data in the XLSX file format.
+|`Action.DownloadAsPdf`|`SearchEmbed` +
+`AppEmbed` |*Download* > *PDF* +
+Downloads the answer data as a PDF file. Available only for tables.
+|`Action.DownloadAsPng`|`SearchEmbed` +
+`AppEmbed` |*Download* > *PNG* +
+Downloads the chart as a PNG file. Available only for charts.
+
 |`Action.ShowUnderlyingData`|`SearchEmbed` +
 `AppEmbed`|*Show underlying data* +
 Displays detailed information and raw data for a given visualization. Available as a menu action in the *More* menu image:./images/icon-more-10px.png[the more options menu] and the contextual menu.
 |`Action.AnswerDelete`| `AppEmbed`|**Delete** +
 Deletes the answer.
-|`Action.DownloadAsCsv`|`SearchEmbed` +
-`AppEmbed` |*Download as CSV* +
-Downloads the answer data in the CSV file format. Available only for tables.
-|`Action.DownloadAsXLSX`|`SearchEmbed` +
-`AppEmbed`| 
-*Download as XLSX* +
-Downloads the answer data in the XLSX file format. Available only for tables.
-|`Action.DownloadAsPdf`|`SearchEmbed` +
-`AppEmbed` |*Download as PDF* +
-Downloads the answer data as a PDF file. Available only for tables.
-
 |`Action.SyncToSheets`|`LiveboardEmbed` +
 `AppEmbed`| The *Sync to sheets* action in the **More** actions menu. +
 Allows creating a sync to send data to the Google Sheets app.|
@@ -364,6 +386,130 @@ Allows editing the TML representation of the answer object. This action is avail
 Allows importing the TML representation of an answer into ThoughtSpot. This action is available on the saved answers page.
 |`Action.UpdateTML`|`AppEmbed` | *Update TML* +
 Publishes the modified TML representation of an answer.
+|`Action.AddParameter`| `SearchEmbed` +
+`SearchBarEmbed` +
+`AppEmbed`| *Add Parameters* option in the data panel on a Search page +
+Allows adding parameters to a search Answer. +
+|===
+
+== Axis and column customization actions on charts and tables
+The SDK provides the following Action enumerations for the contextual menu actions available in the X and Y axis of a chart and column headers of a table in a Liveboard visualization or saved Answer.
+
+[width="100%" cols="3,3,4"]
+[options='header']
+
+|===
+|Action string in SDK| Required SDK library|Action label in the UI
+|`Action.AxisMenuAggregate`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` +
+| *Aggregate* option in the chart axis or the table column customization menu.
+Provides aggregation options to analyze the data on a chart or table.
+|`Action.AxisMenuConditionalFormat`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` + | *Conditional formatting* menu option +
+Allows adding rules for conditional formatting of data points on a chart or table.
+|
+Action.AxisMenuEdit|  `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Edit* action in the axis customization menu. +
+Allows editing the axis name, position, minimum and maximum values and format a column.
+
+| `Action.AxisMenuFilter` | `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Filter* action in the chart axis or table column customization menu. +
+Allows adding, editing, or removing filters.
+
+|`Action.AxisMenuGroup`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Group* option in the chart axis or table column customization menu. +
+Allows grouping data points if the axes use the same unit of measurement and a similar scale.
+
+|`Action.AxisMenuNumberFormat`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Number format* option to customize the format of the data labels on a chart or table.
+|`Action.AxisMenuPosition`|  `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Position* option in axis customization menu. +
+Allows changing the position of the axis to the left or right side of the chart.
+|`Action.AxisMenuRemove`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Remove* in the chart axis or table column customization menu. +
+Removes the data labels from a chart or the column of a table visualization.
+
+|`Action.AxisMenuRename` | `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Rename* option in the chart axis or table column customization menu. +
+Renames axis label on a chart or the column header on a table
+|`Action.AxisMenuSort`|`AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed` | *Sort* option to sort the data in the ascending or descending order on a chart or table.
+|`Action.AxisMenuTextWrapping`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed`| *Text wrapping* option on a table visualization. +
+Wraps or clips column text on a table.
+|`Action.AxisMenuTimeBucket`| `AppEmbed` +
+`SearchEmbed` +
+`LiveboardEmbed`| *Time bucket* option in the chart axis or table column customization menu. +
+Allows defining time metric for date comparison.
+|===
+
+== Liveboards list page (Full app embed only)
+
+The following actions are available on the *Liveboards* page in the embedded view:
+
+[width="100%" cols="3,3,4"]
+[options='header']
+|===
+|Action string in SDK| Required SDK library|Action label in the UI
+|`Action.Share`|`AppEmbed` | *Share* +
+Allows sharing a Liveboard with another user or group.
+|`Action.Remove`|`AppEmbed` | *Delete* +
+Allows deleting a Liveboard.
+|`Action.ExportTML`| `AppEmbed` | *Export TML* +
+Allows exporting the Liveboard as a TML object.
+|`Action.EditTML`| `AppEmbed` | *Edit TML* +
+Opens the TML Editor that allows you to modify the properties of the Liveboard object.
+|`Action.ImportTML`| `AppEmbed` | *Import TML* +
+Allows importing the TML representation of Liveboard objects into ThoughtSpot.
+|===
+
+== Answers list page (Full app embed only)
+
+The following actions are available on the *Answers* page in the embedded view:
+
+[width="100%" cols="3,3,4"]
+[options='header']
+|===
+|Action string in SDK| Required SDK library|Action label in the UI
+|`Action.Share`|`AppEmbed` | *Share* +
+Allows sharing a saved Answer with another user or group.
+|`Action.Remove`|`AppEmbed` | *Delete* +
+Allows deleting an Answer.
+|`Action.ExportTML`| `AppEmbed` | *Export TML* +
+Allows exporting a saved Answer as a TML object.
+|`Action.EditTML`| `AppEmbed` | *Edit TML* +
+Opens the TML Editor that allows you to modify the properties of an Answer object.
+|`Action.ImportTML`| `AppEmbed` | *Import TML* +
+Allows importing the TML representation of Answer objects into ThoughtSpot.
+|===
+
+== Data page (Full app embed only)
+
+The following action enumerations are available for the menu actions on the *Data* page in the embedded view:
+
+[width="100%" cols="3,3,4"]
+[options='header']
+|===
+|Action string in SDK| Required SDK library|Action label in the UI
+|`Action.Share`|`AppEmbed` | *Share* action on the *Data* > *Home* page+
+Allows sharing a saved Answer with another user or group.
+|`Action.Remove`|`AppEmbed` | *Delete* action on the *Data* > *Home*  and *Data* > *Connections* pages +
+Allows deleting an Answer.
+|`Action.ExportTML`| `AppEmbed` | *Export TML* action on the *Data* > *Home* page +
+Allows exporting a saved Answer as a TML object.
+|`Action.EditTML`| `AppEmbed` | *Edit TML*  action on the *Data* > *Home* page +
+Opens the TML Editor that allows you to modify the properties of an Answer object.
 |===
 
 == Additional resources

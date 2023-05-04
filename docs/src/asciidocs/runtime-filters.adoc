@@ -6,18 +6,102 @@
 :page-pageid: runtime-filters
 :page-description: Apply filters to visualizations at runtime and pass them as URL parameters
 
-Runtime filters provide the ability to apply filters to data and pass them as URL query parameters at the time of data retrieval. Runtime filters allow you to apply filters to the data returned by the REST APIs, or to the visualization and Liveboard embedded in your host application.
+Runtime filters provide the ability to apply filters to a Liveboard or Answer by passing filter properties as query parameters in a Liveboard or visualization URL. You can also apply runtime filters in REST API requests when querying data from a Liveboard, Answer, or a visualization object. On embedded instances, you can use the Visual Embed SDK to apply filters to an embedded Liveboard or Answer object, and also update filters using events.
 
-You can use runtime filters in the REST API calls or Visual Embed SDK to dynamically apply filters to the embedded objects in your application.
 
-[IMPORTANT]
+[NOTE]
 ====
-Runtime filters are passed as URL query parameters in the `GET` request methods. Make sure the filter values are URL encoded before passing them as parameters.
+The runtime filters operation returns an error if the URL exceeds 2000 characters.
 ====
 
-== Supported data types
+== How runtime filters work
 
-You can use runtime filters on these data types:
+The runtime filters can be specified in the ThoughtSpot object URL as query parameters. When you apply a runtime filter to a Liveboard, ThoughtSpot will try to find a matching column in the Liveboard visualizations to filter data. The runtime filter requires the following attribute-value pairs.
+
+column name::
+__String__. Name of the column to filter by. For example, `item type` or `product`. This attribute is defined as `col1`, `col2`, `col3` in the URLs and as `columnName` in the `runtimeFilters` array in the Visual Embed SDK.
+
+operator::
+__String__. The xref:runtime-filters.adoc#rtOperator[runtime filter operator]. For example, `EQ` or `IN`. This attribute is defined as `op1`, `op2`, `op3` in the object URLs and as xref:runtime-filters.adoc#runtimeFilterOp[`operator` in the `runtimeFilters` array] in the Visual Embed SDK.
+
++
+[#rtOperator]
+.Supported runtime filter operators
+[%collapsible]
+====
+[width="80%" cols="1,2,2"]
+[options='header']
+|===
+|Operator|Description|Number of Values
+
+| `EQ`
+| equals
+| 1
+
+| `NE`
+| does not equal
+| 1
+
+| `LT`
+| less than
+| 1
+
+| `LE`
+| less than or equal to
+| 1
+
+| `GT`
+| greater than
+| 1
+
+| `GE`
+| greater than or equal to
+| 1
+
+| `CONTAINS`
+| contains
+| 1
+
+| `BEGINS_WITH`
+| begins with
+| 1
+
+| `ENDS_WITH`
+| ends with
+| 1
+
+| `BW_INC_MAX`
+| between inclusive of the higher value
+| 2
+
+| `BW_INC_MIN`
+| between inclusive of the lower value
+| 2
+
+| `BW_INC`
+| between inclusive
+| 2
+
+| `BW`
+| between non-inclusive
+| 2
+
+|`IN`
+|is included in this list of values
+|multiple
+|===
+====
+
+values::
+__String, Integer, or Boolean__. The list of operands. For example, if the column name is defined as `State`, the value can be the name of the state like `Michigan`.
++
+This attribute is defined as `val1`, `val2`, `val3` in the object URLs and as `values` in the `runtimeFilters` array in the Visual Embed SDK.
++
+Some operators like `EQ`, `LE` accept a single operand, whereas `BW_INC_MAX`, `BW_INC_MIN`, `BW_INC`, `BW`, and `IN` accept multiple operands.
+
+=== Supported data types
+
+You can apply runtime filters on these data types:
 
 * VARCHAR
 * BIGINT
@@ -39,24 +123,48 @@ For example, if you want to filter data for 2020-05-22, you can specify the date
 new Date('2020-05-22').getTime() / 1000
 ----
 ====
+== Apply runtime filters on a Liveboard or visualization
 
-== How runtime filters work
+The following examples show the runtime filter query string in a Liveboard URL:
 
-The runtime filters are specified in the request URL as parameters. To apply runtime filters, you need to embed ThoughtSpot data using one of the following methods:
+----
+https://{ThoughtSpot-Host}/#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a?col1=State&op1=EQ&val1=California
+----
 
-* xref:visual-embed-sdk.adoc[Embed a visualization or Liveboard] using the Visual Embed SDK
-* Use the xref:pinboarddata.adoc[REST API to retrieve a visualization or Liveboard]
+----
+https://{ThoughtSpot-Host}/?col1=State&op1=EQ&val1=California#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a
+----
 
-=== Embedded Liveboard and visualizations
+You can apply multiple filters in the same URL as shown in this example:
 
-The Visual Embed SDK allows applying runtime filters on embedded Liveboard, visualization, and Answer objects. You can apply runtime filters to answers only in the full app embed mode. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and Answer objects in the embedded app.
+----
+https://{ThoughtSpot-Host}/#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a?col1=State&op1=EQ&val1=California&col2=product&op2=BEGINS_WITH&val2=Travel
+----
 
-[NOTE]
-====
-The `SearchEmbed` SDK package does not support runtime filters.
-====
+////
+----
+https://{ThoughtSpot-Host}/?col1=State&op1=EQ&val1=California&col2=product&op2=BEGINS_WITH&val2=Travel#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a
+----
+////
 
-The following example shows how to apply runtime filters on an embedded visualization. Here, the runtime filter is operating on the `Revenue` column to filter revenue data matching `100000`.
+== Apply runtime filters on embedded objects
+
+If you are xref:embed-without-sdk.adoc[embedding a Liveboard or visualization without using the Visual Embed SDK], you can append the filters in the embedded object URL as shown in these examples:
+
+----
+https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
+&col1=State&op1=EQ&val1=michigan
+----
+----
+https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
+&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel
+----
+
+=== Runtime filters in Visual Embed SDK
+
+If you are embedding a Liveboard, visualization, or Answer using xref:visual-embed-sdk.adoc[Visual Embed SDK], you can apply filters using the `runtimeFilters` property. In the full app embed mode, ThoughtSpot applies runtime filters on all Liveboard, visualization, and Answer objects in the embedded app.
+
+The following example shows how to apply runtime filters on an embedded visualization in the SDK. Here, the runtime filter is operating on the `Revenue` column to filter the data matching `100000`.
 
 ----
 liveboardEmbed.render({
@@ -69,7 +177,6 @@ liveboardEmbed.render({
       }]
   });
 ----
-
 
 === Apply multiple runtime filters in the SDK
 
@@ -114,7 +221,7 @@ video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
 --
 
 [#runtimeFilterOp]
-=== Runtime filter operators
+=== Runtime filter operator examples
 
 [width="100%" cols="3,7"]
 [options='header']
@@ -347,44 +454,41 @@ liveboardEmbed.render({
 
 See xref:events-ref.adoc#_updateruntimefilters[UpdateRuntimeFilters] and xref:embed-events.adoc#_filters_in_embedded_ui[Filters in embedded UI].
 
-=== Runtime filters in REST API calls
+== Apply runtime filters using REST API v1 endpoints
 
-To add a runtime filter to your API call or the embedded object:
+To apply runtime filters on a Liveboard object in a REST API request, add the runtime filters to the API request URL as shown here:
 
-. Construct the URL for embedding the visualization or making a REST API call.
-. Paste the URL into a text editor.
-. Append the runtime filter to the URL, using the runtime filter operators.
-
-The URL format for applying runtime filters to a Liveboard in a REST API call is:
-
+.URL format
 ----
-http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&col1=<column_name\>&op1=<operator\>&val1=<value\>
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id={Liveboard_id}&col1={column-name}&op1={operator}&val1={value}
 ----
 
-The URL format for applying runtime filters to a Liveboard visualization in a REST API call is:
-
+.Example
 ----
-http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&col1=<column_name\>&op1=<operator\>&val1=<value\>
-----
-
-The following example shows the URL to access a Liveboard with a filter. Here the runtime filter is operating on the column `Color` and will only return values that equal (EQ) to `red`.
-
-----
-http://{ThoughtSpot-Host}/?col1=Color&op1=EQ&val1=red#
-/pinboard/e36ee65e-64be-436b-a29a-22d8998c4fae
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=State&op1=EQ&val1=California
 ----
 
-The following example shows the URL for a REST API request URL with a filter. Here the runtime filter is operating on the column `Category` and returning values that are equal to `mfgr%2324`.
+The following example shows how to apply a runtime filter on a visualization object of a Liveboard:
+
+.URL format
+----
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id={Liveboard_id}&vizid={visualization_id}&col1={column-name}&op1={operator}&val1={value}
+----
+
+.Example
+----
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=543619d6-0015-4667-b257-eff547d13a12&vizid=%5B%224ff5b939-453d-40ff-8fc2-a1d972047c86%22%5D&col1=State&op1=EQ&val1=California
+----
+
+The following is another example of a REST API request URL with a filter. Here the runtime filter is operating on the column `Category` and returning values that are equal to `mfgr%2324`.
 
 ----
-http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?
 id=e36ee65e-64be-436b-a29a-22d8998c4fae&col1=Category
 &op1=EQ&val1=mfgr%2324
 ----
 
-ThoughtSpot will try to find a matching column from the Liveboard or visualization being accessed, using the `col` field as `name`. You can add any number of filters by incrementing the parameters, for example, `col2`, `op2` and `val2`.
-
-==== Add additional filters
+=== Apply additional filters
 
 You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2, and so on. To add additional filters on a particular column, you can specify multiple values by separating them with an ampersand (&) as shown in the example here:
 
@@ -408,12 +512,63 @@ col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2
 If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
 ====
 
+== Apply Runtime filters in REST API v2 requests
+
+The following v2.0 endpoints support runtime filters in REST API requests:
+
+* `POST /api/rest/2.0/report/liveboard`
++
+Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
+
+* `POST /api/rest/2.0/report/answer`
++
+Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
+
+The following example shows the request body with runtime filter parameters:
+
+.Answer report
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/report/answer' \
+  -H 'Authorization: Bearer {access-token} '\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "file_format": "XLSX",
+  "runtime_filter": {
+    "col1": "item type",
+    "op1": "EQ",
+    "values": "Jackets"
+  }
+}'
+----
+
+.Liveboard report
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/report/liveboard' \
+  -H 'Authorization: Bearer {access-token} '\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "file_format": "PDF",
+  "runtime_filter": {
+    "col1": "item type",
+    "op1": "EQ",
+    "values": "Jackets"
+  }
+}'
+----
+
 == Limitations of runtime filters
 
-* Runtime filter on `DATE` or `DATE_TIME` must be specified in EPOCH time (Unix or POSIX time).
+* The `DATE` and `DATE_TIME` data type must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
 * Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
 * If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
-
 

@@ -8,6 +8,7 @@
 * link:{{navprefix}}=whats-new[What's new]
 ** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
 ** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
+** link:{{navprefix}}=rest-v2-changelog[REST API v2 changelog]
 ** link:{{navprefix}}=deprecated-features[Deprecation announcements]
 ** link:{{navprefix}}=fixed-issues[Fixed issues]
 ** link:{{navprefix}}=known-issues[Known Issues]
@@ -22,6 +23,7 @@
 * link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Visual Embed Playground]
 ** link:{{navprefix}}=rest-playground[REST API Playground]
+** link:{{navprefix}}=graphql-playground[GraphQL Playground ^Beta^]
 
 * link:{{navprefix}}=deploy-overview[Embedded app deployment]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
@@ -50,13 +52,13 @@
 *** link:{{navprefix}}=full-embed[Embed full application]
 *** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in a React app]
 ** link:{{navprefix}}=embed-auth[Authentication]
-** link:{{navprefix}}=in-app-navigation[Navigate to ThoughtSpot content]
 ** link:{{navprefix}}=events-app-integration[Events and app integration]
 ** link:{{navprefix}}=action-config[Show or hide menu items]
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
 ** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
 ** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
+** link:{{navprefix}}=in-app-navigation[Customize navigation with REST API]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 *** link:{{navprefix}}=events[Events Reference]
 *** link:{{navprefix}}=actions[Actions Reference]
@@ -113,7 +115,10 @@
 **** link:{{navprefix}}=materialization-api[Materialization API]
 **** link:{{navprefix}}=database-api[Database API]
 
-* link:{{navprefix}}=runtime-filters[Runtime filters]
+* Runtime operations
+** link:{{navprefix}}=runtime-filters[Runtime filters]
+** link:{{navprefix}}=runtime-sort[Runtime sorting]
+** link:{{navprefix}}=runtime-params[Runtime parameter overrides]
 
 * Additional resources
 ** link:{{navprefix}}=faqs[FAQs]

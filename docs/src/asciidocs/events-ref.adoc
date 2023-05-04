@@ -14,6 +14,23 @@ The following host events are triggered by the host application, which the embed
 The host events are part of the *HostEvent* object; for example, `HostEvent.SetVisibleVizs`.
 Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
 
+==== AddColumns
+Available with `SearchEmbed` and `AppEmbed` in `v1.21.0` or later.
+
+Adds new columns to the current Search.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.AddColumns, { columnIds: ['123', '456'] })
+----
+====
+--
+
 ==== CreateMonitor
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
@@ -54,7 +71,6 @@ liveboardEmbed.trigger(HostEvent.CopyLink,  {
 ====
 --
 
-
 ==== Delete
 Available with  `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
 Triggers the Delete action on embedded visualization or search Answer. +
@@ -77,9 +93,16 @@ liveboardEmbed.trigger(HostEvent.Delete,
 
 ==== Download
 
-Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
-Triggers the *Download* action on a visualization or Answer in the Chart view mode.  +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` and v1.20.0 versions.
+
 Requires the `vizId` key for event trigger on a Liveboard.
+
+[NOTE]
+====
+This event is deprecated in `v1.21.0`. To trigger a download action on an embedded chart or table, use `HostEvent.DownloadAsPng`, `HostEvent.DownloadAsPDF`, `HostEvent.DownloadAsCSV`, or `HostEvent.DownloadAsXLSX`.
+====
+
+If you are using v1.19.0 or lower versions of the SDK, use the following code sample:
 
 [div divider]
 --
@@ -88,12 +111,38 @@ Requires the `vizId` key for event trigger on a Liveboard.
 ====
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.Download, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.Download, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
 
-==== DownloadAsPDF
+==== DownloadAsPng
+
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.21.0` or later. +
+Triggers the *Download > PNG* action on a chart in the embedded Liveboard or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.DownloadAsPng, {
+vizId:'730496d6-6903-4601-937e-2c691821af3c'
+})
+----
+
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.DownloadAsPng)
+----
+====
+--
+
+==== DownloadAsPdf
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
 Triggers the *Download PDF* action on a Liveboard.
@@ -110,7 +159,7 @@ liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
 ====
 --
 
-==== DownloadAsCSV
+==== DownloadAsCsv
 
 Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
 Triggers the *Download As CSV* action on a Liveboard visualization or Answer in the table view mode.
@@ -122,12 +171,14 @@ Triggers the *Download As CSV* action on a Liveboard visualization or Answer in 
 ====
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
 
-==== DownloadAsXLSX
+==== DownloadAsXlsx
 
 Available with `SearchEmbed`, LiveboardEmbed`, and `AppEmbed` in `v1.19.0` or later. +
 Triggers the *Download As XLXS* action on a Liveboard visualization or Answer in the table view mode.
@@ -139,7 +190,9 @@ Triggers the *Download As XLXS* action on a Liveboard visualization or Answer in
 ====
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -214,8 +267,9 @@ liveboardEmbed.trigger(HostEvent.Edit)
 The following example triggers the `Edit` action on the specified visualization in a Liveboard.
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.Edit,  {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.Edit, {
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 
 If you have embedded only chart or table visualization, you can trigger the `Edit` action on the object.
@@ -258,7 +312,8 @@ Requires the `vizId` key.
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Explore, {
-    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+    vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -368,7 +423,8 @@ Requires the `vizId` key: +
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ManageMonitor, {
-vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -388,7 +444,8 @@ Requires the `vizId` key for event trigger on Liveboard visualizations:
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.ManagePipelines, {
-vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -423,6 +480,28 @@ noReload: true
 ----
 --
 
+==== OpenFilter
+
+Available with `SearchEmbed` in `v1.21.0` or later.
+
+Opens the filter panel for a particular column on the Answer page.
+
+Requires column ID and column name.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.OpenFilter, { columnId: '123', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE' })
+----
+====
+--
+
+
+
 ==== Pin
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
@@ -437,7 +516,8 @@ Requires the `vizId` key.
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Pin, {
-vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -461,7 +541,8 @@ liveboardEmbed.trigger(HostEvent.Present)
 [source,JavaScript]
 ----
 liveboardEmbed.trigger(HostEvent.Present, {
-vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -480,6 +561,44 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== RemoveColumn
+
+Available with `SearchEmbed` and `AppEmbed` in `v1.21.0` or later.
+
+Removes a column from the current Search.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.RemoveColumn, {
+columnId: '123'
+})
+----
+====
+--
+
+==== ResetSearch
+
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.21.0` or later.
+
+Triggers the Reset search action on the Answer page.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.ResetSearch)
 ----
 ====
 --
@@ -521,8 +640,8 @@ __String__. Data source GUIDs
 [source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.Search {
-searchQuery: "[sales] by [item type]"
-dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+    searchQuery: "[sales] by [item type]"
+    dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
 })
 ----
 ====
@@ -631,8 +750,9 @@ Requires `vizId` key for event trigger on Liveboards.
 ====
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.SpotIQAnalyze,
-{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -652,8 +772,9 @@ Requires `vizId` key for event trigger on Liveboards.
 
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.SyncToSheets,
-{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.SyncToSheets, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
@@ -672,15 +793,16 @@ Requires `vizId` key for event trigger on Liveboards.
 
 [source,JavaScript]
 ----
-liveboardEmbed.trigger(HostEvent.SyncToOtherApps,
-{vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {
+vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
 ----
 ====
 --
 
 ==== UpdateRuntimeFilters
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.8.0` or later. +
-Updates runtime filters applied on Liveboard, visualization, or answer object. You can specify an array of runtime filters with the following attributes:
+Updates runtime filters applied on Liveboard or Answer object. You can specify an array of runtime filters with the following attributes:
 
 * `columnName`  +
 __String__. The name of the column to filter on.
@@ -689,10 +811,9 @@ __String__. The name of the column to filter on.
 Runtime filter operator to apply. For information about supported operators, see xref:runtime-filters.adoc#runtimeFilterOp[Runtime filter operators].
 
 * `values` +
-The list of operands. The value can be an array of strings, integer, or boolean. Some operators such as `EQ`, `LE` allow a single value, whereas operators such as `BW` and `IN` accept multiple operands.
+List of operands. Some operators such as `EQ`, `LE` allow a single value, whereas operators such as `BW` and `IN` accept multiple operands.
 
 The following example shows how to register an event handler to trigger an event to update runtime filters.
-
 
 [div divider]
 --
@@ -921,6 +1042,24 @@ seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
 ====
 --
 
+==== CrossFilterChanged
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.21.0` or later. +
+Is emitted when a user interacts with a cross filter on Liveboard visualization. This event is not available in classic Liveboard experience mode.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+LiveboardEmbed.on(EmbedEvent.CrossFilterChanged)
+----
+====
+--
+
+
 ==== CustomAction
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.1.0` or later. +
@@ -1024,8 +1163,14 @@ appEmbed.on(EmbedEvent.DialogClose, payload => {
 
 ==== Download
 
-Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
-Is triggered when the *Download* action is initiated on a Liveboard or answer, and on download completion. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and  `AppEmbed` in `v1.11.0` and later versions.
+
+[NOTE]
+====
+This event is deprecated in `v1.21.0`. To fire an event when a download action is initiated on a chart or table, use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`. +
+====
+
+If you are using v1.19.0 or lower versions of the SDK, use the following code sample:
 
 [div divider]
 --
@@ -1042,13 +1187,12 @@ searchEmbed.on(EmbedEvent.Download, payload => {
     console.log('download', payload)})
 ----
 ====
-
 --
 
-==== DownloadAsCSV
+==== DownloadAsCsv
 
-Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
-Is triggered when the *Download As CSV* action is initiated on a Liveboard or answer and on download completion. +
+Available with `SearchEmbed`, `LiveboardEmbed`,  and  `AppEmbed` in `v1.11.0` or later. +
+Is emitted when the *Download As CSV* action is initiated on a Liveboard or answer and on download completion. +
 [div divider]
 --
 .Example
@@ -1067,10 +1211,10 @@ searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
 
 --
 
-==== DownloadAsPDF
+==== DownloadAsPdf
 
-Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
-Is triggered when a Liveboard or answer object is downloaded as a PDF file and on download completion. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and  `AppEmbed` in `v1.11.0` or later. +
+Is emitted when a Liveboard or answer object is downloaded as a PDF file and on download completion. +
 
 [div divider]
 --
@@ -1080,20 +1224,42 @@ Is triggered when a Liveboard or answer object is downloaded as a PDF file and o
 [source,JavaScript]
 ----
  //trigger when action starts
-searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
+searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
     console.log('download PDF', payload)}, {start: true })
  //trigger when action ends
-searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
+searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
     console.log('download PDF', payload)})
 ----
 ====
+--
 
+==== DownloadAsPng
+
+Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.21.0` or later. +
+
+Is emitted when a user clicks the *Download* > *PNG* action on a Liveboard visualization or Answer. You can also fire this event when the download is completed.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+ //trigger when action starts
+searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
+    console.log('download PNG', payload)}, {start: true })
+ //trigger when action ends
+searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
+    console.log('download PNG', payload)})
+----
+====
 --
 
 ==== DownloadAsXlsx
 
-Available with `SearchEmbed`  and  `AppEmbed` in `v1.11.0` or later. +
-Is triggered when the Liveboard or answer data is downloaded as an Excel file and on download completion. +
+Available with `SearchEmbed`, `LiveboardEmbed`, and  `AppEmbed` in `v1.11.0` or later. +
+Is emitted when the *Download* > *XLSX* action is triggered on Liveboard visualization or Answer. You can also fire this event when the download is completed. +
 [div divider]
 --
 .Example
@@ -1115,7 +1281,7 @@ searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
 ==== Drilldown
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `v1.1.0` or later. +
-Is triggered when the *Drill down* action is executed. +
+Is emitted when the *Drill down* action is executed. +
 Returns the following data:  +
 
 * Drill columns +
@@ -1241,8 +1407,28 @@ function showErrorMsg() {
 
 ----
 ====
-
 --
+
+==== GetDataClick
+Available with `SearchBarEmbed` in v1.19.0 or later. +
+
+Is emitted when the *Get Data* button in the embedded search bar view is clicked.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchbarEmbed.trigger(EmbedEvent.GetDataClick)
+.then(data => {
+console.log('Answer Data:', data);
+})
+----
+====
+--
+
 
 ==== Init
 
@@ -1404,7 +1590,7 @@ searchEmbed.on(EmbedEvent.RouteChange, payload => console.log('data', payload))
 
 Available with `SearchEmbed` and  `AppEmbed` in `V1.11.0` or later, and with `LiveboardEmbed` in 1.15.0 or later versions. +
 
-Is triggered when an answer or Liveboard (new Liveboard experience only) is saved in the embedded view. +
+Is triggered when an answer or Liveboard is saved in the embedded view. +
 
 [div divider]
 --
@@ -1561,6 +1747,25 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
    onVizPointDoubleClick(payload);
 })
 ----
+--
+
+==== VizPointRightClick
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.21.0` or later. +
+Is emitted when a user clicks an action from the contextual (right-click) menu on a Liveboard visualization or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+LiveboardEmbed.on(EmbedEvent.VizPointRightClick, payload => {
+    console.log('VizPointClick', payload)
+})
+----
+====
 --
 
 == Unsubscribe from an event

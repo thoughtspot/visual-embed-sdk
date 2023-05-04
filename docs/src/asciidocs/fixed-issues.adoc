@@ -8,13 +8,20 @@
 
 This page lists the issues resolved in ThoughtSpot Everywhere.
 
+== Version 9.2.0.cl
+
+[cols="20%,80%"]
+[options='header']
+|===
+|Issue ID |Description
+|SCAL-142933|The REST API v2.0 session login endpoint does not return session cookies.
+|===
 
 == Version 8.10.0.cl
 [cols="20%,80%"]
 [options='header']
 |====
 |Issue| Description
-
 |SCAL-132654 | The `fullHeight` setting in the SDK doesn't take effect on embedded Liveboards when the new Liveboard experience is enabled.
 |SCAL-133342 |Some users could not edit table joins despite having edit access to the table.
 |SCAL-132347|The `POST /tspublic/rest/v2/session/gettoken` REST API v2 [beta betaBackground]^Beta^ endpoint returns the 404 error.

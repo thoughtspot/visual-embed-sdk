@@ -8,6 +8,75 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 1.21,0, May 2023
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following action enumeration members:
+
+* `Action.AxisMenuAggregate`
+* `Action.AxisMenuConditionalFormat`
+* `Action.AxisMenuEdit`
+* `Action.AxisMenuFilter`
+* `Action.AxisMenuGroup`
+* `Action.AxisMenuNumberFormat`
+* `Action.AxisMenuPosition`
+* `Action.AxisMenuRemove`
+* `Action.AxisMenuRename`
+* `Action.AxisMenuSort`
+* `Action.AxisMenuTextWrapping`
+* `Action.AxisMenuTimeBucket`
+* `Action.CrossFilter`
+* `Action.RemoveCrossFilter`
+
+For more information, see xref:embed-action-ref.adoc[Action reference].
+
+|[tag greenBackground]#NEW FEATURE# a| The SDK introduces the following events:
+
+* `HostEvent.AddColumns`
+* `HostEvent.OpenFilter`
+* `HostEvent.RemoveColumn`
+* `HostEvent.ResetSearch`
+* `EmbedEvent.CrossFilterChanged`
+* `EmbedEvent.DownloadAsPng`
+* `EmbedEvent.VizPointRightClick`
+
+For more information, see xref:events-ref.adoc[Events reference].
+
+|[tag redBackground]#DEPRECATED# a|
+
+The following events are deprecated from version 1.21.0 onwards.
+
+* `HostEvent.Download` +
+* `EmbedEvent.Download`
+
+You can use the `DownloadAsPng`, `DownloadAsXlsx`, `DownloadAsCsv` and `DownloadAsPdf` events for download actions.
+
+For more information, see xref:events-ref.adoc[Events reference].
+|[tag greenBackground]#NEW FEATURE# a| The SDK includes new attributes to customize the experience for embedded app users:
+
+* `linkOverride`
++
+Allows overriding the *Open in new tab* link on embedded pages.
+
+* `contextMenuTrigger`
++
+Allows triggering contextual menu the Liveboard visualizations and Answers from left-click to right-click.
+
+* `hideSearchBar`
++
+Allows hiding the Search bar on the embedded Search page.
+|[tag greenBackground]#NEW FEATURE# | The SDK now allows setting the loading preference for embedded iFrames.
+For performance optimization, you can set the `loading` attribute to `lazy` in the `FrameParams` property.
+|====
+
+== Version 1.20.0, April 2023
+
+[width="100%" cols="1,4"]
+|====
+|[tag redBackground]#DEPRECATED# a|The `dataSources` property in `SearchEmbed` and `SearchBarEmbed` is deprecated and replaced with the `dataSource` attribute. The SDK supports searching from a single data source only.
+|[tag greenBackground]#NEW FEATURE# a|The embed SDK packages now include the `insertAsSibling` property. This attribute can be used to insert the embedded object as a sibling to the element inside the target container.
+|====
+
 == Version 1.19.0, February 2023
 
 [width="100%" cols="1,4"]

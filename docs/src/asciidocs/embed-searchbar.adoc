@@ -16,12 +16,15 @@ ThoughtSpot search bar that allows passing search tokens. The search bar is resp
 
 * *Get data* button
 +
-The *Get data* button triggers the `data` embed event (`EmbedEvent.Data`), which returns the Answer data. Your host application can use this raw data as a payload and render it the way you want.
+The *Get data* button returns the search result as raw data. Your host application can use this data as a payload and render it in your app.
+
++
+By default, ThoughtSpot returns 1000 rows of data when the *Get data* button is clicked. To get more rows of data, you can use the `GetDataClick` event to trigger a response payload and retrieve all the data when the *Get data* button is clicked.
 
 * Data panel +
-The data sources panel allows users to choose the data sources to search from, and apply formulas and filters. The current version of the SDK doesn't allow you to hide or collapse the data panel.
+The data sources panel allows users to choose the data sources to search from. The current version of the SDK doesn't allow you to hide or collapse the data panel.
 
-
++
 The following figure shows an example of an embedded search bar with the data panel.
 
 [.bordered]

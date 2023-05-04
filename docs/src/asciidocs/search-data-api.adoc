@@ -43,7 +43,7 @@ For example, in the query revenue by ship mode, both revenue and ship mode are c
 [revenue] by [ship mode]
 ----
 [#Operator]
-Operator:: ThoughtSpot supports various operators such as =, !=, >, >=, <=, <, contains, not contains, and so on. Use these operators in the API query in the same manner as in the UI.
+Operator:: ThoughtSpot supports various operators such as =, !=, >, >=, \<=, <, contains, not contains, and so on. Use these operators in the API query in the same manner as in the UI.
 +
 For example, specify revenue over 1000, and limit ship mode to 'air':
 

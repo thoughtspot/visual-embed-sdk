@@ -303,6 +303,41 @@ appEmbed.on(EmbedEvent.load, hideLoader)
 
 For more information, see xref:embed-events.adoc[Interact with events].
 
+== Customize navigation (Optional)
+
+If you are embedding the full ThoughtSpot application, you can use the navigation controls that are available as part of the application. You can also customize in-app navigation using the `navigateToPage` API in the SDK.
+
+For example, to provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app. The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
+
+To add a custom action for in-app navigation, follow these steps:
+
+. xref:custom-actions-callback.adoc[Add a custom action].
+. Define the navigation path
+
+In this example, the **view-report ** action on a Liveboard page calls the `navigateTo` method to open a specific saved answer page when a user clicks the **View report** button in the embedded app.
+
+[source,javascript]
+----
+appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
+    if (payload.payload.id === 'view-report') {
+        appEmbed.navigateToPage(
+            'saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e'
+        );
+    }
+})
+----
+
+If you want to navigate to a specific application page without initiating a reload, you can set the `noReload` attribute to `true` as shown here:
+
+[source,javascript]
+----
+appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
+    if (payload.payload.id === 'view-report') {
+        appEmbed.navigateToPage('saved-answer/3da14030-11e4-42b2-8e56-5ee042a8de9e', true);
+    }
+})
+----
+
 == Render the embedded application
 
 Render the embedded application.
@@ -311,6 +346,8 @@ Render the embedded application.
 ----
 appEmbed.render();
 ----
+
+
 
 == Test the embedded workflows
 
@@ -321,6 +358,9 @@ To verify the ThoughtSpot application integration, perform the following tests:
 * Verify if the tabs are displayed correctly.
 * Verify if the page view parameters, such as hiding or showing the data source panel, function as expected.
 * If you have disabled a menu item on a ThoughtSpot application page, verify if the menu command is disabled.
+
+
+
 
 == Additional resources
 
