@@ -139,7 +139,7 @@ If the custom tile size feature is enabled on your instance, and you have edit a
 . Repeat the steps to resize other visualizations on the Liveboard.
 
 [#noteTiles]
-=== Note tiles [eaTag eaBackground]#Early Access#
+== Add Note tiles [eaTag eaBackground]#Early Access#
 Starting from 9.2.0.cl, you can add a Note tile with custom text, images, and links on an embedded Liveboard.
 The Note tiles feature is turned off by default and can be enabled by your application administrator.
 
