@@ -36,7 +36,7 @@ ThoughtSpot supports the following locale identifiers in the `locale` string:
 |====================
 | Locale | Language
 | `da-DK` | Dansk
-| `de-DE` | Deutsche
+| `de-DE` | Deutsch
 | `en-AU` | English (Australia)
 | `en-CA` | English (Canada)
 | `en-IN` | English (India)
@@ -54,9 +54,9 @@ ThoughtSpot supports the following locale identifiers in the `locale` string:
 | `fi-FI` | Suomi
 | `sv-SE` | Svenska
 | `zh-CN` | 中文(简体)
+| `zh-HANT`| 中文 (繁體)
 | `ja-JP` | 日本語
 |====================
-
 
 This example sets the locale of the embedded ThoughtSpot app to Español. 
 
