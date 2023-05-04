@@ -213,6 +213,9 @@
 								<a href="Action.html" class="tsd-kind-icon">Action</a>
 							</li>
 							<li class=" tsd-kind-enum">
+								<a href="ContextMenuTriggerOptions.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Trigger<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-enum">
 								<a href="DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-enum">
@@ -273,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">Basic<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Basic&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L143">types.ts:143</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L176">types.ts:176</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -290,7 +293,7 @@
 					<div class="tsd-signature tsd-kind-icon">EmbeddedSSO<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EmbeddedSSO&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L30">types.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L50">types.ts:50</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -300,6 +303,17 @@
 							if SSO is not configured on ThoughtSpot.</p>
 						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">  </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">EmbeddedSSO</span><span style="color: #000000">,</span>
+<span style="color: #000000"> });</span>
+</code></pre>
+								<p>Set authentication type as Embedded SSO.</p>
+								<p>To use this:
+									Your SAML or OpenID provider must allow iframe redirects.
+								eg. If you are using okta as IdP, you can enable iFrame embedding.</p>
+							</dd>
 							<dt class="version:">version:</dt>
 							<dd><p>SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl</p>
 							</dd>
@@ -312,7 +326,7 @@
 					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;None&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L22">types.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L30">types.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,6 +334,15 @@
 							<p>No authentication on the SDK. Passthrough to the embedded App. Alias for
 							<code>Passthrough</code>.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">  </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">None</span><span style="color: #000000">,</span>
+<span style="color: #000000"> });</span>
+</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -328,7 +351,7 @@
 					<div class="tsd-signature tsd-kind-icon">OIDCRedirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SSO_OIDC&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L103">types.ts:103</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L123">types.ts:123</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,7 +368,7 @@
 					<div class="tsd-signature tsd-kind-icon">SAMLRedirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SSO_SAML&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L90">types.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L110">types.ts:110</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -400,7 +423,7 @@
 					<div class="tsd-signature tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AuthServer&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L128">types.ts:128</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L148">types.ts:148</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -430,7 +453,7 @@
 					<div class="tsd-signature tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<wbr>Cookieless<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AuthServerCookieless&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L136">types.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L169">types.ts:169</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -441,6 +464,22 @@
 								approach, recommended to by pass third-party cookie-blocking restriction
 							implemented by some browsers</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000"> </span><span style="color: #008000">// ...</span>
+<span style="color: #000000"> </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">TrustedAuthTokenCookieless</span><span style="color: #000000">,</span>
+<span style="color: #000000"> </span><span style="color: #795E26">getAuthToken</span><span style="color: #001080">:</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">fetch</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;https://my-backend.app/ts-token&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">     .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #795E26">json</span><span style="color: #000000">())</span>
+<span style="color: #000000">     .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">token</span><span style="color: #000000">);</span>
+<span style="color: #000000"> }</span>
+</code></pre>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.22.0| ThouhgtSpot: 9.3.0.cl, 9.5.1-sw</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>

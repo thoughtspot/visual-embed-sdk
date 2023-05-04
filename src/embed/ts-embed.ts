@@ -825,7 +825,7 @@ export class TsEmbed {
      * This means without the path but with the flags already applied.
      * This is useful for prerendering the component in the background.
      *
-     * @version SDK: 1.21.0 | ThoughtSpot: * / Search: 9.3.0.cl
+     * @version SDK: 1.22.0
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {

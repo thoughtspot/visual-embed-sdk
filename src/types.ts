@@ -18,7 +18,8 @@ export enum AuthType {
     /**
      * No authentication on the SDK. Passthrough to the embedded App. Alias for
      * `Passthrough`.
-     * * @example
+     *
+     * @example
      * ```js
      * init({
      *   // ...
@@ -151,6 +152,19 @@ export enum AuthType {
      * obtained from ThoughtSpot. This uses a cookieless authentication
      * approach, recommended to by pass third-party cookie-blocking restriction
      * implemented by some browsers
+     *
+     * @example
+     * ```js
+     * init({
+     *  // ...
+     *  authType: AuthType.TrustedAuthTokenCookieless,
+     *  getAuthToken: () => {
+     *    return fetch('https://my-backend.app/ts-token')
+     *      .then((response) => response.json())
+     *      .then((data) => data.token);
+     *  }
+     * ```
+     * @version SDK: 1.22.0| ThouhgtSpot: 9.3.0.cl, 9.5.1-sw
      */
     TrustedAuthTokenCookieless = 'AuthServerCookieless',
     /**
@@ -593,6 +607,8 @@ export interface ViewConfig {
      * Use a pre-rendered iframe from a pool of pre-rendered iframes
      * if available and matches the configuration.
      *
+     * @version SDK: 1.22.0
+     *
      * See [docs]() on how to create a prerender pool.
      */
     usePrerenderedIfAvailable?: boolean;
@@ -848,7 +864,7 @@ export enum EmbedEvent {
      *   )
      * });
      * ```
-     * @return {vizId, clickedPoint} - metadata about point that is clicked
+     * @return viz, clickedPoint - metadata about point that is clicked
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @important
      */
@@ -1203,7 +1219,7 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.Search, {
      *   searchQuery: "[sales] by [item type],
-     *   dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     *   dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
      *   execute: true
      * })
      * ```
@@ -1219,9 +1235,18 @@ export enum HostEvent {
      *                     column.
      * @example
      * ```js
-     * searchEmbed.trigger(HostEvent.DrillDown, {
-     *   points: clickedPointData,
-     *   autoDrillDown: true,
+     * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+     *       console.log(payload);
+     *       const clickedPoint = payload.data.clickedPoint;
+     *       const selectedPoint = payload.data.selectedPoints;
+     *       console.log('>>> called', clickedPoint);
+     *       searchEmbed.trigger(HostEvent.DrillDown, {
+     *             points: {
+     *                  clickedPoint,
+     *                  selectedPoints: selectedPoint
+     *             },
+     *             autoDrillDown: true,
+     *       });
      * })
      * ```
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
@@ -1245,9 +1270,11 @@ export enum HostEvent {
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SetVisibleVizs, [
      *  '730496d6-6903-4601-937e-2c691821af3c',
      *  'd547ec54-2a37-4516-a222-2b06719af726'])
+     * ```
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
@@ -1257,10 +1284,12 @@ export enum HostEvent {
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
      *   {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
      *   {columnName: "item type",operator: RuntimeFilterOp.EQ,values: ["Jackets"]}
      * ])
+     * ```
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @important
      */
@@ -1404,7 +1433,7 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
+     * liveboardEmbed.trigger(HostEvent.DownloadAsPdf)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
@@ -1474,10 +1503,14 @@ export enum HostEvent {
      * @param - object - to trigger the action for a specfic visualization
      *   in Liveboard embed, pass in vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
+     *
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger((HostEvent.Edit)
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Edit = 'edit',
@@ -1529,10 +1562,14 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.ShowUnderlyingData, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.ShowUnderlyingData)
+     *
      * searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ShowUnderlyingData = 'showUnderlyingData',
@@ -1542,23 +1579,31 @@ export enum HostEvent {
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Delete, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.Delete)
+     *
      * searchEmbed.trigger(HostEvent.Delete)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
-    Delete = 'delete',
+    Delete = 'onDeleteAnswer',
     /**
      * Triggers the SpotIQAnalyze action on visualization or search
      *
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SpotIQAnalyze)
+     *
      * searchEmbed.trigger(HostEvent.SpotIQAnalyze)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SpotIQAnalyze = 'spotIQAnalyze',
@@ -1566,11 +1611,15 @@ export enum HostEvent {
      * Triggers the Download action on visualization or search when Displaymode is Chart
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Download, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.Download)
+     *
      * searchEmbed.trigger(HostEvent.Download)
-     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw, Please use DownloadAsPng
+     * ```
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1-sw ,Use {@link DownloadAsPng}
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Download = 'downloadAsPng',
@@ -1581,11 +1630,9 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsPng,
      * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
-     * ```
-     * ```js
+     *
      * vizEmbed.trigger(HostEvent.DownloadAsPng)
-     * ```
-     * ```js
+     *
      * searchEmbed.trigger(HostEvent.DownloadAsPng)
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw
@@ -1595,10 +1642,14 @@ export enum HostEvent {
      * Triggers the downloadAsCSV action on visualization or search
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.DownloadAsCsv)
+     *
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsCsv = 'downloadAsCSV',
@@ -1606,10 +1657,14 @@ export enum HostEvent {
      * Triggers the downloadAsXLSX action on visualization or search
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.DownloadAsXlsx)
+     *
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsXlsx = 'downloadAsXLSX',
@@ -1617,8 +1672,11 @@ export enum HostEvent {
      * Triggers the Share action on a liveboard or answer
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Share)
+     *
      * searchEmbed.trigger(HostEvent.Share)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Share = 'share',
@@ -1626,8 +1684,11 @@ export enum HostEvent {
      * Trigger the Save action on a liveboard or answer
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
+     *
      * searchEmbed.trigger(HostEvent.Save)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Save = 'save',
@@ -1636,9 +1697,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SyncToSheets, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SyncToSheets)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToSheets = 'sync-to-sheets',
@@ -1647,9 +1711,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SyncToOtherApps)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToOtherApps = 'sync-to-other-apps',
@@ -1658,9 +1725,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.ManagePipelines, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.ManagePipelines)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ManagePipelines = 'manage-pipeline',
@@ -1668,7 +1738,9 @@ export enum HostEvent {
      * Triggers the Reset search in answer
      *
      * @example
-     * searchEmbed.trigger(HostEvent.SearchReset
+     * ```js
+     * searchEmbed.trigger(HostEvent.ResetSearch)
+     * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.0.1-sw
      */
     ResetSearch = 'resetSearch',
@@ -2002,6 +2074,9 @@ export enum PrefetchFeatures {
     VizEmbed = 'VizEmbed',
 }
 
+/**
+ * Enum for options to change context trigger
+ */
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
     RIGHT_CLICK = 'right-click',
