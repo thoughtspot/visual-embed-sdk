@@ -40,9 +40,10 @@ export enum AuthType {
      *  });
      * ```
      * Set authentication type as Embedded SSO.
-     *  
+     *
      * To use this:
-     * Your SAML or OpenID provider must allow iframe redirects. eg. If you are using okta as IdP, you can enable iFrame embedding.
+     * Your SAML or OpenID provider must allow iframe redirects.
+     * eg. If you are using okta as IdP, you can enable iFrame embedding.
      * @version: SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl
      */
     EmbeddedSSO = 'EmbeddedSSO',
