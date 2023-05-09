@@ -137,7 +137,7 @@ https://www.mysite.com/insight/{object-id}
 https://www.mysite.com/?insights={object-id}
 ----
 Unsubscribe link::
-+
+
 This URL provides a link to the *Profile* settings page in ThoughtSpot.
 
 +
@@ -147,13 +147,16 @@ The default link format is `\https://<ThoughtSpot-Host>/#/user-preference`. If y
 ----
 https://www.mysite.com/user-preference
 ----
+
 +
 ----
 https://www.mysite.com/?unsubscribe
 ----
-
-Generic link::
 +
+
+[#genericLink]
+Generic link::
+
 The *Generic link* setting is applied to the URLs of ThoughtSpot application pages and navigation links that are not parameterized using the other link setting options in the *Customization* > *Link settings* page.
 
 +
@@ -165,7 +168,7 @@ https://www.mysite.com/#/monitor{path}
 ----
 
 +
-You must also set the `linkOverride` to `true` to override the link format of your embedded application pages and navigation links:
+You must also set the `linkOverride` to `true` in the Visual Embed SDK to override the link format of your embedded application pages and navigation links:
 
 +
 [source,JavaScript]
