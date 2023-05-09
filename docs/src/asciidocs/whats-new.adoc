@@ -44,6 +44,12 @@ For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrid
 In the 9.2.0.cl release, ThoughtSpot does not support applying runtime Parameter overrides via Visual Embed SDK or REST API v2.0 endpoints.
 ====
 
+=== Link customization
+
+You can now customize the navigation links in your app using the *Generic link* option in the *Develop* > *Customization* > *Link settings* page.
+
+For more information, see xref:customize-links.adoc#_customize_link_format[Customize links].
+
 === Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
 
 Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.

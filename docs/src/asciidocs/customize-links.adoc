@@ -32,7 +32,7 @@ The *Unsubscribe* link is included in system-generated emails to allow users to 
 
 Generic link::
 +
-The *Generic* link allows you to customize the URLs of ThoughtSpot application pages and navigation links that are not parameterized. For example, the top navigation menu links in your embedded application can be customized as *Generic link*.
+The *Generic* link allows you to customize navigation links in your application that are not parameterized. For example, the top navigation menu links in your embedded application can be customized as *Generic link*.
 
 == Link format for an embedded instance
 
@@ -157,7 +157,7 @@ https://www.mysite.com/?unsubscribe
 [#genericLink]
 Generic link::
 
-The *Generic link* setting is applied to the URLs of ThoughtSpot application pages and navigation links that are not parameterized using the other link setting options in the *Customization* > *Link settings* page.
+The *Generic link* setting allows customizing the embedded ThoughtSpot page URLs and navigation links that are not parameterized using the other link setting options in the *Customization* > *Link settings* page.
 
 +
 The default link format is `\https://<ThoughtSpot-Host>/#/\{path}`. If your host application is `www.mysite.com`, you can configure the link format as shown here:
