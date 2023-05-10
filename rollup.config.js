@@ -11,6 +11,7 @@ import typescript from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 
 import pkg from './package.json';
 const plugins = [
@@ -21,6 +22,9 @@ const plugins = [
         commonjs(),
         json({
             compact: true
+        }),
+        replace({
+            'process.env.NODE_ENV': JSON.stringify('production'),
         })
     ];
 

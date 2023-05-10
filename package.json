@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.21.0-alpha.16",
+    "version": "1.21.0-alpha.17",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -79,6 +79,7 @@
         "@rollup/plugin-commonjs": "^18.0.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^11.2.1",
+        "@rollup/plugin-replace": "^5.0.2",
         "@testing-library/dom": "^7.31.0",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^11.2.7",
