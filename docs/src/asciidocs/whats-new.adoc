@@ -50,7 +50,7 @@ You can now customize the navigation links in your app using the *Generic link* 
 
 For more information, see xref:customize-links.adoc#_customize_link_format[Customize links].
 
-=== Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
+=== Cross filters on Liveboard visualizations [eaTag eaBackground]#Early Access#
 
 ThoughtSpot now supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
 
