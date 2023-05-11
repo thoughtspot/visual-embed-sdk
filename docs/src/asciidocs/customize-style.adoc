@@ -190,6 +190,12 @@ You can customize the footer text in your ThoughtSpot instance to add your compa
 
 To customize or rebrand the footer text, follow these steps:
 
+. Go to *Develop* > *Customizations* > *Styles*.
+. Click the text box under *Footer text* and enter the message.
++
+Your custom message will appear in the footer.
+
+////
 . Add `?customBrandingEnabled=true` to your application URL as shown in the following examples:
 +
 ----
@@ -206,6 +212,7 @@ You require administrator or developer privilege to apply custom styles and foot
 +
 Your custom message will appear in the footer.
 . To enable footer text customization on your cluster by default, contact ThoughtSpot Support.
+////
 
 [#page-title]
 == Customize page title
