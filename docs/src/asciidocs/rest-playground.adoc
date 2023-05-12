@@ -26,7 +26,7 @@ To make an API call and view results:
 <a href="{{previewPrefix}}/api/rest/playgroundV1" id="preview-in-playground" target="_blank">Try it out</a>
 ++++
 
-For more information about REST API v1 endpoints, API request and response workflow, see xref:rest-api-getstarted[Get started with REST API v1].
+For more information about REST API v1 endpoints, API request and response workflow, see xref:rest-api-getstarted.adoc[Get started with REST API v1].
 
 == REST API v2.0 Playground
 

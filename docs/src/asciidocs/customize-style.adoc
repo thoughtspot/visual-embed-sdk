@@ -186,15 +186,33 @@ If you disable color rotation, ThoughtSpot generates single-color charts in the 
 
 [#footer-text]
 == Customize footer text
-A footer appears by default in the ThoughtSpot application. You can customize the footer text to add your  company-specific message.
+You can customize the footer text in your ThoughtSpot instance to add your company-specific message.
 
-To change the footer text:
+To customize or rebrand the footer text, follow these steps:
 
 . Go to *Develop* > *Customizations* > *Styles*.
-. Click the text box under *Footer text*.
-. Enter your new text message.
+. Click the text box under *Footer text* and enter the message.
 +
-Your new text message will automatically be displayed in the footer.
+Your custom message will appear in the footer.
+
+////
+. Add `?customBrandingEnabled=true` to your application URL as shown in the following examples:
++
+----
+https://{ThoughtSpot-Host}/?customBrandingEnabled=true/#/
+----
++
+----
+https://{ThoughtSpot-Host}/?customBrandingEnabled=true/#/pinboards
+----
+. Go to *Admin* > *Application settings* > *Style customization* or *Develop* > *Customizations* > *Styles*.
++
+You require administrator or developer privilege to apply custom styles and footer text.
+. Click the text box under *Footer text* and enter the message.
++
+Your custom message will appear in the footer.
+. To enable footer text customization on your cluster by default, contact ThoughtSpot Support.
+////
 
 [#page-title]
 == Customize page title

@@ -50,32 +50,38 @@ You can now customize the navigation links in your app using the *Generic link* 
 
 For more information, see xref:customize-links.adoc#_customize_link_format[Customize links].
 
-=== Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
+=== Cross filters on Liveboard visualizations [eaTag eaBackground]#Early Access#
 
-Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
+ThoughtSpot now supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
 
 [NOTE]
 ====
-The Cross filters feature is turned off by default in 9.2.0.cl. To enable this feature on your instance, contact ThoughtSpot Support.
+The Cross filters feature is turned off by default. To enable this feature on your instance, contact your ThoughtSpot administrator.
 ====
 
-==== Contextual menu behavior
+To hide or disable the cross filter feature on an embedded instance, use the `Action.CrossFilter` and `Action.RemoveCrossFilter` parameters in the SDK. For more information, see xref:embed-actions.adoc[Show or hide menu items] and xref:embed-action-ref.adoc#liveboardv2-viz-actions[Action reference].
 
-For embedded instances with cross filters feature enabled, ThoughtSpot provides an option to set the contextual menu on visualizations as right-click or left-click pop-up menu.
+=== Contextual menu behavior
 
-If the contextual menu is set as left-click menu, and your app uses `EmbedEvent.VizPointClick` to listen to click events on an embedded Liveboard visualization, you will notice that the `VizPointClick` event is triggered whenever a user clicks a contextual menu action, such as *Drill down* or *Filter*. If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from left-click contextual menu may impact your app’s current workflow.
+By default, the contextual menu in ThoughtSpot application pages is set as right-click pop-up menu. Starting from 9.2.0.cl, you can set the contextual menu to trigger on left-click.
 
-To avoid this issue, you can use the following settings in the Visual Embed SDK v1.21.0 and later:
+To trigger the contextual menu on left-click or right-click on an embedded app, you can use the `contextMenuTrigger` property in the Visual Embed SDK. In the following example, the contextual menu is configured to trigger on left-click.
 
-Define your preferred settings for the contextual menu::
-You can use the `ContextMenuTrigger` property in the SDK to trigger the contextual menu on right-click or left-click. This will allow your app to fire the `VizPointClick` event as per your current workflow.
+----
+contextMenuTrigger: "left-click"
+----
 
-Turn off cross-filters::
-You can turn off the cross-filters feature by setting `Action.CrossFilter` and `Action.RemoveCrossFilter` as hidden actions in the SDK. For more information about hiding a menu action, see xref:embed-actions.adoc[Show or hide menu items].
+----
+contextMenuTrigger: ContextMenuTriggerOptions.LEFT_CLICK
+----
 
-Use VizPointRightClick to monitor right-click events::
-If the contextual menu is set as left-click menu, use the `EmbedEvent.VizPointRightClick` event to listen to the right-click events on a chart or table.
+When set as right-click menu (default behavior)::
+The contextual menu opens on right-click. If you want to monitor right-click actions and listen to the right-click events on a chart or table, use `EmbedEvent.VizPointRightClick` event. For more information, see xref:events-ref.adoc#_vizpointrightclick[VizPointRightClick].
 
+When set as left-click menu::
+The contextual opens on left-click. If your app is already using `EmbedEvent.VizPointClick` to listen to left-click events on a visualization, the `VizPointClick` event will be triggered whenever a user clicks on an action in the contextual menu. If you are using `EmbedEvent.VizPointClick` to trigger actions such as updating runtime filters on a Liveboard visualization, the click events from left-click contextual menu may impact your app’s current workflow.
+
++
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
 === Note tiles on Liveboards [eaTag eaBackground]#Early Access#
