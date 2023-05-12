@@ -18,6 +18,13 @@ export enum AuthType {
     /**
      * No authentication on the SDK. Passthrough to the embedded App. Alias for
      * `Passthrough`.
+     * * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.None,
+     *  });
+     * ```
      */
     None = 'None',
     /**
@@ -25,6 +32,18 @@ export enum AuthType {
      * configuration, but may not be supported by all IDPs. This will behave like `None`
      * if SSO is not configured on ThoughtSpot.
      *
+     * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.EmbeddedSSO,
+     *  });
+     * ```
+     * Set authentication type as Embedded SSO.
+     *
+     * To use this:
+     * Your SAML or OpenID provider must allow iframe redirects.
+     * eg. If you are using okta as IdP, you can enable iFrame embedding.
      * @version: SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl
      */
     EmbeddedSSO = 'EmbeddedSSO',
