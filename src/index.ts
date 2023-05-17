@@ -35,6 +35,7 @@ import {
     CustomisationsInterface,
     CustomStyles,
     customCssInterface,
+    ContextMenuTriggerOptions,
 } from './types';
 
 export {
@@ -61,6 +62,7 @@ export {
     HostEvent,
     DataSourceVisualMode,
     Action,
+    ContextMenuTriggerOptions,
     EmbedConfig,
     SearchViewConfig,
     SearchBarViewConfig,

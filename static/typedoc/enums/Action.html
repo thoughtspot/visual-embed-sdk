@@ -340,6 +340,9 @@
 										<a href="Action.html#RemoveCrossFilter" class="tsd-kind-icon">Remove<wbr>Cross<wbr>Filter</a>
 									</li>
 									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="Action.html#RenameModalTitleDescription" class="tsd-kind-icon">Rename<wbr>Modal<wbr>Title<wbr>Description</a>
+									</li>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 										<a href="Action.html#ReportError" class="tsd-kind-icon">Report<wbr>Error</a>
 									</li>
 									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
@@ -390,6 +393,9 @@
 								</ul>
 							</li>
 							<li class=" tsd-kind-enum">
+								<a href="ContextMenuTriggerOptions.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Trigger<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-enum">
 								<a href="DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-enum">
@@ -416,6 +422,19 @@
 						<p>The list of actions that can be performed on visual ThoughtSpot
 						entities, such as answers and Liveboards.</p>
 					</div>
+					<p>This enum is used to specify the actions that could be disabled,
+					hidden or made visible.</p>
+					<dl class="tsd-comment-tags">
+						<dt class="example">example</dt>
+						<dd><pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">embed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">LiveboardEmbed</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#embed-container&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">   ... </span><span style="color: #008000">// other options</span>
+<span style="color: #000000">   </span><span style="color: #001080">visibleActions</span><span style="color: #000000">: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Save</span><span style="color: #000000">, </span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Explore</span><span style="color: #000000">],</span>
+<span style="color: #000000">   </span><span style="color: #001080">disableActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Save</span><span style="color: #000000">],</span>
+<span style="color: #000000">   </span><span style="color: #001080">hiddenActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Download</span><span style="color: #000000">], </span><span style="color: #008000">// Set either this or visibleActions</span>
+<span style="color: #000000">})</span>
+</code></pre>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -475,6 +494,7 @@
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#QueryDetailsButtons" class="tsd-kind-icon">Query<wbr>Details<wbr>Buttons</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#Remove" class="tsd-kind-icon">Remove</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#RemoveCrossFilter" class="tsd-kind-icon">Remove<wbr>Cross<wbr>Filter</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#RenameModalTitleDescription" class="tsd-kind-icon">Rename<wbr>Modal<wbr>Title<wbr>Description</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#ReportError" class="tsd-kind-icon">Report<wbr>Error</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#RequestAccess" class="tsd-kind-icon">Request<wbr>Access</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="Action.html#Save" class="tsd-kind-icon">Save</a></li>
@@ -504,7 +524,7 @@
 					<div class="tsd-signature tsd-kind-icon">Add<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;addFilter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1684">types.ts:1684</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1859">types.ts:1859</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -514,7 +534,7 @@
 					<div class="tsd-signature tsd-kind-icon">Add<wbr>Formula<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;addFormula&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1688">types.ts:1688</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1863">types.ts:1863</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -524,7 +544,7 @@
 					<div class="tsd-signature tsd-kind-icon">Add<wbr>Parameter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;addParameter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1689">types.ts:1689</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1864">types.ts:1864</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -534,7 +554,7 @@
 					<div class="tsd-signature tsd-kind-icon">Add<wbr>ToFavorites<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;addToFavorites&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1790">types.ts:1790</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1971">types.ts:1971</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -551,7 +571,7 @@
 					<div class="tsd-signature tsd-kind-icon">Answer<wbr>Chart<wbr>Switcher<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;answerChartSwitcher&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1786">types.ts:1786</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1967">types.ts:1967</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -568,7 +588,7 @@
 					<div class="tsd-signature tsd-kind-icon">Answer<wbr>Delete<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;onDeleteAnswer&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1782">types.ts:1782</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1963">types.ts:1963</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -585,7 +605,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Aggregate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuAggregate&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1817">types.ts:1817</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1998">types.ts:1998</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -602,7 +622,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Conditional<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuConditionalFormat&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1829">types.ts:1829</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2010">types.ts:2010</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -619,7 +639,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Edit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuEdit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1849">types.ts:1849</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2030">types.ts:2030</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -636,7 +656,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuFilter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1825">types.ts:1825</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2006">types.ts:2006</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -653,7 +673,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuGroup&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1837">types.ts:1837</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2018">types.ts:2018</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -670,7 +690,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Number<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuNumberFormat&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1853">types.ts:1853</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2034">types.ts:2034</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -687,7 +707,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuPosition&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1841">types.ts:1841</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2022">types.ts:2022</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -704,7 +724,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Remove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuRemove&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1861">types.ts:1861</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2042">types.ts:2042</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -721,7 +741,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Rename<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuRename&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1845">types.ts:1845</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2026">types.ts:2026</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -738,7 +758,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Sort<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuSort&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1833">types.ts:1833</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2014">types.ts:2014</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -755,7 +775,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Text<wbr>Wrapping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuTextWrapping&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1857">types.ts:1857</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2038">types.ts:2038</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -772,7 +792,7 @@
 					<div class="tsd-signature tsd-kind-icon">Axis<wbr>Menu<wbr>Time<wbr>Bucket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;axisMenuTimeBucket&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1821">types.ts:1821</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2002">types.ts:2002</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -789,7 +809,7 @@
 					<div class="tsd-signature tsd-kind-icon">Choose<wbr>Data<wbr>Sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;chooseDataSources&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1687">types.ts:1687</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1862">types.ts:1862</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -799,7 +819,7 @@
 					<div class="tsd-signature tsd-kind-icon">Collapse<wbr>Data<wbr>Sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;collapseDataSources&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1686">types.ts:1686</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1861">types.ts:1861</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -809,7 +829,7 @@
 					<div class="tsd-signature tsd-kind-icon">Configure<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;configureFilter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1685">types.ts:1685</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1860">types.ts:1860</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -819,7 +839,7 @@
 					<div class="tsd-signature tsd-kind-icon">Copy<wbr>And<wbr>Edit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-copy-and-edit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1766">types.ts:1766</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1947">types.ts:1947</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -829,7 +849,7 @@
 					<div class="tsd-signature tsd-kind-icon">Copy<wbr>Link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;embedDocument&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1676">types.ts:1676</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1851">types.ts:1851</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -839,7 +859,7 @@
 					<div class="tsd-signature tsd-kind-icon">Copy<wbr>ToClipboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-copy-to-clipboard&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1765">types.ts:1765</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1946">types.ts:1946</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -849,7 +869,7 @@
 					<div class="tsd-signature tsd-kind-icon">Create<wbr>Monitor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;createMonitor&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1798">types.ts:1798</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1979">types.ts:1979</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -866,7 +886,7 @@
 					<div class="tsd-signature tsd-kind-icon">Cross<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-cross-filter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1809">types.ts:1809</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1990">types.ts:1990</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -883,7 +903,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;download&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1709">types.ts:1709</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1884">types.ts:1884</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -893,7 +913,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsCsv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsCSV&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1712">types.ts:1712</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1887">types.ts:1887</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -903,7 +923,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsPdf<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsPdf&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1711">types.ts:1711</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1886">types.ts:1886</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -913,7 +933,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsPng<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsPng&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1710">types.ts:1710</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1885">types.ts:1885</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -923,7 +943,7 @@
 					<div class="tsd-signature tsd-kind-icon">Download<wbr>AsXlsx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;downloadAsXLSX&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1713">types.ts:1713</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1888">types.ts:1888</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -933,7 +953,7 @@
 					<div class="tsd-signature tsd-kind-icon">Drill<wbr>Exclude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-exclude&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1764">types.ts:1764</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1945">types.ts:1945</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -943,7 +963,7 @@
 					<div class="tsd-signature tsd-kind-icon">Drill<wbr>Include<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-include&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1763">types.ts:1763</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1944">types.ts:1944</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -953,7 +973,7 @@
 					<div class="tsd-signature tsd-kind-icon">Edit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;edit&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1724">types.ts:1724</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1899">types.ts:1899</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -963,7 +983,7 @@
 					<div class="tsd-signature tsd-kind-icon">EditACopy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;editACopy&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1675">types.ts:1675</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1850">types.ts:1850</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -973,7 +993,7 @@
 					<div class="tsd-signature tsd-kind-icon">Edit<wbr>Details<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;editDetails&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1794">types.ts:1794</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1975">types.ts:1975</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -990,7 +1010,7 @@
 					<div class="tsd-signature tsd-kind-icon">Edit<wbr>Measure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-edit-measure&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1771">types.ts:1771</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1952">types.ts:1952</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1000,7 +1020,7 @@
 					<div class="tsd-signature tsd-kind-icon">EditTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;editTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1721">types.ts:1721</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1896">types.ts:1896</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1010,7 +1030,7 @@
 					<div class="tsd-signature tsd-kind-icon">Edit<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;editTitle&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1725">types.ts:1725</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1900">types.ts:1900</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1020,9 +1040,14 @@
 					<div class="tsd-signature tsd-kind-icon">Explore<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;explore&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1762">types.ts:1762</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1943">types.ts:1943</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Explore action.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ExportTML" class="tsd-anchor"></a>
@@ -1030,7 +1055,7 @@
 					<div class="tsd-signature tsd-kind-icon">ExportTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;exportTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1718">types.ts:1718</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1893">types.ts:1893</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1040,7 +1065,7 @@
 					<div class="tsd-signature tsd-kind-icon">ImportTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;importTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1719">types.ts:1719</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1894">types.ts:1894</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1050,7 +1075,7 @@
 					<div class="tsd-signature tsd-kind-icon">Liveboard<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pinboardInfo&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1747">types.ts:1747</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1922">types.ts:1922</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1060,7 +1085,7 @@
 					<div class="tsd-signature tsd-kind-icon">MakeACopy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;makeACopy&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1674">types.ts:1674</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1849">types.ts:1849</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1070,7 +1095,7 @@
 					<div class="tsd-signature tsd-kind-icon">Manage<wbr>Pipelines<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;manage-pipeline&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1805">types.ts:1805</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1986">types.ts:1986</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1080,9 +1105,14 @@
 					<div class="tsd-signature tsd-kind-icon">Pin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;pin&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1756">types.ts:1756</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1934">types.ts:1934</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pin action.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Present" class="tsd-anchor"></a>
@@ -1090,7 +1120,7 @@
 					<div class="tsd-signature tsd-kind-icon">Present<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;present&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1722">types.ts:1722</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1897">types.ts:1897</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1100,7 +1130,7 @@
 					<div class="tsd-signature tsd-kind-icon">Query<wbr>Details<wbr>Buttons<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;queryDetailsButtons&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1778">types.ts:1778</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1959">types.ts:1959</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1110,7 +1140,7 @@
 					<div class="tsd-signature tsd-kind-icon">Remove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;delete&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1726">types.ts:1726</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1901">types.ts:1901</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1120,7 +1150,7 @@
 					<div class="tsd-signature tsd-kind-icon">Remove<wbr>Cross<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-remove-cross-filter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1813">types.ts:1813</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1994">types.ts:1994</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1132,12 +1162,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="RenameModalTitleDescription" class="tsd-anchor"></a>
+					<h3>Rename<wbr>Modal<wbr>Title<wbr>Description</h3>
+					<div class="tsd-signature tsd-kind-icon">Rename<wbr>Modal<wbr>Title<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;renameModalTitleDescription&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L2051">types.ts:2051</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ReportError" class="tsd-anchor"></a>
 					<h3>Report<wbr>Error</h3>
 					<div class="tsd-signature tsd-kind-icon">Report<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;reportError&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1802">types.ts:1802</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1983">types.ts:1983</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1154,7 +1201,7 @@
 					<div class="tsd-signature tsd-kind-icon">Request<wbr>Access<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;requestAccess&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1777">types.ts:1777</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1958">types.ts:1958</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1164,7 +1211,7 @@
 					<div class="tsd-signature tsd-kind-icon">Save<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;save&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1664">types.ts:1664</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1839">types.ts:1839</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1174,7 +1221,7 @@
 					<div class="tsd-signature tsd-kind-icon">Save<wbr>AsView<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;saveAsView&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1673">types.ts:1673</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1848">types.ts:1848</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1184,7 +1231,7 @@
 					<div class="tsd-signature tsd-kind-icon">Schedule<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;subscription&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1681">types.ts:1681</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1856">types.ts:1856</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1194,7 +1241,7 @@
 					<div class="tsd-signature tsd-kind-icon">Schedules<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;schedule-list&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1682">types.ts:1682</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1857">types.ts:1857</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1204,7 +1251,7 @@
 					<div class="tsd-signature tsd-kind-icon">Separator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;context-menu-item-separator&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1772">types.ts:1772</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1953">types.ts:1953</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1214,7 +1261,7 @@
 					<div class="tsd-signature tsd-kind-icon">Share<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;share&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1683">types.ts:1683</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1858">types.ts:1858</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1224,7 +1271,7 @@
 					<div class="tsd-signature tsd-kind-icon">Share<wbr>Viz<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;shareViz&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1703">types.ts:1703</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1878">types.ts:1878</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1234,7 +1281,7 @@
 					<div class="tsd-signature tsd-kind-icon">Show<wbr>Underlying<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;showUnderlyingData&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1708">types.ts:1708</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1883">types.ts:1883</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1244,7 +1291,7 @@
 					<div class="tsd-signature tsd-kind-icon">SpotIQAnalyze<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;spotIQAnalyze&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1694">types.ts:1694</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1869">types.ts:1869</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1254,7 +1301,7 @@
 					<div class="tsd-signature tsd-kind-icon">Subscription<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;subscription&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1761">types.ts:1761</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1939">types.ts:1939</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1264,7 +1311,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sync<wbr>ToOther<wbr>Apps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;sync-to-other-apps&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1804">types.ts:1804</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1985">types.ts:1985</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1274,7 +1321,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sync<wbr>ToSheets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;sync-to-sheets&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1803">types.ts:1803</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1984">types.ts:1984</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1284,7 +1331,7 @@
 					<div class="tsd-signature tsd-kind-icon">Toggle<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;toggleSize&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1723">types.ts:1723</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1898">types.ts:1898</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1294,7 +1341,7 @@
 					<div class="tsd-signature tsd-kind-icon">UpdateTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;updateTSL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L1720">types.ts:1720</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L1895">types.ts:1895</a></li>
 						</ul>
 					</aside>
 				</section>

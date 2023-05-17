@@ -149,6 +149,9 @@
 										<a href="EmbedConfig.html#thoughtSpotHost" class="tsd-kind-icon">thought<wbr>Spot<wbr>Host</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="EmbedConfig.html#useEventForSAMLPopup" class="tsd-kind-icon">use<wbr>Event<wbr>ForSAMLPopup</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="EmbedConfig.html#username" class="tsd-kind-icon">username</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -258,6 +261,9 @@
 								<a href="../enums/Action.html" class="tsd-kind-icon">Action</a>
 							</li>
 							<li class=" tsd-kind-enum">
+								<a href="../enums/ContextMenuTriggerOptions.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Trigger<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-enum">
 								<a href="../enums/DataSourceVisualMode.html" class="tsd-kind-icon">Data<wbr>Source<wbr>Visual<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-enum">
@@ -328,6 +334,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#suppressNoCookieAccessAlert" class="tsd-kind-icon">suppress<wbr>NoCookie<wbr>Access<wbr>Alert</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#suppressSearchEmbedBetaWarning" class="tsd-kind-icon">suppress<wbr>Search<wbr>Embed<wbr>Beta<wbr>Warning</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#thoughtSpotHost" class="tsd-kind-icon">thought<wbr>Spot<wbr>Host</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#useEventForSAMLPopup" class="tsd-kind-icon">use<wbr>Event<wbr>ForSAMLPopup</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="EmbedConfig.html#username" class="tsd-kind-icon">username</a></li>
 							</ul>
 						</section>
@@ -348,7 +355,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L228">types.ts:228</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L261">types.ts:261</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -367,16 +374,24 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Trigger<wbr>Container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L387">types.ts:387</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L431">types.ts:431</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>For noRedirect SSO Auth, we need a button which the user
+							<p>For inPopup SAMLRedirect or OIDCRedirect Auth, we need a button which the user
 								click to trigger the flow. This is the containing element
 							for that button.</p>
 						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">SAMLRedirect</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">inPopup:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">authTriggerContainer:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;#auth-trigger-container&#039;</span>
+<span style="color: #000000">})</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.17.0 | ThoughtSpot: *</p>
 							</dd>
@@ -389,7 +404,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Trigger<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L394">types.ts:394</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L445">types.ts:445</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -410,7 +425,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/AuthType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">AuthType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L220">types.ts:220</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L253">types.ts:253</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -425,7 +440,7 @@
 					<div class="tsd-signature tsd-kind-icon">auto<wbr>Login<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L313">types.ts:313</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L349">types.ts:349</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -445,7 +460,7 @@
 					<div class="tsd-signature tsd-kind-icon">call<wbr>Prefetch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L337">types.ts:337</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L373">types.ts:373</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -465,7 +480,7 @@
 					<div class="tsd-signature tsd-kind-icon">custom<wbr>Css<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L356">types.ts:356</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L392">types.ts:392</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -489,7 +504,7 @@
 					<div class="tsd-signature tsd-kind-icon">customizations<span class="tsd-signature-symbol">:</span> <a href="CustomisationsInterface.html" class="tsd-signature-type" data-tsd-kind="Interface">CustomisationsInterface</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L379">types.ts:379</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L415">types.ts:415</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -509,7 +524,7 @@
 					<div class="tsd-signature tsd-kind-icon">detect<wbr>Cookie<wbr>Access<wbr>Slow<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L367">types.ts:367</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L403">types.ts:403</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -533,7 +548,7 @@
 					<div class="tsd-signature tsd-kind-icon">disable<wbr>Login<wbr>Redirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L323">types.ts:323</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L359">types.ts:359</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -558,7 +573,7 @@
 					<div class="tsd-signature tsd-kind-icon">in<wbr>Popup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L272">types.ts:272</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L308">types.ts:308</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -566,6 +581,8 @@
 							<p>[SSO] For SSO Authentication, if <code>inPopup</code> is set to true, it will open
 							the SAML auth flow in a popup, instead of redirecting browser in place.</p>
 						</div>
+						<p>Need to use this with authTriggerContainer. Or manually trigger
+						the AuthEvent.TRIGGER_SSO_POPUP event on a user interaction.</p>
 						<dl class="tsd-comment-tags">
 							<dt class="default">default</dt>
 							<dd><p>false</p>
@@ -582,7 +599,7 @@
 					<div class="tsd-signature tsd-kind-icon">login<wbr>Failed<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L330">types.ts:330</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L366">types.ts:366</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -602,7 +619,7 @@
 					<div class="tsd-signature tsd-kind-icon">no<wbr>Redirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L263">types.ts:263</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L296">types.ts:296</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -626,7 +643,7 @@
 					<div class="tsd-signature tsd-kind-icon">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L253">types.ts:253</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L286">types.ts:286</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -643,7 +660,7 @@
 					<div class="tsd-signature tsd-kind-icon">queue<wbr>Multi<wbr>Renders<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L347">types.ts:347</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L383">types.ts:383</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -668,7 +685,7 @@
 					<div class="tsd-signature tsd-kind-icon">redirect<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L283">types.ts:283</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L319">types.ts:319</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -691,7 +708,7 @@
 					<div class="tsd-signature tsd-kind-icon">should<wbr>Encode<wbr>Url<wbr>Query<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L295">types.ts:295</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L331">types.ts:331</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -713,7 +730,7 @@
 					<div class="tsd-signature tsd-kind-icon">suppress<wbr>NoCookie<wbr>Access<wbr>Alert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L306">types.ts:306</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L342">types.ts:342</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -737,7 +754,7 @@
 					<div class="tsd-signature tsd-kind-icon">suppress<wbr>Search<wbr>Embed<wbr>Beta<wbr>Warning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L373">types.ts:373</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L409">types.ts:409</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -757,7 +774,7 @@
 					<div class="tsd-signature tsd-kind-icon">thought<wbr>Spot<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L216">types.ts:216</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L249">types.ts:249</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -767,12 +784,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="useEventForSAMLPopup" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Event<wbr>ForSAMLPopup</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>Event<wbr>ForSAMLPopup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L438">types.ts:438</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Specify that we want to use the AuthEvent.TRIGGER_SSO_POPUP event to trigger
+								SAML popup. This is useful when you want to trigger the popup on a custom user
+							action.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="username" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> username</h3>
 					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L245">types.ts:245</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L278">types.ts:278</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -795,7 +829,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/301faf06/src/types.ts#L240">types.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/9ade8593/src/types.ts#L273">types.ts:273</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
