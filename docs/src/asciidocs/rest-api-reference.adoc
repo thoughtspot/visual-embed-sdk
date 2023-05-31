@@ -15,6 +15,7 @@ Note that the `pinboard` and `PINBOARD_ANSWER_BOOK` terminology in REST API v1 e
 == Orgs management
 
 include::{path}/org-api-list.adoc[]
+
 == User management
 
 include::{path}/user-api-list.adoc[]

@@ -152,6 +152,20 @@ button {
 }
 
 
+.eaTag {
+    border-radius: $beta-border-radius;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: $font-weight-normal;
+    height: 22px;
+    line-height: $line-height-doc;
+    text-align: center;
+    min-width: $tag-width;
+    padding: $beta-padding;
+    color: $tag-font-color;
+    margin-right: 1px;
+}
+
 .beta {
     border-radius: $beta-border-radius;
     display: inline-block;
@@ -165,6 +179,8 @@ button {
     color: $tag-font-color;
     margin-right: 1px;
 }
+
+
 
 .blueBackground {
     background-color: $note-color;
@@ -210,9 +226,14 @@ button {
     background-color: $tag-color-light;
 }
 
+.eaBackground  {
+    background-color: #8c62f5;
+}
 .betaBackground {
     background-color: #06BF7F;
 }
+
+
 
 /*Tags style end*/
 

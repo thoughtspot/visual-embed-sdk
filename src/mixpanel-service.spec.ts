@@ -49,9 +49,7 @@ describe('Unit test for mixpanel', () => {
         initMixpanel(sessionInfo);
 
         expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken);
-        expect(mixpanel.identify).not.toHaveBeenCalledWith(
-            sessionInfo.userGUID,
-        );
+        expect(mixpanel.identify).not.toHaveBeenCalledWith(sessionInfo.userGUID);
     });
 
     test('when not init, should queue events and flush on init', () => {

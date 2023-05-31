@@ -32,19 +32,26 @@ image::./images/trusted-auth-workflow.png[Trusted Authentication Workflow]
 
 [#trusted-auth-enable]
 == Get a secret key for trusted authentication
-You need ThoughtSpot admin privileges to enable trusted authentication.
+
+To obtain an authentication token for authenticating and logging in a ThoughtSpot user, the `secret_key` is required. To generate a secret key, the ThoughtSpot administrator must enable *Trusted authentication*. +
+
+[NOTE]
+====
+Starting from 9.2.0.cl, Org administrators can generate a unique secret key for respective Orgs. To enable this feature on your cluster, contact ThoughtSpot Support.
+====
+
+To generate a secret key:
 
 . Log in to the ThoughtSpot.
+. If Orgs are configured on your instance, switch to the Org for which you want to generate a secret key.
++
+If the per-Org secret key feature is not enabled on your instance and if you want to generate a separate secret key for each Org, contact ThoughtSpot Support. ThoughtSpot also allows you to generate a secret key at the primary Org (Org 0) level and use it to obtain an authentication token for a user.
 . Go to *Develop* > *Customizations* > *Security settings*.
 . Click *Edit*.
 . To enable trusted authentication, turn on the *Trusted authentication* toggle.
-+
-A `secret_key` for trusted authentication is generated. This `secret_key` is required for obtaining an authentication token for a ThoughtSpot user.
-
 . To copy the secret key, click *Edit* again, navigate to *Trusted authentication*, and then click the clipboard icon.
 +
 The following example shows a ThoughtSpot-generated secret key string.
-
 +
 ----
 b0cb26a0-351e-40b4-9e42-00fa2265d50c
@@ -182,11 +189,12 @@ Because all of ThoughtSpot administration is possible via the REST API, you can 
 
 For example, you could use the xref:rest-api-reference.adoc#_groups_and_privileges[REST API v1] or xref:rest-api-v2-reference.adoc#_groups[REST API v2.0] group endpoints to implement ThoughtSpot groups that are intended for use in Row Level Security (RLS) rules. For these groups, the group name must match exactly with a value in a column in the data warehouse, so the name of the group itself serves as a __data entitlement__. You could adjust the flow described in the preceding section to create any group for RLS that did not already exist and assign it to the user, which would bring the process closer to a Role-based access control (RBAC) or Attribute-based access control (ABAC) pattern.
 
-
 == Disable trusted authentication
 
 To disable trusted authentication, follow these steps:
 
+. Log in to ThoughtSpot.
+. If the per-Org secret key feature is enabled and Orgs are configured on your instance, switch to the Org for which you want to disable trusted authentication.
 . Go to *Develop* > *Customizations* > *Security settings*.
 . Click *Edit* and turn off the *Trusted authentication* toggle.
 +
@@ -195,8 +203,8 @@ A pop-up window appears and prompts you to confirm the disable action.
 . Click *Disable*.
 
 +
-When you disable trusted authentication, the validity of your existing secret key expires. Your application will become inoperable until you add a secret key to the authenticator service.
-You must re-enable trusted authentication and then obtain a new secret key.
+When you disable trusted authentication, the validity of your existing secret key expires, and your app may become inoperable.
+To a new secret key and generate authentication tokens, you must enable Trusted authentication.
 
 [#login-token]
 == Login token expiration
@@ -211,6 +219,11 @@ Tokens stay valid for a length of time based on the following rules:
 * If users make multiple attempts to log in to ThoughtSpot using an invalid or expired token, they may get locked out of their accounts.
 
 To set a consistent five-minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
+
+[NOTE]
+====
+On multi-tenant clusters with Orgs, users must use the Org-specific tokens when switching between Orgs.
+====
 
 == Troubleshoot trusted authentication
 

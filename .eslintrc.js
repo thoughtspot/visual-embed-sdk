@@ -16,9 +16,10 @@ module.exports = {
     ignorePatterns: ['*.scss', '*.md'],
     extends: [
         'airbnb-base',
-        'plugin:prettier/recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react-hooks/recommended',
+        'plugin:comment-length/recommended',
+        'plugin:jsdoc/recommended',
     ],
     globals: {
         Atomics: 'readonly',
@@ -29,7 +30,7 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: 'module',
     },
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'jsdoc'],
     settings: {
         'import/extensions': ['.js', '.ts'],
         'import/parsers': {
@@ -45,7 +46,7 @@ module.exports = {
         },
     },
     rules: {
-        indent: [0, 4, { SwitchCase: 1 }], // Conflict with Prettier
+        indent: [2, 4, { SwitchCase: 1 }], // Conflict with Prettier
         quotes: [2, 'single', { avoidEscape: true }],
         'no-tabs': ['error', { allowIndentationTabs: true }],
         'jsx-quotes': [2, 'prefer-double'],
@@ -74,12 +75,14 @@ module.exports = {
         'class-methods-use-this': 0,
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
-        'no-param-reassign': [
-            'error',
+        'no-param-reassign': 0,
+        'comment-length/limit-multi-line-comments': [
+            'warn',
             {
-                props: true,
-                ignorePropertyModificationsFor: ['accu'],
+                maxLength: 90,
+                ignoreUrls: true,
             },
         ],
+        'jsdoc/check-tag-names': 0,
     },
 };

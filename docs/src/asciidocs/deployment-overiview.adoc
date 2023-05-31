@@ -1,4 +1,4 @@
-= Deployment and administration
+=  Embedded app deployment
 :toc: true
 :toclevels: 1
 
@@ -23,16 +23,7 @@ Learn how to deploy a multi-tenant workspace and achieve multi-tenancy at the us
 
 [div boxDiv boxFullWidth]
 --
-+++<h5>Access control and data security</h5>+++
++++<h5>Deploy a multi-tenant cluster with Orgs</h5>+++
 
-Learn how to use various ThoughtSpot features, such as group privileges, object sharing, Row-level security (RLS), and Column-level security (CLS), to xref:configure-user-access.adoc[control user access to ThoughtSpot application workflows and data objects].
---
-
-[div boxDiv boxFullWidth]
---
-+++<h5>Custom domain configuration</h5>+++
-
-To ensure that embedding works on browsers that don't allow third-party cookies, xref:custom-domain-configuration.adoc[you can set the domain name of the ThoughtSpot instance to the same domain as your host application].
-
-You can also xref:custom-domain-configuration.adoc[customize the email domain name] for system-generated notifications.
+Configure multiple tenant-specific workspaces called xref:orgs.adoc[Orgs] on your ThoughtSpot Cloud application instance.
 --

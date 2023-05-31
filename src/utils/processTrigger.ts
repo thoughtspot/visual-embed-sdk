@@ -3,16 +3,26 @@ import { HostEvent } from '../types';
 
 /**
  * Reloads the ThoughtSpot iframe.
+ *
+ * @param iFrame
  */
-function reload(iFrame: HTMLIFrameElement) {
-    const oldFrame = iFrame.cloneNode();
-    const parent = iFrame.parentNode;
-    parent.removeChild(iFrame);
-    parent.appendChild(oldFrame);
-}
+export const reload = (iFrame: HTMLIFrameElement) => {
+    const src = iFrame.src;
+    iFrame.src = '';
+    setTimeout(() => {
+        iFrame.src = src;
+    }, 100);
+};
 
 /**
  * Post Iframe message.
+ *
+ * @param iFrame
+ * @param message
+ * @param message.type
+ * @param message.data
+ * @param thoughtSpotHost
+ * @param channel
  */
 function postIframeMessage(
     iFrame: HTMLIFrameElement,
@@ -20,13 +30,18 @@ function postIframeMessage(
     thoughtSpotHost: string,
     channel?: MessageChannel,
 ) {
-    return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [
-        channel?.port2,
-    ]);
+    return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [channel?.port2]);
 }
 
 const TRIGGER_TIMEOUT = 30000;
 
+/**
+ *
+ * @param iFrame
+ * @param messageType
+ * @param thoughtSpotHost
+ * @param data
+ */
 export function processTrigger(
     iFrame: HTMLIFrameElement,
     messageType: HostEvent,
@@ -54,11 +69,6 @@ export function processTrigger(
             res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
         }, TRIGGER_TIMEOUT);
 
-        return postIframeMessage(
-            iFrame,
-            { type: messageType, data },
-            thoughtSpotHost,
-            channel,
-        );
+        return postIframeMessage(iFrame, { type: messageType, data }, thoughtSpotHost, channel);
     });
 }

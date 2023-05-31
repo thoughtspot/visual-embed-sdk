@@ -35,16 +35,23 @@
     "typedocOptions": {
         "entryPoints": ["src/index.ts"],
         "out": "static/typedoc",
+        "json": "static/typedoc/typedoc.json",
         "excludePrivate": true,
         "excludeProtected": true,
         "excludeInternal": true,
         "hideGenerator": true,
         "categorizeByGroup": false,
-        "categoryOrder": [
-            "Search Embed",
-            "App Embed",
-            "Liveboards and Charts",
-            "*"
+        "sort": ["kind", "alphabetical"],
+        "tocKindSortOrder": [
+            "Function",
+            "Module",
+            "Class",
+            "Method",
+            "Interface",
+            "Enumeration",
+            "Variable",
+            "Type alias",
+            "Object literal"
         ]
     }
 }

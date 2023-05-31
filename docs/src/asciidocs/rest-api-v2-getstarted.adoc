@@ -195,3 +195,5 @@ If an API call returns an error in the Playground, you can view the error detail
 [.widthAuto]
 image::./images/rest-v2-error.png[REST API v2.0 error codes width=auto]
 
+== Example libraries
+The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot_rest_api_v1 Python library, window=_blank] includes a `TSRestApiV2` class that implements the v2.0 REST API. You can use this as a ready-made implementation for testing back-end REST API calls or as a pattern for implementing your own library in any other programming language.

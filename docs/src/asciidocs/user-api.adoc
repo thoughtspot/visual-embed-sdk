@@ -52,7 +52,7 @@ POST /tspublic/v1/user/
 __Optional__|Form parameter|__Integer__. A JSON array of org IDs to which you want to add the user. If `orgids` is not defined, ThoughtSpot assigns the user to an Org based on the administrator's session. For example, if the administrator sends the API request from the `Org 0` context, the user is added to `Org 0`.
 |`triggeredbyadmin` a|Form parameter|__Boolean__. Indicates if the API request is initiated by a ThoughtSpot administrator or an external application. The default value is `false`. +
 When set to `true`, the `displayNameLastUpdatedBy` property is set to `ADMIN` in the API response, Else, `displayNameLastUpdatedBy` is set to `AUTO`.
-|`orgScope` __Optional__|Query parameter|__String__. The Org scope. If you want to add the user to a specific Org, you must set the Org scope to `ALL`.
+|`orgScope` __Optional__|Query parameter|__String__. The Org scope. When set to `ALL`, the administrator is authorized to perform cross-Org operations. By default, ThoughtSpot allows administrators to create a user in the Org context from which they make an API request. If you want to add the user to a different Org or multiple Orgs, set the Org scope to `ALL` and specify the Org ID(s) in the `orgids` attribute.
 |===
 === Example request
 
@@ -180,7 +180,7 @@ PUT /tspublic/v1/user/{userid}
 ====
 Starting from 8.9.0.cl, ThoughtSpot users can update their display name on the profile setting page in the UI. If a user updates their display name, ThoughtSpot sets `displayNameLastUpdatedBy` to `USER` in the object properties.
 ====
-|`orgScope` __Optional__|Query|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
+|`orgScope` __Optional__|Query parameter|__String__. The Org scope. If you are making this API request for a user that belongs to a different Org than the one you are currently logged in to, specify `ALL` to authorize the cross-Org operation.
 |===
 
 === Example request
@@ -355,8 +355,8 @@ POST /tspublic/v1/user/addtoorg
 |===
 |Parameter|Type|Description
 |`userids`|Form parameter|__String__. A JSON array of user GUIDs to add to the specified org.
-|`orgid`|Query parameter|__Integer__. ID of the Org object to which you want to assign the users.
-|`orgScope`|Query parameter|__String__. The Org scope. Specify `ALL` to set the Org scope to all Orgs.
+|`orgid`|Form parameter|__Integer__. ID of the Org object to which you want to assign the users. By default, the user is added to the Org context from which the API request is sent. To add the user to another Org, specify the Org ID and set `orgScope` to `ALL`.
+|`orgScope`|Query parameter|__String__. The Org scope. For cross-Org operations, set this attribute to `ALL`.
 |===
 
 === Example request
@@ -736,7 +736,7 @@ DELETE /tspublic/v1/user/{userid}
 |===
 |Parameter|Type|Description
 |`userid`|Path|__String__. GUID of the user account to delete.
-|`orgid`|Query|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has multi-tenancy enabled. +
+|`orgid`|Query|__Integer__. The org ID to which the user is associated. This parameter is required only if your ThoughtSpot instance has Orgs. +
 If you are trying to delete a user that belongs only to the Org specified in the API request, the user is deleted from the Org and ThoughtSpot system. +
 If the user belongs to multiple Orgs and you specify only one Org ID, the user is removed only from the specified Org and not from the ThoughtSpot system. +
 To remove the user from all Orgs and the ThoughtSpot system, set the `orgScope` to `ALL`.
@@ -960,7 +960,7 @@ POST /tspublic/v1/user/updatepassword
 |====
 |Form parameter|Description
 |`name` |__String__. Name of the user account.
-|`currentpassword`|__String__. The password of the currently logged-in user. Note that only users with admin privileges can change the password of a user account.
+|`currentpassword`|__String__. The password of the currently logged-in user.
 |`password`|__String__. A new password for the user specified in the `name` attribute.
 |====
 === Example request

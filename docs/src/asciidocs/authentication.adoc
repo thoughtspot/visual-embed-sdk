@@ -37,6 +37,9 @@ To sign in to ThoughtSpot and create a session, REST clients must send a `POST` 
 |`password`
 |__String__. The password of the user account.
 
+|`org_identifier`
+|__String__. Name of ID of the Org. If no Org ID is specified, the user will be logged into the Org context of their previous session.
+
 |`remember_me`
 |__Boolean__. A flag to remember the user session.
 When set to true, the session cookie persists in subsequent API calls.

@@ -8,6 +8,7 @@
 * link:{{navprefix}}=whats-new[What's new]
 ** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
 ** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
+** link:{{navprefix}}=rest-v2-changelog[REST API v2 changelog]
 ** link:{{navprefix}}=deprecated-features[Deprecation announcements]
 ** link:{{navprefix}}=fixed-issues[Fixed issues]
 ** link:{{navprefix}}=known-issues[Known Issues]
@@ -22,11 +23,16 @@
 * link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Visual Embed Playground]
 ** link:{{navprefix}}=rest-playground[REST API Playground]
+** link:{{navprefix}}=graphql-playground[GraphQL Playground ^Beta^]
 
-* link:{{navprefix}}=deploy-overview[Deployment and administration]
+* link:{{navprefix}}=deploy-overview[Embedded app deployment]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]
-** link:{{navprefix}}=embed-object-access[Access control and data security]
-** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
+** link:{{navprefix}}=modify-tml[TML modification]
+
+* link:{{navprefix}}=multi-tenancy[Multi-tenancy]
+** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
+** link:{{navprefix}}=orgs-api-op[Orgs administration]
+** link:{{navprefix}}=multitenancy-without-orgs[Multi-tenancy with groups]
 
 * link:{{navprefix}}=auth-overview[Authentication and security]
 ** link:{{navprefix}}=developer-access[Developer access]
@@ -35,11 +41,7 @@
 ** link:{{navprefix}}=oidc-auth[OpenID Connect authentication]
 ** link:{{navprefix}}=trusted-auth[Trusted authentication]
 ** link:{{navprefix}}=authorization-settings[Authentication and authorization]
-
-* link:{{navprefix}}=multi-tenancy[Multi-tenancy]
-** link:{{navprefix}}=orgs[Multi-tenancy with Orgs]
-** link:{{navprefix}}=orgs-api-op[Orgs administration]
-** link:{{navprefix}}=multitenancy-without-orgs[Multi-tenancy with groups]
+** link:{{navprefix}}=embed-object-access[Access control and data security]
 
 * link:{{navprefix}}=visual-embed-sdk[Embed with Visual Embed SDK]
 ** link:{{navprefix}}=getting-started[Get started]
@@ -50,13 +52,13 @@
 *** link:{{navprefix}}=full-embed[Embed full application]
 *** link:{{navprefix}}=react-app-embed[Embed ThoughtSpot in a React app]
 ** link:{{navprefix}}=embed-auth[Authentication]
-** link:{{navprefix}}=in-app-navigation[Navigate to ThoughtSpot content]
 ** link:{{navprefix}}=events-app-integration[Events and app integration]
 ** link:{{navprefix}}=action-config[Show or hide menu items]
 ** link:{{navprefix}}=prefetch[Prefetch static resources]
 ** link:{{navprefix}}=set-locale[Set locale and display language]
 ** link:{{navprefix}}=search-assist[Enable Search Assist]
 ** link:{{navprefix}}=Liveboard-new-experience[New Liveboard experience]
+** link:{{navprefix}}=in-app-navigation[Customize navigation with REST API]
 ** link:{{navprefix}}=js-reference[Visual Embed SDK Reference]
 *** link:{{navprefix}}=events[Events Reference]
 *** link:{{navprefix}}=actions[Actions Reference]
@@ -77,12 +79,14 @@
 *** link:{{navprefix}}=custom-css[Customize CSS]
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
+** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
 
 * link:{{navprefix}}=rest-apis[REST APIs]
 ** link:{{navprefix}}=v1v2-comparison[REST v1 and v2.0 comparison]
 ** link:{{navprefix}}=rest-api-v2[REST API v2.0]
 *** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
 *** link:{{navprefix}}=api-authv2[REST API v2.0 authentication]
+*** link:{{navprefix}}=rest-apiv2-js[REST API v2.0 in JavaScript]
 *** link:{{navprefix}}=restV2-playground[REST API v2.0 Playground]
 *** link:{{navprefix}}=rest-apiv2-reference[REST API v2.0 Reference]
 ** link:{{navprefix}}=rest-api-v1[REST API v1]
@@ -111,7 +115,10 @@
 **** link:{{navprefix}}=materialization-api[Materialization API]
 **** link:{{navprefix}}=database-api[Database API]
 
-* link:{{navprefix}}=runtime-filters[Runtime filters]
+* Runtime operations
+** link:{{navprefix}}=runtime-filters[Runtime filters]
+** link:{{navprefix}}=runtime-sort[Runtime sorting]
+** link:{{navprefix}}=runtime-params[Runtime parameter overrides]
 
 * Additional resources
 ** link:{{navprefix}}=faqs[FAQs]

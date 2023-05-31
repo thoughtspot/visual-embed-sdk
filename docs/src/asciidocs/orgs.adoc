@@ -23,7 +23,7 @@ image::./images/single-vs-multitenant.png[Multi-tenant ThoughtSpot environment]
 
 [IMPORTANT]
 ====
-* The Orgs multi-tenancy features require the link:https://www.thoughtspot.com/pricing[ThoughtSpot Analytics Enterprise Edition, window=_blank] or link:https://www.thoughtspot.com/pricing[ThoughtSpot Everywhere Enterprise Edition, window=_blank] licence.  
+* The Orgs multi-tenancy features require the link:https://www.thoughtspot.com/pricing[ThoughtSpot Analytics Enterprise Edition, window=_blank] or link:https://www.thoughtspot.com/pricing[ThoughtSpot Everywhere Enterprise Edition, window=_blank] licence.
 * The Orgs feature is disabled by default on ThoughtSpot clusters. To enable this feature on your instance, contact ThoughtSpot Support.
 * Once you enable the Orgs feature on your instance, there will be one non-deletable Org referred to as the *Primary Org* in your instance.
 * After you enable the Orgs feature on a cluster, you can't turn off the ability to create Orgs.
@@ -77,7 +77,6 @@ If a cluster administrator wants to perform a Create, Read, Update, or Delete (C
 
 On an Orgs-enabled cluster, certain UI and API operations are allowed only at the cluster level. The following table lists the features and configuration operations allowed at the cluster or individual Org level.
 
-
 [width="100%" cols="5,7,7"]
 [options='header']
 |=====
@@ -98,14 +97,18 @@ __With trusted authentication, administrators can create users just-in-time (JIT
 ////
 [tag greenBackground]#✓# SAML authentication configuration +
 
-[tag greyBackground]#–# OIDC authentication configuration +
+__OIDC authentication configuration is not supported__
 ////
 __ThoughtSpot doesn’t support OIDC group synchronization and automatic mapping of SAML groups to ThoughtSpot groups on a multi-tenant cluster__. +
 
 __OIDC authentication is supported only if users are already created and mapped to Orgs.__
 ////
 a|
-[tag greyBackground]#–#
+[tag greenBackground]#✓# Trusted authentication
+|Access to `Develop` tab| [tag greenBackground]#✓# | [tag greenBackground]#✓#
+
+__Access to the *Develop* tab at the Org level is disabled by default. To enable *Develop* tab and its features at the Org level, contact ThoughtSpot Support.__
+
 |Security settings (CORS and CSP for embedded instances)| [tag greyBackground]#–# |__CORS and CSP configuration via UI is supported only at the Primary Org (Org 0) level__
 |Data connections and objects a| [tag greyBackground]#–# a|[tag greenBackground]#✓# Object creation and management +
 
@@ -114,7 +117,6 @@ a|
 * __Cluster administrators can create and edit connections in any Org__. +
 * __Org administrators can create and edit their connections in their respective Orgs__. +
 * __Starting from 9.0.0.cl, cluster administrators can share connections with Org administrators and also with users who have data management privileges. Org administrators cannot view or edit the connections created by the Cluster administrators if the connection object is not shared with them__.
-
 
 | Access control a| [tag greenBackground]#✓#  Org creation for data isolation +
 
@@ -130,16 +132,23 @@ a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
 [tag greenBackground]#✓#  From ID customization for system notifications +
 
 [tag greenBackground]#✓#  Onboarding settings and welcome message customization |[tag greyBackground]#–#|
-Custom actions| [tag greyBackground]#–# |__Custom action creation and group association are supported only at the Primary Org (Org 0) level.__
-|Link customization for embedded instances| [tag greyBackground]#–# |__The Link customization feature is supported only at the Primary Org (Org 0) level.__
-|Developer Playground| [tag greyBackground]#–# |__The Visual Embed and REST API Playgrounds are available only at the Primary Org (Org 0) level.__
+Custom actions| [tag greyBackground]#–# | [tag greenBackground]#✓# +
+
+__Custom action creation and group association are supported by default at the Primary Org (Org 0) level. To enable action customization at the Org level, contact ThoughtSpot Support__
+|Link customization for embedded instances| [tag greyBackground]#–# | [tag greenBackground]#✓# +
+__The Link customization feature is supported by default at the Primary Org (Org 0) level. To enable link customization at the Org level, contact ThoughtSpot Support.__
+|Developer Playground| [tag greyBackground]#–# |[tag greenBackground]#✓# +
+__The Visual Embed and REST API Playgrounds are available by default at the Primary Org (Org 0) level. To enable Playground access at the Org level, contact ThoughtSpot Support.__
+
 |REST API v1 operations a| [tag greenBackground]#✓# Org endpoints for CRUD operations +
 
 __Group provisioning and custom action group association API operations are not supported__.
 a|__All API operations are supported except for the CRUD operations of Orgs__.
 |REST API v2 [beta betaBackground]^Beta^ endpoints +
 (Deprecated from 9.0.0.cl onwards)| [tag greyBackground]#–#| [tag greyBackground]#–#
-|REST API v2.0 endpoints | [tag greyBackground]#–#| [tag greyBackground]#–#
+|REST API v2.0 endpoints | [tag greyBackground]#–#| [tag greenBackground]#✓# +
+__For production use cases, ThoughtSpot recommends using REST API v1 endpoints__.
+
 |=====
 
 == Authentication considerations for embedded apps
@@ -150,11 +159,22 @@ The Visual Embed SDK supports leveraging your IdP or OpenID provider setup to au
 
 On a multi-tenant cluster with Orgs, ThoughtSpot supports local, SAML, and trusted authentication methods. If you are using Visual Embed SDK to embed ThoughtSpot in your app, use `AuthType.Basic` for local authentication, `AuthType.TrustedAuthToken` for trusted authentication, and `AuthType.EmbeddedSSO` or `AuthType.SAMLRedirect` for SAML SSO authentication. For more information, see xref:embed-authentication.adoc[Authentication].
 
-=== Just-in-time user creation and dynamic privilege assignment
+=== Trusted authentication
 
-If trusted authentication is configured in the SDK, the *authenticator service* can send an API request to `/tspublic/v1/session/auth/token` to obtain an authentication token for a given user. If the user doesn't exist in the ThoughtSpot system, you can `autocreate` a user account just-in-time and dynamically assign privileges by adding the user to `groups`.
+If Trusted authentication is enabled, Org users can obtain authentication tokens using the `secret key`. Org administrator or an authorized third-party authenticator service can also generate tokens on behalf of a ThoughtSpot user by using the `secret key`.
 
-The `/tspublic/v1/session/auth/token` also allows defining the Org context to which the user must be logged in to after successful authentication. If the user should be logged in to a different Org context, you can specify the Org ID in the `orgid` property and set `autocreate` to `true`.
+Starting from 9.2.0.cl, ThoughtSpot supports generating separate secret keys for each Org. To enable this feature on your instance, contact ThoughtSpot Support. When this feature is enabled, Org users can obtain separate authentication tokens to access their Org and switch between Orgs seamlessly.
+
+==== Just-in-time user creation and dynamic privilege assignment
+
+If trusted authentication is configured in the SDK, you can request an authentication token via API calls to any of the following REST API endpoints:
+
+* REST API v1 - `/tspublic/v1/session/auth/token`
+* REST API v2 - `/api/rest/2.0/auth/token/full`
+
+If the user doesn't exist in the ThoughtSpot system, you can `autocreate` a user account just-in-time and dynamically assign privileges by adding the user to `groups`.
+
+The `/tspublic/v1/session/auth/token` API endpoint also allows you to define the Org context to which the user must be logged in to after successful authentication. However, the API requests to REST API v2.0 endpoint will automatically generate the token based on your current session context.
 
 For more information, see xref:session-api.adoc#session-authToken[Obtain an authentication token] and xref:trusted-authentication.adoc[Trusted authentication].
 

@@ -20,7 +20,7 @@ describe('Base TS Embed', () => {
         authEE = index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
-        });
+        }) as EventEmitter;
     });
 
     beforeEach(() => {
@@ -62,9 +62,7 @@ describe('Base TS Embed', () => {
             callPrefetch: true,
         });
         expect(getAllIframeEl().length).toBe(1);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(1);
         const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
         expect(firstIframe.src).toBe(url);
@@ -79,9 +77,7 @@ describe('Base TS Embed', () => {
             index.PrefetchFeatures.LiveboardEmbed,
         ]);
         expect(getAllIframeEl().length).toBe(2);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(2);
         const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
         expect(firstIframe.src).toBe(searchUrl);
@@ -93,9 +89,7 @@ describe('Base TS Embed', () => {
         const url = '';
         index.prefetch(url);
         expect(getAllIframeEl().length).toBe(0);
-        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>(
-            '.prefetchIframe',
-        );
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
         expect(prefetchIframe.length).toBe(0);
     });
 
@@ -148,9 +142,9 @@ describe('Base TS Embed', () => {
         });
 
         authEmitter.on(auth.AuthStatus.FAILURE, failureCallback);
-        authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (reason) => {
+        authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (...args) => {
             expect(failureCallback).not.toBeCalled();
-            expect(reason).toBe(undefined);
+            expect(args.length).toBe(0);
             done();
         });
     });

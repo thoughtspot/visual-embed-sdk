@@ -77,9 +77,7 @@ describe('unit test for utils', () => {
         expect(appendToUrlHash('http://myhost:3000', 'hashFrag')).toBe(
             'http://myhost:3000#hashFrag',
         );
-        expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe(
-            'http://xyz.com/#foobar',
-        );
+        expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foobar');
     });
 
     describe('getRedirectURL', () => {
@@ -87,9 +85,7 @@ describe('unit test for utils', () => {
             expect(getRedirectUrl('http://myhost:3000', 'hashFrag')).toBe(
                 'http://myhost:3000#hashFrag',
             );
-            expect(getRedirectUrl('http://xyz.com/#foo', 'bar')).toBe(
-                'http://xyz.com/#foobar',
-            );
+            expect(getRedirectUrl('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foobar');
         });
 
         test('Should return correct value when path is set', () => {
@@ -97,13 +93,13 @@ describe('unit test for utils', () => {
                 get: () => 'http://myhost:3000',
             });
 
-            expect(
-                getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar'),
-            ).toBe('http://myhost:3000/bar#hashFrag');
+            expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
+                'http://myhost:3000/bar#hashFrag',
+            );
 
-            expect(
-                getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar'),
-            ).toBe('http://myhost:3000/#/barhashFrag');
+            expect(getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar')).toBe(
+                'http://myhost:3000/#/barhashFrag',
+            );
         });
     });
 

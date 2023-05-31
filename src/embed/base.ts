@@ -16,11 +16,13 @@ import {
     logout as _logout,
     AuthFailureType,
     AuthStatus,
+    AuthEvent,
     notifyAuthFailure,
     notifyAuthSDKSuccess,
     notifyAuthSuccess,
     notifyLogout,
     setAuthEE,
+    AuthEventEmitter,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -32,16 +34,19 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
 };
 
 export let authPromise: Promise<boolean>;
-
+/**
+ * Gets the configuration embed was initialized with.
+ *
+ * @returns {@link EmbedConfig} The configuration embed was initialized with.
+ * @version SDK: 1.19.0 | ThoughtSpot: *
+ * @group Global methods
+ */
 export const getEmbedConfig = (): EmbedConfig => config;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
 export {
-    notifyAuthFailure,
-    notifyAuthSDKSuccess,
-    notifyAuthSuccess,
-    notifyLogout,
+    notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout,
 };
 
 /**
@@ -72,15 +77,16 @@ const hostUrlToFeatureUrl = {
 };
 
 /**
- * Prefetches static resources from the specified URL. Web browsers can then cache the prefetched resources and serve them from the user's local disk to provide faster access to your app.
+ * Prefetches static resources from the specified URL. Web browsers can then cache the
+ * prefetched resources and serve them from the user's local disk to provide faster access
+ * to your app.
+ *
  * @param url The URL provided for prefetch
  * @param prefetchFeatures Specify features which needs to be prefetched.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
+ * @group Global methods
  */
-export const prefetch = (
-    url?: string,
-    prefetchFeatures?: PrefetchFeatures[],
-): void => {
+export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): void => {
     if (url === '') {
         // eslint-disable-next-line no-console
         console.warn('The prefetch method does not have a valid URL');
@@ -88,21 +94,25 @@ export const prefetch = (
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || config.thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        uniq(
-            features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl)),
-        ).forEach((prefetchUrl, index) => {
-            const iFrame = document.createElement('iframe');
-            iFrame.src = prefetchUrl;
-            iFrame.style.width = '0';
-            iFrame.style.height = '0';
-            iFrame.style.border = '0';
-            iFrame.classList.add('prefetchIframe');
-            iFrame.classList.add(`prefetchIframeNum-${index}`);
-            document.body.appendChild(iFrame);
-        });
+        uniq(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
+            (prefetchUrl, index) => {
+                const iFrame = document.createElement('iframe');
+                iFrame.src = prefetchUrl;
+                iFrame.style.width = '0';
+                iFrame.style.height = '0';
+                iFrame.style.border = '0';
+                iFrame.classList.add('prefetchIframe');
+                iFrame.classList.add(`prefetchIframeNum-${index}`);
+                document.body.appendChild(iFrame);
+            },
+        );
     }
 };
 
+/**
+ *
+ * @param embedConfig
+ */
 function sanity(embedConfig: EmbedConfig) {
     if (embedConfig.thoughtSpotHost === undefined) {
         throw new Error('ThoughtSpot host not provided');
@@ -112,23 +122,19 @@ function sanity(embedConfig: EmbedConfig) {
             throw new Error('Username not provided with Trusted auth');
         }
 
-        if (
-            !embedConfig.authEndpoint &&
-            typeof embedConfig.getAuthToken !== 'function'
-        ) {
-            throw new Error(
-                'Trusted auth should provide either authEndpoint or getAuthToken',
-            );
+        if (!embedConfig.authEndpoint && typeof embedConfig.getAuthToken !== 'function') {
+            throw new Error('Trusted auth should provide either authEndpoint or getAuthToken');
         }
     }
 }
 
+/**
+ *
+ * @param embedConfig
+ */
 function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
     const newConfig = { ...embedConfig };
-    if (
-        embedConfig.noRedirect !== undefined &&
-        embedConfig.inPopup === undefined
-    ) {
+    if (embedConfig.noRedirect !== undefined && embedConfig.inPopup === undefined) {
         newConfig.inPopup = embedConfig.noRedirect;
     }
     return newConfig;
@@ -136,15 +142,26 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
 
 /**
  * Initializes the Visual Embed SDK globally and perform
- * authentication if applicable.
+ * authentication if applicable. This function needs to be called before any ThoughtSpot
+ * component like liveboard etc can be embedded. But need not wait for AuthEvent.SUCCESS
+ * to actually embed. That is handled internally.
+ *
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
- * example: authStatus = init(config);
- * authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
- * @returns event emitter which emits events on authentication success, failure and logout. See {@link AuthStatus}
+ * @example
+ * ```js
+ *   const authStatus = init({
+ *     thoughtSpotHost: 'https://my.thoughtspot.cloud',
+ *     authType: AuthType.None,
+ *   });
+ *   authStatus.on(AuthStatus.FAILURE, (reason) => { // do something here });
+ * ```
+ * @returns {@link AuthEventEmitter} event emitter which emits events on authentication success,
+ *      failure and logout. See {@link AuthStatus}
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
+ * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): EventEmitter => {
+export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
     config = {
         ...CONFIG_DEFAULTS,
@@ -152,46 +169,45 @@ export const init = (embedConfig: EmbedConfig): EventEmitter => {
         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     };
     config = backwardCompat(config);
-    const authEE = new EventEmitter();
+    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
 
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         authType: config.authType,
         host: config.thoughtSpotHost,
-        usedCustomizationSheet:
-            embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables:
-            embedConfig.customizations?.style?.customCSS?.variables != null,
+        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
         usedCustomizationRules:
-            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE !=
-            null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content
-            ?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations
-            ?.iconSpriteUrl,
+            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
     });
 
     if (config.callPrefetch) {
         prefetch(config.thoughtSpotHost);
     }
-    return authEE;
+    return authEE as AuthEventEmitter;
 };
 
+/**
+ *
+ */
 export function disableAutoLogin(): void {
     config.autoLogin = false;
 }
 
 /**
- * Logs out from ThoughtSpot. This also sets the autoLogin flag to false, to prevent
- * the SDK from automatically logging in again.
+ * Logs out from ThoughtSpot. This also sets the autoLogin flag to false, to
+ * prevent the SDK from automatically logging in again.
  *
- * You can call the `init` method again to re login, if autoLogin is set to true in this
- * second call it will be honored.
+ * You can call the `init` method again to re login, if autoLogin is set to
+ * true in this second call it will be honored.
  *
  * @param doNotDisableAutoLogin This flag when passed will not disable autoLogin
  * @returns Promise which resolves when logout completes.
  * @version SDK: 1.10.1 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
+ * @group Global methods
  */
 export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
     if (!doNotDisableAutoLogin) {
@@ -206,22 +222,25 @@ export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
 let renderQueue: Promise<any> = Promise.resolve();
 
 /**
- * Renders functions in a queue, resolves to next function only after the callback next is called
+ * Renders functions in a queue, resolves to next function only after the callback next
+ * is called
+ *
  * @param fn The function being registered
  */
-export const renderInQueue = (
-    fn: (next?: (val?: any) => void) => Promise<any>,
-): Promise<any> => {
+export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>): Promise<any> => {
     const { queueMultiRenders = false } = config;
     if (queueMultiRenders) {
         renderQueue = renderQueue.then(() => new Promise((res) => fn(res)));
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 // For testing purposes only
+/**
+ *
+ */
 export function reset(): void {
     config = {} as any;
     setAuthEE(null);

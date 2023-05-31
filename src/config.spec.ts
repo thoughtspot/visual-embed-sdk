@@ -59,8 +59,7 @@ describe('getThoughtSpotHost', () => {
         expect(
             getThoughtSpotHost({
                 ...embedConfig,
-                thoughtSpotHost:
-                    'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
+                thoughtSpotHost: 'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
             }),
         ).toBe('http://1.2.3.4:8088/v2');
     });
@@ -70,8 +69,7 @@ describe('getThoughtSpotHost', () => {
             getThoughtSpotHost({
                 ...embedConfig,
                 authType: AuthType.SAML,
-                thoughtSpotHost:
-                    'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
+                thoughtSpotHost: 'http://1.2.3.4:8088/v2/?foo=bar&baz=42#myhash',
             }),
         ).toBe('http://1.2.3.4:8088/v2');
     });

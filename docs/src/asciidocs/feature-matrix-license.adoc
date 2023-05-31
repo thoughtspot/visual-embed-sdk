@@ -17,7 +17,7 @@ The following table lists the features available with ThoughtSpot Analytics and 
 |Free Trial account +
 
 (Evaluation only) |Developer Playground on public instance +
-(Evaluation only) 
+(Evaluation only)
 
 |Access to **Develop** tab +
 __Requires developer or admin  privileges__ |[tag greenBackground]#✓# 2*| [tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greenBackground]#✓#
@@ -82,7 +82,7 @@ a|Runtime filters
 
 |[tag greenBackground]#✓# REST APIs
 
-[tag greenBackground]#✓#  Visual Embed SDK 
+[tag greenBackground]#✓#  Visual Embed SDK
 
 (Basic authentication only)
 | [tag greenBackground]#✓# REST APIs
@@ -318,4 +318,3 @@ __Requires `ADMINISTRATION` privilege__|[tag greenBackground]#✓# |[tag greenBa
 
 * xref:get-started-tse.adoc[Get started with embedding]
 * link:https://www.thoughtspot.com/pricing[License options and pricing, window=_blank]
-
