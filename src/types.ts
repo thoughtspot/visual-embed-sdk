@@ -443,6 +443,13 @@ export interface EmbedConfig {
      * @version SDK: 1.17.0 | ThoughtSpot: *
      */
     authTriggerText?: string;
+    /**
+     * Disable Full App access of Embedded app outside of the iFrame.
+     *
+     * @default true
+     * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1-sw
+     */
+    blockNonEmbedFullAppAccess?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -1812,6 +1819,7 @@ export enum Param {
     cookieless = 'cookieless',
     ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
     LinkOverride = 'linkOverride',
+    blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',

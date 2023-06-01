@@ -673,7 +673,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             tsEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -685,7 +685,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -814,7 +814,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
                 expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
                 done();
@@ -901,6 +901,42 @@ describe('Unit test case for ts embed', () => {
             window.location.search = urlSearch;
             const postHashParams = '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
             expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
+        });
+    });
+    describe('Block full app access while naviagting from embed app', () => {
+        it('should contain blockNonEmbedFullAppAccess as false in query params', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                blockNonEmbedFullAppAccess: false,
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=false');
+            });
+        });
+
+        it('should contain blockNonEmbedFullAppAccess as true in query params', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=true');
+            });
         });
     });
 });
