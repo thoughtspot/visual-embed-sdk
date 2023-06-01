@@ -673,7 +673,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             tsEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -685,7 +685,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -814,7 +814,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
                 expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
                 done();
@@ -917,8 +917,8 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
-                expect(getIFrameSrc()).toContain('?blockNonEmbedFullAppAccess=false');
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=false');
             });
         });
 
@@ -926,7 +926,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                blockNonEmbedFullAppAccess: false,
             });
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -935,8 +934,8 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
-                expect(getIFrameSrc()).toContain('?blockNonEmbedFullAppAccess=true');
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=true');
             });
         });
     });
