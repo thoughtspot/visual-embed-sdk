@@ -14,6 +14,7 @@ import {
     embedEventStatus,
     setAttributes,
     getCustomisations,
+    getRuntimeFilters,
     getDOMNode,
     getFilterQuery,
     getQueryParamString,
@@ -258,6 +259,7 @@ export class TsEmbed {
             data: {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
+                runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
             },
         });
     };
@@ -852,7 +854,7 @@ export class V1Embed extends TsEmbed {
     }
 
     /**
-     * Render the ap    p in an iframe and set up event handlers
+     * Render the app in an iframe and set up event handlers
      *
      * @param iframeSrc
      */
@@ -861,10 +863,13 @@ export class V1Embed extends TsEmbed {
     }
 
     protected getRootIframeSrc(): string {
-        const runtimeFilters = this.viewConfig.runtimeFilters;
-        const filterQuery = getFilterQuery(runtimeFilters || []);
         const queryParams = this.getEmbedParams();
-        const queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+        let queryString = queryParams;
+        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
+            const runtimeFilters = this.viewConfig.runtimeFilters;
+            const filterQuery = getFilterQuery(runtimeFilters || []);
+            queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+        }
         return this.getV1EmbedBasePath(queryString);
     }
 
