@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
@@ -52,6 +53,149 @@ describe('Base TS Embed', () => {
             );
             done();
         });
+    });
+
+    test('should call the executeTML API and import TML', async () => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue({}),
+        });
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data: base.executeTMLInput = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
+        await index.executeTML(data);
+        expect(window.fetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-requested-by': 'ThoughtSpot',
+                },
+                body: JSON.stringify(data),
+                method: 'POST',
+            },
+        );
+    });
+
+    test('should call the executeTML API and import TML for cookiless auth', async () => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue({}),
+            text: jest.fn().mockResolvedValue('mockAuthToken'),
+        });
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.TrustedAuthTokenCookieless,
+            autoLogin: true,
+        });
+        const embedConfig = base.getEmbedConfig();
+        const authToken = await auth.getAuthenticaionToken(embedConfig);
+        const data: base.executeTMLInput = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
+        await index.executeTML(data);
+        expect(window.fetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            {
+                credentials: 'include',
+                headers: expect.objectContaining({
+                    'Content-Type': 'application/json',
+                    'x-requested-by': 'ThoughtSpot',
+                    Authorization: `Bearer ${authToken}`,
+                }),
+                body: JSON.stringify(data),
+                method: 'POST',
+            },
+        );
+    });
+
+    test('should log an error when executing TML fails', async () => {
+        jest.spyOn(window, 'fetch').mockRejectedValue(new Error('Network error'));
+
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data: base.executeTMLInput = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
+        try {
+            await index.executeTML(data);
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error);
+            expect(error.message).toBe('Network error');
+        }
+    });
+
+    test('should reject with an error when sanity check fails', async () => {
+        const error = new Error('ThoughtSpot host not provided');
+
+        const data: base.executeTMLInput = {
+            metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'],
+            import_policy: 'PARTIAL',
+            create_new: false,
+        };
+        base.reset();
+
+        try {
+            await index.executeTML(data);
+        } catch (err) {
+            expect(err).toEqual(error);
+        }
+    });
+
+    test('should call the exportTML API and export TML', async () => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue({}),
+        });
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data: base.exportTMLInput = {
+            metadata: [{ identifier: 'f5728369-cf02-4953-87ab-a6cac691e360' }],
+            export_associated: false,
+            export_fqn: false,
+            edoc_format: 'YAML',
+        };
+        await index.exportTML(data);
+        expect(window.fetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${auth.EndPoints.EXPORT_TML}`,
+            {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-requested-by': 'ThoughtSpot',
+                },
+                body: JSON.stringify(data),
+                method: 'POST',
+            },
+        );
+    });
+
+    test('should log an error when exeporting TML fails', async () => {
+        jest.spyOn(window, 'fetch').mockRejectedValue(new Error('Network error'));
+
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data: base.exportTMLInput = {
+            metadata: [{ identifier: 'f5728369-cf02-4953-87ab-a6cac691e360' }],
+            export_associated: false,
+            export_fqn: false,
+            edoc_format: 'YAML',
+        };
+        try {
+            await index.exportTML(data);
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error);
+            expect(error.message).toBe('Network error');
+        }
     });
 
     test('Should add the prefetch iframe when prefetch is called. Should remove it once init is called.', async () => {
