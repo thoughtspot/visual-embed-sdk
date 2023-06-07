@@ -37,6 +37,7 @@ export const EndPoints = {
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
     BASIC_LOGIN: '/callosum/v1/session/login',
     LOGOUT: '/callosum/v1/session/logout',
+    EXECUTE_TML: '/api/rest/2.0/metadata/tml/import',
 };
 
 interface sessionInfoInterface {

@@ -23,6 +23,7 @@ import {
     notifyLogout,
     setAuthEE,
     AuthEventEmitter,
+    EndPoints,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -107,6 +108,35 @@ export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): v
             },
         );
     }
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const executeTML = (data: any): any => {
+    const { thoughtSpotHost } = config;
+    const payload = {
+        metadata_tmls: data.metadata_tmls,
+        import_policy: data.import_policy || 'PARTIAL',
+        create_new: data.create_new || false,
+    };
+    return fetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-requested-by': 'ThoughtSpot',
+        },
+        body: JSON.stringify(payload),
+        credentials: 'include',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to import TML data');
+            }
+            return true;
+        })
+        .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error(error);
+        });
 };
 
 /**

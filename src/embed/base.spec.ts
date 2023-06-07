@@ -54,6 +54,53 @@ describe('Base TS Embed', () => {
         });
     });
 
+    test('should call the executeTML API and import TML', async () => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            ok: true,
+        });
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
+        await index.executeTML(data);
+        expect(window.fetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-requested-by': 'ThoughtSpot',
+                },
+                body: JSON.stringify(data),
+                method: 'POST',
+            },
+        );
+    });
+
+    test('should log an error when executing TML fails', async () => {
+        jest.spyOn(window, 'fetch').mockRejectedValue(new Error('Network error'));
+
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        const data = {
+            metadata_tmls: { liveboard: { name: 'Parameters Liveboard' } },
+            import_policy: 'PARTIAL',
+            create_new: false,
+        };
+        // eslint-disable-next-line no-console
+        console.error = jest.fn();
+        await index.executeTML(data);
+
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith(new Error('Network error'));
+        expect.assertions(1);
+    });
+
     test('Should add the prefetch iframe when prefetch is called. Should remove it once init is called.', async () => {
         const url = 'https://10.87.90.95/';
         index.init({
@@ -225,6 +272,6 @@ describe('Base without init', () => {
         base.notifyAuthFailure(auth.AuthFailureType.SDK);
         base.notifyLogout();
         base.notifyAuthSDKSuccess();
-        expect(global.console.error).toHaveBeenCalledTimes(4);
+        expect(global.console.error).toHaveBeenCalledTimes(5);
     });
 });
