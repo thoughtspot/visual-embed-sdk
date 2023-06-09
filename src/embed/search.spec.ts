@@ -188,6 +188,34 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should not add runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
+        const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSources,
+            searchOptions,
+            runtimeFilters: [
+                {
+                    columnName: 'city',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['berkeley'],
+                },
+            ],
+            excludeRuntimeFiltersfromURL: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
     test('Should add dataSource', async () => {
         const dataSource = 'data-source-1';
         const searchOptions = {

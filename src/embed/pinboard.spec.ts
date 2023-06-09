@@ -179,6 +179,29 @@ describe('Pinboard/viz embed tests', () => {
         });
     });
 
+    test('should not apply runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
+        const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            pinboardId,
+            vizId,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+            excludeRuntimeFiltersfromURL: true,
+        } as LiveboardViewConfig);
+        pinboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
+            );
+        });
+    });
+
     test('should register event handler to adjust iframe height', async () => {
         const pinboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,

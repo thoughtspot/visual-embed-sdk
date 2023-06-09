@@ -620,6 +620,13 @@ export interface ViewConfig {
      * See [docs]() on how to create a prerender pool.
      */
     usePrerenderedIfAvailable?: boolean;
+    /**
+     * Boolean to exclude runtimeFilters in the URL
+     *
+     * @default false
+     * @hidden
+     */
+    excludeRuntimeFiltersfromURL?: boolean;
 }
 
 /**

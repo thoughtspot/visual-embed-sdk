@@ -190,6 +190,29 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should not apply runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            vizId,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+            excludeRuntimeFiltersfromURL: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${liveboardId}/${vizId}`,
+            );
+        });
+    });
+
     test('should register event handler to adjust iframe height', async () => {
         const onSpy = jest.spyOn(LiveboardEmbed.prototype, 'on');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

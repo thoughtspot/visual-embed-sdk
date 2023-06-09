@@ -212,6 +212,8 @@ export const getCustomisations = (
     return customizations;
 };
 
+export const getRuntimeFilters = (runtimefilters: any) => getFilterQuery(runtimefilters || []);
+
 /**
  * Gets a reference to the DOM node given
  * a selector.
