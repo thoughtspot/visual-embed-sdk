@@ -89,7 +89,7 @@ You can copy the `secret key` from *Develop* > *Customizations* > *Security Sett
 
 +++ <h5>Just-in-time user provisioning</h5> +++
 
-The `/api/rest/2.0/auth/token/object` and `/api/rest/2.0/auth/token/full` API endpoints also let you provision a user just-in-time (JIT) and assign the new user to Orgs and groups. If a user is not available in ThoughtSpot, administrators can create a user profile by setting `auto_create` to `true`, and provision the user to an Org and groups in an Org.
+The `/api/rest/2.0/auth/token/object` and `/api/rest/2.0/auth/token/full` API endpoints also let you provision a user just-in-time (JIT) and assign the new user to groups. If a user is not available in ThoughtSpot, administrators can create a user profile by setting `auto_create` to `true`, and provision the user to groups.
 
 For more information, see xref:authentication.adoc[REST API v2.0 authentication].
 --
@@ -149,7 +149,7 @@ __Available to all authenticated users__.
 Creates a user in ThoughtSpot. This API also supports the following operations: +
 
 * add the email address of the user
-* add the user to xref:orgs.adoc[Orgs] and groups.
+* add the user to groups
 * set account status
 * define sharing visibility
 * set a default Liveboard for the user
@@ -331,8 +331,12 @@ __Requires `ADMINISTRATION` (**Can administer ThoughtSpot**) privilege__.
 ////
 --
 
+
 == Orgs
 
+Applicable to ThoughTSpot Cloud deployments only.
+
+////
 You can perform CRUD operations on Org objects if the Orgs feature is enabled on your cluster. For Org operations, cluster administration privileges are required.
 
 [NOTE]
@@ -350,9 +354,9 @@ Gets Org objects from ThoughtSpot. To filter the API output based on Org status,
 
 __Requires cluster administration privileges__.
 
-////
+
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/orgs/search-orgs" id="preview-in-playground" target="_blank">View in Playground</a>+++
-////
+
 --
 
 [div divider]
@@ -365,9 +369,9 @@ Creates an Org object.
 
 __Requires cluster administration privileges__.
 
-////
+
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/orgs/create-org" id="preview-in-playground" target="_blank">View in Playground</a>+++
-////
+
 --
 
 [div divider]
@@ -380,9 +384,9 @@ Modifies the object properties of an Org.
 
 __Requires cluster administration privileges__.
 
-////
+
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/orgs/update-org" id="preview-in-playground" target="_blank">View in Playground</a>+++
-////
+
 --
 
 [div divider]
@@ -395,8 +399,8 @@ Deletes an Org object from ThoughtSpot.
 
 __Requires cluster administration privileges__.
 
-////
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/orgs/delete-org" id="preview-in-playground" target="_blank">View in Playground</a>+++
+
 ////
 --
 
