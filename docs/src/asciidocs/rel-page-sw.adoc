@@ -25,7 +25,7 @@ The xref:enable-liveboardv2.adoc[new Liveboard experience] is now Generally Avai
 
 === REST API v2.0 endpoints and Playground
 
-Starting with 9.0.0.sw, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. A set of new endpoints are now generally available (GA) on all ThoughtSpot instances.
+Starting with 9.0.1.sw, the REST API v2 [beta betaBackground]^Beta^ API endpoints are deprecated and removed from the REST API v2 Playground. A set of new endpoints are now generally available (GA) on all ThoughtSpot instances.
 
 The new REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
 
@@ -50,7 +50,7 @@ For more information, see xref:security-settings.adoc#_add_trusted_domains_for_f
 
 === Just-in-time user creation and dynamic privilege assignment
 
-Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
+Starting from 9.0.1.sw, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
 
 === Improvements to authentication methods and AuthType enums in the SDK
 
@@ -69,9 +69,9 @@ For more information, see xref:embed-authentication.adoc[Authentication].
 
 === Early access features
 
-Starting from 9.0.0.sw, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
+Starting from 9.0.1.sw, ThoughtSpot allows its administrators to turn on Early Access features from the Admin portal. Early Access features are qualified by ThoughSpot for customer use but are not enabled by default on ThoughtSpot instances until the features are GA.
 
-The 9.0.0.sw release introduces the following Early Access features:
+The 9.0.1.sw release introduces the following Early Access features:
 
 * Custom maps
 +
@@ -105,12 +105,12 @@ For more information, see link:https://docs.thoughtspot.com/cloud/latest/chart-d
 
 === Support for Visual Embed SDK version 1.19.0
 
-If you have upgraded your ThoughtSpot instance to 9.0.0.sw, we recommend that you use the Visual Embed SDK v1.19.0 for smooth app integration and embedding experience.
+If you have upgraded your ThoughtSpot instance to 9.0.1.sw, we recommend that you use the Visual Embed SDK v1.19.0 for smooth app integration and embedding experience.
 
 For information about the new features, enhancements, and breaking changes introduced in v1.19.0, see link:https://developers.thoughtspot.com/docs/?pageid=embed-sdk-changelog[Visual Embed Changelog, window=_blank].
 
 === REST API v1
-The 9.0.0.sw release version introduces the following features and enhancements:
+The 9.0.1.sw release version introduces the following features and enhancements:
 
 Session API::
 The `/tspublic/v1/session/auth/token` endpoint includes the `autocreate` and `groups` properties to allow administrators to provision a user just in time (JIT) and assign privileges.

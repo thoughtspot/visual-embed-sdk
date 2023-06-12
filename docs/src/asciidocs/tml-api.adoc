@@ -10,7 +10,7 @@ The TML API endpoints allow you to programmatically export, validate, and import
 
 [NOTE]
 ====
-Starting with version 8.9.0.cl, ThoughtSpot exports TML files with `liveboard` as the object name instead of `pinboard`. Older TML files with the `pinboard` object name can still be imported into ThoughtSpot instances on 8.9.0.cl release version, but it will be replaced with `liveboard` during TML export. Importing a TML file generated from ThoughtSpot 8.9.0.cl into 8.8.0.cl or earlier versions is not supported if the object name is set to `liveboard`. To resolve this issue, replace `liveboard` with `pinboard` and then try to import it into earlier versions.
+Starting with version 9.0.1.sw, ThoughtSpot exports TML files with `liveboard` as the object name instead of `pinboard`. Older TML files with the `pinboard` object name can still be imported into ThoughtSpot instances on 9.0.1.sw release version, but it will be replaced with `liveboard` during TML export. Importing a TML file generated from ThoughtSpot 9.0.1.sw into 8.8.0.cl or earlier versions is not supported if the object name is set to `liveboard`. To resolve this issue, replace `liveboard` with `pinboard` and then try to import it into earlier versions.
 ====
 
 == Supported operations

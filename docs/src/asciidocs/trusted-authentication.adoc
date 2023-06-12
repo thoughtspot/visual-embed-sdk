@@ -156,7 +156,7 @@ Access control (sharing) can be granted during the login token request process b
 
 === Just-in-time user provisioning and group assignment
 
-Starting from 8.9.0.cl, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
+Starting from 9.0.1.sw, the xref:session-api.adoc#session-authToken[/tspublic/v1/session/auth/token] endpoint supports just-in-time provisioning of users. If the user specified in the API request does not exist in the ThoughtSpot system, you can set the `autocreate` property to `true` to add the user to ThoughtSpot and assign the user to `groups`.
 
 The typical flow of REST API requests for user creation at the time of a login token request is as follows: +
 
