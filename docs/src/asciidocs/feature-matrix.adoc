@@ -53,15 +53,16 @@ a|REST API v1 +
 |[tag greenBackground]#✓# +
 (Basic authentication only)
 
-a|REST v2 API [beta blueBackground]^BETA^  |[tag greenBackground]#✓#  +
+a|REST v2.0 API endpoints |[tag greenBackground]#✓#  +
 |[tag greenBackground]#✓# +
 (Basic authentication only)
 
-|REST API v2 Playground [beta blueBackground]^BETA^|[tag greenBackground]#✓#  | [tag greenBackground]#✓#
+|REST API v2.0 Playground | [tag greenBackground]#✓#  | [tag greenBackground]#✓#
 
 |URL-based custom actions|[tag greenBackground]#✓# |[tag greenBackground]#✓#
 |Callback custom actions|[tag greenBackground]#✓# |[tag greyBackground]#–#
 |UI styles, font, and layout customization|[tag greenBackground]#✓# |[tag greenBackground]#✓#
+|Custom CSS|[tag greenBackground]#✓# |[tag greyBackground]#–#
 |Link customization|[tag greenBackground]#✓#  |[tag greyBackground]#–#
 |Security settings for embedding ThoughtSpot +
 

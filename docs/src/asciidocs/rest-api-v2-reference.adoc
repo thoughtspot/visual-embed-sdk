@@ -13,6 +13,9 @@ This API Reference page lists the REST API v2.0 endpoints and provides basic inf
 Access to ThoughtSpot data is controlled based on xref:api-user-management.adoc#group-privileges[user privileges] and xref:configure-user-access.adoc#_object_level_permissions[object-level permissions]. Some operations are available to all users and may require at least view access to the metadata object. ThoughtSpot users are assigned access privileges based on the group to which they belong. Additionally, object owners can control access to a metadata object using `MODIFY` (*Can edit*), `READ_ONLY` (*Can view*), or `NO_ACCESS` permission when sharing an object with other users and groups.
 ====
 
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
+
+
 == Authentication
 
 [div divider]

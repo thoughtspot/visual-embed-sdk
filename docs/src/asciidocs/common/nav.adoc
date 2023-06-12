@@ -94,7 +94,9 @@
 **** link:{{navprefix}}=materialization-api[Materialization API]
 **** link:{{navprefix}}=database-api[Database API]
 
-* link:{{navprefix}}=runtime-filters[Runtime filters]
+* Runtime operations
+** link:{{navprefix}}=runtime-filters[Runtime filters]
+** link:{{navprefix}}=runtime-sort[Runtime sorting]
 
 * Additional resources
 ** link:{{navprefix}}=faqs[FAQs]

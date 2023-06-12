@@ -8,7 +8,7 @@
 
 This page provides information about new features and enhancements available for embedded ThoughtSpot instances.
 
-== Version 9.0.0.sw, Coming soon
+== Version 9.0.1.sw, June 2023
 
 === Advanced style customization
 
