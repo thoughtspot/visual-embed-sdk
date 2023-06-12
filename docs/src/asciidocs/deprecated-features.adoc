@@ -16,12 +16,12 @@ A de-supported feature no longer exists in the product. When you upgrade to a ne
 
 == Deprecation of REST API v2 [beta betaBackground]^Beta^ endpoints
 
-The REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated starting from 8.10.0.cl release. The REST API v2 [beta betaBackground]^Beta^ endpoints will remain functional but are not accessible from the REST API Playground page starting from 9.0.0.cl.
+The REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated starting from 8.10.0.cl release. The REST API v2 [beta betaBackground]^Beta^ endpoints will remain functional but are not accessible from the REST API Playground page starting from 9.0.1.sw.
 
 If your current deployment uses REST API v2 [beta betaBackground]^Beta^ endpoints, your implementation will continue to work. To ensure a smooth transition for early adopters of the REST API v2 [beta betaBackground]^Beta^ feature, ThoughtSpot will roll out the REST API v2.0 endpoints incrementally over the subsequent releases. You can start using the REST API v2.0 endpoints as and when they are Generally Available (GA) and fully qualified for production use cases.
 
 === REST API SDK
-The current REST API SDK version will be deprecated from 8.8.0.cl onwards.
+The current REST API SDK version will be deprecated from 8.8.1-sw onwards.
 The upcoming REST API v2.0 endpoints and Playground will not support the SDK in the initial release. In later releases, a new version of the SDK will be published on the Playground, GitHub repo, NPM, PyPi, MVN Package Manager, and Nuget Package Manager sites.
 
 [NOTE]
@@ -30,7 +30,7 @@ The REST API SDK is supported only with REST API v2 [beta betaBackground]^Beta^ 
 ====
 
 === Documentation changes
-Starting from 9.0.0.cl, the API documentation for the REST API v2 [beta betaBackground]^Beta^ endpoints will not be available on the REST API Playground.
+Starting from 9.0.1.sw, the API documentation for the REST API v2 [beta betaBackground]^Beta^ endpoints will not be available on the REST API Playground.
 For information about the REST API v2 [beta betaBackground]^Beta^ endpoints, see xref:rest-api-v2-reference-beta.adoc[REST API v2 ^Beta^ reference].
 
 For information about REST API v2.0 endpoints, refer to the following articles:
