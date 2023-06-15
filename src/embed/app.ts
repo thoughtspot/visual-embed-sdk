@@ -67,6 +67,16 @@ export interface AppViewConfig extends ViewConfig {
      */
     disableProfileAndHelp?: boolean;
     /**
+     * If true, application switcher button will hide on NavBar. By default,
+     * they are shown.
+     */
+    hideApplicationSwitcher?: boolean;
+    /**
+     * If true, org switcher button will hide on NavBar. By default,
+     * they are shown.
+     */
+    hideOrgSwitcher?: boolean;
+    /**
      * A URL path within the app that is to be embedded.
      * If both path and pageId attributes are defined, the path definition
      * takes precedence.
@@ -141,6 +151,8 @@ export class AppEmbed extends V1Embed {
             liveboardV2,
             showPrimaryNavbar,
             disableProfileAndHelp,
+            hideApplicationSwitcher,
+            hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
         } = this.viewConfig;
@@ -149,6 +161,8 @@ export class AppEmbed extends V1Embed {
         params[Param.EmbedApp] = true;
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
+        params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
+        params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
 
         params = this.getBaseQueryParams(params);
 

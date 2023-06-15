@@ -1831,6 +1831,8 @@ export enum Param {
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
+    HideApplicationSwitcher= 'applicationSwitcherHidden',
+    HideOrgSwitcher= 'orgSwitcherHidden',
 }
 
 /**
