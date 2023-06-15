@@ -1,4 +1,4 @@
-export { 
+export {
     SearchEmbed,
     LiveboardEmbed,
     SearchBarEmbed,
