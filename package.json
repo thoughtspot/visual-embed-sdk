@@ -104,7 +104,7 @@
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react-hooks": "^4.2.0",
         "fs-extra": "^10.0.0",
-        "gatsby": "3.13.1",
+        "gatsby": "4.25.7",
         "gatsby-plugin-algolia": "^0.22.2",
         "gatsby-plugin-catch-links": "^3.1.0",
         "gatsby-plugin-env-variables": "^2.1.0",
