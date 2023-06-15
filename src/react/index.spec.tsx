@@ -17,6 +17,7 @@ import {
 import {
     SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed,
 } from './index';
+import * as allExports from './index';
 import { AuthType, init } from '../index';
 
 import { version } from '../../package.json';
@@ -224,3 +225,15 @@ describe('React Components', () => {
         });
     });
 });
+
+describe('allExports', () => {
+    it('should have exports', () => {
+      expect(typeof allExports).toBe('object');
+    });
+  
+    it('should not have undefined exports', () => {
+      Object.keys(allExports).forEach((exportKey) =>
+        expect(Boolean(allExports[exportKey])).toBe(true),
+      );
+    });
+  });
