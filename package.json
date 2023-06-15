@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.21.0-alpha.17",
+    "version": "1.21.0-alpha.19",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -42,6 +42,7 @@
         "build-and-publish": "npm run build:gatsby && npm run publish",
         "bundle-dts": "dts-bundle --name ../../dist/visual-embed-sdk --main lib/src/index.d.ts --outputAsModuleFolder=true",
         "bundle-dts-react": "dts-bundle --name ../../../dist/visual-embed-sdk-react --main lib/src/react/index.d.ts --outputAsModuleFolder=true",
+        "bundle-dts-react-full": "dts-bundle --name ../../../dist/visual-embed-sdk-react-full --main lib/src/react/all-types-export.d.ts --outputAsModuleFolder=true",
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
@@ -50,7 +51,7 @@
         "test-docs": "jest -c jest.config.docs.js",
         "test": "npm run test-sdk && npm run test-docs",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
-        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run bundle-dts-react; npm run build",
+        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run bundle-dts-react-full; npm run build",
         "publish-dev": "npm publish --tag dev",
         "publish-prod": "npm publish --tag latest"
     },

@@ -168,3 +168,16 @@ export const SearchBarEmbed = componentFactory<
  * @returns {React.MutableRefObject<TsEmbed>} ref
  */
 export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => React.useRef<TsEmbed>(null);
+
+export {
+    LiveboardViewConfig,
+    SearchViewConfig,
+    AppViewConfig,
+    Page,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    EmbedEvent,
+    HostEvent,
+    Action,
+    FrameParams,
+} from '../index';
