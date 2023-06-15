@@ -228,12 +228,15 @@ describe('React Components', () => {
 
 describe('allExports', () => {
     it('should have exports', () => {
-      expect(typeof allExports).toBe('object');
+        expect(typeof allExports).toBe('object');
     });
-  
+
     it('should not have undefined exports', () => {
-      Object.keys(allExports).forEach((exportKey) =>
-        expect(Boolean(allExports[exportKey])).toBe(true),
-      );
+        Object.keys(allExports).forEach(
+            (exportKey) => expect(
+                Boolean(allExports[exportKey]),
+            )
+                .toBe(true),
+        );
     });
-  });
+});
