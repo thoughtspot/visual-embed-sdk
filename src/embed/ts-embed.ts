@@ -260,6 +260,7 @@ export class TsEmbed {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
                 runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
+                hostConfig: this.embedConfig.hostConfig,
             },
         });
     };

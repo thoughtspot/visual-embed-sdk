@@ -450,6 +450,15 @@ export interface EmbedConfig {
      * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1-sw
      */
     blockNonEmbedFullAppAccess?: boolean;
+
+    /**
+     * Host config incase embedded app is inside TS app itself
+     */
+    hostConfig?: {
+        hostUserGuid: string;
+        hostClusterId: string;
+        hostClusterName: string;
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
