@@ -63,6 +63,20 @@ The tests can be run using:
 $ npm test
 ```
 
+#### Testing an unreleased version
+
+To test an unreleased version of the SDK you have a few options:
+
+*Locally:*
+- Use `npm link`, to test the sdk against a local application.
+
+*Codesanbox:*
+- Publish a new version of the SDK with a tag.
+- To publish you may need to be given permission, by adding yourself to the `developers` group on `npm`.
+    - Set the version in the `package.json` file to a version with a scheme like `1.<currentMinor>.0-<tagname>.<buildnum>`.
+      For eg, `1.21.0-mytest.2`.
+    - `npm publish --tag mytest`.
+
 #### Testing against a live application.
 
 There are a few options here:
