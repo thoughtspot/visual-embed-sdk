@@ -240,6 +240,16 @@ export class TsEmbed {
                 );
             }
         });
+        window.addEventListener('online', (e) => {
+            this.trigger(HostEvent.Reload);
+        });
+        window.addEventListener('offline', (e) => {
+            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
+            this.executeCallbacks(EmbedEvent.Error, {
+                offlineWarning,
+            });
+            console.warn(offlineWarning);
+        });
     }
 
     /**
@@ -717,10 +727,7 @@ export class TsEmbed {
      * tsEmbed.off(EmbedEvent.Error, errorHandler);
      * ```
      */
-    public off(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
-    ): typeof TsEmbed.prototype {
+    public off(messageType: EmbedEvent, callback: MessageCallback): typeof TsEmbed.prototype {
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         const index = callbacks.findIndex((cb) => cb.callback === callback);
         if (index > -1) {
