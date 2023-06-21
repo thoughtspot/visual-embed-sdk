@@ -524,7 +524,7 @@ Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
 +
 Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
 
-The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter. For example, col2, op2, val2.
+The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute. 
 
 .Answer report
 
@@ -539,8 +539,11 @@ curl -X POST \
   "file_format": "XLSX",
   "runtime_filter": {
     "col1": "item type",
-    "op1": "EQ",
-    "val1": "Jackets",
+    "op1": "CONTAINS",
+    "val1": [
+      "Bags",
+      "Shirts"
+    ],
     "col2": "state",
     "op2": "EQ",
     "val2": "California"
@@ -557,15 +560,24 @@ curl -X POST \
   -H 'Authorization: Bearer {access-token} '\
   -H 'Content-Type: application/json' \
   --data-raw '{
-  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "metadata_identifier": "0c68a0a1-930b-4ba0-b7a0-59ea49b09848",
   "file_format": "PDF",
   "runtime_filter": {
     "col1": "item type",
-    "op1": "EQ",
-    "val1": "Jackets",
-    "col2": "state",
+    "op1": "CONTAINS",
+    "val1": [
+      "Bags",
+      "Shirts"
+    ],
+    "col2": "region",
     "op2": "EQ",
-    "val2": "California"
+    "val2": "West",
+    "col3": "state",
+    "op3": "IN",
+    "val3": [
+      "California",
+      "Nevada"
+    ]
   }
 }'
 ----
