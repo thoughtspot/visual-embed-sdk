@@ -112,12 +112,12 @@ describe('Unit test for process data', () => {
         expect(el.innerHTML).toBe('Hello');
     });
 
-    test('NoCookieAccess ignoreNoCookieAccessAlert=true', () => {
+    test('NoCookieAccess ignoreNoCookieAccess=true', () => {
         const e = { type: EmbedEvent.NoCookieAccess };
         jest.spyOn(base, 'notifyAuthFailure');
         jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
-            ignoreNoCookieAccessAlert: true,
+            ignoreNoCookieAccess: true,
         });
         jest.spyOn(window, 'alert').mockReset();
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);

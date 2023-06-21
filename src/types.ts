@@ -348,7 +348,7 @@ export interface EmbedConfig {
      *
      * @default false
      */
-    ignoreNoCookieAccessAlert?: boolean;
+    ignoreNoCookieAccess?: boolean;
 
     /**
      * Re-login when session expires with the previous login options

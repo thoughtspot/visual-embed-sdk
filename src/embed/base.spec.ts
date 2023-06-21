@@ -56,7 +56,7 @@ describe('Base TS Embed', () => {
         });
     });
 
-    test('Should ignore cookie blocked alert if ignoreNoCookieAccessAlert is true', async (done) => {
+    test('Should ignore cookie blocked alert if ignoreNoCookieAccess is true', async (done) => {
         jest.spyOn(window, 'fetch').mockResolvedValue({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
@@ -64,7 +64,7 @@ describe('Base TS Embed', () => {
         const authEE = index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
-            ignoreNoCookieAccessAlert: true,
+            ignoreNoCookieAccess: true,
         });
         const tsEmbed = new index.SearchEmbed(getRootEl(), {});
         const iFrame: any = document.createElement('div');

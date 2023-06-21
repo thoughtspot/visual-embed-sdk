@@ -57,9 +57,9 @@ function processNoCookieAccess(e: any, containerEl: Element) {
     const {
         loginFailedMessage,
         suppressNoCookieAccessAlert,
-        ignoreNoCookieAccessAlert,
+        ignoreNoCookieAccess,
     } = getEmbedConfig();
-    if (!ignoreNoCookieAccessAlert) {
+    if (!ignoreNoCookieAccess) {
         if (!suppressNoCookieAccessAlert) {
             // eslint-disable-next-line no-alert
             alert(
