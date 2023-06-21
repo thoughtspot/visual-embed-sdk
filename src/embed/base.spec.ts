@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-shadow */
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
@@ -51,6 +52,40 @@ describe('Base TS Embed', () => {
             expect(window.alert).toBeCalledWith(
                 'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
             );
+            done();
+        });
+    });
+
+    test('Should ignore cookie blocked alert if ignoreNoCookieAccess is true', async (done) => {
+        jest.spyOn(window, 'fetch').mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue({}),
+        });
+        const authEE = index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            ignoreNoCookieAccess: true,
+        });
+        const tsEmbed = new index.SearchEmbed(getRootEl(), {});
+        const iFrame: any = document.createElement('div');
+        iFrame.contentWindow = null;
+        /* This will return a div instead of HTMLIframeElement in ts-embed.ts
+         * so that the promise doesn't fail on url assigment
+         */
+        jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
+        tsEmbed.render();
+
+        window.postMessage(
+            {
+                __type: index.EmbedEvent.NoCookieAccess,
+            },
+            '*',
+        );
+        jest.spyOn(window, 'alert').mockReset();
+        jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+        authEE.on(auth.AuthStatus.FAILURE, (reason) => {
+            expect(reason).toEqual(auth.AuthFailureType.NO_COOKIE_ACCESS);
+            expect(window.alert).not.toHaveBeenCalled();
             done();
         });
     });

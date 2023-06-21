@@ -112,6 +112,24 @@ describe('Unit test for process data', () => {
         expect(el.innerHTML).toBe('Hello');
     });
 
+    test('NoCookieAccess ignoreNoCookieAccess=true', () => {
+        const e = { type: EmbedEvent.NoCookieAccess };
+        jest.spyOn(base, 'notifyAuthFailure');
+        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            ignoreNoCookieAccess: true,
+        });
+        jest.spyOn(window, 'alert').mockReset();
+        jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+        const el: any = {};
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
+        expect(window.alert).not.toBeCalled();
+        expect(el.innerHTML).not.toBe('Hello');
+    });
+
     test('process authFailure', () => {
         const e = { type: EmbedEvent.AuthFailure };
         jest.spyOn(base, 'notifyAuthFailure');

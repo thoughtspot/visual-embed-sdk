@@ -342,6 +342,15 @@ export interface EmbedConfig {
     suppressNoCookieAccessAlert?: boolean;
 
     /**
+     * Ignore cookie access alert when third party cookies are blocked by the
+     * user's browser. If you set this to `true`, the embedded iframe behaviour
+     * persist even in case of non logged in user.
+     *
+     * @default false
+     */
+    ignoreNoCookieAccess?: boolean;
+
+    /**
      * Re-login when session expires with the previous login options
      *
      * @default false

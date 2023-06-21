@@ -54,15 +54,21 @@ function processAuthInit(e: any) {
  * @param containerEl
  */
 function processNoCookieAccess(e: any, containerEl: Element) {
-    const { loginFailedMessage, suppressNoCookieAccessAlert } = getEmbedConfig();
-    if (!suppressNoCookieAccessAlert) {
-        // eslint-disable-next-line no-alert
-        alert(
-            'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
-        );
+    const {
+        loginFailedMessage,
+        suppressNoCookieAccessAlert,
+        ignoreNoCookieAccess,
+    } = getEmbedConfig();
+    if (!ignoreNoCookieAccess) {
+        if (!suppressNoCookieAccessAlert) {
+            // eslint-disable-next-line no-alert
+            alert(
+                'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
+            );
+        }
+        // eslint-disable-next-line no-param-reassign
+        containerEl.innerHTML = loginFailedMessage;
     }
-    // eslint-disable-next-line no-param-reassign
-    containerEl.innerHTML = loginFailedMessage;
     notifyAuthFailure(AuthFailureType.NO_COOKIE_ACCESS);
     return e;
 }
