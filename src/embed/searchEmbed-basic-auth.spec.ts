@@ -24,7 +24,7 @@ describe('Search embed tests when authType is Basic', () => {
      * @param version
      */
     function setupVersion(version: string) {
-        jest.spyOn(window, 'addEventListener').mockImplementationOnce((event, handler, options) => {
+        jest.spyOn(window, 'addEventListener').mockImplementation((event, handler, options) => {
             handler({
                 data: {
                     type: 'xyz',
