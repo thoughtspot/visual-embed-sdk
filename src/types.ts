@@ -7,6 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { CustomCssVariables } from './css-variables';
+
 /**
  * The authentication mechanism for allowing access to the
  * the embedded app
@@ -182,9 +184,7 @@ export type DOMSelector = string | HTMLElement;
  * inline customCSS within the {@link CustomisationsInterface}.
  */
 export interface customCssInterface {
-    variables?: {
-        [variableName: string]: string;
-    };
+    variables?: CustomCssVariables;
     // eslint-disable-next-line camelcase
     rules_UNSTABLE?: {
         [selector: string]: {
