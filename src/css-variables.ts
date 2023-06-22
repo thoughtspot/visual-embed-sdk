@@ -1,3 +1,7 @@
+/**
+ * The list of customization css variables. These
+ * are the only allowed variables possible.
+ */
 export interface CustomCssVariables {
     /**
      * Background color of the Liveboard, visualization, Search, and Answer pages.
@@ -365,6 +369,4 @@ export interface CustomCssVariables {
      * Background color of the footer area on dialogs.
      */
     '--ts-var-dialog-footer-background'?: string;
-
-    [key: string]: string;
   }

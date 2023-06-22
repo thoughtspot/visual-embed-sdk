@@ -184,6 +184,11 @@ export type DOMSelector = string | HTMLElement;
  * inline customCSS within the {@link CustomisationsInterface}.
  */
 export interface customCssInterface {
+    /**
+     * The custom css variables, which can be set.
+     * The allowed list is in the CustomCssVariables
+     * interface.
+     */
     variables?: CustomCssVariables;
     // eslint-disable-next-line camelcase
     rules_UNSTABLE?: {
