@@ -822,7 +822,7 @@ export class TsEmbed {
      */
     public destroy(): void {
         try {
-            this.insertedDomEl.parentNode.removeChild(this.insertedDomEl);
+            this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
         } catch (e) {
             console.log('Error destroying TS Embed', e);
         }

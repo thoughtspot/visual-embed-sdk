@@ -4,6 +4,9 @@ export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',
 };
 
+// Needed to avoid error in CJS builds on some bundlers.
+const mixpanelLib = mixpanel.default || mixpanel;
+
 export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_START: 'visual-sdk-render-start',
     VISUAL_SDK_CALLED_INIT: 'visual-sdk-called-init',
@@ -28,7 +31,7 @@ export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
         eventQueue.push({ eventId, eventProps });
         return;
     }
-    mixpanel.track(eventId, eventProps);
+    mixpanelLib.track(eventId, eventProps);
 }
 
 /**
@@ -56,13 +59,17 @@ export function initMixpanel(sessionInfo: any): void {
     // userGUID
     const isPublicCluster = !!sessionInfo.isPublicUser;
     const token = sessionInfo.mixpanelToken;
-    if (token) {
-        mixpanel.init(token);
-        if (!isPublicCluster) {
-            mixpanel.identify(sessionInfo.userGUID);
+    try {
+        if (token) {
+            mixpanelLib.init(token);
+            if (!isPublicCluster) {
+                mixpanelLib.identify(sessionInfo.userGUID);
+            }
+            isMixpanelInitialized = true;
+            emptyQueue();
         }
-        isMixpanelInitialized = true;
-        emptyQueue();
+    } catch (e) {
+        console.error('Error initializing mixpanel', e);
     }
 }
 

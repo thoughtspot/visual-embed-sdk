@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.21.0-alpha.21",
+    "version": "1.21.0-alpha.24",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -14,19 +14,24 @@
     "exports": {
         ".": {
             "import": "./lib/src/index.js",
-            "require": "./dist/tsembed.js",
+            "require": "./cjs/src/index.js",
             "types": "./lib/src/index.d.ts"
         },
         "./react": {
-            "import": "./lib/src/react/index.js",
-            "require": "./cjs/src/react.index.js",
-            "types": "./lib/src/react/index.d.ts"
+            "import": "./lib/src/react/all-types-export.js",
+            "require": "./cjs/src/react/all-types-export.js",
+            "types": "./lib/src/react/all-types-export.d.ts"
+        },
+        "./lib/src/react": {
+            "import": "./lib/src/react/all-types-export.js",
+            "require": "./cjs/src/react/all-types-export.js",
+            "types": "./lib/src/react/all-types-export.d.ts"
         }
     },
     "typesVersions": {
         "*": {
             "react": [
-                "./lib/src/react/index.d.ts"
+                "./lib/src/react/all-types-export.d.ts"
             ]
         }
     },
