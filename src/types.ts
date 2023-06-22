@@ -195,16 +195,17 @@ export interface customCssInterface {
     /**
      * Can be used to define a custom font face
      * like:
+     *
      * @example
      * ```js
      * rules_UNSTABLE?: {
      *     "@font-face": {
      *         "font-family": "custom-font",
-     *         "src": url("/path/") 
+     *         "src": url("/path/")
      *     };
      *   };
      * ```
-     * 
+     *
      * Also, custom css rules outside of variables.
      * @example
      * ```js
