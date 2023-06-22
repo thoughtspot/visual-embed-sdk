@@ -182,14 +182,40 @@ export type DOMSelector = string | HTMLElement;
 
 /**
  * inline customCSS within the {@link CustomisationsInterface}.
+ * Use {@link CustomCssVariables} or css rules.
  */
 export interface customCssInterface {
     /**
      * The custom css variables, which can be set.
      * The allowed list is in the CustomCssVariables
      * interface.
+     * Or here: https://try-everywhere.thoughtspot.cloud/resources/static/css/custom_variables.css
      */
     variables?: CustomCssVariables;
+    /**
+     * Can be used to define a custom font face
+     * like:
+     * @example
+     * ```js
+     * rules_UNSTABLE?: {
+     *     "@font-face": {
+     *         "font-family": "custom-font",
+     *         "src": url("/path/") 
+     *     };
+     *   };
+     * ```
+     * 
+     * Also, custom css rules outside of variables.
+     * @example
+     * ```js
+     * rules_UNSTABLE?: {
+     *     ".thoughtspot_class_name": {
+     *         "border-radius": "10px",
+     *         margin: "20px"
+     *     };
+     *   };
+     * ```
+     */
     // eslint-disable-next-line camelcase
     rules_UNSTABLE?: {
         [selector: string]: {

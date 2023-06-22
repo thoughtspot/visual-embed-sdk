@@ -40,4 +40,5 @@ export {
     CustomisationsInterface,
     CustomStyles,
     customCssInterface,
+    CustomCssVariables,
 } from '../index';

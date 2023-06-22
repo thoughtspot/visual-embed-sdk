@@ -37,6 +37,7 @@ import {
     customCssInterface,
     ContextMenuTriggerOptions,
 } from './types';
+import { CustomCssVariables } from './css-variables';
 
 export {
     init,
@@ -79,4 +80,5 @@ export {
     CustomisationsInterface,
     CustomStyles,
     customCssInterface,
+    CustomCssVariables,
 };
