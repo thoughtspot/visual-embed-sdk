@@ -56,7 +56,8 @@
         "test-docs": "jest -c jest.config.docs.js",
         "test": "npm run test-sdk && npm run test-docs",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
-        "prepublishOnly": "npm run test; npm run tsc; npm run bundle-dts; npm run bundle-dts-react-full; npm run build",
+        "is-publish-allowed": "node scripts/is-publish-allowed.js",
+        "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
         "publish-dev": "npm publish --tag dev",
         "publish-prod": "npm publish --tag latest"
     },
@@ -100,6 +101,7 @@
         "babel-preset-gatsby": "^1.10.0",
         "command-line-args": "^5.1.1",
         "coveralls": "^3.1.0",
+        "current-git-branch": "^1.1.0",
         "dts-bundle": "^0.7.3",
         "eslint": "^7.12.1",
         "eslint-config-airbnb-base": "^14.2.0",
