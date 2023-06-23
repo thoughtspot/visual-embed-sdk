@@ -10,11 +10,10 @@ import {
 } from '../test/test-utils';
 
 const defaultConfig: SageViewConfig = {
-    hideEurekaResults: false,
-    isSageEmbed: true,
+    showObjectResults: true,
     disableWorksheetChange: false,
     hideWorksheetSelector: true,
-    hideEurekaSuggestions: true,
+    showObjectSuggestions: false,
 };
 
 const thoughtSpotHost = 'tshost';
