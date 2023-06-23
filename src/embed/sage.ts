@@ -37,6 +37,11 @@ export interface SageViewConfig extends ViewConfig {
      *
      */
     showObjectSuggestions?: boolean;
+    /**
+     * If set to true, the sample questions sage in the search bar are shown
+     *
+     */
+    showSampleQuestions?: boolean;
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
@@ -77,6 +82,7 @@ export class SageEmbed extends V1Embed {
             disableWorksheetChange,
             hideWorksheetSelector,
             showObjectSuggestions,
+            showSampleQuestions,
         } = this.viewConfig;
 
         const params = {};
@@ -86,6 +92,7 @@ export class SageEmbed extends V1Embed {
         params[Param.DisableWorksheetChange] = !!disableWorksheetChange;
         params[Param.HideWorksheetSelector] = !!hideWorksheetSelector;
         params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
+        params[Param.ShowSampleQuestions] = !!showSampleQuestions;
         params[Param.HideActions] = [
             ...(params[Param.HideActions] ?? []),
             ...HiddenActionItemByDefaultForSageEmbed,

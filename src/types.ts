@@ -1893,6 +1893,7 @@ export enum Param {
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    ShowSampleQuestions = 'showSampleQuestions',
 }
 
 /**
