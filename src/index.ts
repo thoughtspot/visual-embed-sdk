@@ -38,6 +38,7 @@ import {
     ContextMenuTriggerOptions,
 } from './types';
 import { CustomCssVariables } from './css-variables';
+import { SageEmbed } from './embed/sage';
 
 export {
     init,
@@ -51,6 +52,7 @@ export {
     SearchBarEmbed,
     PinboardEmbed,
     LiveboardEmbed,
+    SageEmbed,
     AppEmbed,
     AuthFailureType,
     AuthStatus,

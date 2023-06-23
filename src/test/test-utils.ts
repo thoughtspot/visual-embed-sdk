@@ -109,3 +109,10 @@ export const expectUrlMatchesWithParams = (source: string, target: string) => {
     const targetParamsObj = Object.fromEntries(targetUrl.searchParams);
     expect(sourceParamsObj).toMatchObject(targetParamsObj);
 };
+
+export const expectUrlMatch = (source: string, target: string) => {
+    expectUrlMatchesWithParams(source, target);
+    const sourceUrl = new URL(source);
+    const targetUrl = new URL(target);
+    expect(sourceUrl.hash).toBe(targetUrl.hash);
+};

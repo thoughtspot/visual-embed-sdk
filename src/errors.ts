@@ -3,4 +3,5 @@ export const ERROR_MESSAGE = {
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please provide either liveboardId or pinboardId',
     TRIGGER_TIMED_OUT: 'Trigger timedout in getting response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'Search Embed is in Beta in this release.',
+    SAGE_EMBED_BETA_WARNING_MESSAGE: 'Sage Embed is in Beta in this release.',
 };
