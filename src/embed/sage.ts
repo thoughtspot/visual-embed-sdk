@@ -14,19 +14,16 @@ import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
 
 /**
- * The configuration attributes for the embedded search view.
+ * The configuration attributes for the embedded Natural language search view. Based on
+ * GPT and LLM.
  *
  * @group Embed components
  */
 export interface SageViewConfig extends ViewConfig {
     /**
-     * If set to false, eureka results are hidden
+     * If set to true, object results are shown.
      */
-    hideEurekaResults?: boolean;
-    /**
-     * primary flag to enable eureka(/sage) page embedding.
-     */
-    isSageEmbed?: boolean,
+    showObjectResults?: boolean;
     /**
      * flag to disable changing worksheet. default false.
      */
@@ -36,10 +33,10 @@ export interface SageViewConfig extends ViewConfig {
      */
     hideWorksheetSelector?: boolean,
     /**
-     * If set to true, the eureka search suggestions are not shown
+     * If set to true, the object search suggestions are not shown
      *
      */
-    hideEurekaSuggestions?: boolean;
+    showObjectSuggestions?: boolean;
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
@@ -52,7 +49,7 @@ export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Share,
 ];
 /**
- * Embed ThoughtSpot search
+ * Embed ThoughtSpot LLM and GPT based natural language search component.
  *
  * @group Embed components
  */
@@ -76,20 +73,19 @@ export class SageEmbed extends V1Embed {
      */
     protected getEmbedParams(): string {
         const {
-            hideEurekaResults,
-            isSageEmbed,
+            showObjectResults,
             disableWorksheetChange,
             hideWorksheetSelector,
-            hideEurekaSuggestions,
+            showObjectSuggestions,
         } = this.viewConfig;
 
         const params = {};
         params[Param.EmbedApp] = true;
-        params[Param.HideEurekaResults] = !!hideEurekaResults;
-        params[Param.IsSageEmbed] = !!isSageEmbed;
+        params[Param.HideEurekaResults] = !showObjectResults;
+        params[Param.IsSageEmbed] = true;
         params[Param.DisableWorksheetChange] = !!disableWorksheetChange;
         params[Param.HideWorksheetSelector] = !!hideWorksheetSelector;
-        params[Param.HideEurekaSuggestions] = !!hideEurekaSuggestions;
+        params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
         params[Param.HideActions] = [
             ...(params[Param.HideActions] ?? []),
             ...HiddenActionItemByDefaultForSageEmbed,

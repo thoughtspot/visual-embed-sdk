@@ -38,7 +38,7 @@ import {
     ContextMenuTriggerOptions,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { SageEmbed } from './embed/sage';
+import { SageEmbed, SageViewConfig } from './embed/sage';
 
 export {
     init,
@@ -72,6 +72,7 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SageViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,

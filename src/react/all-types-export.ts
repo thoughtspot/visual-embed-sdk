@@ -3,6 +3,7 @@ export {
     LiveboardEmbed,
     SearchBarEmbed,
     AppEmbed,
+    SageEmbed,
     useEmbedRef,
 } from './index';
 
@@ -30,6 +31,7 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SageViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
