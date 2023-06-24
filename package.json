@@ -45,6 +45,7 @@
         "serve:gatsby": "gatsby serve",
         "clean:gatsby": "gatsby clean",
         "build-and-publish": "npm run build:gatsby && npm run publish",
+        "bundle-dts-file": "dts-bundle --name @thoughtspot/visual-embed-sdk --out visual-embed-sdk.d.ts --main lib/src/index.d.ts",
         "bundle-dts": "dts-bundle --name ../../dist/visual-embed-sdk --main lib/src/index.d.ts --outputAsModuleFolder=true",
         "bundle-dts-react": "dts-bundle --name ../../../dist/visual-embed-sdk-react --main lib/src/react/index.d.ts --outputAsModuleFolder=true",
         "bundle-dts-react-full": "dts-bundle --name ../../../dist/visual-embed-sdk-react-full --main lib/src/react/all-types-export.d.ts --outputAsModuleFolder=true",
@@ -57,7 +58,7 @@
         "test": "npm run test-sdk && npm run test-docs",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "is-publish-allowed": "node scripts/is-publish-allowed.js",
-        "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
+        "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts-file && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
         "publish-dev": "npm publish --tag dev",
         "publish-prod": "npm publish --tag latest"
     },
