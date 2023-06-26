@@ -1349,6 +1349,19 @@ export enum HostEvent {
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
     /**
+     * Set the Active Tab of a Liveboard.
+     *
+     * @param - tabId - string of id of Tab to show
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SetActiveTab,{
+     *  tabId:'730496d6-6903-4601-937e-2c691821af3c'
+     * })
+     * ```
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl, 9.5.1-sw
+     */
+    SetActiveTab = 'SetActiveTab',
+    /**
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      *
