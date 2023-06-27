@@ -8,6 +8,45 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 9.3.0.cl
+
+=== Support for cookieless authentication
+
+Developers can now enable cookieless authentication when embedding ThoughtSpot in their applications. The cookieless authentication method allows using a bearer token instead of session cookies when users interact with embedded content or initiate API requests. If the embedded content does not load from the same domain as your embedding application, and your Web browser does not allow third-party cookies, you can use Cookieless authentication in the Trusted authentication mode.
+
+For more information, see xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication].
+
+=== Idle sensing and APIs for managing cluster states
+
+ThoughtSpot Cloud clusters support idle sensing in embedded deployments. With idle sensing enabled on your embedded ThoughtSpot instance, your instance becomes inactive if there is no active user session detected for a period of 120 minutes. You can restart an inactive cluster using API when required.
+
+For more information, see xref:tse-eco-mode.adoc[Manage your cluster state].
+
+=== Per-Org style customization
+
+The *Develop* tab now allows customizing UI styles and layout at the Org level. To enable this feature on your multi-tenant instance, contact ThoughtSpot support.
+
+For more information, see xref:style-customization.adoc#_custom_styles_for_orgs_on_multi_tenant_clusters[Custom styles for Orgs on multi-tenant clusters].
+
+===  Version control and Git integration via REST API [beta betaBackground]^Beta^
+You can now connect your ThoughtSpot instance to a Git repository and push commits from your application instance to a Git branch via REST API. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with Git workflows and deploy commits from a development instance to a production cluster.
+
+For more information, see xref:version_control.adoc[Version control with Git integration].
+
+=== Visual Embed Playground enhancements
+
+The Visual Embed developer Playground now includes a *Try* button in the preview panel. The *Try* button is attached to an event handler. You can register a host event and click *Try* to trigger an action on the embedded page in the Playground.
+
+For more information, see xref:events-ref.adoc#host-events[Events reference].
+
+=== Visual Embed SDK
+
+For information about the new features and enhancements introduced in Visual Embed SDK versions 1.22.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog] and xref:rest-apiv2-changelog.adoc[REST API v2.0 changelog].
+
 == Version 9.2.0.cl
 
 === Per-Org secret key and tokens for Trusted authentication

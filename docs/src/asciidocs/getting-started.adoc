@@ -1,4 +1,4 @@
-= Get Started
+= Get Started with embedding
 :toc: true
 :linkattrs:
 :sectanchors:
@@ -12,10 +12,11 @@ The ThoughtSpot Visual Embed SDK is a JavaScript library that enables you to emb
 
 This section lists the tasks you need to complete before embedding ThoughtSpot content in your applications.
 
-== Adjust CORS and CSP allowed domains
-By default, ThoughtSpot is configured to only allow embedding and REST API commands from specified domains.
+== Adjust CORS and CSP settings
 
-If you encounter any errors with using the Visual Embed SDK components, verify if your host application domain is xref:security-settings.adoc[whitelisted for CORS and CSP] in the *Develop* > *Security Settings* page.
+Before embedding ThoughtSpot in your app, check if your application domain is added to the CSP and CORS allowlist on the *Develop* > *Customizations* > *Security Settings* page.
+
+If you encounter any errors when using the Visual Embed SDK components, verify the xref:security-settings.adoc#csp-cors-hosts[CORS and CSP settings].
 
 == Enable Developer Portal access
 ThoughtSpot users can access Developer Portal via *Develop* tab in the UI.
@@ -103,6 +104,29 @@ For more information about embedding ThoughtSpot app or its objects using SDK, s
 * xref:embed-pinboard.adoc[Embed a Liveboard]
 * xref:embed-a-viz.adoc[Embed a Liveboard visualization]
 * xref:full-embed.adoc[Embed full ThoughtSpot app]
+
+== Block access to non-embedded ThoughtSpot instance
+
+The SDK allows you to prevent embed application users from accessing or navigating to ThoughtSpot application pages outside the context of your host app. The `blockNonEmbedFullAppAccess` property in the SDK allows you to block embed application users from accessing ThoughtSpot application pages in the non-embed mode. By default, the `blockNonEmbedFullAppAccess` property is set to `true`.
+
+[source,javascript]
+----
+init({
+   // ...
+    blockNonEmbedFullAppAccess: true,
+});
+----
+
+You can also enable the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page to block user access. However, the `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting in the UI.
+
+== Render the embedded application
+
+Render the embedded application.
+
+[source,JavaScript]
+----
+appEmbed.render();
+----
 
 == Best practices for performance optimization
 

@@ -8,7 +8,7 @@
 
     .menuContainer {
         cursor: pointer;
-        padding-right: $padding-md;
+        padding-right: $padding-sm;
         position: fixed;
         right: 0;
 
@@ -52,43 +52,48 @@
 }
 
 aside {
-    padding: 0 0 $padding-md 10px;
+    padding: 15px 0 0 10px;
     width: 100%;
     box-shadow: var(--box-shadow);
     border-right: 0.5px var(--border-color) solid;
     left: $gutter;
     height: 100vh;
     overflow-y: auto;
+    background: var(--nav-bar-color);
+
 
     .subHeading {
         margin: $gutter;
         padding-bottom: $padding-sm;
         padding-left: $padding-md;
         font-size: $font-size-normal;
+        width: 100%;
+        color: var(--side-nav-text);
     }
 
     ul {
         list-style-type: none;
         margin: $gutter;
         padding-left: $padding-md;
+        color: var(--side-nav-text);
     }
 
     .navWrapper {
         margin-bottom: 12px;
-        padding-top: 5px;
+        padding-top: 2px;
 
         & > .ulist {
             & > ul > li {
                 margin-bottom: $margin-md;
                 & > p {
                     padding-right: $padding-xs;
-                    color: var(--primary-color);
+                    color: var(--sidebar-text-color);
                     font-weight: $font-weight-bold;
                     cursor: pointer;
                     display: flex;
                     justify-content: space-between;
                     & > a {
-                        color: var(--primary-color);
+                        color: var(--side-nav-text);
                         font-weight: $font-weight-bold;
                         padding-right: $padding-xs;
                     }
@@ -138,12 +143,14 @@ aside {
             right: 8px;
             top: 0px;
             float: right;
-            padding-right: 20px;
+            padding-right: $padding-sm;
+            padding-left: $padding-md;
 
             img {
                 width: $icon-width;
                 position: relative;
                 top: 2px;
+                float: right;
             }
         }
     }
@@ -173,6 +180,7 @@ aside {
         display: flex;
         cursor: pointer;
         align-items: center;
+        justify-content: space-between;
     }
 
     .externalLinkIcon {
@@ -182,15 +190,15 @@ aside {
     }
 
     .forwardArrowIcon {
-        height: $icon-width;
-        width: $icon-height;
+        height: 13px;
+        width: 13px;
         position: relative;
         top: 2px;
     }
 
     .downArrowIcon {
-        width: 25px;
-        height: 25px;
+        width: 16px;
+        height: 16px;
         position: relative;
         top: 2px;
     }
@@ -229,20 +237,20 @@ aside {
     }
 
     .menuContainer {
-            padding: 8px;
-            svg {
+        padding: 8px;
+        svg {
+            &:first-child {
+                padding-left: 10px;
+            }
 
-                &:first-child {
-                    padding-left: 10px;
-                }
+            &:last-child {
+                left: 34px;
+            }
 
-                &:last-child {
-                    left: 34px;
-                }
-
-                &:nth-child(2) {
-                    padding-left: 5px;
-                }
+            &:nth-child(2) {
+                padding-left: 5px;
             }
         }
+    }
 }
+

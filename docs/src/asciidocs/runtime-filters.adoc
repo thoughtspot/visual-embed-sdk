@@ -1,6 +1,6 @@
 = Runtime filters
 :toc: true
-:toclevels: 2
+:toclevels: 1
 
 :page-title: Runtime filters
 :page-pageid: runtime-filters
@@ -95,7 +95,7 @@ __String__. The xref:runtime-filters.adoc#rtOperator[runtime filter operator]. F
 values::
 __String, Integer, or Boolean__. The list of operands. For example, if the column name is defined as `State`, the value can be the name of the state like `Michigan`.
 +
-This attribute is defined as `val1`, `val2`, `val3` in the object URLs and as `values` in the `runtimeFilters` array in the Visual Embed SDK.
+This attribute is defined as `val1`, `val2`, `val3` in the object URLs and REST API requests, and as `values` in the `runtimeFilters` array in the Visual Embed SDK.
 +
 Some operators like `EQ`, `LE` accept a single operand, whereas `BW_INC_MAX`, `BW_INC_MIN`, `BW_INC`, `BW`, and `IN` accept multiple operands.
 
@@ -178,7 +178,7 @@ liveboardEmbed.render({
   });
 ----
 
-=== Apply multiple runtime filters in the SDK
+==== Apply multiple runtime filters in the SDK
 
 The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
 
@@ -221,7 +221,7 @@ video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
 --
 
 [#runtimeFilterOp]
-=== Runtime filter operator examples
+==== Runtime filter operator examples
 
 [width="100%" cols="3,7"]
 [options='header']
@@ -454,7 +454,7 @@ liveboardEmbed.render({
 
 See xref:events-ref.adoc#_updateruntimefilters[UpdateRuntimeFilters] and xref:embed-events.adoc#_filters_in_embedded_ui[Filters in embedded UI].
 
-== Apply runtime filters using REST API v1 endpoints
+== Apply runtime filters via REST API v1 endpoints
 
 To apply runtime filters on a Liveboard object in a REST API request, add the runtime filters to the API request URL as shown here:
 
@@ -512,7 +512,7 @@ col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2
 If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
 ====
 
-== Apply Runtime filters in REST API v2 requests
+== Apply runtime filters via REST API v2.0 endpoints
 
 The following v2.0 endpoints support runtime filters in REST API requests:
 
@@ -524,7 +524,7 @@ Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
 +
 Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
 
-The following example shows the request body with runtime filter parameters:
+The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute. 
 
 .Answer report
 
@@ -539,8 +539,14 @@ curl -X POST \
   "file_format": "XLSX",
   "runtime_filter": {
     "col1": "item type",
-    "op1": "EQ",
-    "values": "Jackets"
+    "op1": "CONTAINS",
+    "val1": [
+      "Bags",
+      "Shirts"
+    ],
+    "col2": "state",
+    "op2": "EQ",
+    "val2": "California"
   }
 }'
 ----
@@ -554,21 +560,32 @@ curl -X POST \
   -H 'Authorization: Bearer {access-token} '\
   -H 'Content-Type: application/json' \
   --data-raw '{
-  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "metadata_identifier": "0c68a0a1-930b-4ba0-b7a0-59ea49b09848",
   "file_format": "PDF",
   "runtime_filter": {
     "col1": "item type",
-    "op1": "EQ",
-    "values": "Jackets"
+    "op1": "CONTAINS",
+    "val1": [
+      "Bags",
+      "Shirts"
+    ],
+    "col2": "region",
+    "op2": "EQ",
+    "val2": "West",
+    "col3": "state",
+    "op3": "IN",
+    "val3": [
+      "California",
+      "Nevada"
+    ]
   }
 }'
 ----
 
 == Limitations of runtime filters
 
-* The `DATE` and `DATE_TIME` data type must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
+* The `DATE` and `DATE_TIME` data types must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
 * Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
 * If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
-

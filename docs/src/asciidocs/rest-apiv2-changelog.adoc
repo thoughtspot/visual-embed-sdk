@@ -8,6 +8,23 @@
 
 This changelog lists the features and enhancements introduced in REST API v2.0. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 9.3.0.cl, June 2023
+
+The upcoming version of ThoughtSpot introduces the version control [beta betaBackground]^Beta^ API endpoints for CI/CD and lifecycle management:
+
+* `*POST* /api/rest/2.0/vcs/git/config/search`
+* `*POST* /api/rest/2.0/vcs/git/commits/search`
+* `*POST* /api/rest/2.0/vcs/git/config/create`
+* `*POST* /api/rest/2.0/vcs/git/config/update`
+* `*POST* /api/rest/2.0/vcs/git/config/delete`
+* `*POST* /api/rest/2.0/vcs/git/branches/{branch_name}/pull`
+* `*POST* /api/rest/2.0/vcs/git/branches/commit`
+* `*POST* /api/rest/2.0/vcs/git/commits/{commit_id}/revert`
+* `*POST* /api/rest/2.0/vcs/git/branches/validate`
+* `*POST* /api/rest/2.0/vcs/git/commits/deploy`
+
+For more information, see xref:version_control.adoc[Version control and Git integration].
+
 == Version 9.2.0.cl, May 2023
 
 New endpoints::

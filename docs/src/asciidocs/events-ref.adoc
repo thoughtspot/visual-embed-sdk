@@ -14,6 +14,33 @@ The following host events are triggered by the host application, which the embed
 The host events are part of the *HostEvent* object; for example, `HostEvent.SetVisibleVizs`.
 Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
 
+To explore the host event functionality in the Playground, follow these steps:
+
+* Go to *Develop* > *Visual Embed SDK* > *Playground*.
+* Select the feature to embed, for example, Search.
+* Select the objects to load in the Playground.
+* In the event handler code, add a host event as shown in the following example:
++
+[source,JavaScript]
+----
+document.getElementById('tryBtn').addEventListener('click', e => {
+  embed.trigger((HostEvent.DownloadAsPng)
+});
+----
+* Click *Run*.
+* Click *Try* to trigger the action.
+
+The following video shows how to register `HostEvent.RemoveColumn` and remove a column from the search query string using the *Try* button:
+
+[div videoContainer]
+--
+video::./images/hostEvent.mp4[width=100%,options="autoplay,loop"]
+++++
+<a href="{{previewPrefix}}/playground/search" id="preview-in-playground" target="_blank">Try it out in Playground</a>
+</div>
+++++
+--
+
 ==== AddColumns
 Available with `SearchEmbed` and `AppEmbed` in `v1.21.0` or later.
 
@@ -26,7 +53,8 @@ Adds new columns to the current Search.
 ====
 [source,JavaScript]
 ----
-searchEmbed.trigger(HostEvent.AddColumns, { columnIds: ['123', '456'] })
+searchEmbed.trigger(HostEvent.AddColumns, {
+    columnIds: ['085f9694-0d02-479e-973a-d216336e5253', 'acf6b749-7a9b-4fce-8ad2-daa8ee87ee07']})
 ----
 ====
 --
@@ -486,7 +514,7 @@ Available with `SearchEmbed` in `v1.21.0` or later.
 
 Opens the filter panel for a particular column on the Answer page.
 
-Requires column ID and column name.
+Requires column ID and column name. Opens the filter panel for a particular column. Works with Search embed.
 
 [div divider]
 --
@@ -495,11 +523,15 @@ Requires column ID and column name.
 ====
 [source,JavaScript]
 ----
-searchEmbed.trigger(HostEvent.OpenFilter, { columnId: '123', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE' })
+searchEmbed.trigger(HostEvent.OpenFilter, {
+    columnId: 'fe7d717d-7739-4cdf-a6b6-309e0d2a8408',
+    name: 'Sales',
+    type: 'INT64',
+    dataType: 'ATTRIBUTE'
+})
 ----
 ====
 --
-
 
 
 ==== Pin
@@ -579,17 +611,17 @@ Removes a column from the current Search.
 [source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.RemoveColumn, {
-columnId: '123'
-})
+    columnId: '085f9694-0d02-479e-973a-d216336e5253'})
 ----
 ====
 --
+
 
 ==== ResetSearch
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.21.0` or later.
 
-Triggers the Reset search action on the Answer page.
+Triggers the `Reset` action on the Answer page.
 
 [div divider]
 --
@@ -621,16 +653,23 @@ liveboardEmbed.trigger(HostEvent.Save)
 ====
 --
 
+[#hostEventSearch]
 ==== Search
 Available with `SearchEmbed`  and  `AppEmbed` in `v1.1.0` or later. +
 Triggers a search query. +
 Requires the following parameters: +
 
 * `searchQuery` +
-__String__. Query string with search tokens
+__String__. Query string with search tokens.
 
 * `dataSourceIds` +
-__String__. Data source GUIDs
+__String__. Data source GUIDs.
+
+* `execute` +
+__Boolean__. Executes or omits a search query.
+
+* `execute` +
+__Boolean__. Executes or omits a search query.
 
 [div divider]
 --
@@ -640,8 +679,9 @@ __String__. Data source GUIDs
 [source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.Search {
-    searchQuery: "[sales] by [item type]"
-    dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+    searchQuery: "[sales] by [item type]",
+    dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
+    execute: true
 })
 ----
 ====
@@ -1514,7 +1554,7 @@ function hideLoader() {
 ==== NoCookieAccess
 
 Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.2.0` or later. +
-Is emitted when third-party cookies are blocked by a user's browser. +
+Is emitted when third-party cookies are blocked by a user's browser.
 
 [div divider]
 --
@@ -1782,4 +1822,3 @@ appEmbed.off(EmbedEvent.AuthInit)
 * For information about common use cases and how to use events for app integration, see xref:embed-events.adoc[Events and app integration].
 * For information about triggering events on React components, see xref:embed-ts-react-app.adoc[Embed ThoughtSpot in a React app].
 * See also the link:{{visualEmbedSDKPrefix}}/enums/EmbedEvent.html[EmbedEvent, window=_blank] and link:{{visualEmbedSDKPrefix}}/enums/HostEvent.html[HostEvent, window=_blank] SDK documentation.
-

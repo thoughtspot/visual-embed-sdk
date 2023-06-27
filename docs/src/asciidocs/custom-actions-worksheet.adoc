@@ -9,7 +9,7 @@ ThoughtSpot supports adding custom actions to the visualizations generated from 
 
 [NOTE]
 ====
-When you assign a custom action to a worksheet, ThoughtSpot adds it only to the new answers generated from a worksheet. The custom action will not be available on  the existing saved answers generated using the worksheet.
+When you assign a custom action to a worksheet, ThoughtSpot adds it to the Answers generated from that worksheet.
 ====
 
 == Before you begin

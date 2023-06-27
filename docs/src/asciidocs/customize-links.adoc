@@ -18,10 +18,10 @@ Visualization links::
 A visualization link is generated when a user shares a visualization with another user or when a ThoughtSpot user clicks *Copy link* action in the UI.
 
 Answer links::
-An Answer link is generated when a user shares an answer with another user and is sent in share notifications.
+An Answer link is generated when a user shares an Answer with another user and is sent in share notifications.
 
 SpotIQ analyses links::
-ThoughtSpot generates this link when a user runs the SpotIQ analysis on the data generated from a search query, saved answer, or a visualization pinned to a Liveboard. This link points users to the *SpotIQ Analyses* page and is also sent in email notifications.
+ThoughtSpot generates this link when a user runs the SpotIQ analysis on the data generated from a search query, saved Answer, or a visualization pinned to a Liveboard. This link points users to the *SpotIQ Analyses* page and is also sent in email notifications.
 
 Links to unsubscribe from notifications::
 +
@@ -40,7 +40,7 @@ By default, ThoughtSpot generates these links with URL paths from the ThoughtSpo
 
 The *Link settings* page in the Developer portal displays the default link format for the system-generated links. You can either prefix your application domain URL to the default link format or customize the entire URL. ThoughtSpot recommends that you use the following variables in your link format:
 
-* `{object-id}` to represent the ID of a Liveboard, answer, or the SpotIQ analyses. In the Liveboard, answer, and SpotIQ analyses links, this variable is substituted by the GUID of the object.
+* `{object-id}` to represent the ID of a Liveboard, Answer, or the SpotIQ analyses. In the Liveboard, Answer, and SpotIQ analyses links, this variable is substituted by the GUID of the object.
 * `{sub-object-id}` to represent the ID of a visualization. In Liveboard visualization links, this variable is  substituted by the GUID of the visualization.
 * `{ts-query-params}` to allow ThoughtSpot to pass query parameters in the URL.  +
 For example, when a user subscribes to receive threshold-based alerts for a KPI chart, ThoughtSpot sends email notifications with a link to the KPI chart and also the *Unsubscribe* link to let the user unsubscribe from alerts at any time. When you include `{ts-query-params}` in the link string, ThoughtSpot passes the query parameters required for unsubscribing a user from the alert. +
@@ -101,7 +101,7 @@ https://www.mysite.com/liveboard/{object-id}/viz={sub-object-id}?{ts-query-param
 ----
 
 Answer sharing URL::
-This URL provides a link to a shared answer from a search query.
+This URL provides a link to a shared Answer from a search query.
 The default link format is `\https://<ThoughtSpot-Host>/#/saved-answer/{object-id}`. If your host application is `www.mysite.com`, you can configure this link format as shown here:
 
 +
@@ -114,7 +114,7 @@ https://www.mysite.com/?answer={object-id}
 ----
 
 +
-This link format also supports `{ts-query-params}`. For example, if a user has subscribed to receive monitor alerts for a saved answer, ThoughtSpot replaces `{ts-query-params}` with query parameters to unsubscribe a user from the monitor alert.
+This link format also supports `{ts-query-params}`. For example, if a user has subscribed to receive monitor alerts for a saved Answer, ThoughtSpot replaces `{ts-query-params}` with query parameters to unsubscribe a user from the monitor alert.
 
 +
 ----
@@ -198,7 +198,7 @@ To verify if the links are generated in the format you configured, share a Liveb
 +
 For example, if you customized the hostname in the URL as `www.mysite.com`, ThoughtSpot generates links with the `www.mysite.com` hostname.
 
-* If you are using a non-embedded ThoughtSpot instance and the Liveboard or answer sharing URL format is customized, ThoughtSpot displays the *Embedded link format* checkbox. To copy the URL in the customized format, click *Embedded link format*. 
+* If you are using a non-embedded ThoughtSpot instance and the Liveboard or Answer sharing URL format is customized, ThoughtSpot displays the *Embedded link format* checkbox. To copy the URL in the customized format, click *Embedded link format*.
 
 +
 [.bordered]

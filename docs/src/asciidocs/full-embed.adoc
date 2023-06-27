@@ -307,14 +307,14 @@ For more information, see xref:embed-events.adoc[Interact with events].
 
 If you are embedding the full ThoughtSpot application, you can use the navigation controls that are available as part of the application. You can also customize in-app navigation using the `navigateToPage` API in the SDK.
 
-For example, to provide quick access to a related report or saved answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app. The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
+For example, to provide quick access to a related report or saved Answer within the context of an embedded Liveboard or visualization, you might want to add a custom action that navigates your users to a specific page in your app. The Visual Embed SDK simplifies this process by allowing you to define a URL path in the `navigateToPage` function and assign it to an action or button event in the UI.
 
 To add a custom action for in-app navigation, follow these steps:
 
 . xref:custom-actions-callback.adoc[Add a custom action].
 . Define the navigation path
 
-In this example, the **view-report ** action on a Liveboard page calls the `navigateTo` method to open a specific saved answer page when a user clicks the **View report** button in the embedded app.
+In this example, the **view-report ** action on a Liveboard page calls the `navigateTo` method to open a specific saved Answer page when a user clicks the **View report** button in the embedded app.
 
 [source,javascript]
 ----
@@ -337,16 +337,6 @@ appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
     }
 })
 ----
-
-== Render the embedded application
-
-Render the embedded application.
-
-[source,JavaScript]
-----
-appEmbed.render();
-----
-
 
 
 == Test the embedded workflows

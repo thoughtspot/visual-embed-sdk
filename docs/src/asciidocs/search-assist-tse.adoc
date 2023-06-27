@@ -49,9 +49,9 @@ If Search Assist is enabled on your embedded instance, the sample queries and in
 
 Search Assist walks you through simple search scenarios, using data from the Search Assist lesson created for a Worksheet. If Search Assist is enabled, and your Worksheet has the Search Assist queries configured, the embedded Search page allows you to try sample search scenarios.
 
-For example, if you are searching data from the Sample Retail Worksheet, the initial example asks *_What were Sales by Product in this year?_* and Search Assist guides you to select *_sales_* and press *Enter* on your keyboard. The search then returns the answer as a table, demonstrating your total sales.
+For example, if you are searching data from the Sample Retail Worksheet, the initial example asks *_What were Sales by Product in this year?_* and Search Assist guides you to select *_sales_* and press *Enter* on your keyboard. The search then returns the Answer as a table, demonstrating your total sales.
 
-Similarly, you can add keywords, such as *_product_* and *_this year_* to your search and press *Enter*  to get an answer with the total sales data for each product in the current year.
+Similarly, you can add keywords, such as *_product_* and *_this year_* to your search and press *Enter*  to get an Answer with the total sales data for each product in the current year.
 
 == Feature limitations
 

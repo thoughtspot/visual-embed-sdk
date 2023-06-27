@@ -34,9 +34,9 @@ ThoughtSport supports programmatic deployment of data models through link:https:
 == Content creation
 ThoughtSpot Search data creates a single table or chart view based on the query in the search bar and other configurations to the view made after the search results are visible.
 
-Search data serves the role of report builder or widget designer, while *Liveboards* serve the role of dashboards in other tools. A single search can be saved as an link:https://docs.thoughtspot.com/cloud/latest/answers[answer, window=_blank] object, or the search result can be pinned to a Liveboard.
+Search data serves the role of report builder or widget designer, while *Liveboards* serve the role of dashboards in other tools. A single search can be saved as an link:https://docs.thoughtspot.com/cloud/latest/answers[Answer, window=_blank] object, or the search result can be pinned to a Liveboard.
 
-A link:https://docs.thoughtspot.com/cloud/latest/liveboard[Liveboard, window=_blank] is a collection of many visualizations presented in a defined layout. You do not create the visualizations on a Liveboard directly; they are created from search data results and then pinned to a Liveboard. You can create a new Liveboard from the *Liveboards* page and then add a visualization from the search data result, or you can create a new Liveboard when pinning an answer retrieved from search data.
+A link:https://docs.thoughtspot.com/cloud/latest/liveboard[Liveboard, window=_blank] is a collection of many visualizations presented in a defined layout. You do not create the visualizations on a Liveboard directly; they are created from search data results and then pinned to a Liveboard. You can create a new Liveboard from the *Liveboards* page and then add a visualization from the search data result, or you can create a new Liveboard when pinning an Answer retrieved from search data.
 
 === Content creation workflow
 

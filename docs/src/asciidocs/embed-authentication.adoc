@@ -10,12 +10,12 @@ Visual Embed SDK supports several authentication options to authenticate and aut
 
 == Supported authentication methods
 
-This section describes the authentication methods supported in the SDK and when to use these authentication types on embedded ThoughtSpot  instances.
+This section describes the authentication methods supported in the SDK and when to use these authentication types on embedded ThoughtSpot instances.
 
 The following figure shows the authentication methods best suited for production use cases:
 
 ++++
-<img src="../doc-images/images/auth-type-embed.png" alt="Embed authentication types" usemap="#image-map">
+<img src="../doc-images/images/auth-type-embed.svg" alt="Embed authentication types" usemap="#image-map">
 
 <map name="image-map" id="image-map">
     <area target="_blank" alt="Trusted authentication" title="Trusted authentication" href="?pageid=embed-auth#trusted-auth-embed" coords="429,1760,109,1639" shape="rect">
@@ -30,7 +30,7 @@ The following table lists the general recommendations for choosing an authentica
 [width="100%" cols="4,4,6,6"]
 [options='header']
 |=====
-|Authentication type|AuthType in SDK|When to use|Not recommended when
+|Authentication type|AuthType in SDK|When to use|Not recommended
 |xref:embed-authentication.adoc#embedSSO[Embedded SSO authentication] (Recommended) |`AuthType.EmbeddedSSO` a| Use this method: +
 
 * If your application is already using a SAML IdP or OpenID provider that allows iframe redirects.
@@ -42,7 +42,8 @@ a|ThoughtSpot does not recommend using Embedded SSO authentication in the follow
 * If you are using multiple IdPs for user authentication. +
 * If you cannot configure your IdP to allow iframe redirect. +
 
-|xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.TrustedAuthToken` a|Use this method: +
+
+.2+|xref:embed-authentication.adoc#trusted-auth-embed[Trusted authentication]|`AuthType.TrustedAuthToken` a|Use this method: +
 
 * If your IdP setup does not support Embedded SSO authentication.
 * If you want your users that do not exist in your IdP to authenticate to ThoughtSpot.
@@ -52,6 +53,11 @@ a|ThoughtSpot does not recommend using trusted authentication in the following s
 
 * If you want to and can implement a simple solution with Embedded SSO authentication.
 * If you don’t have an app backend component to host the authentication server needed for trusted authentication.
+
+
+|`AuthType.TrustedAuthTokenCookieless` a| Use this authentication type to implement cookieless authentication if your Web browsers block third-party cookies.
+
+a|Do not use this method if you don’t have an app backend component to host the authentication server needed for trusted authentication.
 
 |xref:embed-authentication.adoc#saml-sso-embed[SAMLRedirect authentication]|`AuthType.SAMLRedirect` a|Use this method if your application uses a SAML IdP that does not natively support embedding.
 a|Do not use this method if you don't want the SDK to redirect your entire app to the IdP for user authentication when the embedded content loads. For example, you may want to seamlessly authenticate users without multiple redirects to the IdP.
@@ -122,20 +128,46 @@ Trusted authentication requires xref:security-settings.adoc#cors-hosts[setting u
 
 === Steps to configure trusted authentication in Visual Embed SDK
 
-To configure the trusted authentication method in the Visual Embed SDK, set the `authType` attribute as `TrustedAuthToken`.
+The Visual Embed SDK supports the following token-based authentication methods:
 
-To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:
+* `AuthType.TrustedAuthToken`
++
+Generates a bearer token for a given user and sets a JSESSIONID cookie to identify the signed-in user in subsequent sessions.
+
+* `AuthType.TrustedAuthTokenCookieless`
++
+Generates a bearer token for a given user and uses it to identify the signed-in user in subsequent sessions.  This method doesn’t generate or set a JSESSIONID cookie in API calls. Instead, the bearer token stored in the app memory is used to authenticate API requests to ThoughtSpot. +
+If the embedded content in your app doesn’t originate from the same domain as your embedding application, and your Web browsers restrict third-party cookies and block embedded content, you can implement cookieless authentication.
+
+==== Generate tokens
+
+To obtain an authentication token for a given user, you can either set the `authEndPoint` attribute or call the `getAuthToken` method in the SDK:
 
 * `**authEndpoint**`
 +
 Specify the authentication endpoint URL from which you want to obtain the authentication token. When an API request is sent to the specified endpoint URL, the authentication server sends the token as plain text.
 
 +
+.Cookie-based authentication
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthToken,
+    username: "<username>",
+    authEndpoint: "https://authenticator-server:<port>/endpoint",
+});
+----
+
++
+
+**Cookieless authentication**
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.TrustedAuthTokenCookieless,
     username: "<username>",
     authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
@@ -153,6 +185,9 @@ The generated authentication token is valid for only five minutes. Make sure the
 Using older tokens to renew a user session will lead to authentication failure.
 ====
 
+
++
+**Cookie-based authentication**
 +
 [source,javascript]
 ----
@@ -161,15 +196,27 @@ init({
     authType: AuthType.TrustedAuthToken,
     username: "<username>",
     getAuthToken: () => {
- 	return fetch(`https://your-remote-url.com/some/path/${username}`)
-	    .then(response => response.json())
-	    .then(json => json.token);
-    },
+    return fetch('https://{YOUR-backend.app}/ts-token')
+        .then((response) => response.json())
+        .then((data) => data.token);
 });
 ----
 
 +
-After obtaining the token, a `POST` request is sent to the `/tspublic/v1/session/login/token` API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
+**Cookieless authentication**
++
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.TrustedAuthTokenCookieless,
+    getAuthToken: () => {
+ 	return fetch('https://{YOUR-backend.app}/ts-token')
+        .then((response) => response.json())
+        .then((data) => data.token);
+    },
+});
+----
 
 ==== Autologin and redirects
 
@@ -179,6 +226,11 @@ When a user session expires, the embedded app redirects its users to the login p
 disableLoginRedirect: true,
 autoLogin: true,
 ----
+
+[NOTE]
+====
+If you are using Cookieless authentication (`AuthType.TrustedAuthTokenCookieless`), you do not need to set the `autoLogin` parameter to `true`. Because when the bearer token expires, a new token will be generated and fetched from the authentication server to sign in the user to the embedded ThoughtSpot instance.
+====
 
 Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end-user, even if they fail. Use the event emitter returned by the `init` call to listen to the login failure events. You can also register an event handler to trigger the xref:embed-events.adoc[AuthInit event] to detect and respond to errors in the login process.
 

@@ -8,7 +8,27 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-== Version 1.21,0, May 2023
+== Version 1.22.0, June 2023
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| The new version of the SDK introduces the `TrustedAuthTokenCookieless` `authType` property to allow Cookieless embedding. The Cookieless authentication method allows using a bearer token to identify the signed-in user instead of session cookies.
+
+For more information, see xref:embed-authentication.adoc#_cookieless_authentication[Cookieless authentication].
+
+|[tag greenBackground]#NEW FEATURE# a|The new version of the SDK allows you to block user access to the non-embedded instance of the ThoughtSpot application. In full app embed deployments, you can use the `blockNonEmbedFullAppAccess` property in the SDK to restrict or allow your application users from accessing ThoughtSpot pages in the non-embed mode.
+
+For more information, see xref:getting-started.adoc#_block_access_to_non_embedded_thoughtspot_instance[Block access to non-embedded ThoughtSpot application context].
+|====
+
+////
+|[tag greenBackground]#NEW FEATURE# a| The SDK supports the following performance optimization enhancements: +
+
+* Ability to pre-render a generic instance of the ThoughtSpot component using the `prerenderGeneric` attribute. The generic instance uses the default host and flags and can be rendered in the background to improve application response.
+* Ability to use an iFrame from a pre-rendered iFrame pool using the `usePrerenderedIfAvailable` attribute.
+////
+
+== Version 1.21.0, May 2023
 [width="100%" cols="1,4"]
 |====
 |[tag greenBackground]#NEW FEATURE# a|The new version of the SDK introduces the following action enumeration members:
@@ -52,6 +72,17 @@ The following events are deprecated from version 1.21.0 onwards.
 You can use the `DownloadAsPng`, `DownloadAsXlsx`, `DownloadAsCsv` and `DownloadAsPdf` events for download actions.
 
 For more information, see xref:events-ref.adoc[Events reference].
+|[tag orangeBackground]#MODIFIED# a|The SDK supports omitting or executing a search query in xref:events-ref.adoc#hostEventSearch[`HostEvent.Search`].
+
+Starting from 9.2.0.cl release, use the following action enumeration members instead of `Action.Download` to show, hide, or disable the *Download* menu action on an embedded Liveboard, visualization, or Answer:
+
+* `Action.DownloadAsCsv`
+* `Action.DownloadAsPdf`
+* `Action.DownloadAsXlsx`
+* `Action.DownloadAsPng`
+
+For more information, see xref:embed-action-ref.adoc[Action reference].
+
 |[tag greenBackground]#NEW FEATURE# a| The SDK includes new attributes to customize the experience for embedded app users:
 
 * `linkOverride`

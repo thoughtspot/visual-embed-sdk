@@ -105,19 +105,19 @@ a|Runtime filters
 (Evaluation only) |API Playground on public instance +
 (Evaluation only)
 
-a| xref:user-api.adoc[User API endpoints] +
+a| xref:user-api.adoc[Users] +
 ////
 __Require `ADMINISTRATION` privilege__
 ////
 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
 
-a| xref:group-api.adoc[Group API endpoints] +
+a| xref:group-api.adoc[Groups] +
 ////
 __Require `ADMINISTRATION` privilege__
 ////
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–# +
 
-a|xref:session-api.adoc[Session API endpoints] +
+a|xref:session-api.adoc[Session] +
 
 ////
 * __The API calls to `/tspublic/v1/session/auth/token` and  `/tspublic/v1/session/login/token` require ThoughtSpot Everywhere license__ +
@@ -129,13 +129,13 @@ __The xref:api-auth-session.adoc#_obtain_a_token_for_trusted_authentication[`ses
  |[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 
 __Session information and home Liveboard APIs only__
-a|xref:connections-api.adoc[Connection API endpoints] +
+a|xref:connections-api.adoc[Connections] +
 
 ////
 __Require `DATAMANAGEMENT` privilege__
 ////
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
-a|xref:metadata-api.adoc[Metadata API endpoints] +
+a|xref:metadata-api.adoc[Metadata] +
 ////
 * __Require at least view access to metadata objects__ +
 
@@ -146,14 +146,14 @@ a|xref:metadata-api.adoc[Metadata API endpoints] +
 
 __Query APIs only__
 
-a|xref:tml-api.adoc[TML API endpoints] +
+a|xref:tml-api.adoc[TML] +
 
 ////
 __Require `DATAMANAGEMENT` privilege__
 ////
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 
-a|xref:admin-api.adoc[System administration API endpoints] +
+a|xref:admin-api.adoc[System administration] +
 
 ////
 * __Require `ADMINISTRATION` privilege__ +
@@ -162,7 +162,7 @@ a|xref:admin-api.adoc[System administration API endpoints] +
 ////
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 
-a|xref:admin-api.adoc#_supported_operations[Custom action API endpoints] +
+a|xref:admin-api.adoc#_supported_operations[Custom actions] +
 
 ////
 * __Require `ADMINISTRATION` privilege__ +
@@ -172,7 +172,7 @@ a|xref:admin-api.adoc#_supported_operations[Custom action API endpoints] +
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
 __Query APIs only__
-a|xref:dependency-apis.adoc[Dependency API endpoints] +
+a|xref:dependency-apis.adoc[Dependency] +
 
 ////
 __Require view access to metadata objects__
@@ -181,9 +181,9 @@ __Require view access to metadata objects__
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 a|Data API endpoints +
 
-* xref:search-data-api.adoc[Search data API endpoint] +
-* xref:pinboarddata.adoc[Liveboard data AI endpoint] +
-* xref:pinboard-export-api.adoc[Liveboard Export API endpoint] +
+* xref:search-data-api.adoc[Search data API] +
+* xref:pinboarddata.adoc[Liveboard data API] +
+* xref:pinboard-export-api.adoc[Liveboard Export API] +
 
 ////
 __Require at least view access to metadata objects__
@@ -191,7 +191,7 @@ __Require at least view access to metadata objects__
 |
 [tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
 
-a|xref:security-api.adoc[Security API endpoints] +
+a|xref:security-api.adoc[Security] +
 
 ////
 __Require edit access to metadata objects to share and view permission details__
@@ -199,7 +199,7 @@ __Require edit access to metadata objects to share and view permission details__
 |
 [tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 
-a|xref:logs-api.adoc[Audit logs API endpoint] +
+a|xref:logs-api.adoc[Audit logs] +
 
 ////
 __Requires `ADMINISTRATION` privilege__
@@ -212,13 +212,13 @@ __Requires `ADMINISTRATION` privilege__
 
 [div tableContainer]
 --
-[width="100%" cols="8,8,4,4,4,4"]
+[width="100%" cols="6,8,4,4,4,4"]
 [options='header']
 |=====
 |REST API v2.0 endpoints |ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license| ThoughtSpot Everywhere License|Free Trial account +
 (Evaluation only) |API Playground on public instance +
 (Evaluation only)
-a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
+a|xref:rest-api-v2-reference.adoc#_authentication[Authentication] +
 
 a|[tag greenBackground]#✓# +
 
@@ -226,34 +226,43 @@ __The token generation option with `username` and `secret_key` and the JIT user 
 
 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 __Session information API only__
-a|xref:rest-api-v2-reference.adoc#_users[User API endpoints]
+a|xref:rest-api-v2-reference.adoc#_users[Users]
 
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
-a|xref:rest-api-v2-reference.adoc#_system[System API endpoints]
+a|xref:rest-api-v2-reference.adoc#_system[System]
 
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
-a|xref:rest-api-v2-reference.adoc#_orgs[Org API endpoints]
+a|xref:rest-api-v2-reference.adoc#_orgs[Orgs]
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓#  |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_tags[Tags]
 
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
-a|xref:rest-api-v2-reference.adoc#_metadata[Metadata API endpoints]
+a|xref:rest-api-v2-reference.adoc#_groups[Groups]
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_metadata[Metadata]
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
 __Query APIs only__
 
-a|xref:rest-api-v2-reference.adoc#_reports[Report API endpoints]
+a|xref:rest-api-v2-reference.adoc#_reports[Reports]
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
 __Query APIs only__
 
-a|xref:rest-api-v2-reference.adoc#_security[Security API endpoints]
+a|xref:rest-api-v2-reference.adoc#_security[Security]
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
 
-a|xref:rest-api-v2-reference.adoc#_data[Data API endpoints]
+a|xref:rest-api-v2-reference.adoc#_data[Data]
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#  |[tag greenBackground]#✓#
 
-a|xref:rest-api-v2-reference.adoc#_data[Log API endpoints]
-|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_data[Audit logs]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_connections[Connections]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_version_control_beta_betabackgroundbeta[Version control]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 |=====
 --
-
 
 
 == REST API v2 [beta betaBackground]^Beta^ operations

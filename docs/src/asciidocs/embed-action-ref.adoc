@@ -10,75 +10,6 @@ ThoughtSpot visualizations, Liveboards, and saved search answers support several
 
 By default, ThoughtSpot provides a set of standard actions for embedded objects such as Liveboards, visualizations, and answers. The availability of these actions may vary based on user privileges, and the SDK library used for embedding.
 
-[#liveboard-action]
-== Liveboard (Classic experience)
-
-The following actions are available for the embedded Liveboard objects:
-
-[width="100%" cols="3,3,4"]
-[options='header']
-|====
-|Action string in SDK| Required SDK library|Action label in the UI
-
-|`Action.AddToFavorites`| `LiveboardEmbed` +
-`AppEmbed` | The *Favorites (star) icon* on a Liveboard page. +
-Allows adding a Liveboard to the user's favorites list.
-|`Action.EditDetails`| `LiveboardEmbed` +
-`AppEmbed` | The *edit icon* on a Liveboard. +
-Indicates edit access to the Liveboard.
-|`Action.RequestAcess`| `LiveboardEmbed` +
-`AppEmbed`|
-*Request access*  +
-Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon.
-|`Action.Schedule` +
-`Action.Subscription`| `LiveboardEmbed` +
-`AppEmbed` |**Schedule** +
-Allows scheduling Liveboard notifications.
-|`Action.Share`| `LiveboardEmbed` +
-`AppEmbed`  |*Share* +
-Allows sharing a Liveboard with another user or group.
-|`Action.Save`|`LiveboardEmbed` +
-`AppEmbed` | *Save* +
-Saves Liveboard modifications.
-|`Action.MakeACopy` | `LiveboardEmbed` +
-`AppEmbed`| *Make a copy* +
-Creates a copy of the Liveboard.
-|`Action.AddFilter` a| `LiveboardEmbed` +
-`AppEmbed` |*Add filters*  +
-Adds filters to visualizations in a Liveboard.
-|`Action.ConfigureFilter`
-a| `LiveboardEmbed` +
-`AppEmbed`
-|*Configure filters* +
-Allows configuring filters for visualizations on a Liveboard.
-|`Action.DownloadAsPdf` |  `LiveboardEmbed` +
-`AppEmbed`|*Download as PDF*  +
-Downloads the Liveboard as a PDF file.
-|`Action.Present`| `LiveboardEmbed`  +
-`AppEmbed` | *Present*  +
-Presents the Liveboard in fullscreen mode.
-|`Action.SchedulesList`| `LiveboardEmbed` +
-`AppEmbed` | *Manage schedules*  +
- Allows you to manage Liveboard jobs.
-|`Action.LiveboardInfo`|`LiveboardEmbed` +
-`AppEmbed` |
- *Liveboard info* +
- Displays information about the Liveboard.|
- 
-`Action.EditTML`|`AppEmbed` | *Edit TML* +
-Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
-|`Action.ImportTML`|`AppEmbed` | *Import TML* +
-Allows importing the TML representation of a Liveboard object to ThoughtSpot. 
-|`Action.ExportTML`| `LiveboardEmbed` +
-`AppEmbed` | *Export TML* +
-Exports the TML representation of a Liveboard object from ThoughtSpot. 
-|`Action.UpdateTML`|`LiveboardEmbed` +
-`AppEmbed` | *Update TML* +
-Publishes the modified TML representation of a Liveboard object.
-|`Action.Remove` | `AppEmbed`| *Delete* +
-Deletes a Liveboard.
-|====
-
 [#liveboardv2-action]
 == Liveboard (New experience)
 
@@ -99,12 +30,15 @@ Opens Liveboard in the edit mode.
 
 |`Action.AddFilter` a| `LiveboardEmbed` +
 `AppEmbed` |*Add filters* +
-Allows filters to visualizations in a Liveboard.
+Adds filters to visualizations on a Liveboard.
 |`Action.ConfigureFilter`
 a| `LiveboardEmbed` +
 `AppEmbed`
 |The filter configuration options in the *Add Filters* modal. +
 Applies filters and allows configuring filters applied to a visualization on a Liveboard.
+|`Action.AddParameter`|  `SearchBarEmbed` +
+`AppEmbed`| The *Add Parameters* option in the top panel of the Liveboard +
+Allows adding parameters to a Liveboard.
 |`Action.Save`|`LiveboardEmbed` +
 `AppEmbed` | *Save* +
 Saves Liveboard modifications.
@@ -126,8 +60,8 @@ Presents the Liveboard in fullscreen mode.
 Allows scheduling Liveboard notifications.
 |`Action.SchedulesList`| `LiveboardEmbed` +
 `AppEmbed` | *Manage schedules* +
- Allows you to manage Liveboard jobs.
- Saves Liveboard modifications.
+Allows you to manage Liveboard jobs.
+Saves Liveboard modifications.
 |`Action.ExportTML`|`AppEmbed` +
 `LiveboardEmbed`| *Export TML* +
 Exports the TML representation of a Liveboard object from ThoughtSpot.
@@ -147,71 +81,6 @@ Displays information about the Liveboard.
 Deletes a Liveboard.
 |====
 
-[#viz-actions]
-== Visualizations on a Liveboard (Classic experience)
-The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
-
-[width="100%" cols="3,3,4"]
-[options='header']
-|===
-|Action string in SDK| Required SDK library|Action label in the UI
-|`Action.Explore` a| `LiveboardEmbed` +
-`AppEmbed` |*Explore*  +
-Allows users to explore a visualization.
-
-|`Action.CreateMonitor`| `LiveboardEmbed` +
-`AppEmbed` | Alert icon +
-Allows you to schedule threshold-based alerts for KPI charts.
-
-|`Action.Pin`|`LiveboardEmbed` +
-`AppEmbed`|*Pin* +
-Pins a visualization to a Liveboard.
-|`Action.SpotIQAnalyze`|`LiveboardEmbed` +
-`AppEmbed`|**SpotIQ analyze** +
-Allows you to run SpotIQ analyses. Available as a contextual menu action.
-|`Action.ShareViz`|`LiveboardEmbed` +
-`AppEmbed`|*Share* +
-Allows sharing visualization with another user or group.
-|`Action.Edit`| `LiveboardEmbed` +
-`AppEmbed`| *Edit*  +
-Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
-|`Action.EditTitle`|`LiveboardEmbed` +
-`AppEmbed`|The visualization title edit icon. +
-Changes the title of the visualization.
-|`Action.Present`|
-`LiveboardEmbed` +
-`AppEmbed`| *Present* +
-Presents the visualization in a fullscreen mode.
-|`Action.CopyLink`|`LiveboardEmbed` +
-`AppEmbed`|**Copy link** +
-Displays a link that you can copy and use for embedding a visualization object.
-|`Action.Download`
-|`LiveboardEmbed` +
-`AppEmbed`|*Download*  +
-Downloads the visualization.
-|`Action.Remove`|`AppEmbed`|**Delete** +
-Removes the visualization from the Liveboard.
-|
-`Action.ToggleSize`|`LiveboardEmbed` +
-`AppEmbed`| The *Resize* icons in the **More** actions menu. +
-Allows resizing a visualization on a Liveboard.|
-`Action.DrillDown`|`LiveboardEmbed` +
-`AppEmbed`|*Drill down* +
- Allows drilling down the visualization to get granular data. Available as a contextual menu action.
-|`Action.DrillExclude`|`LiveboardEmbed` +
-`AppEmbed`|*Exclude* +
-Allows you to exclude a specific data point on a search answer. Available as a contextual menu action.
-|`Action.DrillInclude`|`LiveboardEmbed` +
-`AppEmbed` |*Include*
-Allows you to include a specific data point on a search answer. Available as a contextual menu action.
-|`Action.ShowUnderlyingData`
-| `LiveboardEmbed` +
-`AppEmbed`| *Show underlying data* +
-Displays detailed information and raw data for a given visualization. Available as a contextual menu action.
-|`Action.AnswerChartSwitcher`| `LiveboardEmbed` +
-`AppEmbed` | Chart toggle icon +
-Allows switching to the table or chart mode when editing a visualization.|
-|===
 
 [#liveboardv2-viz-actions]
 == Visualizations on a Liveboard (New experience)
@@ -297,6 +166,144 @@ Allows you to include a specific data point on a search answer. Available as a c
 `AppEmbed` | Chart switching toggle +
 Allows switching to the table or chart mode when editing a visualization.
 |===
+
+[#liveboard-action]
+== Liveboard (Classic experience)
+
+The following actions are available for the embedded Liveboard objects:
+
+[width="100%" cols="3,3,4"]
+[options='header']
+|====
+|Action string in SDK| Required SDK library|Action label in the UI
+
+|`Action.AddToFavorites`| `LiveboardEmbed` +
+`AppEmbed` | The *Favorites (star) icon* on a Liveboard page. +
+Allows adding a Liveboard to the user's favorites list.
+|`Action.EditDetails`| `LiveboardEmbed` +
+`AppEmbed` | The *edit icon* on a Liveboard. +
+Indicates edit access to the Liveboard.
+|`Action.RequestAcess`| `LiveboardEmbed` +
+`AppEmbed`|
+*Request access*  +
+Allows you to request access to edit a Liveboard. The **Liveboards **page shows a locked icon if a user does not have edit access to a Liveboard. A user can request edit access to a Liveboard by clicking the locked icon.
+|`Action.Schedule` +
+`Action.Subscription`| `LiveboardEmbed` +
+`AppEmbed` |**Schedule** +
+Allows scheduling Liveboard notifications.
+|`Action.Share`| `LiveboardEmbed` +
+`AppEmbed`  |*Share* +
+Allows sharing a Liveboard with another user or group.
+|`Action.Save`|`LiveboardEmbed` +
+`AppEmbed` | *Save* +
+Saves Liveboard modifications.
+|`Action.MakeACopy` | `LiveboardEmbed` +
+`AppEmbed`| *Make a copy* +
+Creates a copy of the Liveboard.
+|`Action.AddFilter` a| `LiveboardEmbed` +
+`AppEmbed` |*Add filters*  +
+Adds filters to visualizations in a Liveboard.
+|`Action.ConfigureFilter`
+a| `LiveboardEmbed` +
+`AppEmbed`
+|*Configure filters* +
+Allows configuring filters for visualizations on a Liveboard.
+
+|`Action.DownloadAsPdf` |  `LiveboardEmbed` +
+`AppEmbed`|*Download as PDF*  +
+Downloads the Liveboard as a PDF file.
+|`Action.Present`| `LiveboardEmbed`  +
+`AppEmbed` | *Present*  +
+Presents the Liveboard in fullscreen mode.
+|`Action.SchedulesList`| `LiveboardEmbed` +
+`AppEmbed` | *Manage schedules*  +
+ Allows you to manage Liveboard jobs.
+|`Action.LiveboardInfo`|`LiveboardEmbed` +
+`AppEmbed` |
+ *Liveboard info* +
+ Displays information about the Liveboard.|
+ 
+`Action.EditTML`|`AppEmbed` | *Edit TML* +
+Allows editing the ThoughtSpot Modelling Language (TML) representation of a Liveboard object loaded on the ThoughtSpot server. 
+|`Action.ImportTML`|`AppEmbed` | *Import TML* +
+Allows importing the TML representation of a Liveboard object to ThoughtSpot. 
+|`Action.ExportTML`| `LiveboardEmbed` +
+`AppEmbed` | *Export TML* +
+Exports the TML representation of a Liveboard object from ThoughtSpot. 
+|`Action.UpdateTML`|`LiveboardEmbed` +
+`AppEmbed` | *Update TML* +
+Publishes the modified TML representation of a Liveboard object.
+|`Action.Remove` | `AppEmbed`| *Delete* +
+Deletes a Liveboard.
+|====
+
+
+[#viz-actions]
+== Visualizations on a Liveboard (Classic experience)
+The following actions are available for ThoughtSpot visualizations pinned to a Liveboard:
+
+[width="100%" cols="3,3,4"]
+[options='header']
+|===
+|Action string in SDK| Required SDK library|Action label in the UI
+|`Action.Explore` a| `LiveboardEmbed` +
+`AppEmbed` |*Explore*  +
+Allows users to explore a visualization.
+
+|`Action.CreateMonitor`| `LiveboardEmbed` +
+`AppEmbed` | Alert icon +
+Allows you to schedule threshold-based alerts for KPI charts.
+
+|`Action.Pin`|`LiveboardEmbed` +
+`AppEmbed`|*Pin* +
+Pins a visualization to a Liveboard.
+|`Action.SpotIQAnalyze`|`LiveboardEmbed` +
+`AppEmbed`|**SpotIQ analyze** +
+Allows you to run SpotIQ analyses. Available as a contextual menu action.
+|`Action.ShareViz`|`LiveboardEmbed` +
+`AppEmbed`|*Share* +
+Allows sharing visualization with another user or group.
+|`Action.Edit`| `LiveboardEmbed` +
+`AppEmbed`| *Edit*  +
+Allows you to edit a visualization. Available only if you have edit privileges to a visualization.
+|`Action.EditTitle`|`LiveboardEmbed` +
+`AppEmbed`|The visualization title edit icon. +
+Changes the title of the visualization.
+|`Action.Present`|
+`LiveboardEmbed` +
+`AppEmbed`| *Present* +
+Presents the visualization in a fullscreen mode.
+|`Action.CopyLink`|`LiveboardEmbed` +
+`AppEmbed`|**Copy link** +
+Displays a link that you can copy and use for embedding a visualization object.
+|`Action.Download`
+|`LiveboardEmbed` +
+`AppEmbed`|*Download*  +
+Downloads the visualization.
+|`Action.Remove`|`AppEmbed`|**Delete** +
+Removes the visualization from the Liveboard.
+|
+`Action.ToggleSize`|`LiveboardEmbed` +
+`AppEmbed`| The *Resize* icons in the **More** actions menu. +
+Allows resizing a visualization on a Liveboard.|
+`Action.DrillDown`|`LiveboardEmbed` +
+`AppEmbed`|*Drill down* +
+ Allows drilling down the visualization to get granular data. Available as a contextual menu action.
+|`Action.DrillExclude`|`LiveboardEmbed` +
+`AppEmbed`|*Exclude* +
+Allows you to exclude a specific data point on a search answer. Available as a contextual menu action.
+|`Action.DrillInclude`|`LiveboardEmbed` +
+`AppEmbed` |*Include*
+Allows you to include a specific data point on a search answer. Available as a contextual menu action.
+|`Action.ShowUnderlyingData`
+| `LiveboardEmbed` +
+`AppEmbed`| *Show underlying data* +
+Displays detailed information and raw data for a given visualization. Available as a contextual menu action.
+|`Action.AnswerChartSwitcher`| `LiveboardEmbed` +
+`AppEmbed` | Chart toggle icon +
+Allows switching to the table or chart mode when editing a visualization.|
+|===
+
 
 [#answer-actions]
 == Answers
@@ -502,15 +509,16 @@ The following action enumerations are available for the menu actions on the *Dat
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
-|`Action.Share`|`AppEmbed` | *Share* action on the *Data* > *Home* page+
-Allows sharing a saved Answer with another user or group.
+|`Action.Share`|`AppEmbed` | *Share* action on the *Data* > *Home* page +
+Allows sharing a Worksheet, Table, or View with another user or group.
 |`Action.Remove`|`AppEmbed` | *Delete* action on the *Data* > *Home*  and *Data* > *Connections* pages +
-Allows deleting an Answer.
+Allows deleting a Worksheet, Table, or View.
 |`Action.ExportTML`| `AppEmbed` | *Export TML* action on the *Data* > *Home* page +
-Allows exporting a saved Answer as a TML object.
+Allows exporting a Worksheet, Table, or View as a TML file.
 |`Action.EditTML`| `AppEmbed` | *Edit TML*  action on the *Data* > *Home* page +
-Opens the TML Editor that allows you to modify the properties of an Answer object.
+Opens the TML Editor that allows you to modify the TML file of Worksheet, Table, or View.
 |===
+
 
 == Additional resources
 * For information about showing or hiding UI actions, see xref:embed-actions.adoc[Show or hide actions].

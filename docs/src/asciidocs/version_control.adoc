@@ -1,0 +1,343 @@
+= Git integration and version control
+:toc: true
+:toclevels: 2
+
+:page-title: Version control and Git integration
+:page-pageid: git-integration
+:page-description: The version control APIs and Git integration capability let you connect your ThoughtSpot instance to a Git repository, push changes, and deploy commits to your ThoughtSpot environment.
+
+When embedding or deploying a third-party application in their environments, most organizations use defined practices at various stages of their SDLC process. Developers typically use a version control system and CI-CD pipeline to push their code from development to testing and production environments. Similarly, when deploying ThoughtSpot, you may want to publish your ThoughtSpot content from a development environment to a staging or production cluster.
+
+ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored as link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] content and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push TML files to CI/CD pipelines from your instance.
+
+== Git integration overview
+
+The Git integration [beta betaBackground]^Beta^ feature supports the following capabilities:
+
+* ThoughtSpot integration with Git and CI/CD workflows
++
+Ability to connect your ThoughtSpot instance to a Git repository and deploy commits via REST API.
+* Ability to version control ThoughtSpot content
++
+Ability to build or modify your content locally on a development instance and push commits to a remote Git branch via APIs and version your updates.
+
+* Ability to address different types of deployment scenarios
++
+The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance.
+
+////
+You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`, `Staging`, and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
+////
+
+== How it works
+
+The ThoughtSpot content deployment process with version control APIs and Git integration includes the following steps:
+
+1. xref:version_control.adoc#_enable_git_integration[Enable Git integration on ThoughtSpot].
+2. xref:version_control.adoc#connectTS[Connect your ThoughtSpot `Dev` and `Prod` environments to the `dev` and `production` branches on your Git repository]. +
+The general practice is to use the `main` branch in your Git repository as a production branch to publish the release content.
+3. xref:version_control.adoc#_build_data_objects_on_the_dev_environment[Build and update the objects in your ThoughtSpot `Dev` environment]. +
+ThoughtSpot users with edit access to the objects can modify their Liveboard, Answers, Worksheets, and Tables.
+4. xref:version_control.adoc#_commit_tml_files_to_git[Push your changes to the Git branch mapped to the `Dev` environment]. +
+To push content and deploy commits via REST API, you need administration privileges.
+5. On the Git repository, xref:version_control.adoc#_merge_updates_from_dev_branch_to_main_in_git[create a pull request to merge your changes from the `dev` branch to `main` (production branch)].
+6. xref:version_control.adoc[Apply commits from the `main` branch to your `Prod` environment] and deploy your content.
+
+The following figure illustrates a simple Git integration workflow with ThoughtSpot `Dev` and `Prod` environments.
+
+image::./images/git-integration-workflow.svg[Git integration workflow]
+
+== Get started
+
+Before you begin, check the following prerequisites:
+
+* You have administrator access (*Can administer ThoughtSpot* privilege) to connect ThoughtSpot to Git repository and deploy commits.
+* You have a Git repository. If you are using GitHub, ensure that you have a valid account with one of the following types of access tokens.
++
+** link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic[Personal access token (Classic), window=_blank]
++
+Make sure the access token has the `repo` scope that grants full access to public and private repositories, commit and deployment status, repository invitations, and security events.
+
+** link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens[Fine-grained personal access token, window=_blank]
++
+Make sure the token allows `Read access to metadata` and `Read and Write access to code and commit statuses`.
+
+* Your Git repository has a branch that can be used as a default branch in ThoughtSpot.
+
+
+=== Enable Git integration
+
+To configure Git branches and workflows, the Git integration feature must be enabled on your ThoughtSpot `Dev` and `Prod` environments. To enable this feature on your instance, contact ThoughtSpot Support.
+
+////
+Run the following `tscli` command on their instances.
+
+[source,SSH]
+----
+tscli git-integration enable
+----
+////
+
+[#connectTS]
+=== Connect your ThoughtSpot environment to a Git repository
+
+To connect your ThoughtSpot instance to a Git repository using REST API, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/config/create` REST API v2.0 endpoint.
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`repository_url`|__String__. URL of the Git repository.
+|`username`
+|__String__. Username to authenticate to the Git repository.
+|`access_token`|__String__. Access token to authenticate to the Git repository.
+|`branch_names`|__Array of strings__. List of Git branches to configure.
+|`default_branch_name` +
+__Optional__|__String__. Specify the default Git branch used for all operations on the cluster.
+|===
+
+==== Request example
+
+The following example shows the API request format for connecting ThoughtSpot to a GitHub repository.
+
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/config/create' \
+  -H 'Authorization: Bearer {Bearer_token}  \
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "repository_url": "https://github.com/ts-git-user/gitdemo",
+  "username": "ts-git-user",
+  "access_token": "{ACCESS_TOKEN}",
+  "branch_names": [
+    "dev",
+    "main"
+  ],
+  "default_branch_name": "dev"
+}'
+----
+
+If the API request is successful, the ThoughtSpot instance will be connected to the Git repository. Make sure you connect all your environments (`Dev`, `Staging`, and `Prod`) to the GitHub repository.
+
+* To edit the repository details, send a `POST` request with Git configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
+* To get repository configuration information, send a `POST` request to `/api/rest/2.0/vcs/git/config/search` API endpoint.
+* To delete the repository configuration, send a `POST` request to the `/api/rest/2.0/vcs/git/config/delete` endpoint.
+
+For more information about these endpoints, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
+
+=== Build data objects on the Dev environment
+
+Your application users can create and modify their Liveboards, Answers, Connections, Worksheets, and Tables. These objects are stored as TML representations in ThoughtSpot. Users with data management (*Can manage data*) privilege can download these objects as TML files to their local environment, xref:modify-tml.adoc[edit TML files], and import them into ThoughtSpot via UI or REST API. Administrators can push the TML files from a ThoughtSpot instance to the default Git branch using REST API.
+
+==== GUID mapping
+
+Every object in ThoughtSpot has a *GUID* as a unique reference. In the 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object.
+
+The following example shows a simple mapping of object GUIDs in JSON format:
+
+[source,json]
+----
+{
+  "test": {
+    "<dev-env-guid>" :  "<test-env-guid>"
+  },
+  "staging": {
+    "<dev-env-guid>" :  "<staging-env-guid>"
+  },
+  "prod": {
+    "<dev-env-guid>" :  "<prod-env-guid>"
+  }
+  ...
+}
+----
+
+When xref:version_control.adoc#_deploy_commits[publishing content to another environment], you may have to swap the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files. If you are deploying from a `dev` cluster to a `prod` instance and if the GUIDs are being re-used across environments, GUID mapping is not required.
+
+=== Commit TML files to Git
+
+To commit the updates to a branch in Git repository via REST API, you need administrator (*Can administer ThoughtSpot*) privilege.
+
+To commit TML objects to a branch in Git, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/branches/commit` API endpoint.
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`metadata`|__Array of Strings__. Specify the `type` and GUID of the metadata object.
+|`branch_name` +
+__Optional__|__String__. Name of the branch in the Git repository to which you want to push the commit. If you do not specify the branch name, the commit will be pushed to the default branch.
+|`comment`|__String__. Add a comment to the commit.
+|===
+
+==== Request example
+
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/branches/commit' \
+  -H 'Authorization: Bearer {Bearer_token}\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata": [
+    {
+      "identifier": "e9d54c69-d2c1-446d-9529-544759427075",
+      "type": "LIVEBOARD"
+    },
+    {
+      "identifier": "cd252e5c-b552-49a8-821d-3eadaa049cca",
+      "type": "LOGICAL_TABLE"
+    }
+  ],
+  "comment": "Add objects",
+  "branch_name": "dev"
+}'
+----
+
+If the API request is successful, the objects will be added to the specified GitHub branch. When the TML objects are added to a Git branch, subsequent commits to that branch from ThoughtSpot update the objects in the Git repository.
+
+When committing, if there are no changes detected between the current version in Git, and the version being committed from the ThoughtSpot instance, the API call will succeed, but a warning message is returned with a list of objects that were not updated as part of the commit.
+
+ThoughtSpot provides a REST API endpoint to search commits for a given TML object. A `POST` call to the `/api/rest/2.0/vcs/git/commits/search` endpoint with `metadata` identifier and `type` in the request body fetches a list of commits.
+
+==== Steps to revert a commit
+At any point, if you want to revert a commit and return to an earlier version of an object, make a `POST` request to the `/v2/vcs/commits/{commit_id}/revert` API endpoint.
+
+===== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`commit_id`|__String__. Commit ID to which the object should be reverted.
+|`metadata` +
+__Optional__|__Array of Strings__. Specify the `type` and GUID of the metadata object. If a metadata object is not specified, the API request reverts all objects that were modified as part of the specified `commit_id`.
+|`branch_name` +
+__Optional__|__String__. Name of the branch to which the revert operation must be applied. If you do not specify the branch name, the API will revert the commit to the default branch configured on that ThoughtSpot instance.
+|`revert_policy` a|__String__. Action to apply when reverting a commit. The allowed values are: +
+
+* `ALL_OR_NONE`  (Default) +
+Reverts all objects. If the revert operation fails for one of the objects provided in the commit, the API returns an error and does not revert any object.
+
+* `PARTIAL` +
+Reverts partial objects.
+|===
+
+==== Request example
+
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/commits/afc0fea831558e30d7064ab019f49243b1f09552/revert' \
+  -H 'Authorization: Bearer {Bearer_token}\\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata": [
+    {
+      "identifier": "e9d54c69-d2c1-446d-9529-544759427075",
+      "type": "LIVEBOARD"
+    }
+  ],
+  "commit_id": "afc0fea831558e30d7064ab019f49243b1f09552",
+  "branch_name": "dev"
+}'
+----
+
+If the API request is successful, the Git branch and the TML object in the ThoughtSpot instance are reverted to the specified commit.
+
+=== Merge updates from `dev` branch to `main` in Git
+
+To merge updates, create a pull request to push changes from your `dev` branch to `main`. ThoughtSpot doesn't provide REST APIs to merge content from one branch to another. Before accepting the merge request in the Git repository, you can validate the merge on your ThoughtSpot instance using REST API.
+
+To validate the content of your `dev` branch against your `prod` environment, send a `POST` request from your `prod` instance to the `/api/rest/2.0/vcs/git/branches/validate` API endpoint.
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`source_branch_name`|__String__. Name of the source branch from which changes need to be picked for validation.
+|`target_branch_name`|__String__. Name of the target branch into which the TML changes will be merged.
+|===
+
+==== Request example
+
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/branches/validate' \
+  -H 'Authorization: Bearer {Bearer_token}\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "source_branch_name": "dev",
+  "target_branch_name": "main"
+}'
+----
+
+After validating the merge, check for conflicts. Resolve issues if any with a new commit and merge your changes to the `main` branch.
+
+=== Deploy commits
+
+To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. The API will deploy the head of the branch unless a `commit_id` is specified in the API request.
+
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you may need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
+
+////
+Make sure the *guid mapping file* is referenced when creating the final TML files for production rollout.
+////
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`commit_id` +
+__Optional__|__String__. ID of the commit to deploy on the cluster. By default, the command will deploy the head of the branch. To deploy a specific version, specify the `commit_id`.
+|`branch_name` +
+__Optional__|__String__. Name of the branch from the changes must be deployed. If you do not specify the branch name, the commit from the default branch is deployed.
+|`deploy_type` a| __String__. Specify one of the following options: +
+
+* `DELTA` (default) +
+Deploys only the changes that were applied at the specified `commit_id`. For example, if three TML files were updated in the `commit_id` specified in the API request, only those changes will be deployed.
+* `FULL` +
+Deploys all the files, including the files from the `commit_id` specified in the request and all other files that were already committed.
+
+|`deploy_policy` a|__String__. Action to apply when deploying a commit. The allowed values are: +
+
+* `ALL_OR_NONE` (Default)
+Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
+* `PARTIAL`
+Reverts partial objects. Use “Partial” to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
+|===
+
+
+==== Request example
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/commits/deploy' \
+  -H 'Authorization: Bearer {Bearer_token}'\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "import_type": "DELTA",
+  "deploy_type": "DELTA",
+  "deploy_policy": "ALL_OR_NONE",
+  "commit_id": "afc0fea831558e30d7064ab019f49243b1f09552",
+  "branch_name": "main"
+}'
+----
+
+If the API request is successful, the changes are applied to the objects in the `prod` environment.

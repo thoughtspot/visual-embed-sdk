@@ -6,6 +6,8 @@
 :page-pageid: get-started-tse
 :page-description: You can get started with ThoughtSpot Everywhere by visiting the Developer Playground on the public site, signing up for free trial, or by purchasing a ThoughtSpot Everywhere Edition license.
 
+By embedding ThoughtSpot Analytics in your app, you can enrich your application experience with ThoughtSpot's search and live analytics capabilities. ThoughtSpot provides a low-code embedded analytics platform with Visual Embed SDK and a robust API framework to embed, customize, and automate your deployment process.
+
 To embed ThoughtSpot in your app using the Visual Embed SDK and REST APIs, you must purchase the Embed Add-on or ThoughtSpot Everywhere Edition license.
 
 == Embedding license types

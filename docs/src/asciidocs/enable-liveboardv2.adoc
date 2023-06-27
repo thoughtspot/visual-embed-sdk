@@ -139,7 +139,7 @@ If the custom tile size feature is enabled on your instance, and you have edit a
 . Repeat the steps to resize other visualizations on the Liveboard.
 
 [#noteTiles]
-== Add Note tiles [eaTag eaBackground]#Early Access#
+=== Add Note tiles [eaTag eaBackground]#Early Access#
 Starting from 9.2.0.cl, you can add a Note tile with custom text, images, and links on an embedded Liveboard.
 The Note tiles feature is turned off by default and can be enabled by your application administrator.
 
@@ -151,14 +151,17 @@ If this feature is enabled on your instance, note the following limitations:
 
 For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-note-tiles[Liveboard Note tiles, window=_blank].
 
-=== Known issues and limitations
+== Known issues and limitations
 
-Note the following issues and limitations before you enable the new Liveboard experience on your embedded instance:
+* The current version of the SDK doesn't include an action enumeration for the `Rename` action in the **More** menu image:./images/icon-more-10px.png[the more options menu] of an embedded Liveboard and visualization. If you must disable or hide the *Rename* action, use `'renameModalTitleDescription'` in the `disabledActions` and `hiddenActions` array.
+* If the worksheet used for generating visualizations contains Parameters, Liveboard users can apply Parameters to Liveboard. On embedded instances running 9.2.0.cl or lower release versions,  the `Add Parameter` action on Liveboard cannot be disabled or hidden using the `Action.AddParameter` enumeration.
+* To show, hide, or disable the *Download PDF* menu action on a Liveboard, use the `Action.DownloadAsPdf` instead of `Action.Download`. When used in the `visibleActions` array, it doesn't show the sub-menu options for *Download* on a Liveboard visualization.
+* To trigger the *Download* action on a Liveboard or its visualizations, use the following host events instead of `HostEvent.Download`.
 
-* The `Rename` action in the **More** menu image:./images/icon-more-10px.png[the more options menu] of an embedded Liveboard cannot be disabled or hidden using Visual Embed SDK.
-* If the worksheet used for generating visualizations contains Parameters, Liveboard users can apply Parameters to Liveboard. On embedded instances,  the `Add Parameter` action on an embedded Liveboard cannot be disabled or hidden using the `Action.AddParameter` enumeration.
-* The `locale` setting translates only some parts of the embedded Liveboard such as the menu action labels.
-* The *Update from TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
+** `HostEvent.DownloadAsPng`
+** `HostEvent.DownloadAsXlsx`
+** `HostEvent.DownloadAsCsv`
+** `HostEvent.DownloadAsPdf`
 
 == Additional resources
 

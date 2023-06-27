@@ -6,22 +6,21 @@
 :page-pageid: runtime-params
 :page-description: Use Parameters to run multiple scenarios with adjustable values, without changing your answer.
 
-ThoughtSpot lets you create Parameters in a Worksheet and integrate them into formulas, filters, data queries, and Liveboards. Parameters are useful for 'what-if' analysis, financial planning, cohort analysis, and so on. Parameters allow users to visualize data by running different scenarios with adjustable values. With Parameters, a single report can be created that a business user adjusts to fit the scenario they want to analyze.
+ThoughtSpot lets you create Parameters in a Worksheet and integrate them into formulas, filters, data queries, and Liveboards. Parameters are useful for 'what-if' analysis, financial planning, cohort analysis, and so on. Parameters allow users to visualize data by running different scenarios with adjustable values. With Parameters, business users can use a single report and adjust the values dynamically to fit the scenario they want to analyze.
 
 == How to apply Parameters
-You can use Parameters within formulas when querying your data via search, Liveboards, or Answers.  For more information about creating and using Parameters, see the following articles in ThoughtSpot product documentation.
+You can use Parameters within formulas when querying your data via Search, Liveboards, or Answers. For more information about creating and using Parameters, see the following articles in ThoughtSpot product documentation.
 
 * link:https://docs.thoughtspot.com/cloud/latest/parameters-use[Using Parameters, window=_blank]
 * link:https://docs.thoughtspot.com/cloud/latest/parameters-create[Creating Parameters, window=_blank]
 
-
 == Runtime overrides
 
-You can apply overrides to Parameter values at runtime and visualize data with the adjusted values. Like runtime filters, you can append the Parameters to the end of the URL to modify the resulting output.
+You can apply overrides to Parameter values at runtime and visualize data with the adjusted values. Like runtime filters, you can append the Parameter attribute to the object URLs and modify the resulting output.
 
 [NOTE]
 ====
-The runtime override operation returns an error if the URL exceeds 2000 characters.
+ThoughtSpot returns an error if an object URL with Parameter attributes exceeds 2000 characters.
 ====
 
 To apply overrides to a Liveboard or Answer object, Parameters must be defined in the Worksheet from which the data is retrieved for live analytics.
@@ -58,25 +57,25 @@ new Date('2020-05-22').getTime() / 1000
 ----
 ====
 
-=== Apply Parameter overrides via REST API
+== Apply Parameter overrides via REST API
 
-You can apply Parameter overrides to a Liveboard or Answer in your API requests to the REST API v1 data API endpoints.
+You can apply Parameter overrides to a Liveboard or Answer using REST v1 data API endpoints.
 
 [NOTE]
 ====
-REST API v2.0 endpoints do not support applying runtime Parameter overrides in API requests.
+REST API v2.0 endpoints do not support Parameter overrides.
 ====
 
-==== Liveboard data
-Before applying parameter overrides on a Liveboard, make sure the Worksheet used for visualizations contain the parameters.
+=== Liveboard data
+Before applying a Parameter override on a Liveboard, make sure the Worksheet used for generating visualizations contains Parameters.
 
-To apply overrides to a Liveboard via REST API, add Parameters to the Liveboard data API request URL as shown in the example here:
+To apply overrides to a Liveboard via REST API, add Parameters to the xref:pinboarddata.adoc[Liveboard data API] request URL as shown in the example here:
 
 ----
 https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=86bedf72-c718-49cc-9f49-6e8870233f35&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=Double%20list%20param&paramVal1=0
 ----
 
-If the API request is valid, the Parameter overrides are applied to the Liveboard data, and the API response is filtered.
+If the API request is valid, overrides are applied to the Liveboard data, and ThoughtSpot returns the requested data in API response.
 
 [source,JSON]
 ----
@@ -109,11 +108,11 @@ If the API request is valid, the Parameter overrides are applied to the Liveboar
 }
 ----
 
-==== Answer data
+=== Answer data
 
-Before applying parameter overrides on an Answer, make sure the Worksheet used for querying Answer data has the parameters and formula configured.
+Before applying a Parameter override on an Answer object, make sure the Worksheet used for generating the Answer data has the Parameters and formula configured.
 
-To apply overrides on an Answer obtained from a new search query, add Parameters to the search data API request URL as shown here:
+To apply overrides on an Answer obtained from a new search query, append the Parameter attributes to the xref:search-data-api.adoc[search data API] request URL as shown here:
 
 ----
 https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/searchdata?query_string=%20%5BTax%5D%5BShip%20Mode%5D&data_source_guid=540c4503-5bc7-4727-897b-f7f4d78dd2ff&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=Double%20list%20param&paramVal1=0
@@ -172,7 +171,7 @@ The following example shows the API response for the above request:
 
 === Add additional Parameters
 
-You can add additional Parameters in the URL by incrementing the number for each Parameter attribute, for example, param1, param2, paramVal1, paramVal2, and so on. To add additional overrides, specify the values by separating them with an ampersand (&) as shown in the examples here:
+You can add additional Parameters in the URL by incrementing the number for each Parameter attribute; for example, param1, param2, paramVal1, paramVal2, and so on. To add additional overrides, specify the values by separating them with an ampersand (&) as shown in the examples here:
 
 .URL
 ----
@@ -184,6 +183,6 @@ https://{ThoughtSpot-host}/?param1=double%20list%20param&paramVal1=0&param2=doub
 https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=double%20list%20param&paramVal1=0&param2=double%20param&paramVal2=0
 ----
 
-=== Apply Parameter overrides using Visual Embed SDK
+== Apply Parameter overrides using Visual Embed SDK
 
-In the current release, the Visual Embed SDK does not support applying runtime Parameter overrides.
+Applying runtime Parameter overrides via Visual Embed SDK is not supported.

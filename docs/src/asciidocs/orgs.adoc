@@ -125,14 +125,17 @@ __Access to the *Develop* tab at the Org level is disabled by default. To enable
 a| [tag greenBackground]#✓#  Groups and privilege assignment to users +
 
 [tag greenBackground]#✓#  Object sharing with other users and groups in the Org
-|Customization|[tag greenBackground]#✓#  Style customization +
-
-[tag greenBackground]#✓#  Custom domain configuration +
+|Customization| [tag greenBackground]#✓#  Custom domain configuration +
 
 [tag greenBackground]#✓#  From ID customization for system notifications +
 
 [tag greenBackground]#✓#  Onboarding settings and welcome message customization |[tag greyBackground]#–#|
-Custom actions| [tag greyBackground]#–# | [tag greenBackground]#✓# +
+
+Style customization and CSS overrides | [tag greenBackground]#✓#| [tag greenBackground]#✓# +
+
+__In the 9.3.0.cl release, style customization settings can be applied only on the *Develop* > *Customizations* > *Style customizations* page. Per-Org CSS overrides can be applied using the Visual Embed SDK. To enable this feature on your instance, contact ThoughtSpot Support. __
+
+|Custom actions| [tag greyBackground]#–# | [tag greenBackground]#✓# +
 
 __Custom action creation and group association are supported by default at the Primary Org (Org 0) level. To enable action customization at the Org level, contact ThoughtSpot Support__
 |Link customization for embedded instances| [tag greyBackground]#–# | [tag greenBackground]#✓# +
