@@ -126,17 +126,37 @@ export const collapseAndExpandLeftNav = (
                 )
                     ? ArrowForwardHTML
                     : ArrowDownHTML;
-                // Adding click listener to the headings
-                spanElement.addEventListener('click', () => {
-                    toggleExpandOnTab((el.children[0] as HTMLParagraphElement).innerText);
-                    divElement.classList.toggle('displayNone');
-                    (spanElement
-                        .children[0] as HTMLImageElement).innerHTML = divElement.classList.contains(
-                        'displayNone',
-                    )
-                        ? ArrowForwardHTML
-                        : ArrowDownHTML;
-                });
+                 // Adding click listener to the headings
+                if (el.children[0].querySelectorAll('a').length === 0) {
+                    // adding listener to headers that are not linked
+                    el.children[0].addEventListener('click', () => {
+                        toggleExpandOnTab(
+                            (el.children[0] as HTMLParagraphElement).innerText,
+                        );
+                        divElement.classList.toggle('displayNone');
+                        (spanElement
+                            .children[0] as HTMLImageElement).innerHTML = divElement.classList.contains(
+                            'displayNone',
+                        )
+                            ? ArrowForwardHTML
+                            : ArrowDownHTML;
+                    });
+                } else {
+                    // Adding click listener to the headings with links
+                    spanElement.addEventListener('click', () => {
+                        console.log('here2');
+                        toggleExpandOnTab(
+                            (el.children[0] as HTMLParagraphElement).innerText,
+                        );
+                        divElement.classList.toggle('displayNone');
+                        (spanElement
+                            .children[0] as HTMLImageElement).innerHTML = divElement.classList.contains(
+                            'displayNone',
+                        )
+                            ? ArrowForwardHTML
+                            : ArrowDownHTML;
+                    });
+                }
             }
         }
     });
