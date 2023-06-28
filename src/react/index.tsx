@@ -153,6 +153,19 @@ export const SearchBarEmbed = componentFactory<
 
 interface SageEmbedProps extends EmbedProps, SageViewConfig {}
 
+/**
+ * React component for LLM based search Sage embed.
+ *
+ * @example
+ * ```tsx
+ * function Sage() {
+ *  return <SageEmbed
+ *      showObjectResults={true}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
 export const SageEmbed = componentFactory<
     typeof _SageEmbed,
     SageEmbedProps,
