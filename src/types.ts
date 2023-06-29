@@ -682,6 +682,27 @@ export interface ViewConfig {
      * @hidden
      */
     excludeRuntimeFiltersfromURL?: boolean;
+    /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
 }
 
 /**
@@ -1906,6 +1927,9 @@ export enum Param {
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    HideLiveboardHeader = 'hideLiveboardHeader',
+    ShowLiveboardDescription = 'showLiveboardDescription',
+    ShowLiveboardTitle = 'showLiveboardTitle',
 }
 
 /**
