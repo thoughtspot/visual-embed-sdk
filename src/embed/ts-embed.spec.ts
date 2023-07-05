@@ -36,6 +36,8 @@ const defaultViewConfig = {
 };
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 
@@ -574,6 +576,83 @@ describe('Unit test case for ts embed', () => {
         test('should not throw error when there are only visible or hidden actions', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 visibleActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
+        });
+    });
+
+    describe('when visible Tabs are set', () => {
+        test('should throw error when there are both visible and hidden Tabs - pinboard', async () => {
+            spyOn(console, 'error');
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                visibleTabs: [tabId1],
+                hiddenTabs: [tabId2],
+                ...defaultViewConfig,
+                pinboardId,
+            } as LiveboardViewConfig);
+            await pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'You cannot have both hidden Tabs and visible Tabs',
+            );
+        });
+        test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                hiddenTabs: [tabId1],
+                ...defaultViewConfig,
+                pinboardId,
+            } as LiveboardViewConfig);
+            pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(false);
+        });
+
+        /**
+         *
+         * @param hiddenTabs
+         * @param visibleTabs
+         */
+        async function testTabsForLiveboards(
+            hiddenTabs: Array<string>,
+            visibleTabs: Array<string>,
+        ) {
+            spyOn(console, 'error');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenTabs,
+                visibleTabs,
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'You cannot have both hidden Tabs and visible Tabs',
+            );
+        }
+        test('should throw error when there are both visible and hidden Tab arrays', async () => {
+            await testTabsForLiveboards([tabId1], [tabId2]);
+        });
+        test('should throw error when there are both visible and hidden Tab arrays as empty', async () => {
+            await testTabsForLiveboards([], []);
+        });
+        test('should throw error when there are both visible and hidden Tabs - one of them is an empty array', async () => {
+            await testTabsForLiveboards([], [tabId2]);
+        });
+
+        test('should not throw error when there are only visible or hidden Tab', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenTabs: [tabId2],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
+        });
+        test('should not throw error when there are only visible or hidden Tabs', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                visibleTabs: [tabId1],
                 ...defaultViewConfig,
                 liveboardId,
             } as LiveboardViewConfig);

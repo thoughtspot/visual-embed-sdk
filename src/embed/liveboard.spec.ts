@@ -302,6 +302,22 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should set hideTabPanel option', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            liveboardId,
+            activeTabId,
+            liveboardV2: true,
+            hideTabPanel: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&hideTabPanel=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+            );
+        });
+    });
+
     test('navigateToLiveboard should trigger the navigate event with the correct path', (done) => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
