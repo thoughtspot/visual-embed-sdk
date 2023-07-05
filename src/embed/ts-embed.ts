@@ -365,6 +365,9 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
+            hideLiveboardHeader,
+            showLiveboardDescription,
+            showLiveboardTitle,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -422,6 +425,16 @@ export class TsEmbed {
         if (insertInToSlide) {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
         }
+        if (hideLiveboardHeader) {
+            queryParams[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        }
+        if (showLiveboardDescription) {
+            queryParams[Param.ShowLiveboardDescription] = showLiveboardDescription;
+        }
+        if (showLiveboardTitle) {
+            queryParams[Param.ShowLiveboardTitle] = showLiveboardTitle;
+        }
+
         return queryParams;
     }
 
