@@ -30,34 +30,32 @@ The *Copy embed link* menu action is available only in Liveboard classic experie
 .. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
 .. If you are using Liveboard classic experience, click *Copy embed link*.
 +
-If new Liveboard experience is enabled on your instance, click *Copy link* and then copy the link under *Copy embed link*.
+If the new Liveboard experience is enabled on your instance, click *Copy link* to copy the URL.
 
 If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
 
-. Go to *Develop* > *Playground* > *Visual embed*
-. Select an object to embed.
-. Configure the parameters for the embedded view.
+. Go to *Develop* > *Playground* > *Visual Embed SDK*
+. Select an object to embed, for example, Liveboard.
 . Inspect the output and note the URL in `iframe src`.
 
 == Construct the URL
 
 The format for the URL to embed a Liveboard is:
 
-`https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}`
+`\https://{ThoughtSpot-Host}/?embedApp=true#/embed/viz/{Liveboard_id}`
 
 If you want to embed an individual visualization from a Liveboard, you can use the following URL pattern:
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
+`\https://{ThoughtSpot-Host}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
 
 === Apply runtime filters (Optional)
 
 To pass filters as URL query parameters, use runtime filters.
 
-For example, to filter `michigan` in the `State` column of a visualization on a Liveboard, pass these values as filter parameters in the URL:
+For example, to apply the `michigan` filter on the `State` column, pass `&col1=State&op1=EQ&val1=michigan` as query parameters in the URL:
 
 ----
-http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=State&op1=EQ&val1=michigan
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
