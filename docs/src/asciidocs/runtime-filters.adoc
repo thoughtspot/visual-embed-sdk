@@ -507,10 +507,37 @@ The following example passes multiple variables to a single column as well as mu
 ----
 col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2=<epoch_start>&val2=<epoch_end>
 ----
-[NOTE]
-====
-If the Liveboard or Answer already has one or more filters applied, runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters, including those supplied in the runtime filters and Liveboard filter.
-====
+
+If the Liveboard or Answer already has one or more filters applied, runtime filters will act as an `AND` condition. This means that all filter conditions, including those supplied in the runtime filters and Liveboard filter, must match to get the desired data.
+
+In the following example, the OR condition is applied; That is, if at least one condition matches, the Liveboard returns data.
+
+.Example for OR condition
+[source,JavaScript]
+----
+runtimeFilters: [{
+    columnName: 'product name',
+    operator: RuntimeFilterOp.CONTAINS,
+    values: ['bag', 'jackets']
+}]
+----
+However, when multiple runtime filters are applied, or when the Liveboard already has a filter applied, the data must match all filter conditions.
+
+.Example for AND condition
+[source,JavaScript]
+----
+runtimeFilters: [{
+        columnName: 'product name',
+        operator: RuntimeFilterOp.CONTAINS,
+        values: ['vest']
+    },
+    {
+        columnName: 'product name',
+        operator: RuntimeFilterOp.CONTAINS,
+        values: ['hoody']
+    }
+]
+----
 
 == Apply runtime filters via REST API v2.0 endpoints
 
