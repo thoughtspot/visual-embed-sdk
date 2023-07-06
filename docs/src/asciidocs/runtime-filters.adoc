@@ -153,11 +153,11 @@ https://{ThoughtSpot-Host}/?col1=State&op1=EQ&val1=California&col2=product&op2=B
 If you are xref:embed-without-sdk.adoc[embedding a Liveboard or visualization without using the Visual Embed SDK], you can append the filters in the embedded object URL as shown in these examples:
 
 ----
-https://{ThoughtspotHost}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
 
 ----
-https://{ThoughtspotHost}/?embedApp=true&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel#/embed/viz/{Liveboard_id}/{visualization_id}
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
 
 === Runtime filters in Visual Embed SDK
