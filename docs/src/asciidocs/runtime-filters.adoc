@@ -123,6 +123,7 @@ For example, if you want to filter data for 2020-05-22, you can specify the date
 new Date('2020-05-22').getTime() / 1000
 ----
 ====
+
 == Apply runtime filters on a Liveboard or visualization
 
 The following examples show the runtime filter query string in a Liveboard URL:
@@ -153,11 +154,10 @@ If you are xref:embed-without-sdk.adoc[embedding a Liveboard or visualization wi
 
 ----
 https://{ThoughtspotHost}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
-
 ----
+
 ----
 https://{ThoughtspotHost}/?embedApp=true&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel#/embed/viz/{Liveboard_id}/{visualization_id}
-
 ----
 
 === Runtime filters in Visual Embed SDK
@@ -551,7 +551,7 @@ Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
 +
 Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
 
-The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute. 
+The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute.
 
 .Answer report
 

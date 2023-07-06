@@ -17,7 +17,7 @@ The basic layout and feature set of the various pages of the ThoughtSpot applica
 We do not recommend mixing full app embedding with the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components.
 ====
 
-To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
+To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.
 
 == Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
@@ -215,7 +215,7 @@ disabledActionReason __Optional__::
 _String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 hiddenActions __Optional__::
-_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
+_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined.
 
 +
 For example, to hide the *Share* action, specify `Action.Share` in the `hiddenActions` attribute.
