@@ -157,7 +157,6 @@ init({
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthTokenCookieless,
-    username: "<username>",
     authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
 ----
