@@ -8,6 +8,36 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Coming soon
+
+=== Version control and Git integration [beta betaBackground]^Beta^
+
+The version control API endpoints now allow you to generate a mapping file that records the GUIDs of the TML objects. The GUID mapping file is essential when your deployment environments have the same TML representation of objects but with different object GUIDs. It maps the GUIDs of the TML objects deployed on a production environment to the object GUIDs on the source environment.
+
+For more information, see xref:version_control.adoc#_guid_mapping[Git integration and version control].
+
+=== Security settings enhancements for Orgs
+
+CORS settings per Org::
+
+On multi-tenant clusters with Orgs, developers can now add a list of CORS hosts at the Org level. The domain URLs allowed for CORS at the Org level take precedence over the CORS settings configured at the cluster level.
+
+For more information, see xref:security-settings.adoc#cors-hosts[Security Settings].
+
+Block user access to non-embedded application pages::
+
+ThoughtSpot administrators and developers can now enable the **Block non-embed full app access** feature at the Org level.
+
+For more information, see xref:security-settings.adoc#_block_access_to_non_embedded_thoughtspot_pages[Security Settings].
+
+=== Visual Embed SDK
+
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.23.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog] and xref:rest-apiv2-changelog.adoc[REST API v2.0 changelog].
+
 == Version 9.3.0.cl
 
 === Support for cookieless authentication

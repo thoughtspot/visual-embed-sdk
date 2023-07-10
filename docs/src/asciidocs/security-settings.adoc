@@ -168,8 +168,6 @@ a|+++Wildcard (*) for port+++
 
 == Block access to non-embedded ThoughtSpot pages
 
-If you have embedded ThoughtSpot content in your app, you may want your users to access ThoughtSpot pages only within the context of your host app.
+If you have embedded ThoughtSpot using the Visual Embed SDK, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
 
-When embedding ThoughtSpot, if you have xref:getting-started.adoc#_block_access_to_non_embedded_thoughtspot_instance[set the `blockNonEmbedFullAppAccess` property to `true` in Visual Embed SDK], your application users cannot access or navigate to the ThoughtSpot application experience outside the context of your app.
-
-However, users with administration or developer privilege can access ThoughtSpot in the non-embed mode. They can also enable or turn off the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page. The `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting on the *Security Settings* page.
+From 9.4.0.cl release onwards, you can enable **Block non-embed full app access** on the **Security Settings** page at the Org level on multi-tenant clusters. However, the `blockNonEmbedFullAppAccess` setting in the Visual Embed SDK is applied at the cluster level and can override the **Block non-embed full app access** configuration setting applied at the Org level via **Develop** > **Customizations** > **Security Settings**.

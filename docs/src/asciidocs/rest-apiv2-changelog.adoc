@@ -8,9 +8,41 @@
 
 This changelog lists the features and enhancements introduced in REST API v2.0. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+
+== Version 9.4.0.cl, Coming soon
+
+=== API endpoints to schedule and manage Liveboard jobs
+
+* `*POST* /api/rest/2.0/schedules/create`
++
+Creates a scheduled job for a Liveboard
+* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/update`
++
+Updates a scheduled job
+* `*POST* /api/rest/2.0/schedules/search`
+Gets a list of Liveboard jobs configured on a ThoughtSpot instance
+* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/delete`
+Deletes a scheduled job.
+
+For more information, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
+
+=== API to fetch authentication token
+
+The `GET /api/rest/2.0/auth/session/token` API endpoint fetches the current authentication token used by the currently logged-in user.
+
+=== Version Control API enhancements
+
+* The following Version Control API endpoints support generating and maintaining a GUID mapping file on a Git branch connected to a ThoughtSpot instance:
+
+** `*POST* /api/rest/2.0/vcs/git/config/create`
+** `*POST* /api/rest/2.0/vcs/git/config/update`
+
+* The `**POST** /api/rest/2.0/users/{user_identifier}/update` and `**POST** /api/rest/2.0/groups/{group_identifier}/update` support specifing the operation type in the API request. For example, if you are removing a property of a user or group object, you can specify the `operation` type as `REMOVE`.
+* The `**POST** /api/rest/2.0/users/{user_identifier}/update` allows you to define locale settings, preferences, and other properties for a user object.
+
 == Version 9.3.0.cl, June 2023
 
-The upcoming version of ThoughtSpot introduces the version control [beta betaBackground]^Beta^ API endpoints for CI/CD and lifecycle management:
+The following Version Control [beta betaBackground]^Beta^ API endpoints are now available for lifecycle management of content on your deployment environments:
 
 * `*POST* /api/rest/2.0/vcs/git/config/search`
 * `*POST* /api/rest/2.0/vcs/git/commits/search`

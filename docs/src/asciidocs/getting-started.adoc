@@ -105,20 +105,6 @@ For more information about embedding ThoughtSpot app or its objects using SDK, s
 * xref:embed-a-viz.adoc[Embed a Liveboard visualization]
 * xref:full-embed.adoc[Embed full ThoughtSpot app]
 
-== Block access to non-embedded ThoughtSpot instance
-
-The SDK allows you to prevent embed application users from accessing or navigating to ThoughtSpot application pages outside the context of your host app. The `blockNonEmbedFullAppAccess` property in the SDK allows you to block embed application users from accessing ThoughtSpot application pages in the non-embed mode. By default, the `blockNonEmbedFullAppAccess` property is set to `true`.
-
-[source,javascript]
-----
-init({
-   // ...
-    blockNonEmbedFullAppAccess: true,
-});
-----
-
-You can also enable the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page to block user access. However, the `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting in the UI.
-
 == Render the embedded application
 
 Render the embedded application.
@@ -154,6 +140,21 @@ Use the `prefetch` method in the SDK to xref:prefetch-and-cache.adoc[prefetch an
 Cache query results::
 
 To cache query results, tune the underlying data warehouse.
+
+
+=== Block access to non-embedded ThoughtSpot instance
+
+The SDK allows you to prevent embed application users from accessing or navigating to ThoughtSpot application pages outside the context of your host app. The `blockNonEmbedFullAppAccess` property in the SDK allows you to block embed application users from accessing ThoughtSpot application pages in the non-embed mode. By default, the `blockNonEmbedFullAppAccess` property is set to `true`.
+
+[source,javascript]
+----
+init({
+   // ...
+    blockNonEmbedFullAppAccess: true,
+});
+----
+
+You can also enable the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page to block user access. However, the `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting in the UI.
 
 == Related resources
 
