@@ -36,7 +36,7 @@ If your instance is running a ThoughtSpot release version lower than 9.0.0.cl, r
 
 === Multiple environments on the same instance
 
-Many ThoughtSpot customers have multiple "environments" on the same instance, either using xref:orgs.adoc[Orgs] or well-defined xref:multitenancy-without-orgs.adoc[Access Control].
+Many ThoughtSpot customers have multiple "environments" on the same instance, either using xref:orgs.adoc[Orgs] or well-defined xref:multi-tenancy-best-practices.adoc#_access_controls_on_content[Access Control].
 
 In this scenario, you must track the equivalent GUIDS between source and destination environments, and swap them out within the TML files for your deployment process to work correctly.
 
