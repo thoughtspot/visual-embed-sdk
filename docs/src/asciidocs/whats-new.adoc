@@ -12,7 +12,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Version control and Git integration [beta betaBackground]^Beta^
 
-The version control API endpoints now allow you to generate a mapping file that records the GUIDs of the TML objects. The GUID mapping file is essential when your deployment environments have the same TML representation of objects but with different object GUIDs. It maps the GUIDs of the TML objects deployed on a production environment to the object GUIDs on the source environment.
+The version control API endpoints now allow you to generate a GUID mapping file that records the GUIDs of the TML objects. The GUID mapping file is essential when your deployment environments have different object GUIDs for the same TML representation. It maps the GUIDs of the TML objects deployed on a production environment to the object GUIDs on the source environment.
 
 For more information, see xref:version_control.adoc#_guid_mapping[Git integration and version control].
 
@@ -20,9 +20,7 @@ For more information, see xref:version_control.adoc#_guid_mapping[Git integratio
 
 CORS settings per Org::
 
-On multi-tenant clusters with Orgs, developers can now add a list of CORS hosts at the Org level. The domain URLs allowed for CORS at the Org level take precedence over the CORS settings configured at the cluster level.
-
-For more information, see xref:security-settings.adoc#cors-hosts[Security Settings].
+On multi-tenant clusters with Orgs, developers can now add a list of CORS hosts at the Org level. For more information, see xref:security-settings.adoc#cors-hosts[Security Settings].
 
 Block user access to non-embedded application pages::
 

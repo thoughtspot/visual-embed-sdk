@@ -64,6 +64,10 @@ If you are using a multi-tenant cluster with Orgs, select the Org and then click
 . In the *CORS whitelisted domains* text box, add the domain names. For valid domain name formats, See xref:security-settings.adoc#csp-cors-hosts[Domain name format for CSP and CORS configuration].
 . Click *Save changes*.
 
+[NOTE]
+====
+On multi-tenant clusters with Orgs, the CORS allowlist includes all the domain URLs added at the Org and cluster level.
+====
 == Add trusted domains for font, CSS, and image import
 
 Starting from ThoughtSpot Cloud 8.10.0.cl release, you can add trusted source URLs from which images, fonts, and stylesheets can be retrieved.
@@ -170,6 +174,6 @@ a|+++Wildcard (*) for port+++
 
 == Block access to non-embedded ThoughtSpot pages
 
-If you have embedded ThoughtSpot using the Visual Embed SDK, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
+If you have embedded ThoughtSpot using the Visual Embed SDK v1.22.0 or later, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
 
 From 9.4.0.cl release onwards, you can enable **Block non-embed full app access** on the **Security Settings** page at the Org level on multi-tenant clusters. However, the `blockNonEmbedFullAppAccess` setting in the Visual Embed SDK is applied at the cluster level and can override the **Block non-embed full app access** configuration setting applied at the Org level via **Develop** > **Customizations** > **Security Settings**.
