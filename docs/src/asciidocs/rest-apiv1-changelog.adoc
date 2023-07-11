@@ -11,7 +11,7 @@ This changelog lists only the changes introduced in REST API v1. For a complete 
 
 == Version 9.3.0.cl
 
-No new changes were introduced in 9.3.0.cl release.
+No new changes were introduced in the 9.3.0.cl release.
 
 == Version 9.2.0.cl, May 2023
 
