@@ -100,7 +100,7 @@ __Optional__|__String__. Specify the default Git branch used for all operations 
 __Optional__ |__Boolean__. When set to `true`, ThoughtSpot maps the GUID of the TML objects to the deployment instance and generates a GUID mapping file in the specified Git branch. For more information, see xref:version_control.adoc#_guid_mapping[GUID mapping].
 |`guid_mapping_branch_name` +
 __Optional__|__String__. Specify the name of the Git branch to which you want to add the GUID mapping file.
-If no branch is specified, the branch name specified in the `default_branch_name` for this configuration will be considered. ThoughtSpot recommends maintaining GUID mapping file in a separate branch.
+If no branch is specified, the branch name specified in the `default_branch_name` for this configuration will be considered. ThoughtSpot recommends using a separate Git branch to maintain the GUID mapping file.
 |===
 
 ==== Request example
@@ -342,7 +342,7 @@ Deploys all the files, including the files from the `commit_id` specified in the
 * `ALL_OR_NONE` (Default)
 Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
 * `PARTIAL`
-Reverts partial objects. Use “Partial” to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
+Reverts partial objects. Use `PARTIAL` to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
 |===
 
 
