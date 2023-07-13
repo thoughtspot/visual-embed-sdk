@@ -315,7 +315,7 @@ After validating the merge, check for conflicts. Resolve issues if any with a ne
 
 To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. The API will deploy the head of the branch unless a `commit_id` is specified in the API request.
 
-Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. If you enable xref:_guid_mapping[GUID mapping] in the Git configuration, the version control APIs will automatically generate a GUID mapping file and update object references when deploying your commits to the destination environment.
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. If you have enabled xref:_guid_mapping[GUID mapping] in the Git configuration on your deployment instance, the version control APIs will automatically generate a GUID mapping file and update object references when deploying your commits to the destination environment.
 
 ////
 Make sure the *guid mapping file* is referenced when creating the final TML files for production rollout.
