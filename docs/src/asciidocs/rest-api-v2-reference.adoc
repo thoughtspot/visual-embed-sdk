@@ -1159,7 +1159,7 @@ __Requires at least edit access to Liveboards or `ADMINISTRATION` (**Can adminis
 
 Gets a list of scheduled jobs configured for a Liveboard. To get the details of a specific scheduled job, specify the GUID of the scheduled job.
 
-__Requires edit access to Liveboards__.
+__Requires at least view access to Liveboards__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/schedules/search-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
