@@ -12,9 +12,15 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Version control and Git integration [beta betaBackground]^Beta^
 
+GUID mapping::
+
 The version control API endpoints now allow you to generate a GUID mapping file that records the GUIDs of the TML objects. The GUID mapping file is essential when your deployment environments have different object GUIDs for the same TML representation. It maps the GUIDs of the TML objects deployed on a production environment to the object GUIDs on the source environment.
 
 For more information, see xref:version_control.adoc#_guid_mapping[Git integration and version control].
+
+Folder structure changes [tag redBackground]#BREAKING CHANGE#::
+
+The folder structure of the TML objects in the Git repository is modified in 9.4.0.cl. In earlier releases, the TML objects were stored in the object directory of the `primary` root folder, for example `primary/liveboard`. Starting from 9.4.0.cl, the TML objects will be stored in the object folder at the root level. ThoughtSpot will not migrate your existing TML files from `primary/<object-dir>` to the new folder structure. You must move these files to the respective object directory at the root level.
 
 === Security settings enhancements for Orgs
 

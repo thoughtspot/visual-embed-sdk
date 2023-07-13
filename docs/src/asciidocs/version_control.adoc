@@ -100,7 +100,7 @@ __Optional__|__String__. Specify the default Git branch used for all operations 
 __Optional__ |__Boolean__. When set to `true`, ThoughtSpot maps the GUID of the TML objects to the deployment instance and generates a GUID mapping file in the specified Git branch. For more information, see xref:version_control.adoc#_guid_mapping[GUID mapping].
 |`guid_mapping_branch_name` +
 __Optional__|__String__. Specify the name of the Git branch to which you want to add the GUID mapping file.
-If no branch is specified, the branch name specified in the `default_branch_name` for this configuration will be considered.
+If no branch is specified, the branch name specified in the `default_branch_name` for this configuration will be considered. ThoughtSpot recommends maintaining GUID mapping file in a separate branch.
 |===
 
 ==== Request example
@@ -158,9 +158,9 @@ For more information about these endpoints, see the API documentation in the +++
 
 === GUID mapping
 
-Every object in ThoughtSpot is assigned a unique *GUID* as a reference. When deploying TML files, if the TML representation does not have the same GUIDs for objects on the source and destination instances, it's essential to map the newly created object GUIDs on the destination environment with the GUID of the objects imported from the source cluster. You can track the GUIDs for TML objects in a mapping file and swap these out within the TML files to make your deployment work seamlessly.
+Every object in ThoughtSpot is assigned a unique *GUID* as a reference. When deploying TML files, if the TML representation does not have the same GUIDs for objects on the source and destination instances, it's essential to track the newly created object GUIDs on the destination environment with the GUID of the objects imported from the source cluster.
 
-Starting with the 9.4.0.cl release, you can generate a GUID mapping file using Version Control API on your deployment instance and save this mapping file in a Git branch. The mapping file records the GUIDs for each TML object as shown in this example:
+Starting with the 9.4.0.cl release, the version control APIs can automatically generate a GUID mapping file for your deployment instance and save this file in a Git branch. The mapping file records the GUIDs for each TML object as shown in this example:
 
 [source,JSON]
 ----
@@ -173,13 +173,10 @@ Starting with the 9.4.0.cl release, you can generate a GUID mapping file using V
 ]
 ----
 
-In the preceding example:
-
 * `originalGuid` refers to the GUID of the object on the source environment, for example, a `Dev` cluster.
 * `mappedGuid` refers to the GUID of the object on the destination environment, for example, `staging` or `prod` cluster.
-* `counter` shows the number of times the mapped object is updated.
 
-When xref:version_control.adoc#_deploy_commits[publishing content to another environment], make sure to swap the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files. If you are deploying from a `dev` cluster to a `prod` instance and if the GUIDs are being re-used across environments, GUID mapping is not required.
+If GUID mapping is enabled, ThoughtSpot uses the GUID mapping file to map the object GUIDs and automatically  update the object references in your TML content.
 
 === Commit TML files to Git
 
@@ -318,7 +315,7 @@ After validating the merge, check for conflicts. Resolve issues if any with a ne
 
 To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. The API will deploy the head of the branch unless a `commit_id` is specified in the API request.
 
-Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you may need to keep a xref:_guid_mapping[*GUID mapping file]* to determine how to adjust the TML files for upload to the new environment.
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. If you enable xref:_guid_mapping[GUID mapping] in the Git configuration, the version control APIs will automatically generate a GUID mapping file and update object references when deploying your commits to the destination environment.
 
 ////
 Make sure the *guid mapping file* is referenced when creating the final TML files for production rollout.
