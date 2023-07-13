@@ -42,7 +42,7 @@ The general practice is to use the `main` branch in your Git repository as a pro
 +
 ThoughtSpot users with edit access to the objects can modify their Liveboard, Answers, Worksheets, and Tables. However, to push the updated content and deploy commits via REST API, you need administrator privileges.
 4. On the Git repository, xref:version_control.adoc#_merge_updates_from_dev_branch_to_main_in_git[create a pull request to merge your changes from the `dev` branch to `main`].
-5. xref:version_control.adoc[Deploy commits from the `main` branch to your `Prod` environment] and deploy your content.
+5. xref:version_control.adoc[Deploy commits from the `main` branch to your `Prod` environment] and publish your changes.
 
 The following figure illustrates a simple Git integration workflow with ThoughtSpot `Dev` and `Prod` environments.
 
@@ -158,7 +158,7 @@ For more information about these endpoints, see the API documentation in the +++
 
 === GUID mapping
 
-Every object in ThoughtSpot is assigned a unique *GUID* as a reference. When deploying TML files, if the TML representation does not have the same unique GUIDs for objects on the source and destination instances, it's essential to map the newly created object GUIDs on the destination environment with the GUID of the objects imported from the source cluster. You can track the GUIDs for TML objects in a mapping file and swap these out within the TML files to make your deployment work seamlessly.
+Every object in ThoughtSpot is assigned a unique *GUID* as a reference. When deploying TML files, if the TML representation does not have the same GUIDs for objects on the source and destination instances, it's essential to map the newly created object GUIDs on the destination environment with the GUID of the objects imported from the source cluster. You can track the GUIDs for TML objects in a mapping file and swap these out within the TML files to make your deployment work seamlessly.
 
 Starting with the 9.4.0.cl release, you can generate a GUID mapping file using Version Control API on your deployment instance and save this mapping file in a Git branch. The mapping file records the GUIDs for each TML object as shown in this example:
 

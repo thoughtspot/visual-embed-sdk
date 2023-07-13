@@ -173,6 +173,6 @@ a|+++Wildcard (*) for port+++
 
 == Block access to non-embedded ThoughtSpot pages
 
-If you have embedded ThoughtSpot using the Visual Embed SDK v1.22.0 or later, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
+If you have embedded ThoughtSpot using Visual Embed SDK v1.22.0 or later, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
 
 From 9.4.0.cl release onwards, you can enable **Block non-embed full app access** on the **Security Settings** page at the Org level on multi-tenant clusters. However, the `blockNonEmbedFullAppAccess` setting in the Visual Embed SDK is applied at the cluster level and can override the **Block non-embed full app access** configuration setting applied at the Org level via **Develop** > **Customizations** > **Security Settings**.

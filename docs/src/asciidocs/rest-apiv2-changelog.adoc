@@ -13,15 +13,13 @@ This changelog lists the features and enhancements introduced in REST API v2.0. 
 
 === API endpoints to schedule and manage Liveboard jobs
 
-* `*POST* /api/rest/2.0/schedules/create`
-+
+* `*POST* /api/rest/2.0/schedules/create` +
 Creates a scheduled job for a Liveboard
-* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/update`
-+
+* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/update` +
 Updates a scheduled job
-* `*POST* /api/rest/2.0/schedules/search`
+* `*POST* /api/rest/2.0/schedules/search` +
 Gets a list of Liveboard jobs configured on a ThoughtSpot instance
-* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/delete`
+* `*POST* /api/rest/2.0/schedules/{schedule_identifier}/delete` +
 Deletes a scheduled job.
 
 For more information, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
@@ -36,6 +34,8 @@ The `GET /api/rest/2.0/auth/session/token` API endpoint fetches the current auth
 
 ** `*POST* /api/rest/2.0/vcs/git/config/create`
 ** `*POST* /api/rest/2.0/vcs/git/config/update`
+
+=== User and group API enhancements
 
 * The `**POST** /api/rest/2.0/users/{user_identifier}/update` and `**POST** /api/rest/2.0/groups/{group_identifier}/update` support specifying the type of operation API request. For example, if you are removing a property of a user or group object, you can specify the `operation` type as `REMOVE` in the API request.
 * The `**POST** /api/rest/2.0/users/{user_identifier}/update` allows you to define locale settings, preferences, and other properties for a user object.

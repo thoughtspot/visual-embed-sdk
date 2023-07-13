@@ -10,7 +10,13 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 == Version 1.23.0, Coming soon
 
-Bug fixes and enhancements to cookieless authentication.
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| The SDK supports the following performance optimization enhancements: +
+
+* Ability to pre-render a generic instance of the ThoughtSpot component using the `prerenderGeneric` attribute. The generic instance uses the default host and flags and can be rendered in the background to improve application response.
+* Ability to use an iFrame from a pre-rendered iFrame pool using the `usePrerenderedIfAvailable` attribute.
+|====
 
 == Version 1.22.0, June 2023
 
