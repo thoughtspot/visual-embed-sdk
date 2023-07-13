@@ -146,7 +146,7 @@ curl -X POST \
     "prod"
   ],
   "default_branch_name": "main",
-  "guid_mapping_branch_name": "guid-mapping"
+  "guid_mapping_branch_name": "config"
 }'
 ----
 
@@ -160,7 +160,7 @@ For more information about these endpoints, see the API documentation in the +++
 
 Every object in ThoughtSpot is assigned a unique *GUID* as a reference. When deploying TML files, if the TML representation does not have the same GUIDs for objects on the source and destination instances, it's essential to track the newly created object GUIDs on the destination environment with the GUID of the objects imported from the source cluster.
 
-Starting with the 9.4.0.cl release, the version control APIs can automatically generate a GUID mapping file for your deployment instance and save this file in a Git branch. The mapping file records the GUIDs for each TML object as shown in this example:
+Starting from the 9.4.0.cl release, the version control API automatically generates a GUID mapping file when deploying commits and saves this file in a Git branch. The mapping file records the GUIDs for each TML object as shown in this example:
 
 [source,JSON]
 ----
