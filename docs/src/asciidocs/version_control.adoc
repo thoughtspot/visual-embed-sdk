@@ -97,7 +97,7 @@ To connect your ThoughtSpot instance to a Git repository using REST API, send a 
 |`default_branch_name` +
 __Optional__|__String__. Specify the default Git branch used for all operations on the cluster.
 |`enable_guid_mapping`  +
-__Optional__ |__Boolean__. When set to `true`, ThoughtSpot maps the GUID of the TML objects to the deployment instance and generates a GUID mapping file in the specified Git branch. For more information, see xref:version_control.adoc#_guid_mapping[GUID mapping].
+__Optional__ |__Boolean__. When set to `true`, ThoughtSpot maps the GUID of the TML objects on the deployment instance and generates a GUID mapping file in the specified Git branch. For more information, see xref:version_control.adoc#_guid_mapping[GUID mapping].
 |`guid_mapping_branch_name` +
 __Optional__|__String__. Specify the name of the Git branch to which you want to add the GUID mapping file.
 If no branch is specified, the branch name specified in the `default_branch_name` for this configuration will be considered. ThoughtSpot recommends using a separate Git branch to maintain the GUID mapping file.
