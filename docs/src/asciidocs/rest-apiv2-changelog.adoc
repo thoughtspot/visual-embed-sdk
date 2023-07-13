@@ -22,7 +22,7 @@ Gets a list of Liveboard jobs configured on a ThoughtSpot instance
 * `*POST* /api/rest/2.0/schedules/{schedule_identifier}/delete` +
 Deletes a scheduled job.
 
-For more information, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
+For more information, see the xref:rest-api-v2-reference.adoc#_schedules[Schedules].
 
 === API to fetch authentication token
 
