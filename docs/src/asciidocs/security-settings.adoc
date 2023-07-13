@@ -127,7 +127,7 @@ a|Domain URL strings without port
 * `thoughtspot.com`
 * `mysite.com`
 
-If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string.
+If your domain URL has a non-standard port, for example, `mysite.com:8080`, make sure you add the port number in the domain name string.
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported| [tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported
@@ -145,7 +145,6 @@ a|Wildcard before the domain name +
 `+++*+++.thoughtspot.com`
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
-
 
 a| Domain names with space, backslash (\), and wildcard (*).
 
