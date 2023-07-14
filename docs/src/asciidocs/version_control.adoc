@@ -349,7 +349,7 @@ Deploys all the files in the Git branch, including the files from the `commit_id
 * `ALL_OR_NONE` (Default) +
 Deploys all changes or none. This option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
 
-* `PARTIAL`
+* `PARTIAL` +
 Deploys partial objects. This option imports the subset of ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
 |===
 
