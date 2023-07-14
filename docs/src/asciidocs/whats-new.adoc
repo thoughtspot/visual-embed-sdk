@@ -23,6 +23,11 @@ Folder structure changes [tag redBackground]#BREAKING CHANGE#::
 
 The folder structure of the TML objects in the Git repository is modified in 9.4.0.cl. In earlier releases, the TML objects were stored in the object directory of the `primary` root folder, for example `primary/liveboard`. Starting from 9.4.0.cl, the TML objects will be stored in the object folder at the root level. ThoughtSpot will not migrate your existing TML files from `primary/<object-dir>` to the new folder structure. You must move these files to the respective object directory at the root level.
 
+File naming convention [tag redBackground]#BREAKING CHANGE#::
+Starting from 9.4.0.cl, the TML files pushed to a Git branch from a ThoughtSpot instance are named in the
+`<object-name>.<guid>.tml` format. The earlier releases used the `<guid>.<object-name>.tml` naming convention for TML files. We recommend that you reconfigure your Git connection and start using the version control feature from scratch.
+
+
 === Security settings enhancements for Orgs
 
 CORS settings per Org::

@@ -44,17 +44,19 @@ ThoughtSpot users with edit access to the objects can modify their Liveboard, An
 4. On the Git repository, xref:version_control.adoc#_merge_updates_from_dev_branch_to_main_in_git[create a pull request to merge your changes from the `dev` branch to `main`].
 5. xref:version_control.adoc[Deploy commits from the `main` branch to your `Prod` environment] and publish your changes.
 
+////
 The following figure illustrates a simple Git integration workflow with ThoughtSpot `Dev` and `Prod` environments.
 
 image::./images/git-integration-workflow.svg[Git integration workflow]
+////
 
 == Get started
 
 Before you begin, check the following prerequisites:
 
 * You have administrator access (*Can administer ThoughtSpot* privilege) to connect ThoughtSpot to a Git repository and deploy commits.
-* You have a Git repository. If you are using GitHub, ensure that you have a valid account with one of the following types of access tokens.
-+
+* You have a GitHub or GitHub Enterprise account and access to a repository. Ensure that your account has one of the following types of access tokens:
+
 ** link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic[Personal access token (Classic), window=_blank]
 +
 Make sure the access token has the `repo` scope that grants full access to public and private repositories, commit and deployment status, repository invitations, and security events.
@@ -150,7 +152,7 @@ curl -X POST \
 }'
 ----
 
-* To edit the repository details, send a `POST` request with Git configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
+* To update the repository details or access token, send a `POST` request with Git configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
 * To get repository configuration information, send a `POST` request to `/api/rest/2.0/vcs/git/config/search` API endpoint.
 * To delete the repository configuration, send a `POST` request to the `/api/rest/2.0/vcs/git/config/delete` endpoint.
 
@@ -175,8 +177,13 @@ Starting from the 9.4.0.cl release, the version control API automatically genera
 
 * `originalGuid` refers to the GUID of the object on the source environment, for example, a `Dev` cluster.
 * `mappedGuid` refers to the GUID of the object on the destination environment, for example, `staging` or `prod` cluster.
+* `counter` shows the number of times the mapped object was used in deploy operations.
 
-If GUID mapping is enabled, ThoughtSpot uses the GUID mapping file to map the object GUIDs and automatically  update the object references in your TML content.
+If GUID mapping is enabled, ThoughtSpot uses the GUID mapping file to map the object GUIDs and automatically update the object references in your TML content.
+
+The following figure illustrates the GUID mapping during deployments:
+[.bordered]
+image::./images/guid-mapping.png[GUID mapping]
 
 === Commit TML files to Git
 
@@ -249,7 +256,7 @@ __Optional__|__String__. Name of the branch to which the revert operation must b
 Reverts all objects. If the revert operation fails for one of the objects provided in the commit, the API returns an error and does not revert any object.
 
 * `PARTIAL` +
-Reverts partial objects.
+Reverts partial objects. This option reverts the subset of ThoughtSpot objects that validate successfully even if the other objects in the specified commit fail to import.
 |===
 
 ==== Request example
@@ -335,14 +342,15 @@ __Optional__|__String__. Name of the branch from the changes must be deployed. I
 * `DELTA` (default) +
 Deploys only the changes that were applied at the specified `commit_id`. For example, if three TML files were updated in the `commit_id` specified in the API request, only those changes will be deployed.
 * `FULL` +
-Deploys all the files, including the files from the `commit_id` specified in the request and all other files that were already committed.
+Deploys all the files in the Git branch, including the files from the `commit_id` specified in the request and all other files that were already committed.
 
 |`deploy_policy` a|__String__. Action to apply when deploying a commit. The allowed values are: +
 
-* `ALL_OR_NONE` (Default)
-Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
+* `ALL_OR_NONE` (Default) +
+Deploys all changes or none. This option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
+
 * `PARTIAL`
-Reverts partial objects. Use `PARTIAL` to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
+Deploys partial objects. This option imports the subset of ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
 |===
 
 
