@@ -14,7 +14,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 GUID mapping::
 
-If a TML file on your source environment contains GUIDs that don't match the GUIDs on your destination environment, the version control APIs automatically handle the mapping of GUIDs when deploying the TML content.
+If a TML file on your source environment contains GUIDs that don't match the GUIDs on your destination environment, the version control APIs can now automatically handle the mapping of GUIDs when deploying the TML content.
 
 +
 For more information, see xref:version_control.adoc#_guid_mapping[Git integration and version control].
