@@ -99,6 +99,12 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
+    /**
+     * Hide tab Panel of embedded LB
+     *
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    hideTabPanel?: boolean;
 }
 
 /**
@@ -146,6 +152,7 @@ export class LiveboardEmbed extends V1Embed {
             visibleVizs,
             liveboardV2,
             vizId,
+            hideTabPanel,
             activeTabId,
         } = this.viewConfig;
 
@@ -173,6 +180,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (liveboardV2 !== undefined) {
             params[Param.LiveboardV2Enabled] = liveboardV2;
+        }
+        if (hideTabPanel) {
+            params[Param.HideTabPanel] = hideTabPanel;
         }
         const queryParams = getQueryParamString(params, true);
 

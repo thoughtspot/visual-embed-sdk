@@ -358,6 +358,8 @@ export class TsEmbed {
             disabledActionReason,
             hiddenActions,
             visibleActions,
+            hiddenTabs,
+            visibleTabs,
             showAlerts,
             additionalFlags,
             locale,
@@ -372,6 +374,11 @@ export class TsEmbed {
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError('You cannot have both hidden actions and visible actions');
+            return queryParams;
+        }
+
+        if (Array.isArray(visibleTabs) && Array.isArray(hiddenTabs)) {
+            this.handleError('You cannot have both hidden Tabs and visible Tabs');
             return queryParams;
         }
 
@@ -392,7 +399,12 @@ export class TsEmbed {
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
-
+        if (Array.isArray(hiddenTabs)) {
+            queryParams[Param.HiddenTabs] = hiddenTabs;
+        }
+        if (Array.isArray(visibleTabs)) {
+            queryParams[Param.VisibleTabs] = visibleTabs;
+        }
         /**
          * Default behavior for context menu will be left-click
          *  from version 9.2.0.cl the user have an option to override context
