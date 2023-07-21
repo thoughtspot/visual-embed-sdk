@@ -1900,7 +1900,9 @@ export enum HostEvent {
      * Updates the visible filters on the liveboard.
      * @param - [{ column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }]
      * @example
-     * liveboardEmbed.trigger(HostEvent.updateFilters, [{ column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }])
+     * liveboardEmbed.trigger(HostEvent.updateFilters, [
+     *  { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
+     * ])
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     updateFilters = 'updateFilters',
