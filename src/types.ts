@@ -1308,6 +1308,11 @@ export enum EmbedEvent {
      * @hidden
      */
     InsertIntoSlide = 'insertInToSlide',
+    /**
+     * Emitted when a user changes any filter on a liveboard.
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     */
+    FilterChanged = 'filterChanged',
 }
 
 /**
@@ -1448,7 +1453,7 @@ export enum HostEvent {
     Navigate = 'Navigate',
     /**
      * Opens the filter panel for a particular column.
-     * Works with Search embed.
+     * Works with Search and Liveboard embed.
      *
      * @param - { columnId: string,
      *  name: string,
@@ -1885,6 +1890,23 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
+     * Gets the currents visible and runtime filters applied on a liveboard
+     * @example
+     * liveboardEmbed.trigger(HostEvent.getFilters)
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     */
+    getFilters = 'getFilters',
+    /**
+     * Updates the visible filters on the liveboard.
+     * @param - [{ column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }]
+     * @example
+     * liveboardEmbed.trigger(HostEvent.updateFilters, [
+     *  { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
+     * ])
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     */
+    updateFilters = 'updateFilters',
+    /*
      * Get Tab for the current Liveboard.
      *
      * @example
