@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-mutable-exports */
 /**
  * Copyright (c) 2022
@@ -23,6 +24,8 @@ import {
     notifyLogout,
     setAuthEE,
     AuthEventEmitter,
+    EndPoints,
+    getAuthenticaionToken,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -32,6 +35,22 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     authTriggerText: 'Authorize',
     authType: AuthType.None,
 };
+
+export interface executeTMLInput {
+    metadata_tmls: string[];
+    import_policy?: 'PARTIAL' | 'ALL_OR_NONE' | 'VALIDATE_ONLY';
+    create_new?: boolean;
+}
+
+export interface exportTMLInput {
+    metadata: {
+      identifier: string;
+      type?: 'LIVEBOARD' | 'ANSWER' | 'LOGICAL_TABLE' | 'CONNECTION';
+    }[];
+    export_associated?: boolean;
+    export_fqn?: boolean;
+    edoc_format?: 'YAML' | 'JSON';
+  }
 
 export let authPromise: Promise<boolean>;
 /**
@@ -142,7 +161,9 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
 
 /**
  * Initializes the Visual Embed SDK globally and perform
- * authentication if applicable.
+ * authentication if applicable. This function needs to be called before any ThoughtSpot
+ * component like liveboard etc can be embedded. But need not wait for AuthEvent.SUCCESS
+ * to actually embed. That is handled internally.
  *
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
@@ -232,7 +253,95 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
+};
+
+export const executeTML = async (data: executeTMLInput): Promise<any> => {
+    const { thoughtSpotHost, authType } = config;
+    try {
+        sanity(config);
+    } catch (err) {
+        return Promise.reject(err);
+    }
+    let authToken = '';
+    if (authType === AuthType.TrustedAuthTokenCookieless) {
+        authToken = await getAuthenticaionToken(config);
+    }
+
+    const headers: Record<string, string | undefined> = {
+        'Content-Type': 'application/json',
+        'x-requested-by': 'ThoughtSpot',
+    };
+
+    if (authToken) {
+        headers.Authorization = `Bearer ${authToken}`;
+    }
+
+    const payload = {
+        metadata_tmls: data.metadata_tmls,
+        import_policy: data.import_policy || 'PARTIAL',
+        create_new: data.create_new || false,
+    };
+    return fetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+        credentials: 'include',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to import TML data: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            throw error;
+        });
+};
+
+export const exportTML = async (data: exportTMLInput): Promise<any> => {
+    const { thoughtSpotHost, authType } = config;
+    try {
+        sanity(config);
+    } catch (err) {
+        return Promise.reject(err);
+    }
+    const payload = {
+        metadata: data.metadata,
+        export_associated: data.export_associated || false,
+        export_fqn: data.export_fqn || false,
+        edoc_format: data.edoc_format || 'YAML',
+    };
+
+    let authToken = '';
+    if (authType === AuthType.TrustedAuthTokenCookieless) {
+        authToken = await getAuthenticaionToken(config);
+    }
+
+    const headers: Record<string, string | undefined> = {
+        'Content-Type': 'application/json',
+        'x-requested-by': 'ThoughtSpot',
+    };
+
+    if (authToken) {
+        headers.Authorization = `Bearer ${authToken}`;
+    }
+
+    return fetch(`${thoughtSpotHost}${EndPoints.EXPORT_TML}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+        credentials: 'include',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to export TML: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            throw error;
+        });
 };
 
 // For testing purposes only

@@ -6,12 +6,13 @@ import { HostEvent } from '../types';
  *
  * @param iFrame
  */
-function reload(iFrame: HTMLIFrameElement) {
-    const oldFrame = iFrame.cloneNode();
-    const parent = iFrame.parentNode;
-    parent.removeChild(iFrame);
-    parent.appendChild(oldFrame);
-}
+export const reload = (iFrame: HTMLIFrameElement) => {
+    const src = iFrame.src;
+    iFrame.src = '';
+    setTimeout(() => {
+        iFrame.src = src;
+    }, 100);
+};
 
 /**
  * Post Iframe message.

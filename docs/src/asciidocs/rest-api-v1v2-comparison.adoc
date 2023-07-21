@@ -55,6 +55,7 @@ Resource URL  a|
 |====
 --
 
+
 [#apiOps]
 == Supported API operations
 [div tableContainer]
@@ -78,8 +79,8 @@ __The login, authentication, token generation, and logout services are available
 |*Data APIs* +
 Data query APIs for searching data from a data source and querying a Liveboard and its visualization data.|[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
-|*Data connection and live query services*
-API endpoints for CRUD operations of data connection objects |[tag greenBackground]#✓# Available| [tag greyBackground]#–#
+|*Connection and live query services*
+API endpoints for CRUD operations of data connection objects |[tag greenBackground]#✓# Available| [tag greenBackground]#✓#
 
 |*Database services* +
 Data management API services for databases such as Falcon +
@@ -113,8 +114,10 @@ __Applicable to ThoughtSpot Software deployments only__ |[tag greenBackground]#�
 
 API for querying metadata objects, assigning tags, setting favorites, and importing and exporting TML objects|[tag greenBackground]#✓# Available +
 
-__The metadata API service does not support deleting metadata objects and fetching SQL query information from Answer and Liveboard objects__|[tag greenBackground]#✓# Available +
-__Includes API services for importing and exporting TML representation of metadata objects such as Liveboard, Worksheets, and Answers.__
+__The metadata API service does not support fetching SQL query information from Answer and Liveboard objects__|[tag greenBackground]#✓# Available +
+
+__Supports fetching SQL query information from Answer and Liveboard objects +
+__Includes API services for importing and exporting TML representation of metadata objects such as Liveboard, Worksheets, and Answers__
 
 |*Orgs* +
 API endpoints for Org administration and management | [tag greenBackground]#✓# Available |[tag greenBackground]#✓# Available
@@ -132,9 +135,6 @@ __The login, authentication, token generation, and logout services are available
 |*Security* +
 API endpoints for sharing objects and assigning permissions. |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
-|*Subscription* +
-API endpoints for managing scheduled jobs for a given Liveboard|[tag greenBackground]#✓# Available| [tag greyBackground]#–#
-
 |*System* +
 API endpoints for querying system information a|[tag greenBackground]#✓# Available +
 
@@ -147,6 +147,10 @@ __The import and export metadata API service is available under *metadata*__.
 
 |*User* +
 API endpoints for user administration and management |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
+
+|*Version control* +
+API endpoints for Git integration and versio control |[tag greyBackground]#-# Not Available
+|[tag greenBackground]#✓# Available
 
 |=====
 --

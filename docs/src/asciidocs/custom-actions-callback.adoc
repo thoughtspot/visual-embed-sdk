@@ -331,7 +331,7 @@ To initiate a callback action:
 
 . Navigate to a Liveboard visualization or saved Answer page.
 +
-Custom actions appear as disabled on unsaved charts and tables. If you have generated a chart or table from a new search query, you must save the answer to use the custom action.
+Custom actions appear as disabled on unsaved charts and tables. If you have generated a chart or table from a new search query, you must save the Answer before associating a custom action.
 . Click the callback action.
 . Verify if the callback action triggers a payload and initiates a callback to the host app.
 

@@ -9,7 +9,7 @@
  */
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import {
-    init, prefetch, logout, getEmbedConfig,
+    init, prefetch, logout, getEmbedConfig, executeTML, exportTML,
 } from './embed/base';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
@@ -35,18 +35,24 @@ import {
     CustomisationsInterface,
     CustomStyles,
     customCssInterface,
+    ContextMenuTriggerOptions,
 } from './types';
+import { CustomCssVariables } from './css-variables';
+import { SageEmbed, SageViewConfig } from './embed/sage';
 
 export {
     init,
     logout,
     prefetch,
+    executeTML,
+    exportTML,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
     LiveboardEmbed,
+    SageEmbed,
     AppEmbed,
     AuthFailureType,
     AuthStatus,
@@ -61,10 +67,12 @@ export {
     HostEvent,
     DataSourceVisualMode,
     Action,
+    ContextMenuTriggerOptions,
     EmbedConfig,
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SageViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -75,4 +83,5 @@ export {
     CustomisationsInterface,
     CustomStyles,
     customCssInterface,
+    CustomCssVariables,
 };

@@ -11,10 +11,24 @@ import typescript from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 
 import pkg from './package.json';
+const plugins = [
+        typescript({
+            typescript: require('typescript'),
+        }),
+        nodeResolve(),
+        commonjs(),
+        json({
+            compact: true
+        }),
+        replace({
+            'process.env.NODE_ENV': JSON.stringify('production'),
+        })
+    ];
 
-export default {
+export default [{
     input: 'src/index.ts',
     output: [
         {
@@ -30,14 +44,22 @@ export default {
     external: [
         ...Object.keys(pkg.peerDependencies || {}),
     ],
-    plugins: [
-        typescript({
-            typescript: require('typescript'),
-        }),
-        nodeResolve(),
-        commonjs(),
-        json({
-            compact: true
-        })
+    plugins,
+}, {
+    input: 'src/react/index.tsx',
+    output: [
+        {
+            file: 'dist/tsembed-react.js',
+            format: 'umd',
+            name: 'tsembed',
+        },
+        {
+            file: 'dist/tsembed-react.es.js',
+            format: 'es',
+        },
     ],
-};
+    external: [
+        ...Object.keys(pkg.peerDependencies || {}),
+    ],
+    plugins,
+}];

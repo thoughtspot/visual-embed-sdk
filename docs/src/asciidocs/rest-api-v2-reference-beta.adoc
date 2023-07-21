@@ -410,7 +410,7 @@ Modifies the properties of a tag object.
 
 `*PUT* /tspublic/rest/v2/metadata/tag/assign`
 
-Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, answer, data object, and data connection objects.
+Assigns a tag to one or several metadata objects. You can assign a tag to a Liveboard, Answer, data object, and data connection objects.
 
 ////
 ++++
@@ -784,7 +784,7 @@ Gets data from the specified Liveboard and visualization.
 
 `*GET* /tspublic/rest/v2/data/answer/querysql`
 
-Retrieves SQL for an answer object.
+Retrieves SQL for an Answer object.
 
 ////
 ++++
@@ -811,7 +811,7 @@ Retrieves SQL for a visualization on a Liveboard.
 --
 `*POST* /tspublic/rest/v2/report/answer`
 
-Downloads answer data in the specified file format, such as PDF, CSV, PNG, and XLSX.
+Downloads Answer data in the specified file format, such as PDF, CSV, PNG, and XLSX.
 
 ////
 ++++

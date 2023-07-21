@@ -7,6 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { CustomCssVariables } from './css-variables';
+
 /**
  * The authentication mechanism for allowing access to the
  * the embedded app
@@ -18,6 +20,14 @@ export enum AuthType {
     /**
      * No authentication on the SDK. Passthrough to the embedded App. Alias for
      * `Passthrough`.
+     *
+     * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.None,
+     *  });
+     * ```
      */
     None = 'None',
     /**
@@ -25,6 +35,18 @@ export enum AuthType {
      * configuration, but may not be supported by all IDPs. This will behave like `None`
      * if SSO is not configured on ThoughtSpot.
      *
+     * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.EmbeddedSSO,
+     *  });
+     * ```
+     * Set authentication type as Embedded SSO.
+     *
+     * To use this:
+     * Your SAML or OpenID provider must allow iframe redirects.
+     * eg. If you are using okta as IdP, you can enable iFrame embedding.
      * @version: SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl
      */
     EmbeddedSSO = 'EmbeddedSSO',
@@ -44,8 +66,23 @@ export enum AuthType {
     SAML = 'SSO_SAML',
     /**
      * SSO using SAML
-     * Will make the host application redirect to the SAML Idp.
+     * Will make the host application redirect to the SAML Idp. Use this
+     * when the idp does not allow itself to be embedded.
      *
+     * This redirects the host application to the SAML Idp. The host application
+     * will be redirected back to the ThoughtSpot app after authentication.
+     *
+     * @example
+     * ```js
+     * init({
+     *   // ...
+     *   authType: AuthType.SAMLRedirect,
+     *  });
+     * ```
+     *
+     * This opens the SAML Idp in a popup window. The popup is triggered
+     * when the user clicks the trigger button. The popup window will be
+     * closed automatically after authentication.
      * @example
      * ```js
      * init({
@@ -53,7 +90,23 @@ export enum AuthType {
      *   authType: AuthType.SAMLRedirect,
      *   authTriggerText: 'Login with SAML',
      *   authTriggerContainer: '#embed-container',
-     *  });
+     *   inPopup: true,
+     * });
+     * ```
+     *
+     * Can also use event to trigger the popup flow. Works the same
+     * as above example.
+     * @example
+     * ```js
+     * const authEE = init({
+     *  // ...
+     *  authType: AuthType.SAMLRedirect,
+     *  inPopup: true,
+     * });
+     *
+     * someButtonOnYourPage.addEventListener('click', () => {
+     *  authEE.emit(AuthEvent.TRIGGER_SSO_POPUP);
+     * });
      * ```
      */
     SAMLRedirect = 'SSO_SAML',
@@ -67,6 +120,7 @@ export enum AuthType {
     /**
      * SSO using OIDC
      * Will make the host application redirect to the OIDC Idp.
+     * See code samples in {@link SAMLRedirect}.
      */
     OIDCRedirect = 'SSO_OIDC',
     /**
@@ -100,6 +154,19 @@ export enum AuthType {
      * obtained from ThoughtSpot. This uses a cookieless authentication
      * approach, recommended to by pass third-party cookie-blocking restriction
      * implemented by some browsers
+     *
+     * @example
+     * ```js
+     * init({
+     *  // ...
+     *  authType: AuthType.TrustedAuthTokenCookieless,
+     *  getAuthToken: () => {
+     *    return fetch('https://my-backend.app/ts-token')
+     *      .then((response) => response.json())
+     *      .then((data) => data.token);
+     *  }
+     * ```
+     * @version SDK: 1.22.0| ThouhgtSpot: 9.3.0.cl, 9.5.1-sw
      */
     TrustedAuthTokenCookieless = 'AuthServerCookieless',
     /**
@@ -115,11 +182,41 @@ export type DOMSelector = string | HTMLElement;
 
 /**
  * inline customCSS within the {@link CustomisationsInterface}.
+ * Use {@link CustomCssVariables} or css rules.
  */
 export interface customCssInterface {
-    variables?: {
-        [variableName: string]: string;
-    };
+    /**
+     * The custom css variables, which can be set.
+     * The allowed list is in the CustomCssVariables
+     * interface.
+     * Or here: https://try-everywhere.thoughtspot.cloud/resources/static/css/custom_variables.css
+     */
+    variables?: CustomCssVariables;
+    /**
+     * Can be used to define a custom font face
+     * like:
+     *
+     * @example
+     * ```js
+     * rules_UNSTABLE?: {
+     *     "@font-face": {
+     *         "font-family": "custom-font",
+     *         "src": url("/path/")
+     *     };
+     *   };
+     * ```
+     *
+     * Also, custom css rules outside of variables.
+     * @example
+     * ```js
+     * rules_UNSTABLE?: {
+     *     ".thoughtspot_class_name": {
+     *         "border-radius": "10px",
+     *         margin: "20px"
+     *     };
+     *   };
+     * ```
+     */
     // eslint-disable-next-line camelcase
     rules_UNSTABLE?: {
         [selector: string]: {
@@ -234,6 +331,9 @@ export interface EmbedConfig {
      * [SSO] For SSO Authentication, if `inPopup` is set to true, it will open
      * the SAML auth flow in a popup, instead of redirecting browser in place.
      *
+     * Need to use this with authTriggerContainer. Or manually trigger
+     * the AuthEvent.TRIGGER_SSO_POPUP event on a user interaction.
+     *
      * @default false
      * @version SDK: 1.18.0
      */
@@ -272,6 +372,15 @@ export interface EmbedConfig {
      * @default false
      */
     suppressNoCookieAccessAlert?: boolean;
+
+    /**
+     * Ignore cookie access alert when third party cookies are blocked by the
+     * user's browser. If you set this to `true`, the embedded iframe behaviour
+     * persist even in case of non logged in user.
+     *
+     * @default false
+     */
+    ignoreNoCookieAccess?: boolean;
 
     /**
      * Re-login when session expires with the previous login options
@@ -340,19 +449,39 @@ export interface EmbedConfig {
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
+     * Hide beta alert warning message for SageEmbed.
+     *
+     */
+    suppressSageEmbedBetaWarning?: boolean;
+    /**
      * Custom style params for embed Config.
      *
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl
      */
     customizations?: CustomisationsInterface;
     /**
-     * For noRedirect SSO Auth, we need a button which the user
+     * For inPopup SAMLRedirect or OIDCRedirect Auth, we need a button which the user
      * click to trigger the flow. This is the containing element
      * for that button.
      *
+     * @example
+     * ```js
+     * init({
+     *   authType: AuthType.SAMLRedirect,
+     *   inPopup: true,
+     *   authTriggerContainer: '#auth-trigger-container'
+     * })
+     * ```
      * @version SDK: 1.17.0 | ThoughtSpot: *
      */
     authTriggerContainer?: string | HTMLElement;
+    /**
+     * Specify that we want to use the AuthEvent.TRIGGER_SSO_POPUP event to trigger
+     * SAML popup. This is useful when you want to trigger the popup on a custom user
+     * action.
+     *
+     */
+    useEventForSAMLPopup?: boolean;
     /**
      * Text to show in the button which triggers the popup auth flow.
      * Default: "Authorize".
@@ -360,6 +489,22 @@ export interface EmbedConfig {
      * @version SDK: 1.17.0 | ThoughtSpot: *
      */
     authTriggerText?: string;
+    /**
+     * Disable Full App access of Embedded app outside of the iFrame.
+     *
+     * @default true
+     * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1-sw
+     */
+    blockNonEmbedFullAppAccess?: boolean;
+
+    /**
+     * Host config incase embedded app is inside TS app itself
+     */
+    hostConfig?: {
+        hostUserGuid: string;
+        hostClusterId: string;
+        hostClusterName: string;
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -416,7 +561,17 @@ export interface ViewConfig {
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu.
+     * (...), and the contextual menu. These actions will be disabled
+     * for the user.
+     * Use this to disable actions.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   disabledActions: [Action.Download, Action.Save]
+     * });
+     * ```
      */
     disabledActions?: Action[];
     /**
@@ -424,15 +579,30 @@ export interface ViewConfig {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the primary menu, more menu
-     * (...), and the contextual menu.
+     * The list of actions to hide from the embedded.
+     * This actions will be hidden from the user.
+     * Use this to hide an action.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   hiddenActions: [Action.Download, Action.Export]
+     * });
+     * ```
+     * @important
      */
     hiddenActions?: Action[];
     /**
      * The list of actions to display from the primary menu, more menu
-     * (...), and the contextual menu.
+     * (...), and the contextual menu. These will be only actions that
+     * are visible to the user.
+     * Use this to hide all actions except the ones you want to show.
+     *
+     * Use either this or hiddenActions.
      *
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
+     * @important
      */
     visibleActions?: Action[];
     /**
@@ -499,9 +669,19 @@ export interface ViewConfig {
      * Use a pre-rendered iframe from a pool of pre-rendered iframes
      * if available and matches the configuration.
      *
+     * @version SDK: 1.22.0
+     * @hidden
+     *
      * See [docs]() on how to create a prerender pool.
      */
     usePrerenderedIfAvailable?: boolean;
+    /**
+     * Boolean to exclude runtimeFilters in the URL
+     *
+     * @default false
+     * @hidden
+     */
+    excludeRuntimeFiltersfromURL?: boolean;
 }
 
 /**
@@ -653,6 +833,18 @@ export interface RuntimeFilter {
  * To add an event listener use the corresponding
  * {@link LiveboardEmbed.on} or {@link AppEmbed.on} or {@link SearchEmbed.on} method.
  *
+ *  @example
+ * ```js
+ * import { EmbedEvent } from '@thoughtspot/visual-embed-sdk';
+ * // Or
+ * // const { EmbedEvent } = window.tsembed;
+ *
+ * // create the liveboard embed.
+ *
+ * liveboardEmbed.on(EmbedEvent.Drilldown, (drilldown) => {
+ *   console.log('Drilldown event', drilldown);
+ * }));
+ * ```
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -678,17 +870,18 @@ export enum EmbedEvent {
     /**
      * Data pertaining to answer or Liveboard is received
      *
-     * @returns data - The answer or Liveboard data
+     * @return data - The answer or Liveboard data
+     * @important
      */
     Data = 'data',
     /**
-     * Search/answer/Liveboard filters have been applied/updated
+     * Search/answer/Liveboard filters have been applied/updated by the user.
      *
      * @hidden
      */
     FiltersChanged = 'filtersChanged',
     /**
-     * Search query has been updated
+     * Search query has been updated by the user.
      */
     QueryChanged = 'queryChanged',
     /**
@@ -720,17 +913,30 @@ export enum EmbedEvent {
      */
     CustomAction = 'customAction',
     /**
-     * A double click has been triggered on table/chart
+     * Listen to double clicks on a visualization
      *
-     * @returns ContextMenuInputPoints - data point that is double clicked
+     * @return ContextMenuInputPoints - data point that is double clicked
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
-     * A click has been triggered on table/chart
+     * Listen to clicks on a visualization in a liveboard or Search result.
      *
-     * @returns ContextMenuInputPoints - data point that is clicked
+     * @example
+     * ```js
+     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {
+     *   console.log(
+     *    data.vizId, // viz id
+     *    data.clickedPoint.selectedAttributes[0].value,
+     *    data.clickedPoint.selectedAttributes[0].column.name,
+     *    data.clickedPoint.selectedMeasures[0].value,
+     *    data.clickedPoint.selectedMeasures[0].column.name,
+     *   )
+     * });
+     * ```
+     * @return viz, clickedPoint - metadata about point that is clicked
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
+     * @important
      */
     VizPointClick = 'vizPointClick',
     /**
@@ -845,6 +1051,12 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      */
     Download = 'download',
+    /**
+     * Emitted when the download action is triggered on an answer
+     *
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0-sw
+     */
+    DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an answer
      *
@@ -1028,7 +1240,7 @@ export enum EmbedEvent {
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
-     * Emitted when a user right clicks on chart or table
+     * Emitted when a user right clicks on a visualization (chart or table)
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
@@ -1054,6 +1266,18 @@ export enum EmbedEvent {
  * {@link LiveboardEmbed.trigger} or {@link AppEmbed.trigger} or {@link
  * SearchEmbed.trigger} method.
  *
+ * @example
+ * ```js
+ * import { HostEvent } from '@thoughtspot/visual-embed-sdk';
+ * // Or
+ * // const { HostEvent } = window.tsembed;
+ *
+ * // create the liveboard embed.
+ *
+ * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
+ *   { columnName: 'state, operator: RuntimeFilterOp.EQ, values: ['california']}
+ * ]);
+ * ```
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -1070,7 +1294,7 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.Search, {
      *   searchQuery: "[sales] by [item type],
-     *   dataSourceIds: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
+     *   dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
      *   execute: true
      * })
      * ```
@@ -1086,9 +1310,18 @@ export enum HostEvent {
      *                     column.
      * @example
      * ```js
-     * searchEmbed.trigger(HostEvent.DrillDown, {
-     *   points: clickedPointData,
-     *   autoDrillDown: true,
+     * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+     *       console.log(payload);
+     *       const clickedPoint = payload.data.clickedPoint;
+     *       const selectedPoint = payload.data.selectedPoints;
+     *       console.log('>>> called', clickedPoint);
+     *       searchEmbed.trigger(HostEvent.DrillDown, {
+     *             points: {
+     *                  clickedPoint,
+     *                  selectedPoints: selectedPoint
+     *             },
+     *             autoDrillDown: true,
+     *       });
      * })
      * ```
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
@@ -1112,23 +1345,41 @@ export enum HostEvent {
      * @param - an array of ids of visualizations to show, the ids not passed
      *          will be hidden.
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SetVisibleVizs, [
      *  '730496d6-6903-4601-937e-2c691821af3c',
      *  'd547ec54-2a37-4516-a222-2b06719af726'])
+     * ```
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1-sw
      */
     SetVisibleVizs = 'SetPinboardVisibleVizs',
+    /**
+     * Set the Active Tab of a Liveboard.
+     *
+     * @param - tabId - string of id of Tab to show
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SetActiveTab,{
+     *  tabId:'730496d6-6903-4601-937e-2c691821af3c'
+     * })
+     * ```
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl, 9.5.1-sw
+     */
+    SetActiveTab = 'SetActiveTab',
     /**
      * Update the runtime filters. The runtime filters passed here are extended
      * on to the existing runtime filters if they exist.
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
-     * {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
-     * {columnName: "item type",operator: RuntimeFilterOp.EQ,values:
-     * ["Jackets"]} ])
+     *   {columnName: "state",operator: RuntimeFilterOp.EQ,values: ["michigan"]},
+     *   {columnName: "item type",operator: RuntimeFilterOp.EQ,values: ["Jackets"]}
+     * ])
+     * ```
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
+     * @important
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
@@ -1270,7 +1521,7 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.DownloadAsPDF)
+     * liveboardEmbed.trigger(HostEvent.DownloadAsPdf)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
@@ -1340,10 +1591,14 @@ export enum HostEvent {
      * @param - object - to trigger the action for a specfic visualization
      *   in Liveboard embed, pass in vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
+     *
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger((HostEvent.Edit)
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     Edit = 'edit',
@@ -1380,9 +1635,14 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * searchEmbed.trigger(HostEvent.GetTML)
+     * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
+     *   console.log(
+     *      tml.search_query // TML representation of the search query
+     *   );
+     * })
      * ```
-     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1-sw
+     * @important
      */
     GetTML = 'getTML',
     /**
@@ -1390,10 +1650,14 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.ShowUnderlyingData, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.ShowUnderlyingData)
+     *
      * searchEmbed.trigger(HostEvent.ShowUnderlyingData)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ShowUnderlyingData = 'showUnderlyingData',
@@ -1403,23 +1667,31 @@ export enum HostEvent {
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Delete, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.Delete)
+     *
      * searchEmbed.trigger(HostEvent.Delete)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
-    Delete = 'delete',
+    Delete = 'onDeleteAnswer',
     /**
      * Triggers the SpotIQAnalyze action on visualization or search
      *
      * @param - incase of Liveboard embed, takes in an object with vizId as a key
      * can be left empty for search and visualization embeds
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SpotIQAnalyze)
+     *
      * searchEmbed.trigger(HostEvent.SpotIQAnalyze)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SpotIQAnalyze = 'spotIQAnalyze',
@@ -1427,34 +1699,60 @@ export enum HostEvent {
      * Triggers the Download action on visualization or search when Displaymode is Chart
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Download, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.Download)
+     *
      * searchEmbed.trigger(HostEvent.Download)
+     * ```
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1-sw ,Use {@link DownloadAsPng}
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
-    Download = 'download',
+    Download = 'downloadAsPng',
     /**
-     * Triggers the downloadAsCSV action on visualization or search when Displaymode is
-     * Table
+     * Triggers the Download action on visualization or search when Displaymode is Chart
      *
      * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DownloadAsPng,
+     * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
+     *
+     * vizEmbed.trigger(HostEvent.DownloadAsPng)
+     *
+     * searchEmbed.trigger(HostEvent.DownloadAsPng)
+     * ```
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1-sw
+     */
+    DownloadAsPng = 'downloadAsPng',
+    /**
+     * Triggers the downloadAsCSV action on visualization or search
+     *
+     * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.DownloadAsCsv)
+     *
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsCsv = 'downloadAsCSV',
     /**
-     * Triggers the downloadAsXLSX action on visualization or search when Displaymode is
-     * Table
+     * Triggers the downloadAsXLSX action on visualization or search
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.DownloadAsXlsx)
+     *
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     DownloadAsXlsx = 'downloadAsXLSX',
@@ -1462,8 +1760,11 @@ export enum HostEvent {
      * Triggers the Share action on a liveboard or answer
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Share)
+     *
      * searchEmbed.trigger(HostEvent.Share)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Share = 'share',
@@ -1471,8 +1772,11 @@ export enum HostEvent {
      * Trigger the Save action on a liveboard or answer
      *
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
+     *
      * searchEmbed.trigger(HostEvent.Save)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     Save = 'save',
@@ -1481,9 +1785,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SyncToSheets, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SyncToSheets)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToSheets = 'sync-to-sheets',
@@ -1492,9 +1799,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.SyncToOtherApps)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     SyncToOtherApps = 'sync-to-other-apps',
@@ -1503,9 +1813,12 @@ export enum HostEvent {
      *
      * @param - an object with vizId as a key
      * @example
+     * ```js
      * liveboardEmbed.trigger(HostEvent.ManagePipelines, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     *
      * vizEmbed.trigger(HostEvent.ManagePipelines)
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1-sw
      */
     ManagePipelines = 'manage-pipeline',
@@ -1513,7 +1826,9 @@ export enum HostEvent {
      * Triggers the Reset search in answer
      *
      * @example
-     * searchEmbed.trigger(HostEvent.SearchReset
+     * ```js
+     * searchEmbed.trigger(HostEvent.ResetSearch)
+     * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.0.1-sw
      */
     ResetSearch = 'resetSearch',
@@ -1600,14 +1915,35 @@ export enum Param {
     cookieless = 'cookieless',
     ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
     LinkOverride = 'linkOverride',
+    blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
+    HideApplicationSwitcher= 'applicationSwitcherHidden',
+    HideOrgSwitcher= 'orgSwitcherHidden',
+    IsSageEmbed = 'isSageEmbed',
+    HideWorksheetSelector = 'hideWorksheetSelector',
+    DisableWorksheetChange = 'disableWorksheetChange',
+    HideEurekaResults = 'hideEurekaResults',
+    HideEurekaSuggestions = 'hideEurekaSuggestions',
 }
 
 /**
  * The list of actions that can be performed on visual ThoughtSpot
  * entities, such as answers and Liveboards.
+ *
+ * This enum is used to specify the actions that could be disabled,
+ * hidden or made visible.
+ *
+ * @example
+ * ```js
+ * const embed = new LiveboardEmbed('#embed-container', {
+ *    ... // other options
+ *    visibleActions: [Action.Save, Action.Explore],
+ *    disableActions: [Action.Save],
+ *    hiddenActions: [Action.Download], // Set either this or visibleActions
+ * })
+ * ```
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
@@ -1657,6 +1993,7 @@ export enum Action {
     ReplaySearch = 'replaySearch',
     ShowUnderlyingData = 'showUnderlyingData',
     Download = 'download',
+    DownloadAsPng = 'downloadAsPng',
     DownloadAsPdf = 'downloadAsPdf',
     DownloadAsCsv = 'downloadAsCSV',
     DownloadAsXlsx = 'downloadAsXLSX',
@@ -1702,12 +2039,18 @@ export enum Action {
      * @hidden
      */
     DownloadEmbraceQueries = 'downloadEmbraceQueries',
+    /**
+     * Pin action.
+     */
     Pin = 'pin',
     /**
      * @hidden
      */
     AnalysisInfo = 'analysisInfo',
     Subscription = 'subscription',
+    /**
+     * Explore action.
+     */
     Explore = 'explore',
     DrillInclude = 'context-menu-item-include',
     DrillExclude = 'context-menu-item-exclude',
@@ -1719,9 +2062,6 @@ export enum Action {
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
-    /**
-     * @hidden
-     */
     DrillDown = 'DRILL',
     RequestAccess = 'requestAccess',
     QueryDetailsButtons = 'queryDetailsButtons',
@@ -1812,6 +2152,11 @@ export enum Action {
      * @hidden
      */
     InsertInToSlide = 'insertInToSlide',
+
+    /**
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     */
+    RenameModalTitleDescription = 'renameModalTitleDescription',
 }
 
 export interface SessionInterface {
@@ -1837,6 +2182,9 @@ export enum PrefetchFeatures {
     VizEmbed = 'VizEmbed',
 }
 
+/**
+ * Enum for options to change context trigger
+ */
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
     RIGHT_CLICK = 'right-click',

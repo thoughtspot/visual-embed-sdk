@@ -20,13 +20,6 @@ You require ThoughtSpot login credentials to create a session object and obtain 
 
 include::{path}/log-in-api.adoc[]
 
-
-[#session-logout]
-== Log out of a user session
-
-include::{path}/log-out-api.adoc[]
-
-
 [#session-authToken]
 == Obtain a token for trusted authentication
 
@@ -36,6 +29,11 @@ include::{path}/auth-token-api.adoc[]
 [#session-loginToken]
 == Authenticate and log in with a token (Trusted authentication)
 include::{path}/login-token-api.adoc[]
+
+[#session-logout]
+== Log out of a user session
+
+include::{path}/log-out-api.adoc[]
 
 
 [#session-info]

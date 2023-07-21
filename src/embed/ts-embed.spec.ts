@@ -9,7 +9,7 @@ import {
     AppEmbed,
     LiveboardEmbed,
 } from '../index';
-import { Action } from '../types';
+import { Action, RuntimeFilter, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -99,7 +99,7 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations, authToken: '' },
+                data: { customisations, authToken: '', runtimeFilterParams: null },
             });
         });
 
@@ -122,11 +122,50 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations: customisationsView, authToken: '' },
+                data: {
+                    customisations: customisationsView,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                },
             });
             expect(getIFrameSrc()).toContain(
                 `customCssUrl=${customisationsView.style.customCSSUrl}`,
             );
+        });
+
+        test('Runtime filters from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockRuntimeFilters: RuntimeFilter[] = [
+                {
+                    columnName: 'color',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['blue'],
+                },
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                runtimeFilters: mockRuntimeFilters,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                },
+            });
         });
 
         test('when Embed event status have start status', (done) => {
@@ -231,19 +270,13 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             });
 
             searchEmbed.off(EmbedEvent.Save, mockFn);
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                postMessageToParent(
-                    iframe.contentWindow,
-                    mockEmbedEventPayload,
-                );
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload);
             });
             await executeAfterWait(() => {
                 expect(mockFn).toHaveBeenCalledTimes(1);
@@ -280,7 +313,11 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.APP_INIT,
-                    data: { customisations, authToken: 'test_auth_token1' },
+                    data: {
+                        customisations,
+                        authToken: 'test_auth_token1',
+                        runtimeFilterParams: null,
+                    },
                 });
             });
         });
@@ -673,7 +710,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             tsEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -685,7 +722,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
@@ -724,7 +761,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -740,7 +777,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&showAlerts=true${defaultParamsPost}#/home`,
+                    + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -755,7 +792,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&locale=ja-JP${defaultParamsPost}#/home`,
+                    + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -772,7 +809,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
@@ -814,7 +851,7 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             appEmbed.render();
-            waitFor(() => !!getIFrameEl()).then(() => {
+            await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
                 expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
                 done();
@@ -901,6 +938,42 @@ describe('Unit test case for ts embed', () => {
             window.location.search = urlSearch;
             const postHashParams = '?ts-type=subscribe&ts-app=thoughtspot&ts-id=123';
             expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
+        });
+    });
+    describe('Block full app access while naviagting from embed app', () => {
+        it('should contain blockNonEmbedFullAppAccess as false in query params', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                blockNonEmbedFullAppAccess: false,
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=false');
+            });
+        });
+
+        it('should contain blockNonEmbedFullAppAccess as true in query params', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl()).then(() => {
+                expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=true');
+            });
         });
     });
 });

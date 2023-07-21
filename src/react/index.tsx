@@ -2,6 +2,7 @@ import React from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
+import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
@@ -69,34 +70,136 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
 interface SearchProps extends EmbedProps, SearchViewConfig {}
 
+/**
+ * React component for Search Embed.
+ *
+ * @example
+ * ```tsx
+ * function Search() {
+ *  return <SearchEmbed
+ *      dataSource="dataSourceId"
+ *      searchOptions={{ searchTokenString: "[revenue]" }}
+ *  />
+ * }
+ * ```
+ */
 export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, SearchViewConfig>(
     _SearchEmbed,
 );
 
 interface AppProps extends EmbedProps, AppViewConfig {}
 
+/**
+ * React component for Full app Embed.
+ *
+ * @example
+ * ```tsx
+ * function Search() {
+ *  return <AppEmbed
+ *      showPrimaryNavbar={false}
+ *      pageId={Page.Liveboards}
+ *      onError={(error) => console.error(error)}
+ *  />
+ * }
+ * ```
+ */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
 interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
 
+/**
+ * React component for Liveboard embed.
+ *
+ * @example
+ * ```tsx
+ * function Liveboard() {
+ *  return <LiveboardEmbed
+ *      liveboardId="liveboardId"
+ *      fullHeight={true} {/* default false *\/}
+ *      onLiveboardRendered={() => console.log('Liveboard rendered')}
+ *      vizId="vizId" {/* if doing viz embed *\/}
+ *  />
+ * }
+ * ```
+ */
 export const LiveboardEmbed = componentFactory<
     typeof _LiveboardEmbed,
     LiveboardProps,
     LiveboardViewConfig
 >(_LiveboardEmbed);
 
-export const PinboardEmbed = componentFactory<
-    typeof _LiveboardEmbed,
-    LiveboardProps,
-    LiveboardViewConfig
->(_LiveboardEmbed);
+export const PinboardEmbed = LiveboardEmbed;
 
 interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
 
+/**
+ * React component for Search bar embed.
+ *
+ * @example
+ * ```tsx
+ * function SearchBar() {
+ *  return <SearchBarEmbed
+ *      dataSource="dataSourceId"
+ *      searchOptions={{ searchTokenString: "[revenue]" }}
+ *  />
+ * }
+ * ```
+ */
 export const SearchBarEmbed = componentFactory<
     typeof _SearchBarEmbed,
     SearchBarEmbedProps,
     SearchBarViewConfig
 >(_SearchBarEmbed);
 
+interface SageEmbedProps extends EmbedProps, SageViewConfig {}
+
+/**
+ * React component for LLM based search Sage embed.
+ *
+ * @example
+ * ```tsx
+ * function Sage() {
+ *  return <SageEmbed
+ *      showObjectResults={true}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const SageEmbed = componentFactory<
+    typeof _SageEmbed,
+    SageEmbedProps,
+    SageViewConfig
+>(_SageEmbed);
+
+/**
+ * Get a reference to the embed component to trigger events on the component.
+ *
+ * @example
+ * ```
+ * function Component() {
+ * const ref = useEmbedRef();
+ * useEffect(() => {
+ * ref.current.trigger(
+ *  EmbedEvent.UpdateRuntimeFilter,
+ *  [{ columnName: 'name', operator: 'EQ', values: ['value']}]);
+ * }, [])
+ * return <LiveboardEmbed ref={ref} liveboardId={<id>} />
+ * }
+ * ```
+ * @returns {React.MutableRefObject<TsEmbed>} ref
+ */
 export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => React.useRef<TsEmbed>(null);
+
+export {
+    LiveboardViewConfig,
+    SearchViewConfig,
+    AppViewConfig,
+    Page,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    EmbedEvent,
+    HostEvent,
+    Action,
+    FrameParams,
+} from '../index';

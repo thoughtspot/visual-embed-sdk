@@ -1,7 +1,7 @@
 import { AppEmbed, AppViewConfig, Page } from './app';
 import { init } from '../index';
 import {
-    Action, AuthType, HostEvent, RuntimeFilterOp,
+    Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp,
 } from '../types';
 import {
     executeAfterWait,
@@ -17,6 +17,7 @@ import {
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
+import { TsEmbed, V1Embed } from './ts-embed';
 
 const defaultViewConfig = {
     frameParams: {
@@ -78,6 +79,34 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should hide the application switcher button from nav bar', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideApplicationSwitcher: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&applicationSwitcherHidden=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should hide the org switcher button from nav bar', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideOrgSwitcher: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&orgSwitcherHidden=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -153,6 +182,29 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should not apply runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: true,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+            excludeRuntimeFiltersfromURL: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should disable and hide actions', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -200,6 +252,37 @@ describe('App embed tests', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
+    });
+
+    test('should register event handlers to adjust iframe height', async () => {
+        const onSpy = jest.spyOn(AppEmbed.prototype, 'on')
+            .mockImplementation((event, callback) => {
+                if (event === EmbedEvent.RouteChange) {
+                    callback({ data: { currentPath: '/answers' } }, jest.fn());
+                }
+                if (event === EmbedEvent.EmbedHeight) {
+                    callback({ data: '100%' });
+                }
+                if (event === EmbedEvent.EmbedIframeCenter) {
+                    callback({}, jest.fn());
+                }
+                return null;
+            });
+        jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
+        jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+
+        await executeAfterWait(() => {
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
+        });
+        jest.clearAllMocks();
     });
 
     describe('Navigate to Page API', () => {

@@ -14,6 +14,7 @@ import {
     embedEventStatus,
     setAttributes,
     getCustomisations,
+    getRuntimeFilters,
     getDOMNode,
     getFilterQuery,
     getQueryParamString,
@@ -145,6 +146,9 @@ export class TsEmbed {
         this.el = getDOMNode(domSelector);
         // TODO: handle error
         this.embedConfig = getEmbedConfig();
+        if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
+            this.embedConfig.authTriggerContainer = domSelector;
+        }
         this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
@@ -236,6 +240,16 @@ export class TsEmbed {
                 );
             }
         });
+        window.addEventListener('online', (e) => {
+            this.trigger(HostEvent.Reload);
+        });
+        window.addEventListener('offline', (e) => {
+            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
+            this.executeCallbacks(EmbedEvent.Error, {
+                offlineWarning,
+            });
+            console.warn(offlineWarning);
+        });
     }
 
     /**
@@ -255,6 +269,8 @@ export class TsEmbed {
             data: {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
+                runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
+                hostConfig: this.embedConfig.hostConfig,
             },
         });
     };
@@ -325,6 +341,8 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
+        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
+            ?? true;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -383,7 +401,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = false;
         }
 
-        const spriteUrl = customizations?.iconSpriteUrl;
+        const spriteUrl = customizations?.iconSpriteUrl
+            || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -570,8 +589,8 @@ export class TsEmbed {
      *
      * @param height The height in pixels
      */
-    protected setIFrameHeight(height: number): void {
-        this.iFrame.style.height = `${height}px`;
+    protected setIFrameHeight(height: number | string): void {
+        this.iFrame.style.height = getCssDimension(height);
     }
 
     /**
@@ -708,10 +727,7 @@ export class TsEmbed {
      * tsEmbed.off(EmbedEvent.Error, errorHandler);
      * ```
      */
-    public off(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
-    ): typeof TsEmbed.prototype {
+    public off(messageType: EmbedEvent, callback: MessageCallback): typeof TsEmbed.prototype {
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         const index = callbacks.findIndex((cb) => cb.callback === callback);
         if (index > -1) {
@@ -806,7 +822,7 @@ export class TsEmbed {
      */
     public destroy(): void {
         try {
-            this.insertedDomEl.parentNode.removeChild(this.insertedDomEl);
+            this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
         } catch (e) {
             console.log('Error destroying TS Embed', e);
         }
@@ -821,7 +837,7 @@ export class TsEmbed {
      * This means without the path but with the flags already applied.
      * This is useful for prerendering the component in the background.
      *
-     * @version SDK: 1.21.0 | ThoughtSpot: * / Search: 9.3.0.cl
+     * @version SDK: 1.22.0
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {
@@ -846,7 +862,7 @@ export class V1Embed extends TsEmbed {
     }
 
     /**
-     * Render the ap    p in an iframe and set up event handlers
+     * Render the app in an iframe and set up event handlers
      *
      * @param iframeSrc
      */
@@ -855,10 +871,13 @@ export class V1Embed extends TsEmbed {
     }
 
     protected getRootIframeSrc(): string {
-        const runtimeFilters = this.viewConfig.runtimeFilters;
-        const filterQuery = getFilterQuery(runtimeFilters || []);
         const queryParams = this.getEmbedParams();
-        const queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+        let queryString = queryParams;
+        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
+            const runtimeFilters = this.viewConfig.runtimeFilters;
+            const filterQuery = getFilterQuery(runtimeFilters || []);
+            queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+        }
         return this.getV1EmbedBasePath(queryString);
     }
 

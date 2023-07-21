@@ -5,9 +5,6 @@
 [options='header']
 |=====
 |API endpoint| Available from
-|`xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]` +
-Gets details of the current configuration of a ThoughtSpot cluster.| ThoughtSpot Cloud [version noBackground]#ts7.aug.cl# +
-ThoughtSpot Software [version noBackground]#7.1.1#
 |`xref:admin-api.adoc#get-configInfo[*GET* /tspublic/v1/admin/configinfo]`  +
 Gets details of the current configuration of a ThoughtSpot cluster.
 | ThoughtSpot Cloud [version noBackground]#ts7.aug.cl# +

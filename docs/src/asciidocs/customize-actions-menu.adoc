@@ -6,7 +6,7 @@
 :page-pageid: customize-actions
 :page-description: Overview of custom actions
 
-The custom actions feature in ThoughtSpot allows users to push data to external applications. To allow ThoughtSpot users to quickly act on the data they analyze, custom actions must be pre-configured in their setup. ThoughtSpot users with developer or admin privileges can create various types of custom actions in the **Develop ** tab and make them available on a saved answer or visualization page. 
+The custom actions feature in ThoughtSpot allows users to push data to external applications. To allow ThoughtSpot users to quickly act on the data they analyze, custom actions must be pre-configured in their setup. ThoughtSpot users with developer or admin privileges can create various types of custom actions in the **Develop ** tab and make them available on a saved Answer or visualization page.
 
 [div boxDiv boxFullWidth]
 --
@@ -17,7 +17,7 @@ The custom actions feature in ThoughtSpot allows users to push data to external 
 * Developers can limit a custom action's availability to a specific user group.
 * Developers or administrators can set an action as a **Global** or **Local** action.
 * Global actions appear as menu actions on all visualizations.
-* ThoughtSpot users with edit privileges can add a local custom action to a worksheet, saved answer, or visualization.  
+* ThoughtSpot users with edit privileges can add a local custom action to a worksheet, saved Answer, or visualization.
 --
 
 == Custom actions page
@@ -37,10 +37,10 @@ An xref:app-actions.adoc[app action] connects a ThoughtSpot instance to an exter
 ////
 
 Callback actions::
-A xref:custom-actions-callback.adoc[callback action] triggers a callback event to the parent application and then pushes the answer or visualization data in a response payload. 
+A xref:custom-actions-callback.adoc[callback action] triggers a callback event to the parent application and then pushes the Answer or visualization data in a response payload.
 
 URL actions::
-A xref:custom-actions-url.adoc[URL action] sends data from an answer or visualization to a specific URL in a `POST` request.
+A xref:custom-actions-url.adoc[URL action] sends data from an Answer or visualization to a specific URL in a `POST` request.
 
 Developers or administrators can set a custom action as a global or local action.
 
@@ -49,7 +49,7 @@ Global actions::
 By default, a global action appears as a menu action in the **More** image:./images/icon-more-10px.png[the more options menu]menu on all visualizations. 
 
 +
-Authorized users can edit the position of a global action on a visualization or saved answer by using the edit icon in the *Custom actions* panel.  
+Authorized users can edit the position of a global action on a visualization or saved Answer by using the edit icon in the *Custom actions* panel.
 
 Local actions::
 
@@ -69,9 +69,9 @@ In embedded ThoughtSpot instances, developers can also use the `visibleActions`,
 
 === Overview
 
-The *Overview* tab shows the possible locations for placing a custom action in the ThoughtSpot UI. You can add a custom action in the primary menu bar, or as a menu action in the **More** image:./images/icon-more-10px.png[the more options menu] menu or the contextual menu that appears when a user right-clicks on an answer or Liveboard visualization.
+The *Overview* tab shows the possible locations for placing a custom action in the ThoughtSpot UI. You can add a custom action in the primary menu bar, or as a menu action in the **More** image:./images/icon-more-10px.png[the more options menu] menu or the contextual menu that appears when a user right-clicks on an Answer or Liveboard visualization.
 
-By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. To change the position of an existing custom action, click the custom action icon image:./images/custom-action-icon.png[custom action icon] on a saved answer page, and then click the edit icon next to the custom action in the *Custom action* panel. 
+By default, ThoughtSpot adds all custom actions to the **More** image:./images/icon-more-10px.png[the more options menu] menu. If you want to send only a single row of data instead of the entire data set obtained from a visualization, you can place the custom action in the contextual menu. To change the position of an existing custom action, click the custom action icon image:./images/custom-action-icon.png[custom action icon] on a saved Answer page, and then click the edit icon next to the custom action in the *Custom action* panel.
 
 === Actions
 

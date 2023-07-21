@@ -13,11 +13,11 @@ You can create users using the xref:user-api.adoc#create-user[/tspublic/v1/user/
 
 When configuring xref:configure-saml.adoc[SAML SSO] in ThoughtSpot UI, you can select the *Automatically add SAML users to ThoughtSpot upon first authentication* option, which will use the values in the SAML assertion to create a user if they do not exist. ThoughtSpot can also add users to groups sent within the SAML assertion. To enable and configure the SAML groups capabilities, contact your ThoughtSpot team.
 
-By default, ThoughtSpot sends e-mail messages to a new user and enables onboarding workflows when they first log in, even when you are embedding ThoughtSpot content. To alter this behavior at a system-wide level, you need to xref:customize-email-settings.adoc[Customize the onboarding settings]. The xref:user-api.adoc#update-user[update user REST API] also allows setting onboarding experience values for an individual user through the JSON object of the `content` argument. If you need to modify the  default behavior beyond the available UI options, contact your ThoughtSpot team.
+By default, ThoughtSpot sends e-mail messages to a new user and enables onboarding workflows when they first log in, even when you are embedding ThoughtSpot content. To alter this behavior at a system-wide level, you need to xref:customize-email-settings.adoc[Customize the onboarding settings]. The xref:user-api.adoc#update-user[update user REST API] also allows setting onboarding experience values for an individual user through the JSON object of the `content` argument. If you need to modify the default behavior beyond the available UI options, contact your ThoughtSpot team.
 
 [NOTE]
 ====
-ThoughtSpot supports local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
+ThoughtSpot supports the local management of user profiles. For initial development and testing purposes, you can create users in ThoughtSpot and manage their profiles locally. However, in large production environments, avoid creating local user profiles to reduce the administration overhead.
 ====
 
 == User group creation and update

@@ -38,7 +38,8 @@ customizations: {
     },
   },
 ----
-. Change the style specifications for any variable and click `Run`. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+. Change the style specifications for any variable. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+. Click `Run`.
 
 ++++
 <a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Try it out</a>
@@ -124,7 +125,7 @@ init({
                 variables: {
                     "--ts-var-root-font-family": 'YourFontName',
                 },
-                styles_UNSTABLE: {
+                rules_UNSTABLE: {
                     '@font-face': {
                         'font-family': 'YourFontName',
                         'src': "url('http://domain.example/fonts/font.ttf')"
@@ -183,12 +184,15 @@ The search bar element that allows passing search tokens.
 |`--ts-var-search-bar-text-font-color`|Font color of the text in the Search bar.
 |`--ts-var-search-bar-text-font-family`|Font of the text in the Search bar.
 |`--ts-var-search-bar-text-font-style`|Font style of the text in the Search bar.
-|`--ts-var-answer-data-panel-background-color`| Background color of the data panel.
 |`--ts-var-search-bar-background`| Background color of the search bar.
 |`--ts-var-search-auto-complete-background`| Background color of the search suggestions panel.
 |`--ts-var-search-navigation-button-background`|Background color of the navigation panel that allows you to undo, redo, and reset search operations.
 |`--ts-var-search-bar-navigation-help-text-background`| Background color of the navigation help text that appears at the bottom of the search suggestions panel.
 |`--ts-var-search-bar-auto-complete-hover-background`|Background color of the search suggestion block on hover.
+|`--ts-var-search-auto-complete-font-color`| Font color of the text in the search suggestion panel.
+|`--ts-var-search-auto-complete-subtext-font-color`| Font color of the sub-text that appears below the keyword in the search suggestion panel.
+|`--ts-var-answer-data-panel-background-color`|Background color of the data panel.
+|`--ts-var-answer-edit-panel-background-color`|Background color of the vertical panel on the right side of the Answer page, which includes the options to edit charts and tables.
 |======
 
 The following figure shows customizable search page components:
@@ -236,35 +240,35 @@ Use the following variables to customize buttons.
 |Variable|Element type|Description
 |`--ts-var-button-border-radius`|Main button| Border-radius of main buttons. +
 For example, the *Search data* button in the top navigation panel.
-|`--ts-var-button--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
+|`--ts-var-button\--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
 For example, share and favorite buttons.
-|`--ts-var-button--primary-color`|Primary button a|
+|`--ts-var-button\--primary-color`|Primary button a|
 Font color of the text on primary buttons. For example, the primary buttons on *Liveboard*, Answer, *Data* workspace, *SpotIQ*, or *Home* page.
-|`--ts-var-button--primary--font-family`|Primary button|
+|`--ts-var-button\--primary--font-family`|Primary button|
 
 Font family specification for the text on primary buttons.
-|`--ts-var-button--primary-background`|Primary button|
+|`--ts-var-button\--primary-background`|Primary button|
 
 Background color of the primary buttons. For example, the primary buttons such as *Pin* and *Save*.
-|`--ts-var-button--primary--hover-background`|Primary button|
+|`--ts-var-button\--primary--hover-background`|Primary button|
 
 Background color of the primary buttons on hover.
-|`--ts-var-button--secondary-color`|Secondary button|
+|`--ts-var-button\--secondary-color`|Secondary button|
 
 Font color of the text on the secondary buttons.
-|`--ts-var-button--secondary--font-family`|Secondary button|
+|`--ts-var-button\--secondary--font-family`|Secondary button|
 
 Font family specification for the text on the secondary buttons.
-|`--ts-var-button--secondary-background`|Secondary button|Background color of the secondary buttons.
-|`--ts-var-button--secondary--hover-background`|Secondary button|
+|`--ts-var-button\--secondary-background`|Secondary button|Background color of the secondary buttons.
+|`--ts-var-button\--secondary\--hover-background`|Secondary button|
 Background color of the secondary button on hover.
-|`--ts-var-button--tertiary-color`|Tertiary button|
+|`--ts-var-button\--tertiary-color`|Tertiary button|
 
 Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the *Search* page.
-|`--ts-var-button--tertiary-background`|Tertiary button|
+|`--ts-var-button\--tertiary-background`|Tertiary button|
 
 Background color of the tertiary button.
-|`--ts-var-button--tertiary--hover-background`|Tertiary button|
+|`--ts-var-button\--tertiary\--hover-background`|Tertiary button|
 
 Background color of the tertiary button when a user hovers over these buttons.
 |======
@@ -310,7 +314,7 @@ Use the following variables to customize the background color of the chart type 
 |`--ts-var-answer-chart-hover-background`|Background color of the chart type element when a user hovers over a chart type on the chart selection widget.
 |======
 
-==== Filter chips on visualization and answer pages
+==== Filter chips on visualization and Answer pages
 Filter chips appear on the Liveboard, Answer, and visualization pages if filters are applied on charts and tables. You can use the following variables to customize the look and feel of filter chips.
 
 [width="100%" cols="7,7"]
@@ -320,10 +324,10 @@ Filter chips appear on the Liveboard, Answer, and visualization pages if filters
 |`--ts-var-chip-border-radius`| Border-radius of filter chips.
 |`--ts-var-chip-box-shadow`|Shadow effect for filter chips.
 |`--ts-var-chip-background`|Background color of filter chips.
-|`--ts-var-chip--active-color`|Font color of the filter label when a filter chip is selected
-|`--ts-var-chip--active-background`|Background color of the filter chips when selected.
-|`--ts-var-chip--hover-color`|Font color of the text on filter chips when hovered over.
-|`--ts-var-chip--hover-background`| Background color of filter chips on hover.
+|`--ts-var-chip\--active-color`|Font color of the filter label when a filter chip is selected
+|`--ts-var-chip\--active-background`|Background color of the filter chips when selected.
+|`--ts-var-chip\--hover-color`|Font color of the text on filter chips when hovered over.
+|`--ts-var-chip\--hover-background`| Background color of filter chips on hover.
 |`--ts-var-chip-color`|Font color of the text on filter chips.
 |`--ts-var-chip-title-font-family`|Font family specification for the text on filter chips.
 |======
@@ -354,7 +358,7 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu-background`|Background color of menu panels.
 |`--ts-var-menu-font-family`|Font family specification for the menu items.
 |`--ts-var-menu-text-transform`|Text capitalization specification for the menu items.
-|`--ts-var-menu--hover-background`|Background color for menu items on hover.
+|`--ts-var-menu\--hover-background`|Background color for menu items on hover.
 |======
 
 === Dialogs
@@ -392,7 +396,7 @@ image::./images/custom-css-viz.png[CSS customization Liveboard page,link="./doc-
 
 == Rules
 
-The `rules` option in the `customCSS` object allows you to apply style overrides to UI components and elements that cannot be customized using the variables provided by ThoughtSpot.
+The `rules` option in the `customCSS` object allows you to apply style overrides to UI components and elements that cannot be customized using the variables provided by ThoughtSpot, inline in your code without having to include a separate stylesheet file.
 
 [WARNING]
 ====
@@ -406,6 +410,24 @@ To find the class name of an element: +
 . Right-click on the element and select *Inspect*.
 . Note the style class for the selected element in the *Elements* tab on the *Developer Tools* console.
 * Add the `_UNSTABLE` suffix to the `rules` property.
+
+A rule is defined in a JSON notation for styles, rather than direct CSS.
+
+[source,javascript]
+----
+rules_UNSTABLE: { 
+      '{selector1}' : {
+        "{css-property-name}" : "{value}",
+        "{css-property-name2}" : "{value}"
+    },
+    '{selector2}'...
+}
+----
+The `selector` is not direct CSS, but wraps CSS selector syntax within square brackets. Selector forms that already have square brackets remain as they are in standard CSS, and other CSS operators work as expected. For example:
+
+ - `#an-id : '[id="an-id"]'`
+ - `.classname : '[class="className"]'`
+ - `.classname [aria-colid="6"] : '[class="className"] [aria-colid="6"]'`
 
 The following example shows how to change the background color of the *All Tags* and *All Authors* dropdowns on the *Home* page of the ThoughtSpot application.
 
@@ -462,9 +484,12 @@ image::./images/selection-dropdown-after.png[selection dropdown style override]
   --ts-var-search-navigation-button-background: #EAEDF2;
   --ts-var-search-bar-navigation-help-text-background: #EAEDF2;
   --ts-var-search-bar-auto-complete-hover-background: #C0C6CF;
+  --ts-var-search-auto-complete-font-color: #000000;
+  --ts-var-search-auto-complete-subtext-font-color: #1D232F;
 
- /******** Data panel on Search and answers page ********/
+ /******** Data and edit panels on Answer page ********/
   --ts-var-answer-data-panel-background-color: initial;
+  --ts-var-answer-edit-panel-background-color: #1D232F;
 
   /******** Buttons ********/
   /* Application-wide button design for main buttons. For example, Search data*/
