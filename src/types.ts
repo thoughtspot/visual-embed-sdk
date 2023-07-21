@@ -682,6 +682,63 @@ export interface ViewConfig {
      * @hidden
      */
     excludeRuntimeFiltersfromURL?: boolean;
+    /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
+    /**
+     * The list of tab IDs to hide from the embedded.
+     * This Tabs will be hidden from their respective LBs.
+     * Use this to hide an tabID.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   hiddenTabs: [
+     * '430496d6-6903-4601-937e-2c691821af3c',
+     *  'f547ec54-2a37-4516-a222-2b06719af726']
+     * });
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    hiddenTabs?: string[];
+    /**
+     * The list of tab IDs to show in the embedded.
+     * Only this Tabs will be shown in their respective LBs.
+     * Use this to show an tabID.
+     *
+     * Use either this or hiddenTabs.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   visibleTabs: [
+     * '430496d6-6903-4601-937e-2c691821af3c',
+     *  'f547ec54-2a37-4516-a222-2b06719af726']
+     * });
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    visibleTabs?: string[];
 }
 
 /**
@@ -1847,6 +1904,48 @@ export enum HostEvent {
      * @version SDK: - | ThoughtSpot: 9.4.0.cl
      */
     updateFilters = 'updateFilters',
+    /*
+     * Get Tab for the current Liveboard.
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetTabs).then((tabDetails) => {
+     *   console.log(
+     *      tabDetails // TabDetails of current LB
+     *   );
+     * })
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    GetTabs = 'getTabs',
+    /**
+     * Set the visible Tabs on a Liveboard.
+     *
+     * @param - an array of ids of Tabs to show, the ids not passed
+     *          will be hidden.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SetVisibleTabs, [
+     *  '430496d6-6903-4601-937e-2c691821af3c',
+     *  'f547ec54-2a37-4516-a222-2b06719af726'])
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    SetVisibleTabs = 'SetPinboardVisibleTabs',
+    /**
+     * Set the hidden tabs on a Liveboard.
+     *
+     * @param - an array of ids of Tabs to hide, the ids not passed
+     *          will be shown.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SetHiddenTabs, [
+     *  '630496d6-6903-4601-937e-2c691821af3c',
+     *  'i547ec54-2a37-4516-a222-2b06719af726'])
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    SetHiddenTabs = 'SetPinboardHiddenTabs',
 }
 
 /**
@@ -1919,13 +2018,19 @@ export enum Param {
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
-    HideApplicationSwitcher= 'applicationSwitcherHidden',
-    HideOrgSwitcher= 'orgSwitcherHidden',
+    HideApplicationSwitcher = 'applicationSwitcherHidden',
+    HideOrgSwitcher = 'orgSwitcherHidden',
     IsSageEmbed = 'isSageEmbed',
     HideWorksheetSelector = 'hideWorksheetSelector',
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    HideLiveboardHeader = 'hideLiveboardHeader',
+    ShowLiveboardDescription = 'showLiveboardDescription',
+    ShowLiveboardTitle = 'showLiveboardTitle',
+    HiddenTabs = 'hideTabs',
+    VisibleTabs = 'visibleTabs',
+    HideTabPanel = 'hideTabPanel'
 }
 
 /**
@@ -2157,6 +2262,22 @@ export enum Action {
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     RenameModalTitleDescription = 'renameModalTitleDescription',
+    /**
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    RequestVerification = 'requestVerification',
+    /**
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    MarkAsVerified = 'markAsVerified',
+    /**
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    AddTab = 'addTab',
+    /**
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
 }
 
 export interface SessionInterface {
