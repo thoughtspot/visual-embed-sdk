@@ -149,7 +149,7 @@ export interface CustomCssVariables {
      * Background color of the primary buttons. For example, the primary buttons such as
      * Pin* and *Save*.
      */
-    '---ts-var-button--primary-background'?: string;
+    '--ts-var-button--primary-background'?: string;
 
     /**
      * Background color of the primary buttons on hover.
