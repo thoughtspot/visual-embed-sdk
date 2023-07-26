@@ -1310,6 +1310,7 @@ export enum EmbedEvent {
     InsertIntoSlide = 'insertInToSlide',
     /**
      * Emitted when a user changes any filter on a Liveboard.
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
@@ -1893,6 +1894,7 @@ export enum HostEvent {
     ResetSearch = 'resetSearch',
     /**
      * Gets the currents visible and runtime filters applied on a Liveboard
+     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -1900,9 +1902,10 @@ export enum HostEvent {
     GetFilters = 'getFilters',
     /**
      * Updates the visible filters on the Liveboard.
+     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
-     * 
+     *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *  filter: { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
