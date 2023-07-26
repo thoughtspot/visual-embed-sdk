@@ -1309,7 +1309,8 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
-     * Emitted when a user changes any filter on a liveboard.
+     * Emitted when a user changes any filter on a Liveboard.
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
@@ -1463,6 +1464,8 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.OpenFilter,
      *  { columnId: '123', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE' })
+     * LiveboardEmbed.trigger(HostEvent.OpenFilter,
+     *  { columnId: '123' })
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
@@ -1890,22 +1893,27 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     * Gets the currents visible and runtime filters applied on a liveboard
+     * Gets the currents visible and runtime filters applied on a Liveboard
+     *
      * @example
-     * liveboardEmbed.trigger(HostEvent.getFilters)
+     * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
-    getFilters = 'getFilters',
+    GetFilters = 'getFilters',
     /**
-     * Updates the visible filters on the liveboard.
-     * @param - [{ column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }]
+     * Updates the visible filters on the Liveboard.
+     *
+     * @param - filter: filter object containing column name and filter operation and values
      * @example
-     * liveboardEmbed.trigger(HostEvent.updateFilters, [
-     *  { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
-     * ])
+     *
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *  filter: { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
+     * })
+     * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
-    updateFilters = 'updateFilters',
+    UpdateFilters = 'updateFilters',
     /*
      * Get Tab for the current Liveboard.
      *
