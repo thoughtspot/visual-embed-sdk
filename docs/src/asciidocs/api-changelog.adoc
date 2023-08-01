@@ -16,6 +16,11 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 * Ability to pre-render a generic instance of the ThoughtSpot component using the `prerenderGeneric` attribute. The generic instance uses the default host and flags and can be rendered in the background to improve application response.
 * Ability to use an iFrame from a pre-rendered iFrame pool using the `usePrerenderedIfAvailable` attribute.
+|[tag greenBackground]#NEW FEATURE# a| New events for Liveboard filters +
+
+* `EmbedEvent.FilterChanged` +
+* `HostEvent.GetFilters` +
+* `HostEvent.UpdateFilters`
 |====
 
 == Version 1.22.0, June 2023
