@@ -10092,29 +10092,6 @@
 			},
 			"children": [
 				{
-					"id": 1182,
-					"name": "---ts-var-button--primary-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the primary buttons. For example, the primary buttons such as\nPin* and *Save*."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 152,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
 					"id": 1202,
 					"name": "--ts-var-answer-chart-hover-background",
 					"kind": 1024,
@@ -10405,6 +10382,29 @@
 						{
 							"fileName": "css-variables.ts",
 							"line": 157,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1182,
+					"name": "--ts-var-button--primary-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the primary buttons. For example, the primary buttons such as\nPin* and *Save*."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 152,
 							"character": 4
 						}
 					],
@@ -11730,7 +11730,6 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						1182,
 						1202,
 						1201,
 						1174,
@@ -11744,6 +11743,7 @@
 						1179,
 						1181,
 						1183,
+						1182,
 						1180,
 						1185,
 						1187,
