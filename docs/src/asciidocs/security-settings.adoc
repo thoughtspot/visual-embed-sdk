@@ -57,11 +57,17 @@ To add domain names to the CORS allowlist, follow these steps:
 
 . Log in to your ThoughtSpot application instance.
 . Click the *Develop* tab.
-. Under *Customizations* > *Security settings*.
++
+If you are using a multi-tenant cluster with Orgs, select the Org and then click the **Develop** tab.
+. Go to *Customizations* > *Security settings*.
 . Click *Edit*.
 . In the *CORS whitelisted domains* text box, add the domain names. For valid domain name formats, See xref:security-settings.adoc#csp-cors-hosts[Domain name format for CSP and CORS configuration].
 . Click *Save changes*.
 
+[NOTE]
+====
+On multi-tenant clusters with Orgs, the CORS allowlist includes all the domain URLs added at the Org and cluster level.
+====
 == Add trusted domains for font, CSS, and image import
 
 Starting from ThoughtSpot Cloud 8.10.0.cl release, you can add trusted source URLs from which images, fonts, and stylesheets can be retrieved.
@@ -121,7 +127,7 @@ a|Domain URL strings without port
 * `thoughtspot.com`
 * `mysite.com`
 
-If your domain URL has a non-standard port, for example `mysite.com:8080`, make sure you add the port number in the domain name string.
+If your domain URL has a non-standard port, for example, `mysite.com:8080`, make sure you add the port number in the domain name string.
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported 2*|[tag greenBackground]#✓# Supported
 |Wildcard (`*`) for domain URL|[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported| [tag redBackground]#x# Not supported |[tag greenBackground]#✓# Supported
@@ -139,7 +145,6 @@ a|Wildcard before the domain name +
 `+++*+++.thoughtspot.com`
 
 |[tag greenBackground]#✓# Supported|[tag greenBackground]#✓# Supported |[tag redBackground]#x# Not supported|[tag greenBackground]#✓# Supported
-
 
 a| Domain names with space, backslash (\), and wildcard (*).
 
@@ -168,8 +173,6 @@ a|+++Wildcard (*) for port+++
 
 == Block access to non-embedded ThoughtSpot pages
 
-If you have embedded ThoughtSpot content in your app, you may want your users to access ThoughtSpot pages only within the context of your host app.
+If you have embedded ThoughtSpot using Visual Embed SDK v1.22.0 or later, the `blockNonEmbedFullAppAccess` property is enabled by default to prevent embedded application users from navigating to the non-embedded ThoughtSpot pages. If you are embedding ThoughtSpot without the SDK, you can block access to non-embedded application pages by turning on the **Block non-embed full app access** toggle switch on the **Security Settings** page.
 
-When embedding ThoughtSpot, if you have xref:getting-started.adoc#_block_access_to_non_embedded_thoughtspot_instance[set the `blockNonEmbedFullAppAccess` property to `true` in Visual Embed SDK], your application users cannot access or navigate to the ThoughtSpot application experience outside the context of your app.
-
-However, users with administration or developer privilege can access ThoughtSpot in the non-embed mode. They can also enable or turn off the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page. The `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting on the *Security Settings* page.
+From 9.4.0.cl release onwards, you can enable **Block non-embed full app access** on the **Security Settings** page at the Org level on multi-tenant clusters. However, the `blockNonEmbedFullAppAccess` setting in the Visual Embed SDK is applied at the cluster level and can override the **Block non-embed full app access** configuration setting applied at the Org level via **Develop** > **Customizations** > **Security Settings**.

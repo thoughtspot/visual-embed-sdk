@@ -107,7 +107,7 @@ For trusted authentication setup, the following attributes are required:
 +
 The token-based authentication requires you to xref:trusted-authentication.adoc#trusted-auth-enable[enable trusted authentication] on ThoughtSpot to ensure that your authenticator server has access to a ThoughtSpot secret key. This secret key allows the authenticator server to request a login token __for any user__ on the ThoughtSpot Server. The login token is then sent to the user's web browser, where it is used in the login process.
 
-* Username
+* Username (Required for cookie-based authentication only)
 +
 The `username` of the user for whom the token is being requested.
 
@@ -168,7 +168,6 @@ init({
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthTokenCookieless,
-    username: "<username>",
     authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
 ----

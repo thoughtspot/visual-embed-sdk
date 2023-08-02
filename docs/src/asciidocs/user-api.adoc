@@ -1213,7 +1213,15 @@ POST /tspublic/v1/user/transfer/ownership
 |Query parameter|Description
 |`fromUserName`|__String__. Username to transfer from.
 |`toUserName`|__String__. Username to transfer to.
-|`objectsID`|__Array of strings__. A JSON array of ThoughtSpot object IDs. For example,`[7589cbdb-eb50-4d8c-89e7-08e8f4573a5d,84481cda-f92e-4ba5-a1ef-366eb61017f5]`.
+a|`objectsID` +
+__Optional__ a|__Array of strings__. A JSON array of ThoughtSpot object IDs. +
+
+* Example with multiple object IDs: +
+`[7589cbdb-eb50-4d8c-89e7-08e8f4573a5d,84481cda-f92e-4ba5-a1ef-366eb61017f5,5f9bc462-eca8-4b12-b8da-36474664eada]`
+* Example with a single object ID: +
+`[7589cbdb-eb50-4d8c-89e7-08e8f4573a5d]`
+
+If you do not specify the object IDs, all the objects owned by the user specified in `fromUserName` will be transferred to the user specified in `toUserName`.
 |====
 
 === Example request

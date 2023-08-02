@@ -80,11 +80,9 @@ For the request to the *authenticator service* to be secure, the user in the bro
 
 How your particular application can most easily securely request the *login token* is up to you, but how you choose to send the message will constrain your choice between `authEndpoint` or `getAuthToken`.
 
-* If you choose `AuthType.TrustedAuthToken` and `authEndpoint`, a GET request is made directly to the provided URL. The authentication details must be included by the browser in this automated GET request, typically in the cookies. Cookies are not sent across domains (only to sub-domains), so your *authenticator service* must be *hosted in the same domain* as the embedding application.
+* If you choose `authEndpoint`, a GET request is made directly to the provided URL. The authentication details must be included by the browser in this automated GET request, typically in the cookies. Cookies are not sent across domains (only to sub-domains), so your *authenticator service* must be *hosted in the same domain* as the embedding application.
 
-* If you choose `AuthType.TrustedAuthTokenCookieless`, a bearer token is issued for the given username. This token is stored in the app's memory and used for maintaining subsequent user sessions. You can use this authentication type if your *authenticator service* is not *hosted in the same domain* as the embedding application, and your browser restricts using third-party cookies.
-
-* When using `getAuthToken`, you specify a function that returns a Promise that resolves with the *login token*. Within the callback function, you can define the request to the *authenticator service* with far greater control than the automated `GET` request to a URL used by the `authEndpoint` option. `getAuthToken` is the preferred method for production deployments unless your *authenticator service* is implemented within the existing API endpoints of your application and a simple GET request provides the necessary authentication details as shown here.
+* When using `getAuthToken`, you specify a function that returns a Promise that resolves with the *login token*. Within the callback function, you can define the request to the *authenticator service* with far greater control than the automated `GET` request to a URL used by the `authEndpoint` option. `getAuthToken` is the preferred method for production deployments unless your *authenticator service* is implemented within the existing API endpoints of your application and a simple GET request provides the necessary authentication detail.
 
 +
 The following example shows a callback function with a custom request using link:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch[Fetch, window=_blank], which returns a Promise. You can also use link:https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest[XHR, window=_blank] and build the link:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise[Promise, window=_blank] manually.
@@ -125,6 +123,10 @@ function async getAuthToken {
 }
 ----
 
+For the cookie-based authentication method, ensure that the `username` specified in `init` matches the user name that was used for generating the token via `getAuthToken` or `authEndpoint`.
+
+If you choose `AuthType.TrustedAuthTokenCookieless`, a bearer token is generated. This token is stored in the app's memory and used for maintaining subsequent user sessions. You can use this authentication type if your *authenticator service* is not *hosted in the same domain* as the embedding application, and your browser restricts using third-party cookies. In this method, you do not need to specify `username`, because the token itself can be used to determine and authenticate a user.
+
 ==== Cookie-based authentication examples
 
 [source,JavaScript]
@@ -157,7 +159,6 @@ init({
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthTokenCookieless,
-    username: "<username>",
     authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
 ----

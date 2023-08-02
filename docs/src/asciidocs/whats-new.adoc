@@ -8,6 +8,45 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 9.4.0.cl
+
+=== Version control and Git integration [beta betaBackground]^Beta^
+
+GUID mapping::
+
+If a TML file on your source environment contains GUIDs that don't match the GUIDs on your destination environment, the version control APIs can now automatically handle the mapping of GUIDs when deploying the TML content.
+
++
+For more information, see xref:version_control.adoc#_guid_mapping[Git integration and version control].
+
+Folder structure changes [tag redBackground]#BREAKING CHANGE#::
+
+The folder structure of the TML objects in the Git repository is modified in 9.4.0.cl. In earlier releases, the TML objects were stored in the object directory of the `primary` root folder, for example `primary/liveboard`. Starting from 9.4.0.cl, the TML objects will be stored in the object folder at the root level. ThoughtSpot will not migrate your existing TML files from `primary/<object-dir>` to the new folder structure. You must move these files to the respective object directory at the root level.
+
+File naming convention [tag redBackground]#BREAKING CHANGE#::
+Starting from 9.4.0.cl, the TML files pushed to a Git branch from a ThoughtSpot instance are named in the
+`<object-name>.<guid>.tml` format. The earlier releases used the `<guid>.<object-name>.tml` naming convention for TML files. This change may break your current setup. We recommend that you reconfigure the Git connection on your ThoughtSpot instance and start using the version control feature from scratch.
+
+=== Security settings enhancements for Orgs
+
+CORS settings per Org::
+
+On multi-tenant clusters with Orgs, developers can now add a list of CORS hosts at the Org level. For more information, see xref:security-settings.adoc#cors-hosts[Security Settings].
+
+Block user access to non-embedded application pages::
+
+ThoughtSpot administrators and developers can now enable the **Block non-embed full app access** feature at the Org level.
+
+For more information, see xref:security-settings.adoc#_block_access_to_non_embedded_thoughtspot_pages[Security Settings].
+
+=== Visual Embed SDK
+
+For information about the new features and enhancements introduced in Visual Embed SDK version 1.23.0, see xref:api-changelog.adoc[Visual Embed changelog].
+
+=== REST API
+
+For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog] and xref:rest-apiv2-changelog.adoc[REST API v2.0 changelog].
+
 == Version 9.3.0.cl
 
 === Support for cookieless authentication
@@ -49,16 +88,21 @@ For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[
 
 == Version 9.2.0.cl
 
-=== Per-Org secret key and tokens for Trusted authentication
+.Per-Org secret key and tokens for Trusted authentication
 
+[%collapsible]
+====
 ThoughtSpot now supports generating secret keys per Org. Org administrators can generate a secret key for trusted authentication in their Org context and allow their Org users to obtain authentication tokens using this secret key.
 
 Starting from 9.2.0.cl, Org users require Org-specific authentication tokens issued for their user accounts when switching between Orgs. When generating an authentication token via REST API, make sure to request separate tokens for each Org context.
 
 For more information, see xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication].
+====
 
-=== Custom styles
+.Custom styles
 
+[%collapsible]
+====
 The 9.2.0.cl release introduces the following new variables for custom styling of the ThoughtSpot Search page:
 
 * `--ts-var-search-auto-complete-font-color`
@@ -66,40 +110,39 @@ The 9.2.0.cl release introduces the following new variables for custom styling o
 * `--ts-var-answer-edit-panel-background-color`
 
 For more information, see xref:css-customization.adoc#_search_bar_and_data_panel[Customize CSS].
+====
 
-=== GraphQL playground [beta betaBackground]^Beta^
+.GraphQL playground [beta betaBackground]^Beta^
+[%collapsible]
+====
 The *Develop* tab in the ThoughtSpot UI introduces the GraphQL playground to allow users to interact with GraphQL endpoints and run query and mutation operations. To enable this feature on your instance, contact ThoughtSpot Support.
 
 For more information, see xref:graphql-playground.adoc[GraphQL Playground].
-
-=== Runtime Parameter overrides
-
+====
+.Runtime Parameter overrides
+[%collapsible]
+====
 Embedded application users can now create Worksheet and Answer Parameters to optimize data queries. You can also adjust values and apply overrides at runtime on a Liveboard or Answer either via REST API or by appending Parameters to the query URL in the UI.
 
 For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrides].
-
-[NOTE]
 ====
-In the 9.2.0.cl release, ThoughtSpot does not support applying runtime Parameter overrides via Visual Embed SDK or REST API v2.0 endpoints.
+.Link customization
+[%collapsible]
 ====
-
-=== Link customization
-
 You can now customize the navigation links in your app using the *Generic link* option in the *Develop* > *Customization* > *Link settings* page.
 
 For more information, see xref:customize-links.adoc#_customize_link_format[Customize links].
-
-=== Cross filters on Liveboard visualizations [eaTag eaBackground]#Early Access#
-
+====
+.Cross filters on Liveboard visualizations [eaTag eaBackground]#Early Access#
+[%collapsible]
+====
 ThoughtSpot now supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection.
 
 [NOTE]
-====
 The Cross filters feature is turned off by default. To enable this feature on your instance, contact your ThoughtSpot administrator.
-====
 
 To hide or disable the cross filter feature on an embedded instance, use the `Action.CrossFilter` and `Action.RemoveCrossFilter` parameters in the SDK. For more information, see xref:embed-actions.adoc[Show or hide menu items] and xref:embed-action-ref.adoc#liveboardv2-viz-actions[Action reference].
-
+[discrete]
 === Contextual menu behavior
 
 By default, the contextual menu in ThoughtSpot application pages is set as right-click pop-up menu. Starting from 9.2.0.cl, you can set the contextual menu to trigger on left-click.
@@ -122,20 +165,24 @@ The contextual opens on left-click. If your app is already using `EmbedEvent.Viz
 
 +
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
-
-=== Note tiles on Liveboards [eaTag eaBackground]#Early Access#
-
+====
+.Note tiles on Liveboards [eaTag eaBackground]#Early Access#
+[%collapsible]
+====
 In the new Liveboard experience mode, you can now add Note tiles with custom text, images, and links. This feature is turned off by default and can be enabled by ThoughtSpot administrators.
 
 For more information, see xref:enable-liveboardv2.adoc#noteTiles[Note tiles].
-
-=== Visual Embed SDK
-
+====
+.Visual Embed SDK
+[%collapsible]
+====
 For information about the new features and enhancements introduced in Visual Embed SDK versions 1.20.0 and 1.21.0, see xref:api-changelog.adoc[Visual Embed changelog].
-
-=== REST API
-
+====
+.REST API
+[%collapsible]
+====
 For information about REST API enhancements, see xref:rest-apiv1-changelog.adoc[REST API v1 changelog] and xref:rest-apiv2-changelog.adoc[REST API v2.0 changelog].
+====
 
 == Version 9.0.0.cl
 

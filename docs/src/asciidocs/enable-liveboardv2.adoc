@@ -163,6 +163,8 @@ For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboa
 ** `HostEvent.DownloadAsCsv`
 ** `HostEvent.DownloadAsPdf`
 
+* In some embedded instances, users may notice issues in the Liveboard view or drill-down operations after an upgrade to 9.3.0.cl release version. Check your Liveboard experience settings and make sure the new Liveboard experience is enabled.
+
 == Additional resources
 
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].

@@ -8,6 +8,21 @@
 
 This changelog lists only the changes introduced in the Visual Embed SDK. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
+== Version 1.23.0, August 2023
+
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| The SDK supports the following performance optimization enhancements: +
+
+* Ability to pre-render a generic instance of the ThoughtSpot component using the `prerenderGeneric` attribute. The generic instance uses the default host and flags and can be rendered in the background to improve application response.
+* Ability to use an iFrame from a pre-rendered iFrame pool using the `usePrerenderedIfAvailable` attribute.
+|[tag greenBackground]#NEW FEATURE# a| New events for Liveboard filters +
+
+* `EmbedEvent.FilterChanged` +
+* `HostEvent.GetFilters` +
+* `HostEvent.UpdateFilters`
+|====
+
 == Version 1.22.0, June 2023
 
 [width="100%" cols="1,4"]

@@ -381,6 +381,22 @@ console.log('Liveboard Data:', data);
 ====
 --
 
+==== GetFilters
+
+Available with `LiveboardEmbed` in v1.23.0 or later. +
+Gets the runtime filters currently applied on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.GetFilters)
+----
+====
+--
 
 ==== GetTML
 Available with `SearchEmbed`, and `AppEmbed` in v1.18.0 or later. +
@@ -835,6 +851,26 @@ Requires `vizId` key for event trigger on Liveboards.
 ----
 liveboardEmbed.trigger(HostEvent.SyncToOtherApps, {
 vizId: '730496d6-6903-4601-937e-2c691821af3c'
+})
+----
+====
+--
+
+==== UpdateFilters
+
+Available with `LiveboardEmbed` in v1.23.0 or later. +
+Updates the visible filters on the Liveboard. +
+Includes the `filter` property with a column name, filter operator, and values.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+ filter: { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
 })
 ----
 ====
@@ -1449,6 +1485,26 @@ function showErrorMsg() {
 ====
 --
 
+==== FilterChanged
+
+Available with `LiveboardEmbed` in v1.23.0 or later. +
+
+Is emitted when a user changes a filter on a Liveboard.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+liveboardEmbed.on(EmbedEvent.FilterChanged)
+----
+====
+--
+
+
+
 ==== GetDataClick
 Available with `SearchBarEmbed` in v1.19.0 or later. +
 
@@ -1461,7 +1517,7 @@ Is emitted when the *Get Data* button in the embedded search bar view is clicked
 ====
 [source,JavaScript]
 ----
-searchbarEmbed.trigger(EmbedEvent.GetDataClick)
+searchbarEmbed.on(EmbedEvent.GetDataClick)
 .then(data => {
 console.log('Answer Data:', data);
 })

@@ -17,7 +17,7 @@ The basic layout and feature set of the various pages of the ThoughtSpot applica
 We do not recommend mixing full app embedding with the xref:embed-search.adoc[SearchEmbed] and xref:embed-pinboard.adoc[LiveboardEmbed] components.
 ====
 
-To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.  
+To embed the full ThoughtSpot application in your app, website, or product, complete the steps described in the following sections.
 
 == Import the AppEmbed package
 Import the AppEmbed SDK library to your application environment:
@@ -139,26 +139,62 @@ Valid values for this attribute are:
 ++++
 
 path::
-_String_. The URL path of the ThoughtSpot application page that you want to embed. You can use this parameter to navigate your users to a specific page on your embedded instance. For example, to navigate your users to the `Monitor` page or a saved Answer, you can specify the `path` as shown here:
-
+_String_. The URL path of the ThoughtSpot application page that you want your embed application users to navigate to. When both `path` and `pageId` attributes are defined, the `path` definition takes precedence.
 +
-----
-path: 'monitor'
-----
-
+The following examples show the valid path strings:
 +
+.Answers page
+----
+path: 'answers'
+----
++
+.Saved Answer
 ----
 path: 'saved-answer/96a1cf0b-a159-4cc8-8af4-1a297c492ff9'
 ----
 
 +
-To try it out on +++ <a href="{{previewPrefix}}/playground/fullApp" target="_blank"> Playground</a>+++, select the *Navigate to URL* checkbox and define the URL path.
+.Liveboards page
+----
+path: 'pinboards'
+----
++
+.Liveboard
+----
+path: 'pinboard/96a1cf0b-a159-4cc8-8af4-1a297c492ff9'
+----
 
++
+.SpotIQ page
++
+----
+path: 'insights'
+----
 
-[NOTE]
-====
-When both `path` and `pageId` attributes are defined, the `path` definition takes precedence.
-====
++
+.SpotIQ insights
+----
+path: 'insight/7a02eb76-5963-4c51-a7d3-d95d312d7259'
+----
+
++
+.Data page
+----
+path: 'data/tables/'
+----
+
++
+.Worksheet, Table, or View
+----
+path: 'data/tables/cd252e5c-b552-49a8-821d-3eadaa049cca'
+----
+
++
+.Monitor page
+----
+path: 'monitor'
+----
+
 
 
 disabledActions __Optional__::
@@ -179,7 +215,7 @@ disabledActionReason __Optional__::
 _String_. The text to show for disabled actions. The text string specified in `disabledActionReason` shows as a tooltip when a user hovers over a disabled action in the embedded UI. For example, if you have disabled the `Download` action and you intend to enable this action for only authorized users, you can specify `disabledActionReason` as `Contact your administrator to enable this feature`.
 
 hiddenActions __Optional__::
-_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined. 
+_Array of strings_. Hides the specified actions from the list of available actions in the embedded ThoughtSpot UI. You can use this attribute to remove the actions that are not relevant to your application context. Use this attribute only if `visibleActions` are not defined.
 
 +
 For example, to hide the *Share* action, specify `Action.Share` in the `hiddenActions` attribute.

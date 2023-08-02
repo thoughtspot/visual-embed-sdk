@@ -95,6 +95,19 @@ Logs out the currently logged-in user.
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/authentication/logout" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
 
+
+[div divider]
+--
++++<h4>Get Current User Token</h4>+++
+
+`POST /api/rest/2.0/auth/session/logout` +
+
+Gets authentication token details for the currently logged-in user.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/authentication/get-current-user-token" id="preview-in-playground" target="_blank">View in Playground</a>+++
+--
+
+
 [div divider]
 --
 +++<h4>Revoke token</h4>+++
@@ -1107,16 +1120,25 @@ __Requires `DATAMANAGEMENT` (**Can manage data**) or `ADMINISTRATION` (**Can adm
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/connections/delete-connection" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
 
-////
 == Schedules
-
 
 [div divider]
 --
 +++<h4>Create Schedule</h4>+++
 
-+++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/schedules/create-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
+`POST /api/rest/2.0/schedules/create`
 
+Creates a link:https://docs.thoughtspot.com/cloud/latest/liveboard-schedule[Liveboard schedule job, window=_blank].
+
+* The description text is mandatory.  The description text appears as **Description: <your content>** in the Liveboard schedule email notifications.
+* The API endpoint supports exporting Liveboard data to the recipients in CSV or PDF format. If your Liveboard has tables, you can set `file_format` to CSV to send CSV files in the email notification to the recipients. For PDF generation, you can define PDF layout options.
+* To include specific visualizations, specify the visualization GUIDs in the `visualization_identifiers` array.
+* You can schedule a Liveboard job to run periodically by setting frequency parameters. You can set the schedule to run daily, weekly, monthly or every n minutes or hours. The scheduled job can also be configured to run at a specific time of the day or on specific days of the week or month.
+* If the `frequency` parameters are defined, you can set the time zone to a value that matches your server's time zone. For example, `US/Central`, `Etc/UTC`, `CET`. The default time zone is `America/Los_Angeles`.
+
+__Requires at least edit access to Liveboards. To create a schedule on behalf of another user, you need  `ADMINISTRATION` (**Can administer Org**) or `JOBSCHEDULING` (**Can schedule for others**) privilege and edit access to the Liveboard__.
+
++++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/schedules/create-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
 
 
@@ -1124,17 +1146,22 @@ __Requires `DATAMANAGEMENT` (**Can manage data**) or `ADMINISTRATION` (**Can adm
 --
 +++<h4>Delete Schedule</h4>+++
 
+Deletes a scheduled job.
+
+__Requires at least edit access to Liveboards or `ADMINISTRATION` (**Can administer Org**) privilege__.
+
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/schedules/delete-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
-
 --
-
 
 [div divider]
 --
-+++<h4>Search Schedule</h4>+++
++++<h4>Search Schedules</h4>+++
+
+Gets a list of scheduled jobs configured for a Liveboard. To get the details of a specific scheduled job, specify the GUID of the scheduled job.
+
+__Requires at least view access to Liveboards__.
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0?apiResourceId=http/api-endpoints/schedules/search-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
-
 --
 
 
@@ -1142,7 +1169,11 @@ __Requires `DATAMANAGEMENT` (**Can manage data**) or `ADMINISTRATION` (**Can adm
 --
 +++<h4>Update Schedule</h4>+++
 
+Updates a scheduled job.
+
+The API endpoint allows you to pause a scheduled job, change the status of a paused job, and edit the properties of a schedule, such as the recipient list, frequency of the job, format of the file to send to the recipients in email notifications, PDF options, and time zone settings.
+
+__Requires at least edit access to Liveboards. To update a schedule on behalf of another user, you need  `ADMINISTRATION` (**Can administer Org**) or `JOBSCHEDULING` (**Can schedule for others**) privilege and edit access to the Liveboard__.
+
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0??apiResourceId=http/api-endpoints/schedules/update-schedule" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
-
-////

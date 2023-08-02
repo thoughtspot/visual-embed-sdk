@@ -123,6 +123,7 @@ For example, if you want to filter data for 2020-05-22, you can specify the date
 new Date('2020-05-22').getTime() / 1000
 ----
 ====
+
 == Apply runtime filters on a Liveboard or visualization
 
 The following examples show the runtime filter query string in a Liveboard URL:
@@ -152,12 +153,11 @@ https://{ThoughtSpot-Host}/?col1=State&op1=EQ&val1=California&col2=product&op2=B
 If you are xref:embed-without-sdk.adoc[embedding a Liveboard or visualization without using the Visual Embed SDK], you can append the filters in the embedded object URL as shown in these examples:
 
 ----
-https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=State&op1=EQ&val1=michigan
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
+
 ----
-https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan&col2=product&op2=BEGINS_WITH&val2=Travel#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
 
 === Runtime filters in Visual Embed SDK
@@ -507,10 +507,37 @@ The following example passes multiple variables to a single column as well as mu
 ----
 col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2=<epoch_start>&val2=<epoch_end>
 ----
-[NOTE]
-====
-If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
-====
+
+If the Liveboard or Answer already has one or more filters applied, runtime filters will act as an `AND` condition. This means that all filter conditions, including those supplied in the runtime filters and Liveboard filter, must match to get the desired data.
+
+In the following example, the OR condition is applied; That is, if at least one condition matches, the Liveboard returns data.
+
+.Example for OR condition
+[source,JavaScript]
+----
+runtimeFilters: [{
+    columnName: 'product name',
+    operator: RuntimeFilterOp.CONTAINS,
+    values: ['bag', 'jackets']
+}]
+----
+However, when multiple runtime filters are applied, or when the Liveboard already has a filter applied, the data must match all filter conditions.
+
+.Example for AND condition
+[source,JavaScript]
+----
+runtimeFilters: [{
+        columnName: 'product name',
+        operator: RuntimeFilterOp.CONTAINS,
+        values: ['vest']
+    },
+    {
+        columnName: 'product name',
+        operator: RuntimeFilterOp.CONTAINS,
+        values: ['hoody']
+    }
+]
+----
 
 == Apply runtime filters via REST API v2.0 endpoints
 
@@ -524,7 +551,7 @@ Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
 +
 Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
 
-The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute. 
+The following examples show the request body with runtime filter parameters. Note that you can add additional filters by incrementing the number at the end of each parameter: for example, col2, op2, val2. Some operators, such as `CONTAINS` and `IN`, allow passing multiple values in the `val` attribute.
 
 .Answer report
 
@@ -585,7 +612,13 @@ curl -X POST \
 == Limitations of runtime filters
 
 * The `DATE` and `DATE_TIME` data types must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
-* Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
-* If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
+* Runtime filters work only on Answers and Liveboard visualizations built from Worksheets. Runtime filters on visualizations and Answers built directly from Tables, Views, and SQL Views do not work because the possibility of multiple join paths and join path choice is not supported as input in runtime filters.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
+
+////
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
+
+* Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
+
+* If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
+////
