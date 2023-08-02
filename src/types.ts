@@ -1272,6 +1272,19 @@ export enum EmbedEvent {
      * @hidden
      */
     InsertIntoSlide = 'insertInToSlide',
+    /**
+     *  Emitted when a user click on Go button in Sage Embed
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     */
+    SageEmbedQuery = 'sageEmbedQuery',
+    /**
+     * Emitten when a user select data source in Sage Embed
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     */
+
+    SageWorksheetUpdated = 'sageWorksheetUpdated',
 }
 
 /**
