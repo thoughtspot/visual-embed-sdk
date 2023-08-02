@@ -321,18 +321,29 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The list of actions that can be performed on visual ThoughtSpot
-						entities, such as answers and Liveboards.</p>
+						<p>ThoughtSpot application pages include actions and menu commands
+							for various user-initiated operations. These actions are represented
+							as enumeration members in the SDK. To show, hide, or disable
+							specific actions in the embedded view, define the Action
+							enumeration members in the <code>disabledActions</code>, <code>visibleActions</code>,
+						or <code>hiddenActions</code> array.</p>
 					</div>
-					<p>This enum is used to specify the actions that could be disabled,
-					hidden or made visible.</p>
 					<dl class="tsd-comment-tags">
 						<dt class="example">example</dt>
 						<dd><pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">embed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">LiveboardEmbed</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#embed-container&#039;</span><span style="color: #000000">, {</span>
 <span style="color: #000000">   ... </span><span style="color: #008000">// other options</span>
-<span style="color: #000000">   </span><span style="color: #001080">visibleActions</span><span style="color: #000000">: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Save</span><span style="color: #000000">, </span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Explore</span><span style="color: #000000">],</span>
-<span style="color: #000000">   </span><span style="color: #001080">disableActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Save</span><span style="color: #000000">],</span>
-<span style="color: #000000">   </span><span style="color: #001080">hiddenActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Download</span><span style="color: #000000">], </span><span style="color: #008000">// Set either this or visibleActions</span>
+<span style="color: #000000">   </span><span style="color: #001080">visibleActions</span><span style="color: #000000">: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Save</span><span style="color: #000000">, </span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Edit</span><span style="color: #000000">, </span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Present</span><span style="color: #000000">, </span><span style="color: #001080">ActionAction</span><span style="color: #000000">.</span><span style="color: #001080">Explore</span><span style="color: #000000">],</span>
+<span style="color: #000000">   </span><span style="color: #001080">disabledActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Download</span><span style="color: #000000">],</span>
+<span style="color: #000000">   </span><span style="color: #008000">//hiddenActions: [], // Set either this or visibleActions</span>
+<span style="color: #000000">})</span>
+</code></pre>
+						</dd>
+						<dt class="example">example</dt>
+						<dd><pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">embed</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">LiveboardEmbed</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#embed-container&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">   ... </span><span style="color: #008000">// other options</span>
+<span style="color: #000000">   </span><span style="color: #008000">//visibleActions: [],</span>
+<span style="color: #000000">   </span><span style="color: #001080">disabledActions</span><span style="color: #000000">: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Download</span><span style="color: #000000">],</span>
+<span style="color: #000000">   </span><span style="color: #001080">hiddenActions:</span><span style="color: #000000"> [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Edit</span><span style="color: #000000">, </span><span style="color: #001080">ActionAction</span><span style="color: #000000">.</span><span style="color: #001080">Explore</span><span style="color: #000000">],</span>
 <span style="color: #000000">})</span>
 </code></pre>
 						</dd>
@@ -434,6 +445,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2085">types.ts:2085</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Add filter</strong> action on a Liveboard and Search page.
+							Allows adding filters to Answers and visualizations on a Liveboard.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AddFilter</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="AddFormula" class="tsd-anchor"></a>
@@ -444,6 +467,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2089">types.ts:2089</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Create formula</strong> action on a Search or Answer page.
+							Allows adding formulas to an Answer.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AddFormula</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="AddParameter" class="tsd-anchor"></a>
@@ -482,9 +517,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Favorites icon on Answers, Liveboard, and Data pages</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AddToFavorites</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -499,9 +541,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Chart switcher icon on Answers and visualizations.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AnswerChartSwitcher</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -516,9 +565,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The *<em>Delete</em> action for Answers</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AnswerDelete</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -533,7 +589,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Aggregate</strong> option in the chart axis or the
+								table column customization menu.
+							Provides aggregation options to analyze the data on a chart or table.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuAggregate</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -550,7 +615,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Conditional formatting</strong> action on chart or table.
+								Allows adding rules for conditional formatting of data
+							points on a chart or table.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuConditionalFormat</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -567,7 +641,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Edit</strong> action in the axis customization menu.
+								Allows editing the axis name, position, minimum and maximum values,
+							and format of a column.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuEdit</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -584,7 +667,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Filter</strong> action in the chart axis or table column
+							customization menu.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuFilter</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -601,7 +692,17 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Group</strong> option in the chart axis or table column
+								customization menu.
+								Allows grouping data points if the axes use the same
+							unit of measurement and a similar scale.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuGroup</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -618,7 +719,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Number format</strong> action to customize the format of
+							the data labels on a chart or table.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuNumberFormat</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -635,7 +744,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Position</strong> option in the axis customization menu.
+								Allows changing the position of the axis to the
+							left or right side of the chart.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuPosition</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -652,7 +770,17 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Remove</strong> action in the chart axis or table column
+								customization menu.
+								Removes the data labels from a chart or the column of a
+							table visualization.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuRemove</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -669,7 +797,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Rename</strong> option in the chart axis or table column customization menu.
+							Renames the axis label on a chart or the column header on a table.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuRename</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -686,7 +822,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Sort</strong> menu action on a table or chart axis
+								Sorts data in ascending or descending order.
+							Allows adding, editing, or removing filters.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuConditionalFormat</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -703,7 +848,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Text wrapping</strong> action on a table.
+							Wraps or clips column text on a table.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuTextWrapping</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -720,7 +873,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Time bucket</strong> option in the chart axis or table column
+								customization menu.
+							Allows defining time metric for date comparison.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">AxisMenuTimeBucket</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -736,6 +898,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2088">types.ts:2088</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Choose sources</strong> button on Search page.
+							Allows selecting data sources for search queries.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ChooseDataSources</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="CollapseDataSources" class="tsd-anchor"></a>
@@ -756,6 +930,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2086">types.ts:2086</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Filter configuration options on a Liveboard and Search page.
+								Allows configuring filter options when adding filters to a
+							Liveboard or Answer.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ConfigureFilter</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="CopyAndEdit" class="tsd-anchor"></a>
@@ -776,6 +963,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2077">types.ts:2077</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Copy link</strong> menu action on a Liveboard visualization.
+							Copies the visualization URL</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">CopyLink</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="CopyToClipboard" class="tsd-anchor"></a>
@@ -786,6 +985,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2172">types.ts:2172</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Copy to clipboard</strong> menu action on tables in an Answer
+								or Liveboard.
+							Copies the selected data point.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">CopyToClipboard</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="CreateMonitor" class="tsd-anchor"></a>
@@ -797,9 +1009,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The Create alert action on KPI charts.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">CreateMonitor</span><span style="color: #000000"> ]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -814,7 +1033,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Filter</strong> action on Liveboard visualizations.
+							Allows users to apply cross-filters on a Liveboard.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">CrossFilter</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -830,6 +1057,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2110">types.ts:2110</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Download</strong> menu action on Liveboard visualizations
+								and Answers.
+							Allows downloading a visualization or Answer.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPng</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DownloadAsCsv" class="tsd-anchor"></a>
@@ -840,6 +1080,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2113">types.ts:2113</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Download</strong>  &gt; <strong>CSV</strong> menu action for tables on a Liveboard
+								or Answer page.
+							Downloads a visualization or Answer in the XLSX format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsCsv</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DownloadAsPdf" class="tsd-anchor"></a>
@@ -850,6 +1103,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2112">types.ts:2112</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Download</strong> &gt; <strong>PDF</strong> menu action on a Liveboard.
+							Downloads a visualization or Answer as a PDF file.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPdf</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DownloadAsPng" class="tsd-anchor"></a>
@@ -860,6 +1125,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2111">types.ts:2111</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Download</strong> &gt; <strong>PNG</strong> menu action for charts on a Liveboard
+								or Answer page.
+							Downloads a visualization or Answer as a PNG file.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsPng</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DownloadAsXlsx" class="tsd-anchor"></a>
@@ -870,6 +1148,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2114">types.ts:2114</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Download</strong> &gt; <strong>XLSX</strong> menu action for tables on a Liveboard
+								or Answer page.
+							Downloads a visualization or Answer in the XLSX format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DownloadAsXlsx</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DrillDown" class="tsd-anchor"></a>
@@ -880,6 +1171,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2180">types.ts:2180</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Drill down</strong> menu action on Answers and Liveboard
+								visualizations.
+							Allows drilling down to a specific data point on a chart or table.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DrillDown</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DrillExclude" class="tsd-anchor"></a>
@@ -890,6 +1194,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2171">types.ts:2171</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The action to exclude data points on a drilled-down Answer
+							or visualization</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DrillInclude</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="DrillInclude" class="tsd-anchor"></a>
@@ -900,6 +1216,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2170">types.ts:2170</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The action to include data points on a drilled-down Answer
+							or visualization</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">DrillInclude</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Edit" class="tsd-anchor"></a>
@@ -910,6 +1238,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2125">types.ts:2125</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <em>Edit</em> action on the Liveboard page and in the
+								visualization menu.
+							Opens a Liveboard or visualization in edit mode.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Edit</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="EditACopy" class="tsd-anchor"></a>
@@ -920,6 +1261,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2076">types.ts:2076</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Copy and Edit</strong> action on a Liveboard.
+							This action is now replaced with <code>Action.MakeACopy</code>.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">EditACopy</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="EditDetails" class="tsd-anchor"></a>
@@ -931,9 +1284,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The edit icon on Liveboards (Classic experience).</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">EditDetails</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -957,6 +1317,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2122">types.ts:2122</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Edit TML</strong> menu action for Liveboards and Answers.
+							Opens the TML editor.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">EditTML</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="EditTitle" class="tsd-anchor"></a>
@@ -967,6 +1339,17 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2126">types.ts:2126</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The text edit option for Liveboard and visualization titles.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">EditTitle</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="EnableContextualChangeAnalysis" class="tsd-anchor"></a>
@@ -996,8 +1379,14 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Explore action.</p>
+							<p>The <strong>Explore</strong> action on Liveboard visualizations</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Explore</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -1009,6 +1398,19 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2119">types.ts:2119</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Export TML</strong> menu action on Liveboard, Answers
+								Worksheets and Data Connections page.
+							Exports an object as a TML file.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ExportTML</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ImportTML" class="tsd-anchor"></a>
@@ -1019,6 +1421,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2120">types.ts:2120</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Import TML</strong> menu action for Liveboards and Answers.
+							Imports TML representation of ThoughtSpot objects.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ImportTML</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="LiveboardInfo" class="tsd-anchor"></a>
@@ -1029,6 +1443,20 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2148">types.ts:2148</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Show Liveboard details</strong> menu action on a Liveboard.
+								Displays details such as the name, description, and
+								author of the Liveboard, and timestamp of Liveboard creation
+							and update.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">LiveboardInfo</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="MakeACopy" class="tsd-anchor"></a>
@@ -1039,6 +1467,20 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2075">types.ts:2075</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Make a copy</strong> action on a Liveboard or Answer
+								page.
+								Creates a copy of the Liveboard, visualization,
+							or Answer.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">MakeACopy</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ManagePipelines" class="tsd-anchor"></a>
@@ -1049,6 +1491,21 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2209">types.ts:2209</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Manage pipelines</strong> action on Answers and Liveboard visualizations.
+							Allows users to manage data sync pipelines to third-party apps.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SyncToOtherApps</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="MarkAsVerified" class="tsd-anchor"></a>
@@ -1078,8 +1535,15 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Pin action.</p>
+							<p>The <strong>Pin</strong> menu action on an Answer or
+							Search results page.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Pin</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
@@ -1091,16 +1555,41 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2123">types.ts:2123</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Present</strong> menu action for Liveboards and Answers.
+								Allows presenting a Liveboard or visualization in
+							slideshow mode.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Present</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="QueryDetailsButtons" class="tsd-anchor"></a>
 					<h3>Query<wbr>Details<wbr>Buttons</h3>
-					<div class="tsd-signature tsd-kind-icon">Query<wbr>Details<wbr>Buttons<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;queryDetailsButtons&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Query<wbr>Details<wbr>Buttons<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;QueryDetailsButtons&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2182">types.ts:2182</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Query visualizer</strong> and <strong>Query SQL</strong> buttons in Query details panel
+							of the Answer page</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">QueryDetailsButtons</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Remove" class="tsd-anchor"></a>
@@ -1111,6 +1600,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2127">types.ts:2127</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Delete</strong> menu action on Liveboards and visualizations.
+							Deletes a Liveboard or a visualization from a Liveboard.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Remove</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="RemoveCrossFilter" class="tsd-anchor"></a>
@@ -1122,7 +1623,16 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Remove</strong> action that appears when cross filters are applied
+								on a Liveboard.
+							Removes filters applied o a visualization.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">RemoveCrossFilter</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl</p>
 							</dd>
@@ -1139,7 +1649,15 @@
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Rename</strong> menu action on Liveboards and visualizations.
+							Allows renaming a Liveboard or visualization.</p>
+						</div>
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">RenameModalTitleDescription</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
 							<dd><p>SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl</p>
 							</dd>
@@ -1157,8 +1675,12 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ReportError</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw</p>
+							<dd><p>SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw</p>
 							</dd>
 						</dl>
 					</div>
@@ -1172,6 +1694,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2181">types.ts:2181</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The request access action on Liveboards.
+							Allows users with view permissions to request edit access to a Liveboard.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">RequestAccess</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="RequestVerification" class="tsd-anchor"></a>
@@ -1199,6 +1733,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2065">types.ts:2065</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Save</strong> action on an Answer or Liveboard.
+							Allows users to save the changes.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SaveAsView</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SaveAsView" class="tsd-anchor"></a>
@@ -1209,6 +1755,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2074">types.ts:2074</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Save as View</strong> action on the Answer
+							page. Saves an Answer as a View object.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SaveAsView</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Schedule" class="tsd-anchor"></a>
@@ -1219,6 +1777,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2082">types.ts:2082</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Schedule</strong> menu action on a Liveboard.
+							Allows scheduling a Liveboard notification.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Schedule</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SchedulesList" class="tsd-anchor"></a>
@@ -1229,6 +1799,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2083">types.ts:2083</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Manage schedules</strong> menu action on a Liveboard.
+							Allows users to manage scheduled Liveboard jobs.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SchedulesList</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Separator" class="tsd-anchor"></a>
@@ -1249,6 +1831,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2084">types.ts:2084</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Share</strong> action on a Liveboard, Answer, or Worksheet.
+							Allows users to share an object with other users and groups.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Share</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ShareViz" class="tsd-anchor"></a>
@@ -1269,6 +1863,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2109">types.ts:2109</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Show underlying data</strong> menu action on a visualization or
+							Answer page.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ShowUnderlyingData</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SpotIQAnalyze" class="tsd-anchor"></a>
@@ -1279,6 +1885,18 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2095">types.ts:2095</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>SpotIQ analyze</strong> menu action on a visualization or
+							Answer page.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SpotIQAnalyze</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="Subscription" class="tsd-anchor"></a>
@@ -1289,6 +1907,17 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2165">types.ts:2165</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Schedule</strong> menu action on a Liveboard.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">Subscription</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SyncToOtherApps" class="tsd-anchor"></a>
@@ -1299,6 +1928,22 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2208">types.ts:2208</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Sync to other apps</strong> action on Answers and Liveboard visualizations.
+								Allows sending data to third-party apps like Slack, Salesforce,
+							Microsoft Teams, and so on.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SyncToOtherApps</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SyncToSheets" class="tsd-anchor"></a>
@@ -1309,6 +1954,21 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2207">types.ts:2207</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Sync to sheets</strong> action on Answers and Liveboard visualizations.
+							Allows sending data to a Google Sheet.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">SyncToSheets</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+							<dt class="version">version</dt>
+							<dd><p>SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ToggleSize" class="tsd-anchor"></a>
@@ -1319,16 +1979,40 @@
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2124">types.ts:2124</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The tile resize options in the visualization menu.
+							Allows switching between different preset layouts.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ToggleSize</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="UpdateTML" class="tsd-anchor"></a>
 					<h3>UpdateTML</h3>
-					<div class="tsd-signature tsd-kind-icon">UpdateTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;updateTSL&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">UpdateTML<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;UpdateTML&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5faf1291/src/types.ts#L2121">types.ts:2121</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <strong>Update TML</strong> menu action for Liveboards and Answers.
+							Imports TML representation of ThoughtSpot objects.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt class="example">example</dt>
+							<dd><pre><code class="language-js"><span style="color: #000000">disabledActions: [</span><span style="color: #001080">Action</span><span style="color: #000000">.</span><span style="color: #001080">ImportTML</span><span style="color: #000000">]</span>
+</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 		</div>
