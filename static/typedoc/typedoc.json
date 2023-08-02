@@ -7296,6 +7296,10 @@
 				"shortText": "Embed ThoughtSpot LLM and GPT based natural language search component.",
 				"tags": [
 					{
+						"tag": "version:",
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw"
+					},
+					{
 						"tag": "group",
 						"text": "Embed components\n"
 					}
@@ -14790,10 +14794,6 @@
 				"shortText": "The configuration attributes for the embedded Natural language search view. Based on\nGPT and LLM.",
 				"tags": [
 					{
-						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw"
-					},
-					{
 						"tag": "group",
 						"text": "Embed components\n"
 					}
@@ -14961,7 +14961,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 31,
+							"line": 30,
 							"character": 4
 						}
 					],
@@ -15194,7 +15194,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 35,
+							"line": 34,
 							"character": 4
 						}
 					],
@@ -15448,7 +15448,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 27,
+							"line": 26,
 							"character": 4
 						}
 					],
@@ -15471,7 +15471,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 40,
+							"line": 39,
 							"character": 4
 						}
 					],
@@ -15597,7 +15597,7 @@
 			"sources": [
 				{
 					"fileName": "embed/sage.ts",
-					"line": 23,
+					"line": 22,
 					"character": 17
 				}
 			],
