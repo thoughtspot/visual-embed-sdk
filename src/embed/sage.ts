@@ -17,7 +17,6 @@ import { V1Embed } from './ts-embed';
  * The configuration attributes for the embedded Natural language search view. Based on
  * GPT and LLM.
  *
- * @version: SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw
  * @group Embed components
  */
 export interface SageViewConfig extends ViewConfig {
@@ -52,6 +51,7 @@ export const HiddenActionItemByDefaultForSageEmbed = [
 /**
  * Embed ThoughtSpot LLM and GPT based natural language search component.
  *
+ * @version: SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw
  * @group Embed components
  */
 export class SageEmbed extends V1Embed {
