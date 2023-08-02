@@ -8,8 +8,7 @@
 
 This changelog lists the features and enhancements introduced in REST API v2.0. For a complete list of ThoughtSpot Everywhere features and enhancements, see xref:whats-new.adoc[What's New].
 
-
-== Version 9.4.0.cl, Coming soon
+== Version 9.4.0.cl, August 2023
 
 === API endpoints to schedule and manage Liveboard jobs
 
