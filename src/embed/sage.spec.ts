@@ -37,7 +37,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&hideEurekaResults=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=true&hideAction=%5B"save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&hideEurekaResults=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=true&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
             );
         });
     });
