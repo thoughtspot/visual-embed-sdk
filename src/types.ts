@@ -1314,6 +1314,18 @@ export enum EmbedEvent {
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
+    /**
+     *  Emitted when a user click on Go button in Sage Embed
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     */
+    SageEmbedQuery = 'sageEmbedQuery',
+    /**
+     * Emitten when a user select data source in Sage Embed
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     */
+    SageWorksheetUpdated = 'sageWorksheetUpdated',
 }
 
 /**
