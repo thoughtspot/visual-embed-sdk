@@ -256,6 +256,10 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
     return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
+/**
+ * @param data
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ */
 export const executeTML = async (data: executeTMLInput): Promise<any> => {
     const { thoughtSpotHost, authType } = config;
     try {
@@ -299,6 +303,10 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
         });
 };
 
+/**
+ * @param data
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ */
 export const exportTML = async (data: exportTMLInput): Promise<any> => {
     const { thoughtSpotHost, authType } = config;
     try {
