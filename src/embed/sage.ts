@@ -148,16 +148,14 @@ export class SageEmbed extends V1Embed {
         } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
-        let sagePostHashParams = new URLSearchParams(postHashObj).toString();
-        if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
         if (searchOptions?.searchQuery) {
-            sagePostHashParams[Param.Query] = encodeURIComponent(
-                searchOptions?.searchQuery,
-            );
+            postHashObj[Param.Query] = searchOptions?.searchQuery
             if (searchOptions.executeSearch) {
-                sagePostHashParams[Param.executeSearch] = true;
+                postHashObj[Param.executeSearch] = true;
             }
         }
+        let sagePostHashParams = new URLSearchParams(postHashObj).toString();
+        if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
 
         return `${this.getRootIframeSrc()}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
     }
