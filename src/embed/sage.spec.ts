@@ -47,7 +47,7 @@ describe('Sage  embed tests', () => {
             dataSource: 'worksheet-id',
             searchOptions: {
                 searchQuery: 'test-query',
-            }
+            },
         });
         sageEmbed.render();
         await executeAfterWait(() => {
@@ -62,8 +62,8 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             searchOptions: {
                 searchQuery: 'test-query',
-                executeSearch: true
-            }
+                executeSearch: true,
+            },
         });
         sageEmbed.render();
         await executeAfterWait(() => {

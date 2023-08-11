@@ -149,7 +149,7 @@ export class SageEmbed extends V1Embed {
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
         if (searchOptions?.searchQuery) {
-            postHashObj[Param.Query] = searchOptions?.searchQuery
+            postHashObj[Param.Query] = searchOptions?.searchQuery;
             if (searchOptions.executeSearch) {
                 postHashObj[Param.executeSearch] = true;
             }
