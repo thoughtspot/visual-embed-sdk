@@ -124,7 +124,7 @@ export class SageEmbed extends V1Embed {
         params[Param.DisableWorksheetChange] = !!disableWorksheetChange;
         params[Param.HideWorksheetSelector] = !!hideWorksheetSelector;
         params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
-        params[Param.HideSampleQuestions] = !hideSampleQuestions;
+        params[Param.HideSampleQuestions] = !!hideSampleQuestions;
         params[Param.HideActions] = [
             ...(params[Param.HideActions] ?? []),
             ...HiddenActionItemByDefaultForSageEmbed,
