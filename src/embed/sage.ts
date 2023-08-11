@@ -14,6 +14,23 @@ import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
 
 /**
+ * Configuration for search options
+ */
+export interface SearchOptions {
+    /**
+     * The tml string to load the answer
+     */
+    searchQuery: string;
+    /**
+     * Boolean to determine if the search should be executed or not.
+     * if it is executed, put the focus on the results.
+     * if it’s not executed, put the focus in the search bar - at the end of
+     * the tokens
+     */
+    executeSearch?: boolean;
+}
+
+/**
  * The configuration attributes for the embedded Natural language search view. Based on
  * GPT and LLM.
  *
@@ -51,6 +68,11 @@ export interface SageViewConfig extends ViewConfig {
      * The data source GUID to set on load.
      */
     dataSource?: string;
+    /**
+     * Configuration for search options
+     */
+    searchOptions?: SearchOptions;
+
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
@@ -121,11 +143,21 @@ export class SageEmbed extends V1Embed {
         const path = 'eureka';
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
+        const {
+            dataSource, searchOptions,
+        } = this.viewConfig;
 
-        if (this.viewConfig.searchQuery) postHashObj[Param.Query] = this.viewConfig.searchQuery;
-        if (this.viewConfig.dataSource) postHashObj[Param.WorksheetId] = this.viewConfig.dataSource;
+        if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
         let sagePostHashParams = new URLSearchParams(postHashObj).toString();
         if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
+        if (searchOptions?.searchQuery) {
+            sagePostHashParams[Param.Query] = encodeURIComponent(
+                searchOptions?.searchQuery,
+            );
+            if (searchOptions.executeSearch) {
+                sagePostHashParams[Param.executeSearch] = true;
+            }
+        }
 
         return `${this.getRootIframeSrc()}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
     }
