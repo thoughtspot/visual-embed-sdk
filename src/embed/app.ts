@@ -118,6 +118,14 @@ export interface AppViewConfig extends ViewConfig {
       * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
       */
     fullHeight?:boolean;
+    /**
+     * Flag to control Data panel experience
+     *
+     * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @hidden
+     */
+    dataPanelV2?: boolean;
 }
 
 /**
@@ -155,6 +163,7 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
+            dataPanelV2 = false,
         } = this.viewConfig;
 
         let params = {};
@@ -184,6 +193,7 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableSearchAssist] = enableSearchAssist;
         }
 
+        params[Param.DataPanelV2Enabled] = dataPanelV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

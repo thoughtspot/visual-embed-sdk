@@ -254,6 +254,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add enableDataPanelV2 flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataPanelV2: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableDataPanelV2=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should register event handlers to adjust iframe height', async () => {
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on')
             .mockImplementation((event, callback) => {
