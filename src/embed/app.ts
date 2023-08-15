@@ -47,7 +47,7 @@ export enum Page {
     /**
      * SpotIQ listing page
      */
-    SpotIQ = 'spotiq',
+    SpotIQ = 'insights',
 }
 
 /**
