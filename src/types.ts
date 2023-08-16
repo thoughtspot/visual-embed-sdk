@@ -2094,6 +2094,7 @@ export enum Param {
     DisableLoginRedirect = 'disableLoginRedirect',
     visibleVizs = 'pinboardVisibleVizs',
     LiveboardV2Enabled = 'isPinboardV2Enabled',
+    DataPanelV2Enabled ='enableDataPanelV2',
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
     CustomStyle = 'customStyle',

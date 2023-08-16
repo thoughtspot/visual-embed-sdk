@@ -8,7 +8,7 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts'> {
+export interface SearchBarViewConfig extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts' | 'dataPanelV2'> {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single dataSource supported currently.
