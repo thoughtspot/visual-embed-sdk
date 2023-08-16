@@ -39,7 +39,9 @@ export interface SearchOptions {
  */
 export interface SageViewConfig extends ViewConfig {
     /**
-     * If set to true, object results are shown.
+     * If set to true, a list of liveboard and answers related
+     * to the natural language search will be shown below the
+     * AI generated answer.
      */
     showObjectResults?: boolean;
     /**
@@ -51,7 +53,8 @@ export interface SageViewConfig extends ViewConfig {
      */
     hideWorksheetSelector?: boolean,
     /**
-     * If set to true, the object search suggestions are not shown
+     * If set to true, the search suggestions will contain existing
+     * liveboards and answers in addition with the autocomplete
      *
      */
     showObjectSuggestions?: boolean;
