@@ -2036,6 +2036,20 @@ export enum HostEvent {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SetHiddenTabs = 'SetPinboardHiddenTabs',
+    /**
+     * Updates the search query for sage embed.
+     *
+     * @param - searchOptions: an object queryString and option to execute the query.
+     * @example
+     * ```js
+     * sageEmbed.trigger(HostEvent.UpdateSageQuery, {
+     *  queryString: 'revenue per year',
+     *  executeSearch: true,
+     * })
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    UpdateSageQuery = 'updateSageQuery',
 }
 
 /**
@@ -2123,8 +2137,8 @@ export enum Param {
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
     HideSampleQuestions = 'hideSampleQuestions',
-    WorksheetId = 'worksheetId',
-    Query = 'query,'
+    WorksheetId = 'worksheet',
+    Query = 'query'
 }
 
 /**
