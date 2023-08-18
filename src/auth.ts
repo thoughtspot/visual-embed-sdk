@@ -1,5 +1,4 @@
 import EventEmitter from 'eventemitter3';
-import _ from 'lodash';
 import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
@@ -207,7 +206,7 @@ export function notifyLogout(): void {
 }
 
 export const initSession = (sessionDetails: sessionInfoInterface) => {
-    if (_.isNull(sessionInfo)) {
+    if (sessionInfo == null) {
         sessionInfo = sessionDetails;
         initMixpanel(sessionInfo);
         sessionInfoResolver(sessionInfo);
