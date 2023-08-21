@@ -257,6 +257,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
 };
 
 /**
+ * Imports TML representation of the metadata objects into ThoughtSpot.
  * @param data
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  */
@@ -304,6 +305,7 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
 };
 
 /**
+ * Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML format.
  * @param data
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  */
