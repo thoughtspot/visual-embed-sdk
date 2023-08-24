@@ -22,7 +22,7 @@ export let samlAuthWindow: Window = null;
 export let samlCompletionPromise: Promise<void> = null;
 let sessionInfo: sessionInfoInterface = null;
 let sessionInfoResolver: (value: sessionInfoInterface) => void = null;
-const sessionInfoPromise = new Promise((resolve:(value: sessionInfoInterface) => void) => {
+const sessionInfoPromise = new Promise((resolve: (value: sessionInfoInterface) => void) => {
     sessionInfoResolver = resolve;
 });
 let releaseVersion = '';
@@ -44,7 +44,7 @@ interface sessionInfoInterface {
     userGUID: any;
     isPublicUser: any;
     mixpanelToken: any;
-    [key:string]:any;
+    [key: string]: any;
 }
 
 /**
@@ -213,7 +213,7 @@ export const initSession = (sessionDetails: sessionInfoInterface) => {
     }
 };
 
-export const getSessionDetails = (sessionInfoResp: any):sessionInfoInterface => {
+export const getSessionDetails = (sessionInfoResp: any): sessionInfoInterface => {
     const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
     const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
     const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
@@ -223,6 +223,9 @@ export const getSessionDetails = (sessionInfoResp: any):sessionInfoInterface => 
         userGUID: sessionInfoResp.userGUID,
         mixpanelToken,
         isPublicUser: sessionInfoResp.configInfo.isPublicUser,
+        releaseVersion: sessionInfoResp.releaseVersion,
+        clusterId: sessionInfoResp.configInfo.selfClusterId,
+        clusterName: sessionInfoResp.configInfo.selfClusterName,
         ...sessionInfoResp,
     };
 };
