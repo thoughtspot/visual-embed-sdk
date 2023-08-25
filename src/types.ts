@@ -2138,7 +2138,8 @@ export enum Param {
     HideTabPanel = 'hideTabPanel',
     HideSampleQuestions = 'hideSampleQuestions',
     WorksheetId = 'worksheet',
-    Query = 'query'
+    Query = 'query',
+    ModularHomeExperienceEnabled = 'modularHomeExperience',
 }
 
 /**

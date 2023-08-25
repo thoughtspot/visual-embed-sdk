@@ -126,6 +126,14 @@ export interface AppViewConfig extends ViewConfig {
      * @hidden
      */
     dataPanelV2?: boolean;
+    /**
+     * Flag to control Data panel experience
+     *
+     * @default false
+     * @version SDK: 1.24.0 | Thoughtspot: 9.8.0.cl
+     * @hidden
+     */
+    modularHomeExperience?: boolean;
 }
 
 /**
@@ -164,6 +172,7 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            modularHomeExperience = false,
         } = this.viewConfig;
 
         let params = {};
@@ -194,6 +203,7 @@ export class AppEmbed extends V1Embed {
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
