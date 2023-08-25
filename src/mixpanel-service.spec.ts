@@ -14,9 +14,10 @@ const config = {
 
 jest.mock('mixpanel-browser', () => ({
     __esModule: true,
-    init: jest.fn(),
+    init: jest.fn().mockReturnThis(),
     identify: jest.fn(),
     track: jest.fn(),
+    register_once: jest.fn(),
 }));
 
 describe('Unit test for mixpanel', () => {
@@ -30,7 +31,7 @@ describe('Unit test for mixpanel', () => {
             isPublicUser: false,
         };
         initMixpanel(sessionInfo);
-        expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken);
+        expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken, undefined, 'tsEmbed');
         expect(mixpanel.identify).toHaveBeenCalledWith(sessionInfo.userGUID);
 
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
@@ -45,10 +46,18 @@ describe('Unit test for mixpanel', () => {
             mixpanelToken: 'newToken',
             isPublicUser: true,
             userGUID: 'newUser',
+            clusterId: 'newClusterId',
+            clusterName: 'newClusterName',
+            releaseVersion: 'newReleaseVersion',
         };
         initMixpanel(sessionInfo);
 
-        expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken);
+        expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken, undefined, 'tsEmbed');
+        expect(mixpanel.register_once).toHaveBeenCalledWith({
+            clusterId: sessionInfo.clusterId,
+            clusterName: sessionInfo.clusterName,
+            releaseVersion: sessionInfo.releaseVersion,
+        });
         expect(mixpanel.identify).not.toHaveBeenCalledWith(sessionInfo.userGUID);
     });
 

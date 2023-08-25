@@ -13,33 +13,33 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
-) => React.forwardRef<TsEmbed, U>(
-    (props: U, forwardedRef: React.MutableRefObject<TsEmbed>) => {
+) => React.forwardRef<InstanceType<T>, U>(
+    (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
         const { className, ...embedProps } = props;
         const { viewConfig, listeners } = getViewPropsAndListeners<
-                Omit<U, 'className'>,
-                V
-            >(embedProps);
+            Omit<U, 'className'>,
+            V
+        >(embedProps);
         useDeepCompareEffect(() => {
             const tsEmbed = new EmbedConstructor(
-                    ref!.current,
-                    deepMerge(
-                        {
-                            insertAsSibling: viewConfig.insertAsSibling,
-                            frameParams: {
-                                class: viewConfig.insertAsSibling
-                                    ? className || ''
-                                    : '',
-                            },
+                ref!.current,
+                deepMerge(
+                    {
+                        insertAsSibling: viewConfig.insertAsSibling,
+                        frameParams: {
+                            class: viewConfig.insertAsSibling
+                                ? className || ''
+                                : '',
                         },
-                        viewConfig,
-                    ),
-            );
+                    },
+                    viewConfig,
+                ),
+            ) as InstanceType<T>;
             Object.keys(listeners).forEach((eventName) => {
                 tsEmbed.on(
-                        eventName as EmbedEvent,
-                        listeners[eventName as EmbedEvent],
+                    eventName as EmbedEvent,
+                    listeners[eventName as EmbedEvent],
                 );
             });
             tsEmbed.render();
@@ -68,7 +68,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     },
 );
 
-interface SearchProps extends EmbedProps, SearchViewConfig {}
+interface SearchProps extends EmbedProps, SearchViewConfig { }
 
 /**
  * React component for Search Embed.
@@ -87,7 +87,7 @@ export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, Se
     _SearchEmbed,
 );
 
-interface AppProps extends EmbedProps, AppViewConfig {}
+interface AppProps extends EmbedProps, AppViewConfig { }
 
 /**
  * React component for Full app Embed.
@@ -105,7 +105,7 @@ interface AppProps extends EmbedProps, AppViewConfig {}
  */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
-interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
+interface LiveboardProps extends EmbedProps, LiveboardViewConfig { }
 
 /**
  * React component for Liveboard embed.
@@ -130,7 +130,7 @@ export const LiveboardEmbed = componentFactory<
 
 export const PinboardEmbed = LiveboardEmbed;
 
-interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
+interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig { }
 
 /**
  * React component for Search bar embed.
@@ -151,7 +151,7 @@ export const SearchBarEmbed = componentFactory<
     SearchBarViewConfig
 >(_SearchBarEmbed);
 
-interface SageEmbedProps extends EmbedProps, SageViewConfig {}
+interface SageEmbedProps extends EmbedProps, SageViewConfig { }
 
 /**
  * React component for LLM based search Sage embed.
@@ -172,6 +172,12 @@ export const SageEmbed = componentFactory<
     SageViewConfig
 >(_SageEmbed);
 
+type EmbedComponent = typeof SearchEmbed
+    | typeof AppEmbed
+    | typeof LiveboardEmbed
+    | typeof SearchBarEmbed
+    | typeof SageEmbed;
+
 /**
  * Get a reference to the embed component to trigger events on the component.
  *
@@ -187,9 +193,12 @@ export const SageEmbed = componentFactory<
  * return <LiveboardEmbed ref={ref} liveboardId={<id>} />
  * }
  * ```
- * @returns {React.MutableRefObject<TsEmbed>} ref
+ * @returns {React.MutableRefObject<T extends TsEmbed>} ref
  */
-export const useEmbedRef = (): React.MutableRefObject<TsEmbed> => React.useRef<TsEmbed>(null);
+export function useEmbedRef<T extends EmbedComponent>():
+    React.MutableRefObject<React.ComponentRef<T>> {
+    return React.useRef<React.ComponentRef<T>>(null);
+}
 
 export {
     LiveboardViewConfig,

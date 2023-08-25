@@ -6,6 +6,7 @@ export const EndPoints = {
 
 // Needed to avoid error in CJS builds on some bundlers.
 const mixpanelLib = mixpanel.default || mixpanel;
+let mixpanelInstance: mixpanel.Mixpanel;
 
 export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_START: 'visual-sdk-render-start',
@@ -15,6 +16,7 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_TRIGGER: 'visual-sdk-trigger',
     VISUAL_SDK_ON: 'visual-sdk-on',
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
+    VISUAL_SDK_EMBED_CREATE: 'visual-sdk-embed-create',
 };
 
 let isMixpanelInitialized = false;
@@ -31,7 +33,7 @@ export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
         eventQueue.push({ eventId, eventProps });
         return;
     }
-    mixpanelLib.track(eventId, eventProps);
+    mixpanelInstance.track(eventId, eventProps);
 }
 
 /**
@@ -61,10 +63,15 @@ export function initMixpanel(sessionInfo: any): void {
     const token = sessionInfo.mixpanelToken;
     try {
         if (token) {
-            mixpanelLib.init(token);
+            mixpanelInstance = mixpanelLib.init(token, undefined, 'tsEmbed');
             if (!isPublicCluster) {
-                mixpanelLib.identify(sessionInfo.userGUID);
+                mixpanelInstance.identify(sessionInfo.userGUID);
             }
+            mixpanelInstance.register_once({
+                clusterId: sessionInfo.clusterId,
+                clusterName: sessionInfo.clusterName,
+                releaseVersion: sessionInfo.releaseVersion,
+            });
             isMixpanelInitialized = true;
             emptyQueue();
         }

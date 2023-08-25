@@ -18,7 +18,9 @@ import {
     SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed,
 } from './index';
 import * as allExports from './index';
-import { AuthType, init } from '../index';
+import {
+    AuthType, init,
+} from '../index';
 
 import { version } from '../../package.json';
 
@@ -85,7 +87,7 @@ describe('React Components', () => {
         it('Should be able to trigger events on the embed using refs', async () => {
             mockMessageChannel();
             const TestComponent = () => {
-                const embedRef = useEmbedRef();
+                const embedRef = useEmbedRef<typeof LiveboardEmbed>();
                 const onLiveboardRendered = () => {
                     embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
                 };

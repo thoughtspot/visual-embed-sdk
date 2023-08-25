@@ -44,13 +44,13 @@ export interface executeTMLInput {
 
 export interface exportTMLInput {
     metadata: {
-      identifier: string;
-      type?: 'LIVEBOARD' | 'ANSWER' | 'LOGICAL_TABLE' | 'CONNECTION';
+        identifier: string;
+        type?: 'LIVEBOARD' | 'ANSWER' | 'LOGICAL_TABLE' | 'CONNECTION';
     }[];
     export_associated?: boolean;
     export_fqn?: boolean;
     edoc_format?: 'YAML' | 'JSON';
-  }
+}
 
 export let authPromise: Promise<boolean>;
 /**
@@ -192,9 +192,9 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     setAuthEE(authEE);
     handleAuth();
 
+    const { password, ...configToTrack } = config;
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        authType: config.authType,
-        host: config.thoughtSpotHost,
+        ...configToTrack,
         usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
         usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
         usedCustomizationRules:
