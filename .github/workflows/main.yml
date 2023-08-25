@@ -51,6 +51,10 @@ jobs:
             - name: Run TypeScript compiler
               run: npm run tsc
 
+            # Run size check
+            - name: Run npm check-size
+              run: npm run check-size
+
             # Collect artifacts
             - uses: actions/upload-artifact@v2
               with:
