@@ -127,11 +127,10 @@ export interface AppViewConfig extends ViewConfig {
      */
     dataPanelV2?: boolean;
     /**
-     * Flag to control Data panel experience
+     * Flag to control new Modular Home experience
      *
      * @default false
-     * @version SDK: 1.24.0 | Thoughtspot: 9.8.0.cl
-     * @hidden
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     modularHomeExperience?: boolean;
 }
