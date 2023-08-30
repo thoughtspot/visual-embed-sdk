@@ -463,7 +463,13 @@ describe('Unit test case for ts embed', () => {
         test('mixpanel should call with VISUAL_SDK_RENDER_COMPLETE', async () => {
             await setup(true);
             expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
+            expect(mockMixPanelEvent).toBeCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
+                expect.objectContaining({
+                    elWidth: 0,
+                    elHeight: 0,
+                }),
+            );
         });
 
         test('Should remove prefetch iframe', async () => {
@@ -840,7 +846,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -856,7 +862,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&showAlerts=true${defaultParamsPost}#/home`,
+                + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -871,7 +877,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&locale=ja-JP${defaultParamsPost}#/home`,
+                + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -888,7 +894,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
