@@ -554,7 +554,6 @@ export class TsEmbed {
                         return;
                     }
 
-                    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
                     this.iFrame = this.iFrame || this.createIframeEl(url);
                     this.iFrame.addEventListener('load', () => {
                         nextInQueue();
@@ -565,7 +564,9 @@ export class TsEmbed {
                             },
                             type: EmbedEvent.Load,
                         });
-                        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_IFRAME_LOAD_PERFORMANCE, {
+                        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE, {
+                            elWidth: this.iFrame.clientWidth,
+                            elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
                         });
                     });
