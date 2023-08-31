@@ -79,7 +79,16 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * A URL path within the app that is to be embedded.
      * If both path and pageId attributes are defined, the path definition
-     * takes precedence.
+     * takes precedence. This is the path post the `#/` in the URL of the standalone
+     * ThoughtSpot app.
+     *
+     * For eg, if you want the app to open to a particular liveboard
+     * you could set the path to `pinboard/1234/tab/8586`.
+     *
+     * @example
+     * ```
+     * <AppEmbed path="pinboard/1234/tab/7464" />
+     * ```
      */
     path?: string;
     /**
@@ -111,13 +120,13 @@ export interface AppViewConfig extends ViewConfig {
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     enableSearchAssist?: boolean;
-     /**
-      * If set to true, the embedded object container dynamically resizes
-      * according to the height of the pages which support fullHeight mode.
-      *
-      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
-      */
-    fullHeight?:boolean;
+    /**
+     * If set to true, the embedded object container dynamically resizes
+     * according to the height of the pages which support fullHeight mode.
+     *
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
+     */
+    fullHeight?: boolean;
     /**
      * Flag to control Data panel experience
      *
