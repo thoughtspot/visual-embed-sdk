@@ -127,6 +127,13 @@ export interface AppViewConfig extends ViewConfig {
      */
     dataPanelV2?: boolean;
     /**
+     * Flag to control Homepage Left Nav Bar
+     *
+     * @default true
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    showHomepageLeftnav?: boolean;
+    /**
      * Flag to control new Modular Home experience
      *
      * @default false
@@ -171,6 +178,7 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            showHomepageLeftnav = true,
             modularHomeExperience = false,
         } = this.viewConfig;
 
@@ -202,6 +210,7 @@ export class AppEmbed extends V1Embed {
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.ShowHomepageLeftnav] = showHomepageLeftnav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         const queryParams = getQueryParamString(params, true);
 
