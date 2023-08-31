@@ -80,10 +80,10 @@ export interface AppViewConfig extends ViewConfig {
      * A URL path within the app that is to be embedded.
      * If both path and pageId attributes are defined, the path definition
      * takes precedence. This is the path post the `#/` in the URL of the standalone
-     * ThoughtSpot app.
+     * ThoughtSpot app. Use this to open the embedded view to a specific path.
      *
-     * For eg, if you want the app to open to a particular liveboard
-     * you could set the path to `pinboard/1234/tab/8586`.
+     * For eg, if you want the component to open to a specific liveboard
+     * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
      * @example
      * ```
@@ -94,6 +94,9 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * The application page to set as the start page
      * in the embedded view.
+     *
+     * Use this to open to particular page in the app. To open to a specific
+     * path within the app, use the `path` attribute which is more flexible.
      */
     pageId?: Page;
     /**
