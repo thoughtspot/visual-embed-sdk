@@ -110,9 +110,14 @@ export interface SearchViewConfig extends ViewConfig {
      *
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @hidden
      */
     dataPanelV2?: boolean;
+    /**
+     * Flag to set if last selected dataSource should be used
+     *
+     * @version: SDK: 1.24.0
+     */
+    useLastSelectedSources?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -166,6 +171,7 @@ export class SearchEmbed extends TsEmbed {
             dataSources,
             excludeRuntimeFiltersfromURL,
             dataPanelV2 = false,
+            useLastSelectedSources = false,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -201,7 +207,12 @@ export class SearchEmbed extends TsEmbed {
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
-        queryParams[Param.UseLastSelectedDataSource] = false;
+
+        queryParams[Param.UseLastSelectedDataSource] = useLastSelectedSources;
+        if (dataSource || dataSources) {
+            queryParams[Param.UseLastSelectedDataSource] = false;
+        }
+
         queryParams[Param.searchEmbed] = true;
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
