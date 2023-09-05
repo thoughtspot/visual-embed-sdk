@@ -353,6 +353,11 @@ export interface CustomCssVariables {
     '--ts-var-menu--hover-background'?: string;
 
     /**
+     * Text color for selected menu items.
+     */
+    '--ts-var-menu-selected-text-color'?: string;
+
+    /**
      * Background color of the dialogs.
      */
     '--ts-var-dialog-body-background'?: string;
