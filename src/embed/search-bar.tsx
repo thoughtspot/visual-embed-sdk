@@ -1,6 +1,4 @@
-import {
-    DOMSelector, Param, Action, ViewConfig,
-} from '../types';
+import { Param, ViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -8,7 +6,8 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts' | 'dataPanelV2'> {
+export interface SearchBarViewConfig
+    extends Omit<ViewConfig, 'runtimeFilters' | 'showAlerts' | 'dataPanelV2'> {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single dataSource supported currently.
@@ -22,6 +21,12 @@ export interface SearchBarViewConfig extends Omit<ViewConfig, 'runtimeFilters' |
      * @version: SDK: 1.19.0
      */
     dataSource?: string;
+    /**
+     * Flag to set if last selected dataSource should be used
+     *
+     * @version: SDK: 1.24.0
+     */
+    useLastSelectedSources?: boolean;
     /**
      * Configuration for search options
      */
@@ -52,7 +57,12 @@ export class SearchBarEmbed extends TsEmbed {
      * @param dataSources A list of data source GUIDs
      */
     private getIFrameSrc() {
-        const { searchOptions, dataSource, dataSources } = this.viewConfig;
+        const {
+            searchOptions,
+            dataSource,
+            dataSources,
+            useLastSelectedSources = false,
+        } = this.viewConfig;
         const path = 'search-bar-embed';
         const queryParams = this.getBaseQueryParams();
 
@@ -74,7 +84,10 @@ export class SearchBarEmbed extends TsEmbed {
             }
         }
 
-        queryParams[Param.UseLastSelectedDataSource] = false;
+        queryParams[Param.UseLastSelectedDataSource] = useLastSelectedSources;
+        if (dataSource || dataSources) {
+            queryParams[Param.UseLastSelectedDataSource] = false;
+        }
         queryParams[Param.searchEmbed] = true;
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
