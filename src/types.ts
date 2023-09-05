@@ -2645,7 +2645,7 @@ export enum Action {
     * disabledActions: [Action.QueryDetailsButtons]
     * ```
     */
-    QueryDetailsButtons = 'QueryDetailsButtons',
+    QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
      *
@@ -2950,6 +2950,25 @@ export enum Action {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
+    /**
+     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * Allows moving a visualization to a different tab.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToTab]
+     * ```
+     */
+    MoveToTab = 'onContainerMove',
+    /**
+     * The **Manage Alertsb** menu action on KPI visualizations.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ManageMonitor]
+     * ```
+     */
+    ManageMonitor = 'ManageMonitor',
 }
 
 export interface SessionInterface {
