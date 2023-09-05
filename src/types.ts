@@ -1329,6 +1329,12 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
+    /**
+     * Emitten when a user updates a connection in Data tab
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    UpdateConnection = 'updateConnection',
 }
 
 /**
