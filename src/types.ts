@@ -724,6 +724,12 @@ export interface ViewConfig {
      */
     hiddenTabs?: string[];
     /**
+     * Hidden homepage modules
+     * default value is empty array.
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomepageModules?: string[];
+    /**
      * The list of tab IDs to show in the embedded.
      * Only this Tabs will be shown in their respective LBs.
      * Use this to show an tabID.
@@ -761,7 +767,7 @@ export type MessagePayload = {
  * MessageOptions: By Providing options, getting specific event start / end based on
  * option
  *
- * @group Events
+ * @group Eventsvalue is 
  */
 export type MessageOptions = {
     /**
