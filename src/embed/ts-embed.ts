@@ -274,6 +274,7 @@ export class TsEmbed {
                 authToken,
                 runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
                 hostConfig: this.embedConfig.hostConfig,
+                hiddenLeftNavItems: this.viewConfig.hiddenLeftNavItems,
             },
         });
     };

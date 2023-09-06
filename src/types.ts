@@ -178,6 +178,16 @@ export enum AuthType {
     Basic = 'Basic',
 }
 
+export enum LeftPanelItem {
+    HOME = 'insights-home',
+    LIVEBOARDS = 'liveboards',
+    ANSWERS = 'answers',
+    MONITOR_ALERTS = 'monitor-alerts',
+    SPOTIQ_ANALYSIS = 'spotiq-analysis',
+    TUTORIALS = 'tutorials',
+    DOCUMENTATION = 'documentation',
+    COMMUNITY = 'community',
+}
 export type DOMSelector = string | HTMLElement;
 
 /**
@@ -742,6 +752,10 @@ export interface ViewConfig {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
+    /**
+     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar
+     */
+    hiddenLeftNavItems?: LeftPanelItem[];
 }
 
 /**
