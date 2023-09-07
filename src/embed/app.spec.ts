@@ -284,17 +284,17 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add showHomepageLeftNav flag to the iframe src', async () => {
+    test('Should add hideHomepageLeftNav flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            showHomepageLeftNav: true,
+            hideHomepageLeftNav: false,
         } as AppViewConfig);
 
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&showHomepageLeftNav=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&hideHomepageLeftNav=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
