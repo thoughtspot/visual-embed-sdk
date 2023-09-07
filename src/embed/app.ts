@@ -65,13 +65,13 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * Flag to control Homepage Left Nav Bar
      * If showPrimaryNavbar is true, ie navigation bar(Global nav-bar) and Homepage left
-     * nav-bar is visible, this flag will only show/hide the homepage left nav.
-     * Precedence of showPrimaryNavbar flag > showHomepageLeftNav flag.
+     * nav-bar is visible, this flag will only hide the homepage left nav.
+     * Precedence of showPrimaryNavbar flag > hideHomepageLeftNav flag.
      *
-     * @default true
+     * @default false
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
-    showHomepageLeftNav?: boolean;
+    hideHomepageLeftNav?: boolean;
     /**
      * If true, help and profile buttons will hide on NavBar. By default,
      * they are shown.
