@@ -182,7 +182,7 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
-            showHomepageLeftNav = true,
+            hideHomepageLeftNav = false,
             modularHomeExperience = false,
         } = this.viewConfig;
 
@@ -214,7 +214,7 @@ export class AppEmbed extends V1Embed {
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
-        params[Param.ShowHomepageLeftNav] = showHomepageLeftNav;
+        params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         const queryParams = getQueryParamString(params, true);
 
