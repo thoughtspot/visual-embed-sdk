@@ -724,11 +724,10 @@ export interface ViewConfig {
      */
     hiddenTabs?: string[];
     /**
-     * Hidden homepage modules
-     * default value is empty array.
+     * List of modules to be hide in the home page.
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
-    hiddenHomepageModules?: string[];
+    hiddenHomepageModules?: HomepageModule[];
     /**
      * The list of tab IDs to show in the embedded.
      * Only this Tabs will be shown in their respective LBs.
@@ -767,7 +766,7 @@ export type MessagePayload = {
  * MessageOptions: By Providing options, getting specific event start / end based on
  * option
  *
- * @group Eventsvalue is 
+ * @group Events
  */
 export type MessageOptions = {
     /**
@@ -870,6 +869,37 @@ export enum RuntimeFilterOp {
      * Is included in this list of values
      */
     IN = 'IN',
+}
+
+/**
+ * Home page module that can be hide
+ */
+// eslint-disable-next-line no-shadow
+export enum HomepageModule {
+    /**
+     * Search bar
+     */
+    Search = 'search',
+    /**
+     * kPI watchlist module
+     */
+    Watchlist = 'watchlist',
+    /**
+     * favorite objects
+     */
+    Favorite = 'favorite',
+    /**
+     * List of answers and liveboards
+     */
+    MyLibrary = 'mylibrary',
+    /**
+     * Trending list
+     */
+    Trending = 'trending',
+    /**
+     * Learning videos
+     */
+    Learning = 'learning',
 }
 
 /**
