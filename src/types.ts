@@ -2145,6 +2145,7 @@ export enum Param {
     HideSampleQuestions = 'hideSampleQuestions',
     WorksheetId = 'worksheet',
     Query = 'query',
+    HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
 }
 
