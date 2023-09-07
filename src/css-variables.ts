@@ -24,6 +24,13 @@ export interface CustomCssVariables {
     '--ts-var-root-text-transform'?: string;
 
     /**
+     * application color, it replaces #2770EF which is rd-color(blue,base) and
+     * its similar colors like rd-color(blue,60), rd-color(accent, base) and
+     * rd-color(text, accent) in the app.
+     */
+    '--ts-var-application-color'?: string;
+
+    /**
      * Background color of the top navigation panel.
      */
     '--ts-var-nav-background'?: string;
@@ -346,6 +353,11 @@ export interface CustomCssVariables {
     '--ts-var-menu--hover-background'?: string;
 
     /**
+     * Text color for selected menu items.
+     */
+    '--ts-var-menu-selected-text-color'?: string;
+
+    /**
      * Background color of the dialogs.
      */
     '--ts-var-dialog-body-background'?: string;
@@ -369,4 +381,39 @@ export interface CustomCssVariables {
      * Background color of the footer area on dialogs.
      */
     '--ts-var-dialog-footer-background'?: string;
+
+    /**
+     * Background for selected state in list
+     */
+    '--ts-var-list-selected-background'?: string;
+
+    /**
+     * Background for hover state in list
+     */
+    '--ts-var-list-hover-background'?: string;
+
+    /**
+     * Background for hover state in segment control.
+     */
+    '--ts-var-segment-control-hover-background'?: string;
+
+    /**
+     * Text color for slected item in modular home's watchlist.
+     */
+    '--ts-var-home-watchlist-selected-text-color'?: string;
+
+    /**
+     * Text color for favorite carousel find your favorites card in modular home.
+     */
+    '--ts-var-home-favorite-suggestion-card-text-color'?: string;
+
+    /**
+     * Icon color for favorite carousel find your favorites card in modular home.
+     */
+    '--ts-var-home-favorite-suggestion-card-icon-color'?: string;
+
+    /**
+     * Background for favorite carousel find your favorites card in modular home.
+     */
+    '--ts-var-home-favorite-suggestion-card-background'?: string;
   }
