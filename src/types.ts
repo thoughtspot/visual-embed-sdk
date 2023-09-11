@@ -178,6 +178,16 @@ export enum AuthType {
     Basic = 'Basic',
 }
 
+export enum HomeLeftNavItem {
+    Home = 'insights-home',
+    Liveboards = 'liveboards',
+    Answers = 'answers',
+    MonitorSubscription = 'monitor-alerts',
+    SpotIQAnalysis = 'spotiq-analysis',
+    Tutorials = 'tutorials',
+    Documentation = 'documentation',
+    Community = 'community',
+}
 export type DOMSelector = string | HTMLElement;
 
 /**
@@ -742,6 +752,14 @@ export interface ViewConfig {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
+    /**
+     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar Items
+     * There are 8 home nav list items, we will send those item as list
+     * which we want to hide for TSE.
+     * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
 
 /**
