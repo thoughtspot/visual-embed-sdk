@@ -178,6 +178,16 @@ export enum AuthType {
     Basic = 'Basic',
 }
 
+export enum HomeLeftNavItem {
+    Home = 'insights-home',
+    Liveboards = 'liveboards',
+    Answers = 'answers',
+    MonitorSubscription = 'monitor-alerts',
+    SpotIQAnalysis = 'spotiq-analysis',
+    Tutorials = 'tutorials',
+    Documentation = 'documentation',
+    Community = 'community',
+}
 export type DOMSelector = string | HTMLElement;
 
 /**
@@ -748,6 +758,14 @@ export interface ViewConfig {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
+    /**
+     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar Items
+     * There are 8 home nav list items, we will send those item as list
+     * which we want to hide for TSE.
+     * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
 
 /**
@@ -1366,6 +1384,12 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
+    /**
+     * Emitten when a user updates a connection in Data tab
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    UpdateConnection = 'updateConnection',
 }
 
 /**
@@ -2176,6 +2200,7 @@ export enum Param {
     HideSampleQuestions = 'hideSampleQuestions',
     WorksheetId = 'worksheet',
     Query = 'query',
+    HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
 }
 
@@ -2682,7 +2707,7 @@ export enum Action {
     * disabledActions: [Action.QueryDetailsButtons]
     * ```
     */
-    QueryDetailsButtons = 'QueryDetailsButtons',
+    QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
      *
@@ -2987,6 +3012,25 @@ export enum Action {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
+    /**
+     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * Allows moving a visualization to a different tab.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToTab]
+     * ```
+     */
+    MoveToTab = 'onContainerMove',
+    /**
+     * The **Manage Alertsb** menu action on KPI visualizations.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ManageMonitor]
+     * ```
+     */
+    ManageMonitor = 'ManageMonitor',
 }
 
 export interface SessionInterface {

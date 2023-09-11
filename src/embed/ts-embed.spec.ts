@@ -10,7 +10,11 @@ import {
     LiveboardEmbed,
 } from '../index';
 import {
-    Action, RuntimeFilter, RuntimeFilterOp, HomepageModule,
+    Action,
+    HomeLeftNavItem,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    HomepageModule,
 } from '../types';
 import {
     executeAfterWait,
@@ -104,7 +108,11 @@ describe('Unit test case for ts embed', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: {
-                    customisations, authToken: '', runtimeFilterParams: null, hiddenHomepageModules: [],
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
                 },
             });
         });
@@ -132,6 +140,7 @@ describe('Unit test case for ts embed', () => {
                     customisations: customisationsView,
                     authToken: '',
                     runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                 },
             });
@@ -169,6 +178,7 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [HomepageModule.MyLibrary,
                         HomepageModule.Learning],
                 },
@@ -206,6 +216,43 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                },
+            });
+        });
+
+        test('homeLeftNav from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockedHiddenHomeLeftNavItems: HomeLeftNavItem[] = [
+                HomeLeftNavItem.Home,
+                HomeLeftNavItem.Documentation,
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                hiddenHomeLeftNavItems: mockedHiddenHomeLeftNavItems,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [HomeLeftNavItem.Home,
+                        HomeLeftNavItem.Documentation],
                     hiddenHomepageModules: [],
                 },
             });
@@ -360,6 +407,7 @@ describe('Unit test case for ts embed', () => {
                         customisations,
                         authToken: 'test_auth_token1',
                         runtimeFilterParams: null,
+                        hiddenHomeLeftNavItems: [],
                         hiddenHomepageModules: [],
                     },
                 });

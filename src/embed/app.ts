@@ -59,8 +59,19 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * If true, the main navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
+     * This flag also control the homepage left nav-bar.
      */
     showPrimaryNavbar?: boolean;
+    /**
+     * Flag to control Homepage Left Nav Bar
+     * If showPrimaryNavbar is true, ie navigation bar(Global nav-bar) and Homepage left
+     * nav-bar is visible, this flag will only hide the homepage left nav.
+     * Precedence of showPrimaryNavbar flag > hideHomepageLeftNav flag.
+     *
+     * @default false
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hideHomepageLeftNav?: boolean;
     /**
      * If true, help and profile buttons will hide on NavBar. By default,
      * they are shown.
@@ -183,6 +194,7 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            hideHomepageLeftNav = false,
             modularHomeExperience = false,
         } = this.viewConfig;
 
@@ -214,6 +226,7 @@ export class AppEmbed extends V1Embed {
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         const queryParams = getQueryParamString(params, true);
 
