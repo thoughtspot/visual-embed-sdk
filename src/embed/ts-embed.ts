@@ -273,7 +273,7 @@ export class TsEmbed {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
                 runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
-                hiddenHomepageModules: this.viewConfig.hiddenHomepageModules,
+                hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
                 hostConfig: this.embedConfig.hostConfig,
             },
         });

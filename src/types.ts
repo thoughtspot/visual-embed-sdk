@@ -724,7 +724,8 @@ export interface ViewConfig {
      */
     hiddenTabs?: string[];
     /**
-     * List of modules to be hide in the home page.
+     * Hide the home page modules
+     * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];

@@ -9,7 +9,9 @@ import {
     AppEmbed,
     LiveboardEmbed,
 } from '../index';
-import { Action, RuntimeFilter, RuntimeFilterOp } from '../types';
+import {
+    Action, RuntimeFilter, RuntimeFilterOp, HomepageModule,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -101,7 +103,9 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations, authToken: '', runtimeFilterParams: null },
+                data: {
+                    customisations, authToken: '', runtimeFilterParams: null, hiddenHomepageModules: [],
+                },
             });
         });
 
@@ -128,11 +132,47 @@ describe('Unit test case for ts embed', () => {
                     customisations: customisationsView,
                     authToken: '',
                     runtimeFilterParams: null,
+                    hiddenHomepageModules: [],
                 },
             });
             expect(getIFrameSrc()).toContain(
                 `customCssUrl=${customisationsView.style.customCSSUrl}`,
             );
+        });
+
+        test('hide home page modules from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockedHiddenHomepageModules: HomepageModule[] = [
+                HomepageModule.MyLibrary,
+                HomepageModule.Learning,
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                hiddenHomepageModules: mockedHiddenHomepageModules,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    hiddenHomepageModules: [HomepageModule.MyLibrary,
+                        HomepageModule.Learning],
+                },
+            });
         });
 
         test('Runtime filters from view Config should be part of app_init payload', async () => {
@@ -166,6 +206,7 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    hiddenHomepageModules: [],
                 },
             });
         });
@@ -319,6 +360,7 @@ describe('Unit test case for ts embed', () => {
                         customisations,
                         authToken: 'test_auth_token1',
                         runtimeFilterParams: null,
+                        hiddenHomepageModules: [],
                     },
                 });
             });
