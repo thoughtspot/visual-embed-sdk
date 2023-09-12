@@ -278,7 +278,7 @@ export class AppEmbed extends V1Embed {
      *
      * @param pageId The identifier for a page in the ThoughtSpot app.
      */
-    private getPageRoute(pageId: Page, modularHomeExperience: boolean) {
+    private getPageRoute(pageId: Page, modularHomeExperience = false) {
         switch (pageId) {
             case Page.Search:
                 return 'answer';

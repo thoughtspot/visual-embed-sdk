@@ -144,6 +144,39 @@ describe('App embed tests', () => {
                 });
             });
         }
+
+        const pageRouteMapForModularHome = {
+            [Page.Search]: 'answer',
+            [Page.Answers]: 'home/answers',
+            [Page.Pinboards]: 'home/liveboards',
+            [Page.Liveboards]: 'home/liveboards',
+            [Page.Data]: 'data/tables',
+            [Page.Home]: 'home',
+            [Page.SpotIQ]: 'home/spotiq-analysis',
+        };
+
+        const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
+        for (let i = 0; i < pageIdsForModularHomes.length; i++) {
+            const pageIdsForModularHome = pageIdsForModularHomes[i];
+
+            test(`${pageIdsForModularHome}`, async () => {
+                const route = pageRouteMap[pageIdsForModularHome];
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    modularHomeExperience: true,
+                    pageId: pageIdsForModularHome as Page,
+                } as AppViewConfig);
+                appEmbed.render();
+
+                await executeAfterWait(() => {
+                    expectUrlMatchesWithParams(
+                        getIFrameSrc(),
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/${route}`,
+                    );
+                    cleanUp();
+                });
+            });
+        }
     });
 
     test('should navigate to a path', async () => {
