@@ -239,8 +239,8 @@ export class AppEmbed extends V1Embed {
      * @param pageId The ID of the page to be embedded.
      */
     private getIFrameSrc() {
-        const { pageId, path } = this.viewConfig;
-        const pageRoute = this.formatPath(path) || this.getPageRoute(pageId);
+        const { pageId, path, modularHomeExperience } = this.viewConfig;
+        const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
         let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
@@ -278,20 +278,20 @@ export class AppEmbed extends V1Embed {
      *
      * @param pageId The identifier for a page in the ThoughtSpot app.
      */
-    private getPageRoute(pageId: Page) {
+    private getPageRoute(pageId: Page, modularHomeExperience = false) {
         switch (pageId) {
             case Page.Search:
                 return 'answer';
             case Page.Answers:
-                return 'answers';
+                return modularHomeExperience ? 'home/answers' : 'answers';
             case Page.Liveboards:
-                return 'pinboards';
+                return modularHomeExperience ? 'home/liveboards' : 'pinboards';
             case Page.Pinboards:
-                return 'pinboards';
+                return modularHomeExperience ? 'home/liveboards' : 'pinboards';
             case Page.Data:
                 return 'data/tables';
             case Page.SpotIQ:
-                return 'insights/results';
+                return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
             case Page.Home:
             default:
                 return 'home';
