@@ -179,6 +179,7 @@ export enum AuthType {
 }
 
 export enum HomeLeftNavItem {
+    QueryBuilder = 'query-builder',
     Home = 'insights-home',
     Liveboards = 'liveboards',
     Answers = 'answers',
