@@ -211,4 +211,6 @@ export {
     HostEvent,
     Action,
     FrameParams,
+    HomeLeftNavItem,
+    HomepageModule,
 } from '../index';
