@@ -15,6 +15,7 @@ import {
     CustomisationsInterface,
     DOMSelector,
     ViewConfig,
+    RuntimeParameter,
 } from './types';
 
 /**
@@ -38,6 +39,27 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
         });
 
         return `${filters.join('&')}`;
+    }
+
+    return null;
+};
+
+/**
+ * Construct a runtime parameter override query string from the given option.
+ * @param runtimeParameters
+ */
+export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): string => {
+    if (runtimeParameters && runtimeParameters.length) {
+        const params = runtimeParameters.map((param, valueIndex) => {
+            const index = valueIndex + 1;
+            const filterExpr = [];
+            filterExpr.push(`param${index}=${encodeURIComponent(param.name)}`);
+            filterExpr.push(`paramVal${index}=${encodeURIComponent(param.value)}`);
+
+            return filterExpr.join('&');
+        });
+
+        return `${params.join('&')}`;
     }
 
     return null;
@@ -188,8 +210,9 @@ export const getCustomisations = (
 ): CustomisationsInterface => {
     const customCssUrlFromEmbedConfig = embedConfig.customCssUrl;
     const customizationsFromViewConfig = viewConfig.customizations;
-    const customizationsFromEmbedConfig = embedConfig.customizations
-        || ((embedConfig as any).customisations as CustomisationsInterface);
+    const customizationsFromEmbedConfig =
+        embedConfig.customizations ||
+        ((embedConfig as any).customisations as CustomisationsInterface);
 
     const customizations: CustomisationsInterface = {
         style: {
@@ -200,9 +223,9 @@ export const getCustomisations = (
                 ...customizationsFromViewConfig?.style?.customCSS,
             },
             customCSSUrl:
-                customizationsFromViewConfig?.style?.customCSSUrl
-                || customizationsFromEmbedConfig?.style?.customCSSUrl
-                || customCssUrlFromEmbedConfig,
+                customizationsFromViewConfig?.style?.customCSSUrl ||
+                customizationsFromEmbedConfig?.style?.customCSSUrl ||
+                customCssUrlFromEmbedConfig,
         },
         content: {
             ...customizationsFromEmbedConfig?.content,

@@ -520,7 +520,7 @@ export interface EmbedConfig {
         hostUserGuid: string;
         hostClusterId: string;
         hostClusterName: string;
-    }
+    };
 
     /**
      * Pendo API key to enable Pendo tracking to your own subscription, the key
@@ -532,7 +532,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iFrame configuration
@@ -640,6 +640,11 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
+    /**
+     * The list of parameter override to apply to a search answer,
+     * visualization, or Liveboard.
+     */
+    runtimeParameters?: RuntimeParameter[];
     /**
      * The locale/language to use for the embedded view.
      *
@@ -951,6 +956,20 @@ export interface RuntimeFilter {
      * operands.
      */
     values: (number | boolean | string)[];
+}
+/**
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
+ * visualizations at runtime.
+ */
+export interface RuntimeParameter {
+    /**
+     * The name of the column to filter on (case-sensitive)
+     */
+    name: string;
+    /**
+     * Values
+     */
+    value: number | boolean | string;
 }
 
 /**
@@ -2719,15 +2738,15 @@ export enum Action {
      * ```
      */
     RequestAccess = 'requestAccess',
-   /**
-    * The **Query visualizer** and **Query SQL** buttons in Query details panel
-    * of the Answer page
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.QueryDetailsButtons]
-    * ```
-    */
+    /**
+     * The **Query visualizer** and **Query SQL** buttons in Query details panel
+     * of the Answer page
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.QueryDetailsButtons]
+     * ```
+     */
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
