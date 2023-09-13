@@ -1401,6 +1401,12 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     UpdateConnection = 'updateConnection',
+    /**
+     * Emitten when a user creates a new worksheet
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    CreateWorksheet = 'createWorksheet',
 }
 
 /**
