@@ -1012,6 +1012,25 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expect(getRootEl().nextSibling.nextSibling).not.toBe(getIFrameEl());
         });
+        it('Should set the pendo tracking key when specified', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                pendoTrackingKey: '1234',
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&additionalPendoKey=1234${defaultParamsPost}#/home`,
+            );
+        });
         xit('Sets the forceSAMLAutoRedirect param', async (done) => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
             init({

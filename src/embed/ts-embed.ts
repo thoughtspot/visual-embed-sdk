@@ -362,6 +362,9 @@ export class TsEmbed {
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
             queryParams[Param.cookieless] = true;
         }
+        if (this.embedConfig.pendoTrackingKey) {
+            queryParams[Param.PendoTrackingKey] = this.embedConfig.pendoTrackingKey;
+        }
 
         const {
             disabledActions,
