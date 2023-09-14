@@ -747,6 +747,7 @@ export interface ViewConfig {
     /**
      * Hide the home page modules
      * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
@@ -774,6 +775,7 @@ export interface ViewConfig {
      * There are 8 home nav list items, we will send those item as list
      * which we want to hide for TSE.
      * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     *
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -1380,20 +1382,19 @@ export enum EmbedEvent {
     /**
      * @hidden
      * Emitted when a user changes any filter on a Liveboard.
-     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
     /**
      *  Emitted when a user click on Go button in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
      * Emitten when a user select data source in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
@@ -1402,6 +1403,45 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     UpdateConnection = 'updateConnection',
+    /**
+     * Emitted when name, status (private or public) or filter values of a
+     * PersonalisedView is updated.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    UpdatePersonalisedView = 'updatePersonalisedView',
+    /**
+     * Emitted when a PersonalisedView is saved.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    SavePersonalisedView = 'savePersonalisedView',
+    /**
+     * Emitted when a Liveboard is reset.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    ResetLiveboard = 'resetLiveboard',
+    /**
+     * Emitted when a PersonalisedView is deleted.
+     *
+     * @returns views: string[]
+     * @returns liveboardId: string
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    DeletePersonalisedView = 'deletePersonalisedView',
     /**
      * Emitten when a user creates a new worksheet
      *
@@ -2054,7 +2094,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Gets the currents visible and runtime filters applied on a Liveboard
-     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -2063,7 +2102,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Updates the visible filters on the Liveboard.
-     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *
@@ -2719,15 +2757,15 @@ export enum Action {
      * ```
      */
     RequestAccess = 'requestAccess',
-   /**
-    * The **Query visualizer** and **Query SQL** buttons in Query details panel
-    * of the Answer page
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.QueryDetailsButtons]
-    * ```
-    */
+    /**
+     * The **Query visualizer** and **Query SQL** buttons in Query details panel
+     * of the Answer page
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.QueryDetailsButtons]
+     * ```
+     */
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
@@ -3052,6 +3090,16 @@ export enum Action {
      * ```
      */
     ManageMonitor = 'ManageMonitor',
+    /**
+     * Action ID for Liveboard Personalised Views dropdown
+     *
+     *  @example
+     * ```js
+     * disabledActions: [Action.PersonalisedViewsDropdown]
+     * ```
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    PersonalisedViewsDropdown = 'personalisedViewsDropdown',
 }
 
 export interface SessionInterface {
