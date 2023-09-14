@@ -15,11 +15,12 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
+    RuntimeParameter,
     DOMSelector,
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getRuntimeParameters } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 
@@ -105,6 +106,11 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     hideTabPanel?: boolean;
+    /**
+     * The list of parameter override to apply to a search answer,
+     * visualization, or Liveboard.
+     */
+    runtimeParameters?: RuntimeParameter[];
 }
 
 /**
@@ -154,10 +160,12 @@ export class LiveboardEmbed extends V1Embed {
             vizId,
             hideTabPanel,
             activeTabId,
+            runtimeParameters,
         } = this.viewConfig;
 
-        const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
-            || this.viewConfig.preventPinboardFilterRemoval;
+        const preventLiveboardFilterRemoval =
+            this.viewConfig.preventLiveboardFilterRemoval ||
+            this.viewConfig.preventPinboardFilterRemoval;
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
@@ -184,7 +192,10 @@ export class LiveboardEmbed extends V1Embed {
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
         }
-        const queryParams = getQueryParamString(params, true);
+        let queryParams = getQueryParamString(params, true);
+
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery) queryParams += `&${parameterQuery}`;
 
         return queryParams;
     }

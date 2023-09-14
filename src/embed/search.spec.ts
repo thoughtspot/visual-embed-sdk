@@ -393,4 +393,22 @@ describe('Search embed tests', () => {
             );
         });
     });
+    test('should set runtime parametere values in url params', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            runtimeParameters: [
+                {
+                    name: 'Integer Date Range',
+                    value: 1,
+                },
+            ],
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}&param1=Integer%20Date%20Range&paramVal1=1#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
 });

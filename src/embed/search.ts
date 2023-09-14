@@ -14,8 +14,14 @@ import {
     Action,
     ViewConfig,
     RuntimeFilter,
+    RuntimeParameter,
 } from '../types';
-import { getQueryParamString, checkReleaseVersionInBeta, getFilterQuery } from '../utils';
+import {
+    getQueryParamString,
+    checkReleaseVersionInBeta,
+    getFilterQuery,
+    getRuntimeParameters,
+} from '../utils';
 import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
 import { ERROR_MESSAGE } from '../errors';
@@ -118,6 +124,11 @@ export interface SearchViewConfig extends ViewConfig {
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
+    /**
+     * The list of parameter override to apply to a search answer,
+     * visualization, or Liveboard.
+     */
+    runtimeParameters?: RuntimeParameter[];
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -172,6 +183,7 @@ export class SearchEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             dataPanelV2 = false,
             useLastSelectedSources = false,
+            runtimeParameters,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -219,6 +231,10 @@ export class SearchEmbed extends TsEmbed {
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
+
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery) query += `&${parameterQuery}`;
+
         const filterQuery = getFilterQuery(runtimeFilters || []);
         if (filterQuery && !excludeRuntimeFiltersfromURL) {
             query += `&${filterQuery}`;
