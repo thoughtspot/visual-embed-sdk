@@ -520,7 +520,7 @@ export interface EmbedConfig {
         hostUserGuid: string;
         hostClusterId: string;
         hostClusterName: string;
-    }
+    };
 
     /**
      * Pendo API key to enable Pendo tracking to your own subscription, the key
@@ -532,7 +532,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iFrame configuration
@@ -953,6 +953,20 @@ export interface RuntimeFilter {
      * operands.
      */
     values: (number | boolean | string)[];
+}
+/**
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
+ * visualizations at runtime.
+ */
+export interface RuntimeParameter {
+    /**
+     * The name of the runtime parameter to filter on (case-sensitive)
+     */
+    name: string;
+    /**
+     * Values
+     */
+    value: number | boolean | string;
 }
 
 /**

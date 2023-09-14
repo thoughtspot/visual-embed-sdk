@@ -337,22 +337,22 @@ describe('Liveboard/viz embed tests', () => {
             done();
         });
     });
-
-    test('SetActiveTab Hostevent trigger the navigate event with the correct path, not vizEmbed', async () => {
-        const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+    test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            enableVizTransformations: true,
             ...defaultViewConfig,
             liveboardId,
+            runtimeParameters: [
+                {
+                    name: 'Integer Date Range',
+                    value: 1,
+                },
+            ],
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
-            const result = liveboardEmbed.trigger(HostEvent.SetActiveTab, {
-                tabId: newActiveTabId,
-            });
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
-                HostEvent.Navigate,
-                `embed/viz/${liveboardId}/tab/${newActiveTabId}`,
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&param1=Integer%20Date%20Range&paramVal1=1#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -371,6 +371,25 @@ describe('Liveboard/viz embed tests', () => {
                 tabId: newActiveTabId,
             });
             expect(mockProcessTrigger).not.toBeCalled();
+        });
+    });
+
+    test('SetActiveTab Hostevent trigger the navigate event with the correct path, not vizEmbed', async () => {
+        const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enableVizTransformations: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            const result = liveboardEmbed.trigger(HostEvent.SetActiveTab, {
+                tabId: newActiveTabId,
+            });
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                HostEvent.Navigate,
+                `embed/viz/${liveboardId}/tab/${newActiveTabId}`,
+            );
         });
     });
 });

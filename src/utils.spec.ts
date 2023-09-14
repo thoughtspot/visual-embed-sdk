@@ -10,6 +10,7 @@ import {
     appendToUrlHash,
     getRedirectUrl,
     checkReleaseVersionInBeta,
+    getRuntimeParameters,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -63,6 +64,36 @@ describe('unit test for utils', () => {
         ];
         expect(getFilterQuery(filters)).toBe(
             'col1=foo&op1=EQ&val1=42&col2=bar&op2=BW_INC&val2=1&val2=10&col3=baz&op3=CONTAINS&val3=abc',
+        );
+    });
+    test('getParameterOverride', () => {
+        expect(getRuntimeParameters([])).toBe(null);
+
+        expect(
+            getRuntimeParameters([
+                {
+                    name: 'foo',
+                    value: 'bar',
+                },
+            ]),
+        ).toBe('param1=foo&paramVal1=bar');
+
+        const params = [
+            {
+                name: 'foo',
+                value: 42,
+            },
+            {
+                name: 'bar',
+                value: 'abc',
+            },
+            {
+                name: 'baz',
+                value: true,
+            },
+        ];
+        expect(getRuntimeParameters(params)).toBe(
+            'param1=foo&paramVal1=42&param2=bar&paramVal2=abc&param3=baz&paramVal3=true',
         );
     });
 

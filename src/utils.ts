@@ -15,6 +15,7 @@ import {
     CustomisationsInterface,
     DOMSelector,
     ViewConfig,
+    RuntimeParameter,
 } from './types';
 
 /**
@@ -38,6 +39,28 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
         });
 
         return `${filters.join('&')}`;
+    }
+
+    return null;
+};
+
+/**
+ * Construct a runtime parameter override query string from the given option.
+ *
+ * @param runtimeParameters
+ */
+export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): string => {
+    if (runtimeParameters && runtimeParameters.length) {
+        const params = runtimeParameters.map((param, valueIndex) => {
+            const index = valueIndex + 1;
+            const filterExpr = [];
+            filterExpr.push(`param${index}=${encodeURIComponent(param.name)}`);
+            filterExpr.push(`paramVal${index}=${encodeURIComponent(param.value)}`);
+
+            return filterExpr.join('&');
+        });
+
+        return `${params.join('&')}`;
     }
 
     return null;
