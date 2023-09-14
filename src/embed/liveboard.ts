@@ -162,9 +162,8 @@ export class LiveboardEmbed extends V1Embed {
             runtimeParameters,
         } = this.viewConfig;
 
-        const preventLiveboardFilterRemoval =
-            this.viewConfig.preventLiveboardFilterRemoval ||
-            this.viewConfig.preventPinboardFilterRemoval;
+        const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
+            || this.viewConfig.preventPinboardFilterRemoval;
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;

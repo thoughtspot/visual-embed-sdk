@@ -747,6 +747,7 @@ export interface ViewConfig {
     /**
      * Hide the home page modules
      * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
@@ -774,6 +775,7 @@ export interface ViewConfig {
      * There are 8 home nav list items, we will send those item as list
      * which we want to hide for TSE.
      * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     *
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -1394,7 +1396,6 @@ export enum EmbedEvent {
     /**
      * @hidden
      * Emitted when a user changes any filter on a Liveboard.
-     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
@@ -2068,7 +2069,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Gets the currents visible and runtime filters applied on a Liveboard
-     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -2077,7 +2077,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Updates the visible filters on the Liveboard.
-     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *

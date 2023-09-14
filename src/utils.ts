@@ -46,6 +46,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
 
 /**
  * Construct a runtime parameter override query string from the given option.
+ *
  * @param runtimeParameters
  */
 export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): string => {
@@ -210,9 +211,8 @@ export const getCustomisations = (
 ): CustomisationsInterface => {
     const customCssUrlFromEmbedConfig = embedConfig.customCssUrl;
     const customizationsFromViewConfig = viewConfig.customizations;
-    const customizationsFromEmbedConfig =
-        embedConfig.customizations ||
-        ((embedConfig as any).customisations as CustomisationsInterface);
+    const customizationsFromEmbedConfig = embedConfig.customizations
+        || ((embedConfig as any).customisations as CustomisationsInterface);
 
     const customizations: CustomisationsInterface = {
         style: {
@@ -223,9 +223,9 @@ export const getCustomisations = (
                 ...customizationsFromViewConfig?.style?.customCSS,
             },
             customCSSUrl:
-                customizationsFromViewConfig?.style?.customCSSUrl ||
-                customizationsFromEmbedConfig?.style?.customCSSUrl ||
-                customCssUrlFromEmbedConfig,
+                customizationsFromViewConfig?.style?.customCSSUrl
+                || customizationsFromEmbedConfig?.style?.customCSSUrl
+                || customCssUrlFromEmbedConfig,
         },
         content: {
             ...customizationsFromEmbedConfig?.content,

@@ -277,6 +277,7 @@ export class AppEmbed extends V1Embed {
      * Gets the ThoughtSpot route of the page for a particular page ID.
      *
      * @param pageId The identifier for a page in the ThoughtSpot app.
+     * @param modularHomeExperience
      */
     private getPageRoute(pageId: Page, modularHomeExperience = false) {
         switch (pageId) {
