@@ -107,8 +107,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     hideTabPanel?: boolean;
     /**
-     * The list of parameter override to apply to a search answer,
-     * visualization, or Liveboard.
+     * The list of parameter override to apply to a Liveboard.
      */
     runtimeParameters?: RuntimeParameter[];
 }

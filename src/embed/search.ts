@@ -125,8 +125,7 @@ export interface SearchViewConfig extends ViewConfig {
      */
     useLastSelectedSources?: boolean;
     /**
-     * The list of parameter override to apply to a search answer,
-     * visualization, or Liveboard.
+     * The list of parameter override to apply to a search answer.
      */
     runtimeParameters?: RuntimeParameter[];
 }

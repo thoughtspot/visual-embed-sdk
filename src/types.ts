@@ -958,7 +958,7 @@ export interface RuntimeFilter {
  */
 export interface RuntimeParameter {
     /**
-     * The name of the column to filter on (case-sensitive)
+     * The name of the runtime parameter to filter on (case-sensitive)
      */
     name: string;
     /**
