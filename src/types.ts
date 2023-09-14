@@ -1382,20 +1382,19 @@ export enum EmbedEvent {
     /**
      * @hidden
      * Emitted when a user changes any filter on a Liveboard.
-     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
     /**
      *  Emitted when a user click on Go button in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
      * Emitten when a user select data source in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
@@ -1412,7 +1411,7 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.24.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
@@ -1422,7 +1421,7 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.24.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SavePersonalisedView = 'savePersonalisedView',
     /**
@@ -1432,7 +1431,7 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.24.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ResetLiveboard = 'resetLiveboard',
     /**
@@ -1440,9 +1439,9 @@ export enum EmbedEvent {
      *
      * @returns views: string[]
      * @returns liveboardId: string
-     * @version SDK : 1.24.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
-    DeletePersonalisedView = 'deletePersonalisedView'
+    DeletePersonalisedView = 'deletePersonalisedView',
     /**
      * Emitten when a user creates a new worksheet
      *
@@ -2095,7 +2094,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Gets the currents visible and runtime filters applied on a Liveboard
-     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -2104,7 +2102,6 @@ export enum HostEvent {
     /**
      * @hidden
      * Updates the visible filters on the Liveboard.
-     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *
@@ -3100,7 +3097,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.PersonalisedViewsDropdown]
      * ```
-     *  @version SDK : 1.24.0 | Thoughtspot: 9.7.0.cl
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
 }
