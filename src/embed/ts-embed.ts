@@ -274,8 +274,14 @@ export class TsEmbed {
             data: {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
-                runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
+                runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
+                    ? getRuntimeFilters(this.viewConfig.runtimeFilters)
+                    : null,
+                hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
                 hostConfig: this.embedConfig.hostConfig,
+                hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
+                    ? this.viewConfig?.hiddenHomeLeftNavItems
+                    : [],
             },
         });
     };
@@ -356,6 +362,9 @@ export class TsEmbed {
         }
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
             queryParams[Param.cookieless] = true;
+        }
+        if (this.embedConfig.pendoTrackingKey) {
+            queryParams[Param.PendoTrackingKey] = this.embedConfig.pendoTrackingKey;
         }
 
         const {

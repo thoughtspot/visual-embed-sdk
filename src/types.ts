@@ -178,6 +178,17 @@ export enum AuthType {
     Basic = 'Basic',
 }
 
+export enum HomeLeftNavItem {
+    QueryBuilder = 'query-builder',
+    Home = 'insights-home',
+    Liveboards = 'liveboards',
+    Answers = 'answers',
+    MonitorSubscription = 'monitor-alerts',
+    SpotIQAnalysis = 'spotiq-analysis',
+    Tutorials = 'tutorials',
+    Documentation = 'documentation',
+    Community = 'community',
+}
 export type DOMSelector = string | HTMLElement;
 
 /**
@@ -502,12 +513,22 @@ export interface EmbedConfig {
 
     /**
      * Host config incase embedded app is inside TS app itself
+     *
+     * @hidden
      */
     hostConfig?: {
         hostUserGuid: string;
         hostClusterId: string;
         hostClusterName: string;
     };
+
+    /**
+     * Pendo API key to enable Pendo tracking to your own subscription, the key
+     * is added as an additional key to the embed, as per this [doc](https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions).
+     *
+     * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl
+     */
+    pendoTrackingKey?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -729,6 +750,13 @@ export interface ViewConfig {
      */
     hiddenTabs?: string[];
     /**
+     * Hide the home page modules
+     * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomepageModules?: HomepageModule[];
+    /**
      * The list of tab IDs to show in the embedded.
      * Only this Tabs will be shown in their respective LBs.
      * Use this to show an tabID.
@@ -747,6 +775,15 @@ export interface ViewConfig {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
+    /**
+     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar Items
+     * There are 8 home nav list items, we will send those item as list
+     * which we want to hide for TSE.
+     * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
 
 /**
@@ -872,6 +909,37 @@ export enum RuntimeFilterOp {
 }
 
 /**
+ * Home page module that can be hide
+ */
+// eslint-disable-next-line no-shadow
+export enum HomepageModule {
+    /**
+     * Search bar
+     */
+    Search = 'search',
+    /**
+     * kPI watchlist module
+     */
+    Watchlist = 'watchlist',
+    /**
+     * favorite objects
+     */
+    Favorite = 'favorite',
+    /**
+     * List of answers and liveboards
+     */
+    MyLibrary = 'mylibrary',
+    /**
+     * Trending list
+     */
+    Trending = 'trending',
+    /**
+     * Learning videos
+     */
+    Learning = 'learning',
+}
+
+/**
  * A filter that can be applied to ThoughtSpot answers, Liveboards, or
  * visualizations at runtime.
  */
@@ -897,7 +965,7 @@ export interface RuntimeFilter {
  */
 export interface RuntimeParameter {
     /**
-     * The name of the column to filter on (case-sensitive)
+     * The name of the runtime parameter to filter on (case-sensitive)
      */
     name: string;
     /**
@@ -1331,23 +1399,74 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
+     * @hidden
      * Emitted when a user changes any filter on a Liveboard.
-     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
     /**
      *  Emitted when a user click on Go button in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
      * Emitten when a user select data source in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
+    /**
+     * Emitten when a user updates a connection in Data tab
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    UpdateConnection = 'updateConnection',
+    /**
+     * Emitted when name, status (private or public) or filter values of a
+     * PersonalisedView is updated.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    UpdatePersonalisedView = 'updatePersonalisedView',
+    /**
+     * Emitted when a PersonalisedView is saved.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    SavePersonalisedView = 'savePersonalisedView',
+    /**
+     * Emitted when a Liveboard is reset.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    ResetLiveboard = 'resetLiveboard',
+    /**
+     * Emitted when a PersonalisedView is deleted.
+     *
+     * @returns views: string[]
+     * @returns liveboardId: string
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    DeletePersonalisedView = 'deletePersonalisedView',
+    /**
+     * Emitten when a user creates a new worksheet
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    CreateWorksheet = 'createWorksheet',
 }
 
 /**
@@ -1992,16 +2111,16 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
+     * @hidden
      * Gets the currents visible and runtime filters applied on a Liveboard
-     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
     /**
+     * @hidden
      * Updates the visible filters on the Liveboard.
-     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *
@@ -2158,7 +2277,9 @@ export enum Param {
     HideSampleQuestions = 'hideSampleQuestions',
     WorksheetId = 'worksheet',
     Query = 'query',
+    HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
+    PendoTrackingKey = 'additionalPendoKey',
 }
 
 /**
@@ -2664,7 +2785,7 @@ export enum Action {
      * disabledActions: [Action.QueryDetailsButtons]
      * ```
      */
-    QueryDetailsButtons = 'QueryDetailsButtons',
+    QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
      *
@@ -2969,6 +3090,35 @@ export enum Action {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
+    /**
+     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * Allows moving a visualization to a different tab.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToTab]
+     * ```
+     */
+    MoveToTab = 'onContainerMove',
+    /**
+     * The **Manage Alertsb** menu action on KPI visualizations.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ManageMonitor]
+     * ```
+     */
+    ManageMonitor = 'ManageMonitor',
+    /**
+     * Action ID for Liveboard Personalised Views dropdown
+     *
+     *  @example
+     * ```js
+     * disabledActions: [Action.PersonalisedViewsDropdown]
+     * ```
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    PersonalisedViewsDropdown = 'personalisedViewsDropdown',
 }
 
 export interface SessionInterface {

@@ -46,6 +46,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
 
 /**
  * Construct a runtime parameter override query string from the given option.
+ *
  * @param runtimeParameters
  */
 export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): string => {
