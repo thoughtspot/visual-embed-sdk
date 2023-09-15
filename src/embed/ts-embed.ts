@@ -272,11 +272,14 @@ export class TsEmbed {
             data: {
                 customisations: getCustomisations(this.embedConfig, this.viewConfig),
                 authToken,
-                runtimeFilterParams: getRuntimeFilters(this.viewConfig.runtimeFilters),
+                runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
+                    ? getRuntimeFilters(this.viewConfig.runtimeFilters)
+                    : null,
                 hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
                 hostConfig: this.embedConfig.hostConfig,
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
-                    ? this.viewConfig?.hiddenHomeLeftNavItems : [],
+                    ? this.viewConfig?.hiddenHomeLeftNavItems
+                    : [],
             },
         });
     };
