@@ -18,6 +18,7 @@ import {
     getDOMNode,
     getFilterQuery,
     getQueryParamString,
+    getRuntimeParameters,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -308,12 +309,8 @@ export class TsEmbed {
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
-        this.on(
-            EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true,
-        );
-        this.on(
-            EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true,
-        );
+        this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
+        this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
     };
 
     /**
@@ -513,8 +510,7 @@ export class TsEmbed {
         iFrame.allow = 'clipboard-read; clipboard-write';
 
         const {
-            height: frameHeight,
-            width: frameWidth, ...restParams
+            height: frameHeight, width: frameWidth, ...restParams
         } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
@@ -923,8 +919,11 @@ export class V1Embed extends TsEmbed {
         let queryString = queryParams;
         if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
             const runtimeFilters = this.viewConfig.runtimeFilters;
+            const runtimeParameters = this.viewConfig.runtimeParameters;
+
+            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
             const filterQuery = getFilterQuery(runtimeFilters || []);
-            queryString = [filterQuery, queryParams].filter(Boolean).join('&');
+            queryString = [parameterQuery, filterQuery, queryParams].filter(Boolean).join('&');
         }
         return this.getV1EmbedBasePath(queryString);
     }
