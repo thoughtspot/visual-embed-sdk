@@ -248,8 +248,7 @@ export class TsEmbed {
             this.trigger(HostEvent.Reload);
         });
         window.addEventListener('offline', (e) => {
-            const offlineWarning =
-                'Network not Detected. Embed is offline. Please reconnect and refresh';
+            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
@@ -352,8 +351,8 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] =
-            this.embedConfig.blockNonEmbedFullAppAccess ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
+            ?? true;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -430,8 +429,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = false;
         }
 
-        const spriteUrl =
-            customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
+        const spriteUrl = customizations?.iconSpriteUrl
+            || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -510,8 +509,9 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write';
 
-        const { height: frameHeight, width: frameWidth, ...restParams } =
-            this.viewConfig.frameParams || {};
+        const {
+            height: frameHeight, width: frameWidth, ...restParams
+        } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -651,10 +651,10 @@ export class TsEmbed {
             if (
                 // When start status is true it trigger only start releated
                 // payload
-                (callbackObj.options.start && dataStatus === embedEventStatus.START) ||
+                (callbackObj.options.start && dataStatus === embedEventStatus.START)
                 // When start status is false it trigger only end releated
                 // payload
-                (!callbackObj.options.start && dataStatus === embedEventStatus.END)
+                || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
                 callbackObj.callback(data, (payload) => {
                     this.triggerEventOnPort(eventPort, payload);
