@@ -105,6 +105,27 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     hideTabPanel?: boolean;
+    /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
 }
 
 /**
@@ -154,6 +175,9 @@ export class LiveboardEmbed extends V1Embed {
             vizId,
             hideTabPanel,
             activeTabId,
+            hideLiveboardHeader,
+            showLiveboardDescription,
+            showLiveboardTitle,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -183,6 +207,15 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
+        }
+        if (hideLiveboardHeader) {
+            params[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        }
+        if (showLiveboardDescription) {
+            params[Param.ShowLiveboardDescription] = showLiveboardDescription;
+        }
+        if (showLiveboardTitle) {
+            params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
         const queryParams = getQueryParamString(params, true);
 

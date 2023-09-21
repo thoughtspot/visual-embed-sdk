@@ -126,6 +126,27 @@ export interface AppViewConfig extends ViewConfig {
      * @hidden
      */
     dataPanelV2?: boolean;
+    /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
 }
 
 /**
@@ -164,6 +185,9 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            hideLiveboardHeader,
+            showLiveboardTitle,
+            showLiveboardDescription,
         } = this.viewConfig;
 
         let params = {};
@@ -172,6 +196,9 @@ export class AppEmbed extends V1Embed {
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
         params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
+        params[Param.HideLiveboardHeader] = !!hideLiveboardHeader;
+        params[Param.ShowLiveboardTitle] = !!showLiveboardTitle;
+        params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
 
         params = this.getBaseQueryParams(params);
 
