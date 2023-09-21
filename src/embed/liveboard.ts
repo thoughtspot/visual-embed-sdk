@@ -15,11 +15,12 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
+    RuntimeParameter,
     DOMSelector,
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getRuntimeParameters } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 
@@ -28,7 +29,7 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends ViewConfig {
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -126,6 +127,10 @@ export interface LiveboardViewConfig extends ViewConfig {
      * @default false
      */
     showLiveboardDescription?: boolean;
+    /**
+     * The list of parameter override to apply to a Liveboard.
+     */
+    runtimeParameters?: RuntimeParameter[];
 }
 
 /**
@@ -178,6 +183,7 @@ export class LiveboardEmbed extends V1Embed {
             hideLiveboardHeader,
             showLiveboardDescription,
             showLiveboardTitle,
+            runtimeParameters,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -217,7 +223,10 @@ export class LiveboardEmbed extends V1Embed {
         if (showLiveboardTitle) {
             params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
-        const queryParams = getQueryParamString(params, true);
+        let queryParams = getQueryParamString(params, true);
+
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery) queryParams += `&${parameterQuery}`;
 
         return queryParams;
     }

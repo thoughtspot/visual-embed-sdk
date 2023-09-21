@@ -178,6 +178,17 @@ export enum AuthType {
     Basic = 'Basic',
 }
 
+export enum HomeLeftNavItem {
+    QueryBuilder = 'query-builder',
+    Home = 'insights-home',
+    Liveboards = 'liveboards',
+    Answers = 'answers',
+    MonitorSubscription = 'monitor-alerts',
+    SpotIQAnalysis = 'spotiq-analysis',
+    Tutorials = 'tutorials',
+    Documentation = 'documentation',
+    Community = 'community',
+}
 export type DOMSelector = string | HTMLElement;
 
 /**
@@ -502,16 +513,26 @@ export interface EmbedConfig {
 
     /**
      * Host config incase embedded app is inside TS app itself
+     *
+     * @hidden
      */
     hostConfig?: {
         hostUserGuid: string;
         hostClusterId: string;
         hostClusterName: string;
-    }
+    };
+
+    /**
+     * Pendo API key to enable Pendo tracking to your own subscription, the key
+     * is added as an additional key to the embed, as per this [doc](https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions).
+     *
+     * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl
+     */
+    pendoTrackingKey?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iFrame configuration
@@ -620,6 +641,11 @@ export interface ViewConfig {
      */
     runtimeFilters?: RuntimeFilter[];
     /**
+     * The list of parameter override to apply to a search answer,
+     * visualization, or Liveboard.
+     */
+    runtimeParameters?: RuntimeParameter[];
+    /**
      * The locale/language to use for the embedded view.
      *
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
@@ -703,6 +729,13 @@ export interface ViewConfig {
      */
     hiddenTabs?: string[];
     /**
+     * Hide the home page modules
+     * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomepageModules?: HomepageModule[];
+    /**
      * The list of tab IDs to show in the embedded.
      * Only this Tabs will be shown in their respective LBs.
      * Use this to show an tabID.
@@ -721,6 +754,15 @@ export interface ViewConfig {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
+    /**
+     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar Items
+     * There are 8 home nav list items, we will send those item as list
+     * which we want to hide for TSE.
+     * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
 
 /**
@@ -846,6 +888,37 @@ export enum RuntimeFilterOp {
 }
 
 /**
+ * Home page module that can be hide
+ */
+// eslint-disable-next-line no-shadow
+export enum HomepageModule {
+    /**
+     * Search bar
+     */
+    Search = 'search',
+    /**
+     * kPI watchlist module
+     */
+    Watchlist = 'watchlist',
+    /**
+     * favorite objects
+     */
+    Favorite = 'favorite',
+    /**
+     * List of answers and liveboards
+     */
+    MyLibrary = 'mylibrary',
+    /**
+     * Trending list
+     */
+    Trending = 'trending',
+    /**
+     * Learning videos
+     */
+    Learning = 'learning',
+}
+
+/**
  * A filter that can be applied to ThoughtSpot answers, Liveboards, or
  * visualizations at runtime.
  */
@@ -864,6 +937,20 @@ export interface RuntimeFilter {
      * operands.
      */
     values: (number | boolean | string)[];
+}
+/**
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
+ * visualizations at runtime.
+ */
+export interface RuntimeParameter {
+    /**
+     * The name of the runtime parameter to filter on (case-sensitive)
+     */
+    name: string;
+    /**
+     * Values
+     */
+    value: number | boolean | string;
 }
 
 /**
@@ -1291,23 +1378,74 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
+     * @hidden
      * Emitted when a user changes any filter on a Liveboard.
-     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     FilterChanged = 'filterChanged',
     /**
      *  Emitted when a user click on Go button in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
      * Emitten when a user select data source in Sage Embed
      *
-     * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
+    /**
+     * Emitten when a user updates a connection in Data tab
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    UpdateConnection = 'updateConnection',
+    /**
+     * Emitted when name, status (private or public) or filter values of a
+     * PersonalisedView is updated.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    UpdatePersonalisedView = 'updatePersonalisedView',
+    /**
+     * Emitted when a PersonalisedView is saved.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    SavePersonalisedView = 'savePersonalisedView',
+    /**
+     * Emitted when a Liveboard is reset.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    ResetLiveboard = 'resetLiveboard',
+    /**
+     * Emitted when a PersonalisedView is deleted.
+     *
+     * @returns views: string[]
+     * @returns liveboardId: string
+     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    DeletePersonalisedView = 'deletePersonalisedView',
+    /**
+     * Emitten when a user creates a new worksheet
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    CreateWorksheet = 'createWorksheet',
 }
 
 /**
@@ -1952,16 +2090,16 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
+     * @hidden
      * Gets the currents visible and runtime filters applied on a Liveboard
-     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
     /**
+     * @hidden
      * Updates the visible filters on the Liveboard.
-     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *
@@ -2087,7 +2225,7 @@ export enum Param {
     DisableLoginRedirect = 'disableLoginRedirect',
     visibleVizs = 'pinboardVisibleVizs',
     LiveboardV2Enabled = 'isPinboardV2Enabled',
-    DataPanelV2Enabled ='enableDataPanelV2',
+    DataPanelV2Enabled = 'enableDataPanelV2',
     ShowAlerts = 'showAlerts',
     Locale = 'locale',
     CustomStyle = 'customStyle',
@@ -2117,7 +2255,10 @@ export enum Param {
     HideTabPanel = 'hideTabPanel',
     HideSampleQuestions = 'hideSampleQuestions',
     WorksheetId = 'worksheet',
-    Query = 'query'
+    Query = 'query',
+    HideHomepageLeftNav = 'hideHomepageLeftNav',
+    ModularHomeExperienceEnabled = 'modularHomeExperience',
+    PendoTrackingKey = 'additionalPendoKey',
 }
 
 /**
@@ -2149,15 +2290,15 @@ export enum Param {
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
-   /**
-    * The **Save** action on an Answer or Liveboard.
-    * Allows users to save the changes.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.SaveAsView]
-    * ```
-    */
+    /**
+     * The **Save** action on an Answer or Liveboard.
+     * Allows users to save the changes.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SaveAsView]
+     * ```
+     */
     Save = 'save',
     /**
      * @hidden
@@ -2411,25 +2552,25 @@ export enum Action {
      * ```
      */
     ImportTML = 'importTSL',
-   /**
-    * The **Update TML** menu action for Liveboards and Answers.
-    * Update TML representation of ThoughtSpot objects.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.UpdateTML]
-    * ```
-    */
+    /**
+     * The **Update TML** menu action for Liveboards and Answers.
+     * Update TML representation of ThoughtSpot objects.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.UpdateTML]
+     * ```
+     */
     UpdateTML = 'updateTSL',
-   /**
-    * The **Edit TML** menu action for Liveboards and Answers.
-    * Opens the TML editor.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.EditTML]
-    * ```
-    */
+    /**
+     * The **Edit TML** menu action for Liveboards and Answers.
+     * Opens the TML editor.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EditTML]
+     * ```
+     */
     EditTML = 'editTSL',
     /**
      * The **Present** menu action for Liveboards and Answers.
@@ -2536,14 +2677,14 @@ export enum Action {
      * @hidden
      */
     AnalysisInfo = 'analysisInfo',
-   /**
-    * The **Schedule** menu action on a Liveboard.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.Subscription]
-    * ```
-    */
+    /**
+     * The **Schedule** menu action on a Liveboard.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.Subscription]
+     * ```
+     */
     Subscription = 'subscription',
     /**
      * The **Explore** action on Liveboard visualizations
@@ -2565,26 +2706,26 @@ export enum Action {
      */
 
     DrillInclude = 'context-menu-item-include',
-   /**
-    * The action to exclude data points on a drilled-down Answer
-    * or visualization
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.DrillInclude]
-    * ```
-    */
+    /**
+     * The action to exclude data points on a drilled-down Answer
+     * or visualization
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.DrillInclude]
+     * ```
+     */
     DrillExclude = 'context-menu-item-exclude',
-   /**
-    * The **Copy to clipboard** menu action on tables in an Answer
-    * or Liveboard.
-    * Copies the selected data point.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.CopyToClipboard]
-    * ```
-    */
+    /**
+     * The **Copy to clipboard** menu action on tables in an Answer
+     * or Liveboard.
+     * Copies the selected data point.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CopyToClipboard]
+     * ```
+     */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     CopyAndEdit = 'context-menu-item-copy-and-edit',
     /**
@@ -2593,37 +2734,37 @@ export enum Action {
     DrillEdit = 'context-menu-item-edit',
     EditMeasure = 'context-menu-item-edit-measure',
     Separator = 'context-menu-item-separator',
-   /**
-    * The **Drill down** menu action on Answers and Liveboard
-    * visualizations.
-    * Allows drilling down to a specific data point on a chart or table.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.DrillDown]
-    * ```
-    */
+    /**
+     * The **Drill down** menu action on Answers and Liveboard
+     * visualizations.
+     * Allows drilling down to a specific data point on a chart or table.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.DrillDown]
+     * ```
+     */
     DrillDown = 'DRILL',
-   /**
-    * The request access action on Liveboards.
-    * Allows users with view permissions to request edit access to a Liveboard.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.RequestAccess]
-    * ```
-    */
+    /**
+     * The request access action on Liveboards.
+     * Allows users with view permissions to request edit access to a Liveboard.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.RequestAccess]
+     * ```
+     */
     RequestAccess = 'requestAccess',
-   /**
-    * The **Query visualizer** and **Query SQL** buttons in Query details panel
-    * of the Answer page
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.QueryDetailsButtons]
-    * ```
-    */
-    QueryDetailsButtons = 'QueryDetailsButtons',
+    /**
+     * The **Query visualizer** and **Query SQL** buttons in Query details panel
+     * of the Answer page
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.QueryDetailsButtons]
+     * ```
+     */
+    QueryDetailsButtons = 'queryDetailsButtons',
     /**
      * The **Delete** action for Answers.
      *
@@ -2928,6 +3069,35 @@ export enum Action {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
+    /**
+     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * Allows moving a visualization to a different tab.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToTab]
+     * ```
+     */
+    MoveToTab = 'onContainerMove',
+    /**
+     * The **Manage Alertsb** menu action on KPI visualizations.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ManageMonitor]
+     * ```
+     */
+    ManageMonitor = 'ManageMonitor',
+    /**
+     * Action ID for Liveboard Personalised Views dropdown
+     *
+     *  @example
+     * ```js
+     * disabledActions: [Action.PersonalisedViewsDropdown]
+     * ```
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    PersonalisedViewsDropdown = 'personalisedViewsDropdown',
 }
 
 export interface SessionInterface {
