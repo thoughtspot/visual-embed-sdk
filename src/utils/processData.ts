@@ -6,8 +6,8 @@ import {
     notifyLogout,
 } from '../embed/base';
 import { AuthFailureType, initSession } from '../auth';
-import { AuthType, EmbedEvent, OperationType } from '../types';
-import { getAnswerServiceInstance } from './answerService';
+import { AuthType, EmbedEvent } from '../types';
+import { AnswerService } from './answerService/answerService';
 
 /**
  *
@@ -15,19 +15,13 @@ import { getAnswerServiceInstance } from './answerService';
  * @param thoughtSpotHost
  */
 export function processCustomAction(e: any, thoughtSpotHost: string) {
-    if (
-        [OperationType.GetChartWithData, OperationType.GetTableWithHeadlineData].includes(
-            e.data?.operation,
-        )
-    ) {
-        const { session, query, operation } = e.data;
-        const answerService = getAnswerServiceInstance(session, query, operation, thoughtSpotHost);
-        return {
-            ...e,
-            answerService,
-        };
-    }
-    return e;
+
+    const { session, embedAnswerData } = e.data;
+    const answerService = new AnswerService(session, embedAnswerData, thoughtSpotHost);
+    return {
+        ...e,
+        answerService,
+    };
 }
 
 /**

@@ -248,3 +248,9 @@ export function getDOMNode(domSelector: DOMSelector): HTMLElement {
 }
 
 export const deepMerge = (target: any, source: any) => merge(target, source);
+
+export const getOperationNameFromQuery = (query: string) => {
+    const regex = /(?:query|mutation)\s+(\w+)/;
+    const matches = query.match(regex);
+    return matches?.[1];
+}

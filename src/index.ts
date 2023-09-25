@@ -10,6 +10,7 @@
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import {
     init, prefetch, logout, getEmbedConfig, executeTML, exportTML,
+    executeTMLInput, exportTMLInput,
 } from './embed/base';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
@@ -48,6 +49,8 @@ export {
     prefetch,
     executeTML,
     exportTML,
+    executeTMLInput,
+    exportTMLInput,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
     SearchEmbed,
