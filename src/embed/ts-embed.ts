@@ -277,6 +277,7 @@ export class TsEmbed {
                     ? getRuntimeFilters(this.viewConfig.runtimeFilters)
                     : null,
                 hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
+                reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
                 hostConfig: this.embedConfig.hostConfig,
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
                     ? this.viewConfig?.hiddenHomeLeftNavItems
