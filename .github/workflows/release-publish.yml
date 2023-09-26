@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: 'Publish to NPM PROD'
+name: Publish to NPM PROD
 
 # Controls when the action will run. Triggers the workflow on pull request
 # event
