@@ -51,7 +51,7 @@ None
 
 === Example response
 
-If the request is successful, the API returns a response with details of the configuration details, flags enabled on the cluster, and custom actions added for embedded instances.
+If the request is successful, the API returns a response with details of the configuration and flags enabled on the cluster.
 
 The following example shows a snippet of the configuration information:
 

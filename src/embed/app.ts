@@ -47,7 +47,7 @@ export enum Page {
     /**
      * SpotIQ listing page
      */
-    SpotIQ = 'spotiq',
+    SpotIQ = 'insights',
 }
 
 /**
@@ -59,8 +59,19 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * If true, the main navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
+     * This flag also control the homepage left nav-bar.
      */
     showPrimaryNavbar?: boolean;
+    /**
+     * Flag to control Homepage Left Nav Bar
+     * If showPrimaryNavbar is true, ie navigation bar(Global nav-bar) and Homepage left
+     * nav-bar is visible, this flag will only hide the homepage left nav.
+     * Precedence of showPrimaryNavbar flag > hideHomepageLeftNav flag.
+     *
+     * @default false
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    hideHomepageLeftNav?: boolean;
     /**
      * If true, help and profile buttons will hide on NavBar. By default,
      * they are shown.
@@ -79,12 +90,24 @@ export interface AppViewConfig extends ViewConfig {
     /**
      * A URL path within the app that is to be embedded.
      * If both path and pageId attributes are defined, the path definition
-     * takes precedence.
+     * takes precedence. This is the path post the `#/` in the URL of the standalone
+     * ThoughtSpot app. Use this to open the embedded view to a specific path.
+     *
+     * For eg, if you want the component to open to a specific liveboard
+     * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
+     *
+     * @example
+     * ```
+     * <AppEmbed path="pinboard/1234/tab/7464" />
+     * ```
      */
     path?: string;
     /**
      * The application page to set as the start page
      * in the embedded view.
+     *
+     * Use this to open to particular page in the app. To open to a specific
+     * path within the app, use the `path` attribute which is more flexible.
      */
     pageId?: Page;
     /**
@@ -111,13 +134,28 @@ export interface AppViewConfig extends ViewConfig {
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      */
     enableSearchAssist?: boolean;
-     /**
-      * If set to true, the embedded object container dynamically resizes
-      * according to the height of the pages which support fullHeight mode.
-      *
-      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
-      */
-    fullHeight?:boolean;
+    /**
+     * If set to true, the embedded object container dynamically resizes
+     * according to the height of the pages which support fullHeight mode.
+     *
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
+     */
+    fullHeight?: boolean;
+    /**
+     * Flag to control Data panel experience
+     *
+     * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @hidden
+     */
+    dataPanelV2?: boolean;
+    /**
+     * Flag to control new Modular Home experience
+     *
+     * @default false
+     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    modularHomeExperience?: boolean;
 }
 
 /**
@@ -155,6 +193,9 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
+            dataPanelV2 = false,
+            hideHomepageLeftNav = false,
+            modularHomeExperience = false,
         } = this.viewConfig;
 
         let params = {};
@@ -184,6 +225,9 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableSearchAssist] = enableSearchAssist;
         }
 
+        params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
+        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
@@ -195,8 +239,8 @@ export class AppEmbed extends V1Embed {
      * @param pageId The ID of the page to be embedded.
      */
     private getIFrameSrc() {
-        const { pageId, path } = this.viewConfig;
-        const pageRoute = this.formatPath(path) || this.getPageRoute(pageId);
+        const { pageId, path, modularHomeExperience } = this.viewConfig;
+        const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
         let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
@@ -233,21 +277,22 @@ export class AppEmbed extends V1Embed {
      * Gets the ThoughtSpot route of the page for a particular page ID.
      *
      * @param pageId The identifier for a page in the ThoughtSpot app.
+     * @param modularHomeExperience
      */
-    private getPageRoute(pageId: Page) {
+    private getPageRoute(pageId: Page, modularHomeExperience = false) {
         switch (pageId) {
             case Page.Search:
                 return 'answer';
             case Page.Answers:
-                return 'answers';
+                return modularHomeExperience ? 'home/answers' : 'answers';
             case Page.Liveboards:
-                return 'pinboards';
+                return modularHomeExperience ? 'home/liveboards' : 'pinboards';
             case Page.Pinboards:
-                return 'pinboards';
+                return modularHomeExperience ? 'home/liveboards' : 'pinboards';
             case Page.Data:
                 return 'data/tables';
             case Page.SpotIQ:
-                return 'insights/results';
+                return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
             case Page.Home:
             default:
                 return 'home';

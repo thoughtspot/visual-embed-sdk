@@ -230,7 +230,7 @@ _Boolean_. When set to `true`, the tabular view is set as the default format for
 
 
 hideResults __Optional__::
-_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved answer.
+_Boolean_. When set to true, it hides charts and tables that appear beneath the search bar. You can use this attribute to hide charts and tables when creating custom visualizations using raw data from a saved Answer.
 
 +
 ++++

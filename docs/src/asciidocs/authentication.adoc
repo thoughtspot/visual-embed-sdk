@@ -100,8 +100,8 @@ To get an OAuth token to access a specific metadata object in ThoughtSpot, send 
 |Parameter|  Description
 |`username`
 |__String__. Username of the ThoughtSpot user.
-|`secret_key`
-|__String__. The password of the user account.
+|`password`
+|__String__. Password of the user account.
 |`object_id`
 |__String__. GUID of the ThoughtSpot object.
 The token obtained from this API request grants `Read-Only` access to the specified object.
@@ -180,7 +180,7 @@ To get an access token that grants full access to ThoughtSpot, send a `POST` req
 |`username`
 |__String__. Username of the ThoughtSpot user.
 |`password`
-|__String__. The password of the user account.
+|__String__. Password of the user account.
 |`org_id` +
 __Optional__|__Integer__. If the Orgs feature is enabled on your instance, specify the ID of the Org that you want to access. By default, ThoughtSpot returns a token that grants access to the current logged-in Org context of the requesting user.
 |=====

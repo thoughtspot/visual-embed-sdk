@@ -38,7 +38,8 @@ customizations: {
     },
   },
 ----
-. Change the style specifications for any variable and click `Run`. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+. Change the style specifications for any variable. For a complete list of variables, see xref:css-customization.adoc#supported-variables[Supported variables].
+. Click `Run`.
 
 ++++
 <a href="{{previewPrefix}}/playground/fullApp" id="preview-in-playground" target="_blank">Try it out</a>
@@ -239,35 +240,35 @@ Use the following variables to customize buttons.
 |Variable|Element type|Description
 |`--ts-var-button-border-radius`|Main button| Border-radius of main buttons. +
 For example, the *Search data* button in the top navigation panel.
-|`--ts-var-button--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
+|`--ts-var-button\--icon-border-radius`|Small buttons|Border-radius of small buttons such as secondary buttons. +
 For example, share and favorite buttons.
-|`--ts-var-button--primary-color`|Primary button a|
+|`--ts-var-button\--primary-color`|Primary button a|
 Font color of the text on primary buttons. For example, the primary buttons on *Liveboard*, Answer, *Data* workspace, *SpotIQ*, or *Home* page.
-|`--ts-var-button--primary--font-family`|Primary button|
+|`--ts-var-button\--primary--font-family`|Primary button|
 
 Font family specification for the text on primary buttons.
-|`--ts-var-button--primary-background`|Primary button|
+|`--ts-var-button\--primary-background`|Primary button|
 
 Background color of the primary buttons. For example, the primary buttons such as *Pin* and *Save*.
-|`--ts-var-button--primary--hover-background`|Primary button|
+|`--ts-var-button\--primary--hover-background`|Primary button|
 
 Background color of the primary buttons on hover.
-|`--ts-var-button--secondary-color`|Secondary button|
+|`--ts-var-button\--secondary-color`|Secondary button|
 
 Font color of the text on the secondary buttons.
-|`--ts-var-button--secondary--font-family`|Secondary button|
+|`--ts-var-button\--secondary--font-family`|Secondary button|
 
 Font family specification for the text on the secondary buttons.
-|`--ts-var-button--secondary-background`|Secondary button|Background color of the secondary buttons.
-|`--ts-var-button--secondary--hover-background`|Secondary button|
+|`--ts-var-button\--secondary-background`|Secondary button|Background color of the secondary buttons.
+|`--ts-var-button\--secondary\--hover-background`|Secondary button|
 Background color of the secondary button on hover.
-|`--ts-var-button--tertiary-color`|Tertiary button|
+|`--ts-var-button\--tertiary-color`|Tertiary button|
 
 Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the *Search* page.
-|`--ts-var-button--tertiary-background`|Tertiary button|
+|`--ts-var-button\--tertiary-background`|Tertiary button|
 
 Background color of the tertiary button.
-|`--ts-var-button--tertiary--hover-background`|Tertiary button|
+|`--ts-var-button\--tertiary\--hover-background`|Tertiary button|
 
 Background color of the tertiary button when a user hovers over these buttons.
 |======
@@ -313,7 +314,7 @@ Use the following variables to customize the background color of the chart type 
 |`--ts-var-answer-chart-hover-background`|Background color of the chart type element when a user hovers over a chart type on the chart selection widget.
 |======
 
-==== Filter chips on visualization and answer pages
+==== Filter chips on visualization and Answer pages
 Filter chips appear on the Liveboard, Answer, and visualization pages if filters are applied on charts and tables. You can use the following variables to customize the look and feel of filter chips.
 
 [width="100%" cols="7,7"]
@@ -323,10 +324,10 @@ Filter chips appear on the Liveboard, Answer, and visualization pages if filters
 |`--ts-var-chip-border-radius`| Border-radius of filter chips.
 |`--ts-var-chip-box-shadow`|Shadow effect for filter chips.
 |`--ts-var-chip-background`|Background color of filter chips.
-|`--ts-var-chip--active-color`|Font color of the filter label when a filter chip is selected
-|`--ts-var-chip--active-background`|Background color of the filter chips when selected.
-|`--ts-var-chip--hover-color`|Font color of the text on filter chips when hovered over.
-|`--ts-var-chip--hover-background`| Background color of filter chips on hover.
+|`--ts-var-chip\--active-color`|Font color of the filter label when a filter chip is selected
+|`--ts-var-chip\--active-background`|Background color of the filter chips when selected.
+|`--ts-var-chip\--hover-color`|Font color of the text on filter chips when hovered over.
+|`--ts-var-chip\--hover-background`| Background color of filter chips on hover.
 |`--ts-var-chip-color`|Font color of the text on filter chips.
 |`--ts-var-chip-title-font-family`|Font family specification for the text on filter chips.
 |======
@@ -357,7 +358,7 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu-background`|Background color of menu panels.
 |`--ts-var-menu-font-family`|Font family specification for the menu items.
 |`--ts-var-menu-text-transform`|Text capitalization specification for the menu items.
-|`--ts-var-menu--hover-background`|Background color for menu items on hover.
+|`--ts-var-menu\--hover-background`|Background color for menu items on hover.
 |======
 
 === Dialogs

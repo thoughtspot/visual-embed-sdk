@@ -239,7 +239,7 @@ In general, most web applications put the ThoughtSpot GUID into the URL in a way
 === Load individual visualizations from a Liveboard
 You can load individual visualizations on a Liveboard using the `LiveboardEmbed` component by supplying both `liveboardId` and `vizId`.
 
-The display of a visualization from a Liveboard differs from a saved answer object, which is loaded via the `SearchEmbed` component. The saved answer object always displays the ThoughtSpot search bar and UI actions for editing an answer, whereas the visualizations display fewer UI elements and show the menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu].
+The display of a visualization from a Liveboard differs from a saved Answer object, which is loaded via the `SearchEmbed` component. The saved answer object always displays the ThoughtSpot search bar and UI actions for editing an Answer, whereas the visualizations display fewer UI elements and show the menu items in the **More** menu image:./images/icon-more-10px.png[the more options menu].
 
 To retrieve a list of visualizations from a Liveboard, you can use the xref:metadata-api.adoc#viz-header[get visualization headers REST API endpoint].
 

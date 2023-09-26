@@ -14,8 +14,14 @@ import {
     Action,
     ViewConfig,
     RuntimeFilter,
+    RuntimeParameter,
 } from '../types';
-import { getQueryParamString, checkReleaseVersionInBeta, getFilterQuery } from '../utils';
+import {
+    getQueryParamString,
+    checkReleaseVersionInBeta,
+    getFilterQuery,
+    getRuntimeParameters,
+} from '../utils';
 import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
 import { ERROR_MESSAGE } from '../errors';
@@ -105,6 +111,23 @@ export interface SearchViewConfig extends ViewConfig {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     hideSearchBar?: boolean;
+    /**
+     * Flag to control Data panel experience
+     *
+     * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    dataPanelV2?: boolean;
+    /**
+     * Flag to set if last selected dataSource should be used
+     *
+     * @version: SDK: 1.24.0
+     */
+    useLastSelectedSources?: boolean;
+    /**
+     * The list of parameter override to apply to a search answer.
+     */
+    runtimeParameters?: RuntimeParameter[];
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -157,6 +180,9 @@ export class SearchEmbed extends TsEmbed {
             dataSource,
             dataSources,
             excludeRuntimeFiltersfromURL,
+            dataPanelV2 = false,
+            useLastSelectedSources = false,
+            runtimeParameters,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -190,14 +216,24 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.ForceTable] = true;
         }
 
+        queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
-        queryParams[Param.UseLastSelectedDataSource] = false;
+
+        queryParams[Param.UseLastSelectedDataSource] = useLastSelectedSources;
+        if (dataSource || dataSources) {
+            queryParams[Param.UseLastSelectedDataSource] = false;
+        }
+
         queryParams[Param.searchEmbed] = true;
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
+
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery) query += `&${parameterQuery}`;
+
         const filterQuery = getFilterQuery(runtimeFilters || []);
         if (filterQuery && !excludeRuntimeFiltersfromURL) {
             query += `&${filterQuery}`;

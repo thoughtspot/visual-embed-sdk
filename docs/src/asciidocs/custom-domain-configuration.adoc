@@ -30,7 +30,7 @@ The domain URL customization does not update the email domain name in ThoughtSpo
 
 == Email customization
 
-ThoughtSpot supports customizing the email domain, sender ID welcome email message text, and product name in system-generated notifications such as the Liveboard and answer sharing notifications, Liveboard job scheduled emails, and so on.
+ThoughtSpot supports customizing the email domain, sender ID welcome email message text, and product name in system-generated notifications such as the Liveboard and Answer sharing notifications, Liveboard job scheduled emails, and so on.
 
 [width="100%" cols="3,6"]
 [options='header']

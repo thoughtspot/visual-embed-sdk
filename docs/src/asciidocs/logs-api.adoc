@@ -6,9 +6,9 @@
 :page-pageid: logs-api
 :page-description: Log streaming service APIs
 
-ThoughtSpot cloud deployments allow you to collect security audit events and send them to your Security information and event management (SIEM) application in real-time. These events can help your security operations personnel to detect potential security threats or compromised user accounts in your organization. 
+ThoughtSpot cloud deployments allow you to collect security audit events and send them to your Security information and event management (SIEM) application in real-time. These events can help your security operations personnel in detecting potential security threats or compromised user accounts in your organization.
 
-The ThoughtSpot log API service allows you to programmatically get a security audit event log from the ThoughtSpot system. To use this API, make sure you have admin user privileges. 
+The log API endpoint allows you to programmatically fetch security audit logs from the ThoughtSpot system.
 
 == Supported operations
 
@@ -16,7 +16,7 @@ include::{path}/audit-log-api.adoc[]
 
 == Required permissions
 
-You must have administrator access to query security logs.
+Requires administrator privilege.
 
 == Resource URL
 ----
@@ -25,7 +25,7 @@ GET /tspublic/v1/logs/topics/{topic}
 
 == Request parameters
 
-== Request parameters
+By default, the API retrieves logs for the last 24 hours. You can set a custom duration in EPOCH time. Make sure the log duration specified in your API request doesn’t exceed 24 hours. If you must fetch logs for a longer time range, modify the duration and make multiple sequential API requests.
 
 [width="100%" cols="2,1,4"]
 [options='header']
@@ -38,47 +38,52 @@ a|`toEpoch`  +
 __Optional__|Query|__Epoch time string__. The EPOCH time in milliseconds to set the end time for streaming logs. To set the timestamp as June 2, 2021, 8 am, specify `1622620800000`.
 |====
 
-[NOTE]
-====
-The API allows querying logs for a 24-hour duration only. Make sure the log duration specified in your API request doesn't exceed 24 hours. If you must fetch logs for a longer time range, you can make multiple sequential API requests with different start and end time values.
-====
-
 == Example request
 
 .cURL
 [source,cURL]
 ----
 curl -X GET \
---header 'Accept: text/html' \
---header 'X-Requested-By: ThoughtSpot'
-'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/logs/topics/security_logs?fromEpoch=1622534400000&toEpoch=1625126400000'
+--header 'Accept: application/json' \
+'https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/logs/topics/security_logs'
 ----
 
 .Request URL
 ----
-https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/logs/topics/%22security_logs%22?fromEpoch=%221622534400000%22&toEpoch=%221625126400000%22
+https://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/logs/topics/security_logs
 ----
 
 == Example response
 
-The API returns ThoughtSpot security events with the following information:
+Upon successful execution, the API returns logs with the following information:
 
-* Event ID
-* A unique description of the event, for example, `User login failed`.
-* Timestamp 
-* User ID of the person initiating the event
+* timestamp of the event
+* event ID
+* event type
+* Name and GUID of the user
 * IP address of the ThoughtSpot instance
- 
 
-[source, JSON]
+
+[source,JSON]
 ----
-{
-   "date":"2021-05-12T13:54:10.449658Z",
-   "log":"{\"version\":\"1.0\",\"id\":\"TS-494a3556-eadd-495c-a5ce-c0273d7edc5b\",\"ts\":\"2021-05-12T13:54:10Z\",\"userGUID\":null,\"userName\":null,\"cIP\":\"10.253.143.254\",\"type\":\"LOGIN_FAILED\",\"desc\":\"User login failed\",\"data\":{\"userName\":\"svc.nebula-may-82\"}}"
-}{
-   "date":"2021-05-12T13:54:10.742073Z",
-   "log":"{\"version\":\"1.0\",\"id\":\"TS-0f9127f0-05a0-4f04-bf1b-8a46ed996f14\",\"ts\":\"2021-05-12T13:54:10Z\",\"userGUID\":\"f55fb80c-941f-4f70-bd2f-d389ff65d375\",\"userName\":\"svc.nebula-may-82\",\"cIP\":\"10.253.143.254\",\"type\":\"LOGIN_SUCCESSFUL\",\"desc\":\"User login successful\",\"data\":{\"userName\":\"svc.nebula-may-82\"}}"
-}
+[
+  {
+    "date": "2023-06-08T11:15:26.421996Z",
+    "log": "{\"version\":\"1.1\",\"id\":\"TS-0f31addf-fb94-445c-9af6-318975cea9cb\",\"ts\":\"2023-06-08T11:15:26Z\",\"orgId\":0,\"userGUID\":null,\"userName\":null,\"cIP\":null,\"type\":\"LOGIN_FAILED\",\"desc\":\"User login failed\",\"data\":{\"userName\":\"system\"}}"
+  },
+  {
+    "date": "2023-06-08T11:15:59.385943Z",
+    "log": "{\"version\":\"1.1\",\"id\":\"TS-2026d1e7-df48-442f-b4ab-f512d4b0a86f\",\"ts\":\"2023-06-08T11:15:59Z\",\"orgId\":0,\"userGUID\":\"67e15c06-d153-4924-a4cd-ff615393b60f\",\"userName\":\"system\",\"cIP\":null,\"type\":\"LOGOUT_SUCCESSFUL\",\"desc\":\"User logout successful\",\"data\":{}}"
+  },
+  {
+    "date": "2023-06-08T11:37:55.662295Z",
+    "log": "{\"version\":\"1.1\",\"id\":\"TS-6ed05559-7c4e-44b1-8f37-712269f4750c\",\"ts\":\"2023-06-08T11:37:55Z\",\"orgId\":0,\"userGUID\":\"59481331-ee53-42be-a548-bd87be6ddd4a\",\"userName\":\"tsadmin\",\"cIP\":\"10.254.3.248\",\"type\":\"LOGIN_SUCCESSFUL\",\"desc\":\"User login successful\",\"data\":{\"userName\":\"tsadmin\"}}"
+  },
+  {
+    "date": "2023-06-09T04:32:50.383520Z",
+    "log": "{\"version\":\"1.1\",\"id\":\"TS-cc66980a-db77-452b-9516-c9006e23a659\",\"ts\":\"2023-06-09T04:32:50Z\",\"orgId\":0,\"userGUID\":\"67e15c06-d153-4924-a4cd-ff615393b60f\",\"userName\":\"system\",\"cIP\":null,\"type\":\"LOGOUT_SUCCESSFUL\",\"desc\":\"User logout successful\",\"data\":{}}"
+  }
+]
 ----
 
 == Response codes

@@ -18,9 +18,6 @@ ThoughtSpot search bar that allows passing search tokens. The search bar is resp
 +
 The *Get data* button returns the search result as raw data. Your host application can use this data as a payload and render it in your app.
 
-+
-By default, ThoughtSpot returns 1000 rows of data when the *Get data* button is clicked. To get more rows of data, you can use the `GetDataClick` event to trigger a response payload and retrieve all the data when the *Get data* button is clicked.
-
 * Data panel +
 The data sources panel allows users to choose the data sources to search from. The current version of the SDK doesn't allow you to hide or collapse the data panel.
 
@@ -233,8 +230,49 @@ searchBarEmbed.on(EmbedEvent.Data, payload => {
     console.log('data', payload);
 })
 ----
- 
-For more information, see xref:embed-events.adoc[Interact with events].
+
+By default, ThoughtSpot returns 1000 rows of data for a given query when a user clicks the *Get data* button. To get more rows of data, you can subscribe to the `GetDataClick` event and trigger a response payload from the search data API call.
+
+The following example shows how to register the `GetDataClick` event and trigger an API call:
+[source,JavaScript]
+----
+const getQueryResult = async (query: string, sourceName: string) => {
+  const baseUrl = 'test.thoughspot.com';
+  //Fetching data for given query and source using TS public api
+  const r = await fetch(`${baseUrl}/api/rest/2.0/searchdata`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query_string: query,
+      logical_table_identifier: sourceName,
+      data_format: 'COMPACT',
+      record_size: 1000000,
+    }),
+    credentials: 'include',
+  });
+  const data = await r.json();
+  return {
+    colNames: data.contents[0].column_names,//Parsing data to get column names
+    rows: data.contents[0].data_rows,//Parsing data to get rows
+  };
+};
+
+tsembed.on(EmbedEvent.GetDataClick, ()=>{
+     //On GetDataClick, trigger GetTML hostEvent to get query and datasource for api call
+     tsembed.trigger(HostEvent.GetTML).then(async (data) => {
+      const query = data.answer.search_query;
+      if (!query) {
+        return;
+      }
+      const source = data.answer.tables[0].id;
+      const { colNames, rows } = await getQueryResult(query, source);
+      console.log(colNames, rows);
+    });
+})
+----
+
 
 == Render the embedded search
 

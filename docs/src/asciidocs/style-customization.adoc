@@ -6,7 +6,7 @@
 :page-pageid: style-customization
 :page-description: Customize styles, design, and layout of embedded ThoughtSpot app using UI and custom CSS
 
-ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and branding guidelines of your organization. Developers can use the following options to customize the appearance of embedded content and create a uniform experience for the users of their app.
+ThoughtSpot allows you to customize the look and feel of embedded pages and elements to match the UI style and design of your host application and the branding guidelines of your organization. Developers can use the following options to customize the appearance of embedded content and create a uniform experience for the users of their app.
 
 Style customization features in the ThoughtSpot UI::
 
@@ -65,4 +65,15 @@ The following table lists the customizable elements:
 * Background color of the secondary button; for example, the delete icon (image:./images/icon-search-bar-close.png[]) that appears after you enter the search tokens.
 |Menu components|[tag greyBackground]#–# |[tag greenBackground]#✓# Background color and text style of menu panels.
 |=====
+--
 
+== Custom styles for Orgs on multi-tenant clusters
+
+You can now apply custom styles for each Org on a multi-tenant ThoughtSpot cluster. To enable this feature in your instance, contact ThoughtSpot Support.
+
+If per-Org customization is enabled on your instance, you can apply xref:customize-style.adoc[basic style changes on the *Develop* > *Customizations* > *Styles* page]. However, xref:css-customization.adoc[advanced style customization with custom CSS and style overrides] is not supported at the Org level.
+
+[NOTE]
+====
+The styles applied at the Org level take precedence over style settings at the cluster (All Orgs) level.
+====

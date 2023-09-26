@@ -18,7 +18,9 @@ import {
     SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed,
 } from './index';
 import * as allExports from './index';
-import { AuthType, init } from '../index';
+import {
+    AuthType, init,
+} from '../index';
 
 import { version } from '../../package.json';
 
@@ -47,7 +49,7 @@ describe('React Components', () => {
                 ),
             ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
-                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
+                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&enableDataPanelV2=false&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true#/embed/answer`,
             );
         });
 
@@ -85,7 +87,7 @@ describe('React Components', () => {
         it('Should be able to trigger events on the embed using refs', async () => {
             mockMessageChannel();
             const TestComponent = () => {
-                const embedRef = useEmbedRef();
+                const embedRef = useEmbedRef<typeof LiveboardEmbed>();
                 const onLiveboardRendered = () => {
                     embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
                 };

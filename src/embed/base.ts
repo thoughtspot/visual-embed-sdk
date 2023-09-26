@@ -44,13 +44,13 @@ export interface executeTMLInput {
 
 export interface exportTMLInput {
     metadata: {
-      identifier: string;
-      type?: 'LIVEBOARD' | 'ANSWER' | 'LOGICAL_TABLE' | 'CONNECTION';
+        identifier: string;
+        type?: 'LIVEBOARD' | 'ANSWER' | 'LOGICAL_TABLE' | 'CONNECTION';
     }[];
     export_associated?: boolean;
     export_fqn?: boolean;
     edoc_format?: 'YAML' | 'JSON';
-  }
+}
 
 export let authPromise: Promise<boolean>;
 /**
@@ -192,9 +192,9 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     setAuthEE(authEE);
     handleAuth();
 
+    const { password, ...configToTrack } = config;
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        authType: config.authType,
-        host: config.thoughtSpotHost,
+        ...configToTrack,
         usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
         usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
         usedCustomizationRules:
@@ -256,6 +256,12 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
     return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
+/**
+ * Imports TML representation of the metadata objects into ThoughtSpot.
+ *
+ * @param data
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ */
 export const executeTML = async (data: executeTMLInput): Promise<any> => {
     const { thoughtSpotHost, authType } = config;
     try {
@@ -299,6 +305,13 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
         });
 };
 
+/**
+ * Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML
+ * format.
+ *
+ * @param data
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ */
 export const exportTML = async (data: exportTMLInput): Promise<any> => {
     const { thoughtSpotHost, authType } = config;
     try {

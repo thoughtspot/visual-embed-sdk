@@ -41,6 +41,7 @@
         "excludeInternal": true,
         "hideGenerator": true,
         "categorizeByGroup": false,
+        /*
         "sort": ["kind", "alphabetical"],
         "tocKindSortOrder": [
             "Function",
@@ -50,8 +51,9 @@
             "Interface",
             "Enumeration",
             "Variable",
-            "Type alias",
-            "Object literal"
+            "TypeAlias",
+            "ObjectLiteral"
         ]
+      */
     }
 }

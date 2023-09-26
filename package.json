@@ -35,6 +35,12 @@
             ]
         }
     },
+    "size-limit": [
+        {
+          "path": "dist/tsembed.js",
+          "limit": "40 kB"
+        }
+      ],
     "scripts": {
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
@@ -59,6 +65,7 @@
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
         "is-publish-allowed": "node scripts/is-publish-allowed.js",
         "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts-file && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
+        "check-size": "npm run build && size-limit",
         "publish-dev": "npm publish --tag dev",
         "publish-prod": "npm publish --tag latest"
     },
@@ -89,6 +96,7 @@
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^11.2.1",
         "@rollup/plugin-replace": "^5.0.2",
+        "@size-limit/preset-big-lib": "^8.2.6",
         "@testing-library/dom": "^7.31.0",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^11.2.7",

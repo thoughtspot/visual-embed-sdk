@@ -15,49 +15,45 @@ To embed ThoughtSpot objects in an iFrame, follow the steps described in this ar
 To embed ThoughtSpot objects in an iFrame, you need the embed URL.
 
 * To get the embed link for a Liveboard: +
-.. Log in to ThoughtSpot.
-.. Navigate to the Liveboard that you want to embed.
-.. Click the *More* image:./images/icon-more-10px.png[the more options menu], and select *Copy embed link*.
-.. Note the GUID of the Liveboard.
-
-[NOTE]
-====
-The *Copy embed link* menu action is available only in Liveboard classic experience. If you are using the new Liveboard experience, use the *Copy link* button in the Liveboard *Share* dialog to copy the Liveboard link.
-====
+. Log in to ThoughtSpot.
+. Navigate to the Liveboard that you want to embed.
+. Copy the Liveboard URL.
++
+** In classic experience mode, click the *More* image:./images/icon-more-10px.png[the more options menu] > *Copy embed link*.  +
+** In the new experience mode, use the *Copy link* button in the Liveboard *Share* dialog to copy the Liveboard link.
+. Note the GUID of the Liveboard.
 
 * To get the embed link for a visualization: +
-.. Navigate to the table or chart.
-.. Click *More* image:./images/icon-more-10px.png[the more options menu] in the upper right corner of the table or chart.
-.. If you are using Liveboard classic experience, click *Copy embed link*.
+. Navigate to the table or chart.
+. Copy the visualization URL.
 +
-If new Liveboard experience is enabled on your instance, click *Copy link* and then copy the link under *Copy embed link*.
+** In classic experience mode, click *More* image:./images/icon-more-10px.png[the more options menu] > *Copy embed link*. +
+** In the new experience mode, click *More* image:./images/icon-more-10px.png[the more options menu] > *Copy link*.
 
-If you have access to the *Develop* tab in the ThoughtSpot UI, you can use the Playground to obtain the URL for iFrame embed.
+If you have access to the *Develop* tab, you can use the Playground to obtain the URL for iFrame embed.
 
-. Go to *Develop* > *Playground* > *Visual embed*
-. Select an object to embed.
-. Configure the parameters for the embedded view.
+. Go to *Develop* > *Playground* > *Visual Embed SDK*
+. Select an object to embed, for example, Liveboard.
 . Inspect the output and note the URL in `iframe src`.
 
 == Construct the URL
 
 The format for the URL to embed a Liveboard is:
 
-`https://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}`
+`\https://{ThoughtSpot-Host}/?embedApp=true#/embed/viz/{Liveboard_id}`
 
-If you want to embed an individual visualization from a Liveboard, you can use the following URL pattern:
+If you want to embed an individual visualization from a Liveboard, use the following URL pattern:
 
-`https://{thoughtspotserver}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
+`\https://{ThoughtSpot-Host}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}`
 
 === Apply runtime filters (Optional)
 
-To pass filters as URL query parameters, use runtime filters.
+To apply runtime filters, pass filters as URL query parameters.
 
-For example, to filter `michigan` in the `State` column of a visualization on a Liveboard, pass these values as filter parameters in the URL:
+For example, to apply the `michigan` filter on the `State` column, pass `&col1=State&op1=EQ&val1=michigan` as query parameters in the URL:
 
 ----
-http://{ThoughtspotHost}/?embedApp=true#/embed/viz/{Liveboard_id}/{visualization_id}
-&col1=State&op1=EQ&val1=michigan
+https://{ThoughtSpot-Host}/?embedApp=true&col1=State&op1=EQ&val1=michigan#/embed/viz/{Liveboard_id}/{visualization_id}
 ----
 
 For more information, see xref:runtime-filters.adoc[runtime filters, window=_blank].
@@ -69,7 +65,7 @@ All embedded ThoughtSpot objects require authentication. If the host application
 * Basic authentication with username and password
 * SSO authentication
 
-When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented. 
+When doing a direct embed, xref:configure-saml.adoc[SAML] is typically the only SSO mechanism that can be implemented.
 If you cannot use the Visual Embed SDK, this typically means the environment you are embedding ThoughtSpot within has restrictions on using JavaScript, which limits the ability to use the xref:trusted-authentication.adoc[Trusted Authentication] method for SSO. Any sign-in method to ThoughtSpot creates a session, stored in the browser cookies, so if your platform has a way to complete the trusted authentication flow at some point, even on a different page from where the direct iFrame embed of a Liveboard is, it may be a viable SSO authentication mechanism.
 
 === SAML SSO authentication
@@ -83,7 +79,7 @@ Each IdP has a specific way to enable this setting. For example, for Okta, you c
 
 == Add host domain to the CSP allowlist
 
-If you have access to the *Security settings* page in the *Develop* tab, you can xref:security-settings.adoc#csp-viz-embed-hosts[add your host domain to CSP] and xref:security-settings.adoc#cors-hosts[CORS]  allowlists. For example, if you are embedding a ThoughtSpot object in a Google site, you can add `sites.google.com` to the allowlists. 
+If you have access to the *Security settings* page in the *Develop* tab, you can xref:security-settings.adoc#csp-viz-embed-hosts[add your host domain to CSP] and xref:security-settings.adoc#cors-hosts[CORS]  allowlists. For example, if you are embedding a ThoughtSpot object in a Google site, you can add `sites.google.com` to the allowlists.
 
 If you don't have access to *Develop* > *Security settings* page, contact ThoughtSpot support to update CSP settings on your instance.
 

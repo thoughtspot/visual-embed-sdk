@@ -55,6 +55,7 @@ Resource URL  a|
 |====
 --
 
+
 [#apiOps]
 == Supported API operations
 [div tableContainer]
@@ -78,7 +79,7 @@ __The login, authentication, token generation, and logout services are available
 |*Data APIs* +
 Data query APIs for searching data from a data source and querying a Liveboard and its visualization data.|[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
 
-|*Data connection and live query services*
+|*Connection and live query services*
 API endpoints for CRUD operations of data connection objects |[tag greenBackground]#✓# Available| [tag greenBackground]#✓#
 
 |*Database services* +
@@ -146,6 +147,10 @@ __The import and export metadata API service is available under *metadata*__.
 
 |*User* +
 API endpoints for user administration and management |[tag greenBackground]#✓# Available|[tag greenBackground]#✓# Available
+
+|*Version control* +
+API endpoints for Git integration and versio control |[tag greyBackground]#-# Not Available
+|[tag greenBackground]#✓# Available
 
 |=====
 --

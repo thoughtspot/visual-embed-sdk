@@ -24,7 +24,7 @@ You can define a *listener* for an EmbedEvent with a callback function to handle
 
 == Events library
 
-You can import the event library from the Visual Embed SDK package.
+Import the event library from the Visual Embed SDK package.
 
 [source,JavaScript]
 ----
@@ -37,6 +37,7 @@ To trigger events on ThoughtSpot components embedded in a React app, import the 
 ----
 import { LiveboardEmbed, useEmbedRef } from '@thoughtspot/visual-embed-sdk/react';
 ----
+
 [#use-cases]
 == Common use cases
 
@@ -172,7 +173,6 @@ liveboardEmbed.on(EmbedEvent.CustomAction, (payload) => {
           }
       })
 ----
-
 
 == Related resources
 * For a complete list of host and embed events, see xref:events-ref.adoc[Events reference].

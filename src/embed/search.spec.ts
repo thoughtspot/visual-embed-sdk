@@ -47,7 +47,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
         });
     });
@@ -333,6 +333,81 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set enableDataPanelV2 to true if data panel v2 flag is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataPanelV2: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+    test('should set useLastSelectedSources to true if useLastSelectedSources flag is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            useLastSelectedSources: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+    test('should set useLastSelectedSources to false if datasource is given irrespective of useLastSelectedSources', async () => {
+        const dataSource = 'data-source-1';
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            useLastSelectedSources: true,
+            dataSource,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+    test('should set useLastSelectedSources to false if datasources are given irrespective of useLastSelectedSources', async () => {
+        const dataSources = ['data-source-1'];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            useLastSelectedSources: true,
+            dataSources,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+    test('should set runtime parametere values in url params', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            runtimeParameters: [
+                {
+                    name: 'Integer Date Range',
+                    value: 1,
+                },
+            ],
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}&param1=Integer%20Date%20Range&paramVal1=1#/embed/saved-answer/${answerId}`,
             );
         });
     });

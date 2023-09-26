@@ -99,7 +99,7 @@ npm install @thoughtspot/visual-embed-sdk
 
 You will require GUIDs of the following objects to embed ThoughtSpot components.
 
-* The saved answer or data source GUIDs to embed search and run a search query
+* The saved Answer or data source GUIDs to embed search and run a search query
 * Liveboard GUID to embed a Liveboard
 * Liveboard and visualization GUIDs to embed a visualization from a Liveboard 
 

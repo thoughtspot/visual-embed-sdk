@@ -8,7 +8,7 @@
 
 Runtime sorting allows applying sort criteria to a Liveboard or Answer object on load or when querying a Liveboard or Answer data via REST API calls.
 
-== How runtime sorting works
+== How it works
 
 You can add runtime sort attributes as query parameters to the URL. The query parameter format of a runtime sort operation is as follows:
 
@@ -47,7 +47,7 @@ In the above example, the `Sales` column is sorted in descending order first and
 
 If you swap the sort order of these columns, the resulting output changes accordingly.
 
-== Runtime sorting via REST API
+== Runtime sorting of columns via REST API
 
 You can use the REST API v1 or REST API v2 endpoints to apply runtime sorting parameters.
 
@@ -121,4 +121,3 @@ curl -X POST \
   "file_format": "CSV"
 }'
 ----
-

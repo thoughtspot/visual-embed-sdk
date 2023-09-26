@@ -9,7 +9,13 @@ import {
     AppEmbed,
     LiveboardEmbed,
 } from '../index';
-import { Action, RuntimeFilter, RuntimeFilterOp } from '../types';
+import {
+    Action,
+    HomeLeftNavItem,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    HomepageModule,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -36,6 +42,8 @@ const defaultViewConfig = {
 };
 const pinboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
+const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 
@@ -99,7 +107,13 @@ describe('Unit test case for ts embed', () => {
             });
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
-                data: { customisations, authToken: '', runtimeFilterParams: null },
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                },
             });
         });
 
@@ -126,6 +140,8 @@ describe('Unit test case for ts embed', () => {
                     customisations: customisationsView,
                     authToken: '',
                     runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
                 },
             });
             expect(getIFrameSrc()).toContain(
@@ -133,7 +149,43 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
-        test('Runtime filters from view Config should be part of app_init payload', async () => {
+        test('hide home page modules from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockedHiddenHomepageModules: HomepageModule[] = [
+                HomepageModule.MyLibrary,
+                HomepageModule.Learning,
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                hiddenHomepageModules: mockedHiddenHomepageModules,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [HomepageModule.MyLibrary,
+                        HomepageModule.Learning],
+                },
+            });
+        });
+
+        test('Runtime filters from view Config should be part of app_init payload when excludeRuntimeFiltersfromURL is true', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -148,6 +200,7 @@ describe('Unit test case for ts embed', () => {
 
             const searchEmbed = new SearchEmbed(getRootEl(), {
                 ...defaultViewConfig,
+                excludeRuntimeFiltersfromURL: true,
                 runtimeFilters: mockRuntimeFilters,
             });
             searchEmbed.render();
@@ -164,6 +217,82 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                },
+            });
+        });
+
+        test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockRuntimeFilters: RuntimeFilter[] = [
+                {
+                    columnName: 'color',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['blue'],
+                },
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                excludeRuntimeFiltersfromURL: false,
+                runtimeFilters: mockRuntimeFilters,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                },
+            });
+        });
+
+        test('homeLeftNav from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockedHiddenHomeLeftNavItems: HomeLeftNavItem[] = [
+                HomeLeftNavItem.Home,
+                HomeLeftNavItem.Documentation,
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                hiddenHomeLeftNavItems: mockedHiddenHomeLeftNavItems,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [HomeLeftNavItem.Home,
+                        HomeLeftNavItem.Documentation],
+                    hiddenHomepageModules: [],
                 },
             });
         });
@@ -317,6 +446,8 @@ describe('Unit test case for ts embed', () => {
                         customisations,
                         authToken: 'test_auth_token1',
                         runtimeFilterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
                     },
                 });
             });
@@ -461,7 +592,13 @@ describe('Unit test case for ts embed', () => {
         test('mixpanel should call with VISUAL_SDK_RENDER_COMPLETE', async () => {
             await setup(true);
             expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            expect(mockMixPanelEvent).toBeCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE);
+            expect(mockMixPanelEvent).toBeCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_RENDER_COMPLETE,
+                expect.objectContaining({
+                    elWidth: 0,
+                    elHeight: 0,
+                }),
+            );
         });
 
         test('Should remove prefetch iframe', async () => {
@@ -574,6 +711,83 @@ describe('Unit test case for ts embed', () => {
         test('should not throw error when there are only visible or hidden actions', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 visibleActions: [Action.DownloadAsCsv],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
+        });
+    });
+
+    describe('when visible Tabs are set', () => {
+        test('should throw error when there are both visible and hidden Tabs - pinboard', async () => {
+            spyOn(console, 'error');
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                visibleTabs: [tabId1],
+                hiddenTabs: [tabId2],
+                ...defaultViewConfig,
+                pinboardId,
+            } as LiveboardViewConfig);
+            await pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'You cannot have both hidden Tabs and visible Tabs',
+            );
+        });
+        test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
+            const pinboardEmbed = new PinboardEmbed(getRootEl(), {
+                hiddenTabs: [tabId1],
+                ...defaultViewConfig,
+                pinboardId,
+            } as LiveboardViewConfig);
+            pinboardEmbed.render();
+            expect(pinboardEmbed['isError']).toBe(false);
+        });
+
+        /**
+         *
+         * @param hiddenTabs
+         * @param visibleTabs
+         */
+        async function testTabsForLiveboards(
+            hiddenTabs: Array<string>,
+            visibleTabs: Array<string>,
+        ) {
+            spyOn(console, 'error');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenTabs,
+                visibleTabs,
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(true);
+            expect(console.error).toHaveBeenCalledWith(
+                'You cannot have both hidden Tabs and visible Tabs',
+            );
+        }
+        test('should throw error when there are both visible and hidden Tab arrays', async () => {
+            await testTabsForLiveboards([tabId1], [tabId2]);
+        });
+        test('should throw error when there are both visible and hidden Tab arrays as empty', async () => {
+            await testTabsForLiveboards([], []);
+        });
+        test('should throw error when there are both visible and hidden Tabs - one of them is an empty array', async () => {
+            await testTabsForLiveboards([], [tabId2]);
+        });
+
+        test('should not throw error when there are only visible or hidden Tab', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                hiddenTabs: [tabId2],
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            expect(liveboardEmbed['isError']).toBe(false);
+        });
+        test('should not throw error when there are only visible or hidden Tabs', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                visibleTabs: [tabId1],
                 ...defaultViewConfig,
                 liveboardId,
             } as LiveboardViewConfig);
@@ -761,7 +975,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -777,7 +991,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&showAlerts=true${defaultParamsPost}#/home`,
+                + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -792,7 +1006,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&locale=ja-JP${defaultParamsPost}#/home`,
+                + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -809,7 +1023,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
@@ -836,6 +1050,25 @@ describe('Unit test case for ts embed', () => {
             expect(getRootEl().nextSibling).toBe(getIFrameEl());
             await appEmbed.render();
             expect(getRootEl().nextSibling.nextSibling).not.toBe(getIFrameEl());
+        });
+        it('Should set the pendo tracking key when specified', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                pendoTrackingKey: '1234',
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&additionalPendoKey=1234${defaultParamsPost}#/home`,
+            );
         });
         xit('Sets the forceSAMLAutoRedirect param', async (done) => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);

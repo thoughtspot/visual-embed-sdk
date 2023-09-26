@@ -8,6 +8,16 @@
 
 This page lists the issues resolved in ThoughtSpot Everywhere.
 
+== Version 9.3.0.cl
+
+[cols="15%, 50%"]
+[options='header']
+|=====
+|Issue ID |Description
+|SCAL-147773| The `Export Liveboard Report` API endpoint in the REST API v2.0 Playground returns the incorrect payload error.
+|=====
+
+
 == Version 9.2.0.cl
 
 [cols="20%,80%"]

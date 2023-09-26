@@ -71,6 +71,7 @@ const LeftSideBar = (props: {
             ref.current as HTMLDivElement,
             props.setLeftNavOpen,
             toggleExpandOnTab,
+            params[TS_PAGE_ID_PARAM],
         );
     }, [params[TS_PAGE_ID_PARAM], isMaxMobileResolution, navContent]);
 
