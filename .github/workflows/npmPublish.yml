@@ -24,22 +24,6 @@ jobs:
         id: branch_name
         run: echo "::set-output name=BRANCH_NAME::$(git branch --show-current)"
       
-      - name: Determine Action
-        id: action
-        run: |
-            BRANCH_NAME="${{ steps.branch_name.outputs.BRANCH_NAME }}"
-            if [ "$BRANCH_NAME" = "release" ]; then
-              echo "do release"
-              echo "::set-output name=ACTION::do release"
-            elif [ "$BRANCH_NAME" = "main" ]; then
-              echo "main do"
-              echo "::set-output name=ACTION::main do"
-            else
-              echo "Stopping workflow for branch $BRANCH_NAME"
-              echo "::set-output name=ACTION::stop"
-              exit 1
-            fi
-      
       # Run npm install
       - name: Run npm install
         run: npm install --legacy-peer-deps
