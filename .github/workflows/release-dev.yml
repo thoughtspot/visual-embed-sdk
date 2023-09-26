@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Publish package to NPM
+name: Publish package to NPM DEV
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,5 +27,5 @@ jobs:
                   npm run docgen
                   npm run publish-dev
               env:
-                  NODE_AUTH_TOKEN: ${{ github.token }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 

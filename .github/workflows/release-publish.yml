@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Publish package to NPM
+name: Publish package to NPM PROD
 
 # Controls when the action will run. Triggers the workflow on pull request
 # event
@@ -30,6 +30,6 @@ jobs:
             - name: Run docgen and publish
               run: |
                 npm run docgen
-                npm run publish-dev
+                npm run publish-prod
               env:
-                  NODE_AUTH_TOKEN: ${{ github.token }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
