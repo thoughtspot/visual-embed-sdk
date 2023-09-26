@@ -35,7 +35,7 @@ jobs:
           npm run docgen
           if [ "$BRANCH_NAME" = "release" ]; then
             echo "publish release"
-            npm run publish-dev
+            npm run publish-prod
           elif [ "$BRANCH_NAME" = "main" ]; then
             echo "publish dev"
             npm run publish-dev
