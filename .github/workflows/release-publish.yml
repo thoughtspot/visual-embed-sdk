@@ -5,8 +5,8 @@ name: Publish to NPM PROD
 # Controls when the action will run. Triggers the workflow on pull request
 # event
 on:
-  pull_request:
-    branches: [release]
+  # pull_request:
+  #   branches: [release]
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
