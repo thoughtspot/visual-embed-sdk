@@ -42,6 +42,7 @@ import {
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
+import { AnswerService } from './utils/graphql/answerService/answerService';
 
 export {
     init,
@@ -63,6 +64,7 @@ export {
     AuthStatus,
     AuthEvent,
     AuthEventEmitter,
+    AnswerService,
     // types
     Page,
     AuthType,

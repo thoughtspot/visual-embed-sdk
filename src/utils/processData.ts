@@ -6,8 +6,8 @@ import {
     notifyLogout,
 } from '../embed/base';
 import { AuthFailureType, initSession } from '../auth';
-import { AuthType, EmbedEvent } from '../types';
-import { AnswerService } from './answerService/answerService';
+import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
+import { AnswerService } from './graphql/answerService/answerService';
 
 /**
  *
@@ -15,9 +15,13 @@ import { AnswerService } from './answerService/answerService';
  * @param thoughtSpotHost
  */
 export function processCustomAction(e: any, thoughtSpotHost: string) {
-
-    const { session, embedAnswerData } = e.data;
-    const answerService = new AnswerService(session, embedAnswerData, thoughtSpotHost);
+    const { session, embedAnswerData, contextMenuPoints } = e.data as CustomActionPayload;
+    const answerService = new AnswerService(
+        session,
+        embedAnswerData,
+        thoughtSpotHost,
+        contextMenuPoints?.selectedPoints,
+    );
     return {
         ...e,
         answerService,
