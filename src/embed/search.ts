@@ -149,6 +149,8 @@ export class SearchEmbed extends TsEmbed {
      */
     protected viewConfig: SearchViewConfig;
 
+    protected embedComponentType = 'SearchEmbed';
+
     constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
         super(domSelector);
         this.viewConfig = viewConfig;
