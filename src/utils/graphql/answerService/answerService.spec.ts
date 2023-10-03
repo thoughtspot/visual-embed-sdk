@@ -223,4 +223,9 @@ describe('Answer service tests', () => {
             }),
         );
     });
+
+    test('getUnderlyingDataForPoint should throw when no point is selected', async () => {
+        const answerService = createAnswerService({}, null);
+        await expect(answerService.getUnderlyingDataForPoint(['col2'])).rejects.toThrow();
+    });
 });
