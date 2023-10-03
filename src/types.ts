@@ -757,6 +757,12 @@ export interface ViewConfig {
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
+     * reordering the home page modules
+     * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
+     */
+    reorderedHomepageModules?: HomepageModule[];
+    /**
      * The list of tab IDs to show in the embedded.
      * Only this Tabs will be shown in their respective LBs.
      * Use this to show an tabID.
@@ -916,27 +922,27 @@ export enum HomepageModule {
     /**
      * Search bar
      */
-    Search = 'search',
+    Search = 'SEARCH',
     /**
      * kPI watchlist module
      */
-    Watchlist = 'watchlist',
+    Watchlist = 'WATCHLIST',
     /**
      * favorite objects
      */
-    Favorite = 'favorite',
+    Favorite = 'FAVORITE',
     /**
      * List of answers and liveboards
      */
-    MyLibrary = 'mylibrary',
+    MyLibrary = 'MY_LIBRARY',
     /**
      * Trending list
      */
-    Trending = 'trending',
+    Trending = 'TRENDING',
     /**
      * Learning videos
      */
-    Learning = 'learning',
+    Learning = 'LEARNING',
 }
 
 /**

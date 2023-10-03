@@ -113,6 +113,8 @@ describe('Unit test case for ts embed', () => {
                     runtimeFilterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
                 },
             });
         });
@@ -142,6 +144,8 @@ describe('Unit test case for ts embed', () => {
                     runtimeFilterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
                 },
             });
             expect(getIFrameSrc()).toContain(
@@ -181,6 +185,44 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [HomepageModule.MyLibrary,
                         HomepageModule.Learning],
+                    reorderedHomepageModules: [],
+                },
+            });
+        });
+
+        test('Reordering the home page modules from view Config should be part of app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockedReorderedHomepageModules: HomepageModule[] = [
+                HomepageModule.MyLibrary,
+                HomepageModule.Watchlist,
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                reorderedHomepageModules: mockedReorderedHomepageModules,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                    reorderedHomepageModules: [HomepageModule.MyLibrary,
+                        HomepageModule.Watchlist],
                 },
             });
         });
@@ -219,6 +261,8 @@ describe('Unit test case for ts embed', () => {
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
                 },
             });
         });
@@ -257,6 +301,8 @@ describe('Unit test case for ts embed', () => {
                     runtimeFilterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
                 },
             });
         });
@@ -293,6 +339,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomeLeftNavItems: [HomeLeftNavItem.Home,
                         HomeLeftNavItem.Documentation],
                     hiddenHomepageModules: [],
+                    reorderedHomepageModules: [],
                 },
             });
         });
@@ -448,6 +495,8 @@ describe('Unit test case for ts embed', () => {
                         runtimeFilterParams: null,
                         hiddenHomeLeftNavItems: [],
                         hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
                     },
                 });
             });
