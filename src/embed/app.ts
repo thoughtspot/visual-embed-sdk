@@ -168,6 +168,8 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
+    protected embedComponentType = 'AppEmbed';
+
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         super(domSelector, viewConfig);

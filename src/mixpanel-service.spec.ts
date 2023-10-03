@@ -57,6 +57,7 @@ describe('Unit test for mixpanel', () => {
             clusterId: sessionInfo.clusterId,
             clusterName: sessionInfo.clusterName,
             releaseVersion: sessionInfo.releaseVersion,
+            hostAppUrl: 'localhost',
         });
         expect(mixpanel.identify).not.toHaveBeenCalledWith(sessionInfo.userGUID);
     });
