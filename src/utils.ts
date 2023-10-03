@@ -248,3 +248,27 @@ export function getDOMNode(domSelector: DOMSelector): HTMLElement {
 }
 
 export const deepMerge = (target: any, source: any) => merge(target, source);
+
+export const getOperationNameFromQuery = (query: string) => {
+    const regex = /(?:query|mutation)\s+(\w+)/;
+    const matches = query.match(regex);
+    return matches?.[1];
+};
+
+/**
+ *
+ * @param obj
+ */
+export function removeTypename(obj: any) {
+    if (!obj || typeof obj !== 'object') return obj;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in obj) {
+        if (key === '__typename') {
+            delete obj[key];
+        } else if (typeof obj[key] === 'object') {
+            removeTypename(obj[key]);
+        }
+    }
+    return obj;
+}

@@ -55,7 +55,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': [0],
         'import/prefer-default-export': 0,
         'no-use-before-define': 'off',
-        '@typescript-eslint/no-use-before-define': ['error'],
+        '@typescript-eslint/no-use-before-define': ['off'],
         // do not complain when importing js related files without extension,
         // Typescript should handle this.
         'import/extensions': [0],

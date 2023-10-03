@@ -1,8 +1,8 @@
 import * as processDataInstance from './processData';
-import * as answerServiceInstance from './answerService';
+import * as answerServiceInstance from './graphql/answerService/answerService';
 import * as auth from '../auth';
 import * as base from '../embed/base';
-import { EmbedEvent, OperationType, AuthType } from '../types';
+import { EmbedEvent, AuthType } from '../types';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
@@ -16,26 +16,12 @@ describe('Unit test for process data', () => {
     });
 
     const thoughtSpotHost = 'http://localhost';
-    test('processDataInstance, when operation is GetChartWithData', () => {
-        const answerService = {};
-        const processChartData = {
-            answerService,
-            data: {
-                session: 'session',
-                query: 'query',
-                operation: OperationType.GetChartWithData,
-            },
-        };
-        jest.spyOn(answerServiceInstance, 'getAnswerServiceInstance').mockReturnValue(
-            answerService,
-        );
-        expect(
-            processDataInstance.processCustomAction(processChartData, thoughtSpotHost),
-        ).toStrictEqual(processChartData);
-    });
 
     test('ProcessData, when Action is CustomAction', async () => {
-        const processedData = { type: EmbedEvent.CustomAction };
+        const processedData = {
+            type: EmbedEvent.CustomAction,
+            data: {},
+        };
         jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
         expect(
             processDataInstance.processEventData(
@@ -44,16 +30,20 @@ describe('Unit test for process data', () => {
                 thoughtSpotHost,
                 null,
             ),
-        ).toStrictEqual(processedData);
+        ).toEqual(expect.objectContaining({
+            ...processedData,
+            answerService: {
+                answer: undefined,
+                selectedPoints: undefined,
+                session: undefined,
+                thoughtSpotHost: 'http://localhost',
+            },
+        }));
     });
 
     test('ProcessData, when Action is non CustomAction', () => {
         const processedData = { type: EmbedEvent.Data };
         jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
-        jest.spyOn(
-            answerServiceInstance,
-            'getAnswerServiceInstance',
-        ).mockImplementation(async () => ({}));
         processDataInstance.processEventData(EmbedEvent.Data, processedData, thoughtSpotHost, null);
         expect(processDataInstance.processCustomAction).not.toBeCalled();
     });

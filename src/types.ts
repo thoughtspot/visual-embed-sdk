@@ -8,6 +8,7 @@
  */
 
 import { CustomCssVariables } from './css-variables';
+import type { SessionInterface } from './utils/graphql/answerService/answerService';
 
 /**
  * The authentication mechanism for allowing access to the
@@ -532,7 +533,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iFrame configuration
@@ -3127,18 +3128,6 @@ export enum Action {
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
 }
 
-export interface SessionInterface {
-    sessionId: string;
-    genNo: number;
-    acSession: { sessionId: string; genNo: number };
-}
-
-// eslint-disable-next-line no-shadow
-export enum OperationType {
-    GetChartWithData = 'GetChartWithData',
-    GetTableWithHeadlineData = 'GetTableWithHeadlineData',
-}
-
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
@@ -3156,4 +3145,40 @@ export enum PrefetchFeatures {
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
     RIGHT_CLICK = 'right-click',
+}
+
+export interface ColumnValue {
+    column: {
+        id: string,
+        name: string,
+        dataType: string,
+        [key: string]: any
+    },
+    value: string | number | boolean;
+}
+
+export interface VizPoint {
+    selectedAttributes: ColumnValue[],
+    selectedMeasures: ColumnValue[]
+}
+
+export interface CustomActionPayload {
+    contextMenuPoints?: {
+        clickedPoint: VizPoint
+        selectedPoints: VizPoint[]
+    };
+    embedAnswerData: {
+        name: string,
+        id: string,
+        sources: {
+            header: {
+                guid: string
+            }
+        },
+        columns: any[],
+        data: any[],
+        [key: string]: any
+    };
+    session: SessionInterface;
+    vizId?: string;
 }
