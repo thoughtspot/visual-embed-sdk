@@ -10,6 +10,7 @@
 import { AppEmbed, Page, AppViewConfig } from './embed/app';
 import {
     init, prefetch, logout, getEmbedConfig, executeTML, exportTML,
+    executeTMLInput, exportTMLInput,
 } from './embed/base';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
@@ -41,6 +42,7 @@ import {
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
+import { AnswerService } from './utils/graphql/answerService/answerService';
 
 export {
     init,
@@ -48,6 +50,8 @@ export {
     prefetch,
     executeTML,
     exportTML,
+    executeTMLInput,
+    exportTMLInput,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
     SearchEmbed,
@@ -60,6 +64,7 @@ export {
     AuthStatus,
     AuthEvent,
     AuthEventEmitter,
+    AnswerService,
     // types
     Page,
     AuthType,

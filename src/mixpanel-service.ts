@@ -71,6 +71,7 @@ export function initMixpanel(sessionInfo: any): void {
                 clusterId: sessionInfo.clusterId,
                 clusterName: sessionInfo.clusterName,
                 releaseVersion: sessionInfo.releaseVersion,
+                hostAppUrl: window?.location?.host || '',
             });
             isMixpanelInitialized = true;
             emptyQueue();

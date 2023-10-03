@@ -115,6 +115,8 @@ export class TsEmbed {
      */
     protected thoughtSpotV2Base: string;
 
+    protected embedComponentType = 'TsEmbed';
+
     /**
      * A map of event handlers for particular message types triggered
      * by the embedded app; multiple event handlers can be registered
@@ -159,6 +161,7 @@ export class TsEmbed {
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
+            embedComponentType: this.embedComponentType,
         });
     }
 
@@ -277,6 +280,7 @@ export class TsEmbed {
                     ? getRuntimeFilters(this.viewConfig.runtimeFilters)
                     : null,
                 hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
+                reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
                 hostConfig: this.embedConfig.hostConfig,
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
                     ? this.viewConfig?.hiddenHomeLeftNavItems
