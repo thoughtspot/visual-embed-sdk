@@ -760,6 +760,7 @@ export interface ViewConfig {
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
@@ -791,6 +792,22 @@ export interface ViewConfig {
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
+    /**
+     * PreRender id to be used for PreRendering the embed.
+     * Use PreRender to render the embed in the background and then
+     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   preRenderId: "preRenderId-123"
+     * });
+     * embed.showPreRender();
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    preRenderId?: string;
 }
 
 /**

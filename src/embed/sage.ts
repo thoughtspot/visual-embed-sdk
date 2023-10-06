@@ -168,13 +168,22 @@ export class SageEmbed extends V1Embed {
     /**
      * Render the embedded ThoughtSpot Sage
      *
+     * @param showPreRenderByDefault
      * @returns {SageEmbed} Eureka/Sage embed
      */
-    public render(): SageEmbed {
+    public render(showPreRenderByDefault = false): SageEmbed {
         super.render();
 
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src);
+        this.renderV1Embed(src, showPreRenderByDefault);
+
+        return this;
+    }
+
+    public preRender(showPreRenderByDefault = false): SageEmbed {
+        super.preRender(showPreRenderByDefault);
+
+        this.render(showPreRenderByDefault);
 
         return this;
     }

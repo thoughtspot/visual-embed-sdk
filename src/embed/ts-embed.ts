@@ -19,6 +19,8 @@ import {
     getFilterQuery,
     getQueryParamString,
     getRuntimeParameters,
+    setStyleProperties,
+    removeStyleProperties,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -228,6 +230,8 @@ export class TsEmbed {
         return eventData;
     }
 
+    private subscribedListeners = {};
+
     /**
      * Adds a global event listener to window for "message" events.
      * ThoughtSpot detects if a particular event is targeted to this
@@ -235,7 +239,8 @@ export class TsEmbed {
      * and executes the registered callbacks accordingly.
      */
     private subscribeToEvents() {
-        window.addEventListener('message', (event) => {
+        this.unsubscribeToEvents();
+        const messageEventListener = (event: MessageEvent<any>) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
             const eventData = this.formatEventData(event, eventType);
@@ -246,16 +251,33 @@ export class TsEmbed {
                     eventPort,
                 );
             }
-        });
-        window.addEventListener('online', (e) => {
+        };
+        window.addEventListener('message', messageEventListener);
+
+        const onlineEventListener = (e: Event) => {
             this.trigger(HostEvent.Reload);
-        });
-        window.addEventListener('offline', (e) => {
+        };
+        window.addEventListener('online', onlineEventListener);
+
+        const offlineEventListener = (e: Event) => {
             const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
             console.warn(offlineWarning);
+        };
+        window.addEventListener('offline', offlineEventListener);
+
+        this.subscribedListeners = {
+            message: messageEventListener,
+            online: onlineEventListener,
+            offline: offlineEventListener,
+        };
+    }
+
+    private unsubscribeToEvents() {
+        Object.keys(this.subscribedListeners).forEach((key) => {
+            window.removeEventListener(key, this.subscribedListeners[key]);
         });
     }
 
@@ -527,14 +549,24 @@ export class TsEmbed {
         return iFrame;
     }
 
+    protected handleInsertionIntoDOM(child: string | Node, showPreRenderByDefault = false): void {
+        if (this.isPreRendered) {
+            this.insertIntoDOMForPreRender(
+                this.embedConfig.loginFailedMessage, showPreRenderByDefault,
+            );
+        } else {
+            this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+        }
+    }
+
     /**
      * Renders the embedded ThoughtSpot app in an iframe and sets up
      * event listeners.
      *
-     * @param url
-     * @param frameOptions
+     * @param url - The URL of the embedded ThoughtSpot app.
+     * @param showPreRenderByDefault - The flag to show the preRender by default.
      */
-    protected async renderIFrame(url: string): Promise<any> {
+    protected async renderIFrame(url: string, showPreRenderByDefault = false): Promise<any> {
         if (this.isError) {
             return null;
         }
@@ -559,7 +591,9 @@ export class TsEmbed {
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
-                        this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+                        this.handleInsertionIntoDOM(
+                            this.embedConfig.loginFailedMessage, showPreRenderByDefault,
+                        );
                         return;
                     }
 
@@ -582,7 +616,9 @@ export class TsEmbed {
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
-                    this.insertIntoDOM(this.iFrame);
+                    this.handleInsertionIntoDOM(
+                        this.iFrame, showPreRenderByDefault,
+                    );
                     const prefetchIframe = document.querySelectorAll('.prefetchIframe');
                     if (prefetchIframe.length) {
                         prefetchIframe.forEach((el) => {
@@ -596,9 +632,165 @@ export class TsEmbed {
                     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
                         error: JSON.stringify(error),
                     });
-                    this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+                    this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
                 });
+        });
+    }
+
+    public getPreRenderIds() {
+        return {
+            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
+            shield: `tsEmbed-pre-render-shield-${this.viewConfig.preRenderId}`,
+            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
+        };
+    }
+
+    protected createPreRenderWrapper(child: HTMLElement): HTMLDivElement {
+        if (!this.viewConfig.preRenderId) {
+            throw new Error('PreRender id is required');
+        }
+
+        const preRenderIds = this.getPreRenderIds();
+
+        [preRenderIds.wrapper, preRenderIds.shield, preRenderIds.child]
+            .map((id) => document.getElementById(id))
+            .filter((element) => element)
+            .forEach((existingElement) => existingElement.remove());
+
+        const preRenderWrapper = document.createElement('div');
+        preRenderWrapper.id = preRenderIds.wrapper;
+        setStyleProperties(preRenderWrapper, { position: 'absolute', width: '100vw', height: '100vh' });
+
+        // const preRenderShield = document.createElement('div');
+        // preRenderShield.id = preRenderIds.shield;
+        // setStyleProperties(preRenderShield, { position: 'absolute',
+        // width: '100%', height: '100%' });
+
+        child.id = preRenderIds.child;
+
+        preRenderWrapper.appendChild(child);
+        // preRenderWrapper.appendChild(preRenderShield);
+
+        this.preRenderWrapper = preRenderWrapper;
+        // this.preRenderShield = preRenderShield;
+        this.preRenderChild = child;
+
+        return preRenderWrapper;
+    }
+
+    protected preRenderWrapper: HTMLElement;
+
+    // protected preRenderShield: HTMLElement;
+
+    protected preRenderChild: HTMLElement;
+
+    protected connectPreRendered(): boolean {
+        const preRenderIds = this.getPreRenderIds();
+        this.preRenderWrapper = this.preRenderWrapper
+            || document.getElementById(preRenderIds.wrapper);
+        // this.preRenderShield = this.preRenderShield
+        //     || document.getElementById(preRenderIds.shield);
+        this.preRenderChild = this.preRenderChild
+            || document.getElementById(preRenderIds.child);
+
+        if (this.preRenderWrapper && this.preRenderChild) {
+            this.isPreRendered = true;
+            this.iFrame = this.preRenderChild as HTMLIFrameElement;
+        }
+
+        return this.isPreRenderAvailable();
+    }
+
+    protected isPreRenderAvailable(): boolean {
+        return this.isPreRendered;
+    }
+
+    protected insertIntoDOMForPreRender(
+        child: string | HTMLElement,
+        showPreRenderByDefault = false,
+    ): void {
+        let childNode: HTMLElement;
+        if (typeof child === 'string') {
+            const divChildNode = document.createElement('div');
+            divChildNode.innerHTML = child;
+            childNode = divChildNode;
+        } else {
+            childNode = child;
+        }
+
+        const preRenderWrapper = this.createPreRenderWrapper(childNode);
+
+        if (showPreRenderByDefault) {
+            this.showPreRender();
+        } else {
+            this.hidePreRender();
+        }
+
+        document.body.appendChild(preRenderWrapper);
+    }
+
+    public hidePreRender(): void {
+        if (!this.isPreRenderAvailable()) {
+            // if the embed component is not preRendered , nothing to hide
+            console.log('No preRender found, not hiding ');
+            return;
+        }
+
+        setStyleProperties(this.preRenderWrapper, {
+            opacity: '0',
+            pointerEvents: 'none',
+            zIndex: '-1000',
+            position: 'absolute ',
+            top: '0',
+            left: '0',
+        });
+
+        const childBoundingRect = this.preRenderChild.getBoundingClientRect();
+
+        setStyleProperties(this.preRenderShield, {
+            opacity: '0',
+            pointerEvents: 'none',
+            zIndex: '1',
+            width: `${childBoundingRect.width}px`,
+            height: `${childBoundingRect.height}px`,
+            position: 'absolute',
+            top: '0',
+            left: '0',
+        });
+
+        this.unsubscribeToEvents();
+    }
+
+    public showPreRender(): void {
+        if (!this.isPreRenderAvailable()) {
+            const isAvailable = this.connectPreRendered();
+            if (!isAvailable) {
+                // if the Embed component is nor preRendered , Render it now and
+                // show it (hide is defalt behaviour)
+                console.log('No preRender found, creating new ');
+                this.preRender(true);
+                return;
+            }
+        }
+
+        this.syncPreRenderStyle();
+
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+
+        setStyleProperties(this.preRenderShield, { zIndex: '-1' });
+
+        this.subscribeToEvents();
+    }
+
+    public syncPreRenderStyle(): void {
+        if (!this.el) {
+            throw new Error('Embed element is not defined');
+        }
+        const elBoundingClient = this.el.getBoundingClientRect();
+
+        setStyleProperties(this.preRenderWrapper, {
+            top: `${elBoundingClient.y}px`, left: `${elBoundingClient.x}px`, width: `${elBoundingClient.width}px`, height: `${elBoundingClient.height}px`,
         });
     }
 
@@ -833,6 +1025,18 @@ export class TsEmbed {
         return this;
     }
 
+    private isPreRendered: boolean;
+
+    /**
+     * Creates the preRender shell
+     *
+     * @param showPreRenderByDefault
+     */
+    public preRender(showPreRenderByDefault = false): TsEmbed {
+        this.isPreRendered = true;
+        return this;
+    }
+
     /**
      * Get the Post Url Params for THOUGHTSPOT from the current
      * host app URL.
@@ -871,6 +1075,7 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
+            this.unsubscribeToEvents();
         } catch (e) {
             console.log('Error destroying TS Embed', e);
         }
@@ -913,9 +1118,10 @@ export class V1Embed extends TsEmbed {
      * Render the app in an iframe and set up event handlers
      *
      * @param iframeSrc
+     * @param showPreRenderByDefault - if true the preRender will be shown by default
      */
-    protected renderV1Embed(iframeSrc: string): any {
-        return this.renderIFrame(iframeSrc);
+    protected renderV1Embed(iframeSrc: string, showPreRenderByDefault = false): any {
+        return this.renderIFrame(iframeSrc, showPreRenderByDefault);
     }
 
     protected getRootIframeSrc(): string {

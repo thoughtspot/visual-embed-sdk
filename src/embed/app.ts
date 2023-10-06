@@ -360,10 +360,18 @@ export class AppEmbed extends V1Embed {
      * @param renderOptions An object containing the page ID
      * to be embedded.
      */
-    public render(): AppEmbed {
+    public render(showPreRenderByDefault = false): AppEmbed {
         super.render();
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src);
+        this.renderV1Embed(src, showPreRenderByDefault);
+
+        return this;
+    }
+
+    public preRender(showPreRenderByDefault = false): AppEmbed {
+        super.preRender(showPreRenderByDefault);
+
+        this.render(showPreRenderByDefault);
 
         return this;
     }

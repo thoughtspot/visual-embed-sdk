@@ -272,3 +272,23 @@ export function removeTypename(obj: any) {
     }
     return obj;
 }
+
+export const setStyleProperties = (
+    element: HTMLElement,
+    styleProperties: Partial<CSSStyleDeclaration>,
+): void => {
+    if (!element || !styleProperties) return;
+    Object.keys(styleProperties).forEach((styleProperty) => {
+        element.style[styleProperty] = styleProperties[styleProperty].toString();
+    });
+};
+
+export const removeStyleProperties = (
+    element: HTMLElement,
+    styleProperties: string[],
+): void => {
+    if (!element || !styleProperties) return;
+    styleProperties.forEach((styleProperty) => {
+        element.style.removeProperty(styleProperty);
+    });
+};

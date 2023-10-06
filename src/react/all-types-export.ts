@@ -5,6 +5,7 @@ export {
     AppEmbed,
     SageEmbed,
     useEmbedRef,
+    PreRenderedLiveboardEmbed,
 } from './index';
 
 export {

@@ -6,69 +6,68 @@ import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
-import { TsEmbed } from '../embed/ts-embed';
+import { TsEmbed } from 'src/embed/TsEmbed';
 
 import { EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
-) => React.forwardRef<InstanceType<T>, U>(
-    (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
-        const ref = React.useRef<HTMLDivElement>(null);
-        const { className, ...embedProps } = props;
-        const { viewConfig, listeners } = getViewPropsAndListeners<
-            Omit<U, 'className'>,
-            V
-        >(embedProps);
-        useDeepCompareEffect(() => {
-            const tsEmbed = new EmbedConstructor(
-                ref!.current,
-                deepMerge(
-                    {
-                        insertAsSibling: viewConfig.insertAsSibling,
-                        frameParams: {
-                            class: viewConfig.insertAsSibling
-                                ? className || ''
-                                : '',
+    isPreRenderedComponent = false,
+) =>
+    React.forwardRef<InstanceType<T>, U>(
+        (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
+            const ref = React.useRef<HTMLDivElement>(null);
+            const { className, ...embedProps } = props;
+            const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
+                embedProps,
+            );
+            useDeepCompareEffect(() => {
+                const tsEmbed = new EmbedConstructor(
+                    ref!.current,
+                    deepMerge(
+                        {
+                            insertAsSibling: viewConfig.insertAsSibling,
+                            frameParams: {
+                                class: viewConfig.insertAsSibling ? className || '' : '',
+                            },
                         },
-                    },
-                    viewConfig,
-                ),
-            ) as InstanceType<T>;
-            Object.keys(listeners).forEach((eventName) => {
-                tsEmbed.on(
-                    eventName as EmbedEvent,
-                    listeners[eventName as EmbedEvent],
-                );
-            });
-            tsEmbed.render();
-            if (forwardedRef) {
-                // eslint-disable-next-line no-param-reassign
-                forwardedRef.current = tsEmbed;
-            }
-            return () => {
-                tsEmbed.destroy();
-            };
-        }, [viewConfig, listeners]);
+                        viewConfig,
+                    ),
+                ) as InstanceType<T>;
+                Object.keys(listeners).forEach((eventName) => {
+                    tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
+                });
 
-        return (
-            (viewConfig.insertAsSibling)
-                ? <span
-                    data-testid="tsEmbed"
-                    ref={ref}
-                    style={{ position: 'absolute' }}
-                ></span>
-                : <div
-                    data-testid="tsEmbed"
-                    ref={ref}
-                    className={className}>
-                </div>
-        );
-    },
-);
+                if (isPreRenderedComponent) {
+                    tsEmbed.preRender();
+                } else if (props.preRenderId) {
+                    tsEmbed.showPreRender();
+                } else {
+                    tsEmbed.render();
+                }
 
-interface SearchProps extends EmbedProps, SearchViewConfig { }
+                if (forwardedRef) {
+                    // eslint-disable-next-line no-param-reassign
+                    forwardedRef.current = tsEmbed;
+                }
+                return () => {
+                    if (!isPreRenderedComponent) {
+                        if (props.preRenderId) tsEmbed.hidePreRender();
+                        else tsEmbed.destroy();
+                    }
+                };
+            }, [viewConfig, listeners]);
+
+            return viewConfig.insertAsSibling ? (
+                <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
+            ) : (
+                <div data-testid="tsEmbed" ref={ref} className={className}></div>
+            );
+        },
+    );
+
+interface SearchProps extends EmbedProps, SearchViewConfig {}
 
 /**
  * React component for Search Embed.
@@ -87,7 +86,7 @@ export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, Se
     _SearchEmbed,
 );
 
-interface AppProps extends EmbedProps, AppViewConfig { }
+interface AppProps extends EmbedProps, AppViewConfig {}
 
 /**
  * React component for Full app Embed.
@@ -105,7 +104,12 @@ interface AppProps extends EmbedProps, AppViewConfig { }
  */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
-interface LiveboardProps extends EmbedProps, LiveboardViewConfig { }
+export const PreRenderedAppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(
+    _AppEmbed,
+    true,
+);
+
+interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
 
 /**
  * React component for Liveboard embed.
@@ -130,7 +134,15 @@ export const LiveboardEmbed = componentFactory<
 
 export const PinboardEmbed = LiveboardEmbed;
 
-interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig { }
+export const PreRenderedLiveboardEmbed = componentFactory<
+    typeof _LiveboardEmbed,
+    LiveboardProps,
+    LiveboardViewConfig
+>(_LiveboardEmbed, true);
+
+export const PreRenderedPinboardEmbed = PreRenderedLiveboardEmbed;
+
+interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
 
 /**
  * React component for Search bar embed.
@@ -151,7 +163,13 @@ export const SearchBarEmbed = componentFactory<
     SearchBarViewConfig
 >(_SearchBarEmbed);
 
-interface SageEmbedProps extends EmbedProps, SageViewConfig { }
+export const PreRenderedSearchBarEmbed = componentFactory<
+    typeof _SearchBarEmbed,
+    SearchBarEmbedProps,
+    SearchBarViewConfig
+>(_SearchBarEmbed, true);
+
+interface SageEmbedProps extends EmbedProps, SageViewConfig {}
 
 /**
  * React component for LLM based search Sage embed.
@@ -166,13 +184,18 @@ interface SageEmbedProps extends EmbedProps, SageViewConfig { }
  * }
  * ```
  */
-export const SageEmbed = componentFactory<
+export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, SageViewConfig>(
+    _SageEmbed,
+);
+
+export const PreRenderedSageEmbed = componentFactory<
     typeof _SageEmbed,
     SageEmbedProps,
     SageViewConfig
->(_SageEmbed);
+>(_SageEmbed, true);
 
-type EmbedComponent = typeof SearchEmbed
+type EmbedComponent =
+    | typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
@@ -195,8 +218,9 @@ type EmbedComponent = typeof SearchEmbed
  * ```
  * @returns {React.MutableRefObject<T extends TsEmbed>} ref
  */
-export function useEmbedRef<T extends EmbedComponent>():
-    React.MutableRefObject<React.ComponentRef<T>> {
+export function useEmbedRef<T extends EmbedComponent>(): React.MutableRefObject<
+    React.ComponentRef<T>
+> {
     return React.useRef<React.ComponentRef<T>>(null);
 }
 
