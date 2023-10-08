@@ -215,9 +215,8 @@ type EmbedComponent = typeof SearchEmbed
  * ```
  * @returns {React.MutableRefObject<T extends TsEmbed>} ref
  */
-export function useEmbedRef<T extends EmbedComponent>(): React.MutableRefObject<
-    React.ComponentRef<T>
-    > {
+export function useEmbedRef<T extends EmbedComponent>():
+  React.MutableRefObject<React.ComponentRef<T>> {
     return React.useRef<React.ComponentRef<T>>(null);
 }
 
