@@ -47,11 +47,11 @@ export interface SageViewConfig extends ViewConfig {
     /**
      * flag to disable changing worksheet. default false.
      */
-    disableWorksheetChange?: boolean,
+    disableWorksheetChange?: boolean;
     /**
      * flag to hide worksheet selector. default false.
      */
-    hideWorksheetSelector?: boolean,
+    hideWorksheetSelector?: boolean;
     /**
      * If set to true, the search suggestions will contain existing
      * liveboards and answers in addition with the autocomplete
@@ -75,7 +75,6 @@ export interface SageViewConfig extends ViewConfig {
      * Configuration for search options
      */
     searchOptions?: SearchOptions;
-
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
@@ -148,9 +147,7 @@ export class SageEmbed extends V1Embed {
         const path = 'eureka';
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
-        const {
-            dataSource, searchOptions,
-        } = this.viewConfig;
+        const { dataSource, searchOptions } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
         if (searchOptions?.searchQuery) {
@@ -168,22 +165,13 @@ export class SageEmbed extends V1Embed {
     /**
      * Render the embedded ThoughtSpot Sage
      *
-     * @param showPreRenderByDefault
      * @returns {SageEmbed} Eureka/Sage embed
      */
-    public render(showPreRenderByDefault = false): SageEmbed {
+    public render(): SageEmbed {
         super.render();
 
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src, showPreRenderByDefault);
-
-        return this;
-    }
-
-    public preRender(showPreRenderByDefault = false): SageEmbed {
-        super.preRender(showPreRenderByDefault);
-
-        this.render(showPreRenderByDefault);
+        this.renderV1Embed(src);
 
         return this;
     }

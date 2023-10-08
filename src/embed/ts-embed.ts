@@ -549,13 +549,14 @@ export class TsEmbed {
         return iFrame;
     }
 
-    protected handleInsertionIntoDOM(child: string | Node, showPreRenderByDefault = false): void {
+    protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRendered) {
-            this.insertIntoDOMForPreRender(
-                this.embedConfig.loginFailedMessage, showPreRenderByDefault,
-            );
+            if (!this.viewConfig.preRenderId) {
+                throw Error('PreRender id is required for preRender');
+            }
+            this.insertIntoDOMForPreRender(child);
         } else {
-            this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+            this.insertIntoDOM(child);
         }
     }
 
@@ -564,9 +565,8 @@ export class TsEmbed {
      * event listeners.
      *
      * @param url - The URL of the embedded ThoughtSpot app.
-     * @param showPreRenderByDefault - The flag to show the preRender by default.
      */
-    protected async renderIFrame(url: string, showPreRenderByDefault = false): Promise<any> {
+    protected async renderIFrame(url: string): Promise<any> {
         if (this.isError) {
             return null;
         }
@@ -591,9 +591,7 @@ export class TsEmbed {
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
-                        this.handleInsertionIntoDOM(
-                            this.embedConfig.loginFailedMessage, showPreRenderByDefault,
-                        );
+                        this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
                     }
 
@@ -616,9 +614,7 @@ export class TsEmbed {
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
-                    this.handleInsertionIntoDOM(
-                        this.iFrame, showPreRenderByDefault,
-                    );
+                    this.handleInsertionIntoDOM(this.iFrame);
                     const prefetchIframe = document.querySelectorAll('.prefetchIframe');
                     if (prefetchIframe.length) {
                         prefetchIframe.forEach((el) => {
@@ -641,40 +637,40 @@ export class TsEmbed {
     public getPreRenderIds() {
         return {
             wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
-            shield: `tsEmbed-pre-render-shield-${this.viewConfig.preRenderId}`,
+            // shield:
+            // `tsEmbed-pre-render-shield-${this.viewConfig.preRenderId}`,
             child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
         };
     }
 
-    protected createPreRenderWrapper(child: HTMLElement): HTMLDivElement {
+    protected createPreRenderWrapper(): HTMLDivElement {
         if (!this.viewConfig.preRenderId) {
-            throw new Error('PreRender id is required');
+            throw new Error('PreRender id is required to create PreRender wrapper');
         }
 
         const preRenderIds = this.getPreRenderIds();
 
-        [preRenderIds.wrapper, preRenderIds.shield, preRenderIds.child]
-            .map((id) => document.getElementById(id))
-            .filter((element) => element)
-            .forEach((existingElement) => existingElement.remove());
+        document.getElementById(preRenderIds.wrapper)?.remove();
 
         const preRenderWrapper = document.createElement('div');
         preRenderWrapper.id = preRenderIds.wrapper;
-        setStyleProperties(preRenderWrapper, { position: 'absolute', width: '100vw', height: '100vh' });
+        const initialPreRenderWrapperStyle = {
+            position: 'absolute',
+            width: '100vw',
+            height: '100vh',
+        };
+        setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
         // const preRenderShield = document.createElement('div');
         // preRenderShield.id = preRenderIds.shield;
         // setStyleProperties(preRenderShield, { position: 'absolute',
         // width: '100%', height: '100%' });
 
-        child.id = preRenderIds.child;
-
-        preRenderWrapper.appendChild(child);
         // preRenderWrapper.appendChild(preRenderShield);
 
-        this.preRenderWrapper = preRenderWrapper;
+        // this.preRenderWrapper = preRenderWrapper;
         // this.preRenderShield = preRenderShield;
-        this.preRenderChild = child;
+        // this.preRenderChild = child;
 
         return preRenderWrapper;
     }
@@ -687,12 +683,10 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper
-            || document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
         // this.preRenderShield = this.preRenderShield
         //     || document.getElementById(preRenderIds.shield);
-        this.preRenderChild = this.preRenderChild
-            || document.getElementById(preRenderIds.child);
+        this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
         if (this.preRenderWrapper && this.preRenderChild) {
             this.isPreRendered = true;
@@ -706,22 +700,42 @@ export class TsEmbed {
         return this.isPreRendered;
     }
 
-    protected insertIntoDOMForPreRender(
-        child: string | HTMLElement,
-        showPreRenderByDefault = false,
-    ): void {
-        let childNode: HTMLElement;
-        if (typeof child === 'string') {
-            const divChildNode = document.createElement('div');
-            divChildNode.innerHTML = child;
-            childNode = divChildNode;
-        } else {
-            childNode = child;
+    protected createPreRenderChild(child: string | Node): HTMLElement {
+        const preRenderIds = this.getPreRenderIds();
+
+        document.getElementById(preRenderIds.child)?.remove();
+
+        if (child instanceof HTMLElement) {
+            child.id = preRenderIds.child;
+            return child;
         }
 
-        const preRenderWrapper = this.createPreRenderWrapper(childNode);
+        const divChildNode = document.createElement('div');
+        setStyleProperties(divChildNode, { width: '100%', height: '100%' });
+        divChildNode.id = preRenderIds.child;
 
-        if (showPreRenderByDefault) {
+        if (typeof child === 'string') {
+            divChildNode.innerHTML = child;
+        } else {
+            divChildNode.appendChild(child);
+        }
+
+        return divChildNode;
+    }
+
+    protected insertIntoDOMForPreRender(child: string | Node): void {
+        const preRenderChild = this.createPreRenderChild(child);
+        const preRenderWrapper = this.createPreRenderWrapper();
+        preRenderWrapper.appendChild(preRenderChild);
+
+        this.preRenderChild = preRenderChild;
+        this.preRenderWrapper = preRenderWrapper;
+
+        if (preRenderChild instanceof HTMLIFrameElement) {
+            this.iFrame = preRenderChild;
+        }
+
+        if (this.showPreRenderByDefault) {
             this.showPreRender();
         } else {
             this.hidePreRender();
@@ -733,31 +747,33 @@ export class TsEmbed {
     public hidePreRender(): void {
         if (!this.isPreRenderAvailable()) {
             // if the embed component is not preRendered , nothing to hide
-            console.log('No preRender found, not hiding ');
+            console.warn(
+                'Warning: You should call PreRender before hiding it using hidePreRender.',
+            );
             return;
         }
-
-        setStyleProperties(this.preRenderWrapper, {
+        const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: '-1000',
             position: 'absolute ',
             top: '0',
             left: '0',
-        });
+        };
+        setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
-        const childBoundingRect = this.preRenderChild.getBoundingClientRect();
-
-        setStyleProperties(this.preRenderShield, {
-            opacity: '0',
-            pointerEvents: 'none',
-            zIndex: '1',
-            width: `${childBoundingRect.width}px`,
-            height: `${childBoundingRect.height}px`,
-            position: 'absolute',
-            top: '0',
-            left: '0',
-        });
+        // const childBoundingRect = this.preRenderChild.getBoundingClientRect();
+        //
+        // setStyleProperties(this.preRenderShield, {
+        //     opacity: '0',
+        //     pointerEvents: 'none',
+        //     zIndex: '1',
+        //     width: `${childBoundingRect.width}px`,
+        //     height: `${childBoundingRect.height}px`,
+        //     position: 'absolute',
+        //     top: '0',
+        //     left: '0',
+        // });
 
         this.unsubscribeToEvents();
     }
@@ -766,10 +782,10 @@ export class TsEmbed {
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
             if (!isAvailable) {
-                // if the Embed component is nor preRendered , Render it now and
+                // if the Embed component is not preRendered , Render it now and
+
                 // show it (hide is defalt behaviour)
-                console.log('No preRender found, creating new ');
-                this.preRender(true);
+                // console.log('No preRender found, creating new ');
                 return;
             }
         }
@@ -778,7 +794,7 @@ export class TsEmbed {
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
-        setStyleProperties(this.preRenderShield, { zIndex: '-1' });
+        // setStyleProperties(this.preRenderShield, { zIndex: '-1' });
 
         this.subscribeToEvents();
     }
@@ -790,7 +806,10 @@ export class TsEmbed {
         const elBoundingClient = this.el.getBoundingClientRect();
 
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y}px`, left: `${elBoundingClient.x}px`, width: `${elBoundingClient.width}px`, height: `${elBoundingClient.height}px`,
+            top: `${elBoundingClient.y}px`,
+            left: `${elBoundingClient.x}px`,
+            width: `${elBoundingClient.width}px`,
+            height: `${elBoundingClient.height}px`,
         });
     }
 
@@ -1027,13 +1046,17 @@ export class TsEmbed {
 
     private isPreRendered: boolean;
 
+    private showPreRenderByDefault = false;
+
     /**
      * Creates the preRender shell
      *
-     * @param showPreRenderByDefault
+     * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
         this.isPreRendered = true;
+        this.showPreRenderByDefault = showPreRenderByDefault;
+        this.render();
         return this;
     }
 
@@ -1118,10 +1141,9 @@ export class V1Embed extends TsEmbed {
      * Render the app in an iframe and set up event handlers
      *
      * @param iframeSrc
-     * @param showPreRenderByDefault - if true the preRender will be shown by default
      */
-    protected renderV1Embed(iframeSrc: string, showPreRenderByDefault = false): any {
-        return this.renderIFrame(iframeSrc, showPreRenderByDefault);
+    protected renderV1Embed(iframeSrc: string): Promise<any> {
+        return this.renderIFrame(iframeSrc);
     }
 
     protected getRootIframeSrc(): string {

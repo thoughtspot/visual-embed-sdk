@@ -6,7 +6,7 @@ import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
-import { TsEmbed } from 'src/embed/TsEmbed';
+import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -14,16 +14,15 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
     isPreRenderedComponent = false,
-) =>
-    React.forwardRef<InstanceType<T>, U>(
-        (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
-            const ref = React.useRef<HTMLDivElement>(null);
-            const { className, ...embedProps } = props;
-            const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
-                embedProps,
-            );
-            useDeepCompareEffect(() => {
-                const tsEmbed = new EmbedConstructor(
+) => React.forwardRef<InstanceType<T>, U>(
+    (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
+        const ref = React.useRef<HTMLDivElement>(null);
+        const { className, ...embedProps } = props;
+        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
+            embedProps,
+        );
+        useDeepCompareEffect(() => {
+            const tsEmbed = new EmbedConstructor(
                     ref!.current,
                     deepMerge(
                         {
@@ -34,38 +33,37 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
                         },
                         viewConfig,
                     ),
-                ) as InstanceType<T>;
-                Object.keys(listeners).forEach((eventName) => {
-                    tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
-                });
+            ) as InstanceType<T>;
+            Object.keys(listeners).forEach((eventName) => {
+                tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
+            });
+            if (isPreRenderedComponent) {
+                tsEmbed.preRender();
+            } else if (props.preRenderId) {
+                tsEmbed.showPreRender();
+            } else {
+                tsEmbed.render();
+            }
 
-                if (isPreRenderedComponent) {
-                    tsEmbed.preRender();
-                } else if (props.preRenderId) {
-                    tsEmbed.showPreRender();
-                } else {
-                    tsEmbed.render();
+            if (forwardedRef) {
+                // eslint-disable-next-line no-param-reassign
+                forwardedRef.current = tsEmbed;
+            }
+            return () => {
+                if (!isPreRenderedComponent) {
+                    if (props.preRenderId) tsEmbed.hidePreRender();
+                    else tsEmbed.destroy();
                 }
+            };
+        }, [viewConfig, listeners]);
 
-                if (forwardedRef) {
-                    // eslint-disable-next-line no-param-reassign
-                    forwardedRef.current = tsEmbed;
-                }
-                return () => {
-                    if (!isPreRenderedComponent) {
-                        if (props.preRenderId) tsEmbed.hidePreRender();
-                        else tsEmbed.destroy();
-                    }
-                };
-            }, [viewConfig, listeners]);
-
-            return viewConfig.insertAsSibling ? (
-                <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
-            ) : (
-                <div data-testid="tsEmbed" ref={ref} className={className}></div>
-            );
-        },
-    );
+        return viewConfig.insertAsSibling ? (
+            <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
+        ) : (
+            <div data-testid="tsEmbed" ref={ref} className={className}></div>
+        );
+    },
+);
 
 interface SearchProps extends EmbedProps, SearchViewConfig {}
 
@@ -220,7 +218,7 @@ type EmbedComponent =
  */
 export function useEmbedRef<T extends EmbedComponent>(): React.MutableRefObject<
     React.ComponentRef<T>
-> {
+    > {
     return React.useRef<React.ComponentRef<T>>(null);
 }
 

@@ -284,19 +284,11 @@ export class LiveboardEmbed extends V1Embed {
      * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
      */
-    public render(showPreRenderByDefault = false): LiveboardEmbed {
+    public render(): LiveboardEmbed {
         super.render();
 
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src, showPreRenderByDefault);
-
-        return this;
-    }
-
-    public preRender(showPreRenderByDefault = false): LiveboardEmbed {
-        super.preRender(showPreRenderByDefault);
-
-        this.render(showPreRenderByDefault);
+        this.renderV1Embed(src);
 
         return this;
     }

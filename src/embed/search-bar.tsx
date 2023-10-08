@@ -1,6 +1,6 @@
 import { Param, ViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
-import { TsEmbed } from './TsEmbed';
+import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
 
 /**
