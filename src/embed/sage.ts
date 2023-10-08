@@ -47,11 +47,11 @@ export interface SageViewConfig extends ViewConfig {
     /**
      * flag to disable changing worksheet. default false.
      */
-    disableWorksheetChange?: boolean;
+    disableWorksheetChange?: boolean,
     /**
      * flag to hide worksheet selector. default false.
      */
-    hideWorksheetSelector?: boolean;
+    hideWorksheetSelector?: boolean,
     /**
      * If set to true, the search suggestions will contain existing
      * liveboards and answers in addition with the autocomplete
@@ -147,7 +147,9 @@ export class SageEmbed extends V1Embed {
         const path = 'eureka';
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
-        const { dataSource, searchOptions } = this.viewConfig;
+        const {
+            dataSource, searchOptions,
+        } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
         if (searchOptions?.searchQuery) {
