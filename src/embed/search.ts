@@ -259,7 +259,6 @@ export class SearchEmbed extends TsEmbed {
 
     /**
      * Render the embedded ThoughtSpot search
-     *
      */
     public render(): SearchEmbed {
         super.render();

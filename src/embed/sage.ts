@@ -75,6 +75,7 @@ export interface SageViewConfig extends ViewConfig {
      * Configuration for search options
      */
     searchOptions?: SearchOptions;
+
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
