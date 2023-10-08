@@ -65,7 +65,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     },
 );
 
-interface SearchProps extends EmbedProps, SearchViewConfig {}
+interface SearchProps extends EmbedProps, SearchViewConfig { }
 
 /**
  * React component for Search Embed.
@@ -84,7 +84,7 @@ export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, Se
     _SearchEmbed,
 );
 
-interface AppProps extends EmbedProps, AppViewConfig {}
+interface AppProps extends EmbedProps, AppViewConfig { }
 
 /**
  * React component for Full app Embed.
@@ -107,7 +107,7 @@ export const PreRenderedAppEmbed = componentFactory<typeof _AppEmbed, AppProps, 
     true,
 );
 
-interface LiveboardProps extends EmbedProps, LiveboardViewConfig {}
+interface LiveboardProps extends EmbedProps, LiveboardViewConfig { }
 
 /**
  * React component for Liveboard embed.
@@ -140,7 +140,7 @@ export const PreRenderedLiveboardEmbed = componentFactory<
 
 export const PreRenderedPinboardEmbed = PreRenderedLiveboardEmbed;
 
-interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig {}
+interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig { }
 
 /**
  * React component for Search bar embed.
@@ -167,7 +167,7 @@ export const PreRenderedSearchBarEmbed = componentFactory<
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
 
-interface SageEmbedProps extends EmbedProps, SageViewConfig {}
+interface SageEmbedProps extends EmbedProps, SageViewConfig { }
 
 /**
  * React component for LLM based search Sage embed.
