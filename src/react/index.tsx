@@ -192,8 +192,7 @@ export const PreRenderedSageEmbed = componentFactory<
     SageViewConfig
 >(_SageEmbed, true);
 
-type EmbedComponent =
-    | typeof SearchEmbed
+type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
