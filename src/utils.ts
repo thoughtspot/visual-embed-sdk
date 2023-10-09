@@ -33,7 +33,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
             const filterExpr = [];
             filterExpr.push(`col${index}=${filter.columnName}`);
             filterExpr.push(`op${index}=${filter.operator}`);
-            filterExpr.push(filter.values.map((value) => `val${index}=${value}`).join('&'));
+            filterExpr.push(filter.values.map((value) => `val${index}=${encodeURIComponent(value)}`).join('&'));
 
             return filterExpr.join('&');
         });
