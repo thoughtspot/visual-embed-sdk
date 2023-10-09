@@ -1,11 +1,15 @@
 export {
     SearchEmbed,
+    PreRenderedSearchEmbed,
     LiveboardEmbed,
-    SearchBarEmbed,
-    AppEmbed,
-    SageEmbed,
-    useEmbedRef,
     PreRenderedLiveboardEmbed,
+    SearchBarEmbed,
+    PreRenderedSearchBarEmbed,
+    AppEmbed,
+    PreRenderedAppEmbed,
+    SageEmbed,
+    PreRenderedSageEmbed,
+    useEmbedRef,
 } from './index';
 
 export {

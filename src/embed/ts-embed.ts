@@ -137,6 +137,11 @@ export class TsEmbed {
     private isError: boolean;
 
     /**
+     * A flag that is set to true post preRender.
+     */
+    private isPreRendered: boolean;
+
+    /**
      * Should we encode URL Query Params using base64 encoding which thoughtspot
      * will generate for embedding. This provides additional security to
      * thoughtspot clusters against Cross site scripting attacks.
@@ -146,6 +151,8 @@ export class TsEmbed {
     private shouldEncodeUrlQueryParams = false;
 
     private defaultHiddenActions = [Action.ReportError];
+
+    private resizeObserver: ResizeObserver;
 
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
@@ -634,15 +641,6 @@ export class TsEmbed {
         });
     }
 
-    public getPreRenderIds() {
-        return {
-            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
-            // shield:
-            // `tsEmbed-pre-render-shield-${this.viewConfig.preRenderId}`,
-            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
-        };
-    }
-
     protected createPreRenderWrapper(): HTMLDivElement {
         if (!this.viewConfig.preRenderId) {
             throw new Error('PreRender id is required to create PreRender wrapper');
@@ -661,31 +659,18 @@ export class TsEmbed {
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
-        // const preRenderShield = document.createElement('div');
-        // preRenderShield.id = preRenderIds.shield;
-        // setStyleProperties(preRenderShield, { position: 'absolute',
-        // width: '100%', height: '100%' });
-
-        // preRenderWrapper.appendChild(preRenderShield);
-
-        // this.preRenderWrapper = preRenderWrapper;
-        // this.preRenderShield = preRenderShield;
-        // this.preRenderChild = child;
-
         return preRenderWrapper;
     }
 
     protected preRenderWrapper: HTMLElement;
 
-    // protected preRenderShield: HTMLElement;
-
     protected preRenderChild: HTMLElement;
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
-        // this.preRenderShield = this.preRenderShield
-        //     || document.getElementById(preRenderIds.shield);
+        this.preRenderWrapper = this.preRenderWrapper
+          || document.getElementById(preRenderIds.wrapper);
+
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
         if (this.preRenderWrapper && this.preRenderChild) {
@@ -697,7 +682,7 @@ export class TsEmbed {
     }
 
     protected isPreRenderAvailable(): boolean {
-        return this.isPreRendered;
+        return this.isPreRendered && Boolean(this.preRenderWrapper && this.preRenderChild);
     }
 
     protected createPreRenderChild(child: string | Node): HTMLElement {
@@ -744,74 +729,7 @@ export class TsEmbed {
         document.body.appendChild(preRenderWrapper);
     }
 
-    public hidePreRender(): void {
-        if (!this.isPreRenderAvailable()) {
-            // if the embed component is not preRendered , nothing to hide
-            console.warn(
-                'Warning: You should call PreRender before hiding it using hidePreRender.',
-            );
-            return;
-        }
-        const preRenderHideStyles = {
-            opacity: '0',
-            pointerEvents: 'none',
-            zIndex: '-1000',
-            position: 'absolute ',
-            top: '0',
-            left: '0',
-        };
-        setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
-
-        // const childBoundingRect = this.preRenderChild.getBoundingClientRect();
-        //
-        // setStyleProperties(this.preRenderShield, {
-        //     opacity: '0',
-        //     pointerEvents: 'none',
-        //     zIndex: '1',
-        //     width: `${childBoundingRect.width}px`,
-        //     height: `${childBoundingRect.height}px`,
-        //     position: 'absolute',
-        //     top: '0',
-        //     left: '0',
-        // });
-
-        this.unsubscribeToEvents();
-    }
-
-    public showPreRender(): void {
-        if (!this.isPreRenderAvailable()) {
-            const isAvailable = this.connectPreRendered();
-            if (!isAvailable) {
-                // if the Embed component is not preRendered , Render it now and
-
-                // show it (hide is defalt behaviour)
-                // console.log('No preRender found, creating new ');
-                return;
-            }
-        }
-
-        this.syncPreRenderStyle();
-
-        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
-
-        // setStyleProperties(this.preRenderShield, { zIndex: '-1' });
-
-        this.subscribeToEvents();
-    }
-
-    public syncPreRenderStyle(): void {
-        if (!this.el) {
-            throw new Error('Embed element is not defined');
-        }
-        const elBoundingClient = this.el.getBoundingClientRect();
-
-        setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y}px`,
-            left: `${elBoundingClient.x}px`,
-            width: `${elBoundingClient.width}px`,
-            height: `${elBoundingClient.height}px`,
-        });
-    }
+    private showPreRenderByDefault = false;
 
     protected insertIntoDOM(child: string | Node): void {
         if (this.viewConfig.insertAsSibling) {
@@ -1044,10 +962,6 @@ export class TsEmbed {
         return this;
     }
 
-    private isPreRendered: boolean;
-
-    private showPreRenderByDefault = false;
-
     /**
      * Creates the preRender shell
      *
@@ -1119,6 +1033,114 @@ export class TsEmbed {
     public async prerenderGeneric(): Promise<any> {
         const prerenderFrameSrc = this.getRootIframeSrc();
         return this.renderIFrame(prerenderFrameSrc);
+    }
+
+    /**
+     * Displays the PreRender component.
+     * If the component is not preRendered, it attempts to create and render it.
+     * Also, synchronizes the style of the PreRender component with the embedding
+     * element. It is configured to track PreRender size by default (dynamically
+     * adjusts the size based on the embedding element).
+     */
+    public showPreRender(): void {
+        if (!this.isPreRenderAvailable()) {
+            const isAvailable = this.connectPreRendered();
+            if (!isAvailable) {
+                // if the Embed component is not preRendered , Render it now and
+                this.preRender(true);
+                return;
+            }
+        }
+
+        if (this.el) {
+            this.syncPreRenderStyle();
+
+            if (this.viewConfig.trackPreRenderSize) {
+                const resizeObserver = new ResizeObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.contentRect) {
+                            setStyleProperties(this.preRenderWrapper, {
+                                width: `${entry.contentRect.width}px`,
+                                height: `${entry.contentRect.height}px`,
+                            });
+                        }
+                    });
+                });
+                resizeObserver.observe(this.el);
+                this.resizeObserver = resizeObserver;
+            }
+        }
+
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+
+        this.subscribeToEvents();
+    }
+
+    /**
+     * Synchronizes the style properties of the PreRender component with the embedding
+     * element. This function adjusts the position, width, and height of the PreRender
+     * component
+     * to match the dimensions and position of the embedding element.
+     *
+     * @throws {Error} Throws an error if the embedding element (passed as domSelector)
+     * is not defined or not found.
+     */
+    public syncPreRenderStyle(): void {
+        if (!this.el) {
+            throw new Error('Embed element is not defined');
+        }
+        const elBoundingClient = this.el.getBoundingClientRect();
+
+        setStyleProperties(this.preRenderWrapper, {
+            top: `${elBoundingClient.y}px`,
+            left: `${elBoundingClient.x}px`,
+            width: `${elBoundingClient.width}px`,
+            height: `${elBoundingClient.height}px`,
+        });
+    }
+
+    /**
+     * Hides the PreRender component if it is available.
+     * If the component is not preRendered, it issues a warning.
+     */
+    public hidePreRender(): void {
+        if (!this.isPreRenderAvailable()) {
+            // if the embed component is not preRendered , nothing to hide
+            console.warn(
+                'Warning: You should call PreRender before hiding it using hidePreRender.',
+            );
+            return;
+        }
+        const preRenderHideStyles = {
+            opacity: '0',
+            pointerEvents: 'none',
+            zIndex: '-1000',
+            position: 'absolute ',
+            top: '0',
+            left: '0',
+        };
+        setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
+
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
+
+        this.unsubscribeToEvents();
+    }
+
+    /**
+     * Retrieves unique HTML element IDs for PreRender-related elements.
+     * These IDs are constructed based on the provided 'preRenderId' from 'viewConfig'.
+     *
+     * @returns {object} An object containing the IDs for the PreRender elements.
+     * @property {string} wrapper - The HTML element ID for the PreRender wrapper.
+     * @property {string} child - The HTML element ID for the PreRender child.
+     */
+    public getPreRenderIds() {
+        return {
+            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
+            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
+        };
     }
 }
 

@@ -67,6 +67,25 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
 interface SearchProps extends EmbedProps, SearchViewConfig { }
 
+interface PreRenderProps {
+   /**
+    * PreRender id to be used for PreRendering the embed.
+    * Use PreRender to render the embed in the background and then
+    * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+    *
+    * @example
+    * ```js
+    * const embed = new LiveboardEmbed('#embed', {
+    *   ... // other liveboard view config
+    *   preRenderId: "preRenderId-123"
+    * });
+    * embed.showPreRender();
+    * ```
+    * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+    */
+  preRenderId: string;
+}
+
 /**
  * React component for Search Embed.
  *
@@ -83,6 +102,12 @@ interface SearchProps extends EmbedProps, SearchViewConfig { }
 export const SearchEmbed = componentFactory<typeof _SearchEmbed, SearchProps, SearchViewConfig>(
     _SearchEmbed,
 );
+
+export const PreRenderedSearchEmbed = componentFactory<
+    typeof _SearchEmbed,
+    SearchProps & PreRenderProps,
+    SearchViewConfig
+>(_SearchEmbed, true);
 
 interface AppProps extends EmbedProps, AppViewConfig { }
 
@@ -102,10 +127,11 @@ interface AppProps extends EmbedProps, AppViewConfig { }
  */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
-export const PreRenderedAppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(
-    _AppEmbed,
-    true,
-);
+export const PreRenderedAppEmbed = componentFactory<
+    typeof _AppEmbed,
+    AppProps & PreRenderProps,
+    AppViewConfig
+>(_AppEmbed, true);
 
 interface LiveboardProps extends EmbedProps, LiveboardViewConfig { }
 
@@ -134,7 +160,7 @@ export const PinboardEmbed = LiveboardEmbed;
 
 export const PreRenderedLiveboardEmbed = componentFactory<
     typeof _LiveboardEmbed,
-    LiveboardProps,
+    LiveboardProps & PreRenderProps,
     LiveboardViewConfig
 >(_LiveboardEmbed, true);
 
@@ -163,7 +189,7 @@ export const SearchBarEmbed = componentFactory<
 
 export const PreRenderedSearchBarEmbed = componentFactory<
     typeof _SearchBarEmbed,
-    SearchBarEmbedProps,
+    SearchBarEmbedProps & PreRenderProps,
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
 
@@ -188,7 +214,7 @@ export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, Sag
 
 export const PreRenderedSageEmbed = componentFactory<
     typeof _SageEmbed,
-    SageEmbedProps,
+    SageEmbedProps & PreRenderProps,
     SageViewConfig
 >(_SageEmbed, true);
 

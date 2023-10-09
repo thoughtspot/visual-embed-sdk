@@ -760,6 +760,7 @@ export interface ViewConfig {
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
@@ -807,6 +808,8 @@ export interface ViewConfig {
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     preRenderId?: string;
+
+    trackPreRenderSize?: boolean;
 }
 
 /**
