@@ -809,6 +809,23 @@ export interface ViewConfig {
      */
     preRenderId?: string;
 
+    /**
+     * Determines whether the PreRender component should dynamically track the size
+     * of its embedding element and adjust its own size accordingly.
+     * Enabling this option allows the PreRender component to automatically adapt
+     * its dimensions based on changes to the size of the embedding element.
+     *
+     * @type {boolean}
+     * @default true
+     * @example
+     * // Enable tracking PreRender size in the configuration
+     * const config = {
+     *   trackPreRenderSize: true,
+     * };
+     *
+     * // Instantiate an object with the configuration
+     * const myComponent = new MyComponent(config);
+     */
     trackPreRenderSize?: boolean;
 }
 

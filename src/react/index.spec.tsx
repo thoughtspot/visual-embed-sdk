@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import {
     cleanup, fireEvent, render, waitFor,
 } from '@testing-library/react';
-import { doc } from 'prettier';
 import {
     Action, EmbedEvent, HostEvent, RuntimeFilterOp,
 } from '../types';

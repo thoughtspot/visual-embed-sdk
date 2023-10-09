@@ -166,6 +166,7 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
+        if (this.viewConfig === undefined) { this.viewConfig.trackPreRenderSize = true; }
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
