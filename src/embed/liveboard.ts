@@ -29,7 +29,7 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends ViewConfig {
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -107,6 +107,27 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     hideTabPanel?: boolean;
     /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
+    /**
      * The list of parameter override to apply to a Liveboard.
      */
     runtimeParameters?: RuntimeParameter[];
@@ -161,6 +182,9 @@ export class LiveboardEmbed extends V1Embed {
             vizId,
             hideTabPanel,
             activeTabId,
+            hideLiveboardHeader,
+            showLiveboardDescription,
+            showLiveboardTitle,
             runtimeParameters,
         } = this.viewConfig;
 
@@ -191,6 +215,15 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
+        }
+        if (hideLiveboardHeader) {
+            params[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        }
+        if (showLiveboardDescription) {
+            params[Param.ShowLiveboardDescription] = showLiveboardDescription;
+        }
+        if (showLiveboardTitle) {
+            params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
         let queryParams = getQueryParamString(params, true);
 

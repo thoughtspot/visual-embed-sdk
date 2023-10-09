@@ -713,27 +713,6 @@ export interface ViewConfig {
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
-     * Boolean to hide liveboard header
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    hideLiveboardHeader?: boolean;
-    /**
-     * Boolean to show liveboard title
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    showLiveboardTitle?: boolean;
-    /**
-     * Boolean to show liveboard description
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    showLiveboardDescription?: boolean;
-    /**
      * The list of tab IDs to hide from the embedded.
      * This Tabs will be hidden from their respective LBs.
      * Use this to hide an tabID.

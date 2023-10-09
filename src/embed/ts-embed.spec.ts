@@ -163,7 +163,7 @@ describe('Unit test case for ts embed', () => {
                 HomepageModule.Learning,
             ];
 
-            const searchEmbed = new SearchEmbed(getRootEl(), {
+            const searchEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 hiddenHomepageModules: mockedHiddenHomepageModules,
             });
@@ -317,7 +317,7 @@ describe('Unit test case for ts embed', () => {
                 HomeLeftNavItem.Documentation,
             ];
 
-            const searchEmbed = new SearchEmbed(getRootEl(), {
+            const searchEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 hiddenHomeLeftNavItems: mockedHiddenHomeLeftNavItems,
             });

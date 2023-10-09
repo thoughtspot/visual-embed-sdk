@@ -37,7 +37,11 @@ export interface SearchOptions {
  * @version: SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw
  * @group Embed components
  */
-export interface SageViewConfig extends ViewConfig {
+export interface SageViewConfig
+    extends Omit<
+        ViewConfig,
+        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs'
+    > {
     /**
      * If set to true, a list of liveboard and answers related
      * to the natural language search will be shown below the
@@ -47,11 +51,11 @@ export interface SageViewConfig extends ViewConfig {
     /**
      * flag to disable changing worksheet. default false.
      */
-    disableWorksheetChange?: boolean,
+    disableWorksheetChange?: boolean;
     /**
      * flag to hide worksheet selector. default false.
      */
-    hideWorksheetSelector?: boolean,
+    hideWorksheetSelector?: boolean;
     /**
      * If set to true, the search suggestions will contain existing
      * liveboards and answers in addition with the autocomplete
@@ -75,7 +79,6 @@ export interface SageViewConfig extends ViewConfig {
      * Configuration for search options
      */
     searchOptions?: SearchOptions;
-
 }
 export const HiddenActionItemByDefaultForSageEmbed = [
     Action.Save,
