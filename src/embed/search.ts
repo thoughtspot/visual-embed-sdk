@@ -53,7 +53,7 @@ export interface SearchOptions {
 export interface SearchViewConfig
     extends Omit<
         ViewConfig,
-        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs'
+        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs' | 'reorderedHomepageModules'
     > {
     /**
      * If set to true, the data sources panel is collapsed on load,

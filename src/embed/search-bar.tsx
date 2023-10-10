@@ -16,6 +16,7 @@ export interface SearchBarViewConfig
         | 'hiddenHomeLeftNavItems'
         | 'hiddenTabs'
         | 'visibleTabs'
+        | 'reorderedHomepageModules'
     > {
     /**
      * The array of data source GUIDs to set on load.

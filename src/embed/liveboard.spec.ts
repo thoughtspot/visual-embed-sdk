@@ -191,6 +191,22 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add isLiveboardHeaderSticky flag to the iframe src', async () => {
+        const appEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardHeaderSticky: false,
+        } as LiveboardViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardHeaderSticky=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not apply runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

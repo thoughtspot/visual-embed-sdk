@@ -177,6 +177,19 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     modularHomeExperience?: boolean;
+    /**
+     * Boolean to control if Liveboard header is sticky or not.
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   isLiveboardHeaderSticky: true,
+     * });
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    isLiveboardHeaderSticky?: boolean;
 }
 
 /**
@@ -217,11 +230,12 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
-            hideLiveboardHeader,
-            showLiveboardTitle,
-            showLiveboardDescription,
+            hideLiveboardHeader = false,
+            showLiveboardTitle = true,
+            showLiveboardDescription = true,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
+            isLiveboardHeaderSticky = true,
         } = this.viewConfig;
 
         let params = {};
@@ -230,9 +244,10 @@ export class AppEmbed extends V1Embed {
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
         params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
-        params[Param.HideLiveboardHeader] = !!hideLiveboardHeader;
-        params[Param.ShowLiveboardTitle] = !!showLiveboardTitle;
+        params[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
+        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
         params = this.getBaseQueryParams(params);
 

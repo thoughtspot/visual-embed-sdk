@@ -200,7 +200,7 @@ describe('Unit test case for ts embed', () => {
                 HomepageModule.Watchlist,
             ];
 
-            const searchEmbed = new SearchEmbed(getRootEl(), {
+            const searchEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 reorderedHomepageModules: mockedReorderedHomepageModules,
             });
