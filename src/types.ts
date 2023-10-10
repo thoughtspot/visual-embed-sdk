@@ -2267,7 +2267,10 @@ export enum Param {
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     PendoTrackingKey = 'additionalPendoKey',
-    LiveboardHeaderSticky = 'isLiveboardHeaderSticky'
+    LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
+    IsProductTour = 'isProductTour',
+    HideSearchBarTitle = 'hideSearchBarTitle',
+    HideSageAnswerHeader = 'hideSageAnswerHeader',
 }
 
 /**
