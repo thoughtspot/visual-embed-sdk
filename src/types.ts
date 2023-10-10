@@ -739,6 +739,7 @@ export interface ViewConfig {
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
@@ -2266,6 +2267,7 @@ export enum Param {
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     PendoTrackingKey = 'additionalPendoKey',
+    LiveboardHeaderSticky = 'isLiveboardHeaderSticky'
 }
 
 /**
@@ -3105,6 +3107,16 @@ export enum Action {
      *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
+    /**
+     * Action ID for Liveboard Users ( Recently Visited / social proof )
+     *
+     *  @example
+     * ```js
+     * disabledActions: [Action.LiveboardUsers]
+     * ```
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    LiveboardUsers = 'liveboardUsers',
 }
 
 export interface AnswerServiceType {

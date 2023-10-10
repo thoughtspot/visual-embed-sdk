@@ -29,7 +29,7 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'> {
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'| 'reorderedHomepageModules'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -131,6 +131,19 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * The list of parameter override to apply to a Liveboard.
      */
     runtimeParameters?: RuntimeParameter[];
+    /**
+     * Boolean to control if Liveboard header is sticky or not.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   isLiveboardHeaderSticky: true,
+     * });
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    isLiveboardHeaderSticky?: boolean;
 }
 
 /**
@@ -186,6 +199,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             runtimeParameters,
+            isLiveboardHeaderSticky = true,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -225,6 +239,9 @@ export class LiveboardEmbed extends V1Embed {
         if (showLiveboardTitle) {
             params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
+
+        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+
         let queryParams = getQueryParamString(params, true);
 
         const parameterQuery = getRuntimeParameters(runtimeParameters || []);
