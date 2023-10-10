@@ -31,7 +31,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
         const filters = runtimeFilters.map((filter, valueIndex) => {
             const index = valueIndex + 1;
             const filterExpr = [];
-            filterExpr.push(`col${index}=${filter.columnName}`);
+            filterExpr.push(`col${index}=${encodeURIComponent(filter.columnName)}`);
             filterExpr.push(`op${index}=${filter.operator}`);
             filterExpr.push(filter.values.map((value) => `val${index}=${encodeURIComponent(value)}`).join('&'));
 
