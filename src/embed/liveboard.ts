@@ -15,12 +15,11 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
-    RuntimeParameter,
     DOMSelector,
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString, getRuntimeParameters } from '../utils';
+import { getQueryParamString } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 
@@ -127,10 +126,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * @default false
      */
     showLiveboardDescription?: boolean;
-    /**
-     * The list of parameter override to apply to a Liveboard.
-     */
-    runtimeParameters?: RuntimeParameter[];
+
 }
 
 /**
@@ -185,7 +181,6 @@ export class LiveboardEmbed extends V1Embed {
             hideLiveboardHeader,
             showLiveboardDescription,
             showLiveboardTitle,
-            runtimeParameters,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -226,9 +221,6 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
         let queryParams = getQueryParamString(params, true);
-
-        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-        if (parameterQuery) queryParams += `&${parameterQuery}`;
 
         return queryParams;
     }
