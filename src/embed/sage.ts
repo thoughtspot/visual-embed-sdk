@@ -60,20 +60,26 @@ export interface SageViewConfig
      * does a search.
      *
      * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl
+     * @hidden
      */
     isProductTour?: boolean;
     /**
      * flag to hide search bar title. default false.
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl
      */
     hideSearchBarTitle?: boolean;
     /**
+     * flag to disable Sage Answer header(`AI Answer` title section on top of the Sage
+     * answer). default false.
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.9.0.cl
-     * flag to disable Answer header. default false.
      */
     hideSageAnswerHeader?: boolean;
     /**
-     * @version SDK: 1.26.0 | Thoughtspot: 9.9.0.cl
      * flag to disable changing worksheet. default false.
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.9.0.cl
      */
     disableWorksheetChange?: boolean;
     /**
@@ -81,7 +87,17 @@ export interface SageViewConfig
      */
     hideWorksheetSelector?: boolean;
     /**
-     * If set to true, the auto complete suggestions will be shown. default true
+     * If set to true, the search bar auto complete search suggestions will not be shown.
+     * default false
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.9.0.cl
+     */
+    hideAutocompleteSuggestions?: boolean;
+    /**
+     * If set to false, the auto complete search suggestions not be shown
+     *
+     * @deprecated currently, object suggestions will not be shown for sage embed
+     * earlier this flag was used to show Auto complete suggestions
      */
     showObjectSuggestions?: boolean;
     /**
@@ -97,6 +113,8 @@ export interface SageViewConfig
     dataSource?: string;
     /**
      * Configuration for search options
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl
      */
     searchOptions?: SearchOptions;
 }
@@ -138,7 +156,6 @@ export class SageEmbed extends V1Embed {
      */
     protected getEmbedParams(): string {
         const {
-            showObjectResults,
             disableWorksheetChange,
             hideWorksheetSelector,
             showObjectSuggestions,
@@ -146,15 +163,19 @@ export class SageEmbed extends V1Embed {
             isProductTour,
             hideSearchBarTitle,
             hideSageAnswerHeader,
+            hideAutocompleteSuggestions,
         } = this.viewConfig;
 
         const params = this.getBaseQueryParams();
         params[Param.EmbedApp] = true;
-        params[Param.HideEurekaResults] = !showObjectResults;
         params[Param.IsSageEmbed] = true;
         params[Param.DisableWorksheetChange] = !!disableWorksheetChange;
         params[Param.HideWorksheetSelector] = !!hideWorksheetSelector;
-        params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
+        params[Param.HideEurekaSuggestions] = !!hideAutocompleteSuggestions;
+        if (showObjectSuggestions) {
+            params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
+            // support backwards compatibility
+        }
         params[Param.HideSampleQuestions] = !!hideSampleQuestions;
         params[Param.IsProductTour] = !!isProductTour;
         params[Param.HideSearchBarTitle] = !!hideSearchBarTitle;

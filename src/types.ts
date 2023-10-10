@@ -2255,6 +2255,7 @@ export enum Param {
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    HideAutocompleteSuggestions = 'hideAutocompleteSuggestions',
     HideLiveboardHeader = 'hideLiveboardHeader',
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
