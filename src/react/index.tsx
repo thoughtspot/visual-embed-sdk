@@ -127,6 +127,25 @@ interface AppProps extends EmbedProps, AppViewConfig { }
  */
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
+/**
+ * React component for PreRendered Liveboard embed.
+ *
+ * PreRenderedAppEmbed will preRender the SearchBarEmbed and will be hidden by
+ * default.
+ *
+ * AppEmbed with preRenderId passed will call showPreRender on the embed.
+ *
+ * @example
+ * ```tsx
+ * function LandingPageComponent() {
+ *  return <PreRenderedAppEmbed preRenderId="someId" showPrimaryNavbar={false} />
+ * }
+ * ```
+ * function MyComponent() {
+ *  return <AppEmbed preRenderId="someId" showPrimaryNavbar={false} />
+ * }
+ * ```
+ */
 export const PreRenderedAppEmbed = componentFactory<
     typeof _AppEmbed,
     AppProps & PreRenderProps,
@@ -158,6 +177,28 @@ export const LiveboardEmbed = componentFactory<
 
 export const PinboardEmbed = LiveboardEmbed;
 
+/**
+ * React component for PreRendered Liveboard embed.
+ *
+ *  PreRenderedLiveboardEmbed will preRender the liveboard and will be hidden by default.
+ *
+ * LiveboardEmbed with preRenderId passed will call showPreRender on the embed.
+ *
+ * If LiveboardEmbed is rendered before PreRenderedLiveboardEmbed is rendered it
+ * tries to preRender the LiveboardEmbed, so it is recommended to use pass the
+ * liveboardId to both the components.
+ *
+ * @example
+ * ```tsx
+ * function LandingPageComponent() {
+ *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
+ * }
+ * ```
+ * function MyComponent() {
+ *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
+ * }
+ * ```
+ */
 export const PreRenderedLiveboardEmbed = componentFactory<
     typeof _LiveboardEmbed,
     LiveboardProps & PreRenderProps,
@@ -187,6 +228,25 @@ export const SearchBarEmbed = componentFactory<
     SearchBarViewConfig
 >(_SearchBarEmbed);
 
+/**
+ * React component for PreRendered Liveboard embed.
+ *
+ * PreRenderedSearchBarEmbed will preRender the SearchBarEmbed and will be hidden by
+ * default.
+ *
+ * SearchBarEmbed with preRenderId passed will call showPreRender on the embed.
+ *
+ * @example
+ * ```tsx
+ * function LandingPageComponent() {
+ *  return <PreRenderedSearchBarEmbed preRenderId="someId"  dataSource="dataSourceId" />
+ * }
+ * ```
+ * function MyComponent() {
+ *  return <SearchBarEmbed preRenderId="someId"  dataSource="dataSourceId" />
+ * }
+ * ```
+ */
 export const PreRenderedSearchBarEmbed = componentFactory<
     typeof _SearchBarEmbed,
     SearchBarEmbedProps & PreRenderProps,
@@ -212,6 +272,25 @@ export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, Sag
     _SageEmbed,
 );
 
+/**
+ * React component for PreRendered Liveboard embed.
+ *
+ * PreRenderedSageEmbed will preRender the SearchBarEmbed and will be hidden by
+ * default.
+ *
+ * SageEmbed with preRenderId passed will call showPreRender on the embed.
+ *
+ * @example
+ * ```tsx
+ * function LandingPageComponent() {
+ *  return <PreRenderedSageEmbed preRenderId="someId" showObjectResults={true} />
+ * }
+ * ```
+ * function MyComponent() {
+ *  return <SageEmbed preRenderId="someId" showObjectResults={true} />
+ * }
+ * ```
+ */
 export const PreRenderedSageEmbed = componentFactory<
     typeof _SageEmbed,
     SageEmbedProps & PreRenderProps,

@@ -175,9 +175,6 @@ describe('unit test for utils', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
 
-    /**
-     * @jest-environment jsdom
-     */
     describe('validate removeStyleProperties', () => {
         it('should remove specified style properties from an HTML element', () => {
             const element = document.createElement('div');

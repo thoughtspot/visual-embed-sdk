@@ -1037,6 +1037,12 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    /**
+     * Displays the PreRender component.
+     * If the component is not preRendered, it attempts to create and render it.
+     * Also, synchronizes the style of the PreRender component with the embedding
+     * element.
+     */
     public showPreRender(): void {
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
