@@ -644,7 +644,7 @@ export interface ViewConfig {
     /**
      * The list of parameter override to apply to a search answer,
      * visualization, or Liveboard.
-     * 
+     *
      * @version SDK : 1.27.0 | Thoughtspot: 9.7.0.cl
      */
     runtimeParameters?: RuntimeParameter[];
@@ -741,6 +741,7 @@ export interface ViewConfig {
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];

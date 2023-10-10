@@ -18,7 +18,7 @@ import {
     getDOMNode,
     getFilterQuery,
     getQueryParamString,
-    getRuntimeParameters
+    getRuntimeParameters,
 } from '../utils';
 import {
     getThoughtSpotHost,

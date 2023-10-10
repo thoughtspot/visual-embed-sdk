@@ -39,7 +39,7 @@ import {
     CustomStyles,
     customCssInterface,
     ContextMenuTriggerOptions,
-    RuntimeParameter
+    RuntimeParameter,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -94,5 +94,5 @@ export {
     CustomStyles,
     customCssInterface,
     CustomCssVariables,
-    RuntimeParameter
+    RuntimeParameter,
 };

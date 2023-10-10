@@ -220,7 +220,7 @@ export class LiveboardEmbed extends V1Embed {
         if (showLiveboardTitle) {
             params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
-        let queryParams = getQueryParamString(params, true);
+        const queryParams = getQueryParamString(params, true);
 
         return queryParams;
     }

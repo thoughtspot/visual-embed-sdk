@@ -19,7 +19,7 @@ import {
     getQueryParamString,
     checkReleaseVersionInBeta,
     getFilterQuery,
-    getRuntimeParameters
+    getRuntimeParameters,
 } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
@@ -183,7 +183,7 @@ export class SearchEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             dataPanelV2 = false,
             useLastSelectedSources = false,
-            runtimeParameters
+            runtimeParameters,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
