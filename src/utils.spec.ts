@@ -38,12 +38,12 @@ describe('unit test for utils', () => {
         expect(
             getFilterQuery([
                 {
-                    columnName: 'foo',
+                    columnName: 'foo+foo',
                     operator: RuntimeFilterOp.NE,
                     values: ['bar+'],
                 },
             ]),
-        ).toBe('col1=foo&op1=NE&val1=bar%2B');
+        ).toBe('col1=foo%2Bfoo&op1=NE&val1=bar%2B');
     });
     test('getFilterQuery', () => {
         expect(getFilterQuery([])).toBe(null);
