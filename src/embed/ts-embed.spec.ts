@@ -1339,6 +1339,50 @@ describe('Unit test case for ts embed', () => {
             expect(preRenderWrapper.style.opacity).toBe('0');
             expect(preRenderWrapper.style.pointerEvents).toBe('none');
             expect(preRenderWrapper.style.zIndex).toBe('-1000');
+
+            libEmbed.destroy();
+            expect(document.getElementById(preRenderIds.wrapper)).toBe(null);
+        });
+
+        it('preRender called without preRenderId should log error ', () => {
+            createRootEleForEmbed();
+
+            spyOn(console, 'error');
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+
+            expect(console.error).toHaveBeenCalledWith('PreRender id is required for preRender');
+        });
+
+        it('showPreRender should preRender if not available', async () => {
+            createRootEleForEmbed();
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered',
+                liveboardId: 'myLiveboardId',
+            });
+            const preRenderIds = libEmbed.getPreRenderIds();
+            libEmbed.showPreRender();
+            await waitFor(() => !!getIFrameEl());
+            const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+            expect(preRenderWrapper.style.opacity).toBe('');
+            expect(preRenderWrapper.style.pointerEvents).toBe('');
+            expect(preRenderWrapper.style.zIndex).toBe('');
+        });
+
+        it('hidePreRender should not preRender if not available', async () => {
+            createRootEleForEmbed();
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered',
+                liveboardId: 'myLiveboardId',
+            });
+            spyOn(libEmbed, 'preRender');
+            libEmbed.hidePreRender();
+            expect(libEmbed.preRender).toHaveBeenCalledTimes(0);
         });
     });
 });

@@ -240,7 +240,7 @@ describe('React Components', () => {
             );
 
             await waitFor(() => getIFrameEl());
-            const preRenderWrapper = document.body.querySelector(`#${preRenderId}`);
+            const preRenderWrapper = document.body.querySelector(`#${preRenderId}`) as HTMLDivElement;
 
             expect(preRenderWrapper).toBeInstanceOf(HTMLDivElement);
             expect((preRenderWrapper as HTMLDivElement).childElementCount).toBe(1);
@@ -248,6 +248,23 @@ describe('React Components', () => {
             const preRenderChildId = 'tsEmbed-pre-render-child-test';
             const preRenderChild = document.body.querySelector(`#${preRenderChildId}`);
             expect(preRenderWrapper.children[0]).toBe(preRenderChild);
+
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+            const { container: libContainer } = render(
+                <LiveboardEmbed
+                    className="embedClass"
+                    preRenderId="test"
+                    liveboardId="libId"
+                />,
+            );
+
+            expect(preRenderWrapper.style.opacity).toBe('');
+            expect(preRenderWrapper.style.pointerEvents).toBe('');
+            expect(preRenderWrapper.style.zIndex).toBe('');
         });
     });
 });

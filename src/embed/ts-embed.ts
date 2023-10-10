@@ -558,9 +558,6 @@ export class TsEmbed {
 
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRendered) {
-            if (!this.viewConfig.preRenderId) {
-                throw Error('PreRender id is required for preRender');
-            }
             this.insertIntoDOMForPreRender(child);
         } else {
             this.insertIntoDOM(child);
@@ -726,6 +723,7 @@ export class TsEmbed {
             this.hidePreRender();
         }
 
+        this.insertedDomEl = preRenderWrapper;
         document.body.appendChild(preRenderWrapper);
     }
 
@@ -968,6 +966,10 @@ export class TsEmbed {
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
+        if (!this.viewConfig.preRenderId) {
+            console.error('PreRender id is required for preRender');
+            return this;
+        }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
         this.render();
