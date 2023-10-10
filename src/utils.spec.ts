@@ -11,6 +11,8 @@ import {
     getRedirectUrl,
     checkReleaseVersionInBeta,
     getRuntimeParameters,
+    removeStyleProperties,
+    setStyleProperties,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -165,5 +167,67 @@ describe('unit test for utils', () => {
 
     test('when suppressBetaWarning is false ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
+    });
+
+    test('removeStyleProperties', () => {
+        it('should remove specified style properties from an HTML element', () => {
+            const element = document.createElement('div');
+
+            // Set initial styles for testing
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['backgroundColor', 'fontSize'];
+
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe(''); // Check that the property is removed
+            expect(element.style.fontSize).toBe(''); // Check that the property is removed
+        });
+
+        it('should handle undefined param', () => {
+            expect(() => {
+                removeStyleProperties(undefined, []);
+            }).not.toThrow();
+        });
+
+        it('should handle removing non-existent style properties', () => {
+            const element = document.createElement('div');
+
+            // Set initial styles for testing
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['color', 'border'];
+
+            // Removing non-existent properties should not throw an error and
+            // should not change existing styles
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe('blue'); // Style should remain unchanged
+            expect(element.style.fontSize).toBe('14px'); // Style should remain unchanged
+        });
+    });
+    test('setStyleProperties', () => {
+        it('should set style properties on an HTML element', () => {
+            const element = document.createElement('div');
+
+            const styles = {
+                backgroundColor: 'red',
+                fontSize: '16px',
+            };
+
+            setStyleProperties(element, styles);
+
+            expect(element.style.backgroundColor).toBe('red');
+            expect(element.style.fontSize).toBe('16px');
+        });
+
+        it('should handle undefined param', () => {
+            // should not throw an error
+            expect(() => {
+                setStyleProperties(undefined, {});
+            }).not.toThrow();
+        });
     });
 });

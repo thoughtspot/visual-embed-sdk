@@ -166,9 +166,6 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = viewConfig;
-        if (this.viewConfig.trackPreRenderSize === undefined) {
-            this.viewConfig.trackPreRenderSize = true;
-        }
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
@@ -1038,13 +1035,6 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
-    /**
-     * Displays the PreRender component.
-     * If the component is not preRendered, it attempts to create and render it.
-     * Also, synchronizes the style of the PreRender component with the embedding
-     * element. It is configured to track PreRender size by default (dynamically
-     * adjusts the size based on the embedding element).
-     */
     public showPreRender(): void {
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
@@ -1058,20 +1048,19 @@ export class TsEmbed {
         if (this.el) {
             this.syncPreRenderStyle();
 
-            if (this.viewConfig.trackPreRenderSize) {
-                const resizeObserver = new ResizeObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.contentRect) {
-                            setStyleProperties(this.preRenderWrapper, {
-                                width: `${entry.contentRect.width}px`,
-                                height: `${entry.contentRect.height}px`,
-                            });
-                        }
-                    });
+            const resizeObserver = new ResizeObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.contentRect && entry.target === this.el) {
+                        setStyleProperties(this.preRenderWrapper, {
+                            width: `${entry.contentRect.width}px`,
+                            height: `${entry.contentRect.height}px`,
+                        });
+                    }
                 });
-                resizeObserver.observe(this.el);
                 this.resizeObserver = resizeObserver;
-            }
+            });
+
+            this.resizeObserver.observe(this.el);
         }
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
@@ -1094,7 +1083,6 @@ export class TsEmbed {
         }
         const elBoundingClient = this.el.getBoundingClientRect();
 
-        setStyleProperties(this.preRenderWrapper, {
             top: `${elBoundingClient.y}px`,
             left: `${elBoundingClient.x}px`,
             width: `${elBoundingClient.width}px`,
