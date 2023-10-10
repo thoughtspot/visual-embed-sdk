@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 import {
     getQueryParamString,
     getFilterQuery,
@@ -114,6 +110,14 @@ describe('unit test for utils', () => {
     });
 
     describe('getRedirectURL', () => {
+        let windowSpy: any;
+        beforeEach(() => {
+            windowSpy = jest.spyOn(window, 'window', 'get');
+        });
+        afterEach(() => {
+            windowSpy.mockRestore();
+        });
+
         test('Should return correct value when path is undefined', () => {
             expect(getRedirectUrl('http://myhost:3000', 'hashFrag')).toBe(
                 'http://myhost:3000#hashFrag',
@@ -122,9 +126,11 @@ describe('unit test for utils', () => {
         });
 
         test('Should return correct value when path is set', () => {
-            Object.defineProperty(window.location, 'origin', {
-                get: () => 'http://myhost:3000',
-            });
+            windowSpy.mockImplementation(() => ({
+                location: {
+                    origin: 'http://myhost:3000',
+                },
+            }));
 
             expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
                 'http://myhost:3000/bar#hashFrag',
@@ -169,7 +175,10 @@ describe('unit test for utils', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
 
-    test('removeStyleProperties', () => {
+    /**
+     * @jest-environment jsdom
+     */
+    describe('validate removeStyleProperties', () => {
         it('should remove specified style properties from an HTML element', () => {
             const element = document.createElement('div');
 
@@ -177,7 +186,7 @@ describe('unit test for utils', () => {
             element.style.backgroundColor = 'blue';
             element.style.fontSize = '14px';
 
-            const propertiesToRemove = ['backgroundColor', 'fontSize'];
+            const propertiesToRemove = ['background-color', 'font-size'];
 
             removeStyleProperties(element, propertiesToRemove);
 
@@ -208,7 +217,8 @@ describe('unit test for utils', () => {
             expect(element.style.fontSize).toBe('14px'); // Style should remain unchanged
         });
     });
-    test('setStyleProperties', () => {
+
+    describe('validate setStyleProperties', () => {
         it('should set style properties on an HTML element', () => {
             const element = document.createElement('div');
 

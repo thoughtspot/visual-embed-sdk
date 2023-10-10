@@ -1048,7 +1048,7 @@ export class TsEmbed {
         if (this.el) {
             this.syncPreRenderStyle();
 
-            const resizeObserver = new ResizeObserver((entries) => {
+            this.resizeObserver = new ResizeObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.contentRect && entry.target === this.el) {
                         setStyleProperties(this.preRenderWrapper, {
@@ -1057,9 +1057,7 @@ export class TsEmbed {
                         });
                     }
                 });
-                this.resizeObserver = resizeObserver;
             });
-
             this.resizeObserver.observe(this.el);
         }
 
@@ -1083,6 +1081,7 @@ export class TsEmbed {
         }
         const elBoundingClient = this.el.getBoundingClientRect();
 
+        setStyleProperties(this.preRenderWrapper, {
             top: `${elBoundingClient.y}px`,
             left: `${elBoundingClient.x}px`,
             width: `${elBoundingClient.width}px`,

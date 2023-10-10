@@ -1,4 +1,5 @@
 /* eslint-disable dot-notation */
+import { doc } from 'prettier';
 import {
     AuthType,
     init,
@@ -1256,6 +1257,89 @@ describe('Unit test case for ts embed', () => {
             await waitFor(() => !!getIFrameEl()).then(() => {
                 expect(getIFrameSrc()).toContain('blockNonEmbedFullAppAccess=true');
             });
+        });
+    });
+
+    describe('validate preRender flow', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        afterAll(() => {
+            const rootEle = document.getElementById('myRoot');
+            rootEle.remove();
+        });
+
+        const createRootEleForEmbed = () => {
+            const rootEle = document.createElement('div');
+            rootEle.id = 'myRoot';
+            const tsEmbedDiv = document.createElement('div');
+            tsEmbedDiv.id = 'tsEmbedDiv';
+            rootEle.appendChild(tsEmbedDiv);
+            document.body.appendChild(rootEle);
+        };
+
+        it('should preRender and hide the iframe', async () => {
+            createRootEleForEmbed();
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered',
+                liveboardId: 'myLiveboardId',
+            });
+
+            libEmbed.preRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const preRenderIds = libEmbed.getPreRenderIds();
+            const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+            expect(preRenderWrapper.style.opacity).toBe('0');
+            expect(preRenderWrapper.style.pointerEvents).toBe('none');
+            expect(preRenderWrapper.style.zIndex).toBe('-1000');
+
+            const preRenderChild = (document
+                .getElementById(preRenderIds.child) as HTMLIFrameElement);
+            expect(preRenderWrapper.children[0]).toEqual(preRenderChild);
+            expect(preRenderChild).toBeInstanceOf(HTMLIFrameElement);
+            expect(preRenderChild.src).toMatch(/^http:\/\/tshost.*\/myLiveboardId/);
+
+            const tsEmbedDiv = document.getElementById('tsEmbedDiv');
+            tsEmbedDiv.style.width = '100px';
+            tsEmbedDiv.style.height = '100px';
+
+            let resizeObserverCb: any;
+            (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation((resizeObserverCbParam) => {
+                resizeObserverCb = resizeObserverCbParam;
+                return ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                });
+            });
+
+            // show preRender
+            libEmbed.showPreRender();
+
+            resizeObserverCb([{
+                target: tsEmbedDiv,
+                contentRect: { height: 297, width: 987 },
+            }]);
+
+            expect(preRenderWrapper.style.height).toEqual(`${297}px`);
+            expect(preRenderWrapper.style.width).toEqual(`${987}px`);
+
+            expect(preRenderWrapper.style.opacity).toBe('');
+            expect(preRenderWrapper.style.pointerEvents).toBe('');
+            expect(preRenderWrapper.style.zIndex).toBe('');
+
+            libEmbed.hidePreRender();
+            expect(preRenderWrapper.style.opacity).toBe('0');
+            expect(preRenderWrapper.style.pointerEvents).toBe('none');
+            expect(preRenderWrapper.style.zIndex).toBe('-1000');
         });
     });
 });
