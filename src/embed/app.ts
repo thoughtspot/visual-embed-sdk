@@ -55,7 +55,7 @@ export enum Page {
  *
  * @group Embed components
  */
-export interface AppViewConfig extends ViewConfig {
+export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * If true, the main navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
@@ -150,6 +150,27 @@ export interface AppViewConfig extends ViewConfig {
      */
     dataPanelV2?: boolean;
     /**
+     * Boolean to hide liveboard header
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Boolean to show liveboard title
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Boolean to show liveboard description
+     *
+     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
+    /**
      * Flag to control new Modular Home experience
      *
      * @default false
@@ -196,6 +217,9 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            hideLiveboardHeader,
+            showLiveboardTitle,
+            showLiveboardDescription,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
         } = this.viewConfig;
@@ -206,6 +230,9 @@ export class AppEmbed extends V1Embed {
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
         params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
+        params[Param.HideLiveboardHeader] = !!hideLiveboardHeader;
+        params[Param.ShowLiveboardTitle] = !!showLiveboardTitle;
+        params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
 
         params = this.getBaseQueryParams(params);
 
