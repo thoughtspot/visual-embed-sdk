@@ -1,5 +1,4 @@
 /* eslint-disable dot-notation */
-import { doc } from 'prettier';
 import {
     AuthType,
     init,
