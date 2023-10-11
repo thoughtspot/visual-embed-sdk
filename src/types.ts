@@ -2255,6 +2255,7 @@ export enum Param {
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    HideAutocompleteSuggestions = 'hideAutocompleteSuggestions',
     HideLiveboardHeader = 'hideLiveboardHeader',
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
@@ -2267,7 +2268,10 @@ export enum Param {
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     PendoTrackingKey = 'additionalPendoKey',
-    LiveboardHeaderSticky = 'isLiveboardHeaderSticky'
+    LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
+    IsProductTour = 'isProductTour',
+    HideSearchBarTitle = 'hideSearchBarTitle',
+    HideSageAnswerHeader = 'hideSageAnswerHeader',
 }
 
 /**
