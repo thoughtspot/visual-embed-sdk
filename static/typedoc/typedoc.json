@@ -5674,7 +5674,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nsearchEmbed.trigger(HostEvent.Search, {\n  searchQuery: \"[sales] by [item type],\n  dataSources: [\"cd252e5c-b552-49a8-821d-3eadaa049cca\"]\n  execute: true\n})\n```\n"
+								"text": "\n```js\nsearchembed.trigger(HostEvent.Search, {\nsearchQuery: \"[sales] by [item type]\",\ndataSources: [\"cd252e5c-b552-49a8-821d-3eadaa049cca\"],\nexecute: true\n});\n```\n"
 							}
 						]
 					},
