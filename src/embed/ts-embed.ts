@@ -672,7 +672,10 @@ export class TsEmbed {
 
         if (this.preRenderWrapper && this.preRenderChild) {
             this.isPreRendered = true;
-            this.iFrame = this.preRenderChild as HTMLIFrameElement;
+            if (this.preRenderChild instanceof HTMLIFrameElement) {
+                this.iFrame = this.preRenderChild;
+            }
+            this.insertedDomEl = this.preRenderWrapper;
         }
 
         return this.isPreRenderAvailable();
