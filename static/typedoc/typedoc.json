@@ -10970,11 +10970,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to hide liveboard header",
+						"shortText": "Show or hide Liveboard header",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -11397,11 +11397,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to show liveboard description",
+						"shortText": "Show or hide Liveboard description",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -11430,11 +11430,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to show liveboard title",
+						"shortText": "Show or hide Liveboard title",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -15386,7 +15386,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Tab Id of the Liveboard that is supposed to be active",
+						"shortText": "Tab ID of the Liveboard that is supposed to be active",
 						"tags": [
 							{
 								"tag": "version",
@@ -15825,11 +15825,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to hide liveboard header",
+						"shortText": "Show or hide Liveboard header",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -15914,7 +15914,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to control if Liveboard header is sticky or not.",
+						"shortText": "Boolean for sticky Liveboard header.",
 						"tags": [
 							{
 								"tag": "example",
@@ -16131,7 +16131,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a Liveboard."
+						"shortText": "The list of parameter overrides to apply to a Liveboard."
 					},
 					"sources": [
 						{
@@ -16194,11 +16194,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to show liveboard description",
+						"shortText": "Show or hide Liveboard description",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -16227,11 +16227,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Boolean to show liveboard title",
+						"shortText": "Show or hide Liveboard title",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | Thoughtspot: 9.6.0.cl"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",

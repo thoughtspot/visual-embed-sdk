@@ -150,23 +150,23 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     dataPanelV2?: boolean;
     /**
-     * Boolean to hide liveboard header
+     * Show or hide Liveboard header
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     hideLiveboardHeader?: boolean;
     /**
-     * Boolean to show liveboard title
+     * Show or hide Liveboard title
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     showLiveboardTitle?: boolean;
     /**
-     * Boolean to show liveboard description
+     * Show or hide Liveboard description
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     showLiveboardDescription?: boolean;
