@@ -95,7 +95,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      */
     liveboardV2?: boolean;
     /**
-     * Tab Id of the Liveboard that is supposed to be active
+     * Tab ID of the Liveboard that is supposed to be active
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
@@ -107,32 +107,32 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      */
     hideTabPanel?: boolean;
     /**
-     * Boolean to hide liveboard header
+     * Show or hide Liveboard header
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     hideLiveboardHeader?: boolean;
     /**
-     * Boolean to show liveboard title
+     * Show or hide Liveboard title
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     showLiveboardTitle?: boolean;
     /**
-     * Boolean to show liveboard description
+     * Show or hide Liveboard description
      *
-     * @version SDK: 1.23.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
      */
     showLiveboardDescription?: boolean;
     /**
-     * The list of parameter override to apply to a Liveboard.
+     * The list of parameter overrides to apply to a Liveboard.
      */
     runtimeParameters?: RuntimeParameter[];
     /**
-     * Boolean to control if Liveboard header is sticky or not.
+     * Boolean for sticky Liveboard header.
      *
      * @example
      * ```js
