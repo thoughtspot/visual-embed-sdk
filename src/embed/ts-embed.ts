@@ -7,6 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import _ from 'lodash';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
@@ -88,12 +89,17 @@ export class TsEmbed {
      * This is useful for removing the DOM node when the
      * embed instance is destroyed.
      */
-    private insertedDomEl: Node;
+    protected insertedDomEl: Node;
 
     /**
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
-    private el: Element;
+    protected el: Element;
+
+    /**
+     * The key to store the embed instance in the DOM node
+     */
+    protected embedNodeKey = '__tsEmbed'
 
     protected isAppInitialized = false;
 
@@ -129,7 +135,7 @@ export class TsEmbed {
     /**
      * A flag that is set to true post render.
      */
-    private isRendered: boolean;
+    protected isRendered: boolean;
 
     /**
      * A flag to mark if an error has occurred.
@@ -562,6 +568,9 @@ export class TsEmbed {
         } else {
             this.insertIntoDOM(child);
         }
+        if (this.insertedDomEl instanceof Node) {
+            this.insertedDomEl[this.embedNodeKey] = this;
+        }
     }
 
     /**
@@ -676,13 +685,18 @@ export class TsEmbed {
                 this.iFrame = this.preRenderChild;
             }
             this.insertedDomEl = this.preRenderWrapper;
+            this.isRendered = true;
         }
 
         return this.isPreRenderAvailable();
     }
 
     protected isPreRenderAvailable(): boolean {
-        return this.isPreRendered && Boolean(this.preRenderWrapper && this.preRenderChild);
+        return (
+            this.isRendered
+            && this.isPreRendered
+            && Boolean(this.preRenderWrapper && this.preRenderChild)
+        );
     }
 
     protected createPreRenderChild(child: string | Node): HTMLElement {
@@ -719,6 +733,7 @@ export class TsEmbed {
         if (preRenderChild instanceof HTMLIFrameElement) {
             this.iFrame = preRenderChild;
         }
+        this.insertedDomEl = preRenderWrapper;
 
         if (this.showPreRenderByDefault) {
             this.showPreRender();
@@ -726,7 +741,6 @@ export class TsEmbed {
             this.hidePreRender();
         }
 
-        this.insertedDomEl = preRenderWrapper;
         document.body.appendChild(preRenderWrapper);
     }
 
@@ -963,6 +977,10 @@ export class TsEmbed {
         return this;
     }
 
+    protected handleRenderForPrerender() {
+        this.render();
+    }
+
     /**
      * Creates the preRender shell
      *
@@ -975,7 +993,7 @@ export class TsEmbed {
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        this.render();
+        this.handleRenderForPrerender();
         return this;
     }
 
@@ -1037,8 +1055,33 @@ export class TsEmbed {
      */
     public async prerenderGeneric(): Promise<any> {
         const prerenderFrameSrc = this.getRootIframeSrc();
+        this.isRendered = true;
         return this.renderIFrame(prerenderFrameSrc);
     }
+
+    protected beforePrerenderVisible(): void {
+        // Override in subclass
+    }
+
+    private validatePreRenderProps = (viewConfig : ViewConfig) => {
+        const preRenderAllowedKeys = ['preRenderId', 'vizId', 'liveboardId', ...Object.keys(EmbedEvent)];
+        const preRenderedObject = this.insertedDomEl?.[this.embedNodeKey] as TsEmbed;
+        if (!preRenderedObject) return;
+        if (viewConfig.preRenderId) {
+            const allOtherKeys = Object.keys(viewConfig)
+                .filter((key) => !preRenderAllowedKeys.includes(key));
+
+            allOtherKeys.forEach((key) => {
+                if (!_.isEqual(viewConfig[key], preRenderedObject.viewConfig[key])) {
+                    console.warn(
+                        `${this.embedComponentType} pre-rendered with ${key} as \`${JSON.stringify(viewConfig[key])}\` but a `
+                      + `different value is set in the Embed component as \`${JSON.stringify(preRenderedObject.viewConfig?.[key]?.toString())}\`. `
+                      + 'The new value is ignored.',
+                    );
+                }
+            });
+        }
+    };
 
     /**
      * Displays the PreRender component.
@@ -1049,11 +1092,13 @@ export class TsEmbed {
     public showPreRender(): void {
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
+
             if (!isAvailable) {
                 // if the Embed component is not preRendered , Render it now and
                 this.preRender(true);
                 return;
             }
+            this.validatePreRenderProps(this.viewConfig);
         }
 
         if (this.el) {
@@ -1071,6 +1116,8 @@ export class TsEmbed {
             });
             this.resizeObserver.observe(this.el);
         }
+
+        this.beforePrerenderVisible();
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 

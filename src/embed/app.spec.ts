@@ -28,15 +28,23 @@ const defaultViewConfig = {
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 
+const originalResizeObserver = window.ResizeObserver;
 beforeAll(() => {
     init({
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
 });
 
 const cleanUp = () => {
     document.body.innerHTML = getDocumentBody();
+    window.ResizeObserver = originalResizeObserver;
 };
 
 describe('App embed tests', () => {

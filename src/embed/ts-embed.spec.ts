@@ -26,6 +26,7 @@ import {
     defaultParamsForPinboardEmbed,
     waitFor,
     expectUrlMatchesWithParams,
+    mockMessageChannel,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
@@ -1321,7 +1322,9 @@ describe('Unit test case for ts embed', () => {
             });
 
             // show preRender
+            const warnSpy = spyOn(console, 'warn');
             libEmbed.showPreRender();
+            expect(warnSpy).toHaveBeenCalledTimes(0);
 
             resizeObserverCb([{
                 target: tsEmbedDiv,
@@ -1383,6 +1386,35 @@ describe('Unit test case for ts embed', () => {
             spyOn(libEmbed, 'preRender');
             libEmbed.hidePreRender();
             expect(libEmbed.preRender).toHaveBeenCalledTimes(0);
+        });
+
+        it('it should connect with another object', async () => {
+            createRootEleForEmbed();
+            mockMessageChannel();
+            (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered',
+                liveboardId: 'myLiveboardId',
+            });
+
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            const warnSpy = jest.spyOn(console, 'warn');
+            const newEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered',
+                liveboardId: 'awdawda',
+                hiddenActions: [Action.AddFilter],
+                frameParams: { height: 90 },
+            });
+
+            newEmbed.showPreRender();
+
+            expect(warnSpy).toHaveBeenCalledTimes(2);
         });
     });
 });

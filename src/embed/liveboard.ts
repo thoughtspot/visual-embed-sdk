@@ -9,6 +9,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import _ from 'lodash';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
@@ -260,6 +261,28 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
+    protected beforePrerenderVisible(): void {
+        const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
+
+        if (_.isUndefined(embedObj)) return;
+
+        const showDifferentLib = this.viewConfig.liveboardId
+        && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+
+        if (showDifferentLib) {
+            const libId = this.viewConfig.liveboardId;
+            this.navigateToLiveboard(libId);
+        }
+    }
+
+    protected handleRenderForPrerender(): void {
+        if (_.isUndefined(this.viewConfig.liveboardId)) {
+            this.prerenderGeneric();
+            return;
+        }
+        super.handleRenderForPrerender();
+    }
+
     /**
      * Triggers an event to the embedded app
      *
@@ -298,8 +321,10 @@ export class LiveboardEmbed extends V1Embed {
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
-        if (this.isAppInitialized) {
+        if (this.isRendered) {
             this.trigger(HostEvent.Navigate, path.substring(1));
+        } else if (this.viewConfig.preRenderId) {
+            this.preRender(true);
         } else {
             this.render();
         }
