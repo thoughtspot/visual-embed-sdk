@@ -179,7 +179,6 @@ describe('unit test for utils', () => {
         it('should remove specified style properties from an HTML element', () => {
             const element = document.createElement('div');
 
-            // Set initial styles for testing
             element.style.backgroundColor = 'blue';
             element.style.fontSize = '14px';
 
@@ -187,8 +186,8 @@ describe('unit test for utils', () => {
 
             removeStyleProperties(element, propertiesToRemove);
 
-            expect(element.style.backgroundColor).toBe(''); // Check that the property is removed
-            expect(element.style.fontSize).toBe(''); // Check that the property is removed
+            expect(element.style.backgroundColor).toBe('');
+            expect(element.style.fontSize).toBe('');
         });
 
         it('should handle undefined param', () => {
@@ -200,18 +199,15 @@ describe('unit test for utils', () => {
         it('should handle removing non-existent style properties', () => {
             const element = document.createElement('div');
 
-            // Set initial styles for testing
             element.style.backgroundColor = 'blue';
             element.style.fontSize = '14px';
 
             const propertiesToRemove = ['color', 'border'];
 
-            // Removing non-existent properties should not throw an error and
-            // should not change existing styles
             removeStyleProperties(element, propertiesToRemove);
 
-            expect(element.style.backgroundColor).toBe('blue'); // Style should remain unchanged
-            expect(element.style.fontSize).toBe('14px'); // Style should remain unchanged
+            expect(element.style.backgroundColor).toBe('blue');
+            expect(element.style.fontSize).toBe('14px');
         });
     });
 
