@@ -98,13 +98,11 @@ export class AnswerService {
      *
      * @param userLocale
      * @param omitInfo Omit the download Info on top of the CSV
+     * @param includeInfo
      * @returns Response
      */
-    public async fetchCSVBlob(userLocale = 'en-us', omitInfo = false): Promise<Response> {
-        if (omitInfo) {
-            console.warn('omitInfo not supported yet.');
-        }
-        const fetchUrl = `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&omitInfo=${omitInfo}`;
+    public async fetchCSVBlob(userLocale = 'en-us', includeInfo = false): Promise<Response> {
+        const fetchUrl = `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&hideCsvHeader=${!includeInfo}`;
         return fetch(fetchUrl, {
             credentials: 'include',
         });
