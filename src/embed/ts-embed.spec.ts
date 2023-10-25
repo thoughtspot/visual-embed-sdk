@@ -48,6 +48,15 @@ const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 
+const createRootEleForEmbed = () => {
+    const rootEle = document.createElement('div');
+    rootEle.id = 'myRoot';
+    const tsEmbedDiv = document.createElement('div');
+    tsEmbedDiv.id = 'tsEmbedDiv';
+    rootEle.appendChild(tsEmbedDiv);
+    document.body.appendChild(rootEle);
+};
+
 beforeAll(() => {
     spyOn(window, 'alert');
 });
@@ -1272,15 +1281,6 @@ describe('Unit test case for ts embed', () => {
             const rootEle = document.getElementById('myRoot');
             rootEle.remove();
         });
-
-        const createRootEleForEmbed = () => {
-            const rootEle = document.createElement('div');
-            rootEle.id = 'myRoot';
-            const tsEmbedDiv = document.createElement('div');
-            tsEmbedDiv.id = 'tsEmbedDiv';
-            rootEle.appendChild(tsEmbedDiv);
-            document.body.appendChild(rootEle);
-        };
 
         it('should preRender and hide the iframe', async () => {
             createRootEleForEmbed();
