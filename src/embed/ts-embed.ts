@@ -99,7 +99,7 @@ export class TsEmbed {
     /**
      * The key to store the embed instance in the DOM node
      */
-    protected embedNodeKey = '__tsEmbed'
+    protected embedNodeKey = '__tsEmbed';
 
     protected isAppInitialized = false;
 
@@ -1063,20 +1063,31 @@ export class TsEmbed {
         // Override in subclass
     }
 
-    private validatePreRenderProps = (viewConfig : ViewConfig) => {
-        const preRenderAllowedKeys = ['preRenderId', 'vizId', 'liveboardId', ...Object.keys(EmbedEvent)];
+    private validatePreRenderViewConfig = (viewConfig: ViewConfig) => {
+        const preRenderAllowedKeys = [
+            'preRenderId',
+            'vizId',
+            'liveboardId',
+        ];
         const preRenderedObject = this.insertedDomEl?.[this.embedNodeKey] as TsEmbed;
         if (!preRenderedObject) return;
         if (viewConfig.preRenderId) {
-            const allOtherKeys = Object.keys(viewConfig)
-                .filter((key) => !preRenderAllowedKeys.includes(key));
+            const allOtherKeys = Object.keys(viewConfig).filter(
+                (key) => !preRenderAllowedKeys.includes(key) && !key.startsWith('on'),
+            );
 
             allOtherKeys.forEach((key) => {
-                if (!_.isEqual(viewConfig[key], preRenderedObject.viewConfig[key])) {
+                if (
+                    !_.isUndefined(viewConfig[key])
+                    && !_.isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
+                ) {
                     console.warn(
-                        `${this.embedComponentType} pre-rendered with ${key} as \`${JSON.stringify(viewConfig[key])}\` but a `
-                      + `different value is set in the Embed component as \`${JSON.stringify(preRenderedObject.viewConfig?.[key]?.toString())}\`. `
-                      + 'The new value is ignored.',
+                        `${this.embedComponentType} was pre-rendered with `
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
@@ -1098,7 +1109,7 @@ export class TsEmbed {
                 this.preRender(true);
                 return;
             }
-            this.validatePreRenderProps(this.viewConfig);
+            this.validatePreRenderViewConfig(this.viewConfig);
         }
 
         if (this.el) {
