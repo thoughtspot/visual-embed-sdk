@@ -7,7 +7,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import _ from 'lodash';
+import { isUndefined, isEqual } from 'lodash';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
@@ -260,7 +260,10 @@ export class TsEmbed {
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processEventData(eventType, eventData, this.thoughtSpotHost, this.el),
+                    processEventData(eventType,
+                        eventData,
+                        this.thoughtSpotHost,
+                        this.isPreRendered ? this.preRenderWrapper : this.el),
                     eventPort,
                 );
             }
@@ -1078,8 +1081,8 @@ export class TsEmbed {
 
             allOtherKeys.forEach((key) => {
                 if (
-                    !_.isUndefined(viewConfig[key])
-                    && !_.isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
+                    !isUndefined(viewConfig[key])
+                    && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
                     console.warn(
                         `${this.embedComponentType} was pre-rendered with `
