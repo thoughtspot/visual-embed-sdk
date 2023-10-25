@@ -14,7 +14,6 @@ import {
     Action,
     ViewConfig,
     RuntimeFilter,
-    RuntimeParameter,
 } from '../types';
 import {
     getQueryParamString,
@@ -128,10 +127,6 @@ export interface SearchViewConfig
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
-    /**
-     * The list of parameter override to apply to a search answer.
-     */
-    runtimeParameters?: RuntimeParameter[];
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
