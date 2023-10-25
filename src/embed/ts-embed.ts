@@ -651,10 +651,6 @@ export class TsEmbed {
     }
 
     protected createPreRenderWrapper(): HTMLDivElement {
-        if (!this.viewConfig.preRenderId) {
-            throw new Error('PreRender id is required to create PreRender wrapper');
-        }
-
         const preRenderIds = this.getPreRenderIds();
 
         document.getElementById(preRenderIds.wrapper)?.remove();
@@ -1104,6 +1100,10 @@ export class TsEmbed {
      * element.
      */
     public showPreRender(): void {
+        if (!this.viewConfig.preRenderId) {
+            console.error('PreRender id is required for preRender');
+            return;
+        }
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
 

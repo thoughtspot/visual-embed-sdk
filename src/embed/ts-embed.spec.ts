@@ -1416,5 +1416,40 @@ describe('Unit test case for ts embed', () => {
 
             expect(warnSpy).toHaveBeenCalledTimes(2);
         });
+        it('showPreRender should not preRender if not available', async () => {
+            createRootEleForEmbed();
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+            });
+            spyOn(libEmbed, 'preRender');
+            spyOn(console, 'error');
+            libEmbed.showPreRender();
+            expect(libEmbed.preRender).toHaveBeenCalledTimes(0);
+            expect(console.error).toHaveBeenCalledTimes(1);
+        });
+
+        it('should get underlying iframe', async () => {
+            createRootEleForEmbed();
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.render();
+            await waitFor(() => !!getIFrameEl());
+
+            expect(libEmbed.getUnderlyingFrameElement()).toEqual(getIFrameEl());
+        });
+
+        it('should render error message properly', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(false);
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+                preRenderId: 'test',
+            });
+            await libEmbed.preRender();
+
+            expect(document.getElementById('tsEmbed-pre-render-child-test').innerHTML).toBe('Not logged in');
+        });
     });
 });
