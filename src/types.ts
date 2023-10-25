@@ -641,11 +641,14 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
-    /**
+   /**
      * The list of parameter override to apply to a search answer,
      * visualization, or Liveboard.
+     *
+     * @version SDK : 1.25.0 | Thoughtspot: 9.2.0.cl, 9.5.0.sw
      */
     runtimeParameters?: RuntimeParameter[];
+   /**
     /**
      * The locale/language to use for the embedded view.
      *
