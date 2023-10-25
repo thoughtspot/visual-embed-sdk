@@ -236,7 +236,7 @@ export class LiveboardEmbed extends V1Embed {
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
-        let queryParams = getQueryParamString(params, true);
+        const queryParams = getQueryParamString(params, true);
 
         return queryParams;
     }
