@@ -19,7 +19,7 @@ import {
     getQueryParamString,
     checkReleaseVersionInBeta,
     getFilterQuery,
-    getRuntimeParameters
+    getRuntimeParameters,
 } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { version } from '../../package.json';
@@ -231,7 +231,7 @@ export class SearchEmbed extends TsEmbed {
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
-        
+
         const parameterQuery = getRuntimeParameters(runtimeParameters || []);
         if (parameterQuery) query += `&${parameterQuery}`;
 
