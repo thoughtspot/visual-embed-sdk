@@ -1451,5 +1451,15 @@ describe('Unit test case for ts embed', () => {
 
             expect(document.getElementById('tsEmbed-pre-render-child-test').innerHTML).toBe('Not logged in');
         });
+        it('should log error if sync is called before preRender', async () => {
+            jest.spyOn(console, 'error').mockImplementation(jest.fn());
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+                preRenderId: 'test',
+            });
+            await libEmbed.syncPreRenderStyle();
+            expect(console.error).toBeCalledWith('PreRender should be called before using syncPreRenderStyle');
+            (console.error as any).mockClear();
+        });
     });
 });

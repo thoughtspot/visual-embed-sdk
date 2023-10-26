@@ -1148,8 +1148,9 @@ export class TsEmbed {
      * is not defined or not found.
      */
     public syncPreRenderStyle(): void {
-        if (!this.el) {
-            throw new Error('Embed element is not defined');
+        if (!this.isPreRenderAvailable() || !this.el) {
+            console.error('PreRender should be called before using syncPreRenderStyle');
+            return;
         }
         const elBoundingClient = this.el.getBoundingClientRect();
 
@@ -1169,7 +1170,7 @@ export class TsEmbed {
         if (!this.isPreRenderAvailable()) {
             // if the embed component is not preRendered , nothing to hide
             console.warn(
-                'Warning: You should call PreRender before hiding it using hidePreRender.',
+                'PreRender should be called before hiding it using hidePreRender.',
             );
             return;
         }
