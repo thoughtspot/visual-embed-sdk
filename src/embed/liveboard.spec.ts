@@ -417,7 +417,7 @@ describe('Liveboard/viz embed tests', () => {
             });
         });
 
-        test('it should preRender generic with liveboard id is not passed', async (done) => {
+        test('it should navigateToLiveboard with liveboard id is not passed', async (done) => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
             const testPreRenderId = 'testPreRender';
