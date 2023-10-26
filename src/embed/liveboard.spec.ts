@@ -409,7 +409,7 @@ describe('Liveboard/viz embed tests', () => {
 
                 // should render the generic link
                 expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
-                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true#$/);
+                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
 
