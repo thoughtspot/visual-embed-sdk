@@ -9,7 +9,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import _ from 'lodash';
+import { isUndefined } from 'lodash';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
@@ -264,7 +264,7 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
 
-        if (_.isUndefined(embedObj)) return;
+        if (isUndefined(embedObj)) return;
 
         const showDifferentLib = this.viewConfig.liveboardId
         && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
@@ -276,7 +276,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     protected handleRenderForPrerender(): void {
-        if (_.isUndefined(this.viewConfig.liveboardId)) {
+        if (isUndefined(this.viewConfig.liveboardId)) {
             this.prerenderGeneric();
             return;
         }
