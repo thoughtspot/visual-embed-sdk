@@ -12,6 +12,7 @@ import {
     fetchBasicAuthService,
     fetchLogoutService,
     fetchAuthPostService,
+    verifyTokenService,
 } from './utils/authService';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -358,7 +359,16 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
     if (!authEndpoint && !getAuthToken) {
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
-    return Promise.resolve(true);
+    try {
+        const authVerificationUrl = `${embedConfig.thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
+        const authToken = await getAuthenticaionToken(embedConfig);
+        const response = await verifyTokenService(authVerificationUrl, authToken);
+        if (!response.ok) return false;
+    } catch (e) {
+        return false;
+    }
+
+    return true;
 };
 
 /**

@@ -27,6 +27,20 @@ export function fetchSessionInfoService(authVerificationUrl: string): Promise<an
 
 /**
  *
+ * @param authVerificationUrl
+ * @param authToken
+ */
+export function verifyTokenService(authVerificationUrl: string,
+    authToken: string): Promise<Response> {
+    return fetch(authVerificationUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    });
+}
+
+/**
+ *
  * @param authEndpoint
  */
 export async function fetchAuthTokenService(authEndpoint: string): Promise<any> {
