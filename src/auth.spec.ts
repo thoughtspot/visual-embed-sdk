@@ -475,4 +475,9 @@ describe('Unit test for auth', () => {
         const isLoggedIn = await authInstance.doCookielessTokenAuth(embedConfig.doCookielessAuth('testToken'));
         expect(isLoggedIn).toBe(false);
     });
+    it('get AuthEE should return proper value', () => {
+        const testObject = { test: 'true' };
+        authInstance.setAuthEE(testObject as any);
+        expect(authInstance.getAuthEE()).toBe(testObject);
+    });
 });
