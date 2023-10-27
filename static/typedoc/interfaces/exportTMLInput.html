@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FrameParams | @thoughtspot/visual-embed-sdk
+	<title>exportTMLInput | @thoughtspot/visual-embed-sdk
 	</title>
 	<meta name="description" content="Documentation for @thoughtspot/visual-embed-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,10 +57,10 @@
 					<a href="../modules.html">@thoughtspot/visual-embed-sdk</a>
 				</li>
 				<li>
-					<a href="FrameParams.html">FrameParams</a>
+					<a href="exportTMLInput.html">exportTMLInput</a>
 				</li>
 			</ul>
-			<h1>Interface FrameParams</h1>
+			<h1>Interface exportTMLInput</h1>
 		</div>
 	</div>
 </header>
@@ -79,16 +79,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="FrameParams.html" class="tsd-kind-icon">Frame<wbr>Params</a>
+						<a href="exportTMLInput.html" class="tsd-kind-icon">exportTMLInput</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="FrameParams.html#height" class="tsd-kind-icon">height</a>
+								<a href="exportTMLInput.html#edoc_format" class="tsd-kind-icon">edoc_<wbr>format</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="FrameParams.html#loading" class="tsd-kind-icon">loading</a>
+								<a href="exportTMLInput.html#export_associated" class="tsd-kind-icon">export_<wbr>associated</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="FrameParams.html#width" class="tsd-kind-icon">width</a>
+								<a href="exportTMLInput.html#export_fqn" class="tsd-kind-icon">export_<wbr>fqn</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="exportTMLInput.html#metadata" class="tsd-kind-icon">metadata</a>
 							</li>
 						</ul>
 					</li>
@@ -98,35 +101,13 @@
 			</nav>
 		</div>
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Embedded iFrame configuration</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt class="group">group</dt>
-						<dd><p>Embed components</p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">FrameParams</span>
+						<span class="target">exportTMLInput</span>
 					</li>
 				</ul>
-			</section>
-			<section class="tsd-panel tsd-kind-interface">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>This parameters will be passed on the iframe
-						as is.</p>
-					</div>
-				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -135,9 +116,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="FrameParams.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="FrameParams.html#loading" class="tsd-kind-icon">loading</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="FrameParams.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exportTMLInput.html#edoc_format" class="tsd-kind-icon">edoc_<wbr>format</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exportTMLInput.html#export_associated" class="tsd-kind-icon">export_<wbr>associated</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exportTMLInput.html#export_fqn" class="tsd-kind-icon">export_<wbr>fqn</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exportTMLInput.html#metadata" class="tsd-kind-icon">metadata</a></li>
 							</ul>
 						</section>
 					</div>
@@ -146,51 +128,44 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="edoc_format" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> edoc_<wbr>format</h3>
+					<div class="tsd-signature tsd-kind-icon">edoc_<wbr>format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;JSON&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;YAML&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/types.ts#L551">types.ts:551</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/embed/base.ts#L52">embed/base.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The height of the iFrame (unit is pixels if numeric).</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="loading" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> loading</h3>
-					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;lazy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;eager&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;auto&quot;</span></div>
+					<a name="export_associated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> export_<wbr>associated</h3>
+					<div class="tsd-signature tsd-kind-icon">export_<wbr>associated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/types.ts#L557">types.ts:557</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/embed/base.ts#L50">embed/base.ts:50</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Set to &#39;lazy&#39; to enable lazy loading of the embedded TS frame.
-								This will defer loading of the frame until it comes into the
-							viewport. This is useful for performance optimization.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="export_fqn" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> export_<wbr>fqn</h3>
+					<div class="tsd-signature tsd-kind-icon">export_<wbr>fqn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/types.ts#L547">types.ts:547</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/embed/base.ts#L51">embed/base.ts:51</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The width of the iFrame (unit is pixels if numeric).</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="metadata" class="tsd-anchor"></a>
+					<h3>metadata</h3>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">&quot;LIVEBOARD&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ANSWER&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LOGICAL_TABLE&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;CONNECTION&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/bed5a246/src/embed/base.ts#L46">embed/base.ts:46</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>

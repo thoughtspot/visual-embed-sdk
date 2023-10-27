@@ -48,4 +48,5 @@ export {
     CustomStyles,
     customCssInterface,
     CustomCssVariables,
+    RuntimeParameter,
 } from '../index';

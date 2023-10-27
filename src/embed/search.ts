@@ -14,7 +14,6 @@ import {
     Action,
     ViewConfig,
     RuntimeFilter,
-    RuntimeParameter,
 } from '../types';
 import {
     getQueryParamString,
@@ -50,7 +49,11 @@ export interface SearchOptions {
  *
  * @group Embed components
  */
-export interface SearchViewConfig extends ViewConfig {
+export interface SearchViewConfig
+    extends Omit<
+        ViewConfig,
+        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs' | 'reorderedHomepageModules'
+    > {
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
@@ -124,10 +127,6 @@ export interface SearchViewConfig extends ViewConfig {
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
-    /**
-     * The list of parameter override to apply to a search answer.
-     */
-    runtimeParameters?: RuntimeParameter[];
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [

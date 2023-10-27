@@ -167,7 +167,7 @@ liveboardEmbed.on(EmbedEvent.LiveboardRendered, () => {
 All the above flavors of embedding are also provided as React components for your convenience.
 The constructor options are passed as props and the event listeners can be attached using `on<EventName>` convention.
 <br/><br/>
-Checkout a comprehensive working demo [here](https://codesandbox.io/s/github/ashubham/big-react-demo)
+Checkout a comprehensive working demo [here](https://codesandbox.io/s/big-tse-react-demo-i4g9xi?file=/src/App.tsx)
 
 ### Search Component
 

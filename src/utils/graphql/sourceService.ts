@@ -66,6 +66,9 @@ export async function getSourceDetail(
     });
 
     const souceDetails = details[0];
-    sourceDetailCache.set(sourceId, souceDetails);
+    if (details) {
+        sourceDetailCache.set(sourceId, souceDetails);
+    }
+
     return souceDetails;
 }

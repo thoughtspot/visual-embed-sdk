@@ -641,16 +641,19 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
-    /**
-     * The list of parameter override to apply to a search answer,
-     * visualization, or Liveboard.
-     */
+   /**
+    * The list of parameter override to apply to a search answer,
+    * visualization, or Liveboard.
+    *
+    * @version SDK : 1.25.0 | Thoughtspot: 9.2.0.cl, 9.5.0.sw
+    */
     runtimeParameters?: RuntimeParameter[];
+   /**
     /**
-     * The locale/language to use for the embedded view.
-     *
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
-     */
+    * The locale/language to use for the embedded view.
+    *
+    * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+    */
     locale?: string;
     /**
      * This is an object (key/val) of override flags which will be applied
@@ -712,27 +715,6 @@ export interface ViewConfig {
      * @hidden
      */
     excludeRuntimeFiltersfromURL?: boolean;
-    /**
-     * Boolean to hide liveboard header
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    hideLiveboardHeader?: boolean;
-    /**
-     * Boolean to show liveboard title
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    showLiveboardTitle?: boolean;
-    /**
-     * Boolean to show liveboard description
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     */
-    showLiveboardDescription?: boolean;
     /**
      * The list of tab IDs to hide from the embedded.
      * This Tabs will be hidden from their respective LBs.
@@ -1548,11 +1530,11 @@ export enum HostEvent {
      * @param - execute - executes the existing / updated query
      * @example
      * ```js
-     * searchEmbed.trigger(HostEvent.Search, {
-     *   searchQuery: "[sales] by [item type],
-     *   dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"]
-     *   execute: true
-     * })
+     * searchembed.trigger(HostEvent.Search, {
+         searchQuery: "[sales] by [item type]",
+         dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
+         execute: true
+       });
      * ```
      */
     Search = 'search',
@@ -2311,6 +2293,7 @@ export enum Param {
     DisableWorksheetChange = 'disableWorksheetChange',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
+    HideAutocompleteSuggestions = 'hideAutocompleteSuggestions',
     HideLiveboardHeader = 'hideLiveboardHeader',
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
@@ -2323,6 +2306,10 @@ export enum Param {
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     PendoTrackingKey = 'additionalPendoKey',
+    LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
+    IsProductTour = 'isProductTour',
+    HideSearchBarTitle = 'hideSearchBarTitle',
+    HideSageAnswerHeader = 'hideSageAnswerHeader',
 }
 
 /**
@@ -3162,6 +3149,16 @@ export enum Action {
      *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
+    /**
+     * Action ID for Liveboard Users ( Recently Visited / social proof )
+     *
+     *  @example
+     * ```js
+     * disabledActions: [Action.LiveboardUsers]
+     * ```
+     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    LiveboardUsers = 'liveboardUsers',
 }
 
 export interface AnswerServiceType {

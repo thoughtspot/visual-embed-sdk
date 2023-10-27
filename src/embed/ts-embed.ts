@@ -424,9 +424,6 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
-            hideLiveboardHeader,
-            showLiveboardDescription,
-            showLiveboardTitle,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -493,15 +490,6 @@ export class TsEmbed {
         }
         if (insertInToSlide) {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
-        }
-        if (hideLiveboardHeader) {
-            queryParams[Param.HideLiveboardHeader] = hideLiveboardHeader;
-        }
-        if (showLiveboardDescription) {
-            queryParams[Param.ShowLiveboardDescription] = showLiveboardDescription;
-        }
-        if (showLiveboardTitle) {
-            queryParams[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
 
         return queryParams;
@@ -1236,13 +1224,17 @@ export class V1Embed extends TsEmbed {
     protected getRootIframeSrc(): string {
         const queryParams = this.getEmbedParams();
         let queryString = queryParams;
+        const { runtimeParameters = [] } = this.viewConfig;
+        if (runtimeParameters?.length > 0) {
+            const parameterQuery = getRuntimeParameters(runtimeParameters);
+            queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
+        }
+
         if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
             const runtimeFilters = this.viewConfig.runtimeFilters;
-            const runtimeParameters = this.viewConfig.runtimeParameters;
 
-            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
             const filterQuery = getFilterQuery(runtimeFilters || []);
-            queryString = [parameterQuery, filterQuery, queryParams].filter(Boolean).join('&');
+            queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
         return this.getV1EmbedBasePath(queryString);
     }

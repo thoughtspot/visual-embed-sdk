@@ -55,7 +55,7 @@ export enum Page {
  *
  * @group Embed components
  */
-export interface AppViewConfig extends ViewConfig {
+export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * If true, the main navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
@@ -150,12 +150,46 @@ export interface AppViewConfig extends ViewConfig {
      */
     dataPanelV2?: boolean;
     /**
+     * Show or hide Liveboard header
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Show or hide Liveboard title
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Show or hide Liveboard description
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
+    /**
      * Flag to control new Modular Home experience
      *
      * @default false
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     modularHomeExperience?: boolean;
+    /**
+     * Boolean to control if Liveboard header is sticky or not.
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   isLiveboardHeaderSticky: true,
+     * });
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    isLiveboardHeaderSticky?: boolean;
 }
 
 /**
@@ -196,8 +230,12 @@ export class AppEmbed extends V1Embed {
             enableSearchAssist,
             fullHeight,
             dataPanelV2 = false,
+            hideLiveboardHeader = false,
+            showLiveboardTitle = true,
+            showLiveboardDescription = true,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
+            isLiveboardHeaderSticky = true,
         } = this.viewConfig;
 
         let params = {};
@@ -206,6 +244,10 @@ export class AppEmbed extends V1Embed {
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
         params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
+        params[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        params[Param.ShowLiveboardTitle] = showLiveboardTitle;
+        params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
+        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
         params = this.getBaseQueryParams(params);
 

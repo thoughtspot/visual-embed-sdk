@@ -30,6 +30,19 @@ describe('unit test for utils', () => {
         ).toBe('bar=baz');
     });
 
+    test('getFilterQuery should encode URL params', () => {
+        expect(getFilterQuery([])).toBe(null);
+
+        expect(
+            getFilterQuery([
+                {
+                    columnName: 'foo+foo',
+                    operator: RuntimeFilterOp.NE,
+                    values: ['bar+'],
+                },
+            ]),
+        ).toBe('col1=foo%2Bfoo&op1=NE&val1=bar%2B');
+    });
     test('getFilterQuery', () => {
         expect(getFilterQuery([])).toBe(null);
 

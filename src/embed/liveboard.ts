@@ -16,12 +16,11 @@ import {
     MessagePayload,
     Param,
     RuntimeFilter,
-    RuntimeParameter,
     DOMSelector,
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString, getRuntimeParameters } from '../utils';
+import { getQueryParamString } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 
@@ -30,7 +29,7 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends ViewConfig {
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'| 'reorderedHomepageModules'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -96,7 +95,7 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     liveboardV2?: boolean;
     /**
-     * Tab Id of the Liveboard that is supposed to be active
+     * Tab ID of the Liveboard that is supposed to be active
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
@@ -108,9 +107,39 @@ export interface LiveboardViewConfig extends ViewConfig {
      */
     hideTabPanel?: boolean;
     /**
-     * The list of parameter override to apply to a Liveboard.
+     * Show or hide Liveboard header
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
      */
-    runtimeParameters?: RuntimeParameter[];
+    hideLiveboardHeader?: boolean;
+    /**
+     * Show or hide Liveboard title
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Show or hide Liveboard description
+     *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     */
+    showLiveboardDescription?: boolean;
+    /**
+     * Boolean for sticky Liveboard header.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   isLiveboardHeaderSticky: true,
+     * });
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    isLiveboardHeaderSticky?: boolean;
 }
 
 /**
@@ -162,7 +191,10 @@ export class LiveboardEmbed extends V1Embed {
             vizId,
             hideTabPanel,
             activeTabId,
-            runtimeParameters,
+            hideLiveboardHeader,
+            showLiveboardDescription,
+            showLiveboardTitle,
+            isLiveboardHeaderSticky = true,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -193,10 +225,19 @@ export class LiveboardEmbed extends V1Embed {
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
         }
-        let queryParams = getQueryParamString(params, true);
+        if (hideLiveboardHeader) {
+            params[Param.HideLiveboardHeader] = hideLiveboardHeader;
+        }
+        if (showLiveboardDescription) {
+            params[Param.ShowLiveboardDescription] = showLiveboardDescription;
+        }
+        if (showLiveboardTitle) {
+            params[Param.ShowLiveboardTitle] = showLiveboardTitle;
+        }
 
-        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-        if (parameterQuery) queryParams += `&${parameterQuery}`;
+        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+
+        const queryParams = getQueryParamString(params, true);
 
         return queryParams;
     }
