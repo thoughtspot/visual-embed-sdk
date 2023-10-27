@@ -7,7 +7,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { isUndefined, isEqual } from 'lodash';
+import isUndefined from 'lodash/isUndefined';
+import isEqual from 'lodash/isEqual';
+
 import {
     getEncodedQueryParamsString,
     getCssDimension,
