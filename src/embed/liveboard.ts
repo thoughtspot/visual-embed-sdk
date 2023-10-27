@@ -9,7 +9,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { isUndefined } from 'lodash';
+import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
