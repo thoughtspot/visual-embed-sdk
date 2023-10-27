@@ -315,3 +315,5 @@ export const removeStyleProperties = (element: HTMLElement, styleProperties: str
         element.style.removeProperty(styleProperty);
     });
 };
+
+export const isUndefined = (value: any): boolean => value === undefined;

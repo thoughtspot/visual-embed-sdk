@@ -7,7 +7,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import isUndefined from 'lodash/isUndefined';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -24,6 +23,7 @@ import {
     getRuntimeParameters,
     setStyleProperties,
     removeStyleProperties,
+    isUndefined,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -1107,18 +1107,19 @@ export class TsEmbed {
 
         if (this.el) {
             this.syncPreRenderStyle();
-
-            this.resizeObserver = new ResizeObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.contentRect && entry.target === this.el) {
-                        setStyleProperties(this.preRenderWrapper, {
-                            width: `${entry.contentRect.width}px`,
-                            height: `${entry.contentRect.height}px`,
-                        });
-                    }
+            if (!this.viewConfig.doNotTrackPreRenderSize) {
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.contentRect && entry.target === this.el) {
+                            setStyleProperties(this.preRenderWrapper, {
+                                width: `${entry.contentRect.width}px`,
+                                height: `${entry.contentRect.height}px`,
+                            });
+                        }
+                    });
                 });
-            });
-            this.resizeObserver.observe(this.el);
+                this.resizeObserver.observe(this.el);
+            }
         }
 
         this.beforePrerenderVisible();

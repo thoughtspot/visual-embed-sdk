@@ -9,6 +9,7 @@ import {
     getRuntimeParameters,
     removeStyleProperties,
     setStyleProperties,
+    isUndefined,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -245,5 +246,10 @@ describe('unit test for utils', () => {
                 setStyleProperties(undefined, {});
             }).not.toThrow();
         });
+    });
+
+    test('isUndefined', () => {
+        expect(isUndefined(undefined)).toBe(true);
+        expect(isUndefined({})).toBe(false);
     });
 });

@@ -9,7 +9,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
@@ -20,7 +19,7 @@ import {
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 
