@@ -27,15 +27,20 @@ export function fetchSessionInfoService(authVerificationUrl: string): Promise<an
 
 /**
  *
- * @param authVerificationUrl
+ * @param thoughtSpotHost
  * @param authToken
  */
-export function verifyTokenService(authVerificationUrl: string,
-    authToken: string): Promise<Response> {
+export function verifyTokenService(
+    thoughtSpotHost: string,
+    authToken: string,
+): Promise<Response> {
+    const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
     return fetch(authVerificationUrl, {
         headers: {
             Authorization: `Bearer ${authToken}`,
+            'x-requested-by': 'ThoughtSpot',
         },
+        credentials: 'omit',
     });
 }
 

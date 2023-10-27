@@ -360,9 +360,8 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     try {
-        const authVerificationUrl = `${embedConfig.thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
         const authToken = await getAuthenticaionToken(embedConfig);
-        const response = await verifyTokenService(authVerificationUrl, authToken);
+        const response = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (!response.ok) return false;
     } catch (e) {
         return false;
