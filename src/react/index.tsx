@@ -13,6 +13,10 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
+    // isPreRenderedComponent: Specifies whether the component being returned is
+    // intended for preRendering. If set to true, the component will call the
+    // Embed.preRender() method instead of the usual render method, and it will
+    // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
 ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
@@ -21,6 +25,42 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
         const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
             embedProps,
         );
+
+        const handleDestroy = (tsEmbed: InstanceType<T>) => {
+            // do not destroy if it is a preRender component
+            if (isPreRenderedComponent) return;
+
+            // if component is connected to a preRendered component
+            if (props.preRenderId) {
+                tsEmbed.hidePreRender();
+                return;
+            }
+
+            tsEmbed.destroy();
+        };
+
+        const handlePreRenderRendering = (tsEmbed : InstanceType<T>) => {
+            tsEmbed.preRender();
+        };
+
+        const handleDefaultRendering = (tsEmbed : InstanceType<T>) => {
+            // if component is connected to a preRendered component
+            if (props.preRenderId) {
+                tsEmbed.showPreRender();
+                return;
+            }
+
+            tsEmbed.render();
+        };
+
+        const handleRendering = (tsEmbed : InstanceType<T>) => {
+            if (isPreRenderedComponent) {
+                handlePreRenderRendering(tsEmbed);
+                return;
+            }
+            handleDefaultRendering(tsEmbed);
+        };
+
         useDeepCompareEffect(() => {
             const tsEmbed = new EmbedConstructor(
                     ref!.current,
@@ -37,23 +77,13 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             Object.keys(listeners).forEach((eventName) => {
                 tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
             });
-            if (isPreRenderedComponent) {
-                tsEmbed.preRender();
-            } else if (props.preRenderId) {
-                tsEmbed.showPreRender();
-            } else {
-                tsEmbed.render();
-            }
-
+            handleRendering(tsEmbed);
             if (forwardedRef) {
                 // eslint-disable-next-line no-param-reassign
                 forwardedRef.current = tsEmbed;
             }
             return () => {
-                if (!isPreRenderedComponent) {
-                    if (props.preRenderId) tsEmbed.hidePreRender();
-                    else tsEmbed.destroy();
-                }
+                handleDestroy(tsEmbed);
             };
         }, [viewConfig, listeners]);
 
@@ -80,6 +110,18 @@ interface PreRenderProps {
     *   preRenderId: "preRenderId-123"
     * });
     * embed.showPreRender();
+    * ```
+    *
+    * Use PreRendered react component for pre rendering embed components.
+    * @example
+    * ```tsx
+    * function LandingPageComponent() {
+    *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
+    * }
+    * ```
+    * function MyComponent() {
+    *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
+    * }
     * ```
     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
     */
