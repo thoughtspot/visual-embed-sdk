@@ -641,16 +641,19 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      */
     runtimeFilters?: RuntimeFilter[];
-    /**
-     * The list of parameter override to apply to a search answer,
-     * visualization, or Liveboard.
-     */
+   /**
+    * The list of parameter override to apply to a search answer,
+    * visualization, or Liveboard.
+    *
+    * @version SDK : 1.25.0 | Thoughtspot: 9.2.0.cl, 9.5.0.sw
+    */
     runtimeParameters?: RuntimeParameter[];
+   /**
     /**
-     * The locale/language to use for the embedded view.
-     *
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
-     */
+    * The locale/language to use for the embedded view.
+    *
+    * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+    */
     locale?: string;
     /**
      * This is an object (key/val) of override flags which will be applied
