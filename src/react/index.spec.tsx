@@ -15,7 +15,7 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed,
+    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed,
 } from './index';
 import * as allExports from './index';
 import {
@@ -224,6 +224,47 @@ describe('React Components', () => {
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22]&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,
             );
+        });
+    });
+
+    describe('PreRenderedLiveboardEmbed', () => {
+        it('should preRender the liveboard ', async () => {
+            const preRenderId = 'tsEmbed-pre-render-wrapper-test';
+
+            const { container } = render(
+                <PreRenderedLiveboardEmbed
+                    className="embedClass"
+                    preRenderId="test"
+                    liveboardId="libId"
+                />,
+            );
+
+            await waitFor(() => getIFrameEl());
+            const preRenderWrapper = document.body.querySelector(`#${preRenderId}`) as HTMLDivElement;
+
+            expect(preRenderWrapper).toBeInstanceOf(HTMLDivElement);
+            expect((preRenderWrapper as HTMLDivElement).childElementCount).toBe(1);
+
+            const preRenderChildId = 'tsEmbed-pre-render-child-test';
+            const preRenderChild = document.body.querySelector(`#${preRenderChildId}`);
+            expect(preRenderWrapper.children[0]).toBe(preRenderChild);
+
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+            const { container: libContainer } = render(
+                <LiveboardEmbed
+                    className="embedClass"
+                    preRenderId="test"
+                    liveboardId="libId"
+                />,
+            );
+
+            expect(preRenderWrapper.style.opacity).toBe('');
+            expect(preRenderWrapper.style.pointerEvents).toBe('');
+            expect(preRenderWrapper.style.zIndex).toBe('');
         });
     });
 });

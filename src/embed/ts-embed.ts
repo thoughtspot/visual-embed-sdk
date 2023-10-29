@@ -7,6 +7,8 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import isEqual from 'lodash/isEqual';
+
 import {
     getEncodedQueryParamsString,
     getCssDimension,
@@ -19,6 +21,9 @@ import {
     getFilterQuery,
     getQueryParamString,
     getRuntimeParameters,
+    setStyleProperties,
+    removeStyleProperties,
+    isUndefined,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -86,12 +91,17 @@ export class TsEmbed {
      * This is useful for removing the DOM node when the
      * embed instance is destroyed.
      */
-    private insertedDomEl: Node;
+    protected insertedDomEl: Node;
 
     /**
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
-    private el: Element;
+    protected el: Element;
+
+    /**
+     * The key to store the embed instance in the DOM node
+     */
+    protected embedNodeKey = '__tsEmbed';
 
     protected isAppInitialized = false;
 
@@ -127,12 +137,17 @@ export class TsEmbed {
     /**
      * A flag that is set to true post render.
      */
-    private isRendered: boolean;
+    protected isRendered: boolean;
 
     /**
      * A flag to mark if an error has occurred.
      */
     private isError: boolean;
+
+    /**
+     * A flag that is set to true post preRender.
+     */
+    private isPreRendered: boolean;
 
     /**
      * Should we encode URL Query Params using base64 encoding which thoughtspot
@@ -144,6 +159,8 @@ export class TsEmbed {
     private shouldEncodeUrlQueryParams = false;
 
     private defaultHiddenActions = [Action.ReportError];
+
+    private resizeObserver: ResizeObserver;
 
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
@@ -228,6 +245,8 @@ export class TsEmbed {
         return eventData;
     }
 
+    private subscribedListeners = {};
+
     /**
      * Adds a global event listener to window for "message" events.
      * ThoughtSpot detects if a particular event is targeted to this
@@ -235,27 +254,48 @@ export class TsEmbed {
      * and executes the registered callbacks accordingly.
      */
     private subscribeToEvents() {
-        window.addEventListener('message', (event) => {
+        this.unsubscribeToEvents();
+        const messageEventListener = (event: MessageEvent<any>) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
             const eventData = this.formatEventData(event, eventType);
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processEventData(eventType, eventData, this.thoughtSpotHost, this.el),
+                    processEventData(eventType,
+                        eventData,
+                        this.thoughtSpotHost,
+                        this.isPreRendered ? this.preRenderWrapper : this.el),
                     eventPort,
                 );
             }
-        });
-        window.addEventListener('online', (e) => {
+        };
+        window.addEventListener('message', messageEventListener);
+
+        const onlineEventListener = (e: Event) => {
             this.trigger(HostEvent.Reload);
-        });
-        window.addEventListener('offline', (e) => {
+        };
+        window.addEventListener('online', onlineEventListener);
+
+        const offlineEventListener = (e: Event) => {
             const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
             console.warn(offlineWarning);
+        };
+        window.addEventListener('offline', offlineEventListener);
+
+        this.subscribedListeners = {
+            message: messageEventListener,
+            online: onlineEventListener,
+            offline: offlineEventListener,
+        };
+    }
+
+    private unsubscribeToEvents() {
+        Object.keys(this.subscribedListeners).forEach((key) => {
+            window.removeEventListener(key, this.subscribedListeners[key]);
         });
     }
 
@@ -515,12 +555,22 @@ export class TsEmbed {
         return iFrame;
     }
 
+    protected handleInsertionIntoDOM(child: string | Node): void {
+        if (this.isPreRendered) {
+            this.insertIntoDOMForPreRender(child);
+        } else {
+            this.insertIntoDOM(child);
+        }
+        if (this.insertedDomEl instanceof Node) {
+            this.insertedDomEl[this.embedNodeKey] = this;
+        }
+    }
+
     /**
      * Renders the embedded ThoughtSpot app in an iframe and sets up
      * event listeners.
      *
-     * @param url
-     * @param frameOptions
+     * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
         if (this.isError) {
@@ -547,7 +597,7 @@ export class TsEmbed {
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
-                        this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+                        this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
                     }
 
@@ -570,7 +620,7 @@ export class TsEmbed {
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
-                    this.insertIntoDOM(this.iFrame);
+                    this.handleInsertionIntoDOM(this.iFrame);
                     const prefetchIframe = document.querySelectorAll('.prefetchIframe');
                     if (prefetchIframe.length) {
                         prefetchIframe.forEach((el) => {
@@ -584,11 +634,106 @@ export class TsEmbed {
                     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
                         error: JSON.stringify(error),
                     });
-                    this.insertIntoDOM(this.embedConfig.loginFailedMessage);
+                    this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
                 });
         });
     }
+
+    protected createPreRenderWrapper(): HTMLDivElement {
+        const preRenderIds = this.getPreRenderIds();
+
+        document.getElementById(preRenderIds.wrapper)?.remove();
+
+        const preRenderWrapper = document.createElement('div');
+        preRenderWrapper.id = preRenderIds.wrapper;
+        const initialPreRenderWrapperStyle = {
+            position: 'absolute',
+            width: '100vw',
+            height: '100vh',
+        };
+        setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
+
+        return preRenderWrapper;
+    }
+
+    protected preRenderWrapper: HTMLElement;
+
+    protected preRenderChild: HTMLElement;
+
+    protected connectPreRendered(): boolean {
+        const preRenderIds = this.getPreRenderIds();
+        this.preRenderWrapper = this.preRenderWrapper
+          || document.getElementById(preRenderIds.wrapper);
+
+        this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
+
+        if (this.preRenderWrapper && this.preRenderChild) {
+            this.isPreRendered = true;
+            if (this.preRenderChild instanceof HTMLIFrameElement) {
+                this.iFrame = this.preRenderChild;
+            }
+            this.insertedDomEl = this.preRenderWrapper;
+            this.isRendered = true;
+        }
+
+        return this.isPreRenderAvailable();
+    }
+
+    protected isPreRenderAvailable(): boolean {
+        return (
+            this.isRendered
+            && this.isPreRendered
+            && Boolean(this.preRenderWrapper && this.preRenderChild)
+        );
+    }
+
+    protected createPreRenderChild(child: string | Node): HTMLElement {
+        const preRenderIds = this.getPreRenderIds();
+
+        document.getElementById(preRenderIds.child)?.remove();
+
+        if (child instanceof HTMLElement) {
+            child.id = preRenderIds.child;
+            return child;
+        }
+
+        const divChildNode = document.createElement('div');
+        setStyleProperties(divChildNode, { width: '100%', height: '100%' });
+        divChildNode.id = preRenderIds.child;
+
+        if (typeof child === 'string') {
+            divChildNode.innerHTML = child;
+        } else {
+            divChildNode.appendChild(child);
+        }
+
+        return divChildNode;
+    }
+
+    protected insertIntoDOMForPreRender(child: string | Node): void {
+        const preRenderChild = this.createPreRenderChild(child);
+        const preRenderWrapper = this.createPreRenderWrapper();
+        preRenderWrapper.appendChild(preRenderChild);
+
+        this.preRenderChild = preRenderChild;
+        this.preRenderWrapper = preRenderWrapper;
+
+        if (preRenderChild instanceof HTMLIFrameElement) {
+            this.iFrame = preRenderChild;
+        }
+        this.insertedDomEl = preRenderWrapper;
+
+        if (this.showPreRenderByDefault) {
+            this.showPreRender();
+        } else {
+            this.hidePreRender();
+        }
+
+        document.body.appendChild(preRenderWrapper);
+    }
+
+    private showPreRenderByDefault = false;
 
     protected insertIntoDOM(child: string | Node): void {
         if (this.viewConfig.insertAsSibling) {
@@ -821,6 +966,26 @@ export class TsEmbed {
         return this;
     }
 
+    protected handleRenderForPrerender() {
+        this.render();
+    }
+
+    /**
+     * Creates the preRender shell
+     *
+     * @param showPreRenderByDefault - Show the preRender after render, hidden by default
+     */
+    public preRender(showPreRenderByDefault = false): TsEmbed {
+        if (!this.viewConfig.preRenderId) {
+            console.error('PreRender id is required for preRender');
+            return this;
+        }
+        this.isPreRendered = true;
+        this.showPreRenderByDefault = showPreRenderByDefault;
+        this.handleRenderForPrerender();
+        return this;
+    }
+
     /**
      * Get the Post Url Params for THOUGHTSPOT from the current
      * host app URL.
@@ -859,6 +1024,7 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
+            this.unsubscribeToEvents();
         } catch (e) {
             console.log('Error destroying TS Embed', e);
         }
@@ -878,7 +1044,157 @@ export class TsEmbed {
      */
     public async prerenderGeneric(): Promise<any> {
         const prerenderFrameSrc = this.getRootIframeSrc();
+        this.isRendered = true;
         return this.renderIFrame(prerenderFrameSrc);
+    }
+
+    protected beforePrerenderVisible(): void {
+        // Override in subclass
+    }
+
+    private validatePreRenderViewConfig = (viewConfig: ViewConfig) => {
+        const preRenderAllowedKeys = [
+            'preRenderId',
+            'vizId',
+            'liveboardId',
+        ];
+        const preRenderedObject = this.insertedDomEl?.[this.embedNodeKey] as TsEmbed;
+        if (!preRenderedObject) return;
+        if (viewConfig.preRenderId) {
+            const allOtherKeys = Object.keys(viewConfig).filter(
+                (key) => !preRenderAllowedKeys.includes(key) && !key.startsWith('on'),
+            );
+
+            allOtherKeys.forEach((key) => {
+                if (
+                    !isUndefined(viewConfig[key])
+                    && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
+                ) {
+                    console.warn(
+                        `${this.embedComponentType} was pre-rendered with `
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
+                    );
+                }
+            });
+        }
+    };
+
+    /**
+     * Displays the PreRender component.
+     * If the component is not preRendered, it attempts to create and render it.
+     * Also, synchronizes the style of the PreRender component with the embedding
+     * element.
+     */
+    public showPreRender(): void {
+        if (!this.viewConfig.preRenderId) {
+            console.error('PreRender id is required for preRender');
+            return;
+        }
+        if (!this.isPreRenderAvailable()) {
+            const isAvailable = this.connectPreRendered();
+
+            if (!isAvailable) {
+                // if the Embed component is not preRendered , Render it now and
+                this.preRender(true);
+                return;
+            }
+            this.validatePreRenderViewConfig(this.viewConfig);
+        }
+
+        if (this.el) {
+            this.syncPreRenderStyle();
+            if (!this.viewConfig.doNotTrackPreRenderSize) {
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.contentRect && entry.target === this.el) {
+                            setStyleProperties(this.preRenderWrapper, {
+                                width: `${entry.contentRect.width}px`,
+                                height: `${entry.contentRect.height}px`,
+                            });
+                        }
+                    });
+                });
+                this.resizeObserver.observe(this.el);
+            }
+        }
+
+        this.beforePrerenderVisible();
+
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+
+        this.subscribeToEvents();
+    }
+
+    /**
+     * Synchronizes the style properties of the PreRender component with the embedding
+     * element. This function adjusts the position, width, and height of the PreRender
+     * component
+     * to match the dimensions and position of the embedding element.
+     *
+     * @throws {Error} Throws an error if the embedding element (passed as domSelector)
+     * is not defined or not found.
+     */
+    public syncPreRenderStyle(): void {
+        if (!this.isPreRenderAvailable() || !this.el) {
+            console.error('PreRender should be called before using syncPreRenderStyle');
+            return;
+        }
+        const elBoundingClient = this.el.getBoundingClientRect();
+
+        setStyleProperties(this.preRenderWrapper, {
+            top: `${elBoundingClient.y}px`,
+            left: `${elBoundingClient.x}px`,
+            width: `${elBoundingClient.width}px`,
+            height: `${elBoundingClient.height}px`,
+        });
+    }
+
+    /**
+     * Hides the PreRender component if it is available.
+     * If the component is not preRendered, it issues a warning.
+     */
+    public hidePreRender(): void {
+        if (!this.isPreRenderAvailable()) {
+            // if the embed component is not preRendered , nothing to hide
+            console.warn(
+                'PreRender should be called before hiding it using hidePreRender.',
+            );
+            return;
+        }
+        const preRenderHideStyles = {
+            opacity: '0',
+            pointerEvents: 'none',
+            zIndex: '-1000',
+            position: 'absolute ',
+            top: '0',
+            left: '0',
+        };
+        setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
+
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
+
+        this.unsubscribeToEvents();
+    }
+
+    /**
+     * Retrieves unique HTML element IDs for PreRender-related elements.
+     * These IDs are constructed based on the provided 'preRenderId' from 'viewConfig'.
+     *
+     * @returns {object} An object containing the IDs for the PreRender elements.
+     * @property {string} wrapper - The HTML element ID for the PreRender wrapper.
+     * @property {string} child - The HTML element ID for the PreRender child.
+     */
+    public getPreRenderIds() {
+        return {
+            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
+            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
+        };
     }
 }
 
@@ -902,7 +1218,7 @@ export class V1Embed extends TsEmbed {
      *
      * @param iframeSrc
      */
-    protected renderV1Embed(iframeSrc: string): any {
+    protected renderV1Embed(iframeSrc: string): Promise<any> {
         return this.renderIFrame(iframeSrc);
     }
 
