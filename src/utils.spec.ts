@@ -189,7 +189,7 @@ describe('unit test for utils', () => {
     test('when suppressBetaWarning is false ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
-  
+
     test('removeTypename should removed __typename', () => {
         const input = {
             test: 'test',
@@ -207,6 +207,7 @@ describe('unit test for utils', () => {
             },
         };
         expect(result).toEqual(expectedResult);
+    });
 
     describe('validate removeStyleProperties', () => {
         it('should remove specified style properties from an HTML element', () => {
