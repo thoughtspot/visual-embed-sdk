@@ -1,4 +1,4 @@
-import { LiveboardEmbed, LiveboardViewConfig } from './liveboard';
+import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
 import { init } from '../index';
 import {
     Action,
@@ -19,6 +19,7 @@ import {
     postMessageToParent,
     getIFrameEl,
     mockMessageChannel,
+    waitFor,
 } from '../test/test-utils';
 import * as tsEmbed from './ts-embed';
 import * as processTriggerInstance from '../utils/processTrigger';
@@ -406,6 +407,80 @@ describe('Liveboard/viz embed tests', () => {
                 HostEvent.Navigate,
                 `embed/viz/${liveboardId}/tab/${newActiveTabId}`,
             );
+        });
+    });
+
+    describe('PreRender flow for liveboard embed', () => {
+        test('it should preRender generic with liveboard id is not passed', (done) => {
+            const consoleSpy = jest.spyOn(console, 'error');
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: 'testPreRender',
+            });
+            const prerenderGenericSpy = jest.spyOn(libEmbed, 'prerenderGeneric');
+            libEmbed.preRender();
+            executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    libEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+
+                // should render the generic link
+                expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
+                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+
+                expect(consoleSpy).toHaveBeenCalledTimes(0);
+
+                done();
+            });
+        });
+
+        test('it should navigateToLiveboard with liveboard id is not passed', async (done) => {
+            mockMessageChannel();
+            const consoleSpy = jest.spyOn(console, 'error');
+            const testPreRenderId = 'testPreRender';
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            let resizeObserverCb: any;
+            (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation((resizeObserverCbParam) => {
+                resizeObserverCb = resizeObserverCbParam;
+                return ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                });
+            });
+
+            libEmbed.preRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const ts = '__tsEmbed';
+            expect(document.getElementById(libEmbed.getPreRenderIds().wrapper)[ts])
+                .toEqual(libEmbed);
+
+            const testLiveboardId = 'testLiveboardId';
+            const newLibEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+                liveboardId: testLiveboardId,
+            });
+            const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
+            newLibEmbed.showPreRender();
+
+            executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    libEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+
+                // should render the generic link
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId);
+                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+
+                expect(consoleSpy).toHaveBeenCalledTimes(0);
+
+                done();
+            });
         });
     });
 });

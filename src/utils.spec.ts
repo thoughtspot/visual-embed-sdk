@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 import {
     getQueryParamString,
     getFilterQuery,
@@ -11,6 +7,9 @@ import {
     getRedirectUrl,
     checkReleaseVersionInBeta,
     getRuntimeParameters,
+    removeStyleProperties,
+    setStyleProperties,
+    isUndefined,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -125,6 +124,14 @@ describe('unit test for utils', () => {
     });
 
     describe('getRedirectURL', () => {
+        let windowSpy: any;
+        beforeEach(() => {
+            windowSpy = jest.spyOn(window, 'window', 'get');
+        });
+        afterEach(() => {
+            windowSpy.mockRestore();
+        });
+
         test('Should return correct value when path is undefined', () => {
             expect(getRedirectUrl('http://myhost:3000', 'hashFrag')).toBe(
                 'http://myhost:3000#hashFrag',
@@ -133,9 +140,11 @@ describe('unit test for utils', () => {
         });
 
         test('Should return correct value when path is set', () => {
-            Object.defineProperty(window.location, 'origin', {
-                get: () => 'http://myhost:3000',
-            });
+            windowSpy.mockImplementation(() => ({
+                location: {
+                    origin: 'http://myhost:3000',
+                },
+            }));
 
             expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
                 'http://myhost:3000/bar#hashFrag',
@@ -178,5 +187,69 @@ describe('unit test for utils', () => {
 
     test('when suppressBetaWarning is false ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
+    });
+
+    describe('validate removeStyleProperties', () => {
+        it('should remove specified style properties from an HTML element', () => {
+            const element = document.createElement('div');
+
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['background-color', 'font-size'];
+
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe('');
+            expect(element.style.fontSize).toBe('');
+        });
+
+        it('should handle undefined param', () => {
+            expect(() => {
+                removeStyleProperties(undefined, []);
+            }).not.toThrow();
+        });
+
+        it('should handle removing non-existent style properties', () => {
+            const element = document.createElement('div');
+
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['color', 'border'];
+
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe('blue');
+            expect(element.style.fontSize).toBe('14px');
+        });
+    });
+
+    describe('validate setStyleProperties', () => {
+        it('should set style properties on an HTML element', () => {
+            const element = document.createElement('div');
+
+            const styles = {
+                backgroundColor: 'red',
+                fontSize: '16px',
+            };
+
+            setStyleProperties(element, styles);
+
+            expect(element.style.backgroundColor).toBe('red');
+            expect(element.style.fontSize).toBe('16px');
+        });
+
+        it('should handle undefined param', () => {
+            // should not throw an error
+            expect(() => {
+                setStyleProperties(undefined, {});
+            }).not.toThrow();
+        });
+    });
+
+    test('isUndefined', () => {
+        expect(isUndefined(undefined)).toBe(true);
+        expect(isUndefined({})).toBe(false);
     });
 });

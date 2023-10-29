@@ -272,3 +272,48 @@ export function removeTypename(obj: any) {
     }
     return obj;
 }
+
+/**
+ * Sets the specified style properties on an HTML element.
+ *
+ * @param {HTMLElement} element - The HTML element to which the styles should be applied.
+ * @param {Partial<CSSStyleDeclaration>} styleProperties - An object containing style
+ * property names and their values.
+ * @example
+ * // Apply styles to an element
+ * const element = document.getElementById('myElement');
+ * const styles = {
+ *   backgroundColor: 'red',
+ *   fontSize: '16px',
+ * };
+ * setStyleProperties(element, styles);
+ */
+export const setStyleProperties = (
+    element: HTMLElement,
+    styleProperties: Partial<CSSStyleDeclaration>,
+): void => {
+    if (!element?.style) return;
+    Object.keys(styleProperties).forEach((styleProperty) => {
+        element.style[styleProperty] = styleProperties[styleProperty].toString();
+    });
+};
+/**
+ * Removes specified style properties from an HTML element.
+ *
+ * @param {HTMLElement} element - The HTML element from which the styles should be removed.
+ * @param {string[]} styleProperties - An array of style property names to be removed.
+ * @example
+ * // Remove styles from an element
+ * const element = document.getElementById('myElement');
+ * element.style.backgroundColor = 'red';
+ * const propertiesToRemove = ['backgroundColor'];
+ * removeStyleProperties(element, propertiesToRemove);
+ */
+export const removeStyleProperties = (element: HTMLElement, styleProperties: string[]): void => {
+    if (!element?.style) return;
+    styleProperties.forEach((styleProperty) => {
+        element.style.removeProperty(styleProperty);
+    });
+};
+
+export const isUndefined = (value: any): boolean => value === undefined;

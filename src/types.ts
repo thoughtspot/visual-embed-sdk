@@ -774,6 +774,41 @@ export interface ViewConfig {
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
+    /**
+     * PreRender id to be used for PreRendering the embed.
+     * Use PreRender to render the embed in the background and then
+     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   preRenderId: "preRenderId-123"
+     * });
+     * embed.showPreRender();
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    preRenderId?: string;
+
+    /**
+     * Determines whether the PreRender component should not dynamically track the size
+     * of its embedding element and adjust its own size accordingly.
+     * Enabling this option allows the PreRender component to automatically adapt
+     * its dimensions based on changes to the size of the embedding element.
+     *
+     * @type {boolean}
+     * @default false
+     * @example
+     * // Disable tracking PreRender size in the configuration
+     * const config = {
+     *   doNotTrackPreRenderSize: true,
+     * };
+     *
+     * // Instantiate an object with the configuration
+     * const myComponent = new MyComponent(config);
+     */
+    doNotTrackPreRenderSize?: boolean;
 }
 
 /**
