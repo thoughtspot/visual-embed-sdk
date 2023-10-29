@@ -8,6 +8,9 @@ import {
     checkReleaseVersionInBeta,
     getRuntimeParameters,
     removeTypename,
+    removeStyleProperties,
+    setStyleProperties,
+    isUndefined,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -186,6 +189,7 @@ describe('unit test for utils', () => {
     test('when suppressBetaWarning is false ReleaseVersion is 7.0.1', () => {
         expect(checkReleaseVersionInBeta('7.0.1', false)).toBe(true);
     });
+  
     test('removeTypename should removed __typename', () => {
         const input = {
             test: 'test',
@@ -203,5 +207,68 @@ describe('unit test for utils', () => {
             },
         };
         expect(result).toEqual(expectedResult);
+
+    describe('validate removeStyleProperties', () => {
+        it('should remove specified style properties from an HTML element', () => {
+            const element = document.createElement('div');
+
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['background-color', 'font-size'];
+
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe('');
+            expect(element.style.fontSize).toBe('');
+        });
+
+        it('should handle undefined param', () => {
+            expect(() => {
+                removeStyleProperties(undefined, []);
+            }).not.toThrow();
+        });
+
+        it('should handle removing non-existent style properties', () => {
+            const element = document.createElement('div');
+
+            element.style.backgroundColor = 'blue';
+            element.style.fontSize = '14px';
+
+            const propertiesToRemove = ['color', 'border'];
+
+            removeStyleProperties(element, propertiesToRemove);
+
+            expect(element.style.backgroundColor).toBe('blue');
+            expect(element.style.fontSize).toBe('14px');
+        });
+    });
+
+    describe('validate setStyleProperties', () => {
+        it('should set style properties on an HTML element', () => {
+            const element = document.createElement('div');
+
+            const styles = {
+                backgroundColor: 'red',
+                fontSize: '16px',
+            };
+
+            setStyleProperties(element, styles);
+
+            expect(element.style.backgroundColor).toBe('red');
+            expect(element.style.fontSize).toBe('16px');
+        });
+
+        it('should handle undefined param', () => {
+            // should not throw an error
+            expect(() => {
+                setStyleProperties(undefined, {});
+            }).not.toThrow();
+        });
+    });
+
+    test('isUndefined', () => {
+        expect(isUndefined(undefined)).toBe(true);
+        expect(isUndefined({})).toBe(false);
     });
 });
