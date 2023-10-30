@@ -128,7 +128,7 @@ describe('Base TS Embed', () => {
             autoLogin: true,
         });
         const embedConfig = base.getEmbedConfig();
-        const authToken = await auth.getAuthenticaionToken(embedConfig);
+        const authToken = await auth.getAuthenticationToken(embedConfig);
         const data: base.executeTMLInput = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
         await index.executeTML(data);
         expect(window.fetch).toHaveBeenCalledWith(
@@ -154,7 +154,11 @@ describe('Base TS Embed', () => {
             authType: index.AuthType.None,
             autoLogin: true,
         });
-        const data: base.executeTMLInput = { metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'], import_policy: 'PARTIAL', create_new: false };
+        const data: base.executeTMLInput = {
+            metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'],
+            import_policy: 'PARTIAL',
+            create_new: false,
+        };
         try {
             await index.executeTML(data);
         } catch (error) {

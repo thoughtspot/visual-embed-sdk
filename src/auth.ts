@@ -39,6 +39,7 @@ export const EndPoints = {
     LOGOUT: '/callosum/v1/session/logout',
     EXECUTE_TML: '/api/rest/2.0/metadata/tml/import',
     EXPORT_TML: '/api/rest/2.0/metadata/tml/export',
+    IS_ACTIVE: '/callosum/v1/session/isactive',
 };
 
 interface sessionInfoInterface {
@@ -304,7 +305,7 @@ function removeSSORedirectUrlMarker(): void {
     window.location.hash = window.location.hash.replace(SSO_REDIRECTION_MARKER_GUID, '');
 }
 
-export const getAuthenticaionToken = async (embedConfig: EmbedConfig): Promise<any> => {
+export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<any> => {
     const { authEndpoint, getAuthToken } = embedConfig;
     let authToken = null;
     if (getAuthToken) {
@@ -331,7 +332,7 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
     }
     loggedInStatus = await isLoggedIn(thoughtSpotHost);
     if (!loggedInStatus) {
-        const authToken = await getAuthenticaionToken(embedConfig);
+        const authToken = await getAuthenticationToken(embedConfig);
         let resp;
         try {
             resp = await fetchAuthPostService(thoughtSpotHost, username, authToken);
@@ -360,7 +361,7 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     try {
-        const authToken = await getAuthenticaionToken(embedConfig);
+        const authToken = await getAuthenticationToken(embedConfig);
         const response = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (!response.ok) return false;
     } catch (e) {
@@ -461,11 +462,7 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(
-            ssoURL,
-            embedConfig.authTriggerContainer,
-            embedConfig.authTriggerText,
-        );
+        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
         loggedInStatus = await isLoggedIn(thoughtSpotHost);
         return;
     }

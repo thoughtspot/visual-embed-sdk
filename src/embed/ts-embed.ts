@@ -60,7 +60,7 @@ import {
     handleAuth,
     notifyAuthFailure,
 } from './base';
-import { AuthFailureType, getAuthenticaionToken } from '../auth';
+import { AuthFailureType, getAuthenticationToken } from '../auth';
 
 const { version } = pkgInfo;
 
@@ -262,10 +262,12 @@ export class TsEmbed {
             if (event.source === this.iFrame.contentWindow) {
                 this.executeCallbacks(
                     eventType,
-                    processEventData(eventType,
+                    processEventData(
+                        eventType,
                         eventData,
                         this.thoughtSpotHost,
-                        this.isPreRendered ? this.preRenderWrapper : this.el),
+                        this.isPreRendered ? this.preRenderWrapper : this.el,
+                    ),
                     eventPort,
                 );
             }
@@ -308,7 +310,7 @@ export class TsEmbed {
     private appInitCb = async (_: any, responder: any) => {
         let authToken = '';
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-            authToken = await getAuthenticaionToken(this.embedConfig);
+            authToken = await getAuthenticationToken(this.embedConfig);
         }
         this.isAppInitialized = true;
         responder({
@@ -338,7 +340,7 @@ export class TsEmbed {
     private updateAuthToken = async (_: any, responder: any) => {
         const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
         if (authType === AuthType.TrustedAuthTokenCookieless) {
-            const authToken = await getAuthenticaionToken(this.embedConfig);
+            const authToken = await getAuthenticationToken(this.embedConfig);
             responder({
                 type: EmbedEvent.AuthExpire,
                 data: { authToken },
@@ -395,8 +397,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
-            ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -541,9 +542,7 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write';
 
-        const {
-            height: frameHeight, width: frameWidth, ...restParams
-        } = this.viewConfig.frameParams || {};
+        const { height: frameHeight, width: frameWidth, ...restParams } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -663,8 +662,7 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper
-          || document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -1053,11 +1051,7 @@ export class TsEmbed {
     }
 
     private validatePreRenderViewConfig = (viewConfig: ViewConfig) => {
-        const preRenderAllowedKeys = [
-            'preRenderId',
-            'vizId',
-            'liveboardId',
-        ];
+        const preRenderAllowedKeys = ['preRenderId', 'vizId', 'liveboardId'];
         const preRenderedObject = this.insertedDomEl?.[this.embedNodeKey] as TsEmbed;
         if (!preRenderedObject) return;
         if (viewConfig.preRenderId) {
@@ -1072,11 +1066,11 @@ export class TsEmbed {
                 ) {
                     console.warn(
                         `${this.embedComponentType} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
@@ -1160,9 +1154,7 @@ export class TsEmbed {
     public hidePreRender(): void {
         if (!this.isPreRenderAvailable()) {
             // if the embed component is not preRendered , nothing to hide
-            console.warn(
-                'PreRender should be called before hiding it using hidePreRender.',
-            );
+            console.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
         const preRenderHideStyles = {
