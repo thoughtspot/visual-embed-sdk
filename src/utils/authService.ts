@@ -32,7 +32,7 @@ export function fetchSessionInfoService(authVerificationUrl: string): Promise<an
  * @param authToken : Auth token to verify.
  */
 export function verifyTokenService(thoughtSpotHost: string, authToken: string): Promise<Response> {
-    const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
+    const authVerificationUrl = `${thoughtSpotHost}${EndPoints.IS_ACTIVE}`;
     return fetch(authVerificationUrl, {
         headers: {
             Authorization: `Bearer ${authToken}`,
