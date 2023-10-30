@@ -88,7 +88,7 @@ describe('Unit test for authService', () => {
     test('verifyTokenService', async () => {
         global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
         await verifyTokenService(thoughtSpotHost, authToken);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`, {
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
             credentials: 'omit',
             headers: {
                 Authorization: `Bearer ${authToken}`,
