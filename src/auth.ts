@@ -462,7 +462,11 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
+        await samlPopupFlow(
+            ssoURL,
+            embedConfig.authTriggerContainer,
+            embedConfig.authTriggerText,
+        );
         loggedInStatus = await isLoggedIn(thoughtSpotHost);
         return;
     }
