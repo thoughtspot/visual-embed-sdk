@@ -88,6 +88,13 @@ export const embedConfig: any = {
         password,
         authType: AuthType.None,
     },
+    doCookielessAuth: (token :string) => ({
+        thoughtSpotHost,
+        username,
+        authType: AuthType.TrustedAuthTokenCookieless,
+        getAuthToken: jest.fn(() => Promise.resolve(token)),
+    }),
+
 };
 
 const originalWindow = window;
@@ -453,5 +460,24 @@ describe('Unit test for auth', () => {
 
     it('user is authenticated when loggedInStatus is true', () => {
         expect(authInstance.isAuthenticated()).toBe(authInstance.loggedInStatus);
+    });
+
+    it('doCookielessTokenAuth should resolve to true if valid token is passed', async () => {
+        jest.spyOn(authService, 'fetchAuthTokenService').mockResolvedValueOnce(new Response(JSON.stringify({ token: 'testToken' }), { status: 200 }));
+        jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(new Response('', { status: 200 }));
+        const isLoggedIn = await authInstance.doCookielessTokenAuth(embedConfig.doCookielessAuth('testToken'));
+        expect(isLoggedIn).toBe(true);
+    });
+
+    it('doCookielessTokenAuth should resolve to false if valid token is not passed', async () => {
+        jest.spyOn(authService, 'fetchAuthTokenService').mockResolvedValueOnce(new Response(JSON.stringify({ token: 'testToken' }), { status: 200 }));
+        jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(new Response('', { status: 400 }));
+        const isLoggedIn = await authInstance.doCookielessTokenAuth(embedConfig.doCookielessAuth('testToken'));
+        expect(isLoggedIn).toBe(false);
+    });
+    it('get AuthEE should return proper value', () => {
+        const testObject = { test: 'true' };
+        authInstance.setAuthEE(testObject as any);
+        expect(authInstance.getAuthEE()).toBe(testObject);
     });
 });

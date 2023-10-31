@@ -26,6 +26,23 @@ export function fetchSessionInfoService(authVerificationUrl: string): Promise<an
 }
 
 /**
+ * Service to validate a auth token against a ThoughtSpot host.
+ *
+ * @param thoughtSpotHost : ThoughtSpot host to verify the token against.
+ * @param authToken : Auth token to verify.
+ */
+export function verifyTokenService(thoughtSpotHost: string, authToken: string): Promise<Response> {
+    const authVerificationUrl = `${thoughtSpotHost}${EndPoints.IS_ACTIVE}`;
+    return fetch(authVerificationUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            'x-requested-by': 'ThoughtSpot',
+        },
+        credentials: 'omit',
+    });
+}
+
+/**
  *
  * @param authEndpoint
  */

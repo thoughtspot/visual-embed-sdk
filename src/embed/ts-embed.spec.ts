@@ -473,6 +473,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('Appinit embedEvent in cookieless authentication authType', () => {
         beforeAll(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
@@ -515,6 +516,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('AuthExpire embedEvent in cookieless authentication authType', () => {
         beforeAll(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,

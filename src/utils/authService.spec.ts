@@ -1,9 +1,11 @@
+import { embedConfig } from 'src/auth.spec';
 import {
     fetchSessionInfoService,
     fetchAuthTokenService,
     fetchAuthService,
     fetchBasicAuthService,
     fetchAuthPostService,
+    verifyTokenService,
 } from './authService';
 import { EndPoints } from '../auth';
 
@@ -81,5 +83,17 @@ describe('Unit test for authService', () => {
         }));
         await fetchSessionInfoService(authVerificationUrl);
         expect(global.console.error).toHaveBeenCalledWith('Failure', 'error');
+    });
+
+    test('verifyTokenService', async () => {
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        await verifyTokenService(thoughtSpotHost, authToken);
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
+            credentials: 'omit',
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                'x-requested-by': 'ThoughtSpot',
+            },
+        });
     });
 });
