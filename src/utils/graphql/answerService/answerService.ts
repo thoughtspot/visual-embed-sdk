@@ -211,11 +211,21 @@ function getSelectedPointsForUnderlyingDataQuery(
         const id = colVal.column.id;
         let dataValue;
         if (dataType === 'DATE') {
-            dataValue = [{
-                epochRange: {
-                    startEpoch: colVal.value,
-                },
-            }];
+            if (Number.isFinite(colVal.value)) {
+                dataValue = [{
+                    epochRange: {
+                        startEpoch: colVal.value,
+                    },
+                }];
+                // Case for custom calendar.
+            } else if ((colVal.value as any)?.v) {
+                dataValue = [{
+                    epochRange: {
+                        startEpoch: (colVal.value as any).v.s,
+                        endEpoch: (colVal.value as any).v.e,
+                    },
+                }];
+            }
         } else {
             dataValue = [{ value: colVal.value }];
         }
