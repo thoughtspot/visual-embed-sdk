@@ -3159,6 +3159,17 @@ export enum Action {
      *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     LiveboardUsers = 'liveboardUsers',
+
+    /**
+     * Action ID for VerifiedLiveboard ( Recently Visited / social proof )
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.VerifiedLiveboard]
+     * ```
+     *  @version SDK: 1.28.0 | Thoughtspot: 9.10.0.cl
+     */
+    VerifiedLiveboard = 'verifiedLiveboard',
 }
 
 export interface AnswerServiceType {
