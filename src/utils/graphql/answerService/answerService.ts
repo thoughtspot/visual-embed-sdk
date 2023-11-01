@@ -38,6 +38,7 @@ interface UnderlyingDataPoint {
  * ```
  * @version
  * ThoughtSpot: 9.9.0.cl / SDK: 1.25.0
+ * @group Events
  */
 export class AnswerService {
     constructor(
@@ -97,8 +98,7 @@ export class AnswerService {
     /**
      *
      * @param userLocale
-     * @param omitInfo Omit the download Info on top of the CSV
-     * @param includeInfo
+     * @param includeInfo Include the CSV header in the output
      * @returns Response
      */
     public async fetchCSVBlob(userLocale = 'en-us', includeInfo = false): Promise<Response> {
@@ -108,6 +108,23 @@ export class AnswerService {
         });
     }
 
+    /**
+     * Get underlying data given a point and the output column names.
+     *
+     * @param outputColumnNames
+     * @param selectedPoints
+     * @example
+     * ```js
+     *  embed.on(EmbedEvent.CustomAction, e => {
+     *     const underlying = await e.answerService.getUnderlyingDataForPoint([
+     *       'col name 1' // The column should exist in the data source.
+     *     ]);
+     *     const data = await underlying.fetchData(0, 100);
+     *  })
+     * ```
+     * @version
+     * ThoughtSpot: 9.9.0.cl / SDK: 1.25.0
+     */
     public async getUnderlyingDataForPoint(
         outputColumnNames: string[],
         selectedPoints?: UnderlyingDataPoint[],
