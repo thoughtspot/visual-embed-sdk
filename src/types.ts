@@ -3167,7 +3167,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.VerifiedLiveboard]
      * ```
-     *  @version SDK: 1.28.0 | Thoughtspot: 9.10.0.cl
+     *  @version SDK: 1.29.0 | Thoughtspot: 9.10.0.cl
      */
     VerifiedLiveboard = 'verifiedLiveboard',
 }
