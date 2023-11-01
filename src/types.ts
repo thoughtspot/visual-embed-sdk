@@ -3161,7 +3161,7 @@ export enum Action {
     LiveboardUsers = 'liveboardUsers',
 
     /**
-     * Action ID for VerifiedLiveboard ( Recently Visited / social proof )
+     * Action ID for to hide Verified Liveboard Banner
      *
      *  @example
      * ```js
