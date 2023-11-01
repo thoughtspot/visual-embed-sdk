@@ -3187,7 +3187,12 @@ export interface ColumnValue {
         dataType: string,
         [key: string]: any
     },
-    value: string | number | boolean;
+    value: string | number | boolean | {
+        v: {
+            s: number;
+            e: number;
+        }
+    };
 }
 
 export interface VizPoint {

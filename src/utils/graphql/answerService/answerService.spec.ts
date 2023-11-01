@@ -198,6 +198,18 @@ describe('Answer service tests', () => {
                     dataType: 'DATE',
                 },
                 value: 12345,
+            }, {
+                column: {
+                    id: 'oid4',
+                    name: 'col4',
+                    dataType: 'DATE',
+                },
+                value: {
+                    v: {
+                        s: 12345,
+                        e: 54321,
+                    },
+                },
             }],
             selectedMeasures: [],
         }]);
