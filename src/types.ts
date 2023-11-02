@@ -3159,6 +3159,17 @@ export enum Action {
      *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     LiveboardUsers = 'liveboardUsers',
+
+    /**
+     * Action ID for to hide Verified Liveboard Banner
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.VerifiedLiveboard]
+     * ```
+     *  @version SDK: 1.29.0 | Thoughtspot: 9.10.0.cl
+     */
+    VerifiedLiveboard = 'verifiedLiveboard',
 }
 
 export interface AnswerServiceType {
