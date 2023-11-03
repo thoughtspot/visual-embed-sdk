@@ -54,7 +54,7 @@ export async function getSourceDetail(
     thoughtSpotHost: string,
     sourceId: string,
 ): Promise<any> {
-    if (sourceDetailCache.has(sourceId)) {
+    if (sourceDetailCache.get(sourceId)) {
         return sourceDetailCache.get(sourceId);
     }
     const details = await graphqlQuery({
@@ -66,7 +66,7 @@ export async function getSourceDetail(
     });
 
     const souceDetails = details[0];
-    if (details) {
+    if (souceDetails) {
         sourceDetailCache.set(sourceId, souceDetails);
     }
 
