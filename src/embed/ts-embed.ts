@@ -9,6 +9,7 @@
 
 import isEqual from 'lodash/isEqual';
 
+import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
@@ -398,7 +399,7 @@ export class TsEmbed {
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
         queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
-          ?? true;
+            ?? true;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -473,7 +474,7 @@ export class TsEmbed {
         }
 
         const spriteUrl = customizations?.iconSpriteUrl
-          || this.embedConfig.customizations?.iconSpriteUrl;
+            || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -668,7 +669,7 @@ export class TsEmbed {
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
         this.preRenderWrapper = this.preRenderWrapper
-          || document.getElementById(preRenderIds.wrapper);
+            || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -1072,11 +1073,11 @@ export class TsEmbed {
                 ) {
                     console.warn(
                         `${this.embedComponentType} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
@@ -1193,6 +1194,25 @@ export class TsEmbed {
             wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
             child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
         };
+    }
+
+    /**
+     * Returns the answerService which can be used to make arbitrary graphql calls on top
+     * session.
+     *
+     * @param vizId [Optional] to get for a specific viz in case of a liveboard.
+     * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
+     */
+    public async getAnswerService(vizId?: string): Promise<AnswerService> {
+        const { session, embedAnswerData } = await this.trigger(
+            HostEvent.GetAnswerSession,
+            vizId,
+        );
+        return new AnswerService(
+            session,
+            embedAnswerData,
+            this.embedConfig.thoughtSpotHost,
+        );
     }
 }
 
