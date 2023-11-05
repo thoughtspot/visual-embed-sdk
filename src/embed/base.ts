@@ -260,6 +260,22 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
  * Imports TML representation of the metadata objects into ThoughtSpot.
  *
  * @param data
+ * @example
+ * ```js
+ *   executeTML({
+ * //Array of metadata Tmls
+    metadata_tmls: [
+      "'\''{\"guid\":\"9bd202f5-d431-44bf-9a07-b4f7be372125\",
+      \"liveboard\":{\"name\":\"Parameters Liveboard\"}}'\''"
+    ],
+    import_policy: 'PARTIAL', // Specifies the import policy for the TML import.
+    create_new: false, // If selected, creates TML objects with new GUIDs.
+  }).then(result => {
+    console.log(result);
+  }).catch(error => {
+    console.error(error);
+  });
+ *
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  * @group Global methods
  */
@@ -313,6 +329,29 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
  * format.
  *
  * @param data
+ * @example
+ * ```js
+  exportTML({
+    metadata: [
+      {
+        type: "LIVEBOARD", //Metadata Type
+        identifier: "9bd202f5-d431-44bf-9a07-b4f7be372125" //Metadata Id
+      }
+    ],
+    export_associated: false,//indicates whether to export associated metadata objects
+    export_fqn: false, //Adds FQNs of the referenced objects.For example, if you are
+                       //exporting a Liveboard and its associated objects, the API
+                       //returns the Liveboard TML data with the FQNs of the referenced
+                       //worksheet. If the exported TML data includes FQNs, you don't need
+                       //to manually add FQNs of the referenced objects during TML import.
+    edoc_format: "JSON" //It takes JSON or YAML value
+  }).then(result => {
+    console.log(result);
+  }).catch(error => {
+    console.error(error);
+  });
+ * ```
+ *
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  * @group Global methods
  */
