@@ -88,7 +88,7 @@ export const embedConfig: any = {
         password,
         authType: AuthType.None,
     },
-    doCookielessAuth: (token :string) => ({
+    doCookielessAuth: (token: string) => ({
         thoughtSpotHost,
         username,
         authType: AuthType.TrustedAuthTokenCookieless,
@@ -479,5 +479,37 @@ describe('Unit test for auth', () => {
         const testObject = { test: 'true' };
         authInstance.setAuthEE(testObject as any);
         expect(authInstance.getAuthEE()).toBe(testObject);
+    });
+    it('getSessionDetails returns the correct details given sessionInfo', () => {
+        jest.clearAllMocks();
+        jest.restoreAllMocks();
+
+        const details = authInstance.getSessionDetails({
+            userGUID: '1234',
+            releaseVersion: '1',
+            configInfo: {
+                mixpanelConfig: {
+                    devSdkKey: 'devKey',
+                    prodSdkKey: 'prodKey',
+                    production: false,
+                },
+            },
+        });
+        expect(details).toEqual(expect.objectContaining({
+            mixpanelToken: 'devKey',
+        }));
+
+        const details2 = authInstance.getSessionDetails({
+            configInfo: {
+                mixpanelConfig: {
+                    devSdkKey: 'devKey',
+                    prodSdkKey: 'prodKey',
+                    production: true,
+                },
+            },
+        });
+        expect(details2).toEqual(expect.objectContaining({
+            mixpanelToken: 'prodKey',
+        }));
     });
 });

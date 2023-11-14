@@ -27,6 +27,9 @@ const urlRegex = new RegExp(
  * @param config
  */
 export const getThoughtSpotHost = (config: EmbedConfig): string => {
+    if (!config.thoughtSpotHost) {
+        throw new Error(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST);
+    }
     const urlParts = config.thoughtSpotHost.match(urlRegex);
     if (!urlParts) {
         throw new Error(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST);

@@ -108,12 +108,24 @@ describe('Answer service tests', () => {
         expect(data.data.foo).toBe(1);
     });
 
-    test('fetchCSVBlob should call the right API', async () => {
+    test('fetchCSVBlob should call the right API', () => {
         fetchMock.once('Bla');
         const answerService = createAnswerService();
         answerService.fetchCSVBlob(undefined, true);
         expect(fetchMock).toHaveBeenCalledWith(
             `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data&hideCsvHeader=false`,
+            expect.objectContaining({}),
+        );
+
+        answerService.fetchCSVBlob('en-uk', true);
+        expect(fetchMock).toHaveBeenCalledWith(
+            `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-uk&exportFileName=data&hideCsvHeader=false`,
+            expect.objectContaining({}),
+        );
+
+        answerService.fetchCSVBlob(undefined, false);
+        expect(fetchMock).toHaveBeenCalledWith(
+            `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data&hideCsvHeader=true`,
             expect.objectContaining({}),
         );
     });

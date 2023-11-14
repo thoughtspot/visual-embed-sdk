@@ -18,7 +18,7 @@ describe('getThoughtSpotHost', () => {
             });
         };
 
-        expect(testFn).toThrow(TypeError);
+        expect(testFn).toThrow(Error);
     });
 
     test('IP address/hostname only', () => {
