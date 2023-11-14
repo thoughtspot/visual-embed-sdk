@@ -7,7 +7,7 @@ import { EmbedEvent, AuthType } from '../types';
 describe('Unit test for process data', () => {
     beforeAll(() => {
         base.init({
-            thoughtSpotHost: '',
+            thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
         });
     });
@@ -153,7 +153,7 @@ describe('Unit test for process data', () => {
         base.init({
             loginFailedMessage: 'Hello',
             autoLogin: true,
-            thoughtSpotHost: '',
+            thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
         });
         jest.spyOn(base, 'getEmbedConfig').mockRestore();

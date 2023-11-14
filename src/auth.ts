@@ -216,6 +216,7 @@ export const initSession = (sessionDetails: sessionInfoInterface) => {
 };
 
 export const getSessionDetails = (sessionInfoResp: any): sessionInfoInterface => {
+    console.log('helloooo');
     const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
     const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
     const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production

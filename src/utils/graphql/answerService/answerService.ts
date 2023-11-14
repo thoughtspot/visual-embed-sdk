@@ -102,10 +102,14 @@ export class AnswerService {
      * @returns Response
      */
     public async fetchCSVBlob(userLocale = 'en-us', includeInfo = false): Promise<Response> {
-        const fetchUrl = `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&hideCsvHeader=${!includeInfo}`;
+        const fetchUrl = this.getFetchCSVBlobUrl(userLocale, includeInfo);
         return fetch(fetchUrl, {
             credentials: 'include',
         });
+    }
+
+    public getFetchCSVBlobUrl(userLocale = 'en-us', includeInfo = false): string {
+        return `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&hideCsvHeader=${!includeInfo}`;
     }
 
     /**
