@@ -1442,11 +1442,17 @@ export enum EmbedEvent {
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
-     * Emitten when a user updates a connection in Data tab
+     * Emitted when a user updates a connection in Data tab
      *
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     UpdateConnection = 'updateConnection',
+    /**
+     * Emitted when a user updates a connection in Data tab
+     *
+     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     */
+    CreateConnection = 'createConnection',
     /**
      * Emitted when name, status (private or public) or filter values of a
      * PersonalisedView is updated.
