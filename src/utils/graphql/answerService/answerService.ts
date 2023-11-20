@@ -1,4 +1,4 @@
-import { tokenizedFetch } from 'src/authToken';
+import { tokenizedFetch } from '../../../tokenizedFetch';
 import type { ColumnValue, VizPoint } from '../../../types';
 import { deepMerge, removeTypename } from '../../../utils';
 import { graphqlQuery } from '../graphql-request';
