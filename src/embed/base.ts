@@ -10,6 +10,8 @@
  */
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
+import { getAuthenticationToken } from '../authToken';
+import { EndPoints } from '../utils/authService';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
 import {
@@ -24,8 +26,6 @@ import {
     notifyLogout,
     setAuthEE,
     AuthEventEmitter,
-    EndPoints,
-    getAuthenticationToken,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 
@@ -351,7 +351,6 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
     console.error(error);
   });
  * ```
- *
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  * @group Global methods
  */

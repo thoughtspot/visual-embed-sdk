@@ -1,3 +1,4 @@
+import { tokenizedFetch } from 'src/authToken';
 import type { ColumnValue, VizPoint } from '../../../types';
 import { deepMerge, removeTypename } from '../../../utils';
 import { graphqlQuery } from '../graphql-request';
@@ -103,7 +104,7 @@ export class AnswerService {
      */
     public async fetchCSVBlob(userLocale = 'en-us', includeInfo = false): Promise<Response> {
         const fetchUrl = this.getFetchCSVBlobUrl(userLocale, includeInfo);
-        return fetch(fetchUrl, {
+        return tokenizedFetch(fetchUrl, {
             credentials: 'include',
         });
     }

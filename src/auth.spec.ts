@@ -116,7 +116,7 @@ describe('Unit test for auth', () => {
     });
 
     test('endpoints, SAML_LOGIN_TEMPLATE', () => {
-        const ssoTemplateUrl = authInstance.EndPoints.SAML_LOGIN_TEMPLATE(thoughtSpotHost);
+        const ssoTemplateUrl = authService.EndPoints.SAML_LOGIN_TEMPLATE(thoughtSpotHost);
         expect(ssoTemplateUrl).toBe(`/callosum/v1/saml/login?targetURLPath=${thoughtSpotHost}`);
     });
 

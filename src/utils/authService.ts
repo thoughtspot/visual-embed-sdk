@@ -1,5 +1,14 @@
-// eslint-disable-next-line import/no-cycle
-import { EndPoints } from '../auth';
+export const EndPoints = {
+    AUTH_VERIFICATION: '/callosum/v1/session/info',
+    SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
+    OIDC_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
+    TOKEN_LOGIN: '/callosum/v1/session/login/token',
+    BASIC_LOGIN: '/callosum/v1/session/login',
+    LOGOUT: '/callosum/v1/session/logout',
+    EXECUTE_TML: '/api/rest/2.0/metadata/tml/import',
+    EXPORT_TML: '/api/rest/2.0/metadata/tml/export',
+    IS_ACTIVE: '/callosum/v1/session/isactive',
+};
 
 /**
  *
@@ -31,15 +40,25 @@ export function fetchSessionInfoService(authVerificationUrl: string): Promise<an
  * @param thoughtSpotHost : ThoughtSpot host to verify the token against.
  * @param authToken : Auth token to verify.
  */
-export function verifyTokenService(thoughtSpotHost: string, authToken: string): Promise<Response> {
+export async function verifyTokenService(
+    thoughtSpotHost: string,
+    authToken: string,
+): Promise<boolean> {
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.IS_ACTIVE}`;
-    return fetch(authVerificationUrl, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-            'x-requested-by': 'ThoughtSpot',
-        },
-        credentials: 'omit',
-    });
+    try {
+        const res = await fetch(authVerificationUrl, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                'x-requested-by': 'ThoughtSpot',
+            },
+            credentials: 'omit',
+        });
+        return res.ok;
+    } catch (e) {
+        console.error(`Token Verification Service failed : ${e.message}`);
+    }
+
+    return false;
 }
 
 /**

@@ -1,0 +1,54 @@
+import { EmbedConfig } from './types';
+import { fetchAuthTokenService, verifyTokenService } from './utils/authService';
+
+const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
+    + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
+
+const INVALID_TOKEN_ERR = 'Invalid token received form token callback or authToken endpoint.';
+
+let cachedAuthToken : string | null = null;
+
+// This method can be used to get the authToken using the embedConfig
+export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<any> => {
+    if (cachedAuthToken) {
+        try {
+            const isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken);
+            if (isCachedTokenStillValid) return cachedAuthToken;
+        } catch {
+            // Continue to get a new token if validation fails
+        }
+    }
+
+    const { authEndpoint, getAuthToken } = embedConfig;
+
+    let authToken = null;
+    if (getAuthToken) {
+        authToken = await getAuthToken();
+    } else {
+        const response = await fetchAuthTokenService(authEndpoint);
+        authToken = await response.text();
+    }
+
+    // this will throw error if the token is not valid
+    await validateAuthToken(embedConfig, authToken);
+
+    cachedAuthToken = authToken;
+    return authToken;
+};
+
+const validateAuthToken = async (embedConfig :EmbedConfig, authToken: string): Promise<boolean> => {
+    try {
+        const isTokenValid = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
+        if (isTokenValid) return true;
+
+        if (cachedAuthToken === authToken) {
+            // eslint-disable-next-line no-alert
+            alert(DUPLICATE_TOKEN_ERR);
+            throw new Error(DUPLICATE_TOKEN_ERR);
+        } else {
+            throw new Error(INVALID_TOKEN_ERR);
+        }
+    } catch {
+        return false;
+    }
+};
