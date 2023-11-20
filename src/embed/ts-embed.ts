@@ -9,6 +9,7 @@
 
 import isEqual from 'lodash/isEqual';
 
+import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
@@ -61,7 +62,7 @@ import {
     handleAuth,
     notifyAuthFailure,
 } from './base';
-import { AuthFailureType, getAuthenticationToken } from '../auth';
+import { AuthFailureType } from '../auth';
 
 const { version } = pkgInfo;
 
