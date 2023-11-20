@@ -12,7 +12,7 @@ import {
     fetchAuthPostService,
     EndPoints,
 } from './utils/authService';
-import { getAuthenticationToken } from './authToken';
+import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -472,7 +472,8 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
 
 export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
-    const response = await fetchLogoutService(thoughtSpotHost);
+    await fetchLogoutService(thoughtSpotHost);
+    resetCachedAuthToken();
     loggedInStatus = false;
     return loggedInStatus;
 };

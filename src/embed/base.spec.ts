@@ -3,6 +3,8 @@
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
+import * as authService from '../utils/authService';
+import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
 import {
@@ -10,7 +12,6 @@ import {
     getAllIframeEl,
     getDocumentBody,
     getRootEl,
-    getRootEl2,
     getIFrameSrc,
 } from '../test/test-utils';
 
@@ -107,7 +108,7 @@ describe('Base TS Embed', () => {
         };
         await index.executeTML(data);
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.EXECUTE_TML}`,
             {
                 credentials: 'include',
                 headers: {
@@ -132,7 +133,7 @@ describe('Base TS Embed', () => {
             autoLogin: true,
         });
         const embedConfig = base.getEmbedConfig();
-        const authToken = await auth.getAuthenticationToken(embedConfig);
+        const authToken = await authTokenService.getAuthenticationToken(embedConfig);
         const data: base.executeTMLInput = {
             metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'],
             import_policy: 'PARTIAL',
@@ -140,7 +141,7 @@ describe('Base TS Embed', () => {
         };
         await index.executeTML(data);
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.EXECUTE_TML}`,
             {
                 credentials: 'include',
                 headers: expect.objectContaining({
@@ -210,7 +211,7 @@ describe('Base TS Embed', () => {
         };
         await index.exportTML(data);
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXPORT_TML}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.EXPORT_TML}`,
             {
                 credentials: 'include',
                 headers: {
@@ -351,7 +352,7 @@ describe('Base TS Embed', () => {
         });
         index.logout();
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.LOGOUT}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.LOGOUT}`,
             {
                 credentials: 'include',
                 headers: {

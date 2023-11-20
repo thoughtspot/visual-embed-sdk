@@ -2,6 +2,7 @@ import 'jest-fetch-mock';
 import { VizPoint } from 'src/types';
 import { AnswerService } from './answerService';
 import { getAnswerData, removeColumns } from './answer-queries';
+import * as baseInstance from '../../../embed/base';
 
 const defaultSession = {
     sessionId: 'id',
@@ -111,6 +112,7 @@ describe('Answer service tests', () => {
     test('fetchCSVBlob should call the right API', () => {
         fetchMock.once('Bla');
         const answerService = createAnswerService();
+
         answerService.fetchCSVBlob(undefined, true);
         expect(fetchMock).toHaveBeenCalledWith(
             `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data&hideCsvHeader=false`,

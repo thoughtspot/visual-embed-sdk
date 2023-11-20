@@ -41,7 +41,7 @@ const validateAuthToken = async (embedConfig :EmbedConfig, authToken: string): P
         const isTokenValid = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (isTokenValid) return true;
 
-        if (cachedAuthToken === authToken) {
+        if (cachedAuthToken && cachedAuthToken === authToken) {
             // eslint-disable-next-line no-alert
             alert(DUPLICATE_TOKEN_ERR);
             throw new Error(DUPLICATE_TOKEN_ERR);
@@ -51,4 +51,8 @@ const validateAuthToken = async (embedConfig :EmbedConfig, authToken: string): P
     } catch {
         return false;
     }
+};
+
+export const resetCachedAuthToken = (): void => {
+    cachedAuthToken = null;
 };
