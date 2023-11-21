@@ -15,7 +15,7 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 };
 
 /**
- * Post Iframe message.
+ * Post iframe message.
  *
  * @param iFrame
  * @param message

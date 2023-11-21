@@ -85,8 +85,8 @@ export enum AuthStatus {
      */
     LOGOUT = 'LOGOUT',
     /**
-     * Emitted when inPopup: true in the SAMLRedirect flow.
-     * And, we are waiting for popup to be triggered either programatically
+     * Emitted when inPopup is true in the SAMLRedirect flow and the
+     * popup is waiting to be triggered either programmatically
      * or by the trigger button.
      *
      * @version SDK: 1.19.0
@@ -139,8 +139,8 @@ export interface AuthEventEmitter {
  */
 export enum AuthEvent {
     /**
-     * Manually trigger the SSO popup. This is useful with
-     * authStatus: SAMLRedirect/OIDCRedicre and inPopup: true
+     * Manually trigger the SSO popup. This is useful when
+     * authStatus is SAMLRedirect/OIDCRedirect and inPopup is set to true
      */
     TRIGGER_SSO_POPUP = 'TRIGGER_SSO_POPUP',
 }
