@@ -36,7 +36,7 @@ export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<
     return authToken;
 };
 
-const validateAuthToken = async (embedConfig :EmbedConfig, authToken: string): Promise<boolean> => {
+const validateAuthToken = async (embedConfig: EmbedConfig, authToken: string): Promise<boolean> => {
     try {
         const isTokenValid = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (isTokenValid) return true;
@@ -45,8 +45,10 @@ const validateAuthToken = async (embedConfig :EmbedConfig, authToken: string): P
     }
 
     if (cachedAuthToken && cachedAuthToken === authToken) {
-        // eslint-disable-next-line no-alert
-        alert(DUPLICATE_TOKEN_ERR);
+        if (!embedConfig.suppressErrorAlerts) {
+            // eslint-disable-next-line no-alert
+            alert(DUPLICATE_TOKEN_ERR);
+        }
         throw new Error(DUPLICATE_TOKEN_ERR);
     } else {
         throw new Error(INVALID_TOKEN_ERR);

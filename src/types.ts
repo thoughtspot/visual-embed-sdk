@@ -530,6 +530,11 @@ export interface EmbedConfig {
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl
      */
     pendoTrackingKey?: string;
+
+    /**
+     * If passed as true all alerts will be suppressed in the embedded app.
+     */
+    suppressErrorAlerts?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

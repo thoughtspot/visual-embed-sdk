@@ -269,7 +269,8 @@ export class SearchEmbed extends TsEmbed {
             if (
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
-                    getEmbedConfig().suppressSearchEmbedBetaWarning,
+                    getEmbedConfig().suppressSearchEmbedBetaWarning
+                     || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);
