@@ -12,7 +12,11 @@ let cachedAuthToken: string | null = null;
 export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<string> => {
     if (cachedAuthToken) {
         try {
-            const isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken);
+            const isCachedTokenStillValid = await validateAuthToken(
+                embedConfig,
+                cachedAuthToken,
+                true,
+            );
             if (isCachedTokenStillValid) return cachedAuthToken;
         } catch {
             // Continue to get a new token if validation fails
@@ -36,7 +40,11 @@ export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<
     return authToken;
 };
 
-const validateAuthToken = async (embedConfig: EmbedConfig, authToken: string): Promise<boolean> => {
+const validateAuthToken = async (
+    embedConfig: EmbedConfig,
+    authToken: string,
+    suppressAlert?: boolean,
+): Promise<boolean> => {
     try {
         const isTokenValid = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (isTokenValid) return true;
@@ -45,7 +53,7 @@ const validateAuthToken = async (embedConfig: EmbedConfig, authToken: string): P
     }
 
     if (cachedAuthToken && cachedAuthToken === authToken) {
-        if (!embedConfig.suppressErrorAlerts) {
+        if (!embedConfig.suppressErrorAlerts && !suppressAlert) {
             // eslint-disable-next-line no-alert
             alert(DUPLICATE_TOKEN_ERR);
         }
