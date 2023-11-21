@@ -10,7 +10,8 @@
  */
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
-import { getAuthenticationToken } from '../authToken';
+// eslint-disable-next-line import/no-cycle
+import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
@@ -286,26 +287,18 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
     } catch (err) {
         return Promise.reject(err);
     }
-    let authToken = '';
-    if (authType === AuthType.TrustedAuthTokenCookieless) {
-        authToken = await getAuthenticationToken(config);
-    }
 
     const headers: Record<string, string | undefined> = {
         'Content-Type': 'application/json',
         'x-requested-by': 'ThoughtSpot',
     };
 
-    if (authToken) {
-        headers.Authorization = `Bearer ${authToken}`;
-    }
-
     const payload = {
         metadata_tmls: data.metadata_tmls,
         import_policy: data.import_policy || 'PARTIAL',
         create_new: data.create_new || false,
     };
-    return fetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
+    return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload),
@@ -368,21 +361,12 @@ export const exportTML = async (data: exportTMLInput): Promise<any> => {
         edoc_format: data.edoc_format || 'YAML',
     };
 
-    let authToken = '';
-    if (authType === AuthType.TrustedAuthTokenCookieless) {
-        authToken = await getAuthenticationToken(config);
-    }
-
     const headers: Record<string, string | undefined> = {
         'Content-Type': 'application/json',
         'x-requested-by': 'ThoughtSpot',
     };
 
-    if (authToken) {
-        headers.Authorization = `Bearer ${authToken}`;
-    }
-
-    return fetch(`${thoughtSpotHost}${EndPoints.EXPORT_TML}`, {
+    return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXPORT_TML}`, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload),

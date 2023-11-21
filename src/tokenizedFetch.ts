@@ -1,4 +1,5 @@
 import { getAuthenticationToken } from './authToken';
+// eslint-disable-next-line import/no-cycle
 import { getEmbedConfig } from './embed/base';
 import { AuthType } from './types';
 
