@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-cycle
+import { tokenizedFetch } from 'src/tokenizedFetch';
+
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
     SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
@@ -26,10 +29,24 @@ function failureLoggedFetch(url: string, options: RequestInit = {}): Promise<Res
 
 /**
  *
+ * @param url
+ * @param options
+ */
+function failureLoggedTokenizedFetch(url: string, options: RequestInit = {}): Promise<Response> {
+    return tokenizedFetch(url, options).then(async (r) => {
+        if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
+            console.error('Failure', await r.text?.());
+        }
+        return r;
+    });
+}
+
+/**
+ *
  * @param authVerificationUrl
  */
 export function fetchSessionInfoService(authVerificationUrl: string): Promise<any> {
-    return failureLoggedFetch(authVerificationUrl, {
+    return failureLoggedTokenizedFetch(authVerificationUrl, {
         credentials: 'include',
     });
 }
@@ -145,7 +162,7 @@ export async function fetchBasicAuthService(
  * @param thoughtSpotHost
  */
 export async function fetchLogoutService(thoughtSpotHost: string): Promise<any> {
-    return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
+    return failureLoggedTokenizedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
         credentials: 'include',
         method: 'POST',
         headers: {
