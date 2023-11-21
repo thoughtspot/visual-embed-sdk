@@ -1,4 +1,5 @@
 /* eslint-disable dot-notation */
+import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
     init,
@@ -34,6 +35,7 @@ import * as mixpanelInstance from '../mixpanel-service';
 import * as authInstance from '../auth';
 import * as baseInstance from './base';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
+import * as authService from '../utils/authService';
 
 const defaultViewConfig = {
     frameParams: {
@@ -89,8 +91,51 @@ describe('Unit test case for ts embed', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
+        resetCachedAuthToken();
     });
 
+    describe('AuthExpire embedEvent in cookieless authentication authType', () => {
+        beforeAll(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+            });
+        });
+
+        test('check for new authToken based on getAuthToken function', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(baseInstance.handleAuth).not.toHaveBeenCalled();
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test_auth_token2' },
+                });
+            });
+        });
+    });
     describe('Called Embed event status for start and end', () => {
         beforeAll(() => {
             init({
@@ -483,7 +528,15 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        afterEach(() => {
+            baseInstance.reset();
+        });
+
         test('check for authToken based on getAuthToken function', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -511,47 +564,8 @@ describe('Unit test case for ts embed', () => {
                     },
                 });
             });
-        });
-    });
 
-    describe('AuthExpire embedEvent in cookieless authentication authType', () => {
-        beforeAll(() => {
-            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
-            init({
-                thoughtSpotHost: 'tshost',
-                customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
-                authType: AuthType.TrustedAuthTokenCookieless,
-                getAuthToken: () => Promise.resolve('test_auth_token2'),
-            });
-        });
-
-        test('check for new authToken based on getAuthToken function', async () => {
-            const mockEmbedEventPayload = {
-                type: EmbedEvent.AuthExpire,
-                data: {},
-            };
-            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-            jest.spyOn(baseInstance, 'notifyAuthFailure');
-            jest.spyOn(baseInstance, 'handleAuth');
-            searchEmbed.render();
-            const mockPort: any = {
-                postMessage: jest.fn(),
-            };
-            await executeAfterWait(() => {
-                const iframe = getIFrameEl();
-                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-            });
-            await executeAfterWait(() => {
-                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
-                    authInstance.AuthFailureType.EXPIRY,
-                );
-                expect(baseInstance.handleAuth).not.toHaveBeenCalled();
-                expect(mockPort.postMessage).toHaveBeenCalledWith({
-                    type: EmbedEvent.AuthExpire,
-                    data: { authToken: 'test_auth_token2' },
-                });
-            });
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
         });
     });
 

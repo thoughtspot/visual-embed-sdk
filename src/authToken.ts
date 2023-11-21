@@ -6,10 +6,10 @@ const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every tim
 
 const INVALID_TOKEN_ERR = 'Invalid token received form token callback or authToken endpoint.';
 
-let cachedAuthToken : string | null = null;
+let cachedAuthToken: string | null = null;
 
 // This method can be used to get the authToken using the embedConfig
-export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<any> => {
+export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<string> => {
     if (cachedAuthToken) {
         try {
             const isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken);
