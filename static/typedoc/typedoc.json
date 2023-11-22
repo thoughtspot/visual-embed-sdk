@@ -10442,7 +10442,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search-bar.tsx",
-							"line": 60,
+							"line": 76,
 							"character": 4
 						}
 					],
@@ -11137,7 +11137,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search-bar.tsx",
-							"line": 117,
+							"line": 133,
 							"character": 11
 						}
 					],
@@ -11364,7 +11364,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search-bar.tsx",
-					"line": 52,
+					"line": 68,
 					"character": 13
 				}
 			],
@@ -20282,12 +20282,19 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Configuration for search options"
+						"shortText": "Configuration for search options.\nIncludes the following properties:",
+						"text": " `searchTokenString`: Search tokens to pass in the query.\n\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchOptions: {\n   searchTokenString: '[quantity purchased] [region]',\n   executeSearch: true,\n}\n```\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/search-bar.tsx",
-							"line": 43,
+							"line": 59,
 							"character": 4
 						}
 					],
