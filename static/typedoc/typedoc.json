@@ -11400,7 +11400,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 167,
+							"line": 168,
 							"character": 4
 						}
 					],
@@ -12096,7 +12096,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 276,
+							"line": 277,
 							"character": 11
 						}
 					],
@@ -12323,7 +12323,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 159,
+					"line": 160,
 					"character": 13
 				}
 			],
@@ -20556,7 +20556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 123,
+							"line": 124,
 							"character": 4
 						}
 					],
@@ -20579,7 +20579,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 75,
+							"line": 62,
 							"character": 4
 						}
 					],
@@ -20684,7 +20684,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 137,
+							"line": 138,
 							"character": 4
 						}
 					],
@@ -20713,7 +20713,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 109,
+							"line": 96,
 							"character": 4
 						}
 					],
@@ -20742,7 +20742,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 103,
+							"line": 90,
 							"character": 4
 						}
 					],
@@ -20875,7 +20875,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 91,
+							"line": 78,
 							"character": 4
 						}
 					],
@@ -20898,7 +20898,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 96,
+							"line": 83,
 							"character": 4
 						}
 					],
@@ -20990,7 +20990,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 79,
+							"line": 66,
 							"character": 4
 						}
 					],
@@ -21013,7 +21013,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 85,
+							"line": 72,
 							"character": 4
 						}
 					],
@@ -21042,7 +21042,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 130,
+							"line": 131,
 							"character": 4
 						}
 					],
@@ -21258,12 +21258,18 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Configuration for search options"
+						"shortText": "Configuration for search options.\nIncludes the following properties:\n `searchTokenString`: Search tokens to pass in the query.\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchOptions: {\n   searchTokenString: '[quantity purchased] [region]',\n   executeSearch: true,\n}\n```\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 119,
+							"line": 120,
 							"character": 4
 						}
 					],
@@ -21292,7 +21298,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 115,
+							"line": 102,
 							"character": 4
 						}
 					],
@@ -21354,7 +21360,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 143,
+							"line": 144,
 							"character": 4
 						}
 					],
@@ -21446,7 +21452,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 66,
+					"line": 53,
 					"character": 17
 				}
 			],
