@@ -11400,7 +11400,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 168,
+							"line": 170,
 							"character": 4
 						}
 					],
@@ -12096,7 +12096,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 277,
+							"line": 279,
 							"character": 11
 						}
 					],
@@ -12323,7 +12323,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 160,
+					"line": 162,
 					"character": 13
 				}
 			],
@@ -20556,7 +20556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 124,
+							"line": 126,
 							"character": 4
 						}
 					],
@@ -20684,7 +20684,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 138,
+							"line": 140,
 							"character": 4
 						}
 					],
@@ -21042,7 +21042,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 131,
+							"line": 133,
 							"character": 4
 						}
 					],
@@ -21258,7 +21258,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Configuration for search options.\nIncludes the following properties:\n `searchTokenString`: Search tokens to pass in the query.\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.",
+						"shortText": "Configuration for search options.\nIncludes the following properties:",
+						"text": " `searchTokenString`: Search tokens to pass in the query.\n\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -21269,7 +21270,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 120,
+							"line": 122,
 							"character": 4
 						}
 					],
@@ -21360,7 +21361,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 144,
+							"line": 146,
 							"character": 4
 						}
 					],
