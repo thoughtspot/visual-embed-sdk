@@ -1,5 +1,5 @@
 import { EmbedConfig } from './types';
-import { fetchAuthTokenService, verifyTokenService } from './utils/authService';
+import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
 
 const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
     + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
