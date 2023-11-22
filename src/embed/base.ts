@@ -10,9 +10,8 @@
  */
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
-// eslint-disable-next-line import/no-cycle
 import { tokenizedFetch } from '../tokenizedFetch';
-import { EndPoints } from '../utils/authService';
+import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
 import {
@@ -29,8 +28,8 @@ import {
     AuthEventEmitter,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 
-let config = {} as EmbedConfig;
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
     authTriggerText: 'Authorize',
@@ -54,14 +53,6 @@ export interface exportTMLInput {
 }
 
 export let authPromise: Promise<boolean>;
-/**
- * Gets the configuration embed was initialized with.
- *
- * @returns {@link EmbedConfig} The configuration embed was initialized with.
- * @version SDK: 1.19.0 | ThoughtSpot: *
- * @group Global methods
- */
-export const getEmbedConfig = (): EmbedConfig => config;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
@@ -73,7 +64,7 @@ export {
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
-    authPromise = authenticate(config);
+    authPromise = authenticate(getEmbedConfig());
     authPromise.then(
         (isLoggedIn) => {
             if (!isLoggedIn) {
@@ -112,7 +103,7 @@ export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): v
         console.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
-        let hostUrl = url || config.thoughtSpotHost;
+        let hostUrl = url || getEmbedConfig().thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
         uniq(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
             (prefetchUrl, index) => {
@@ -183,17 +174,18 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
-    config = {
-        ...CONFIG_DEFAULTS,
-        ...embedConfig,
-        thoughtSpotHost: getThoughtSpotHost(embedConfig),
-    };
-    config = backwardCompat(config);
+    setEmbedConfig(
+        backwardCompat({
+            ...CONFIG_DEFAULTS,
+            ...embedConfig,
+            thoughtSpotHost: getThoughtSpotHost(embedConfig),
+        }),
+    );
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
 
-    const { password, ...configToTrack } = config;
+    const { password, ...configToTrack } = getEmbedConfig();
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         ...configToTrack,
         usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
@@ -204,8 +196,8 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
     });
 
-    if (config.callPrefetch) {
-        prefetch(config.thoughtSpotHost);
+    if (getEmbedConfig().callPrefetch) {
+        prefetch(getEmbedConfig().thoughtSpotHost);
     }
     return authEE as AuthEventEmitter;
 };
@@ -214,7 +206,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
  *
  */
 export function disableAutoLogin(): void {
-    config.autoLogin = false;
+    getEmbedConfig().autoLogin = false;
 }
 
 /**
@@ -233,7 +225,7 @@ export const logout = (doNotDisableAutoLogin = false): Promise<boolean> => {
     if (!doNotDisableAutoLogin) {
         disableAutoLogin();
     }
-    return _logout(config).then((isLoggedIn) => {
+    return _logout(getEmbedConfig()).then((isLoggedIn) => {
         notifyLogout();
         return isLoggedIn;
     });
@@ -248,13 +240,13 @@ let renderQueue: Promise<any> = Promise.resolve();
  * @param fn The function being registered
  */
 export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>): Promise<any> => {
-    const { queueMultiRenders = false } = config;
+    const { queueMultiRenders = false } = getEmbedConfig();
     if (queueMultiRenders) {
         renderQueue = renderQueue.then(() => new Promise((res) => fn(res)));
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 /**
@@ -281,13 +273,13 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
  * @group Global methods
  */
 export const executeTML = async (data: executeTMLInput): Promise<any> => {
-    const { thoughtSpotHost, authType } = config;
     try {
-        sanity(config);
+        sanity(getEmbedConfig());
     } catch (err) {
         return Promise.reject(err);
     }
 
+    const { thoughtSpotHost, authType } = getEmbedConfig();
     const headers: Record<string, string | undefined> = {
         'Content-Type': 'application/json',
         'x-requested-by': 'ThoughtSpot',
@@ -348,9 +340,9 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
  * @group Global methods
  */
 export const exportTML = async (data: exportTMLInput): Promise<any> => {
-    const { thoughtSpotHost, authType } = config;
+    const { thoughtSpotHost, authType } = getEmbedConfig();
     try {
-        sanity(config);
+        sanity(getEmbedConfig());
     } catch (err) {
         return Promise.reject(err);
     }
@@ -390,7 +382,7 @@ export const exportTML = async (data: exportTMLInput): Promise<any> => {
  *
  */
 export function reset(): void {
-    config = {} as any;
+    setEmbedConfig({} as any);
     setAuthEE(null);
     authPromise = null;
 }

@@ -95,7 +95,6 @@ export const embedConfig: any = {
         authType: AuthType.TrustedAuthTokenCookieless,
         getAuthToken: jest.fn(() => Promise.resolve(token)),
     }),
-
 };
 
 const originalWindow = window;
@@ -153,17 +152,13 @@ describe('Unit test for auth', () => {
     });
 
     test('doTokenAuth: when user is loggedIn', async () => {
-        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
-            async () => ({
-                json: () => mockSessionInfo,
-                status: 200,
-            }),
-        );
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(async () => ({
+            json: () => mockSessionInfo,
+            status: 200,
+        }));
         jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
         jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
-        await authInstance.doTokenAuth(
-            embedConfig.doTokenAuthSuccess('authToken'),
-        );
+        await authInstance.doTokenAuth(embedConfig.doTokenAuthSuccess('authToken'));
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authInstance.loggedInStatus).toBe(true);
     });
@@ -198,7 +193,11 @@ describe('Unit test for auth', () => {
         await executeAfterWait(() => {
             expect(authInstance.loggedInStatus).toBe(true);
             expect(authService.fetchSessionInfoService).toBeCalled();
-            expect(authService.fetchAuthService).toBeCalledWith(thoughtSpotHost, username, 'authToken2');
+            expect(authService.fetchAuthService).toBeCalledWith(
+                thoughtSpotHost,
+                username,
+                'authToken2',
+            );
         });
     });
 
@@ -287,16 +286,10 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn', async () => {
-            spyOn(
-                checkReleaseVersionInBetaInstance,
-                'checkReleaseVersionInBeta',
-            );
+            spyOn(checkReleaseVersionInBetaInstance, 'checkReleaseVersionInBeta');
             jest.spyOn(authInstance, 'getSessionDetails').mockReturnValue(mockSessionInfo);
             jest.spyOn(authInstance, 'initSession').mockReturnValue(null);
-            jest.spyOn(
-                authService,
-                'fetchSessionInfoService',
-            ).mockImplementation(async () => ({
+            jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(async () => ({
                 json: () => mockSessionInfo,
                 status: 200,
             }));
@@ -473,14 +466,18 @@ describe('Unit test for auth', () => {
     });
 
     it('doCookielessTokenAuth should resolve to true if valid token is passed', async () => {
-        jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(new Response('', { status: 200 }));
-        const isLoggedIn = await authInstance.doCookielessTokenAuth(embedConfig.doCookielessAuth('testToken'));
+        jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+        const isLoggedIn = await authInstance.doCookielessTokenAuth(
+            embedConfig.doCookielessAuth('testToken'),
+        );
         expect(isLoggedIn).toBe(true);
     });
 
     it('doCookielessTokenAuth should resolve to false if valid token is not passed', async () => {
         jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(false);
-        const isLoggedIn = await authInstance.doCookielessTokenAuth(embedConfig.doCookielessAuth('testToken'));
+        const isLoggedIn = await authInstance.doCookielessTokenAuth(
+            embedConfig.doCookielessAuth('testToken'),
+        );
         expect(isLoggedIn).toBe(false);
     });
     it('get AuthEE should return proper value', () => {
@@ -503,9 +500,11 @@ describe('Unit test for auth', () => {
                 },
             },
         });
-        expect(details).toEqual(expect.objectContaining({
-            mixpanelToken: 'devKey',
-        }));
+        expect(details).toEqual(
+            expect.objectContaining({
+                mixpanelToken: 'devKey',
+            }),
+        );
 
         const details2 = authInstance.getSessionDetails({
             configInfo: {
@@ -516,8 +515,10 @@ describe('Unit test for auth', () => {
                 },
             },
         });
-        expect(details2).toEqual(expect.objectContaining({
-            mixpanelToken: 'prodKey',
-        }));
+        expect(details2).toEqual(
+            expect.objectContaining({
+                mixpanelToken: 'prodKey',
+            }),
+        );
     });
 });

@@ -6,7 +6,7 @@ import {
     fetchAuthPostService,
     verifyTokenService,
     EndPoints,
-} from './authService';
+} from '.';
 
 const thoughtSpotHost = 'http://10.79.135.124:3000';
 

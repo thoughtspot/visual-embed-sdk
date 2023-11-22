@@ -2,9 +2,9 @@ import 'jest-fetch-mock';
 import { AuthType, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
 import { getAnswerData, removeColumns } from './answer-queries';
-import * as baseInstance from '../../../embed/base';
 import * as authTokenInstance from '../../../authToken';
 import * as tokenizedFetch from '../../../tokenizedFetch';
+import * as embedConfigInstance from '../../../embed/embedConfig';
 
 const defaultSession = {
     sessionId: 'id',
@@ -119,7 +119,7 @@ describe('Answer service tests', () => {
             thougthspotHost: '/test',
             authType: AuthType.TrustedAuthTokenCookieless,
         };
-        jest.spyOn(baseInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
         jest.spyOn(authTokenInstance, 'getAuthenticationToken').mockReturnValueOnce(Promise.resolve('token'));
         const mockTokenizedFetch = jest.spyOn(tokenizedFetch, 'tokenizedFetch');
         answerService.fetchCSVBlob(undefined, true);

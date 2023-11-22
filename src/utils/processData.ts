@@ -1,6 +1,6 @@
+import { getEmbedConfig } from '../embed/embedConfig';
 import {
     disableAutoLogin,
-    getEmbedConfig,
     notifyAuthFailure,
     notifyAuthSuccess,
     notifyLogout,

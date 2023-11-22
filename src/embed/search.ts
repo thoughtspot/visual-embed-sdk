@@ -8,12 +8,7 @@
  */
 
 import {
-    DataSourceVisualMode,
-    DOMSelector,
-    Param,
-    Action,
-    ViewConfig,
-    RuntimeFilter,
+    DataSourceVisualMode, DOMSelector, Param, Action, ViewConfig,
 } from '../types';
 import {
     getQueryParamString,
@@ -22,10 +17,10 @@ import {
     getRuntimeParameters,
 } from '../utils';
 import { TsEmbed } from './ts-embed';
-import { version } from '../../package.json';
 import { ERROR_MESSAGE } from '../errors';
-import { getAuthPromise, getEmbedConfig } from './base';
+import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
+import { getEmbedConfig } from './embedConfig';
 
 /**
  * Configuration for search options
@@ -52,7 +47,11 @@ export interface SearchOptions {
 export interface SearchViewConfig
     extends Omit<
         ViewConfig,
-        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs' | 'reorderedHomepageModules'
+        | 'hiddenHomepageModules'
+        | 'hiddenHomeLeftNavItems'
+        | 'hiddenTabs'
+        | 'visibleTabs'
+        | 'reorderedHomepageModules'
     > {
     /**
      * If set to true, the data sources panel is collapsed on load,
@@ -270,7 +269,7 @@ export class SearchEmbed extends TsEmbed {
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
                     getEmbedConfig().suppressSearchEmbedBetaWarning
-                     || getEmbedConfig().suppressErrorAlerts,
+                        || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);

@@ -1,14 +1,15 @@
 import { getAuthenticationToken } from './authToken';
-// eslint-disable-next-line import/no-cycle
-import { getEmbedConfig } from './embed/base';
+import { getEmbedConfig } from './embed/embedConfig';
+
 import { AuthType } from './types';
 
-export const tokenizedFetch: typeof fetch = async (input, init) : Promise<Response> => {
-    const req = new Request(input, init);
+export const tokenizedFetch: typeof fetch = async (input, init): Promise<Response> => {
     const embedConfig = getEmbedConfig();
     if (embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) {
-        return fetch(req);
+        return fetch(input, init);
     }
+
+    const req = new Request(input, init);
     const authToken = await getAuthenticationToken(embedConfig);
     if (authToken) {
         req.headers.append('Authorization', `Bearer ${authToken}`);
