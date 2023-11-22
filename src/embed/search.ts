@@ -28,18 +28,32 @@ import { getAuthPromise, getEmbedConfig } from './base';
 import { getReleaseVersion } from '../auth';
 
 /**
- * Configuration for search options
+ * Configuration for search options.
+ * Includes the following properties:
+ * `searchTokenString`: Search tokens to pass in the query.
+ * `executeSearch`: Boolean to define if the search should be executed or not.
+ * If it is executed, the focus is placed on the results.
+ * If it’s not executed, the focus is placed at the end of
+ * the token string in the search bar.
+ *
+ * @example
+ * ```js
+ * searchOptions: {
+ *    searchTokenString: '[quantity purchased] [region]',
+ *    executeSearch: true,
+ * }
+ * ```
  */
 export interface SearchOptions {
     /**
-     * The tml string to load the answer
+     * Search tokens to pass in the query.
      */
     searchTokenString: string;
     /**
-     * Boolean to determine if the search should be executed or not.
-     * if it is executed, put the focus on the results.
-     * if it’s not executed, put the focus in the search bar - at the end of
-     * the tokens
+     * Boolean to define if the search should be executed or not.
+     * If it is executed, the focus is placed on the results.
+     * If it’s not executed, the focus is placed at the end of
+     * the token string in the search bar.
      */
     executeSearch?: boolean;
 }
@@ -82,7 +96,7 @@ export interface SearchViewConfig
     forceTable?: boolean;
     /**
      * The array of data source GUIDs to set on load.
-     * Only a single dataSource supported currently.
+     * Only a single data source is supported currently.
      *
      * @deprecated Use dataSource instead
      */

@@ -11400,7 +11400,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 153,
+							"line": 167,
 							"character": 4
 						}
 					],
@@ -12096,7 +12096,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 262,
+							"line": 276,
 							"character": 11
 						}
 					],
@@ -12323,7 +12323,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 145,
+					"line": 159,
 					"character": 13
 				}
 			],
@@ -20556,7 +20556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 109,
+							"line": 123,
 							"character": 4
 						}
 					],
@@ -20579,7 +20579,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 61,
+							"line": 75,
 							"character": 4
 						}
 					],
@@ -20684,7 +20684,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 123,
+							"line": 137,
 							"character": 4
 						}
 					],
@@ -20713,7 +20713,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 95,
+							"line": 109,
 							"character": 4
 						}
 					],
@@ -20731,7 +20731,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The array of data source GUIDs to set on load.\nOnly a single dataSource supported currently.",
+						"shortText": "The array of data source GUIDs to set on load.\nOnly a single data source is supported currently.",
 						"tags": [
 							{
 								"tag": "deprecated",
@@ -20742,7 +20742,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 89,
+							"line": 103,
 							"character": 4
 						}
 					],
@@ -20875,7 +20875,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 77,
+							"line": 91,
 							"character": 4
 						}
 					],
@@ -20898,7 +20898,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 82,
+							"line": 96,
 							"character": 4
 						}
 					],
@@ -20990,7 +20990,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 65,
+							"line": 79,
 							"character": 4
 						}
 					],
@@ -21013,7 +21013,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 71,
+							"line": 85,
 							"character": 4
 						}
 					],
@@ -21042,7 +21042,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 116,
+							"line": 130,
 							"character": 4
 						}
 					],
@@ -21263,7 +21263,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 105,
+							"line": 119,
 							"character": 4
 						}
 					],
@@ -21292,7 +21292,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 101,
+							"line": 115,
 							"character": 4
 						}
 					],
@@ -21354,7 +21354,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 129,
+							"line": 143,
 							"character": 4
 						}
 					],
@@ -21446,7 +21446,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 52,
+					"line": 66,
 					"character": 17
 				}
 			],
