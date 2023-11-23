@@ -37,8 +37,8 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      */
     fullHeight?: boolean;
     /**
-     * This is the minimum height(in pixels) for a full height Liveboard.
-     * Setting this height helps resolves issues with empty Liveboards and
+     * This is the minimum height(in pixels) for a full-height Liveboard.
+     * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
      *
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
@@ -51,7 +51,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
     enableVizTransformations?: boolean;
     /**
      * The Liveboard to display in the embedded view.
-     * Use either of liveboardId or pinboardId to reference the Liveboard to embed.
+     * Use either liveboardId or pinboardId to reference the Liveboard to embed.
      *
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      */
@@ -70,80 +70,84 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
      *
-     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
-     * Array of viz ids which should be visible when the liveboard
-     * first renders. This can be changed by triggering the "SetVisibleVizs"
+     * Array of visualization IDs which should be visible when the Liveboard
+     * renders. This can be changed by triggering the `SetVisibleVizs`
      * event.
      *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      */
     visibleVizs?: string[];
     /**
-     * To support backward compatibilty
+     * To support backward compatibility
      *
      * @hidden
      */
     preventPinboardFilterRemoval?: boolean;
     /**
-     * Render embedded Liveboards and visualizations in the new Liveboard experience mode
+     * Render embedded Liveboards and visualizations in the
+     * new Liveboard experience mode.
      *
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      */
     liveboardV2?: boolean;
     /**
-     * Tab ID of the Liveboard that is supposed to be active
+     * Set a Liveboard tab as an active tab.
+     * Specify the tab ID.
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
     /**
-     * Hide tab Panel of embedded LB
+     * Show or hide the tab panel of the embedded Liveboard.
      *
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
      */
     hideTabPanel?: boolean;
     /**
-     * Show or hide Liveboard header
+     * Show or hide the Liveboard header.
      *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
      */
     hideLiveboardHeader?: boolean;
     /**
-     * Show or hide Liveboard title
+     * Show or hide the Liveboard title.
      *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
      */
     showLiveboardTitle?: boolean;
     /**
-     * Show or hide Liveboard description
+     * Show or hide the Liveboard description.
      *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
      */
     showLiveboardDescription?: boolean;
     /**
-     * Boolean for sticky Liveboard header.
+     * Control the position and visibility of
+     * the Liveboard header as the users scroll down the
+     * embedded Liveboard page.
      *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     *   ... // other Liveboard view config
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      */
     isLiveboardHeaderSticky?: boolean;
 }
 
 /**
- * Embed a ThoughtSpot Liveboard or a Thoughtspot visualization. When rendered it already
- * waits for the authentication to complete, so no need to wait for AuthStatus.SUCCESS.
+ * Embed a ThoughtSpot Liveboard or visualization. When rendered it already
+ * waits for the authentication to complete, so you need not wait for `AuthStatus.SUCCESS`.
  *
  * @example
  * ```js
@@ -256,7 +260,7 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
-     * to be loaded within the iframe.
+     * to be loaded within the iFrame.
      */
     private getIFrameSrc() {
         const { vizId, activeTabId } = this.viewConfig;

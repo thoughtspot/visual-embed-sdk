@@ -76,49 +76,36 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" ">
-						<div class="group-title">Authentication / <wbr>Init</div>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum">
+						<a href="AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
 						<ul>
-							<li class="current tsd-kind-enum">
-								<a href="AuthType.html" class="tsd-kind-icon">Auth<wbr>Type</a>
-								<ul>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#Basic" class="tsd-kind-icon">Basic</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#EmbeddedSSO" class="tsd-kind-icon">EmbeddedSSO</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#None" class="tsd-kind-icon">None</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#OIDCRedirect" class="tsd-kind-icon">OIDCRedirect</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#SAMLRedirect" class="tsd-kind-icon">SAMLRedirect</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#TrustedAuthToken" class="tsd-kind-icon">Trusted<wbr>Auth<wbr>Token</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="AuthType.html#TrustedAuthTokenCookieless" class="tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<wbr>Cookieless</a>
-									</li>
-								</ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#Basic" class="tsd-kind-icon">Basic</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#EmbeddedSSO" class="tsd-kind-icon">EmbeddedSSO</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#None" class="tsd-kind-icon">None</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#OIDCRedirect" class="tsd-kind-icon">OIDCRedirect</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#SAMLRedirect" class="tsd-kind-icon">SAMLRedirect</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#TrustedAuthToken" class="tsd-kind-icon">Trusted<wbr>Auth<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="AuthType.html#TrustedAuthTokenCookieless" class="tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<wbr>Cookieless</a>
 							</li>
 						</ul>
 					</li>
-					<li class=" ">
-						<div class="group-title">Global methods</div>
-					</li>
-					<li class=" ">
-						<div class="group-title">Embed components</div>
-					</li>
-					<li class=" ">
-						<div class="group-title">Events</div>
-					</li>
-					<li class=" ">
-						<div class="group-title">Others</div>
-					</li>
+				</ul>
+				<ul class="after-current">
 				</ul>
 			</nav>
 		</div>
@@ -163,7 +150,7 @@
 					<div class="tsd-signature tsd-kind-icon">Basic<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;Basic&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L179">types.ts:179</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L178">types.ts:178</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -180,15 +167,18 @@
 					<div class="tsd-signature tsd-kind-icon">EmbeddedSSO<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;EmbeddedSSO&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L53">types.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L52">types.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Passthrough SSO to the embedded App within the iframe. Requires least
+							<p>Passthrough SSO to the embedded application within the iframe. Requires least
 								configuration, but may not be supported by all IDPs. This will behave like <code>None</code>
 							if SSO is not configured on ThoughtSpot.</p>
 						</div>
+						<p>To use this:
+							Your SAML or OpenID provider must allow iframe redirects.
+						For example, if you are using Okta as IdP, you can enable iframe embedding.</p>
 						<dl class="tsd-comment-tags">
 							<dt class="example">example</dt>
 							<dd><pre><code class="language-js"><span style="color: #795E26">init</span><span style="color: #000000">({</span>
@@ -196,13 +186,9 @@
 <span style="color: #000000">  </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">EmbeddedSSO</span><span style="color: #000000">,</span>
 <span style="color: #000000"> });</span>
 </code></pre>
-								<p>Set authentication type as Embedded SSO.</p>
-								<p>To use this:
-									Your SAML or OpenID provider must allow iframe redirects.
-								eg. If you are using okta as IdP, you can enable iFrame embedding.</p>
 							</dd>
 							<dt class="version:">version:</dt>
-							<dd><p>SDK: 1.15.0 | ThouhgtSpot: 8.8.0.cl</p>
+							<dd><p>SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl</p>
 							</dd>
 						</dl>
 					</div>
@@ -213,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;None&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L33">types.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L33">types.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -238,13 +224,13 @@
 					<div class="tsd-signature tsd-kind-icon">OIDCRedirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SSO_OIDC&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L126">types.ts:126</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L125">types.ts:125</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>SSO using OIDC
-								Will make the host application redirect to the OIDC Idp.
+								Will make the host application redirect to the OIDC IdP.
 							See code samples in <a href="AuthType.html#SAMLRedirect">SAMLRedirect</a>.</p>
 						</div>
 					</div>
@@ -255,16 +241,16 @@
 					<div class="tsd-signature tsd-kind-icon">SAMLRedirect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;SSO_SAML&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L113">types.ts:113</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L112">types.ts:112</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>SSO using SAML
-								Will make the host application redirect to the SAML Idp. Use this
-							when the idp does not allow itself to be embedded.</p>
+								Makes the host application redirect to the SAML IdP. Use this
+							if your IdP does not allow itself to be embedded.</p>
 						</div>
-						<p>This redirects the host application to the SAML Idp. The host application
+						<p>This redirects the host application to the SAML IdP. The host application
 						will be redirected back to the ThoughtSpot app after authentication.</p>
 						<dl class="tsd-comment-tags">
 							<dt class="example">example</dt>
@@ -273,7 +259,7 @@
 <span style="color: #000000">  </span><span style="color: #001080">authType:</span><span style="color: #000000"> </span><span style="color: #001080">AuthType</span><span style="color: #000000">.</span><span style="color: #001080">SAMLRedirect</span><span style="color: #000000">,</span>
 <span style="color: #000000"> });</span>
 </code></pre>
-								<p>This opens the SAML Idp in a popup window. The popup is triggered
+								<p>This opens the SAML IdP in a popup window. The popup is triggered
 									when the user clicks the trigger button. The popup window will be
 								closed automatically after authentication.</p>
 							</dd>
@@ -286,8 +272,8 @@
 <span style="color: #000000">  </span><span style="color: #001080">inPopup:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
 <span style="color: #000000">});</span>
 </code></pre>
-								<p>Can also use event to trigger the popup flow. Works the same
-								as above example.</p>
+								<p>Can also use the event to trigger the popup flow. Works the same
+								as the above example.</p>
 							</dd>
 							<dt class="example">example</dt>
 							<dd><pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">authEE</span><span style="color: #000000"> = </span><span style="color: #795E26">init</span><span style="color: #000000">({</span>
@@ -310,13 +296,13 @@
 					<div class="tsd-signature tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AuthServer&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L151">types.ts:151</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L150">types.ts:150</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Trusted authentication server, Use your own authentication server
-								which returns a bearer token, generated using the secret_key obtained
+							<p>Trusted authentication server. Use your own authentication server
+								which returns a bearer token, generated using the <code>secret_key</code> obtained
 							from ThoughtSpot.</p>
 						</div>
 						<dl class="tsd-comment-tags">
@@ -340,16 +326,16 @@
 					<div class="tsd-signature tsd-kind-icon">Trusted<wbr>Auth<wbr>Token<wbr>Cookieless<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;AuthServerCookieless&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/fc49e748/src/types.ts#L172">types.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/5f2b2f02/src/types.ts#L171">types.ts:171</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Trusted authentication server Cookieless, Use you own authentication
-								server which returns a bearer token, generated using the secret_key
+							<p>Trusted authentication server Cookieless, Use your own authentication
+								server which returns a bearer token, generated using the <code>secret_key</code>
 								obtained from ThoughtSpot. This uses a cookieless authentication
-								approach, recommended to by pass third-party cookie-blocking restriction
-							implemented by some browsers</p>
+								approach, recommended to bypass the third-party cookie-blocking restriction
+							implemented by some browsers.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt class="example">example</dt>
@@ -364,7 +350,7 @@
 </code></pre>
 							</dd>
 							<dt class="version">version</dt>
-							<dd><p>SDK: 1.22.0| ThouhgtSpot: 9.3.0.cl, 9.5.1.sw</p>
+							<dd><p>SDK: 1.22.0| ThoughtSpot: 9.3.0.cl, 9.5.1.sw</p>
 							</dd>
 						</dl>
 					</div>
