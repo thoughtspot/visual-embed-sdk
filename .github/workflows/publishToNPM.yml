@@ -47,12 +47,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
-      - name: Create Draft PR for Release
-        if: steps.branch_name.outputs.BRANCH_NAME == 'release'
+      - name: Create Draft Release
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
         run: |
-          echo "Creating draft PR for release branch..."
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PREVIOUS_VERSION=$(git tag -l | sort -V | tail -n 2 | head -n 1)
+          echo "Current Version: $CURRENT_VERSION"
+          echo "Previous Version: $PREVIOUS_VERSION"
+          # Extract commit messages between previous and current versions
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s" $PREVIOUS_VERSION..HEAD)
+          echo "Commit Messages: $COMMIT_MESSAGES"
 
-          npm install -g create-pull-request
-          create-pull-request --title "Draft" --body "This is a draft PR for the next release. Please review and merge when ready." --labels "draft" --base "main" --branch "release"
+          gh release create "$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -n "Release Notes for $CURRENT_VERSION" -d <<< "$COMMIT_MESSAGES"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
