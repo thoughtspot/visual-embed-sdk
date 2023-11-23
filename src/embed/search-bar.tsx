@@ -20,21 +20,21 @@ export interface SearchBarViewConfig
     > {
     /**
      * The array of data source GUIDs to set on load.
-     * Only a single dataSource supported currently.
+     * Only a single data source is supported currently.
      *
-     * @deprecated Use dataSource instead
+     * @deprecated Use `dataSource` instead
      */
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
      *
-     * @version: SDK: 1.19.0
+     * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
      */
     dataSource?: string;
     /**
-     * Flag to set if last selected dataSource should be used
+     * Boolean to define if the last selected data source should be used
      *
-     * @version: SDK: 1.24.0
+     * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
      */
     useLastSelectedSources?: boolean;
     /**
