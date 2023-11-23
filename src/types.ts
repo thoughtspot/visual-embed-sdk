@@ -2395,8 +2395,10 @@ export enum Action {
     /**
      * The **Make a copy** action on a Liveboard or Answer
      * page. Creates a copy of the Liveboard.
-     * The **Make a copy** action is hidden on
-     * visualizations in the embedded view.
+     * In LiveboardEmbed, the **Make a copy** action is not available for
+     * visualizations in the embedded Liveboard view.
+     * In AppEmbed, the **Make a copy** action is available on both
+     * Liveboards and visualizations.
      *
      * @example
      * ```js

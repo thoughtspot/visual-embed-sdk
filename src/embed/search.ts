@@ -97,7 +97,9 @@ export interface SearchViewConfig
     /**
      * The initial search query to load the answer with.
      *
-     * @deprecated Use {@link searchOptions} instead.
+     * @deprecated
+     *
+     * Use {@link searchOptions} instead.
      */
     searchQuery?: string;
     /**

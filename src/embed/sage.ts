@@ -96,8 +96,9 @@ export interface SageViewConfig
     /**
      * Show or hide autocomplete suggestions for the search query string.
      *
-     * @deprecated currently, the object suggestions will not be shown for Natural Language Search
-     * Use {@link hideAutocompleteSuggestions} instead.
+     * @deprecated
+     * Currently, the object suggestions will not be shown for Natural Language Search.
+     * You can use {@link hideAutocompleteSuggestions} instead.
      */
     showObjectSuggestions?: boolean;
     /**
@@ -115,7 +116,7 @@ export interface SageViewConfig
     /**
      * Includes the following properties:
      *
-     *  `searchTokenString`: The search query string to pass in the search bar.
+     *  `searchQuery`: The search query string to pass in the search bar.
      * Supports Natural Language Search queries.
      *
      *  `executeSearch`: Boolean to define if the search should be executed or not.
@@ -126,7 +127,7 @@ export interface SageViewConfig
      * @example
      * ```js
      * searchOptions: {
-     *    searchTokenString: 'average sales by country and product type',
+     *    searchQuery: 'average sales by country and product type',
      *    executeSearch: true,
      * }
      * ```
