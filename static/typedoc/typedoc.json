@@ -6783,7 +6783,7 @@
 					},
 					{
 						"tag": "version",
-						"text": "\nThoughtSpot: 9.9.0.cl / SDK: 1.25.0"
+						"text": "SDK: 1.25.0| ThoughtSpot: 9.10.0.cl"
 					},
 					{
 						"tag": "group",
@@ -6801,7 +6801,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 44,
+							"line": 43,
 							"character": 4
 						}
 					],
@@ -6882,7 +6882,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 70,
+							"line": 69,
 							"character": 17
 						}
 					],
@@ -6933,7 +6933,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 181,
+							"line": 179,
 							"character": 17
 						}
 					],
@@ -6992,7 +6992,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 104,
+							"line": 103,
 							"character": 17
 						}
 					],
@@ -7060,7 +7060,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 79,
+							"line": 78,
 							"character": 17
 						}
 					],
@@ -7161,7 +7161,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 111,
+							"line": 110,
 							"character": 11
 						}
 					],
@@ -7216,7 +7216,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 196,
+							"line": 194,
 							"character": 11
 						}
 					],
@@ -7245,7 +7245,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 53,
+							"line": 52,
 							"character": 17
 						}
 					],
@@ -7280,7 +7280,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 132,
+							"line": 130,
 							"character": 17
 						}
 					],
@@ -7300,7 +7300,7 @@
 									},
 									{
 										"tag": "version",
-										"text": "\nThoughtSpot: 9.9.0.cl / SDK: 1.25.0\n"
+										"text": "SDK: 1.25.0| ThoughtSpot: 9.10.0.cl\n"
 									}
 								]
 							},
@@ -7363,7 +7363,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 61,
+							"line": 60,
 							"character": 17
 						}
 					],
@@ -7431,7 +7431,7 @@
 			"sources": [
 				{
 					"fileName": "utils/graphql/answerService/answerService.ts",
-					"line": 43,
+					"line": 42,
 					"character": 13
 				}
 			]
@@ -18756,7 +18756,7 @@
 				"tags": [
 					{
 						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw"
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw"
 					},
 					{
 						"tag": "group",
