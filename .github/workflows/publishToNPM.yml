@@ -46,3 +46,13 @@ jobs:
           
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: Create Draft PR for Release
+        if: steps.branch_name.outputs.BRANCH_NAME == 'release'
+        run: |
+          echo "Creating draft PR for release branch..."
+
+          npm install -g create-pull-request
+          create-pull-request --title "Draft" --body "This is a draft PR for the next release. Please review and merge when ready." --labels "draft" --base "main" --branch "release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
