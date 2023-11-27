@@ -1528,15 +1528,16 @@ export enum EmbedEvent {
 // eslint-disable-next-line no-shadow
 export enum HostEvent {
     /**
-     * Triggers a search query in AppEmbed and SearchEmbed
-     * deployments.
+     * Triggers a search operation with the search tokens specified in
+     * the search query string.
+     * Supported in `AppEmbed` and `SearchEmbed` deployments.
      * Includes the following properties:
      *
-     * @param - dataSourceIds - The data source GUID to Search on
+     * @param - `searchQuery` - query string with search tokens
+     * @param - `dataSources` - Data source GUID to Search on
      *                        - Although an array, only a single source
      *                          is supported.
-     * @param - searchQuery - Query string with search tokens
-     * @param - execute - executes the existing / updated query
+     * @param - `execute` - executes search and updates the existing query
      * @example
      * ```js
      * searchembed.trigger(HostEvent.Search, {
@@ -2210,10 +2211,12 @@ export enum HostEvent {
      */
     SetHiddenTabs = 'SetPinboardHiddenTabs',
     /**
-     * Update the search query embedding Natural Language Search
-     * capabilities.
+     * Updates the search query string for Natural Language Search operations.
      *
-     * @param - searchOptions: an object queryString and option to execute the query.
+     * @param - `queryString`: Text string in Natural Language format
+     *
+     * @param - `executeSearch`: Boolean to execute search and update search query
+     *
      * @example
      * ```js
      * sageEmbed.trigger(HostEvent.UpdateSageQuery, {
@@ -2221,7 +2224,7 @@ export enum HostEvent {
      *  executeSearch: true,
      * })
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
      */
     UpdateSageQuery = 'updateSageQuery',
     /**
