@@ -19487,7 +19487,7 @@
 					},
 					"comment": {
 						"shortText": "Includes the following properties:",
-						"text": " `searchQuery`: The search query string to pass in the search bar.\nSupports Natural Language Search queries.\n\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
+						"text": "`searchQuery`: The search query string to pass in the search bar.\nSupports Natural Language Search queries.\n\n`executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -20294,7 +20294,7 @@
 					},
 					"comment": {
 						"shortText": "Configuration for search options.\nIncludes the following properties:",
-						"text": " `searchTokenString`: Search tokens to pass in the query.\n\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
+						"text": "`searchTokenString`: Search tokens to pass in the query.\n\n`executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -21277,7 +21277,7 @@
 					},
 					"comment": {
 						"shortText": "Configuration for search options.\nIncludes the following properties:",
-						"text": " `searchTokenString`: Search tokens to pass in the query.\n\n `executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
+						"text": "`searchTokenString`: Search tokens to pass in the query.\n\n`executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n",
 						"tags": [
 							{
 								"tag": "example",
