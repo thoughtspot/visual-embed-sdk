@@ -15,6 +15,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
             node-version: '16.19.0'
@@ -23,7 +25,19 @@ jobs:
       - name: Get Branch Name
         id: branch_name
         run: echo "::set-output name=BRANCH_NAME::$(git branch --show-current)"
-
+        
+      - name: Get Latest Tag 
+        id: latest_tag
+        run: |
+          echo "Getting Git tag list.."
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/* | sort -V
+          
+          echo "Getting the latest Git tag."
+          git tag -l | sort -V | tail -n 1  
+          
+          # Get the latest Git tag and set it as an output variable
+          echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
+          
       # Run npm install
       - name: Run npm install
         run: npm install --legacy-peer-deps
@@ -46,3 +60,22 @@ jobs:
           
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: Create Draft Release
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
+        run: |
+            CURRENT_VERSION=$(node -p "require('./package.json').version")
+            echo "Current Version: $CURRENT_VERSION"
+            
+            PREV_TAG=$(git tag -l | sort -V | tail -n 1)
+            echo "LAST TAG: $PREV_TAG"
+            
+            # Extract commit messages between previous and current versions
+            COMMIT_MESSAGES=$(git log --pretty=format:"%s" $PREV_TAG..HEAD | uniq | sed -E 's/\(#[0-9]+\)//g')
+            echo "commit : $COMMIT_MESSAGES"
+          
+            # Create draft Release
+            gh release create "$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -n "$COMMIT_MESSAGES" -d   
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
