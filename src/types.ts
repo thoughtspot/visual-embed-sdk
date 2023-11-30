@@ -39,7 +39,7 @@ export enum AuthType {
      * To use this:
      * Your SAML or OpenID provider must allow iframe redirects.
      * For example, if you are using Okta as IdP, you can enable iframe embedding.
-
+     *
      * @example
      * ```js
      * init({
@@ -406,8 +406,9 @@ export interface EmbedConfig {
 
     /**
      * Disable redirection to the login page when the embedded session expires
-     * This flag is typically used alongside the combination of authentication modes such as {@link
-     * AuthType.AuthServer} and auto-login behavior {@link EmbedConfig.autoLogin}
+     * This flag is typically used alongside the combination of authentication modes such
+     * as {@link AuthType.AuthServer} and auto-login behavior {@link
+     * EmbedConfig.autoLogin}
      *
      * @version SDK: 1.9.3 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @default false
@@ -429,8 +430,8 @@ export interface EmbedConfig {
     callPrefetch?: boolean;
 
     /**
-     * When there are multiple objects embedded, queue the rendering of embedded objects to start
-     * after the previous embed's render is complete. This helps improve
+     * When there are multiple objects embedded, queue the rendering of embedded objects
+     * to start after the previous embed's render is complete. This helps improve
      * performance by decreasing the load on the browser.
      *
      *  @Version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
@@ -1274,15 +1275,15 @@ export enum EmbedEvent {
      */
     Share = 'share',
     /**
-     * Emitted when a user clicks the **Include** action to include a specific value or data
-     * on a chart or table.
+     * Emitted when a user clicks the **Include** action to include a specific value or
+     * data on a chart or table.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
     DrillInclude = 'context-menu-item-include',
     /**
-     * Emitted when a user clicks the **Exclude** action to exclude a specific value or data
-     * on a chart or table
+     * Emitted when a user clicks the **Exclude** action to exclude a specific value or
+     * data on a chart or table
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
@@ -1556,6 +1557,10 @@ export enum HostEvent {
      * @param - columnGuid - Optional. GUID of the column to drill
      * by. If not provided it will auto drill by the configured
      *   column.
+     * @param - autoDrillDown - Optional. If true, the drill down will be
+     * done automatically on the most popular column.
+     * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
+     * in case of a liveboard.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -1571,6 +1576,25 @@ export enum HostEvent {
      *             autoDrillDown: true,
      *       });
      * })
+     * ```
+     * @example
+     * ```js
+     *  // Works with TS 9.8.0 and above
+     *
+     *  liveboardEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+     *    console.log(payload);
+     *    const clickedPoint = payload.data.clickedPoint;
+     *    const selectedPoint = payload.data.selectedPoints;
+     *    console.log('>>> called', clickedPoint);
+     *    liveboardEmbed.trigger(HostEvent.DrillDown, {
+     *      points: {
+     *        clickedPoint,
+     *        selectedPoints: selectedPoint
+     *      },
+     *      autoDrillDown: true,
+     *      vizId: payload.data.vizId
+     *    });
+     *  })
      * ```
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      */
