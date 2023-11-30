@@ -11,16 +11,14 @@ let cachedAuthToken: string | null = null;
 // This method can be used to get the authToken using the embedConfig
 export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<string> => {
     if (cachedAuthToken) {
+        let isCachedTokenStillValid;
         try {
-            const isCachedTokenStillValid = await validateAuthToken(
-                embedConfig,
-                cachedAuthToken,
-                true,
-            );
-            if (isCachedTokenStillValid) return cachedAuthToken;
+            isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken, true);
         } catch {
-            // Continue to get a new token if validation fails
+            isCachedTokenStillValid = false;
         }
+
+        if (isCachedTokenStillValid) return cachedAuthToken;
     }
 
     const { authEndpoint, getAuthToken } = embedConfig;

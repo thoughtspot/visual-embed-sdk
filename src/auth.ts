@@ -318,14 +318,17 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
     if (!authEndpoint && !getAuthToken) {
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
+    let authSuccess = false;
     try {
         const authToken = await getAuthenticationToken(embedConfig);
-        if (authToken) return true;
+        if (authToken) {
+            authSuccess = true;
+        }
     } catch {
-        // return false if getAuthenticationToken fails
+        authSuccess = false;
     }
 
-    return false;
+    return authSuccess;
 };
 
 /**
