@@ -533,12 +533,14 @@ export interface EmbedConfig {
 
     /**
      * If passed as true all alerts will be suppressed in the embedded app.
+     *
+     * @version SDK: 1.26.1 | ThoughtSpot: *
      */
     suppressErrorAlerts?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iFrame configuration
@@ -3216,40 +3218,44 @@ export enum ContextMenuTriggerOptions {
 
 export interface ColumnValue {
     column: {
-        id: string,
-        name: string,
-        dataType: string,
-        [key: string]: any
-    },
-    value: string | number | boolean | {
-        v: {
-            s: number;
-            e: number;
-        }
+        id: string;
+        name: string;
+        dataType: string;
+        [key: string]: any;
     };
+    value:
+        | string
+        | number
+        | boolean
+        | {
+              v: {
+                  s: number;
+                  e: number;
+              };
+          };
 }
 
 export interface VizPoint {
-    selectedAttributes: ColumnValue[],
-    selectedMeasures: ColumnValue[]
+    selectedAttributes: ColumnValue[];
+    selectedMeasures: ColumnValue[];
 }
 
 export interface CustomActionPayload {
     contextMenuPoints?: {
-        clickedPoint: VizPoint
-        selectedPoints: VizPoint[]
+        clickedPoint: VizPoint;
+        selectedPoints: VizPoint[];
     };
     embedAnswerData: {
-        name: string,
-        id: string,
+        name: string;
+        id: string;
         sources: {
             header: {
-                guid: string
-            }
-        },
-        columns: any[],
-        data: any[],
-        [key: string]: any
+                guid: string;
+            };
+        };
+        columns: any[];
+        data: any[];
+        [key: string]: any;
     };
     session: SessionInterface;
     vizId?: string;
