@@ -1,4 +1,3 @@
-import { embedConfig } from 'src/auth.spec';
 import {
     fetchSessionInfoService,
     fetchAuthTokenService,
@@ -6,8 +5,8 @@ import {
     fetchBasicAuthService,
     fetchAuthPostService,
     verifyTokenService,
-} from './authService';
-import { EndPoints } from '../auth';
+    EndPoints,
+} from '.';
 
 const thoughtSpotHost = 'http://10.79.135.124:3000';
 

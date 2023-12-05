@@ -1,5 +1,14 @@
-// eslint-disable-next-line import/no-cycle
-import { EndPoints } from '../auth';
+export const EndPoints = {
+    AUTH_VERIFICATION: '/callosum/v1/session/info',
+    SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
+    OIDC_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
+    TOKEN_LOGIN: '/callosum/v1/session/login/token',
+    BASIC_LOGIN: '/callosum/v1/session/login',
+    LOGOUT: '/callosum/v1/session/logout',
+    EXECUTE_TML: '/api/rest/2.0/metadata/tml/import',
+    EXPORT_TML: '/api/rest/2.0/metadata/tml/export',
+    IS_ACTIVE: '/callosum/v1/session/isactive',
+};
 
 /**
  *
@@ -16,30 +25,30 @@ function failureLoggedFetch(url: string, options: RequestInit = {}): Promise<Res
 }
 
 /**
- *
- * @param authVerificationUrl
- */
-export function fetchSessionInfoService(authVerificationUrl: string): Promise<any> {
-    return failureLoggedFetch(authVerificationUrl, {
-        credentials: 'include',
-    });
-}
-
-/**
  * Service to validate a auth token against a ThoughtSpot host.
  *
  * @param thoughtSpotHost : ThoughtSpot host to verify the token against.
  * @param authToken : Auth token to verify.
  */
-export function verifyTokenService(thoughtSpotHost: string, authToken: string): Promise<Response> {
+export async function verifyTokenService(
+    thoughtSpotHost: string,
+    authToken: string,
+): Promise<boolean> {
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.IS_ACTIVE}`;
-    return fetch(authVerificationUrl, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-            'x-requested-by': 'ThoughtSpot',
-        },
-        credentials: 'omit',
-    });
+    try {
+        const res = await fetch(authVerificationUrl, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                'x-requested-by': 'ThoughtSpot',
+            },
+            credentials: 'omit',
+        });
+        return res.ok;
+    } catch (e) {
+        console.error(`Token Verification Service failed : ${e.message}`);
+    }
+
+    return false;
 }
 
 /**
@@ -118,19 +127,5 @@ export async function fetchBasicAuthService(
         },
         body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
         credentials: 'include',
-    });
-}
-
-/**
- *
- * @param thoughtSpotHost
- */
-export async function fetchLogoutService(thoughtSpotHost: string): Promise<any> {
-    return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.LOGOUT}`, {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-            'x-requested-by': 'ThoughtSpot',
-        },
     });
 }

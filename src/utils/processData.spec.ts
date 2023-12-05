@@ -2,6 +2,7 @@ import * as processDataInstance from './processData';
 import * as answerServiceInstance from './graphql/answerService/answerService';
 import * as auth from '../auth';
 import * as base from '../embed/base';
+import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
 
 describe('Unit test for process data', () => {
@@ -30,15 +31,17 @@ describe('Unit test for process data', () => {
                 thoughtSpotHost,
                 null,
             ),
-        ).toEqual(expect.objectContaining({
-            ...processedData,
-            answerService: {
-                answer: undefined,
-                selectedPoints: undefined,
-                session: undefined,
-                thoughtSpotHost: 'http://localhost',
-            },
-        }));
+        ).toEqual(
+            expect.objectContaining({
+                ...processedData,
+                answerService: {
+                    answer: undefined,
+                    selectedPoints: undefined,
+                    session: undefined,
+                    thoughtSpotHost: 'http://localhost',
+                },
+            }),
+        );
     });
 
     test('ProcessData, when Action is non CustomAction', () => {
@@ -70,7 +73,7 @@ describe('Unit test for process data', () => {
     test('NoCookieAccess no suppress alert', () => {
         const e = { type: EmbedEvent.NoCookieAccess };
         jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             suppressNoCookieAccessAlert: false,
         });
@@ -87,7 +90,7 @@ describe('Unit test for process data', () => {
     test('NoCookieAccess suppressAlert=true', () => {
         const e = { type: EmbedEvent.NoCookieAccess };
         jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             suppressNoCookieAccessAlert: true,
         });
@@ -105,7 +108,7 @@ describe('Unit test for process data', () => {
     test('NoCookieAccess ignoreNoCookieAccess=true', () => {
         const e = { type: EmbedEvent.NoCookieAccess };
         jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             ignoreNoCookieAccess: true,
         });
@@ -123,7 +126,7 @@ describe('Unit test for process data', () => {
     test('process authFailure', () => {
         const e = { type: EmbedEvent.AuthFailure };
         jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
         });
         const el: any = {};
@@ -137,7 +140,7 @@ describe('Unit test for process data', () => {
     test('process authFailure AuthType=None', () => {
         const e = { type: EmbedEvent.AuthFailure };
         jest.spyOn(base, 'notifyAuthFailure');
-        jest.spyOn(base, 'getEmbedConfig').mockReturnValue({
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             authType: AuthType.None,
         });
@@ -150,13 +153,13 @@ describe('Unit test for process data', () => {
     });
 
     test('process authLogout', () => {
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockRestore();
         base.init({
             loginFailedMessage: 'Hello',
             autoLogin: true,
             thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
         });
-        jest.spyOn(base, 'getEmbedConfig').mockRestore();
         const e = { type: EmbedEvent.AuthLogout };
         jest.spyOn(base, 'notifyLogout');
         const el: any = {};
@@ -165,6 +168,6 @@ describe('Unit test for process data', () => {
         });
         expect(base.notifyLogout).toBeCalled();
         expect(el.innerHTML).toBe('Hello');
-        expect(base.getEmbedConfig().autoLogin).toBe(false);
+        expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
     });
 });

@@ -9,6 +9,7 @@
 
 import isEqual from 'lodash/isEqual';
 
+import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
@@ -55,13 +56,10 @@ import { processEventData } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import {
-    getAuthPromise,
-    getEmbedConfig,
-    renderInQueue,
-    handleAuth,
-    notifyAuthFailure,
+    getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
 } from './base';
-import { AuthFailureType, getAuthenticationToken } from '../auth';
+import { AuthFailureType } from '../auth';
+import { getEmbedConfig } from './embedConfig';
 
 const { version } = pkgInfo;
 
@@ -1073,11 +1071,11 @@ export class TsEmbed {
                 ) {
                     console.warn(
                         `${this.embedComponentType} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
@@ -1204,15 +1202,8 @@ export class TsEmbed {
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
-        const { session, embedAnswerData } = await this.trigger(
-            HostEvent.GetAnswerSession,
-            vizId,
-        );
-        return new AnswerService(
-            session,
-            embedAnswerData,
-            this.embedConfig.thoughtSpotHost,
-        );
+        const { session, embedAnswerData } = await this.trigger(HostEvent.GetAnswerSession, vizId);
+        return new AnswerService(session, embedAnswerData, this.embedConfig.thoughtSpotHost);
     }
 }
 
