@@ -749,31 +749,29 @@ export interface ViewConfig {
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
-     * The list of tab IDs to show in the embedded.
-     * Only this Tabs will be shown in their respective LBs.
-     * Use this to show an tabID.
+     * The list of tab IDs to show in the embedded Liveboard.
+     * Only the tabs specified in the array will be shown in the Liveboard.
      *
-     * Use either this or hiddenTabs.
+     * Use either `visibleTabs` or `hiddenTabs`.
      *
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   visibleTabs: [
+     *  visibleTabs: [
      * '430496d6-6903-4601-937e-2c691821af3c',
-     *  'f547ec54-2a37-4516-a222-2b06719af726']
-     * });
+     * 'f547ec54-2a37-4516-a222-2b06719af726']
      * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
     /**
-     * homepageLeftNavItems : show/hide Homeapage Left Nav Bar Items
-     * There are 8 home nav list items, we will send those item as list
-     * which we want to hide for TSE.
-     * eg: hiddenHomeLeftNavItems = [HomeLeftNavItem.Home] to hide home.
+     * homepageLeftNavItems : Show or hide the left navigation bar items.
+     * There are 8 eight home navigation list items.
+     * To hide these items, specify the string in the array.
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * ```js
+     * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
+     * ```
+     * @version SDK: 1.27.0 | Thoughtspot: 9.10.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -789,7 +787,7 @@ export interface ViewConfig {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
