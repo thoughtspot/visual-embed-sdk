@@ -1210,6 +1210,12 @@ export enum EmbedEvent {
      * This can be used to register an event listener which
      * is triggered on all events.
      *
+     * ```js
+     * appEmbed.on(EmbedEvent.ALL, payload => {
+     *  console.log('Embed Events', payload)
+     * })
+     *
+     *
      * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      */
     ALL = '*',
@@ -1642,10 +1648,12 @@ export enum HostEvent {
      */
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
-     * Navigate to a specific page in the embedded application without reloading the page.
+     * Navigate to a specific page in the embedded ThoughtSpot application.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`
      *
-     * @param - path - the path to navigate to (can be a number[1/-1] to go forward/back)
+     * @param - `path` - the path to navigate to to go forward or back. The path value can
+     * be a number; for example, `1`, `-1`.
+     *
      * @example
      * ```js
      * appEmbed.navigateToPage(-1)
@@ -1694,11 +1702,14 @@ export enum HostEvent {
      */
     RemoveColumn = 'removeColumn',
     /**
-     * Get the current Liveboard content.
+     * Get the transient state of a Liveboard as encoded content.
+     * This includes unsaved and ad hoc changes such as
+     * Liveboard filters, runtime filters applied on visualizations on a Liveboard, and
+     * Liveboard layout, changes to visualizations such as sorting, toggling of legends, and data drill down.
      *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard)
+     * liveboardEmbed.trigger(HostEvent.getexportrequestforcurrentpinboard).then(data=>console.log(data))
      * ```
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1.sw
      */
@@ -1711,10 +1722,7 @@ export enum HostEvent {
      * a visualization.
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.Pin, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     * ```
-     * ```js
-     * vizEmbed.trigger(HostEvent.Pin)
+     * appEmbed.trigger(HostEvent.Pin)
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.Pin)
@@ -1724,7 +1732,7 @@ export enum HostEvent {
     Pin = 'pin',
     /**
      * Trigger the **Show Liveboard details** action
-     * on a Liveboard
+     * on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1734,7 +1742,7 @@ export enum HostEvent {
      */
     LiveboardInfo = 'pinboardInfo',
     /**
-     * Trigger the **Schedule** action on a Liveboard
+     * Trigger the **Schedule** action on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1744,7 +1752,7 @@ export enum HostEvent {
      */
     Schedule = 'subscription',
     /**
-     * Trigger the **Manage schedule** action on a Liveboard
+     * Trigger the **Manage schedule** action on an embedded Liveboard
      *
      * @example
      * ```js
@@ -1754,7 +1762,7 @@ export enum HostEvent {
      */
     SchedulesList = 'schedule-list',
     /**
-     * Trigger the **Export TML** action on a Liveboard
+     * Trigger the **Export TML** action on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1764,7 +1772,7 @@ export enum HostEvent {
      */
     ExportTML = 'exportTSL',
     /**
-     * Trigger the **Edit TML** action on a Liveboard
+     * Trigger the **Edit TML** action on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1774,7 +1782,7 @@ export enum HostEvent {
      */
     EditTML = 'editTSL',
     /**
-     * Trigger the **Update TML** action on a Liveboard
+     * Trigger the **Update TML** action on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1784,7 +1792,7 @@ export enum HostEvent {
      */
     UpdateTML = 'updateTSL',
     /**
-     * Trigger the **Download PDF** action on a Liveboard
+     * Trigger the **Download PDF** action on an embedded Liveboard.
      *
      * @example
      * ```js
@@ -1795,7 +1803,7 @@ export enum HostEvent {
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Trigger the **Make a copy** action on a Liveboard, Search, or
-     * visualization page
+     * visualization page.
      *
      * @example
      * ```js
@@ -1811,7 +1819,7 @@ export enum HostEvent {
      */
     MakeACopy = 'makeACopy',
     /**
-     * Trigger the **Delete** action on a Liveboard
+     * Trigger the **Delete** action for a Liveboard.
      *
      * @example
      * ```js
@@ -1821,7 +1829,7 @@ export enum HostEvent {
      */
     Remove = 'delete',
     /**
-     * Trigger the **Explore* action on a visualization
+     * Trigger the **Explore** action on a visualization.
      *
      * @param - an object with `vizId` as a key
      * @example
@@ -1948,7 +1956,9 @@ export enum HostEvent {
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * Trigger the **Delete** action on visualization or search
+     * Trigger the **Delete** action for a visualization
+     * in an embedded Liveboard, or a chart or table
+     * generated from Search.
      *
      * @param - Liveboard embed takes an object with `vizId` as a key.
      * Can be left empty if embedding Search or visualization.
@@ -1956,9 +1966,6 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Delete, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
-     * ```
-     * ```js
-     * vizEmbed.trigger(HostEvent.Delete)
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.Delete)
@@ -1997,12 +2004,10 @@ export enum HostEvent {
      * '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * ```js
-     * vizEmbed.trigger(HostEvent.Download)
+     * embed.trigger(HostEvent.Download)
      * ```
-     * ```js
-     * searchEmbed.trigger(HostEvent.Download)
-     * ```
-     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw ,Use {@link DownloadAsPng}
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
+     * Use {@link DownloadAsPng}
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     Download = 'downloadAsPng',
@@ -2137,11 +2142,14 @@ export enum HostEvent {
      */
     ManagePipelines = 'manage-pipeline',
     /**
-     * Trigger the Reset search on the Search page
+     * Reset search operation on the Search or Answer page.
      *
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.ResetSearch)
+     * ```
+     * ```js
+     * appEmbed.trigger(HostEvent.ResetSearch)
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.0.1.sw
      */
@@ -2237,6 +2245,7 @@ export enum HostEvent {
      *      vizId: '123', // For Liveboard Visualization.
      *  })
      * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
      */
     GetAnswerSession = 'getAnswerSession',
 }
