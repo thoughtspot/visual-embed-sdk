@@ -534,7 +534,7 @@ export interface EmbedConfig {
     /**
      * If passed as true all alerts will be suppressed in the embedded app.
      *
-     * @version SDK: 1.26.1 | ThoughtSpot: *
+     * @version SDK: 1.26.2 | ThoughtSpot: *
      */
     suppressErrorAlerts?: boolean;
 }
