@@ -756,7 +756,7 @@ export interface ViewConfig {
      *
      * @example
      * ```js
-     *  visibleTabs: [
+     * visibleTabs: [
      * '430496d6-6903-4601-937e-2c691821af3c',
      * 'f547ec54-2a37-4516-a222-2b06719af726']
      * ```

@@ -18396,7 +18396,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n visibleTabs: [\n'430496d6-6903-4601-937e-2c691821af3c',\n'f547ec54-2a37-4516-a222-2b06719af726']\n```"
+								"text": "\n```js\nvisibleTabs: [\n'430496d6-6903-4601-937e-2c691821af3c',\n'f547ec54-2a37-4516-a222-2b06719af726']\n```"
 							},
 							{
 								"tag": "version",
