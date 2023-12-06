@@ -44,7 +44,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2482,
+							"line": 2859,
 							"character": 4
 						}
 					],
@@ -68,7 +68,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2514,
+							"line": 2891,
 							"character": 4
 						}
 					],
@@ -92,7 +92,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2524,
+							"line": 2901,
 							"character": 4
 						}
 					],
@@ -115,7 +115,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3138,
+							"line": 3515,
 							"character": 4
 						}
 					],
@@ -143,7 +143,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2883,
+							"line": 3260,
 							"character": 4
 						}
 					],
@@ -171,7 +171,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2873,
+							"line": 3250,
 							"character": 4
 						}
 					],
@@ -199,7 +199,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2863,
+							"line": 3240,
 							"character": 4
 						}
 					],
@@ -227,7 +227,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2980,
+							"line": 3357,
 							"character": 4
 						}
 					],
@@ -255,7 +255,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3015,
+							"line": 3392,
 							"character": 4
 						}
 					],
@@ -283,7 +283,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3075,
+							"line": 3452,
 							"character": 4
 						}
 					],
@@ -311,7 +311,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3003,
+							"line": 3380,
 							"character": 4
 						}
 					],
@@ -339,7 +339,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3040,
+							"line": 3417,
 							"character": 4
 						}
 					],
@@ -367,7 +367,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3086,
+							"line": 3463,
 							"character": 4
 						}
 					],
@@ -395,7 +395,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3052,
+							"line": 3429,
 							"character": 4
 						}
 					],
@@ -423,7 +423,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3110,
+							"line": 3487,
 							"character": 4
 						}
 					],
@@ -451,7 +451,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3063,
+							"line": 3440,
 							"character": 4
 						}
 					],
@@ -479,7 +479,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3027,
+							"line": 3404,
 							"character": 4
 						}
 					],
@@ -507,7 +507,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3097,
+							"line": 3474,
 							"character": 4
 						}
 					],
@@ -535,7 +535,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2992,
+							"line": 3369,
 							"character": 4
 						}
 					],
@@ -559,7 +559,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2504,
+							"line": 2881,
 							"character": 4
 						}
 					],
@@ -574,7 +574,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2494,
+							"line": 2871,
 							"character": 4
 						}
 					],
@@ -598,7 +598,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2493,
+							"line": 2870,
 							"character": 4
 						}
 					],
@@ -613,7 +613,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2816,
+							"line": 3193,
 							"character": 4
 						}
 					],
@@ -637,7 +637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2438,
+							"line": 2815,
 							"character": 4
 						}
 					],
@@ -661,7 +661,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2815,
+							"line": 3192,
 							"character": 4
 						}
 					],
@@ -689,7 +689,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2903,
+							"line": 3280,
 							"character": 4
 						}
 					],
@@ -717,7 +717,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2956,
+							"line": 3333,
 							"character": 4
 						}
 					],
@@ -741,7 +741,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2572,
+							"line": 2949,
 							"character": 4
 						}
 					],
@@ -765,7 +765,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2604,
+							"line": 2981,
 							"character": 4
 						}
 					],
@@ -789,7 +789,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2593,
+							"line": 2970,
 							"character": 4
 						}
 					],
@@ -813,7 +813,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2583,
+							"line": 2960,
 							"character": 4
 						}
 					],
@@ -837,7 +837,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2615,
+							"line": 2992,
 							"character": 4
 						}
 					],
@@ -861,7 +861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2833,
+							"line": 3210,
 							"character": 4
 						}
 					],
@@ -885,7 +885,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2804,
+							"line": 3181,
 							"character": 4
 						}
 					],
@@ -909,7 +909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2794,
+							"line": 3171,
 							"character": 4
 						}
 					],
@@ -933,7 +933,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2692,
+							"line": 3069,
 							"character": 4
 						}
 					],
@@ -957,7 +957,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2428,
+							"line": 2805,
 							"character": 4
 						}
 					],
@@ -985,7 +985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2893,
+							"line": 3270,
 							"character": 4
 						}
 					],
@@ -1000,7 +1000,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2821,
+							"line": 3198,
 							"character": 4
 						}
 					],
@@ -1023,7 +1023,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3150,
+							"line": 3527,
 							"character": 4
 						}
 					],
@@ -1047,7 +1047,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2660,
+							"line": 3037,
 							"character": 4
 						}
 					],
@@ -1071,7 +1071,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2701,
+							"line": 3078,
 							"character": 4
 						}
 					],
@@ -1094,7 +1094,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3142,
+							"line": 3519,
 							"character": 4
 						}
 					],
@@ -1118,7 +1118,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2783,
+							"line": 3160,
 							"character": 4
 						}
 					],
@@ -1142,7 +1142,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2630,
+							"line": 3007,
 							"character": 4
 						}
 					],
@@ -1166,7 +1166,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2640,
+							"line": 3017,
 							"character": 4
 						}
 					],
@@ -1190,7 +1190,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2743,
+							"line": 3120,
 							"character": 4
 						}
 					],
@@ -1218,7 +1218,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3197,
+							"line": 3574,
 							"character": 4
 						}
 					],
@@ -1242,7 +1242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2418,
+							"line": 2795,
 							"character": 4
 						}
 					],
@@ -1266,7 +1266,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3177,
+							"line": 3554,
 							"character": 4
 						}
 					],
@@ -1294,7 +1294,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2945,
+							"line": 3322,
 							"character": 4
 						}
 					],
@@ -1317,7 +1317,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3134,
+							"line": 3511,
 							"character": 4
 						}
 					],
@@ -1340,7 +1340,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3158,
+							"line": 3535,
 							"character": 4
 						}
 					],
@@ -1364,7 +1364,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3168,
+							"line": 3545,
 							"character": 4
 						}
 					],
@@ -1392,7 +1392,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3187,
+							"line": 3564,
 							"character": 4
 						}
 					],
@@ -1416,7 +1416,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2761,
+							"line": 3138,
 							"character": 4
 						}
 					],
@@ -1440,7 +1440,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2671,
+							"line": 3048,
 							"character": 4
 						}
 					],
@@ -1464,7 +1464,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2853,
+							"line": 3230,
 							"character": 4
 						}
 					],
@@ -1488,7 +1488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2711,
+							"line": 3088,
 							"character": 4
 						}
 					],
@@ -1516,7 +1516,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2968,
+							"line": 3345,
 							"character": 4
 						}
 					],
@@ -1544,7 +1544,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3125,
+							"line": 3502,
 							"character": 4
 						}
 					],
@@ -1571,7 +1571,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2911,
+							"line": 3288,
 							"character": 4
 						}
 					],
@@ -1595,7 +1595,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2843,
+							"line": 3220,
 							"character": 4
 						}
 					],
@@ -1618,7 +1618,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3130,
+							"line": 3507,
 							"character": 4
 						}
 					],
@@ -1641,7 +1641,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3154,
+							"line": 3531,
 							"character": 4
 						}
 					],
@@ -1665,7 +1665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2386,
+							"line": 2763,
 							"character": 4
 						}
 					],
@@ -1689,7 +1689,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2404,
+							"line": 2781,
 							"character": 4
 						}
 					],
@@ -1713,7 +1713,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2452,
+							"line": 2829,
 							"character": 4
 						}
 					],
@@ -1737,7 +1737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2462,
+							"line": 2839,
 							"character": 4
 						}
 					],
@@ -1752,7 +1752,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2822,
+							"line": 3199,
 							"character": 4
 						}
 					],
@@ -1776,7 +1776,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2472,
+							"line": 2849,
 							"character": 4
 						}
 					],
@@ -1791,7 +1791,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2547,
+							"line": 2924,
 							"character": 4
 						}
 					],
@@ -1814,7 +1814,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3146,
+							"line": 3523,
 							"character": 4
 						}
 					],
@@ -1838,7 +1838,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2561,
+							"line": 2938,
 							"character": 4
 						}
 					],
@@ -1862,7 +1862,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2538,
+							"line": 2915,
 							"character": 4
 						}
 					],
@@ -1886,7 +1886,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2774,
+							"line": 3151,
 							"character": 4
 						}
 					],
@@ -1914,7 +1914,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2934,
+							"line": 3311,
 							"character": 4
 						}
 					],
@@ -1942,7 +1942,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2922,
+							"line": 3299,
 							"character": 4
 						}
 					],
@@ -1966,7 +1966,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2681,
+							"line": 3058,
 							"character": 4
 						}
 					],
@@ -1990,7 +1990,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2650,
+							"line": 3027,
 							"character": 4
 						}
 					],
@@ -2018,7 +2018,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3208,
+							"line": 3585,
 							"character": 4
 						}
 					],
@@ -2117,7 +2117,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2376,
+					"line": 2753,
 					"character": 12
 				}
 			]
@@ -2639,7 +2639,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3226,
+							"line": 3603,
 							"character": 4
 						}
 					],
@@ -2654,7 +2654,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3227,
+							"line": 3604,
 							"character": 4
 						}
 					],
@@ -2674,7 +2674,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3225,
+					"line": 3602,
 					"character": 12
 				}
 			]
@@ -2701,7 +2701,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2264,
+							"line": 2641,
 							"character": 4
 						}
 					],
@@ -2719,7 +2719,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2268,
+							"line": 2645,
 							"character": 4
 						}
 					],
@@ -2737,7 +2737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2260,
+							"line": 2637,
 							"character": 4
 						}
 					],
@@ -2758,7 +2758,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2256,
+					"line": 2633,
 					"character": 12
 				}
 			]
@@ -2792,12 +2792,21 @@
 					"flags": {},
 					"comment": {
 						"shortText": "This can be used to register an event listener which\nis triggered on all events.",
-						"text": "```js\nappEmbed.on(EmbedEvent.ALL, payload => {\n console.log('Embed Events', payload)\n})\n\n\n@Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw\n"
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.ALL, payload => {\n console.log('Embed Events', payload)\n})\n```\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1219,
+							"line": 1390,
 							"character": 4
 						}
 					],
@@ -2819,13 +2828,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.AddRemoveColumns, payload => {\n  console.log('AddRemoveColumns', payload);\n})\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1079,
+							"line": 1162,
 							"character": 4
 						}
 					],
@@ -2842,14 +2855,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw\n"
+								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.AddToFavorites, payload => {\n   console.log('favorites', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1360,
+							"line": 1719,
 							"character": 4
 						}
 					],
@@ -2862,18 +2879,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The embedded object has sent an alert",
+						"shortText": "The embedded object has sent an alert.",
 						"tags": [
 							{
 								"tag": "returns",
 								"text": "alert - An alert object\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.Alert)\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1125,
+							"line": 1242,
 							"character": 4
 						}
 					],
@@ -2886,18 +2907,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when an answer is switched to a chart or table view",
+						"shortText": "Emitted when an answer is switched to a chart or table view.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {\n   console.log('switch view', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1342,
+							"line": 1689,
 							"character": 4
 						}
 					],
@@ -2910,18 +2935,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when an answer is deleted in the app",
+						"shortText": "Emitted when an Answer is deleted in the app",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)}, {start: true })\n//trigger when action is completed\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1261,
+							"line": 1504,
 							"character": 4
 						}
 					],
@@ -2934,12 +2963,18 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The ThoughtSpot auth session has expired."
+						"shortText": "The ThoughtSpot auth session has expired.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.AuthInit, payload => {\n   console.log('AuthInit', payload);\n})\n```\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1129,
+							"line": 1253,
 							"character": 4
 						}
 					],
@@ -2955,6 +2990,10 @@
 						"shortText": "Authentication has either succeeded or failed.",
 						"tags": [
 							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.AuthInit, payload => {\n   console.log('AuthInit', payload);\n})\n```\n"
+							},
+							{
 								"tag": "returns",
 								"text": "isLoggedIn - A Boolean specifying whether authentication was successful.\n"
 							}
@@ -2963,7 +3002,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1035,
+							"line": 1050,
 							"character": 4
 						}
 					],
@@ -2987,7 +3026,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1402,
+							"line": 1779,
 							"character": 4
 						}
 					],
@@ -3004,14 +3043,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nappEmbed.on(EmbedEvent.CopyAEdit, payload => {\n   console.log('Copy and edit', payload)}, {start: true })\n//trigger when action ends\nappEmbed.on(EmbedEvent.CopyAEdit, payload => {\n   console.log('Copy and edit', payload)})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1665,
 							"character": 4
 						}
 					],
@@ -3035,7 +3078,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1414,
+							"line": 1791,
 							"character": 4
 						}
 					],
@@ -3052,14 +3095,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nseachEmbed.on(EmbedEvent.CopyToClipboard, payload => {\n   console.log('copy to clipboard', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1299,
+							"line": 1600,
 							"character": 4
 						}
 					],
@@ -3083,7 +3130,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1462,
+							"line": 1839,
 							"character": 4
 						}
 					],
@@ -3107,7 +3154,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1507,
+							"line": 1884,
 							"character": 4
 						}
 					],
@@ -3131,7 +3178,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1420,
+							"line": 1797,
 							"character": 4
 						}
 					],
@@ -3144,22 +3191,26 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "A custom action has been triggered",
+						"shortText": "A custom action has been triggered.",
 						"tags": [
 							{
 								"tag": "returns",
-								"text": "actionId - The id of the custom action"
+								"text": "actionId - ID of the custom action"
 							},
 							{
 								"tag": "returns",
-								"text": "data - Answer or Liveboard data\n"
+								"text": "data - Response payload with the Answer or Liveboard data\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.customAction, payload => {\n    const data = payload.data;\n    if (data.id === 'insert Custom Action ID here') {\n        console.log('Custom Action event:', data.embedAnswerData);\n    }\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1086,
+							"line": 1179,
 							"character": 4
 						}
 					],
@@ -3176,7 +3227,11 @@
 						"tags": [
 							{
 								"tag": "returns",
-								"text": "data - The answer or Liveboard data"
+								"text": "data - The answer or Liveboard data\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)\n//show auth expired banner\nfunction showAuthExpired() {\n   document.getElementById(\"authExpiredBanner\");\n}\n```"
 							},
 							{
 								"tag": "important",
@@ -3187,7 +3242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1048,
+							"line": 1079,
 							"character": 4
 						}
 					],
@@ -3205,13 +3260,17 @@
 							{
 								"tag": "returns",
 								"text": "dataSourceIds - the list of data sources\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.DataSourceSelected, payload => {\n   console.log('DataSourceSelected', payload);\n})\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1072,
+							"line": 1148,
 							"character": 4
 						}
 					],
@@ -3235,7 +3294,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1767,
 							"character": 4
 						}
 					],
@@ -3267,7 +3326,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1501,
+							"line": 1878,
 							"character": 4
 						}
 					],
@@ -3285,13 +3344,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.DialogClose, payload => {\n    console.log('dialog close', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1198,
+							"line": 1353,
 							"character": 4
 						}
 					],
@@ -3309,13 +3372,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.DialogOpen, payload => {\n   console.log('dialog open', payload);\n })\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1341,
 							"character": 4
 						}
 					],
@@ -3328,18 +3395,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the download action is triggered on an answer",
+						"shortText": "Emitted when the download action is triggered on an answer\n**Note**: This event is deprecated in v1.21.0.\nTo fire an event when a download action is initiated on a chart or table,\nuse `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,\nor `EmbedEvent.DownloadAsXLSX`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.Download, {\nvizId: '730496d6-6903-4601-937e-2c691821af3c'\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1231,
+							"line": 1425,
 							"character": 4
 						}
 					],
@@ -3356,14 +3427,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {\n   console.log('download CSV', payload)}, {start: true })\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {\n   console.log('download CSV', payload)})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1249,
+							"line": 1472,
 							"character": 4
 						}
 					],
@@ -3381,13 +3456,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {\n  console.log('download PDF', payload)}, {start: true })\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {\n  console.log('download PDF', payload)})\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1243,
+							"line": 1458,
 							"character": 4
 						}
 					],
@@ -3405,13 +3484,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.DownloadAsPng, payload => {\n  console.log('download PNG', payload)}, {start: true })\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.DownloadAsPng, payload => {\n  console.log('download PNG', payload)})\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1237,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -3429,13 +3512,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {\n  console.log('download Xlsx', payload)}, { start: true })\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {\n  console.log('download Xlsx', payload)})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1255,
+							"line": 1488,
 							"character": 4
 						}
 					],
@@ -3448,18 +3535,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user clicks the **Exclude** action to exclude a specific value or data\non a chart or table",
+						"shortText": "Emitted when a user clicks the **Exclude** action to exclude a specific value or data\non a chart or table.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.DrillExclude, payload => {\n    console.log('Drill exclude', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1293,
+							"line": 1588,
 							"character": 4
 						}
 					],
@@ -3476,14 +3567,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.DrillInclude, payload => {\n   console.log('Drill include', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1286,
+							"line": 1575,
 							"character": 4
 						}
 					],
@@ -3509,13 +3604,21 @@
 							{
 								"tag": "returns",
 								"text": "nonFilteredColumns - The columns that were not filtered\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.trigger(HostEvent.DrillDown, {\n   points: {\n       clickedPoint,\n       selectedPoints: selectedPoint\n   },\n   autoDrillDown: true,\n})\n```\nIn this example, `VizPointDoubleClick` event is used for\ntriggering the `DrillDown` event when an area or specific\ndata point on a table or chart is double-clicked.\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {\n  console.log(payload);\n  const clickedPoint = payload.data.clickedPoint;\n  const selectedPoint = payload.data.selectedPoints;\n  console.log('>>> called', clickedPoint);\n  embed.trigger(HostEvent.DrillDown, {\n     points: {\n     clickedPoint,\n         selectedPoints: selectedPoint\n    },\n  autoDrillDown: true,\n    })\n})\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1066,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -3528,18 +3631,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user clicks Edit on a Liveboard or visualization",
+						"shortText": "Emitted when a user clicks **Edit** on a Liveboard or visualization",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw\n"
+								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.Edit, payload => {\n   console.log(`Liveboard edit', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1372,
+							"line": 1743,
 							"character": 4
 						}
 					],
@@ -3556,14 +3663,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.EditTML, payload => {\n   console.log('Edit TML', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1311,
+							"line": 1623,
 							"character": 4
 						}
 					],
@@ -3581,13 +3692,17 @@
 							{
 								"tag": "returns",
 								"text": "error - An error object or message\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nSearchEmbed.on(EmbedEvent.Error, showErrorMsg)\n//show error messaage\n function showErrorMsg() {\n   document.getElementById(\"error\");\n```\n\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1119,
+							"line": 1230,
 							"character": 4
 						}
 					],
@@ -3611,7 +3726,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1408,
+							"line": 1785,
 							"character": 4
 						}
 					],
@@ -3628,14 +3743,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.ExportTML, payload => {\n    console.log('Export TML', payload)}, { start: true })\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.ExportTML, payload => {\n    console.log('Export TML', payload)})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1318,
+							"line": 1638,
 							"character": 4
 						}
 					],
@@ -3648,18 +3767,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when  the \"Get Data\" button in Search Bar embed\nis clicked.",
+						"shortText": "Emitted when the **Get Data** action is initiated.\nApplicable to `SearchBarEmbed` only.",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchbarEmbed.on(EmbedEvent.GetDataClick)\n .then(data => {\n console.log('Answer Data:', data);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1162,
+							"line": 1294,
 							"character": 4
 						}
 					],
@@ -3675,6 +3798,10 @@
 						"shortText": "Rendering has initialized.",
 						"tags": [
 							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.Init, showLoader)\n //show a loader\nfunction showLoader() {\ndocument.getElementById(\"loader\");\n}\n```\n"
+							},
+							{
 								"tag": "returns",
 								"text": "timestamp - The timestamp when the event was generated.\n"
 							}
@@ -3683,7 +3810,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1029,
+							"line": 1037,
 							"character": 4
 						}
 					],
@@ -3696,18 +3823,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user clicks Show Liveboard details on a Liveboard",
+						"shortText": "Emitted when a user clicks **Show Liveboard details** on a Liveboard",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw\n"
+								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {\n   console.log('Liveboard details', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1354,
+							"line": 1707,
 							"character": 4
 						}
 					],
@@ -3725,13 +3856,21 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.LiveboardRendered, payload => {\nconsole.log('Liveboard is rendered', payload);\n})\n```\nThe following example shows how to trigger\n`SetVisibleVizs` event using LiveboardRendered embed event:\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embedRef = useEmbedRef();\nconst onLiveboardRendered = () => {\nembed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);\n};\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1206,
+							"line": 1377,
 							"character": 4
 						}
 					],
@@ -3749,13 +3888,17 @@
 							{
 								"tag": "returns",
 								"text": "timestamp - The timestamp when the event was generated.\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)\n//show auth expired banner\nfunction showAuthExpired() {\n   document.getElementById(\"authExpiredBanner\");\n}\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1041,
+							"line": 1064,
 							"character": 4
 						}
 					],
@@ -3772,14 +3915,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw\n"
+								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.Edit, payload => {\n   console.log(`Liveboard edit', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1378,
+							"line": 1755,
 							"character": 4
 						}
 					],
@@ -3792,8 +3939,12 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the embed does not have cookie access. This\nhappens on Safari where third-party cookies are blocked by default.",
+						"shortText": "Emitted when the embed does not have cookie access. This happens\nwhen Safari and other Web browsers block third-party cookies\nare blocked by default. `NoCookieAccess` can trigger",
 						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.NoCookieAccess)\n```"
+							},
 							{
 								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1.sw\n"
@@ -3803,7 +3954,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1179,
+							"line": 1322,
 							"character": 4
 						}
 					],
@@ -3820,14 +3971,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.Pin, payload => {\n   console.log('pin', payload)\n}, {\nstart: true\n})\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.Pin, payload => {\n   console.log('pin', payload)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1267,
+							"line": 1523,
 							"character": 4
 						}
 					],
@@ -3851,7 +4006,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1384,
+							"line": 1761,
 							"character": 4
 						}
 					],
@@ -3864,12 +4019,18 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Search query has been updated by the user."
+						"shortText": "Search query has been updated by the user.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))\n```\n\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1058,
+							"line": 1095,
 							"character": 4
 						}
 					],
@@ -3909,7 +4070,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1493,
+							"line": 1870,
 							"character": 4
 						}
 					],
@@ -3922,12 +4083,18 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Detects the route change."
+						"shortText": "Detects the route change.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.RouteChange, payload =>\n   console.log('data', payload))\n```\n"
+							}
+						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1166,
+							"line": 1304,
 							"character": 4
 						}
 					],
@@ -3951,7 +4118,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1444,
+							"line": 1821,
 							"character": 4
 						}
 					],
@@ -3975,7 +4142,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1450,
+							"line": 1827,
 							"character": 4
 						}
 					],
@@ -3992,14 +4159,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\n searchEmbed.on(EmbedEvent.Save, payload => {\n   console.log('Save', payload)\n }, {\n   start: true\n})\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.Save, payload => {\n   console.log('Save', payload)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1225,
+							"line": 1408,
 							"character": 4
 						}
 					],
@@ -4016,14 +4187,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nappEmbed.on(EmbedEvent.SaveAsView, payload => {\n   console.log('View', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1324,
+							"line": 1650,
 							"character": 4
 						}
 					],
@@ -4063,7 +4238,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1483,
+							"line": 1860,
 							"character": 4
 						}
 					],
@@ -4076,18 +4251,22 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user clicks Schedule on a Liveboard",
+						"shortText": "Emitted when a user clicks **Schedule** on a Liveboard",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw\n"
+								"text": "SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.Schedule, payload => {\n   console.log(`Liveboard schedule', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1366,
+							"line": 1731,
 							"character": 4
 						}
 					],
@@ -4111,7 +4290,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1396,
+							"line": 1773,
 							"character": 4
 						}
 					],
@@ -4129,13 +4308,17 @@
 							{
 								"tag": "version",
 								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.Share, payload => {\n   console.log('Share', payload)\n}, {\nstart: true\n})\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.Share, payload => {\n  console.log('Share', payload)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1279,
+							"line": 1562,
 							"character": 4
 						}
 					],
@@ -4152,14 +4335,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.ShowUnderlyingData, payload => {\n   console.log('show data', payload);\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1336,
+							"line": 1677,
 							"character": 4
 						}
 					],
@@ -4176,14 +4363,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n//trigger when action starts\nsearchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {\n  console.log('SpotIQAnalyze', payload)\n}, {\nstart: true\n})\n//trigger when action ends\nsearchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {\n  console.log('SpotIQ analyze', payload)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1273,
+							"line": 1542,
 							"character": 4
 						}
 					],
@@ -4207,7 +4398,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1456,
+							"line": 1833,
 							"character": 4
 						}
 					],
@@ -4247,7 +4438,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1473,
+							"line": 1850,
 							"character": 4
 						}
 					],
@@ -4264,14 +4455,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.UpdateTML)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1305,
+							"line": 1611,
 							"character": 4
 						}
 					],
@@ -4287,10 +4482,6 @@
 						"shortText": "Listen to clicks on a visualization in a Liveboard or Search result.",
 						"tags": [
 							{
-								"tag": "example",
-								"text": "\n```js\nembed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {\n  console.log(\n   data.vizId, // viz id\n   data.clickedPoint.selectedAttributes[0].value,\n   data.clickedPoint.selectedAttributes[0].column.name,\n   data.clickedPoint.selectedMeasures[0].value,\n   data.clickedPoint.selectedMeasures[0].column.name,\n  )\n});\n```"
-							},
-							{
 								"tag": "returns",
 								"text": "viz, clickedPoint - metadata about the point that is clicked"
 							},
@@ -4301,13 +4492,17 @@
 							{
 								"tag": "important",
 								"text": "\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nembed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {\n  console.log(\n   data.vizId, // viz id\n   data.clickedPoint.selectedAttributes[0].value,\n   data.clickedPoint.selectedAttributes[0].column.name,\n   data.clickedPoint.selectedMeasures[0].value,\n   data.clickedPoint.selectedMeasures[0].column.name,\n  )\n});\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1113,
+							"line": 1215,
 							"character": 4
 						}
 					],
@@ -4320,22 +4515,26 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Listen to double clicks on a visualization",
+						"shortText": "Listen to double click actions on a visualization.",
 						"tags": [
 							{
 								"tag": "returns",
-								"text": "ContextMenuInputPoints - Data point that is double-clicked"
+								"text": "ContextMenuInputPoints - Data point that is double-clicked\n"
 							},
 							{
 								"tag": "version",
 								"text": "SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nsearchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {\n     console.log('VizPointDoubleClick', payload)\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1093,
+							"line": 1194,
 							"character": 4
 						}
 					],
@@ -4359,7 +4558,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1426,
+							"line": 1803,
 							"character": 4
 						}
 					],
@@ -4802,7 +5001,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1690,
+							"line": 2067,
 							"character": 4
 						}
 					],
@@ -4835,7 +5034,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1904,
+							"line": 2281,
 							"character": 4
 						}
 					],
@@ -4868,7 +5067,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1852,
+							"line": 2229,
 							"character": 4
 						}
 					],
@@ -4901,7 +5100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1973,
+							"line": 2350,
 							"character": 4
 						}
 					],
@@ -4933,7 +5132,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2011,
+							"line": 2388,
 							"character": 4
 						}
 					],
@@ -4961,7 +5160,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2045,
+							"line": 2422,
 							"character": 4
 						}
 					],
@@ -4989,7 +5188,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1801,
+							"line": 2178,
 							"character": 4
 						}
 					],
@@ -5017,7 +5216,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2027,
+							"line": 2404,
 							"character": 4
 						}
 					],
@@ -5045,7 +5244,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2063,
+							"line": 2440,
 							"character": 4
 						}
 					],
@@ -5083,7 +5282,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1582,
+							"line": 1959,
 							"character": 4
 						}
 					],
@@ -5116,7 +5315,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1886,
+							"line": 2263,
 							"character": 4
 						}
 					],
@@ -5144,7 +5343,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1781,
+							"line": 2158,
 							"character": 4
 						}
 					],
@@ -5177,7 +5376,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1839,
+							"line": 2216,
 							"character": 4
 						}
 					],
@@ -5205,7 +5404,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1771,
+							"line": 2148,
 							"character": 4
 						}
 					],
@@ -5233,7 +5432,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2248,
+							"line": 2625,
 							"character": 4
 						}
 					],
@@ -5265,7 +5464,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1937,
+							"line": 2314,
 							"character": 4
 						}
 					],
@@ -5293,7 +5492,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2190,
+							"line": 2567,
 							"character": 4
 						}
 					],
@@ -5321,7 +5520,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1741,
+							"line": 2118,
 							"character": 4
 						}
 					],
@@ -5349,7 +5548,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1818,
+							"line": 2195,
 							"character": 4
 						}
 					],
@@ -5382,7 +5581,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1865,
+							"line": 2242,
 							"character": 4
 						}
 					],
@@ -5415,7 +5614,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2141,
+							"line": 2518,
 							"character": 4
 						}
 					],
@@ -5448,7 +5647,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1661,
+							"line": 2038,
 							"character": 4
 						}
 					],
@@ -5481,7 +5680,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1679,
+							"line": 2056,
 							"character": 4
 						}
 					],
@@ -5514,7 +5713,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1730,
+							"line": 2107,
 							"character": 4
 						}
 					],
@@ -5547,7 +5746,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1922,
+							"line": 2299,
 							"character": 4
 						}
 					],
@@ -5575,7 +5774,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1828,
+							"line": 2205,
 							"character": 4
 						}
 					],
@@ -5608,7 +5807,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1701,
+							"line": 2078,
 							"character": 4
 						}
 					],
@@ -5636,7 +5835,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2154,
+							"line": 2531,
 							"character": 4
 						}
 					],
@@ -5664,7 +5863,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2091,
+							"line": 2468,
 							"character": 4
 						}
 					],
@@ -5692,7 +5891,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1751,
+							"line": 2128,
 							"character": 4
 						}
 					],
@@ -5720,7 +5919,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1761,
+							"line": 2138,
 							"character": 4
 						}
 					],
@@ -5759,7 +5958,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1554,
+							"line": 1931,
 							"character": 4
 						}
 					],
@@ -5792,7 +5991,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1621,
+							"line": 1998,
 							"character": 4
 						}
 					],
@@ -5825,7 +6024,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2218,
+							"line": 2595,
 							"character": 4
 						}
 					],
@@ -5858,7 +6057,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2204,
+							"line": 2581,
 							"character": 4
 						}
 					],
@@ -5891,7 +6090,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1608,
+							"line": 1985,
 							"character": 4
 						}
 					],
@@ -5919,7 +6118,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2077,
+							"line": 2454,
 							"character": 4
 						}
 					],
@@ -5952,7 +6151,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1955,
+							"line": 2332,
 							"character": 4
 						}
 					],
@@ -5985,7 +6184,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1994,
+							"line": 2371,
 							"character": 4
 						}
 					],
@@ -6018,7 +6217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2124,
+							"line": 2501,
 							"character": 4
 						}
 					],
@@ -6051,7 +6250,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2107,
+							"line": 2484,
 							"character": 4
 						}
 					],
@@ -6088,7 +6287,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1647,
+							"line": 2024,
 							"character": 4
 						}
 					],
@@ -6126,7 +6325,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2235,
+							"line": 2612,
 							"character": 4
 						}
 					],
@@ -6154,7 +6353,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1791,
+							"line": 2168,
 							"character": 4
 						}
 					],
@@ -6182,7 +6381,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1714,
+							"line": 2091,
 							"character": 4
 						}
 					],
@@ -6245,7 +6444,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1533,
+					"line": 1910,
 					"character": 12
 				}
 			]
@@ -6407,7 +6606,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3216,
+							"line": 3593,
 							"character": 4
 						}
 					],
@@ -6422,7 +6621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3218,
+							"line": 3595,
 							"character": 4
 						}
 					],
@@ -6437,7 +6636,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3217,
+							"line": 3594,
 							"character": 4
 						}
 					],
@@ -6452,7 +6651,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3219,
+							"line": 3596,
 							"character": 4
 						}
 					],
@@ -6474,7 +6673,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3215,
+					"line": 3592,
 					"character": 12
 				}
 			]

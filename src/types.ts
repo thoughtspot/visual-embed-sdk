@@ -1023,6 +1023,14 @@ export interface RuntimeParameter {
 export enum EmbedEvent {
     /**
      * Rendering has initialized.
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.Init, showLoader)
+     *  //show a loader
+     * function showLoader() {
+     * document.getElementById("loader");
+     * }
+     *```
      *
      * @returns timestamp - The timestamp when the event was generated.
      */
@@ -1030,19 +1038,42 @@ export enum EmbedEvent {
     /**
      * Authentication has either succeeded or failed.
      *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.AuthInit, payload => {
+     *    console.log('AuthInit', payload);
+     * })
+     *```
+     *
      * @returns isLoggedIn - A Boolean specifying whether authentication was successful.
      */
     AuthInit = 'authInit',
     /**
      * The embed object container has loaded.
-     *
      * @returns timestamp - The timestamp when the event was generated.
+     *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
+     * //show auth expired banner
+     * function showAuthExpired() {
+     *    document.getElementById("authExpiredBanner");
+     * }
+     *```
      */
     Load = 'load',
     /**
      * Data pertaining to answer or Liveboard is received
-     *
      * @return data - The answer or Liveboard data
+     *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
+     * //show auth expired banner
+     * function showAuthExpired() {
+     *    document.getElementById("authExpiredBanner");
+     * }
+     *```
      * @important
      */
     Data = 'data',
@@ -1054,6 +1085,12 @@ export enum EmbedEvent {
     FiltersChanged = 'filtersChanged',
     /**
      * Search query has been updated by the user.
+     *
+     * @example
+     *```js
+     * searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
+     *```
+     *
      */
     QueryChanged = 'queryChanged',
     /**
@@ -1062,37 +1099,105 @@ export enum EmbedEvent {
      * @returns additionalFilters - Any additional filters applied
      * @returns drillDownColumns - The columns on which drill down was performed
      * @returns nonFilteredColumns - The columns that were not filtered
+     *
+     * @example
+     *```js
+     * searchEmbed.trigger(HostEvent.DrillDown, {
+     *    points: {
+     *        clickedPoint,
+     *        selectedPoints: selectedPoint
+     *    },
+     *    autoDrillDown: true,
+     * })
+     *```
+     * In this example, `VizPointDoubleClick` event is used for
+     * triggering the `DrillDown` event when an area or specific
+     * data point on a table or chart is double-clicked.
+     *
+     * @example
+     *```js
+     * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
+     *   console.log(payload);
+     *   const clickedPoint = payload.data.clickedPoint;
+     *   const selectedPoint = payload.data.selectedPoints;
+     *   console.log('>>> called', clickedPoint);
+     *   embed.trigger(HostEvent.DrillDown, {
+     *      points: {
+     *      clickedPoint,
+     *          selectedPoints: selectedPoint
+     *     },
+     *   autoDrillDown: true,
+     *     })
+     * })
+     *```
+     *
      */
     Drilldown = 'drillDown',
     /**
      * One or more data sources have been selected.
-     *
      * @returns dataSourceIds - the list of data sources
+     *
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
+     *    console.log('DataSourceSelected', payload);
+     * })
+     * ```
+     *
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
      * One or more data columns have been selected.
-     *
      * @returns columnIds - the list of columns
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
+     *
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.AddRemoveColumns, payload => {
+     *   console.log('AddRemoveColumns', payload);
+     * })
+     * ```
+     *
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
-     * A custom action has been triggered
+     * A custom action has been triggered.
      *
-     * @returns actionId - The id of the custom action
-     * @returns data - Answer or Liveboard data
+     * @returns actionId - ID of the custom action
+     * @returns data - Response payload with the Answer or Liveboard data
+     *
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.customAction, payload => {
+     *     const data = payload.data;
+     *     if (data.id === 'insert Custom Action ID here') {
+     *         console.log('Custom Action event:', data.embedAnswerData);
+     *     }
+     * })
+     * ```
      */
     CustomAction = 'customAction',
     /**
-     * Listen to double clicks on a visualization
+     * Listen to double click actions on a visualization.
      *
      * @return ContextMenuInputPoints - Data point that is double-clicked
+     *
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
+     *
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+     *      console.log('VizPointDoubleClick', payload)
+     * })
+     * ```
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
      * Listen to clicks on a visualization in a Liveboard or Search result.
+     *
+     * @return viz, clickedPoint - metadata about the point that is clicked
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @important
      *
      * @example
      * ```js
@@ -1106,25 +1211,44 @@ export enum EmbedEvent {
      *   )
      * });
      * ```
-     * @return viz, clickedPoint - metadata about the point that is clicked
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @important
      */
     VizPointClick = 'vizPointClick',
     /**
      * An error has occurred.
      *
      * @returns error - An error object or message
+     *
+     * @example
+     * ```js
+     * SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
+     * //show error messaage
+     *  function showErrorMsg() {
+     *    document.getElementById("error");
+     * ```
+     *
      */
     Error = 'Error',
     /**
-     * The embedded object has sent an alert
+     * The embedded object has sent an alert.
      *
      * @returns alert - An alert object
+     *
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.Alert)
+     * ```
+     *
      */
     Alert = 'alert',
     /**
      * The ThoughtSpot auth session has expired.
+     *
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.AuthInit, payload => {
+     *    console.log('AuthInit', payload);
+     * })
+     * ```
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
@@ -1154,14 +1278,28 @@ export enum EmbedEvent {
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
-     * Emitted when  the "Get Data" button in Search Bar embed
-     * is clicked.
+     * Emitted when the **Get Data** action is initiated.
+     * Applicable to `SearchBarEmbed` only.
      *
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
+     *
+     * @example
+     *```js
+     * searchbarEmbed.on(EmbedEvent.GetDataClick)
+     *  .then(data => {
+     *  console.log('Answer Data:', data);
+     * })
+     *```
      */
     GetDataClick = 'getDataClick',
     /**
      * Detects the route change.
+     *
+     * @example
+     *```js
+     * searchEmbed.on(EmbedEvent.RouteChange, payload =>
+     *    console.log('data', payload))
+     *```
      */
     RouteChange = 'ROUTE_CHANGE',
     /**
@@ -1171,9 +1309,14 @@ export enum EmbedEvent {
      */
     V1Data = 'exportVizDataToParent',
     /**
-     * Emitted when the embed does not have cookie access. This
-     * happens on Safari where third-party cookies are blocked by default.
+     * Emitted when the embed does not have cookie access. This happens
+     * when Safari and other Web browsers block third-party cookies
+     * are blocked by default. `NoCookieAccess` can trigger
      *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.NoCookieAccess)
+     *```
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1.sw
      */
     NoCookieAccess = 'noCookieAccess',
@@ -1186,95 +1329,235 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     *
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.DialogOpen, payload => {
+     *    console.log('dialog open', payload);
+     *  })
+     *```
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     *
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.DialogClose, payload => {
+     *     console.log('dialog close', payload);
+     * })
+     *```
      */
     DialogClose = 'dialog-close',
     /**
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
      * other events on the rendered Liveboard.
-     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.LiveboardRendered, payload => {
+           console.log('Liveboard is rendered', payload);
+       })
+     *```
+     * The following example shows how to trigger
+     * `SetVisibleVizs` event using LiveboardRendered embed event:
+     *
+     * @example
+     *```js
+     * const embedRef = useEmbedRef();
+     * const onLiveboardRendered = () => {
+     * embed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+     * };
+     *```
      */
     LiveboardRendered = 'PinboardRendered',
     /**
      * This can be used to register an event listener which
      * is triggered on all events.
+     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      *
-     * ```js
+     * @example
+     *```js
      * appEmbed.on(EmbedEvent.ALL, payload => {
      *  console.log('Embed Events', payload)
      * })
-     *
-     *
-     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
+     *```
      */
     ALL = '*',
     /**
      * Emitted when an Answer is saved in the app
-     *
      * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * //trigger when action starts
+     *  searchEmbed.on(EmbedEvent.Save, payload => {
+     *    console.log('Save', payload)
+     *  }, {
+     *    start: true
+     * })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.Save, payload => {
+     *    console.log('Save', payload)
+     * })
+     *```
      */
     Save = 'save',
     /**
      * Emitted when the download action is triggered on an answer
+     * **Note**: This event is deprecated in v1.21.0.
+     * To fire an event when a download action is initiated on a chart or table,
+     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,
+     * or `EmbedEvent.DownloadAsXLSX`
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.Download, {
+     * vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * })
+     *```
      */
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an answer
-     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
+     *
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
+     *   console.log('download PNG', payload)}, {start: true })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
+     *   console.log('download PNG', payload)})
+     *```
+     *
      */
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
+     *   console.log('download PDF', payload)}, {start: true })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
+     *   console.log('download PDF', payload)})
+     *```
+     *
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     *    console.log('download CSV', payload)}, {start: true })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     *    console.log('download CSV', payload)})
+     *```
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
+     *   console.log('download Xlsx', payload)}, { start: true })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
+     *   console.log('download Xlsx', payload)})
+     *```
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
-     * Emitted when an answer is deleted in the app
+     * Emitted when an Answer is deleted in the app
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * //trigger when action starts
+     * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
+     *    console.log('delete answer', payload)}, {start: true })
+     * //trigger when action is completed
+     * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
+     *    console.log('delete answer', payload)})
+     *```
      */
     AnswerDelete = 'answerDelete',
     /**
      * Emitted when an answer is pinned to a Liveboard
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.Pin, payload => {
+     *    console.log('pin', payload)
+     * }, {
+     * start: true
+     * })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.Pin, payload => {
+     *    console.log('pin', payload)
+     * })
+     *```
      */
     Pin = 'pin',
     /**
      * Emitted when SpotIQ analysis is triggered
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
+     *   console.log('SpotIQAnalyze', payload)
+     * }, {
+     * start: true
+     * })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
+     *   console.log('SpotIQ analyze', payload)
+     * })
+     *```
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
      * Emitted when a user shares an object with another user or group
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.Share, payload => {
+     *    console.log('Share', payload)
+     * }, {
+     * start: true
+     * })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.Share, payload => {
+     *   console.log('Share', payload)
+     * })
+     *```
      */
     Share = 'share',
     /**
@@ -1282,62 +1565,126 @@ export enum EmbedEvent {
      * on a chart or table.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.DrillInclude, payload => {
+     *    console.log('Drill include', payload);
+     * })
+     *```
      */
     DrillInclude = 'context-menu-item-include',
     /**
      * Emitted when a user clicks the **Exclude** action to exclude a specific value or data
-     * on a chart or table
+     * on a chart or table.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.DrillExclude, payload => {
+     *     console.log('Drill exclude', payload);
+     * })
+     *```
      */
     DrillExclude = 'context-menu-item-exclude',
     /**
      * Emitted when a column value is copied in the embedded app.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
+     *    console.log('copy to clipboard', payload);
+     * })
+     *```
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
      * Emitted when a user clicks the **Update TML** action
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.UpdateTML)
+     * })
+     *```
      */
     UpdateTML = 'updateTSL',
     /**
      * Emitted when a user clicks the **Edit TML** action
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.EditTML, payload => {
+     *    console.log('Edit TML', payload);
+     * })
+     *```
      */
     EditTML = 'editTSL',
     /**
      * Emitted when the **Export TML** action is triggered on an
      * an embedded object in the app
-     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * //trigger when action starts
+     * searchEmbed.on(EmbedEvent.ExportTML, payload => {
+     *     console.log('Export TML', payload)}, { start: true })
+     * //trigger when action ends
+     * searchEmbed.on(EmbedEvent.ExportTML, payload => {
+     *     console.log('Export TML', payload)})
+     *```
      */
     ExportTML = 'exportTSL',
     /**
      * Emitted when an Answer is saved as a View.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * appEmbed.on(EmbedEvent.SaveAsView, payload => {
+     *    console.log('View', payload);
+     * })
+     *```
      */
     SaveAsView = 'saveAsView',
     /**
      * Emitted when the user creates a copy of an Answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * //trigger when action starts
+     * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
+     *    console.log('Copy and edit', payload)}, {start: true })
+     * //trigger when action ends
+     * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
+     *    console.log('Copy and edit', payload)})
+     *```
      */
     CopyAEdit = 'copyAEdit',
     /**
      * Emitted when a user clicks Show underlying data on an Answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.ShowUnderlyingData, payload => {
+     *    console.log('show data', payload);
+     * })
+     *```
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * Emitted when an answer is switched to a chart or table view
+     * Emitted when an answer is switched to a chart or table view.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     *```js
+     * searchEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
+     *    console.log('switch view', payload);
+     * })
+     *```
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -1347,33 +1694,63 @@ export enum EmbedEvent {
      */
     APP_INIT = 'appInit',
     /**
-     * Emitted when a user clicks Show Liveboard details on a Liveboard
+     * Emitted when a user clicks **Show Liveboard details** on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
+     *    console.log('Liveboard details', payload);
+     * })
+     *```
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Emitted when a user clicks on the Favorite icon on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.AddToFavorites, payload => {
+     *    console.log('favorites', payload);
+     * })
+     *```
      */
     AddToFavorites = 'addToFavorites',
     /**
-     * Emitted when a user clicks Schedule on a Liveboard
+     * Emitted when a user clicks **Schedule** on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.Schedule, payload => {
+     *    console.log(`Liveboard schedule', payload);
+     * })
+     *```
      */
     Schedule = 'subscription',
     /**
-     * Emitted when a user clicks Edit on a Liveboard or visualization
+     * Emitted when a user clicks **Edit** on a Liveboard or visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.Edit, payload => {
+     *    console.log(`Liveboard edit', payload);
+     * })
+     *```
      */
     Edit = 'edit',
     /**
      * Emitted when a user clicks Make a copy on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.Edit, payload => {
+     *    console.log(`Liveboard edit', payload);
+     * })
+     *```
      */
     MakeACopy = 'makeACopy',
     /**
