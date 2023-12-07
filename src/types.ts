@@ -2173,7 +2173,8 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.getexportrequestforcurrentpinboard).then(data=>console.log(data))
+     * liveboardEmbed.trigger(HostEvent.getexportrequestforcurrentpinboard).then(
+     * data=>console.log(data))
      * ```
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1.sw
      */
@@ -2182,7 +2183,7 @@ export enum HostEvent {
      * Trigger the **Pin** action on an embedded object
      *
      * @param - Liveboard embed takes the `vizId` as a
-     * key. Can be left undefined when embedding Search, full app or
+     * key. Can be left undefined when embedding Search, full app, or
      * a visualization.
      * @example
      * ```js
