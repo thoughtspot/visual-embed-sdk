@@ -2167,8 +2167,9 @@ export enum HostEvent {
     /**
      * Get the transient state of a Liveboard as encoded content.
      * This includes unsaved and ad hoc changes such as
-     * Liveboard filters, runtime filters applied on visualizations on a Liveboard, and
-     * Liveboard layout, changes to visualizations such as sorting, toggling of legends, and data drill down.
+     * Liveboard filters, runtime filters applied on visualizations on a
+     * Liveboard, and Liveboard layout, changes to visualizations such as
+     * sorting, toggling of legends, and data drill down.
      *
      * @example
      * ```js
