@@ -116,10 +116,10 @@ export interface SageViewConfig
     /**
      * Includes the following properties:
      *
-     *  `searchQuery`: The search query string to pass in the search bar.
+     * `searchQuery`: The search query string to pass in the search bar.
      * Supports Natural Language Search queries.
      *
-     *  `executeSearch`: Boolean to define if the search should be executed or not.
+     * `executeSearch`: Boolean to define if the search should be executed or not.
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.

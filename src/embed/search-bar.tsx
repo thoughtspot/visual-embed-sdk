@@ -41,9 +41,9 @@ export interface SearchBarViewConfig
      * Configuration for search options.
      * Includes the following properties:
      *
-     *  `searchTokenString`: Search tokens to pass in the query.
+     * `searchTokenString`: Search tokens to pass in the query.
      *
-     *  `executeSearch`: Boolean to define if the search should be executed or not.
+     * `executeSearch`: Boolean to define if the search should be executed or not.
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
