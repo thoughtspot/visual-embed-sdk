@@ -1051,13 +1051,12 @@ export enum EmbedEvent {
     /**
      * The embed object container has loaded.
      * @returns timestamp - The timestamp when the event was generated.
-     *
      * @example
      *```js
-     * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
-     * //show auth expired banner
-     * function showAuthExpired() {
-     *    document.getElementById("authExpiredBanner");
+     * liveboardEmbed.on(EmbedEvent.Load, hideLoader)
+     *    //hide loader
+     * function hideLoader() {
+     *   document.getElementById("loader");
      * }
      *```
      */
@@ -1065,14 +1064,11 @@ export enum EmbedEvent {
     /**
      * Data pertaining to answer or Liveboard is received
      * @return data - The answer or Liveboard data
-     *
      * @example
      *```js
-     * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
-     * //show auth expired banner
-     * function showAuthExpired() {
-     *    document.getElementById("authExpiredBanner");
-     * }
+     * liveboardEmbed.on(EmbedEvent.Data, payload => {
+     *    console.log('data', payload);
+     * })
      *```
      * @important
      */
@@ -1186,7 +1182,7 @@ export enum EmbedEvent {
      *
      * @example
      * ```js
-     * searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+     * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
      *      console.log('VizPointDoubleClick', payload)
      * })
      * ```
@@ -1244,11 +1240,13 @@ export enum EmbedEvent {
      * The ThoughtSpot auth session has expired.
      *
      * @example
-     * ```js
-     * appEmbed.on(EmbedEvent.AuthInit, payload => {
-     *    console.log('AuthInit', payload);
-     * })
-     * ```
+     *```js
+     * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
+     * //show auth expired banner
+     * function showAuthExpired() {
+     *    document.getElementById("authExpiredBanner");
+     * }
+     *```
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
@@ -1408,6 +1406,7 @@ export enum EmbedEvent {
     Save = 'save',
     /**
      * Emitted when the download action is triggered on an answer
+     * 
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
      * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,
@@ -1462,8 +1461,9 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
+     * //trigger when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
-     *    console.log('download CSV', payload)}, {start: true })
+     *   console.log('download CSV', payload)}, {start: true })
      * //trigger when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
      *    console.log('download CSV', payload)})
@@ -1742,63 +1742,119 @@ export enum EmbedEvent {
      */
     Edit = 'edit',
     /**
-     * Emitted when a user clicks Make a copy on a Liveboard
+     * Emitted when a user clicks *Make a copy* on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.on(EmbedEvent.Edit, payload => {
-     *    console.log(`Liveboard edit', payload);
+     * liveboardEmbed.on(EmbedEvent.MakeACopy, payload => {
+     *    console.log(`Copy', payload);
      * })
      *```
      */
     MakeACopy = 'makeACopy',
     /**
-     * Emitted when a user clicks Present on a Liveboard or visualization
+     * Emitted when a user clicks **Present** on a Liveboard or visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.Present)
+     *```
+     *
+     *```js
+     * liveboardEmbed.on(EmbedEvent.Present, payload => {
+     *    console.log(`present', payload);
+     * })
+     *```
      */
     Present = 'present',
     /**
-     * Emitted when a user clicks Delete on a Liveboard
+     * Emitted when a user clicks **Delete** on a visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.Delete,
+     *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     *```
+     *
      */
     Delete = 'delete',
     /**
      * Emitted when a user clicks Manage schedules on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.SchedulesList)
+     *```
+     *
      */
     SchedulesList = 'schedule-list',
     /**
-     * Emitted when a user clicks Cancel in edit mode on a Liveboard
+     * Emitted when a user clicks **Cancel** in edit mode on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.Cancel)
+     *```
+     *
      */
     Cancel = 'cancel',
     /**
-     * Emitted when a user clicks Explore on a visualization
+     * Emitted when a user clicks **Explore** on a visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.Explore,  {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     *```
+     *
      */
     Explore = 'explore',
     /**
-     * Emitted when a user clicks Copy link action on a visualization
+     * Emitted when a user clicks **Copy link** action on a visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     *```
+     *
      */
     CopyLink = 'embedDocument',
     /**
-     * Emitted when a user interacts with cross filters on a visualization or liveboard
+     * Emitted when a user interacts with cross filters on a visualization or Liveboard
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
+     *
+     * @example
+     *```js
+     * liveboardEmbed.trigger(HostEvent.CrossFilterChanged, {
+     *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     *```
+     *
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
      * Emitted when a user right clicks on a visualization (chart or table)
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
+     *
+     * @example
+     *```js
+     * LiveboardEmbed.on(EmbedEvent.VizPointRightClick, payload => {
+     *    console.log('VizPointClick', payload)
+     * })
+     *```
      */
     VizPointRightClick = 'vizPointRightClick',
     /**
@@ -1823,6 +1879,7 @@ export enum EmbedEvent {
      * Emitted when a user selects a data source.
      *
      * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     *
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
@@ -1877,7 +1934,7 @@ export enum EmbedEvent {
      */
     DeletePersonalisedView = 'deletePersonalisedView',
     /**
-     * Emitten when a user creates a new worksheet
+     * Emitted when a user creates a new worksheet
      *
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
