@@ -4,16 +4,15 @@ import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
 } from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
-// eslint-disable-next-line import/no-cycle
 import {
     fetchSessionInfoService,
-    fetchAuthTokenService,
     fetchAuthService,
     fetchBasicAuthService,
     fetchLogoutService,
     fetchAuthPostService,
-    verifyTokenService,
+    EndPoints,
 } from './utils/authService';
+import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -29,18 +28,6 @@ const sessionInfoPromise = new Promise((resolve: (value: sessionInfoInterface) =
 let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
-
-export const EndPoints = {
-    AUTH_VERIFICATION: '/callosum/v1/session/info',
-    SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
-    OIDC_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
-    TOKEN_LOGIN: '/callosum/v1/session/login/token',
-    BASIC_LOGIN: '/callosum/v1/session/login',
-    LOGOUT: '/callosum/v1/session/logout',
-    EXECUTE_TML: '/api/rest/2.0/metadata/tml/import',
-    EXPORT_TML: '/api/rest/2.0/metadata/tml/export',
-    IS_ACTIVE: '/callosum/v1/session/isactive',
-};
 
 interface sessionInfoInterface {
     userGUID: any;
@@ -216,7 +203,6 @@ export const initSession = (sessionDetails: sessionInfoInterface) => {
 };
 
 export const getSessionDetails = (sessionInfoResp: any): sessionInfoInterface => {
-    console.log('helloooo');
     const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
     const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
     const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
@@ -271,22 +257,6 @@ export function getSessionInfo(): Promise<sessionInfoInterface> {
     return sessionInfoPromise;
 }
 
-const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
-    + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
-let prevAuthToken: string = null;
-/**
- *
- * @param authtoken
- */
-function alertForDuplicateToken(authtoken: string) {
-    if (prevAuthToken === authtoken) {
-        // eslint-disable-next-line no-alert
-        alert(DUPLICATE_TOKEN_ERR);
-        throw new Error(DUPLICATE_TOKEN_ERR);
-    }
-    prevAuthToken = authtoken;
-}
-
 /**
  * Check if we are stuck at the SSO redirect URL
  */
@@ -305,19 +275,6 @@ function removeSSORedirectUrlMarker(): void {
     // that creates an issue.
     window.location.hash = window.location.hash.replace(SSO_REDIRECTION_MARKER_GUID, '');
 }
-
-export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<any> => {
-    const { authEndpoint, getAuthToken } = embedConfig;
-    let authToken = null;
-    if (getAuthToken) {
-        authToken = await getAuthToken();
-        alertForDuplicateToken(authToken);
-    } else {
-        const response = await fetchAuthTokenService(authEndpoint);
-        authToken = await response.text();
-    }
-    return authToken;
-};
 
 /**
  * Perform token based authentication
@@ -361,15 +318,17 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
     if (!authEndpoint && !getAuthToken) {
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
+    let authSuccess = false;
     try {
         const authToken = await getAuthenticationToken(embedConfig);
-        const response = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
-        if (!response.ok) return false;
-    } catch (e) {
-        return false;
+        if (authToken) {
+            authSuccess = true;
+        }
+    } catch {
+        authSuccess = false;
     }
 
-    return true;
+    return authSuccess;
 };
 
 /**
@@ -463,11 +422,7 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(
-            ssoURL,
-            embedConfig.authTriggerContainer,
-            embedConfig.authTriggerText,
-        );
+        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
         loggedInStatus = await isLoggedIn(thoughtSpotHost);
         return;
     }
@@ -515,7 +470,8 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
 
 export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
-    const response = await fetchLogoutService(thoughtSpotHost);
+    await fetchLogoutService(thoughtSpotHost);
+    resetCachedAuthToken();
     loggedInStatus = false;
     return loggedInStatus;
 };

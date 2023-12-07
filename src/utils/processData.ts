@@ -1,6 +1,6 @@
+import { getEmbedConfig } from '../embed/embedConfig';
 import {
     disableAutoLogin,
-    getEmbedConfig,
     notifyAuthFailure,
     notifyAuthSuccess,
     notifyLogout,
@@ -56,9 +56,10 @@ function processNoCookieAccess(e: any, containerEl: Element) {
         loginFailedMessage,
         suppressNoCookieAccessAlert,
         ignoreNoCookieAccess,
+        suppressErrorAlerts,
     } = getEmbedConfig();
     if (!ignoreNoCookieAccess) {
-        if (!suppressNoCookieAccessAlert) {
+        if (!suppressNoCookieAccessAlert && !suppressErrorAlerts) {
             // eslint-disable-next-line no-alert
             alert(
                 'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',

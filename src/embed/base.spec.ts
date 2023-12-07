@@ -3,16 +3,20 @@
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
+import * as authService from '../utils/authService/authService';
+import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
+import * as embedConfigInstance from './embedConfig';
+
 import {
     executeAfterWait,
     getAllIframeEl,
     getDocumentBody,
     getRootEl,
-    getRootEl2,
     getIFrameSrc,
 } from '../test/test-utils';
+import * as tokenizedFetchInstance from '../tokenizedFetch';
 
 const thoughtSpotHost = 'tshost';
 let authEE: EventEmitter;
@@ -107,7 +111,7 @@ describe('Base TS Embed', () => {
         };
         await index.executeTML(data);
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.EXECUTE_TML}`,
             {
                 credentials: 'include',
                 headers: {
@@ -121,32 +125,29 @@ describe('Base TS Embed', () => {
     });
 
     test('should call the executeTML API and import TML for cookiless auth', async () => {
-        jest.spyOn(window, 'fetch').mockResolvedValue({
+        jest.spyOn(authTokenService, 'getAuthenticationToken').mockResolvedValue('mockAuthToken');
+        jest.spyOn(tokenizedFetchInstance, 'tokenizedFetch').mockResolvedValueOnce({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
-            text: jest.fn().mockResolvedValue('mockAuthToken'),
         });
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.TrustedAuthTokenCookieless,
             autoLogin: true,
         });
-        const embedConfig = base.getEmbedConfig();
-        const authToken = await auth.getAuthenticationToken(embedConfig);
         const data: base.executeTMLInput = {
             metadata_tmls: ['{"liveboard":{"name":"Parameters Liveboard"}}'],
             import_policy: 'PARTIAL',
             create_new: false,
         };
         await index.executeTML(data);
-        expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXECUTE_TML}`,
+        expect(tokenizedFetchInstance.tokenizedFetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${authService.EndPoints.EXECUTE_TML}`,
             {
                 credentials: 'include',
                 headers: expect.objectContaining({
                     'Content-Type': 'application/json',
                     'x-requested-by': 'ThoughtSpot',
-                    Authorization: `Bearer ${authToken}`,
                 }),
                 body: JSON.stringify(data),
                 method: 'POST',
@@ -193,7 +194,7 @@ describe('Base TS Embed', () => {
     });
 
     test('should call the exportTML API and export TML', async () => {
-        jest.spyOn(window, 'fetch').mockResolvedValue({
+        jest.spyOn(tokenizedFetchInstance, 'tokenizedFetch').mockResolvedValueOnce({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
         });
@@ -209,8 +210,8 @@ describe('Base TS Embed', () => {
             edoc_format: 'YAML',
         };
         await index.exportTML(data);
-        expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.EXPORT_TML}`,
+        expect(tokenizedFetchInstance.tokenizedFetch).toHaveBeenCalledWith(
+            `http://${thoughtSpotHost}${authService.EndPoints.EXPORT_TML}`,
             {
                 credentials: 'include',
                 headers: {
@@ -341,7 +342,7 @@ describe('Base TS Embed', () => {
     });
 
     test('Logout method should disable autoLogin', () => {
-        jest.spyOn(window, 'fetch').mockResolvedValue({
+        jest.spyOn(window, 'fetch').mockResolvedValueOnce({
             type: 'opaque',
         });
         index.init({
@@ -351,7 +352,7 @@ describe('Base TS Embed', () => {
         });
         index.logout();
         expect(window.fetch).toHaveBeenCalledWith(
-            `http://${thoughtSpotHost}${auth.EndPoints.LOGOUT}`,
+            `http://${thoughtSpotHost}${authService.EndPoints.LOGOUT}`,
             {
                 credentials: 'include',
                 headers: {
@@ -360,7 +361,7 @@ describe('Base TS Embed', () => {
                 method: 'POST',
             },
         );
-        expect(base.getEmbedConfig().autoLogin).toBe(false);
+        expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
     });
 
     test('config sanity, no ts host', () => {
@@ -395,7 +396,7 @@ describe('Base TS Embed', () => {
             thoughtSpotHost,
             noRedirect: true,
         });
-        expect(base.getEmbedConfig().inPopup).toBe(true);
+        expect(embedConfigInstance.getEmbedConfig().inPopup).toBe(true);
     });
     test('config backward compat, should not override inPopup with noRedirect', () => {
         index.init({
@@ -404,7 +405,7 @@ describe('Base TS Embed', () => {
             noRedirect: true,
             inPopup: false,
         });
-        expect(base.getEmbedConfig().inPopup).toBe(false);
+        expect(embedConfigInstance.getEmbedConfig().inPopup).toBe(false);
     });
 });
 

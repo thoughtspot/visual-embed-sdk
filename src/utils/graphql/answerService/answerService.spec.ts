@@ -1,7 +1,10 @@
 import 'jest-fetch-mock';
-import { VizPoint } from 'src/types';
+import { AuthType, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
 import { getAnswerData, removeColumns } from './answer-queries';
+import * as authTokenInstance from '../../../authToken';
+import * as tokenizedFetch from '../../../tokenizedFetch';
+import * as embedConfigInstance from '../../../embed/embedConfig';
 
 const defaultSession = {
     sessionId: 'id',
@@ -111,20 +114,29 @@ describe('Answer service tests', () => {
     test('fetchCSVBlob should call the right API', () => {
         fetchMock.once('Bla');
         const answerService = createAnswerService();
+
+        const mockEmbedConfig = {
+            thougthspotHost: '/test',
+            authType: AuthType.TrustedAuthTokenCookieless,
+        };
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
+        jest.spyOn(authTokenInstance, 'getAuthenticationToken').mockReturnValueOnce(Promise.resolve('token'));
+        const mockTokenizedFetch = jest.spyOn(tokenizedFetch, 'tokenizedFetch');
         answerService.fetchCSVBlob(undefined, true);
-        expect(fetchMock).toHaveBeenCalledWith(
+
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(
             `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data&hideCsvHeader=false`,
             expect.objectContaining({}),
         );
 
         answerService.fetchCSVBlob('en-uk', true);
-        expect(fetchMock).toHaveBeenCalledWith(
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(
             `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-uk&exportFileName=data&hideCsvHeader=false`,
             expect.objectContaining({}),
         );
 
         answerService.fetchCSVBlob(undefined, false);
-        expect(fetchMock).toHaveBeenCalledWith(
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(
             `https://tshost/prism/download/answer/csv?sessionId=${defaultSession.sessionId}&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data&hideCsvHeader=true`,
             expect.objectContaining({}),
         );
