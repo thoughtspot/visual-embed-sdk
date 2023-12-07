@@ -659,7 +659,6 @@ export interface ViewConfig {
      */
     runtimeParameters?: RuntimeParameter[];
     /**
-     /**
      * The locale/language to use for the embedded view.
      *
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
@@ -1414,7 +1413,7 @@ export enum EmbedEvent {
     Save = 'save',
     /**
      * Emitted when the download action is triggered on an answer
-     * 
+     *
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
      * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,
@@ -1770,9 +1769,10 @@ export enum EmbedEvent {
      * liveboardEmbed.trigger(HostEvent.Present)
      *```
      *
+     * @example
      *```js
-     * liveboardEmbed.on(EmbedEvent.Present, payload => {
-     *    console.log(`present', payload);
+     * liveboardEmbed.on(EmbedEvent.Present, {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * })
      *```
      */
@@ -2198,9 +2198,9 @@ export enum HostEvent {
      * on an embedded Liveboard.
      *
      * @example
-     * ```js
-     *  liveboardEmbed.trigger(HostEvent.LiveboardInfo)
-     * ```
+     *```js
+     * liveboardEmbed.trigger(HostEvent.LiveboardInfo)
+     *```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     LiveboardInfo = 'pinboardInfo',
