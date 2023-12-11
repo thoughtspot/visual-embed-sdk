@@ -284,10 +284,10 @@ export class AppEmbed extends V1Embed {
      */
     private getIFrameSrc() {
         const {
-            pageId, path, modularHomeExperience, enableReactShell,
+            pageId, path, modularHomeExperience,
         } = this.viewConfig;
         const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
-        let url = `${this.getRootIframeSrc(enableReactShell)}/${pageRoute}`;
+        let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         url = `${url}${tsPostHashParams}`;

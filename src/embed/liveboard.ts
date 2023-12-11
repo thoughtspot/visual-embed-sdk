@@ -263,13 +263,13 @@ export class LiveboardEmbed extends V1Embed {
      * to be loaded within the iFrame.
      */
     private getIFrameSrc() {
-        const { vizId, activeTabId, enableReactShell } = this.viewConfig;
+        const { vizId, activeTabId } = this.viewConfig;
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
             this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION);
         }
-        return `${this.getRootIframeSrc(enableReactShell)}${this.getIframeSuffixSrc(
+        return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
             liveboardId,
             vizId,
             activeTabId,

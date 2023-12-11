@@ -217,7 +217,7 @@ export class SageEmbed extends V1Embed {
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         const {
-            dataSource, searchOptions, enableReactShell,
+            dataSource, searchOptions,
         } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
@@ -230,7 +230,7 @@ export class SageEmbed extends V1Embed {
         let sagePostHashParams = new URLSearchParams(postHashObj).toString();
         if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
 
-        return `${this.getRootIframeSrc(enableReactShell)}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
+        return `${this.getRootIframeSrc()}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
     }
 
     /**

@@ -362,7 +362,7 @@ export class TsEmbed {
      *
      * @param query
      */
-    protected getEmbedBasePath(query: string, enableReactShell : boolean|undefined): string {
+    protected getEmbedBasePath(query: string): string {
         let queryString = query;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
@@ -503,13 +503,13 @@ export class TsEmbed {
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
      */
-    protected getV1EmbedBasePath(queryString: string, enableReactShell: boolean|undefined): string {
+    protected getV1EmbedBasePath(queryString: string): string {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
         let host = this.thoughtSpotHost;
-        if (!isUndefined(enableReactShell)) {
-            host = enableReactShell as boolean ? '/v2' : '/v1';
+        if (!isUndefined(this.embedConfig.enableReactShell)) {
+            host = this.embedConfig.enableReactShell as boolean ? '/v2' : '/v1';
         }
         const path = `${host}/${queryParams}#`;
         return path;
@@ -520,9 +520,9 @@ export class TsEmbed {
         return getQueryParamString(queryParams);
     }
 
-    protected getRootIframeSrc(enableReactShell ?: boolean|undefined) {
+    protected getRootIframeSrc() {
         const query = this.getEmbedParams();
-        return this.getEmbedBasePath(query, enableReactShell);
+        return this.getEmbedBasePath(query);
     }
 
     protected createIframeEl(frameSrc: string): HTMLIFrameElement {
@@ -1234,7 +1234,7 @@ export class V1Embed extends TsEmbed {
         return this.renderIFrame(iframeSrc);
     }
 
-    protected getRootIframeSrc(enableReactShell : boolean|undefined): string {
+    protected getRootIframeSrc(): string {
         const queryParams = this.getEmbedParams();
         let queryString = queryParams;
         const { runtimeParameters = [] } = this.viewConfig;
@@ -1249,7 +1249,7 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return this.getV1EmbedBasePath(queryString, enableReactShell);
+        return this.getV1EmbedBasePath(queryString);
     }
 
     /**
