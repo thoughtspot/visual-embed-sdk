@@ -8,7 +8,6 @@
  */
 
 import isEqual from 'lodash/isEqual';
-
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
@@ -363,7 +362,7 @@ export class TsEmbed {
      *
      * @param query
      */
-    protected getEmbedBasePath(query: string): string {
+    protected getEmbedBasePath(query: string, enableReactShell : boolean|undefined): string {
         let queryString = query;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
@@ -504,11 +503,15 @@ export class TsEmbed {
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
      */
-    protected getV1EmbedBasePath(queryString: string): string {
+    protected getV1EmbedBasePath(queryString: string, enableReactShell: boolean|undefined): string {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
-        const path = `${this.thoughtSpotHost}/${queryParams}#`;
+        let host = this.thoughtSpotHost;
+        if (!isUndefined(enableReactShell)) {
+            host = enableReactShell as boolean ? '/v2' : '/v1';
+        }
+        const path = `${host}/${queryParams}#`;
         return path;
     }
 
@@ -517,9 +520,9 @@ export class TsEmbed {
         return getQueryParamString(queryParams);
     }
 
-    protected getRootIframeSrc() {
+    protected getRootIframeSrc(enableReactShell ?: boolean|undefined) {
         const query = this.getEmbedParams();
-        return this.getEmbedBasePath(query);
+        return this.getEmbedBasePath(query, enableReactShell);
     }
 
     protected createIframeEl(frameSrc: string): HTMLIFrameElement {
@@ -1231,7 +1234,7 @@ export class V1Embed extends TsEmbed {
         return this.renderIFrame(iframeSrc);
     }
 
-    protected getRootIframeSrc(): string {
+    protected getRootIframeSrc(enableReactShell : boolean|undefined): string {
         const queryParams = this.getEmbedParams();
         let queryString = queryParams;
         const { runtimeParameters = [] } = this.viewConfig;
@@ -1246,7 +1249,7 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return this.getV1EmbedBasePath(queryString);
+        return this.getV1EmbedBasePath(queryString, enableReactShell);
     }
 
     /**

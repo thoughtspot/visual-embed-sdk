@@ -90,6 +90,7 @@ export class SearchBarEmbed extends TsEmbed {
             dataSource,
             dataSources,
             useLastSelectedSources = false,
+            enableReactShell,
         } = this.viewConfig;
         const path = 'search-bar-embed';
         const queryParams = this.getBaseQueryParams();
@@ -124,7 +125,7 @@ export class SearchBarEmbed extends TsEmbed {
         }
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
 
-        return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
+        return `${this.getEmbedBasePath(query, enableReactShell)}/embed/${path}${tsPostHashParams}`;
     }
 
     /**

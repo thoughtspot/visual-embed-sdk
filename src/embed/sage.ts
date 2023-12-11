@@ -84,6 +84,7 @@ export interface SageViewConfig
     disableWorksheetChange?: boolean;
     /**
      * Hide the worksheet selection panel.
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
      */
     hideWorksheetSelector?: boolean;
@@ -216,7 +217,7 @@ export class SageEmbed extends V1Embed {
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         const {
-            dataSource, searchOptions,
+            dataSource, searchOptions, enableReactShell,
         } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
@@ -229,7 +230,7 @@ export class SageEmbed extends V1Embed {
         let sagePostHashParams = new URLSearchParams(postHashObj).toString();
         if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
 
-        return `${this.getRootIframeSrc()}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
+        return `${this.getRootIframeSrc(enableReactShell)}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
     }
 
     /**
