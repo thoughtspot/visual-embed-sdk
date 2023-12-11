@@ -582,7 +582,6 @@ export interface FrameParams {
  * The configuration object for an embedded view.
  */
 export interface ViewConfig {
-
     /**
      * @hidden
      */
@@ -2816,8 +2815,7 @@ export enum Param {
     LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
     IsProductTour = 'isProductTour',
     HideSearchBarTitle = 'hideSearchBarTitle',
-    HideSageAnswerHeader = 'hideSageAnswerHeader',
-    enableReactShell = 'enableReactShell'
+    HideSageAnswerHeader = 'hideSageAnswerHeader'
 }
 
 /**
