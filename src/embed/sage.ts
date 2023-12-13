@@ -84,6 +84,7 @@ export interface SageViewConfig
     disableWorksheetChange?: boolean;
     /**
      * Hide the worksheet selection panel.
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
      */
     hideWorksheetSelector?: boolean;

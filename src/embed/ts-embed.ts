@@ -8,7 +8,6 @@
  */
 
 import isEqual from 'lodash/isEqual';
-
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
@@ -508,7 +507,11 @@ export class TsEmbed {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
-        const path = `${this.thoughtSpotHost}/${queryParams}#`;
+        let host = this.thoughtSpotHost;
+        if (!isUndefined(this.embedConfig.enableReactShell)) {
+            host = this.embedConfig.enableReactShell as boolean ? '/v2' : '/v1';
+        }
+        const path = `${host}/${queryParams}#`;
         return path;
     }
 

@@ -283,7 +283,9 @@ export class AppEmbed extends V1Embed {
      * @param pageId The ID of the page to be embedded.
      */
     private getIFrameSrc() {
-        const { pageId, path, modularHomeExperience } = this.viewConfig;
+        const {
+            pageId, path, modularHomeExperience,
+        } = this.viewConfig;
         const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
         let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
@@ -301,7 +303,7 @@ export class AppEmbed extends V1Embed {
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.iFrame?.scrollHeight));
-    }
+    };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
         const obj = this.getIframeCenter();
@@ -309,9 +311,7 @@ export class AppEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const {
-            height: frameHeight, ...restParams
-        } = this.viewConfig.frameParams || {};
+        const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
         if (!data.data.currentPath.startsWith('/pinboard/')) {
             this.setIFrameHeight(frameHeight || this.defaultHeight);
         }
