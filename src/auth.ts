@@ -472,6 +472,12 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
     await fetchLogoutService(thoughtSpotHost);
     resetCachedAuthToken();
+    const thoughtspotIframes = document.querySelectorAll('[data-ts-iframe=\'true\']');
+    if (thoughtspotIframes?.length) {
+        thoughtspotIframes.forEach((el) => {
+            el.parentElement.innerHTML = embedConfig.loginFailedMessage;
+        });
+    }
     loggedInStatus = false;
     return loggedInStatus;
 };

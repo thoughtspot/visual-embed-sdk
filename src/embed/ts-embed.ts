@@ -51,7 +51,7 @@ import {
     RuntimeFilter,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { processEventData } from '../utils/processData';
+import { processEventData, processAuthFailure } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import {
@@ -308,7 +308,12 @@ export class TsEmbed {
     private appInitCb = async (_: any, responder: any) => {
         let authToken = '';
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-            authToken = await getAuthenticationToken(this.embedConfig);
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+            } catch (e) {
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                return;
+            }
         }
         this.isAppInitialized = true;
         responder({
@@ -338,11 +343,16 @@ export class TsEmbed {
     private updateAuthToken = async (_: any, responder: any) => {
         const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
         if (authType === AuthType.TrustedAuthTokenCookieless) {
-            const authToken = await getAuthenticationToken(this.embedConfig);
-            responder({
-                type: EmbedEvent.AuthExpire,
-                data: { authToken },
-            });
+            let authToken = '';
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+                responder({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken },
+                });
+            } catch (e) {
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
         } else if (autoLogin) {
             handleAuth();
         }
@@ -530,6 +540,7 @@ export class TsEmbed {
 
         iFrame.src = frameSrc;
         iFrame.id = TS_EMBED_ID;
+        iFrame.setAttribute('data-ts-iframe', 'true');
 
         // according to screenfull.js documentation
         // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be
