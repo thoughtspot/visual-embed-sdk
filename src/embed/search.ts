@@ -199,6 +199,7 @@ export class SearchEmbed extends TsEmbed {
             dataSource,
             dataSources,
             excludeRuntimeFiltersfromURL,
+            hideSearchBar,
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
@@ -233,6 +234,10 @@ export class SearchEmbed extends TsEmbed {
         }
         if (forceTable) {
             queryParams[Param.ForceTable] = true;
+        }
+
+        if (hideSearchBar) {
+            queryParams[Param.HideSearchBar] = true;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;

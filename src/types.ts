@@ -2815,7 +2815,8 @@ export enum Param {
     LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
     IsProductTour = 'isProductTour',
     HideSearchBarTitle = 'hideSearchBarTitle',
-    HideSageAnswerHeader = 'hideSageAnswerHeader'
+    HideSageAnswerHeader = 'hideSageAnswerHeader',
+    HideSearchBar = 'hideSearchBar',
 }
 
 /**

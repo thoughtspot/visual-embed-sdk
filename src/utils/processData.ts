@@ -8,6 +8,7 @@ import {
 import { AuthFailureType, initSession } from '../auth';
 import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
+import { resetCachedAuthToken } from '../authToken';
 
 /**
  *
@@ -77,13 +78,14 @@ function processNoCookieAccess(e: any, containerEl: Element) {
  * @param e
  * @param containerEl
  */
-function processAuthFailure(e: any, containerEl: Element) {
+export function processAuthFailure(e: any, containerEl: Element) {
     const { loginFailedMessage, authType } = getEmbedConfig();
     if (authType !== AuthType.None) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.OTHER);
     }
+    resetCachedAuthToken();
     return e;
 }
 
@@ -96,6 +98,7 @@ function processAuthLogout(e: any, containerEl: Element) {
     const { loginFailedMessage } = getEmbedConfig();
     // eslint-disable-next-line no-param-reassign
     containerEl.innerHTML = loginFailedMessage;
+    resetCachedAuthToken();
     disableAutoLogin();
     notifyLogout();
     return e;

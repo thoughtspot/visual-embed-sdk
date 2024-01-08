@@ -562,6 +562,138 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('Token fetch fails in cookieless authentication authType', () => {
+        beforeEach(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.reject(),
+            });
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+            baseInstance.reset();
+        });
+
+        test('should show login failure message if token failed during app_init', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).not.toHaveBeenCalled();
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+        });
+
+        test('should show login failure message if token failed during app_init prerender', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, preRenderId: 'test' });
+            searchEmbed.preRender();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            const preRenderWrapper = document.getElementById('tsEmbed-pre-render-wrapper-test');
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).not.toHaveBeenCalled();
+                expect(preRenderWrapper.innerHTML).toContain('Not logged in');
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+        });
+
+        test('should show login failure message if update token failed', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+
+        test('should show login failure message if update token failed prerender', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, preRenderId: 'test' });
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            searchEmbed.preRender();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            const preRenderWrapper = document.getElementById('tsEmbed-pre-render-wrapper-test');
+            await executeAfterWait(() => {
+                expect(preRenderWrapper.innerHTML).toContain('Not logged in');
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+    });
+
     xdescribe('AuthExpire embedEvent in TrustedAuthToken authType', () => {
         test('AutoLogin true scenario', async () => {
             init({

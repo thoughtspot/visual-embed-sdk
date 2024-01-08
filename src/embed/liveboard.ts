@@ -147,7 +147,8 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
 
 /**
  * Embed a ThoughtSpot Liveboard or visualization. When rendered it already
- * waits for the authentication to complete, so you need not wait for `AuthStatus.SUCCESS`.
+ * waits for the authentication to complete, so you need not wait for
+ * `AuthStatus.SUCCESS`.
  *
  * @example
  * ```js
