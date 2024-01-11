@@ -1991,13 +1991,13 @@ export enum HostEvent {
      *                          is supported.
      * @param - `execute` - executes search and updates the existing query
      * @example
-     * ```js
+     *```js
      * searchembed.trigger(HostEvent.Search, {
-         searchQuery: "[sales] by [item type]",
-         dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
-         execute: true
-       });
-     * ```
+     *    searchQuery: "[sales] by [item type]",
+     *    dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
+     *    execute: true
+     * });
+     *```
      */
     Search = 'search',
     /**
