@@ -212,7 +212,7 @@ export class SageEmbed extends V1Embed {
      *
      * @returns {string} iframe url
      */
-    private getIFrameSrc() {
+    public getIFrameSrc(): string {
         const path = 'eureka';
         const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();

@@ -282,7 +282,7 @@ export class AppEmbed extends V1Embed {
      *
      * @param pageId The ID of the page to be embedded.
      */
-    private getIFrameSrc() {
+    public getIFrameSrc(): string {
         const {
             pageId, path, modularHomeExperience,
         } = this.viewConfig;
