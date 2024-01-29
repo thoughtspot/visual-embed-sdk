@@ -983,6 +983,10 @@ export class TsEmbed {
         return this;
     }
 
+    public getIframeSrc(): string {
+        return '';
+    }
+
     protected handleRenderForPrerender() {
         this.render();
     }
@@ -1085,11 +1089,11 @@ export class TsEmbed {
                 ) {
                     console.warn(
                         `${this.embedComponentType} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
