@@ -546,6 +546,21 @@ export interface EmbedConfig {
      * @version SDK: 1.26.2 | ThoughtSpot: *
      */
     suppressErrorAlerts?: boolean;
+
+    /**
+     * Log level for the SDK.
+     * @default LogLevel.ERROR
+     *
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   logLevel: LogLevel.SILENT
+     * })
+     * ```
+     * @version SDK: 1.26.3 | ThoughtSpot: 9.10.0.cl
+     */
+    logLevel?: LogLevel;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3746,4 +3761,13 @@ export interface CustomActionPayload {
     };
     session: SessionInterface;
     vizId?: string;
+}
+
+export enum LogLevel {
+  SILENT = 'SILENT',
+  ERROR = 'ERROR',
+  WARN = 'WARN',
+  INFO = 'INFO',
+  DEBUG = 'DEBUG',
+  TRACE = 'TRACE',
 }

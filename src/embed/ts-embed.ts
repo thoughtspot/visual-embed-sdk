@@ -503,6 +503,9 @@ export class TsEmbed {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
         }
 
+        queryParams[Param.OverrideNativeConsole] = true;
+        queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
+
         return queryParams;
     }
 

@@ -1,16 +1,8 @@
 import { noop, isUndefined } from 'lodash';
-
-enum LogLevel {
-    SILENT = -1 as number,
-    ERROR = 0 as number,
-    WARN = 1 as number,
-    INFO = 2 as number,
-    DEBUG = 3 as number,
-    TRACE = 4 as number,
-}
+import { LogLevel } from 'src/types';
 
 const logFunctions: {
-    [key: number]: (...args: any[]) => void;
+    [key: string]: (...args: any[]) => void;
 } = {
     [LogLevel.SILENT]: noop,
     [LogLevel.ERROR]: console.error,
@@ -25,6 +17,20 @@ const setGlobalLogLevelOverride = (logLevel: LogLevel): void => {
     globalLogLevelOverride = logLevel;
 };
 
+const logLevelToNumber: { [key: string]: number } = {
+    [LogLevel.SILENT]: 0,
+    [LogLevel.ERROR]: 1,
+    [LogLevel.WARN]: 2,
+    [LogLevel.INFO]: 3,
+    [LogLevel.DEBUG]: 4,
+    [LogLevel.TRACE]: 5,
+};
+const compareLogLevels = (logLevel1: LogLevel, logLevel2: LogLevel): number => {
+    const logLevel1Index = logLevelToNumber[logLevel1];
+    const logLevel2Index = logLevelToNumber[logLevel2];
+    return logLevel1Index - logLevel2Index;
+};
+
 class Logger {
     private logLevel: LogLevel = LogLevel.ERROR;
 
@@ -37,9 +43,9 @@ class Logger {
     public canLog(logLevel: LogLevel): boolean {
         if (logLevel === LogLevel.SILENT) return false;
         if (!isUndefined(globalLogLevelOverride)) {
-            return globalLogLevelOverride >= logLevel;
+            return compareLogLevels(globalLogLevelOverride, logLevel) >= 0;
         }
-        return this.logLevel >= logLevel;
+        return compareLogLevels(this.logLevel, logLevel) >= 0;
     }
 
     public async logMessages(args: any[], logLevel: LogLevel): Promise<void> {
