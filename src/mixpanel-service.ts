@@ -1,4 +1,5 @@
 import * as mixpanel from 'mixpanel-browser';
+import { logger } from './utils/logger';
 
 export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',
@@ -77,7 +78,7 @@ export function initMixpanel(sessionInfo: any): void {
             emptyQueue();
         }
     } catch (e) {
-        console.error('Error initializing mixpanel', e);
+        logger.error('Error initializing mixpanel', e);
     }
 }
 

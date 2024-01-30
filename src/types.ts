@@ -2817,6 +2817,8 @@ export enum Param {
     HideSearchBarTitle = 'hideSearchBarTitle',
     HideSageAnswerHeader = 'hideSageAnswerHeader',
     HideSearchBar = 'hideSearchBar',
+    ClientLogLevel = 'clientLogLevel',
+    OverrideNativeConsole = 'overrideConsoleLogs',
 }
 
 /**

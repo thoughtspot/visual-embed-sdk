@@ -8,6 +8,7 @@
  */
 
 import isEqual from 'lodash/isEqual';
+import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
@@ -198,7 +199,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.error(error);
+        logger.error(error);
     }
 
     /**
@@ -282,7 +283,7 @@ export class TsEmbed {
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
-            console.warn(offlineWarning);
+            logger.warn(offlineWarning);
         };
         window.addEventListener('offline', offlineEventListener);
 
@@ -952,10 +953,10 @@ export class TsEmbed {
                 });
             } catch (e) {
                 eventPort.postMessage({ error: e });
-                console.log(e);
+                logger.log(e);
             }
         } else {
-            console.log('Event Port is not defined');
+            logger.log('Event Port is not defined');
         }
     }
 
@@ -994,7 +995,7 @@ export class TsEmbed {
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
         if (!this.viewConfig.preRenderId) {
-            console.error('PreRender id is required for preRender');
+            logger.error('PreRender id is required for preRender');
             return this;
         }
         this.isPreRendered = true;
@@ -1043,7 +1044,7 @@ export class TsEmbed {
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
         } catch (e) {
-            console.log('Error destroying TS Embed', e);
+            logger.log('Error destroying TS Embed', e);
         }
     }
 
@@ -1083,7 +1084,7 @@ export class TsEmbed {
                     !isUndefined(viewConfig[key])
                     && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
-                    console.warn(
+                    logger.warn(
                         `${this.embedComponentType} was pre-rendered with `
                             + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
                             + `but a different value "${JSON.stringify(viewConfig[key])}" `
@@ -1104,7 +1105,7 @@ export class TsEmbed {
      */
     public showPreRender(): void {
         if (!this.viewConfig.preRenderId) {
-            console.error('PreRender id is required for preRender');
+            logger.error('PreRender id is required for preRender');
             return;
         }
         if (!this.isPreRenderAvailable()) {
@@ -1153,7 +1154,7 @@ export class TsEmbed {
      */
     public syncPreRenderStyle(): void {
         if (!this.isPreRenderAvailable() || !this.el) {
-            console.error('PreRender should be called before using syncPreRenderStyle');
+            logger.error('PreRender should be called before using syncPreRenderStyle');
             return;
         }
         const elBoundingClient = this.el.getBoundingClientRect();
@@ -1173,7 +1174,7 @@ export class TsEmbed {
     public hidePreRender(): void {
         if (!this.isPreRenderAvailable()) {
             // if the embed component is not preRendered , nothing to hide
-            console.warn('PreRender should be called before hiding it using hidePreRender.');
+            logger.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
         const preRenderHideStyles = {

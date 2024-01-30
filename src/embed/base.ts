@@ -10,6 +10,7 @@
  */
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
+import { logger } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
@@ -100,7 +101,7 @@ const hostUrlToFeatureUrl = {
 export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): void => {
     if (url === '') {
         // eslint-disable-next-line no-console
-        console.warn('The prefetch method does not have a valid URL');
+        logger.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
