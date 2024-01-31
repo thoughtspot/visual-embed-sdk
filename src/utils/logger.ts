@@ -48,7 +48,7 @@ class Logger {
         return compareLogLevels(this.logLevel, logLevel) >= 0;
     }
 
-    public async logMessages(args: any[], logLevel: LogLevel): Promise<void> {
+    public logMessages(args: any[], logLevel: LogLevel): void {
         if (this.canLog(logLevel)) {
             const logFn = logFunctions[logLevel];
             if (logFn) {
