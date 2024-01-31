@@ -1,4 +1,5 @@
-import { isUndefined, noop } from 'lodash';
+import isUndefined from 'lodash/isUndefined';
+import noop from 'lodash/noop';
 import { LogLevel } from '../types';
 
 const logFunctions: {
