@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger';
 import {
     init,
     AuthType,
@@ -155,7 +156,7 @@ describe('test communication between host app and ThoughtSpot', () => {
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         } as LiveboardViewConfig);
         liveboardEmbed.render();
-        const spy1 = jest.spyOn(global.console, 'log');
+        const spy1 = jest.spyOn(logger, 'log');
 
         await executeAfterWait(() => {
             const iframe = getIFrameEl();
@@ -173,7 +174,7 @@ describe('test communication between host app and ThoughtSpot', () => {
             pinboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
         } as LiveboardViewConfig);
         pinboardEmbed.render();
-        const spy1 = jest.spyOn(global.console, 'log');
+        const spy1 = jest.spyOn(logger, 'log');
 
         await executeAfterWait(() => {
             const iframe = getIFrameEl();

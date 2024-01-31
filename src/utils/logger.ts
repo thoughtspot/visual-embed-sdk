@@ -1,5 +1,5 @@
-import { noop, isUndefined } from 'lodash';
-import { LogLevel } from 'src/types';
+import { isUndefined, noop } from 'lodash';
+import { LogLevel } from '../types';
 
 const logFunctions: {
     [key: string]: (...args: any[]) => void;
@@ -84,4 +84,4 @@ class Logger {
 
 const logger = new Logger();
 
-export { logger, setGlobalLogLevelOverride, LogLevel };
+export { LogLevel, logger, setGlobalLogLevelOverride };
