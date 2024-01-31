@@ -380,4 +380,5 @@ export {
     FrameParams,
     HomeLeftNavItem,
     HomepageModule,
+    LogLevel,
 } from '../index';
