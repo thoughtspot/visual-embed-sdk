@@ -549,7 +549,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iframe configuration
@@ -784,6 +784,7 @@ export interface ViewConfig {
      * ```js
      * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
      * ```
+     *
      * @version SDK: 1.27.0 | Thoughtspot: 9.10.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -822,6 +823,12 @@ export interface ViewConfig {
      * const myComponent = new MyComponent(config);
      */
     doNotTrackPreRenderSize?: boolean;
+    /**
+     * For internal tracking of the embed component type.
+     *
+     * @hidden
+     */
+    embedComponentType?: string;
 }
 
 /**
@@ -1036,6 +1043,7 @@ export interface RuntimeParameter {
 export enum EmbedEvent {
     /**
      * Rendering has initialized.
+     *
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Init, showLoader)
@@ -1044,7 +1052,6 @@ export enum EmbedEvent {
      * document.getElementById("loader");
      * }
      *```
-     *
      * @returns timestamp - The timestamp when the event was generated.
      */
     Init = 'init',
@@ -1057,12 +1064,12 @@ export enum EmbedEvent {
      *    console.log('AuthInit', payload);
      * })
      *```
-     *
      * @returns isLoggedIn - A Boolean specifying whether authentication was successful.
      */
     AuthInit = 'authInit',
     /**
      * The embed object container has loaded.
+     *
      * @returns timestamp - The timestamp when the event was generated.
      * @example
      *```js
@@ -1076,6 +1083,7 @@ export enum EmbedEvent {
     Load = 'load',
     /**
      * Data pertaining to answer or Liveboard is received
+     *
      * @return data - The answer or Liveboard data
      * @example
      *```js
@@ -1099,7 +1107,6 @@ export enum EmbedEvent {
      *```js
      * searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
      *```
-     *
      */
     QueryChanged = 'queryChanged',
     /**
@@ -1108,7 +1115,6 @@ export enum EmbedEvent {
      * @returns additionalFilters - Any additional filters applied
      * @returns drillDownColumns - The columns on which drill down was performed
      * @returns nonFilteredColumns - The columns that were not filtered
-     *
      * @example
      *```js
      * searchEmbed.trigger(HostEvent.DrillDown, {
@@ -1122,7 +1128,6 @@ export enum EmbedEvent {
      * In this example, `VizPointDoubleClick` event is used for
      * triggering the `DrillDown` event when an area or specific
      * data point on a table or chart is double-clicked.
-     *
      * @example
      *```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -1139,34 +1144,31 @@ export enum EmbedEvent {
      *     })
      * })
      *```
-     *
      */
     Drilldown = 'drillDown',
     /**
      * One or more data sources have been selected.
-     * @returns dataSourceIds - the list of data sources
      *
+     * @returns dataSourceIds - the list of data sources
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
      *    console.log('DataSourceSelected', payload);
      * })
      * ```
-     *
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
      * One or more data columns have been selected.
+     *
      * @returns columnIds - the list of columns
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
-     *
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.AddRemoveColumns, payload => {
      *   console.log('AddRemoveColumns', payload);
      * })
      * ```
-     *
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
@@ -1174,7 +1176,6 @@ export enum EmbedEvent {
      *
      * @returns actionId - ID of the custom action
      * @returns data - Response payload with the Answer or Liveboard data
-     *
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.customAction, payload => {
@@ -1190,9 +1191,7 @@ export enum EmbedEvent {
      * Listen to double click actions on a visualization.
      *
      * @return ContextMenuInputPoints - Data point that is double-clicked
-     *
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
-     *
      * @example
      * ```js
      * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
@@ -1207,7 +1206,6 @@ export enum EmbedEvent {
      * @return viz, clickedPoint - metadata about the point that is clicked
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @important
-     *
      * @example
      * ```js
      * embed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {
@@ -1226,7 +1224,6 @@ export enum EmbedEvent {
      * An error has occurred.
      *
      * @returns error - An error object or message
-     *
      * @example
      * ```js
      * SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
@@ -1234,19 +1231,16 @@ export enum EmbedEvent {
      *  function showErrorMsg() {
      *    document.getElementById("error");
      * ```
-     *
      */
     Error = 'Error',
     /**
      * The embedded object has sent an alert.
      *
      * @returns alert - An alert object
-     *
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.Alert)
      * ```
-     *
      */
     Alert = 'alert',
     /**
@@ -1293,7 +1287,6 @@ export enum EmbedEvent {
      * Applicable to `SearchBarEmbed` only.
      *
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
-     *
      * @example
      *```js
      * searchbarEmbed.on(EmbedEvent.GetDataClick)
@@ -1340,8 +1333,8 @@ export enum EmbedEvent {
     SAMLComplete = 'samlComplete',
     /**
      * Emitted when any modal is opened in the app
-     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      *
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      *```js
      * appEmbed.on(EmbedEvent.DialogOpen, payload => {
@@ -1352,8 +1345,8 @@ export enum EmbedEvent {
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
-     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      *
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      *```js
      * appEmbed.on(EmbedEvent.DialogClose, payload => {
@@ -1366,8 +1359,8 @@ export enum EmbedEvent {
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
      * other events on the rendered Liveboard.
-     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      *
+     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.LiveboardRendered, payload => {
@@ -1376,7 +1369,6 @@ export enum EmbedEvent {
      *```
      * The following example shows how to trigger
      * `SetVisibleVizs` event using LiveboardRendered embed event:
-     *
      * @example
      *```js
      * const embedRef = useEmbedRef();
@@ -1389,8 +1381,8 @@ export enum EmbedEvent {
     /**
      * This can be used to register an event listener which
      * is triggered on all events.
-     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      *
+     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
      *```js
      * appEmbed.on(EmbedEvent.ALL, payload => {
@@ -1401,6 +1393,7 @@ export enum EmbedEvent {
     ALL = '*',
     /**
      * Emitted when an Answer is saved in the app
+     *
      * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1426,7 +1419,6 @@ export enum EmbedEvent {
      * or `EmbedEvent.DownloadAsXLSX`
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.Download, {
@@ -1437,8 +1429,8 @@ export enum EmbedEvent {
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an answer
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      *
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
      *```js
      * //trigger when action starts
@@ -1448,14 +1440,12 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)})
      *```
-     *
      */
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     *
      * @example
      *```js
      * //trigger when action starts
@@ -1465,7 +1455,6 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)})
      *```
-     *
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
@@ -1487,7 +1476,6 @@ export enum EmbedEvent {
      * Emitted when the Download as XLSX action is triggered on an answer
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     *
      * @example
      *```js
      * //trigger when action starts
@@ -1503,7 +1491,6 @@ export enum EmbedEvent {
      * Emitted when an Answer is deleted in the app
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     *
      * @example
      *```js
      * //trigger when action starts
@@ -1557,7 +1544,6 @@ export enum EmbedEvent {
      * Emitted when a user shares an object with another user or group
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     *
      * @example
      *```js
      * //trigger when action starts
@@ -1637,6 +1623,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the **Export TML** action is triggered on an
      * an embedded object in the app
+     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1774,7 +1761,6 @@ export enum EmbedEvent {
      *```js
      * liveboardEmbed.trigger(HostEvent.Present)
      *```
-     *
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Present, {
@@ -1792,77 +1778,65 @@ export enum EmbedEvent {
      * liveboardEmbed.trigger(HostEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
-     *
      */
     Delete = 'delete',
     /**
      * Emitted when a user clicks Manage schedules on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.SchedulesList)
      *```
-     *
      */
     SchedulesList = 'schedule-list',
     /**
      * Emitted when a user clicks **Cancel** in edit mode on a Liveboard
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.Cancel)
      *```
-     *
      */
     Cancel = 'cancel',
     /**
      * Emitted when a user clicks **Explore** on a visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
-     *
      */
     Explore = 'explore',
     /**
      * Emitted when a user clicks **Copy link** action on a visualization
      *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
-     *
      */
     CopyLink = 'embedDocument',
     /**
      * Emitted when a user interacts with cross filters on a visualization or Liveboard
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
-     *
      * @example
      *```js
      * liveboardEmbed.trigger(HostEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
-     *
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
      * Emitted when a user right clicks on a visualization (chart or table)
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
-     *
      * @example
      *```js
      * LiveboardEmbed.on(EmbedEvent.VizPointRightClick, payload => {
@@ -1893,7 +1867,6 @@ export enum EmbedEvent {
      * Emitted when a user selects a data source.
      *
      * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
-     *
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
@@ -2122,7 +2095,6 @@ export enum HostEvent {
      *
      * @param - `path` - the path to navigate to to go forward or back. The path value can
      * be a number; for example, `1`, `-1`.
-     *
      * @example
      * ```js
      * appEmbed.navigateToPage(-1)
@@ -2693,9 +2665,7 @@ export enum HostEvent {
      * Updates the search query string for Natural Language Search operations.
      *
      * @param - `queryString`: Text string in Natural Language format
-     *
      * @param - `executeSearch`: Boolean to execute search and update search query
-     *
      * @example
      * ```js
      * sageEmbed.trigger(HostEvent.UpdateSageQuery, {
@@ -3709,15 +3679,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {

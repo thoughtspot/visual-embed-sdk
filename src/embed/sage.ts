@@ -159,10 +159,9 @@ export class SageEmbed extends V1Embed {
      */
     protected viewConfig: SageViewConfig;
 
-    protected embedComponentType = 'SageEmbed';
-
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: SageViewConfig) {
+        viewConfig.embedComponentType = 'SageEmbed';
         super(domSelector, viewConfig);
     }
 
