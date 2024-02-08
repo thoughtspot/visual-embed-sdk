@@ -541,7 +541,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iFrame configuration
@@ -817,6 +817,12 @@ export interface ViewConfig {
      * const myComponent = new MyComponent(config);
      */
     doNotTrackPreRenderSize?: boolean;
+    /**
+     * For internal tracking of the embed component type.
+     *
+     * @hidden
+     */
+    embedComponentType?: string;
 }
 
 /**
@@ -3225,15 +3231,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {

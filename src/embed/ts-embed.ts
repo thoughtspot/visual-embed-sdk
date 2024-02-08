@@ -124,8 +124,6 @@ export class TsEmbed {
      */
     protected thoughtSpotV2Base: string;
 
-    protected embedComponentType = 'TsEmbed';
-
     /**
      * A map of event handlers for particular message types triggered
      * by the embedded app; multiple event handlers can be registered
@@ -177,7 +175,6 @@ export class TsEmbed {
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
-            embedComponentType: this.embedComponentType,
         });
     }
 
@@ -1070,12 +1067,12 @@ export class TsEmbed {
                     && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
                     console.warn(
-                        `${this.embedComponentType} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        'TS Embed component was pre-rendered with '
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
