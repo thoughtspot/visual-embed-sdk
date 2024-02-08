@@ -166,11 +166,9 @@ export class SearchEmbed extends TsEmbed {
      */
     protected viewConfig: SearchViewConfig;
 
-    protected embedComponentType = 'SearchEmbed';
-
     constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
-        super(domSelector);
-        this.viewConfig = viewConfig;
+        viewConfig.embedComponentType = 'SearchEmbed';
+        super(domSelector, viewConfig);
     }
 
     /**
@@ -272,7 +270,8 @@ export class SearchEmbed extends TsEmbed {
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
      */
-    private getIFrameSrc(answerId: string) {
+    public getIFrameSrc(): string {
+        const { answerId } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
 
@@ -286,14 +285,14 @@ export class SearchEmbed extends TsEmbed {
         super.render();
         const { answerId } = this.viewConfig;
 
-        const src = this.getIFrameSrc(answerId);
+        const src = this.getIFrameSrc();
         this.renderIFrame(src);
         getAuthPromise().then(() => {
             if (
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
                     getEmbedConfig().suppressSearchEmbedBetaWarning
-                        || getEmbedConfig().suppressErrorAlerts,
+                    || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);

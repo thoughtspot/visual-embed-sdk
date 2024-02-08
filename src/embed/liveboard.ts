@@ -28,7 +28,7 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems'| 'reorderedHomepageModules'> {
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -166,10 +166,9 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-    protected embedComponentType = 'LiveboardEmbed';
-
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
+        viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
@@ -263,7 +262,7 @@ export class LiveboardEmbed extends V1Embed {
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.
      */
-    private getIFrameSrc() {
+    private getIFrameSrc(): string {
         const { vizId, activeTabId } = this.viewConfig;
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
@@ -312,7 +311,7 @@ export class LiveboardEmbed extends V1Embed {
         if (isUndefined(embedObj)) return;
 
         const showDifferentLib = this.viewConfig.liveboardId
-        && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
 
         if (showDifferentLib) {
             const libId = this.viewConfig.liveboardId;
@@ -379,4 +378,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed {}
+export class PinboardEmbed extends LiveboardEmbed { }

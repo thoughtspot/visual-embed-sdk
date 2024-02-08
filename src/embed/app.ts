@@ -203,10 +203,9 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-    protected embedComponentType = 'AppEmbed';
-
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
+        viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
@@ -283,7 +282,7 @@ export class AppEmbed extends V1Embed {
      *
      * @param pageId The ID of the page to be embedded.
      */
-    private getIFrameSrc() {
+    public getIFrameSrc(): string {
         const {
             pageId, path, modularHomeExperience,
         } = this.viewConfig;
