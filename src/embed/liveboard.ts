@@ -166,10 +166,9 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-    protected embedComponentType = 'LiveboardEmbed';
-
     // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
+        viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
