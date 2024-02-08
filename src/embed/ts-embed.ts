@@ -1089,7 +1089,7 @@ export class TsEmbed {
                     && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
                     logger.warn(
-                        `${this.embedComponentType} was pre-rendered with `
+                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
                             + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
                             + `but a different value "${JSON.stringify(viewConfig[key])}" `
                             + 'was passed to the Embed component. '
