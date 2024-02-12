@@ -62,8 +62,8 @@ Start a [free trial](https://www.thoughtspot.com/trial?tsref=trialtse) on your o
 
 ## Full API Reference
 
--   Detailed [developer guide](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere/documentation/en/?pageid=getting-started).
--   Please visit our [API reference docs](https://developers.thoughtspot.com/docs/typedoc/modules.html).
+-   Thoughtspot Embedded [Docs](https://developers.thoughtspot.com/docs/)
+-   Please visit our [API reference docs](https://developers.thoughtspot.com/docs/VisualEmbedSdk).
 -   Comprehensive [CodeSandbox](https://codesandbox.io/s/big-tse-react-demo-i4g9xi?file=/src/App.tsx)
 
 <br/>
