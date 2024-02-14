@@ -88,7 +88,9 @@ export class AnswerService {
                 },
             },
         );
-        const { columns, data } = answer.visualizations[0];
+        const { columns, data } = answer.visualizations.find(
+            (viz: any) => !!viz.data,
+        ) || {};
         return {
             columns,
             data,

@@ -74,6 +74,8 @@ describe('Answer service tests', () => {
                     id: {},
                     answer: {
                         visualizations: [{
+                            id: 'vizId',
+                        }, {
                             columns: [{
                                 column: {
                                     id: 'id1',
