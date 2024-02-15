@@ -248,6 +248,7 @@ export class LiveboardEmbed extends V1Embed {
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
         }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
         const queryParams = getQueryParamString(params, true);
