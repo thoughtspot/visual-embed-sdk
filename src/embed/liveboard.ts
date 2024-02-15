@@ -205,7 +205,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
-            enableAskSage = true,
+            enableAskSage,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -245,8 +245,9 @@ export class LiveboardEmbed extends V1Embed {
         if (showLiveboardTitle) {
             params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         }
-
-        params[Param.enableAskSage] = enableAskSage;
+        if (enableAskSage) {
+            params[Param.enableAskSage] = enableAskSage;
+        }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
         const queryParams = getQueryParamString(params, true);
