@@ -558,7 +558,7 @@ export interface EmbedConfig {
      *   logLevel: LogLevel.SILENT
      * })
      * ```
-     * @version SDK: 1.26.3 | ThoughtSpot: 9.10.0.cl
+     * @version SDK: 1.26.5 | ThoughtSpot: 9.10.0.cl
      */
     logLevel?: LogLevel;
 }
