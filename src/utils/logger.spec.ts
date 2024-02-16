@@ -37,18 +37,45 @@ describe('Logger', () => {
     });
 
     it('should log messages based on the log level', () => {
+        setGlobalLogLevelOverride(undefined);
+
+        logger.setLogLevel(LogLevel.SILENT);
+        logger.logMessages(['log me'], LogLevel.SILENT);
+        logger.error('Error message');
+        logger.warn('Warning message');
+        logger.debug('Debug message');
+        expect(consoleErrorSpy).not.toHaveBeenCalled();
+        expect(consoleWarnSpy).not.toHaveBeenCalled();
+        expect(consoleDebugSpy).not.toHaveBeenCalled();
+
         logger.setLogLevel(LogLevel.ERROR);
         logger.error('Error message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
-
         logger.warn('Warning message');
+        logger.debug('Debug message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
+        expect(consoleWarnSpy).not.toHaveBeenCalled();
+        expect(consoleDebugSpy).not.toHaveBeenCalled();
+
+        logger.error('Warning message');
+        logger.warn('Warning message');
+        logger.debug('Debug message');
         expect(consoleTraceSpy).not.toHaveBeenCalled();
 
         logger.setLogLevel(LogLevel.WARN);
         logger.error('Warning message');
         logger.warn('Warning message');
+        logger.debug('Debug message');
         expect(consoleErrorSpy).toHaveBeenCalledWith('Warning message');
         expect(consoleWarnSpy).toHaveBeenCalledWith('Warning message');
+        expect(consoleDebugSpy).not.toHaveBeenCalled();
+
+        logger.setLogLevel(LogLevel.DEBUG);
+        logger.error('Warning message');
+        logger.warn('Warning message');
+        logger.debug('Debug message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Warning message');
+        expect(consoleWarnSpy).toHaveBeenCalledWith('Warning message');
+        expect(consoleDebugSpy).toHaveBeenCalledWith('Debug message');
     });
 
     it('should log messages with the global log level override', () => {
@@ -60,6 +87,20 @@ describe('Logger', () => {
         logger.trace('Trace message');
         expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
         expect(consoleWarnSpy).toHaveBeenCalledWith('Warn message');
+        expect(consoleInfoSpy).not.toHaveBeenCalled();
+        expect(consoleDebugSpy).not.toHaveBeenCalled();
+        expect(consoleTraceSpy).not.toHaveBeenCalled();
+    });
+
+    it('If global level is not set , default local level (error) should be used', () => {
+        setGlobalLogLevelOverride(undefined);
+
+        logger.error('Error message');
+        logger.warn('Warn message');
+        logger.info('Info message');
+        logger.trace('Trace message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
+        expect(consoleWarnSpy).not.toHaveBeenCalled();
         expect(consoleInfoSpy).not.toHaveBeenCalled();
         expect(consoleDebugSpy).not.toHaveBeenCalled();
         expect(consoleTraceSpy).not.toHaveBeenCalled();
