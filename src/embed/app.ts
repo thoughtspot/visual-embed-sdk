@@ -9,6 +9,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
 import {
     Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload,
@@ -375,14 +376,14 @@ export class AppEmbed extends V1Embed {
      */
     public navigateToPage(path: string | number, noReload = false): void {
         if (!this.iFrame) {
-            console.log('Please call render before invoking this method');
+            logger.log('Please call render before invoking this method');
             return;
         }
         if (noReload) {
             this.trigger(HostEvent.Navigate, path);
         } else {
             if (typeof path !== 'string') {
-                console.warn('Path can only by a string when triggered without noReload');
+                logger.warn('Path can only by a string when triggered without noReload');
                 return;
             }
             const iframeSrc = this.iFrame.src;

@@ -1,4 +1,5 @@
 import { tokenizedFetch } from '../../tokenizedFetch';
+import { logger } from '../logger';
 import { EndPoints } from './authService';
 
 /**
@@ -9,7 +10,7 @@ import { EndPoints } from './authService';
 function tokenisedFailureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return tokenizedFetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            console.error('Failure', await r.text?.());
+            logger.error('Failure', await r.text?.());
         }
         return r;
     });

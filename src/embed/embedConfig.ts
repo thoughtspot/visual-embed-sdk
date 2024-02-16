@@ -13,6 +13,7 @@ export const getEmbedConfig = (): EmbedConfig => config;
 
 /**
  * Sets the configuration embed was initialized with.
+ * And returns the new configuration.
  *
  * @param newConfig The configuration to set.
  * @version SDK: 1.27.0 | ThoughtSpot: *
@@ -20,4 +21,5 @@ export const getEmbedConfig = (): EmbedConfig => config;
  */
 export const setEmbedConfig = (newConfig: EmbedConfig) => {
     config = newConfig;
+    return newConfig;
 };

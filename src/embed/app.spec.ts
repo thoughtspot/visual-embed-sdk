@@ -18,6 +18,7 @@ import {
 import { version } from '../../package.json';
 import * as config from '../config';
 import { TsEmbed, V1Embed } from './ts-embed';
+import { logger } from '../utils/logger';
 
 const defaultViewConfig = {
     frameParams: {
@@ -463,15 +464,15 @@ describe('App embed tests', () => {
                 },
             });
             await appEmbed.render();
-            spyOn(console, 'warn');
+            spyOn(logger, 'warn');
             appEmbed.navigateToPage(-1);
-            expect(console.warn).toHaveBeenCalledWith(
+            expect(logger.warn).toHaveBeenCalledWith(
                 'Path can only by a string when triggered without noReload',
             );
         });
 
         test('navigateToPage function use before render', async () => {
-            spyOn(console, 'log');
+            spyOn(logger, 'log');
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -480,7 +481,7 @@ describe('App embed tests', () => {
             });
             appEmbed.navigateToPage(path);
             await appEmbed.render();
-            expect(console.log).toHaveBeenCalledWith(
+            expect(logger.log).toHaveBeenCalledWith(
                 'Please call render before invoking this method',
             );
         });

@@ -1,3 +1,5 @@
+import { logger } from '../logger';
+
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
     SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
@@ -18,7 +20,7 @@ export const EndPoints = {
 function failureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return fetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            console.error('Failure', await r.text?.());
+            logger.error('Failure', await r.text?.());
         }
         return r;
     });
@@ -45,7 +47,7 @@ export async function verifyTokenService(
         });
         return res.ok;
     } catch (e) {
-        console.error(`Token Verification Service failed : ${e.message}`);
+        logger.error(`Token Verification Service failed : ${e.message}`);
     }
 
     return false;

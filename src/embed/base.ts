@@ -10,10 +10,13 @@
  */
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
+import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
-import { AuthType, EmbedConfig, PrefetchFeatures } from '../types';
+import {
+    AuthType, EmbedConfig, LogLevel, PrefetchFeatures,
+} from '../types';
 import {
     authenticate,
     logout as _logout,
@@ -34,6 +37,7 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
     authTriggerText: 'Authorize',
     authType: AuthType.None,
+    logLevel: LogLevel.ERROR,
 };
 
 export interface executeTMLInput {
@@ -100,7 +104,7 @@ const hostUrlToFeatureUrl = {
 export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): void => {
     if (url === '') {
         // eslint-disable-next-line no-console
-        console.warn('The prefetch method does not have a valid URL');
+        logger.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
@@ -174,13 +178,16 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
-    setEmbedConfig(
+    embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
             ...embedConfig,
             thoughtSpotHost: getThoughtSpotHost(embedConfig),
         }),
     );
+
+    setGlobalLogLevelOverride(embedConfig.logLevel);
+
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
