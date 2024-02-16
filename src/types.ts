@@ -1941,6 +1941,16 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     CreateWorksheet = 'createWorksheet',
+     /**
+     * Emitted when Ask Sage is initialized.
+     *
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK : 1.29.0 | Thoughtspot: 9.12.0.cl
+     */
+     AskSageInit = 'AskSageInit',
 }
 
 /**
@@ -2704,6 +2714,17 @@ export enum HostEvent {
      * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
      */
     GetAnswerSession = 'getAnswerSession',
+    /**
+     * Trigger Ask Sage for viz
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AskSage,
+     * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     */
+    AskSage = 'AskSage',
 }
 
 /**
@@ -2804,6 +2825,7 @@ export enum Param {
     HideSearchBar = 'hideSearchBar',
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
+    enableAskSage = 'enableAskSage',
 }
 
 /**
@@ -3667,6 +3689,17 @@ export enum Action {
      *  @version SDK: 1.29.0 | Thoughtspot: 9.10.0.cl
      */
     VerifiedLiveboard = 'verifiedLiveboard',
+
+    /**
+     * Action ID for ask sage button
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.AskAi]
+     * ```
+     *  @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     */
+    AskAi = 'AskAi',
 }
 
 export interface AnswerServiceType {

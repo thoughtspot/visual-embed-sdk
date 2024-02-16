@@ -220,15 +220,15 @@ export class SageEmbed extends V1Embed {
         } = this.viewConfig;
 
         if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
-        if (searchOptions?.searchQuery) {
-            postHashObj[Param.Query] = searchOptions?.searchQuery;
-            if (searchOptions.executeSearch) {
-                postHashObj[Param.executeSearch] = true;
-            }
+        if (searchOptions?.searchQuery && searchOptions.executeSearch) {
+            postHashObj[Param.executeSearch] = true;
         }
+
         let sagePostHashParams = new URLSearchParams(postHashObj).toString();
         if (sagePostHashParams) sagePostHashParams = `${tsPostHashParams ? '&' : '?'}${sagePostHashParams}`;
-
+        if (searchOptions?.searchQuery) sagePostHashParams += `${sagePostHashParams ? '&' : '?'}${[Param.Query]}=${encodeURIComponent(searchOptions.searchQuery)}`;
+        // use encodeURIComponent for query instead of URLSearchParams
+        // as it adds + instead of %20 for spaces
         return `${this.getRootIframeSrc()}/embed/${path}${tsPostHashParams}${sagePostHashParams}`;
     }
 
