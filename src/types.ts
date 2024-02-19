@@ -1941,7 +1941,7 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     CreateWorksheet = 'createWorksheet',
-     /**
+    /**
      * Emitted when Ask Sage is initialized.
      *
      * @returns viewName: string
@@ -1950,7 +1950,13 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK : 1.29.0 | Thoughtspot: 9.12.0.cl
      */
-     AskSageInit = 'AskSageInit',
+    AskSageInit = 'AskSageInit',
+    /**
+      * Emitted when a LB/viz is renamed
+      *
+      * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+      */
+    Rename = 'renameModalTitleDescription',
 }
 
 /**
