@@ -1956,7 +1956,7 @@ export enum EmbedEvent {
       *
       * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
       */
-    Rename = 'renameModalTitleDescription',
+    Rename = 'rename',
 }
 
 /**
